@@ -1,0 +1,626 @@
+/* ================================================================
+   CoursesSection.module.css — AYM Yoga School
+   Vintage-meets-modern yoga aesthetic
+   Warm parchment tones + saffron accents + ornamental details
+   Matches the HomeAboutSection design language exactly
+   ================================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Dancing+Script:wght@600;700&display=swap');
+
+/* ================================================================
+   SECTION SHELL
+   ================================================================ */
+.section {
+  position: relative;
+  background: #fdf6ec;
+  overflow: hidden;
+}
+
+/* Aged-paper radial texture */
+.section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(ellipse at 10% 20%, rgba(224, 123, 0, 0.04) 0%, transparent 55%),
+    radial-gradient(ellipse at 90% 80%, rgba(92, 45, 0, 0.05) 0%, transparent 55%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Background watermark OM */
+.section::after {
+  content: 'ॐ';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: clamp(16rem, 30vw, 28rem);
+  color: rgba(224, 123, 0, 0.03);
+  font-family: 'Cinzel', serif;
+  pointer-events: none;
+  z-index: 0;
+  line-height: 1;
+  user-select: none;
+}
+
+/* ── Decorative border strips ── */
+.topBorder,
+.bottomBorder {
+  height: 5px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    #e07b00 20%,
+    #f5b800 50%,
+    #e07b00 80%,
+    transparent 100%
+  );
+}
+
+/* ================================================================
+   CONTAINER
+   ================================================================ */
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: clamp(2.5rem, 5vw, 4.5rem) clamp(1.2rem, 5vw, 3rem);
+}
+
+/* ================================================================
+   HEADER
+   ================================================================ */
+.header {
+  text-align: center;
+  margin-bottom: clamp(2rem, 4vw, 3.2rem);
+}
+
+.superTitle {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(0.95rem, 2.2vw, 1.35rem);
+  font-style: italic;
+  color: #7a5c2e;
+  letter-spacing: 0.05em;
+  margin: 0 0 0.6rem;
+}
+
+.mainTitle {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(1.1rem, 2.4vw, 1.7rem);
+  font-weight: 700;
+  color: #3d1d00;
+  line-height: 1.4;
+  max-width: 760px;
+  margin: 0 auto 1.4rem;
+  letter-spacing: 0.02em;
+}
+
+/* Om divider */
+.omDivider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.85rem;
+}
+
+.dividerLine {
+  flex: 1;
+  max-width: 180px;
+  height: 1.5px;
+  background: linear-gradient(90deg, transparent, #e07b00, transparent);
+}
+
+.omSymbol {
+  font-family: 'Cinzel', serif;
+  font-size: 1.6rem;
+  color: #e07b00;
+  line-height: 1;
+  filter: drop-shadow(0 1px 3px rgba(224, 123, 0, 0.3));
+}
+
+/* ================================================================
+   COURSE LIST
+   ================================================================ */
+.courseList {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1.2rem, 2.5vw, 1.8rem);
+}
+
+/* ================================================================
+   COURSE CARD  — 3-column layout: image | content | cta
+   ================================================================ */
+.courseCard {
+  display: grid;
+  grid-template-columns: 200px 1fr auto;
+  grid-template-areas: 'image content cta';
+  align-items: stretch;
+  background: #ffffff;
+  border: 1px solid #ede0c8;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 3px 18px rgba(92, 45, 0, 0.08);
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+  position: relative;
+}
+
+.courseCard::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 10px;
+  background: linear-gradient(135deg, rgba(255,249,240,0.6), transparent);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.courseCard:hover {
+  box-shadow: 0 8px 36px rgba(92, 45, 0, 0.14);
+  transform: translateY(-2px);
+}
+
+/* Alternate card: very subtle warm tint */
+.cardAlt {
+  background: #fffaf4;
+}
+
+/* ── Image column ── */
+.imageWrapper {
+  grid-area: image;
+  position: relative;
+  overflow: hidden;
+  min-height: 220px;
+  flex-shrink: 0;
+}
+
+.courseImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.courseCard:hover .courseImage {
+  transform: scale(1.04);
+}
+
+.imageOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(224, 123, 0, 0.08) 0%,
+    rgba(0, 0, 0, 0.04) 100%
+  );
+  pointer-events: none;
+}
+
+/* ── Content column ── */
+.content {
+  grid-area: content;
+  padding: clamp(1rem, 2vw, 1.5rem) clamp(1rem, 2.5vw, 1.75rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  position: relative;
+  z-index: 1;
+}
+
+/* Title block */
+.titleBlock {
+  margin-bottom: 0.75rem;
+}
+
+.courseTitle {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(1rem, 1.8vw, 1.3rem);
+  font-weight: 700;
+  color: #3d1d00;
+  line-height: 1.3;
+  margin: 0 0 0.45rem;
+  letter-spacing: 0.01em;
+}
+
+.titleUnderline {
+  width: 42px;
+  height: 2.5px;
+  background: linear-gradient(90deg, #e07b00, #f5b800);
+  border-radius: 2px;
+  margin-bottom: 0.65rem;
+}
+
+.courseMeta {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(0.8rem, 1.3vw, 0.88rem);
+  color: #5a3e22;
+  letter-spacing: 0.01em;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
+.metaLabel {
+  font-weight: 600;
+  color: #3d1d00;
+}
+
+.metaValue {
+  color: #7a5c2e;
+}
+
+.metaSep {
+  color: #c8aa82;
+  padding: 0 0.2rem;
+}
+
+/* Description */
+.description {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(0.88rem, 1.4vw, 0.97rem);
+  line-height: 1.82;
+  color: #3d2b10;
+  margin: 0 0 0.9rem;
+}
+
+/* Inline link (within description) */
+.inlineLink {
+  color: #e07b00;
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: rgba(224, 123, 0, 0.4);
+  text-underline-offset: 2px;
+  transition: color 0.18s ease;
+}
+
+.inlineLink:hover {
+  color: #b85e00;
+}
+
+/* Bullet link list */
+.linkList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.linkItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.checkIcon {
+  color: #e07b00;
+  font-size: 0.78rem;
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 0.22em;
+  line-height: 1;
+}
+
+.courseLink {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(0.82rem, 1.3vw, 0.9rem);
+  color: #c46a00;
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: rgba(196, 106, 0, 0.35);
+  text-underline-offset: 2px;
+  line-height: 1.5;
+  transition: color 0.18s ease;
+}
+
+.courseLink:hover {
+  color: #8a3e00;
+  text-decoration-color: rgba(138, 62, 0, 0.5);
+}
+
+/* ── CTA column ── */
+.ctaColumn {
+  grid-area: cta;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  gap: 0.65rem;
+  padding: 1.2rem 1.4rem;
+  border-left: 1px solid #ede0c8;
+  background: linear-gradient(180deg, #fff9f0, #fff4e4);
+  min-width: 160px;
+  position: relative;
+  z-index: 1;
+}
+
+.btnEnroll {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Cinzel', serif;
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #fff;
+  background: linear-gradient(135deg, #e07b00 0%, #c46a00 100%);
+  padding: 0.7rem 1.2rem;
+  border-radius: 6px;
+  text-decoration: none;
+  white-space: nowrap;
+  box-shadow: 0 4px 14px rgba(224, 123, 0, 0.35);
+  transition: box-shadow 0.22s ease, transform 0.22s ease;
+}
+
+.btnEnroll:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 7px 22px rgba(224, 123, 0, 0.48);
+}
+
+.btnExplore {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: #c46a00;
+  background: transparent;
+  border: 1.5px solid rgba(224, 123, 0, 0.45);
+  padding: 0.65rem 1rem;
+  border-radius: 6px;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.btnExplore:hover {
+  background: rgba(224, 123, 0, 0.08);
+  color: #8a3e00;
+  border-color: #e07b00;
+}
+
+/* ================================================================
+   RESPONSIVE BREAKPOINTS
+   ================================================================ */
+
+/* ── 1200px: Wide desktop ── */
+@media (max-width: 1200px) {
+  .courseCard {
+    grid-template-columns: 190px 1fr auto;
+  }
+
+  .ctaColumn {
+    min-width: 150px;
+    padding: 1rem 1.2rem;
+  }
+}
+
+/* ── 1024px: Laptop / tablet landscape ── */
+@media (max-width: 1024px) {
+  .courseCard {
+    grid-template-columns: 170px 1fr auto;
+  }
+
+  .ctaColumn {
+    min-width: 140px;
+    padding: 1rem;
+  }
+
+  .btnEnroll,
+  .btnExplore {
+    font-size: 0.71rem;
+    padding: 0.62rem 0.9rem;
+  }
+}
+
+/* ── 860px: Tablet portrait — stack image on top ── */
+@media (max-width: 860px) {
+  .courseCard {
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto auto;
+    grid-template-areas:
+      'image image'
+      'content cta';
+  }
+
+  .imageWrapper {
+    min-height: 200px;
+    max-height: 220px;
+    width: 100%;
+    border-radius: 0;
+  }
+
+  .ctaColumn {
+    border-left: 1px solid #ede0c8;
+    border-top: none;
+    justify-content: center;
+    min-width: 140px;
+  }
+
+  .mainTitle {
+    font-size: clamp(1.05rem, 3vw, 1.45rem);
+  }
+}
+
+/* ── 700px: Small tablet ── */
+@media (max-width: 700px) {
+  .courseCard {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+    grid-template-areas:
+      'image'
+      'content'
+      'cta';
+  }
+
+  .imageWrapper {
+    min-height: 190px;
+    max-height: 210px;
+  }
+
+  .ctaColumn {
+    flex-direction: row;
+    border-left: none;
+    border-top: 1px solid #ede0c8;
+    padding: 0.9rem 1.2rem;
+    gap: 0.7rem;
+    min-width: unset;
+    justify-content: center;
+  }
+
+  .btnEnroll,
+  .btnExplore {
+    flex: 1;
+    max-width: 220px;
+    font-size: 0.75rem;
+    padding: 0.7rem 0.8rem;
+  }
+
+  .content {
+    padding: 1rem 1.2rem;
+  }
+
+  .courseTitle {
+    font-size: clamp(1rem, 3.5vw, 1.2rem);
+  }
+}
+
+/* ── 540px: Large mobile ── */
+@media (max-width: 540px) {
+  .container {
+    padding: 2rem 1rem;
+  }
+
+  .courseList {
+    gap: 1rem;
+  }
+
+  .imageWrapper {
+    min-height: 170px;
+    max-height: 190px;
+  }
+
+  .content {
+    padding: 0.9rem 1rem;
+  }
+
+  .ctaColumn {
+    flex-direction: row;
+    gap: 0.6rem;
+    padding: 0.8rem 1rem;
+  }
+
+  .btnEnroll,
+  .btnExplore {
+    flex: 1;
+    font-size: 0.72rem;
+    padding: 0.65rem 0.6rem;
+    text-align: center;
+    letter-spacing: 0.05em;
+  }
+
+  .omDivider .dividerLine {
+    max-width: 80px;
+  }
+
+  .mainTitle {
+    font-size: 1.05rem;
+  }
+
+  .description {
+    font-size: 0.88rem;
+  }
+
+  .courseLink {
+    font-size: 0.82rem;
+  }
+}
+
+/* ── 420px: Small mobile ── */
+@media (max-width: 420px) {
+  .imageWrapper {
+    min-height: 150px;
+    max-height: 170px;
+  }
+
+  .courseTitle {
+    font-size: 1rem;
+  }
+
+  .courseMeta {
+    font-size: 0.78rem;
+  }
+
+  .ctaColumn {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+    padding: 0.8rem;
+  }
+
+  .btnEnroll,
+  .btnExplore {
+    max-width: 100%;
+    flex: unset;
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+    font-size: 0.73rem;
+    padding: 0.7rem 1rem;
+  }
+
+  .content {
+    padding: 0.85rem 0.9rem;
+  }
+
+  .superTitle {
+    font-size: 0.88rem;
+  }
+}
+
+/* ── 360px: Very small mobile ── */
+@media (max-width: 360px) {
+  .container {
+    padding: 1.6rem 0.8rem;
+  }
+
+  .mainTitle {
+    font-size: 0.97rem;
+  }
+
+  .courseTitle {
+    font-size: 0.95rem;
+  }
+
+  .imageWrapper {
+    min-height: 140px;
+    max-height: 155px;
+  }
+
+  .btnEnroll,
+  .btnExplore {
+    font-size: 0.7rem;
+    padding: 0.62rem 0.8rem;
+    letter-spacing: 0.04em;
+  }
+
+  .omSymbol {
+    font-size: 1.3rem;
+  }
+
+  .linkItem {
+    gap: 0.4rem;
+  }
+
+  .courseLink {
+    font-size: 0.78rem;
+  }
+}

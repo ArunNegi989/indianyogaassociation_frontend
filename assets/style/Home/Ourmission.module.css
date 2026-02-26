@@ -1,0 +1,348 @@
+/* ================================================================
+   OurMission.module.css
+   Vintage aged-parchment aesthetic — Indian Yoga Association
+   Cinzel headings · Cormorant Garamond body · Saffron accents
+   SEO: all text rendered visibly — zero display:none on content
+   ================================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,600&family=IM+Fell+English:ital@0;1&display=swap');
+
+/* ─── CSS Variables ─────────────────────────────────────────────── */
+.missionSection {
+  --saffron:       #c46a00;
+  --saffron-light: #e07b00;
+  --saffron-pale:  #f5b800;
+  --ink:           #2e1800;
+  --ink-soft:      #4a2e0e;
+  --ink-muted:     #7a5c2e;
+  --parchment:     #fdf6ec;
+  --parchment-mid: #f7ead6;
+  --parchment-deep:#f0d9b5;
+  --border-color:  rgba(196, 106, 0, 0.28);
+}
+
+/* ─── Section wrapper ───────────────────────────────────────────── */
+.missionSection {
+  position: relative;
+  background: var(--parchment);
+  padding: clamp(3rem, 6vw, 6rem) clamp(1rem, 4vw, 3rem);
+  overflow: hidden;
+}
+
+/* Subtle aged-paper radial texture */
+.missionSection::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 15% 10%,  rgba(196,106,0,0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 85% 90%,  rgba(92,45,0,0.07)   0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%,  rgba(245,184,0,0.03) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Background lotus watermark ── */
+.bgLotus {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: clamp(14rem, 30vw, 28rem);
+  color: rgba(196, 106, 0, 0.04);
+  font-family: 'Cinzel', serif;
+  pointer-events: none;
+  z-index: 0;
+  line-height: 1;
+  user-select: none;
+  letter-spacing: -0.05em;
+}
+
+/* ── Corner ornament lines (top-left & bottom-right) ── */
+.bgCornerTL,
+.bgCornerBR {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  border-color: rgba(196, 106, 0, 0.18);
+  border-style: solid;
+  pointer-events: none;
+  z-index: 1;
+}
+.bgCornerTL {
+  top: 20px; left: 20px;
+  border-width: 2px 0 0 2px;
+}
+.bgCornerBR {
+  bottom: 20px; right: 20px;
+  border-width: 0 2px 2px 0;
+}
+
+/* ─── Outer Frame (the rounded bordered card) ───────────────────── */
+.outerFrame {
+  position: relative;
+  z-index: 2;
+  max-width: 1100px;
+  margin: 0 auto;
+  border: 1.5px solid var(--border-color);
+  border-radius: 16px;
+  background: linear-gradient(145deg, #fff9f0 0%, var(--parchment-mid) 50%, #fff4e6 100%);
+  box-shadow:
+    0 2px 0  rgba(196,106,0,0.12),
+    0 20px 60px rgba(92,45,0,0.12),
+    inset 0 1px 0 rgba(255,255,255,0.8);
+  padding: clamp(2rem, 4vw, 3.5rem) clamp(1.5rem, 5vw, 4rem);
+}
+
+/* ── Inner Frame — double-border vintage feel ── */
+.innerFrame {
+  border: 1px solid rgba(196, 106, 0, 0.15);
+  border-radius: 10px;
+  padding: clamp(1.5rem, 3vw, 2.8rem) clamp(1rem, 3vw, 2.5rem);
+  position: relative;
+}
+
+/* Four inner corner flourishes via pseudo-elements on innerFrame */
+.innerFrame::before,
+.innerFrame::after {
+  content: '';
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  border-color: rgba(196, 106, 0, 0.3);
+  border-style: solid;
+}
+.innerFrame::before { top: -1px;    left: -1px;    border-width: 2px 0 0 2px; border-radius: 2px 0 0 0; }
+.innerFrame::after  { bottom: -1px; right: -1px;   border-width: 0 2px 2px 0; border-radius: 0 0 2px 0; }
+
+/* ─── Mission Block ─────────────────────────────────────────────── */
+.missionBlock {
+  text-align: center;
+  margin-bottom: 0;
+}
+
+/* ── h2 — Our Mission ── */
+.missionHeading {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(1.6rem, 3.5vw, 2.6rem);
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: 0.06em;
+  margin: 0 0 0.6rem;
+  line-height: 1.2;
+}
+
+/* ── Heading rule — gold line under headings ── */
+.headingRule {
+  width: 80px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--saffron-light), transparent);
+  margin: 0 auto 1.2rem;
+  border-radius: 2px;
+}
+
+/* ── SEO Tagline — "Yoga Teacher Training in Rishikesh India" ── */
+/* Visible italic text — crawlable by search engines, styled as subtle tagline */
+.seoTagline {
+  font-family: 'IM Fell English', serif;
+  font-size: clamp(0.85rem, 1.4vw, 1rem);
+  font-style: italic;
+  color: var(--ink-muted);
+  letter-spacing: 0.05em;
+  margin: 0 0 1.8rem;
+  opacity: 0.9;
+}
+
+/* ── Body text wrapper ── */
+.missionBody {
+  text-align: left;
+  max-width: 920px;
+  margin: 0 auto;
+}
+
+/* ─── Paragraph base ────────────────────────────────────────────── */
+.para {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1rem, 1.7vw, 1.12rem);
+  line-height: 1.88;
+  color: var(--ink-soft);
+  margin: 0 0 1.4rem;
+}
+.para:last-child { margin-bottom: 0; }
+
+/* ── Bold lead word styling ── */
+.leadBold {
+  font-family: 'Cinzel', serif;
+  font-size: 0.92em;
+  font-weight: 700;
+  color: var(--saffron);
+  font-style: normal;
+  letter-spacing: 0.02em;
+}
+
+/* ─── Ornamental Separator ──────────────────────────────────────── */
+.ornamentRow {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 2.4rem 0;
+}
+
+.ornamentLine {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(196,106,0,0.35), transparent);
+  display: block;
+}
+
+.ornamentSymbol {
+  font-family: 'Cinzel', serif;
+  font-size: 0.9rem;
+  color: var(--saffron);
+  letter-spacing: 0.3em;
+  white-space: nowrap;
+  filter: drop-shadow(0 1px 2px rgba(196,106,0,0.3));
+}
+
+/* ─── Why Block ─────────────────────────────────────────────────── */
+.whyBlock {
+  text-align: center;
+}
+
+/* ── h3 — Why Yoga Teacher Training ── */
+.whyHeading {
+  font-family: 'IM Fell English', serif;
+  font-size: clamp(1.35rem, 2.8vw, 2rem);
+  font-weight: 400;
+  font-style: italic;
+  color: var(--ink);
+  letter-spacing: 0.01em;
+  margin: 0 0 0.6rem;
+  line-height: 1.3;
+}
+
+/* ── Why body text ── */
+.whyBody {
+  text-align: left;
+  max-width: 920px;
+  margin: 0 auto;
+}
+
+/* ════════════════════════════════════════════════════════════════
+   RESPONSIVE
+   ════════════════════════════════════════════════════════════════ */
+
+/* ── 1024px ── */
+@media (max-width: 1024px) {
+  .outerFrame {
+    padding: 2.5rem 2.5rem;
+  }
+}
+
+/* ── 768px ── */
+@media (max-width: 768px) {
+  .outerFrame {
+    padding: 2rem 1.8rem;
+    border-radius: 12px;
+  }
+  .innerFrame {
+    padding: 1.5rem 1.4rem;
+  }
+  .missionHeading {
+    font-size: 1.7rem;
+  }
+  .whyHeading {
+    font-size: 1.4rem;
+  }
+  .bgCornerTL,
+  .bgCornerBR {
+    width: 70px;
+    height: 70px;
+  }
+}
+
+/* ── 600px ── */
+@media (max-width: 600px) {
+  .missionSection {
+    padding: 2rem 1rem;
+  }
+  .outerFrame {
+    padding: 1.6rem 1.2rem;
+    border-radius: 10px;
+  }
+  .innerFrame {
+    padding: 1.2rem 1rem;
+  }
+  .missionHeading {
+    font-size: 1.5rem;
+    letter-spacing: 0.03em;
+  }
+  .whyHeading {
+    font-size: 1.25rem;
+  }
+  .para {
+    font-size: 1rem;
+    line-height: 1.8;
+  }
+  .ornamentRow {
+    margin: 1.8rem 0;
+  }
+  .bgCornerTL,
+  .bgCornerBR {
+    width: 50px;
+    height: 50px;
+  }
+}
+
+/* ── 480px ── */
+@media (max-width: 480px) {
+  .outerFrame {
+    padding: 1.3rem 1rem;
+  }
+  .innerFrame {
+    padding: 1rem 0.9rem;
+  }
+  .missionHeading {
+    font-size: 1.35rem;
+  }
+  .whyHeading {
+    font-size: 1.15rem;
+  }
+  .para {
+    font-size: 0.97rem;
+  }
+  .ornamentSymbol {
+    font-size: 0.78rem;
+    letter-spacing: 0.2em;
+  }
+  .bgLotus {
+    font-size: 10rem;
+  }
+}
+
+/* ── 375px ── */
+@media (max-width: 375px) {
+  .missionSection {
+    padding: 1.5rem 0.8rem;
+  }
+  .outerFrame {
+    padding: 1rem 0.8rem;
+  }
+  .innerFrame {
+    padding: 0.9rem 0.7rem;
+  }
+  .missionHeading {
+    font-size: 1.2rem;
+  }
+  .whyHeading {
+    font-size: 1.05rem;
+  }
+  .para {
+    font-size: 0.93rem;
+    line-height: 1.75;
+  }
+  .bgCornerTL,
+  .bgCornerBR {
+    display: none;
+  }
+}

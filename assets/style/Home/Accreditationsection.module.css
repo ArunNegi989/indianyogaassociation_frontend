@@ -1,0 +1,909 @@
+/* ================================================================
+   AccreditationSection.module.css
+   Vintage Sacred Yoga — Parchment · Saffron · Himalayan
+   ================================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Dancing+Script:wght@500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+/* ── Variables ── */
+:root {
+  --saffron:        #e07b00;
+  --saffron-deep:   #c46a00;
+  --saffron-light:  #f5b800;
+  --parchment:      #fdf6ec;
+  --parchment-mid:  #f5ead6;
+  --cream-white:    #fffdf8;
+  --earth:          #3d1d00;
+  --earth-mid:      #5c2d00;
+  --earth-light:    #7a5c2e;
+  --earth-warm:     #3d2b10;
+  --gold-border:    #e8d5b5;
+  --shadow-warm:    rgba(92, 45, 0, 0.12);
+  --shadow-saffron: rgba(224, 123, 0, 0.25);
+}
+
+/* ════════════════════════════════════════════════
+   SHARED UTILITIES
+════════════════════════════════════════════════ */
+
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: clamp(2.5rem, 5vw, 4.5rem) clamp(1.2rem, 5vw, 3rem);
+}
+
+.topBorder,
+.bottomBorder {
+  height: 5px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    var(--saffron) 20%,
+    var(--saffron-light) 50%,
+    var(--saffron) 80%,
+    transparent 100%
+  );
+}
+
+.sectionHeaderCenter {
+  text-align: center;
+  margin-bottom: 2.8rem;
+}
+
+.sectionTitle {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(1.05rem, 2.3vw, 1.6rem);
+  font-weight: 700;
+  color: var(--earth);
+  line-height: 1.45;
+  max-width: 820px;
+  margin: 0 auto 0.9rem;
+  letter-spacing: 0.02em;
+}
+
+.titleUnderline {
+  width: 80px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--saffron), var(--saffron-light));
+  margin: 0 auto;
+  border-radius: 2px;
+}
+
+.para {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(0.97rem, 1.6vw, 1.07rem);
+  line-height: 1.9;
+  color: var(--earth-warm);
+  margin-bottom: 1.2rem;
+}
+
+.highlight {
+  color: #b85e00;
+  font-weight: 700;
+}
+
+
+.authenticSection {
+  position: relative;
+  background: var(--parchment);
+  overflow: hidden;
+}
+
+.authenticSection::before {
+  content: 'ॐ';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: clamp(14rem, 28vw, 26rem);
+  color: rgba(224,123,0,0.035);
+  font-family: 'Cinzel', serif;
+  pointer-events: none;
+  z-index: 0;
+  line-height: 1;
+  user-select: none;
+}
+
+/* ── Auth 2-col grid ── */
+.authGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(2rem, 4vw, 4rem);
+  align-items: start;
+  margin-bottom: 3rem;
+}
+
+.authText {}
+
+/* ── Auth image column ── */
+.authImageCol {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.authImageFrame {
+  position: relative;
+  background: linear-gradient(135deg, #fff8f0 0%, #ffecd8 100%);
+  border: 1px solid rgba(224,123,0,0.2);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 8px 36px var(--shadow-warm);
+  min-height: 260px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Vintage corner flourishes */
+.frameCornerTL, .frameCornerTR, .frameCornerBL, .frameCornerBR {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  border-color: var(--saffron);
+  border-style: solid;
+  opacity: 0.5;
+}
+.frameCornerTL { top: 8px; left: 8px;   border-width: 2px 0 0 2px; }
+.frameCornerTR { top: 8px; right: 8px;  border-width: 2px 2px 0 0; }
+.frameCornerBL { bottom: 8px; left: 8px;  border-width: 0 0 2px 2px; }
+.frameCornerBR { bottom: 8px; right: 8px; border-width: 0 2px 2px 0; }
+
+.authImageInner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.bookStack {
+  display: flex;
+  gap: 0.5rem;
+  font-size: clamp(2rem, 4vw, 3rem);
+}
+
+.bookItem {
+  display: inline-block;
+  animation: floatBook 3s ease-in-out infinite;
+  filter: drop-shadow(0 3px 6px rgba(224,123,0,0.2));
+}
+
+.bookItem:nth-child(2) { animation-delay: 0.6s; }
+.bookItem:nth-child(3) { animation-delay: 1.2s; }
+.bookItem:nth-child(4) { animation-delay: 1.8s; }
+
+@keyframes floatBook {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-6px); }
+}
+
+.imageCaption {
+  font-family: 'Cinzel', serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--earth-light);
+  text-align: center;
+}
+
+/* Pull quote */
+.pullQuote {
+  font-family: 'Dancing Script', cursive;
+  font-size: clamp(1.3rem, 2.5vw, 1.75rem);
+  font-weight: 700;
+  color: var(--earth);
+  text-align: center;
+  padding: 1.2rem 1.5rem;
+  background: linear-gradient(135deg, #fff8f0 0%, #ffecd8 100%);
+  border: 1px solid rgba(224,123,0,0.22);
+  border-radius: 8px;
+  box-shadow: 0 4px 16px var(--shadow-saffron);
+  position: relative;
+}
+
+.pullQuote::before, .pullQuote::after {
+  content: '';
+  position: absolute;
+  width: 14px; height: 14px;
+  border-color: var(--saffron);
+  border-style: solid;
+  opacity: 0.45;
+}
+.pullQuote::before { top: 6px; left: 6px;   border-width: 2px 0 0 2px; }
+.pullQuote::after  { bottom: 6px; right: 6px; border-width: 0 2px 2px 0; }
+
+.pullQMark {
+  color: var(--saffron);
+  font-size: 1.4em;
+  line-height: 0;
+  vertical-align: middle;
+  margin: 0 2px;
+}
+
+/* ── Video + Immerse grid ── */
+.videoImmerse {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(2rem, 4vw, 4rem);
+  align-items: center;
+}
+
+/* Video block */
+.videoBlock {}
+
+.videoPlaceholder {
+  position: relative;
+  background: linear-gradient(135deg, #2c1a00 0%, #4a2800 50%, #3d1d00 100%);
+  border-radius: 10px;
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  box-shadow: 0 8px 36px rgba(92,45,0,0.35);
+}
+
+.videoPlaceholder::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(ellipse at 30% 50%, rgba(224,123,0,0.15) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 20%, rgba(245,184,0,0.08) 0%, transparent 50%);
+}
+
+.videoOverlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  z-index: 1;
+}
+
+.playBtn {
+  width: 60px;
+  height: 60px;
+  background: rgba(224,123,0,0.9);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  color: #fff;
+  box-shadow: 0 4px 20px rgba(224,123,0,0.5);
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.playBtn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 28px rgba(224,123,0,0.7);
+}
+
+.videoCaption {
+  font-family: 'Dancing Script', cursive;
+  font-size: clamp(0.9rem, 1.8vw, 1.2rem);
+  color: rgba(253,246,236,0.9);
+  font-weight: 600;
+}
+
+.videoSource {
+  font-family: 'Cinzel', serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(253,246,236,0.5);
+}
+
+/* Immerse block */
+.immerseBlock {}
+
+.immerseTitle {
+  font-family: 'Dancing Script', cursive;
+  font-size: clamp(1.2rem, 2.2vw, 1.6rem);
+  font-weight: 700;
+  color: var(--saffron-deep);
+  margin-bottom: 0.7rem;
+  line-height: 1.4;
+}
+
+.immerseDivider {
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--saffron), transparent);
+  margin-bottom: 1.2rem;
+  border-radius: 2px;
+}
+
+.knowMoreBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 0.5rem;
+  font-family: 'Cinzel', serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #fff;
+  background: linear-gradient(135deg, var(--saffron) 0%, var(--saffron-deep) 100%);
+  padding: 0.8rem 1.8rem;
+  border-radius: 4px;
+  text-decoration: none;
+  box-shadow: 0 5px 20px var(--shadow-saffron);
+  transition: transform 0.22s, box-shadow 0.22s;
+}
+
+.knowMoreBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(224,123,0,0.45);
+}
+
+.btnArrow {
+  transition: transform 0.2s;
+}
+
+.knowMoreBtn:hover .btnArrow {
+  transform: translateX(4px);
+}
+
+
+/* ════════════════════════════════════════════════
+   SECTION B — RECOGNITION & ENDORSEMENTS
+════════════════════════════════════════════════ */
+
+.recognitionSection {
+  position: relative;
+  background: var(--cream-white);
+  border-top: 1px solid var(--gold-border);
+  overflow: hidden;
+}
+
+.recognitionSection::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(ellipse at 15% 20%, rgba(224,123,0,0.04) 0%, transparent 55%),
+    radial-gradient(ellipse at 85% 80%, rgba(92,45,0,0.04) 0%, transparent 55%);
+  pointer-events: none;
+}
+
+.recognitionText {
+  max-width: 960px;
+  margin: 0 auto 2.5rem;
+}
+
+/* ── Certificates grid ── */
+.certsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(1.2rem, 2.5vw, 2rem);
+  margin-bottom: 2.5rem;
+}
+
+.certCard {
+  background: linear-gradient(135deg, var(--cream-white) 0%, #fdf0dc 100%);
+  border: 1px solid var(--gold-border);
+  border-radius: 10px;
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: 0 4px 18px var(--shadow-warm);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  outline: none;
+}
+
+.certCard:hover,
+.certCard:focus-visible {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 12px 36px rgba(224,123,0,0.28);
+  border-color: rgba(224,123,0,0.5);
+}
+
+.certImageWrap {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  background: linear-gradient(135deg, #fff8f2 0%, #ffecd8 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* Actual <img> when src is provided */
+.certImageWrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.certPlaceholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 1.5rem;
+  text-align: center;
+  z-index: 1;
+}
+
+.certIcon {
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  display: block;
+  filter: drop-shadow(0 3px 8px rgba(224,123,0,0.3));
+}
+
+.certName {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(0.62rem, 1.1vw, 0.72rem);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--earth-light);
+  line-height: 1.5;
+  text-align: center;
+}
+
+/* Hover overlay */
+.certOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(61,29,0,0.72);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  backdrop-filter: blur(2px);
+  z-index: 2;
+}
+
+.certCard:hover .certOverlay,
+.certCard:focus-visible .certOverlay {
+  opacity: 1;
+}
+
+.certZoomIcon {
+  font-size: 2rem;
+}
+
+.certZoomText {
+  font-family: 'Cinzel', serif;
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(245,184,0,0.95);
+}
+
+/* Card footer */
+.certCardFooter {
+  padding: 0.85rem 1rem;
+  border-top: 1px solid var(--gold-border);
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  background: linear-gradient(135deg, var(--cream-white) 0%, #fdf6ec 100%);
+}
+
+.certTag {
+  font-family: 'Cinzel', serif;
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--saffron-deep);
+  font-weight: 600;
+}
+
+.certCardLabel {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(0.82rem, 1.3vw, 0.92rem);
+  color: var(--earth);
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+/* ── Badges row ── */
+.badgesRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+  padding: 1.6rem 2rem;
+  background: linear-gradient(135deg, #fff7eb 0%, #ffefd4 100%);
+  border: 1px solid var(--gold-border);
+  border-radius: 10px;
+  box-shadow: inset 0 2px 8px rgba(224,123,0,0.06);
+}
+
+.badge {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.badgeIcon {
+  font-size: 1.1rem;
+}
+
+.badgeText {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(0.62rem, 1.1vw, 0.75rem);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--earth-mid);
+  font-weight: 600;
+}
+
+.badgeSep {
+  color: var(--saffron-light);
+  font-size: 0.65rem;
+  opacity: 0.7;
+}
+
+
+/* ════════════════════════════════════════════════
+   IMAGE MODAL
+════════════════════════════════════════════════ */
+
+.modalBackdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(25, 10, 0, 0.88);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  backdrop-filter: blur(6px);
+  animation: fadeInBackdrop 0.25s ease;
+}
+
+@keyframes fadeInBackdrop {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.modalBox {
+  position: relative;
+  background: linear-gradient(145deg, #fffdf8 0%, #fdf6ec 100%);
+  border: 1px solid rgba(224,123,0,0.3);
+  border-radius: 12px;
+  max-width: 720px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow:
+    0 30px 80px rgba(0,0,0,0.5),
+    0 0 0 1px rgba(224,123,0,0.15),
+    inset 0 1px 0 rgba(255,255,255,0.8);
+  animation: slideUpModal 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes slideUpModal {
+  from { opacity: 0; transform: translateY(30px) scale(0.96); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Decorative top bar */
+.modalBox::before {
+  content: '';
+  display: block;
+  height: 4px;
+  background: linear-gradient(90deg, transparent, var(--saffron), var(--saffron-light), var(--saffron), transparent);
+  border-radius: 12px 12px 0 0;
+}
+
+/* Vintage corner flourishes on modal */
+.modalBox::after {
+  content: 'ॐ';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Cinzel', serif;
+  font-size: 12rem;
+  color: rgba(224,123,0,0.04);
+  pointer-events: none;
+  user-select: none;
+  line-height: 1;
+}
+
+.modalClose {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--saffron) 0%, var(--saffron-deep) 100%);
+  border: none;
+  color: #fff;
+  font-size: 0.95rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 3px 12px var(--shadow-saffron);
+  transition: transform 0.2s, box-shadow 0.2s;
+  z-index: 10;
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+}
+
+.modalClose:hover {
+  transform: scale(1.1) rotate(90deg);
+  box-shadow: 0 5px 18px rgba(224,123,0,0.5);
+}
+
+.modalImageWrap {
+  padding: 1.5rem 1.5rem 0;
+  position: relative;
+  z-index: 1;
+}
+
+.modalCertPlaceholder {
+  background: linear-gradient(135deg, #fff8f2 0%, #ffecd8 100%);
+  border: 2px dashed rgba(224,123,0,0.3);
+  border-radius: 8px;
+  min-height: 340px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 2rem;
+  text-align: center;
+}
+
+.modalCertIcon {
+  font-size: 5rem;
+  display: block;
+  filter: drop-shadow(0 4px 12px rgba(224,123,0,0.3));
+}
+
+.modalCertNote {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.88rem;
+  color: var(--earth-light);
+  line-height: 1.7;
+  max-width: 380px;
+}
+
+.modalCertNote code {
+  font-family: monospace;
+  background: rgba(224,123,0,0.1);
+  padding: 0.1rem 0.3rem;
+  border-radius: 3px;
+  color: var(--saffron-deep);
+  font-size: 0.8rem;
+}
+
+.modalCaption {
+  padding: 1.2rem 1.5rem;
+  position: relative;
+  z-index: 1;
+  border-top: 1px solid var(--gold-border);
+  margin-top: 1rem;
+}
+
+.modalTag {
+  display: inline-block;
+  font-family: 'Cinzel', serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #fff;
+  background: linear-gradient(135deg, var(--saffron), var(--saffron-deep));
+  padding: 0.2rem 0.7rem;
+  border-radius: 20px;
+  margin-bottom: 0.5rem;
+}
+
+.modalLabel {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(0.9rem, 1.8vw, 1.15rem);
+  font-weight: 700;
+  color: var(--earth);
+  letter-spacing: 0.03em;
+  margin: 0 0 0.4rem;
+}
+
+.modalAlt {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.9rem;
+  color: var(--earth-light);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.modalNav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem 1.4rem;
+  position: relative;
+  z-index: 1;
+}
+
+.modalNavBtn {
+  font-family: 'Cinzel', serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--saffron-deep);
+  background: transparent;
+  border: 1px solid rgba(224,123,0,0.3);
+  padding: 0.5rem 1.1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.modalNavBtn:hover {
+  background: var(--saffron);
+  color: #fff;
+  border-color: var(--saffron);
+}
+
+.modalNavCount {
+  font-family: 'Cinzel', serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  color: var(--earth-light);
+}
+
+
+/* ════════════════════════════════════════════════
+   RESPONSIVE — Tablet landscape (≤1024px)
+════════════════════════════════════════════════ */
+@media (max-width: 1024px) {
+  .certsGrid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.2rem;
+  }
+}
+
+/* ════════════════════════════════════════════════
+   RESPONSIVE — Tablet portrait (≤860px)
+════════════════════════════════════════════════ */
+@media (max-width: 860px) {
+  .authGrid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .authImageCol {
+    flex-direction: row;
+    align-items: stretch;
+    gap: 1rem;
+  }
+
+  .authImageFrame {
+    flex: 1;
+    min-height: 200px;
+  }
+
+  .pullQuote {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: clamp(1.1rem, 3vw, 1.4rem);
+  }
+
+  .videoImmerse {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .certsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .badgesRow {
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: flex-start;
+    padding: 1.3rem 1.5rem;
+  }
+
+  .badgeSep {
+    display: none;
+  }
+
+  .modalBox {
+    max-width: 95vw;
+  }
+
+  .modalCertPlaceholder {
+    min-height: 260px;
+  }
+}
+
+/* ════════════════════════════════════════════════
+   RESPONSIVE — Mobile (≤600px)
+════════════════════════════════════════════════ */
+@media (max-width: 600px) {
+  .sectionTitle {
+    font-size: 1.1rem;
+  }
+
+  .authImageCol {
+    flex-direction: column;
+  }
+
+  .authImageFrame {
+    min-height: 180px;
+  }
+
+  .certsGrid {
+    grid-template-columns: 1fr;
+    max-width: 360px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 2rem;
+  }
+
+  .certImageWrap {
+    aspect-ratio: 16 / 9;
+  }
+
+  .modalBox {
+    max-width: 100%;
+    border-radius: 10px 10px 0 0;
+    position: fixed;
+    bottom: 0;
+    max-height: 92vh;
+  }
+
+  .modalBackdrop {
+    align-items: flex-end;
+    padding: 0;
+  }
+
+  .modalCertPlaceholder {
+    min-height: 200px;
+  }
+
+  .modalBox::after {
+    font-size: 7rem;
+  }
+
+  .badgesRow {
+    padding: 1.1rem;
+  }
+
+  .badgeText {
+    font-size: 0.62rem;
+  }
+}
+
+/* ════════════════════════════════════════════════
+   RESPONSIVE — Small mobile (≤380px)
+════════════════════════════════════════════════ */
+@media (max-width: 380px) {
+  .sectionTitle {
+    font-size: 1rem;
+  }
+
+  .certsGrid {
+    max-width: 100%;
+  }
+
+  .knowMoreBtn {
+    font-size: 0.7rem;
+    padding: 0.7rem 1.3rem;
+  }
+
+  .playBtn {
+    width: 48px;
+    height: 48px;
+    font-size: 1.1rem;
+  }
+}

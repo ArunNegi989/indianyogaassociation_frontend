@@ -1,0 +1,729 @@
+/* ================================================================
+   Howtoreach.module.css
+   Layout: LEFT (3-col cards + pickup form) | RIGHT (sticky map)
+   Vintage parchment + saffron — Indian Yoga Association
+   Full responsive: 1400 / 1200 / 1024 / 900 / 768 / 600 / 480 / 375
+   ================================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&display=swap');
+
+/* ─── Section ──────────────────────────────────────────────────── */
+
+.reachSection {
+  position: relative;
+  background: #fdf6ec;
+  overflow: hidden;
+  font-family: 'Cormorant Garamond', serif;
+}
+
+.reachSection::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(ellipse at 10% 20%, rgba(224,123,0,0.05) 0%, transparent 55%),
+    radial-gradient(ellipse at 90% 80%, rgba(92,45,0,0.06) 0%, transparent 55%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.omWatermark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: clamp(10rem, 22vw, 20rem);
+  color: rgba(224, 123, 0, 0.04);
+  font-family: 'Cinzel', serif;
+  pointer-events: none;
+  z-index: 0;
+  line-height: 1;
+  user-select: none;
+}
+
+.topBorder,
+.bottomBorder {
+  height: 5px;
+  background: linear-gradient(90deg,
+    transparent 0%, #e07b00 20%, #f5b800 50%, #e07b00 80%, transparent 100%);
+}
+
+/* ─── Container ────────────────────────────────────────────────── */
+
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: clamp(2rem, 5vw, 4.5rem) clamp(1rem, 3vw, 2.5rem);
+}
+
+/* ─── Header ────────────────────────────────────────────────────── */
+
+.headerWrap {
+  text-align: center;
+  margin-bottom: 2.8rem;
+}
+
+.badge {
+  display: inline-block;
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #7a3f00;
+  background: linear-gradient(135deg, #fff3e0, #ffecd8);
+  border: 1px solid rgba(224, 123, 0, 0.35);
+  padding: 6px 22px;
+  border-radius: 30px;
+  margin-bottom: 14px;
+}
+
+.mainTitle {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(1.6rem, 3.5vw, 2.8rem);
+  font-weight: 700;
+  color: #3d1d00;
+  margin: 0 0 0.9rem;
+  line-height: 1.2;
+}
+
+.omDivider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  margin-bottom: 1rem;
+}
+
+.dividerLine {
+  flex: 1;
+  max-width: 160px;
+  height: 1.5px;
+  background: linear-gradient(90deg, transparent, #e07b00, transparent);
+  display: block;
+}
+
+.omSymbol {
+  font-family: 'Cinzel', serif;
+  font-size: 1.5rem;
+  color: #e07b00;
+  line-height: 1;
+  filter: drop-shadow(0 1px 3px rgba(224,123,0,0.3));
+}
+
+.subTitle {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1rem, 1.6vw, 1.12rem);
+  font-style: italic;
+  color: #7a5c2e;
+  max-width: 640px;
+  margin: 0 auto;
+  line-height: 1.75;
+}
+
+/* ════════════════════════════════════════════════════════════════
+   SPLIT LAYOUT  —  LEFT 65%  |  RIGHT 35%
+   ════════════════════════════════════════════════════════════════ */
+
+.splitLayout {
+  display: grid;
+  grid-template-columns: 65fr 35fr;
+  gap: 32px;
+  align-items: start;
+}
+
+/* ─── LEFT PANEL ────────────────────────────────────────────────── */
+
+.leftPanel {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+/* ── 3 cards in a row — slightly bigger ── */
+.cardsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+}
+
+/* ─── Travel Card ───────────────────────────────────────────────── */
+
+.travelCard {
+  background: linear-gradient(135deg, #fff9f0 0%, #fdf0dc 100%);
+  border-radius: 14px;
+  padding: 26px 22px;           /* slightly more padding = bigger feel */
+  border: 1px solid rgba(224, 123, 0, 0.2);
+  box-shadow: 0 6px 28px rgba(92,45,0,0.09), 0 2px 6px rgba(0,0,0,0.04);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  position: relative;
+}
+
+/* Vintage corner flourish */
+.travelCard::before,
+.travelCard::after {
+  content: '';
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-color: rgba(224, 123, 0, 0.3);
+  border-style: solid;
+}
+.travelCard::before { top: 9px;    left: 9px;    border-width: 2px 0 0 2px; }
+.travelCard::after  { bottom: 9px; right: 9px;   border-width: 0 2px 2px 0; }
+
+.travelCard:hover {
+  box-shadow: 0 16px 44px rgba(92,45,0,0.16), 0 4px 10px rgba(0,0,0,0.07);
+  transform: translateY(-6px);
+}
+
+.travelHeader {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.iconCircle {
+  width: 52px;          /* bigger icon circle */
+  height: 52px;
+  background: linear-gradient(135deg, #e07b00, #c46a00);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  flex-shrink: 0;
+  box-shadow: 0 4px 14px rgba(224,123,0,0.38);
+}
+
+.travelTitle {
+  font-family: 'Cinzel', serif;
+  font-size: 1.08rem;   /* slightly bigger */
+  font-weight: 700;
+  color: #3d1d00;
+  margin: 0 0 3px;
+}
+
+.travelSubtitle {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.82rem;
+  color: #a07a50;
+  margin: 0;
+  font-style: italic;
+}
+
+.travelDesc {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.97rem;
+  line-height: 1.72;
+  color: #5c3d1e;
+  margin-bottom: 16px;
+  flex-grow: 1;
+}
+
+/* ─── Schedule Table ─────────────────────────────────────────────── */
+
+.scheduleTable {
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1.5px solid rgba(224, 123, 0, 0.18);
+  margin-bottom: 16px;
+}
+
+.scheduleHeader {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  background: linear-gradient(135deg, #e07b00, #c46a00);
+  padding: 9px 12px;
+}
+
+.scheduleHeaderCell {
+  font-family: 'Cinzel', serif;
+  font-size: 8.5px;
+  font-weight: 700;
+  color: #fff3e0;
+  letter-spacing: 0.9px;
+  text-transform: uppercase;
+}
+
+.scheduleRow {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  padding: 9px 12px;
+  border-bottom: 1px solid rgba(224,123,0,0.1);
+  transition: background 0.18s;
+}
+
+.scheduleRow:last-child { border-bottom: none; }
+.scheduleRow:hover      { background: rgba(224,123,0,0.05); }
+.scheduleRowAlt         { background: rgba(255,248,235,0.7); }
+
+.scheduleCell {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.87rem;
+  color: #3d2b10;
+  font-weight: 600;
+}
+
+/* ─── Card Actions ───────────────────────────────────────────────── */
+
+.cardActions {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  margin-top: auto;
+}
+
+.btnPrimary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #e07b00, #c46a00);
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: 4px;
+  font-family: 'Cinzel', serif;
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.7px;
+  text-transform: uppercase;
+  text-decoration: none;
+  box-shadow: 0 4px 14px rgba(224,123,0,0.32);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+  white-space: nowrap;
+}
+
+.btnPrimary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 7px 20px rgba(224,123,0,0.44);
+  color: #fff;
+  text-decoration: none;
+}
+
+.linkSecondary {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.86rem;
+  color: #b85e00;
+  text-decoration: underline;
+  cursor: pointer;
+  font-style: italic;
+  transition: opacity 0.2s;
+  display: inline-block;
+}
+.linkSecondary:hover { opacity: 0.7; color: #b85e00; }
+
+/* ════════════════════════════════════════════════════════════════
+   PICKUP & DROP  — bottom of left panel, full width
+   ════════════════════════════════════════════════════════════════ */
+
+.pickupSection {
+  background: linear-gradient(135deg, #fff9f0 0%, #fdf0dc 100%);
+  border-radius: 14px;
+  padding: 28px 32px;
+  border: 1.5px solid rgba(224, 123, 0, 0.2);
+  box-shadow: 0 10px 34px rgba(92,45,0,0.09);
+  position: relative;
+}
+
+.pickupSection::before,
+.pickupSection::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-color: rgba(224,123,0,0.35);
+  border-style: solid;
+}
+.pickupSection::before { top: 10px;    left: 10px;    border-width: 2px 0 0 2px; }
+.pickupSection::after  { bottom: 10px; right: 10px;   border-width: 0 2px 2px 0; }
+
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.checkbox {
+  width: 22px;
+  height: 22px;
+  accent-color: #e07b00;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.checkboxText {
+  font-family: 'Cinzel', serif;
+  font-size: 0.98rem;
+  font-weight: 600;
+  color: #3d1d00;
+  letter-spacing: 0.03em;
+}
+
+.pickupFormWrap {
+  animation: slideDown 0.35s ease;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.formDivider {
+  height: 1.5px;
+  background: linear-gradient(to right, transparent, #e07b00, transparent);
+  margin: 18px 0;
+  border: none;
+  opacity: 0.4;
+}
+
+.formHeading {
+  font-family: 'Cinzel', serif;
+  font-size: 1.12rem;
+  font-weight: 700;
+  color: #3d1d00;
+  margin: 0 0 5px;
+}
+
+.formSubtext {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.97rem;
+  color: #7a5c2e;
+  font-style: italic;
+  margin: 0 0 4px;
+  line-height: 1.55;
+}
+
+/* 5 columns on large screens */
+.formGrid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.formGroupFull {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  grid-column: 1 / -1;
+}
+
+.formLabel {
+  font-family: 'Cinzel', serif;
+  font-size: 8.5px;
+  font-weight: 600;
+  color: #7a5c2e;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.formInput,
+.formSelect,
+.formTextarea {
+  padding: 10px 13px;
+  border-radius: 6px;
+  border: 1.5px solid rgba(224,123,0,0.22);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.97rem;
+  color: #3d2b10;
+  background: rgba(255,253,248,0.9);
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.formInput:focus,
+.formSelect:focus,
+.formTextarea:focus {
+  border-color: #e07b00;
+  box-shadow: 0 0 0 3px rgba(224,123,0,0.1);
+}
+
+.formInput::placeholder,
+.formTextarea::placeholder {
+  color: #c4a882;
+  font-style: italic;
+}
+
+.formSelect { cursor: pointer; appearance: auto; }
+
+.formTextarea {
+  min-height: 85px;
+  resize: vertical;
+}
+
+/* ── Submit + WhatsApp buttons row ── */
+.formBtnRow {
+  display: flex;
+  gap: 14px;
+  align-items: stretch;
+  flex-wrap: wrap;
+}
+
+.submitBtn {
+  flex: 1;
+  min-width: 200px;
+  padding: 13px 24px;
+  background: linear-gradient(135deg, #e07b00, #c46a00);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(224,123,0,0.35);
+  transition: box-shadow 0.22s ease, transform 0.22s ease;
+}
+
+.submitBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 7px 24px rgba(224,123,0,0.46);
+}
+
+/* ── WhatsApp Button ── */
+.whatsappBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  flex: 1;
+  min-width: 180px;
+  padding: 13px 20px;
+  background: linear-gradient(135deg, #25d366, #1da852);
+  color: #fff;
+  border-radius: 4px;
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.7px;
+  text-transform: uppercase;
+  text-decoration: none;
+  box-shadow: 0 4px 16px rgba(37,211,102,0.35);
+  transition: box-shadow 0.22s ease, transform 0.22s ease;
+  white-space: nowrap;
+}
+
+.whatsappBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 7px 24px rgba(37,211,102,0.46);
+  color: #fff;
+  text-decoration: none;
+}
+
+/* ── WhatsApp helper text ── */
+.whatsappHelperText {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.92rem;
+  color: #7a5c2e;
+  font-style: italic;
+  margin-top: 10px;
+  line-height: 1.55;
+  padding: 10px 14px;
+  background: rgba(37, 211, 102, 0.06);
+  border-left: 3px solid #25d366;
+  border-radius: 0 6px 6px 0;
+}
+
+.whatsappInlineLink {
+  color: #1a9e47;
+  font-weight: 600;
+  text-decoration: underline;
+  transition: opacity 0.2s;
+}
+.whatsappInlineLink:hover { opacity: 0.75; color: #1a9e47; }
+
+/* ════════════════════════════════════════════════════════════════
+   RIGHT PANEL — sticky map only
+   ════════════════════════════════════════════════════════════════ */
+
+
+.stickyWrap {
+  position: sticky;
+  top: 24px;
+}
+
+.mapCard {
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1.5px solid rgba(224,123,0,0.2);
+  box-shadow: 0 16px 44px rgba(92,45,0,0.13);
+}
+
+.mapLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 16px;
+  background: linear-gradient(135deg, #fff9f0, #ffecd8);
+  border-bottom: 1px solid rgba(224,123,0,0.15);
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: #7a3f00;
+  text-transform: uppercase;
+}
+
+.mapLabelDot {
+  width: 8px;
+  height: 8px;
+  background: #e07b00;
+  border-radius: 50%;
+  flex-shrink: 0;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 2px rgba(224,123,0,0.25); }
+  50%       { box-shadow: 0 0 0 8px rgba(224,123,0,0.07); }
+}
+
+.mapIframe {
+  width: 100%;
+  height: 500px;
+  border: none;
+  display: block;
+}
+
+.mapFooter {
+  padding: 12px 16px;
+  background: linear-gradient(135deg, #fff9f0, #ffecd8);
+  border-top: 1px solid rgba(224,123,0,0.15);
+  text-align: center;
+}
+
+.mapDirectionsBtn {
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: #e07b00;
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+.mapDirectionsBtn:hover { opacity: 0.7; color: #e07b00; }
+
+/* ════════════════════════════════════════════════════════════════
+   RESPONSIVE BREAKPOINTS  (1400 → 1200 → 1024 → 900 → 768 → 600 → 480 → 375)
+   ════════════════════════════════════════════════════════════════ */
+
+/* ── 1400px: slightly tighter gap ── */
+@media (max-width: 1400px) {
+  .container { max-width: 100%; }
+  .splitLayout { gap: 26px; }
+}
+
+/* ── 1200px: narrower left, 2-col cards ── */
+@media (max-width: 1200px) {
+  .splitLayout {
+    grid-template-columns: 60fr 40fr;
+    gap: 22px;
+  }
+  .cardsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .formGrid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* ── 1024px: adjust form to 3-col ── */
+@media (max-width: 1024px) {
+  .splitLayout {
+    grid-template-columns: 58fr 42fr;
+    gap: 20px;
+  }
+  .formGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .mapIframe { height: 440px; }
+}
+
+/* ── 900px: full-width single column stack ── */
+@media (max-width: 900px) {
+  .splitLayout {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  .stickyWrap { position: static; }
+  .mapIframe  { height: 380px; }
+  .cardsGrid  { grid-template-columns: repeat(3, 1fr); }
+  .formGrid   { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* ── 768px: 2-col cards, 2-col form ── */
+@media (max-width: 768px) {
+  .cardsGrid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .formGrid  { grid-template-columns: repeat(2, 1fr); }
+  .travelCard { padding: 22px 18px; }
+  .pickupSection { padding: 22px 20px; }
+  .mapIframe { height: 340px; }
+  .formBtnRow { flex-direction: column; }
+  .submitBtn,
+  .whatsappBtn { min-width: unset; width: 100%; }
+}
+
+/* ── 600px: single column cards ── */
+@media (max-width: 600px) {
+  .cardsGrid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .formGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .mapIframe { height: 300px; }
+  .mainTitle { font-size: 1.55rem; }
+  .iconCircle { width: 46px; height: 46px; }
+}
+
+/* ── 480px: single-col form ── */
+@media (max-width: 480px) {
+  .formGrid {
+    grid-template-columns: 1fr;
+  }
+  .formGroupFull {
+    grid-column: 1;
+  }
+  .pickupSection { padding: 18px 16px; }
+  .travelCard    { padding: 18px 14px; }
+  .mapIframe     { height: 270px; }
+  .scheduleHeaderCell,
+  .scheduleCell  { font-size: 0.73rem; }
+  .scheduleHeader,
+  .scheduleRow   { padding: 7px 8px; }
+  .mainTitle     { font-size: 1.4rem; }
+  .omDivider .dividerLine { max-width: 80px; }
+}
+
+/* ── 375px: very small mobile ── */
+@media (max-width: 375px) {
+  .container { padding: 1.8rem 12px; }
+  .mainTitle { font-size: 1.25rem; }
+  .travelTitle { font-size: 0.95rem; }
+  .scheduleHeaderCell,
+  .scheduleCell { font-size: 0.68rem; }
+  .checkboxText { font-size: 0.85rem; }
+  .submitBtn,
+  .whatsappBtn { font-size: 10px; padding: 11px 14px; }
+  .mapIframe { height: 240px; }
+}

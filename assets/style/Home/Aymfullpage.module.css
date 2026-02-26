@@ -1,0 +1,654 @@
+/* ================================================================
+   AYMFullPage.module.css
+   Vintage Sacred Yoga Aesthetic — Parchment · Saffron · Himalayan
+   ================================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Dancing+Script:wght@500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+/* ── CSS Variables ── */
+:root {
+  --saffron:       #e07b00;
+  --saffron-deep:  #c46a00;
+  --saffron-light: #f5b800;
+  --parchment:     #fdf6ec;
+  --parchment-mid: #f5ead6;
+  --earth:         #3d1d00;
+  --earth-mid:     #5c2d00;
+  --earth-light:   #7a5c2e;
+  --earth-warm:    #3d2b10;
+  --gold-border:   #e8d5b5;
+  --cream-white:   #fffdf8;
+  --shadow-warm:   rgba(92, 45, 0, 0.12);
+}
+
+/* ── Page Wrapper ── */
+.pageWrapper {
+  font-family: 'Cormorant Garamond', serif;
+  background: var(--parchment);
+  color: var(--earth-warm);
+  overflow-x: hidden;
+}
+
+/* ── Shared: Container ── */
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: clamp(2.5rem, 5vw, 4.5rem) clamp(1.2rem, 5vw, 3rem);
+}
+
+/* ── Shared: Decorative Borders ── */
+.topBorder,
+.bottomBorder {
+  height: 5px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    var(--saffron) 20%,
+    var(--saffron-light) 50%,
+    var(--saffron) 80%,
+    transparent 100%
+  );
+}
+
+/* ── Shared: Section Heading ── */
+.sectionHeaderCenter {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.sectionTitle {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(1.1rem, 2.5vw, 1.65rem);
+  font-weight: 700;
+  color: var(--earth);
+  line-height: 1.45;
+  max-width: 820px;
+  margin: 0 auto 0.9rem;
+  letter-spacing: 0.02em;
+}
+
+.titleUnderline {
+  width: 80px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--saffron), var(--saffron-light));
+  margin: 0 auto;
+  border-radius: 2px;
+}
+
+/* ── Shared: Para ── */
+.para {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(0.97rem, 1.6vw, 1.07rem);
+  line-height: 1.9;
+  color: var(--earth-warm);
+  margin-bottom: 1.2rem;
+}
+
+.paraSmall {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(0.88rem, 1.4vw, 0.97rem);
+  line-height: 1.8;
+  color: var(--earth-light);
+  margin-top: 0.85rem;
+}
+
+.highlight {
+  color: #b85e00;
+  font-weight: 700;
+}
+
+
+/* ════════════════════════════════════════════════
+   SECTION — ALIGNMENT & ADJUSTMENT
+════════════════════════════════════════════════ */
+.alignSection {
+  background: var(--cream-white);
+  border-top: 1px solid var(--gold-border);
+  border-bottom: 1px solid var(--gold-border);
+}
+
+.salutation {
+  font-family: 'Dancing Script', cursive;
+  font-size: clamp(1.1rem, 2vw, 1.35rem);
+  color: var(--saffron-deep);
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+/* Planes Grid */
+.planesGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(1.5rem, 3vw, 3rem);
+  align-items: center;
+  margin: 2rem 0;
+  padding: 2rem;
+  background: linear-gradient(135deg, #fff9f2 0%, #fdf0dc 100%);
+  border: 1px solid rgba(224,123,0,0.2);
+  border-radius: 10px;
+  box-shadow: 0 4px 20px var(--shadow-warm);
+  position: relative;
+}
+
+.planesGrid::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--saffron), var(--saffron-light), var(--saffron));
+  border-radius: 10px 10px 0 0;
+}
+
+.planesImageBlock {}
+.planesInfoBlock {}
+
+.planesImagePlaceholder {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.diagramBox {
+  background: linear-gradient(135deg, #fff 0%, #fdf6ec 100%);
+  border: 1px dashed rgba(224,123,0,0.4);
+  border-radius: 8px;
+  padding: 1.5rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.diagramFigure {
+  font-size: 3rem;
+  margin: 0.5rem 0;
+}
+
+.diagramLabel {
+  font-family: 'Cinzel', serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--earth-light);
+  background: rgba(224,123,0,0.08);
+  padding: 0.2rem 0.6rem;
+  border-radius: 3px;
+}
+
+.alignCompare {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 0.5rem;
+  align-items: center;
+  background: #fff;
+  border: 1px solid var(--gold-border);
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.compareItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.compareLabel {
+  font-family: 'Cinzel', serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--earth-light);
+  text-align: center;
+}
+
+.poseIcon { font-size: 2rem; }
+
+.compareDivider {
+  width: 1px;
+  height: 50px;
+  background: var(--gold-border);
+}
+
+.planesList {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0;
+  counter-reset: list-counter;
+}
+
+.planesListItem {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.02rem;
+  color: var(--earth-warm);
+  padding: 0.5rem 0 0.5rem 1.5rem;
+  border-bottom: 1px solid rgba(224,123,0,0.12);
+  position: relative;
+  line-height: 1.6;
+  counter-increment: list-counter;
+}
+
+.planesListItem::before {
+  content: counter(list-counter) '.';
+  position: absolute;
+  left: 0;
+  color: var(--saffron);
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+/* Group yoga visual */
+.groupPhotoBlock {
+  margin-top: 2rem;
+}
+
+.groupPhotoBanner {
+  position: relative;
+  background: linear-gradient(135deg, #2c1a00 0%, #4a2800 50%, #3d1d00 100%);
+  border-radius: 10px;
+  overflow: hidden;
+  padding: 3rem 2rem;
+  box-shadow: 0 8px 36px rgba(92,45,0,0.3);
+}
+
+.groupPhotoBanner::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(ellipse at 20% 50%, rgba(224,123,0,0.15) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 30%, rgba(245,184,0,0.1) 0%, transparent 50%);
+}
+
+.groupPhotoOverlay {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.groupPhotoText {
+  font-family: 'Dancing Script', cursive;
+  font-size: clamp(1rem, 2.5vw, 1.4rem);
+  color: rgba(253,246,236,0.9);
+  font-weight: 600;
+}
+
+.groupYogaVisual {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+}
+
+.yogiIcon {
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  opacity: 0.85;
+  display: inline-block;
+  animation: sway 3s ease-in-out infinite;
+}
+
+.yogiIcon:nth-child(even) { animation-delay: 1.5s; }
+.yogiIcon:nth-child(3n)   { animation-delay: 0.8s; }
+
+@keyframes sway {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-4px); }
+}
+
+
+/* ════════════════════════════════════════════════
+   SECTION — CAMPUS
+════════════════════════════════════════════════ */
+.campusSection {
+  background: var(--parchment);
+  position: relative;
+}
+
+.campusSection::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(ellipse at 80% 10%, rgba(224,123,0,0.04) 0%, transparent 55%),
+    radial-gradient(ellipse at 10% 90%, rgba(92,45,0,0.04) 0%, transparent 55%);
+  pointer-events: none;
+}
+
+/* Facilities — always open, static list */
+.facilitiesList {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border: 1px solid var(--gold-border);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px var(--shadow-warm);
+  margin-bottom: 2.5rem;
+}
+
+.facilityItem {
+  background: linear-gradient(135deg, var(--cream-white) 0%, #fdf6ec 100%);
+  border-bottom: 1px solid var(--gold-border);
+  padding: 1.3rem 1.6rem 1.4rem;
+  transition: background 0.2s;
+}
+
+.facilityItem:last-child {
+  border-bottom: none;
+}
+
+.facilityItem:hover {
+  background: linear-gradient(135deg, #fff7eb 0%, #ffefd8 100%);
+}
+
+.facilityHeader {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  margin-bottom: 0.5rem;
+}
+
+.facilityDot {
+  color: var(--saffron);
+  font-size: 0.72rem;
+  margin-top: 0.28rem;
+  flex-shrink: 0;
+}
+
+.facilityBold {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(0.75rem, 1.3vw, 0.88rem);
+  color: var(--earth);
+  letter-spacing: 0.03em;
+  line-height: 1.5;
+}
+
+.facilityText {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(0.92rem, 1.5vw, 1.02rem);
+  line-height: 1.88;
+  color: var(--earth-warm);
+  padding-left: 1.38rem;
+  margin: 0;
+}
+
+/* Promo cards */
+.promoCards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(1.5rem, 3vw, 2.5rem);
+}
+
+.promoCard {
+  background: linear-gradient(135deg, var(--cream-white) 0%, #fdf0dc 100%);
+  border: 1px solid var(--gold-border);
+  border-radius: 10px;
+  padding: 1.8rem 1.6rem;
+  box-shadow: 0 4px 18px var(--shadow-warm);
+  transition: transform 0.22s, box-shadow 0.22s;
+}
+
+.promoCard:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 28px rgba(92,45,0,0.15);
+}
+
+.promoTitle {
+  font-family: 'Dancing Script', cursive;
+  font-size: clamp(1.15rem, 2vw, 1.45rem);
+  font-weight: 700;
+  color: var(--saffron-deep);
+  margin-bottom: 0.6rem;
+  line-height: 1.4;
+}
+
+.promoUnderline {
+  width: 50px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--saffron), transparent);
+  margin-bottom: 0.9rem;
+}
+
+.promoText {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(0.88rem, 1.4vw, 0.97rem);
+  line-height: 1.8;
+  color: var(--earth-warm);
+  margin-bottom: 1rem;
+}
+
+.promoLink {
+  font-family: 'Cinzel', serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--saffron-deep);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s;
+}
+
+.promoLink:hover { color: var(--earth); }
+
+
+/* ════════════════════════════════════════════════
+   SECTION — CTA JOURNEY BANNER
+════════════════════════════════════════════════ */
+.ctaSection {
+  position: relative;
+  background: var(--parchment);
+}
+
+.ctaBg {}
+
+.ctaContent {
+  background: linear-gradient(135deg, #e07b00 0%, #c46a00 40%, #d47300 70%, #e07b00 100%);
+  position: relative;
+  overflow: hidden;
+  padding: clamp(3rem, 6vw, 5rem) clamp(1.5rem, 5vw, 4rem);
+  text-align: center;
+}
+
+.ctaContent::before {
+  content: 'ॐ';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: clamp(10rem, 20vw, 18rem);
+  color: rgba(255,255,255,0.06);
+  font-family: 'Cinzel', serif;
+  pointer-events: none;
+  user-select: none;
+  line-height: 1;
+}
+
+.ctaContent::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(ellipse at 20% 50%, rgba(255,255,255,0.08) 0%, transparent 55%),
+    radial-gradient(ellipse at 80% 30%, rgba(255,255,255,0.05) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.ctaHeading {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(1.4rem, 3.5vw, 2.4rem);
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.3;
+  margin-bottom: 1rem;
+  position: relative;
+  z-index: 1;
+  letter-spacing: 0.03em;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.ctaSubtext {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1rem, 1.8vw, 1.2rem);
+  color: rgba(255,255,255,0.92);
+  max-width: 600px;
+  margin: 0 auto 2rem;
+  line-height: 1.7;
+  position: relative;
+  z-index: 1;
+}
+
+.whatsappBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: #25D366;
+  color: #fff;
+  font-family: 'Cinzel', serif;
+  font-size: clamp(0.78rem, 1.3vw, 0.88rem);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 0.9rem 2.2rem;
+  border-radius: 50px;
+  box-shadow: 0 6px 22px rgba(0,0,0,0.25);
+  transition: transform 0.2s, box-shadow 0.2s;
+  position: relative;
+  z-index: 1;
+}
+
+.whatsappBtn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 32px rgba(0,0,0,0.3);
+}
+
+.waIcon { font-size: 1.2em; }
+
+/* Master Quote */
+.masterQuoteBlock {
+  text-align: center;
+  padding: clamp(2rem, 4vw, 3.5rem) clamp(1.5rem, 5vw, 4rem);
+  background: linear-gradient(135deg, #3d1d00 0%, #5c2d00 50%, #3d1d00 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.masterQuoteBlock::before {
+  content: '"';
+  position: absolute;
+  top: -1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Dancing Script', cursive;
+  font-size: clamp(8rem, 15vw, 14rem);
+  color: rgba(224,123,0,0.08);
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+}
+
+.masterQuote {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.1rem, 2.5vw, 1.55rem);
+  font-style: italic;
+  color: var(--parchment);
+  line-height: 1.6;
+  max-width: 800px;
+  margin: 0 auto 1rem;
+  position: relative;
+  z-index: 1;
+}
+
+.masterAttrib {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(0.75rem, 1.2vw, 0.88rem);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--saffron-light);
+  position: relative;
+  z-index: 1;
+}
+
+/* Journey text */
+.journeyText {
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+.namaste {
+  font-style: italic;
+  color: var(--earth-light);
+  font-size: clamp(1rem, 1.7vw, 1.1rem);
+}
+
+
+/* ════════════════════════════════════════════════
+   RESPONSIVE — Tablet portrait (≤860px)
+════════════════════════════════════════════════ */
+@media (max-width: 860px) {
+  .planesGrid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .promoCards {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ════════════════════════════════════════════════
+   RESPONSIVE — Mobile (≤600px)
+════════════════════════════════════════════════ */
+@media (max-width: 600px) {
+  .sectionTitle {
+    font-size: 1.15rem;
+  }
+
+  .ctaContent {
+    padding: 2.5rem 1.2rem;
+  }
+
+  .masterQuoteBlock {
+    padding: 2rem 1.2rem;
+  }
+
+  .masterQuote {
+    font-size: 1.05rem;
+  }
+
+  .groupPhotoBanner {
+    padding: 2rem 1rem;
+  }
+
+  .promoCard {
+    padding: 1.4rem 1.2rem;
+  }
+
+  .facilityItem {
+    padding: 1rem 1rem 1.1rem;
+  }
+
+  .facilityText {
+    padding-left: 1.1rem;
+  }
+}
+
+/* ════════════════════════════════════════════════
+   RESPONSIVE — Small mobile (≤380px)
+════════════════════════════════════════════════ */
+@media (max-width: 380px) {
+  .whatsappBtn {
+    font-size: 0.72rem;
+    padding: 0.75rem 1.4rem;
+  }
+
+  .facilityItem {
+    padding: 0.85rem 0.85rem 1rem;
+  }
+}

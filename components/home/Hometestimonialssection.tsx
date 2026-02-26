@@ -1,12 +1,8 @@
 'use client';
 
-import React, { useState } from 'react';
-import Slider from 'react-slick';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
+import React, { useState, useRef } from 'react';
 import styles from '../../assets/style/Home/Hometestimonialssection.module.css';
 
-/* ── Types ── */
 interface Testimonial {
   id: number;
   name: string;
@@ -27,9 +23,6 @@ interface TextReview {
   rating: number;
 }
 
-/* ================================================================
-   🔧 HELPER — Koi bhi YouTube URL paste karo, ID apne aap niklega
-   ================================================================ */
 function getYoutubeId(input: string): string {
   if (!input) return '';
   const s = input.trim();
@@ -45,17 +38,13 @@ function getYoutubeId(input: string): string {
   return s;
 }
 
-/* ── Text Reviews Data ──
-   👇 Nayi review add karne ke liye bas ek aur object daalo
-*/
 const textReviews: TextReview[] = [
   {
     id: 1,
     name: 'Vinita Rai',
     role: 'Certified Yoga Teacher',
     avatar: '/images/reviews/vinita.jpg',
-    quote:
-      'This is truly the best yoga school for 200-hour Yoga Teacher Training. The environment is peaceful, supportive, and perfect for learning. The teachers are knowledgeable, the classes are well-structured, and the overall atmosphere helps you grow mentally, physically, and spiritually. Highly recommended for a transformative experience.',
+    quote: 'This is truly the best yoga school for 200-hour Yoga Teacher Training. The environment is peaceful, supportive, and perfect for learning. The teachers are knowledgeable, the classes are well-structured, and the overall atmosphere helps you grow mentally, physically, and spiritually. Highly recommended for a transformative experience.',
     rating: 5,
   },
   {
@@ -63,8 +52,7 @@ const textReviews: TextReview[] = [
     name: 'Alexandra Guzman',
     role: 'Yoga Practitioner, Peruvian',
     avatar: '/images/reviews/alexandra.jpg',
-    quote:
-      'I completed the 300-hour Online Teacher Training with Stuti and had an excellent experience. The live sessions helped me learn various yoga styles, and the recorded material was equally valuable. The guidance was clear, supportive, and enriching. I highly recommend this program to anyone wanting to deepen their yoga practice.',
+    quote: 'I completed the 300-hour Online Teacher Training with Stuti and had an excellent experience. The live sessions helped me learn various yoga styles, and the recorded material was equally valuable. The guidance was clear, supportive, and enriching. I highly recommend this program to anyone wanting to deepen their yoga practice.',
     rating: 5,
   },
   {
@@ -72,23 +60,19 @@ const textReviews: TextReview[] = [
     name: 'Neeraj Neeru',
     role: 'Yoga Practitioner',
     avatar: '/images/reviews/neeraj.jpg',
-    quote:
-      "I'm truly grateful for the AYM Teacher Training classes. The teachers' attention to detail and patient guidance helped me improve my practice. Special thanks to Vishnuji, Abhishekji, Latikaji, Sant Prakashji, Lataji, and Gaurabji for their support. The variety of classes suited my needs perfectly. Highly recommended!",
+    quote: "I'm truly grateful for the AYM Teacher Training classes. The teachers' attention to detail and patient guidance helped me improve my practice. Special thanks to Vishnuji, Abhishekji, Latikaji, Sant Prakashji, Lataji, and Gaurabji for their support. The variety of classes suited my needs perfectly. Highly recommended!",
     rating: 5,
   },
   {
     id: 4,
-    name: 'Alexandra Guzman',
-    role: 'Yoga Practitioner, Peruvian',
-    avatar: '/images/reviews/alexandra.jpg',
-    quote:
-      'I completed the 300-hour Online Teacher Training with Stuti and had an excellent experience. The live sessions helped me learn various yoga styles, and the recorded material was equally valuable. The guidance was clear, supportive, and enriching. I highly recommend this program to anyone wanting to deepen their yoga practice.',
+    name: 'Priya Sharma',
+    role: 'Yoga Practitioner',
+    avatar: '/images/reviews/priya.jpg',
+    quote: 'I completed the 300-hour Online Teacher Training with Stuti and had an excellent experience. The live sessions helped me learn various yoga styles, and the recorded material was equally valuable. The guidance was clear, supportive, and enriching. I highly recommend this program to anyone wanting to deepen their yoga practice.',
     rating: 5,
   },
-  // ← Aur reviews yahan add karo, slider automatically handle karega
 ];
 
-/* ── Video Testimonials Data ── */
 const testimonials: Testimonial[] = [
   {
     id: 1,
@@ -96,8 +80,7 @@ const testimonials: Testimonial[] = [
     country: 'Netherlands',
     flag: '🇳🇱',
     youtubeId: 'https://youtube.com/shorts/oJlqsz7Go4Y?si=wUnb5KJGEA6yTU9L',
-    quote:
-      "Namaste, my name is Marit. I am from the Netherlands and I came to AYM two weeks ago and I'm loving it so much. The teachers, they are amazing. They are guiding me through the practices very well and everybody else, they have such good eye for the little details and the day planning is also amazing. The food, the fellow students, I get so much energy from it. I even decided to do another 300 hours, besides the 200 hours that I'm doing now, just to be able to stay here longer.",
+    quote: "Namaste, my name is Marit. I am from the Netherlands and I came to AYM two weeks ago and I'm loving it so much. The teachers, they are amazing. They are guiding me through the practices very well and everybody else, they have such good eye for the little details and the day planning is also amazing. The food, the fellow students, I get so much energy from it. I even decided to do another 300 hours, besides the 200 hours that I'm doing now, just to be able to stay here longer.",
     course: '200hr YTT',
     rating: 5,
   },
@@ -107,8 +90,7 @@ const testimonials: Testimonial[] = [
     country: 'United States',
     flag: '🇺🇸',
     youtubeId: 'https://youtube.com/shorts/ojOhbXxg_pI?si=vuBPIq0bvxS7LWE1',
-    quote:
-      "AYM has been a life-changing experience. The depth of knowledge our teachers carry is extraordinary — every session felt like peeling back another layer of yoga's true essence. The Himalayan setting along the Ganges is unlike anything I have experienced. I came seeking a certification and left with a complete shift in perspective.",
+    quote: "AYM has been a life-changing experience. The depth of knowledge our teachers carry is extraordinary — every session felt like peeling back another layer of yoga's true essence. The Himalayan setting along the Ganges is unlike anything I have experienced. I came seeking a certification and left with a complete shift in perspective.",
     course: '300hr YTT',
     rating: 5,
   },
@@ -118,14 +100,12 @@ const testimonials: Testimonial[] = [
     country: 'Germany',
     flag: '🇩🇪',
     youtubeId: 'https://youtube.com/shorts/pKcKWxe3XOo?si=p3nEgCuZT2is1aKN',
-    quote:
-      "I have attended several yoga trainings across Europe but nothing compared to the authenticity and rigor of AYM. Yogi Chetan's lineage comes through in every aspect of the curriculum. The pranayama sessions alone were worth the journey. My practice deepened exponentially.",
+    quote: "I have attended several yoga trainings across Europe but nothing compared to the authenticity and rigor of AYM. Yogi Chetan's lineage comes through in every aspect of the curriculum. The pranayama sessions alone were worth the journey. My practice deepened exponentially.",
     course: '200hr YTT',
     rating: 5,
   },
 ];
 
-/* ── StarRating ── */
 function StarRating({ count }: { count: number }) {
   return (
     <div className={styles.stars}>
@@ -137,43 +117,39 @@ function StarRating({ count }: { count: number }) {
 }
 
 /* ================================================================
-   TEXT REVIEW SLIDER  — React Slick
-   3 cards visible, no arrows, dots at bottom, swipe enabled
+   CUSTOM REVIEW SLIDER — No react-slick, pure CSS transform
+   Desktop: 3 cards | Tablet: 2 cards | Mobile: 1 card
    ================================================================ */
 function TextReviewSlider() {
-  const slickSettings = {
-    dots: true,
-    infinite: textReviews.length > 3,
-    speed: 500,
-    slidesToShow: 3,
-    slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 4000,
-    arrows: false,           // ← arrows bilkul nahi
-    swipe: true,
-    touchThreshold: 10,
-    dotsClass: `slick-dots ${styles.reviewSlickDots}`,
-    responsive: [
-      {
-        breakpoint: 900,
-        settings: { slidesToShow: 2, slidesToScroll: 1 },
-      },
-      {
-        breakpoint: 600,
-        settings: { slidesToShow: 1, slidesToScroll: 1 },
-      },
-    ],
+  const [current, setCurrent] = useState(0);
+  const touchStartX = useRef(0);
+  const touchEndX = useRef(0);
+
+  // How many cards to show depends on screen — handled via CSS
+  // JS logic: we track index, CSS handles how many are visible
+  const total = textReviews.length;
+
+  const prev = () => setCurrent((c) => (c - 1 + total) % total);
+  const next = () => setCurrent((c) => (c + 1) % total);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    touchEndX.current = e.changedTouches[0].clientX;
+    const diff = touchStartX.current - touchEndX.current;
+    if (Math.abs(diff) > 40) {
+      diff > 0 ? next() : prev();
+    }
   };
 
   return (
     <div className={styles.reviewSliderSection}>
-      {/* Section header */}
-       {/* ── Divider ── */}
-        <div className={styles.sectionDivider}>
-          <span className={styles.dividerLine} />
-          <span className={styles.omSymbol}>ॐ</span>
-          <span className={styles.dividerLine} />
-        </div>
+      <div className={styles.sectionDivider}>
+        <span className={styles.dividerLine} />
+        <span className={styles.omSymbol}>ॐ</span>
+        <span className={styles.dividerLine} />
+      </div>
       <div className={styles.reviewSliderHeader}>
         <h2 className={styles.reviewSliderTitle}>Student Reviews &amp; Success Stories</h2>
         <p className={styles.reviewSliderSub}>
@@ -181,13 +157,19 @@ function TextReviewSlider() {
         </p>
       </div>
 
-      {/* React Slick slider */}
-      <div className={styles.reviewSliderWrap}>
-        <Slider {...slickSettings}>
+      {/* Custom slider viewport */}
+      <div
+        className={styles.reviewViewport}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+      >
+        <div
+          className={styles.reviewTrack}
+          style={{ transform: `translateX(calc(-${current} * var(--slide-width)))` }}
+        >
           {textReviews.map((review) => (
             <div key={review.id} className={styles.reviewSlide}>
               <div className={styles.reviewCardInner}>
-                {/* Top — avatar + name */}
                 <div className={styles.reviewCardTop}>
                   <div className={styles.reviewAvatar}>
                     <img
@@ -210,19 +192,25 @@ function TextReviewSlider() {
                     <span className={styles.reviewCardRole}>{review.role}</span>
                   </div>
                 </div>
-
-                {/* Stars */}
                 <StarRating count={review.rating} />
-
-                {/* Quote mark */}
                 <div className={styles.reviewCardQuoteMark}>&ldquo;</div>
-
-                {/* Quote text */}
                 <p className={styles.reviewCardQuote}>{review.quote}</p>
               </div>
             </div>
           ))}
-        </Slider>
+        </div>
+      </div>
+
+      {/* Dots */}
+      <div className={styles.reviewDots}>
+        {textReviews.map((_, i) => (
+          <button
+            key={i}
+            className={`${styles.reviewDot} ${i === current ? styles.reviewDotActive : ''}`}
+            onClick={() => setCurrent(i)}
+            aria-label={`Go to review ${i + 1}`}
+          />
+        ))}
       </div>
     </div>
   );
@@ -264,9 +252,7 @@ function VideoCard({ testimonial, isActive, isPlaying, onClick }: VideoCardProps
       </div>
       <div className={styles.videoCardMeta}>
         <span className={styles.videoCardName}>{testimonial.name}</span>
-        <span className={styles.videoCardCountry}>
-          {testimonial.flag} {testimonial.country}
-        </span>
+        <span className={styles.videoCardCountry}>{testimonial.flag} {testimonial.country}</span>
       </div>
     </button>
   );
@@ -274,14 +260,14 @@ function VideoCard({ testimonial, isActive, isPlaying, onClick }: VideoCardProps
 
 /* ── Main Component ── */
 const HomeTestimonialsSection: React.FC = () => {
-  const [activeIdx, setActiveIdx] = useState<number>(0);
-  const [animKey, setAnimKey]     = useState<number>(0);
-  const [isPlaying, setIsPlaying] = useState<boolean>(false);
+  const [activeIdx, setActiveIdx] = useState(0);
+  const [animKey, setAnimKey] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(false);
 
-  const active    = testimonials[activeIdx];
+  const active = testimonials[activeIdx];
   const activeVid = getYoutubeId(active.youtubeId);
 
-  const handleSelect = (idx: number): void => {
+  const handleSelect = (idx: number) => {
     if (idx === activeIdx) { setIsPlaying((p) => !p); return; }
     setActiveIdx(idx);
     setAnimKey((k) => k + 1);
@@ -299,27 +285,23 @@ const HomeTestimonialsSection: React.FC = () => {
 
       <div className={styles.container}>
 
-        {/* ══ TEXT REVIEWS SLIDER (upar) ══ */}
         <TextReviewSlider />
 
-       <div className={styles.omDivider}>
-            <span className={styles.dividerLine} />
-            <span className={styles.omSymbol}>ॐ</span>
-            <span className={styles.dividerLine} />
-          </div>
+        <div className={styles.omDivider}>
+          <span className={styles.dividerLine} />
+          <span className={styles.omSymbol}>ॐ</span>
+          <span className={styles.dividerLine} />
+        </div>
 
-        {/* ── Video Section Header ── */}
         <div className={styles.header}>
           <p className={styles.superTitle}>Voices from Our Global Sangha</p>
           <h2 className={styles.mainTitle}>Success Stories of Our Students</h2>
-          
           <p className={styles.subtitle}>
             Hear the inspiring journeys of our students from around the world.
             Discover how their time in India transformed their practice and their lives.
           </p>
         </div>
 
-        {/* ── Main video card ── */}
         <div className={styles.mainCard} key={animKey}>
           <div className={styles.videoSection}>
             <div className={styles.videoFrame}>
@@ -360,12 +342,11 @@ const HomeTestimonialsSection: React.FC = () => {
                 )}
                 <div className={styles.videoBadgeOverlay}>{active.course}</div>
               </div>
-              <div className={`${styles.tape} ${styles.tapeTL}`} aria-hidden="true" />
-              <div className={`${styles.tape} ${styles.tapeTR}`} aria-hidden="true" />
-              <div className={`${styles.tape} ${styles.tapeBL}`} aria-hidden="true" />
-              <div className={`${styles.tape} ${styles.tapeBR}`} aria-hidden="true" />
+              <div className={`${styles.tape} ${styles.tapeTL}`} />
+              <div className={`${styles.tape} ${styles.tapeTR}`} />
+              <div className={`${styles.tape} ${styles.tapeBL}`} />
+              <div className={`${styles.tape} ${styles.tapeBR}`} />
             </div>
-
             <div className={styles.studentInfo}>
               <div className={styles.studentAvatar}>{active.name.charAt(0)}</div>
               <div>
@@ -387,7 +368,7 @@ const HomeTestimonialsSection: React.FC = () => {
                 <span className={styles.quoteAuthorSeparator}>·</span>
                 <span className={styles.quoteAuthorDetail}>{active.course}</span>
               </div>
-              <div className={styles.ornamentRow} aria-hidden="true">
+              <div className={styles.ornamentRow}>
                 <span className={styles.ornamentLine} />
                 <span className={styles.ornamentDiamond}>◆</span>
                 <span className={styles.ornamentLine} />
@@ -396,7 +377,6 @@ const HomeTestimonialsSection: React.FC = () => {
           </div>
         </div>
 
-        {/* ── Thumbnail row ── */}
         <div className={styles.thumbRow}>
           {testimonials.map((t, idx) => (
             <VideoCard
@@ -409,7 +389,6 @@ const HomeTestimonialsSection: React.FC = () => {
           ))}
         </div>
 
-        {/* ── Dot nav ── */}
         <div className={styles.dots} role="tablist">
           {testimonials.map((_, idx) => (
             <button
@@ -423,7 +402,6 @@ const HomeTestimonialsSection: React.FC = () => {
           ))}
         </div>
 
-        {/* ── Trust strip ── */}
         <div className={styles.trustStrip}>
           <div className={styles.trustItem}>
             <span className={styles.trustIcon}>🌍</span>
