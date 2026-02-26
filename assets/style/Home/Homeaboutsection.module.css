@@ -414,6 +414,12 @@
   .accreditations {
     gap: 0.4rem;
   }
+
+  .section {
+    background-position: center;
+    background-size: cover;
+    background:#fceacc;
+  }
 }
 
 /* Small mobile */
