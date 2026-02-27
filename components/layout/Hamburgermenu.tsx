@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import React, { useState, useCallback } from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
-import styles from '../../assets/style/Navbar.module.css';
-import logo from '../../assets/icons/aym-yoga-school-logo.png';
-import type { NavLink } from './Navbar';
+import React, { useState, useCallback } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import styles from "../../assets/style/Navbar.module.css";
+import logo from "../../assets/icons/aym-yoga-school-logo.png";
+import type { NavLink } from "./Navbar";
 
 interface HamburgerMenuProps {
   navLinks: NavLink[];
@@ -17,13 +17,13 @@ const HamburgerMenu = ({ navLinks }: HamburgerMenuProps) => {
 
   const openMenu = useCallback(() => {
     setIsOpen(true);
-    document.body.style.overflow = 'hidden';
+    document.body.style.overflow = "hidden";
   }, []);
 
   const closeMenu = useCallback(() => {
     setIsOpen(false);
     setOpenAccordion(null);
-    document.body.style.overflow = '';
+    document.body.style.overflow = "";
   }, []);
 
   const toggleAccordion = useCallback((href: string) => {
@@ -34,9 +34,9 @@ const HamburgerMenu = ({ navLinks }: HamburgerMenuProps) => {
     <>
       {/* Hamburger Toggle Button */}
       <button
-        className={`${styles.hamburgerBtn} ${isOpen ? styles.open : ''}`}
+        className={`${styles.hamburgerBtn} ${isOpen ? styles.open : ""}`}
         onClick={isOpen ? closeMenu : openMenu}
-        aria-label={isOpen ? 'Close navigation menu' : 'Open navigation menu'}
+        aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
         aria-expanded={isOpen}
         aria-controls="mobile-drawer"
       >
@@ -47,7 +47,7 @@ const HamburgerMenu = ({ navLinks }: HamburgerMenuProps) => {
 
       {/* Backdrop overlay */}
       <div
-        className={`${styles.mobileOverlay} ${isOpen ? styles.open : ''}`}
+        className={`${styles.mobileOverlay} ${isOpen ? styles.open : ""}`}
         onClick={closeMenu}
         aria-hidden="true"
       />
@@ -55,7 +55,7 @@ const HamburgerMenu = ({ navLinks }: HamburgerMenuProps) => {
       {/* Slide-in Drawer */}
       <div
         id="mobile-drawer"
-        className={`${styles.mobileDrawer} ${isOpen ? styles.open : ''}`}
+        className={`${styles.mobileDrawer} ${isOpen ? styles.open : ""}`}
         role="dialog"
         aria-modal="true"
         aria-label="Navigation menu"
@@ -86,8 +86,9 @@ const HamburgerMenu = ({ navLinks }: HamburgerMenuProps) => {
                 const isAccordionOpen = openAccordion === link.href;
                 return (
                   <li key={link.href}>
-                    {/* Category header band */}
-                    <div className={styles.mobileCategoryHeader}>{link.label}</div>
+                    <div className={styles.mobileCategoryHeader}>
+                      {link.label}
+                    </div>
 
                     {/* Accordion toggle */}
                     <button
@@ -99,15 +100,13 @@ const HamburgerMenu = ({ navLinks }: HamburgerMenuProps) => {
                         View all {link.label}
                       </span>
                       <span
-                        className={`${styles.mobileAccordionArrow} ${isAccordionOpen ? styles.open : ''}`}
+                        className={`${styles.mobileAccordionArrow} ${isAccordionOpen ? styles.open : ""}`}
                       >
                         ▾
                       </span>
                     </button>
-
-                    {/* Sub-link accordion */}
                     <ul
-                      className={`${styles.mobileSubList} ${isAccordionOpen ? styles.open : ''}`}
+                      className={`${styles.mobileSubList} ${isAccordionOpen ? styles.open : ""}`}
                     >
                       {link.children.map((child) => (
                         <li key={child.href} className={styles.mobileSubItem}>
@@ -126,7 +125,6 @@ const HamburgerMenu = ({ navLinks }: HamburgerMenuProps) => {
                 );
               }
 
-              // Plain link (no children)
               return (
                 <li key={link.href}>
                   <Link

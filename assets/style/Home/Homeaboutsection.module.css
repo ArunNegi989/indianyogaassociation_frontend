@@ -9,7 +9,7 @@
 /* ── Section shell ── */
 .section {
   position: relative;
- background-image: url("../../images/bannerbackground1.png");
+  background-image: url("../../images/bannerbackground1.png");
   overflow: hidden;
 }
 
@@ -46,12 +46,11 @@
 .bottomBorder {
   height: 5px;
   background: linear-gradient(90deg,
-    transparent 0%,
-    #e07b00 20%,
-    #f5b800 50%,
-    #e07b00 80%,
-    transparent 100%
-  );
+      transparent 0%,
+      #e07b00 20%,
+      #f5b800 50%,
+      #e07b00 80%,
+      transparent 100%);
 }
 
 /* ── Container ── */
@@ -111,7 +110,7 @@
   font-size: 1.6rem;
   color: #e07b00;
   line-height: 1;
-  filter: drop-shadow(0 1px 3px rgba(224,123,0,0.3));
+  filter: drop-shadow(0 1px 3px rgba(224, 123, 0, 0.3));
 }
 
 /* ================================================================
@@ -228,7 +227,7 @@
   border: 1px solid rgba(224, 123, 0, 0.25);
   border-radius: 8px;
   position: relative;
-  box-shadow: 0 3px 16px rgba(224,123,0,0.08);
+  box-shadow: 0 3px 16px rgba(224, 123, 0, 0.08);
 }
 
 /* Vintage corner flourish */
@@ -242,12 +241,16 @@
   border-style: solid;
   opacity: 0.5;
 }
+
 .quote::before {
-  top: 6px; left: 6px;
+  top: 6px;
+  left: 6px;
   border-width: 2px 0 0 2px;
 }
+
 .quote::after {
-  bottom: 6px; right: 6px;
+  bottom: 6px;
+  right: 6px;
   border-width: 0 2px 2px 0;
 }
 
@@ -418,7 +421,7 @@
   .section {
     background-position: center;
     background-size: cover;
-    background:#fceacc;
+    background: #fceacc;
   }
 }
 

@@ -17,7 +17,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Yoga Teacher Training in Rishikesh - Best Yoga School in Rishikesh",
-  description: "Yoga Teacher Training in Rishikesh - Best Yoga School in Rishikesh",
+  description:
+    "Yoga Teacher Training in Rishikesh - Best Yoga School in Rishikesh",
 };
 
 export default function RootLayout({
@@ -32,9 +33,8 @@ export default function RootLayout({
       >
         <Navbar />
         {children}
-          <WhatsappButton />
+        <WhatsappButton />
         <Footer />
-        
       </body>
     </html>
   );

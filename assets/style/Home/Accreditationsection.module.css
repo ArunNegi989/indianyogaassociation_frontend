@@ -1,30 +1,20 @@
-/* ================================================================
-   AccreditationSection.module.css
-   Vintage Sacred Yoga — Parchment · Saffron · Himalayan
-   ================================================================ */
-
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Dancing+Script:wght@500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
-/* ── Variables ── */
 :root {
-  --saffron:        #e07b00;
-  --saffron-deep:   #c46a00;
-  --saffron-light:  #f5b800;
-  --parchment:      #fdf6ec;
-  --parchment-mid:  #f5ead6;
-  --cream-white:    #ffffff;
-  --earth:          #3d1d00;
-  --earth-mid:      #5c2d00;
-  --earth-light:    #7a5c2e;
-  --earth-warm:     #3d2b10;
-  --gold-border:    #e8d5b5;
-  --shadow-warm:    rgba(92, 45, 0, 0.12);
+  --saffron: #e07b00;
+  --saffron-deep: #c46a00;
+  --saffron-light: #f5b800;
+  --parchment: #fdf6ec;
+  --parchment-mid: #f5ead6;
+  --cream-white: #ffffff;
+  --earth: #3d1d00;
+  --earth-mid: #5c2d00;
+  --earth-light: #7a5c2e;
+  --earth-warm: #3d2b10;
+  --gold-border: #e8d5b5;
+  --shadow-warm: rgba(92, 45, 0, 0.12);
   --shadow-saffron: rgba(224, 123, 0, 0.25);
 }
-
-/* ════════════════════════════════════════════════
-   SHARED UTILITIES
-════════════════════════════════════════════════ */
 
 .container {
   position: relative;
@@ -38,12 +28,11 @@
 .bottomBorder {
   height: 5px;
   background: linear-gradient(90deg,
-    transparent 0%,
-    var(--saffron) 20%,
-    var(--saffron-light) 50%,
-    var(--saffron) 80%,
-    transparent 100%
-  );
+      transparent 0%,
+      var(--saffron) 20%,
+      var(--saffron-light) 50%,
+      var(--saffron) 80%,
+      transparent 100%);
 }
 
 .sectionHeaderCenter {
@@ -83,7 +72,6 @@
   font-weight: 700;
 }
 
-
 .authenticSection {
   position: relative;
   background-image: url('../../images/bannerbackground2.png');
@@ -97,7 +85,7 @@
   left: 50%;
   transform: translate(-50%, -50%);
   font-size: clamp(14rem, 28vw, 26rem);
-  color: rgba(224,123,0,0.035);
+  color: rgba(224, 123, 0, 0.035);
   font-family: 'Cinzel', serif;
   pointer-events: none;
   z-index: 0;
@@ -105,7 +93,6 @@
   user-select: none;
 }
 
-/* ── Auth 2-col grid ── */
 .authGrid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -114,9 +101,6 @@
   margin-bottom: 3rem;
 }
 
-.authText {}
-
-/* ── Auth image column ── */
 .authImageCol {
   display: flex;
   flex-direction: column;
@@ -126,7 +110,7 @@
 .authImageFrame {
   position: relative;
   background: linear-gradient(135deg, #fff8f0 0%, #ffecd8 100%);
-  border: 1px solid rgba(224,123,0,0.2);
+  border: 1px solid rgba(224, 123, 0, 0.2);
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 8px 36px var(--shadow-warm);
@@ -136,8 +120,10 @@
   justify-content: center;
 }
 
-/* Vintage corner flourishes */
-.frameCornerTL, .frameCornerTR, .frameCornerBL, .frameCornerBR {
+.frameCornerTL,
+.frameCornerTR,
+.frameCornerBL,
+.frameCornerBR {
   position: absolute;
   width: 22px;
   height: 22px;
@@ -145,10 +131,30 @@
   border-style: solid;
   opacity: 0.5;
 }
-.frameCornerTL { top: 8px; left: 8px;   border-width: 2px 0 0 2px; }
-.frameCornerTR { top: 8px; right: 8px;  border-width: 2px 2px 0 0; }
-.frameCornerBL { bottom: 8px; left: 8px;  border-width: 0 0 2px 2px; }
-.frameCornerBR { bottom: 8px; right: 8px; border-width: 0 2px 2px 0; }
+
+.frameCornerTL {
+  top: 8px;
+  left: 8px;
+  border-width: 2px 0 0 2px;
+}
+
+.frameCornerTR {
+  top: 8px;
+  right: 8px;
+  border-width: 2px 2px 0 0;
+}
+
+.frameCornerBL {
+  bottom: 8px;
+  left: 8px;
+  border-width: 0 0 2px 2px;
+}
+
+.frameCornerBR {
+  bottom: 8px;
+  right: 8px;
+  border-width: 0 2px 2px 0;
+}
 
 .authImageInner {
   display: flex;
@@ -167,16 +173,31 @@
 .bookItem {
   display: inline-block;
   animation: floatBook 3s ease-in-out infinite;
-  filter: drop-shadow(0 3px 6px rgba(224,123,0,0.2));
+  filter: drop-shadow(0 3px 6px rgba(224, 123, 0, 0.2));
 }
 
-.bookItem:nth-child(2) { animation-delay: 0.6s; }
-.bookItem:nth-child(3) { animation-delay: 1.2s; }
-.bookItem:nth-child(4) { animation-delay: 1.8s; }
+.bookItem:nth-child(2) {
+  animation-delay: 0.6s;
+}
+
+.bookItem:nth-child(3) {
+  animation-delay: 1.2s;
+}
+
+.bookItem:nth-child(4) {
+  animation-delay: 1.8s;
+}
 
 @keyframes floatBook {
-  0%, 100% { transform: translateY(0); }
-  50%       { transform: translateY(-6px); }
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-6px);
+  }
 }
 
 .imageCaption {
@@ -188,7 +209,6 @@
   text-align: center;
 }
 
-/* Pull quote */
 .pullQuote {
   font-family: 'Dancing Script', cursive;
   font-size: clamp(1.3rem, 2.5vw, 1.75rem);
@@ -197,22 +217,34 @@
   text-align: center;
   padding: 1.2rem 1.5rem;
   background: linear-gradient(135deg, #fff8f0 0%, #ffecd8 100%);
-  border: 1px solid rgba(224,123,0,0.22);
+  border: 1px solid rgba(224, 123, 0, 0.22);
   border-radius: 8px;
   box-shadow: 0 4px 16px var(--shadow-saffron);
   position: relative;
 }
 
-.pullQuote::before, .pullQuote::after {
+.pullQuote::before,
+.pullQuote::after {
   content: '';
   position: absolute;
-  width: 14px; height: 14px;
+  width: 14px;
+  height: 14px;
   border-color: var(--saffron);
   border-style: solid;
   opacity: 0.45;
 }
-.pullQuote::before { top: 6px; left: 6px;   border-width: 2px 0 0 2px; }
-.pullQuote::after  { bottom: 6px; right: 6px; border-width: 0 2px 2px 0; }
+
+.pullQuote::before {
+  top: 6px;
+  left: 6px;
+  border-width: 2px 0 0 2px;
+}
+
+.pullQuote::after {
+  bottom: 6px;
+  right: 6px;
+  border-width: 0 2px 2px 0;
+}
 
 .pullQMark {
   color: var(--saffron);
@@ -222,7 +254,6 @@
   margin: 0 2px;
 }
 
-/* ── Video + Immerse grid ── */
 .videoImmerse {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -230,16 +261,13 @@
   align-items: center;
 }
 
-/* Video block */
-.videoBlock {}
-
 .videoPlaceholder {
   position: relative;
   background: linear-gradient(135deg, #2c1a00 0%, #4a2800 50%, #3d1d00 100%);
   border-radius: 10px;
   overflow: hidden;
   aspect-ratio: 16 / 9;
-  box-shadow: 0 8px 36px rgba(92,45,0,0.35);
+  box-shadow: 0 8px 36px rgba(92, 45, 0, 0.35);
 }
 
 .videoPlaceholder::before {
@@ -247,8 +275,8 @@
   position: absolute;
   inset: 0;
   background-image:
-    radial-gradient(ellipse at 30% 50%, rgba(224,123,0,0.15) 0%, transparent 60%),
-    radial-gradient(ellipse at 80% 20%, rgba(245,184,0,0.08) 0%, transparent 50%);
+    radial-gradient(ellipse at 30% 50%, rgba(224, 123, 0, 0.15) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 20%, rgba(245, 184, 0, 0.08) 0%, transparent 50%);
 }
 
 .videoOverlay {
@@ -265,27 +293,27 @@
 .playBtn {
   width: 60px;
   height: 60px;
-  background: rgba(224,123,0,0.9);
+  background: rgba(224, 123, 0, 0.9);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 1.4rem;
   color: #fff;
-  box-shadow: 0 4px 20px rgba(224,123,0,0.5);
+  box-shadow: 0 4px 20px rgba(224, 123, 0, 0.5);
   cursor: pointer;
   transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .playBtn:hover {
   transform: scale(1.1);
-  box-shadow: 0 6px 28px rgba(224,123,0,0.7);
+  box-shadow: 0 6px 28px rgba(224, 123, 0, 0.7);
 }
 
 .videoCaption {
   font-family: 'Dancing Script', cursive;
   font-size: clamp(0.9rem, 1.8vw, 1.2rem);
-  color: rgba(253,246,236,0.9);
+  color: rgba(253, 246, 236, 0.9);
   font-weight: 600;
 }
 
@@ -294,11 +322,9 @@
   font-size: 0.6rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: rgba(253,246,236,0.5);
+  color: rgba(253, 246, 236, 0.5);
 }
 
-/* Immerse block */
-.immerseBlock {}
 
 .immerseTitle {
   font-family: 'Dancing Script', cursive;
@@ -338,7 +364,7 @@
 
 .knowMoreBtn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 28px rgba(224,123,0,0.45);
+  box-shadow: 0 8px 28px rgba(224, 123, 0, 0.45);
 }
 
 .btnArrow {
@@ -349,10 +375,6 @@
   transform: translateX(4px);
 }
 
-
-/* ════════════════════════════════════════════════
-   SECTION B — RECOGNITION & ENDORSEMENTS
-════════════════════════════════════════════════ */
 
 .recognitionSection {
   position: relative;
@@ -366,8 +388,8 @@
   position: absolute;
   inset: 0;
   background-image:
-    radial-gradient(ellipse at 15% 20%, rgba(224,123,0,0.04) 0%, transparent 55%),
-    radial-gradient(ellipse at 85% 80%, rgba(92,45,0,0.04) 0%, transparent 55%);
+    radial-gradient(ellipse at 15% 20%, rgba(224, 123, 0, 0.04) 0%, transparent 55%),
+    radial-gradient(ellipse at 85% 80%, rgba(92, 45, 0, 0.04) 0%, transparent 55%);
   pointer-events: none;
 }
 
@@ -376,7 +398,6 @@
   margin: 0 auto 2.5rem;
 }
 
-/* ── Certificates grid ── */
 .certsGrid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -398,8 +419,8 @@
 .certCard:hover,
 .certCard:focus-visible {
   transform: translateY(-5px) scale(1.02);
-  box-shadow: 0 12px 36px rgba(224,123,0,0.28);
-  border-color: rgba(224,123,0,0.5);
+  box-shadow: 0 12px 36px rgba(224, 123, 0, 0.28);
+  border-color: rgba(224, 123, 0, 0.5);
 }
 
 .certImageWrap {
@@ -412,7 +433,6 @@
   overflow: hidden;
 }
 
-/* Actual <img> when src is provided */
 .certImageWrap img {
   width: 100%;
   height: 100%;
@@ -433,7 +453,7 @@
 .certIcon {
   font-size: clamp(2.5rem, 5vw, 3.5rem);
   display: block;
-  filter: drop-shadow(0 3px 8px rgba(224,123,0,0.3));
+  filter: drop-shadow(0 3px 8px rgba(224, 123, 0, 0.3));
 }
 
 .certName {
@@ -450,7 +470,7 @@
 .certOverlay {
   position: absolute;
   inset: 0;
-  background: rgba(61,29,0,0.72);
+  background: rgba(61, 29, 0, 0.72);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -476,7 +496,7 @@
   font-size: 0.68rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: rgba(245,184,0,0.95);
+  color: rgba(245, 184, 0, 0.95);
 }
 
 /* Card footer */
@@ -517,7 +537,7 @@
   background: linear-gradient(135deg, #fff7eb 0%, #ffefd4 100%);
   border: 1px solid var(--gold-border);
   border-radius: 10px;
-  box-shadow: inset 0 2px 8px rgba(224,123,0,0.06);
+  box-shadow: inset 0 2px 8px rgba(224, 123, 0, 0.06);
 }
 
 .badge {
@@ -564,29 +584,41 @@
 }
 
 @keyframes fadeInBackdrop {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 .modalBox {
   position: relative;
   background: linear-gradient(145deg, #fffdf8 0%, #fdf6ec 100%);
-  border: 1px solid rgba(224,123,0,0.3);
+  border: 1px solid rgba(224, 123, 0, 0.3);
   border-radius: 12px;
   max-width: 720px;
   width: 100%;
   max-height: 90vh;
   overflow-y: auto;
   box-shadow:
-    0 30px 80px rgba(0,0,0,0.5),
-    0 0 0 1px rgba(224,123,0,0.15),
-    inset 0 1px 0 rgba(255,255,255,0.8);
+    0 30px 80px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(224, 123, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
   animation: slideUpModal 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 @keyframes slideUpModal {
-  from { opacity: 0; transform: translateY(30px) scale(0.96); }
-  to   { opacity: 1; transform: translateY(0) scale(1); }
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 /* Decorative top bar */
@@ -607,7 +639,7 @@
   transform: translate(-50%, -50%);
   font-family: 'Cinzel', serif;
   font-size: 12rem;
-  color: rgba(224,123,0,0.04);
+  color: rgba(224, 123, 0, 0.04);
   pointer-events: none;
   user-select: none;
   line-height: 1;
@@ -637,7 +669,7 @@
 
 .modalClose:hover {
   transform: scale(1.1) rotate(90deg);
-  box-shadow: 0 5px 18px rgba(224,123,0,0.5);
+  box-shadow: 0 5px 18px rgba(224, 123, 0, 0.5);
 }
 
 .modalImageWrap {
@@ -648,7 +680,7 @@
 
 .modalCertPlaceholder {
   background: linear-gradient(135deg, #fff8f2 0%, #ffecd8 100%);
-  border: 2px dashed rgba(224,123,0,0.3);
+  border: 2px dashed rgba(224, 123, 0, 0.3);
   border-radius: 8px;
   min-height: 340px;
   display: flex;
@@ -663,7 +695,7 @@
 .modalCertIcon {
   font-size: 5rem;
   display: block;
-  filter: drop-shadow(0 4px 12px rgba(224,123,0,0.3));
+  filter: drop-shadow(0 4px 12px rgba(224, 123, 0, 0.3));
 }
 
 .modalCertNote {
@@ -676,7 +708,7 @@
 
 .modalCertNote code {
   font-family: monospace;
-  background: rgba(224,123,0,0.1);
+  background: rgba(224, 123, 0, 0.1);
   padding: 0.1rem 0.3rem;
   border-radius: 3px;
   color: var(--saffron-deep);
@@ -738,7 +770,7 @@
   text-transform: uppercase;
   color: var(--saffron-deep);
   background: transparent;
-  border: 1px solid rgba(224,123,0,0.3);
+  border: 1px solid rgba(224, 123, 0, 0.3);
   padding: 0.5rem 1.1rem;
   border-radius: 4px;
   cursor: pointer;
@@ -759,9 +791,6 @@
 }
 
 
-/* ════════════════════════════════════════════════
-   RESPONSIVE — Tablet landscape (≤1024px)
-════════════════════════════════════════════════ */
 @media (max-width: 1024px) {
   .certsGrid {
     grid-template-columns: repeat(3, 1fr);
@@ -769,9 +798,6 @@
   }
 }
 
-/* ════════════════════════════════════════════════
-   RESPONSIVE — Tablet portrait (≤860px)
-════════════════════════════════════════════════ */
 @media (max-width: 860px) {
   .authGrid {
     grid-template-columns: 1fr;
@@ -826,9 +852,6 @@
   }
 }
 
-/* ════════════════════════════════════════════════
-   RESPONSIVE — Mobile (≤600px)
-════════════════════════════════════════════════ */
 @media (max-width: 600px) {
   .sectionTitle {
     font-size: 1.1rem;

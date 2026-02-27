@@ -22,8 +22,8 @@
   position: absolute;
   inset: 0;
   background-image:
-    radial-gradient(ellipse at 15% 25%, rgba(224,123,0,0.04) 0%, transparent 55%),
-    radial-gradient(ellipse at 85% 75%, rgba(92,45,0,0.04) 0%, transparent 55%);
+    radial-gradient(ellipse at 15% 25%, rgba(224, 123, 0, 0.04) 0%, transparent 55%),
+    radial-gradient(ellipse at 85% 75%, rgba(92, 45, 0, 0.04) 0%, transparent 55%);
   pointer-events: none;
 }
 
@@ -79,8 +79,8 @@
   border-radius: 12px;
   overflow: hidden;
   box-shadow:
-    0 2px 8px rgba(92,45,0,0.07),
-    0 1px 3px rgba(0,0,0,0.04);
+    0 2px 8px rgba(92, 45, 0, 0.07),
+    0 1px 3px rgba(0, 0, 0, 0.04);
   display: flex;
   flex-direction: column;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -89,7 +89,7 @@
   opacity: 0;
   transform: translateY(30px);
   transition:
-    opacity  0.5s ease calc(var(--i, 0) * 0.1s),
+    opacity 0.5s ease calc(var(--i, 0) * 0.1s),
     transform 0.5s ease calc(var(--i, 0) * 0.1s),
     box-shadow 0.3s ease;
 }
@@ -97,8 +97,8 @@
 .card:hover {
   transform: translateY(-6px) !important;
   box-shadow:
-    0 12px 32px rgba(92,45,0,0.13),
-    0 3px 8px rgba(0,0,0,0.06);
+    0 12px 32px rgba(92, 45, 0, 0.13),
+    0 3px 8px rgba(0, 0, 0, 0.06);
 }
 
 .cardVisible {
@@ -131,12 +131,10 @@
 .imgOverlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    to bottom,
-    rgba(0,0,0,0.05) 0%,
-    rgba(0,0,0,0.15) 45%,
-    rgba(0,0,0,0.72) 100%
-  );
+  background: linear-gradient(to bottom,
+      rgba(0, 0, 0, 0.05) 0%,
+      rgba(0, 0, 0, 0.15) 45%,
+      rgba(0, 0, 0, 0.72) 100%);
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -149,7 +147,7 @@
   font-family: 'Dancing Script', cursive;
   font-size: clamp(0.78rem, 1.3vw, 0.92rem);
   font-weight: 600;
-  color: rgba(255,255,255,0.92);
+  color: rgba(255, 255, 255, 0.92);
   line-height: 1.2;
   letter-spacing: 0.02em;
 }
@@ -162,7 +160,7 @@
   color: #fff;
   line-height: 1.1;
   letter-spacing: 0.04em;
-  text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
 }
 
 /* ================================================================
@@ -266,26 +264,26 @@
 .btnDetails {
   background: #2d5a27;
   color: #fff;
-  box-shadow: 0 3px 12px rgba(45,90,39,0.3);
+  box-shadow: 0 3px 12px rgba(45, 90, 39, 0.3);
 }
 
 .btnDetails:hover {
   background: #234820;
   transform: translateY(-2px);
-  box-shadow: 0 6px 18px rgba(45,90,39,0.38);
+  box-shadow: 0 6px 18px rgba(45, 90, 39, 0.38);
 }
 
 /* Orange — Book Now */
 .btnBook {
   background: linear-gradient(135deg, #e07b00 0%, #c46a00 100%);
   color: #fff;
-  box-shadow: 0 3px 12px rgba(224,123,0,0.35);
+  box-shadow: 0 3px 12px rgba(224, 123, 0, 0.35);
 }
 
 .btnBook:hover {
   background: linear-gradient(135deg, #c46a00 0%, #a85800 100%);
   transform: translateY(-2px);
-  box-shadow: 0 6px 18px rgba(224,123,0,0.45);
+  box-shadow: 0 6px 18px rgba(224, 123, 0, 0.45);
 }
 
 /* ================================================================

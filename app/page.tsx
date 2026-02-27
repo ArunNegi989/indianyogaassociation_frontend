@@ -14,19 +14,19 @@ import Image from "next/image";
 
 export default function Home() {
   return (
-   <>
-   <HomepageSlider/>
-   <HomeaboutSection/>
-   <CoursesSection/>
-   <AccreditationSection/>
-   <YogaCoursesTeachers/>
-   <ClassCampusAmenities/>
-   <OtherCourses/>
-   <WhyAYMSection/>
-   <OurMission/>
-   <AYMFullPage/>
-   <HomeTestimonialsSection/>
-   <HowToReach/>
-   </>
+    <>
+      <HomepageSlider />
+      <HomeaboutSection />
+      <CoursesSection />
+      <AccreditationSection />
+      <YogaCoursesTeachers />
+      <ClassCampusAmenities />
+      <OtherCourses />
+      <WhyAYMSection />
+      <OurMission />
+      <AYMFullPage />
+      <HomeTestimonialsSection />
+      <HowToReach />
+    </>
   );
 }

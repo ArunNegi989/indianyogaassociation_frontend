@@ -97,9 +97,7 @@ const socialLinks = [
 export const Footer = () => {
   return (
     <footer className={styles.footer}>
-      {/* ── Top: 3-column section ── */}
       <div className={styles.topSection}>
-        {/* Col 1 — Contact */}
         <div className={styles.col}>
           <h4 className={styles.colTitle}>Contact AYM Yoga School</h4>
           <ul className={styles.contactList}>
@@ -205,7 +203,7 @@ export const Footer = () => {
         </div>
       </div>
 
-      {/* ── Bottom bar ── */}
+      {/* ── All rights reserved bar ── */}
       <div className={styles.bottomBar}>
         <nav className={styles.bottomLinks} aria-label="Bottom footer links">
           {courseLinks.map((link, i) => (

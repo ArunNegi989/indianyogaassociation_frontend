@@ -1,22 +1,11 @@
-/* ================================================================
-   CoursesSection.module.css — AYM Yoga School
-   Vintage-meets-modern yoga aesthetic
-   Warm parchment tones + saffron accents + ornamental details
-   Matches the HomeAboutSection design language exactly
-   ================================================================ */
-
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Dancing+Script:wght@600;700&display=swap');
 
-/* ================================================================
-   SECTION SHELL
-   ================================================================ */
 .section {
   position: relative;
   background: #ffffff;
   overflow: hidden;
 }
 
-/* Aged-paper radial texture */
 .section::before {
   content: '';
   position: absolute;
@@ -28,7 +17,6 @@
   z-index: 0;
 }
 
-/* Background watermark OM */
 .section::after {
   content: 'ॐ';
   position: absolute;
@@ -44,23 +32,17 @@
   user-select: none;
 }
 
-/* ── Decorative border strips ── */
 .topBorder,
 .bottomBorder {
   height: 5px;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    #e07b00 20%,
-    #f5b800 50%,
-    #e07b00 80%,
-    transparent 100%
-  );
+  background: linear-gradient(90deg,
+      transparent 0%,
+      #e07b00 20%,
+      #f5b800 50%,
+      #e07b00 80%,
+      transparent 100%);
 }
 
-/* ================================================================
-   CONTAINER
-   ================================================================ */
 .container {
   position: relative;
   z-index: 1;
@@ -69,9 +51,6 @@
   padding: clamp(2.5rem, 5vw, 4.5rem) clamp(1.2rem, 5vw, 3rem);
 }
 
-/* ================================================================
-   HEADER
-   ================================================================ */
 .header {
   text-align: center;
   margin-bottom: clamp(2rem, 4vw, 3.2rem);
@@ -120,18 +99,12 @@
   filter: drop-shadow(0 1px 3px rgba(224, 123, 0, 0.3));
 }
 
-/* ================================================================
-   COURSE LIST
-   ================================================================ */
 .courseList {
   display: flex;
   flex-direction: column;
   gap: clamp(1.2rem, 2.5vw, 1.8rem);
 }
 
-/* ================================================================
-   COURSE CARD  — 3-column layout: image | content | cta
-   ================================================================ */
 .courseCard {
   display: grid;
   grid-template-columns: 200px 1fr auto;
@@ -151,7 +124,7 @@
   position: absolute;
   inset: 0;
   border-radius: 10px;
-  background: linear-gradient(135deg, rgba(255,249,240,0.6), transparent);
+  background: linear-gradient(135deg, rgba(255, 249, 240, 0.6), transparent);
   pointer-events: none;
   z-index: 0;
 }
@@ -161,12 +134,10 @@
   transform: translateY(-2px);
 }
 
-/* Alternate card: very subtle warm tint */
 .cardAlt {
   background: #fffaf4;
 }
 
-/* ── Image column ── */
 .imageWrapper {
   grid-area: image;
   position: relative;
@@ -190,15 +161,12 @@
 .imageOverlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    135deg,
-    rgba(224, 123, 0, 0.08) 0%,
-    rgba(0, 0, 0, 0.04) 100%
-  );
+  background: linear-gradient(135deg,
+      rgba(224, 123, 0, 0.08) 0%,
+      rgba(0, 0, 0, 0.04) 100%);
   pointer-events: none;
 }
 
-/* ── Content column ── */
 .content {
   grid-area: content;
   padding: clamp(1rem, 2vw, 1.5rem) clamp(1rem, 2.5vw, 1.75rem);
@@ -209,7 +177,6 @@
   z-index: 1;
 }
 
-/* Title block */
 .titleBlock {
   margin-bottom: 0.75rem;
 }
@@ -267,7 +234,6 @@
   margin: 0 0 0.9rem;
 }
 
-/* Inline link (within description) */
 .inlineLink {
   color: #e07b00;
   font-weight: 600;
@@ -281,7 +247,6 @@
   color: #b85e00;
 }
 
-/* Bullet link list */
 .linkList {
   list-style: none;
   margin: 0;
@@ -323,7 +288,6 @@
   text-decoration-color: rgba(138, 62, 0, 0.5);
 }
 
-/* ── CTA column ── */
 .ctaColumn {
   grid-area: cta;
   display: flex;
@@ -387,9 +351,6 @@
   border-color: #e07b00;
 }
 
-/* ================================================================
-   RESPONSIVE BREAKPOINTS
-   ================================================================ */
 
 /* ── 1200px: Wide desktop ── */
 @media (max-width: 1200px) {

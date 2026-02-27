@@ -21,8 +21,8 @@
   position: absolute;
   inset: 0;
   background-image:
-    radial-gradient(ellipse at 10% 20%, rgba(224,123,0,0.05) 0%, transparent 55%),
-    radial-gradient(ellipse at 90% 80%, rgba(92,45,0,0.06) 0%, transparent 55%);
+    radial-gradient(ellipse at 10% 20%, rgba(224, 123, 0, 0.05) 0%, transparent 55%),
+    radial-gradient(ellipse at 90% 80%, rgba(92, 45, 0, 0.06) 0%, transparent 55%);
   pointer-events: none;
   z-index: 0;
 }
@@ -45,7 +45,7 @@
 .bottomBorder {
   height: 5px;
   background: linear-gradient(90deg,
-    transparent 0%, #e07b00 20%, #f5b800 50%, #e07b00 80%, transparent 100%);
+      transparent 0%, #e07b00 20%, #f5b800 50%, #e07b00 80%, transparent 100%);
 }
 
 /* ─── Container ────────────────────────────────────────────────── */
@@ -110,7 +110,7 @@
   font-size: 1.5rem;
   color: #e07b00;
   line-height: 1;
-  filter: drop-shadow(0 1px 3px rgba(224,123,0,0.3));
+  filter: drop-shadow(0 1px 3px rgba(224, 123, 0, 0.3));
 }
 
 .subTitle {
@@ -154,9 +154,10 @@
 .travelCard {
   background: linear-gradient(135deg, #fff9f0 0%, #fdf0dc 100%);
   border-radius: 14px;
-  padding: 26px 22px;           /* slightly more padding = bigger feel */
+  padding: 26px 22px;
+  /* slightly more padding = bigger feel */
   border: 1px solid rgba(224, 123, 0, 0.2);
-  box-shadow: 0 6px 28px rgba(92,45,0,0.09), 0 2px 6px rgba(0,0,0,0.04);
+  box-shadow: 0 6px 28px rgba(92, 45, 0, 0.09), 0 2px 6px rgba(0, 0, 0, 0.04);
   transition: box-shadow 0.3s ease, transform 0.3s ease;
   display: flex;
   flex-direction: column;
@@ -174,11 +175,21 @@
   border-color: rgba(224, 123, 0, 0.3);
   border-style: solid;
 }
-.travelCard::before { top: 9px;    left: 9px;    border-width: 2px 0 0 2px; }
-.travelCard::after  { bottom: 9px; right: 9px;   border-width: 0 2px 2px 0; }
+
+.travelCard::before {
+  top: 9px;
+  left: 9px;
+  border-width: 2px 0 0 2px;
+}
+
+.travelCard::after {
+  bottom: 9px;
+  right: 9px;
+  border-width: 0 2px 2px 0;
+}
 
 .travelCard:hover {
-  box-shadow: 0 16px 44px rgba(92,45,0,0.16), 0 4px 10px rgba(0,0,0,0.07);
+  box-shadow: 0 16px 44px rgba(92, 45, 0, 0.16), 0 4px 10px rgba(0, 0, 0, 0.07);
   transform: translateY(-6px);
 }
 
@@ -190,7 +201,8 @@
 }
 
 .iconCircle {
-  width: 52px;          /* bigger icon circle */
+  width: 52px;
+  /* bigger icon circle */
   height: 52px;
   background: linear-gradient(135deg, #e07b00, #c46a00);
   border-radius: 50%;
@@ -199,12 +211,13 @@
   justify-content: center;
   color: #fff;
   flex-shrink: 0;
-  box-shadow: 0 4px 14px rgba(224,123,0,0.38);
+  box-shadow: 0 4px 14px rgba(224, 123, 0, 0.38);
 }
 
 .travelTitle {
   font-family: 'Cinzel', serif;
-  font-size: 1.08rem;   /* slightly bigger */
+  font-size: 1.08rem;
+  /* slightly bigger */
   font-weight: 700;
   color: #3d1d00;
   margin: 0 0 3px;
@@ -256,13 +269,21 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   padding: 9px 12px;
-  border-bottom: 1px solid rgba(224,123,0,0.1);
+  border-bottom: 1px solid rgba(224, 123, 0, 0.1);
   transition: background 0.18s;
 }
 
-.scheduleRow:last-child { border-bottom: none; }
-.scheduleRow:hover      { background: rgba(224,123,0,0.05); }
-.scheduleRowAlt         { background: rgba(255,248,235,0.7); }
+.scheduleRow:last-child {
+  border-bottom: none;
+}
+
+.scheduleRow:hover {
+  background: rgba(224, 123, 0, 0.05);
+}
+
+.scheduleRowAlt {
+  background: rgba(255, 248, 235, 0.7);
+}
 
 .scheduleCell {
   font-family: 'Cormorant Garamond', serif;
@@ -294,14 +315,14 @@
   letter-spacing: 0.7px;
   text-transform: uppercase;
   text-decoration: none;
-  box-shadow: 0 4px 14px rgba(224,123,0,0.32);
+  box-shadow: 0 4px 14px rgba(224, 123, 0, 0.32);
   transition: box-shadow 0.2s ease, transform 0.2s ease;
   white-space: nowrap;
 }
 
 .btnPrimary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 7px 20px rgba(224,123,0,0.44);
+  box-shadow: 0 7px 20px rgba(224, 123, 0, 0.44);
   color: #fff;
   text-decoration: none;
 }
@@ -316,7 +337,11 @@
   transition: opacity 0.2s;
   display: inline-block;
 }
-.linkSecondary:hover { opacity: 0.7; color: #b85e00; }
+
+.linkSecondary:hover {
+  opacity: 0.7;
+  color: #b85e00;
+}
 
 /* ════════════════════════════════════════════════════════════════
    PICKUP & DROP  — bottom of left panel, full width
@@ -327,7 +352,7 @@
   border-radius: 14px;
   padding: 28px 32px;
   border: 1.5px solid rgba(224, 123, 0, 0.2);
-  box-shadow: 0 10px 34px rgba(92,45,0,0.09);
+  box-shadow: 0 10px 34px rgba(92, 45, 0, 0.09);
   position: relative;
 }
 
@@ -337,11 +362,21 @@
   position: absolute;
   width: 20px;
   height: 20px;
-  border-color: rgba(224,123,0,0.35);
+  border-color: rgba(224, 123, 0, 0.35);
   border-style: solid;
 }
-.pickupSection::before { top: 10px;    left: 10px;    border-width: 2px 0 0 2px; }
-.pickupSection::after  { bottom: 10px; right: 10px;   border-width: 0 2px 2px 0; }
+
+.pickupSection::before {
+  top: 10px;
+  left: 10px;
+  border-width: 2px 0 0 2px;
+}
+
+.pickupSection::after {
+  bottom: 10px;
+  right: 10px;
+  border-width: 0 2px 2px 0;
+}
 
 .checkboxLabel {
   display: flex;
@@ -372,8 +407,15 @@
 }
 
 @keyframes slideDown {
-  from { opacity: 0; transform: translateY(-10px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .formDivider {
@@ -436,11 +478,11 @@
 .formTextarea {
   padding: 10px 13px;
   border-radius: 6px;
-  border: 1.5px solid rgba(224,123,0,0.22);
+  border: 1.5px solid rgba(224, 123, 0, 0.22);
   font-family: 'Cormorant Garamond', serif;
   font-size: 0.97rem;
   color: #3d2b10;
-  background: rgba(255,253,248,0.9);
+  background: rgba(255, 253, 248, 0.9);
   outline: none;
   transition: border-color 0.2s, box-shadow 0.2s;
   width: 100%;
@@ -451,7 +493,7 @@
 .formSelect:focus,
 .formTextarea:focus {
   border-color: #e07b00;
-  box-shadow: 0 0 0 3px rgba(224,123,0,0.1);
+  box-shadow: 0 0 0 3px rgba(224, 123, 0, 0.1);
 }
 
 .formInput::placeholder,
@@ -460,7 +502,10 @@
   font-style: italic;
 }
 
-.formSelect { cursor: pointer; appearance: auto; }
+.formSelect {
+  cursor: pointer;
+  appearance: auto;
+}
 
 .formTextarea {
   min-height: 85px;
@@ -489,13 +534,13 @@
   letter-spacing: 0.8px;
   text-transform: uppercase;
   cursor: pointer;
-  box-shadow: 0 4px 16px rgba(224,123,0,0.35);
+  box-shadow: 0 4px 16px rgba(224, 123, 0, 0.35);
   transition: box-shadow 0.22s ease, transform 0.22s ease;
 }
 
 .submitBtn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 7px 24px rgba(224,123,0,0.46);
+  box-shadow: 0 7px 24px rgba(224, 123, 0, 0.46);
 }
 
 /* ── WhatsApp Button ── */
@@ -516,14 +561,14 @@
   letter-spacing: 0.7px;
   text-transform: uppercase;
   text-decoration: none;
-  box-shadow: 0 4px 16px rgba(37,211,102,0.35);
+  box-shadow: 0 4px 16px rgba(37, 211, 102, 0.35);
   transition: box-shadow 0.22s ease, transform 0.22s ease;
   white-space: nowrap;
 }
 
 .whatsappBtn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 7px 24px rgba(37,211,102,0.46);
+  box-shadow: 0 7px 24px rgba(37, 211, 102, 0.46);
   color: #fff;
   text-decoration: none;
 }
@@ -548,7 +593,11 @@
   text-decoration: underline;
   transition: opacity 0.2s;
 }
-.whatsappInlineLink:hover { opacity: 0.75; color: #1a9e47; }
+
+.whatsappInlineLink:hover {
+  opacity: 0.75;
+  color: #1a9e47;
+}
 
 /* ════════════════════════════════════════════════════════════════
    RIGHT PANEL — sticky map only
@@ -563,8 +612,8 @@
 .mapCard {
   border-radius: 14px;
   overflow: hidden;
-  border: 1.5px solid rgba(224,123,0,0.2);
-  box-shadow: 0 16px 44px rgba(92,45,0,0.13);
+  border: 1.5px solid rgba(224, 123, 0, 0.2);
+  box-shadow: 0 16px 44px rgba(92, 45, 0, 0.13);
 }
 
 .mapLabel {
@@ -573,7 +622,7 @@
   gap: 8px;
   padding: 11px 16px;
   background: linear-gradient(135deg, #fff9f0, #ffecd8);
-  border-bottom: 1px solid rgba(224,123,0,0.15);
+  border-bottom: 1px solid rgba(224, 123, 0, 0.15);
   font-family: 'Cinzel', serif;
   font-size: 9px;
   font-weight: 600;
@@ -592,8 +641,15 @@
 }
 
 @keyframes pulse {
-  0%, 100% { box-shadow: 0 0 0 2px rgba(224,123,0,0.25); }
-  50%       { box-shadow: 0 0 0 8px rgba(224,123,0,0.07); }
+
+  0%,
+  100% {
+    box-shadow: 0 0 0 2px rgba(224, 123, 0, 0.25);
+  }
+
+  50% {
+    box-shadow: 0 0 0 8px rgba(224, 123, 0, 0.07);
+  }
 }
 
 .mapIframe {
@@ -606,7 +662,7 @@
 .mapFooter {
   padding: 12px 16px;
   background: linear-gradient(135deg, #fff9f0, #ffecd8);
-  border-top: 1px solid rgba(224,123,0,0.15);
+  border-top: 1px solid rgba(224, 123, 0, 0.15);
   text-align: center;
 }
 
@@ -620,7 +676,11 @@
   text-decoration: none;
   transition: opacity 0.2s;
 }
-.mapDirectionsBtn:hover { opacity: 0.7; color: #e07b00; }
+
+.mapDirectionsBtn:hover {
+  opacity: 0.7;
+  color: #e07b00;
+}
 
 /* ════════════════════════════════════════════════════════════════
    RESPONSIVE BREAKPOINTS  (1400 → 1200 → 1024 → 900 → 768 → 600 → 480 → 375)
@@ -628,8 +688,13 @@
 
 /* ── 1400px: slightly tighter gap ── */
 @media (max-width: 1400px) {
-  .container { max-width: 100%; }
-  .splitLayout { gap: 26px; }
+  .container {
+    max-width: 100%;
+  }
+
+  .splitLayout {
+    gap: 26px;
+  }
 }
 
 /* ── 1200px: narrower left, 2-col cards ── */
@@ -638,9 +703,11 @@
     grid-template-columns: 60fr 40fr;
     gap: 22px;
   }
+
   .cardsGrid {
     grid-template-columns: repeat(2, 1fr);
   }
+
   .formGrid {
     grid-template-columns: repeat(4, 1fr);
   }
@@ -652,10 +719,14 @@
     grid-template-columns: 58fr 42fr;
     gap: 20px;
   }
+
   .formGrid {
     grid-template-columns: repeat(3, 1fr);
   }
-  .mapIframe { height: 440px; }
+
+  .mapIframe {
+    height: 440px;
+  }
 }
 
 /* ── 900px: full-width single column stack ── */
@@ -664,22 +735,56 @@
     grid-template-columns: 1fr;
     gap: 28px;
   }
-  .stickyWrap { position: static; }
-  .mapIframe  { height: 380px; }
-  .cardsGrid  { grid-template-columns: repeat(3, 1fr); }
-  .formGrid   { grid-template-columns: repeat(3, 1fr); }
+
+  .stickyWrap {
+    position: static;
+  }
+
+  .mapIframe {
+    height: 380px;
+  }
+
+  .cardsGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .formGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
 /* ── 768px: 2-col cards, 2-col form ── */
 @media (max-width: 768px) {
-  .cardsGrid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
-  .formGrid  { grid-template-columns: repeat(2, 1fr); }
-  .travelCard { padding: 22px 18px; }
-  .pickupSection { padding: 22px 20px; }
-  .mapIframe { height: 340px; }
-  .formBtnRow { flex-direction: column; }
+  .cardsGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  .formGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .travelCard {
+    padding: 22px 18px;
+  }
+
+  .pickupSection {
+    padding: 22px 20px;
+  }
+
+  .mapIframe {
+    height: 340px;
+  }
+
+  .formBtnRow {
+    flex-direction: column;
+  }
+
   .submitBtn,
-  .whatsappBtn { min-width: unset; width: 100%; }
+  .whatsappBtn {
+    min-width: unset;
+    width: 100%;
+  }
 }
 
 /* ── 600px: single column cards ── */
@@ -688,12 +793,23 @@
     grid-template-columns: 1fr;
     gap: 16px;
   }
+
   .formGrid {
     grid-template-columns: repeat(2, 1fr);
   }
-  .mapIframe { height: 300px; }
-  .mainTitle { font-size: 1.55rem; }
-  .iconCircle { width: 46px; height: 46px; }
+
+  .mapIframe {
+    height: 300px;
+  }
+
+  .mainTitle {
+    font-size: 1.55rem;
+  }
+
+  .iconCircle {
+    width: 46px;
+    height: 46px;
+  }
 }
 
 /* ── 480px: single-col form ── */
@@ -701,29 +817,72 @@
   .formGrid {
     grid-template-columns: 1fr;
   }
+
   .formGroupFull {
     grid-column: 1;
   }
-  .pickupSection { padding: 18px 16px; }
-  .travelCard    { padding: 18px 14px; }
-  .mapIframe     { height: 270px; }
+
+  .pickupSection {
+    padding: 18px 16px;
+  }
+
+  .travelCard {
+    padding: 18px 14px;
+  }
+
+  .mapIframe {
+    height: 270px;
+  }
+
   .scheduleHeaderCell,
-  .scheduleCell  { font-size: 0.73rem; }
+  .scheduleCell {
+    font-size: 0.73rem;
+  }
+
   .scheduleHeader,
-  .scheduleRow   { padding: 7px 8px; }
-  .mainTitle     { font-size: 1.4rem; }
-  .omDivider .dividerLine { max-width: 80px; }
+  .scheduleRow {
+    padding: 7px 8px;
+  }
+
+  .mainTitle {
+    font-size: 1.4rem;
+  }
+
+  .omDivider .dividerLine {
+    max-width: 80px;
+  }
 }
 
 /* ── 375px: very small mobile ── */
 @media (max-width: 375px) {
-  .container { padding: 1.8rem 12px; }
-  .mainTitle { font-size: 1.25rem; }
-  .travelTitle { font-size: 0.95rem; }
+  .container {
+    padding: 1.8rem 12px;
+  }
+
+  .mainTitle {
+    font-size: 1.25rem;
+  }
+
+  .travelTitle {
+    font-size: 0.95rem;
+  }
+
   .scheduleHeaderCell,
-  .scheduleCell { font-size: 0.68rem; }
-  .checkboxText { font-size: 0.85rem; }
+  .scheduleCell {
+    font-size: 0.68rem;
+  }
+
+  .checkboxText {
+    font-size: 0.85rem;
+  }
+
   .submitBtn,
-  .whatsappBtn { font-size: 10px; padding: 11px 14px; }
-  .mapIframe { height: 240px; }
+  .whatsappBtn {
+    font-size: 10px;
+    padding: 11px 14px;
+  }
+
+  .mapIframe {
+    height: 240px;
+  }
 }
