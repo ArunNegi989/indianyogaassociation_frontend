@@ -86,28 +86,7 @@ const teachers = [
   },
 ];
 
-const OmParticles: React.FC = () => {
-  const particles = Array.from({ length: 8 });
-  return (
-    <div className={styles.omParticles} aria-hidden="true">
-      {particles.map((_, i) => (
-        <span
-          key={i}
-          className={styles.omParticle}
-          style={{
-            left: `${10 + i * 11}%`,
-            animationDelay: `${i * 0.9}s`,
-            animationDuration: `${8 + (i % 4) * 2}s`,
-            fontSize: `${1 + (i % 3) * 0.6}rem`,
-            opacity: 0.06 + (i % 3) * 0.03,
-          }}
-        >
-          ॐ
-        </span>
-      ))}
-    </div>
-  );
-};
+
 
 export const YogaCoursesTeachers: React.FC = () => {
   const [hoveredCard, setHoveredCard] = useState<number | null>(null);
@@ -115,7 +94,7 @@ export const YogaCoursesTeachers: React.FC = () => {
   return (
     <div className={styles.wrapper}>
       <section className={styles.coursesSection}>
-        <OmParticles />
+     
         <div className={styles.topBorder} />
         <div className={styles.container}>
           <div className={styles.sectionHead}>
@@ -205,7 +184,7 @@ export const YogaCoursesTeachers: React.FC = () => {
         <div className={styles.bottomBorder} />
       </section>
       <section className={styles.whoSection}>
-        <OmParticles />
+      
         <div className={styles.container}>
           <div className={styles.sectionHead}>
             <p className={styles.eyebrow}>Open to All Seekers</p>
@@ -289,7 +268,7 @@ export const YogaCoursesTeachers: React.FC = () => {
         </div>
       </section>
       <section className={styles.teachersSection}>
-        <OmParticles />
+     
         <div className={styles.topBorder} />
         <div className={styles.container}>
           <div className={styles.sectionHead}>

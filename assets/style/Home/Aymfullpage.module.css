@@ -332,6 +332,7 @@
 ════════════════════════════════════════════════ */
 .campusSection {
   background: var(--parchment);
+  background-image: url("../../images/background_resized_1905x2360_no_stretch.png");
   position: relative;
 }
 
@@ -558,7 +559,7 @@
 .masterQuoteBlock {
   text-align: center;
   padding: clamp(2rem, 4vw, 3.5rem) clamp(1.5rem, 5vw, 4rem);
-  background: linear-gradient(135deg, #3d1d00 0%, #5c2d00 50%, #3d1d00 100%);
+  background: linear-gradient(135deg, #b08f71 0%, #a96a2e 50%, #432409 100%);
   position: relative;
   overflow: hidden;
 }

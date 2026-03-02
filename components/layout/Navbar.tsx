@@ -82,7 +82,17 @@ export const navLinks: NavLink[] = [
   },
   { label: "Register", href: "/register" },
   { label: "Payment", href: "/payment" },
-  { label: "Resource", href: "/resource" },
+  { label: "Resource", href: "/resource" ,
+    children: [
+      { label: "Gallery", href: "/gallery" },
+      { label: "Glossary", href: "/glossary" },
+      { label: "Yoga FAQ", href: "/yoga-faq" },
+       { label: "YTTC Reviews", href: "/yttt-reviews" },
+      { label: "AYM Yoga Blog", href: "/aym-yoga-blog" },
+      { label: "Post TTC Yoga Volunteer", href: "/post-ttc-yoga-volunteer" },
+
+    ],
+   },
 ];
 
 export const Navbar = () => {
@@ -117,7 +127,7 @@ export const Navbar = () => {
 
               {link.children && (
                 <ul className={styles.dropdown}>
-                  <li className={styles.dropdownHeader}>{link.label}</li>
+                
                   {link.children.map((child) => (
                     <li key={child.href} className={styles.dropdownItem}>
                       <Link href={child.href} className={styles.dropdownLink}>

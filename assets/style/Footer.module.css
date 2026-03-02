@@ -5,11 +5,33 @@
 
 /* ── Footer shell ── */
 .footer {
-  background: linear-gradient(160deg, #7a3f00 0%, #5c2d00 60%, #3d1d00 100%);
+  
   background-image: url('../images/footerbackground.png');
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: scroll;
   color: #000000;
   font-family: 'Georgia', 'Times New Roman', serif;
   width: 100%;
+  position: relative;
+}
+
+/* Dark overlay — background image ke upar, content readable rahega */
+.footer::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* footer ke andar sab z-index: 1 hona chahiye */
+.topSection,
+.bottomBar {
+  position: relative;
+  z-index: 1;
 }
 
 /* ================================================================
@@ -115,9 +137,7 @@
 
 .footerLogo {
   object-fit: contain;
- 
   flex-shrink: 0;
-  
 }
 
 .centerBrand {
@@ -180,7 +200,6 @@
   line-height: 1.75;
   color: rgba(0, 0, 0, 0.82);
   margin-bottom: 0.85rem;
-  
 }
 
 .aboutText strong {
@@ -291,9 +310,14 @@
   .col {
     padding: 0 2.2rem;
   }
+
+  .footer {
+    background-size: cover;
+    background-position: center top;
+  }
 }
 
-/* Tablet landscape (collapse to 2-col) */
+/* Tablet landscape */
 @media (max-width: 1024px) {
   .topSection {
     grid-template-columns: 1fr auto 1fr;
@@ -301,7 +325,6 @@
     padding: 2.2rem 2rem 1.8rem;
   }
 
-  /* Center col spans full width on row 2 */
   .colCenter {
     grid-column: 1 / -1;
     grid-row: 2;
@@ -310,13 +333,17 @@
     margin-top: 0.5rem;
   }
 
-  /* Hide right divider on tablet */
   .colDivider:last-of-type {
     display: none;
   }
+
+  .footer {
+    background-size: cover;
+    background-position: center center;
+  }
 }
 
-/* Tablet portrait (single column) */
+/* Tablet portrait */
 @media (max-width: 768px) {
   .topSection {
     grid-template-columns: 1fr;
@@ -351,6 +378,12 @@
   .bottomBar {
     padding: 1rem 1.5rem;
   }
+
+  /* Tablet pe image top se dikhegi */
+  .footer {
+    background-size: cover;
+    background-position: center top;
+  }
 }
 
 /* Mobile */
@@ -375,6 +408,13 @@
   .copyright {
     font-size: 0.7rem;
   }
+
+  /* Mobile pe image center-top se dikhegi */
+  .footer {
+    background-size: cover;
+    background-position: center top;
+    background-attachment: scroll;
+  }
 }
 
 /* Small mobile */
@@ -392,5 +432,10 @@
   .socialBtn {
     width: 30px;
     height: 30px;
+  }
+
+  .footer {
+    background-size: cover;
+    background-position: center center;
   }
 }

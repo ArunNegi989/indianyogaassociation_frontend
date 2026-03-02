@@ -1,0 +1,648 @@
+/* ================================================================
+   GalleryPage.module.css
+   AYM Yoga School — Gallery Page
+   Vintage parchment · saffron · Cinzel + Cormorant Garamond
+   Tab navigation · image cards · lightbox modal · fully responsive
+   ================================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400;1,600&display=swap');
+
+/* ── Variables ── */
+.page {
+  --saffron:        #e07b00;
+  --saffron-deep:   #c46a00;
+  --saffron-light:  #f5b800;
+  --parchment:      #fdf4e3;
+  --cream:          #fffaf2;
+  --bg-section:     #f5f5f5;
+  --ink:            #1a0f00;
+  --ink-mid:        #3a2208;
+  --ink-light:      #7a5c2e;
+  --border:         #e8d5b5;
+  --white:          #ffffff;
+  --label-bg:       rgba(20, 10, 0, 0.72);
+  --shadow:         0 3px 18px rgba(46, 26, 8, 0.13);
+  --shadow-hover:   0 8px 32px rgba(46, 26, 8, 0.22);
+
+  font-family: 'Cormorant Garamond', serif;
+  color: var(--ink);
+  background: var(--white);
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+/* ──────────────────────────────────────────
+   BORDERS
+────────────────────────────────────────── */
+.bottomBorder {
+  height: 5px;
+  background: linear-gradient(
+    90deg, transparent 0%,
+    var(--saffron) 20%, var(--saffron-light) 50%,
+    var(--saffron) 80%, transparent 100%
+  );
+  margin-top: 3rem;
+}
+
+/* ──────────────────────────────────────────
+   CONTAINER
+────────────────────────────────────────── */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 clamp(1.2rem, 5vw, 3rem);
+}
+
+/* ──────────────────────────────────────────
+   PAGE HEADER  (Screenshot 1 top)
+────────────────────────────────────────── */
+.pageHeader {
+  background: var(--white);
+  padding: clamp(2rem, 4vw, 3.2rem) 0 1.5rem;
+}
+
+.pageTitle {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(1rem, 2.6vw, 1.6rem);
+  font-weight: 700;
+  color: var(--saffron);
+  font-style: italic;
+  text-align: left;
+  line-height: 1.35;
+  margin: 0 0 0.5rem;
+  letter-spacing: 0.01em;
+}
+
+.titleRule {
+  width: 70px;
+  height: 2.5px;
+  background: var(--saffron);
+  margin: 0 0 1.2rem;
+  border-radius: 2px;
+}
+
+.headerPara {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(0.9rem, 1.6vw, 1.04rem);
+  line-height: 1.85;
+  color: var(--ink-mid);
+  max-width: 100%;
+  margin: 0;
+}
+
+/* ──────────────────────────────────────────
+   SEPARATOR LINE
+────────────────────────────────────────── */
+.sepLine {
+  height: 1px;
+  background: var(--border);
+  margin: 0;
+}
+
+/* ──────────────────────────────────────────
+   TAB BAR
+────────────────────────────────────────── */
+.tabBarWrap {
+  background: var(--white);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  border-bottom: 2px solid var(--border);
+  box-shadow: 0 2px 12px rgba(46, 26, 8, 0.07);
+}
+
+.tabBar {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 clamp(1.2rem, 5vw, 3rem);
+  display: flex;
+  gap: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.tabBar::-webkit-scrollbar {
+  display: none;
+}
+
+.tabBtn {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(0.65rem, 1.2vw, 0.78rem);
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--ink-light);
+  background: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
+  padding: 0.85rem clamp(0.7rem, 1.8vw, 1.3rem);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 0.18s, border-color 0.18s, background 0.18s;
+  margin-bottom: -2px; /* overlap border-bottom of wrap */
+  flex-shrink: 0;
+}
+
+.tabBtn:hover {
+  color: var(--saffron);
+  background: rgba(224, 123, 0, 0.04);
+}
+
+.tabActive {
+  color: var(--saffron) !important;
+  border-bottom-color: var(--saffron) !important;
+  background: rgba(224, 123, 0, 0.05) !important;
+}
+
+/* ──────────────────────────────────────────
+   GALLERY SECTIONS WRAPPER
+────────────────────────────────────────── */
+.gallerySections {
+  padding-top: 0.5rem;
+}
+
+/* ──────────────────────────────────────────
+   INDIVIDUAL SECTION
+────────────────────────────────────────── */
+.gallerySection {
+  background: var(--bg-section);
+  padding: clamp(1.8rem, 4vw, 3rem) 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.gallerySection:nth-child(even) {
+  background: var(--white);
+}
+
+.secHeading {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(0.95rem, 2.2vw, 1.35rem);
+  font-weight: 700;
+  color: var(--saffron);
+  font-style: italic;
+  text-align: center;
+  margin: 0 0 0.4rem;
+  letter-spacing: 0.01em;
+  line-height: 1.35;
+}
+
+.secRule {
+  width: 60px;
+  height: 2px;
+  background: var(--saffron);
+  margin: 0 auto 1.4rem;
+  border-radius: 2px;
+}
+
+/* ──────────────────────────────────────────
+   STANDARD GRID  (3 or 4 cols via CSS var)
+────────────────────────────────────────── */
+.stdGrid {
+  display: grid;
+  grid-template-columns: repeat(var(--cols, 4), 1fr);
+  gap: clamp(8px, 1.5vw, 16px);
+}
+
+/* ──────────────────────────────────────────
+   TWIN / SHARED LAYOUT  (Screenshot 2 top)
+   First image large-left + 3 right stacked
+────────────────────────────────────────── */
+.twinGrid {
+  display: grid;
+  grid-template-columns: 1.45fr 1fr;
+  gap: clamp(8px, 1.5vw, 16px);
+  align-items: stretch;
+}
+
+.twinMain {
+  grid-row: span 1;
+}
+
+.twinRight {
+  display: grid;
+  grid-template-rows: repeat(3, 1fr);
+  gap: clamp(8px, 1.5vw, 16px);
+}
+
+/* ──────────────────────────────────────────
+   IMAGE CARD  — base unit
+────────────────────────────────────────── */
+.imgCard {
+  position: relative;
+  overflow: hidden;
+  border-radius: 6px;
+  cursor: pointer;
+  background: #c9a47a;
+  box-shadow: var(--shadow);
+  /* aspect ratio — 4:3 */
+  aspect-ratio: 4 / 3;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.twinMain {
+  /* taller */
+  aspect-ratio: 3 / 2.5;
+}
+
+.imgCard:hover {
+  transform: translateY(-3px) scale(1.01);
+  box-shadow: var(--shadow-hover);
+}
+
+.imgCard:hover .cardImg {
+  transform: scale(1.06);
+}
+
+.cardImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+/* ── Image label overlay (bottom-left) ── */
+.imgLabel {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--label-bg);
+  color: #fff;
+  padding: 0.38rem 0.6rem 0.42rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.05rem;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(0.72rem, 1.3vw, 0.86rem);
+  font-weight: 600;
+  line-height: 1.25;
+  backdrop-filter: blur(2px);
+  transform: translateY(0);
+  transition: background 0.2s;
+}
+
+.imgCard:hover .imgLabel {
+  background: rgba(224, 123, 0, 0.82);
+}
+
+.labelPin {
+  font-size: 0.7em;
+  opacity: 0.9;
+  display: inline-block;
+  margin-right: 3px;
+}
+
+.labelSub {
+  font-size: 0.72em;
+  font-weight: 400;
+  opacity: 0.75;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* ──────────────────────────────────────────
+   MODAL LIGHTBOX
+────────────────────────────────────────── */
+.modalBackdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 5, 0, 0.92);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(0.8rem, 3vw, 2rem);
+  animation: fadeIn 0.18s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.modalBox {
+  position: relative;
+  max-width: min(900px, 95vw);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: slideUp 0.22s ease;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(18px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+/* Close button */
+.modalClose {
+  position: absolute;
+  top: -2.4rem;
+  right: 0;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1.6rem;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0.2rem 0.5rem;
+  opacity: 0.8;
+  transition: opacity 0.15s, color 0.15s;
+  z-index: 10;
+}
+
+.modalClose:hover {
+  opacity: 1;
+  color: var(--saffron-light);
+}
+
+/* Image area */
+.modalImgWrap {
+  width: 100%;
+  border: 3px solid rgba(255,255,255,0.12);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #0d0800;
+  box-shadow: 0 12px 60px rgba(0, 0, 0, 0.6);
+  position: relative;
+}
+
+.modalImg {
+  display: block;
+  width: 100%;
+  max-height: 68vh;
+  object-fit: contain;
+  background: #0d0800;
+  animation: imgFade 0.18s ease;
+}
+
+@keyframes imgFade {
+  from { opacity: 0.5; transform: scale(0.98); }
+  to   { opacity: 1;   transform: scale(1); }
+}
+
+/* Prev / Next arrows */
+.modalArrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(224, 123, 0, 0.85);
+  border: none;
+  color: #fff;
+  font-size: clamp(1.6rem, 4vw, 2.6rem);
+  line-height: 1;
+  width: clamp(2rem, 5vw, 3rem);
+  height: clamp(2rem, 5vw, 3rem);
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  transition: background 0.18s, transform 0.18s;
+  box-shadow: 0 3px 14px rgba(0,0,0,0.45);
+  /* sit outside the image */
+  margin-top: -2rem; /* offset the caption below */
+}
+
+.modalArrow:hover {
+  background: var(--saffron-deep);
+  transform: translateY(-50%) scale(1.08);
+}
+
+.modalPrev { left: -1.4rem; }
+.modalNext { right: -1.4rem; }
+
+/* Caption row */
+.modalCaption {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.55rem 0.2rem 0.4rem;
+}
+
+.modalLabel {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(0.78rem, 1.5vw, 0.95rem);
+  font-weight: 600;
+  color: rgba(255,255,255,0.9);
+  letter-spacing: 0.05em;
+}
+
+.modalCounter {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(0.75rem, 1.3vw, 0.88rem);
+  color: rgba(255,255,255,0.55);
+  font-style: italic;
+}
+
+/* Thumbnail strip */
+.thumbStrip {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: 100%;
+  padding-top: 0.3rem;
+  max-height: 80px;
+  overflow: hidden;
+}
+
+.thumb {
+  width: clamp(40px, 6vw, 60px);
+  height: clamp(30px, 4.5vw, 46px);
+  border-radius: 3px;
+  overflow: hidden;
+  cursor: pointer;
+  border: 2px solid rgba(255,255,255,0.15);
+  opacity: 0.55;
+  transition: opacity 0.15s, border-color 0.15s;
+  flex-shrink: 0;
+}
+
+.thumb:hover {
+  opacity: 0.85;
+}
+
+.thumbActive {
+  opacity: 1;
+  border-color: var(--saffron) !important;
+}
+
+.thumbImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ================================================================
+   RESPONSIVE BREAKPOINTS
+================================================================ */
+
+/* ── 1100px ── */
+@media (max-width: 1100px) {
+  .stdGrid {
+    grid-template-columns: repeat(var(--cols, 4), 1fr);
+  }
+}
+
+/* ── 900px — Tablet portrait ── */
+@media (max-width: 900px) {
+  .stdGrid {
+    /* 4-col becomes 2-col, 3-col stays 3 */
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .twinGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .twinRight {
+    grid-template-rows: repeat(3, 1fr);
+  }
+
+  .modalPrev { left: -0.8rem; }
+  .modalNext { right: -0.8rem; }
+}
+
+/* ── 768px ── */
+@media (max-width: 768px) {
+  .twinGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .twinMain {
+    aspect-ratio: 16 / 9;
+  }
+
+  .twinRight {
+    grid-template-rows: unset;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+
+  .tabBtn {
+    padding: 0.7rem 0.8rem;
+  }
+}
+
+/* ── 680px — Large phone ── */
+@media (max-width: 680px) {
+  .stdGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .twinRight {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .modalBox {
+    max-width: 100%;
+  }
+
+  .modalPrev { left: -0.4rem; }
+  .modalNext { right: -0.4rem; }
+
+  .modalImg {
+    max-height: 56vw;
+  }
+
+  .thumbStrip {
+    max-height: 56px;
+  }
+
+  .thumb {
+    width: 36px;
+    height: 28px;
+  }
+}
+
+/* ── 480px — Mobile ── */
+@media (max-width: 480px) {
+  .pageTitle {
+    font-size: 0.98rem;
+  }
+
+  .stdGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px;
+  }
+
+  .twinGrid {
+    gap: 6px;
+  }
+
+  .twinRight {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+  }
+
+  .secHeading {
+    font-size: 0.92rem;
+  }
+
+  .imgLabel {
+    font-size: 0.65rem;
+    padding: 0.28rem 0.45rem;
+  }
+
+  .labelSub {
+    display: none;
+  }
+
+  .tabBtn {
+    font-size: 0.6rem;
+    padding: 0.65rem 0.6rem;
+  }
+
+  .modalClose {
+    top: -2rem;
+    font-size: 1.3rem;
+  }
+
+  .modalArrow {
+    width: 1.8rem;
+    height: 1.8rem;
+    font-size: 1.4rem;
+  }
+
+  .modalPrev { left: 0.1rem; }
+  .modalNext { right: 0.1rem; }
+}
+
+/* ── 380px — Small mobile ── */
+@media (max-width: 380px) {
+  .stdGrid {
+    grid-template-columns: 1fr 1fr;
+    gap: 5px;
+  }
+
+  .twinRight {
+    grid-template-columns: 1fr 1fr;
+    gap: 5px;
+  }
+
+  .tabBtn {
+    font-size: 0.55rem;
+    padding: 0.6rem 0.5rem;
+  }
+
+  .imgCard {
+    border-radius: 4px;
+  }
+
+  .modalImg {
+    max-height: 50vw;
+  }
+
+  .thumbStrip {
+    display: none;
+  }
+}

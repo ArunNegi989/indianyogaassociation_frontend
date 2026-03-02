@@ -40,14 +40,7 @@ export const ClassCampusAmenities: React.FC = () => {
 
   return (
     <section className={styles.section} ref={sectionRef}>
-      <div className={styles.bgLayer} aria-hidden="true">
-        <span className={`${styles.bg} ${styles.bg1}`}>ॐ</span>
-        <span className={`${styles.bg} ${styles.bg2}`}>卐</span>
-        <span className={`${styles.bg} ${styles.bg3}`}>ॐ</span>
-        <span className={`${styles.bg} ${styles.bg4}`}>卐</span>
-        <span className={`${styles.bg} ${styles.bg5}`}>ॐ</span>
-        <span className={`${styles.bg} ${styles.bg6}`}>卐</span>
-      </div>
+    
 
       <div className={styles.topBorder} />
 

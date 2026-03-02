@@ -32,6 +32,7 @@
   font-family: 'Cormorant Garamond', serif;
   background: var(--parchment);
   color: var(--earth-warm);
+  background-image: url("../../images/background3.png");
   overflow-x: hidden;
 }
 
@@ -138,43 +139,7 @@
   font-weight: 700;
 }
 
-/* ── Floating OM Particles ── */
-.omParticles {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  overflow: hidden;
-  z-index: 0;
-}
 
-.omParticle {
-  position: absolute;
-  bottom: -2rem;
-  font-family: 'Cinzel', serif;
-  color: var(--saffron);
-  animation: omFloat linear infinite;
-  user-select: none;
-}
-
-@keyframes omFloat {
-  0% {
-    transform: translateY(0) rotate(0deg);
-    opacity: 0;
-  }
-
-  10% {
-    opacity: 1;
-  }
-
-  90% {
-    opacity: 1;
-  }
-
-  100% {
-    transform: translateY(-110vh) rotate(360deg);
-    opacity: 0;
-  }
-}
 
 
 /* ════════════════════════════════════════════════

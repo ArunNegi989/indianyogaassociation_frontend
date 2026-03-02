@@ -1,0 +1,744 @@
+/* ================================================================
+   Teachers.module.css — AYM Yoga School · Teachers Page
+   Theme: Premium Vintage · Gold + Saffron + Ivory
+   Features:
+     - Rich gold ornate frame system
+     - Alternating teacher card layout with sticky images
+     - Expandable expertise/education panels
+     - Cinzel + Cormorant Garamond typography
+     - Smooth animations & hover effects
+     - Fully responsive (mobile-first)
+   ================================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Noto+Serif+Devanagari:wght@400;600&display=swap');
+
+/* ── Tokens ── */
+:root {
+  --saffron   : #e07b00;
+  --saffronDk : #c46a00;
+  --gold      : #f5b800;
+  --goldDk    : #c8900a;
+  --goldLt    : #fdf0b0;
+  --ivory     : #fffdf5;
+  --cream     : #fdf8ec;
+  --warm      : #faefd8;
+  --border    : #e8d5aa;
+  --textDark  : #1a0c00;
+  --textBody  : #2e1800;
+  --textMed   : #5c3a00;
+  --shadow    : rgba(92,45,0,0.12);
+  --shadowDk  : rgba(40,15,0,0.22);
+  --green     : #2d6a1e;
+  --red       : #9b1c2e;
+}
+
+/* ================================================================
+   PAGE SHELL
+   ================================================================ */
+.page {
+  background: var(--ivory);
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* Shared max-width container */
+.outerPad {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding-left:  clamp(1.25rem, 5vw, 5rem);
+  padding-right: clamp(1.25rem, 5vw, 5rem);
+}
+
+/* ── Top/bottom gradient border ── */
+.topBorder {
+  height: 6px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--saffronDk) 10%,
+    var(--saffron) 30%,
+    var(--gold) 50%,
+    var(--saffron) 70%,
+    var(--saffronDk) 90%,
+    transparent 100%
+  );
+}
+
+/* ── Gold separator ── */
+.goldSep {
+  position: relative;
+  height: 3px;
+  margin: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%, var(--goldDk) 8%, var(--gold) 50%, var(--goldDk) 92%, transparent 100%
+  );
+}
+.goldSep::after {
+  content: '';
+  position: absolute;
+  top: 5px; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg, transparent 0%, var(--goldDk) 12%, var(--gold) 50%, var(--goldDk) 88%, transparent 100%
+  );
+  opacity: 0.4;
+}
+
+/* ── Om Divider ── */
+.omDivider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin: 0.6rem 0;
+}
+.omDividerGold .omLine   { background: linear-gradient(90deg, transparent, var(--gold) 40%, var(--gold) 60%, transparent); }
+.omLine {
+  display: block;
+  flex: 1;
+  max-width: 200px;
+  height: 1.5px;
+  background: linear-gradient(90deg, transparent, var(--saffron) 40%, var(--saffron) 60%, transparent);
+}
+.omCircle {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fffae0 30%, #fdf0a0 65%, transparent 100%);
+  box-shadow: 0 0 14px rgba(224,123,0,0.28), 0 0 4px rgba(245,184,0,0.4);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.omGlyph {
+  font-family: 'Noto Serif Devanagari', serif;
+  font-size: 1.3rem;
+  color: var(--saffron);
+  line-height: 1;
+}
+
+/* ── Section label ── */
+.secLabel {
+  font-family: 'Cinzel', serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--saffron);
+  text-align: center;
+  padding: 0.5rem 0 0.4rem;
+}
+
+/* ================================================================
+   HERO SECTION
+   ================================================================ */
+.heroSection {
+  position: relative;
+  min-height: 420px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  background: linear-gradient(135deg, #1a0c00 0%, #2e1500 40%, #1a0c00 100%);
+}
+
+/* Decorative repeating diamond pattern bg */
+.heroBg {
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(45deg,
+      rgba(245,184,0,0.04) 0, rgba(245,184,0,0.04) 1px,
+      transparent 1px, transparent 28px
+    ),
+    repeating-linear-gradient(-45deg,
+      rgba(245,184,0,0.03) 0, rgba(245,184,0,0.03) 1px,
+      transparent 1px, transparent 28px
+    );
+}
+.heroBg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 20% 50%, rgba(224,123,0,0.15) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 50%, rgba(200,144,10,0.1) 0%, transparent 60%);
+}
+
+.heroInner {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  text-align: center;
+  padding: 4rem clamp(1.25rem, 5vw, 5rem) 3.5rem;
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+.heroEyebrow {
+  font-family: 'Cinzel', serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin: 0 0 1rem;
+  opacity: 0.85;
+}
+
+.heroTitle {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(1.5rem, 4vw, 2.8rem);
+  font-weight: 600;
+  color: #fff;
+  line-height: 1.25;
+  letter-spacing: 0.04em;
+  margin: 0 0 1rem;
+  text-shadow: 0 2px 20px rgba(0,0,0,0.4);
+}
+
+.heroSub {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(0.9rem, 1.8vw, 1.1rem);
+  font-style: italic;
+  color: rgba(255,248,210,0.82);
+  line-height: 1.7;
+  max-width: 580px;
+  margin: 0.8rem auto 1.2rem;
+}
+
+.heroBreadcrumb {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(224,123,0,0.85);
+  padding: 0.35rem 1rem;
+  border-radius: 2px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  color: #fff;
+  margin-top: 0.8rem;
+}
+.breadSep { opacity: 0.6; }
+
+/* ================================================================
+   FOUNDER SECTION
+   ================================================================ */
+.founderSection {
+  padding: clamp(2.5rem, 5vw, 4rem) 0;
+  background: var(--cream);
+  position: relative;
+}
+.founderSection::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    90deg, rgba(245,184,0,0.022) 0, rgba(245,184,0,0.022) 1px,
+    transparent 1px, transparent 80px
+  );
+  pointer-events: none;
+}
+
+.founderGrid {
+  display: grid;
+  gap: clamp(2rem, 4vw, 5rem);
+  align-items: start;
+  padding: 2rem 0;
+}
+
+.founderImgCol {
+  position: sticky;
+  top: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.founderImgBadge {
+  font-family: 'Cinzel', serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--saffron);
+  border: 1px solid var(--gold);
+  padding: 0.3rem 0.9rem;
+  border-radius: 2px;
+  background: rgba(245,184,0,0.08);
+}
+
+.founderTextCol { padding-top: 0.5rem; }
+
+.founderName {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  font-weight: 700;
+  color: var(--textDark);
+  letter-spacing: 0.06em;
+  margin: 0 0 0.3rem;
+}
+
+.founderSubtitle {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(0.9rem, 1.7vw, 1.1rem);
+  font-style: italic;
+  color: var(--saffron);
+  margin: 0 0 1rem;
+  letter-spacing: 0.03em;
+}
+
+.founderDivider {
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--saffron), var(--gold));
+  margin-bottom: 1.2rem;
+  border-radius: 2px;
+}
+
+.founderPara {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(0.88rem, 1.45vw, 1rem);
+  line-height: 1.9;
+  color: var(--textBody);
+  margin-bottom: 0.85rem;
+}
+
+.founderBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: 'Cinzel', serif;
+  font-size: clamp(0.65rem, 1.05vw, 0.76rem);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: #fff;
+  background: var(--green);
+  border: none;
+  padding: 0.85rem 1.8rem;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: background 0.22s ease, transform 0.18s ease;
+}
+.founderBtn:hover { background: #215016; transform: translateY(-1px); }
+.founderBtnArrow { font-size: 1.1em; transition: transform 0.2s; }
+.founderBtn:hover .founderBtnArrow { transform: translateX(4px); }
+
+/* ================================================================
+   FACULTY INTRO
+   ================================================================ */
+.facultyIntro {
+  background: var(--ivory);
+  padding: clamp(2rem, 4vw, 3rem) 0;
+}
+
+.introWrap {
+  text-align: center;
+  padding: 1.5rem 0;
+}
+
+.introEyebrow {
+  font-family: 'Cinzel', serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--saffron);
+  margin: 0 0 0.7rem;
+}
+
+.introTitle {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(1.1rem, 2.5vw, 1.65rem);
+  font-weight: 600;
+  color: var(--textDark);
+  letter-spacing: 0.04em;
+  margin: 0 0 0.8rem;
+  line-height: 1.35;
+}
+
+.introDesc {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(0.95rem, 1.7vw, 1.12rem);
+  font-style: italic;
+  color: var(--textMed);
+  line-height: 1.75;
+  max-width: 680px;
+  margin: 0.7rem auto 0;
+}
+
+/* ================================================================
+   TEACHER CARDS
+   ================================================================ */
+.teachersSection {
+  background: var(--ivory);
+  padding-bottom: 0;
+}
+
+/* Card — two-column: image | content */
+.tCard {
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  gap: clamp(2rem, 4vw, 4.5rem);
+  align-items: start;
+  padding: clamp(2rem, 4vw, 3rem) 0;
+  opacity: 0;
+  animation: fadeUp 0.55s ease forwards;
+}
+
+/* Reverse alternating cards (image on right) */
+.tCardReverse {
+  grid-template-columns: 1fr 340px;
+}
+.tCardReverse .tImgCol { order: 2; }
+.tCardReverse .tContent { order: 1; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Image column ── */
+.tImgCol { position: sticky; top: 100px; }
+
+.tImgWrapper {
+  position: relative;
+  overflow: hidden;
+  border-radius: 0 0 0 80px;
+  box-shadow: 6px 10px 40px var(--shadowDk);
+}
+
+.tImg {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  transition: transform 0.5s ease;
+}
+.tImgWrapper:hover .tImg { transform: scale(1.03); }
+
+/* Subtle gradient overlay at bottom of image */
+.tImgOverlay {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 35%;
+  background: linear-gradient(to top, rgba(26,12,0,0.45) 0%, transparent 100%);
+  pointer-events: none;
+}
+
+/* Years experience badge */
+.tYearsBadge {
+  position: absolute;
+  bottom: 14px; right: 14px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--textDark);
+  background: var(--gold);
+  padding: 0.32rem 0.75rem;
+  border-radius: 2px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+}
+
+/* ── Content column ── */
+.tContent { padding-top: 0.4rem; }
+
+.tRoleTag {
+  font-family: 'Cinzel', serif;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--saffron);
+  margin-bottom: 0.55rem;
+}
+
+.tName {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(1.15rem, 2.3vw, 1.6rem);
+  font-weight: 700;
+  color: var(--textDark);
+  letter-spacing: 0.05em;
+  margin: 0 0 0.8rem;
+  line-height: 1.2;
+}
+
+.tDivider {
+  width: 50px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--saffron), var(--gold));
+  margin-bottom: 1rem;
+  border-radius: 2px;
+}
+
+.tBio {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(0.88rem, 1.45vw, 1rem);
+  line-height: 1.9;
+  color: var(--textBody);
+  margin-bottom: 1.2rem;
+}
+
+/* ── Expandable detail panels ── */
+.tDetails {
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  transition: max-height 0.45s ease, opacity 0.35s ease;
+}
+.tDetailsOpen {
+  max-height: 600px;
+  opacity: 1;
+}
+
+.tDetailBlock {
+  margin-top: 1.2rem;
+  padding: 1rem 1.2rem;
+  background: var(--cream);
+  border-left: 3px solid var(--gold);
+}
+
+.tDetailTitle {
+  font-family: 'Cinzel', serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--textDark);
+  margin: 0 0 0.65rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.tDetailIcon { font-style: normal; }
+
+.tList {
+  list-style: none;
+  padding: 0; margin: 0;
+}
+.tList li {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(0.84rem, 1.3vw, 0.93rem);
+  color: var(--textBody);
+  line-height: 1.7;
+  padding: 0.28rem 0;
+  padding-left: 1.1rem;
+  position: relative;
+}
+.tList li::before {
+  content: '◆';
+  position: absolute;
+  left: 0;
+  color: var(--saffron);
+  font-size: 0.45rem;
+  top: 0.58rem;
+}
+
+/* Expertise chips */
+.tChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.3rem;
+}
+.tChip {
+  font-family: 'Cinzel', serif;
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--textDark);
+  background: linear-gradient(135deg, var(--goldLt), #fff8d0);
+  border: 1px solid var(--gold);
+  padding: 0.3rem 0.7rem;
+  border-radius: 2px;
+  transition: background 0.2s;
+}
+.tChip:hover { background: linear-gradient(135deg, var(--gold), #f5c830); }
+
+/* Toggle button */
+.tToggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: 'Cinzel', serif;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--saffron);
+  background: transparent;
+  border: 1.5px solid var(--saffron);
+  padding: 0.55rem 1.2rem;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: all 0.22s ease;
+}
+.tToggle:hover {
+  background: var(--saffron);
+  color: #fff;
+}
+
+/* ================================================================
+   ORNATE FRAME
+   ================================================================ */
+.frameWrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.frameLG { width: 260px; height: 260px; }
+.frameMD { width: 200px; height: 200px; }
+.frameSM { width: 165px; height: 165px; }
+
+.frameOrnament {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.framePhoto {
+  position: relative;
+  z-index: 2;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center top;
+}
+
+.frameLG .framePhoto { width: 185px; height: 185px; }
+.frameMD .framePhoto { width: 142px; height: 142px; }
+.frameSM .framePhoto { width: 118px; height: 118px; }
+
+/* ================================================================
+   GUEST FACULTY GRID
+   ================================================================ */
+.guestSection {
+  background: var(--cream);
+  padding: clamp(2rem, 4vw, 3.5rem) 0;
+}
+
+.guestHeader {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.guestTitle {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(1rem, 2vw, 1.45rem);
+  font-weight: 600;
+  color: var(--textDark);
+  letter-spacing: 0.05em;
+  margin: 0 0 0.6rem;
+}
+
+.guestGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(0.8rem, 2.5vw, 1.8rem);
+  padding: 1.8rem 0;
+}
+
+.guestItem {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ================================================================
+   RESPONSIVE
+   ================================================================ */
+
+/* 1400px */
+@media (max-width: 1400px) {
+  .outerPad { max-width: 1080px; }
+}
+
+/* 1200px */
+@media (max-width: 1200px) {
+  .tCard          { grid-template-columns: 300px 1fr; gap: 2.5rem; }
+  .tCardReverse   { grid-template-columns: 1fr 300px; }
+  .founderGrid    { grid-template-columns: 265px 1fr; gap: 3rem; }
+}
+
+/* 1024px */
+@media (max-width: 1024px) {
+  .tCard          { grid-template-columns: 270px 1fr; gap: 2rem; }
+  .tCardReverse   { grid-template-columns: 1fr 270px; }
+  .founderGrid    { grid-template-columns: 240px 1fr; gap: 2.5rem; }
+  .frameLG        { width: 230px; height: 230px; }
+  .frameLG .framePhoto { width: 163px; height: 163px; }
+}
+
+/* 860px — stack teacher cards */
+@media (max-width: 860px) {
+  /* Teacher cards stack vertically */
+  .tCard,
+  .tCardReverse   {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  .tCardReverse .tImgCol  { order: 1; }
+  .tCardReverse .tContent { order: 2; }
+
+  .tImgCol        { position: static; }
+  .tImg           { max-height: 360px; width: 100%; aspect-ratio: unset; }
+  .tImgWrapper    { border-radius: 0 0 0 60px; }
+
+  /* Founder stacks */
+  .founderGrid    { grid-template-columns: 1fr; gap: 1.5rem; }
+  .founderImgCol  { position: static; flex-direction: row; align-items: flex-end; gap: 1rem; }
+  .frameLG        { width: 210px; height: 210px; }
+  .frameLG .framePhoto { width: 150px; height: 150px; }
+
+  /* Guest grid stays 4 col until 576 */
+  .guestGrid      { grid-template-columns: repeat(4, 1fr); }
+}
+
+/* 768px */
+@media (max-width: 768px) {
+  .heroTitle      { font-size: 1.5rem; }
+  .heroInner      { padding-top: 3rem; padding-bottom: 3rem; }
+  .outerPad       { padding-left: 1.2rem; padding-right: 1.2rem; }
+  .frameMD        { width: 170px; height: 170px; }
+  .frameMD .framePhoto { width: 120px; height: 120px; }
+  .frameSM        { width: 142px; height: 142px; }
+  .frameSM .framePhoto { width: 100px; height: 100px; }
+}
+
+/* 576px */
+@media (max-width: 576px) {
+  .guestGrid      { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+  .frameSM        { width: 150px; height: 150px; }
+  .frameSM .framePhoto { width: 106px; height: 106px; }
+  .tName          { font-size: 1.15rem; }
+  .tBio           { font-size: 0.88rem; }
+  .outerPad       { padding-left: 1rem; padding-right: 1rem; }
+  .heroTitle      { font-size: 1.3rem; }
+  .introTitle     { font-size: 1.05rem; }
+  .founderName    { font-size: 1.3rem; }
+  .founderBtn     { font-size: 0.6rem; padding: 0.75rem 1.2rem; }
+  .founderImgCol  { flex-direction: column; align-items: center; }
+}
+
+/* 400px */
+@media (max-width: 400px) {
+  .guestGrid      { grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
+  .frameSM        { width: 135px; height: 135px; }
+  .frameSM .framePhoto { width: 96px; height: 96px; }
+  .frameLG        { width: 185px; height: 185px; }
+  .frameLG .framePhoto { width: 132px; height: 132px; }
+  .outerPad       { padding-left: 0.75rem; padding-right: 0.75rem; }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .tCard          { animation: none; opacity: 1; }
+  .tImg,
+  .founderBtn,
+  .tToggle,
+  .tChip          { transition: none; }
+  .tDetails       { transition: none; }
+}

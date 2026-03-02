@@ -86,27 +86,27 @@ const HamburgerMenu = ({ navLinks }: HamburgerMenuProps) => {
                 const isAccordionOpen = openAccordion === link.href;
                 return (
                   <li key={link.href}>
-                    <div className={styles.mobileCategoryHeader}>
-                      {link.label}
-                    </div>
-
-                    {/* Accordion toggle */}
+                    {/* ── Label + arrow in one clickable row ── */}
                     <button
-                      className={styles.mobileAccordionBtn}
+                      className={styles.mobileCategoryHeader}
                       onClick={() => toggleAccordion(link.href)}
                       aria-expanded={isAccordionOpen}
                     >
-                      <span className={styles.mobileAccordionLabel}>
-                        View all {link.label}
-                      </span>
+                      <span>{link.label}</span>
                       <span
-                        className={`${styles.mobileAccordionArrow} ${isAccordionOpen ? styles.open : ""}`}
+                        className={`${styles.mobileAccordionArrow} ${
+                          isAccordionOpen ? styles.open : ""
+                        }`}
                       >
                         ▾
                       </span>
                     </button>
+
+                    {/* Dropdown list */}
                     <ul
-                      className={`${styles.mobileSubList} ${isAccordionOpen ? styles.open : ""}`}
+                      className={`${styles.mobileSubList} ${
+                        isAccordionOpen ? styles.open : ""
+                      }`}
                     >
                       {link.children.map((child) => (
                         <li key={child.href} className={styles.mobileSubItem}>

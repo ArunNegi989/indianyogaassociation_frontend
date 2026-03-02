@@ -1,0 +1,730 @@
+/* ================================================================
+   SoundHealingPage.module.css
+   Indian Yoga Association — Sound Healing Course Page
+   Vintage parchment · saffron · Cinzel + Cormorant Garamond
+   Matches screenshot layout exactly, responsive at every breakpoint
+   ================================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Dancing+Script:wght@600;700&display=swap');
+
+/* ── Variables ── */
+.page {
+  --saffron:        #e07b00;
+  --saffron-deep:   #c46a00;
+  --saffron-light:  #f5b800;
+  --parchment:      #fdf4e3;
+  --parchment-alt:  #f7ead0;
+  --cream:          #fffaf2;
+  --ink:            #1a0f00;
+  --ink-mid:        #3a2208;
+  --ink-light:      #7a5c2e;
+  --border:         #e8d5b5;
+  --border-orange:  rgba(224, 123, 0, 0.55);
+
+  font-family: 'Cormorant Garamond', serif;
+  color: var(--ink);
+  background: #fff;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+/* ──────────────────────────────────────────
+   BORDERS
+────────────────────────────────────────── */
+.bottomBorder {
+  height: 5px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--saffron) 20%,
+    var(--saffron-light) 50%,
+    var(--saffron) 80%,
+    transparent 100%
+  );
+}
+
+/* ──────────────────────────────────────────
+   CONTAINER
+────────────────────────────────────────── */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 clamp(1.2rem, 5vw, 3rem);
+}
+
+/* ──────────────────────────────────────────
+   SHARED TYPOGRAPHY
+────────────────────────────────────────── */
+.secTitleOrange {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(1rem, 2.4vw, 1.55rem);
+  font-weight: 700;
+  color: var(--saffron);
+  text-align: center;
+  font-style: italic;
+  line-height: 1.4;
+  margin: 0 auto 0.5rem;
+  letter-spacing: 0.01em;
+}
+
+.titleUnderline {
+  width: 80px;
+  height: 2.5px;
+  background: var(--saffron);
+  margin: 0 auto 1.8rem;
+  border-radius: 2px;
+}
+
+.bodyPara {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(0.92rem, 1.6vw, 1.05rem);
+  line-height: 1.9;
+  color: var(--ink-mid);
+  margin: 0 0 1.1rem;
+  text-align: justify;
+}
+
+.bodyPara strong {
+  font-weight: 700;
+  color: var(--ink);
+}
+
+/* ──────────────────────────────────────────
+   OM DIVIDER  (Screenshot 1)
+────────────────────────────────────────── */
+.omDivider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin: 0 auto 1.6rem;
+  max-width: 380px;
+}
+
+.divLine {
+  flex: 1;
+  height: 1.5px;
+  background: linear-gradient(90deg, transparent, var(--saffron), transparent);
+}
+
+.omGlyph {
+  font-family: 'Cinzel', serif;
+  font-size: 1.8rem;
+  color: var(--saffron);
+  line-height: 1;
+  filter: drop-shadow(0 1px 4px rgba(224, 123, 0, 0.35));
+}
+
+/* ──────────────────────────────────────────
+   SECTION 1 — HERO BANNER
+────────────────────────────────────────── */
+.heroBanner {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  /* thin saffron line top */
+  border-top: 4px solid var(--saffron);
+}
+
+.heroImg {
+  display: block;
+  width: 100%;
+  height: clamp(220px, 36vw, 420px);
+  object-fit: cover;
+  object-position: center 40%;
+  /* fallback */
+  background: linear-gradient(135deg, #3d1d00, #b85e00);
+}
+
+/* Bold white title centred over image */
+.heroTextOverlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* subtle dark scrim so text pops */
+  background: rgba(10, 5, 0, 0.38);
+}
+
+.heroTitle {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(1.8rem, 6vw, 4.2rem);
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.08em;
+  text-align: center;
+  text-shadow:
+    0 2px 16px rgba(0, 0, 0, 0.7),
+    0 0 40px rgba(224, 123, 0, 0.25);
+  margin: 0;
+  line-height: 1.15;
+  padding: 0 1rem;
+}
+
+/* ──────────────────────────────────────────
+   COLLAGE ROW  (Screenshot 1 middle strip)
+────────────────────────────────────────── */
+.collageRow {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  height: clamp(120px, 18vw, 220px);
+  gap: 3px;
+  background: #fff;
+  padding: 3px;
+}
+
+.collageCell {
+  overflow: hidden;
+  background: #b85e00;
+  /* alternating vertical offset for visual interest */
+}
+
+/* Odd cells slightly taller (simulate the screenshot's varied heights) */
+.collageCell:nth-child(odd) {
+  margin-top: 0;
+}
+.collageCell:nth-child(even) {
+  margin-top: clamp(6px, 1.2vw, 14px);
+  height: calc(100% - clamp(6px, 1.2vw, 14px));
+}
+
+.collageImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.collageCell:hover .collageImg {
+  transform: scale(1.06);
+}
+
+/* ──────────────────────────────────────────
+   INTRO SECTION  (Screenshot 1 bottom)
+────────────────────────────────────────── */
+.introSection {
+  background: var(--cream);
+  padding: clamp(2.4rem, 5vw, 3.8rem) 0;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Faint OM watermark */
+.introSection::after {
+  content: 'ॐ';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: clamp(12rem, 25vw, 22rem);
+  color: rgba(224, 123, 0, 0.035);
+  font-family: 'Cinzel', serif;
+  pointer-events: none;
+  z-index: 0;
+  line-height: 1;
+  user-select: none;
+}
+
+.introSection .container {
+  position: relative;
+  z-index: 1;
+}
+
+/* ──────────────────────────────────────────
+   SECTION 2 — WHAT IS A SOUND HEALING COURSE
+────────────────────────────────────────── */
+.whatSection {
+  background: #fff;
+  padding: clamp(2.4rem, 5vw, 4rem) 0;
+  border-top: 1px solid var(--border);
+}
+
+/* Level cards grid */
+.levelsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(1rem, 2.5vw, 1.8rem);
+  margin-top: 0.5rem;
+}
+
+.levelCard {
+  border: 1.5px solid var(--border-orange);
+  border-radius: 4px;
+  padding: clamp(1.2rem, 3vw, 1.8rem) clamp(1rem, 2.5vw, 1.5rem);
+  background: var(--cream);
+  box-shadow: 0 3px 18px rgba(224, 123, 0, 0.07);
+  transition: box-shadow 0.22s ease;
+}
+
+.levelCard:hover {
+  box-shadow: 0 6px 28px rgba(224, 123, 0, 0.14);
+}
+
+.levelTitle {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(0.82rem, 1.5vw, 1.02rem);
+  font-weight: 700;
+  color: var(--saffron);
+  font-style: italic;
+  margin: 0 0 1rem;
+  line-height: 1.4;
+  padding-bottom: 0.6rem;
+  border-bottom: 1.5px solid rgba(224, 123, 0, 0.25);
+}
+
+.levelList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.levelItem {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(0.88rem, 1.4vw, 0.99rem);
+  color: var(--ink-mid);
+  line-height: 1.75;
+  padding: 0.22rem 0;
+}
+
+/* ──────────────────────────────────────────
+   SECTION 3 — 3-PHOTO ROW + AIM
+────────────────────────────────────────── */
+.aimSection {
+  background: var(--cream);
+  border-top: 1px solid var(--border);
+  padding-bottom: clamp(2.4rem, 5vw, 4rem);
+}
+
+/* Three bordered photos — each has a thin white border frame */
+.triPhotoRow {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(8px, 1.5vw, 20px);
+  padding: clamp(1.5rem, 3vw, 2.5rem) clamp(1.2rem, 5vw, 3rem);
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.triPhotoCell {
+  position: relative;
+  overflow: hidden;
+  border: 3px solid #fff;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.14);
+  border-radius: 2px;
+  /* inner bracket corners */
+}
+
+/* White bracket corners like the screenshot */
+.triPhotoCell::before,
+.triPhotoCell::after {
+  content: '';
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-color: rgba(255, 255, 255, 0.85);
+  border-style: solid;
+  z-index: 2;
+}
+.triPhotoCell::before { top: 8px; left: 8px; border-width: 2px 0 0 2px; }
+.triPhotoCell::after  { bottom: 8px; right: 8px; border-width: 0 2px 2px 0; }
+
+.triPhotoImg {
+  display: block;
+  width: 100%;
+  height: clamp(180px, 28vw, 340px);
+  object-fit: cover;
+  object-position: center;
+  transition: transform 0.4s ease;
+  background: #5c2d00;
+}
+
+.triPhotoCell:hover .triPhotoImg {
+  transform: scale(1.04);
+}
+
+.aimSection .container {
+  padding-top: 0;
+}
+
+/* ──────────────────────────────────────────
+   SECTION 4 — BENEFITS
+────────────────────────────────────────── */
+.benefitsSection {
+  background: #fff;
+  padding: clamp(2.4rem, 5vw, 4rem) 0;
+  border-top: 1px solid var(--border);
+}
+
+.benefitsGrid {
+  display: grid;
+  grid-template-columns: 1fr 0.85fr;
+  gap: clamp(2rem, 4vw, 3.5rem);
+  align-items: start;
+  margin-top: 0.5rem;
+}
+
+.benefitsText {
+  /* nothing extra — just stacks paragraphs */
+}
+
+.benefitsImgWrap {
+  position: sticky;
+  top: 1.5rem;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 6px 32px rgba(46, 26, 8, 0.18);
+  border: 3px solid #fff;
+  outline: 1px solid var(--border);
+}
+
+.benefitsImg {
+  display: block;
+  width: 100%;
+  height: clamp(280px, 48vw, 560px);
+  object-fit: cover;
+  object-position: center top;
+  background: linear-gradient(135deg, #5c2d00, #b85e00);
+  transition: transform 0.4s ease;
+}
+
+.benefitsImgWrap:hover .benefitsImg {
+  transform: scale(1.03);
+}
+
+/* ──────────────────────────────────────────
+   SECTION 5 — EXPECT + WHY JOIN + TABLE
+────────────────────────────────────────── */
+.expectSection {
+  background: var(--cream);
+  padding: clamp(2.4rem, 5vw, 4rem) 0 clamp(2.4rem, 5vw, 3.5rem);
+  border-top: 1px solid var(--border);
+}
+
+/* ── Availability table ── */
+.tableWrap {
+  overflow-x: auto;
+  margin-top: 0.5rem;
+  border-radius: 4px;
+  box-shadow: 0 4px 20px rgba(92, 45, 0, 0.1);
+}
+
+.schedTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(0.82rem, 1.4vw, 0.97rem);
+  min-width: 640px;
+}
+
+/* Header row — orange background */
+.schedTable thead tr {
+  background: var(--saffron);
+}
+
+.schedTable thead th {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(0.65rem, 1.1vw, 0.76rem);
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: #fff;
+  padding: 0.82rem 1rem;
+  text-align: center;
+  border-right: 1px solid rgba(255, 255, 255, 0.2);
+  white-space: nowrap;
+}
+
+.schedTable thead th:last-child {
+  border-right: none;
+}
+
+/* Body rows */
+.schedTable tbody tr {
+  background: #fff;
+  border-bottom: 1px solid var(--border);
+}
+
+.schedTable tbody tr:last-child {
+  border-bottom: none;
+}
+
+.schedTable tbody td {
+  padding: 0.85rem 1rem;
+  color: var(--ink-mid);
+  text-align: center;
+  vertical-align: middle;
+  border-right: 1px solid var(--border);
+  line-height: 1.5;
+}
+
+.schedTable tbody td:last-child {
+  border-right: none;
+}
+
+/* Availability cell — orange text */
+.availCell {
+  color: var(--saffron) !important;
+  font-weight: 600;
+  font-style: italic;
+}
+
+/* Book row */
+.bookRow {
+  background: var(--parchment) !important;
+}
+
+.bookRow td {
+  font-weight: 600;
+  color: var(--ink) !important;
+}
+
+/* Payment button */
+.paymentBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #fff;
+  background: var(--saffron);
+  padding: 0.45rem 0.9rem;
+  border-radius: 3px;
+  text-decoration: none;
+  white-space: nowrap;
+  box-shadow: 0 3px 12px rgba(224, 123, 0, 0.3);
+  transition: background 0.18s, transform 0.18s;
+}
+
+.paymentBtn:hover {
+  background: var(--saffron-deep);
+  transform: translateY(-1px);
+}
+
+/* Book Now button */
+.bookNowBtn {
+  display: inline-block;
+  font-family: 'Cinzel', serif;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #fff;
+  background: var(--saffron);
+  padding: 0.55rem 1.2rem;
+  border-radius: 3px;
+  text-decoration: none;
+  white-space: nowrap;
+  box-shadow: 0 4px 16px rgba(224, 123, 0, 0.35);
+  transition: background 0.18s, transform 0.18s, box-shadow 0.18s;
+}
+
+.bookNowBtn:hover {
+  background: var(--saffron-deep);
+  transform: translateY(-2px);
+  box-shadow: 0 7px 22px rgba(224, 123, 0, 0.48);
+}
+
+/* ================================================================
+   RESPONSIVE BREAKPOINTS
+================================================================ */
+
+/* ── 1100px — Tablet landscape ── */
+@media (max-width: 1100px) {
+  .levelsGrid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+
+  .benefitsGrid {
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+
+  .collageRow {
+    grid-template-columns: repeat(7, 1fr);
+  }
+}
+
+/* ── 900px — Tablet portrait ── */
+@media (max-width: 900px) {
+  .levelsGrid {
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
+    max-width: 520px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .benefitsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .benefitsImgWrap {
+    position: static;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  .benefitsImg {
+    height: clamp(220px, 50vw, 380px);
+  }
+
+  .triPhotoRow {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    padding: 1.2rem;
+  }
+
+  .triPhotoImg {
+    height: clamp(140px, 22vw, 260px);
+  }
+
+  .collageRow {
+    grid-template-columns: repeat(4, 1fr);
+    height: clamp(110px, 22vw, 180px);
+  }
+
+  /* Hide last 3 in collage on tablet */
+  .collageCell:nth-child(n+5) {
+    display: none;
+  }
+}
+
+/* ── 680px — Large phone ── */
+@media (max-width: 680px) {
+  .heroTitle {
+    font-size: clamp(1.4rem, 7vw, 2.4rem);
+    letter-spacing: 0.05em;
+  }
+
+  .heroImg {
+    height: clamp(180px, 44vw, 300px);
+  }
+
+  .collageRow {
+    grid-template-columns: repeat(3, 1fr);
+    height: clamp(100px, 26vw, 160px);
+  }
+
+  .collageCell:nth-child(n+4) {
+    display: none;
+  }
+
+  .triPhotoRow {
+    grid-template-columns: 1fr;
+    max-width: 420px;
+    margin: 0 auto;
+    padding: 1rem;
+    gap: 10px;
+  }
+
+  .triPhotoImg {
+    height: clamp(200px, 56vw, 300px);
+  }
+
+  .levelsGrid {
+    max-width: 100%;
+  }
+
+  .secTitleOrange {
+    font-size: clamp(0.95rem, 4vw, 1.25rem);
+  }
+
+  .tableWrap {
+    font-size: 0.78rem;
+  }
+
+  .schedTable thead th {
+    padding: 0.65rem 0.6rem;
+    font-size: 0.62rem;
+  }
+
+  .schedTable tbody td {
+    padding: 0.65rem 0.6rem;
+    font-size: 0.82rem;
+  }
+}
+
+/* ── 540px — Mobile ── */
+@media (max-width: 540px) {
+  .bodyPara {
+    text-align: left;
+    font-size: 0.97rem;
+  }
+
+  .heroTitle {
+    font-size: clamp(1.2rem, 7.5vw, 1.9rem);
+  }
+
+  .heroImg {
+    height: clamp(160px, 48vw, 260px);
+  }
+
+  .collageRow {
+    grid-template-columns: repeat(2, 1fr);
+    height: clamp(90px, 30vw, 150px);
+  }
+
+  .collageCell:nth-child(n+3) {
+    display: none;
+  }
+
+  .levelCard {
+    padding: 1rem;
+  }
+
+  .levelTitle {
+    font-size: 0.85rem;
+  }
+
+  .benefitsImg {
+    height: clamp(200px, 60vw, 320px);
+  }
+
+  .omGlyph {
+    font-size: 1.5rem;
+  }
+}
+
+/* ── 400px — Small mobile ── */
+@media (max-width: 400px) {
+  .heroTitle {
+    font-size: 1.15rem;
+    letter-spacing: 0.04em;
+  }
+
+  .heroImg {
+    height: 160px;
+  }
+
+  .collageRow {
+    grid-template-columns: repeat(2, 1fr);
+    height: 90px;
+  }
+
+  .triPhotoRow {
+    padding: 0.8rem;
+  }
+
+  .triPhotoImg {
+    height: 180px;
+  }
+
+  .secTitleOrange {
+    font-size: 0.92rem;
+  }
+
+  .levelItem {
+    font-size: 0.84rem;
+  }
+
+  .schedTable {
+    font-size: 0.76rem;
+    min-width: 500px;
+  }
+}

@@ -1,7 +1,7 @@
 /* ── Header shell ── */
 .header {
   width: 100%;
-  background-color: #3d2900; /* ← INSTANT fallback — same dark brown as brand, renders before image loads */
+  background-color: #3d2900;
   background-image: url('../icons/Artboard.png');
   background-size: cover;
   background-position: center;
@@ -66,7 +66,6 @@
   align-items: stretch;
 }
 
-/* Vertical divider between items */
 .navItem+.navItem::before {
   content: '';
   position: absolute;
@@ -99,7 +98,6 @@
   background: rgba(0, 0, 0, 0.22);
 }
 
-/* Active state when dropdown is open */
 .hasDropdown:hover>.navLink,
 .hasDropdown:focus-within>.navLink {
   background: rgba(0, 0, 0, 0.28);
@@ -140,7 +138,6 @@
   overflow: hidden;
 }
 
-/* Show on hover or focus-within */
 .hasDropdown:hover .dropdown,
 .hasDropdown:focus-within .dropdown {
   opacity: 1;
@@ -148,7 +145,7 @@
   transform: translateY(0);
 }
 
-/* Dropdown header label */
+/* Dropdown header label — kept for desktop (not used in mobile now) */
 .dropdownHeader {
   background: linear-gradient(135deg, #e07b00 0%, #f59500 100%);
   color: #fff;
@@ -229,7 +226,6 @@
   transform-origin: center;
 }
 
-/* Animated X state */
 .hamburgerBtn.open .bar:nth-child(1) {
   transform: translateY(7px) rotate(45deg);
 }
@@ -282,7 +278,6 @@
   right: 0;
 }
 
-/* Drawer top bar */
 .drawerHeader {
   display: flex;
   align-items: center;
@@ -319,7 +314,6 @@
   background: rgba(255, 255, 255, 0.35);
 }
 
-/* Scrollable nav list */
 .mobileNavScroll {
   overflow-y: auto;
   flex: 1;
@@ -331,50 +325,54 @@
   padding: 0.5rem 0 2rem;
 }
 
-/* Category header (colored band) */
+/* ── Category header — now a full-width clickable button ── */
 .mobileCategoryHeader {
-  background: linear-gradient(90deg, #e07b00 0%, #f59500 100%);
+  /* Reset button defaults */
+  width: 100%;
+  background: linear-gradient(90deg, #e07b00 0%, #5e3e0dca 100%);
+  border: none;
+  border-bottom: 1px solid rgba(255,255,255,0.15);
+  cursor: pointer;
+
+  /* Layout: label on left, arrow on right */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.55rem 1.1rem;
+  margin-top: 0.25rem;
+  text-align: left;
+
+  /* Typography */
   color: #fff;
   font-family: 'Georgia', serif;
   font-size: 0.8rem;
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  padding: 0.55rem 1.1rem;
-  margin-top: 0.25rem;
+
+  transition: filter 0.2s ease;
 }
 
-/* Accordion toggle row */
-.mobileAccordionBtn {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.75rem 1.1rem;
-  background: none;
-  border: none;
-  border-bottom: 1px solid #ece8e1;
-  cursor: pointer;
-  text-align: left;
-  gap: 8px;
+.mobileCategoryHeader:hover {
+  filter: brightness(1.1);
 }
 
-.mobileAccordionLabel {
-  color: #222;
-  font-family: 'Georgia', serif;
-  font-size: 0.88rem;
-  font-weight: 600;
-}
-
+/* Arrow inside the category header button */
 .mobileAccordionArrow {
-  font-size: 0.65rem;
-  color: #e07b00;
+  font-size: 0.7rem;
+  color: #fff;
   transition: transform 0.25s ease;
   flex-shrink: 0;
+  margin-left: 8px;
 }
 
 .mobileAccordionArrow.open {
   transform: rotate(180deg);
+}
+
+/* ── mobileAccordionBtn no longer used — kept for safety ── */
+.mobileAccordionBtn {
+  display: none;
 }
 
 /* Sub-links inside accordion */
@@ -441,7 +439,6 @@
    BREAKPOINTS
    ================================================================ */
 
-/* Wide desktop */
 @media (min-width: 1280px) {
   .navLink {
     padding: 0 1rem;
@@ -449,7 +446,6 @@
   }
 }
 
-/* Tablet landscape */
 @media (max-width: 1100px) {
   .navLink {
     padding: 0 0.6rem;
@@ -457,7 +453,6 @@
   }
 }
 
-/* Tablet portrait — switch to hamburger */
 @media (max-width: 900px) {
   .navList {
     display: none;
@@ -480,7 +475,6 @@
   }
 }
 
-/* Mobile */
 @media (max-width: 480px) {
   .logo {
     height: 48px;

@@ -25,6 +25,7 @@
 .missionSection {
   position: relative;
   background: var(--parchment);
+  background-image: url("../../images/background4.png");
   padding: clamp(3rem, 6vw, 6rem) clamp(1rem, 4vw, 3rem);
   overflow: hidden;
 }

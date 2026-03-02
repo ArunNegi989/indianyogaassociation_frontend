@@ -12,6 +12,7 @@
 .section {
   background: #f9f5ee;
   padding: clamp(3rem, 6vw, 5.5rem) 0;
+  background-image: url("../../images/BANNER2.png");
   position: relative;
   overflow: hidden;
 }

@@ -1,1007 +1,131 @@
-/* ================================================================
-   AccreditationSection.module.css — AYM Yoga School
-   Vintage-meets-modern yoga aesthetic
-   Warm parchment tones + saffron accents + ornamental details
-   ================================================================ */
-
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Dancing+Script:wght@600;700&display=swap');
-
-/* ── CSS Variables ── */
-:root {
-  --saffron: #e07b00;
-  --saffron-dark: #c46a00;
-  --saffron-light: #f5b800;
-  --brown-deep: #3d1d00;
-  --brown-mid: #7a5c2e;
-  --brown-text: #3d2b10;
-  --parchment: #fdf0dc;
-  --parchment-light: #fff9f0;
-  --parchment-warm: #fff3e0;
-  --border-warm: #e8d5b5;
-  --border-saffron: rgba(224, 123, 0, 0.3);
-  --shadow-warm: rgba(92, 45, 0, 0.1);
-}
-
-/* ── Section ── */
 .section {
-  background: #faf3e8;
-  background-image:
-    radial-gradient(ellipse at 10% 20%, rgba(224, 123, 0, 0.03) 0%, transparent 55%),
-    radial-gradient(ellipse at 90% 80%, rgba(92, 45, 0, 0.04) 0%, transparent 55%);
-  color: var(--brown-text);
-  padding: 0;
+  background: #f5f8f6; /* Softer calm spiritual tone */
+  color: #3d2b10;
+  animation: fadeIn 0.8s ease-in-out;
 }
 
-/* ── Container ── */
+/* Container */
 .container {
   max-width: 1100px;
   margin: 0 auto;
-  padding: clamp(2.5rem, 5vw, 4rem) clamp(1rem, 5vw, 2.5rem);
-  border-bottom: 1px solid var(--border-warm);
+  
+}
+.section{
+  padding: 2rem ;
 }
 
-.container:last-child {
-  border-bottom: none;
-}
-
-/* ── Main Title (Part 1) ── */
+/* Titles */
 .mainTitle {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(1.2rem, 2.5vw, 1.8rem);
-  font-style: italic;
-  font-weight: 600;
-  color: var(--brown-deep);
+  font-size: clamp(1.4rem, 3vw, 2rem);
   text-align: center;
-  margin: 0 0 2rem;
-  line-height: 1.4;
-}
-
-/* ── Intro paragraphs ── */
-.introParagraphs {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
   margin-bottom: 2rem;
-}
-
-.introParagraphs p {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(0.95rem, 1.6vw, 1.05rem);
-  line-height: 1.85;
-  color: var(--brown-text);
-  margin: 0;
-}
-
-.link {
-  color: var(--saffron);
-  text-decoration: none;
   font-weight: 600;
-  border-bottom: 1px solid var(--border-saffron);
-  transition: color 0.2s ease;
-}
-.link:hover {
-  color: var(--saffron-dark);
 }
 
-/* ── Om Divider ── */
-.omDivider {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.75rem;
-  margin: 1.5rem 0;
-}
-
-.divLine {
-  flex: 1;
-  max-width: 200px;
-  height: 1.5px;
-  background: linear-gradient(90deg, transparent, var(--saffron), transparent);
-}
-
-.omSun {
-  font-size: 1.3rem;
-  color: var(--saffron);
-  line-height: 1;
-  filter: drop-shadow(0 1px 4px rgba(224, 123, 0, 0.4));
-}
-
-/* ── Section Title (with divider above) ── */
 .sectionTitleWrap {
   text-align: center;
   margin-bottom: 2rem;
 }
 
 .sectionTitle {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(1rem, 2vw, 1.3rem);
-  font-style: italic;
-  color: var(--brown-mid);
-  letter-spacing: 0.04em;
-  margin: 0.5rem 0 0;
-  font-weight: 400;
+  font-size: clamp(1.1rem, 2vw, 1.4rem);
+  margin-top: 0.5rem;
+  font-weight: 500;
 }
 
-/* ================================================================
-   PART 1 — Registered Banner
-   ================================================================ */
-.registeredBanner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1.5rem;
-  background: linear-gradient(135deg, #1a8a6e 0%, #0f7a5e 30%, #0a6b4f 60%, #1a7a2e 100%);
-  border-radius: 12px;
-  padding: clamp(1.5rem, 3vw, 2rem) clamp(1.5rem, 4vw, 3rem);
-  box-shadow: 0 8px 32px rgba(0, 80, 50, 0.25);
-  flex-wrap: wrap;
-}
-
-.bannerLeft {
+/* Paragraphs */
+.introParagraphs {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 0.6rem;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  line-height: 1.7;
 }
 
-.bannerLogo {
-  display: flex;
-  align-items: center;
+.link {
+  color: #d97706;
+  text-decoration: none;
+  font-weight: 600;
 }
 
-.logoCircle {
-  width: clamp(70px, 10vw, 110px);
-  height: clamp(70px, 10vw, 110px);
-  border-radius: 50%;
-  border: 3px solid rgba(255, 255, 255, 0.6);
-  background: rgba(255, 255, 255, 0.1);
+.link:hover {
+  text-decoration: underline;
+}
+
+/* Divider */
+.omDivider {
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 2px;
-  padding: 8px;
-  text-align: center;
+  gap: 0.75rem;
+  margin: 2rem 0;
 }
 
-.logoInner {
-  font-family: 'Cinzel', serif;
-  font-size: clamp(0.9rem, 1.8vw, 1.4rem);
-  font-weight: 700;
-  color: #fff;
-  line-height: 1;
-}
-
-.logoSubtext {
-  font-size: clamp(0.35rem, 0.7vw, 0.5rem);
-  color: rgba(255, 255, 255, 0.85);
-  text-align: center;
-  line-height: 1.3;
-  font-family: 'Cormorant Garamond', serif;
-}
-
-.bannerSchoolName {
-  font-family: 'Cinzel', serif;
-  font-size: clamp(0.85rem, 1.8vw, 1.2rem);
-  font-weight: 700;
-  color: #fff;
-  margin: 0;
-  letter-spacing: 0.05em;
-}
-
-.bannerCenter {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
+.divLine {
   flex: 1;
+  max-width: 200px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #d97706, transparent);
 }
 
-.yogi {
-  font-size: clamp(2rem, 4vw, 3rem);
-  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3));
+.omSun {
+  font-size: 1.2rem;
+  color: #d97706;
 }
 
-.bannerTagline {
-  font-family: 'Cinzel', serif;
-  font-size: clamp(0.9rem, 2vw, 1.3rem);
-  font-weight: 700;
-  color: #fff;
-  text-align: center;
-  line-height: 1.5;
-  margin: 0;
+/* Image Wrapper */
+.imgWrap {
+  width: 100%;
+  margin: 0 auto;
 }
-
-.badgesGrid {
+.imgWraplogo{
+  width: 30%;
+  margin: 0 auto;
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.6rem;
   justify-content: center;
 }
-
-.rysBadge {
-  position: relative;
-  width: clamp(70px, 9vw, 100px);
-  height: clamp(70px, 9vw, 100px);
-  border-radius: 50%;
-  border: 3px solid #222;
-  background: radial-gradient(circle at 35% 35%, #fff 0%, #e8e8e8 100%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 1px;
-  overflow: hidden;
+.responsiveImg {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 12px;
 }
 
-.rysLabel {
-  font-family: 'Cinzel', serif;
-  font-size: clamp(0.45rem, 0.9vw, 0.65rem);
-  font-weight: 700;
-  color: #333;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.rysNum {
-  font-family: 'Cinzel', serif;
-  font-size: clamp(1rem, 2vw, 1.6rem);
-  font-weight: 900;
-  color: #b85000;
-  line-height: 1;
-}
-
-.rysYa {
-  font-size: clamp(0.35rem, 0.7vw, 0.5rem);
-  font-family: 'Cinzel', serif;
-  color: #555;
-  letter-spacing: 0.05em;
-}
-
-.rysRing {
-  position: absolute;
-  inset: 4px;
-  border-radius: 50%;
-  border: 1.5px dashed rgba(0, 0, 0, 0.2);
-  pointer-events: none;
-}
-
-/* ================================================================
-   PART 2 — Yoga Alliance Certificates
-   ================================================================ */
+/* Certificate Grid */
 .certGrid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: clamp(1rem, 3vw, 2rem);
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
 }
 
-.certCard {
-  background: #fff;
-  border: 1.5px solid #ddd;
-  border-radius: 6px;
-  overflow: hidden;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  position: relative;
-}
-
-/* Ticket-style side holes */
-.certCard::before,
-.certCard::after {
-  content: '';
-  position: absolute;
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  background: #f0e8d8;
-  border: 1.5px solid #ddd;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 2;
-}
-.certCard::before { left: -7px; }
-.certCard::after  { right: -7px; }
-
-.yaLogoWrap {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  padding: 1rem 1.4rem 0.6rem;
-}
-
-.yaFlower {
-  font-size: 2.2rem;
-  color: #b85000;
-  line-height: 1;
-}
-
-.yaLogoText {
+/* Footer Notes */
+.iyfFooterNotes {
+  margin-top: 1.5rem;
   display: flex;
   flex-direction: column;
-  line-height: 1.1;
-}
-
-.yaWord {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.5rem;
-  font-style: italic;
-  font-weight: 400;
-  color: #b85000;
-}
-
-.yaAlliance {
-  font-family: 'Cinzel', serif;
-  font-size: 0.6rem;
-  letter-spacing: 0.25em;
-  font-weight: 700;
-  color: #b85000;
-}
-
-.certBanner {
-  background: linear-gradient(135deg, #8b1a1a 0%, #a52020 100%);
-  color: #fff;
-  font-family: 'Cinzel', serif;
-  font-size: clamp(0.55rem, 1vw, 0.72rem);
-  font-weight: 600;
-  letter-spacing: 0.22em;
-  text-align: center;
-  padding: 0.5rem 1rem;
-  text-transform: uppercase;
-}
-
-.certBody {
-  padding: 1rem 1.4rem 1rem;
-}
-
-.certOrg {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(1rem, 1.8vw, 1.2rem);
-  font-weight: 700;
-  color: var(--brown-deep);
-  margin: 0 0 0.4rem;
-}
-
-.certSub {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(0.8rem, 1.2vw, 0.92rem);
-  color: #b85000;
-  font-weight: 600;
-  margin: 0 0 0.5rem;
-}
-
-.certMeta {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(0.75rem, 1.1vw, 0.88rem);
-  color: #555;
-  margin: 0 0 0.2rem;
-  line-height: 1.5;
-}
-
-.certFootRow {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  margin-top: 1rem;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-.certSig {
-  display: flex;
-  flex-direction: column;
-  gap: 1px;
-}
-
-.sigLine {
-  font-family: 'Dancing Script', cursive;
-  font-size: 1.1rem;
-  color: #333;
-  line-height: 1;
-}
-
-.sigName {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 0.78rem;
-  font-weight: 700;
-  color: var(--brown-deep);
-  margin: 0;
-  border-top: 1px solid #ccc;
-  padding-top: 2px;
-}
-
-.sigTitle {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 0.68rem;
-  color: #777;
-  margin: 0;
-}
-
-.rysStamp {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.stampRing {
-  width: clamp(55px, 8vw, 75px);
-  height: clamp(55px, 8vw, 75px);
-  border-radius: 50%;
-  border: 3px solid #b85000;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 0;
-  background: radial-gradient(circle at 35% 35%, #fff 0%, #fde8d8 100%);
-  position: relative;
-}
-
-.stampRing::before {
-  content: '';
-  position: absolute;
-  inset: 4px;
-  border-radius: 50%;
-  border: 1px dashed rgba(184, 80, 0, 0.4);
-}
-
-.stampRYS {
-  font-family: 'Cinzel', serif;
-  font-size: clamp(0.4rem, 0.7vw, 0.55rem);
-  font-weight: 700;
-  letter-spacing: 0.15em;
-  color: #b85000;
-  line-height: 1;
-}
-
-.stampNum {
-  font-family: 'Cinzel', serif;
-  font-size: clamp(1rem, 1.8vw, 1.4rem);
-  font-weight: 900;
-  color: #b85000;
-  line-height: 1;
-}
-
-.stampYa {
-  font-family: 'Cinzel', serif;
-  font-size: clamp(0.3rem, 0.55vw, 0.42rem);
-  color: #b85000;
-  letter-spacing: 0.05em;
-}
-
-/* ================================================================
-   PART 3 — Yoga Certification Board
-   ================================================================ */
-.ycbCard {
-  background: linear-gradient(135deg, #f0e8ff 0%, #e8d4ff 30%, #d4e8ff 60%, #e8f4ff 100%);
-  border: 1.5px solid rgba(120, 80, 200, 0.2);
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 4px 24px rgba(100, 60, 160, 0.1);
-}
-
-.ycbHeader {
-  display: grid;
-  grid-template-columns: 80px 1fr 80px;
-  align-items: center;
-  padding: clamp(1rem, 2.5vw, 2rem) clamp(1rem, 3vw, 2rem) 1rem;
-  gap: 1rem;
-  background: linear-gradient(135deg, #e8d4ff 0%, #d4c4f0 100%);
-  border-bottom: 2px solid rgba(120, 80, 200, 0.15);
-}
-
-.ycbHeaderLeft, .ycbHeaderRight {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.ycbEmblem {
-  font-size: clamp(2rem, 4vw, 3rem);
-  filter: drop-shadow(0 2px 6px rgba(100, 60, 160, 0.3));
-}
-
-.ycbHeaderCenter {
-  text-align: center;
-}
-
-.ycbBoardTitle {
-  font-family: 'Cinzel', serif;
-  font-size: clamp(1rem, 2.2vw, 1.6rem);
-  font-weight: 700;
-  color: #3a2080;
-  margin: 0 0 0.2rem;
-  letter-spacing: 0.04em;
-}
-
-.ycbMinistry {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(0.72rem, 1.3vw, 0.9rem);
-  color: #5a4080;
-  margin: 0 0 0.4rem;
-  letter-spacing: 0.04em;
-}
-
-.ycbOrnament {
-  font-size: 0.85rem;
-  color: rgba(100, 60, 160, 0.5);
-  margin: 0.3rem 0;
-  letter-spacing: 0.2em;
-}
-
-.ycbSubhead {
-  font-family: 'Cinzel', serif;
-  font-size: clamp(0.65rem, 1.1vw, 0.82rem);
-  font-weight: 600;
-  color: #7a5090;
-  letter-spacing: 0.2em;
-  margin: 0 0 0.2rem;
-  text-transform: uppercase;
-}
-
-.ycbInstType {
-  font-family: 'Cinzel', serif;
-  font-size: clamp(1rem, 2vw, 1.5rem);
-  font-weight: 700;
-  color: #3a2080;
-  margin: 0;
-  letter-spacing: 0.08em;
-}
-
-.ycbAyushLogo {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2px;
-  background: rgba(255, 255, 255, 0.5);
-  padding: 0.5rem;
-  border-radius: 6px;
-  border: 1px solid rgba(120, 80, 200, 0.2);
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(0.5rem, 0.9vw, 0.68rem);
-  color: #5a4080;
-  text-align: center;
-  font-weight: 600;
-  line-height: 1.4;
-}
-
-.ycbContent {
-  padding: clamp(1rem, 3vw, 2rem);
-}
-
-.ycbBody {
-  font-family: 'Cormorant Garamond', serif;
-  font-style: italic;
-  font-size: clamp(0.9rem, 1.5vw, 1.05rem);
-  color: #3a2060;
-  line-height: 1.9;
-  text-align: center;
-  margin: 0 0 1.5rem;
-  max-width: 720px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.ycbScope {
-  background: rgba(255, 255, 255, 0.5);
-  border-left: 3px solid rgba(120, 80, 200, 0.4);
-  padding: 0.8rem 1rem;
-  border-radius: 0 6px 6px 0;
-  margin-bottom: 1.5rem;
-}
-
-.ycbScopeTitle {
-  font-family: 'Cinzel', serif;
-  font-size: clamp(0.62rem, 1vw, 0.75rem);
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  color: #5a4080;
-  margin: 0 0 0.5rem;
-  text-transform: uppercase;
-}
-
-.ycbScopeList {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(0.82rem, 1.3vw, 0.95rem);
-  color: #4a3070;
-  line-height: 1.7;
-  padding-left: 1.2rem;
-  margin: 0;
-}
-
-.ycbScopeList li {
-  margin-bottom: 0.3rem;
-}
-
-.ycbFooter {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 1rem;
-  margin-bottom: 1rem;
-}
-
-.ycbMeta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem 1.2rem;
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(0.72rem, 1.1vw, 0.85rem);
-  color: #5a4080;
-}
-
-.ycbCeoSig {
-  text-align: center;
-}
-
-.ycbSigLine {
-  display: block;
-  font-family: 'Dancing Script', cursive;
-  font-size: 1.1rem;
-  color: #3a2060;
-  margin-bottom: 2px;
-}
-
-.ycbCeoName {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 0.82rem;
-  font-weight: 700;
-  color: #3a2060;
-  margin: 0;
-  border-top: 1px solid rgba(120, 80, 200, 0.3);
-  padding-top: 2px;
-}
-
-.ycbCeoTitle {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 0.72rem;
-  color: #7a5090;
-  margin: 0;
-}
-
-.ycbAddress {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(0.65rem, 1vw, 0.78rem);
-  color: #fff;
-  background: #5a3090;
-  padding: 0.6rem 1rem;
-  border-radius: 4px;
+  gap: 0.75rem;
   line-height: 1.6;
 }
 
-/* ================================================================
-   PART 4 — International Yoga Federation
-   ================================================================ */
-.iyfBody {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(0.95rem, 1.6vw, 1.05rem);
-  line-height: 1.85;
-  color: var(--brown-text);
-  margin-bottom: 0.5rem;
-}
-
-.iyfBody p {
-  margin: 0;
-}
-
-.iyfStampWrap {
-  display: flex;
-  justify-content: center;
-  margin: 1.5rem 0;
-}
-
-.iyfStamp {
-  display: inline-block;
-}
-
-.stampBorder {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-  justify-content: center;
-  padding: clamp(0.8rem, 2vw, 1.5rem) clamp(1rem, 3vw, 2rem);
-  border: 3px solid #ccc;
-  border-radius: 4px;
-  background: #fff;
-  box-shadow:
-    0 0 0 6px rgba(0, 0, 0, 0.04),
-    0 4px 20px rgba(0, 0, 0, 0.1);
-  position: relative;
-}
-
-/* Postage stamp perforations */
-.stampBorder::before {
-  content: '';
-  position: absolute;
-  inset: -3px;
-  background-image:
-    radial-gradient(circle, #faf3e8 5px, transparent 5px);
-  background-size: 14px 14px;
-  background-position: 0 0, 7px 7px;
-  background-repeat: repeat;
-  border-radius: 4px;
-  z-index: -1;
-  box-shadow: 0 0 0 6px #faf3e8;
-}
-
-.iyfCircle {
-  width: clamp(80px, 12vw, 130px);
-  height: clamp(80px, 12vw, 130px);
-  border-radius: 50%;
-  background: linear-gradient(135deg, #f0a020 0%, #c07820 100%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  border: 3px solid #a06010;
-  gap: 2px;
-}
-
-.iyfCircleText {
-  font-family: 'Cinzel', serif;
-  font-size: clamp(0.8rem, 1.5vw, 1.2rem);
-  font-weight: 700;
-  color: #fff;
-  line-height: 1;
-}
-
-.iyfCircleSub {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(0.32rem, 0.6vw, 0.48rem);
-  color: rgba(255, 255, 255, 0.9);
-  text-align: center;
-  line-height: 1.3;
-  max-width: 80%;
-}
-
-.iryaCircle {
-  width: clamp(70px, 11vw, 120px);
-  height: clamp(70px, 11vw, 120px);
-  border-radius: 50%;
-  background: linear-gradient(135deg, #e02020 0%, #b01010 100%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  border: 3px solid #800000;
-  gap: 2px;
-}
-
-.iryaLabel {
-  font-family: 'Cinzel', serif;
-  font-size: clamp(0.9rem, 1.8vw, 1.4rem);
-  font-weight: 900;
-  color: #90ff90;
-  line-height: 1;
-  letter-spacing: 0.05em;
-}
-
-.iryaNum {
-  font-family: 'Cinzel', serif;
-  font-size: clamp(1.1rem, 2.2vw, 1.8rem);
-  font-weight: 900;
-  color: #90ff90;
-  line-height: 1;
-}
-
-.irya500Sub {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(0.65rem, 1.1vw, 0.82rem);
-  color: #5a3020;
-  font-weight: 600;
-  text-align: center;
-  margin: 0.4rem 0 0;
-  width: 100%;
-}
-
-.iyfFooterNotes {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.iyfFooterNotes p {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(0.9rem, 1.5vw, 1rem);
-  line-height: 1.75;
-  color: var(--brown-text);
-  margin: 0;
-}
-
-/* ================================================================
-   RESPONSIVE BREAKPOINTS
-   ================================================================ */
-
-/* Large Desktop ≥ 1280px — default styles handle this */
-
-/* Desktop ≤ 1100px */
-@media (max-width: 1100px) {
-  .registeredBanner {
-    padding: 1.5rem 2rem;
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-/* Tablet Landscape ≤ 900px */
-@media (max-width: 900px) {
-  .certGrid {
-    grid-template-columns: 1fr;
-    max-width: 520px;
-    margin: 0 auto;
-  }
-
-  .certCard::before,
-  .certCard::after {
-    display: none;
-  }
-
-  .registeredBanner {
-    justify-content: center;
-    text-align: center;
-  }
-
-  .ycbHeader {
-    grid-template-columns: 1fr;
-    text-align: center;
-  }
-
-  .ycbHeaderLeft, .ycbHeaderRight {
-    display: none;
-  }
-}
-
-/* Tablet Portrait ≤ 768px */
-@media (max-width: 768px) {
-  .registeredBanner {
-    flex-direction: column;
-    align-items: center;
-    gap: 1.5rem;
-    padding: 1.5rem;
-  }
-
-  .badgesGrid {
-    flex-wrap: nowrap;
-  }
-
-  .ycbFooter {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .certGrid {
-    max-width: 100%;
-  }
-
-  .iyfStampWrap {
-    overflow-x: auto;
-  }
-
-  .stampBorder {
-    gap: 1rem;
-  }
-}
-
-/* Mobile ≤ 600px */
-@media (max-width: 600px) {
-  .section {
-    font-size: 15px;
-  }
-
-  .mainTitle {
-    font-size: 1.15rem;
-  }
-
-  .registeredBanner {
-    border-radius: 8px;
-    padding: 1.2rem 1rem;
-  }
-
-  .badgesGrid {
-    gap: 0.5rem;
-  }
-
-  .rysBadge {
-    width: 65px;
-    height: 65px;
-  }
-
-  .ycbCard {
-    border-radius: 8px;
-  }
-
-  .ycbHeader {
-    padding: 1rem;
-  }
-
-  .ycbBoardTitle {
-    font-size: 1.1rem;
-  }
-
-  .certBanner {
-    font-size: 0.55rem;
-    letter-spacing: 0.12em;
-  }
-
-  .certFootRow {
-    flex-direction: column;
-    align-items: center;
-    gap: 0.8rem;
-  }
-
-  .stampBorder {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .ycbAddress {
-    font-size: 0.62rem;
-    line-height: 1.5;
-  }
-}
-
-/* Small Mobile ≤ 400px */
-@media (max-width: 400px) {
+/* Mobile Optimization */
+@media (max-width: 480px) {
   .container {
-    padding: 1.8rem 0.8rem;
+    padding: 2rem 1rem;
   }
 
-  .mainTitle {
-    font-size: 1rem;
-  }
-
-  .sectionTitle {
-    font-size: 0.9rem;
-  }
-
-  .badgesGrid {
-    gap: 0.4rem;
-  }
-
-  .rysBadge {
-    width: 58px;
-    height: 58px;
-  }
-
-  .bannerSchoolName {
-    font-size: 0.85rem;
-  }
-
-  .ycbBoardTitle {
-    font-size: 0.95rem;
-  }
-
-  .stampRing {
-    width: 55px;
-    height: 55px;
-  }
-
-  .iyfCircle {
-    width: 80px;
-    height: 80px;
-  }
-
-  .iryaCircle {
-    width: 70px;
-    height: 70px;
-  }
-
-  .yaFlower {
-    font-size: 1.8rem;
-  }
-}
-
-/* Very Small Mobile ≤ 320px */
-@media (max-width: 320px) {
-  .rysBadge {
-    width: 52px;
-    height: 52px;
-  }
-
-  .badgesGrid {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .registeredBanner {
-    gap: 1rem;
+  .certGrid {
+    gap: 1.2rem;
   }
 }

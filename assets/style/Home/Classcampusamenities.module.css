@@ -17,34 +17,11 @@
   z-index: 0;
 }
 
-.bgLayer {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  overflow: hidden;
-}
 
-.bg {
-  position: absolute;
-  font-family: 'Cinzel', serif;
-  user-select: none;
-  line-height: 1;
-}
 
-@keyframes omFloat {
 
-  0%,
-  100% {
-    transform: translateY(0) rotate(-3deg);
-    opacity: .042;
-  }
 
-  50% {
-    transform: translateY(-24px) rotate(4deg);
-    opacity: .074;
-  }
-}
+
 
 @keyframes swSpin {
   from {
