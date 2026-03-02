@@ -14,6 +14,7 @@
   background: #fdf6ec;
   overflow: hidden;
   font-family: 'Cormorant Garamond', serif;
+  background-image: url("../../images/1905x1715banner2.png");
 }
 
 .reachSection::before {

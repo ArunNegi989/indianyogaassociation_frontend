@@ -332,7 +332,7 @@
 ════════════════════════════════════════════════ */
 .campusSection {
   background: var(--parchment);
-  background-image: url("../../images/background_resized_1905x2360_no_stretch.png");
+  background-image: url("../../images/1905x2360banner.png");
   position: relative;
 }
 

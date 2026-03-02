@@ -149,6 +149,7 @@
 .coursesSection {
   position: relative;
   background: var(--parchment);
+  background-image: url("../../images/banner1.png");
   overflow: hidden;
 }
 
@@ -542,6 +543,7 @@
 .teachersSection {
   position: relative;
   background: var(--parchment);
+  background-image: url("../../images/1905x1715banner2.png");
   overflow: hidden;
 }
 
