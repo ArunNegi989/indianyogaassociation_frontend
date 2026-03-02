@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import styles from "@/assets/style/admin/AdminLayout.module.css";
+import styles from "../../assets/style/Admin/AdminLayout.module.css";
 
 const navItems = [
   { href: "/admin", label: "Dashboard", icon: "⌂" },

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import styles from "@/assets/style/admin/AdminDashboard.module.css";
+import styles from "../../assets/style/Admin/AdminDashboard.module.css";
 
 const stats = [
   { label: "Total Enquiries", value: "1,284", icon: "✉", change: "+12 this week", accent: "#e07b00" },
