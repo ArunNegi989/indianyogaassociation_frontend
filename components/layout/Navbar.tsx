@@ -101,7 +101,7 @@ export const navLinks: NavLink[] = [
       { label: "Yoga FAQ", href: "/yoga-ttc-faq" },
       { label: "YTTC Reviews", href: "/yttt-reviews" },
       { label: "AYM Yoga Blog", href: "/aym-yoga-blog" },
-      { label: "Post TTC Yoga Volunteer", href: "/post-ttc-yoga-volunteer" },
+      { label: "Post TTC Yoga Volunteer", href: "/yoga-volunteer" },
     ],
   },
 ];
