@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "../../assets/style/Navbar.module.css";
@@ -13,7 +15,9 @@ export interface SubLink {
 export interface NavLink {
   label: string;
   href: string;
+  clickable?: boolean;
   children?: SubLink[];
+  dropdownAlign?: "left" | "right";
 }
 
 export const navLinks: NavLink[] = [
@@ -30,6 +34,7 @@ export const navLinks: NavLink[] = [
   {
     label: "Yoga Retreats",
     href: "/yoga-retreats",
+    clickable: false,
     children: [
       { label: "Yoga Retreats", href: "/yoga-retreats" },
       { label: "Sound Healing Course", href: "/sound-healing" },
@@ -44,6 +49,7 @@ export const navLinks: NavLink[] = [
   {
     label: "Yoga Teacher Training",
     href: "/yoga-teacher-training",
+    clickable: false,
     children: [
       { label: "100 Hour Yoga Teacher Training", href: "/100-hour-ytt" },
       { label: "200 Hour Yoga Teacher Training", href: "/200-hour-ytt" },
@@ -64,6 +70,7 @@ export const navLinks: NavLink[] = [
   {
     label: "Online Yoga Course",
     href: "/online-yoga-course",
+    clickable: false,
     children: [
       { label: "Online 200 Hour YTT", href: "/online-200-ytt" },
       { label: "Online 300 Hour YTT", href: "/online-300-ytt" },
@@ -74,6 +81,7 @@ export const navLinks: NavLink[] = [
   {
     label: "AYUSH Courses",
     href: "/ayush-courses",
+    clickable: false,
     children: [
       { label: "Ayurveda Course", href: "/ayurveda-course" },
       { label: "Naturopathy Course", href: "/naturopathy" },
@@ -82,20 +90,33 @@ export const navLinks: NavLink[] = [
   },
   { label: "Register", href: "/register" },
   { label: "Payment", href: "/payment" },
-  { label: "Resource", href: "/resource" ,
+  {
+    label: "Resource",
+    href: "/resource",
+    clickable: false,
+    dropdownAlign: "right",
     children: [
       { label: "Gallery", href: "/gallery" },
       { label: "Glossary", href: "/yoga-sanskrit-glossary" },
       { label: "Yoga FAQ", href: "/yoga-ttc-faq" },
-       { label: "YTTC Reviews", href: "/yttt-reviews" },
+      { label: "YTTC Reviews", href: "/yttt-reviews" },
       { label: "AYM Yoga Blog", href: "/aym-yoga-blog" },
       { label: "Post TTC Yoga Volunteer", href: "/post-ttc-yoga-volunteer" },
-
     ],
-   },
+  },
 ];
 
 export const Navbar = () => {
+  const navRef = useRef<HTMLUListElement>(null);
+
+  const closeAllDropdowns = () => {
+    // Remove hover/focus state by blurring all focusable nav items
+    navRef.current?.querySelectorAll<HTMLElement>("li[tabindex]").forEach((el) => el.blur());
+    if (document.activeElement instanceof HTMLElement) {
+      document.activeElement.blur();
+    }
+  };
+
   return (
     <header className={styles.header}>
       <nav className={styles.navbar}>
@@ -114,23 +135,38 @@ export const Navbar = () => {
         </div>
 
         {/* Desktop Nav Links */}
-        <ul className={styles.navList}>
+        <ul className={styles.navList} ref={navRef}>
           {navLinks.map((link) => (
             <li
               key={link.href}
               className={`${styles.navItem} ${link.children ? styles.hasDropdown : ""}`}
+              tabIndex={link.children ? 0 : undefined}
             >
-              <Link href={link.href} className={styles.navLink}>
-                {link.label}
-                {link.children && <span className={styles.arrow}>▾</span>}
-              </Link>
+              {link.clickable === false && link.children ? (
+                <span className={`${styles.navLink} ${styles.navLabelOnly}`}>
+                  {link.label}
+                  <span className={styles.arrow}>▾</span>
+                </span>
+              ) : (
+                <Link href={link.href} className={styles.navLink}>
+                  {link.label}
+                  {link.children && <span className={styles.arrow}>▾</span>}
+                </Link>
+              )}
 
               {link.children && (
-                <ul className={styles.dropdown}>
-                
+                <ul
+                  className={`${styles.dropdown} ${
+                    link.dropdownAlign === "right" ? styles.dropdownRight : ""
+                  }`}
+                >
                   {link.children.map((child) => (
                     <li key={child.href} className={styles.dropdownItem}>
-                      <Link href={child.href} className={styles.dropdownLink}>
+                      <Link
+                        href={child.href}
+                        className={styles.dropdownLink}
+                        onClick={closeAllDropdowns}
+                      >
                         <span className={styles.dropdownDot}>›</span>
                         {child.label}
                       </Link>

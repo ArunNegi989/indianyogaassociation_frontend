@@ -138,6 +138,12 @@
   overflow: hidden;
 }
 
+/* ── RIGHT-ALIGN dropdown for items near the right edge ── */
+.dropdownRight {
+  left: auto;
+  right: 0;
+}
+
 .hasDropdown:hover .dropdown,
 .hasDropdown:focus-within .dropdown {
   opacity: 1;
@@ -183,6 +189,12 @@
   background: #fff7ee;
   color: #c46a00;
   padding-left: 1.25rem;
+}
+
+/* Non-clickable parent nav label */
+.navLabelOnly {
+  cursor: default;
+  user-select: none;
 }
 
 .dropdownDot {
@@ -327,29 +339,23 @@
 
 /* ── Category header — now a full-width clickable button ── */
 .mobileCategoryHeader {
-  /* Reset button defaults */
   width: 100%;
   background: linear-gradient(90deg, #e07b00 0%, #5e3e0dca 100%);
   border: none;
   border-bottom: 1px solid rgba(255,255,255,0.15);
   cursor: pointer;
-
-  /* Layout: label on left, arrow on right */
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0.55rem 1.1rem;
   margin-top: 0.25rem;
   text-align: left;
-
-  /* Typography */
   color: #fff;
   font-family: 'Georgia', serif;
   font-size: 0.8rem;
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-
   transition: filter 0.2s ease;
 }
 
@@ -357,7 +363,6 @@
   filter: brightness(1.1);
 }
 
-/* Arrow inside the category header button */
 .mobileAccordionArrow {
   font-size: 0.7rem;
   color: #fff;
@@ -370,12 +375,10 @@
   transform: rotate(180deg);
 }
 
-/* ── mobileAccordionBtn no longer used — kept for safety ── */
 .mobileAccordionBtn {
   display: none;
 }
 
-/* Sub-links inside accordion */
 .mobileSubList {
   list-style: none;
   margin: 0;
@@ -417,7 +420,6 @@
   font-size: 0.9rem;
 }
 
-/* Plain link (no children) */
 .mobilePlainLink {
   display: block;
   padding: 0.75rem 1.1rem;
@@ -439,20 +441,76 @@
    BREAKPOINTS
    ================================================================ */
 
-@media (min-width: 1280px) {
+/* ── Large desktop: generous padding ── */
+@media (min-width: 1361px) {
   .navLink {
     padding: 0 1rem;
     font-size: 0.84rem;
   }
 }
 
-@media (max-width: 1100px) {
+/* ── 2-ROW LAYOUT: 901px – 1360px ──
+   Logo centers on top row, nav fills bottom row fully
+   ================================================================ */
+@media (min-width: 901px) and (max-width: 1360px) {
+  .navbar {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    min-height: unset;
+    gap: 0;
+  }
+
+  /* Top row: logo centered */
+  .logoWrapper {
+    width: 100%;
+    display: flex;
+    justify-content: start;
+    padding: 8px 1.25rem 4px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  }
+
+  .logo {
+    height: 50px;
+  }
+
+  /* Bottom row: nav links spread full width */
+  .navList {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-wrap: nowrap;
+    padding: 0 0.5rem;
+  }
+
+  .navItem {
+    flex: 1;
+    justify-content: center;
+  }
+
   .navLink {
-    padding: 0 0.6rem;
-    font-size: 0.76rem;
+    justify-content: center;
+    padding: 0 0.5rem;
+    font-size: 0.75rem;
+    min-height: 40px;
+  }
+
+  /* Hamburger hidden in this range — desktop nav is shown */
+  .hamburgerBtn {
+    display: none;
   }
 }
 
+/* Fine-tune for slightly smaller screens in the 2-row range */
+@media (min-width: 901px) and (max-width: 1100px) {
+  .navLink {
+    font-size: 0.7rem;
+    padding: 0 0.35rem;
+  }
+}
+
+/* ── MOBILE: hamburger takes over ── */
 @media (max-width: 900px) {
   .navList {
     display: none;
@@ -471,13 +529,28 @@
   }
 
   .navbar {
+    flex-direction: row;
+    align-items: stretch;
+    justify-content: space-between;
+    padding: 0 1.25rem;
     min-height: 62px;
+  }
+
+  .logoWrapper {
+    width: auto;
+    justify-content: flex-start;
+    padding: 6px 0;
+    border-bottom: none;
+  }
+
+  .logo {
+    height: 48px;
   }
 }
 
 @media (max-width: 480px) {
   .logo {
-    height: 48px;
+    height: 44px;
   }
 
   .navbar {
