@@ -1,0 +1,458 @@
+/* YogaHolidays.module.css */
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Open+Sans:wght@300;400;500;600&display=swap');
+
+:root {
+  --orange:       #e8600a;
+  --text-dark:    #1a1a1a;
+  --text-body:    #2c2c2c;
+  --link-blue:    #1a5276;
+  --white:        #ffffff;
+  --beige-bg:     #fce9b0;       /* warm yellow-beige from screenshots */
+  --beige-dark:   #f0d080;
+  --green-table:  #1db954;       /* bright green timetable */
+  --green-dark:   #169a45;
+  --btn-blue:     #2563eb;
+  --btn-blue-hov: #1d4ed8;
+}
+
+/* ====================================================
+   GLOBAL WRAPPER
+==================================================== */
+.pageWrapper {
+  font-family: 'Open Sans', sans-serif;
+  color: var(--text-body);
+  overflow-x: hidden;
+}
+
+/* ====================================================
+   WHITE SECTION (top part)
+==================================================== */
+.whiteSection {
+  background: var(--white);
+  padding: 40px 32px 48px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* Main h1 */
+.mainTitle {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(1.1rem, 2.8vw, 1.6rem);
+  font-weight: 600;
+  font-style: italic;
+  color: var(--text-dark);
+  text-align: center;
+  margin-bottom: 28px;
+  line-height: 1.45;
+}
+
+/* Body text */
+.bodyText {
+  font-size: clamp(0.82rem, 1.4vw, 0.92rem);
+  line-height: 1.85;
+  color: var(--text-body);
+  margin-bottom: 1.1rem;
+}
+
+.bodyText strong {
+  font-weight: 700;
+  color: var(--text-dark);
+}
+
+.link {
+  color: var(--link-blue);
+  text-decoration: none;
+}
+
+.link:hover {
+  text-decoration: underline;
+  color: var(--orange);
+}
+
+/* ====================================================
+   IMAGE — shared wrapper
+==================================================== */
+.imageWrapper {
+  display: flex;
+  justify-content: center;
+  margin: 28px 0;
+}
+
+/* Rishikesh view image */
+.imageBox {
+  position: relative;
+  width: 100%;
+  max-width: 700px;
+  height: 360px;
+  overflow: hidden;
+  border-radius: 4px;
+}
+
+/* Overlay caption bottom-right */
+.imageOverlayCaption {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.55);
+  color: var(--white);
+  font-size: clamp(0.7rem, 1.3vw, 0.82rem);
+  padding: 5px 12px;
+  font-family: 'Lora', serif;
+  font-style: italic;
+  border-top-left-radius: 4px;
+}
+
+/* ====================================================
+   BENEFITS
+==================================================== */
+.benefitsHeading {
+  font-size: clamp(0.82rem, 1.4vw, 0.92rem);
+  color: var(--text-dark);
+  margin-bottom: 8px;
+  margin-top: 8px;
+}
+
+.benefitsList {
+  list-style: disc;
+  padding-left: 28px;
+  margin-bottom: 24px;
+}
+
+.benefitsList li {
+  font-size: clamp(0.82rem, 1.4vw, 0.9rem);
+  line-height: 1.9;
+  color: var(--text-body);
+}
+
+/* ====================================================
+   CTA ROW
+==================================================== */
+.ctaRow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 12px;
+  padding-bottom: 8px;
+}
+
+.ctaText {
+  font-size: clamp(0.82rem, 1.4vw, 0.9rem);
+  color: var(--text-body);
+  margin: 0;
+}
+
+.ctaButton {
+  display: inline-block;
+  background: var(--btn-blue);
+  color: var(--white);
+  font-size: clamp(0.78rem, 1.3vw, 0.88rem);
+  font-weight: 600;
+  padding: 10px 20px;
+  border-radius: 4px;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.ctaButton:hover {
+  background: var(--btn-blue-hov);
+  transform: translateY(-1px);
+}
+
+/* ====================================================
+   BEIGE SECTION (lower part)
+==================================================== */
+.beigeSection {
+  background: var(--beige-bg);
+  padding: 40px 32px 60px;
+  max-width: 100%;
+}
+
+.beigeInner {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* Shivir titles */
+.shivirTitle {
+  font-family: 'Lora', serif;
+  font-size: clamp(1rem, 2.2vw, 1.35rem);
+  font-weight: 500;
+  color: var(--text-dark);
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.shivirSubtitle {
+  font-family: 'Lora', serif;
+  font-size: clamp(0.95rem, 2vw, 1.2rem);
+  font-weight: 500;
+  color: var(--text-dark);
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+/* Beige body text */
+.beigeBodyText {
+  font-size: clamp(0.82rem, 1.4vw, 0.92rem);
+  line-height: 1.85;
+  color: var(--text-body);
+  margin-bottom: 1rem;
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.beigeBodyText strong {
+  font-weight: 700;
+  color: var(--text-dark);
+}
+
+/* Section headings inside beige */
+.sectionHeading {
+  font-family: 'Lora', serif;
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  font-weight: 500;
+  color: var(--text-dark);
+  text-align: center;
+  margin: 28px 0 14px;
+}
+
+.sectionHeadingItalic {
+  font-family: 'Lora', serif;
+  font-size: clamp(1rem, 2vw, 1.2rem);
+  font-weight: 500;
+  font-style: italic;
+  color: var(--text-dark);
+  text-align: center;
+  margin: 28px 0 14px;
+}
+
+/* Yoga Camp image */
+.campImageBox {
+  position: relative;
+  width: 100%;
+  max-width: 700px;
+  height: 340px;
+  overflow: hidden;
+  border-radius: 4px;
+}
+
+/* ====================================================
+   TIMETABLE
+==================================================== */
+.timetableContainer {
+  max-width: 760px;
+  margin: 20px auto 24px;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+}
+
+.timetableHeader {
+  background: var(--green-table);
+  padding: 14px 20px 10px;
+  text-align: center;
+}
+
+.timetableTitle {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(1rem, 2.2vw, 1.3rem);
+  font-weight: 700;
+  color: var(--white);
+  margin: 0;
+  letter-spacing: 0.02em;
+}
+
+.timetableBody {
+  background: var(--green-table);
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 20px 20px;
+}
+
+.timetableYogi {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 8px;
+  flex-shrink: 0;
+}
+
+.yogiIcon {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  line-height: 1;
+  opacity: 0.9;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+}
+
+.timetableColumns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px 24px;
+  flex: 1;
+}
+
+.timetableCol {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.timetableRow {
+  display: flex;
+  gap: 6px;
+  font-size: clamp(0.72rem, 1.2vw, 0.85rem);
+  font-weight: 600;
+  color: var(--white);
+  line-height: 1.6;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.timetableRow span:first-child {
+  flex-shrink: 0;
+  min-width: 80px;
+  font-weight: 700;
+}
+
+/* ====================================================
+   DETAIL TEXT (price / meals / accommodation)
+==================================================== */
+.detailText {
+  font-size: clamp(0.82rem, 1.4vw, 0.92rem);
+  line-height: 1.8;
+  color: var(--text-body);
+  margin-bottom: 10px;
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.detailText strong {
+  font-weight: 700;
+  color: var(--text-dark);
+}
+
+/* ====================================================
+   RESPONSIVE — all Bootstrap breakpoints
+==================================================== */
+
+/* XS: < 576px */
+@media (max-width: 575.98px) {
+  .whiteSection {
+    padding: 24px 14px 32px;
+  }
+
+  .beigeSection {
+    padding: 28px 14px 40px;
+  }
+
+  .imageBox {
+    height: 200px;
+  }
+
+  .campImageBox {
+    height: 200px;
+  }
+
+  .ctaRow {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .timetableColumns {
+    grid-template-columns: 1fr;
+  }
+
+  .timetableBody {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .timetableRow span:first-child {
+    min-width: 70px;
+  }
+}
+
+/* SM: 576px – 767px */
+@media (min-width: 576px) and (max-width: 767.98px) {
+  .whiteSection {
+    padding: 28px 20px 36px;
+  }
+
+  .beigeSection {
+    padding: 28px 20px 44px;
+  }
+
+  .imageBox {
+    height: 260px;
+  }
+
+  .campImageBox {
+    height: 260px;
+  }
+
+  .timetableColumns {
+    grid-template-columns: 1fr;
+  }
+
+  .timetableBody {
+    padding: 10px 14px 16px;
+  }
+}
+
+/* MD: 768px – 991px */
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .whiteSection {
+    padding: 32px 28px 40px;
+  }
+
+  .beigeSection {
+    padding: 32px 28px 48px;
+  }
+
+  .imageBox {
+    height: 300px;
+  }
+
+  .campImageBox {
+    height: 290px;
+  }
+
+  .timetableRow {
+    font-size: 0.78rem;
+  }
+}
+
+/* LG: 992px – 1199px */
+@media (min-width: 992px) and (max-width: 1199.98px) {
+  .imageBox {
+    height: 340px;
+  }
+
+  .campImageBox {
+    height: 320px;
+  }
+}
+
+/* XL: ≥ 1200px */
+@media (min-width: 1200px) {
+  .whiteSection {
+    padding: 52px 60px 56px;
+  }
+
+  .beigeSection {
+    padding: 48px 60px 64px;
+  }
+
+  .imageBox {
+    height: 380px;
+  }
+
+  .campImageBox {
+    height: 360px;
+  }
+}

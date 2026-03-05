@@ -1,0 +1,412 @@
+/* YogaBeginners.module.css */
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Open+Sans:wght@300;400;500;600&display=swap');
+
+:root {
+  --orange:       #e8600a;
+  --orange-dark:  #c04800;
+  --text-dark:    #1a1a1a;
+  --text-body:    #2c2c2c;
+  --white:        #ffffff;
+  --table-header: #e8600a;
+  --table-stripe: #fef6f0;
+  --border:       #e0c8b0;
+  --available:    #e8600a;
+}
+
+/* ====================================================
+   GLOBAL
+==================================================== */
+.pageWrapper {
+  font-family: 'Open Sans', sans-serif;
+  background: var(--white);
+  color: var(--text-body);
+  overflow-x: hidden;
+}
+
+/* ====================================================
+   DIVIDER
+==================================================== */
+.divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin: 14px auto 20px;
+  max-width: 400px;
+  padding: 0 16px;
+}
+
+.dividerLine {
+  flex: 1;
+  height: 2px;
+  background: var(--orange);
+  border-radius: 2px;
+}
+
+.omSymbol {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.omSymbol svg {
+  width: 34px;
+  height: 34px;
+}
+
+/* ====================================================
+   HERO IMAGE
+==================================================== */
+.heroImageSection {
+  padding: 24px 32px 0;
+  max-width: 1140px;
+  margin: 0 auto;
+}
+
+.heroImageBox {
+  position: relative;
+  width: 100%;
+  height: 420px;
+  overflow: hidden;
+  border-radius: 4px;
+}
+
+/* ====================================================
+   TITLE SECTION
+==================================================== */
+.titleSection {
+  padding: 24px 32px 16px;
+  max-width: 1140px;
+  margin: 0 auto;
+}
+
+.mainTitle {
+  font-family: 'Lora', serif;
+  font-size: clamp(1.2rem, 2.8vw, 1.75rem);
+  font-weight: 600;
+  color: var(--orange);
+  text-align: center;
+  margin-bottom: 4px;
+  line-height: 1.35;
+}
+
+/* Orange H2 used in multiple sections */
+.orangeTitle {
+  font-family: 'Lora', serif;
+  font-size: clamp(1.1rem, 2.5vw, 1.55rem);
+  font-weight: 600;
+  color: var(--orange);
+  text-align: center;
+  margin-bottom: 4px;
+  line-height: 1.35;
+}
+
+/* ====================================================
+   BODY TEXT
+==================================================== */
+.bodyText {
+  font-size: clamp(0.82rem, 1.4vw, 0.92rem);
+  line-height: 1.85;
+  color: var(--text-body);
+  margin-bottom: 1rem;
+}
+
+.bodyText strong { font-weight: 700; color: var(--text-dark); }
+.bodyText em     { font-style: italic; }
+
+/* ====================================================
+   UNDERSTANDING SECTION — two col
+==================================================== */
+.understandingSection {
+  padding: 16px 32px 28px;
+  max-width: 1140px;
+  margin: 0 auto;
+}
+
+.twoColRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 36px;
+  align-items: start;
+  margin-top: 16px;
+}
+
+.twoColText { /* left column — no extra styles needed */ }
+
+.colHeading {
+  font-family: 'Open Sans', sans-serif;
+  font-size: clamp(0.88rem, 1.5vw, 1rem);
+  font-weight: 700;
+  color: var(--text-dark);
+  margin: 0 0 10px;
+}
+
+.twoColImage {
+  /* right column */
+}
+
+.sideImageBox {
+  position: relative;
+  width: 100%;
+  height: 460px;
+  overflow: hidden;
+  border-radius: 4px;
+}
+
+/* ====================================================
+   STUDENTS QUESTIONS — two col
+==================================================== */
+.questionsSection {
+  padding: 16px 32px 28px;
+  max-width: 1140px;
+  margin: 0 auto;
+}
+
+.twoColQA {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: start;
+  margin-top: 16px;
+}
+
+.qaCol { /* each column */ }
+
+.qaQuestion {
+  font-family: 'Open Sans', sans-serif;
+  font-size: clamp(0.85rem, 1.4vw, 0.96rem);
+  font-weight: 700;
+  color: var(--text-dark);
+  margin: 0 0 12px;
+  line-height: 1.45;
+}
+
+/* ====================================================
+   MORE INFORMATION
+==================================================== */
+.moreInfoSection {
+  padding: 16px 32px 20px;
+  max-width: 1140px;
+  margin: 0 auto;
+}
+
+.bulletList {
+  list-style: disc;
+  padding-left: 20px;
+  margin-bottom: 16px;
+}
+
+.bulletList li {
+  font-size: clamp(0.82rem, 1.4vw, 0.92rem);
+  line-height: 1.9;
+  color: var(--text-body);
+  padding-left: 4px;
+}
+
+/* ====================================================
+   PRICING TABLE
+==================================================== */
+.pricingSection {
+  padding: 16px 32px 52px;
+  max-width: 1140px;
+  margin: 0 auto;
+}
+
+.tableWrapper {
+  overflow-x: auto;
+  margin-top: 16px;
+  border-radius: 4px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+}
+
+.pricingTable {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 600px;
+  font-size: clamp(0.78rem, 1.3vw, 0.88rem);
+}
+
+/* Header */
+.pricingTable thead tr {
+  background: var(--table-header);
+}
+
+.pricingTable thead th {
+  color: var(--white);
+  font-weight: 700;
+  text-align: center;
+  padding: 12px 14px;
+  letter-spacing: 0.05em;
+  font-size: clamp(0.75rem, 1.2vw, 0.84rem);
+  border-right: 1px solid rgba(255,255,255,0.2);
+}
+
+.pricingTable thead th:last-child {
+  border-right: none;
+}
+
+/* Body rows */
+.pricingTable tbody tr {
+  border-bottom: 1px solid var(--border);
+}
+
+.pricingTable tbody tr:nth-child(even) {
+  background: var(--table-stripe);
+}
+
+.pricingTable tbody tr:hover {
+  background: #fde8d8;
+  transition: background 0.15s ease;
+}
+
+.pricingTable tbody td {
+  padding: 11px 14px;
+  text-align: center;
+  color: var(--text-body);
+  border-right: 1px solid var(--border);
+}
+
+.pricingTable tbody td:first-child {
+  text-align: left;
+}
+
+.pricingTable tbody td:last-child {
+  border-right: none;
+}
+
+/* Available cell */
+.availableCell {
+  color: var(--available) !important;
+  font-weight: 600;
+}
+
+/* Book row */
+.bookRow {
+  background: var(--white) !important;
+  border-top: 2px solid var(--border) !important;
+}
+
+.bookRow td {
+  padding: 13px 14px !important;
+}
+
+/* Payments button */
+.paymentsBtn {
+  display: inline-block;
+  background: var(--orange);
+  color: var(--white);
+  font-size: clamp(0.76rem, 1.2vw, 0.84rem);
+  font-weight: 600;
+  padding: 8px 18px;
+  border-radius: 4px;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.2s ease;
+}
+
+.paymentsBtn:hover {
+  background: var(--orange-dark);
+}
+
+/* ====================================================
+   RESPONSIVE — all Bootstrap breakpoints
+==================================================== */
+
+/* XS: < 576px */
+@media (max-width: 575.98px) {
+  .heroImageSection,
+  .titleSection,
+  .understandingSection,
+  .questionsSection,
+  .moreInfoSection,
+  .pricingSection {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .heroImageBox  { height: 200px; }
+  .sideImageBox  { height: 220px; }
+
+  /* Stack both two-col layouts */
+  .twoColRow,
+  .twoColQA {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  /* Image goes below text on mobile */
+  .twoColImage { order: -1; }
+}
+
+/* SM: 576px – 767px */
+@media (min-width: 576px) and (max-width: 767.98px) {
+  .heroImageSection,
+  .titleSection,
+  .understandingSection,
+  .questionsSection,
+  .moreInfoSection,
+  .pricingSection {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .heroImageBox { height: 280px; }
+  .sideImageBox { height: 300px; }
+
+  .twoColRow,
+  .twoColQA {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .twoColImage { order: -1; }
+}
+
+/* MD: 768px – 991px */
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .heroImageSection,
+  .titleSection,
+  .understandingSection,
+  .questionsSection,
+  .moreInfoSection,
+  .pricingSection {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+
+  .heroImageBox { height: 320px; }
+  .sideImageBox { height: 380px; }
+
+  .twoColRow {
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
+  .twoColQA {
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+  }
+}
+
+/* LG: 992px – 1199px */
+@media (min-width: 992px) and (max-width: 1199.98px) {
+  .heroImageBox { height: 380px; }
+  .sideImageBox { height: 430px; }
+}
+
+/* XL: ≥ 1200px */
+@media (min-width: 1200px) {
+  .heroImageSection,
+  .titleSection,
+  .understandingSection,
+  .questionsSection,
+  .moreInfoSection,
+  .pricingSection {
+    padding-left: 48px;
+    padding-right: 48px;
+  }
+
+  .heroImageBox { height: 460px; }
+  .sideImageBox { height: 500px; }
+}

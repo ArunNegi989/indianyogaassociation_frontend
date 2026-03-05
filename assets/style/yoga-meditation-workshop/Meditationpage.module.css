@@ -1,0 +1,360 @@
+/* MeditationPage.module.css */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700&display=swap');
+
+/* ─── CSS Variables ─── */
+:root {
+  --gold: #c8892a;
+  --gold-light: #e6a83a;
+  --orange: #e07820;
+  --orange-dark: #c96010;
+  --white: #ffffff;
+  --off-white: #faf8f4;
+  --text-dark: #1a1a1a;
+  --text-mid: #3d3d3d;
+  --text-light: #666666;
+  --border: #e8e0d0;
+  --table-header: #e07820;
+  --available-color: #e07820;
+  --section-gap: 2.5rem;
+}
+
+/* ─── Page Wrapper ─── */
+.page {
+  font-family: 'Lato', sans-serif;
+  background-color: var(--off-white);
+  color: var(--text-dark);
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem 4rem;
+}
+
+/* ─── Hero / Title ─── */
+.heroTitle {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+  font-weight: 400;
+  text-align: center;
+  color: var(--text-dark);
+  margin: 2.5rem 0 0.5rem;
+  letter-spacing: 0.01em;
+}
+
+.heroDivider {
+  width: 80px;
+  height: 2px;
+  background: var(--gold);
+  margin: 0.5rem auto 2rem;
+  border: none;
+}
+
+/* ─── Banner Image ─── */
+.bannerWrapper {
+  max-width: 840px;
+  margin: 0 auto 1.5rem;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.14);
+}
+
+.bannerImage {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+}
+
+/* ─── Sub Title ─── */
+.subTitle {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+  font-weight: 600;
+  text-align: center;
+  color: var(--text-dark);
+  margin: 2rem 0 0.4rem;
+}
+
+/* ─── Section ─── */
+.section {
+  margin: var(--section-gap) 0;
+}
+
+.sectionHeading {
+  font-family: 'Lato', sans-serif;
+  font-weight: 700;
+  font-size: clamp(0.95rem, 2vw, 1.1rem);
+  color: var(--text-dark);
+  margin: 0 0 0.4rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 2px solid var(--gold);
+  display: inline-block;
+}
+
+.sectionText {
+  font-size: clamp(0.85rem, 1.8vw, 0.95rem);
+  line-height: 1.85;
+  color: var(--text-mid);
+  margin: 1rem 0 0;
+  text-align: justify;
+}
+
+/* ─── Elevate CTA ─── */
+.elevateHeading {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1rem, 2.5vw, 1.3rem);
+  font-weight: 600;
+  color: var(--text-dark);
+  margin: 0 0 0.5rem;
+  border-bottom: 2px solid var(--gold);
+  display: inline-block;
+  padding-bottom: 0.3rem;
+}
+
+/* ─── Why Choose - numbered list ─── */
+.whyList {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.whyItem {
+  font-size: clamp(0.85rem, 1.8vw, 0.93rem);
+  line-height: 1.75;
+  color: var(--text-mid);
+  padding-left: 0;
+}
+
+.whyItem strong {
+  color: var(--text-dark);
+  font-weight: 700;
+}
+
+/* ─── Program Highlights ─── */
+.highlightsList {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.highlightItem {
+  font-size: clamp(0.85rem, 1.8vw, 0.93rem);
+  color: var(--text-mid);
+  line-height: 1.7;
+  padding-left: 1.2rem;
+  position: relative;
+}
+
+.highlightItem::before {
+  content: '–';
+  position: absolute;
+  left: 0;
+  color: var(--gold);
+  font-weight: 700;
+}
+
+/* ─── Pricing Table ─── */
+.tableWrapper {
+  width: 100%;
+  overflow-x: auto;
+  margin: 1.5rem 0;
+  border-radius: 6px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+}
+
+.pricingTable {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 560px;
+  background: var(--white);
+}
+
+.pricingTable thead tr th {
+  background: var(--table-header);
+  color: var(--white);
+  font-family: 'Lato', sans-serif;
+  font-weight: 700;
+  font-size: clamp(0.7rem, 1.5vw, 0.82rem);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 0.85rem 1rem;
+  text-align: center;
+}
+
+.pricingTable tbody tr {
+  border-bottom: 1px solid var(--border);
+  transition: background 0.18s;
+}
+
+.pricingTable tbody tr:hover {
+  background: #fff7ef;
+}
+
+.pricingTable tbody tr:last-child {
+  border-bottom: none;
+  background: #fdf3e8;
+  font-weight: 700;
+}
+
+.pricingTable td {
+  padding: 0.75rem 1rem;
+  text-align: center;
+  font-size: clamp(0.78rem, 1.6vw, 0.88rem);
+  color: var(--text-mid);
+}
+
+.pricingTable td:first-child {
+  text-align: left;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.available {
+  color: var(--available-color);
+  font-weight: 700;
+}
+
+.payBtn {
+  background: var(--orange);
+  color: var(--white);
+  border: none;
+  border-radius: 4px;
+  padding: 0.4rem 0.9rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  letter-spacing: 0.04em;
+  transition: background 0.2s;
+}
+
+.payBtn:hover {
+  background: var(--orange-dark);
+}
+
+.registerText {
+  font-size: 0.82rem;
+  color: var(--text-mid);
+}
+
+.byPaying {
+  font-size: 0.82rem;
+  color: var(--text-mid);
+}
+
+/* ─── Bottom CTA sections ─── */
+.ctaSection {
+  margin: 2rem 0;
+}
+
+.ctaHeading {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1rem, 2.3vw, 1.25rem);
+  font-weight: 600;
+  color: var(--text-dark);
+  margin: 0 0 0.7rem;
+}
+
+.ctaText {
+  font-size: clamp(0.85rem, 1.8vw, 0.95rem);
+  line-height: 1.85;
+  color: var(--text-mid);
+}
+
+/* ─── School Title ─── */
+.schoolTitle {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1rem, 2.3vw, 1.3rem);
+  font-weight: 600;
+  text-align: center;
+  color: var(--text-dark);
+  margin: 2rem 0 0.4rem;
+}
+
+/* ─── Responsive Breakpoints ─── */
+
+/* Large screens */
+@media (min-width: 1024px) {
+  .page {
+    padding: 0 3rem 5rem;
+  }
+  .bannerWrapper {
+    max-width: 620px;
+  }
+}
+
+/* Tablet */
+@media (max-width: 768px) {
+  .page {
+    padding: 0 1rem 3rem;
+  }
+  .bannerBody {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.2rem;
+  }
+  .bannerVisual {
+    align-self: center;
+    font-size: 4rem;
+  }
+  .pricingTable td,
+  .pricingTable thead tr th {
+    padding: 0.6rem 0.6rem;
+  }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .page {
+    padding: 0 0.75rem 2.5rem;
+  }
+  .heroTitle {
+    font-size: 1.25rem;
+    margin: 1.5rem 0 0.4rem;
+  }
+  .bannerTagline {
+    font-size: 0.78rem;
+    padding: 0.5rem 0.75rem;
+  }
+  .bannerBody {
+    padding: 1rem;
+    gap: 1rem;
+  }
+  .bannerText h1 {
+    font-size: 2rem;
+  }
+  .sectionHeading,
+  .elevateHeading {
+    font-size: 0.92rem;
+  }
+  .sectionText,
+  .whyItem,
+  .highlightItem,
+  .ctaText {
+    font-size: 0.84rem;
+  }
+  .pricingTable {
+    min-width: 480px;
+  }
+  .tableWrapper {
+    -webkit-overflow-scrolling: touch;
+  }
+  .ctaHeading {
+    font-size: 0.98rem;
+  }
+}
+
+/* Extra small mobile */
+@media (max-width: 360px) {
+  .heroTitle {
+    font-size: 1.1rem;
+  }
+  .pricingTable {
+    min-width: 420px;
+  }
+}

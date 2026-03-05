@@ -1,0 +1,412 @@
+/* YogaAshrams.module.css */
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Open+Sans:wght@300;400;500;600&display=swap');
+
+:root {
+  --orange-primary: #e8600a;
+  --orange-light: #f07030;
+  --orange-dark: #c04800;
+  --text-dark: #1a1a1a;
+  --text-body: #333333;
+  --text-muted: #555555;
+  --white: #ffffff;
+  --bg-light: #fdf9f5;
+  --divider-color: #e8600a;
+  --link-color: #1a5276;
+}
+
+/* ===================== GLOBAL ===================== */
+.pageWrapper {
+  font-family: 'Open Sans', sans-serif;
+  background-color: var(--white);
+  color: var(--text-body);
+  overflow-x: hidden;
+}
+
+/* ===================== HERO SECTION ===================== */
+.heroSection {
+  padding: 48px 16px 20px;
+  text-align: center;
+  background: var(--white);
+}
+
+.mainTitle {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  font-weight: 700;
+  font-style: italic;
+  color: var(--text-dark);
+  margin-bottom: 0;
+  letter-spacing: 0.02em;
+}
+
+/* ===================== DIVIDER ===================== */
+.divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin: 20px auto;
+  max-width: 500px;
+}
+
+.dividerLine {
+  flex: 1;
+  height: 2px;
+  background: var(--orange-primary);
+  border-radius: 2px;
+}
+
+.omSymbol {
+  color: var(--orange-primary);
+  font-size: 1.4rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+}
+
+.omSymbol svg {
+  width: 36px;
+  height: 36px;
+}
+
+/* ===================== COLLAGE ===================== */
+.collageWrapper {
+  padding: 0 16px 20px;
+}
+
+.collageContainer {
+  max-width: 820px;
+  margin: 0 auto;
+  border: 3px solid #c8a84b;
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.collageGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: 130px 130px 140px;
+  gap: 3px;
+  background: #c8a84b;
+}
+
+.collageItem {
+  overflow: hidden;
+  position: relative;
+}
+
+.collageItem img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.collageItem:hover img {
+  transform: scale(1.05);
+}
+
+.collageItem.large {
+  grid-column: span 1;
+  grid-row: span 2;
+}
+
+.collageItem.wide {
+  grid-column: span 2;
+}
+
+.collageCaption {
+  background: linear-gradient(135deg, #c8a84b, #e8d08a, #c8a84b);
+  text-align: center;
+  padding: 10px 8px;
+  letter-spacing: 0.25em;
+  font-size: clamp(0.75rem, 2vw, 0.95rem);
+  font-weight: 700;
+  color: var(--text-dark);
+  font-family: 'Cinzel', serif;
+  border-top: 2px solid #a88030;
+}
+
+/* ===================== INTRO TEXT ===================== */
+.introSection {
+  padding: 10px 16px 30px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.introText {
+  font-size: clamp(0.85rem, 1.5vw, 0.95rem);
+  line-height: 1.8;
+  color: var(--text-body);
+  margin-bottom: 1rem;
+}
+
+.introText strong {
+  font-weight: 700;
+  color: var(--text-dark);
+}
+
+/* ===================== SECTION STYLES ===================== */
+.section {
+  padding: 20px 16px 30px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.sectionTitle {
+  font-family: 'Lora', serif;
+  font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+  font-weight: 600;
+  color: var(--text-dark);
+  text-align: center;
+  margin-bottom: 20px;
+  line-height: 1.4;
+}
+
+.sectionTitleLink {
+  font-family: 'Lora', serif;
+  font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+  font-weight: 600;
+  color: #1a5276;
+  text-align: center;
+  margin-bottom: 20px;
+  line-height: 1.4;
+  text-decoration: underline;
+}
+
+.sectionTitleLink:hover {
+  color: var(--orange-primary);
+}
+
+.bodyText {
+  font-size: clamp(0.85rem, 1.5vw, 0.95rem);
+  line-height: 1.85;
+  color: var(--text-body);
+  margin-bottom: 1.2rem;
+}
+
+.bodyText a {
+  color: var(--link-color);
+  text-decoration: none;
+}
+
+.bodyText a:hover {
+  text-decoration: underline;
+  color: var(--orange-primary);
+}
+
+/* ===================== ASHRAM PHOTOS ===================== */
+.ashramPhotoGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: 160px 160px;
+  gap: 3px;
+  max-width: 720px;
+  margin: 24px auto 0;
+  border: 3px solid #c8a84b;
+  border-radius: 4px;
+  overflow: hidden;
+  background: #c8a84b;
+}
+
+.ashramPhotoItem {
+  overflow: hidden;
+}
+
+.ashramPhotoItem img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.ashramPhotoItem:hover img {
+  transform: scale(1.06);
+}
+
+.ashramPhotoItem.ashramLarge {
+  grid-column: span 1;
+  grid-row: span 2;
+}
+
+.ashramCaption {
+  background: linear-gradient(135deg, #1a1a1a, #2c2c2c);
+  text-align: center;
+  padding: 10px 8px;
+  letter-spacing: 0.2em;
+  font-size: clamp(0.75rem, 1.8vw, 0.9rem);
+  font-weight: 700;
+  color: var(--white);
+  font-family: 'Cinzel', serif;
+  grid-column: span 3;
+}
+
+/* ===================== WHAT IS ASHRAM ===================== */
+.whatSection {
+  padding: 20px 16px 30px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* ===================== ACTIVITIES ===================== */
+.activitiesSection {
+  padding: 20px 16px 30px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.activitiesTitle {
+  font-family: 'Lora', serif;
+  font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+  font-weight: 600;
+  color: var(--text-dark);
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* ===================== COURSES LIST ===================== */
+.coursesBlock {
+  padding: 10px 0 20px;
+}
+
+.coursesHeading {
+  font-weight: 700;
+  font-size: clamp(0.85rem, 1.5vw, 0.95rem);
+  color: var(--text-dark);
+  margin-bottom: 10px;
+}
+
+.coursesList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.coursesList li {
+  margin-bottom: 4px;
+}
+
+.coursesList li a {
+  color: var(--link-color);
+  font-size: clamp(0.82rem, 1.4vw, 0.9rem);
+  text-decoration: none;
+}
+
+.coursesList li a:hover {
+  text-decoration: underline;
+  color: var(--orange-primary);
+}
+
+/* ===================== FULL WIDTH DIVIDER ===================== */
+.fullDivider {
+  width: 100%;
+  padding: 8px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.fullDivider .dividerLine {
+  max-width: 200px;
+}
+
+/* ===================== RESPONSIVE ===================== */
+
+/* XS: < 576px */
+@media (max-width: 575.98px) {
+  .heroSection {
+    padding: 32px 12px 16px;
+  }
+
+  .collageGrid {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: 100px 100px 100px;
+  }
+
+  .collageItem.large {
+    grid-row: span 1;
+  }
+
+  .collageItem.wide {
+    grid-column: span 1;
+  }
+
+  .ashramPhotoGrid {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: 110px 110px;
+  }
+
+  .ashramPhotoItem.ashramLarge {
+    grid-row: span 1;
+  }
+
+  .ashramCaption {
+    grid-column: span 2;
+  }
+}
+
+/* SM: 576px - 767px */
+@media (min-width: 576px) and (max-width: 767.98px) {
+  .collageGrid {
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: 110px 110px 120px;
+  }
+
+  .ashramPhotoGrid {
+    grid-template-rows: 130px 130px;
+  }
+}
+
+/* MD: 768px - 991px */
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .collageGrid {
+    grid-template-rows: 145px 145px 155px;
+  }
+
+  .ashramPhotoGrid {
+    grid-template-rows: 150px 150px;
+  }
+
+  .section,
+  .whatSection,
+  .activitiesSection {
+    padding: 24px 24px 36px;
+  }
+}
+
+/* LG: 992px - 1199px */
+@media (min-width: 992px) and (max-width: 1199.98px) {
+  .section,
+  .whatSection,
+  .activitiesSection,
+  .introSection {
+    padding: 24px 32px 36px;
+  }
+}
+
+/* XL: >= 1200px */
+@media (min-width: 1200px) {
+  .heroSection {
+    padding: 56px 32px 24px;
+  }
+
+  .collageGrid {
+    grid-template-rows: 150px 150px 160px;
+  }
+
+  .ashramPhotoGrid {
+    grid-template-rows: 175px 175px;
+  }
+
+  .section,
+  .whatSection,
+  .activitiesSection,
+  .introSection {
+    padding: 28px 40px 40px;
+  }
+}

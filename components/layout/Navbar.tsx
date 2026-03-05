@@ -33,12 +33,12 @@ export const navLinks: NavLink[] = [
     children: [
       { label: "Yoga Retreats", href: "/yoga-retreats" },
       { label: "Sound Healing Course", href: "/sound-healing" },
-      { label: "Yoga Workshop", href: "/yoga-workshop" },
-      { label: "Yoga Ashrams in India", href: "/yoga-ashrams" },
-      { label: "Yoga Holidays & Camps", href: "/yoga-holidays" },
+      { label: "Yoga Workshop", href: "/yoga-meditation-workshop" },
+      { label: "Yoga Ashrams in India", href: "/yoga-ashrams-in-india" },
+      { label: "Yoga Holidays & Camps", href: "/yoga-holidays-in-india" },
       { label: "Inner Awakening Retreat", href: "/inner-awakening" },
-      { label: "Yoga Course for Beginners", href: "/beginners" },
-      { label: "Ayurveda and Detox Retreat", href: "/ayurveda-detox" },
+      { label: "Yoga Course for Beginners", href: "/yoga-for-beginners-in-india" },
+      { label: "Ayurveda and Detox Retreat", href: "/yoga-ayurveda-detox-retreat" },
     ],
   },
   {
@@ -85,8 +85,8 @@ export const navLinks: NavLink[] = [
   { label: "Resource", href: "/resource" ,
     children: [
       { label: "Gallery", href: "/gallery" },
-      { label: "Glossary", href: "/glossary" },
-      { label: "Yoga FAQ", href: "/yoga-faq" },
+      { label: "Glossary", href: "/yoga-sanskrit-glossary" },
+      { label: "Yoga FAQ", href: "/yoga-ttc-faq" },
        { label: "YTTC Reviews", href: "/yttt-reviews" },
       { label: "AYM Yoga Blog", href: "/aym-yoga-blog" },
       { label: "Post TTC Yoga Volunteer", href: "/post-ttc-yoga-volunteer" },
