@@ -1,0 +1,677 @@
+/* ================================================================
+   YogaCollegeRishikesh.module.css
+   AYM Yoga College — Vintage Saffron & Parchment Aesthetic
+   Fully responsive · Mandala accents · Cinzel + Cormorant
+   ================================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Dancing+Script:wght@500;600;700&display=swap');
+
+/* ── CSS Variables ── */
+.page {
+  --saffron:       #e07b00;
+  --saffron-dark:  #c46a00;
+  --saffron-pale:  #fff3e0;
+  --maroon:        #3d1d00;
+  --maroon-mid:    #7a3f00;
+  --parchment:     #fdf6ec;
+  --parchment-2:   #f5e9d4;
+  --cream:         #fffaf3;
+  --border:        #e8d5b5;
+  --text:          #3d2b10;
+  --text-muted:    #7a5c2e;
+  --shadow:        rgba(92,45,0,0.10);
+
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  background: var(--parchment);
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+/* ── Container ── */
+.container {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 clamp(1rem, 5vw, 3rem);
+}
+
+/* ================================================================
+   HERO SECTION — Screenshot 1
+   ================================================================ */
+.heroSection {
+  padding: clamp(2rem, 4vw, 3.5rem) 0;
+  background: #fff;
+  border-bottom: 1px solid var(--border);
+}
+
+.heroTitle {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.3rem, 3vw, 2rem);
+  font-weight: 600;
+  font-style: italic;
+  color: var(--saffron);
+  text-align: center;
+  margin: 0 0 0.4rem;
+}
+
+.heroUnderline {
+  width: 180px;
+  height: 3px;
+  background: var(--saffron);
+  margin: 0 auto 1.8rem;
+  border-radius: 2px;
+}
+
+.heroImageGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  border: 1px solid #c8b8e0;
+  border-radius: 4px;
+  overflow: hidden;
+  min-height: clamp(200px, 35vw, 420px);
+  position: relative;
+}
+
+.heroImageLeft,
+.heroImageRight {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Diagonal divider effect */
+.heroImageLeft::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: -1px;
+  width: 60px;
+  height: 100%;
+  background: linear-gradient(to bottom right, transparent 49.5%, #fff 50%);
+  z-index: 2;
+}
+
+.heroImg {
+  object-fit: cover;
+  object-position: center;
+}
+
+/* ================================================================
+   TAB SECTION — Screenshots 2–5
+   ================================================================ */
+.tabSection {
+  padding: clamp(2rem, 4vw, 3rem) 0;
+  background: #fff;
+  border-bottom: 1px solid var(--border);
+}
+
+.tabHeaders {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+  border-bottom: 2px solid var(--border);
+  margin-bottom: 0;
+}
+
+.tabBtn {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(0.8rem, 1.4vw, 0.95rem);
+  font-weight: 600;
+  color: var(--text);
+  background: transparent;
+  border: 1px solid var(--border);
+  border-bottom: none;
+  padding: 0.55rem 1.1rem;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  white-space: nowrap;
+  margin-bottom: -2px;
+}
+
+.tabBtn:hover {
+  background: var(--saffron-pale);
+  color: var(--saffron);
+}
+
+.tabBtnActive {
+  background: var(--saffron) !important;
+  color: #fff !important;
+  border-color: var(--saffron) !important;
+  font-weight: 700;
+}
+
+.tabContent {
+  border: 1px solid var(--border);
+  border-top: none;
+  border-radius: 0 0 4px 4px;
+}
+
+.tabPane {
+  padding: clamp(1.2rem, 3vw, 2rem) clamp(1rem, 3vw, 2rem);
+}
+
+.tabBody {
+  font-size: clamp(0.82rem, 1.3vw, 0.92rem);
+  line-height: 1.8;
+  color: var(--text);
+  margin: 0 0 0.7rem;
+  text-align: justify;
+}
+
+.tabLabel {
+  font-size: clamp(0.82rem, 1.3vw, 0.92rem);
+  line-height: 1.8;
+  color: var(--text);
+  margin: 0 0 0.4rem;
+}
+
+.tabSection_inner {
+  margin-bottom: 1.2rem;
+}
+
+.tabSection {
+  margin-bottom: 1.4rem;
+}
+
+.tabSectionTitle {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(0.95rem, 1.8vw, 1.1rem);
+  font-weight: 600;
+  font-style: italic;
+  color: var(--saffron);
+  text-align: center;
+  margin: 1.4rem 0 0.6rem;
+}
+
+.tabUl {
+  padding-left: 1.5rem;
+  margin: 0.5rem 0 0.8rem;
+}
+
+.tabUl li {
+  font-size: clamp(0.8rem, 1.2vw, 0.9rem);
+  line-height: 1.75;
+  color: var(--text);
+  margin-bottom: 0.25rem;
+}
+
+.tabOl {
+  list-style: lower-alpha;
+  padding-left: 1.5rem;
+  margin: 0.5rem 0 0.8rem;
+}
+
+.tabOl li {
+  font-size: clamp(0.8rem, 1.2vw, 0.9rem);
+  line-height: 1.75;
+  color: var(--text);
+  margin-bottom: 0.25rem;
+}
+
+/* Syllabus two-column */
+.syllabusGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(1rem, 3vw, 2rem);
+  margin-top: 0.8rem;
+}
+
+.syllabusHead {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(0.9rem, 1.5vw, 1rem);
+  font-weight: 700;
+  font-style: italic;
+  color: var(--saffron);
+  text-align: center;
+  margin: 0 0 0.5rem;
+}
+
+.syllabusItem {
+  font-size: clamp(0.78rem, 1.2vw, 0.88rem);
+  line-height: 1.65;
+  color: var(--text);
+  margin: 0.15rem 0;
+  text-decoration-line: none;
+}
+
+.syllabusItem::first-letter {
+  color: var(--saffron);
+}
+
+/* Apply buttons inside tabs */
+.applySmallBtn {
+  display: inline-block;
+  font-family: 'Cinzel', serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--saffron);
+  text-decoration: none;
+  margin-top: 1rem;
+  transition: opacity 0.2s;
+}
+
+.applySmallBtn:hover { opacity: 0.7; text-decoration: underline; }
+
+.applyFullBtn {
+  display: block;
+  width: 100%;
+  font-family: 'Cinzel', serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #fff;
+  background: var(--saffron);
+  text-align: center;
+  padding: 1rem 2rem;
+  border-radius: 4px;
+  text-decoration: none;
+  margin-top: 2rem;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.applyFullBtn:hover {
+  background: var(--saffron-dark);
+  transform: translateY(-1px);
+}
+
+/* ================================================================
+   OM DIVIDER — used multiple times
+   ================================================================ */
+.omDivider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  margin: clamp(1.5rem, 3vw, 2.5rem) 0 clamp(1.2rem, 2.5vw, 2rem);
+}
+
+.omLine {
+  display: block;
+  flex: 1;
+  max-width: 200px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--saffron));
+}
+
+.omLine:last-child {
+  background: linear-gradient(90deg, var(--saffron), transparent);
+}
+
+.omSymbol {
+  font-family: 'Cinzel', serif;
+  font-size: 1.5rem;
+  color: var(--saffron);
+  line-height: 1;
+  filter: drop-shadow(0 1px 4px rgba(224,123,0,0.3));
+}
+
+/* ================================================================
+   CERTIFICATION CARDS — Screenshot 6 top
+   ================================================================ */
+.certSection {
+  padding: clamp(1.5rem, 3vw, 2.5rem) 0;
+  background: #fff;
+  border-bottom: 1px solid var(--border);
+}
+
+.certGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(0.8rem, 2vw, 1.5rem);
+}
+
+.certCard {
+  border: 1px solid var(--saffron);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #fff;
+}
+
+.certTitle {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(0.72rem, 1.2vw, 0.85rem);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--saffron);
+  text-align: center;
+  padding: 0.85rem 0.75rem;
+  border-bottom: 1px solid var(--border);
+  margin: 0;
+}
+
+.certRow {
+  font-size: clamp(0.78rem, 1.2vw, 0.88rem);
+  color: var(--text);
+  padding: 0.5rem 0.9rem;
+  border-bottom: 1px solid var(--border);
+  text-align: center;
+}
+
+.certLabel {
+  font-weight: 600;
+}
+
+.certBtns {
+  display: flex;
+  gap: 0;
+}
+
+.certBtnOutline {
+  flex: 1;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(0.72rem, 1.1vw, 0.82rem);
+  font-weight: 600;
+  color: var(--text);
+  background: var(--parchment-2);
+  border: none;
+  border-right: 1px solid var(--border);
+  padding: 0.6rem 0.5rem;
+  text-decoration: none;
+  text-align: center;
+  transition: background 0.2s;
+}
+
+.certBtnOutline:hover { background: var(--border); }
+
+.certBtnFill {
+  flex: 1;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(0.72rem, 1.1vw, 0.82rem);
+  font-weight: 600;
+  color: #fff;
+  background: var(--saffron);
+  border: none;
+  padding: 0.6rem 0.5rem;
+  text-decoration: none;
+  text-align: center;
+  transition: background 0.2s;
+}
+
+.certBtnFill:hover { background: var(--saffron-dark); }
+
+/* ================================================================
+   IN-PERSON COURSE SECTIONS — Screenshots 6b, 7, 8
+   ================================================================ */
+.courseSection {
+  padding: clamp(1.5rem, 3vw, 2.5rem) 0;
+  background: #fff;
+  border-bottom: 1px solid var(--border);
+}
+
+.courseSectionTitle {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+  font-weight: 600;
+  font-style: italic;
+  color: var(--saffron);
+  text-align: center;
+  margin: 0 0 0.4rem;
+}
+
+.courseUnderline {
+  width: 160px;
+  height: 3px;
+  background: var(--saffron);
+  margin: 0 auto 1.8rem;
+  border-radius: 2px;
+}
+
+.courseRow {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: clamp(2rem, 5vw, 4rem);
+  align-items: start;
+}
+
+.courseDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.courseDetails p {
+  font-size: clamp(0.88rem, 1.4vw, 1rem);
+  line-height: 1.6;
+  color: var(--text);
+  margin: 0;
+}
+
+.courseDetails strong {
+  color: var(--maroon);
+}
+
+.bookSpotBtn {
+  display: inline-block;
+  font-family: 'Cinzel', serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: #fff;
+  background: var(--saffron);
+  padding: 0.7rem 1.8rem;
+  border-radius: 4px;
+  text-decoration: none;
+  margin-top: 0.5rem;
+  width: fit-content;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.bookSpotBtn:hover {
+  background: var(--saffron-dark);
+  transform: translateY(-1px);
+}
+
+.courseImageWrap {
+  position: relative;
+  width: clamp(220px, 28vw, 380px);
+  height: clamp(200px, 25vw, 490px);
+  border-radius: 4px;
+  overflow: hidden;
+  flex-shrink: 0;
+  box-shadow: 0 4px 20px var(--shadow);
+}
+
+.courseImg {
+  object-fit: cover;
+  object-position: center;
+}
+
+/* ================================================================
+   YOGA COLLEGE INFO — Screenshot 9
+   ================================================================ */
+.collegeSection {
+  padding: clamp(2rem, 4vw, 3.5rem) 0;
+  background: var(--parchment);
+  border-bottom: 1px solid var(--border);
+}
+
+.collegePara {
+  font-size: clamp(0.86rem, 1.4vw, 0.98rem);
+  line-height: 1.85;
+  color: var(--text);
+  margin: 0 0 1.2rem;
+  text-align: justify;
+}
+
+.collegeSubTitle {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1rem, 2vw, 1.35rem);
+  font-weight: 600;
+  font-style: italic;
+  color: var(--saffron);
+  text-align: center;
+  margin: 2rem 0 0.4rem;
+}
+
+.collegeList {
+  padding-left: 1.5rem;
+  margin: 0.5rem 0 1rem;
+}
+
+.collegeList li {
+  font-size: clamp(0.86rem, 1.4vw, 0.97rem);
+  line-height: 1.8;
+  color: var(--text);
+  margin-bottom: 0.3rem;
+}
+
+/* ================================================================
+   MA / PG INFO — Screenshot 10
+   ================================================================ */
+.maSection {
+  padding: clamp(2rem, 4vw, 3.5rem) 0;
+  background: #fff;
+}
+
+.maDetails {
+  margin: 0.8rem 0 1.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.maDetails p {
+  font-size: clamp(0.84rem, 1.3vw, 0.95rem);
+  line-height: 1.7;
+  color: var(--text);
+  margin: 0;
+}
+
+/* ================================================================
+   RESPONSIVE BREAKPOINTS
+   ================================================================ */
+
+/* Tablet landscape ≤ 1024px */
+@media (max-width: 1024px) {
+  .certGrid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.8rem;
+  }
+
+  .courseRow {
+    grid-template-columns: 1fr auto;
+    gap: 1.5rem;
+  }
+
+  .courseImageWrap {
+    width: clamp(180px, 25vw, 280px);
+    height: clamp(160px, 22vw, 260px);
+  }
+}
+
+/* Tablet portrait ≤ 860px */
+@media (max-width: 860px) {
+  .heroImageGrid {
+    min-height: clamp(160px, 45vw, 280px);
+  }
+
+  .tabHeaders {
+    gap: 0.3rem;
+    border-bottom: none;
+  }
+
+  .tabBtn {
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    margin-bottom: 0;
+    padding: 0.5rem 0.8rem;
+  }
+
+  .certGrid {
+    grid-template-columns: 1fr;
+    max-width: 360px;
+    margin: 0 auto;
+  }
+
+  .courseRow {
+    grid-template-columns: 1fr;
+  }
+
+  .courseImageWrap {
+    width: 100%;
+    height: clamp(200px, 50vw, 320px);
+    margin: 0 auto;
+  }
+
+  .syllabusGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Mobile ≤ 640px */
+@media (max-width: 640px) {
+  .heroImageGrid {
+    grid-template-columns: 1fr;
+    min-height: 280px;
+  }
+
+  .heroImageLeft::after { display: none; }
+
+  .tabHeaders {
+    flex-direction: column;
+  }
+
+  .tabBtn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .certGrid {
+    grid-template-columns: 1fr;
+    max-width: 100%;
+  }
+
+  .courseRow {
+    grid-template-columns: 1fr;
+  }
+
+  .courseImageWrap {
+    width: 100%;
+    height: clamp(180px, 55vw, 280px);
+  }
+
+  .syllabusGrid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .omLine {
+    max-width: 100px;
+  }
+
+  .heroUnderline,
+  .courseUnderline {
+    width: 100px;
+  }
+
+  .collegePara,
+  .tabBody {
+    text-align: left;
+  }
+}
+
+/* Small mobile ≤ 420px */
+@media (max-width: 420px) {
+  .certTitle {
+    font-size: 0.7rem;
+    padding: 0.65rem 0.5rem;
+  }
+
+  .certRow {
+    font-size: 0.75rem;
+    padding: 0.4rem 0.6rem;
+  }
+
+  .heroTitle {
+    font-size: 1.2rem;
+  }
+
+  .courseSectionTitle {
+    font-size: 1rem;
+  }
+
+  .collegeSubTitle {
+    font-size: 0.95rem;
+  }
+}

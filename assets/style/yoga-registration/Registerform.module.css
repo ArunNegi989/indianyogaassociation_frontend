@@ -1,0 +1,546 @@
+/* ================================================================
+   RegisterForm.module.css
+   AYM Yoga School — Vintage Registration Form
+   LEFT  : Full-height image (50%) with chakras & spinning mandala
+   RIGHT : Parchment form with ornamental vintage detailing
+   ================================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Dancing+Script:wght@500;600;700&display=swap');
+
+/* ── CSS Variables ── */
+.page {
+  --saffron:       #e07b00;
+  --saffron-dark:  #c46a00;
+  --saffron-light: #f5b800;
+  --maroon:        #3d1d00;
+  --parchment:     #fdf6ec;
+  --cream:         #fffaf3;
+  --border:        #e8d5b5;
+  --text:          #3d2b10;
+  --text-muted:    #7a5c2e;
+
+  width: 100%;
+  min-height: 100vh;
+  background: linear-gradient(160deg, #fdf0dc 0%, #fff8f0 100%);
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  color: var(--text);
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  position: relative;
+}
+
+.bgMandala {
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(90vw, 700px);
+  height: min(90vw, 700px);
+  pointer-events: none;
+  z-index: 0;
+}
+.bgMandala svg { width: 100%; height: 100%; }
+
+/* ── WRAPPER: 50/50 full viewport ── */
+.wrapper {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+  max-width: 1400px;
+  min-height: 100vh;
+  box-shadow: 0 12px 60px rgba(92,45,0,0.20);
+}
+
+/* ================================================================
+   LEFT PANEL — full-height image
+   ================================================================ */
+.leftPanel {
+  position: relative;
+  overflow: hidden;
+  background: #2a1200;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  /* IMPORTANT: stretch to full height */
+  align-self: stretch;
+}
+
+/* The img fills the entire panel */
+.leftBgImage {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.leftImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  display: block;
+}
+
+/* Bottom-heavy dark overlay for readability */
+.leftOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    180deg,
+    rgba(20, 5,  0, 0.20) 0%,
+    rgba(20, 5,  0, 0.22) 40%,
+    rgba(10, 2,  0, 0.72) 68%,
+    rgba(5,  1,  0, 0.94) 100%
+  );
+}
+
+/* Spinning mandala */
+.panelMandala {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 110%;
+  z-index: 2;
+  pointer-events: none;
+  animation: slowSpin 70s linear infinite;
+}
+.panelMandala svg { width: 100%; height: 100%; }
+
+@keyframes slowSpin {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to   { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Content at bottom of left panel */
+.leftContent {
+  position: relative;
+  z-index: 3;
+  padding: clamp(2rem, 3.5vw, 3rem) clamp(1.8rem, 3.5vw, 3rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.75rem;
+}
+
+.leftOm {
+  font-size: clamp(3.5rem, 5.5vw, 5.5rem);
+  color: var(--saffron);
+  line-height: 1;
+  filter: drop-shadow(0 0 22px rgba(224,123,0,0.65));
+  animation: omPulse 4s ease-in-out infinite;
+}
+@keyframes omPulse {
+  0%,100% { transform: scale(1); }
+  50%      { transform: scale(1.07); }
+}
+
+.leftTitle {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(1.2rem, 2.2vw, 1.9rem);
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.3;
+  margin: 0;
+  letter-spacing: 0.03em;
+}
+
+.leftTitleAccent {
+  color: var(--saffron-light);
+  font-family: 'Dancing Script', cursive;
+  font-size: 1.3em;
+  font-weight: 700;
+  display: block;
+}
+
+.leftDivider {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  width: 100%;
+  max-width: 290px;
+}
+.leftDivider span:first-child,
+.leftDivider span:last-child {
+  display: block;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--saffron);
+  opacity: 0.8;
+  flex-shrink: 0;
+}
+.leftDivLine {
+  flex: 1;
+  height: 1.5px;
+  background: linear-gradient(90deg, var(--saffron), rgba(245,184,0,0.3), var(--saffron));
+}
+
+.leftSub {
+  font-size: clamp(0.82rem, 1.3vw, 0.97rem);
+  color: rgba(255,255,255,0.70);
+  line-height: 1.65;
+  margin: 0;
+}
+.leftSub em { color: var(--saffron-light); font-style: italic; }
+
+/* Chakra strip */
+.chakraStrip {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  width: 100%;
+  max-width: 290px;
+  margin: 0.4rem 0;
+}
+.chakraItem {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+.chakraDot {
+  width: clamp(28px, 3.2vw, 38px);
+  height: clamp(28px, 3.2vw, 38px);
+  flex-shrink: 0;
+}
+.chakraDot svg { width: 100%; height: 100%; }
+
+.chakraItem:nth-child(1) .chakraDot { animation: cPulse 3s ease-in-out 0.0s infinite; }
+.chakraItem:nth-child(2) .chakraDot { animation: cPulse 3s ease-in-out 0.3s infinite; }
+.chakraItem:nth-child(3) .chakraDot { animation: cPulse 3s ease-in-out 0.6s infinite; }
+.chakraItem:nth-child(4) .chakraDot { animation: cPulse 3s ease-in-out 0.9s infinite; }
+.chakraItem:nth-child(5) .chakraDot { animation: cPulse 3s ease-in-out 1.2s infinite; }
+.chakraItem:nth-child(6) .chakraDot { animation: cPulse 3s ease-in-out 1.5s infinite; }
+.chakraItem:nth-child(7) .chakraDot { animation: cPulse 3s ease-in-out 1.8s infinite; }
+
+@keyframes cPulse {
+  0%,100% { transform: scale(1) rotate(0deg); }
+  50%      { transform: scale(1.15) rotate(18deg); }
+}
+
+.chakraLabel {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(0.6rem, 0.95vw, 0.74rem);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.62);
+}
+
+.leftBadges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  justify-content: center;
+}
+.leftBadge {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(0.5rem, 0.8vw, 0.62rem);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--saffron-light);
+  border: 1px solid rgba(245,184,0,0.35);
+  padding: 0.28rem 0.7rem;
+  border-radius: 20px;
+  background: rgba(224,123,0,0.12);
+}
+
+/* ================================================================
+   RIGHT PANEL — scrollable form
+   ================================================================ */
+.rightPanel {
+  background: var(--parchment);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow-y: auto;
+}
+.rightPanel::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse at 92% 4%,  rgba(224,123,0,0.05) 0%, transparent 42%),
+    radial-gradient(ellipse at 6%  96%, rgba(92, 45, 0,0.04) 0%, transparent 40%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Header */
+.formHeader {
+  position: relative;
+  z-index: 1;
+  padding: clamp(2rem, 4vw, 3rem) clamp(2rem, 5vw, 3.5rem) 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.cornerMandala {
+  position: absolute;
+  top: 0; left: 0;
+  width: 90px; height: 90px;
+  pointer-events: none;
+  overflow: hidden;
+}
+.cornerMandala svg { width: 100%; height: 100%; }
+.cornerMandalaRight { left: auto; right: 0; }
+
+.formTitle {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.1rem, 2.1vw, 1.55rem);
+  font-weight: 600;
+  font-style: italic;
+  color: var(--maroon);
+  text-align: center;
+  margin: 0 0 0.5rem;
+  line-height: 1.35;
+  padding: 0 50px;
+}
+.formTitleUnderline {
+  width: 90px; height: 3px;
+  background: linear-gradient(90deg, transparent, var(--saffron), transparent);
+  margin: 0 auto 1rem;
+  border-radius: 2px;
+}
+.formSubtitle {
+  font-size: clamp(0.8rem, 1.2vw, 0.9rem);
+  line-height: 1.8;
+  color: var(--text-muted);
+  margin: 0 0 1.2rem;
+}
+
+/* Form body */
+.formBody {
+  position: relative; z-index: 1;
+  padding: clamp(1.5rem, 3vw, 2rem) clamp(2rem, 5vw, 3.5rem) clamp(2rem, 4vw, 3rem);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.8rem, 1.4vw, 1.05rem);
+  flex: 1;
+}
+
+.fieldFull  { display: flex; flex-direction: column; gap: 0.3rem; }
+.fieldRow   { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(0.7rem, 1.5vw, 1.1rem); }
+.fieldHalf  { display: flex; flex-direction: column; gap: 0.3rem; }
+
+.label {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(0.58rem, 0.9vw, 0.7rem);
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.input {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(0.9rem, 1.3vw, 1rem);
+  color: var(--text);
+  background: var(--cream);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 0.6rem 0.9rem;
+  outline: none;
+  width: 100%;
+  box-sizing: border-box;
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+}
+.input::placeholder { color: #c0a878; }
+.input:focus {
+  border-color: var(--saffron);
+  background: #fffbf4;
+  box-shadow: 0 0 0 3px rgba(224,123,0,0.13);
+}
+.input[type="date"] { color-scheme: light; }
+
+.radioGroup {
+  display: flex;
+  gap: clamp(0.9rem, 2vw, 1.6rem);
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 0.4rem 0;
+}
+.radioLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: clamp(0.9rem, 1.3vw, 1rem);
+  color: var(--text);
+  cursor: pointer;
+  user-select: none;
+}
+.radioInput { position: absolute; opacity: 0; width: 0; height: 0; }
+.radioCustom {
+  display: inline-block;
+  width: 17px; height: 17px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  background: var(--cream);
+  flex-shrink: 0;
+  transition: border-color 0.2s, background 0.2s;
+}
+.radioInput:checked + .radioCustom {
+  border-color: var(--saffron);
+  background: var(--saffron);
+  box-shadow: inset 0 0 0 3px var(--cream);
+}
+
+.selectWrap { position: relative; }
+.select {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(0.9rem, 1.3vw, 1rem);
+  color: var(--text);
+  background: var(--cream);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 0.6rem 2.4rem 0.6rem 0.9rem;
+  outline: none;
+  width: 100%;
+  box-sizing: border-box;
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.select:focus {
+  border-color: var(--saffron);
+  box-shadow: 0 0 0 3px rgba(224,123,0,0.13);
+}
+.selectArrow {
+  position: absolute;
+  right: 0.85rem; top: 50%;
+  transform: translateY(-50%);
+  color: var(--saffron);
+  font-size: 0.9rem;
+  pointer-events: none;
+}
+
+/* Submit */
+.submitBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  width: 100%;
+  font-family: 'Cinzel', serif;
+  font-size: clamp(0.82rem, 1.2vw, 0.95rem);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #fff;
+  background: linear-gradient(135deg, #e07b00 0%, #c46a00 100%);
+  border: none;
+  border-radius: 5px;
+  padding: clamp(0.9rem, 1.5vw, 1.15rem) 2rem;
+  cursor: pointer;
+  margin-top: 0.5rem;
+  box-shadow: 0 5px 24px rgba(224,123,0,0.38);
+  transition: transform 0.2s, box-shadow 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+.submitBtn::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 60%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.22), transparent);
+  transition: left 0.5s;
+}
+.submitBtn:hover::before { left: 150%; }
+.submitBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 32px rgba(224,123,0,0.50);
+}
+.submitBtn:active { transform: translateY(0); }
+.submitBtnText { position: relative; z-index: 1; }
+.submitBtnArrow { position: relative; z-index: 1; transition: transform 0.2s; }
+.submitBtn:hover .submitBtnArrow { transform: translateX(5px); }
+
+.bottomOrnament {
+  padding: 0.8rem 3.5rem;
+  opacity: 0.55;
+  flex-shrink: 0;
+}
+.bottomOrnament svg { width: 100%; height: 26px; }
+
+/* ================================================================
+   RESPONSIVE
+   ================================================================ */
+
+/* ≤ 1200px */
+@media (max-width: 1200px) {
+  .wrapper { grid-template-columns: 45% 55%; }
+}
+
+/* ≤ 900px — stacked: image banner on top */
+@media (max-width: 900px) {
+  .page { align-items: flex-start; }
+
+  .wrapper {
+    grid-template-columns: 1fr;
+    grid-template-rows: 400px 1fr;
+    min-height: unset;
+  }
+
+  .leftPanel {
+    height: 400px;
+    min-height: 400px;
+  }
+
+  .leftContent {
+    padding: 1.5rem 2rem;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 0.6rem;
+    text-align: left;
+  }
+
+  .leftOm { font-size: 3rem; margin: 0; }
+  .leftTitle { font-size: 1.05rem; }
+  .leftTitleAccent { display: inline; font-size: 1.1em; }
+  .leftSub { font-size: 0.78rem; margin: 0; }
+  .leftDivider { display: none; }
+
+  .chakraStrip {
+    flex-direction: row;
+    max-width: 100%;
+    margin: 0;
+    gap: 0.45rem;
+    justify-content: center;
+  }
+  .chakraLabel { display: none; }
+  .chakraDot { width: 24px; height: 24px; }
+  .leftBadges { display: none; }
+  .rightPanel { overflow-y: visible; }
+}
+
+/* ≤ 640px */
+@media (max-width: 640px) {
+  .wrapper { grid-template-rows: 300px 1fr; }
+  .leftPanel { height: 300px; min-height: 300px; }
+  .leftContent { padding: 1rem 1.2rem; }
+  .leftOm { font-size: 2.4rem; }
+  .chakraDot { width: 20px; height: 20px; }
+  .formHeader { padding: 1.5rem 1.4rem 0; }
+  .formTitle { font-size: 1rem; padding: 0 30px; }
+  .formSubtitle { font-size: 0.8rem; }
+  .formBody { padding: 1.2rem 1.4rem 2rem; gap: 0.75rem; }
+  .fieldRow { grid-template-columns: 1fr; }
+  .label { font-size: 0.6rem; }
+  .input, .select { font-size: 0.9rem; padding: 0.58rem 0.75rem; }
+  .submitBtn { font-size: 0.8rem; padding: 0.9rem; }
+  .cornerMandala { width: 60px; height: 60px; }
+  .bottomOrnament { padding: 0.5rem 1.4rem; }
+}
+
+/* ≤ 420px */
+@media (max-width: 420px) {
+  .wrapper { grid-template-rows: 240px 1fr; }
+  .leftPanel { height: 240px; min-height: 240px; }
+  .leftOm { font-size: 2rem; }
+  .formTitle { font-size: 0.92rem; padding: 0 20px; }
+  .chakraDot { width: 17px; height: 17px; }
+}

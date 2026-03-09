@@ -70,25 +70,14 @@ export const navLinks: NavLink[] = [
   {
     label: "Online Yoga Course",
     href: "/online-yoga-course",
-    clickable: false,
-    children: [
-      { label: "Online 200 Hour YTT", href: "/online-200-ytt" },
-      { label: "Online 300 Hour YTT", href: "/online-300-ytt" },
-      { label: "Online Meditation Course", href: "/online-meditation" },
-      { label: "Online Pranayama Course", href: "/online-pranayama" },
-    ],
+    
   },
   {
     label: "AYUSH Courses",
-    href: "/ayush-courses",
-    clickable: false,
-    children: [
-      { label: "Ayurveda Course", href: "/ayurveda-course" },
-      { label: "Naturopathy Course", href: "/naturopathy" },
-      { label: "Panchakarma Course", href: "/panchakarma" },
-    ],
+    href: "/yoga-college-in-rishikesh",
+    
   },
-  { label: "Register", href: "/register" },
+  { label: "Register", href: "/yoga-registration" },
   { label: "Payment", href: "/payment" },
   {
     label: "Resource",
