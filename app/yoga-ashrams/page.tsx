@@ -1,7 +1,6 @@
 // YogaAshrams.tsx
 import React from "react";
 import styles from "@/assets/style/yoga-ashrams/Yogaashrams.module.css";
-import "bootstrap/dist/css/bootstrap.min.css";
 
 // ---- Om Symbol SVG ----
 const OmSVG: React.FC = () => (
