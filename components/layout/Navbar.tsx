@@ -51,8 +51,8 @@ export const navLinks: NavLink[] = [
     href: "/yoga-teacher-training",
     clickable: false,
     children: [
-      { label: "100 Hour Yoga Teacher Training", href: "/100-hour-ytt" },
-      { label: "200 Hour Yoga Teacher Training", href: "/200-hour-ytt" },
+      { label: "100 Hour Yoga Teacher Training", href: "/100-hour-yoga-teacher-training-in-rishikesh" },
+      { label: "200 Hour Yoga Teacher Training", href: "/200-hour-yoga-teacher-training-rishikesh" },
       { label: "300 Hour Yoga Teacher Training", href: "/300-hour-ytt" },
       { label: "500 Hour Yoga Teacher Training", href: "/500-hour-ytt" },
       { label: "Kundalini Yoga Teacher Training", href: "/kundalini-ytt" },

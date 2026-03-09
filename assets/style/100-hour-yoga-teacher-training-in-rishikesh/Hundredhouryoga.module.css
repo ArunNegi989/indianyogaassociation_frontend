@@ -1,0 +1,812 @@
+/* ================================================================
+   HundredHourYoga.module.css
+   VINTAGE SPIRITUAL YOGA — Aged Parchment · Mandala/Chakra Details
+   Saffron & Sepia Ink on Yellowed Paper · Hand-stamped Feel
+   ================================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=IM+Fell+English:ital@0;1&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,600&family=Dancing+Script:wght@600;700&display=swap');
+
+/* ── Root Variables ── */
+.root {
+  /* Palette — aged manuscript */
+  --parchment:      #f5e6c8;
+  --parchment-2:    #ede0c0;
+  --parchment-3:    #e8d5a8;
+  --parchment-dark: #d4bc88;
+  --ink-sepia:      #2c1a08;
+  --ink-mid:        #4a2e10;
+  --ink-soft:       #7a5c30;
+  --saffron:        #c8700a;
+  --saffron-bright: #e07b00;
+  --saffron-gold:   #b8860b;
+  --saffron-light:  #f0a030;
+  --maroon:         #6b1a00;
+  --maroon-light:   #8b3a00;
+  --cream:          #fdf8ee;
+  --border-sepia:   rgba(139, 90, 19, 0.3);
+  --border-gold:    rgba(184, 134, 11, 0.4);
+  --shadow-warm:    rgba(80, 40, 5, 0.15);
+  --font-display:   'Cinzel', serif;
+  --font-body:      'Cormorant Garamond', serif;
+  --font-fell:      'IM Fell English', serif;
+  --font-script:    'Dancing Script', cursive;
+
+  position: relative;
+  overflow-x: hidden;
+  /* Layered parchment background */
+  background-color: var(--parchment);
+  background-image:
+    /* Random grain dots */
+    radial-gradient(circle at 20% 10%,  rgba(139,90,19,0.06) 0%, transparent 40%),
+    radial-gradient(circle at 80% 90%,  rgba(139,90,19,0.05) 0%, transparent 40%),
+    radial-gradient(circle at 60% 40%,  rgba(184,134,11,0.04) 0%, transparent 35%),
+    radial-gradient(circle at 10% 70%,  rgba(80,40,5,0.04)   0%, transparent 40%);
+  color: var(--ink-sepia);
+  font-family: var(--font-body);
+}
+
+/* ================================================================
+   AGED PAPER GRAIN OVERLAY
+   ================================================================ */
+.grainOverlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  /* SVG noise texture */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='250' height='250'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='250' height='250' filter='url(%23n)' opacity='0.055'/%3E%3C/svg%3E");
+  opacity: 1;
+  mix-blend-mode: multiply;
+}
+
+/* ================================================================
+   FIXED MANDALA WATERMARKS
+   ================================================================ */
+.mandalaFixed {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+.mf1 { position: absolute; top: -8%;  right: -12%; animation: spinM 120s linear infinite; }
+.mf2 { position: absolute; bottom: 5%; left: -10%;  animation: spinM 100s linear infinite reverse; }
+.mf3 { position: absolute; top: 38%;  left: 30%;   animation: spinM 140s linear infinite; opacity: 0.7; }
+.mf4 { position: absolute; top: 68%;  right: 5%;   animation: spinM 90s linear infinite reverse; opacity: 0.8; }
+
+@keyframes spinM {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* ================================================================
+   BORDER STRIP (diamond chain)
+   ================================================================ */
+.borderStrip {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+  background: linear-gradient(90deg, var(--parchment-3), var(--parchment-2), var(--parchment-3));
+}
+.borderSvg {
+  width: 100%;
+  height: 14px;
+  display: block;
+}
+
+/* ================================================================
+   HERO SECTION
+   ================================================================ */
+.heroSection {
+  position: relative;
+  z-index: 1;
+  padding: clamp(1.5rem, 3vw, 3rem) clamp(1rem, 4vw, 3.5rem);
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+.heroMandalaBg {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 0;
+  animation: spinM 160s linear infinite;
+}
+
+/* Photo frame with vintage corners */
+.heroFrame {
+  position: relative;
+  z-index: 1;
+  border: 2.5px solid var(--saffron-gold);
+  border-radius: 2px;
+  overflow: hidden;
+  box-shadow:
+    inset 0 0 0 6px rgba(184,134,11,0.12),
+    0 8px 40px rgba(80,40,5,0.22),
+    0 2px 8px  rgba(80,40,5,0.12);
+  width: 100%;
+  /* aspect: hero photo */
+  height: clamp(300px, 52vw, 540px);
+  background: var(--parchment-dark);
+}
+
+.heroFrame .cornerOrn {
+  position: absolute;
+  width: 48px; height: 48px;
+  z-index: 5;
+}
+.heroFrame .cornerOrn:nth-child(1) { top:    6px; left:  6px; }
+.heroFrame .cornerOrn:nth-child(2) { top:    6px; right: 6px; }
+.heroFrame .cornerOrn:nth-child(3) { bottom: 6px; left:  6px; }
+.heroFrame .cornerOrn:nth-child(4) { bottom: 6px; right: 6px; }
+
+.registerBtn {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  z-index: 10;
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--saffron);
+  border: 2px solid var(--saffron);
+  padding: 0.42rem 1rem;
+  border-radius: 2px;
+  text-decoration: none;
+  background: rgba(245,230,200,0.9);
+  backdrop-filter: blur(3px);
+  transition: all 0.22s ease;
+  box-shadow: 2px 2px 0 rgba(139,90,19,0.2);
+}
+.registerBtn:hover {
+  background: var(--saffron);
+  color: var(--cream);
+  text-decoration: none;
+  box-shadow: 3px 3px 0 rgba(80,40,5,0.3);
+}
+
+.heroImgPlaceholder {
+  width: 100%;
+  height: 100%;
+  /* Aged sepia placeholder */
+  background:
+    radial-gradient(ellipse at 35% 40%, #c8a060 0%, #a07030 60%, #7a5020 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Hero title area */
+.heroTextWrap {
+  position: relative;
+  z-index: 1;
+  padding: clamp(1.4rem, 3vw, 2.5rem) 0 0.5rem;
+}
+
+.heroTitleRow {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+.heroTitleLine {
+  flex: 1;
+  height: 1.5px;
+  background: linear-gradient(90deg, transparent, var(--saffron-gold), transparent);
+}
+
+.heroTitle {
+  font-family: var(--font-fell);
+  font-style: italic;
+  font-size: clamp(1.05rem, 2.2vw, 1.5rem);
+  color: var(--saffron);
+  text-align: center;
+  flex: 4;
+  line-height: 1.4;
+  letter-spacing: 0.01em;
+  /* underline decoration */
+  border-bottom: 1px solid var(--saffron-gold);
+  padding-bottom: 0.5rem;
+  white-space: normal;
+}
+
+/* ================================================================
+   SHARED CONTENT SECTION
+   ================================================================ */
+.contentSection {
+  position: relative;
+  z-index: 1;
+  padding: clamp(2rem, 4vw, 4rem) clamp(1rem, 5vw, 4rem);
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+/* Floating mandala decorations per section */
+.sectionMandalaL {
+  position: absolute;
+  left: -60px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  z-index: 0;
+  animation: spinM 160s linear infinite;
+}
+.sectionMandalaR {
+  position: absolute;
+  right: -60px;
+  top: 40%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  z-index: 0;
+  animation: spinM 140s linear infinite reverse;
+}
+
+/* ── Body text ── */
+.bodyText {
+  font-family: var(--font-body);
+  font-size: clamp(0.97rem, 1.55vw, 1.08rem);
+  line-height: 1.95;
+  color: var(--ink-mid);
+  margin-bottom: 1.1rem;
+  position: relative;
+  z-index: 1;
+  /* Subtle first-letter drop cap hint */
+}
+.bodyText strong {
+  color: var(--maroon);
+  font-weight: 700;
+  font-style: normal;
+  border-bottom: 1px dotted var(--saffron-gold);
+}
+
+/* ── Numbered list ── */
+.vintageList {
+  position: relative;
+  z-index: 1;
+  font-family: var(--font-body);
+  font-size: clamp(0.97rem, 1.5vw, 1.06rem);
+  line-height: 1.9;
+  color: var(--ink-mid);
+  padding-left: 0;
+  margin: 1rem 0 1.6rem;
+  list-style: none;
+  counter-reset: vintageCounter;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+.vintageList li {
+  counter-increment: vintageCounter;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+.vintageList li::before {
+  content: counter(vintageCounter) ".";
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--saffron);
+  min-width: 1.4rem;
+  margin-top: 4px;
+  letter-spacing: 0.05em;
+}
+.vintageList strong { color: var(--maroon); }
+
+/* ── Vintage heading ── */
+.vintageHeadingWrap {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  margin: 1.8rem 0 1.2rem;
+}
+.vintageHeading {
+  font-family: var(--font-fell);
+  font-style: italic;
+  font-size: clamp(1rem, 2.2vw, 1.45rem);
+  color: var(--saffron);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  line-height: 1.4;
+  margin: 0 auto 0.5rem;
+  max-width: 820px;
+  /* Embossed text feel */
+  text-shadow: 1px 1px 0 rgba(255,220,160,0.6), -1px -1px 0 rgba(80,40,5,0.15);
+}
+.vintageHeadingUnderline {
+  display: flex;
+  justify-content: center;
+}
+.headingUndSvg {
+  width: clamp(120px, 28vw, 200px);
+  height: 8px;
+}
+
+/* ── Om Divider ── */
+.omDivider {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 2rem 0;
+}
+.divLineLeft,
+.divLineRight {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--saffron-gold));
+}
+.divLineRight {
+  background: linear-gradient(90deg, var(--saffron-gold), transparent);
+}
+.omDividerCenter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+}
+.omDividerLabel {
+  font-family: var(--font-display);
+  font-size: 0.6rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--saffron-gold);
+}
+
+/* ── Corner ornament ── */
+.cornerOrn {
+  position: absolute;
+  width: 38px;
+  height: 38px;
+  z-index: 5;
+  pointer-events: none;
+}
+
+/* ================================================================
+   DATES TABLE
+   ================================================================ */
+.datesSection {
+  position: relative;
+  z-index: 1;
+  padding: clamp(2rem, 4vw, 4rem) clamp(1rem, 5vw, 4rem);
+  max-width: 1180px;
+  margin: 0 auto;
+  /* faint parchment band */
+  background:
+    linear-gradient(180deg, rgba(212,188,136,0.18) 0%, transparent 100%);
+}
+
+.tableContainer {
+  position: relative;
+  border: 2px solid var(--saffron-gold);
+  border-radius: 2px;
+  box-shadow:
+    inset 0 0 0 5px rgba(184,134,11,0.1),
+    0 6px 30px var(--shadow-warm);
+  /* Aged look */
+  background: linear-gradient(160deg, #fdf5e0 0%, #f5e5c0 100%);
+  padding: 0.4rem;
+}
+.tableContainer .cornerOrn:nth-child(1) { top:    4px; left:  4px; }
+.tableContainer .cornerOrn:nth-child(2) { top:    4px; right: 4px; }
+.tableContainer .cornerOrn:nth-child(3) { bottom: 4px; left:  4px; }
+.tableContainer .cornerOrn:nth-child(4) { bottom: 4px; right: 4px; }
+
+.tableScroll { overflow-x: auto; }
+
+.datesTable {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 520px;
+}
+.datesTable thead tr {
+  background: linear-gradient(135deg, var(--saffron-bright) 0%, var(--saffron) 100%);
+}
+.datesTable thead th {
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--cream);
+  padding: 0.9rem 1.2rem;
+  text-align: center;
+  font-weight: 600;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+.datesTable tbody tr {
+  border-bottom: 1px solid rgba(184,134,11,0.15);
+  transition: background 0.2s;
+}
+.datesTable tbody tr:nth-child(odd)  { background: rgba(245,230,200,0.6); }
+.datesTable tbody tr:nth-child(even) { background: rgba(232,210,168,0.5); }
+.datesTable tbody tr:hover           { background: rgba(200,112,10,0.1); }
+.datesTable tbody td {
+  font-family: var(--font-body);
+  font-size: clamp(0.9rem, 1.4vw, 1rem);
+  color: var(--ink-mid);
+  padding: 0.7rem 1.2rem;
+  text-align: center;
+}
+
+.applyLink {
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--saffron);
+  text-decoration: none;
+  border-bottom: 1px dotted var(--saffron);
+  transition: color 0.18s, border-color 0.18s;
+}
+.applyLink:hover { color: var(--maroon); border-color: var(--maroon); }
+
+/* ================================================================
+   SYLLABUS
+   ================================================================ */
+.syllabusGrid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.6rem;
+  margin-top: 2rem;
+}
+
+.syllabusCard {
+  border: 1.5px solid var(--saffron-gold);
+  border-radius: 2px;
+  padding: 1.6rem 1.8rem;
+  background: linear-gradient(160deg, #fdf5e0 0%, #f5e5c0 100%);
+  box-shadow: inset 0 0 0 4px rgba(184,134,11,0.08), 0 4px 18px var(--shadow-warm);
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.syllabusModule {
+  display: flex;
+  gap: 0.8rem;
+  align-items: flex-start;
+  padding-bottom: 1rem;
+  border-bottom: 1px dashed rgba(184,134,11,0.25);
+}
+.syllabusModule:last-child { border-bottom: none; padding-bottom: 0; }
+
+.syllabusModuleIcon {
+  flex-shrink: 0;
+  margin-top: 3px;
+  opacity: 0.7;
+}
+
+.syllabusModuleTitle {
+  font-family: var(--font-fell);
+  font-style: italic;
+  font-size: clamp(0.95rem, 1.5vw, 1.1rem);
+  color: var(--saffron);
+  margin: 0 0 0.3rem;
+  font-weight: 400;
+}
+.syllabusModuleDesc {
+  font-family: var(--font-body);
+  font-size: clamp(0.88rem, 1.3vw, 0.97rem);
+  color: var(--ink-mid);
+  line-height: 1.75;
+  margin: 0;
+}
+
+/* ================================================================
+   DAILY SCHEDULE
+   ================================================================ */
+.scheduleSection {
+  position: relative;
+  z-index: 1;
+  padding: clamp(2rem, 4vw, 4rem) clamp(1rem, 5vw, 4rem);
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+.scheduleLayout {
+  display: grid;
+  grid-template-columns: 1fr 1.45fr;
+  gap: clamp(1.5rem, 4vw, 3.5rem);
+  align-items: center;
+}
+
+/* Ornamental image frame (lotus petal shape via border-radius) */
+.schedImgCol {
+  display: flex;
+  justify-content: center;
+}
+.schedImgOrnament {
+  position: relative;
+  width: clamp(200px, 32vw, 340px);
+  height: clamp(200px, 32vw, 340px);
+  border-radius: 63% 37% 54% 46% / 55% 48% 52% 45%;
+  border: 4px solid var(--saffron-gold);
+  overflow: hidden;
+  box-shadow:
+    0 0 0 8px  rgba(184,134,11,0.13),
+    0 0 0 16px rgba(184,134,11,0.07),
+    0 12px 40px var(--shadow-warm);
+}
+.schedMandalaBg {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 2;
+}
+.schedImgPlaceholder {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 40% 35%, #b89060 0%, #8a6030 70%, #5a3a10 100%);
+  z-index: 1;
+}
+
+/* Schedule box */
+.schedBoxCol {}
+
+.schedBox {
+  position: relative;
+  border: 2px solid var(--saffron-gold);
+  border-radius: 2px;
+  overflow: hidden;
+  box-shadow: inset 0 0 0 5px rgba(184,134,11,0.09), 0 5px 24px var(--shadow-warm);
+  background: linear-gradient(160deg, #fdf5e0 0%, #f5e5c0 100%);
+}
+.schedBox .cornerOrn:nth-child(1) { top:    5px; left:  5px; }
+.schedBox .cornerOrn:nth-child(2) { top:    5px; right: 5px; }
+.schedBox .cornerOrn:nth-child(3) { bottom: 5px; left:  5px; }
+.schedBox .cornerOrn:nth-child(4) { bottom: 5px; right: 5px; }
+
+.schedHeader {
+  background: linear-gradient(135deg, var(--saffron-bright) 0%, var(--saffron) 100%);
+  color: var(--cream);
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 0.75rem 1.4rem;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.25);
+}
+
+.schedList {
+  list-style: none;
+  padding: 1rem 1.4rem;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.schedItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  font-family: var(--font-body);
+  font-size: clamp(0.88rem, 1.4vw, 1rem);
+  color: var(--ink-mid);
+  line-height: 1.55;
+  padding: 0.45rem 0;
+  border-bottom: 1px dashed rgba(184,134,11,0.2);
+}
+.schedItem:last-child { border-bottom: none; }
+
+.schedDot {
+  flex-shrink: 0;
+  margin-top: 4px;
+  line-height: 0;
+}
+
+.schedLink {
+  color: var(--saffron);
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 1px dotted var(--saffron);
+}
+.schedLink:hover { color: var(--maroon); }
+
+/* ================================================================
+   CLASS BANNER
+   ================================================================ */
+.classBanner {
+  position: relative;
+  width: 100%;
+  height: clamp(240px, 38vw, 430px);
+  border: 2.5px solid var(--saffron-gold);
+  border-radius: 2px;
+  overflow: hidden;
+  box-shadow: inset 0 0 0 6px rgba(184,134,11,0.1), 0 8px 36px var(--shadow-warm);
+  margin: 1.5rem 0;
+}
+.classBanner .cornerOrn:nth-child(1) { top:    8px; left:  8px; }
+.classBanner .cornerOrn:nth-child(2) { top:    8px; right: 8px; }
+.classBanner .cornerOrn:nth-child(3) { bottom: 8px; left:  8px; }
+.classBanner .cornerOrn:nth-child(4) { bottom: 8px; right: 8px; }
+
+.classBannerPlaceholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(160deg, #b85a00 0%, #7a3800 60%, #3d1800 100%);
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  padding: 1.8rem 2rem;
+}
+
+.letYourSoul {
+  font-family: var(--font-script);
+  font-size: clamp(1.4rem, 4vw, 2.6rem);
+  color: rgba(255,240,210,0.92);
+  text-shadow: 0 2px 16px rgba(0,0,0,0.5), 0 0 30px rgba(200,112,10,0.4);
+  letter-spacing: 0.03em;
+}
+
+/* ================================================================
+   FEE GRID
+   ================================================================ */
+.feeGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.6rem;
+  margin-top: 1.6rem;
+}
+
+.feeCard {
+  position: relative;
+  border: 1.5px solid var(--saffron-gold);
+  border-radius: 2px;
+  overflow: hidden;
+  box-shadow: inset 0 0 0 4px rgba(184,134,11,0.08), 0 4px 18px var(--shadow-warm);
+  background: linear-gradient(160deg, #fdf5e0 0%, #f5e5c0 100%);
+}
+.feeCard .cornerOrn:nth-child(1) { top:    5px; left:  5px; }
+.feeCard .cornerOrn:nth-child(2) { top:    5px; right: 5px; }
+.feeCard .cornerOrn:nth-child(3) { bottom: 5px; left:  5px; }
+.feeCard .cornerOrn:nth-child(4) { bottom: 5px; right: 5px; }
+
+.feeCardHeaderGreen {
+  background: linear-gradient(135deg, #5a8a00 0%, #3d6000 100%);
+  color: var(--cream);
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.75rem 1.2rem;
+  font-weight: 700;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+.feeCardHeaderRed {
+  background: linear-gradient(135deg, #b84000 0%, #8a2c00 100%);
+  color: var(--cream);
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.75rem 1.2rem;
+  font-weight: 700;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+
+.feeList {
+  list-style: none;
+  padding: 1rem 1.4rem 1.2rem;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+.feeList li {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-body);
+  font-size: clamp(0.9rem, 1.4vw, 1rem);
+  color: var(--ink-mid);
+  line-height: 1.5;
+  border-bottom: 1px dashed rgba(184,134,11,0.18);
+  padding-bottom: 0.45rem;
+}
+.feeList li:last-child { border-bottom: none; }
+.feeDot { flex-shrink: 0; line-height: 0; }
+
+/* ================================================================
+   FOOTER STAMP
+   ================================================================ */
+.footerStamp {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 1rem;
+  gap: 0.6rem;
+  background: linear-gradient(180deg, var(--parchment-2), var(--parchment-3));
+}
+.footerStampText {
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--saffron-gold);
+}
+
+/* ================================================================
+   RESPONSIVE BREAKPOINTS
+   ================================================================ */
+
+/* 1100px */
+@media (max-width: 1100px) {
+  .sectionMandalaL { left: -40px; }
+  .sectionMandalaR { right: -40px; }
+}
+
+/* 900px — tablet landscape */
+@media (max-width: 900px) {
+  .syllabusGrid      { grid-template-columns: 1fr; }
+  .feeGrid           { grid-template-columns: 1fr; }
+  .scheduleLayout    { grid-template-columns: 1fr; gap: 2rem; }
+  .schedImgCol       { order: -1; }
+  .schedImgOrnament  { width: clamp(160px, 45vw, 240px); height: clamp(160px, 45vw, 240px); }
+  .sectionMandalaL,
+  .sectionMandalaR   { display: none; }
+}
+
+/* 720px — tablet portrait */
+@media (max-width: 720px) {
+  .heroTitle { font-size: 1rem; }
+  .heroFrame { height: clamp(240px, 55vw, 400px); }
+
+  .vintageHeading { font-size: 1rem; }
+
+  .classBanner { height: clamp(180px, 50vw, 280px); }
+
+  .contentSection,
+  .datesSection,
+  .scheduleSection {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .syllabusCard { padding: 1.2rem; }
+  .syllabusModule { gap: 0.6rem; }
+}
+
+/* 540px — large phone */
+@media (max-width: 540px) {
+  .heroFrame { height: clamp(200px, 60vw, 340px); }
+
+  .heroTitleRow { flex-direction: column; gap: 0.5rem; }
+  .heroTitleLine { width: 80%; height: 1px; }
+  .heroTitle { font-size: 0.95rem; }
+
+  .bodyText,
+  .vintageList { font-size: 0.95rem; }
+
+  .schedItem { font-size: 0.88rem; }
+
+  .letYourSoul { font-size: 1.2rem; }
+
+  .datesTable { font-size: 0.82rem; }
+  .datesTable thead th,
+  .datesTable tbody td { padding: 0.6rem 0.7rem; }
+
+  .omDivider { gap: 0.6rem; }
+}
+
+/* 400px — small phone */
+@media (max-width: 400px) {
+  .heroFrame { height: 220px; }
+  .vintageHeading { font-size: 0.9rem; }
+  .bodyText { font-size: 0.9rem; }
+  .schedItem { font-size: 0.82rem; }
+  .cornerOrn { width: 28px; height: 28px; }
+}
