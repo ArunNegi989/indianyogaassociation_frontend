@@ -1,0 +1,829 @@
+/* ================================================================
+   BaliYogaPage.module.css
+   AYM Yoga School Bali · Tropical Vintage
+   Deep Jungle Green × Saffron × Parchment × Temple Gold
+   ================================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,600&family=Dancing+Script:wght@500;600;700&family=IM+Fell+English:ital@0;1&display=swap');
+
+/* ── Tokens ── */
+:root {
+  --parch:      #fdf6e8;
+  --parch2:     #f4e9cd;
+  --cream:      #fff9f0;
+  --saff:       #e07b00;
+  --saff-lt:    #f5b800;
+  --rust:       #b85e00;
+  --maho:       #3d1d00;
+  --brown:      #7a5c2e;
+  --jungle:     #1a3d2b;
+  --jungle2:    #2a5040;
+  --ink:        #2e1a06;
+  --glow:       rgba(224,123,0,0.28);
+  --ff-d:       'Cinzel', serif;
+  --ff-b:       'Cormorant Garamond', serif;
+  --ff-s:       'Dancing Script', cursive;
+  --ff-f:       'IM Fell English', serif;
+  --shadow:     0 4px 24px rgba(40,20,0,0.13);
+  --shadow-lg:  0 12px 48px rgba(40,20,0,0.2);
+  --border:     1.5px solid rgba(224,123,0,0.25);
+  --r:          6px;
+  --tr:         0.22s ease;
+}
+
+/* ── Reveal ── */
+.reveal { opacity:0; transform:translateY(28px); transition:opacity .65s ease, transform .65s ease; }
+.reveal.visible { opacity:1; transform:none; }
+
+/* ════════ PAGE ════════ */
+.page {
+  font-family: var(--ff-b);
+  background: var(--parch);
+  color: var(--ink);
+  overflow-x: hidden;
+  position: relative;
+}
+
+.pageWm {
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ════════ HERO ════════ */
+.hero {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.heroBg {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: center 30%;
+  filter: saturate(0.55) sepia(0.35) brightness(0.8);
+}
+
+.heroVeil {
+  position: absolute; inset: 0;
+  background: linear-gradient(
+    140deg,
+    rgba(10,30,15,0.88) 0%,
+    rgba(20,50,30,0.68) 55%,
+    rgba(40,20,0,0.4) 100%
+  );
+  z-index: 1;
+}
+
+.heroMandalaL {
+  position: absolute; left: -80px; top: 50%;
+  transform: translateY(-50%);
+  z-index: 2; pointer-events: none;
+}
+.heroMandalaR {
+  position: absolute; right: 60px; bottom: 80px;
+  z-index: 2; pointer-events: none;
+}
+
+.heroContent {
+  position: relative; z-index: 3;
+  padding: clamp(5rem,10vw,8rem) clamp(1.5rem,6vw,5rem);
+  max-width: 760px;
+}
+
+.heroPre {
+  font-family: var(--ff-f);
+  font-size: clamp(.72rem,1.3vw,.88rem);
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: #a8e6b0;
+  margin-bottom: 1rem;
+}
+
+.heroH1 {
+  font-family: var(--ff-d);
+  font-size: clamp(2rem,7vw,4.8rem);
+  font-weight: 700;
+  color: #f8f4e8;
+  line-height: 1.2;
+  margin-bottom: 1.2rem;
+  text-shadow: 0 2px 20px rgba(0,0,0,.5);
+}
+
+.heroH1 em {
+  font-style: normal;
+  font-family: var(--ff-s);
+  color: var(--saff-lt);
+  font-size: 1.12em;
+}
+
+.heroSub {
+  font-family: var(--ff-f);
+  font-size: clamp(.82rem,1.4vw,.96rem);
+  color: rgba(255,240,200,.78);
+  letter-spacing: .06em;
+  margin-bottom: 2rem;
+}
+
+.heroBtns {
+  display: flex; flex-wrap: wrap; gap: 1rem;
+  margin-bottom: 2.2rem;
+}
+
+.heroStamps {
+  display: flex; flex-wrap: wrap; gap: .5rem;
+}
+
+.heroStamp {
+  font-family: var(--ff-d);
+  font-size: .65rem;
+  font-weight: 600;
+  letter-spacing: .12em;
+  color: rgba(255,240,200,.7);
+  border: 1px solid rgba(245,184,0,.3);
+  padding: .3rem .8rem;
+  border-radius: 20px;
+  background: rgba(255,255,255,.04);
+  backdrop-filter: blur(4px);
+}
+
+/* ── Chakra spine ── */
+.chakraSpine {
+  position: absolute; right: clamp(.8rem,2.5vw,2rem); top: 50%;
+  transform: translateY(-50%);
+  z-index: 4;
+  display: flex; flex-direction: column;
+  gap: .55rem; align-items: center;
+}
+
+.chakraDot {
+  position: relative;
+  width: 32px; height: 32px; border-radius: 50%;
+  background: color-mix(in srgb, var(--cc) 75%, transparent);
+  border: 2px solid var(--cc);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 0 8px color-mix(in srgb, var(--cc) 45%, transparent);
+  transition: transform var(--tr), box-shadow var(--tr);
+}
+.chakraDot:hover { transform: scale(1.4); box-shadow: 0 0 20px var(--cc); }
+
+.chakraSym { font-size: .85rem; color: #fff; line-height: 1; }
+
+.chakraTip {
+  position: absolute; right: 46px; top: 50%;
+  transform: translateY(-50%);
+  background: rgba(10,25,12,.95);
+  border: 1px solid var(--cc);
+  border-radius: 4px;
+  padding: .45rem 1rem;
+  white-space: nowrap;
+  font-family: var(--ff-b); font-size: .75rem;
+  color: #f8f4e8; line-height: 1.7;
+  pointer-events: none; z-index: 5;
+}
+.chakraTip strong { color: var(--saff-lt); }
+.chakraTip small  { color: rgba(255,240,200,.7); font-size:.68rem; }
+.chakraTip em     { color: #a8e6b0; font-size:.68rem; font-style:italic; }
+
+/* ════════ BUTTONS ════════ */
+.btnPrimary {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--ff-d); font-size:.72rem; font-weight:700;
+  letter-spacing:.14em; text-transform:uppercase;
+  color:#fff;
+  background: linear-gradient(135deg, var(--saff) 0%, var(--rust) 100%);
+  padding:.85rem 2rem; border-radius:var(--r);
+  text-decoration:none; white-space:nowrap;
+  box-shadow:0 6px 24px var(--glow);
+  transition:box-shadow var(--tr), transform var(--tr);
+  border:none; cursor:pointer;
+}
+.btnPrimary:hover { transform:translateY(-2px); box-shadow:0 10px 36px rgba(224,123,0,.5); }
+
+.btnGhost {
+  display: inline-flex; align-items: center;
+  font-family: var(--ff-d); font-size:.72rem; font-weight:600;
+  letter-spacing:.14em; text-transform:uppercase;
+  color:#c8f5d0;
+  background: rgba(255,255,255,.06);
+  padding:.85rem 2rem; border-radius:var(--r);
+  text-decoration:none;
+  border: 1.5px solid rgba(168,230,176,.35);
+  backdrop-filter:blur(4px);
+  transition:background var(--tr), border-color var(--tr), transform var(--tr);
+}
+.btnGhost:hover { background:rgba(168,230,176,.12); border-color:rgba(168,230,176,.65); transform:translateY(-2px); }
+
+/* ════════ SECTIONS ════════ */
+.section { position:relative; z-index:1; }
+.sectionTinted { background:linear-gradient(160deg, var(--parch2) 0%, var(--parch) 100%); }
+
+.container {
+  max-width: 1200px; margin:0 auto;
+  padding: clamp(3rem,6vw,5rem) clamp(1.2rem,5vw,3rem);
+}
+
+.centered { text-align:center; max-width:860px; margin:0 auto 3rem; }
+
+.superLabel {
+  display:block;
+  font-family:var(--ff-d); font-size:.68rem; font-weight:700;
+  letter-spacing:.22em; text-transform:uppercase;
+  color:var(--saff); margin-bottom:.5rem;
+}
+
+.sectionTitle {
+  font-family:var(--ff-d);
+  font-size:clamp(1.3rem,3.5vw,2.3rem);
+  font-weight:700; color:var(--maho);
+  line-height:1.35; margin-bottom:.8rem;
+}
+
+.para {
+  font-family:var(--ff-b);
+  font-size:clamp(.95rem,1.6vw,1.07rem);
+  line-height:1.9; color:#3d2b10; margin-bottom:1.1rem;
+}
+
+.paraCenter {
+  font-family:var(--ff-b);
+  font-size:clamp(.95rem,1.6vw,1.07rem);
+  line-height:1.9; color:#3d2b10; margin-bottom:1rem;
+}
+
+/* ── Om Bar ── */
+.omBar {
+  display:flex; align-items:center; gap:.75rem;
+  margin:.7rem 0 1.3rem;
+}
+.omBarLine {
+  flex:1; max-width:180px; height:1.5px;
+  background:linear-gradient(90deg,transparent,rgba(224,123,0,.6),transparent);
+}
+.omBarGlyph {
+  font-family:var(--ff-d); font-size:1.5rem;
+  color:var(--saff); line-height:1;
+  filter:drop-shadow(0 1px 4px rgba(224,123,0,.35));
+  animation:omPulse 3s ease-in-out infinite;
+}
+@keyframes omPulse {
+  0%,100% { filter:drop-shadow(0 1px 4px rgba(224,123,0,.3)); }
+  50%      { filter:drop-shadow(0 0 14px rgba(224,123,0,.75)); }
+}
+
+/* ── Mandala bg deco ── */
+.mandalaBg {
+  position:absolute; left:-80px; top:50%;
+  transform:translateY(-50%);
+  pointer-events:none; z-index:0;
+}
+
+/* ════════ INTRO BANNER ════════ */
+.introBanner {
+  position:relative;
+  background:linear-gradient(135deg,#fff8f0 0%,#ffecd8 100%);
+  border:var(--border);
+  border-left:4px solid var(--saff);
+  border-radius:0 var(--r) var(--r) 0;
+  padding:2rem 2.4rem;
+  box-shadow:var(--shadow);
+  overflow:hidden;
+}
+
+.introBannerDeco {
+  position:absolute; right:-30px; top:50%;
+  transform:translateY(-50%);
+  pointer-events:none;
+}
+
+.introBannerText { position:relative; z-index:1; }
+
+/* ════════ UNIQUE GRID ════════ */
+.uniqueGrid {
+  display:grid; grid-template-columns:repeat(4,1fr);
+  gap:1.2rem; margin-top:1rem;
+}
+
+.uniqueCard {
+  background:var(--cream); border:var(--border);
+  border-radius:var(--r); padding:1.5rem 1.2rem;
+  box-shadow:var(--shadow); text-align:center;
+  transition:transform var(--tr), box-shadow var(--tr);
+  position:relative; overflow:hidden;
+}
+
+.uniqueCard::before {
+  content:'';
+  position:absolute; inset:0;
+  background:radial-gradient(circle at 50% 0%,rgba(224,123,0,.06) 0%,transparent 65%);
+  pointer-events:none;
+}
+
+.uniqueCard:hover { transform:translateY(-5px); box-shadow:var(--shadow-lg); }
+
+.uniqueIcon { font-size:2rem; display:block; margin-bottom:.6rem; }
+
+.uniqueTitle {
+  font-family:var(--ff-d); font-size:.8rem; font-weight:700;
+  color:var(--maho); margin-bottom:.5rem; letter-spacing:.03em;
+}
+
+.uniqueBody {
+  font-family:var(--ff-b); font-size:.92rem;
+  color:#5a3e22; line-height:1.75; margin:0;
+}
+
+/* ════════ DESTINATION ════════ */
+.destGrid {
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:clamp(2rem,5vw,5rem); align-items:center;
+}
+
+.destHighlights {
+  display:flex; flex-wrap:wrap; gap:.5rem; margin-top:1.2rem;
+}
+
+.destChip {
+  font-family:var(--ff-b); font-size:.88rem; font-weight:600;
+  color:#7a3f00; background:#fff3e0;
+  border:1px solid rgba(224,123,0,.3);
+  padding:.28rem .8rem; border-radius:20px;
+  transition:background var(--tr), color var(--tr);
+}
+.destChip:hover { background:var(--saff); color:#fff; }
+
+.destImages { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+
+.destImgMain {
+  grid-column:1/-1;
+  border-radius:var(--r); overflow:hidden; box-shadow:var(--shadow-lg);
+}
+.destImgMain img {
+  width:100%; aspect-ratio:16/9; object-fit:cover; display:block;
+  filter:saturate(.75) sepia(.15);
+  transition:transform .5s ease, filter .4s ease;
+}
+.destImgMain img:hover { transform:scale(1.03); filter:saturate(.95) sepia(.05); }
+
+.destImgSmall { border-radius:var(--r); overflow:hidden; box-shadow:var(--shadow); }
+.destImgSmall img {
+  width:100%; aspect-ratio:4/3; object-fit:cover; display:block;
+  filter:saturate(.7) sepia(.15);
+  transition:filter .4s ease;
+}
+.destImgSmall img:hover { filter:saturate(.9) sepia(.05); }
+
+/* ════════ IMAGE BREAK ════════ */
+.imgBreak {
+  position:relative; overflow:hidden;
+  height:clamp(280px,40vw,500px);
+  display:flex; align-items:center; justify-content:center;
+}
+
+.imgBreakPhoto {
+  position:absolute; inset:0; width:100%; height:100%;
+  object-fit:cover; object-position:center 40%;
+  filter:saturate(.55) sepia(.4) brightness(.7);
+}
+
+.imgBreakVeil {
+  position:absolute; inset:0;
+  background:linear-gradient(135deg,rgba(10,30,15,.78) 0%,rgba(30,12,0,.6) 100%);
+}
+
+.imgBreakQuote {
+  position:relative; z-index:1;
+  text-align:center; padding:2rem 1.5rem;
+}
+
+.pullQuote {
+  font-family:var(--ff-s); font-size:clamp(1.3rem,3vw,2rem);
+  font-weight:600; color:#f8f4e8;
+  line-height:1.6; margin:.5rem 0 0;
+}
+
+.qMark { font-family:var(--ff-d); font-size:1.6em; color:var(--saff-lt); line-height:0; vertical-align:middle; margin:0 3px; }
+
+/* ════════ COURSES ════════ */
+.coursesRow {
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:1.5rem; margin-top:1.5rem;
+}
+
+.courseCard {
+  background:var(--cream); border:var(--border);
+  border-top:3px solid var(--cc);
+  border-radius:var(--r); padding:2rem 1.5rem;
+  box-shadow:var(--shadow); position:relative; overflow:hidden;
+  display:flex; flex-direction:column; gap:.5rem;
+  transition:transform var(--tr), box-shadow var(--tr);
+}
+
+.courseCard::before {
+  content:''; position:absolute; inset:0;
+  background:radial-gradient(circle at 50% 0%,color-mix(in srgb,var(--cc) 8%,transparent) 0%,transparent 65%);
+  pointer-events:none;
+}
+
+.courseCard:hover { transform:translateY(-6px); box-shadow:var(--shadow-lg); }
+
+.courseCardMandala {
+  position:absolute; right:-60px; bottom:-60px;
+  pointer-events:none; z-index:0;
+}
+
+.courseHrs {
+  font-family:var(--ff-d); font-size:3rem; font-weight:900;
+  color:var(--cc); line-height:1; position:relative; z-index:1;
+}
+.courseHrs sub {
+  font-size:.6rem; font-weight:600; letter-spacing:.1em;
+  vertical-align:sub; margin-left:2px; color:var(--brown);
+}
+
+.courseTag {
+  font-family:var(--ff-f); font-size:.72rem; font-style:italic;
+  color:var(--brown); letter-spacing:.05em; position:relative; z-index:1;
+}
+
+.courseTitle {
+  font-family:var(--ff-d); font-size:.82rem; font-weight:700;
+  color:var(--maho); line-height:1.4;
+  margin-top:.3rem; position:relative; z-index:1;
+}
+
+.courseDesc {
+  font-family:var(--ff-b); font-size:.93rem;
+  color:#5a3e22; line-height:1.75; flex:1;
+  position:relative; z-index:1; margin:0;
+}
+
+.courseBtn {
+  font-family:var(--ff-d); font-size:.68rem; font-weight:700;
+  letter-spacing:.12em; color:var(--cc);
+  text-decoration:none; margin-top:.6rem;
+  position:relative; z-index:1;
+  transition:letter-spacing var(--tr);
+}
+.courseBtn:hover { letter-spacing:.22em; }
+
+/* ════════ HIGHLIGHTS ════════ */
+.hlGrid {
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:clamp(2rem,5vw,5rem); align-items:start;
+}
+
+.hlList { list-style:none; padding:0; margin:1.2rem 0 0; display:flex; flex-direction:column; gap:.55rem; }
+
+.hlItem {
+  display:flex; gap:1rem; align-items:flex-start;
+  font-family:var(--ff-b); font-size:clamp(.9rem,1.4vw,1rem);
+  line-height:1.65; color:#3d2b10;
+  padding:.5rem 0; border-bottom:1px solid rgba(224,123,0,.1);
+}
+.hlItem:last-child { border-bottom:none; }
+
+.hlBullet { color:var(--saff); flex-shrink:0; font-size:1rem; line-height:1.6; }
+
+.hlRight { display:flex; flex-direction:column; gap:1.2rem; }
+
+.hlImageWrap {
+  position:relative; border-radius:var(--r); overflow:hidden;
+  box-shadow:var(--shadow-lg);
+}
+.hlImageWrap img {
+  width:100%; aspect-ratio:4/3; object-fit:cover; display:block;
+  filter:saturate(.75) sepia(.12);
+  transition:filter .4s ease;
+}
+.hlImageWrap img:hover { filter:saturate(.95) sepia(.04); }
+
+.hlImageFrame {
+  position:absolute; inset:8px;
+  border:1px solid rgba(224,123,0,.2);
+  border-radius:3px; pointer-events:none;
+}
+.hlImageMandala {
+  position:absolute; bottom:-20px; right:-20px;
+  pointer-events:none; z-index:1; opacity:.6;
+}
+
+.hlImageWrap2 {
+  border-radius:var(--r); overflow:hidden; box-shadow:var(--shadow);
+}
+.hlImageWrap2 img {
+  width:100%; aspect-ratio:16/7; object-fit:cover; display:block;
+  filter:saturate(.7) sepia(.12);
+}
+
+/* ════════ CHAKRA SECTION ════════ */
+.chakraSection {
+  position:relative; overflow:hidden;
+  background:linear-gradient(135deg, #0d2218 0%, #1a3d2b 40%, #2a1000 100%);
+  padding:0;
+}
+
+.chakraSectionMandala {
+  position:absolute; left:50%; top:50%;
+  transform:translate(-50%,-50%);
+  pointer-events:none; z-index:0;
+}
+
+/* Chakra interactive wheel */
+.chakraWheel {
+  position:relative; width:430px; height:430px;
+  margin:0 auto 2rem;
+}
+
+.chakraWheelCenter {
+  position:absolute; left:50%; top:50%;
+  transform:translate(-50%,-50%);
+  display:flex; align-items:center; justify-content:center;
+  z-index:0;
+}
+
+.chakraWheelOm {
+  position:absolute; font-family:var(--ff-d);
+  font-size:2.2rem; color:rgba(245,184,0,.7);
+  animation:omPulse 3s ease-in-out infinite;
+  z-index:1;
+}
+
+.chakraWheelDot {
+  position:absolute; width:48px; height:48px;
+  border-radius:50%; transform:translate(-50%,-50%);
+  background:color-mix(in srgb,var(--cc) 70%,rgba(255,255,255,.1));
+  border:2px solid var(--cc);
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer;
+  box-shadow:0 0 12px color-mix(in srgb,var(--cc) 50%,transparent);
+  transition:transform var(--tr), box-shadow var(--tr);
+  z-index:2;
+}
+.chakraWheelDot:hover {
+  transform:translate(-50%,-50%) scale(1.3);
+  box-shadow:0 0 24px var(--cc), 0 0 48px color-mix(in srgb,var(--cc) 40%,transparent);
+}
+.chakraWheelActive {
+  transform:translate(-50%,-50%) scale(1.4) !important;
+  box-shadow:0 0 30px var(--cc) !important;
+}
+
+.cwSym { font-size:1.2rem; color:#fff; line-height:1; }
+
+/* Chakra active detail */
+.chakraDetail {
+  display:flex; align-items:center; gap:1.5rem;
+  max-width:500px; margin:0 auto 2.5rem;
+  background:rgba(255,255,255,.05);
+  border:1px solid color-mix(in srgb,var(--cc) 45%,transparent);
+  border-radius:var(--r); padding:1.2rem 1.8rem;
+  backdrop-filter:blur(6px);
+  animation:detailIn .3s ease;
+}
+
+@keyframes detailIn { from { opacity:0; transform:scale(.95); } to { opacity:1; transform:none; } }
+
+.chakraDetailGlyph {
+  font-size:2.8rem; color:var(--cc); flex-shrink:0;
+  filter:drop-shadow(0 2px 8px color-mix(in srgb,var(--cc) 55%,transparent));
+}
+.chakraDetailName {
+  font-family:var(--ff-d); font-size:1.1rem; font-weight:700;
+  color:#f8f4e8; margin-bottom:.25rem;
+}
+.chakraDetailMeaning {
+  font-family:var(--ff-b); font-size:.92rem;
+  color:rgba(255,240,200,.8); margin-bottom:.25rem; line-height:1.6;
+}
+.chakraDetailMantra {
+  font-family:var(--ff-f); font-size:.82rem; font-style:italic;
+  color:var(--saff-lt); margin:0;
+}
+.chakraDetailMantra strong { font-style:normal; letter-spacing:.08em; }
+
+/* Chakra cards row */
+.chakraCardsRow {
+  display:grid; grid-template-columns:repeat(7,1fr);
+  gap:.65rem; position:relative; z-index:1;
+}
+
+.chakraCard {
+  background:rgba(255,255,255,.04);
+  border:1px solid color-mix(in srgb,var(--cc) 30%,transparent);
+  border-radius:var(--r); padding:1.1rem .6rem;
+  text-align:center; cursor:default;
+  transition:transform var(--tr), background var(--tr), box-shadow var(--tr);
+  overflow:hidden;
+}
+.chakraCard:hover {
+  transform:translateY(-5px);
+  background:rgba(255,255,255,.08);
+  box-shadow:0 8px 24px color-mix(in srgb,var(--cc) 28%,transparent);
+}
+
+.chakraCardBar { height:3px; background:var(--cc); margin:-1.1rem -.6rem 1rem; }
+
+.chakraGlyph {
+  font-size:1.9rem; color:var(--cc); line-height:1;
+  margin-bottom:.5rem;
+  filter:drop-shadow(0 2px 6px color-mix(in srgb,var(--cc) 50%,transparent));
+}
+.chakraName {
+  font-family:var(--ff-d); font-size:.63rem; font-weight:700;
+  color:#f8f4e8; letter-spacing:.05em; margin-bottom:.3rem;
+}
+.chakraMeaning {
+  font-family:var(--ff-f); font-size:.62rem; font-style:italic;
+  color:rgba(255,240,200,.72); line-height:1.45; margin-bottom:.5rem;
+}
+.chakraMantra {
+  display:inline-block;
+  font-family:var(--ff-d); font-size:.62rem; font-weight:700;
+  letter-spacing:.12em; color:var(--saff-lt);
+  border:1px solid rgba(245,184,0,.3); border-radius:20px;
+  padding:.15rem .5rem;
+}
+
+/* ════════ AYM SPECIAL ════════ */
+.aymGrid {
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:1.2rem; margin-top:1.5rem;
+}
+
+/* 5th card spans */
+.aymGrid > :nth-child(4) { grid-column:1/2; }
+.aymGrid > :nth-child(5) { grid-column:2/4; }
+
+.aymCard {
+  background:var(--cream); border:var(--border);
+  border-radius:var(--r); padding:1.5rem 1.4rem;
+  box-shadow:var(--shadow);
+  display:flex; flex-direction:column; gap:.4rem;
+  transition:transform var(--tr);
+}
+.aymCard:hover { transform:translateY(-3px); }
+
+.aymNum {
+  font-family:var(--ff-d); font-size:2rem; font-weight:900;
+  color:rgba(224,123,0,.2); line-height:1;
+}
+.aymTitle {
+  font-family:var(--ff-d); font-size:.82rem; font-weight:700;
+  color:var(--maho); letter-spacing:.03em;
+}
+.aymBody {
+  font-family:var(--ff-b); font-size:.95rem;
+  color:#5a3e22; line-height:1.8; margin:0;
+}
+
+/* ════════ TEACHER STRIP ════════ */
+.teacherStrip {
+  position:relative; overflow:hidden;
+  display:flex; flex-direction:column;
+  align-items:center; padding:2rem 0;
+  background:#fff9f0;
+}
+
+.teacherStripMandala {
+  position:absolute; right:-80px; top:50%;
+  transform:translateY(-50%); pointer-events:none;
+}
+
+.teacherImgWrap {
+  position:relative; width:100%; max-width:760px;
+  border-radius:var(--r); overflow:hidden;
+  box-shadow:var(--shadow-lg); margin:1rem auto;
+}
+.teacherImg {
+  width:100%; aspect-ratio:16/7; object-fit:cover; display:block;
+  filter:saturate(.75) sepia(.12);
+  transition:filter .4s ease;
+}
+.teacherImg:hover { filter:saturate(.95) sepia(.03); }
+.teacherImgVeil {
+  position:absolute; inset:0;
+  background:linear-gradient(180deg,transparent 50%,rgba(20,10,0,.35) 100%);
+}
+
+.teacherCaption {
+  text-align:center; padding:.5rem 1.5rem;
+}
+.teacherCaption p {
+  font-family:var(--ff-f); font-size:.88rem; font-style:italic;
+  color:var(--brown); letter-spacing:.05em; margin:.4rem 0 0;
+}
+
+/* ════════ MANDALA ART ════════ */
+.mandalaArtSection {
+  background:linear-gradient(135deg,var(--parch2) 0%,#fef4e0 100%);
+  border-top:3px solid;
+  border-bottom:3px solid;
+  border-image:linear-gradient(90deg,transparent,var(--saff),transparent) 1;
+}
+
+.mandalaArtGrid {
+  display:flex; justify-content:center; align-items:center;
+  gap:.5rem; flex-wrap:wrap; margin-bottom:1rem;
+}
+
+.mandalaArtItem {
+  flex-shrink:0;
+  transition:transform .4s ease, opacity .4s ease;
+}
+.mandalaArtItem:hover { transform:rotate(15deg) scale(1.08); opacity:1 !important; }
+
+/* ════════ FOOTER ════════ */
+.footer {
+  position:relative; overflow:hidden;
+  background:linear-gradient(135deg,#0d2218 0%,#1a3d2b 40%,#1a0800 100%);
+  padding:4rem 1.5rem; text-align:center;
+}
+
+.footerMandala {
+  position:absolute; left:50%; top:50%;
+  transform:translate(-50%,-50%); pointer-events:none;
+}
+
+.footerInner { position:relative; z-index:1; max-width:480px; margin:0 auto; }
+
+.footerOm {
+  display:block; font-family:var(--ff-d); font-size:3rem;
+  color:var(--saff-lt);
+  animation:omPulse 3s ease-in-out infinite;
+  margin-bottom:.5rem;
+}
+
+.footerSchool {
+  font-family:var(--ff-d); font-size:1.3rem; font-weight:700;
+  color:#f8f4e8; margin:.3rem 0;
+}
+.footerLoc {
+  font-family:var(--ff-f); font-size:.82rem; font-style:italic;
+  color:rgba(255,240,200,.7); letter-spacing:.1em; margin:.2rem 0;
+}
+.footerMail {
+  font-family:var(--ff-b); font-size:.95rem; margin:.4rem 0 1.2rem;
+}
+.footerMail a { color:var(--saff-lt); text-decoration:none; }
+.footerMail a:hover { text-decoration:underline; }
+
+.footerDivider {
+  height:1px; max-width:240px; margin:.8rem auto;
+  background:linear-gradient(90deg,transparent,rgba(245,184,0,.4),transparent);
+}
+
+.footerTagline {
+  font-family:var(--ff-d); font-size:.68rem; font-weight:600;
+  letter-spacing:.18em; text-transform:uppercase;
+  color:rgba(255,240,200,.55); margin:0;
+}
+
+/* ════════ RESPONSIVE ════════ */
+@media (max-width:1100px) {
+  .uniqueGrid        { grid-template-columns:repeat(2,1fr); }
+  .chakraCardsRow    { grid-template-columns:repeat(4,1fr); }
+  .aymGrid           { grid-template-columns:1fr 1fr; }
+  .aymGrid > :nth-child(5) { grid-column:auto; }
+}
+
+@media (max-width:900px) {
+  .destGrid          { grid-template-columns:1fr; }
+  .hlGrid            { grid-template-columns:1fr; }
+  .coursesRow        { grid-template-columns:1fr; }
+  .chakraWheel       { width:320px; height:320px; }
+  .chakraCardsRow    { grid-template-columns:repeat(4,1fr); }
+  .aymGrid           { grid-template-columns:1fr; }
+  .aymGrid > :nth-child(4),
+  .aymGrid > :nth-child(5) { grid-column:auto; }
+  .destImages        { grid-template-columns:1fr; }
+  .destImgMain       { grid-column:auto; }
+}
+
+@media (max-width:640px) {
+  .heroH1            { font-size:clamp(1.8rem,9vw,2.8rem); }
+  .uniqueGrid        { grid-template-columns:1fr; }
+  .chakraWheel       { width:260px; height:260px; }
+  .chakraWheelDot    { width:36px; height:36px; }
+  .cwSym             { font-size:.9rem; }
+  .chakraCardsRow    { grid-template-columns:repeat(3,1fr); gap:.5rem; }
+  .heroBtns          { flex-direction:column; }
+  .btnPrimary,
+  .btnGhost          { width:100%; justify-content:center; }
+  .chakraSpine       { gap:.35rem; right:.5rem; }
+  .chakraDot         { width:24px; height:24px; font-size:.7rem; }
+  .mandalaArtGrid    { gap:.25rem; }
+}
+
+@media (max-width:420px) {
+  .chakraCardsRow    { grid-template-columns:repeat(2,1fr); }
+  .chakraSpine       { display:none; }
+  .chakraWheel       { width:220px; height:220px; }
+  .heroStamps        { display:none; }
+}

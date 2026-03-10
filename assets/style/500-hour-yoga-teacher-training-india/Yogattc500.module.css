@@ -1,0 +1,684 @@
+/* ================================================================
+   YogaTTC500.module.css  — FIXED VERSION
+   500 Hour Yoga TTC — Vintage Parchment × Saffron × Chakra Mandala
+   ================================================================
+   FIXES:
+   - Removed duplicate .bodyPara definition
+   - Fixed mandala positioning (pointer-events, z-index stacking)
+   - Carousel fully responsive via JS-driven grid-template-columns
+   - All Bootstrap col-* classes work alongside module classes
+   - Table now uses Bootstrap .table-responsive wrapper in JSX
+   - Added proper mobile breakpoints for every component
+   - Fixed infoBlock height so cards align in Bootstrap grid
+   - Added min-width to table cells to prevent text wrapping issues
+   ================================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Dancing+Script:wght@600;700&display=swap');
+
+/* ── CSS Variables ── */
+:root {
+  --s:      #e07b00;
+  --sl:     #f5b800;
+  --sd:     #c46a00;
+  --bd:     #3d1d00;
+  --bm:     #5c2d00;
+  --bw:     #7a5c2e;
+  --parch:  #fff9f0;
+  --parchm: #fdf0dc;
+  --parchd: #ffefd4;
+  --border: #e8d5b5;
+  --text:   #2d1a05;
+  --muted:  #7a5c2e;
+  --shadow: rgba(92,45,0,.1);
+  --sglow:  rgba(224,123,0,.18);
+}
+
+/* ────────────────────────────────────────
+   PAGE WRAPPER
+──────────────────────────────────────── */
+.page {
+  font-family: 'Cormorant Garamond', serif;
+  background: linear-gradient(160deg, #fff9f0 0%, #fdf4e3 55%, #ffefd4 100%);
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+  color: var(--text);
+}
+
+/* ────────────────────────────────────────
+   VINTAGE MANDALA / CHAKRA DECORATIONS
+   FIX: Changed from fixed to absolute so they don't
+        overlay content on mobile; reduced opacity on mobile
+──────────────────────────────────────── */
+.mandalaTopLeft,
+.mandalaBottomRight {
+  position: fixed;          /* keep as fixed for desktop parallax feel */
+  pointer-events: none;     /* CRITICAL: never block clicks */
+  z-index: 0;
+  width: clamp(160px, 20vw, 340px);
+  height: clamp(160px, 20vw, 340px);
+  opacity: 0.35;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 260 260'%3E%3Ccircle cx='130' cy='130' r='124' fill='none' stroke='%23e07b00' stroke-width='0.6'/%3E%3Ccircle cx='130' cy='130' r='104' fill='none' stroke='%23f5b800' stroke-width='0.5'/%3E%3Ccircle cx='130' cy='130' r='84' fill='none' stroke='%23e07b00' stroke-width='0.5'/%3E%3Ccircle cx='130' cy='130' r='64' fill='none' stroke='%23f5b800' stroke-width='0.55'/%3E%3Ccircle cx='130' cy='130' r='44' fill='none' stroke='%23e07b00' stroke-width='0.5'/%3E%3Ccircle cx='130' cy='130' r='26' fill='none' stroke='%23f5b800' stroke-width='0.55'/%3E%3Ccircle cx='130' cy='130' r='10' fill='none' stroke='%23e07b00' stroke-width='0.6'/%3E%3Ccircle cx='130' cy='130' r='3' fill='%23e07b00' opacity='0.5'/%3E%3Cg stroke='%23e07b00' stroke-width='0.35' opacity='0.35'%3E%3Cline x1='130' y1='6' x2='130' y2='254'/%3E%3Cline x1='6' y1='130' x2='254' y2='130'/%3E%3Cline x1='42' y1='42' x2='218' y2='218'/%3E%3Cline x1='218' y1='42' x2='42' y2='218'/%3E%3Cline x1='8' y1='90' x2='252' y2='170'/%3E%3Cline x1='8' y1='170' x2='252' y2='90'/%3E%3Cline x1='90' y1='8' x2='170' y2='252'/%3E%3Cline x1='170' y1='8' x2='90' y2='252'/%3E%3C/g%3E%3Cg fill='none' stroke='%23f5b800' stroke-width='0.4' opacity='0.3'%3E%3Cellipse cx='130' cy='130' rx='124' ry='60'/%3E%3Cellipse cx='130' cy='130' rx='60' ry='124'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+  animation: mandalaRotate 120s linear infinite;
+}
+.mandalaTopLeft     { top: -4%; left: -4%; }
+.mandalaBottomRight { bottom: -4%; right: -4%; animation-direction: reverse; }
+
+/* Chakra glow blob */
+.chakraGlow {
+  position: fixed;
+  top: 30%; left: 50%;
+  transform: translateX(-50%);
+  width: clamp(280px, 50vw, 700px);
+  height: clamp(280px, 50vw, 700px);
+  background: radial-gradient(ellipse at center,
+    rgba(245,184,0,.06) 0%,
+    rgba(224,123,0,.04) 40%,
+    transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+  animation: chakraPulse 8s ease-in-out infinite;
+}
+
+@keyframes mandalaRotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+@keyframes chakraPulse   { 0%,100% { opacity:.6; } 50% { opacity:1; } }
+
+/* ────────────────────────────────────────
+   SECTIONS
+──────────────────────────────────────── */
+.heroSection { padding-bottom: clamp(1.5rem,4vw,3.5rem); position: relative; z-index: 1; }
+.section      { padding: clamp(2rem,5vw,4rem) 0; position: relative; z-index: 1; }
+.sectionLight { background: rgba(255,249,240,.65); }
+
+/* ────────────────────────────────────────
+   HERO BANNER
+──────────────────────────────────────── */
+.heroBannerWrap {
+  position: relative;
+  width: 100%;
+  height: clamp(180px, 35vw, 460px);
+  overflow: hidden;
+  margin-bottom: 2rem;
+}
+.heroBannerImg {
+  width: 100%; height: 100%;
+  object-fit: cover; object-position: center;
+  display: block;
+  filter: brightness(.75);
+  transition: transform .5s ease;
+}
+.heroBannerWrap:hover .heroBannerImg { transform: scale(1.03); }
+
+.heroBannerOverlay {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: clamp(1rem,3vw,1.8rem) clamp(1rem,3vw,2rem) clamp(.8rem,2vw,1.4rem);
+  background: linear-gradient(to top, rgba(30,8,0,.7) 0%, transparent 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: .3rem;
+}
+.heroOverlaySmall {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(.6rem,1.4vw,.88rem);
+  font-weight: 700; color: #fff;
+  letter-spacing: .25em; text-transform: uppercase; margin: 0;
+}
+.heroOverlayScript {
+  font-family: 'Dancing Script', cursive;
+  font-size: clamp(1.8rem,7vw,4.2rem);
+  color: #fff; line-height: 1;
+  text-shadow: 0 3px 12px rgba(0,0,0,.5);
+  margin: 0;
+}
+.heroBookBtn {
+  display: inline-block;
+  font-family: 'Cinzel', serif;
+  font-size: clamp(.6rem,1.2vw,.78rem);
+  font-weight: 700; letter-spacing: .1em;
+  text-transform: uppercase; text-decoration: none;
+  background: var(--s); color: #fff;
+  padding: .4rem 1.1rem;
+  border-radius: 3px;
+  box-shadow: 0 3px 12px rgba(224,123,0,.45);
+  transition: background .2s, transform .2s;
+}
+.heroBookBtn:hover { background: var(--sd); transform: translateY(-1px); color: #fff; }
+.heroOverlayUrl {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(.55rem,1vw,.7rem);
+  color: rgba(255,255,255,.75);
+  letter-spacing: .12em; margin: 0;
+}
+
+/* ────────────────────────────────────────
+   OM DIVIDER
+──────────────────────────────────────── */
+.omDiv {
+  display: flex; align-items: center; justify-content: center;
+  gap: 1rem; margin: .5rem 0 1.4rem;
+}
+.divLine {
+  flex: 1; max-width: 200px; height: 1.5px;
+  background: linear-gradient(90deg, transparent, var(--s), transparent);
+  display: block;
+}
+.omGlyph {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(1.2rem,2.5vw,1.9rem);
+  color: var(--s);
+  filter: drop-shadow(0 2px 6px var(--sglow));
+  line-height: 1;
+}
+
+/* ────────────────────────────────────────
+   TYPOGRAPHY HELPERS
+──────────────────────────────────────── */
+.heroTitle {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1rem,2.4vw,1.65rem);
+  font-weight: 600; font-style: italic;
+  color: var(--bd); text-align: center;
+  letter-spacing: .02em; margin-bottom: .4rem;
+  padding: 0 .5rem;
+}
+.sectionTitleCentered {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(.9rem,1.9vw,1.25rem);
+  font-weight: 700; color: var(--bd);
+  text-align: center; letter-spacing: .04em;
+  margin-bottom: .35rem;
+}
+.sectionUnderlineCentered {
+  width: 60px; height: 2px;
+  background: linear-gradient(90deg, var(--s), var(--sl));
+  border-radius: 2px; margin: 0 auto 1.4rem;
+}
+.subHeadingCentered {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(.85rem,1.7vw,1.1rem);
+  font-weight: 700; color: var(--bd);
+  text-align: center; letter-spacing: .04em;
+  margin: 2rem 0 .35rem;
+}
+/* ── FIX: single definition of bodyText / bodyPara ── */
+.bodyText p,
+.bodyPara {
+  font-size: clamp(.87rem,1.45vw,1rem);
+  line-height: 1.9; color: var(--text);
+  margin-bottom: .9rem;
+}
+.inlineLink { color: var(--s); text-decoration: underline; }
+.inlineLink:hover { color: var(--sd); }
+
+/* ────────────────────────────────────────
+   BLOCKS (card-style wrappers)
+──────────────────────────────────────── */
+.block {
+  background: rgba(255,253,248,.85);
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--s);
+  border-radius: 8px;
+  padding: clamp(1.2rem,3vw,2.2rem);
+  box-shadow: 0 4px 22px var(--shadow);
+  position: relative;
+  margin-bottom: 1.8rem;
+}
+.block::after {
+  content: '✦';
+  position: absolute; bottom: 10px; right: 14px;
+  font-size: .75rem; color: var(--sl); opacity: .45;
+}
+.blockTitle {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(.85rem,1.7vw,1.12rem);
+  font-weight: 700; color: var(--bd);
+  letter-spacing: .03em; margin-bottom: .35rem;
+}
+.blockTitleCentered {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(.85rem,1.7vw,1.15rem);
+  font-weight: 700; color: var(--bd);
+  text-align: center; letter-spacing: .03em;
+  margin-bottom: .35rem;
+}
+.blockUnderline {
+  width: 55px; height: 2px;
+  background: linear-gradient(90deg, var(--s), var(--sl));
+  border-radius: 2px; margin-bottom: 1.2rem;
+}
+.blockUnderlineCentered {
+  width: 55px; height: 2px;
+  background: linear-gradient(90deg, var(--s), var(--sl));
+  border-radius: 2px; margin: 0 auto 1.2rem;
+}
+
+/* small block */
+.blockSmall {
+  background: rgba(255,253,248,.75);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 1.2rem 1.3rem;
+  box-shadow: 0 3px 14px var(--shadow);
+}
+.blockSmallTitle {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(.9rem,1.6vw,1.1rem);
+  font-weight: 600; font-style: italic;
+  color: var(--bd); text-align: center; margin-bottom: .3rem;
+}
+.blockSmallLine {
+  width: 44px; height: 1.5px;
+  background: var(--s); border-radius: 2px;
+  margin: 0 auto .85rem;
+}
+
+/* ────────────────────────────────────────
+   SHIVA IMAGE
+──────────────────────────────────────── */
+.shivaImgWrap {
+  margin-top: 1.8rem; border-radius: 8px;
+  overflow: hidden; box-shadow: 0 6px 24px var(--shadow);
+}
+.shivaImg {
+  width: 100%; display: block; object-fit: cover;
+  max-height: 480px; transition: transform .4s;
+}
+.shivaImgWrap:hover .shivaImg { transform: scale(1.02); }
+
+/* ────────────────────────────────────────
+   SCHEDULE TABLE
+   FIX: .tableWrap removed — Bootstrap table-responsive used in JSX
+        Added min-width to prevent cell squish
+──────────────────────────────────────── */
+.schedTable {
+  width: 100%; border-collapse: collapse;
+  font-size: clamp(.78rem,1.3vw,.9rem);
+  background: #fff;
+}
+.schedTable thead tr {
+  background: linear-gradient(90deg, #4a5568 0%, #2d3748 100%);
+}
+.thCourse, .thDate, .thFee, .thApply {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(.7rem,1.1vw,.82rem);
+  font-weight: 700; color: #fff;
+  padding: .75rem 1rem;
+  letter-spacing: .05em; text-align: center;
+  white-space: nowrap;
+}
+.thCourse { text-align: left; min-width: 220px; }
+.thDate   { min-width: 170px; }
+.thFee    { min-width: 100px; }
+.thApply  { min-width: 100px; }
+
+.trEven { background: #fff; }
+.trOdd  { background: rgba(255,249,240,.75); }
+.trEven:hover, .trOdd:hover { background: rgba(224,123,0,.06); transition: background .15s; }
+
+.tdCourse, .tdDate, .tdFee, .tdApply {
+  padding: .6rem 1rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--text); text-align: center;
+  font-size: clamp(.78rem,1.3vw,.88rem);
+}
+.tdCourse { text-align: left; }
+
+.applyLink {
+  color: var(--s); font-weight: 700;
+  text-decoration: none; font-family: 'Cinzel', serif;
+  font-size: clamp(.66rem,1.1vw,.78rem); letter-spacing: .04em;
+  transition: color .18s; white-space: nowrap;
+}
+.applyLink:hover { color: var(--sd); text-decoration: underline; }
+
+.tableNote {
+  font-size: clamp(.78rem,1.3vw,.88rem);
+  color: var(--muted); line-height: 1.7; margin-bottom: 1rem;
+}
+.tableNote p { margin-bottom: .3rem; }
+
+/* ────────────────────────────────────────
+   CAROUSEL
+   FIX: grid-template-columns is now set inline via JS (responsive)
+        carTrack has no hardcoded columns here
+──────────────────────────────────────── */
+.carousel {
+  display: flex; align-items: center;
+  gap: 0; margin-bottom: .5rem;
+}
+.carTrack {
+  flex: 1; min-width: 0;
+  display: grid;
+  /* columns set inline by JS based on viewport */
+  gap: 4px;
+  border: 2px solid var(--border);
+  border-radius: 8px; overflow: hidden;
+}
+.carSlide { aspect-ratio: 4/3; overflow: hidden; }
+.carImg {
+  width: 100%; height: 100%;
+  object-fit: cover; display: block;
+  transition: transform .35s;
+}
+.carSlide:hover .carImg { transform: scale(1.06); }
+
+.carBtn {
+  all: unset; cursor: pointer;
+  width: 34px; height: 34px; flex-shrink: 0;
+  background: var(--s); color: #fff;
+  font-size: 1.3rem; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 50%;
+  box-shadow: 0 3px 10px var(--sglow);
+  transition: background .18s, transform .18s;
+}
+.carBtnL { margin-right: 8px; }
+.carBtnR { margin-left: 8px; }
+.carBtn:hover { background: var(--sd); transform: scale(1.12); }
+
+/* ────────────────────────────────────────
+   INDIAN FEE BLOCK
+──────────────────────────────────────── */
+.indianFeeBlock { margin-top: 2rem; text-align: center; }
+.indianFeeTitle {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(.9rem,1.8vw,1.2rem);
+  font-weight: 600; color: var(--bd); margin-bottom: .35rem;
+}
+.feeChip {
+  border: 1.5px solid var(--border);
+  border-radius: 4px;
+  padding: .65rem .9rem;
+  font-family: 'Cinzel', serif;
+  font-size: clamp(.68rem,1.1vw,.82rem);
+  font-weight: 700; color: var(--bd); text-align: center;
+  background: var(--parch);
+  transition: border-color .18s, background .18s, color .18s;
+}
+.feeChip:hover { border-color: var(--s); background: var(--parchd); color: var(--sd); }
+
+/* ────────────────────────────────────────
+   SYLLABUS GRID
+──────────────────────────────────────── */
+.syllabusGrid { display: flex; flex-direction: column; gap: .55rem; margin-top: .5rem; }
+.syllabusItem {
+  font-size: clamp(.84rem,1.4vw,.97rem);
+  line-height: 1.78; color: var(--text);
+  padding: .48rem .75rem;
+  border-left: 3px solid var(--s);
+  background: rgba(255,249,240,.65);
+  border-radius: 0 4px 4px 0;
+  transition: background .18s;
+}
+.syllabusItem:hover { background: rgba(255,239,212,.85); }
+.syllabusLabel { font-weight: 700; color: var(--bd); font-style: italic; }
+
+/* ────────────────────────────────────────
+   EVAL IMAGE
+──────────────────────────────────────── */
+.evalImg {
+  width: 100%; border-radius: 8px;
+  object-fit: cover; display: block;
+  box-shadow: 0 6px 22px var(--shadow);
+  aspect-ratio: 4/3;
+  transition: transform .35s;
+}
+.evalImg:hover { transform: scale(1.02); }
+
+/* ────────────────────────────────────────
+   INCLUDED / NOT INCLUDED
+──────────────────────────────────────── */
+.inclTitle {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(.8rem,1.5vw,.97rem);
+  font-weight: 700; color: var(--bd);
+  letter-spacing: .02em; margin-bottom: .4rem;
+}
+.inclLine {
+  width: 50px; height: 2px;
+  background: var(--s); border-radius: 2px; margin-bottom: .9rem;
+}
+.inclList { padding-left: 1.2rem; margin: 0 0 .8rem; }
+.inclList li {
+  font-size: clamp(.82rem,1.3vw,.93rem);
+  line-height: 1.78; color: var(--text); margin-bottom: .28rem;
+}
+.inclNote {
+  font-size: clamp(.77rem,1.2vw,.86rem);
+  color: var(--muted); line-height: 1.65; margin-top: .5rem;
+}
+
+/* ────────────────────────────────────────
+   FACT FROM FICTION BOX
+──────────────────────────────────────── */
+.fictionBox {
+  border: 1.5px solid var(--s); border-radius: 10px;
+  padding: clamp(1.2rem,3vw,2.2rem);
+  margin-top: 2rem;
+  background: rgba(255,253,248,.85);
+  box-shadow: 0 4px 22px rgba(224,123,0,.1);
+  position: relative;
+}
+.fictionBox::before {
+  content: '';
+  position: absolute; inset: 5px;
+  border: 1px dashed rgba(224,123,0,.2);
+  border-radius: 7px; pointer-events: none;
+}
+.fictionTitle {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(.83rem,1.6vw,1.05rem);
+  font-weight: 700; color: var(--bd);
+  text-align: center; letter-spacing: .02em; margin-bottom: .4rem;
+}
+.fictionUnderline {
+  width: 60px; height: 2px;
+  background: var(--s); border-radius: 2px;
+  margin: 0 auto 1.2rem;
+}
+
+/* ────────────────────────────────────────
+   REVIEW CARDS
+   FIX: height:100% + proper overflow on name
+──────────────────────────────────────── */
+.reviewCard {
+  background: #fff;
+  border: 1.5px solid var(--border);
+  border-top: 3px solid var(--s);
+  border-radius: 8px;
+  padding: 1.2rem 1.1rem;
+  height: 100%;
+  box-shadow: 0 4px 16px var(--shadow);
+  transition: transform .22s, box-shadow .22s;
+  display: flex; flex-direction: column;
+}
+.reviewCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 26px var(--sglow);
+}
+.reviewHeader {
+  display: flex; align-items: center; gap: .65rem;
+  margin-bottom: .6rem; position: relative;
+}
+.reviewAvatar {
+  width: 44px; height: 44px;
+  border-radius: 50%; object-fit: cover;
+  border: 2px solid var(--s); flex-shrink: 0;
+}
+.reviewInitial {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #4fc3f7, #0288d1);
+  color: #fff; font-weight: 700; font-size: 1.1rem;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  font-family: 'Cinzel', serif;
+}
+.reviewName {
+  font-family: 'Cinzel', serif;
+  font-size: .75rem; font-weight: 700;
+  color: var(--bd); margin: 0; line-height: 1.3;
+  /* Prevent overflow on long names */
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  max-width: 120px;
+}
+.reviewPlatform {
+  font-size: .7rem; color: var(--muted);
+  font-style: italic; margin: 0;
+}
+.googleG {
+  position: absolute; top: 0; right: 0;
+  font-family: 'Cinzel', serif;
+  font-size: 1rem; font-weight: 700; color: #4285F4;
+  background: #fff;
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 1px 4px rgba(0,0,0,.15);
+  flex-shrink: 0;
+}
+.stars {
+  color: var(--s); font-size: .93rem;
+  letter-spacing: 1px; margin-bottom: .6rem;
+}
+.reviewText {
+  font-size: clamp(.8rem,1.3vw,.9rem);
+  line-height: 1.72; color: var(--text);
+  white-space: pre-line;
+  flex: 1;
+}
+
+/* ────────────────────────────────────────
+   INFO BLOCKS (refund / apply)
+   FIX: height:100% so Bootstrap col cards match
+──────────────────────────────────────── */
+.infoBlock {
+  padding: 1.3rem 1.4rem;
+  background: rgba(255,253,248,.85);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: 0 3px 14px var(--shadow);
+  height: 100%;
+}
+.infoBlockTitle {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(.8rem,1.5vw,1rem);
+  font-weight: 700; color: var(--bd);
+  letter-spacing: .02em; margin-bottom: .35rem;
+}
+.infoBlockLine {
+  width: 46px; height: 2px;
+  background: var(--s); border-radius: 2px; margin-bottom: .85rem;
+}
+
+/* ────────────────────────────────────────
+   CTA BUTTON
+──────────────────────────────────────── */
+.btnPrimary {
+  display: inline-block;
+  font-family: 'Cinzel', serif;
+  font-size: .78rem; font-weight: 700;
+  letter-spacing: .08em; text-transform: uppercase;
+  color: #fff;
+  background: linear-gradient(135deg, var(--s), var(--sd));
+  padding: .7rem 2.2rem;
+  border-radius: 4px; text-decoration: none;
+  box-shadow: 0 4px 18px var(--sglow);
+  transition: transform .22s, box-shadow .22s;
+}
+.btnPrimary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px var(--sglow);
+  color: #fff;
+}
+
+/* ────────────────────────────────────────
+   VIDEO EMBED
+──────────────────────────────────────── */
+.videoWrapper {
+  position: relative; border-radius: 8px; overflow: hidden;
+  aspect-ratio: 16/9; background: #1a0a00;
+  box-shadow: 0 4px 16px var(--shadow);
+  border: 2px solid var(--border);
+  transition: border-color .22s, box-shadow .22s;
+}
+.videoWrapper:hover { border-color: var(--s); box-shadow: 0 8px 24px var(--sglow); }
+.videoThumb {
+  all: unset; display: block;
+  width: 100%; height: 100%; cursor: pointer; position: relative;
+}
+.thumbImg {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+  filter: brightness(.8); transition: filter .3s, transform .3s;
+}
+.videoThumb:hover .thumbImg { filter: brightness(.65); transform: scale(1.03); }
+.playBtn {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  filter: drop-shadow(0 3px 10px rgba(0,0,0,.5));
+  transition: transform .2s;
+}
+.videoThumb:hover .playBtn { transform: translate(-50%,-50%) scale(1.13); }
+.videoIframe { width: 100%; height: 100%; border: none; display: block; }
+
+/* ════════════════════════════════════════
+   RESPONSIVE BREAKPOINTS
+   NOTE: Bootstrap handles col-* layouts.
+         These only refine component internals.
+════════════════════════════════════════ */
+
+/* ≤ 1024px */
+@media (max-width: 1024px) {
+  .heroBannerWrap { height: clamp(170px, 30vw, 360px); }
+  .mandalaTopLeft,
+  .mandalaBottomRight { width: 140px; height: 140px; opacity: .25; }
+}
+
+/* ≤ 860px */
+@media (max-width: 860px) {
+  .thCourse, .thDate, .thFee, .thApply { padding: .6rem .75rem; }
+  .tdCourse, .tdDate, .tdFee, .tdApply { padding: .5rem .75rem; font-size: .8rem; }
+}
+
+/* ≤ 768px */
+@media (max-width: 768px) {
+  .heroBannerOverlay { padding: .9rem 1.1rem .8rem; }
+  .fictionBox        { padding: 1.1rem 1rem; }
+  .fictionBox::before { display: none; }
+  .block             { padding: 1.1rem 1rem; }
+  .blockSmall        { padding: 1rem; }
+  .infoBlock         { padding: 1rem; }
+  .mandalaTopLeft,
+  .mandalaBottomRight { display: none; } /* hide on tablet/mobile to avoid clutter */
+  .chakraGlow        { display: none; }
+}
+
+/* ≤ 576px */
+@media (max-width: 576px) {
+  .heroBannerWrap { height: clamp(150px, 52vw, 270px); }
+  .heroTitle      { font-size: clamp(.95rem, 4.5vw, 1.2rem); }
+  .syllabusItem   { padding: .4rem .55rem; font-size: .85rem; }
+  .reviewCard     { padding: .95rem .85rem; }
+  .feeChip        { padding: .55rem .65rem; font-size: .7rem; }
+  .carBtn         { width: 28px; height: 28px; font-size: 1.1rem; }
+  .carBtnL        { margin-right: 5px; }
+  .carBtnR        { margin-left: 5px; }
+  .inclList li    { font-size: .83rem; }
+  .tableNote      { font-size: .78rem; }
+  .btnPrimary     { padding: .6rem 1.5rem; font-size: .72rem; }
+  .omGlyph        { font-size: 1.3rem; }
+}
+
+/* ≤ 380px */
+@media (max-width: 380px) {
+  .heroOverlayScript { font-size: 1.7rem; }
+  .heroBookBtn       { font-size: .58rem; padding: .35rem .85rem; }
+  .feeChip           { font-size: .66rem; padding: .45rem .5rem; }
+  .block             { padding: .85rem .75rem; }
+  .reviewName        { max-width: 95px; font-size: .7rem; }
+}

@@ -1,0 +1,947 @@
+/* ================================================================
+   PaymentSection.module.css — AYM Yoga School
+   Vintage Mandala & Chakra aesthetic
+   Warm parchment tones + saffron accents + sacred geometry
+   ================================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Dancing+Script:wght@600;700&display=swap');
+
+/* ── CSS Variables ── */
+:root {
+  --saffron: #e07b00;
+  --saffron-light: #f5b800;
+  --saffron-dark: #c46a00;
+  --brown-deep: #3d1d00;
+  --brown-mid: #5c2d00;
+  --brown-warm: #7a5c2e;
+  --parchment: #fff9f0;
+  --parchment-mid: #fdf0dc;
+  --parchment-dark: #ffefd4;
+  --border-color: #e8d5b5;
+  --text-body: #3d2b10;
+  --text-muted: #7a5c2e;
+  --shadow-warm: rgba(92, 45, 0, 0.12);
+  --shadow-saffron: rgba(224, 123, 0, 0.25);
+}
+
+/* ── Section ── */
+.section {
+  position: relative;
+  background: linear-gradient(160deg, #fff9f0 0%, #fdf4e3 40%, #ffefd4 100%);
+  overflow: hidden;
+  isolation: isolate;
+  font-family: 'Cormorant Garamond', serif;
+}
+
+/* ── Mandala decorations ── */
+.mandalaTopLeft,
+.mandalaBottomRight {
+  position: absolute;
+  width: clamp(260px, 35vw, 480px);
+  height: clamp(260px, 35vw, 480px);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Ccircle cx='100' cy='100' r='95' fill='none' stroke='%23e07b00' stroke-width='0.5' opacity='0.18'/%3E%3Ccircle cx='100' cy='100' r='80' fill='none' stroke='%23e07b00' stroke-width='0.4' opacity='0.15'/%3E%3Ccircle cx='100' cy='100' r='65' fill='none' stroke='%23e07b00' stroke-width='0.5' opacity='0.18'/%3E%3Ccircle cx='100' cy='100' r='50' fill='none' stroke='%23f5b800' stroke-width='0.4' opacity='0.2'/%3E%3Ccircle cx='100' cy='100' r='35' fill='none' stroke='%23e07b00' stroke-width='0.5' opacity='0.22'/%3E%3Ccircle cx='100' cy='100' r='20' fill='none' stroke='%23f5b800' stroke-width='0.6' opacity='0.25'/%3E%3Ccircle cx='100' cy='100' r='6' fill='%23e07b00' opacity='0.2'/%3E%3Cg stroke='%23e07b00' stroke-width='0.35' opacity='0.15'%3E%3Cline x1='100' y1='5' x2='100' y2='195'/%3E%3Cline x1='5' y1='100' x2='195' y2='100'/%3E%3Cline x1='32' y1='32' x2='168' y2='168'/%3E%3Cline x1='168' y1='32' x2='32' y2='168'/%3E%3C/g%3E%3Cg fill='%23e07b00' opacity='0.15'%3E%3Cellipse cx='100' cy='10' rx='4' ry='8'/%3E%3Cellipse cx='100' cy='190' rx='4' ry='8'/%3E%3Cellipse cx='10' cy='100' rx='8' ry='4'/%3E%3Cellipse cx='190' cy='100' rx='8' ry='4'/%3E%3Cellipse cx='36' cy='36' rx='4' ry='8' transform='rotate(45 36 36)'/%3E%3Cellipse cx='164' cy='36' rx='4' ry='8' transform='rotate(-45 164 36)'/%3E%3Cellipse cx='36' cy='164' rx='4' ry='8' transform='rotate(-45 36 164)'/%3E%3Cellipse cx='164' cy='164' rx='4' ry='8' transform='rotate(45 164 164)'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  z-index: 0;
+  animation: rotateSlow 80s linear infinite;
+}
+
+.mandalaTopLeft {
+  top: -8%;
+  left: -8%;
+  opacity: 0.7;
+}
+
+.mandalaBottomRight {
+  bottom: -8%;
+  right: -8%;
+  opacity: 0.7;
+  animation-direction: reverse;
+}
+
+.chakraCenter {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: clamp(300px, 45vw, 600px);
+  height: clamp(300px, 45vw, 600px);
+  background: radial-gradient(ellipse at center, rgba(224, 123, 0, 0.04) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes rotateSlow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ── Borders ── */
+.topBorder,
+.bottomBorder {
+  height: 5px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    var(--saffron) 20%,
+    var(--saffron-light) 50%,
+    var(--saffron) 80%,
+    transparent 100%);
+  position: relative;
+  z-index: 2;
+}
+
+/* ── Container ── */
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: clamp(2.5rem, 5vw, 5rem) clamp(1.2rem, 5vw, 3rem);
+}
+
+/* ================================================================
+   HEADER
+   ================================================================ */
+.header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.superTitle {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(0.9rem, 2vw, 1.2rem);
+  font-style: italic;
+  color: var(--brown-warm);
+  letter-spacing: 0.08em;
+  margin-bottom: 0.5rem;
+}
+
+.mainTitle {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(1.3rem, 3.5vw, 2.2rem);
+  font-weight: 700;
+  color: var(--brown-deep);
+  line-height: 1.35;
+  margin: 0 auto 1.5rem;
+  letter-spacing: 0.02em;
+  max-width: 700px;
+}
+
+.omDivider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.dividerLine {
+  flex: 1;
+  max-width: 200px;
+  height: 1.5px;
+  background: linear-gradient(90deg, transparent, var(--saffron), transparent);
+  display: block;
+}
+
+.omSymbol {
+  font-family: 'Cinzel', serif;
+  font-size: 1.8rem;
+  color: var(--saffron);
+  line-height: 1;
+  filter: drop-shadow(0 2px 6px var(--shadow-saffron));
+}
+
+.headerDesc {
+  font-size: clamp(0.88rem, 1.6vw, 1rem);
+  color: var(--text-body);
+  line-height: 1.7;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.inlineLink {
+  color: var(--saffron);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.inlineLink:hover {
+  color: var(--saffron-dark);
+}
+
+/* ================================================================
+   SHARED BLOCK STYLES
+   ================================================================ */
+.paymentBlock,
+.regFeeBlock {
+  margin-bottom: 3.5rem;
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+  background: linear-gradient(135deg, rgba(255,249,240,0.9) 0%, rgba(253,240,220,0.85) 100%);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  box-shadow: 0 6px 30px var(--shadow-warm), 0 1px 0 rgba(255,255,255,0.8) inset;
+  position: relative;
+  overflow: hidden;
+}
+
+.paymentBlock::before,
+.regFeeBlock::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--saffron), var(--saffron-light), var(--saffron), transparent);
+}
+
+/* Vintage corner flourish */
+.paymentBlock::after,
+.regFeeBlock::after {
+  content: '';
+  position: absolute;
+  bottom: 8px; right: 8px;
+  width: 20px; height: 20px;
+  border-right: 1.5px solid rgba(224,123,0,0.35);
+  border-bottom: 1.5px solid rgba(224,123,0,0.35);
+}
+
+.chakraIcon {
+  font-size: 1.6rem;
+  text-align: center;
+  margin-bottom: 0.4rem;
+  filter: drop-shadow(0 1px 4px var(--shadow-saffron));
+}
+
+.sectionTitle {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(1rem, 2.2vw, 1.4rem);
+  font-weight: 700;
+  color: var(--saffron-dark);
+  text-align: center;
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.04em;
+}
+
+.sectionUnderline {
+  width: 80px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--saffron), var(--saffron-light));
+  margin: 0 auto 1.8rem;
+  border-radius: 2px;
+}
+
+/* ── Registration Fee ── */
+.regFeeText {
+  font-size: clamp(0.9rem, 1.6vw, 1rem);
+  color: var(--text-body);
+  line-height: 1.8;
+  text-align: center;
+  max-width: 850px;
+  margin: 0 auto;
+}
+
+.regFeeText strong {
+  color: var(--brown-mid);
+  font-weight: 700;
+}
+
+/* ================================================================
+   PAYPAL GRID
+   ================================================================ */
+.paypalGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.paypalCard {
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--parchment);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.paypalCard:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px var(--shadow-saffron);
+}
+
+.paypalCardInner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.2rem 1rem;
+  gap: 0.7rem;
+}
+
+.paypalCardIcon {
+  font-size: 1.8rem;
+}
+
+.paypalCardTitle {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(0.68rem, 1.2vw, 0.8rem);
+  font-weight: 600;
+  color: var(--saffron-dark);
+  text-align: center;
+  letter-spacing: 0.04em;
+  line-height: 1.4;
+}
+
+.paypalBtn {
+  display: block;
+  border: 1.5px solid #dce0e8;
+  border-radius: 6px;
+  overflow: hidden;
+  padding: 6px 10px;
+  background: #fff;
+  transition: border-color 0.2s;
+}
+
+.paypalBtn:hover {
+  border-color: var(--saffron);
+}
+
+.paypalLogo {
+  width: 90px;
+  height: auto;
+  display: block;
+}
+
+/* ================================================================
+   UPI GRID
+   ================================================================ */
+.upiGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.upiCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 1.5rem;
+  border: 2px solid var(--border-color);
+  border-radius: 10px;
+  background: var(--parchment);
+}
+
+.upiCardBranded {
+  background: linear-gradient(160deg, #fff3d0 0%, #ffe4a0 100%);
+  border-color: var(--saffron);
+}
+
+.upiCardHeader {
+  font-family: 'Cinzel', serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--brown-mid);
+  text-align: center;
+  letter-spacing: 0.04em;
+}
+
+.qrWrapper {
+  padding: 6px;
+  background: #fff;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+}
+
+.qrImage {
+  width: clamp(120px, 20vw, 180px);
+  height: auto;
+  display: block;
+}
+
+.upiId {
+  font-size: 0.82rem;
+  color: var(--text-body);
+  text-align: center;
+}
+
+.upiScanText {
+  font-size: 0.8rem;
+  color: var(--brown-warm);
+  font-style: italic;
+}
+
+.copyBtn {
+  font-family: 'Cinzel', serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--saffron-dark);
+  background: transparent;
+  border: 1px solid var(--saffron);
+  border-radius: 4px;
+  padding: 0.35rem 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.copyBtn:hover {
+  background: var(--saffron);
+  color: #fff;
+}
+
+.aymBanner {
+  width: 100%;
+  background: linear-gradient(135deg, var(--saffron) 0%, var(--saffron-light) 50%, var(--saffron) 100%);
+  border-radius: 4px;
+  padding: 0.45rem;
+  text-align: center;
+}
+
+.aymBannerBottom {
+  background: linear-gradient(135deg, var(--saffron-light) 0%, var(--saffron) 100%);
+}
+
+.aymBannerText {
+  font-family: 'Cinzel', serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.06em;
+}
+
+/* ================================================================
+   CARD PAYMENTS
+   ================================================================ */
+.cardPayGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.2rem;
+}
+
+.cardPayCard {
+  border: 1.5px solid var(--border-color);
+  border-radius: 10px;
+  padding: 1.5rem 1.2rem;
+  background: var(--parchment);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.7rem;
+  text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.cardPayCard:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px var(--shadow-saffron);
+}
+
+.cardPayBadge {
+  font-family: 'Cinzel', serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(135deg, var(--saffron), var(--saffron-dark));
+  border-radius: 20px;
+  padding: 0.2rem 0.8rem;
+  letter-spacing: 0.1em;
+}
+
+.cardPayTitle {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(0.72rem, 1.3vw, 0.85rem);
+  font-weight: 600;
+  color: var(--saffron-dark);
+  line-height: 1.4;
+}
+
+.cardPayDivider {
+  width: 40px;
+  height: 1.5px;
+  background: var(--saffron);
+  border-radius: 2px;
+}
+
+.cardPayDesc {
+  font-size: 0.88rem;
+  color: var(--text-body);
+  line-height: 1.6;
+  flex: 1;
+}
+
+.bookNowBtn {
+  display: inline-block;
+  font-family: 'Cinzel', serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #fff;
+  background: linear-gradient(135deg, var(--saffron) 0%, var(--saffron-dark) 100%);
+  padding: 0.6rem 1.4rem;
+  border-radius: 4px;
+  text-decoration: none;
+  box-shadow: 0 4px 14px var(--shadow-saffron);
+  transition: all 0.22s ease;
+}
+
+.bookNowBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 7px 20px var(--shadow-saffron);
+}
+
+/* ================================================================
+   BANK TRANSFER
+   ================================================================ */
+.bankGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.bankCard {
+  border: 1.5px solid var(--border-color);
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--parchment);
+}
+
+.bankCardHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.9rem 1.2rem;
+  background: linear-gradient(135deg, var(--saffron) 0%, var(--saffron-dark) 100%);
+}
+
+.bankCardNum {
+  width: 26px;
+  height: 26px;
+  background: rgba(255,255,255,0.25);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Cinzel', serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.bankCardTitle {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(0.72rem, 1.2vw, 0.85rem);
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.04em;
+}
+
+.bankFields {
+  padding: 1rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.bankField {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 0.5rem;
+  font-size: clamp(0.75rem, 1.2vw, 0.85rem);
+  padding-bottom: 0.4rem;
+  border-bottom: 1px dotted rgba(184, 138, 82, 0.3);
+}
+
+.bankField:last-child {
+  border-bottom: none;
+}
+
+.bankFieldLabel {
+  color: var(--brown-warm);
+  font-weight: 600;
+  font-style: italic;
+}
+
+.bankFieldValue {
+  color: var(--text-body);
+  font-weight: 600;
+  word-break: break-word;
+}
+
+.copyBankBtn {
+  width: 100%;
+  font-family: 'Cinzel', serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--saffron-dark);
+  background: transparent;
+  border: none;
+  border-top: 1px solid var(--border-color);
+  padding: 0.8rem;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.copyBankBtn:hover {
+  background: var(--saffron);
+  color: #fff;
+}
+
+.gstNote {
+  font-size: 0.82rem;
+  color: var(--brown-mid);
+  font-style: italic;
+  text-align: center;
+  margin-top: 1.2rem;
+  padding: 0.7rem 1rem;
+  background: rgba(224, 123, 0, 0.07);
+  border-radius: 6px;
+  border-left: 3px solid var(--saffron);
+}
+
+/* ================================================================
+   WESTERN UNION
+   ================================================================ */
+.westernCard {
+  max-width: 700px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.westernIcon {
+  font-size: 2rem;
+  margin-bottom: 0.8rem;
+}
+
+.westernText {
+  font-size: clamp(0.88rem, 1.5vw, 1rem);
+  color: var(--text-body);
+  line-height: 1.7;
+  margin-bottom: 1.2rem;
+}
+
+.westernDetails {
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.2rem;
+  padding: 1rem;
+  background: linear-gradient(135deg, var(--parchment-dark), var(--parchment));
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+}
+
+.westernField {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  text-align: center;
+}
+
+.westernLabel {
+  font-size: 0.78rem;
+  color: var(--brown-warm);
+  font-style: italic;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.westernValue {
+  font-family: 'Cinzel', serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--brown-deep);
+}
+
+.westernNote {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.65;
+  font-style: italic;
+}
+
+/* ================================================================
+   ARRIVAL METHODS
+   ================================================================ */
+.arrivalIntro {
+  font-size: clamp(0.88rem, 1.5vw, 1rem);
+  color: var(--text-body);
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.arrivalGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 0.8rem;
+  margin-bottom: 1rem;
+}
+
+.arrivalCard {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: var(--parchment);
+  text-align: center;
+  transition: transform 0.18s ease;
+}
+
+.arrivalCard:hover {
+  transform: translateY(-2px);
+}
+
+.arrivalMethod {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-body);
+}
+
+.arrivalCharge {
+  font-family: 'Cinzel', serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 0.2rem 0.6rem;
+  border-radius: 20px;
+  margin: 0 auto;
+}
+
+.arrivalFree {
+  background: rgba(34, 139, 34, 0.1);
+  color: #228b22;
+  border: 1px solid rgba(34, 139, 34, 0.3);
+}
+
+.arrivalFee {
+  background: rgba(224, 123, 0, 0.1);
+  color: var(--saffron-dark);
+  border: 1px solid rgba(224, 123, 0, 0.3);
+}
+
+/* ================================================================
+   POLICY CARDS
+   ================================================================ */
+.policiesGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.2rem;
+  margin-bottom: 3rem;
+}
+
+.policyCard {
+  padding: 1.5rem;
+  border: 1.5px solid var(--border-color);
+  border-radius: 10px;
+  background: linear-gradient(160deg, var(--parchment) 0%, var(--parchment-mid) 100%);
+  text-align: center;
+  position: relative;
+  transition: box-shadow 0.22s ease, transform 0.22s ease;
+}
+
+.policyCard:hover {
+  box-shadow: 0 8px 28px var(--shadow-warm);
+  transform: translateY(-2px);
+}
+
+/* Vintage corner */
+.policyCard::before {
+  content: '';
+  position: absolute;
+  top: 8px; left: 8px;
+  width: 16px; height: 16px;
+  border-top: 1.5px solid rgba(224,123,0,0.4);
+  border-left: 1.5px solid rgba(224,123,0,0.4);
+}
+
+.policyIcon {
+  font-size: 1.8rem;
+  margin-bottom: 0.7rem;
+}
+
+.policyTitle {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(0.78rem, 1.3vw, 0.92rem);
+  font-weight: 700;
+  color: var(--saffron-dark);
+  letter-spacing: 0.04em;
+  margin-bottom: 0.5rem;
+}
+
+.policyDivider {
+  width: 40px;
+  height: 1.5px;
+  background: var(--saffron);
+  border-radius: 2px;
+  margin: 0 auto 0.8rem;
+}
+
+.policyText {
+  font-size: clamp(0.8rem, 1.3vw, 0.9rem);
+  color: var(--text-body);
+  line-height: 1.7;
+}
+
+/* ── Footer divider ── */
+.footerDivider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+/* ================================================================
+   RESPONSIVE BREAKPOINTS
+   ================================================================ */
+
+/* Large desktop (1400px+) — already handled by max-width */
+
+/* Desktop (1024px–1199px) */
+@media (max-width: 1199px) {
+  .paypalGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .bankField {
+    grid-template-columns: 120px 1fr;
+  }
+}
+
+/* Tablet landscape (861px–1023px) */
+@media (max-width: 1023px) {
+  .paypalGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .cardPayGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .bankGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .policiesGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Tablet portrait (541px–860px) */
+@media (max-width: 860px) {
+  .paypalGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .cardPayGrid {
+    grid-template-columns: 1fr;
+    max-width: 440px;
+    margin: 0 auto;
+  }
+
+  .upiGrid {
+    grid-template-columns: 1fr;
+    max-width: 320px;
+  }
+
+  .bankGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .bankField {
+    grid-template-columns: 1fr;
+    gap: 0.1rem;
+  }
+
+  .bankFieldLabel {
+    font-size: 0.72rem;
+    color: var(--brown-warm);
+  }
+
+  .policiesGrid {
+    grid-template-columns: 1fr;
+    max-width: 520px;
+    margin: 0 auto 3rem;
+  }
+
+  .westernDetails {
+    flex-direction: column;
+    gap: 1rem;
+  }
+}
+
+/* Mobile (381px–540px) */
+@media (max-width: 540px) {
+  .paypalGrid {
+    grid-template-columns: 1fr;
+    max-width: 320px;
+    margin: 0 auto;
+  }
+
+  .cardPayGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .mainTitle {
+    font-size: 1.2rem;
+  }
+
+  .sectionTitle {
+    font-size: 1rem;
+  }
+
+  .omDivider .dividerLine {
+    max-width: 70px;
+  }
+
+  .paymentBlock,
+  .regFeeBlock {
+    padding: 1.2rem 1rem;
+  }
+
+  .arrivalGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .mandalaTopLeft,
+  .mandalaBottomRight {
+    width: 180px;
+    height: 180px;
+  }
+}
+
+/* Small mobile (–380px) */
+@media (max-width: 380px) {
+  .paypalGrid,
+  .cardPayGrid {
+    grid-template-columns: 1fr;
+    max-width: 100%;
+  }
+
+  .arrivalGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .upiGrid {
+    grid-template-columns: 1fr;
+    max-width: 100%;
+  }
+
+  .container {
+    padding: 2rem 0.8rem;
+  }
+
+  .bankCardHeader {
+    flex-direction: column;
+    text-align: center;
+  }
+}
