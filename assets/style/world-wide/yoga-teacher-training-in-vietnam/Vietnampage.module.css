@@ -1,0 +1,333 @@
+/* ================================================================
+   Vietnampage.module.css
+   AYM Yoga School — Vietnam
+   Vintage Saffron × Parchment × Copper Gold
+   ================================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,600&family=Dancing+Script:wght@500;600;700&family=IM+Fell+English:ital@0;1&display=swap');
+
+:root {
+  --vn-parch:     #fdf6e8;
+  --vn-parch2:    #f4e8cb;
+  --vn-cream:     #fff9f0;
+  --vn-white:     #ffffff;
+  --vn-saff:      #e07b00;
+  --vn-saff-lt:   #f5b800;
+  --vn-copper:    #c46a00;
+  --vn-rust:      #b85e00;
+  --vn-brown:     #7a5c2e;
+  --vn-ink:       #2e1a06;
+  --vn-glow:      rgba(224,123,0,.28);
+  --vn-ff-d:      'Cinzel', serif;
+  --vn-ff-b:      'Cormorant Garamond', serif;
+  --vn-ff-s:      'Dancing Script', cursive;
+  --vn-shadow:    0 4px 24px rgba(60,25,0,.10);
+  --vn-shadow-lg: 0 12px 48px rgba(60,25,0,.18);
+  --vn-border:    1.5px solid rgba(224,123,0,.26);
+  --vn-r:         6px;
+  --vn-tr:        .22s ease;
+}
+
+/* ════════ PAGE WRAPPER ════════ */
+.pageWrapper {
+  font-family: var(--vn-ff-b);
+  background: var(--vn-parch);
+  color: var(--vn-ink);
+  overflow-x: hidden;
+  position: relative;
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* ════════ HERO ════════ */
+.heroSection {
+  position: relative;
+  background: var(--vn-white);
+  min-height: clamp(380px, 55vh, 620px);
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  padding: 2rem 1.5rem;
+  border-bottom: 2px solid rgba(224,123,0,.12);
+}
+
+.heroBgMandalaL {
+  position: absolute;
+  left: -80px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 340px;
+  height: 340px;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.18;
+}
+.heroBgMandalaR {
+  position: absolute;
+  right: -60px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 260px;
+  height: 260px;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.12;
+}
+
+.heroContent {
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: clamp(1rem, 4vw, 4rem);
+}
+
+.heroSilhouetteSide {
+  flex: 0 0 auto;
+  width: clamp(260px, 45vw, 580px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.heroSilhouette {
+  width: 100%;
+  height: auto;
+  max-height: 520px;
+}
+
+.heroText {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.5rem;
+}
+
+.heroTitle {
+  font-family: var(--vn-ff-d);
+  font-size: clamp(1.4rem, 3.5vw, 2.8rem);
+  font-weight: 700;
+  color: var(--vn-ink);
+  line-height: 1.3;
+  margin: 0;
+}
+.heroTitleAccent {
+  color: var(--vn-saff);
+  font-style: italic;
+  font-family: var(--vn-ff-s);
+  font-size: 1.1em;
+}
+
+.heroBtn {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--vn-ff-d);
+  font-size: .75rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: #fff;
+  background: var(--vn-saff);
+  padding: .8rem 2.2rem;
+  border-radius: var(--vn-r);
+  text-decoration: none;
+  box-shadow: 0 6px 20px var(--vn-glow);
+  transition: background var(--vn-tr), transform var(--vn-tr), box-shadow var(--vn-tr);
+}
+.heroBtn:hover {
+  background: var(--vn-rust);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(224,123,0,.45);
+}
+
+/* ════════ ORNAMENTS ════════ */
+.ornRow {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  margin: 1.5rem 0;
+}
+.ornL {
+  flex: 1;
+  height: 1.5px;
+  background: linear-gradient(90deg, transparent, rgba(224,123,0,.5), transparent);
+}
+.ornSym {
+  font-size: 1.4rem;
+  color: var(--vn-saff);
+  line-height: 1;
+}
+.miniOm {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  margin: 1.2rem 0;
+  justify-content: center;
+}
+.ornLm {
+  width: 80px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(224,123,0,.4), transparent);
+}
+.omT {
+  font-family: var(--vn-ff-d);
+  font-size: 1.3rem;
+  color: var(--vn-saff);
+  opacity: .7;
+}
+
+/* ════════ CONTENT SECTION ════════ */
+.contentSection {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(3rem, 6vw, 5rem) 1.5rem;
+}
+.contentBgMandala {
+  position: absolute;
+  right: -120px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 500px;
+  height: 500px;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.08;
+}
+.contentSection .container {
+  position: relative;
+  z-index: 1;
+}
+
+.sectionTitle {
+  font-family: var(--vn-ff-d);
+  font-size: clamp(1.2rem, 3vw, 2rem);
+  font-weight: 700;
+  color: var(--vn-saff);
+  line-height: 1.35;
+  margin: 0 0 1.2rem;
+  text-align: center;
+}
+.subTitle {
+  font-family: var(--vn-ff-d);
+  font-size: clamp(1rem, 2.2vw, 1.4rem);
+  font-weight: 700;
+  color: var(--vn-saff);
+  line-height: 1.4;
+  margin: 1.8rem 0 .8rem;
+}
+.bodyText {
+  font-family: var(--vn-ff-b);
+  font-size: clamp(.95rem, 1.6vw, 1.05rem);
+  line-height: 1.85;
+  color: #3d2b10;
+  margin: 0 0 1rem;
+}
+
+/* ── Cards ── */
+.cardList {
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+  margin: 1rem 0;
+}
+.card {
+  background: var(--vn-cream);
+  border: var(--vn-border);
+  border-left: 4px solid var(--vn-saff);
+  border-radius: 0 var(--vn-r) var(--vn-r) 0;
+  padding: 1.2rem 1.5rem;
+  box-shadow: var(--vn-shadow);
+}
+.cardHeader {
+  display: flex;
+  align-items: center;
+  gap: .7rem;
+  margin-bottom: .5rem;
+}
+.cardChakra {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+}
+.cardTitle {
+  font-family: var(--vn-ff-d);
+  font-size: clamp(.85rem, 1.8vw, 1.05rem);
+  font-weight: 700;
+  color: var(--vn-saff);
+  margin: 0;
+}
+
+/* ── Numbered List ── */
+.numberedList {
+  display: flex;
+  flex-direction: column;
+  gap: .8rem;
+  margin: 1rem 0 1.4rem;
+  padding: 1.2rem 1.5rem;
+  background: var(--vn-cream);
+  border: var(--vn-border);
+  border-left: 4px solid var(--vn-saff);
+  border-radius: 0 var(--vn-r) var(--vn-r) 0;
+  box-shadow: var(--vn-shadow);
+}
+.numberedItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+.numBadge {
+  flex-shrink: 0;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--vn-saff);
+  color: #fff;
+  font-family: var(--vn-ff-d);
+  font-size: .7rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: .25rem;
+  box-shadow: 0 2px 8px var(--vn-glow);
+}
+.numberedItem .bodyText {
+  margin: 0;
+}
+
+/* ════════ RESPONSIVE ════════ */
+@media (max-width: 768px) {
+  .heroContent {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1.5rem;
+  }
+  .heroSilhouetteSide {
+    width: 100%;
+    max-width: 380px;
+  }
+  .heroText { align-items: center; }
+  .heroBgMandalaL, .heroBgMandalaR { display: none; }
+}
+
+@media (max-width: 576px) {
+  .heroSection { padding: 1.5rem 1rem; min-height: auto; }
+  .heroTitle { font-size: 1.4rem; }
+  .sectionTitle { font-size: 1.2rem; }
+  .subTitle { font-size: 1rem; }
+  .card { padding: 1rem 1.2rem; }
+  .numberedList { padding: 1rem; }
+}
+
+@media (max-width: 400px) {
+  .heroSilhouetteSide { max-width: 280px; }
+}
