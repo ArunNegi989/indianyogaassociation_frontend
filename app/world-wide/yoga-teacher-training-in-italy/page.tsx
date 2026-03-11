@@ -1,6 +1,7 @@
 "use client"
 import React from "react";
 import styles from "@/assets/style/world-wide/yoga-teacher-training-in-vietnam/Vietnampage.module.css";
+import yogaimage from "@/assets/images/yoga.svg"
 
 /* ─── SVG Decorations ─── */
 const Mandala: React.FC<{ className?: string }> = ({ className }) => (
@@ -81,11 +82,11 @@ const ItalyPage: React.FC = () => {
           {/* ── Plain image on the left ── */}
           <div className={styles.heroSilhouetteSide}>
             <img
-              src="/images/yoga-teacher-training-italy.jpg"
-              alt="Yoga Teacher Training In Italy"
-              className={styles.heroSilhouette}
-              style={{ borderRadius: "8px", objectFit: "cover" }}
-            />
+  src={yogaimage.src}
+  alt="Yoga Teacher Training In Germany"
+  className={styles.heroSilhouette}
+  style={{ borderRadius: "8px", objectFit: "cover" }}
+/>
           </div>
           <div className={styles.heroText}>
             <h1 className={styles.heroTitle}>

@@ -1,7 +1,7 @@
 "use client"
 import React from "react";
 import styles from "@/assets/style/world-wide/yoga-teacher-training-in-vietnam/Vietnampage.module.css";
-
+import yogaimage from "@/assets/images/yoga.svg"
 /* ─── SVG Decorations ─── */
 const Mandala: React.FC<{ className?: string }> = ({ className }) => (
   <svg className={className} viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" fill="none">
@@ -68,65 +68,6 @@ const Chakra: React.FC<{ className?: string; color?: string }> = ({ className, c
   </svg>
 );
 
-const YogaSilhouette: React.FC<{ className?: string }> = ({ className }) => {
-  const words = [
-    "MEDITATION","WELLNESS","TRANQUILITY","SPIRITUALITY","VITALITY","HEALTH",
-    "RELAXATION","PEACE","HARMONY","BLISS","SOUL","NAMASTE","ASANA","PRANAYAMA",
-    "CHAKRA","GURU","MANTRA","ANANDA","CONCENTRATION","BODY","AYURVEDA",
-    "FITNESS","BEAUTY","CALM","EXERCISE","SPIRIT","AHIMSA","SOULVIT","BALANCE",
-    "MINDFULNESS","GRATITUDE","STRENGTH","FLEXIBILITY","HEALING","ENERGY",
-    "BREATH","FOCUS","SERENITY","CLARITY","WISDOM","COMPASSION","JOY",
-    "NOURISH","FLOW","CENTERING","AWAKEN","UNITY","YOGA","MEDITATION",
-    "WELLNESS","TRANQUILITY","SPIRITUALITY","VITALITY","HEALTH","RELAXATION",
-    "PEACE","HARMONY","BLISS","SOUL","NAMASTE","ASANA","PRANAYAMA","CHAKRA",
-    "GURU","MANTRA","ANANDA","CONCENTRATION","BODY","AYURVEDA","FITNESS",
-    "BEAUTY","CALM","EXERCISE","SPIRIT","AHIMSA","BALANCE","MINDFULNESS",
-    "GRATITUDE","STRENGTH","FLEXIBILITY","HEALING","ENERGY","BREATH","FOCUS",
-    "SERENITY","CLARITY","WISDOM","YOGA","MEDITATION","WELLNESS","TRANQUILITY",
-  ];
-  const lines: { text: string; x: number; y: number; size: number; rotate: number }[] = [];
-  let wordIdx = 0;
-  for (let row = 0; row < 34; row++) {
-    let x = (row % 2 === 0) ? 4 : -10;
-    const y = 14 + row * 18;
-    while (x < 620) {
-      const w = words[wordIdx % words.length];
-      const size = 7 + ((wordIdx * 3) % 7);
-      const rot = (wordIdx % 5 === 0) ? 90 : (wordIdx % 7 === 0) ? -90 : 0;
-      lines.push({ text: w, x, y, size, rotate: rot });
-      x += w.length * size * 0.56 + 4;
-      wordIdx++;
-    }
-  }
-  return (
-    <svg className={className} viewBox="0 0 620 580" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <clipPath id="yogaClipMY">
-          <ellipse cx="310" cy="88" rx="58" ry="66"/>
-          <rect x="290" y="148" width="40" height="26" rx="10"/>
-          <ellipse cx="310" cy="255" rx="88" ry="108"/>
-          <ellipse cx="196" cy="228" rx="66" ry="26" transform="rotate(-12 196 228)"/>
-          <ellipse cx="116" cy="282" rx="58" ry="22" transform="rotate(-28 116 282)"/>
-          <ellipse cx="66" cy="330" rx="36" ry="22" transform="rotate(-38 66 330)"/>
-          <ellipse cx="424" cy="228" rx="66" ry="26" transform="rotate(12 424 228)"/>
-          <ellipse cx="504" cy="282" rx="58" ry="22" transform="rotate(28 504 282)"/>
-          <ellipse cx="554" cy="330" rx="36" ry="22" transform="rotate(38 554 330)"/>
-          <ellipse cx="210" cy="420" rx="125" ry="58" transform="rotate(-10 210 420)"/>
-          <ellipse cx="410" cy="420" rx="125" ry="58" transform="rotate(10 410 420)"/>
-          <ellipse cx="118" cy="390" rx="52" ry="36" transform="rotate(-20 118 390)"/>
-          <ellipse cx="502" cy="390" rx="52" ry="36" transform="rotate(20 502 390)"/>
-          <ellipse cx="310" cy="502" rx="160" ry="46"/>
-        </clipPath>
-      </defs>
-      <g clipPath="url(#yogaClipMY)">
-        {lines.map((l, i) => (
-          <text key={i} x={l.x} y={l.y} fontSize={l.size} fontFamily="'Arial Black','Arial',sans-serif" fontWeight="900" fill="#111111" opacity={0.6+(i%5)*0.07} transform={l.rotate!==0?`rotate(${l.rotate} ${l.x} ${l.y})`:undefined} letterSpacing="0.02em">{l.text}</text>
-        ))}
-      </g>
-    </svg>
-  );
-};
-
 /* ─── Main Component ─── */
 const MalaysiaPage: React.FC = () => {
   return (
@@ -137,8 +78,14 @@ const MalaysiaPage: React.FC = () => {
         <Mandala className={styles.heroBgMandalaL}/>
         <Mandala className={styles.heroBgMandalaR}/>
         <div className={styles.heroContent}>
+          {/* ── Plain image on the left (Germany style) ── */}
           <div className={styles.heroSilhouetteSide}>
-            <YogaSilhouette className={styles.heroSilhouette}/>
+           <img
+  src={yogaimage.src}
+  alt="Yoga Teacher Training In Germany"
+  className={styles.heroSilhouette}
+  style={{ borderRadius: "8px", objectFit: "cover" }}
+/>
           </div>
           <div className={styles.heroText}>
             <h1 className={styles.heroTitle}>

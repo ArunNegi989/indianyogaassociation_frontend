@@ -1,7 +1,7 @@
 "use client"
 import React from "react";
 import styles from "@/assets/style/world-wide/yoga-teacher-training-in-vietnam/Vietnampage.module.css";
-
+import yogaimage from "@/assets/images/yoga.svg"
 /* ─── SVG Decorations ─── */
 const Mandala: React.FC<{ className?: string }> = ({ className }) => (
   <svg className={className} viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" fill="none">
@@ -81,11 +81,11 @@ const NewZealandPage: React.FC = () => {
           {/* ── Plain image on the left (Germany style) ── */}
           <div className={styles.heroSilhouetteSide}>
             <img
-              src="/images/yoga-teacher-training-new-zealand.jpg"
-              alt="Yoga Teacher Training In New Zealand"
-              className={styles.heroSilhouette}
-              style={{ borderRadius: "8px", objectFit: "cover" }}
-            />
+  src={yogaimage.src}
+  alt="Yoga Teacher Training In Germany"
+  className={styles.heroSilhouette}
+  style={{ borderRadius: "8px", objectFit: "cover" }}
+/>
           </div>
           <div className={styles.heroText}>
             <h1 className={styles.heroTitle}>

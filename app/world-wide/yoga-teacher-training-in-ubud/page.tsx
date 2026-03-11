@@ -1,7 +1,7 @@
 "use client"
-import React, { useState } from "react";
-import styles from "@/assets/style/world-wide/yoga-teacher-training-in-switzerland/Switzerlandpage.module.css";
-
+import React from "react";
+import styles from "@/assets/style/world-wide/yoga-teacher-training-in-vietnam/Vietnampage.module.css";
+import yogaimage from "@/assets/images/yoga.svg"
 /* ─── SVG Decorations ─── */
 const Mandala: React.FC<{ className?: string }> = ({ className }) => (
   <svg className={className} viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" fill="none">
@@ -68,75 +68,8 @@ const Chakra: React.FC<{ className?: string; color?: string }> = ({ className, c
   </svg>
 );
 
-/* ─── Yoga Word-Cloud Silhouette ─── */
-const YogaSilhouette: React.FC<{ className?: string }> = ({ className }) => {
-  const words = [
-    "NAMASTE","HEALTH","PEACE","BEAUTY","RELAXATION","HARMONY","VITALITY",
-    "TRANQUILITY","WELLNESS","SPIRITUALITY","MEDITATION","YOGA","MANTRA",
-    "CONCENTRATION","BODY","ANANDA","SOULVITALITY","GURU","SOUL","SPIRIT",
-    "VITALITY","BLISS","RELAX","CALM","FITNESS","EXERCISE","AHIMSA","ASANA",
-    "PRANAYAMA","CHAKRA","AYURVEDA","BALANCE","MINDFULNESS","GRATITUDE",
-    "STRENGTH","FLEXIBILITY","HEALING","ENERGY","BREATH","FOCUS","SERENITY",
-    "CLARITY","WISDOM","COMPASSION","JOY","NOURISH","FLOW","AWAKEN","UNITY",
-    "PEACEFUL","HARMONY","WELLNESS","TRANQUILITY","SPIRITUALITY","VITALITY",
-    "HEALTH","RELAXATION","PEACE","BLISS","SOUL","NAMASTE","ASANA","GURU",
-    "MANTRA","ANANDA","CONCENTRATION","BODY","AYURVEDA","FITNESS","CALM",
-  ];
-  const lines: { text: string; x: number; y: number; size: number; rotate: number }[] = [];
-  let wordIdx = 0;
-  for (let row = 0; row < 34; row++) {
-    let x = (row % 2 === 0) ? 4 : -10;
-    const y = 14 + row * 18;
-    while (x < 620) {
-      const w = words[wordIdx % words.length];
-      const size = 7 + ((wordIdx * 3) % 7);
-      const rot = (wordIdx % 5 === 0) ? 90 : (wordIdx % 7 === 0) ? -90 : 0;
-      lines.push({ text: w, x, y, size, rotate: rot });
-      x += w.length * size * 0.56 + 4;
-      wordIdx++;
-    }
-  }
-  return (
-    <svg className={className} viewBox="0 0 620 580" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <clipPath id="yogaClipUB">
-          <ellipse cx="310" cy="88" rx="58" ry="66"/>
-          <rect x="290" y="148" width="40" height="26" rx="10"/>
-          <ellipse cx="310" cy="255" rx="88" ry="108"/>
-          <ellipse cx="196" cy="228" rx="66" ry="26" transform="rotate(-12 196 228)"/>
-          <ellipse cx="116" cy="282" rx="58" ry="22" transform="rotate(-28 116 282)"/>
-          <ellipse cx="66" cy="330" rx="36" ry="22" transform="rotate(-38 66 330)"/>
-          <ellipse cx="424" cy="228" rx="66" ry="26" transform="rotate(12 424 228)"/>
-          <ellipse cx="504" cy="282" rx="58" ry="22" transform="rotate(28 504 282)"/>
-          <ellipse cx="554" cy="330" rx="36" ry="22" transform="rotate(38 554 330)"/>
-          <ellipse cx="210" cy="420" rx="125" ry="58" transform="rotate(-10 210 420)"/>
-          <ellipse cx="410" cy="420" rx="125" ry="58" transform="rotate(10 410 420)"/>
-          <ellipse cx="118" cy="390" rx="52" ry="36" transform="rotate(-20 118 390)"/>
-          <ellipse cx="502" cy="390" rx="52" ry="36" transform="rotate(20 502 390)"/>
-          <ellipse cx="310" cy="502" rx="160" ry="46"/>
-        </clipPath>
-      </defs>
-      <g clipPath="url(#yogaClipUB)">
-        {lines.map((l, i) => (
-          <text key={i} x={l.x} y={l.y} fontSize={l.size}
-            fontFamily="'Arial Black', 'Arial', sans-serif" fontWeight="900"
-            fill="#111111" opacity={0.6 + (i % 5) * 0.07}
-            transform={l.rotate !== 0 ? `rotate(${l.rotate} ${l.x} ${l.y})` : undefined}
-            letterSpacing="0.02em">
-            {l.text}
-          </text>
-        ))}
-      </g>
-    </svg>
-  );
-};
-
 /* ─── Main Component ─── */
 const UbudPage: React.FC = () => {
-  const [form, setForm] = useState({ name:"", email:"", phone:"", message:"" });
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement|HTMLTextAreaElement>) =>
-    setForm(p=>({...p,[e.target.name]:e.target.value}));
-
   return (
     <div className={styles.pageWrapper}>
 
@@ -145,63 +78,81 @@ const UbudPage: React.FC = () => {
         <Mandala className={styles.heroBgMandalaL}/>
         <Mandala className={styles.heroBgMandalaR}/>
         <div className={styles.heroContent}>
+          {/* ── Plain image on the left (Germany style) ── */}
           <div className={styles.heroSilhouetteSide}>
-            <YogaSilhouette className={styles.heroSilhouette}/>
+            <img
+  src={yogaimage.src}
+  alt="Yoga Teacher Training In Germany"
+  className={styles.heroSilhouette}
+  style={{ borderRadius: "8px", objectFit: "cover" }}
+/>
           </div>
           <div className={styles.heroText}>
             <h1 className={styles.heroTitle}>
               Yoga Teacher Training In{" "}
               <span className={styles.heroTitleAccent}>Ubud</span>
             </h1>
-            <a href="#courses" className={styles.heroBtn}>Read More</a>
+            <a href="#content" className={styles.heroBtn}>Read More</a>
           </div>
         </div>
       </section>
 
       {/* ━━━━ CONTENT SECTION ━━━━ */}
-      <section className={styles.contentSection}>
+      <section className={styles.contentSection} id="content">
         <Mandala className={styles.contentBgMandala}/>
         <div className={styles.container}>
 
           <div className={styles.ornRow}><span className={styles.ornL}/><span className={styles.ornSym}>❧</span><span className={styles.ornL}/></div>
 
-          {/* ── Main Heading ── */}
           <h2 className={styles.sectionTitle}>Yoga Teacher Training In Ubud</h2>
 
-          {/* ── Premium Yoga Teacher Training Courses Available At AYM ── */}
-          <h3 className={styles.subTitle}>Premium Yoga Teacher Training Courses Available At AYM</h3>
-          <p className={styles.bodyText}>Everyone In The World Lives A Busy Life With Little Or No Peace. But As Times Change, People Are Becoming Aware Of How Expensive Peace Is And Are Seeking Ways To Achieve It. People Worldwide Are Getting Closer To Yoga As It Is A Way To A Well-Balanced Life. Suppose You Are Among Those Seeking A Peaceful Life Or Developing A Career Out Of Yoga. In That Case, We At The Association For Yoga And Meditation Are The Best Yoga Teacher Training Course In Ubud.</p>
-          <p className={styles.bodyText}>Some Of The Most Well-Known Yogis From The World Teach At Our Yoga Teacher Training Course Centre In Rishikesh. The Location Rishikesh Was Chosen For Our Yoga Centre Because Of The Tranquillity And Pureness It Offers That Contribute To Healing The Souls Of Individuals Besides Making It Easier For Them To Adopt A Healthy Lifestyle.</p>
+          {/* ── Premium Yoga Teacher Training ── */}
+          <div className={styles.cardList}>
+            <div className={styles.card}>
+              <div className={styles.cardHeader}>
+                <Chakra className={styles.cardChakra} color="#e07b00"/>
+                <h4 className={styles.cardTitle}>Premium Yoga Teacher Training Courses Available At AYM</h4>
+              </div>
+              <p className={styles.bodyText}>Everyone In The World Lives A Busy Life With Little Or No Peace. But As Times Change, People Are Becoming Aware Of How Expensive Peace Is And Are Seeking Ways To Achieve It. People Worldwide Are Getting Closer To Yoga As It Is A Way To A Well-Balanced Life. Suppose You Are Among Those Seeking A Peaceful Life Or Developing A Career Out Of Yoga. In That Case, We At The Association For Yoga And Meditation Are The Best Yoga Teacher Training Course In Ubud.</p>
+              <p className={styles.bodyText}>Some Of The Most Well-Known Yogis From The World Teach At Our Yoga Teacher Training Course Centre In Rishikesh. The Location Rishikesh Was Chosen For Our Yoga Centre Because Of The Tranquillity And Pureness It Offers That Contribute To Healing The Souls Of Individuals Besides Making It Easier For Them To Adopt A Healthy Lifestyle.</p>
+            </div>
+          </div>
 
           <div className={styles.miniOm}><span className={styles.ornLm}/><span className={styles.omT}>ॐ</span><span className={styles.ornLm}/></div>
 
-          {/* ── Examine Yoga And Meditation Practices ── */}
+          {/* ── Examine Yoga And Meditation ── */}
           <h3 className={styles.subTitle}>Examine Yoga And Meditation Practices At Association For Yoga And Meditation</h3>
           <p className={styles.bodyText}>The Practice Of Yoga Has Been Existing For Centuries And Has Proven Health Advantages. However, Most People View It As A Form Of Art And Look Forward To Spreading It To Everyone Around. At The Association For Yoga And Meditation, We Offer Registered Yoga Teacher Training Courses In Ubud With The Target Of Promoting It Rapidly. Our Goal As A Top Yoga Teacher Training Program In Ubud Is To Increase Awareness Of These Age-Old Practices And Help People Live A Worthy Lifestyle. We Take You Back To The History From Where It Began To The Time It Starts Now Or Is Expected To Be In The Future. The Deeper Understanding That We Offer Helps One Stay Encouraged As The Students Understand This Practice's Great Importance. Once You Enroll In Our Licensed Yoga Teacher Training Course In Ubud, We Will Help You To Become A Facilitator Who Can Further Direct Others To The Resources One May Need For Development.</p>
 
           <div className={styles.miniOm}><span className={styles.ornLm}/><span className={styles.omT}>❦</span><span className={styles.ornLm}/></div>
 
-          {/* ── Introduce Yourself To Yoga With 300 Hour Yoga Books ── */}
+          {/* ── 300 Hour Yoga Books ── */}
           <h3 className={styles.subTitle}>Introduce Yourself To Yoga With 300 Hour Yoga Books</h3>
           <p className={styles.bodyText}>At The Association For Yoga And Meditation, We Suggest Our Students Go Through The 300-Hour Yoga Books. This Is Because Reading These Books Before The YTT Course In Ubud Makes One Familiar With All The Yoga-Related Information, Including Its History, Benefits, Aspects And More. When You Complete Reading The Book And Join The Yoga Teacher Therapy Training Courses, It Will Become Easier For You To Understand Everything That Will Be Taught During The Class. Moreover, Reading Books On Yoga Before Joining The 300-Hour Yoga Teacher Training Course Will Also Improve Your Comprehension. The Books Suggested By Our Yogis Are The Autobiography Of A Yogi Paramahansa Yogananda And The Light On Yoga – By B.K.S Iyengar. These Two Books Are No Less Than A Wealth Of Older Literature That Can Advance Your Spiritual Development And Make You A Better Yoga Instructor.</p>
 
           <div className={styles.miniOm}><span className={styles.ornLm}/><span className={styles.omT}>ॐ</span><span className={styles.ornLm}/></div>
 
-          {/* ── How Can You Prepare Yourself ── */}
+          {/* ── Prepare Yourself ── */}
           <h3 className={styles.subTitle}>How Can You Prepare Yourself Before Joining The Yoga Classes?</h3>
           <p className={styles.bodyText}>It Does Not Matter If You Are An Experienced Practitioner Or Just A Beginner – You Are Suggested To Prepare Yourself Before Joining The Classes. We Solely Demand This From Our Students As It Would Help To Smoothen Their Journey Of Learning Yoga Teacher Training Courses In Ubud. To Be Precise, A Few Things That One Can Do To Get Ready Include:</p>
 
-          <div style={{ display:"flex", flexDirection:"column", gap:".55rem", margin:"0 0 1.2rem", paddingLeft:"0.2rem" }}>
-            {[
-              "We Anticipate That Our Students Will Read To Comprehend Yoga's History And Current State.",
-              "Students Must Aim To Prepare Both Physically And Intellectually By Accepting The Fact That They Will Encounter Challenges During Their YTT In The Ubud Journey.",
-              "In Addition To Yoga Courses, Students Must Take Care Of Their Health Before, After, And During The Course. For This, They Must Only Adapt To Eating Organic And Healthy Food Items.",
-              "Students Must Stay Motivated Throughout Ubud's 200-Hour Yoga Teacher Training Course To Complete It And Achieve The Certification.",
-            ].map((item, i) => (
-              <p key={i} className={styles.bodyText} style={{ margin:0 }}>
-                {i+1}. {item}
-              </p>
-            ))}
+          <div className={styles.numberedList}>
+            <div className={styles.numberedItem}>
+              <span className={styles.numBadge}>1</span>
+              <p className={styles.bodyText}>We Anticipate That Our Students Will Read To Comprehend Yoga's History And Current State.</p>
+            </div>
+            <div className={styles.numberedItem}>
+              <span className={styles.numBadge}>2</span>
+              <p className={styles.bodyText}>Students Must Aim To Prepare Both Physically And Intellectually By Accepting The Fact That They Will Encounter Challenges During Their YTT In The Ubud Journey.</p>
+            </div>
+            <div className={styles.numberedItem}>
+              <span className={styles.numBadge}>3</span>
+              <p className={styles.bodyText}>In Addition To Yoga Courses, Students Must Take Care Of Their Health Before, After, And During The Course. For This, They Must Only Adapt To Eating Organic And Healthy Food Items.</p>
+            </div>
+            <div className={styles.numberedItem}>
+              <span className={styles.numBadge}>4</span>
+              <p className={styles.bodyText}>Students Must Stay Motivated Throughout Ubud's 200-Hour Yoga Teacher Training Course To Complete It And Achieve The Certification.</p>
+            </div>
           </div>
 
           <div className={styles.miniOm}><span className={styles.ornLm}/><span className={styles.omT}>❦</span><span className={styles.ornLm}/></div>
@@ -218,7 +169,7 @@ const UbudPage: React.FC = () => {
 
           <div className={styles.miniOm}><span className={styles.ornLm}/><span className={styles.omT}>❦</span><span className={styles.ornLm}/></div>
 
-          {/* ── Train Others As A Yoga Teacher ── */}
+          {/* ── Train Others ── */}
           <h3 className={styles.subTitle}>Train Others As A Yoga Teacher Anywhere In The World</h3>
           <p className={styles.bodyText}>You Will Be Prepared To Use Yoga To Ease The Mental Suffering Of Others By Completing Our Yoga Therapy Teacher Training Program In Ubud. Those Who Want To Become Yoga Teachers Can Study Through The Course In Our Yoga Centre In Rishikesh, Surrounded By Lush Green Gardens And A Serene Environment.</p>
           <p className={styles.bodyText}>We At AYM Provide A 500-Hour Yoga Teaching Course In Ubud That Will Give You The Training And Expertise You Need To Instruct Yoga And A Recognized And Highly-Regarded Yoga Teacher Certification. Enrolling In Our Prestigious Yoga Centre In Rishikesh Will Ensure That You Start A Successful Career And Develop Your Personal Abilities.</p>
@@ -226,6 +177,7 @@ const UbudPage: React.FC = () => {
           <div className={styles.ornRow} style={{marginTop:"2rem"}}><span className={styles.ornL}/><span className={styles.ornSym}>❧</span><span className={styles.ornL}/></div>
         </div>
       </section>
+
     </div>
   );
 };
