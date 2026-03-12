@@ -1,0 +1,617 @@
+/* ================================================================
+   HeroBanner.module.css — AYM Yoga Admin
+   All breakpoints: mobile cards / tablet compact / desktop full
+   ================================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&display=swap');
+
+/* ── Page ── */
+.page {
+  position: relative;
+  padding: 0.25rem 0;
+}
+
+/* ── Toast ── */
+.toast {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  background: linear-gradient(135deg, #3d1d00, #5c2d00);
+  color: #f5d89a;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.9rem;
+  font-style: italic;
+  letter-spacing: 0.04em;
+  padding: 0.65rem 1.3rem;
+  border-radius: 8px;
+  border: 1px solid rgba(224, 123, 0, 0.4);
+  box-shadow: 0 4px 20px rgba(92, 45, 0, 0.3);
+  z-index: 999;
+  animation: slideUp 0.28s ease;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Page Header ── */
+.pageHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.3rem;
+  flex-wrap: wrap;
+}
+
+.pageTitle {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(1.15rem, 3vw, 1.55rem);
+  font-weight: 700;
+  color: #3d1d00;
+  margin: 0 0 0.2rem;
+  letter-spacing: 0.04em;
+}
+
+.pageSubtitle {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.85rem;
+  color: #a07840;
+  margin: 0;
+  font-style: italic;
+}
+
+/* ── Add Button ── */
+.addBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.6rem 1.3rem;
+  background: linear-gradient(135deg, #3d1d00 0%, #5c2d00 100%);
+  color: #f5d89a;
+  font-family: 'Cinzel', serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  border: 1px solid rgba(224, 123, 0, 0.35);
+  border-radius: 7px;
+  cursor: pointer;
+  transition: all 0.22s ease;
+  box-shadow: 0 3px 12px rgba(92, 45, 0, 0.2);
+  white-space: nowrap;
+  flex-shrink: 0;
+  text-decoration: none; /* ✅ no underline */
+}
+
+.addBtn:hover {
+  background: linear-gradient(135deg, #5c2d00, #7a3d00);
+  transform: translateY(-1px);
+  box-shadow: 0 5px 18px rgba(92, 45, 0, 0.3);
+  text-decoration: none; /* ✅ no underline on hover */
+}
+
+.addPlus { font-size: 1rem; line-height: 1; }
+
+/* ── Ornament ── */
+.ornament {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 1.3rem;
+  color: rgba(224, 123, 0, 0.45);
+  font-size: 0.9rem;
+}
+
+.ornamentLine {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(224,123,0,0.25), rgba(224,123,0,0.08));
+}
+
+/* ================================================================
+   TABLE (tablet + desktop)
+   ================================================================ */
+.tableWrap {
+  background: #fffaf2;
+  border: 1px solid #e8d5b5;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(92, 45, 0, 0.08);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 460px;
+}
+
+.table thead tr {
+  background: linear-gradient(90deg, #2a1400 0%, #3d1d00 50%, #2a1400 100%);
+}
+
+.table thead th {
+  font-family: 'Cinzel', serif;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: #f5d89a;
+  text-transform: uppercase;
+  padding: 0.85rem 0.9rem;
+  text-align: left;
+  white-space: nowrap;
+  border-bottom: 2px solid rgba(224, 123, 0, 0.3);
+}
+
+.row {
+  border-bottom: 1px solid #f0e2c8;
+  transition: background 0.18s ease;
+  cursor: grab;
+}
+
+.row:last-child { border-bottom: none; }
+.row:hover { background: rgba(224, 123, 0, 0.04); }
+.row:active { cursor: grabbing; }
+
+.table td {
+  padding: 0.8rem 0.9rem;
+  vertical-align: middle;
+}
+
+.tdOrder {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.tdCenter { text-align: center; vertical-align: middle; }
+
+/* ── Order badge ── */
+.orderBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(224, 123, 0, 0.15), rgba(224, 123, 0, 0.05));
+  border: 1px solid rgba(224, 123, 0, 0.3);
+  font-family: 'Cinzel', serif;
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: #7a3d00;
+  margin-bottom: 0.3rem;
+}
+
+/* ── Arrow buttons ── */
+.arrowGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  align-items: center;
+}
+
+.arrowBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 17px;
+  background: none;
+  border: 1px solid #e8d5b5;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 0.48rem;
+  color: #a07840;
+  transition: all 0.18s ease;
+  line-height: 1;
+}
+
+.arrowBtn:hover:not(:disabled) {
+  background: rgba(224, 123, 0, 0.1);
+  border-color: #e07b00;
+  color: #5c2d00;
+}
+
+.arrowBtn:disabled { opacity: 0.2; cursor: not-allowed; }
+
+/* ── Drag group (desktop) ── */
+.dragGroup {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.dragHandle {
+  font-size: 1.25rem;
+  color: rgba(160, 120, 64, 0.45);
+  cursor: grab;
+  user-select: none;
+  transition: color 0.18s;
+  line-height: 1;
+}
+
+.dragHandle:hover { color: #e07b00; }
+
+/* ── Preview box ── */
+.previewBox {
+  width: 108px;
+  height: 60px;
+  border-radius: 7px;
+  background: linear-gradient(135deg, #3d1d00 0%, #7a5c2e 50%, #5c2d00 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(224, 123, 0, 0.22);
+  box-shadow: 0 2px 8px rgba(92, 45, 0, 0.15);
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.previewBox::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 30% 50%, rgba(224,123,0,0.14) 0%, transparent 70%);
+}
+
+.previewOm {
+  font-family: 'Cinzel', serif;
+  font-size: 1.45rem;
+  color: rgba(245, 216, 154, 0.55);
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Banner title/subtitle ── */
+.bannerTitle {
+  font-family: 'Cinzel', serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #3d1d00;
+  margin: 0 0 0.18rem;
+  letter-spacing: 0.02em;
+}
+
+.bannerSubtitle {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.82rem;
+  color: #a07840;
+  margin: 0;
+  font-style: italic;
+}
+
+/* ── Position tag ── */
+.positionTag {
+  display: inline-block;
+  padding: 0.2rem 0.7rem;
+  background: rgba(224, 123, 0, 0.08);
+  border: 1px solid rgba(224, 123, 0, 0.2);
+  border-radius: 20px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.78rem;
+  color: #7a3d00;
+  font-style: italic;
+}
+
+/* ── Status badge ── */
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.32rem;
+  padding: 0.26rem 0.8rem;
+  border-radius: 20px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+  white-space: nowrap;
+}
+
+.statusDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.statusActive {
+  background: linear-gradient(135deg, #2a5e1e, #3a7a28);
+  color: #c8f0b0;
+  border-color: rgba(100, 200, 60, 0.25);
+}
+.statusActive .statusDot { background: #7ddf50; box-shadow: 0 0 4px #7ddf50; }
+.statusActive:hover { background: linear-gradient(135deg, #1e4616, #2e6020); }
+
+.statusInactive {
+  background: linear-gradient(135deg, #5a1a00, #7a2800);
+  color: #f5c8a0;
+  border-color: rgba(200, 80, 20, 0.25);
+}
+.statusInactive .statusDot { background: #e07b40; box-shadow: 0 0 4px #e07b40; }
+.statusInactive:hover { background: linear-gradient(135deg, #3d1200, #5c1c00); }
+
+/* ── Action buttons ── */
+.actionBtns {
+  display: flex;
+  gap: 0.35rem;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* ✅ Both editBtn and deleteBtn — no underline, same style */
+.editBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.35rem 0.8rem;
+  border-radius: 6px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid rgba(224, 123, 0, 0.22);
+  white-space: nowrap;
+  text-decoration: none;        /* ✅ no underline */
+  background: rgba(224, 123, 0, 0.08);
+  color: #7a3d00;
+}
+
+.editBtn:hover {
+  background: rgba(224, 123, 0, 0.16);
+  border-color: rgba(224, 123, 0, 0.42);
+  transform: translateY(-1px);
+  text-decoration: none;        /* ✅ no underline on hover */
+  color: #7a3d00;
+}
+
+.deleteBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.35rem 0.8rem;
+  border-radius: 6px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid rgba(180, 40, 0, 0.18);
+  white-space: nowrap;
+  background: rgba(180, 40, 0, 0.07);
+  color: #8b2000;
+}
+
+.deleteBtn:hover {
+  background: rgba(180, 40, 0, 0.15);
+  border-color: rgba(180, 40, 0, 0.38);
+  transform: translateY(-1px);
+}
+
+/* ================================================================
+   MOBILE CARDS (< 480px)
+   ================================================================ */
+.cardList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.card {
+  background: #fffaf2;
+  border: 1px solid #e8d5b5;
+  border-radius: 11px;
+  overflow: hidden;
+  box-shadow: 0 3px 14px rgba(92, 45, 0, 0.07);
+  cursor: grab;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.card:active { cursor: grabbing; }
+.card:hover {
+  box-shadow: 0 5px 20px rgba(92, 45, 0, 0.12);
+  transform: translateY(-1px);
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.85rem 0.9rem 0.6rem;
+}
+
+.cardOrderBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  flex-shrink: 0;
+}
+
+.cardBody {
+  flex: 1;
+  min-width: 0;
+}
+
+.cardTags {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-top: 0.45rem;
+  flex-wrap: wrap;
+}
+
+.cardFooter {
+  padding: 0.55rem 0.9rem 0.75rem;
+  border-top: 1px solid #f0e2c8;
+  background: rgba(224, 123, 0, 0.02);
+}
+
+.cardFooter .actionBtns { justify-content: flex-start; }
+
+.dragHandle {
+  font-size: 1.3rem;
+  color: rgba(160, 120, 64, 0.4);
+  cursor: grab;
+  user-select: none;
+  transition: color 0.18s;
+  align-self: flex-start;
+  flex-shrink: 0;
+}
+.dragHandle:hover { color: #e07b00; }
+
+/* ── Empty state ── */
+.empty {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: #a07840;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem;
+  font-style: italic;
+}
+
+.emptyOm {
+  display: block;
+  font-family: 'Cinzel', serif;
+  font-size: 3rem;
+  color: rgba(224, 123, 0, 0.22);
+  margin-bottom: 1rem;
+}
+
+/* ================================================================
+   DELETE MODAL
+   ================================================================ */
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 8, 0, 0.6);
+  backdrop-filter: blur(3px);
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.modal {
+  background: linear-gradient(160deg, #fffaf2, #fff7eb);
+  border: 1px solid #e8d5b5;
+  border-radius: 14px;
+  padding: 2rem 1.8rem;
+  max-width: 360px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 16px 48px rgba(92, 45, 0, 0.25);
+  animation: modalIn 0.24s ease;
+}
+
+@keyframes modalIn {
+  from { opacity: 0; transform: scale(0.94) translateY(10px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.modalOm {
+  font-family: 'Cinzel', serif;
+  font-size: 2rem;
+  color: rgba(224, 123, 0, 0.38);
+  margin-bottom: 0.7rem;
+}
+
+.modalTitle {
+  font-family: 'Cinzel', serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #3d1d00;
+  margin: 0 0 0.6rem;
+  letter-spacing: 0.05em;
+}
+
+.modalText {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.92rem;
+  color: #7a5c2e;
+  margin: 0 0 1.5rem;
+  font-style: italic;
+  line-height: 1.55;
+}
+
+.modalActions {
+  display: flex;
+  gap: 0.7rem;
+}
+
+.modalCancel {
+  flex: 1;
+  padding: 0.58rem 1rem;
+  background: none;
+  border: 1px solid #e8d5b5;
+  border-radius: 7px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  color: #7a5c2e;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.modalCancel:hover {
+  background: rgba(224, 123, 0, 0.06);
+  border-color: #e07b00;
+}
+
+.modalConfirm {
+  flex: 1;
+  padding: 0.58rem 1rem;
+  background: linear-gradient(135deg, #8b2000, #6b1800);
+  border: 1px solid rgba(180, 40, 0, 0.35);
+  border-radius: 7px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  color: #ffd0b0;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 10px rgba(139, 32, 0, 0.28);
+}
+.modalConfirm:hover {
+  background: linear-gradient(135deg, #6b1800, #4d1000);
+  transform: translateY(-1px);
+}
+
+/* ================================================================
+   RESPONSIVE TWEAKS
+   ================================================================ */
+
+/* 480–767px tablet */
+@media (max-width: 767px) {
+  .previewBox { width: 80px; height: 46px; }
+  .previewOm  { font-size: 1.1rem; }
+  .table td   { padding: 0.65rem 0.6rem; }
+  .table thead th { padding: 0.72rem 0.6rem; }
+  .btnLabel   { display: none; }
+  .editBtn, .deleteBtn { padding: 0.35rem 0.55rem; }
+}
+
+/* 768–1023px small desktop */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .bannerSubtitle { display: none; }
+  .addLabel { display: inline; }
+}
+
+/* 1024px+ full desktop */
+@media (min-width: 1024px) {
+  .btnLabel { display: inline; }
+}
+
+/* Very small phones */
+@media (max-width: 360px) {
+  .cardHeader { gap: 0.5rem; padding: 0.7rem 0.65rem 0.5rem; }
+  .previewBox { width: 70px; height: 40px; }
+  .bannerTitle { font-size: 0.74rem; }
+}
