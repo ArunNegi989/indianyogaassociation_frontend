@@ -6,7 +6,7 @@
 /* ── Footer shell ── */
 .footer {
   
-  background-image: url('../images/footerbackground.png');
+  background-image: url('../images/footerbackground.svg');
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;

@@ -4,9 +4,8 @@ import React, { useState } from "react";
 import styles from "@/assets/style/500-hour-yoga-teacher-training-india/Yogattc500.module.css";
 import HowToReach from "@/components/home/Howtoreach";
 
-/* ─────────────────────────────────────────
-   INLINE YOUTUBE PLAYER
-───────────────────────────────────────── */
+import Image from "next/image";
+import heroImg from "@/assets/images/500hours.svg";
 const YouTubeEmbed = ({
   videoId,
   title,
@@ -55,9 +54,6 @@ const YouTubeEmbed = ({
   );
 };
 
-/* ─────────────────────────────────────────
-   IMAGE CAROUSEL — Fully responsive
-───────────────────────────────────────── */
 const Carousel = ({ images, alt }: { images: string[]; alt: string }) => {
   const [idx, setIdx] = useState(0);
   const len = images.length;
@@ -223,9 +219,6 @@ const schedule = [
   },
 ];
 
-/* ─────────────────────────────────────────
-   STUDENT REVIEWS
-───────────────────────────────────────── */
 const reviews = [
   {
     name: "Christina Lin",
@@ -257,9 +250,6 @@ const reviews = [
   },
 ];
 
-/* ═══════════════════════════════════════════
-   MAIN COMPONENT
-═══════════════════════════════════════════ */
 export default function YogaTTC500() {
   return (
     <div className={styles.page}>
@@ -272,26 +262,16 @@ export default function YogaTTC500() {
           HERO + INTRO TEXT
       ══════════════════════════════════════ */}
       <section className={styles.heroSection}>
-        {/* Banner */}
-        <div className={styles.heroBannerWrap}>
-          <img
-            src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=1200&q=80"
-            alt="500 Hour Yoga Teacher Training Rishikesh"
-            className={styles.heroBannerImg}
-            loading="eager"
-          />
-          <div className={styles.heroBannerOverlay}>
-            <p className={styles.heroOverlaySmall}>TIME TO</p>
-            <p className={styles.heroOverlayScript}>Yoga</p>
-            <a href="#dates" className={styles.heroBookBtn}>
-              BOOK NOW
-            </a>
-            <p className={styles.heroOverlayUrl}>
-              WWW.INDIANYOGAASSOCIATION.COM
-            </p>
-          </div>
-        </div>
-
+        <Image
+          src={heroImg}
+          alt="Yoga Students Group"
+          width={1180}
+          height={540}
+          className={styles.heroImage}
+          priority
+        />
+      </section>
+      <section className={styles.heroSection2}>
         {/* Intro text */}
         <div className="container px-3 px-md-4">
           <h1 className={styles.heroTitle}>

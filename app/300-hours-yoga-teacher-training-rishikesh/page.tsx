@@ -3,6 +3,8 @@
 import React, { useState } from "react";
 import styles from "@/assets/style/300-hours-yoga-teacher-training-rishikesh/Yogattc300.module.css";
 import HowToReach from "@/components/home/Howtoreach";
+import Image from "next/image";
+import heroImg from "@/assets/images/300hours.svg";
 
 /* ─────────────────────────────────────────
    YOUTUBE EMBED
@@ -297,12 +299,7 @@ const luxuryImages = [
   "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=500&q=80",
   "https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=500&q=80",
 ];
-const heroImages = [
-  "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=600&q=80",
-  "https://images.unsplash.com/photo-1593810451137-5dc55105dace?w=600&q=80",
-  "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=600&q=80",
-  "https://images.unsplash.com/photo-1552196563-55cd4e45efb3?w=600&q=80",
-];
+
 const diplomaImg =
   "https://images.unsplash.com/photo-1523580846011-d3a5bc25702b?w=1000&q=80";
 const yogaGardenImg =
@@ -325,22 +322,19 @@ export default function YogaTTC300() {
           SECTION 1 — HERO (Image 1)
       ══════════════════════════════════════ */}
       <section className={styles.heroSection}>
-        <div className={styles.heroGrid}>
-          {heroImages.map((src, i) => (
-            <div key={i} className={styles.heroImgWrap}>
-              {i === 0 && <span className={styles.heroLabel300}>300 hour</span>}
-              {i === 2 && (
-                <span className={styles.heroLabelScript}>Yoga Course</span>
-              )}
-              <img
-                src={src}
-                alt={`Yoga TTC ${i + 1}`}
-                className={styles.heroImg}
-                loading="lazy"
+       <Image
+                src={heroImg}
+                alt="Yoga Students Group"
+                width={1180}
+                height={540}
+                className={styles.heroImage}
+                priority
               />
-            </div>
-          ))}
-        </div>
+
+        
+      </section>
+       <section className={styles.heroSection2}>
+        
 
         <div className="container">
           <div className={styles.topBorderLine} />
