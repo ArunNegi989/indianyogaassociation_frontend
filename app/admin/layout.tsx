@@ -18,7 +18,9 @@ const navItems = [
       { href: "/admin/dashboard/yogacoursespage", label: "Yoga Courses Page" },
       { href: "/admin/dashboard/Classcampusameniti", label: "Class Campus Ameniti" },
       { href: "/admin/dashboard/aymfullpage", label: "Aym Full Page" },
-       { href: "/admin/home/aymfullpage", label: "Aym Full Page" },
+      { href: "/admin/dashboard/ourmission", label: "Our Mission" },
+      { href: "/admin/dashboard/whyaymschool", label: "Why Aym School" },
+      { href: "/admin/dashboard/testimonialsvideo", label: "Testimonials Video" },
        
        
     ],
@@ -45,6 +47,8 @@ const navItems = [
     icon: "✦",
     children: [{ href: "/admin/testimonials", label: "All Testimonials" }],
   },
+  { href: "/admin/dashboard/gallery", label: "Gallery", icon: "⌂" },
+  { href: "/admin/dashboard/blog", label: "Blog", icon: "⌂" },
 ];
 
 export default function AdminLayout({
