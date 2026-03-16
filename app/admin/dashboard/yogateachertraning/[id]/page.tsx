@@ -1,10 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter, useParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import styles from "@/assets/style/Admin/dashboard/yogateachertraning/EditHomeAbout.module.css";
-// import api from "@/lib/api";
+import api from "@/lib/api";
 
 interface StatItem { value: string; label: string; }
 
@@ -41,8 +41,7 @@ const EMPTY: FormData = {
 
 export default function EditHomeAboutPage() {
   const router = useRouter();
-  const params = useParams();
-  const id = params?.id as string;
+ 
 
   const [form, setForm] = useState<FormData>(EMPTY);
   const [errors, setErrors] = useState<FormErrors>({});
@@ -51,39 +50,52 @@ export default function EditHomeAboutPage() {
   const [loading, setLoading] = useState(true);
 
   /* ── Fetch existing data ── */
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // const res = await api.get(`/home-about/${id}`);
-        // const d = res.data.data;
-        // setForm({
-        //   superTitle:     d.superTitle || "",
-        //   mainTitle:      d.mainTitle  || "",
-        //   stats:          d.stats?.length ? d.stats : [{ value: "", label: "" }],
-        //   paraOne:        d.paraOne    || "",
-        //   paraTwo:        d.paraTwo    || "",
-        //   paraThree:      d.paraThree  || "",
-        //   accreditations: Array.isArray(d.accreditations)
-        //                     ? d.accreditations.join(", ")
-        //                     : d.accreditations || "",
-        //   quoteText:      d.quoteText  || "",
-        //   paraRight:      d.paraRight  || "",
-        //   yogaStyles:     Array.isArray(d.yogaStyles)
-        //                     ? d.yogaStyles.join(", ")
-        //                     : d.yogaStyles || "",
-        //   paraSmall:      d.paraSmall  || "",
-        //   ctaText:        d.ctaText    || "",
-        //   ctaLink:        d.ctaLink    || "",
-        // });
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchData();
-  }, [id]);
+ useEffect(() => {
 
+  const fetchData = async () => {
+
+    try {
+
+      const res = await api.get("/home-about/get-home-about");
+
+      const d = res.data.data;
+
+      if (!d) {
+        router.replace("/admin/dashboard/yogateachertraning");
+        return;
+      }
+
+      setForm({
+        superTitle: d.superTitle || "",
+        mainTitle: d.mainTitle || "",
+        stats: d.stats?.length ? d.stats : [{ value: "", label: "" }],
+        paraOne: d.paraOne || "",
+        paraTwo: d.paraTwo || "",
+        paraThree: d.paraThree || "",
+        accreditations: Array.isArray(d.accreditations)
+          ? d.accreditations.join(", ")
+          : "",
+        quoteText: d.quoteText || "",
+        paraRight: d.paraRight || "",
+        yogaStyles: Array.isArray(d.yogaStyles)
+          ? d.yogaStyles.join(", ")
+          : "",
+        paraSmall: d.paraSmall || "",
+        ctaText: d.ctaText || "",
+        ctaLink: d.ctaLink || "",
+      });
+
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+
+  };
+
+  fetchData();
+
+}, []);
   const set = (key: keyof FormData, val: string) => {
     setForm((p) => ({ ...p, [key]: val }));
     setErrors((p) => ({ ...p, [key]: undefined }));
@@ -125,25 +137,50 @@ export default function EditHomeAboutPage() {
     return Object.keys(e).length === 0;
   };
 
-  const handleSubmit = async () => {
-    if (!validate()) return;
-    try {
-      setIsSubmitting(true);
-      const payload = {
-        ...form,
-        accreditations: form.accreditations.split(",").map((s) => s.trim()).filter(Boolean),
-        yogaStyles:     form.yogaStyles.split(",").map((s) => s.trim()).filter(Boolean),
-      };
-      // await api.put(`/home-about/update/${id}`, payload);
-      console.log("Payload:", payload);
-      setSubmitted(true);
-      setTimeout(() => router.push("/admin/dashboard/homeabout"), 1500);
-    } catch (error: any) {
-      alert(error?.response?.data?.message || error?.message || "Failed to update");
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+const handleSubmit = async () => {
+
+  if (!validate()) return;
+
+  try {
+
+    setIsSubmitting(true);
+
+    const payload = {
+      ...form,
+      accreditations: form.accreditations
+        .split(",")
+        .map((s) => s.trim())
+        .filter(Boolean),
+
+      yogaStyles: form.yogaStyles
+        .split(",")
+        .map((s) => s.trim())
+        .filter(Boolean),
+    };
+
+    await api.put("/home-about/update-home-about", payload);
+
+    setSubmitted(true);
+
+    setTimeout(() => {
+      router.push("/admin/dashboard/yogateachertraning");
+    }, 1500);
+
+  } catch (error: any) {
+
+    alert(
+      error?.response?.data?.message ||
+      error?.message ||
+      "Failed to update"
+    );
+
+  } finally {
+
+    setIsSubmitting(false);
+
+  }
+
+};
 
   /* ── Loading skeleton ── */
   if (loading) {
@@ -178,7 +215,7 @@ export default function EditHomeAboutPage() {
 
       {/* Breadcrumb */}
       <div className={styles.breadcrumb}>
-        <button className={styles.breadcrumbLink} onClick={() => router.push("/admin/dashboard/homeabout")}>
+        <button className={styles.breadcrumbLink} onClick={() => router.push("/admin/dashboard/yogateachertraning")}>
           Home About
         </button>
         <span className={styles.breadcrumbSep}>›</span>
@@ -431,7 +468,7 @@ export default function EditHomeAboutPage() {
 
         {/* ── Actions ── */}
         <div className={styles.formActions}>
-          <Link href="/admin/dashboard/homeabout" className={styles.cancelBtn}>← Cancel</Link>
+          <Link href="/admin/dashboard/yogateachertraning" className={styles.cancelBtn}>← Cancel</Link>
           <button type="button"
             className={`${styles.submitBtn} ${isSubmitting ? styles.submitBtnLoading : ""}`}
             onClick={handleSubmit} disabled={isSubmitting}>

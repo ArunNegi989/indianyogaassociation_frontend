@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import styles from "@/assets/style/Admin/dashboard/yogateachertraning/AddHomeAbout.module.css";
-// import api from "@/lib/api";
+import api from "@/lib/api";
+import toast from "react-hot-toast";
 
 interface StatItem { value: string; label: string; }
 
@@ -80,26 +81,75 @@ export default function AddHomeAboutPage() {
     return Object.keys(e).length === 0;
   };
 
-  const handleSubmit = async () => {
-    if (!validate()) return;
+    useEffect(() => {
+
+  const checkExisting = async () => {
+
     try {
-      setIsSubmitting(true);
-      const payload = {
-        ...form,
-        accreditations: form.accreditations.split(",").map((s) => s.trim()).filter(Boolean),
-        yogaStyles: form.yogaStyles.split(",").map((s) => s.trim()).filter(Boolean),
-      };
-      // await api.post("/home-about/create", payload);
-      console.log("Payload:", payload);
-      setSubmitted(true);
-      setTimeout(() => router.push("/admin/dashboard/homeabout"), 1500);
-    } catch (error: any) {
-      alert(error?.response?.data?.message || error?.message || "Failed to save");
-    } finally {
-      setIsSubmitting(false);
+
+      const res = await api.get("/home-about/get-home-about");
+
+      if (res.data.data) {
+
+        toast.error("Home About already exists. You can edit it.");
+
+        router.replace("/admin/dashboard/homeabout");
+
+      }
+
+    } catch (error) {
+      console.log(error);
     }
+
   };
 
+  checkExisting();
+
+}, []);
+
+ const handleSubmit = async () => {
+
+  if (!validate()) return;
+
+  try {
+
+    setIsSubmitting(true);
+
+    const payload = {
+      ...form,
+      accreditations: form.accreditations
+        .split(",")
+        .map((s) => s.trim())
+        .filter(Boolean),
+
+      yogaStyles: form.yogaStyles
+        .split(",")
+        .map((s) => s.trim())
+        .filter(Boolean),
+    };
+
+    await api.post("/home-about/create-home-about", payload);
+
+    setSubmitted(true);
+
+    setTimeout(() => {
+      router.push("/admin/dashboard/yogateachertraning");
+    }, 1500);
+
+  } catch (error: any) {
+
+    alert(
+      error?.response?.data?.message ||
+      error?.message ||
+      "Failed to save"
+    );
+
+  } finally {
+
+    setIsSubmitting(false);
+
+  }
+};
   if (submitted) {
     return (
       <div className={styles.successScreen}>
@@ -112,6 +162,8 @@ export default function AddHomeAboutPage() {
       </div>
     );
   }
+
+
 
   return (
     <div className={styles.page}>

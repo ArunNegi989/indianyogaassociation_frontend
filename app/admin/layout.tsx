@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import styles from "../../assets/style/Admin/AdminLayout.module.css";
+import { Toaster } from "react-hot-toast";
 
 const navItems = [
   { href: "/admin", label: "Dashboard", icon: "⌂" },
@@ -14,15 +15,22 @@ const navItems = [
     children: [
       { href: "/admin/dashboard/homebanner", label: "Hero Section" },
       { href: "/admin/dashboard/yogateachertraning", label: "About Section" },
-      { href: "/admin/dashboard/accreditationsection", label: "Accreditation Section" },
+      {
+        href: "/admin/dashboard/accreditationsection",
+        label: "Accreditation Section",
+      },
       { href: "/admin/dashboard/yogacoursespage", label: "Yoga Courses Page" },
-      { href: "/admin/dashboard/Classcampusameniti", label: "Class Campus Ameniti" },
+      {
+        href: "/admin/dashboard/Classcampusameniti",
+        label: "Class Campus Ameniti",
+      },
       { href: "/admin/dashboard/aymfullpage", label: "Aym Full Page" },
       { href: "/admin/dashboard/ourmission", label: "Our Mission" },
       { href: "/admin/dashboard/whyaymschool", label: "Why Aym School" },
-      { href: "/admin/dashboard/testimonialsvideo", label: "Testimonials Video" },
-       
-       
+      {
+        href: "/admin/dashboard/testimonialsvideo",
+        label: "Testimonials Video",
+      },
     ],
   },
 
@@ -79,6 +87,20 @@ export default function AdminLayout({
   return (
     <div className={styles.adminShell}>
       {/* Mobile overlay */}
+
+      <Toaster
+        position="bottom-right"
+        toastOptions={{
+          duration: 3000,
+          style: {
+            background: "#1f2937",
+            color: "#fff",
+            borderRadius: "10px",
+            padding: "12px 16px",
+            fontSize: "14px",
+          },
+        }}
+      />
       <div
         className={`${styles.sidebarOverlay} ${sidebarOpen ? styles.sidebarOverlayOpen : ""}`}
         onClick={() => setSidebarOpen(false)}

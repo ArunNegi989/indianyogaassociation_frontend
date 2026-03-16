@@ -2,18 +2,72 @@ import Link from "next/link";
 import styles from "../../assets/style/Admin/AdminDashboard.module.css";
 
 const stats = [
-  { label: "Total Enquiries", value: "1,284", icon: "✉", change: "+12 this week", accent: "#e07b00" },
-  { label: "Active Courses", value: "24", icon: "📜", change: "3 starting soon", accent: "#5c2d00" },
-  { label: "Certified Teachers", value: "100K+", icon: "🧘", change: "Global reach", accent: "#7a3f00" },
-  { label: "Testimonials", value: "486", icon: "✦", change: "+8 pending review", accent: "#b85e00" },
+  {
+    label: "Total Enquiries",
+    value: "1,284",
+    icon: "✉",
+    change: "+12 this week",
+    accent: "#e07b00",
+  },
+  {
+    label: "Active Courses",
+    value: "24",
+    icon: "📜",
+    change: "3 starting soon",
+    accent: "#5c2d00",
+  },
+  {
+    label: "Certified Teachers",
+    value: "100K+",
+    icon: "🧘",
+    change: "Global reach",
+    accent: "#7a3f00",
+  },
+  {
+    label: "Testimonials",
+    value: "486",
+    icon: "✦",
+    change: "+8 pending review",
+    accent: "#b85e00",
+  },
 ];
 
 const recentEnquiries = [
-  { name: "Sarah Mitchell", course: "200hr TTC", country: "🇺🇸 USA", date: "27 Feb 2026", status: "New" },
-  { name: "Marco Ricci", course: "300hr TTC", country: "🇮🇹 Italy", date: "26 Feb 2026", status: "Replied" },
-  { name: "Aiko Tanaka", course: "Yin Yoga", country: "🇯🇵 Japan", date: "26 Feb 2026", status: "New" },
-  { name: "Emma Clarke", course: "Pranayama", country: "🇬🇧 UK", date: "25 Feb 2026", status: "Closed" },
-  { name: "Ravi Sharma", course: "Kundalini", country: "🇮🇳 India", date: "25 Feb 2026", status: "Replied" },
+  {
+    name: "Sarah Mitchell",
+    course: "200hr TTC",
+    country: "🇺🇸 USA",
+    date: "27 Feb 2026",
+    status: "New",
+  },
+  {
+    name: "Marco Ricci",
+    course: "300hr TTC",
+    country: "🇮🇹 Italy",
+    date: "26 Feb 2026",
+    status: "Replied",
+  },
+  {
+    name: "Aiko Tanaka",
+    course: "Yin Yoga",
+    country: "🇯🇵 Japan",
+    date: "26 Feb 2026",
+    status: "New",
+  },
+  {
+    name: "Emma Clarke",
+    course: "Pranayama",
+    country: "🇬🇧 UK",
+    date: "25 Feb 2026",
+    status: "Closed",
+  },
+  {
+    name: "Ravi Sharma",
+    course: "Kundalini",
+    country: "🇮🇳 India",
+    date: "25 Feb 2026",
+    status: "Replied",
+  },
 ];
 
 const quickLinks = [
@@ -33,7 +87,9 @@ export default function AdminDashboard() {
   return (
     <>
       <h1 className={styles.dashHeading}>Namaste, Admin ॐ</h1>
-      <p className={styles.dashSub}>Welcome to the AYM Yoga School control panel</p>
+      <p className={styles.dashSub}>
+        Welcome to the AYM Yoga School control panel
+      </p>
 
       {/* Stats */}
       <div className={styles.statsGrid}>
