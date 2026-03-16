@@ -3,7 +3,7 @@
 import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import styles from "@/assets/style/Admin/gallery/Gallery.module.css";
+import styles from "@/assets/style/Admin/dashboard/gallery/Gallery.module.css";
 // import api from "@/lib/api";
 
 /* ── Types ── */

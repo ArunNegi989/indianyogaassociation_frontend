@@ -9,8 +9,6 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "@ckeditor/ckeditor5-build-classic": "^41.4.2",
-    "@ckeditor/ckeditor5-react": "^11.0.1",
     "axios": "^1.13.6",
     "framer-motion": "^12.34.3",
     "next": "16.1.6",
