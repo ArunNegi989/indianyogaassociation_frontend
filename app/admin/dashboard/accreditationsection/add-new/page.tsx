@@ -49,9 +49,9 @@ interface FormErrors {
   authPara1?: string; authPara2?: string; authPara3?: string; authPara4?: string;
   pullQuote?: string;
   videoSrc?: string;
-  immerseTitle?: string; immersePara1?: string;
+  immerseTitle?: string; immersePara1?: string; immersePara2?: string;
   immerseCtaText?: string; immerseCtaLink?: string;
-  recognitionTitle?: string; recognitionPara1?: string;
+  recognitionTitle?: string; recognitionPara1?: string; recognitionPara2?: string;
   certs?: string; badges?: string;
 }
 
