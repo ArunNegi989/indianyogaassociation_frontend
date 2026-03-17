@@ -99,18 +99,27 @@ export default function GalleryListPage() {
 
   /* ── Move up / down ── */
   const moveUp = (i: number) => {
-    if (i === 0) return;
-    const arr = [...sections];
-    [arr[i - 1], arr[i]] = [arr[i], arr[i - 1]];
-    setSections(arr.map((s, idx) => ({ ...s, order: idx + 1 })));
-  };
-  const moveDown = (i: number) => {
-    if (i === sections.length - 1) return;
-    const arr = [...sections];
-    [arr[i], arr[i + 1]] = [arr[i + 1], arr[i]];
-    setSections(arr.map((s, idx) => ({ ...s, order: idx + 1 })));
-  };
+  if (i === 0) return;
 
+  const arr = [...sections];
+  [arr[i - 1], arr[i]] = [arr[i], arr[i - 1]];
+
+  const updated = arr.map((s, idx) => ({ ...s, order: idx + 1 }));
+  setSections(updated);
+
+  updateOrderAPI(updated); // 🔥 add this
+};
+ const moveDown = (i: number) => {
+  if (i === sections.length - 1) return;
+
+  const arr = [...sections];
+  [arr[i], arr[i + 1]] = [arr[i + 1], arr[i]];
+
+  const updated = arr.map((s, idx) => ({ ...s, order: idx + 1 }));
+  setSections(updated);
+
+  updateOrderAPI(updated); // 🔥 add this
+};
   const toggleStatus = (id: string) =>
     setSections(sections.map((s) =>
       s.id === id ? { ...s, status: s.status === "Active" ? "Inactive" : "Active" } : s
@@ -125,6 +134,20 @@ export default function GalleryListPage() {
       console.log(error);
     }
   };
+
+  const updateOrderAPI = async (updatedSections: GallerySection[]) => {
+  try {
+    const items = updatedSections.map((s) => ({
+      id: s.id,
+      order: s.order,
+    }));
+
+   await api.post("/gallery-sections/reorder", { items });
+await fetchSections(); // 🔥 add this
+  } catch (error) {
+    console.log(error);
+  }
+};
 
   /* ── Sub-components ── */
   const Status = ({ s }: { s: GallerySection }) => (
