@@ -48,9 +48,19 @@ interface SectionForm {
 }
 
 interface FormErrors {
-  name?: string; country?: string; youtubeUrl?: string;
-  quote?: string; course?: string;
-  role?: string; avatarSrc?: string;
+  // Video testimonial fields
+  name?: string;
+  country?: string;
+  youtubeUrl?: string;
+  quote?: string;
+  course?: string;
+  // Text testimonial fields
+  role?: string;
+  avatarSrc?: string;
+  // Section fields might also need validation
+  superTitle?: string;
+  mainTitle?: string;
+  subtitle?: string;
 }
 
 const COURSE_OPTIONS = ["200hr YTT", "300hr YTT", "500hr YTT", "Online YTT", "Yoga Retreat", "Other"];
