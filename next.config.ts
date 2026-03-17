@@ -1,20 +1,9 @@
-// next.config.ts
-
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
- images: {
-  remotePatterns: [
-    {
-      protocol: "http",
-      hostname: "**",
-    },
-    {
-      protocol: "https",
-      hostname: "**",
-    },
-  ],
-},
+  images: {
+    domains: ["172.20.10.2"],
+  },
 };
 
 export default nextConfig;
