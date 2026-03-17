@@ -1,10 +1,77 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import styles from "@/assets/style/Admin/dashboard/testimonialsvideo/Testimonials.module.css";
-// import api from "@/lib/api";
+
+// Simple inline styles as fallback
+const styles = {
+  formPage: { padding: '2rem' },
+  breadcrumb: { marginBottom: '1rem' },
+  breadcrumbLink: { color: '#b87c4b', textDecoration: 'none' },
+  breadcrumbSep: { margin: '0 0.5rem', color: '#666' },
+  breadcrumbCurrent: { color: '#333' },
+  pageHeader: { marginBottom: '2rem' },
+  pageTitle: { fontSize: '2rem', color: '#333' },
+  pageSubtitle: { color: '#666' },
+  ornament: { display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '2rem' },
+  ornamentLine: { flex: 1, height: '1px', background: '#e0d6cc' },
+  formCard: { background: '#fff', padding: '2rem', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' },
+  sectionBlock: { marginBottom: '2rem' },
+  sectionHeader: { display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' },
+  sectionIcon: { color: '#b87c4b' },
+  sectionTitle: { fontSize: '1.25rem', margin: 0 },
+  fieldGroup: { marginBottom: '1.5rem' },
+  label: { display: 'block', marginBottom: '0.5rem', fontWeight: 500 },
+  labelIcon: { marginRight: '0.5rem', color: '#b87c4b' },
+  required: { color: '#dc2626', marginLeft: '0.25rem' },
+  fieldHint: { fontSize: '0.875rem', color: '#666', marginBottom: '0.5rem' },
+  inputWrap: { marginBottom: '0.25rem' },
+  input: { width: '100%', padding: '0.5rem', border: '1px solid #ddd', borderRadius: '4px' },
+  textarea: { minHeight: '100px' },
+  errorMsg: { color: '#dc2626', fontSize: '0.875rem', marginTop: '0.25rem' },
+  formDivider: { height: '1px', background: '#e0d6cc', margin: '2rem 0' },
+  typeToggle: { display: 'flex', gap: '1rem' },
+  typeBtn: { padding: '0.5rem 1rem', border: '1px solid #ddd', background: '#fff', borderRadius: '4px', cursor: 'pointer' },
+  typeBtnActive: { background: '#b87c4b', color: '#fff', borderColor: '#b87c4b' },
+  twoCol: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' },
+  threeCol: { display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1rem' },
+  select: { width: '100%', padding: '0.5rem', border: '1px solid #ddd', borderRadius: '4px', background: '#fff' },
+  selectArrow: { position: 'absolute', right: '0.75rem', top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none' },
+  starRatingInput: { display: 'flex', gap: '0.25rem' },
+  starBtn: { background: 'none', border: 'none', fontSize: '1.5rem', color: '#ddd', cursor: 'pointer' },
+  starBtnActive: { color: '#fbbf24' },
+  successScreen: { display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '60vh' },
+  successCard: { textAlign: 'center', padding: '2rem', background: '#fff', borderRadius: '8px', boxShadow: '0 4px 6px rgba(0,0,0,0.1)' },
+  successOm: { fontSize: '3rem', color: '#b87c4b' },
+  successCheck: { fontSize: '4rem', color: '#10b981', margin: '1rem 0' },
+  successTitle: { fontSize: '1.5rem', marginBottom: '0.5rem' },
+  successText: { color: '#666' },
+  formActions: { display: 'flex', justifyContent: 'space-between', marginTop: '2rem' },
+  cancelBtn: { padding: '0.5rem 1rem', border: '1px solid #ddd', background: '#fff', borderRadius: '4px', textDecoration: 'none', color: '#333' },
+  submitBtn: { padding: '0.5rem 2rem', background: '#b87c4b', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer' },
+  submitBtnLoading: { opacity: 0.7, cursor: 'not-allowed' },
+  spinner: { display: 'inline-block', width: '1rem', height: '1rem', border: '2px solid #fff', borderTopColor: 'transparent', borderRadius: '50%', animation: 'spin 1s linear infinite', marginRight: '0.5rem' },
+  charCount: { fontSize: '0.75rem', color: '#666', textAlign: 'right', display: 'block' },
+  inputError: { borderColor: '#dc2626' },
+  inputSuccess: { borderColor: '#10b981' },
+  inputWithPrefix: { display: 'flex', alignItems: 'center', gap: '0.5rem' },
+  inputPrefix: { color: '#666' },
+  inputPrefixed: { flex: 1 },
+  videoPreviewBadge: { marginTop: '0.5rem', padding: '0.25rem 0.5rem', background: '#f3f4f6', borderRadius: '4px', fontSize: '0.875rem' },
+  ytIdPreview: { marginTop: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' },
+  ytIdPreviewImg: { width: '120px', height: '68px', objectFit: 'cover', borderRadius: '4px' },
+  ytIdPreviewText: { fontSize: '0.875rem', color: '#666' }
+} as const;
+
+type StyleKey = keyof typeof styles;
+
+// Create a proxy to handle style lookups
+const styleProxy = new Proxy(styles, {
+  get: (target, prop: string) => {
+    return target[prop as StyleKey] || {};
+  }
+}) as Record<string, any>;
 
 /* ── YouTube ID extractor ── */
 function getYoutubeId(input: string): string {
@@ -22,50 +89,31 @@ function getYoutubeId(input: string): string {
   return s;
 }
 
-/* ── Trust strip item ── */
-interface TrustItem { icon: string; label: string; }
-
-/* ── Form types ── */
+/* ── Types ── */
 type ReviewType = "video" | "text";
 
 interface VideoForm {
-  name: string; 
-  country: string; 
+  name: string;
+  country: string;
   flag: string;
   youtubeUrl: string;
-  quote: string; 
-  course: string; 
+  quote: string;
+  course: string;
   rating: number;
 }
 
 interface TextForm {
-  name: string; 
-  role: string; 
+  name: string;
+  role: string;
   avatarSrc: string;
-  quote: string; 
+  quote: string;
   rating: number;
 }
 
-/* ── Section-level fields (shared) ── */
 interface SectionForm {
   superTitle: string;
   mainTitle: string;
   subtitle: string;
-  trustItems: TrustItem[];
-}
-
-interface FormErrors {
-  // Video testimonial fields
-  name?: string;
-  country?: string;
-  youtubeUrl?: string;
-  quote?: string;
-  course?: string;
-  // Text testimonial fields
-  role?: string;
-  avatarSrc?: string;
-  // Allow string indexing
-  [key: string]: string | undefined;
 }
 
 const COURSE_OPTIONS = ["200hr YTT", "300hr YTT", "500hr YTT", "Online YTT", "Yoga Retreat", "Other"];
@@ -74,46 +122,38 @@ const FLAG_OPTIONS = [
   { flag: "🇩🇪", label: "Germany" }, { flag: "🇫🇷", label: "France" },
   { flag: "🇳🇱", label: "Netherlands" }, { flag: "🇦🇺", label: "Australia" },
   { flag: "🇨🇦", label: "Canada" }, { flag: "🇮🇳", label: "India" },
-  { flag: "🇧🇷", label: "Brazil" }, { flag: "🇲🇽", label: "Mexico" },
-  { flag: "🇮🇹", label: "Italy" }, { flag: "🇪🇸", label: "Spain" },
-  { flag: "🇯🇵", label: "Japan" }, { flag: "🇰🇷", label: "South Korea" },
-  { flag: "🇸🇬", label: "Singapore" }, { flag: "🌍", label: "Other" },
+  { flag: "🌍", label: "Other" },
 ];
 
 export default function AddTestimonialPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   
-  // Safe type assertion for defaultType
   const typeParam = searchParams?.get("type");
   const defaultType: ReviewType = typeParam === "text" ? "text" : "video";
 
   const [reviewType, setReviewType] = useState<ReviewType>(defaultType);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-  const [errors, setErrors] = useState<FormErrors>({});
-
-  /* ── Avatar upload ── */
-  const avatarFileRef = useRef<HTMLInputElement>(null);
-  const [avatarUrlInput, setAvatarUrlInput] = useState("");
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
   /* ── Video form ── */
   const [videoForm, setVideoForm] = useState<VideoForm>({
-    name: "", 
-    country: "", 
+    name: "",
+    country: "",
     flag: "🇺🇸",
-    youtubeUrl: "", 
-    quote: "", 
-    course: "200hr YTT", 
+    youtubeUrl: "",
+    quote: "",
+    course: "200hr YTT",
     rating: 5,
   });
 
   /* ── Text form ── */
   const [textForm, setTextForm] = useState<TextForm>({
-    name: "", 
-    role: "", 
-    avatarSrc: "", 
-    quote: "", 
+    name: "",
+    role: "",
+    avatarSrc: "",
+    quote: "",
     rating: 5,
   });
 
@@ -121,96 +161,35 @@ export default function AddTestimonialPage() {
   const [sectionForm, setSectionForm] = useState<SectionForm>({
     superTitle: "Voices from Our Global Sangha",
     mainTitle: "Success Stories of Our Students",
-    subtitle: "Hear the inspiring journeys of our students from around the world. Discover how their time in India transformed their practice and their lives.",
-    trustItems: [
-      { icon: "🌍", label: "Students from 50+ Countries" },
-      { icon: "⭐", label: "4.9 / 5 Average Rating" },
-      { icon: "🧘", label: "100,000+ Certified Teachers" },
-    ],
+    subtitle: "Hear the inspiring journeys of our students from around the world.",
   });
 
   /* ── Computed YouTube ID ── */
   const ytId = reviewType === "video" ? getYoutubeId(videoForm.youtubeUrl) : "";
   const ytIdValid = ytId.length === 11;
 
-  /* ── Error clearing helper ── */
-  const clearError = (field: string) => {
-    setErrors(prev => {
-      const newErrors = { ...prev };
-      delete newErrors[field];
+  /* ── Setters ── */
+  const setVideo = (k: keyof VideoForm, v: string | number) => {
+    setVideoForm((p) => ({ ...p, [k]: v }));
+    setErrors((p) => {
+      const newErrors = { ...p };
+      delete newErrors[k];
       return newErrors;
     });
   };
 
-  /* ── Setters with error clearing ── */
-  const setVideo = (k: keyof VideoForm, v: string | number) => {
-    setVideoForm((p) => ({ ...p, [k]: v }));
-    clearError(k);
-  };
-
   const setText = (k: keyof TextForm, v: string | number) => {
     setTextForm((p) => ({ ...p, [k]: v }));
-    clearError(k);
-  };
-
-  const setSec = (k: keyof Omit<SectionForm, "trustItems">, v: string) => {
-    setSectionForm((p) => ({ ...p, [k]: v }));
-  };
-
-  const updateTrust = (i: number, field: keyof TrustItem, val: string) => {
-    setSectionForm((p) => {
-      const arr = [...p.trustItems];
-      arr[i] = { ...arr[i], [field]: val };
-      return { ...p, trustItems: arr };
+    setErrors((p) => {
+      const newErrors = { ...p };
+      delete newErrors[k];
+      return newErrors;
     });
-  };
-
-  const addTrust = () => {
-    if (sectionForm.trustItems.length >= 5) return;
-    setSectionForm((p) => ({ 
-      ...p, 
-      trustItems: [...p.trustItems, { icon: "✦", label: "" }] 
-    }));
-  };
-
-  const removeTrust = (i: number) => {
-    setSectionForm((p) => ({ 
-      ...p, 
-      trustItems: p.trustItems.filter((_, idx) => idx !== i) 
-    }));
-  };
-
-  /* ── Avatar handlers ── */
-  const handleAvatarFile = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const f = e.target.files?.[0];
-    if (!f) return;
-    
-    // Create object URL and clean up on unmount
-    const url = URL.createObjectURL(f);
-    setText("avatarSrc", url);
-    
-    // Reset input
-    if (avatarFileRef.current) {
-      avatarFileRef.current.value = "";
-    }
-  };
-
-  const handleAvatarUrl = () => {
-    const url = avatarUrlInput.trim();
-    if (!url) return;
-    setText("avatarSrc", url);
-    setAvatarUrlInput("");
-  };
-
-  /* ── Image error handler ── */
-  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement>) => {
-    const img = e.currentTarget;
-    img.style.display = "none";
   };
 
   /* ── Validation ── */
   const validate = (): boolean => {
-    const e: FormErrors = {};
+    const e: Record<string, string> = {};
     
     if (reviewType === "video") {
       if (!videoForm.name.trim()) e.name = "Name is required";
@@ -221,7 +200,6 @@ export default function AddTestimonialPage() {
         e.youtubeUrl = "Could not extract a valid YouTube video ID";
       }
       if (!videoForm.quote.trim()) e.quote = "Quote is required";
-      if (!videoForm.course) e.course = "Course is required";
     } else {
       if (!textForm.name.trim()) e.name = "Name is required";
       if (!textForm.role.trim()) e.role = "Role is required";
@@ -240,34 +218,15 @@ export default function AddTestimonialPage() {
       setIsSubmitting(true);
       
       const payload = reviewType === "video"
-        ? { 
-            type: "video", 
-            ...videoForm, 
-            youtubeId: ytId, 
-            sectionMeta: sectionForm 
-          }
-        : { 
-            type: "text", 
-            ...textForm, 
-            sectionMeta: sectionForm 
-          };
+        ? { type: "video", ...videoForm, youtubeId: ytId, sectionMeta: sectionForm }
+        : { type: "text", ...textForm, sectionMeta: sectionForm };
       
-      // await api.post("/testimonials/create", payload);
       console.log("Payload:", payload);
       
       setSubmitted(true);
       setTimeout(() => router.push("/admin/dashboard/testimonials"), 1500);
-    } catch (err: unknown) {
-      let errorMessage = "Failed to save";
-      if (err && typeof err === 'object') {
-        if ('response' in err && err.response && typeof err.response === 'object') {
-          const response = err.response as any;
-          errorMessage = response?.data?.message || errorMessage;
-        } else if ('message' in err && typeof err.message === 'string') {
-          errorMessage = err.message;
-        }
-      }
-      alert(errorMessage);
+    } catch (err) {
+      alert("Failed to save");
     } finally {
       setIsSubmitting(false);
     }
@@ -275,71 +234,75 @@ export default function AddTestimonialPage() {
 
   if (submitted) {
     return (
-      <div className={styles.successScreen}>
-        <div className={styles.successCard}>
-          <div className={styles.successOm}>ॐ</div>
-          <div className={styles.successCheck}>✓</div>
-          <h2 className={styles.successTitle}>Testimonial Saved!</h2>
-          <p className={styles.successText}>Redirecting…</p>
+      <div style={styleProxy.successScreen}>
+        <div style={styleProxy.successCard}>
+          <div style={styleProxy.successOm}>ॐ</div>
+          <div style={styleProxy.successCheck}>✓</div>
+          <h2 style={styleProxy.successTitle}>Testimonial Saved!</h2>
+          <p style={styleProxy.successText}>Redirecting…</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className={styles.formPage}>
-      <div className={styles.breadcrumb}>
-        <Link href="/admin/dashboard/testimonials" className={styles.breadcrumbLink}>
+    <div style={styleProxy.formPage}>
+      <div style={styleProxy.breadcrumb}>
+        <Link href="/admin/dashboard/testimonials" style={styleProxy.breadcrumbLink}>
           Testimonials
         </Link>
-        <span className={styles.breadcrumbSep}>›</span>
-        <span className={styles.breadcrumbCurrent}>Add Review</span>
+        <span style={styleProxy.breadcrumbSep}>›</span>
+        <span style={styleProxy.breadcrumbCurrent}>Add Review</span>
       </div>
 
-      <div className={styles.pageHeader}>
-        <div className={styles.pageHeaderLeft}>
-          <h1 className={styles.pageTitle}>Add Testimonial</h1>
-          <p className={styles.pageSubtitle}>
-            Add a video or text review to the testimonials section
-          </p>
-        </div>
+      <div style={styleProxy.pageHeader}>
+        <h1 style={styleProxy.pageTitle}>Add Testimonial</h1>
+        <p style={styleProxy.pageSubtitle}>
+          Add a video or text review to the testimonials section
+        </p>
       </div>
 
-      <div className={styles.ornament}>
+      <div style={styleProxy.ornament}>
         <span>❧</span>
-        <div className={styles.ornamentLine} />
+        <div style={styleProxy.ornamentLine} />
         <span>ॐ</span>
-        <div className={styles.ornamentLine} />
+        <div style={styleProxy.ornamentLine} />
         <span>❧</span>
       </div>
 
-      <div className={styles.formCard}>
+      <div style={styleProxy.formCard}>
 
-        {/* ══ 1. REVIEW TYPE TOGGLE ══ */}
-        <div className={styles.sectionBlock}>
-          <div className={styles.sectionHeader}>
-            <span className={styles.sectionIcon}>✦</span>
-            <h3 className={styles.sectionTitle}>Review Type</h3>
+        {/* Review Type Toggle */}
+        <div style={styleProxy.sectionBlock}>
+          <div style={styleProxy.sectionHeader}>
+            <span style={styleProxy.sectionIcon}>✦</span>
+            <h3 style={styleProxy.sectionTitle}>Review Type</h3>
           </div>
-          <div className={styles.fieldGroup}>
-            <label className={styles.label}>
-              <span className={styles.labelIcon}>✦</span>
+          <div style={styleProxy.fieldGroup}>
+            <label style={styleProxy.label}>
+              <span style={styleProxy.labelIcon}>✦</span>
               Select Type
             </label>
-            <p className={styles.fieldHint}>
-              Video testimonials show YouTube embed + quote. Text reviews show card with avatar, name & quote.
+            <p style={styleProxy.fieldHint}>
+              Choose between video or text testimonial
             </p>
-            <div className={styles.typeToggle}>
+            <div style={styleProxy.typeToggle}>
               <button
                 type="button"
-                className={`${styles.typeBtn} ${reviewType === "video" ? styles.typeBtnActive : ""}`}
+                style={{
+                  ...styleProxy.typeBtn,
+                  ...(reviewType === "video" ? styleProxy.typeBtnActive : {})
+                }}
                 onClick={() => setReviewType("video")}
               >
                 ▶ Video Testimonial
               </button>
               <button
                 type="button"
-                className={`${styles.typeBtn} ${reviewType === "text" ? styles.typeBtnActive : ""}`}
+                style={{
+                  ...styleProxy.typeBtn,
+                  ...(reviewType === "text" ? styleProxy.typeBtnActive : {})
+                }}
                 onClick={() => setReviewType("text")}
               >
                 ✦ Text Review
@@ -348,66 +311,70 @@ export default function AddTestimonialPage() {
           </div>
         </div>
 
-        <div className={styles.formDivider} />
+        <div style={styleProxy.formDivider} />
 
-        {/* ══ 2A. VIDEO TESTIMONIAL FIELDS ══ */}
+        {/* Video Testimonial Fields */}
         {reviewType === "video" && (
-          <div className={styles.sectionBlock}>
-            <div className={styles.sectionHeader}>
-              <span className={styles.sectionIcon}>✦</span>
-              <h3 className={styles.sectionTitle}>Video Testimonial Details</h3>
+          <div style={styleProxy.sectionBlock}>
+            <div style={styleProxy.sectionHeader}>
+              <span style={styleProxy.sectionIcon}>✦</span>
+              <h3 style={styleProxy.sectionTitle}>Video Testimonial Details</h3>
             </div>
 
-            {/* Name + Country two-col */}
-            <div className={styles.twoCol}>
-              <div className={styles.fieldGroup}>
-                <label className={styles.label}>
-                  <span className={styles.labelIcon}>✦</span>
-                  Student Name<span className={styles.required}>*</span>
+            <div style={styleProxy.twoCol}>
+              <div style={styleProxy.fieldGroup}>
+                <label style={styleProxy.label}>
+                  <span style={styleProxy.labelIcon}>✦</span>
+                  Student Name<span style={styleProxy.required}>*</span>
                 </label>
-                <div className={`${styles.inputWrap} ${errors.name ? styles.inputError : ""} ${videoForm.name && !errors.name ? styles.inputSuccess : ""}`}>
+                <div style={styleProxy.inputWrap}>
                   <input 
                     type="text" 
-                    className={styles.input} 
+                    style={{
+                      ...styleProxy.input,
+                      ...(errors.name ? styleProxy.inputError : {}),
+                      ...(videoForm.name && !errors.name ? styleProxy.inputSuccess : {})
+                    }}
                     placeholder="e.g. Marit"
-                    value={videoForm.name} 
-                    maxLength={80}
-                    onChange={(e) => setVideo("name", e.target.value)} 
+                    value={videoForm.name}
+                    onChange={(e) => setVideo("name", e.target.value)}
                   />
-                  <span className={styles.charCount}>{videoForm.name.length}/80</span>
+                  <div style={styleProxy.charCount}>{videoForm.name.length}/80</div>
                 </div>
-                {errors.name && <p className={styles.errorMsg}>⚠ {errors.name}</p>}
+                {errors.name && <p style={styleProxy.errorMsg}>⚠ {errors.name}</p>}
               </div>
 
-              <div className={styles.fieldGroup}>
-                <label className={styles.label}>
-                  <span className={styles.labelIcon}>✦</span>
-                  Country<span className={styles.required}>*</span>
+              <div style={styleProxy.fieldGroup}>
+                <label style={styleProxy.label}>
+                  <span style={styleProxy.labelIcon}>✦</span>
+                  Country<span style={styleProxy.required}>*</span>
                 </label>
-                <div className={`${styles.inputWrap} ${errors.country ? styles.inputError : ""} ${videoForm.country && !errors.country ? styles.inputSuccess : ""}`}>
+                <div style={styleProxy.inputWrap}>
                   <input 
                     type="text" 
-                    className={styles.input} 
+                    style={{
+                      ...styleProxy.input,
+                      ...(errors.country ? styleProxy.inputError : {}),
+                      ...(videoForm.country && !errors.country ? styleProxy.inputSuccess : {})
+                    }}
                     placeholder="e.g. Netherlands"
-                    value={videoForm.country} 
-                    maxLength={60}
-                    onChange={(e) => setVideo("country", e.target.value)} 
+                    value={videoForm.country}
+                    onChange={(e) => setVideo("country", e.target.value)}
                   />
                 </div>
-                {errors.country && <p className={styles.errorMsg}>⚠ {errors.country}</p>}
+                {errors.country && <p style={styleProxy.errorMsg}>⚠ {errors.country}</p>}
               </div>
             </div>
 
-            {/* Flag + Course + Rating */}
-            <div className={styles.threeCol}>
-              <div className={styles.fieldGroup}>
-                <label className={styles.label}>
-                  <span className={styles.labelIcon}>✦</span>
+            <div style={styleProxy.threeCol}>
+              <div style={styleProxy.fieldGroup}>
+                <label style={styleProxy.label}>
+                  <span style={styleProxy.labelIcon}>✦</span>
                   Flag
                 </label>
-                <div className={styles.inputWrap} style={{ position: "relative" }}>
+                <div style={{ position: "relative" }}>
                   <select 
-                    className={styles.select} 
+                    style={styleProxy.select}
                     value={videoForm.flag}
                     onChange={(e) => setVideo("flag", e.target.value)}
                   >
@@ -415,40 +382,42 @@ export default function AddTestimonialPage() {
                       <option key={f.flag} value={f.flag}>{f.flag} {f.label}</option>
                     ))}
                   </select>
-                  <span className={styles.selectArrow}>▾</span>
+                  <span style={styleProxy.selectArrow}>▾</span>
                 </div>
               </div>
 
-              <div className={styles.fieldGroup}>
-                <label className={styles.label}>
-                  <span className={styles.labelIcon}>✦</span>
-                  Course<span className={styles.required}>*</span>
+              <div style={styleProxy.fieldGroup}>
+                <label style={styleProxy.label}>
+                  <span style={styleProxy.labelIcon}>✦</span>
+                  Course
                 </label>
-                <div className={`${styles.inputWrap} ${errors.course ? styles.inputError : ""}`} style={{ position: "relative" }}>
+                <div style={{ position: "relative" }}>
                   <select 
-                    className={styles.select} 
+                    style={styleProxy.select}
                     value={videoForm.course}
                     onChange={(e) => setVideo("course", e.target.value)}
                   >
                     {COURSE_OPTIONS.map((c) => <option key={c} value={c}>{c}</option>)}
                   </select>
-                  <span className={styles.selectArrow}>▾</span>
+                  <span style={styleProxy.selectArrow}>▾</span>
                 </div>
-                {errors.course && <p className={styles.errorMsg}>⚠ {errors.course}</p>}
               </div>
 
-              <div className={styles.fieldGroup}>
-                <label className={styles.label}>
-                  <span className={styles.labelIcon}>✦</span>
+              <div style={styleProxy.fieldGroup}>
+                <label style={styleProxy.label}>
+                  <span style={styleProxy.labelIcon}>✦</span>
                   Rating
                 </label>
-                <div className={styles.inputWrap} style={{ padding: "0 0.5rem" }}>
-                  <div className={styles.starRatingInput}>
+                <div style={{ ...styleProxy.inputWrap, padding: "0 0.5rem" }}>
+                  <div style={styleProxy.starRatingInput}>
                     {[1, 2, 3, 4, 5].map((s) => (
                       <button 
                         key={s} 
                         type="button"
-                        className={`${styles.starBtn} ${s <= videoForm.rating ? styles.starBtnActive : ""}`}
+                        style={{
+                          ...styleProxy.starBtn,
+                          ...(s <= videoForm.rating ? styleProxy.starBtnActive : {})
+                        }}
                         onClick={() => setVideo("rating", s)}
                       >
                         ★
@@ -459,191 +428,141 @@ export default function AddTestimonialPage() {
               </div>
             </div>
 
-            {/* YouTube URL */}
-            <div className={styles.fieldGroup}>
-              <label className={styles.label}>
-                <span className={styles.labelIcon}>✦</span>
-                YouTube URL or Video ID<span className={styles.required}>*</span>
+            <div style={styleProxy.fieldGroup}>
+              <label style={styleProxy.label}>
+                <span style={styleProxy.labelIcon}>✦</span>
+                YouTube URL<span style={styleProxy.required}>*</span>
               </label>
-              <p className={styles.fieldHint}>
-                Paste full YouTube URL, Shorts link, or just the 11-character video ID
+              <p style={styleProxy.fieldHint}>
+                Paste YouTube URL or video ID
               </p>
-              <div className={`${styles.inputWrap} ${styles.inputWithPrefix} ${errors.youtubeUrl ? styles.inputError : ""} ${ytIdValid ? styles.inputSuccess : ""}`}>
-                <span className={styles.inputPrefix}>▶</span>
+              <div style={styleProxy.inputWithPrefix}>
+                <span style={styleProxy.inputPrefix}>▶</span>
                 <input 
                   type="text" 
-                  className={`${styles.input} ${styles.inputPrefixed}`}
-                  placeholder="e.g. https://youtube.com/shorts/l12jCvLqUQg or l12jCvLqUQg"
+                  style={{
+                    ...styleProxy.input,
+                    ...styleProxy.inputPrefixed,
+                    ...(errors.youtubeUrl ? styleProxy.inputError : {}),
+                    ...(ytIdValid ? styleProxy.inputSuccess : {})
+                  }}
+                  placeholder="e.g. https://youtube.com/watch?v=..."
                   value={videoForm.youtubeUrl}
-                  onChange={(e) => setVideo("youtubeUrl", e.target.value)} 
+                  onChange={(e) => setVideo("youtubeUrl", e.target.value)}
                 />
               </div>
-              {errors.youtubeUrl && <p className={styles.errorMsg}>⚠ {errors.youtubeUrl}</p>}
-
-              {/* Live thumbnail preview */}
+              {errors.youtubeUrl && <p style={styleProxy.errorMsg}>⚠ {errors.youtubeUrl}</p>}
+              
               {ytId && (
-                <div className={styles.ytIdPreview}>
+                <div style={styleProxy.ytIdPreview}>
                   <img 
                     src={`https://img.youtube.com/vi/${ytId}/mqdefault.jpg`} 
-                    alt="Video thumbnail"
-                    className={styles.ytIdPreviewImg}
-                    onError={handleImageError}
+                    alt=""
+                    style={styleProxy.ytIdPreviewImg}
+                    onError={(e) => (e.currentTarget.style.display = "none")}
                   />
-                  <span className={styles.ytIdPreviewText}>
-                    {ytIdValid ? `✓ Video ID: ${ytId}` : "⚠ Could not extract ID — check the URL"}
+                  <span style={styleProxy.ytIdPreviewText}>
+                    {ytIdValid ? `✓ Video ID: ${ytId}` : "Invalid ID"}
                   </span>
                 </div>
               )}
             </div>
 
-            {/* Quote */}
-            <div className={styles.fieldGroup}>
-              <label className={styles.label}>
-                <span className={styles.labelIcon}>✦</span>
-                Quote / Testimonial Text<span className={styles.required}>*</span>
+            <div style={styleProxy.fieldGroup}>
+              <label style={styleProxy.label}>
+                <span style={styleProxy.labelIcon}>✦</span>
+                Quote<span style={styleProxy.required}>*</span>
               </label>
-              <p className={styles.fieldHint}>
-                Full testimonial quote shown beside the video player
-              </p>
-              <div className={`${styles.inputWrap} ${errors.quote ? styles.inputError : ""} ${videoForm.quote && !errors.quote ? styles.inputSuccess : ""}`}>
+              <div style={styleProxy.inputWrap}>
                 <textarea 
-                  className={`${styles.input} ${styles.textarea}`}
-                  placeholder="e.g. Namaste, my name is Marit. I am from the Netherlands and I came to AYM…"
-                  value={videoForm.quote} 
-                  maxLength={1200} 
-                  rows={5}
-                  onChange={(e) => setVideo("quote", e.target.value)} 
+                  style={{
+                    ...styleProxy.input,
+                    ...styleProxy.textarea,
+                    ...(errors.quote ? styleProxy.inputError : {}),
+                    ...(videoForm.quote && !errors.quote ? styleProxy.inputSuccess : {})
+                  }}
+                  placeholder="Testimonial quote..."
+                  value={videoForm.quote}
+                  maxLength={1200}
+                  rows={4}
+                  onChange={(e) => setVideo("quote", e.target.value)}
                 />
-                <span className={styles.charCount}>{videoForm.quote.length}/1200</span>
+                <div style={styleProxy.charCount}>{videoForm.quote.length}/1200</div>
               </div>
-              {errors.quote && <p className={styles.errorMsg}>⚠ {errors.quote}</p>}
+              {errors.quote && <p style={styleProxy.errorMsg}>⚠ {errors.quote}</p>}
             </div>
           </div>
         )}
 
-        {/* ══ 2B. TEXT REVIEW FIELDS ══ */}
+        {/* Text Review Fields */}
         {reviewType === "text" && (
-          <div className={styles.sectionBlock}>
-            <div className={styles.sectionHeader}>
-              <span className={styles.sectionIcon}>✦</span>
-              <h3 className={styles.sectionTitle}>Text Review Details</h3>
+          <div style={styleProxy.sectionBlock}>
+            <div style={styleProxy.sectionHeader}>
+              <span style={styleProxy.sectionIcon}>✦</span>
+              <h3 style={styleProxy.sectionTitle}>Text Review Details</h3>
             </div>
 
-            {/* Name + Role */}
-            <div className={styles.twoCol}>
-              <div className={styles.fieldGroup}>
-                <label className={styles.label}>
-                  <span className={styles.labelIcon}>✦</span>
-                  Reviewer Name<span className={styles.required}>*</span>
+            <div style={styleProxy.twoCol}>
+              <div style={styleProxy.fieldGroup}>
+                <label style={styleProxy.label}>
+                  <span style={styleProxy.labelIcon}>✦</span>
+                  Reviewer Name<span style={styleProxy.required}>*</span>
                 </label>
-                <div className={`${styles.inputWrap} ${errors.name ? styles.inputError : ""} ${textForm.name && !errors.name ? styles.inputSuccess : ""}`}>
+                <div style={styleProxy.inputWrap}>
                   <input 
                     type="text" 
-                    className={styles.input} 
+                    style={{
+                      ...styleProxy.input,
+                      ...(errors.name ? styleProxy.inputError : {}),
+                      ...(textForm.name && !errors.name ? styleProxy.inputSuccess : {})
+                    }}
                     placeholder="e.g. Vinita Rai"
-                    value={textForm.name} 
-                    maxLength={80}
-                    onChange={(e) => setText("name", e.target.value)} 
+                    value={textForm.name}
+                    onChange={(e) => setText("name", e.target.value)}
                   />
-                  <span className={styles.charCount}>{textForm.name.length}/80</span>
+                  <div style={styleProxy.charCount}>{textForm.name.length}/80</div>
                 </div>
-                {errors.name && <p className={styles.errorMsg}>⚠ {errors.name}</p>}
+                {errors.name && <p style={styleProxy.errorMsg}>⚠ {errors.name}</p>}
               </div>
 
-              <div className={styles.fieldGroup}>
-                <label className={styles.label}>
-                  <span className={styles.labelIcon}>✦</span>
-                  Role / Title<span className={styles.required}>*</span>
+              <div style={styleProxy.fieldGroup}>
+                <label style={styleProxy.label}>
+                  <span style={styleProxy.labelIcon}>✦</span>
+                  Role<span style={styleProxy.required}>*</span>
                 </label>
-                <p className={styles.fieldHint}>
-                  e.g. Certified Yoga Teacher or Yoga Practitioner, Peru
-                </p>
-                <div className={`${styles.inputWrap} ${errors.role ? styles.inputError : ""} ${textForm.role && !errors.role ? styles.inputSuccess : ""}`}>
+                <p style={styleProxy.fieldHint}>e.g. Certified Yoga Teacher</p>
+                <div style={styleProxy.inputWrap}>
                   <input 
                     type="text" 
-                    className={styles.input} 
-                    placeholder="e.g. Certified Yoga Teacher"
-                    value={textForm.role} 
-                    maxLength={100}
-                    onChange={(e) => setText("role", e.target.value)} 
+                    style={{
+                      ...styleProxy.input,
+                      ...(errors.role ? styleProxy.inputError : {}),
+                      ...(textForm.role && !errors.role ? styleProxy.inputSuccess : {})
+                    }}
+                    placeholder="e.g. Yoga Teacher, Peru"
+                    value={textForm.role}
+                    onChange={(e) => setText("role", e.target.value)}
                   />
                 </div>
-                {errors.role && <p className={styles.errorMsg}>⚠ {errors.role}</p>}
+                {errors.role && <p style={styleProxy.errorMsg}>⚠ {errors.role}</p>}
               </div>
             </div>
 
-            {/* Avatar */}
-            <div className={styles.fieldGroup}>
-              <label className={styles.label}>
-                <span className={styles.labelIcon}>✦</span>
-                Avatar Photo
+            <div style={styleProxy.fieldGroup}>
+              <label style={styleProxy.label}>
+                <span style={styleProxy.labelIcon}>✦</span>
+                Rating
               </label>
-              <p className={styles.fieldHint}>
-                Upload or link a profile photo — if left blank, initials will be shown
-              </p>
-              <div className={styles.avatarUploadRow}>
-                <div className={styles.avatarPreviewCircle}>
-                  {textForm.avatarSrc ? (
-                    <img 
-                      src={textForm.avatarSrc} 
-                      alt={textForm.name} 
-                      className={styles.avatarPreviewImg}
-                      onError={handleImageError}
-                    />
-                  ) : (
-                    textForm.name.charAt(0) || "?"
-                  )}
-                </div>
-                <div className={styles.avatarControls}>
-                  <div 
-                    className={styles.uploadZoneSmall} 
-                    onClick={() => avatarFileRef.current?.click()}
-                  >
-                    <p className={styles.uploadText}>📁 Click to upload photo</p>
-                    <input 
-                      ref={avatarFileRef} 
-                      type="file" 
-                      accept="image/*" 
-                      className={styles.uploadInput} 
-                      onChange={handleAvatarFile} 
-                    />
-                  </div>
-                  <div className={styles.urlRowSmall}>
-                    <div className={styles.inputWrap}>
-                      <input 
-                        type="text" 
-                        className={styles.input}
-                        placeholder="Or paste avatar URL"
-                        value={avatarUrlInput}
-                        onChange={(e) => setAvatarUrlInput(e.target.value)}
-                        onKeyDown={(e) => { if (e.key === "Enter") handleAvatarUrl(); }} 
-                      />
-                    </div>
-                    <button 
-                      type="button" 
-                      className={styles.addUrlBtn} 
-                      onClick={handleAvatarUrl}
-                    >
-                      Use URL
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Rating */}
-            <div className={styles.fieldGroup}>
-              <label className={styles.label}>
-                <span className={styles.labelIcon}>✦</span>
-                Star Rating
-              </label>
-              <div className={styles.inputWrap} style={{ padding: "0 0.5rem" }}>
-                <div className={styles.starRatingInput}>
+              <div style={{ ...styleProxy.inputWrap, padding: "0 0.5rem" }}>
+                <div style={styleProxy.starRatingInput}>
                   {[1, 2, 3, 4, 5].map((s) => (
                     <button 
                       key={s} 
                       type="button"
-                      className={`${styles.starBtn} ${s <= textForm.rating ? styles.starBtnActive : ""}`}
+                      style={{
+                        ...styleProxy.starBtn,
+                        ...(s <= textForm.rating ? styleProxy.starBtnActive : {})
+                      }}
                       onClick={() => setText("rating", s)}
                     >
                       ★
@@ -653,190 +572,116 @@ export default function AddTestimonialPage() {
               </div>
             </div>
 
-            {/* Quote */}
-            <div className={styles.fieldGroup}>
-              <label className={styles.label}>
-                <span className={styles.labelIcon}>✦</span>
-                Review Quote<span className={styles.required}>*</span>
+            <div style={styleProxy.fieldGroup}>
+              <label style={styleProxy.label}>
+                <span style={styleProxy.labelIcon}>✦</span>
+                Quote<span style={styleProxy.required}>*</span>
               </label>
-              <p className={styles.fieldHint}>
-                The full review text — shown in the slider card
-              </p>
-              <div className={`${styles.inputWrap} ${errors.quote ? styles.inputError : ""} ${textForm.quote && !errors.quote ? styles.inputSuccess : ""}`}>
+              <div style={styleProxy.inputWrap}>
                 <textarea 
-                  className={`${styles.input} ${styles.textarea}`}
-                  placeholder="e.g. This is truly the best yoga school for 200-hour Yoga Teacher Training…"
-                  value={textForm.quote} 
-                  maxLength={800} 
-                  rows={5}
-                  onChange={(e) => setText("quote", e.target.value)} 
+                  style={{
+                    ...styleProxy.input,
+                    ...styleProxy.textarea,
+                    ...(errors.quote ? styleProxy.inputError : {}),
+                    ...(textForm.quote && !errors.quote ? styleProxy.inputSuccess : {})
+                  }}
+                  placeholder="Review text..."
+                  value={textForm.quote}
+                  maxLength={800}
+                  rows={4}
+                  onChange={(e) => setText("quote", e.target.value)}
                 />
-                <span className={styles.charCount}>{textForm.quote.length}/800</span>
+                <div style={styleProxy.charCount}>{textForm.quote.length}/800</div>
               </div>
-              {errors.quote && <p className={styles.errorMsg}>⚠ {errors.quote}</p>}
+              {errors.quote && <p style={styleProxy.errorMsg}>⚠ {errors.quote}</p>}
             </div>
           </div>
         )}
 
-        <div className={styles.formDivider} />
+        <div style={styleProxy.formDivider} />
 
-        {/* ══ 3. SECTION META ══ */}
-        <div className={styles.sectionBlock}>
-          <div className={styles.sectionHeader}>
-            <span className={styles.sectionIcon}>✦</span>
-            <h3 className={styles.sectionTitle}>Section Header & Trust Strip</h3>
-            <span className={styles.sectionBadge}>global settings</span>
+        {/* Section Meta */}
+        <div style={styleProxy.sectionBlock}>
+          <div style={styleProxy.sectionHeader}>
+            <span style={styleProxy.sectionIcon}>✦</span>
+            <h3 style={styleProxy.sectionTitle}>Section Header</h3>
           </div>
-          <p className={styles.fieldHint} style={{ marginBottom: "1.2rem" }}>
-            These settings apply to the whole testimonials section — super title, heading, subtitle and the trust strip at the bottom.
-          </p>
 
-          <div className={styles.twoCol}>
-            <div className={styles.fieldGroup}>
-              <label className={styles.label}>
-                <span className={styles.labelIcon}>✦</span>
+          <div style={styleProxy.twoCol}>
+            <div style={styleProxy.fieldGroup}>
+              <label style={styleProxy.label}>
+                <span style={styleProxy.labelIcon}>✦</span>
                 Super Title
               </label>
-              <div className={`${styles.inputWrap} ${sectionForm.superTitle ? styles.inputSuccess : ""}`}>
+              <div style={styleProxy.inputWrap}>
                 <input 
                   type="text" 
-                  className={styles.input}
-                  value={sectionForm.superTitle} 
-                  maxLength={100}
-                  onChange={(e) => setSec("superTitle", e.target.value)} 
+                  style={styleProxy.input}
+                  value={sectionForm.superTitle}
+                  onChange={(e) => setSectionForm(p => ({ ...p, superTitle: e.target.value }))}
                 />
-                <span className={styles.charCount}>{sectionForm.superTitle.length}/100</span>
               </div>
             </div>
 
-            <div className={styles.fieldGroup}>
-              <label className={styles.label}>
-                <span className={styles.labelIcon}>✦</span>
-                Main Title (H2)
+            <div style={styleProxy.fieldGroup}>
+              <label style={styleProxy.label}>
+                <span style={styleProxy.labelIcon}>✦</span>
+                Main Title
               </label>
-              <div className={`${styles.inputWrap} ${sectionForm.mainTitle ? styles.inputSuccess : ""}`}>
+              <div style={styleProxy.inputWrap}>
                 <input 
                   type="text" 
-                  className={styles.input}
-                  value={sectionForm.mainTitle} 
-                  maxLength={150}
-                  onChange={(e) => setSec("mainTitle", e.target.value)} 
+                  style={styleProxy.input}
+                  value={sectionForm.mainTitle}
+                  onChange={(e) => setSectionForm(p => ({ ...p, mainTitle: e.target.value }))}
                 />
-                <span className={styles.charCount}>{sectionForm.mainTitle.length}/150</span>
               </div>
             </div>
           </div>
 
-          <div className={styles.fieldGroup}>
-            <label className={styles.label}>
-              <span className={styles.labelIcon}>✦</span>
+          <div style={styleProxy.fieldGroup}>
+            <label style={styleProxy.label}>
+              <span style={styleProxy.labelIcon}>✦</span>
               Subtitle
             </label>
-            <div className={`${styles.inputWrap} ${sectionForm.subtitle ? styles.inputSuccess : ""}`}>
+            <div style={styleProxy.inputWrap}>
               <textarea 
-                className={`${styles.input} ${styles.textarea}`}
-                value={sectionForm.subtitle} 
-                maxLength={300} 
+                style={{ ...styleProxy.input, ...styleProxy.textarea }}
+                value={sectionForm.subtitle}
                 rows={2}
-                onChange={(e) => setSec("subtitle", e.target.value)} 
+                onChange={(e) => setSectionForm(p => ({ ...p, subtitle: e.target.value }))}
               />
-              <span className={styles.charCount}>{sectionForm.subtitle.length}/300</span>
             </div>
-          </div>
-
-          {/* Trust strip */}
-          <div className={styles.fieldGroup} style={{ marginBottom: 0 }}>
-            <label className={styles.label}>
-              <span className={styles.labelIcon}>✦</span>
-              Trust Strip Items
-            </label>
-            <p className={styles.fieldHint}>
-              Stats shown at the bottom of the section — icon + label pairs
-            </p>
-
-            {sectionForm.trustItems.map((item, i) => (
-              <div key={i} className={styles.trustItemCard}>
-                <div className={styles.trustItemHeader}>
-                  <span className={styles.trustItemNum}>{i + 1}</span>
-                  <span className={styles.trustItemLabel}>Trust Item #{i + 1}</span>
-                  <button 
-                    type="button" 
-                    className={styles.trustRemoveBtn}
-                    onClick={() => removeTrust(i)}
-                    disabled={sectionForm.trustItems.length <= 1}
-                  >
-                    ✕
-                  </button>
-                </div>
-                <div className={styles.twoCol}>
-                  <div className={styles.fieldGroup} style={{ marginBottom: 0 }}>
-                    <label className={styles.label} style={{ fontSize: "0.65rem" }}>Icon / Emoji</label>
-                    <div className={`${styles.inputWrap} ${item.icon ? styles.inputSuccess : ""}`}>
-                      <input 
-                        type="text" 
-                        className={styles.input}
-                        placeholder="e.g. 🌍"
-                        value={item.icon} 
-                        maxLength={8}
-                        onChange={(e) => updateTrust(i, "icon", e.target.value)} 
-                      />
-                    </div>
-                  </div>
-                  <div className={styles.fieldGroup} style={{ marginBottom: 0 }}>
-                    <label className={styles.label} style={{ fontSize: "0.65rem" }}>Label</label>
-                    <div className={`${styles.inputWrap} ${item.label ? styles.inputSuccess : ""}`}>
-                      <input 
-                        type="text" 
-                        className={styles.input}
-                        placeholder="e.g. Students from 50+ Countries"
-                        value={item.label} 
-                        maxLength={60}
-                        onChange={(e) => updateTrust(i, "label", e.target.value)} 
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-
-            {sectionForm.trustItems.length < 5 && (
-              <button 
-                type="button" 
-                className={styles.addTrustBtn} 
-                onClick={addTrust}
-              >
-                + Add Trust Item
-              </button>
-            )}
           </div>
         </div>
 
-        <div className={styles.formDivider} />
+        <div style={styleProxy.formDivider} />
 
         {/* Form Actions */}
-        <div className={styles.formActions}>
-          <Link href="/admin/dashboard/testimonials" className={styles.cancelBtn}>
+        <div style={styleProxy.formActions}>
+          <Link href="/admin/dashboard/testimonials" style={styleProxy.cancelBtn}>
             ← Cancel
           </Link>
           <button 
             type="button"
-            className={`${styles.submitBtn} ${isSubmitting ? styles.submitBtnLoading : ""}`}
-            onClick={handleSubmit} 
+            style={{
+              ...styleProxy.submitBtn,
+              ...(isSubmitting ? styleProxy.submitBtnLoading : {})
+            }}
+            onClick={handleSubmit}
             disabled={isSubmitting}
           >
-            {isSubmitting ? (
-              <>
-                <span className={styles.spinner} /> Saving…
-              </>
-            ) : (
-              <>
-                <span>✦</span> Save Testimonial
-              </>
-            )}
+            {isSubmitting ? "Saving..." : "Save Testimonial"}
           </button>
         </div>
 
       </div>
+
+      <style>{`
+        @keyframes spin {
+          to { transform: rotate(360deg); }
+        }
+      `}</style>
     </div>
   );
 }
