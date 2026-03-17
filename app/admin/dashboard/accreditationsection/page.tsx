@@ -4,38 +4,32 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import styles from "@/assets/style/Admin/dashboard/accreditationsection/Accreditationsection.module.css";
-// import api from "@/lib/api";
+import api from "@/lib/api";
 
 /* ─────────────────────── Types ─────────────────────── */
+
+const getImageUrl = (path: string) => {
+  if (!path) return "";
+  return `${process.env.NEXT_PUBLIC_API_URL}/${path}`;
+};
 interface AccreditationRecord {
   _id: string;
   sectionTitle: string;
   videoSrc: string;
   immerseTitle: string;
   recognitionTitle: string;
-  certsCount: number;
-  badgesCount: number;
+  certs?: any[];
+  badges?: any[];
+
+  certsCount: number;     // ✅ ADD THIS
+  badgesCount: number;    // ✅ ADD THIS
+
   createdAt: string;
   updatedAt: string;
 }
 
 type SortField = "sectionTitle" | "certsCount" | "updatedAt";
 type SortDir   = "asc" | "desc";
-
-/* ─────────────────────── Mock data ─────────────────────── */
-const MOCK: AccreditationRecord[] = [
-  {
-    _id: "1",
-    sectionTitle: "Authentic, Internationally recognized Yoga Teacher Training Certification School in Rishikesh",
-    videoSrc: "https://youtu.be/A-Zcjg1_y5U",
-    immerseTitle: "Immerse Yourself in Yoga in Rishikesh",
-    recognitionTitle: "Recognition & Endorsements",
-    certsCount: 3,
-    badgesCount: 3,
-    createdAt: "2024-01-15T08:30:00Z",
-    updatedAt: "2025-03-10T14:22:00Z",
-  },
-];
 
 /* ─────────────────────── Main ─────────────────────── */
 export default function AccreditationSectionListPage() {
@@ -51,11 +45,16 @@ export default function AccreditationSectionListPage() {
   useEffect(() => {
     const fetchRecords = async () => {
       try {
-        // const res = await api.get("/accreditation");
-        // setRecords(res.data.data);
-        setTimeout(() => { setRecords(MOCK); setLoading(false); }, 600);
+        const res = await api.get("/accreditation");
+        const formatted = res.data.data.map((item: any) => ({
+  ...item,
+  certsCount: item.certs?.length || 0,
+  badgesCount: item.badges?.length || 0,
+}));
+       setRecords(formatted);
       } catch (err) {
         console.error(err);
+      } finally {
         setLoading(false);
       }
     };
@@ -88,7 +87,7 @@ export default function AccreditationSectionListPage() {
     if (!deleteId) return;
     try {
       setDeleting(true);
-      // await api.delete(`/accreditation/delete/${deleteId}`);
+      await api.delete(`/accreditation/${deleteId}`);
       setRecords((p) => p.filter((r) => r._id !== deleteId));
       setDeleteId(null);
     } catch (err: any) {
@@ -112,9 +111,26 @@ export default function AccreditationSectionListPage() {
   if (loading) {
     return (
       <div className={styles.page}>
-        <div className={styles.skeletonHeader} />
-        <div className={styles.skeletonCard}>
-          {[...Array(3)].map((_, i) => <div key={i} className={styles.skeletonField} />)}
+        <div className={styles.breadcrumb}>
+          <button className={styles.breadcrumbLink} onClick={() => router.push("/admin/dashboard")}>Dashboard</button>
+          <span className={styles.breadcrumbSep}>›</span>
+          <span className={styles.breadcrumbCurrent}>Accreditation</span>
+        </div>
+        <div className={styles.listPageHeader}>
+          <div>
+            <div className={styles.skeletonTitle} style={{ width: '300px', height: '36px', marginBottom: '8px' }} />
+            <div className={styles.skeletonText} style={{ width: '400px', height: '20px' }} />
+          </div>
+        </div>
+        <div className={styles.statsBar}>
+          {[...Array(3)].map((_, i) => (
+            <div key={i} className={styles.skeletonStat} style={{ width: '150px', height: '60px' }} />
+          ))}
+        </div>
+        <div className={styles.skeletonTable}>
+          {[...Array(3)].map((_, i) => (
+            <div key={i} className={styles.skeletonField} style={{ height: '60px', marginBottom: '10px' }} />
+          ))}
         </div>
       </div>
     );
@@ -187,7 +203,7 @@ export default function AccreditationSectionListPage() {
             {search ? "Try a different search term" : "Click 'Add New Section' to create your first accreditation section"}
           </p>
           {!search && (
-            <Link href="/admin/dashboard/accreditation/add" className={styles.emptyAddBtn}>
+            <Link href="/admin/dashboard/accreditationsection/add-new" className={styles.emptyAddBtn}>
               + Add First Section
             </Link>
           )}
@@ -210,6 +226,7 @@ export default function AccreditationSectionListPage() {
                 <th className={`${styles.th} ${styles.thSortable}`} onClick={() => toggleSort("updatedAt")}>
                   Updated <SortIcon field="updatedAt" />
                 </th>
+                <th className={styles.th}>Preview</th>
                 <th className={styles.th}>Actions</th>
               </tr>
             </thead>
@@ -219,21 +236,21 @@ export default function AccreditationSectionListPage() {
                   <td className={`${styles.td} ${styles.tdNum}`}>{i + 1}</td>
                   <td className={styles.td}>
                     <div className={styles.titleCell}>
-                      <span className={styles.titleText}>
+                      <span className={styles.titleText} title={rec.sectionTitle}>
                         {rec.sectionTitle.length > 60 ? rec.sectionTitle.slice(0, 60) + "…" : rec.sectionTitle}
                       </span>
-                      <span className={styles.subText}>{rec.recognitionTitle}</span>
+                      <span className={styles.subText} title={rec.recognitionTitle}>{rec.recognitionTitle}</span>
                     </div>
                   </td>
                   <td className={styles.td}>
                     {rec.videoSrc ? (
-                      <a href={rec.videoSrc} target="_blank" rel="noopener noreferrer" className={styles.videoLink}>
+                      <a href={rec.videoSrc} target="_blank" rel="noopener noreferrer" className={styles.videoLink} title={rec.videoSrc}>
                         🎬 {rec.videoSrc.includes("youtu") ? "YouTube" : "Direct"}
                       </a>
                     ) : <span className={styles.naText}>—</span>}
                   </td>
                   <td className={styles.td}>
-                    <span className={styles.immerseTitleText}>
+                    <span className={styles.immerseTitleText} title={rec.immerseTitle}>
                       {rec.immerseTitle.length > 35 ? rec.immerseTitle.slice(0, 35) + "…" : rec.immerseTitle}
                     </span>
                   </td>
@@ -245,9 +262,20 @@ export default function AccreditationSectionListPage() {
                   </td>
                   <td className={`${styles.td} ${styles.tdDate}`}>{formatDate(rec.updatedAt)}</td>
                   <td className={styles.td}>
+  {rec.certs?.[0]?.image ? (
+    <img
+      src={getImageUrl(rec.certs[0].image)}
+      alt="cert"
+      style={{ width: "50px", height: "50px", objectFit: "cover" }}
+    />
+  ) : (
+    "—"
+  )}
+</td>
+                  <td className={styles.td}>
                     <div className={styles.actionBtns}>
                       <button className={styles.editBtn}
-                        onClick={() => router.push(`/admin/dashboard/accreditation/edit/${rec._id}`)}>
+                        onClick={() => router.push(`/admin/dashboard/accreditationsection/${rec._id}`)}>
                         ✏️ Edit
                       </button>
                       <button className={styles.deleteBtn} onClick={() => setDeleteId(rec._id)}>

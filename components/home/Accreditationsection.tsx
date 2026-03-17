@@ -2,12 +2,18 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import styles from "../../assets/style/Home/Accreditationsection.module.css";
-import mainimage1 from "../../assets/images/yoga-teacher-training-syllabus.webp";
-import modalimage1 from "../../assets/images/Minstry-Of-Ayush,-Government-of-India-for-web.webp";
-import modalimage2 from "../../assets/images/500-hour-yoga-alliance-certiifcate-usa.jpg";
-import modalimage3 from "../../assets/images/gea-thumb.webp";
+import api from "@/lib/api";
 
-const VIDEO_SRC = "https://youtu.be/A-Zcjg1_y5U?si=3dDAaSf25x1u8Wwa";
+
+
+const getImageUrl = (path: string) => {
+  if (!path) return "";
+
+  // 🔥 FIX: backslash → slash
+  const cleanPath = path.replace(/\\/g, "/");
+
+  return `${process.env.NEXT_PUBLIC_API_URL}/${cleanPath}`;
+};
 
 function getYouTubeEmbedUrl(url: string): string | null {
   const patterns = [
@@ -28,6 +34,7 @@ function SmartVideo({ src, poster }: { src: string; poster?: string }) {
   const containerRef = React.useRef<HTMLDivElement>(null);
   const [isUserActive, setIsUserActive] = React.useState(false);
   const [isMuted, setIsMuted] = React.useState(true);
+ 
   const hideTimer = React.useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Autoplay when scrolled into view
@@ -84,7 +91,6 @@ function SmartVideo({ src, poster }: { src: string; poster?: string }) {
       </div>
     );
   }
-
   return (
     <div
       ref={containerRef}
@@ -215,33 +221,27 @@ function SmartVideo({ src, poster }: { src: string; poster?: string }) {
   );
 }
 
-const certImages = [
-  {
-    id: 1,
-    src: modalimage1,
-    alt: "Yoga Certification Board — Ministry of AYUSH, Government of India",
-    label: "YCB — Govt. of India",
-    tag: "Official Accreditation",
-  },
-  {
-    id: 2,
-    src: modalimage2,
-    alt: "Yoga Alliance USA — Certificate of Registration RYS 500",
-    label: "Yoga Alliance USA — RYS 500",
-    tag: "International Recognition",
-  },
-  {
-    id: 3,
-    src: modalimage3,
-    alt: "Global Excellence Awards 2019 — Certificate of Excellence, AYM Yoga Training School",
-    label: "Global Excellence Awards 2019",
-    tag: "Award of Excellence",
-  },
-];
+
 
 export const AccreditationSection: React.FC = () => {
-  const [modalImg, setModalImg] = useState<(typeof certImages)[0] | null>(null);
+  const [data, setData] = useState<any>(null);
+const [loading, setLoading] = useState(true);
+  const [modalImg, setModalImg] = useState<any>(null);
 
+  useEffect(() => {
+  const fetchData = async () => {
+    try {
+      const res = await api.get("/accreditation");
+      setData(res.data.data[0]);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchData();
+}, []);
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") setModalImg(null);
@@ -257,6 +257,9 @@ export const AccreditationSection: React.FC = () => {
     };
   }, [modalImg]);
 
+  if (loading) return <p>Loading...</p>;
+if (!data) return <p>No data found</p>;
+
   return (
     <>
       <section className={styles.authenticSection}>
@@ -264,60 +267,25 @@ export const AccreditationSection: React.FC = () => {
         <div className={styles.container}>
           <div className={styles.sectionHeaderCenter}>
             <h2 className={styles.sectionTitle}>
-              Authentic, Internationally recognized Yoga Teacher Training
-              Certification School in Rishikesh
+             {data.sectionTitle}
             </h2>
             <div className={styles.titleUnderline} />
           </div>
 
           <div className={styles.authGrid}>
             <div className={styles.authText}>
-              <p className={styles.para}>
-                Our Yoga Teacher Training in Rishikesh is accredited by Yoga
-                Alliance USA, ensuring a globally recognized certification. We
-                also align with the Yoga Certification Board (YCB) of India,
-                under the Ministry of Ayush, Govt. of India, making our
-                certification highly valued among aspiring yoga teachers
-                worldwide.
-              </p>
-              <p className={styles.para}>
-                Our yoga school in Rishikesh offers a well-structured and
-                updated curriculum for Beginner, Foundation, Intermediate, and
-                Advanced Yoga TTC in Rishikesh, ensuring that each student
-                receives the best and most comprehensive yoga education.
-              </p>
-              <p className={styles.para}>
-                Our training is deeply rooted in traditional yoga practices,
-                including asana, pranayama, meditation, and detoxification
-                techniques. We also offer specialized programs such as{" "}
-                <strong className={styles.highlight}>
-                  Kundalini Yoga Teacher Training
-                </strong>
-                ,{" "}
-                <strong className={styles.highlight}>
-                  Prenatal Yoga Teacher Training
-                </strong>
-                , and{" "}
-                <strong className={styles.highlight}>
-                  Hatha Yoga Teacher Training
-                </strong>
-                .
-              </p>
-              <p className={styles.para}>
-                In addition to our immersive teacher training courses, we
-                provide online Rishikesh yoga class training, connecting yoga
-                enthusiasts worldwide. Whether you are a beginner or an advanced
-                practitioner, our TTC in Rishikesh will help you deepen your
-                practice and become a certified yoga teacher.
-              </p>
+              <p className={styles.para}>{data.authPara1}</p>
+<p className={styles.para}>{data.authPara2}</p>
+<p className={styles.para}>{data.authPara3}</p>
+<p className={styles.para}>{data.authPara4}</p>
             </div>
 
             <div className={styles.authImageCol}>
               <div className={styles.authImageFrame}>
                 <div className={styles.authImageInner}>
                   <Image
-                    src={mainimage1}
-                    alt="AYM Study Materials & Curriculum"
+                    src={getImageUrl(data.mainImage)}
+                    alt={data.imageCaption}
                     width={420}
                     height={300}
                     style={{
@@ -329,8 +297,8 @@ export const AccreditationSection: React.FC = () => {
                     priority
                   />
                   <p className={styles.imageCaption}>
-                    AYM Study Materials &amp; Curriculum
-                  </p>
+  {data.imageCaption}
+</p>
                 </div>
                 <div className={styles.frameCornerTL} />
                 <div className={styles.frameCornerTR} />
@@ -339,10 +307,10 @@ export const AccreditationSection: React.FC = () => {
               </div>
 
               <div className={styles.pullQuote}>
-                <span className={styles.pullQMark}>"</span>
-                Learn, grow, and transform.
-                <span className={styles.pullQMark}>"</span>
-              </div>
+  <span className={styles.pullQMark}>"</span>
+  {data.pullQuote}
+  <span className={styles.pullQMark}>"</span>
+</div>
             </div>
           </div>
 
@@ -350,31 +318,25 @@ export const AccreditationSection: React.FC = () => {
             <div className={styles.videoBlock}>
               <div className={styles.videoPlaceholder}>
                 <SmartVideo
-                  src={VIDEO_SRC}
-                  poster="/images/video-thumbnail.jpg"
+                   src={data.videoSrc}
+  poster="/images/video-thumbnail.jpg"
                 />
               </div>
             </div>
 
             <div className={styles.immerseBlock}>
               <h3 className={styles.immerseTitle}>
-                Immerse Yourself in Yoga in Rishikesh
+               {data.immerseTitle}
               </h3>
               <div className={styles.immerseDivider} />
               <p className={styles.para}>
-                Rishikesh, the Yoga Capital of the World, invites you to embark
-                on a journey of self-discovery and transformation. Nestled
-                amidst the majestic Himalayas and the sacred Ganges River, this
-                spiritual haven offers the perfect setting to deepen your
-                practice and reconnect with yourself.
+                {data.immersePara1}
               </p>
               <p className={styles.para}>
-                From mastering breathwork and asanas to exploring meditation,
-                learning yoga in Rishikesh is a truly enriching experience — a
-                gift of wellness and inner peace that lasts a lifetime.
+                {data.immersePara2}
               </p>
-              <a href="/about" className={styles.knowMoreBtn}>
-                Know More About AYM <span className={styles.btnArrow}>→</span>
+              <a href={data.immerseCtaLink} className={styles.knowMoreBtn}>
+                {data.immerseCtaText} <span className={styles.btnArrow}>→</span>
               </a>
             </div>
           </div>
@@ -386,95 +348,57 @@ export const AccreditationSection: React.FC = () => {
         <div className={styles.container}>
           <div className={styles.sectionHeaderCenter}>
             <h2 className={styles.sectionTitle}>
-              Recognition &amp; Endorsements
+              {data.recognitionTitle}
             </h2>
             <div className={styles.titleUnderline} />
           </div>
 
           <div className={styles.recognitionText}>
             <p className={styles.para}>
-              At AYM Yoga School in Rishikesh, a leading Yoga Teacher Training
-              School in Rishikesh, all our programs are accredited by the Yoga
-              Certification Board (YCB), India, and Yoga Alliance, USA. After
-              completing any Yoga Teacher Training in Rishikesh, students can
-              register with Yoga Alliance USA and receive an internationally
-              recognized certification, paving the way for teaching
-              opportunities worldwide.
+             {data.recognitionPara1}
             </p>
             <p className={styles.para}>
-              If you're looking for the best Yoga TTC in Rishikesh, AYM Yoga
-              School is the perfect place to begin your journey. As a
-              well-established Yoga Teacher Training School in Rishikesh, we
-              ensure a transformative experience where you can train with the
-              best, immerse yourself in authentic yogic traditions, and unlock
-              new possibilities in the yoga capital of the world.
+             {data.recognitionPara2}
             </p>
           </div>
 
           <div className={styles.certsGrid}>
-            {certImages.map((cert) => (
-              <div
-                key={cert.id}
-                className={styles.certCard}
-                onClick={() => setModalImg(cert)}
-                role="button"
-                tabIndex={0}
-                onKeyDown={(e) => e.key === "Enter" && setModalImg(cert)}
-                aria-label={`View certificate: ${cert.label}`}
-              >
-                <div className={styles.certImageWrap}>
-                  <div
-                    className={styles.certImageContainer}
-                    style={{
-                      position: "relative",
-                      width: "100%",
-                      height: "248px",
-                    }}
-                  >
-                    <Image
-                      src={cert.src}
-                      alt={cert.alt}
-                      fill
-                      style={{ objectFit: "cover" }}
-                    />
-                  </div>
-                  <div className={styles.certOverlay}>
-                    <span className={styles.certZoomIcon}>🔍</span>
-                    <span className={styles.certZoomText}>
-                      Click to Enlarge
-                    </span>
-                  </div>
-                </div>
-                <div className={styles.certCardFooter}>
-                  <span className={styles.certTag}>{cert.tag}</span>
-                  <span className={styles.certCardLabel}>{cert.label}</span>
-                </div>
-              </div>
-            ))}
+           {data.certs.map((cert: any, index: number) => (
+  <div
+    key={index}
+    className={styles.certCard}
+    onClick={() => setModalImg(cert)}
+  >
+    <div className={styles.certImageWrap}>
+      <Image
+        src={getImageUrl(cert.image)}
+        alt={cert.alt}
+        fill
+        style={{ objectFit: "cover" }}
+      />
+    </div>
+
+    <div className={styles.certCardFooter}>
+      <span className={styles.certTag}>{cert.tag}</span>
+      <span className={styles.certCardLabel}>{cert.label}</span>
+    </div>
+  </div>
+))}
           </div>
 
-          <div className={styles.badgesRow}>
-            <div className={styles.badge}>
-              <span className={styles.badgeIcon}>🏅</span>
-              <span className={styles.badgeText}>
-                Yoga Alliance USA — RYS 200 &amp; 300 &amp; 500
-              </span>
-            </div>
-            <div className={styles.badgeSep}>✦</div>
-            <div className={styles.badge}>
-              <span className={styles.badgeIcon}>🏛️</span>
-              <span className={styles.badgeText}>
-                YCB — Ministry of AYUSH, Govt. of India
-              </span>
-            </div>
-            <div className={styles.badgeSep}>✦</div>
-            <div className={styles.badge}>
-              <span className={styles.badgeIcon}>🏆</span>
-              <span className={styles.badgeText}>
-                Global Excellence Awards 2019
-              </span>
-            </div>
-          </div>
+         <div className={styles.badgesRow}>
+  {data.badges.map((b: any, i: number) => (
+    <React.Fragment key={i}>
+      <div className={styles.badge}>
+        <span className={styles.badgeIcon}>{b.icon}</span>
+        <span className={styles.badgeText}>{b.text}</span>
+      </div>
+      {i < data.badges.length - 1 && (
+        <div className={styles.badgeSep}>✦</div>
+      )}
+    </React.Fragment>
+  ))}
+</div>
         </div>
       </section>
 
@@ -497,7 +421,7 @@ export const AccreditationSection: React.FC = () => {
 
             <div className={styles.modalImageWrap}>
               <Image
-                src={modalImg.src}
+                src={getImageUrl(modalImg.image)}
                 alt={modalImg.alt}
                 width={800}
                 height={560}
@@ -521,25 +445,25 @@ export const AccreditationSection: React.FC = () => {
               <button
                 className={styles.modalNavBtn}
                 onClick={() => {
-                  const idx = certImages.findIndex((c) => c.id === modalImg.id);
+                  const idx = data.certs.findIndex((c: any) => c === modalImg);
                   setModalImg(
-                    certImages[
-                      (idx - 1 + certImages.length) % certImages.length
-                    ],
+                    data.certs[
+  (idx - 1 + data.certs.length) % data.certs.length
+],
                   );
                 }}
               >
                 ← Prev
               </button>
-              <span className={styles.modalNavCount}>
-                {certImages.findIndex((c) => c.id === modalImg.id) + 1} /{" "}
-                {certImages.length}
-              </span>
+             <span className={styles.modalNavCount}>
+  {data.certs.findIndex((c: any) => c === modalImg) + 1} /{" "}
+  {data.certs.length}
+</span>
               <button
                 className={styles.modalNavBtn}
                 onClick={() => {
-                  const idx = certImages.findIndex((c) => c.id === modalImg.id);
-                  setModalImg(certImages[(idx + 1) % certImages.length]);
+                  const idx = data.certs.findIndex((c: any) => c === modalImg);
+setModalImg(data.certs[(idx + 1) % data.certs.length]);
                 }}
               >
                 Next →
