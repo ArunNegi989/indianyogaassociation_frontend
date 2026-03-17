@@ -133,48 +133,32 @@ export default function HeroBannerPage() {
   }, []);
 
   /* ── Preview ── */
-  const Preview = ({ image }: { image?: string }) => {
-    const baseURL = process.env.NEXT_PUBLIC_API_URL;
+const Preview = ({ image }: { image?: string }) => {
+  const baseURL = process.env.NEXT_PUBLIC_API_URL;
 
-    // Build the correct image URL
-    let imageUrl = "";
-    if (image) {
-      if (image.startsWith("http")) {
-        // Already a full URL (older records)
-        imageUrl = image;
-      } else {
-        // Just a filename (newer records) → build full URL
-        imageUrl = `${baseURL}/uploads/${image}`;
-      }
+  let imageUrl = "";
+  if (image) {
+    if (image.startsWith("http")) {
+      imageUrl = image;
+    } else {
+      imageUrl = `${baseURL}${image}`;
     }
+  }
 
-    return (
-      <div className={styles.previewBox}>
-        {image ? (
-          <img
-            src={imageUrl}
-            className={styles.previewImage}
-            alt="Banner"
-            onError={(e) => {
-              // If image fails to load, show fallback Om symbol
-              const target = e.currentTarget as HTMLImageElement;
-              target.style.display = "none";
-              const parent = target.parentElement;
-              if (parent) {
-                const span = document.createElement("span");
-                span.className = styles.previewOm;
-                span.textContent = "ॐ";
-                parent.appendChild(span);
-              }
-            }}
-          />
-        ) : (
-          <span className={styles.previewOm}>ॐ</span>
-        )}
-      </div>
-    );
-  };
-
+  return (
+    <div className={styles.previewBox}>
+      {image ? (
+        <img
+          src={imageUrl}
+          className={styles.previewImage}
+          alt="Banner"
+        />
+      ) : (
+        <span className={styles.previewOm}>ॐ</span>
+      )}
+    </div>
+  );
+};
   /* ── Status ── */
   const Status = ({ b }: { b: Banner }) => (
     <button

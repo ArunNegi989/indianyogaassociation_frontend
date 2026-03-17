@@ -58,15 +58,14 @@ export default function EditBannerPage() {
         const res = await api.get(`/banners/${id}`);
         if (res.data.success) {
           const b = res.data.data;
-          const baseURL = process.env.NEXT_PUBLIC_API_URL;
+        const baseURL = process.env.NEXT_PUBLIC_API_URL || "";
 
-          // Build image preview URL
-          let imagePreview = "";
-          if (b.image) {
-            imagePreview = b.image.startsWith("http")
-              ? b.image
-              : `${baseURL}/uploads/${b.image}`;
-          }
+let imagePreview = "";
+if (b.image) {
+  imagePreview = b.image.startsWith("http")
+    ? b.image
+    : `${baseURL}${b.image}`;
+}
 
           setForm({
             bannerName:   b.bannerName,
@@ -161,9 +160,7 @@ export default function EditBannerPage() {
         formData.append("image", form.image);
       }
 
-      await api.put(`/banners/update/${id}`, formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      await api.put(`/banners/update/${id}`, formData);
 
       setSubmitted(true);
       setTimeout(() => router.push("/admin/dashboard/homebanner"), 1500);
