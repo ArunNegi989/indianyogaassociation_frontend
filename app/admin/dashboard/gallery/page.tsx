@@ -118,7 +118,7 @@ export default function GalleryListPage() {
 
   const handleDelete = async () => {
     try {
-      // await api.delete(`/gallery-sections/${deleteModal}`);
+     await api.delete(`/gallery-sections/delete/${deleteModal}`);
       setSections(sections.filter((s) => s.id !== deleteModal).map((s, i) => ({ ...s, order: i + 1 })));
       setDeleteModal(null);
     } catch (error) {
