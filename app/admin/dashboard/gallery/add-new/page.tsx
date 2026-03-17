@@ -4,7 +4,7 @@ import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import styles from "@/assets/style/Admin/dashboard/gallery/Gallery.module.css";
-// import api from "@/lib/api";
+import api from "@/lib/api";
 
 /* ── Types ── */
 interface ImageItem {
@@ -82,10 +82,11 @@ export default function AddGallerySectionPage() {
   /* File upload */
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
-    const newImgs: ImageItem[] = files.map((f) => ({
-      src: URL.createObjectURL(f),
-      label: f.name.replace(/\.[^.]+$/, ""),
-    }));
+   const newImgs: ImageItem[] = files.map((f) => ({
+  file: f, // 👈 THIS LINE MISSING (MAIN BUG)
+  src: URL.createObjectURL(f),
+  label: f.name.replace(/\.[^.]+$/, ""),
+}));
     addImages(newImgs);
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
@@ -95,10 +96,11 @@ export default function AddGallerySectionPage() {
     e.preventDefault();
     setIsDragOver(false);
     const files = Array.from(e.dataTransfer.files).filter((f) => f.type.startsWith("image/"));
-    const newImgs: ImageItem[] = files.map((f) => ({
-      src: URL.createObjectURL(f),
-      label: f.name.replace(/\.[^.]+$/, ""),
-    }));
+   const newImgs: ImageItem[] = files.map((f) => ({
+  file: f, // 👈 THIS IS MAIN
+  src: URL.createObjectURL(f),
+  label: f.name.replace(/\.[^.]+$/, ""),
+}));
     addImages(newImgs);
   };
 
@@ -122,27 +124,45 @@ export default function AddGallerySectionPage() {
   };
 
   /* ── Submit ── */
-  const handleSubmit = async () => {
-    if (!validate()) return;
-    try {
-      setIsSubmitting(true);
-      const payload = {
-        tabLabel: form.tabLabel,
-        heading: form.heading,
-        cols: Number(form.cols),
-        images: form.images.map(({ src, label }) => ({ src, label })),
-      };
-      // await api.post("/gallery-sections/create", payload);
-      console.log("Payload:", payload);
-      setSubmitted(true);
-      setTimeout(() => router.push("/admin/dashboard/gallery"), 1500);
-    } catch (error: any) {
-      alert(error?.response?.data?.message || error?.message || "Failed to save");
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+ const handleSubmit = async () => {
+  if (!validate()) return;
 
+  try {
+    setIsSubmitting(true);
+
+    const formData = new FormData();
+
+    formData.append("tabLabel", form.tabLabel);
+    formData.append("heading", form.heading);
+    formData.append("cols", form.cols);
+
+    // 👇 FILE IMAGES
+    form.images.forEach((img) => {
+      if (img.file) {
+        formData.append("images", img.file);
+      }
+    });
+
+    // 👇 URL IMAGES (optional)
+    const urlImages = form.images
+      .filter((img) => !img.file)
+      .map(({ src, label }) => ({ src, label }));
+
+    if (urlImages.length > 0) {
+      formData.append("imagesData", JSON.stringify(urlImages));
+    }
+
+    await api.post("/gallery-sections/create", formData);
+
+    setSubmitted(true);
+    setTimeout(() => router.push("/admin/dashboard/gallery"), 1500);
+
+  } catch (error: any) {
+    alert(error?.response?.data?.message || error?.message || "Failed to save");
+  } finally {
+    setIsSubmitting(false);
+  }
+};
   /* ── Success screen ── */
   if (submitted) {
     return (

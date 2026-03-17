@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import styles from "@/assets/style/Admin/dashboard/gallery/Gallery.module.css";
-// import api from "@/lib/api";
+import api from "@/lib/api";
 
 /* ── Types ── */
 interface GallerySection {
@@ -15,9 +15,11 @@ interface GallerySection {
   status: "Active" | "Inactive";
   order: number;
 }
-
+ const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 /* ── Breakpoint hook ── */
 function useBreakpoint() {
+
+ 
   const [width, setWidth] = useState<number>(
     typeof window !== "undefined" ? window.innerWidth : 1024
   );
@@ -33,57 +35,7 @@ function useBreakpoint() {
   };
 }
 
-/* ── Mock data (replace with api call) ── */
-const MOCK_SECTIONS: GallerySection[] = [
-  {
-    id: "1", tabLabel: "Luxury", heading: "Luxury Accommodation - AYM Yoga School",
-    images: [
-      { src: "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=200&q=60", label: "Luxury Room" },
-      { src: "https://images.unsplash.com/photo-1600334129128-685c5582fd35?w=200&q=60", label: "Luxury Room" },
-      { src: "https://images.unsplash.com/photo-1566195992011-5f6b21e539aa?w=200&q=60", label: "Luxury Room" },
-      { src: "https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=200&q=60", label: "Luxury Room Bath" },
-    ],
-    cols: 4, status: "Active", order: 1,
-  },
-  {
-    id: "2", tabLabel: "Private", heading: "Private Accommodation - AYM Yoga School",
-    images: [
-      { src: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=200&q=60", label: "Private Room" },
-      { src: "https://images.unsplash.com/photo-1540518614846-7eded433c457?w=200&q=60", label: "Private Room" },
-      { src: "https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?w=200&q=60", label: "Private Room" },
-      { src: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=200&q=60", label: "Private Room Bath" },
-    ],
-    cols: 4, status: "Active", order: 2,
-  },
-  {
-    id: "3", tabLabel: "Twin/Shared", heading: "Twin / Shared Accommodation - AYM Yoga School",
-    images: [
-      { src: "https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?w=200&q=60", label: "Shared Room" },
-      { src: "https://images.unsplash.com/photo-1558882224-dda166733046?w=200&q=60", label: "Shared Room" },
-      { src: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=200&q=60", label: "Shared Room" },
-    ],
-    cols: 3, status: "Active", order: 3,
-  },
-  {
-    id: "4", tabLabel: "Yoga Halls", heading: "Yoga School - Yoga Halls",
-    images: [
-      { src: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=200&q=60", label: "Yoga Hall" },
-      { src: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=200&q=60", label: "Yoga Hall" },
-      { src: "https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?w=200&q=60", label: "Yoga Hall" },
-      { src: "https://images.unsplash.com/photo-1593811167562-9cef47bfc4d7?w=200&q=60", label: "Yoga Hall" },
-    ],
-    cols: 4, status: "Active", order: 4,
-  },
-  {
-    id: "5", tabLabel: "Food", heading: "Food - AYM Yoga School",
-    images: [
-      { src: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=200&q=60", label: "Food" },
-      { src: "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=200&q=60", label: "Food" },
-      { src: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=200&q=60", label: "Food" },
-    ],
-    cols: 3, status: "Inactive", order: 5,
-  },
-];
+
 
 export default function GalleryListPage() {
   const [sections, setSections] = useState<GallerySection[]>([]);
@@ -93,14 +45,26 @@ export default function GalleryListPage() {
   const dragIndex = useRef<number | null>(null);
 
   const fetchSections = async () => {
-    try {
-      // const res = await api.get("/gallery-sections");
-      // if (res.data.success) setSections(res.data.data);
-      setSections(MOCK_SECTIONS);
-    } catch (error) {
-      console.log(error);
+  try {
+    const res = await api.get("/gallery-sections");
+
+    if (res.data.success) {
+      const formatted = res.data.data.map((item: any) => ({
+        id: item._id,
+        tabLabel: item.tabLabel,
+        heading: item.heading,
+        images: item.images,
+        cols: item.cols,
+        status: "Active", // optional (DB me nahi hai)
+        order: item.order,
+      }));
+
+      setSections(formatted);
     }
-  };
+  } catch (error) {
+    console.log(error);
+  }
+};
 
   useEffect(() => { fetchSections(); }, []);
 
@@ -114,11 +78,24 @@ export default function GalleryListPage() {
     dragIndex.current = i;
     setSections(arr.map((s, idx) => ({ ...s, order: idx + 1 })));
   };
-  const handleDragEnd = () => {
-    dragIndex.current = null;
+ const handleDragEnd = async () => {
+  dragIndex.current = null;
+
+  try {
+    const items = sections.map((s) => ({
+      id: s.id,
+      order: s.order,
+    }));
+
+    await api.post("/gallery-sections/reorder", { items });
+
     setSavedToast(true);
     setTimeout(() => setSavedToast(false), 2500);
-  };
+
+  } catch (error) {
+    console.log(error);
+  }
+};
 
   /* ── Move up / down ── */
   const moveUp = (i: number) => {
@@ -168,7 +145,7 @@ export default function GalleryListPage() {
 
   const Actions = ({ s }: { s: GallerySection }) => (
     <div className={styles.actionBtns}>
-      <Link href={`gallery/edit/${s.id}`} className={styles.editBtn}>
+      <Link href={`/admin/dashboard/gallery/${s.id}`} className={styles.editBtn}>
         <span>✎</span><span className={styles.btnLabel}> Edit</span>
       </Link>
       <button className={styles.deleteBtn} onClick={() => setDeleteModal(s.id)}>
@@ -181,7 +158,8 @@ export default function GalleryListPage() {
   const Thumbs = ({ images }: { images: GallerySection["images"] }) => (
     <div className={styles.thumbPreview}>
       {images.slice(0, 3).map((img, i) => (
-        <img key={i} src={img.src} alt={img.label} className={styles.thumbTiny} />
+        <img key={i} src={img.src.startsWith("http") ? img.src : `${BASE_URL}${img.src}`}
+  alt={img.label}  className={styles.thumbTiny} />
       ))}
       {images.length > 3 && (
         <span className={styles.thumbMore}>+{images.length - 3}</span>
@@ -212,7 +190,8 @@ export default function GalleryListPage() {
               <p className={styles.sectionHeading}>{s.heading}</p>
               <div className={styles.cardThumbRow}>
                 {s.images.slice(0, 4).map((img, idx) => (
-                  <img key={idx} src={img.src} alt={img.label} className={styles.cardThumb} />
+                  <img key={idx} src={img.src.startsWith("http") ? img.src : `${BASE_URL}${img.src}`}
+  alt={img.label} className={styles.cardThumb} />
                 ))}
                 {s.images.length > 4 && (
                   <div className={styles.cardThumbMore}>+{s.images.length - 4}</div>

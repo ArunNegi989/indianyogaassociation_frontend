@@ -4,10 +4,11 @@ import { useState, useRef, useEffect } from "react";
 import { useRouter, useParams } from "next/navigation";
 import Link from "next/link";
 import styles from "@/assets/style/Admin/dashboard/gallery/Gallery.module.css";
-// import api from "@/lib/api";
+import api from "@/lib/api";
 
 /* ── Types ── */
 interface ImageItem {
+  file?: File; 
   src: string;
   label: string;
   editingLabel?: boolean;
@@ -32,18 +33,10 @@ const TAB_OPTIONS = [
   "Yoga Halls", "Food", "Dining Hall", "AYM School", "Other",
 ];
 
-/* ── Mock fetch ── */
-const MOCK_SECTION = {
-  tabLabel: "Luxury",
-  heading: "Luxury Accommodation - AYM Yoga School",
-  cols: "4",
-  images: [
-    { src: "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=400&q=70", label: "Luxury Room" },
-    { src: "https://images.unsplash.com/photo-1600334129128-685c5582fd35?w=400&q=70", label: "Luxury Room" },
-    { src: "https://images.unsplash.com/photo-1566195992011-5f6b21e539aa?w=400&q=70", label: "Luxury Room" },
-    { src: "https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=400&q=70", label: "Luxury Room Bath" },
-  ],
-};
+
+
+
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "";
 
 export default function EditGallerySectionPage() {
   const router = useRouter();
@@ -71,15 +64,19 @@ export default function EditGallerySectionPage() {
     const fetchSection = async () => {
       try {
         setIsLoading(true);
-        // const res = await api.get(`/gallery-sections/${sectionId}`);
-        // const data = res.data.data;
-        const data = MOCK_SECTION; // replace with real api call
-        setForm({
-          tabLabel: data.tabLabel,
-          heading: data.heading,
-          cols: String(data.cols),
-          images: data.images.map((img) => ({ ...img })),
-        });
+       const res = await api.get(`/gallery-sections/${sectionId}`);
+const data = res.data.data;
+
+        
+       setForm({
+  tabLabel: data.tabLabel,
+  heading: data.heading,
+  cols: String(data.cols),
+  images: data.images.map((img: any) => ({
+    src: img.src.startsWith("http") ? img.src : `${BASE_URL}${img.src}`,
+    label: img.label,
+  })),
+});
       } catch (error) {
         console.log(error);
       } finally {
@@ -134,24 +131,31 @@ export default function EditGallerySectionPage() {
   /* File upload */
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
-    const newImgs: ImageItem[] = files.map((f) => ({
-      src: URL.createObjectURL(f),
-      label: f.name.replace(/\.[^.]+$/, ""),
-    }));
+   const newImgs: ImageItem[] = files.map((f) => ({
+  file: f, // 🔥 MUST
+  src: URL.createObjectURL(f),
+  label: f.name.replace(/\.[^.]+$/, ""),
+}));
     addImages(newImgs);
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
-  const handleDrop = (e: React.DragEvent) => {
-    e.preventDefault();
-    setIsDragOver(false);
-    const files = Array.from(e.dataTransfer.files).filter((f) => f.type.startsWith("image/"));
-    const newImgs: ImageItem[] = files.map((f) => ({
-      src: URL.createObjectURL(f),
-      label: f.name.replace(/\.[^.]+$/, ""),
-    }));
-    addImages(newImgs);
-  };
+const handleDrop = (e: React.DragEvent) => {
+  e.preventDefault();
+  setIsDragOver(false);
+
+  const files = Array.from(e.dataTransfer.files).filter((f) =>
+    f.type.startsWith("image/")
+  );
+
+  const newImgs: ImageItem[] = files.map((f) => ({
+    file: f, // 🔥 MUST (same as file input)
+    src: URL.createObjectURL(f),
+    label: f.name.replace(/\.[^.]+$/, ""),
+  }));
+
+  addImages(newImgs);
+};
 
   const handleAddUrl = () => {
     const url = urlInput.trim();
@@ -173,26 +177,55 @@ export default function EditGallerySectionPage() {
 
   /* ── Submit ── */
   const handleSubmit = async () => {
-    if (!validate()) return;
-    try {
-      setIsSubmitting(true);
-      const payload = {
-        tabLabel: form.tabLabel,
-        heading: form.heading,
-        cols: Number(form.cols),
-        images: form.images.map(({ src, label }) => ({ src, label })),
-      };
-      // await api.put(`/gallery-sections/${sectionId}`, payload);
-      console.log("Update Payload:", payload);
-      setSubmitted(true);
-      setTimeout(() => router.push("/admin/dashboard/gallery"), 1500);
-    } catch (error: any) {
-      alert(error?.response?.data?.message || error?.message || "Failed to update");
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+  if (!validate()) return;
 
+  try {
+    setIsSubmitting(true);
+
+    const formData = new FormData();
+
+    formData.append("tabLabel", form.tabLabel);
+    formData.append("heading", form.heading);
+    formData.append("cols", form.cols);
+
+    
+   const existingImages = form.images
+  .filter((img) => !img.file && !img.src.startsWith("http"))
+  .map(({ src, label }) => ({
+    src: src.replace(BASE_URL || "", ""),
+    label,
+  }));
+      
+
+    formData.append("existingImages", JSON.stringify(existingImages));
+
+    // 👇 NEW FILE IMAGES
+    form.images.forEach((img) => {
+      if (img.file) {
+        formData.append("images", img.file);
+      }
+    });
+
+    // 👇 URL IMAGES (new ones)
+    const urlImages = form.images
+      .filter((img) => !img.file && img.src.startsWith("http"))
+      .map(({ src, label }) => ({ src, label }));
+
+    if (urlImages.length > 0) {
+      formData.append("imagesData", JSON.stringify(urlImages));
+    }
+
+    await api.put(`/gallery-sections/update/${sectionId}`, formData);
+
+    setSubmitted(true);
+    setTimeout(() => router.push("/admin/dashboard/gallery"), 1500);
+
+  } catch (error: any) {
+    alert(error?.response?.data?.message || error?.message || "Failed to update");
+  } finally {
+    setIsSubmitting(false);
+  }
+};
   /* ── Loading ── */
   if (isLoading) {
     return (
