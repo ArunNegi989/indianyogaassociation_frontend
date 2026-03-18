@@ -46,16 +46,14 @@ function useBreakpoint() {
    Main Page
 ───────────────────────────────────────── */
 export default function ClassCampusAmenitiesListPage() {
-  const [sections, setSections]     = useState<ClassCampusSection[]>([]);
-  const [loading, setLoading]       = useState(true);
+  const [sections, setSections]       = useState<ClassCampusSection[]>([]);
+  const [loading, setLoading]         = useState(true);
   const [deleteModal, setDeleteModal] = useState<string | null>(null);
-  const [deleting, setDeleting]     = useState(false);
-  const [toastMsg, setToastMsg] = useState("");
+  const [deleting, setDeleting]       = useState(false);
   const { isMobile, isTablet, isDesktop, isWide } = useBreakpoint();
   const dragIndex = useRef<number | null>(null);
 
-  
-    const isLimitReached = sections.length >= 1;
+  const isLimitReached = sections.length >= 1;
 
   /* ── Fetch ── */
   useEffect(() => {
@@ -72,7 +70,7 @@ export default function ClassCampusAmenitiesListPage() {
               campusTitle:         item.campusTitle         || "",
               amenitiesSuperLabel: item.amenitiesSuperLabel || "",
               amenitiesCount:      item.amenities?.length   ?? 0,
-              status:              "Active",           // toggle is UI-only (no status field in schema)
+              status:              "Active",
               order:               idx + 1,
             })
           );
@@ -100,7 +98,6 @@ export default function ClassCampusAmenitiesListPage() {
   const handleDragEnd = () => {
     dragIndex.current = null;
     toast.success("Order saved successfully");
-setTimeout(() => setToastMsg(""), 2500);
   };
 
   /* ── Move up / down ── */
@@ -123,40 +120,26 @@ setTimeout(() => setToastMsg(""), 2500);
     ));
 
   /* ── Delete ── */
- const handleDelete = async () => {
-  if (!deleteModal) return;
-
-  try {
-    setDeleting(true);
-
-    await api.delete(`/class-campus-amenities/${deleteModal}`);
-
-    setSections(
-      sections
-        .filter((s) => s.id !== deleteModal)
-        .map((s, i) => ({ ...s, order: i + 1 }))
-    );
-
-    setDeleteModal(null);
-
-    // ✅ SUCCESS TOAST
-    toast.success("Section deleted successfully");
-    setTimeout(() => setToastMsg(""), 2500);
-
-  } catch (error: any) {
-    const msg =
-      error?.response?.data?.message ||
-      error?.message ||
-      "Failed to delete";
-
-    // ❌ ERROR TOAST
-    toast.error(msg);
-    setTimeout(() => setToastMsg(""), 2500);
-
-  } finally {
-    setDeleting(false);
-  }
-};
+  const handleDelete = async () => {
+    if (!deleteModal) return;
+    try {
+      setDeleting(true);
+      await api.delete(`/class-campus-amenities/${deleteModal}`);
+      setSections(
+        sections
+          .filter((s) => s.id !== deleteModal)
+          .map((s, i) => ({ ...s, order: i + 1 }))
+      );
+      setDeleteModal(null);
+      toast.success("Section deleted successfully");
+    } catch (error: any) {
+      toast.error(
+        error?.response?.data?.message || error?.message || "Failed to delete"
+      );
+    } finally {
+      setDeleting(false);
+    }
+  };
 
   /* ─────────────────────────────────────────
      Shared sub-components
@@ -405,9 +388,6 @@ setTimeout(() => setToastMsg(""), 2500);
   return (
     <div className={styles.page}>
 
-   
-
-
       {/* ── Header ── */}
       <div className={styles.pageHeader}>
         <div className={styles.pageHeaderText}>
@@ -418,19 +398,17 @@ setTimeout(() => setToastMsg(""), 2500);
               : "Drag rows to reorder · click status badge to toggle"}
           </p>
         </div>
-<Link
-  href={isLimitReached ? "#" : "/admin/dashboard/Classcampusameniti/add-new"}
-  className={`${styles.addBtn} ${isLimitReached ? styles.disabledBtn : ""}`}
-  onClick={(e) => {
-    if (isLimitReached) {
-      e.preventDefault();
-      toast("Section already exists. Please edit or delete first.", {
-  icon: "⚠️",
-});
-      setTimeout(() => setToastMsg(""), 2500);
-    }
-  }}
->
+
+        <Link
+          href={isLimitReached ? "#" : "/admin/dashboard/Classcampusameniti/add-new"}
+          className={`${styles.addBtn} ${isLimitReached ? styles.disabledBtn : ""}`}
+          onClick={(e) => {
+            if (isLimitReached) {
+              e.preventDefault();
+              toast("Section already exists. Please edit or delete first.", { icon: "⚠️" });
+            }
+          }}
+        >
           <span className={styles.addPlus}>+</span>
           <span className={styles.addLabel}>Add Section</span>
         </Link>

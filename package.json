@@ -9,7 +9,6 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "@ckeditor/ckeditor5-basic-styles": "^47.6.1",
     "@ckeditor/ckeditor5-build-classic": "^41.4.2",
     "@ckeditor/ckeditor5-clipboard": "^47.6.1",
     "@ckeditor/ckeditor5-core": "^47.6.1",
