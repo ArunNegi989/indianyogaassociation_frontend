@@ -8,72 +8,98 @@ import api from "@/lib/api";
 import toast from "react-hot-toast";
 
 interface FormData {
-  name: string; role: string; years: string;
-  isGuest: boolean; order: string;
-  bioItems: string[]; educationItems: string[]; expertiseItems: string[];
-}
-interface FormErrors {
-  name?: string; role?: string; years?: string; image?: string;
-  bioItems?: string; educationItems?: string; expertiseItems?: string;
+  name: string;
+  role: string;
+  years: string;
+  order: string;
+  bioItems: string[];
+  educationItems: string[];
+  expertiseItems: string[];
 }
 
-export default function EditTeacherPage() {
+interface FormErrors {
+  name?: string;
+  role?: string;
+  years?: string;
+  image?: string;
+  bioItems?: string;
+  educationItems?: string;
+  expertiseItems?: string;
+}
+
+export default function EditFacultyTeacherPage() {
   const router = useRouter();
   const params = useParams();
   const teacherId = params?.id as string;
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const [loading, setLoading]       = useState(true);
+  const [loading, setLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitted, setSubmitted]   = useState(false);
+  const [submitted, setSubmitted] = useState(false);
 
   const [form, setForm] = useState<FormData>({
-    name: "", role: "", years: "", isGuest: false, order: "",
+    name: "", role: "", years: "", order: "",
     bioItems: [""], educationItems: [""], expertiseItems: [""],
   });
-  const [errors, setErrors]             = useState<FormErrors>({});
-  const [imageFile, setImageFile]       = useState<File | null>(null);
+  const [errors, setErrors] = useState<FormErrors>({});
+  const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string>("");
   const [existingImageUrl, setExistingImageUrl] = useState<string>("");
-  const [isDragging, setIsDragging]     = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
 
   /* ── Fetch ── */
   useEffect(() => {
     if (!teacherId) return;
     const fetchTeacher = async () => {
       try {
-        const res = await api.get(`/teachers/get-teacher/${teacherId}`);
+        const res = await api.get(`/teachers/${teacherId}`);
         const t = res.data.data;
-        if (t) {
-          setForm({
-            name: t.name || "", role: t.role || "", years: t.years || "",
-            isGuest: t.isGuest || false,
-            order: t.order !== undefined ? String(t.order) : "",
-            bioItems: Array.isArray(t.bio) && t.bio.length ? t.bio : [""],
-            educationItems: Array.isArray(t.education) && t.education.length ? t.education : [""],
-            expertiseItems: Array.isArray(t.expertise) && t.expertise.length ? t.expertise : [""],
-          });
-          if (t.image) { setExistingImageUrl(t.image); setImagePreview(t.image); }
+        if (!t) {
+          toast.error("Teacher not found");
+          router.push("/admin/our-teachers/teachers");
+          return;
+        }
+        setForm({
+          name: t.name || "",
+          role: t.role || "",
+          years: t.years || "",
+          order: t.order !== undefined ? String(t.order) : "",
+          bioItems: Array.isArray(t.bio) && t.bio.length ? t.bio : [""],
+          educationItems: Array.isArray(t.education) && t.education.length ? t.education : [""],
+          expertiseItems: Array.isArray(t.expertise) && t.expertise.length ? t.expertise : [""],
+        });
+        if (t.image) {
+          setExistingImageUrl(t.image);
+          setImagePreview(`${process.env.NEXT_PUBLIC_API_URL}${t.image}`);
         }
       } catch {
         toast.error("Failed to load teacher data");
-        router.push("/admin/dashboard/teachers");
-      } finally { setLoading(false); }
+        router.push("/admin/our-teachers/teachers");
+      } finally {
+        setLoading(false);
+      }
     };
     fetchTeacher();
-  }, [teacherId]);
+  }, [teacherId, router]);
 
   /* ── Helpers ── */
-  const set = (key: keyof FormData, val: string | boolean) => {
+  const set = (key: keyof FormData, val: string) => {
     setForm((p) => ({ ...p, [key]: val }));
     setErrors((p) => ({ ...p, [key]: undefined }));
   };
-  const updateList = (key: "bioItems" | "educationItems" | "expertiseItems", idx: number, val: string) => {
+
+  const updateList = (
+    key: "bioItems" | "educationItems" | "expertiseItems",
+    idx: number,
+    val: string
+  ) => {
     setForm((p) => { const a = [...p[key]]; a[idx] = val; return { ...p, [key]: a }; });
     setErrors((p) => ({ ...p, [key]: undefined }));
   };
+
   const addList = (key: "bioItems" | "educationItems" | "expertiseItems", max: number) =>
     setForm((p) => p[key].length >= max ? p : { ...p, [key]: [...p[key], ""] });
+
   const removeList = (key: "bioItems" | "educationItems" | "expertiseItems", idx: number) =>
     setForm((p) => ({ ...p, [key]: p[key].filter((_, i) => i !== idx) }));
 
@@ -87,10 +113,12 @@ export default function EditTeacherPage() {
     reader.onload = (e) => setImagePreview(e.target?.result as string);
     reader.readAsDataURL(file);
   };
+
   const onDrop = (e: React.DragEvent) => {
     e.preventDefault(); setIsDragging(false);
     const f = e.dataTransfer.files?.[0]; if (f) handleImageFile(f);
   };
+
   const removeImage = () => {
     setImageFile(null); setImagePreview(""); setExistingImageUrl("");
     if (fileInputRef.current) fileInputRef.current.value = "";
@@ -100,44 +128,46 @@ export default function EditTeacherPage() {
   const validate = (): boolean => {
     const e: FormErrors = {};
     if (!form.name.trim()) e.name = "Teacher name is required";
-    if (!form.isGuest && !form.role.trim()) e.role = "Role / specialty is required";
-    if (!form.isGuest && !form.years.trim()) e.years = "Experience is required";
+    if (!form.role.trim()) e.role = "Role / specialty is required";
+    if (!form.years.trim()) e.years = "Experience is required";
     if (!imageFile && !existingImageUrl) e.image = "A profile photo is required";
     if (form.bioItems.some((b) => !b.trim())) e.bioItems = "All biography paragraphs must be filled";
-    if (!form.isGuest) {
-      if (form.educationItems.some((ed) => !ed.trim())) e.educationItems = "All education entries must be filled";
-      if (form.expertiseItems.some((ex) => !ex.trim())) e.expertiseItems = "All expertise entries must be filled";
-    }
+    if (form.educationItems.some((ed) => !ed.trim())) e.educationItems = "All education entries must be filled";
+    if (form.expertiseItems.some((ex) => !ex.trim())) e.expertiseItems = "All expertise entries must be filled";
     setErrors(e);
     return Object.keys(e).length === 0;
   };
 
   /* ── Submit ── */
   const handleSubmit = async () => {
+    if (isSubmitting) return;
     if (!validate()) return;
     try {
       setIsSubmitting(true);
       const fd = new FormData();
-      fd.append("name", form.name); fd.append("role", form.role);
-      fd.append("years", form.years); fd.append("isGuest", String(form.isGuest));
+      fd.append("name", form.name);
+      fd.append("role", form.role);
+      fd.append("years", form.years);
+      fd.append("isGuest", "false");
       if (form.order) fd.append("order", form.order);
       form.bioItems.filter(Boolean).forEach((b, i) => fd.append(`bio[${i}]`, b));
-      if (!form.isGuest) {
-        form.educationItems.filter(Boolean).forEach((e, i) => fd.append(`education[${i}]`, e));
-        form.expertiseItems.filter(Boolean).forEach((e, i) => fd.append(`expertise[${i}]`, e));
-      }
+      form.educationItems.filter(Boolean).forEach((e, i) => fd.append(`education[${i}]`, e));
+      form.expertiseItems.filter(Boolean).forEach((e, i) => fd.append(`expertise[${i}]`, e));
       if (imageFile) fd.append("image", imageFile);
       else if (existingImageUrl) fd.append("existingImage", existingImageUrl);
 
-      await api.put(`/teachers/update-teacher/${teacherId}`, fd, { headers: { "Content-Type": "multipart/form-data" } });
+      await api.put(`/teachers/update-teacher/${teacherId}`, fd, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
       setSubmitted(true);
-      setTimeout(() => router.push("/admin/dashboard/teachers"), 1500);
+      setTimeout(() => router.push("/admin/our-teachers/teachers"), 1500);
     } catch (err: any) {
       toast.error(err?.response?.data?.message || "Failed to update");
-    } finally { setIsSubmitting(false); }
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
-  /* ── Loading / Success ── */
   if (loading) return (
     <div className={styles.loadingState}>
       <div className={styles.loadingOm}>ॐ</div>
@@ -161,15 +191,17 @@ export default function EditTeacherPage() {
 
       {/* Breadcrumb */}
       <div className={styles.breadcrumb}>
-        <button className={styles.breadcrumbBtn} onClick={() => router.push("/admin/dashboard/teachers")}>Our Teachers</button>
+        <button className={styles.breadcrumbBtn} onClick={() => router.push("/admin/our-teachers/teachers")}>
+          Teaching Faculty
+        </button>
         <span className={styles.breadcrumbSep}>›</span>
         <span className={styles.breadcrumbCurrent}>Edit — {form.name || "Teacher"}</span>
       </div>
 
       <div className={styles.pageHeader}>
         <div>
-          <h1 className={styles.pageTitle}>Edit Teacher</h1>
-          <p className={styles.pageSubtitle}>Update profile details for {form.name || "this teacher"}</p>
+          <h1 className={styles.pageTitle}>Edit Faculty Teacher</h1>
+          <p className={styles.pageSubtitle}>Update profile for {form.name || "this teacher"}</p>
         </div>
       </div>
 
@@ -180,33 +212,6 @@ export default function EditTeacherPage() {
 
       <div className={styles.formCard}>
 
-        {/* ── Type Toggle ── */}
-        <div className={styles.sectionBlock}>
-          <div className={styles.sectionHeader}>
-            <span className={styles.sectionIcon}>✦</span>
-            <h3 className={styles.sectionTitle}>Teacher Type</h3>
-          </div>
-          <p className={styles.sectionDesc}>
-            Changing type will show/hide education &amp; expertise fields.
-          </p>
-          <div className={styles.typeToggleRow}>
-            <button type="button"
-              className={`${styles.typeBtn} ${!form.isGuest ? styles.typeBtnActive : ""}`}
-              onClick={() => set("isGuest", false)}>
-              <span className={styles.typeBtnIcon}>🧘</span>Teaching Faculty
-              <span className={styles.typeBtnSub}>Full profile — bio, education &amp; expertise</span>
-            </button>
-            <button type="button"
-              className={`${styles.typeBtn} ${form.isGuest ? styles.typeBtnActive : ""}`}
-              onClick={() => set("isGuest", true)}>
-              <span className={styles.typeBtnIcon}>✨</span>Guest / Visiting
-              <span className={styles.typeBtnSub}>Appears in guest ornate-frame grid</span>
-            </button>
-          </div>
-        </div>
-
-        <div className={styles.formDivider} />
-
         {/* ── Basic Info ── */}
         <div className={styles.sectionBlock}>
           <div className={styles.sectionHeader}>
@@ -215,7 +220,9 @@ export default function EditTeacherPage() {
           </div>
 
           <div className={styles.fieldGroup}>
-            <label className={styles.label}><span className={styles.labelIcon}>✦</span>Teacher Name <span className={styles.required}>*</span></label>
+            <label className={styles.label}>
+              <span className={styles.labelIcon}>✦</span> Teacher Name <span className={styles.required}>*</span>
+            </label>
             <p className={styles.fieldHint}>Full name with honorific</p>
             <div className={`${styles.inputWrap} ${errors.name ? styles.inputError : ""} ${form.name && !errors.name ? styles.inputSuccess : ""}`}>
               <input type="text" className={styles.input} placeholder="e.g. Yogacharya Deepak Ji"
@@ -225,33 +232,35 @@ export default function EditTeacherPage() {
             {errors.name && <p className={styles.errorMsg}>⚠ {errors.name}</p>}
           </div>
 
-          {!form.isGuest && (
-            <div className={styles.fieldGroup}>
-              <label className={styles.label}><span className={styles.labelIcon}>✦</span>Role / Specialty <span className={styles.required}>*</span></label>
-              <p className={styles.fieldHint}>Shown as role tag</p>
-              <div className={`${styles.inputWrap} ${errors.role ? styles.inputError : ""} ${form.role && !errors.role ? styles.inputSuccess : ""}`}>
-                <input type="text" className={styles.input} placeholder="e.g. Hatha Yoga · Teaching Methodology"
-                  value={form.role} maxLength={120} onChange={(e) => set("role", e.target.value)} />
-                <span className={styles.charCount}>{form.role.length}/120</span>
-              </div>
-              {errors.role && <p className={styles.errorMsg}>⚠ {errors.role}</p>}
+          <div className={styles.fieldGroup}>
+            <label className={styles.label}>
+              <span className={styles.labelIcon}>✦</span> Role / Specialty <span className={styles.required}>*</span>
+            </label>
+            <p className={styles.fieldHint}>Shown as role tag</p>
+            <div className={`${styles.inputWrap} ${errors.role ? styles.inputError : ""} ${form.role && !errors.role ? styles.inputSuccess : ""}`}>
+              <input type="text" className={styles.input} placeholder="e.g. Hatha Yoga · Teaching Methodology"
+                value={form.role} maxLength={120} onChange={(e) => set("role", e.target.value)} />
+              <span className={styles.charCount}>{form.role.length}/120</span>
             </div>
-          )}
+            {errors.role && <p className={styles.errorMsg}>⚠ {errors.role}</p>}
+          </div>
 
           <div className={styles.twoCol}>
-            {!form.isGuest && (
-              <div className={styles.fieldGroup}>
-                <label className={styles.label}><span className={styles.labelIcon}>✦</span>Experience Badge <span className={styles.required}>*</span></label>
-                <p className={styles.fieldHint}>Overlay on photo</p>
-                <div className={`${styles.inputWrap} ${errors.years ? styles.inputError : ""} ${form.years && !errors.years ? styles.inputSuccess : ""}`}>
-                  <input type="text" className={styles.input} placeholder="12+ yrs"
-                    value={form.years} maxLength={20} onChange={(e) => set("years", e.target.value)} />
-                </div>
-                {errors.years && <p className={styles.errorMsg}>⚠ {errors.years}</p>}
-              </div>
-            )}
             <div className={styles.fieldGroup}>
-              <label className={styles.label}><span className={styles.labelIcon}>✦</span>Display Order</label>
+              <label className={styles.label}>
+                <span className={styles.labelIcon}>✦</span> Experience Badge <span className={styles.required}>*</span>
+              </label>
+              <p className={styles.fieldHint}>Overlay on photo</p>
+              <div className={`${styles.inputWrap} ${errors.years ? styles.inputError : ""} ${form.years && !errors.years ? styles.inputSuccess : ""}`}>
+                <input type="text" className={styles.input} placeholder="12+ yrs"
+                  value={form.years} maxLength={20} onChange={(e) => set("years", e.target.value)} />
+              </div>
+              {errors.years && <p className={styles.errorMsg}>⚠ {errors.years}</p>}
+            </div>
+            <div className={styles.fieldGroup}>
+              <label className={styles.label}>
+                <span className={styles.labelIcon}>✦</span> Display Order
+              </label>
               <p className={styles.fieldHint}>Lower = first</p>
               <div className={styles.inputWrap}>
                 <input type="number" className={styles.input} placeholder="e.g. 1"
@@ -269,11 +278,7 @@ export default function EditTeacherPage() {
             <span className={styles.sectionIcon}>✦</span>
             <h3 className={styles.sectionTitle}>Profile Photo <span className={styles.required}>*</span></h3>
           </div>
-          <p className={styles.sectionDesc}>
-            {form.isGuest
-              ? "Shown in ornate gold frame in guest grid. Square photo recommended, min 500×500px, max 5MB."
-              : "Shown as sticky image beside bio. Portrait recommended (500×620px), max 5MB."}
-          </p>
+          <p className={styles.sectionDesc}>Portrait recommended (500×620px), max 5MB.</p>
 
           {errors.image && <p className={styles.errorMsg} style={{ marginBottom: "0.8rem" }}>⚠ {errors.image}</p>}
 
@@ -300,7 +305,9 @@ export default function EditTeacherPage() {
                 </div>
               </div>
               <div className={styles.imagePreviewActions}>
-                <button type="button" className={styles.changeImgBtn} onClick={() => fileInputRef.current?.click()}>📷 Change Photo</button>
+                <button type="button" className={styles.changeImgBtn} onClick={() => fileInputRef.current?.click()}>
+                  📷 Change Photo
+                </button>
                 <button type="button" className={styles.removeImgBtn} onClick={removeImage}>✕ Remove</button>
               </div>
               <input ref={fileInputRef} type="file" accept="image/*" className={styles.fileInputHidden}
@@ -339,86 +346,81 @@ export default function EditTeacherPage() {
           )}
         </div>
 
-        {/* Faculty-only */}
-        {!form.isGuest && (
-          <>
-            <div className={styles.formDivider} />
+        <div className={styles.formDivider} />
 
-            {/* Education */}
-            <div className={styles.sectionBlock}>
-              <div className={styles.sectionHeader}>
-                <span className={styles.sectionIcon}>✦</span>
-                <h3 className={styles.sectionTitle}>Education</h3>
-                <span className={styles.sectionBadge}>{form.educationItems.length}/8</span>
+        {/* ── Education ── */}
+        <div className={styles.sectionBlock}>
+          <div className={styles.sectionHeader}>
+            <span className={styles.sectionIcon}>✦</span>
+            <h3 className={styles.sectionTitle}>Education</h3>
+            <span className={styles.sectionBadge}>{form.educationItems.length}/8</span>
+          </div>
+          <p className={styles.sectionDesc}>Each entry = bullet under 🎓 Education (max 8)</p>
+          {errors.educationItems && <p className={styles.errorMsg} style={{ marginBottom: "0.8rem" }}>⚠ {errors.educationItems}</p>}
+
+          {form.educationItems.map((edu, i) => (
+            <div key={i} className={styles.listRow}>
+              <div className={styles.listIndex}>{i + 1}</div>
+              <div className={`${styles.inputWrap} ${styles.listInputWrap}`}>
+                <input type="text" className={styles.input}
+                  placeholder="e.g. Master's Degree in Yoga – 2021"
+                  value={edu} maxLength={150}
+                  onChange={(e) => updateList("educationItems", i, e.target.value)} />
+                <span className={styles.charCount}>{edu.length}/150</span>
               </div>
-              <p className={styles.sectionDesc}>Each entry = bullet under 🎓 Education (max 8)</p>
-              {errors.educationItems && <p className={styles.errorMsg} style={{ marginBottom: "0.8rem" }}>⚠ {errors.educationItems}</p>}
-
-              {form.educationItems.map((edu, i) => (
-                <div key={i} className={styles.listRow}>
-                  <div className={styles.listIndex}>{i + 1}</div>
-                  <div className={`${styles.inputWrap} ${styles.listInputWrap}`}>
-                    <input type="text" className={styles.input}
-                      placeholder="e.g. Master's Degree in Yoga – 2021"
-                      value={edu} maxLength={150}
-                      onChange={(e) => updateList("educationItems", i, e.target.value)} />
-                    <span className={styles.charCount}>{edu.length}/150</span>
-                  </div>
-                  <button type="button" className={styles.removeListBtn}
-                    onClick={() => removeList("educationItems", i)} disabled={form.educationItems.length <= 1}>✕</button>
-                </div>
-              ))}
-              {form.educationItems.length < 8 && (
-                <button type="button" className={styles.addListBtn} onClick={() => addList("educationItems", 8)}>+ Add Education</button>
-              )}
+              <button type="button" className={styles.removeListBtn}
+                onClick={() => removeList("educationItems", i)} disabled={form.educationItems.length <= 1}>✕</button>
             </div>
+          ))}
+          {form.educationItems.length < 8 && (
+            <button type="button" className={styles.addListBtn} onClick={() => addList("educationItems", 8)}>+ Add Education</button>
+          )}
+        </div>
 
-            <div className={styles.formDivider} />
+        <div className={styles.formDivider} />
 
-            {/* Expertise */}
-            <div className={styles.sectionBlock}>
-              <div className={styles.sectionHeader}>
-                <span className={styles.sectionIcon}>✦</span>
-                <h3 className={styles.sectionTitle}>Areas of Expertise</h3>
-                <span className={styles.sectionBadge}>{form.expertiseItems.length}/12</span>
+        {/* ── Expertise ── */}
+        <div className={styles.sectionBlock}>
+          <div className={styles.sectionHeader}>
+            <span className={styles.sectionIcon}>✦</span>
+            <h3 className={styles.sectionTitle}>Areas of Expertise</h3>
+            <span className={styles.sectionBadge}>{form.expertiseItems.length}/12</span>
+          </div>
+          <p className={styles.sectionDesc}>Each entry = chip/tag under ✦ Expertise (max 12)</p>
+          {errors.expertiseItems && <p className={styles.errorMsg} style={{ marginBottom: "0.8rem" }}>⚠ {errors.expertiseItems}</p>}
+
+          <div className={styles.chipInputGrid}>
+            {form.expertiseItems.map((exp, i) => (
+              <div key={i} className={styles.chipInputRow}>
+                <div className={`${styles.inputWrap} ${styles.chipInputWrap}`}>
+                  <input type="text" className={styles.input} placeholder="e.g. Hatha Yoga"
+                    value={exp} maxLength={40}
+                    onChange={(e) => updateList("expertiseItems", i, e.target.value)} />
+                </div>
+                <button type="button" className={styles.removeListBtn}
+                  onClick={() => removeList("expertiseItems", i)} disabled={form.expertiseItems.length <= 1}>✕</button>
               </div>
-              <p className={styles.sectionDesc}>Each entry = chip/tag under ✦ Expertise (max 12)</p>
-              {errors.expertiseItems && <p className={styles.errorMsg} style={{ marginBottom: "0.8rem" }}>⚠ {errors.expertiseItems}</p>}
-
-              <div className={styles.chipInputGrid}>
-                {form.expertiseItems.map((exp, i) => (
-                  <div key={i} className={styles.chipInputRow}>
-                    <div className={`${styles.inputWrap} ${styles.chipInputWrap}`}>
-                      <input type="text" className={styles.input} placeholder="e.g. Hatha Yoga"
-                        value={exp} maxLength={40}
-                        onChange={(e) => updateList("expertiseItems", i, e.target.value)} />
-                    </div>
-                    <button type="button" className={styles.removeListBtn}
-                      onClick={() => removeList("expertiseItems", i)} disabled={form.expertiseItems.length <= 1}>✕</button>
-                  </div>
+            ))}
+          </div>
+          {form.expertiseItems.length < 12 && (
+            <button type="button" className={styles.addListBtn} onClick={() => addList("expertiseItems", 12)}>+ Add Expertise</button>
+          )}
+          {form.expertiseItems.some((e) => e.trim()) && (
+            <div className={styles.chipPreview}>
+              <p className={styles.chipPreviewLabel}>Preview:</p>
+              <div className={styles.chipPreviewRow}>
+                {form.expertiseItems.filter((e) => e.trim()).map((e, i) => (
+                  <span key={i} className={styles.previewChip}>{e}</span>
                 ))}
               </div>
-              {form.expertiseItems.length < 12 && (
-                <button type="button" className={styles.addListBtn} onClick={() => addList("expertiseItems", 12)}>+ Add Expertise</button>
-              )}
-              {form.expertiseItems.some((e) => e.trim()) && (
-                <div className={styles.chipPreview}>
-                  <p className={styles.chipPreviewLabel}>Preview:</p>
-                  <div className={styles.chipPreviewRow}>
-                    {form.expertiseItems.filter((e) => e.trim()).map((e, i) => (
-                      <span key={i} className={styles.previewChip}>{e}</span>
-                    ))}
-                  </div>
-                </div>
-              )}
             </div>
-          </>
-        )}
+          )}
+        </div>
 
         <div className={styles.formDivider} />
 
         <div className={styles.formActions}>
-          <Link href="/admin/dashboard/teachers" className={styles.cancelBtn}>← Cancel</Link>
+          <Link href="/admin/our-teachers/teachers" className={styles.cancelBtn}>← Cancel</Link>
           <button type="button"
             className={`${styles.submitBtn} ${isSubmitting ? styles.submitBtnLoading : ""}`}
             onClick={handleSubmit} disabled={isSubmitting}>

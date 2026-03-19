@@ -44,7 +44,8 @@ const navItems = [
     icon: "🧘",
     children: [
       { href: "/admin/our-teachers/founder", label: "Founder" },
-      { href: "/admin/our-teachers/teachers", label: "All Teacher" },
+      { href: "/admin/our-teachers/teachers", label: "All Teachers" },
+      { href: "/admin/our-teachers/guestteachers", label: "All Guest Teachers" },
     ],
   },
   {
