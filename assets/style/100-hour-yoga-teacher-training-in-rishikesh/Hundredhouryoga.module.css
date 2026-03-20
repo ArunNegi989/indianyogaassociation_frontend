@@ -341,9 +341,9 @@
   position: relative;
   z-index: 1;
   padding: clamp(2rem, 4vw, 4rem) clamp(1rem, 5vw, 4rem);
-  max-width: 1180px;
+  max-width: 1360px;
   margin: 0 auto;
-  background: linear-gradient(180deg, rgba(212, 188, 136, 0.18) 0%, transparent 100%);
+  
 }
 
 .tableContainer {

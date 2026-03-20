@@ -1,10 +1,22 @@
-// FILE: src/app/admin/dashboard/100hr-content/add-new/page.tsx
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import dynamic from "next/dynamic";
+import {
+  useForm,
+  useFieldArray,
+  Controller,
+  SubmitHandler,
+  UseFieldArrayReturn,
+  FieldValues,
+  UseFormRegister,
+  Control,
+  FieldErrors,
+  UseFormWatch,
+  UseFormSetValue,
+} from "react-hook-form";
 import api from "@/lib/api";
 import toast from "react-hot-toast";
 import styles from "@/assets/style/Admin/yogacourse/100hourscourse/Contentmodule.module.css";
@@ -20,17 +32,17 @@ interface ScheduleItem { time: string; label: string; }
 interface FormData {
   bannerImage: string;
   heroTitle: string;
-  heroParagraphs: string[];
+  heroParagraphs: { value: string }[];
   transformTitle: string;
-  transformParagraphs: string[];
+  transformParagraphs: { value: string }[];
   whatIsTitle: string;
-  whatIsParagraphs: string[];
+  whatIsParagraphs: { value: string }[];
   whyChooseTitle: string;
-  whyChooseParagraphs: string[];
+  whyChooseParagraphs: { value: string }[];
   suitableTitle: string;
-  suitableItems: string[];
+  suitableItems: { value: string }[];
   syllabusTitle: string;
-  syllabusParagraphs: string[];
+  syllabusParagraphs: { value: string }[];
   syllabusLeft: SylModule[];
   syllabusRight: SylModule[];
   scheduleImage: string;
@@ -38,49 +50,56 @@ interface FormData {
   soulShineText: string;
   soulShineImage: string;
   enrollTitle: string;
-  enrollParagraphs: string[];
-  enrollItems: string[];
+  enrollParagraphs: { value: string }[];
+  enrollItems: { value: string }[];
   comprehensiveTitle: string;
-  comprehensiveParagraphs: string[];
+  comprehensiveParagraphs: { value: string }[];
   certTitle: string;
-  certParagraphs: string[];
+  certParagraphs: { value: string }[];
   registrationTitle: string;
-  registrationParagraphs: string[];
-  includedItems: string[];
-  notIncludedItems: string[];
+  registrationParagraphs: { value: string }[];
+  includedItems: { value: string }[];
+  notIncludedItems: { value: string }[];
 }
 
-type StrKey = keyof Omit<FormData,
-  "heroParagraphs" | "transformParagraphs" | "whatIsParagraphs" | "whyChooseParagraphs" |
-  "syllabusParagraphs" | "enrollParagraphs" | "comprehensiveParagraphs" | "certParagraphs" |
-  "registrationParagraphs" | "suitableItems" | "enrollItems" | "includedItems" | "notIncludedItems" |
-  "syllabusLeft" | "syllabusRight" | "scheduleItems"
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type AnyFieldArray = UseFieldArrayReturn<FormData, any, "id">;
+
+type TFieldName = keyof Pick<FormData,
+  | "heroTitle" | "transformTitle" | "whatIsTitle" | "whyChooseTitle"
+  | "suitableTitle" | "syllabusTitle" | "soulShineText" | "enrollTitle"
+  | "comprehensiveTitle" | "certTitle" | "registrationTitle"
 >;
 
-type ParaKey =
-  | "heroParagraphs" | "transformParagraphs" | "whatIsParagraphs" | "whyChooseParagraphs"
-  | "syllabusParagraphs" | "enrollParagraphs" | "comprehensiveParagraphs" | "certParagraphs"
-  | "registrationParagraphs";
-
-type ListKey = "suitableItems" | "enrollItems" | "includedItems" | "notIncludedItems";
+/* ══════════════════════════════
+   JODIT CONFIG
+══════════════════════════════ */
+const joditCfg = (height = 220): object => ({
+  readonly: false, toolbar: true, toolbarAdaptive: false,
+  showCharsCounter: false, showWordsCounter: false, showXPathInStatusbar: false,
+  askBeforePasteHTML: false, defaultActionOnPaste: "insert_clear_html",
+  height, placeholder: "Start typing…",
+  buttons: ["bold","italic","underline","strikethrough","|","brush","fontsize","|","align","|","ul","ol","|","link","|","undo","redo"],
+  colorPickerDefaultTab: "text",
+});
 
 /* ══════════════════════════════
-   INITIAL STATE
+   DEFAULT VALUES
 ══════════════════════════════ */
-const EMPTY: FormData = {
+const DEFAULT_VALUES: FormData = {
   bannerImage: "",
   heroTitle: "100 Hour Yoga Teacher Training Course in Rishikesh India",
-  heroParagraphs: [""],
+  heroParagraphs: [{ value: "" }],
   transformTitle: "Transform Your Practice with a 100 Hour Yoga Course in Rishikesh",
-  transformParagraphs: [""],
+  transformParagraphs: [{ value: "" }],
   whatIsTitle: "What is a 100 Hour Yoga Teacher Training?",
-  whatIsParagraphs: [""],
+  whatIsParagraphs: [{ value: "" }],
   whyChooseTitle: "Why Choose AYM Yoga School for Your 100 Hour Yoga TTC",
-  whyChooseParagraphs: [""],
+  whyChooseParagraphs: [{ value: "" }],
   suitableTitle: "100 Hours Yoga TTC is suitable for:",
-  suitableItems: [""],
+  suitableItems: [{ value: "" }],
   syllabusTitle: "Syllabus of Premier - 100 Hour Yoga Teacher Training Course in Rishikesh, India",
-  syllabusParagraphs: [""],
+  syllabusParagraphs: [{ value: "" }],
   syllabusLeft: [{ title: "", desc: "" }],
   syllabusRight: [{ title: "", desc: "" }],
   scheduleImage: "",
@@ -88,55 +107,198 @@ const EMPTY: FormData = {
   soulShineText: "Let Your Soul Shine",
   soulShineImage: "",
   enrollTitle: "Why Enrol in AYM for a 100 hour Yoga Teacher Training Course in Rishikesh?",
-  enrollParagraphs: [""],
-  enrollItems: [""],
+  enrollParagraphs: [{ value: "" }],
+  enrollItems: [{ value: "" }],
   comprehensiveTitle: "Comprehensive 100 Hour Yoga Teacher Training Course in Rishikesh",
-  comprehensiveParagraphs: [""],
+  comprehensiveParagraphs: [{ value: "" }],
   certTitle: "100 Hour Yoga Teacher Training Course Certification at AYM",
-  certParagraphs: [""],
+  certParagraphs: [{ value: "" }],
   registrationTitle: "Registration Process",
-  registrationParagraphs: [""],
-  includedItems: [""],
-  notIncludedItems: [""],
+  registrationParagraphs: [{ value: "" }],
+  includedItems: [{ value: "" }],
+  notIncludedItems: [{ value: "" }],
 };
 
-/* ══════════════════════════════
-   JODIT CONFIG — full toolbar with color picker
-══════════════════════════════ */
-const joditCfg = (height = 220): any => ({
-  readonly: false,
-  toolbar: true,
-  toolbarAdaptive: false,
-  showCharsCounter: false,
-  showWordsCounter: false,
-  showXPathInStatusbar: false,
-  askBeforePasteHTML: false,
-  defaultActionOnPaste: "insert_clear_html",
-  height,
-  placeholder: "Start typing…",
-  buttons: [
-    "bold", "italic", "underline", "strikethrough", "|",
-    "brush",       // text color
-    "fontsize", "|",
-    "align", "|",
-    "ul", "ol", "|",
-    "link", "|",
-    "undo", "redo",
-  ],
-  colorPickerDefaultTab: "text",
-});
+/* ══════════════════════════════════════════════════════
+   ✅ SUB-COMPONENTS — defined OUTSIDE parent component
+      so they are stable across re-renders
+      (no focus loss / unmount on every keystroke)
+══════════════════════════════════════════════════════ */
+
+/* ── Text input field ── */
+function TField({
+  label, hint, name, placeholder = "", max = 250, required = true,
+  register, watch, errors,
+}: {
+  label: string; hint?: string; name: TFieldName;
+  placeholder?: string; max?: number; required?: boolean;
+  register: UseFormRegister<FormData>;
+  watch: UseFormWatch<FormData>;
+  errors: FieldErrors<FormData>;
+}) {
+  const val = (watch(name) as string) ?? "";
+  const err = errors[name];
+  return (
+    <div className={styles.fieldGroup}>
+      <label className={styles.label}>
+        <span className={styles.labelIcon}>✦</span>{label}
+        {required && <span className={styles.required}>*</span>}
+      </label>
+      {hint && <p className={styles.fieldHint}>{hint}</p>}
+      <div className={`${styles.inputWrap} ${err ? styles.inputError : ""} ${val && !err ? styles.inputSuccess : ""}`}>
+        <input
+          type="text" className={styles.input}
+          placeholder={placeholder} maxLength={max}
+          {...register(name, { required: required ? "Required" : false })}
+        />
+        <span className={styles.charCount}>{val.length}/{max}</span>
+      </div>
+      {err && <p className={styles.errorMsg}>⚠ {err.message as string}</p>}
+    </div>
+  );
+}
+
+/* ── Jodit paragraph block ── */
+function ParaBlock({
+  label, arrayMethods, fieldArrayName, required = false, control,
+}: {
+  label: string; arrayMethods: AnyFieldArray; fieldArrayName: string;
+  required?: boolean; control: Control<FormData>;
+}) {
+  return (
+    <div className={styles.fieldGroup}>
+      <label className={styles.label}>
+        <span className={styles.labelIcon}>✦</span>{label}
+        {required && <span className={styles.required}>*</span>}
+      </label>
+      <div className={styles.paraStack}>
+        {arrayMethods.fields.map((field, i) => (
+          <div key={field.id} className={styles.paraItem}>
+            <div className={styles.paraItemHeader}>
+              <span className={styles.paraNum}>Para {i + 1}</span>
+              <button type="button" className={styles.removeItemBtn}
+                onClick={() => arrayMethods.remove(i)}
+                disabled={arrayMethods.fields.length <= 1}>✕</button>
+            </div>
+            <div className={styles.joditWrap}>
+              <Controller
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                name={`${fieldArrayName}.${i}.value` as any}
+                control={control}
+                rules={required && i === 0 ? { required: "At least one paragraph required" } : {}}
+                render={({ field: f }) => (
+                  <JoditEditor
+                    value={f.value as string}
+                    config={joditCfg(200)}
+                    onBlur={(v: string) => f.onChange(v)}
+                  />
+                )}
+              />
+            </div>
+          </div>
+        ))}
+      </div>
+      <button type="button" className={styles.addItemBtn}
+        onClick={() => (arrayMethods.append as (v: FieldValues) => void)({ value: "" })}>
+        + Add Paragraph
+      </button>
+    </div>
+  );
+}
+
+/* ── Image upload field ── */
+function ImgField({
+  label, hint, fieldName, fileRef, inputRef, previewVal, setValue, onFileChange,
+}: {
+  label: string; hint?: string;
+  fieldName: "bannerImage" | "scheduleImage" | "soulShineImage";
+  fileRef: React.MutableRefObject<File | null>;
+  inputRef: React.MutableRefObject<HTMLInputElement | null>;
+  previewVal: string;
+  setValue: UseFormSetValue<FormData>;
+  onFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}) {
+  return (
+    <div className={styles.fieldGroup}>
+      <label className={styles.label}><span className={styles.labelIcon}>✦</span>{label}</label>
+      {hint && <p className={styles.fieldHint}>{hint}</p>}
+      <div className={styles.imgUploadRow}>
+        <div className={styles.imgPreviewBox}>
+          {previewVal
+            ? <img src={previewVal} alt="preview" className={styles.imgPreview} />
+            : <span className={styles.imgPreviewEmpty}>🖼</span>}
+        </div>
+        <div className={styles.imgUploadControls}>
+          <div className={styles.imgUploadZone} onClick={() => inputRef.current?.click()}>
+            <span>📁 Click to upload</span>
+            <span className={styles.imgUploadSub}>JPG · PNG · WEBP</span>
+          </div>
+          <input ref={inputRef} type="file" accept="image/*"
+            style={{ display: "none" }} onChange={onFileChange} />
+          <div className={styles.imgUrlRow}>
+            <div className={styles.inputWrap}>
+              <input type="text" className={styles.input}
+                placeholder="Or paste image URL…" value={previewVal}
+                onChange={e => { fileRef.current = null; setValue(fieldName, e.target.value); }} />
+            </div>
+            {previewVal && (
+              <button type="button" className={styles.imgClearBtn}
+                onClick={() => { fileRef.current = null; setValue(fieldName, ""); }}>✕</button>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ── String list field ── */
+function ListField({
+  label, arrayMethods, fieldArrayName, placeholder, required = true, register,
+}: {
+  label: string; arrayMethods: AnyFieldArray; fieldArrayName: string;
+  placeholder: string; required?: boolean; register: UseFormRegister<FormData>;
+}) {
+  return (
+    <div className={styles.fieldGroup}>
+      <label className={styles.label}>
+        <span className={styles.labelIcon}>✦</span>{label}
+        {required && <span className={styles.required}>*</span>}
+      </label>
+      <div className={styles.listItems}>
+        {arrayMethods.fields.map((field, i) => (
+          <div key={field.id} className={styles.listItemRow}>
+            <span className={styles.listNum}>{i + 1}</span>
+            <div className={`${styles.inputWrap} ${styles.listInput}`}>
+              <input type="text" className={styles.input}
+                placeholder={placeholder} maxLength={300}
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                {...register(`${fieldArrayName}.${i}.value` as any, {
+                  required: required ? "This field is required" : false,
+                })} />
+            </div>
+            <button type="button" className={styles.removeItemBtn}
+              onClick={() => arrayMethods.remove(i)}
+              disabled={arrayMethods.fields.length <= 1}>✕</button>
+          </div>
+        ))}
+      </div>
+      <button type="button" className={styles.addItemBtn}
+        onClick={() => (arrayMethods.append as (v: FieldValues) => void)({ value: "" })}>
+        + Add Item
+      </button>
+    </div>
+  );
+}
 
 /* ══════════════════════════════
-   COMPONENT
+   MAIN COMPONENT
 ══════════════════════════════ */
 export default function ContentAddPage() {
   const router = useRouter();
-  const [form, setForm] = useState<FormData>(EMPTY);
-  const [errors, setErrors] = useState<Partial<Record<string, string>>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
+  const [submitted, setSubmitted]       = useState(false);
 
-  /* ✅ FIX: MutableRefObject<T | null> — no type mismatch */
   const bannerFileRef = useRef<HTMLInputElement | null>(null);
   const schedImgRef   = useRef<HTMLInputElement | null>(null);
   const soulImgRef    = useRef<HTMLInputElement | null>(null);
@@ -144,122 +306,97 @@ export default function ContentAddPage() {
   const schedFile     = useRef<File | null>(null);
   const soulFile      = useRef<File | null>(null);
 
-  /* Check if content already exists */
+  const {
+    register, control, handleSubmit, watch, setValue,
+    formState: { errors },
+  } = useForm<FormData>({ defaultValues: DEFAULT_VALUES });
+
+  const heroParagraphs          = useFieldArray({ control, name: "heroParagraphs" });
+  const transformParagraphs     = useFieldArray({ control, name: "transformParagraphs" });
+  const whatIsParagraphs        = useFieldArray({ control, name: "whatIsParagraphs" });
+  const whyChooseParagraphs     = useFieldArray({ control, name: "whyChooseParagraphs" });
+  const suitableItems           = useFieldArray({ control, name: "suitableItems" });
+  const syllabusParagraphs      = useFieldArray({ control, name: "syllabusParagraphs" });
+  const syllabusLeft            = useFieldArray({ control, name: "syllabusLeft" });
+  const syllabusRight           = useFieldArray({ control, name: "syllabusRight" });
+  const scheduleItems           = useFieldArray({ control, name: "scheduleItems" });
+  const enrollParagraphs        = useFieldArray({ control, name: "enrollParagraphs" });
+  const enrollItems             = useFieldArray({ control, name: "enrollItems" });
+  const comprehensiveParagraphs = useFieldArray({ control, name: "comprehensiveParagraphs" });
+  const certParagraphs          = useFieldArray({ control, name: "certParagraphs" });
+  const registrationParagraphs  = useFieldArray({ control, name: "registrationParagraphs" });
+  const includedItems           = useFieldArray({ control, name: "includedItems" });
+  const notIncludedItems        = useFieldArray({ control, name: "notIncludedItems" });
+
+  const bannerImageVal    = watch("bannerImage");
+  const scheduleImageVal  = watch("scheduleImage");
+  const soulShineImageVal = watch("soulShineImage");
+
   useEffect(() => {
     api.get("/100hr-content/get").then(res => {
       if (res.data.data) {
         toast.error("Content already exists. Edit it instead.");
-        router.replace("/admin/dashboard/100hr-content");
+        router.replace("/admin/yogacourse/100hourscourse/100hr-content");
       }
     }).catch(() => {});
   }, [router]);
 
-  /* ── Simple string field setter ── */
-  const set = (key: StrKey, val: string) => {
-    setForm(p => ({ ...p, [key]: val }));
-    setErrors(p => ({ ...p, [key]: undefined }));
-  };
-
-  /* ── Dynamic paragraph helpers ── */
-  const updatePara = (key: ParaKey, idx: number, val: string) =>
-    setForm(p => { const a = [...p[key]]; a[idx] = val; return { ...p, [key]: a }; });
-  const addPara = (key: ParaKey) =>
-    setForm(p => ({ ...p, [key]: [...p[key], ""] }));
-  const removePara = (key: ParaKey, idx: number) =>
-    setForm(p => ({ ...p, [key]: p[key].filter((_, i) => i !== idx) }));
-
-  /* ── List item helpers ── */
-  const updateList = (key: ListKey, idx: number, val: string) =>
-    setForm(p => { const a = [...p[key]]; a[idx] = val; return { ...p, [key]: a }; });
-  const addList = (key: ListKey) =>
-    setForm(p => ({ ...p, [key]: [...p[key], ""] }));
-  const removeList = (key: ListKey, idx: number) =>
-    setForm(p => ({ ...p, [key]: p[key].filter((_, i) => i !== idx) }));
-
-  /* ── Syllabus module helpers ── */
-  const updateSyl = (side: "syllabusLeft" | "syllabusRight", idx: number, field: keyof SylModule, val: string) =>
-    setForm(p => { const a = [...p[side]]; a[idx] = { ...a[idx], [field]: val }; return { ...p, [side]: a }; });
-  const addSyl = (side: "syllabusLeft" | "syllabusRight") =>
-    setForm(p => ({ ...p, [side]: [...p[side], { title: "", desc: "" }] }));
-  const removeSyl = (side: "syllabusLeft" | "syllabusRight", idx: number) =>
-    setForm(p => ({ ...p, [side]: p[side].filter((_, i) => i !== idx) }));
-
-  /* ── Schedule helpers ── */
-  const updateSched = (idx: number, field: keyof ScheduleItem, val: string) =>
-    setForm(p => { const a = [...p.scheduleItems]; a[idx] = { ...a[idx], [field]: val }; return { ...p, scheduleItems: a }; });
-  const addSched = () =>
-    setForm(p => ({ ...p, scheduleItems: [...p.scheduleItems, { time: "", label: "" }] }));
-  const removeSched = (idx: number) =>
-    setForm(p => ({ ...p, scheduleItems: p.scheduleItems.filter((_, i) => i !== idx) }));
-
-  /* ── Image file handler ── */
   const handleImgFile = (
     e: React.ChangeEvent<HTMLInputElement>,
     fileRef: React.MutableRefObject<File | null>,
-    key: StrKey
+    fieldName: "bannerImage" | "scheduleImage" | "soulShineImage"
   ) => {
     const f = e.target.files?.[0];
     if (!f) return;
     fileRef.current = f;
-    set(key, URL.createObjectURL(f));
-    if (e.target) e.target.value = "";
+    setValue(fieldName, URL.createObjectURL(f));
+    e.target.value = "";
   };
 
-  /* ── Validate ── */
-  const validate = () => {
-    const e: Partial<Record<string, string>> = {};
-    if (!form.heroTitle.trim()) e.heroTitle = "Required";
-    if (form.heroParagraphs.every(p => !p.replace(/<[^>]*>/g, "").trim()))
-      e.heroParagraphs = "At least one paragraph required";
-    if (!form.syllabusTitle.trim()) e.syllabusTitle = "Required";
-    if (form.syllabusLeft.some(m => !m.title.trim() || !m.desc.trim()))
-      e.syllabusLeft = "All module fields required";
-    if (form.syllabusRight.some(m => !m.title.trim() || !m.desc.trim()))
-      e.syllabusRight = "All module fields required";
-    if (form.scheduleItems.some(s => !s.time.trim() || !s.label.trim()))
-      e.scheduleItems = "All schedule fields required";
-    if (form.includedItems.some(s => !s.trim())) e.includedItems = "All items must be filled";
-    if (form.notIncludedItems.some(s => !s.trim())) e.notIncludedItems = "All items must be filled";
-    setErrors(e);
-    return Object.keys(e).length === 0;
-  };
-
-  /* ── Submit ── */
-  const handleSubmit = async () => {
-    if (!validate()) { toast.error("Please fill all required fields"); return; }
+  const onSubmit: SubmitHandler<FormData> = async (data) => {
     try {
       setIsSubmitting(true);
-      const fd = new FormData();
+      const fd = new window.FormData();
 
       if (bannerFile.current) fd.append("bannerImage", bannerFile.current);
-      else if (form.bannerImage) fd.append("bannerImageUrl", form.bannerImage);
-
+      else if (data.bannerImage) fd.append("bannerImageUrl", data.bannerImage);
       if (schedFile.current) fd.append("scheduleImage", schedFile.current);
-      else if (form.scheduleImage) fd.append("scheduleImageUrl", form.scheduleImage);
-
+      else if (data.scheduleImage) fd.append("scheduleImageUrl", data.scheduleImage);
       if (soulFile.current) fd.append("soulShineImage", soulFile.current);
-      else if (form.soulShineImage) fd.append("soulShineImageUrl", form.soulShineImage);
+      else if (data.soulShineImage) fd.append("soulShineImageUrl", data.soulShineImage);
 
-      fd.append("data", JSON.stringify({
-        ...form,
-        bannerImage: undefined,
-        scheduleImage: undefined,
-        soulShineImage: undefined,
-      }));
+      const payload = {
+        ...data,
+        bannerImage: undefined, scheduleImage: undefined, soulShineImage: undefined,
+        heroParagraphs:          data.heroParagraphs.map(p => p.value),
+        transformParagraphs:     data.transformParagraphs.map(p => p.value),
+        whatIsParagraphs:        data.whatIsParagraphs.map(p => p.value),
+        whyChooseParagraphs:     data.whyChooseParagraphs.map(p => p.value),
+        suitableItems:           data.suitableItems.map(p => p.value),
+        syllabusParagraphs:      data.syllabusParagraphs.map(p => p.value),
+        enrollParagraphs:        data.enrollParagraphs.map(p => p.value),
+        enrollItems:             data.enrollItems.map(p => p.value),
+        comprehensiveParagraphs: data.comprehensiveParagraphs.map(p => p.value),
+        certParagraphs:          data.certParagraphs.map(p => p.value),
+        registrationParagraphs:  data.registrationParagraphs.map(p => p.value),
+        includedItems:           data.includedItems.map(p => p.value),
+        notIncludedItems:        data.notIncludedItems.map(p => p.value),
+      };
+      fd.append("data", JSON.stringify(payload));
 
       await api.post("/100hr-content/create", fd, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       setSubmitted(true);
-      setTimeout(() => router.push("/admin/dashboard/100hr-content"), 1500);
-    } catch (err: any) {
-      alert(err?.response?.data?.message || "Failed to save");
+      setTimeout(() => router.push("/admin/yogacourse/100hourscourse/100hr-content"), 1500);
+    } catch (err: unknown) {
+      const e = err as { response?: { data?: { message?: string } } };
+      toast.error(e?.response?.data?.message || "Failed to save");
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  /* ── Success screen ── */
   if (submitted) return (
     <div className={styles.successScreen}>
       <div className={styles.successCard}>
@@ -271,168 +408,13 @@ export default function ContentAddPage() {
     </div>
   );
 
-  /* ════════════════════════════════
-     REUSABLE SUB-COMPONENTS
-  ════════════════════════════════ */
+  /* shared props passed down to stable sub-components */
+  const fp = { register, watch, errors, control, setValue };
 
-  /* Jodit rich text field */
-  const JField = ({
-    label, hint, value, onChange, errorKey, height = 220, required = true,
-  }: {
-    label: string; hint?: string; value: string;
-    onChange: (v: string) => void; errorKey?: string;
-    height?: number; required?: boolean;
-  }) => (
-    <div className={styles.fieldGroup}>
-      <label className={styles.label}>
-        <span className={styles.labelIcon}>✦</span>{label}
-        {required && <span className={styles.required}>*</span>}
-      </label>
-      {hint && <p className={styles.fieldHint}>{hint}</p>}
-      <div className={`${styles.joditWrap} ${errorKey && errors[errorKey] ? styles.inputError : ""}`}>
-        <JoditEditor value={value} config={joditCfg(height)} onBlur={v => onChange(v)} />
-      </div>
-      {errorKey && errors[errorKey] && <p className={styles.errorMsg}>⚠ {errors[errorKey]}</p>}
-    </div>
-  );
-
-  /* Dynamic paragraphs block */
-  const ParaBlock = ({ label, paraKey, required = false }: {
-    label: string; paraKey: ParaKey; required?: boolean;
-  }) => (
-    <div className={styles.fieldGroup}>
-      <label className={styles.label}>
-        <span className={styles.labelIcon}>✦</span>{label}
-        {required && <span className={styles.required}>*</span>}
-      </label>
-      {errors[paraKey] && <p className={styles.errorMsg}>⚠ {errors[paraKey]}</p>}
-      <div className={styles.paraStack}>
-        {form[paraKey].map((val, i) => (
-          <div key={i} className={styles.paraItem}>
-            <div className={styles.paraItemHeader}>
-              <span className={styles.paraNum}>Para {i + 1}</span>
-              <button type="button" className={styles.removeItemBtn}
-                onClick={() => removePara(paraKey, i)}
-                disabled={form[paraKey].length <= 1}>✕</button>
-            </div>
-            <div className={styles.joditWrap}>
-              <JoditEditor value={val} config={joditCfg(200)} onBlur={v => updatePara(paraKey, i, v)} />
-            </div>
-          </div>
-        ))}
-      </div>
-      <button type="button" className={styles.addItemBtn} onClick={() => addPara(paraKey)}>
-        + Add Paragraph
-      </button>
-    </div>
-  );
-
-  /* Simple text input field */
-  const TField = ({ label, hint, fkey, placeholder = "", max = 250 }: {
-    label: string; hint?: string; fkey: StrKey; placeholder?: string; max?: number;
-  }) => (
-    <div className={styles.fieldGroup}>
-      <label className={styles.label}>
-        <span className={styles.labelIcon}>✦</span>{label}<span className={styles.required}>*</span>
-      </label>
-      {hint && <p className={styles.fieldHint}>{hint}</p>}
-      <div className={`${styles.inputWrap} ${errors[fkey] ? styles.inputError : ""} ${(form[fkey] as string) && !errors[fkey] ? styles.inputSuccess : ""}`}>
-        <input type="text" className={styles.input}
-          placeholder={placeholder} value={form[fkey] as string}
-          maxLength={max} onChange={e => set(fkey, e.target.value)} />
-        <span className={styles.charCount}>{(form[fkey] as string).length}/{max}</span>
-      </div>
-      {errors[fkey] && <p className={styles.errorMsg}>⚠ {errors[fkey]}</p>}
-    </div>
-  );
-
-  /* ✅ FIX: inputRef type is MutableRefObject<HTMLInputElement | null> */
-  const ImgField = ({
-    label, hint, fkey, fileRef, inputRef,
-  }: {
-    label: string; hint?: string; fkey: StrKey;
-    fileRef: React.MutableRefObject<File | null>;
-    inputRef: React.MutableRefObject<HTMLInputElement | null>;
-  }) => (
-    <div className={styles.fieldGroup}>
-      <label className={styles.label}>
-        <span className={styles.labelIcon}>✦</span>{label}
-      </label>
-      {hint && <p className={styles.fieldHint}>{hint}</p>}
-      <div className={styles.imgUploadRow}>
-        <div className={styles.imgPreviewBox}>
-          {(form[fkey] as string)
-            ? <img src={form[fkey] as string} alt="preview" className={styles.imgPreview} />
-            : <span className={styles.imgPreviewEmpty}>🖼</span>
-          }
-        </div>
-        <div className={styles.imgUploadControls}>
-          <div className={styles.imgUploadZone} onClick={() => inputRef.current?.click()}>
-            <span>📁 Click to upload</span>
-            <span className={styles.imgUploadSub}>JPG · PNG · WEBP</span>
-          </div>
-          <input
-            ref={inputRef}
-            type="file"
-            accept="image/*"
-            style={{ display: "none" }}
-            onChange={e => handleImgFile(e, fileRef, fkey)}
-          />
-          <div className={styles.imgUrlRow}>
-            <div className={styles.inputWrap}>
-              <input type="text" className={styles.input}
-                placeholder="Or paste image URL…"
-                value={form[fkey] as string}
-                onChange={e => { fileRef.current = null; set(fkey, e.target.value); }} />
-            </div>
-            {(form[fkey] as string) && (
-              <button type="button" className={styles.imgClearBtn}
-                onClick={() => { fileRef.current = null; set(fkey, ""); }}>✕</button>
-            )}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-
-  /* String list field */
-  const ListField = ({ label, fkey, placeholder }: {
-    label: string; fkey: ListKey; placeholder: string;
-  }) => (
-    <div className={styles.fieldGroup}>
-      <label className={styles.label}>
-        <span className={styles.labelIcon}>✦</span>{label}<span className={styles.required}>*</span>
-      </label>
-      {errors[fkey] && <p className={styles.errorMsg}>⚠ {errors[fkey]}</p>}
-      <div className={styles.listItems}>
-        {form[fkey].map((val, i) => (
-          <div key={i} className={styles.listItemRow}>
-            <span className={styles.listNum}>{i + 1}</span>
-            <div className={`${styles.inputWrap} ${styles.listInput}`}>
-              <input type="text" className={styles.input}
-                placeholder={placeholder} value={val} maxLength={300}
-                onChange={e => updateList(fkey, i, e.target.value)} />
-            </div>
-            <button type="button" className={styles.removeItemBtn}
-              onClick={() => removeList(fkey, i)} disabled={form[fkey].length <= 1}>✕</button>
-          </div>
-        ))}
-      </div>
-      <button type="button" className={styles.addItemBtn} onClick={() => addList(fkey)}>
-        + Add Item
-      </button>
-    </div>
-  );
-
-  /* ════════════════════════════════
-     RENDER
-  ════════════════════════════════ */
   return (
     <div className={styles.formPage}>
       <div className={styles.breadcrumb}>
-        <Link href="/admin/dashboard/100hr-content" className={styles.breadcrumbLink}>
-          Page Content
-        </Link>
+        <Link href="/admin/yogacourse/100hourscourse/100hr-content" className={styles.breadcrumbLink}>Page Content</Link>
         <span className={styles.breadcrumbSep}>›</span>
         <span className={styles.breadcrumbCurrent}>Add Content</span>
       </div>
@@ -445,323 +427,237 @@ export default function ContentAddPage() {
         <span>ॐ</span><div className={styles.ornamentLine} /><span>❧</span>
       </div>
 
-      <div className={styles.formCard}>
+      <form onSubmit={handleSubmit(onSubmit)} noValidate>
+        <div className={styles.formCard}>
 
-        {/* ══ BANNER ══ */}
-        <div className={styles.sectionBlock}>
-          <div className={styles.sectionHeader}>
-            <span className={styles.sectionIcon}>✦</span>
-            <h3 className={styles.sectionTitle}>Page Banner / Hero Image</h3>
+          {/* ══ BANNER ══ */}
+          <div className={styles.sectionBlock}>
+            <div className={styles.sectionHeader}><span className={styles.sectionIcon}>✦</span><h3 className={styles.sectionTitle}>Page Banner / Hero Image</h3></div>
+            <ImgField label="Banner Image" hint="Main hero image shown at the top of the page"
+              fieldName="bannerImage" fileRef={bannerFile} inputRef={bannerFileRef}
+              previewVal={bannerImageVal} setValue={fp.setValue}
+              onFileChange={e => handleImgFile(e, bannerFile, "bannerImage")} />
           </div>
-          <ImgField label="Banner Image"
-            hint="Main hero image shown at the top of the page"
-            fkey="bannerImage" fileRef={bannerFile} inputRef={bannerFileRef} />
-        </div>
+          <div className={styles.formDivider} />
 
-        <div className={styles.formDivider} />
-
-        {/* ══ HERO ══ */}
-        <div className={styles.sectionBlock}>
-          <div className={styles.sectionHeader}>
-            <span className={styles.sectionIcon}>✦</span>
-            <h3 className={styles.sectionTitle}>Hero Section</h3>
+          {/* ══ HERO ══ */}
+          <div className={styles.sectionBlock}>
+            <div className={styles.sectionHeader}><span className={styles.sectionIcon}>✦</span><h3 className={styles.sectionTitle}>Hero Section</h3></div>
+            <TField label="Hero Title (H1)" name="heroTitle" max={200} {...fp} />
+            <ParaBlock label="Hero Intro Text" arrayMethods={heroParagraphs} fieldArrayName="heroParagraphs" required control={fp.control} />
           </div>
-          <TField label="Hero Title (H1)" fkey="heroTitle" max={200} />
-          <ParaBlock label="Hero Intro Text" paraKey="heroParagraphs" required />
-        </div>
+          <div className={styles.formDivider} />
 
-        <div className={styles.formDivider} />
-
-        {/* ══ TRANSFORM ══ */}
-        <div className={styles.sectionBlock}>
-          <div className={styles.sectionHeader}>
-            <span className={styles.sectionIcon}>✦</span>
-            <h3 className={styles.sectionTitle}>Transform Your Practice</h3>
+          {/* ══ TRANSFORM ══ */}
+          <div className={styles.sectionBlock}>
+            <div className={styles.sectionHeader}><span className={styles.sectionIcon}>✦</span><h3 className={styles.sectionTitle}>Transform Your Practice</h3></div>
+            <TField label="Section Title" name="transformTitle" max={200} {...fp} />
+            <ParaBlock label="Paragraphs" arrayMethods={transformParagraphs} fieldArrayName="transformParagraphs" control={fp.control} />
           </div>
-          <TField label="Section Title" fkey="transformTitle" max={200} />
-          <ParaBlock label="Paragraphs" paraKey="transformParagraphs" />
-        </div>
+          <div className={styles.formDivider} />
 
-        <div className={styles.formDivider} />
-
-        {/* ══ WHAT IS ══ */}
-        <div className={styles.sectionBlock}>
-          <div className={styles.sectionHeader}>
-            <span className={styles.sectionIcon}>✦</span>
-            <h3 className={styles.sectionTitle}>What is 100 Hour YTT?</h3>
+          {/* ══ WHAT IS ══ */}
+          <div className={styles.sectionBlock}>
+            <div className={styles.sectionHeader}><span className={styles.sectionIcon}>✦</span><h3 className={styles.sectionTitle}>What is 100 Hour YTT?</h3></div>
+            <TField label="Section Title" name="whatIsTitle" max={200} {...fp} />
+            <ParaBlock label="Paragraphs" arrayMethods={whatIsParagraphs} fieldArrayName="whatIsParagraphs" control={fp.control} />
           </div>
-          <TField label="Section Title" fkey="whatIsTitle" max={200} />
-          <ParaBlock label="Paragraphs" paraKey="whatIsParagraphs" />
-        </div>
+          <div className={styles.formDivider} />
 
-        <div className={styles.formDivider} />
-
-        {/* ══ WHY CHOOSE ══ */}
-        <div className={styles.sectionBlock}>
-          <div className={styles.sectionHeader}>
-            <span className={styles.sectionIcon}>✦</span>
-            <h3 className={styles.sectionTitle}>Why Choose AYM?</h3>
+          {/* ══ WHY CHOOSE ══ */}
+          <div className={styles.sectionBlock}>
+            <div className={styles.sectionHeader}><span className={styles.sectionIcon}>✦</span><h3 className={styles.sectionTitle}>Why Choose AYM?</h3></div>
+            <TField label="Section Title" name="whyChooseTitle" max={200} {...fp} />
+            <ParaBlock label="Paragraphs" arrayMethods={whyChooseParagraphs} fieldArrayName="whyChooseParagraphs" control={fp.control} />
           </div>
-          <TField label="Section Title" fkey="whyChooseTitle" max={200} />
-          <ParaBlock label="Paragraphs" paraKey="whyChooseParagraphs" />
-        </div>
+          <div className={styles.formDivider} />
 
-        <div className={styles.formDivider} />
-
-        {/* ══ SUITABLE ══ */}
-        <div className={styles.sectionBlock}>
-          <div className={styles.sectionHeader}>
-            <span className={styles.sectionIcon}>✦</span>
-            <h3 className={styles.sectionTitle}>Suitable For (List)</h3>
+          {/* ══ SUITABLE ══ */}
+          <div className={styles.sectionBlock}>
+            <div className={styles.sectionHeader}><span className={styles.sectionIcon}>✦</span><h3 className={styles.sectionTitle}>Suitable For (List)</h3></div>
+            <TField label="Section Title" name="suitableTitle" max={200} {...fp} />
+            <ListField label="List Items" arrayMethods={suitableItems} fieldArrayName="suitableItems"
+              placeholder="e.g. If you want to understand and study yoga holistically…" register={fp.register} />
           </div>
-          <TField label="Section Title" fkey="suitableTitle" max={200} />
-          <ListField label="List Items" fkey="suitableItems"
-            placeholder="e.g. If you want to understand and study yoga holistically…" />
-        </div>
+          <div className={styles.formDivider} />
 
-        <div className={styles.formDivider} />
+          {/* ══ SYLLABUS ══ */}
+          <div className={styles.sectionBlock}>
+            <div className={styles.sectionHeader}><span className={styles.sectionIcon}>✦</span><h3 className={styles.sectionTitle}>Syllabus Section</h3></div>
+            <TField label="Syllabus Title" name="syllabusTitle" max={250} {...fp} />
+            <ParaBlock label="Intro Paragraphs" arrayMethods={syllabusParagraphs} fieldArrayName="syllabusParagraphs" control={fp.control} />
 
-        {/* ══ SYLLABUS ══ */}
-        <div className={styles.sectionBlock}>
-          <div className={styles.sectionHeader}>
-            <span className={styles.sectionIcon}>✦</span>
-            <h3 className={styles.sectionTitle}>Syllabus Section</h3>
-          </div>
-          <TField label="Syllabus Title" fkey="syllabusTitle" max={250} />
-          <ParaBlock label="Intro Paragraphs" paraKey="syllabusParagraphs" />
-
-          {/* Left Modules */}
-          <div className={styles.fieldGroup}>
-            <label className={styles.label}>
-              <span className={styles.labelIcon}>✦</span>Left Column Modules<span className={styles.required}>*</span>
-            </label>
-            {errors.syllabusLeft && <p className={styles.errorMsg}>⚠ {errors.syllabusLeft}</p>}
-            <div className={styles.moduleList}>
-              {form.syllabusLeft.map((m, i) => (
-                <div key={i} className={styles.moduleCard}>
-                  <div className={styles.moduleCardHeader}>
-                    <span className={styles.moduleNum}>Module L{i + 1}</span>
-                    <button type="button" className={styles.removeItemBtn}
-                      onClick={() => removeSyl("syllabusLeft", i)}
-                      disabled={form.syllabusLeft.length <= 1}>✕</button>
-                  </div>
-                  <div className={styles.moduleFields}>
-                    <div className={styles.fieldGroup} style={{ marginBottom: "0.8rem" }}>
-                      <label className={styles.labelSm}>Title</label>
-                      <div className={styles.inputWrap}>
-                        <input type="text" className={styles.input}
-                          placeholder="e.g. Practice of Yoga Techniques"
-                          value={m.title} maxLength={100}
-                          onChange={e => updateSyl("syllabusLeft", i, "title", e.target.value)} />
-                      </div>
+            {/* Left Modules */}
+            <div className={styles.fieldGroup}>
+              <label className={styles.label}><span className={styles.labelIcon}>✦</span>Left Column Modules<span className={styles.required}>*</span></label>
+              <div className={styles.moduleList}>
+                {syllabusLeft.fields.map((field, i) => (
+                  <div key={field.id} className={styles.moduleCard}>
+                    <div className={styles.moduleCardHeader}>
+                      <span className={styles.moduleNum}>Module L{i + 1}</span>
+                      <button type="button" className={styles.removeItemBtn} onClick={() => syllabusLeft.remove(i)} disabled={syllabusLeft.fields.length <= 1}>✕</button>
                     </div>
-                    <div className={styles.fieldGroup} style={{ marginBottom: 0 }}>
-                      <label className={styles.labelSm}>Description</label>
-                      <div className={styles.inputWrap}>
-                        <textarea className={`${styles.input} ${styles.textarea}`} rows={3}
-                          placeholder="Module description…" value={m.desc} maxLength={400}
-                          onChange={e => updateSyl("syllabusLeft", i, "desc", e.target.value)} />
+                    <div className={styles.moduleFields}>
+                      <div className={styles.fieldGroup} style={{ marginBottom: "0.8rem" }}>
+                        <label className={styles.labelSm}>Title</label>
+                        <div className={`${styles.inputWrap} ${errors.syllabusLeft?.[i]?.title ? styles.inputError : ""}`}>
+                          <input type="text" className={styles.input} placeholder="e.g. Practice of Yoga Techniques" maxLength={100}
+                            {...register(`syllabusLeft.${i}.title`, { required: "Title required" })} />
+                        </div>
+                        {errors.syllabusLeft?.[i]?.title && <p className={styles.errorMsg}>⚠ {errors.syllabusLeft[i]?.title?.message}</p>}
+                      </div>
+                      <div className={styles.fieldGroup} style={{ marginBottom: 0 }}>
+                        <label className={styles.labelSm}>Description</label>
+                        <div className={`${styles.inputWrap} ${errors.syllabusLeft?.[i]?.desc ? styles.inputError : ""}`}>
+                          <textarea className={`${styles.input} ${styles.textarea}`} rows={3} placeholder="Module description…" maxLength={400}
+                            {...register(`syllabusLeft.${i}.desc`, { required: "Description required" })} />
+                        </div>
+                        {errors.syllabusLeft?.[i]?.desc && <p className={styles.errorMsg}>⚠ {errors.syllabusLeft[i]?.desc?.message}</p>}
                       </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
+              <button type="button" className={styles.addItemBtn} onClick={() => syllabusLeft.append({ title: "", desc: "" })}>+ Add Left Module</button>
             </div>
-            <button type="button" className={styles.addItemBtn}
-              onClick={() => addSyl("syllabusLeft")}>+ Add Left Module</button>
-          </div>
 
-          {/* Right Modules */}
-          <div className={styles.fieldGroup}>
-            <label className={styles.label}>
-              <span className={styles.labelIcon}>✦</span>Right Column Modules<span className={styles.required}>*</span>
-            </label>
-            {errors.syllabusRight && <p className={styles.errorMsg}>⚠ {errors.syllabusRight}</p>}
-            <div className={styles.moduleList}>
-              {form.syllabusRight.map((m, i) => (
-                <div key={i} className={styles.moduleCard}>
-                  <div className={styles.moduleCardHeader}>
-                    <span className={styles.moduleNum}>Module R{i + 1}</span>
-                    <button type="button" className={styles.removeItemBtn}
-                      onClick={() => removeSyl("syllabusRight", i)}
-                      disabled={form.syllabusRight.length <= 1}>✕</button>
-                  </div>
-                  <div className={styles.moduleFields}>
-                    <div className={styles.fieldGroup} style={{ marginBottom: "0.8rem" }}>
-                      <label className={styles.labelSm}>Title</label>
-                      <div className={styles.inputWrap}>
-                        <input type="text" className={styles.input}
-                          placeholder="e.g. Practicum" value={m.title} maxLength={100}
-                          onChange={e => updateSyl("syllabusRight", i, "title", e.target.value)} />
-                      </div>
+            {/* Right Modules */}
+            <div className={styles.fieldGroup}>
+              <label className={styles.label}><span className={styles.labelIcon}>✦</span>Right Column Modules<span className={styles.required}>*</span></label>
+              <div className={styles.moduleList}>
+                {syllabusRight.fields.map((field, i) => (
+                  <div key={field.id} className={styles.moduleCard}>
+                    <div className={styles.moduleCardHeader}>
+                      <span className={styles.moduleNum}>Module R{i + 1}</span>
+                      <button type="button" className={styles.removeItemBtn} onClick={() => syllabusRight.remove(i)} disabled={syllabusRight.fields.length <= 1}>✕</button>
                     </div>
-                    <div className={styles.fieldGroup} style={{ marginBottom: 0 }}>
-                      <label className={styles.labelSm}>Description</label>
-                      <div className={styles.inputWrap}>
-                        <textarea className={`${styles.input} ${styles.textarea}`} rows={3}
-                          placeholder="Module description…" value={m.desc} maxLength={400}
-                          onChange={e => updateSyl("syllabusRight", i, "desc", e.target.value)} />
+                    <div className={styles.moduleFields}>
+                      <div className={styles.fieldGroup} style={{ marginBottom: "0.8rem" }}>
+                        <label className={styles.labelSm}>Title</label>
+                        <div className={`${styles.inputWrap} ${errors.syllabusRight?.[i]?.title ? styles.inputError : ""}`}>
+                          <input type="text" className={styles.input} placeholder="e.g. Practicum" maxLength={100}
+                            {...register(`syllabusRight.${i}.title`, { required: "Title required" })} />
+                        </div>
+                        {errors.syllabusRight?.[i]?.title && <p className={styles.errorMsg}>⚠ {errors.syllabusRight[i]?.title?.message}</p>}
+                      </div>
+                      <div className={styles.fieldGroup} style={{ marginBottom: 0 }}>
+                        <label className={styles.labelSm}>Description</label>
+                        <div className={`${styles.inputWrap} ${errors.syllabusRight?.[i]?.desc ? styles.inputError : ""}`}>
+                          <textarea className={`${styles.input} ${styles.textarea}`} rows={3} placeholder="Module description…" maxLength={400}
+                            {...register(`syllabusRight.${i}.desc`, { required: "Description required" })} />
+                        </div>
+                        {errors.syllabusRight?.[i]?.desc && <p className={styles.errorMsg}>⚠ {errors.syllabusRight[i]?.desc?.message}</p>}
                       </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
+              <button type="button" className={styles.addItemBtn} onClick={() => syllabusRight.append({ title: "", desc: "" })}>+ Add Right Module</button>
             </div>
-            <button type="button" className={styles.addItemBtn}
-              onClick={() => addSyl("syllabusRight")}>+ Add Right Module</button>
           </div>
-        </div>
+          <div className={styles.formDivider} />
 
-        <div className={styles.formDivider} />
-
-        {/* ══ DAILY SCHEDULE ══ */}
-        <div className={styles.sectionBlock}>
-          <div className={styles.sectionHeader}>
-            <span className={styles.sectionIcon}>✦</span>
-            <h3 className={styles.sectionTitle}>Daily Schedule</h3>
-          </div>
-
-          <ImgField label="Schedule Section Image (Left Side)"
-            hint="Circular ornament image shown on the left side of the schedule"
-            fkey="scheduleImage" fileRef={schedFile} inputRef={schedImgRef} />
-
-          <div className={styles.fieldGroup}>
-            <label className={styles.label}>
-              <span className={styles.labelIcon}>✦</span>Schedule Items<span className={styles.required}>*</span>
-            </label>
-            {errors.scheduleItems && <p className={styles.errorMsg}>⚠ {errors.scheduleItems}</p>}
-            <div className={styles.schedList}>
-              {form.scheduleItems.map((item, i) => (
-                <div key={i} className={styles.schedRow}>
-                  <span className={styles.schedRowNum}>{i + 1}</span>
-                  <div className={styles.schedRowFields}>
-                    <div className={`${styles.inputWrap} ${styles.schedTimeInput}`}>
-                      <input type="text" className={styles.input}
-                        placeholder="e.g. 07:00 Am - 08:00 Am"
-                        value={item.time} maxLength={40}
-                        onChange={e => updateSched(i, "time", e.target.value)} />
+          {/* ══ DAILY SCHEDULE ══ */}
+          <div className={styles.sectionBlock}>
+            <div className={styles.sectionHeader}><span className={styles.sectionIcon}>✦</span><h3 className={styles.sectionTitle}>Daily Schedule</h3></div>
+            <ImgField label="Schedule Section Image (Left Side)" hint="Circular ornament image on the left side of the schedule"
+              fieldName="scheduleImage" fileRef={schedFile} inputRef={schedImgRef}
+              previewVal={scheduleImageVal} setValue={fp.setValue}
+              onFileChange={e => handleImgFile(e, schedFile, "scheduleImage")} />
+            <div className={styles.fieldGroup}>
+              <label className={styles.label}><span className={styles.labelIcon}>✦</span>Schedule Items<span className={styles.required}>*</span></label>
+              <div className={styles.schedList}>
+                {scheduleItems.fields.map((field, i) => (
+                  <div key={field.id} className={styles.schedRow}>
+                    <span className={styles.schedRowNum}>{i + 1}</span>
+                    <div className={styles.schedRowFields}>
+                      <div className={`${styles.inputWrap} ${styles.schedTimeInput} ${errors.scheduleItems?.[i]?.time ? styles.inputError : ""}`}>
+                        <input type="text" className={styles.input} placeholder="e.g. 07:00 Am - 08:00 Am" maxLength={40}
+                          {...register(`scheduleItems.${i}.time`, { required: "Time required" })} />
+                      </div>
+                      <div className={`${styles.inputWrap} ${styles.schedLabelInput} ${errors.scheduleItems?.[i]?.label ? styles.inputError : ""}`}>
+                        <input type="text" className={styles.input} placeholder="e.g. Pranayama and Meditation" maxLength={100}
+                          {...register(`scheduleItems.${i}.label`, { required: "Label required" })} />
+                      </div>
                     </div>
-                    <div className={`${styles.inputWrap} ${styles.schedLabelInput}`}>
-                      <input type="text" className={styles.input}
-                        placeholder="e.g. Pranayama and Meditation"
-                        value={item.label} maxLength={100}
-                        onChange={e => updateSched(i, "label", e.target.value)} />
-                    </div>
+                    <button type="button" className={styles.removeItemBtn} onClick={() => scheduleItems.remove(i)} disabled={scheduleItems.fields.length <= 1}>✕</button>
                   </div>
-                  <button type="button" className={styles.removeItemBtn}
-                    onClick={() => removeSched(i)}
-                    disabled={form.scheduleItems.length <= 1}>✕</button>
-                </div>
-              ))}
+                ))}
+              </div>
+              <button type="button" className={styles.addItemBtn} onClick={() => scheduleItems.append({ time: "", label: "" })}>+ Add Schedule Item</button>
             </div>
-            <button type="button" className={styles.addItemBtn} onClick={addSched}>
-              + Add Schedule Item
+          </div>
+          <div className={styles.formDivider} />
+
+          {/* ══ SOUL SHINE ══ */}
+          <div className={styles.sectionBlock}>
+            <div className={styles.sectionHeader}><span className={styles.sectionIcon}>✦</span><h3 className={styles.sectionTitle}>Let Your Soul Shine Banner</h3></div>
+            <TField label="Banner Text" hint="Text overlay shown on the banner image" name="soulShineText" placeholder="Let Your Soul Shine" max={100} {...fp} />
+            <ImgField label="Banner Image" hint="Full-width banner image (shown with text overlay)"
+              fieldName="soulShineImage" fileRef={soulFile} inputRef={soulImgRef}
+              previewVal={soulShineImageVal} setValue={fp.setValue}
+              onFileChange={e => handleImgFile(e, soulFile, "soulShineImage")} />
+          </div>
+          <div className={styles.formDivider} />
+
+          {/* ══ WHY ENROL ══ */}
+          <div className={styles.sectionBlock}>
+            <div className={styles.sectionHeader}><span className={styles.sectionIcon}>✦</span><h3 className={styles.sectionTitle}>Why Enrol Section</h3></div>
+            <TField label="Section Title" name="enrollTitle" max={250} {...fp} />
+            <ParaBlock label="Intro Paragraphs" arrayMethods={enrollParagraphs} fieldArrayName="enrollParagraphs" control={fp.control} />
+            <ListField label="Enrol Reasons (numbered list)" arrayMethods={enrollItems} fieldArrayName="enrollItems"
+              placeholder="e.g. We have a sattvic and spiritual atmosphere…" register={fp.register} />
+          </div>
+          <div className={styles.formDivider} />
+
+          {/* ══ COMPREHENSIVE ══ */}
+          <div className={styles.sectionBlock}>
+            <div className={styles.sectionHeader}><span className={styles.sectionIcon}>✦</span><h3 className={styles.sectionTitle}>Comprehensive Section</h3></div>
+            <TField label="Section Title" name="comprehensiveTitle" max={200} {...fp} />
+            <ParaBlock label="Paragraphs" arrayMethods={comprehensiveParagraphs} fieldArrayName="comprehensiveParagraphs" control={fp.control} />
+          </div>
+          <div className={styles.formDivider} />
+
+          {/* ══ CERTIFICATION ══ */}
+          <div className={styles.sectionBlock}>
+            <div className={styles.sectionHeader}><span className={styles.sectionIcon}>✦</span><h3 className={styles.sectionTitle}>Certification</h3></div>
+            <TField label="Section Title" name="certTitle" max={200} {...fp} />
+            <ParaBlock label="Paragraphs" arrayMethods={certParagraphs} fieldArrayName="certParagraphs" control={fp.control} />
+          </div>
+          <div className={styles.formDivider} />
+
+          {/* ══ REGISTRATION ══ */}
+          <div className={styles.sectionBlock}>
+            <div className={styles.sectionHeader}><span className={styles.sectionIcon}>✦</span><h3 className={styles.sectionTitle}>Registration Process</h3></div>
+            <TField label="Section Title" name="registrationTitle" max={200} {...fp} />
+            <ParaBlock label="Paragraphs" arrayMethods={registrationParagraphs} fieldArrayName="registrationParagraphs" control={fp.control} />
+          </div>
+          <div className={styles.formDivider} />
+
+          {/* ══ FEE LISTS ══ */}
+          <div className={styles.sectionBlock}>
+            <div className={styles.sectionHeader}><span className={styles.sectionIcon}>✦</span><h3 className={styles.sectionTitle}>Fee — Included / Not Included</h3></div>
+            <div className={styles.twoColSection}>
+              <ListField label="Included in Fee" arrayMethods={includedItems} fieldArrayName="includedItems"
+                placeholder="e.g. 14 Days Accommodation and 3 Meals / Day" register={fp.register} />
+              <ListField label="Not Included in Fee" arrayMethods={notIncludedItems} fieldArrayName="notIncludedItems"
+                placeholder="e.g. Air Ticket and Airport Pickup" register={fp.register} />
+            </div>
+          </div>
+          <div className={styles.formDivider} />
+
+          {/* ══ ACTIONS ══ */}
+          <div className={styles.formActions}>
+            <Link href="/admin/yogacourse/100hourscourse/100hr-content" className={styles.cancelBtn}>← Cancel</Link>
+            <button type="submit"
+              className={`${styles.submitBtn} ${isSubmitting ? styles.submitBtnLoading : ""}`}
+              disabled={isSubmitting}>
+              {isSubmitting ? <><span className={styles.spinner} /> Saving…</> : <><span>✦</span> Save Content</>}
             </button>
           </div>
+
         </div>
-
-        <div className={styles.formDivider} />
-
-        {/* ══ SOUL SHINE BANNER ══ */}
-        <div className={styles.sectionBlock}>
-          <div className={styles.sectionHeader}>
-            <span className={styles.sectionIcon}>✦</span>
-            <h3 className={styles.sectionTitle}>Let Your Soul Shine Banner</h3>
-          </div>
-          <TField label="Banner Text" hint="Text overlay shown on the banner image"
-            fkey="soulShineText" placeholder="Let Your Soul Shine" max={100} />
-          <ImgField label="Banner Image"
-            hint="Full-width banner image (shown with text overlay)"
-            fkey="soulShineImage" fileRef={soulFile} inputRef={soulImgRef} />
-        </div>
-
-        <div className={styles.formDivider} />
-
-        {/* ══ WHY ENROL ══ */}
-        <div className={styles.sectionBlock}>
-          <div className={styles.sectionHeader}>
-            <span className={styles.sectionIcon}>✦</span>
-            <h3 className={styles.sectionTitle}>Why Enrol Section</h3>
-          </div>
-          <TField label="Section Title" fkey="enrollTitle" max={250} />
-          <ParaBlock label="Intro Paragraphs" paraKey="enrollParagraphs" />
-          <ListField label="Enrol Reasons (numbered list)" fkey="enrollItems"
-            placeholder="e.g. We have a sattvic and spiritual atmosphere…" />
-        </div>
-
-        <div className={styles.formDivider} />
-
-        {/* ══ COMPREHENSIVE ══ */}
-        <div className={styles.sectionBlock}>
-          <div className={styles.sectionHeader}>
-            <span className={styles.sectionIcon}>✦</span>
-            <h3 className={styles.sectionTitle}>Comprehensive Section</h3>
-          </div>
-          <TField label="Section Title" fkey="comprehensiveTitle" max={200} />
-          <ParaBlock label="Paragraphs" paraKey="comprehensiveParagraphs" />
-        </div>
-
-        <div className={styles.formDivider} />
-
-        {/* ══ CERTIFICATION ══ */}
-        <div className={styles.sectionBlock}>
-          <div className={styles.sectionHeader}>
-            <span className={styles.sectionIcon}>✦</span>
-            <h3 className={styles.sectionTitle}>Certification</h3>
-          </div>
-          <TField label="Section Title" fkey="certTitle" max={200} />
-          <ParaBlock label="Paragraphs" paraKey="certParagraphs" />
-        </div>
-
-        <div className={styles.formDivider} />
-
-        {/* ══ REGISTRATION ══ */}
-        <div className={styles.sectionBlock}>
-          <div className={styles.sectionHeader}>
-            <span className={styles.sectionIcon}>✦</span>
-            <h3 className={styles.sectionTitle}>Registration Process</h3>
-          </div>
-          <TField label="Section Title" fkey="registrationTitle" max={200} />
-          <ParaBlock label="Paragraphs" paraKey="registrationParagraphs" />
-        </div>
-
-        <div className={styles.formDivider} />
-
-        {/* ══ FEE LISTS ══ */}
-        <div className={styles.sectionBlock}>
-          <div className={styles.sectionHeader}>
-            <span className={styles.sectionIcon}>✦</span>
-            <h3 className={styles.sectionTitle}>Fee — Included / Not Included</h3>
-          </div>
-          <div className={styles.twoColSection}>
-            <ListField label="Included in Fee" fkey="includedItems"
-              placeholder="e.g. 14 Days Accommodation and 3 Meals / Day" />
-            <ListField label="Not Included in Fee" fkey="notIncludedItems"
-              placeholder="e.g. Air Ticket and Airport Pickup" />
-          </div>
-        </div>
-
-        <div className={styles.formDivider} />
-
-        {/* Actions */}
-        <div className={styles.formActions}>
-          <Link href="/admin/dashboard/100hr-content" className={styles.cancelBtn}>
-            ← Cancel
-          </Link>
-          <button
-            type="button"
-            className={`${styles.submitBtn} ${isSubmitting ? styles.submitBtnLoading : ""}`}
-            onClick={handleSubmit}
-            disabled={isSubmitting}
-          >
-            {isSubmitting
-              ? <><span className={styles.spinner} /> Saving…</>
-              : <><span>✦</span> Save Content</>
-            }
-          </button>
-        </div>
-
-      </div>
+      </form>
     </div>
   );
 }

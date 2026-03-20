@@ -53,7 +53,7 @@ export default function SeatsEditPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await api.get(`/100hr-seats/get/${id}`);
+        const res = await api.get(`/100hr-seats/get-batch/${id}`);
         const d = res.data.data;
 
         /* startDate / endDate — backend may store as ISO strings */
@@ -78,7 +78,7 @@ export default function SeatsEditPage() {
         });
       } catch {
         toast.error("Failed to fetch batch");
-        router.replace("/admin/dashboard/100hr-seats");
+        router.replace("/admin/yogacourse/100hourscourse/100hr-seats");
       } finally {
         setLoading(false);
       }
@@ -128,20 +128,20 @@ export default function SeatsEditPage() {
     if (!validate()) return;
     try {
       setIsSubmitting(true);
-      await api.put(`/100hr-seats/update/${id}`, {
-        startDate:    form.startDate,
-        endDate:      form.endDate,
-        usdFee:       form.usdFee,
-        inrFee:       form.inrFee,
-        dormPrice:    form.dormPrice,
-        twinPrice:    form.twinPrice,
-        privatePrice: form.privatePrice,
-        totalSeats:   Number(form.totalSeats),
-        bookedSeats:  Number(form.bookedSeats),
-        note:         form.note,
-      });
+    await api.put(`/100hr-seats/update-batch/${id}`, {
+  startDate: form.startDate,
+  endDate: form.endDate,
+  usdFee: form.usdFee,
+  inrFee: form.inrFee,
+  dormPrice: Number(form.dormPrice),
+  twinPrice: Number(form.twinPrice),
+  privatePrice: Number(form.privatePrice),
+  totalSeats: Number(form.totalSeats),
+  bookedSeats: Number(form.bookedSeats),
+  note: form.note,
+});
       setSubmitted(true);
-      setTimeout(() => router.push("/admin/dashboard/100hr-seats"), 1500);
+      setTimeout(() => router.push("/admin/yogacourse/100hourscourse/100hr-seats"), 1500);
     } catch (err: any) {
       alert(err?.response?.data?.message || "Failed to update");
     } finally {
@@ -185,7 +185,7 @@ export default function SeatsEditPage() {
 
       {/* Breadcrumb */}
       <div className={styles.breadcrumb}>
-        <Link href="/admin/dashboard/100hr-seats" className={styles.breadcrumbLink}>
+        <Link href="/admin/yogacourse/100hourscourse/100hr-seats" className={styles.breadcrumbLink}>
           Seats & Dates
         </Link>
         <span className={styles.breadcrumbSep}>›</span>
@@ -454,7 +454,7 @@ export default function SeatsEditPage() {
 
         {/* Actions */}
         <div className={styles.formActions}>
-          <Link href="/admin/dashboard/100hr-seats" className={styles.cancelBtn}>
+          <Link href="/admin/yogacourse/100hourscourse/100hr-seats" className={styles.cancelBtn}>
             ← Cancel
           </Link>
           <button

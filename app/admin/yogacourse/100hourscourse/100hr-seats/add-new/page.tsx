@@ -87,20 +87,20 @@ export default function SeatsAddPage() {
     if (!validate()) return;
     try {
       setIsSubmitting(true);
-      await api.post("/100hr-seats/create", {
-        startDate:    form.startDate,
-        endDate:      form.endDate,
-        usdFee:       form.usdFee,
-        inrFee:       form.inrFee,
-        dormPrice:    form.dormPrice,
-        twinPrice:    form.twinPrice,
-        privatePrice: form.privatePrice,
-        totalSeats:   Number(form.totalSeats),
-        bookedSeats:  0,
-        note:         form.note,
-      });
+      await api.post("/100hr-seats/create-batch", {
+  startDate: form.startDate,
+  endDate: form.endDate,
+  usdFee: form.usdFee,
+  inrFee: form.inrFee,
+  dormPrice: form.dormPrice,
+  twinPrice: form.twinPrice,
+  privatePrice: form.privatePrice,
+  totalSeats: Number(form.totalSeats),
+  bookedSeats: 0,
+  note: form.note,
+});
       setSubmitted(true);
-      setTimeout(() => router.push("/admin/dashboard/100hr-seats"), 1500);
+      setTimeout(() => router.push("/admin/yogacourse/100hourscourse/100hr-seats"), 1500);
     } catch (err: any) {
       alert(err?.response?.data?.message || "Failed to save");
     } finally {
@@ -126,7 +126,7 @@ export default function SeatsAddPage() {
 
       {/* Breadcrumb */}
       <div className={styles.breadcrumb}>
-        <Link href="/admin/dashboard/100hr-seats" className={styles.breadcrumbLink}>
+        <Link href="/admin/yogacourse/100hourscourse/100hr-seats" className={styles.breadcrumbLink}>
           Seats & Dates
         </Link>
         <span className={styles.breadcrumbSep}>›</span>
@@ -367,7 +367,7 @@ export default function SeatsAddPage() {
 
         {/* Actions */}
         <div className={styles.formActions}>
-          <Link href="/admin/dashboard/100hr-seats" className={styles.cancelBtn}>
+          <Link href="/admin/yogacourse/100hourscourse/100hr-seats" className={styles.cancelBtn}>
             ← Cancel
           </Link>
           <button

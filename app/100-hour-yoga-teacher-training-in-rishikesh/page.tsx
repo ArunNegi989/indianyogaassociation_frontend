@@ -1,9 +1,84 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "@/assets/style/100-hour-yoga-teacher-training-in-rishikesh/Hundredhouryoga.module.css";
 import HowToReach from "@/components/home/Howtoreach";
 import Image from "next/image";
 import heroImg from "@/assets/images/100hours.svg";
+import api from "@/lib/api";
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "";
+
+/* ══════════════════════════════════════════════════
+   TYPES
+══════════════════════════════════════════════════ */
+interface SylModule { title: string; desc: string; }
+interface ScheduleItem { time: string; label: string; }
+
+interface ContentData {
+  bannerImage: string;
+  heroTitle: string;
+  heroParagraphs: string[];
+  transformTitle: string;
+  transformParagraphs: string[];
+  whatIsTitle: string;
+  whatIsParagraphs: string[];
+  whyChooseTitle: string;
+  whyChooseParagraphs: string[];
+  suitableTitle: string;
+  suitableItems: string[];
+  syllabusTitle: string;
+  syllabusParagraphs: string[];
+  syllabusLeft: SylModule[];
+  syllabusRight: SylModule[];
+  scheduleImage: string;
+  scheduleItems: ScheduleItem[];
+  soulShineText: string;
+  soulShineImage: string;
+  enrollTitle: string;
+  enrollParagraphs: string[];
+  enrollItems: string[];
+  comprehensiveTitle: string;
+  comprehensiveParagraphs: string[];
+  certTitle: string;
+  certParagraphs: string[];
+  registrationTitle: string;
+  registrationParagraphs: string[];
+  includedItems: string[];
+  notIncludedItems: string[];
+}
+
+interface SeatBatch {
+  _id: string;
+  startDate: string;
+  endDate: string;
+  usdFee: string;
+  inrFee: string;
+  dormPrice: number;
+  twinPrice: number;
+  privatePrice: number;
+  totalSeats: number;
+  bookedSeats: number;
+  note: string;
+}
+
+/* ══════════════════════════════
+   IMAGE HELPER
+══════════════════════════════ */
+const imgUrl = (path: string) => {
+  if (!path) return "";
+  if (path.startsWith("http") || path.startsWith("blob:")) return path;
+  return `${API_URL}${path}`;
+};
+
+/* ══════════════════════════════
+   DATE FORMATTER
+══════════════════════════════ */
+const formatDateRange = (start: string, end: string) => {
+  const s = new Date(start);
+  const e = new Date(end);
+  const opts: Intl.DateTimeFormatOptions = { day: "2-digit", month: "short", year: "numeric" };
+  return `${s.toLocaleDateString("en-IN", opts)} – ${e.toLocaleDateString("en-IN", opts)}`;
+};
 
 /* ══════════════════════════════════════════════════
    MANDALA SVG
@@ -48,7 +123,7 @@ function MandalaSVG({ size = 400, opacity = 0.13 }: { size?: number; opacity?: n
         const opp = a + Math.PI;
         return (
           <line key={i}
-            x1={cx + 30 * Math.cos(a)}  y1={cy + 30 * Math.sin(a)}
+            x1={cx + 30 * Math.cos(a)}   y1={cy + 30 * Math.sin(a)}
             x2={cx + 30 * Math.cos(opp)} y2={cy + 30 * Math.sin(opp)}
             stroke="#8b4513" strokeWidth="0.6" />
         );
@@ -76,7 +151,7 @@ function MandalaSVG({ size = 400, opacity = 0.13 }: { size?: number; opacity?: n
         return (
           <line key={i}
             x1={cx + inner * Math.cos(a)} y1={cy + inner * Math.sin(a)}
-            x2={cx + 95 * Math.cos(a)}   y2={cy + 95 * Math.sin(a)}
+            x2={cx + 95   * Math.cos(a)} y2={cy + 95   * Math.sin(a)}
             stroke="#8b4513" strokeWidth="0.5" />
         );
       })}
@@ -157,53 +232,6 @@ function VintageHeading({ children }: { children: React.ReactNode }) {
 }
 
 /* ══════════════════════════════
-   DATA
-══════════════════════════════ */
-const upcomingDates = [
-  { date: "05th Jan – 16th Jan 2026", usd: "550 USD", inr: "22,500 INR", bookedSeats: 50, totalSeats: 50 },
-  { date: "03rd Feb – 14th Feb 2026", usd: "550 USD", inr: "22,500 INR", bookedSeats: 46, totalSeats: 50 },
-  { date: "03rd Mar – 14th Mar 2026", usd: "550 USD", inr: "22,500 INR", bookedSeats: 30, totalSeats: 50 },
-  { date: "03rd Apr – 14th Apr 2026", usd: "550 USD", inr: "22,500 INR", bookedSeats: 4,  totalSeats: 50 },
-  { date: "03rd May – 14th May 2026", usd: "550 USD", inr: "22,500 INR", bookedSeats: 12, totalSeats: 50 },
-  { date: "03rd Jun – 14th Jun 2026", usd: "550 USD", inr: "22,500 INR", bookedSeats: 0,  totalSeats: 50 },
-  { date: "03rd Jul – 14th Jul 2026",  usd: "550 USD", inr: "22,500 INR", bookedSeats: 0,  totalSeats: 50 },
-  { date: "03rd Aug – 14th Aug 2026", usd: "550 USD", inr: "22,500 INR", bookedSeats: 0,  totalSeats: 50 },
-  { date: "03rd Sep – 14th Sep 2026", usd: "550 USD", inr: "22,500 INR", bookedSeats: 0,  totalSeats: 50 },
-  { date: "03rd Oct – 14th Oct 2026", usd: "550 USD", inr: "22,500 INR", bookedSeats: 0,  totalSeats: 50 },
-  { date: "03rd Nov – 14th Nov 2026", usd: "550 USD", inr: "22,500 INR", bookedSeats: 0,  totalSeats: 50 },
-  { date: "03rd Dec – 14th Dec 2026", usd: "550 USD", inr: "22,500 INR", bookedSeats: 0,  totalSeats: 50 },
-];
-
-const scheduleItems = [
-  { text: "07:00 Am - 08:00 Am – Pranayama and Meditation.", link: "Meditation." },
-  { text: "08:00 Am - 08:30 Am – Tea." },
-  { text: "08.30 Am – 10:00 Am – Ashtanga Vinyasa", link: "Ashtanga Vinyasa" },
-  { text: "10:00 Am - 10.45 Am – Brunch" },
-  { text: "11.00 Am - 12.00 Pm – PhilosophyTeaching practice" },
-  { text: "12.15 Pm - 01.15 Pm – Teaching practice" },
-  { text: "01:00 Pm - 02:00 Pm – Refreshment" },
-  { text: "02:00 Pm - 03:00 Pm – Self-Study ( Free Time )" },
-  { text: "03:00 Pm - 04:00 Pm – Anatomy" },
-  { text: "04.15 Pm - 05.45 Pm – Hatha Yoga", link: "Hatha Yoga" },
-  { text: "07.30 Pm – 08.00 Pm – Dinner" },
-  { text: "10.00 Pm – Light off" },
-];
-
-const included    = ["14 Days Accommodation and 3 Meals / Day","Course Metrial","1 T-Shirt, 1 Beg","ShatKarma Kit","Free WiFi"];
-const notIncluded = ["Air Ticket and Airport Pickup","Visa","Toilet Paper - One Time","Personal Things","Massage"];
-
-const sylLeft = [
-  { title: "Practice of Yoga Techniques", desc: "Practice Yoga techniques like asana ( Hatha Yoga and Ashtanga Yoga ), breathing exercises, meditation techniques, and detoxification." },
-  { title: "Yoga philosophy", desc: "This module includes topics on yoga philosophy, lifestyle, and ethics for yoga teachers as per the Yoga Alliance syllabus for yoga training. It includes what yoga is and different forms of yoga." },
-  { title: "Teaching Methodology", desc: "This section includes the principles of demonstration of yoga techniques. Here, you will learn the art of assisting, correcting, and observing different variations during teaching. You will also learn the art of giving instruction and the qualities of a good yoga teacher." },
-];
-const sylRight = [
-  { title: "Practicum", desc: "If you want to build your career as a yoga teacher, this section will help you. You will learn the art of teaching practice, receiving and giving feedback in front of your teacher." },
-  { title: "Assignments", desc: "It includes Writing answers to the given questions, group discussions, and exams on knowledge of content taught in different classes." },
-  { title: "Anatomy and Physiology", desc: "Applied Anatomy and Physiology in Connection with Yoga: Human physical anatomy and physiology are very important in understanding the scientific aspect of yoga. This section includes various systems, such as the digestive, endocrine, and muscular systems, and their practical application to yoga.." },
-];
-
-/* ══════════════════════════════
    SEATS CELL
 ══════════════════════════════ */
 function SeatsCell({ booked, total }: { booked: number; total: number }) {
@@ -214,12 +242,62 @@ function SeatsCell({ booked, total }: { booked: number; total: number }) {
 }
 
 /* ══════════════════════════════
+   SKELETON LOADER
+══════════════════════════════ */
+function SkeletonBlock({ h = 24, w = "100%" }: { h?: number; w?: string }) {
+  return (
+    <div style={{
+      height: h, width: w, borderRadius: 6, marginBottom: 12,
+      background: "linear-gradient(90deg, #f0e8d8 25%, #e8d9c0 50%, #f0e8d8 75%)",
+      backgroundSize: "200% 100%",
+      animation: "shimmer 1.4s infinite",
+    }} />
+  );
+}
+
+/* ══════════════════════════════
    PAGE COMPONENT
 ══════════════════════════════ */
 export default function HundredHourYoga() {
+  const [content, setContent] = useState<ContentData | null>(null);
+  const [seats,   setSeats]   = useState<SeatBatch[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  /* ── Fetch both APIs in parallel ── */
+  useEffect(() => {
+    Promise.all([
+      api.get("/100hr-content/get"),
+      api.get("/100hr-seats/get-all-batches"),
+    ])
+      .then(([contentRes, seatsRes]) => {
+        setContent(contentRes.data.data ?? null);
+        setSeats(seatsRes.data.data ?? []);
+      })
+      .catch(err => console.error("Failed to fetch page data:", err))
+      .finally(() => setLoading(false));
+  }, []);
+
+  /* ── Loading state ── */
+  if (loading) return (
+    <div className={styles.root} style={{ padding: "4rem 2rem" }}>
+      <style>{`@keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }`}</style>
+      {[...Array(6)].map((_, i) => <SkeletonBlock key={i} h={i === 0 ? 400 : 28} />)}
+    </div>
+  );
+
+  /* ── Fallback if no content ── */
+  if (!content) return (
+    <div className={styles.root} style={{ padding: "4rem 2rem", textAlign: "center" }}>
+      <p style={{ fontFamily: "serif", color: "#8b4513", fontSize: "1.2rem" }}>
+        Content not available yet. Please check back soon.
+      </p>
+    </div>
+  );
+
   return (
     <div className={styles.root}>
 
+      {/* Background mandalas */}
       <div className={styles.mandalaFixed} aria-hidden="true">
         <div className={styles.mf1}><MandalaSVG size={700} opacity={0.055} /></div>
         <div className={styles.mf2}><MandalaSVG size={520} opacity={0.045} /></div>
@@ -228,11 +306,21 @@ export default function HundredHourYoga() {
       </div>
       <div className={styles.grainOverlay} aria-hidden="true" />
 
-      {/* Hero */}
+      {/* ══ HERO IMAGE ══ */}
       <section className={styles.heroSection}>
-        <Image src={heroImg} alt="Yoga Students Group" width={1180} height={540} className={styles.heroImage} priority />
+        {content.bannerImage ? (
+          <img
+            src={imgUrl(content.bannerImage)}
+            alt="100 Hour Yoga Teacher Training"
+            className={styles.heroImage}
+            style={{ width: "100%", objectFit: "cover" }}
+          />
+        ) : (
+          <Image src={heroImg} alt="Yoga Students Group" width={1180} height={540} className={styles.heroImage} priority />
+        )}
       </section>
 
+      {/* ══ HERO TEXT ══ */}
       <section className={styles.heroSection2}>
         <div className={styles.heroMandalaBg} aria-hidden="true">
           <MandalaSVG size={900} opacity={0.06} />
@@ -240,55 +328,57 @@ export default function HundredHourYoga() {
         <div className={styles.heroTextWrap}>
           <div className={styles.heroTitleRow}>
             <div className={styles.heroTitleLine} />
-            <h1 className={styles.heroTitle}>100 Hour Yoga Teacher Training Course in Rishikesh India</h1>
+            <h1 className={styles.heroTitle}>{content.heroTitle}</h1>
             <div className={styles.heroTitleLine} />
           </div>
-          <p className={styles.bodyText}>
-            100 Hour Yoga Teacher Training in Rishikesh, India, at Aym Yoga School, has gained immense popularity worldwide for its holistic benefits to mind, body, and spirit. Many people are seeking these benefits, which is why teacher training programs have become increasingly popular. Among these, the 100-hour yoga teacher training (YTT) stands out as an introductory yet transformative course for dedicated practitioners worldwide. Our yoga school is a leading yoga institution that explores the structure, significance, and impact of the 100-hour YTT.
-          </p>
+          {content.heroParagraphs.map((para, i) => (
+            <p key={i} className={styles.bodyText} dangerouslySetInnerHTML={{ __html: para }} />
+          ))}
         </div>
       </section>
 
       <BorderStrip />
 
-      {/* Content Section 1 */}
+      {/* ══ TRANSFORM + WHAT IS + WHY CHOOSE + SUITABLE ══ */}
       <section className={styles.contentSection}>
         <div className={styles.sectionMandalaL} aria-hidden="true"><MandalaSVG size={320} opacity={0.07} /></div>
         <div className={styles.sectionMandalaR} aria-hidden="true"><MandalaSVG size={260} opacity={0.06} /></div>
 
-        <VintageHeading>Transform Your Practice with a 100 Hour Yoga Course in Rishikesh</VintageHeading>
-        <p className={styles.bodyText}>We at Aym Yoga School Transform Your Yoga Practice through authentic, traditional asana classes taught by experienced teachers who connect with you through nurturing energy. The connection with the teacher is such that if you are not able to come to class, you will miss their love and energy during the day. Our philosophy classes bring transformation in the present-day-to-day lives, as philosophy induces calmness in the thought waves by reducing stress.</p>
-        <p className={styles.bodyText}>Pranayma classes focus on breath patterns and bring about transformation by removing defective breathing patterns. We usually have rapid or shallow breathing due to stress and tension, but the practice of pranayama helps keep breathing healthy.</p>
+        <VintageHeading>{content.transformTitle}</VintageHeading>
+        {content.transformParagraphs.map((p, i) => (
+          <p key={i} className={styles.bodyText} dangerouslySetInnerHTML={{ __html: p }} />
+        ))}
 
         <OmDivider />
 
-        <VintageHeading>What is a 100 Hour Yoga Teacher Training?</VintageHeading>
-        <p className={styles.bodyText}>A 100-hour YTT program is typically designed as a foundational course suitable for beginners or those starting their yoga journey. Unlike intensive certifications, the 100-hour course offers a manageable time and energy commitment, often completed over a few weeks.</p>
+        <VintageHeading>{content.whatIsTitle}</VintageHeading>
+        {content.whatIsParagraphs.map((p, i) => (
+          <p key={i} className={styles.bodyText} dangerouslySetInnerHTML={{ __html: p }} />
+        ))}
 
         <OmDivider />
 
-        <VintageHeading>Why Choose AYM Yoga School for Your 100 Hour Yoga TTC</VintageHeading>
-        <p className={styles.bodyText}>When considering where to begin your yoga learning, the choice of school is crucial. AYM Yoga School stands out as a leading institution for its 100 Hour Yoga Teacher Training Course, featuring experienced instructors, a comprehensive curriculum, and a supportive learning environment. AYM combines authentic yogic wisdom with traditional teaching approaches, ensuring students receive original knowledge and practical skills. The school's serene location, emphasis on community, and commitment to student growth make it an ideal setting for deepening your practice and building confidence as a future yoga teacher. Choosing AYM Yoga School means joining a global community to develop holistic well-being and lifelong learning.</p>
+        <VintageHeading>{content.whyChooseTitle}</VintageHeading>
+        {content.whyChooseParagraphs.map((p, i) => (
+          <p key={i} className={styles.bodyText} dangerouslySetInnerHTML={{ __html: p }} />
+        ))}
 
         <OmDivider />
 
-        <VintageHeading>100 Hours Yoga TTC is suitable for:</VintageHeading>
+        <VintageHeading>{content.suitableTitle}</VintageHeading>
         <ol className={styles.vintageList}>
-          <li>If you want to understand and study yoga holistically from a solid foundation.</li>
-          <li>If you are interested in a short course to find a balance in life through body and mind.</li>
-          <li>If you are interested in yoga philosophy, meditation/pranayama and its practices.</li>
-          <li>If you are registered with RYT and want to collect a certificate for continuing education training hours.</li>
+          {content.suitableItems.map((item, i) => (
+            <li key={i}>{item}</li>
+          ))}
         </ol>
       </section>
 
       <BorderStrip />
 
-      {/* ══════════════════════════════
-          DATES TABLE — 200hr style
-      ══════════════════════════════ */}
+      {/* ══ DATES TABLE — from /100hr-seats/get-all-batches ══ */}
       <section className={styles.datesSection} id="apply">
         <OmDivider label="Upcoming Batches" />
-        <VintageHeading>Upcoming 100 Hour Yoga Teacher Training India - 2025</VintageHeading>
+        <VintageHeading>Upcoming 100 Hour Yoga Teacher Training India</VintageHeading>
         <p className={styles.centerSubtext}>
           Choose your preferred accommodation. Prices include tuition and meals.
         </p>
@@ -299,56 +389,60 @@ export default function HundredHourYoga() {
           <CornerOrnament pos="bl" />
           <CornerOrnament pos="br" />
           <div className={styles.tableScroll}>
-            <table className={styles.datesTable}>
-              <thead>
-                <tr>
-                  <th>Date</th>
-                  <th>FEE</th>
-                  <th>FEE ( Indian )</th>
-                  <th>Room Price</th>
-                  <th>Seats</th>
-                  <th>Apply</th>
-                </tr>
-              </thead>
-              <tbody>
-                {upcomingDates.map((row, i) => {
-                  const isFull = row.bookedSeats >= row.totalSeats;
-                  return (
-                    <tr key={i}>
-                      {/* Date */}
-                      <td>
-                        <span className={styles.dateCal}>📅</span> {row.date}
-                      </td>
-                      {/* Fee USD */}
-                      <td>{row.usd}</td>
-                      {/* Fee INR */}
-                      <td>{row.inr}</td>
-                      {/* Room Price */}
-                      <td className={styles.roomPriceCell}>
-                        Dorm <strong className={styles.priceAmt}>$549</strong> |{" "}
-                        Twin <strong className={styles.priceAmt}>$649</strong> |{" "}
-                        Private <strong className={styles.priceAmt}>$849</strong>
-                      </td>
-                      {/* Seats */}
-                      <td>
-                        <SeatsCell booked={row.bookedSeats} total={row.totalSeats} />
-                      </td>
-                      {/* Apply */}
-                      <td>
-                        {isFull
-                          ? <span className={styles.applyDisabled}>Apply Now</span>
-                          : <a href="#" className={styles.applyLink}>Apply Now</a>
-                        }
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
+            {seats.length === 0 ? (
+              <p style={{ padding: "2rem", textAlign: "center", fontFamily: "serif", color: "#8b4513" }}>
+                No upcoming batches available at the moment.
+              </p>
+            ) : (
+              <table className={styles.datesTable}>
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>FEE</th>
+                    <th>FEE ( Indian )</th>
+                    <th>Room Price</th>
+                    <th>Seats</th>
+                    <th>Apply</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {seats.map((row) => {
+                    const isFull = row.bookedSeats >= row.totalSeats;
+                    return (
+                      <tr key={row._id}>
+                        <td>
+                          <span className={styles.dateCal}>📅</span>{" "}
+                          {formatDateRange(row.startDate, row.endDate)}
+                        </td>
+                        <td>{row.usdFee}</td>
+                        <td>{row.inrFee}</td>
+                        <td className={styles.roomPriceCell}>
+                          Dorm <strong className={styles.priceAmt}>${row.dormPrice}</strong> |{" "}
+                          Twin <strong className={styles.priceAmt}>${row.twinPrice}</strong> |{" "}
+                          Private <strong className={styles.priceAmt}>${row.privatePrice}</strong>
+                        </td>
+                        <td>
+                          <SeatsCell booked={row.bookedSeats} total={row.totalSeats} />
+                        </td>
+                        <td>
+                          {isFull
+                            ? <span className={styles.applyDisabled}>Apply Now</span>
+                            : <a href="#" className={styles.applyLink}>Apply Now</a>
+                          }
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            )}
           </div>
-          <p className={styles.tableNote}>
-            <strong>Note:</strong> A $50 USD early bird discount is available on all accommodation types if booked 60 days in advance.
-          </p>
+          {/* ── Note from first batch that has one, or fallback ── */}
+          {seats.find(s => s.note) && (
+            <p className={styles.tableNote}>
+              <strong>Note:</strong> {seats.find(s => s.note)?.note}
+            </p>
+          )}
           <div style={{ textAlign: "center", padding: "1rem 0 0.5rem" }}>
             <a href="#" className={styles.joinBtn}>Join Your Yoga Journey</a>
           </div>
@@ -357,20 +451,20 @@ export default function HundredHourYoga() {
 
       <BorderStrip />
 
-      {/* Syllabus */}
+      {/* ══ SYLLABUS ══ */}
       <section className={styles.contentSection}>
         <div className={styles.sectionMandalaL} aria-hidden="true"><MandalaSVG size={280} opacity={0.07} /></div>
 
         <OmDivider label="Curriculum" />
-        <VintageHeading>Syllabus of Premier - 100 Hour Yoga Teacher Training Course in Rishikesh, India</VintageHeading>
+        <VintageHeading>{content.syllabusTitle}</VintageHeading>
 
-        <p className={styles.bodyText}>At AYM, we warmly welcome anyone who sincerely desires to grow besides learning the timeless tradition of this practice. Whether wanting to deepen the personal practice about this course or spreading the knowledge to others, the course offers an opportunity to understand every aspect of it. We at the Association for Yoga and Meditation have a comprehensive syllabus created for beginners as well as seasoned yogis. The <strong>100 hour yoga teacher training course</strong> aims to give students a thorough grasp of yoga and help them equip skills.</p>
-        <p className={styles.bodyText}>With a team of skilled and qualified yoga instructors, they impart thorough knowledge about the course. Students can explore a broader range of topics that may help them become true professionals. Some of the topics covered in this course programme are Hatha, Ashtanga, Vinyasa, Iyengar, Pranayama, Meditation, Anatomy and many more. Both theoretical and practical learning are offered to provide a keen understanding of the <strong>100 hour Yoga TTC in India</strong>.</p>
-        <p className={styles.bodyText}>Students are offered individualized attention throughout the 100-hour yoga course in Rishikesh so that they can fully immerse in this study while enjoying it at the same time. Additionally, they are instilled with confidence, which may be required to start a career as an instructor. Once the course is completed, students are offered valuable 100-hour yoga teacher training certifications, which they can use anywhere in the world to start their careers.</p>
+        {content.syllabusParagraphs.map((p, i) => (
+          <p key={i} className={styles.bodyText} dangerouslySetInnerHTML={{ __html: p }} />
+        ))}
 
         <div className={styles.syllabusGrid}>
           <div className={styles.syllabusCard}>
-            {sylLeft.map((m, i) => (
+            {content.syllabusLeft.map((m, i) => (
               <div key={i} className={styles.syllabusModule}>
                 <div className={styles.syllabusModuleIcon}><MandalaSVG size={28} opacity={0.6} /></div>
                 <div>
@@ -381,7 +475,7 @@ export default function HundredHourYoga() {
             ))}
           </div>
           <div className={styles.syllabusCard}>
-            {sylRight.map((m, i) => (
+            {content.syllabusRight.map((m, i) => (
               <div key={i} className={styles.syllabusModule}>
                 <div className={styles.syllabusModuleIcon}><MandalaSVG size={28} opacity={0.6} /></div>
                 <div>
@@ -396,18 +490,26 @@ export default function HundredHourYoga() {
 
       <BorderStrip />
 
-      {/* Schedule */}
+      {/* ══ DAILY SCHEDULE ══ */}
       <section className={styles.scheduleSection}>
         <div className={styles.scheduleLayout}>
           <div className={styles.schedImgCol}>
-           <div className={styles.schedImgOrnament}>
-  <div className={styles.schedMandalaBg}><MandalaSVG size={340} opacity={0.25} /></div>
-  <img
-    src="https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?w=700&q=80"
-    alt="Yoga meditation practice"
-    className={styles.schedImgReal}
-  />
-</div>
+            <div className={styles.schedImgOrnament}>
+              <div className={styles.schedMandalaBg}><MandalaSVG size={340} opacity={0.25} /></div>
+              {content.scheduleImage ? (
+                <img
+                  src={imgUrl(content.scheduleImage)}
+                  alt="Yoga Schedule"
+                  className={styles.schedImgReal}
+                />
+              ) : (
+                <img
+                  src="https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?w=700&q=80"
+                  alt="Yoga meditation practice"
+                  className={styles.schedImgReal}
+                />
+              )}
+            </div>
           </div>
           <div className={styles.schedBoxCol}>
             <div className={styles.schedBox}>
@@ -417,23 +519,12 @@ export default function HundredHourYoga() {
               <CornerOrnament pos="br" />
               <div className={styles.schedHeader}>Daily Schedule</div>
               <ul className={styles.schedList}>
-                {scheduleItems.map((item, i) => {
-                  if (item.link) {
-                    const parts = item.text.split(item.link);
-                    return (
-                      <li key={i} className={styles.schedItem}>
-                        <span className={styles.schedDot}><MandalaSVG size={10} opacity={0.8} /></span>
-                        <span>{parts[0]}<a href="#" className={styles.schedLink}>{item.link}</a>{parts[1] ?? ""}</span>
-                      </li>
-                    );
-                  }
-                  return (
-                    <li key={i} className={styles.schedItem}>
-                      <span className={styles.schedDot}><MandalaSVG size={10} opacity={0.8} /></span>
-                      <span>{item.text}</span>
-                    </li>
-                  );
-                })}
+                {content.scheduleItems.map((item, i) => (
+                  <li key={i} className={styles.schedItem}>
+                    <span className={styles.schedDot}><MandalaSVG size={10} opacity={0.8} /></span>
+                    <span>{item.time} – {item.label}</span>
+                  </li>
+                ))}
               </ul>
             </div>
           </div>
@@ -442,62 +533,68 @@ export default function HundredHourYoga() {
 
       <BorderStrip />
 
-      {/* Why Enrol */}
+      {/* ══ SOUL SHINE BANNER + WHY ENROL ══ */}
       <section className={styles.contentSection}>
         <div className={styles.sectionMandalaR} aria-hidden="true"><MandalaSVG size={320} opacity={0.07} /></div>
 
         <OmDivider />
+
+        {/* Soul Shine Banner */}
         <div className={styles.classBanner}>
-  <CornerOrnament pos="tl" />
-  <CornerOrnament pos="tr" />
-  <CornerOrnament pos="bl" />
-  <CornerOrnament pos="br" />
-  {/* Background image */}
-  <img
-    src="https://images.unsplash.com/photo-1545389336-cf090694435e?w=1400&q=80"
-    alt="Yoga class Rishikesh"
-    className={styles.classBannerImg}
-  />
-  {/* Dark overlay taaki heading readable ho */}
-  <div className={styles.classBannerOverlay} />
-  {/* Heading — ab image ke upar clearly visible */}
-  <span className={styles.letYourSoul}>Let Your Soul Shine</span>
-</div>
+          <CornerOrnament pos="tl" />
+          <CornerOrnament pos="tr" />
+          <CornerOrnament pos="bl" />
+          <CornerOrnament pos="br" />
+          <img
+            src={content.soulShineImage
+              ? imgUrl(content.soulShineImage)
+              : "https://images.unsplash.com/photo-1545389336-cf090694435e?w=1400&q=80"
+            }
+            alt="Yoga class Rishikesh"
+            className={styles.classBannerImg}
+          />
+          <div className={styles.classBannerOverlay} />
+          <span className={styles.letYourSoul}>{content.soulShineText || "Let Your Soul Shine"}</span>
+        </div>
 
         <OmDivider />
-        <VintageHeading>Why Enrol in AYM for a 100 hour Yoga Teacher Training Course in Rishikesh?</VintageHeading>
-        <p className={styles.bodyText}>As the leading institute of Yoga teacher training, we at AYM have earned a reputation for offering quality learning. With a team of qualified instructors, our yoga teacher training course in Rishikesh focuses on mentoring many aspiring yogis to foster soulful instructors. Some of the other reasons why you must enrol in our institute include:</p>
+
+        <VintageHeading>{content.enrollTitle}</VintageHeading>
+        {content.enrollParagraphs.map((p, i) => (
+          <p key={i} className={styles.bodyText} dangerouslySetInnerHTML={{ __html: p }} />
+        ))}
         <ol className={styles.vintageList}>
-          <li>We have a sattvic and spiritual atmosphere where your practice will deepen.</li>
-          <li>Students are given Ayurvedic and yogic knowledge at our institute.</li>
-          <li>Our <strong>Certified yoga teacher training course in Rishikesh</strong> will help you lead a healthy life while spreading its importance to others.</li>
-          <li>At this intensive course, you can be accommodated in comfortable rooms and around like-minded people.</li>
-          <li>Students are given access to study materials alongside an opportunity to go on yoga excursions.</li>
-          <li>A complete diet is provided to the students to help them achieve a life of well-being.</li>
-          <li>Students are given complete attention and support by our qualified instructors so that they can develop into true professionals.</li>
-          <li>The instructors are highly qualified and real-time professionals who share their experiences with the students.</li>
+          {content.enrollItems.map((item, i) => (
+            <li key={i} dangerouslySetInnerHTML={{ __html: item }} />
+          ))}
         </ol>
       </section>
 
       <BorderStrip />
 
-      {/* Certification + Registration + Fee */}
+      {/* ══ COMPREHENSIVE + CERTIFICATION + REGISTRATION + FEE ══ */}
       <section className={styles.contentSection}>
         <div className={styles.sectionMandalaL} aria-hidden="true"><MandalaSVG size={300} opacity={0.065} /></div>
 
         <OmDivider />
-        <VintageHeading>Comprehensive 100 Hour Yoga Teacher Training Course in Rishikesh</VintageHeading>
-        <p className={styles.bodyText}>As our students arrive at AYM, we conduct a unique orientation programme. Today, our students are given a warm welcome where they understand that they are a part of us. Be it a 100 hour or 500 hour yoga teacher training course in Rishikesh, India, students are also introduced to the staff, faculty members, and other students.</p>
-        <p className={styles.bodyText}>Additionally, students are familiar with the course program and are given a tour of the institute. Once the students settle down, we provide them with the schedule, syllabus, and other details of the 100 Hour, 200 Hour, 300 Hour, and 500-hour yoga teacher training session for a thorough understanding.</p>
+        <VintageHeading>{content.comprehensiveTitle}</VintageHeading>
+        {content.comprehensiveParagraphs.map((p, i) => (
+          <p key={i} className={styles.bodyText} dangerouslySetInnerHTML={{ __html: p }} />
+        ))}
 
         <OmDivider />
-        <VintageHeading>100 Hour Yoga Teacher Training Course Certification at AYM</VintageHeading>
-        <p className={styles.bodyText}>At AYM, our courses are carried out in 12 days, where students can develop a strong foundation in every aspect of yoga. Students are taught by our instructors how to behave like professionals, carry out classes and spread knowledge to others. After completing the courses, the students are provided with a recognized <strong>100 hour yoga teacher training certification in Rishikesh</strong>, India, which is highly valuable. With this course certificate, one can use it anywhere in the world to teach yoga, including leading institutions.</p>
+        <VintageHeading>{content.certTitle}</VintageHeading>
+        {content.certParagraphs.map((p, i) => (
+          <p key={i} className={styles.bodyText} dangerouslySetInnerHTML={{ __html: p }} />
+        ))}
 
         <OmDivider />
-        <VintageHeading>Registration Process</VintageHeading>
-        <p className={styles.bodyText}>Registration or booking process: send us 110 usd ( 100 USD Fee + 10 USD PayPal Charges ) as advance fee to get register in 100 hour yoga course in rishikesh at AYM. The advance fee is non-refundable as per our terms and conditions.</p>
+        <VintageHeading>{content.registrationTitle}</VintageHeading>
+        {content.registrationParagraphs.map((p, i) => (
+          <p key={i} className={styles.bodyText} dangerouslySetInnerHTML={{ __html: p }} />
+        ))}
 
+        {/* ── Fee cards ── */}
         <div className={styles.feeGrid}>
           <div className={styles.feeCard}>
             <CornerOrnament pos="tl" />
@@ -506,8 +603,8 @@ export default function HundredHourYoga() {
             <CornerOrnament pos="br" />
             <div className={styles.feeCardHeaderGreen}>Included in Fee</div>
             <ul className={styles.feeList}>
-              {included.map(it => (
-                <li key={it}>
+              {content.includedItems.map((it, i) => (
+                <li key={i}>
                   <span className={styles.feeDot}><MandalaSVG size={12} opacity={0.7} /></span>
                   {it}
                 </li>
@@ -521,8 +618,8 @@ export default function HundredHourYoga() {
             <CornerOrnament pos="br" />
             <div className={styles.feeCardHeaderRed}>Not Included</div>
             <ul className={styles.feeList}>
-              {notIncluded.map(it => (
-                <li key={it}>
+              {content.notIncludedItems.map((it, i) => (
+                <li key={i}>
                   <span className={styles.feeDot}><MandalaSVG size={12} opacity={0.7} /></span>
                   {it}
                 </li>
@@ -533,7 +630,7 @@ export default function HundredHourYoga() {
       </section>
 
       <BorderStrip />
-      <HowToReach/>
+      <HowToReach />
     </div>
   );
 }

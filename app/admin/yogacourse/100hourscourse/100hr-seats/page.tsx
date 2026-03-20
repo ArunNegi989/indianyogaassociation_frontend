@@ -9,7 +9,8 @@ import styles from "@/assets/style/Admin/yogacourse/100hourscourse/Seatsmodule.m
 
 interface SeatRow {
   _id: string;
-  date: string;
+  startDate: string;
+endDate: string;
   usdFee: string;
   inrFee: string;
   dormPrice: string;
@@ -18,7 +19,12 @@ interface SeatRow {
   totalSeats: number;
   bookedSeats: number;
 }
-
+const formatDate = (date: string) =>
+  new Date(date).toLocaleDateString("en-GB", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  });
 export default function SeatsListPage() {
   const [rows, setRows] = useState<SeatRow[]>([]);
   const [loading, setLoading] = useState(true);
@@ -26,7 +32,7 @@ export default function SeatsListPage() {
 
   const fetchRows = async () => {
     try {
-      const res = await api.get("/100hr-seats/get-all");
+     const res = await api.get("/100hr-seats/get-all-batches");
       setRows(res.data.data ?? []);
     } catch {
       toast.error("Failed to fetch data");
@@ -40,7 +46,7 @@ export default function SeatsListPage() {
   const handleDelete = async () => {
     if (!deleteId) return;
     try {
-      await api.delete(`/100hr-seats/delete/${deleteId}`);
+     await api.delete(`/100hr-seats/delete-batch/${deleteId}`);
       toast.success("Deleted successfully");
       setDeleteId(null);
       fetchRows();
@@ -84,7 +90,7 @@ export default function SeatsListPage() {
             <thead>
               <tr>
                 <th>#</th>
-                <th>Date</th>
+                <th>Batch Starts Date</th>
                 <th>Fee (USD)</th>
                 <th>Fee (INR)</th>
                 <th>Room Prices</th>
@@ -97,7 +103,9 @@ export default function SeatsListPage() {
               {rows.map((row, i) => (
                 <tr key={row._id} className={styles.row}>
                   <td className={styles.tdCenter}>{i + 1}</td>
-                  <td className={styles.dateCell}>📅 {row.date}</td>
+                <td className={styles.dateCell}>
+   {formatDate(row.startDate)} – {formatDate(row.endDate)}
+</td>
                   <td className={styles.tdCenter}>{row.usdFee}</td>
                   <td className={styles.tdCenter}>{row.inrFee}</td>
                   <td>
