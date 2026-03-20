@@ -427,7 +427,12 @@ export default function HundredHourYoga() {
                         <td>
                           {isFull
                             ? <span className={styles.applyDisabled}>Apply Now</span>
-                            : <a href="#" className={styles.applyLink}>Apply Now</a>
+                            : <a
+  href={`/yoga-registration?batchId=${row._id}`}
+  className={styles.applyLink}
+>
+  Apply Now
+</a>
                           }
                         </td>
                       </tr>

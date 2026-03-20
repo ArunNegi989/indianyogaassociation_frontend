@@ -1,8 +1,9 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "@/assets/style/yoga-registration/Registerform.module.css";
 import HowToReach from "@/components/home/Howtoreach";
 import api from "@/lib/api";
+import { useSearchParams } from "next/navigation";
 
 const howDidYouKnow = [
   "Google / Internet",
@@ -65,6 +66,8 @@ export default function RegisterForm() {
   const [formData, setFormData]         = useState(INITIAL_FORM);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
+  const searchParams = useSearchParams();
+const batchId = searchParams.get("batchId");
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
@@ -73,30 +76,66 @@ export default function RegisterForm() {
   };
 
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    setIsSubmitting(true);
+  e.preventDefault();
+  setIsSubmitting(true);
 
-    try {
-      const res = await api.post("/email/send-email", { ...formData, gender });
+  try {
+    // ✅ 1. Email send
+    const res = await api.post("/email/send-email", {
+      ...formData,
+      gender,
+      batchId,
+    });
 
-      if (res.data.success) {
-        setSubmitSuccess(true);
-        setTimeout(() => {
-          setSubmitSuccess(false);
-          setGender("Male");
-          setFormData(INITIAL_FORM);
-        }, 2800);
-      } else {
-        alert("Failed ❌");
+    if (res.data.success) {
+
+      // ✅ 2. Seat update (🔥 NEW ADD)
+      if (batchId) {
+        await api.post("/100hr-seats/book-seat", {
+          batchId,
+        });
       }
+
+      // ✅ 3. Success UI
+      setSubmitSuccess(true);
+      setTimeout(() => {
+        setSubmitSuccess(false);
+        setGender("Male");
+        setFormData(INITIAL_FORM);
+      }, 2800);
+
+    } else {
+      alert("Failed ❌");
+    }
+
+  } catch (err) {
+    console.log(err);
+    alert("Server error ❌");
+  } finally {
+    setIsSubmitting(false);
+  }
+};
+useEffect(() => {
+  if (!batchId) return;
+
+  const fetchBatch = async () => {
+    try {
+      const res = await api.get(`/100hr-seats/get-batch/${batchId}`);
+      const batch = res.data.data;
+
+      setFormData(prev => ({
+        ...prev,
+        startDate: batch.startDate?.split("T")[0],
+        endDate: batch.endDate?.split("T")[0],
+        course: "100 Hour Yoga TTC", // dynamic bhi kar sakte ho later
+      }));
     } catch (err) {
-      console.log(err);
-      alert("Server error ❌");
-    } finally {
-      setIsSubmitting(false);
+      console.log("Batch fetch error", err);
     }
   };
 
+  fetchBatch();
+}, [batchId]);
   return (
     <>
       <div className={styles.page}>
