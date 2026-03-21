@@ -9,7 +9,7 @@
 
 /* ── Variables ── */
 .root {
-  --parchment: #f5e6c8;
+  --parchment: #fffdf79e;
   --parchment-2: #ede0c0;
   --parchment-3: #e8d5a8;
   --parchment-dark: #d4bc88;
@@ -79,6 +79,29 @@
   left: 30%;
   animation: spinM 140s linear infinite;
   opacity: 0.7;
+}
+
+/* ── Om divider ── */
+.omDivider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.85rem;
+}
+
+.dividerLine {
+  flex: 1;
+  max-width: 180px;
+  height: 1.5px;
+  background: linear-gradient(90deg, transparent, #e07b00, transparent);
+}
+
+.omSymbol {
+  font-family: 'Cinzel', serif;
+  font-size: 1.6rem;
+  color: #e07b00;
+  line-height: 1;
+  filter: drop-shadow(0 1px 3px rgba(224, 123, 0, 0.3));
 }
 
 .mf4 {
@@ -161,6 +184,9 @@
   position: relative;
   z-index: 1;
   margin: 1.8rem 0 1.2rem;
+  max-width: 1100px;
+    margin: 0 auto;
+  
 }
 
 .vintageHeading {
@@ -282,14 +308,19 @@
   position: relative;
   z-index: 1;
   padding: clamp(1.5rem, 3vw, 3rem) clamp(1rem, 4vw, 3.5rem);
-  max-width: 1180px;
+  
   margin: 0 auto;
+  position: relative;
+  background-image: url('../../images/1905x908.webp');
+  overflow: hidden;
 }
 
 .heroTextWrap {
   position: relative;
   z-index: 1;
   padding: clamp(1.4rem, 3vw, 2.5rem) 0 0.5rem;
+  max-width: 1100px;
+    margin: 0 auto;
 }
 
 /* Stats row */
@@ -303,6 +334,9 @@
   overflow: hidden;
   box-shadow: 0 4px 20px var(--shadow-warm);
   margin-top: 2.5rem;
+   max-width: 1100px;
+    margin: 0 auto;
+ 
 }
 
 .statCard {
@@ -360,7 +394,37 @@
   max-width: 1180px;
   margin: 0 auto;
 }
+.contentSection2 {
+  position: relative;
+  z-index: 1;
+  padding: clamp(2rem, 4vw, 4rem) clamp(1rem, 5vw, 4rem);
+  
+  margin: 0 auto;
+  position: relative;
+  background-image: url('../../images/1905x1840.webp');
+  overflow: hidden;
+}
 
+.contentSection3 {
+  position: relative;
+  z-index: 1;
+  padding: clamp(2rem, 4vw, 4rem) clamp(1rem, 5vw, 4rem);
+  
+  margin: 0 auto;
+  position: relative;
+  background-image: url('../../images/1905x1638.webp');
+  overflow: hidden;
+}
+.contentSection4 {
+  position: relative;
+  z-index: 1;
+  padding: clamp(2rem, 4vw, 4rem) clamp(1rem, 5vw, 4rem);
+  
+  margin: 0 auto;
+  position: relative;
+  background-image: url('../../images/1905x1638.webp');
+  overflow: hidden;
+}
 .h3Left {
   font-family: var(--font-body);
   font-size: clamp(1rem, 1.8vw, 1.2rem);
@@ -383,7 +447,7 @@
   border-radius: 2px;
   padding: 1.6rem 2rem;
   margin: 1.2rem 0;
-  background: linear-gradient(160deg, #fdf5e0 0%, #f5e5c0 100%);
+  background: linear-gradient(160deg, #fdf5e0 0%, #fff9eb 100%);
   box-shadow: inset 0 0 0 4px rgba(184, 134, 11, 0.08), 0 4px 18px var(--shadow-warm);
 }
 
@@ -399,7 +463,7 @@
   position: relative;
   border: 2px solid var(--saffron-gold);
   border-radius: 2px;
-  background: linear-gradient(160deg, #fdf5e0 0%, #f5e5c0 100%);
+  background: linear-gradient(160deg, #fdf5e0 0%, #fff9eb 100%);
   box-shadow: inset 0 0 0 5px rgba(184, 134, 11, 0.1), 0 6px 30px var(--shadow-warm);
   padding: 0.4rem;
 }
@@ -424,7 +488,7 @@
 
 .datesTable thead th {
   font-family: var(--font-display);
-  font-size: 0.72rem;
+  font-size: 0.82rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--cream);
@@ -474,7 +538,7 @@
 ════════════════════════ */
 .seatsAvailable {
   font-family: var(--font-display);
-  font-size: 0.68rem;
+  font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.05em;
   color: #3d6000;
@@ -569,6 +633,8 @@
   grid-template-columns: 1fr 1fr;
   gap: 1.5rem;
   margin-bottom: 2rem;
+  max-width: 1100px;
+  margin: 0 auto;
 }
 
 .feeInclCard {
@@ -578,6 +644,7 @@
   padding: 1.4rem 1.6rem;
   background: linear-gradient(160deg, #fdf5e0, #f5e5c0);
   box-shadow: inset 0 0 0 4px rgba(184, 134, 11, 0.07), 0 4px 18px var(--shadow-warm);
+  
 }
 
 .feeInclCard .cornerOrn:nth-child(1) { top: 5px; left: 5px }
@@ -613,11 +680,17 @@
 }
 
 /* ═══ MODULE CARDS (2-col) ═══ */
+.bodyContaint{
+   max-width: 1100px;
+  margin: 0 auto;
+}
 .moduleGrid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1.5rem;
   margin: 1.5rem 0;
+  max-width: 1100px;
+  margin: 0 auto;
 }
 
 .moduleCard {
@@ -670,6 +743,8 @@
   gap: 2rem;
   align-items: center;
   margin: 1.5rem 0;
+   max-width: 1100px;
+  margin: 0 auto;
 }
 
 .moduleDetailImg {
@@ -720,6 +795,9 @@
   background: linear-gradient(160deg, #fdf5e0, #f5e5c0);
   box-shadow: inset 0 0 0 5px rgba(184, 134, 11, 0.08), 0 6px 30px var(--shadow-warm);
   margin-bottom: 2rem;
+   max-width: 1100px;
+  margin: 0 auto;
+  
 }
 
 .primaryCurrCard .cornerOrn:nth-child(1) { top: 6px; left: 6px }
@@ -733,6 +811,7 @@
   padding: 1.2rem 1.4rem;
   margin: 1rem 0;
   background: rgba(245, 230, 200, 0.5);
+  
 }
 
 .foundationHeader {

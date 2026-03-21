@@ -4,167 +4,11 @@ import styles from "@/assets/style/200-hour-yoga-teacher-training-rishikesh/Twoh
 import HowToReach from "@/components/home/Howtoreach";
 import Image from "next/image";
 import heroImg from "@/assets/images/200hours.svg";
+import { style } from "framer-motion/client";
 
 /* ══════════════════════════════════════════════════
    MANDALA SVG — 7-layer concentric chakra wheel
 ══════════════════════════════════════════════════ */
-function MandalaSVG({
-  size = 400,
-  opacity = 0.13,
-}: {
-  size?: number;
-  opacity?: number;
-}) {
-  const cx = 100,
-    cy = 100;
-  const p12 = Array.from({ length: 12 }, (_, i) => (i * 30 * Math.PI) / 180);
-  const p8 = Array.from({ length: 8 }, (_, i) => (i * 45 * Math.PI) / 180);
-  const p6 = Array.from({ length: 6 }, (_, i) => (i * 60 * Math.PI) / 180);
-  return (
-    <svg
-      viewBox="0 0 200 200"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      style={{ width: size, height: size, opacity }}
-    >
-      {[95, 88, 80, 72, 60, 45, 30, 16].map((r, i) => (
-        <circle
-          key={i}
-          cx={cx}
-          cy={cy}
-          r={r}
-          stroke="#8b4513"
-          strokeWidth={i % 2 === 0 ? 0.7 : 0.3}
-          fill="none"
-        />
-      ))}
-      {p12.map((a, i) => {
-        const x1 = cx + 60 * Math.cos(a),
-          y1 = cy + 60 * Math.sin(a);
-        const x2 = cx + 88 * Math.cos(a),
-          y2 = cy + 88 * Math.sin(a);
-        const lx = cx + 74 * Math.cos(a + 0.18),
-          ly = cy + 74 * Math.sin(a + 0.18);
-        const rx = cx + 74 * Math.cos(a - 0.18),
-          ry = cy + 74 * Math.sin(a - 0.18);
-        return (
-          <g key={i}>
-            <line
-              x1={x1}
-              y1={y1}
-              x2={x2}
-              y2={y2}
-              stroke="#8b4513"
-              strokeWidth="0.5"
-            />
-            <path
-              d={`M ${x1} ${y1} Q ${lx} ${ly} ${x2} ${y2} Q ${rx} ${ry} ${x1} ${y1}`}
-              stroke="#8b4513"
-              strokeWidth="0.4"
-              fill="rgba(139,69,19,0.04)"
-            />
-          </g>
-        );
-      })}
-      {p8.map((a, i) => {
-        const x1 = cx + 45 * Math.cos(a),
-          y1 = cy + 45 * Math.sin(a);
-        const x2 = cx + 60 * Math.cos(a),
-          y2 = cy + 60 * Math.sin(a);
-        const lx = cx + 52 * Math.cos(a + 0.25),
-          ly = cy + 52 * Math.sin(a + 0.25);
-        const rx = cx + 52 * Math.cos(a - 0.25),
-          ry = cy + 52 * Math.sin(a - 0.25);
-        return (
-          <g key={i}>
-            <path
-              d={`M ${x1} ${y1} Q ${lx} ${ly} ${x2} ${y2} Q ${rx} ${ry} ${x1} ${y1}`}
-              stroke="#b8860b"
-              strokeWidth="0.5"
-              fill="rgba(184,134,11,0.05)"
-            />
-          </g>
-        );
-      })}
-      {p6.map((a, i) => (
-        <line
-          key={i}
-          x1={cx + 30 * Math.cos(a)}
-          y1={cy + 30 * Math.sin(a)}
-          x2={cx + 30 * Math.cos(a + Math.PI)}
-          y2={cy + 30 * Math.sin(a + Math.PI)}
-          stroke="#8b4513"
-          strokeWidth="0.6"
-        />
-      ))}
-      {p12.map((a, i) => (
-        <circle
-          key={i}
-          cx={cx + 80 * Math.cos(a)}
-          cy={cy + 80 * Math.sin(a)}
-          r="1.8"
-          fill="#8b4513"
-          opacity="0.6"
-        />
-      ))}
-      {p8.map((a, i) => (
-        <circle
-          key={i}
-          cx={cx + 45 * Math.cos(a)}
-          cy={cy + 45 * Math.sin(a)}
-          r="1.4"
-          fill="#b8860b"
-          opacity="0.5"
-        />
-      ))}
-      {p8.map((a, i) => {
-        const r1 = 16,
-          r2 = 28;
-        return (
-          <polygon
-            key={i}
-            points={`${cx + r1 * Math.cos(a)},${cy + r1 * Math.sin(a)} ${cx + r2 * Math.cos(a + 0.45)},${cy + r2 * Math.sin(a + 0.45)} ${cx + r2 * Math.cos(a - 0.45)},${cy + r2 * Math.sin(a - 0.45)}`}
-            stroke="#b8860b"
-            strokeWidth="0.4"
-            fill="rgba(184,134,11,0.04)"
-          />
-        );
-      })}
-      <circle
-        cx={cx}
-        cy={cy}
-        r="12"
-        stroke="#8b4513"
-        strokeWidth="0.8"
-        fill="rgba(139,69,19,0.06)"
-      />
-      <circle
-        cx={cx}
-        cy={cy}
-        r="5"
-        stroke="#8b4513"
-        strokeWidth="0.6"
-        fill="rgba(139,69,19,0.1)"
-      />
-      <circle cx={cx} cy={cy} r="2" fill="#8b4513" opacity="0.5" />
-      {Array.from({ length: 24 }, (_, i) => {
-        const a = (i * 15 * Math.PI) / 180;
-        const inner = i % 2 === 0 ? 91 : 93;
-        return (
-          <line
-            key={i}
-            x1={cx + inner * Math.cos(a)}
-            y1={cy + inner * Math.sin(a)}
-            x2={cx + 95 * Math.cos(a)}
-            y2={cy + 95 * Math.sin(a)}
-            stroke="#8b4513"
-            strokeWidth="0.5"
-          />
-        );
-      })}
-    </svg>
-  );
-}
 
 function BorderStrip() {
   return (
@@ -197,19 +41,6 @@ function BorderStrip() {
           strokeWidth="0.3"
         />
       </svg>
-    </div>
-  );
-}
-
-function OmDivider({ label }: { label?: string }) {
-  return (
-    <div className={styles.omDivider}>
-      <div className={styles.divLineLeft} />
-      <div className={styles.omDividerCenter}>
-        <MandalaSVG size={52} opacity={0.55} />
-        {label && <span className={styles.omDividerLabel}>{label}</span>}
-      </div>
-      <div className={styles.divLineRight} />
     </div>
   );
 }
@@ -258,21 +89,10 @@ function VintageHeading({
       style={{ textAlign: center ? "center" : "left" }}
     >
       <h2 className={styles.vintageHeading}>{children}</h2>
-      <div
-        className={styles.vintageHeadingUnderline}
-        style={{ justifyContent: center ? "center" : "flex-start" }}
-      >
-        <svg viewBox="0 0 200 8" className={styles.headingUndSvg}>
-          <path
-            d="M0,4 Q50,0 100,4 Q150,8 200,4"
-            stroke="#e07b00"
-            strokeWidth="1.2"
-            fill="none"
-          />
-          <circle cx="100" cy="4" r="3" fill="#e07b00" opacity="0.7" />
-          <circle cx="10" cy="4" r="1.5" fill="#b8860b" opacity="0.5" />
-          <circle cx="190" cy="4" r="1.5" fill="#b8860b" opacity="0.5" />
-        </svg>
+      <div className={styles.omDivider}>
+        <span className={styles.dividerLine} />
+        <span className={styles.omSymbol}>ॐ</span>
+        <span className={styles.dividerLine} />
       </div>
     </div>
   );
@@ -290,7 +110,11 @@ function SeatsCell({ booked, total }: { booked: number; total: number }) {
   const isFull = booked >= total;
   const remaining = total - booked;
   if (isFull) return <span className={styles.fullyBooked}>Fully Booked</span>;
-  return <span className={styles.seatsAvailable}>{remaining} / {total} Seats</span>;
+  return (
+    <span className={styles.seatsAvailable}>
+      {remaining} / {total} Seats
+    </span>
+  );
 }
 
 /* ════════════════════════════════════════
@@ -326,18 +150,90 @@ const stats = [
 
 /* ── Updated upcomingDates with usd, inr, bookedSeats + totalSeats ── */
 const upcomingDates = [
-  { date: "5th Jan - 29th Jan 2026",  usd: "749 USD", inr: "20,999 INR", bookedSeats: 50, totalSeats: 50 },
-  { date: "3rd Feb - 27th Feb 2026",  usd: "749 USD", inr: "20,999 INR", bookedSeats: 44, totalSeats: 50 },
-  { date: "3rd Mar - 27th Mar 2026",  usd: "749 USD", inr: "20,999 INR", bookedSeats: 32, totalSeats: 50 },
-  { date: "3rd Apr - 27th Apr 2026",  usd: "749 USD", inr: "20,999 INR", bookedSeats: 18, totalSeats: 50 },
-  { date: "3rd May - 27th May 2026",  usd: "749 USD", inr: "20,999 INR", bookedSeats: 10, totalSeats: 50 },
-  { date: "3rd Jun - 27th Jun 2026",  usd: "749 USD", inr: "20,999 INR", bookedSeats: 0,  totalSeats: 50 },
-  { date: "3rd Jul - 27th Jul 2026",  usd: "749 USD", inr: "20,999 INR", bookedSeats: 0,  totalSeats: 50 },
-  { date: "3rd Aug - 27th Aug 2026",  usd: "749 USD", inr: "20,999 INR", bookedSeats: 0,  totalSeats: 50 },
-  { date: "3rd Sep - 27th Sep 2026",  usd: "749 USD", inr: "20,999 INR", bookedSeats: 0,  totalSeats: 50 },
-  { date: "3rd Oct - 27th Oct 2026",  usd: "749 USD", inr: "20,999 INR", bookedSeats: 0,  totalSeats: 50 },
-  { date: "3rd Nov - 27th Nov 2026",  usd: "749 USD", inr: "20,999 INR", bookedSeats: 0,  totalSeats: 50 },
-  { date: "3rd Dec - 27th Dec 2026",  usd: "749 USD", inr: "20,999 INR", bookedSeats: 0,  totalSeats: 50 },
+  {
+    date: "5th Jan - 29th Jan 2026",
+    usd: "749 USD",
+    inr: "20,999 INR",
+    bookedSeats: 50,
+    totalSeats: 50,
+  },
+  {
+    date: "3rd Feb - 27th Feb 2026",
+    usd: "749 USD",
+    inr: "20,999 INR",
+    bookedSeats: 44,
+    totalSeats: 50,
+  },
+  {
+    date: "3rd Mar - 27th Mar 2026",
+    usd: "749 USD",
+    inr: "20,999 INR",
+    bookedSeats: 32,
+    totalSeats: 50,
+  },
+  {
+    date: "3rd Apr - 27th Apr 2026",
+    usd: "749 USD",
+    inr: "20,999 INR",
+    bookedSeats: 18,
+    totalSeats: 50,
+  },
+  {
+    date: "3rd May - 27th May 2026",
+    usd: "749 USD",
+    inr: "20,999 INR",
+    bookedSeats: 10,
+    totalSeats: 50,
+  },
+  {
+    date: "3rd Jun - 27th Jun 2026",
+    usd: "749 USD",
+    inr: "20,999 INR",
+    bookedSeats: 0,
+    totalSeats: 50,
+  },
+  {
+    date: "3rd Jul - 27th Jul 2026",
+    usd: "749 USD",
+    inr: "20,999 INR",
+    bookedSeats: 0,
+    totalSeats: 50,
+  },
+  {
+    date: "3rd Aug - 27th Aug 2026",
+    usd: "749 USD",
+    inr: "20,999 INR",
+    bookedSeats: 0,
+    totalSeats: 50,
+  },
+  {
+    date: "3rd Sep - 27th Sep 2026",
+    usd: "749 USD",
+    inr: "20,999 INR",
+    bookedSeats: 0,
+    totalSeats: 50,
+  },
+  {
+    date: "3rd Oct - 27th Oct 2026",
+    usd: "749 USD",
+    inr: "20,999 INR",
+    bookedSeats: 0,
+    totalSeats: 50,
+  },
+  {
+    date: "3rd Nov - 27th Nov 2026",
+    usd: "749 USD",
+    inr: "20,999 INR",
+    bookedSeats: 0,
+    totalSeats: 50,
+  },
+  {
+    date: "3rd Dec - 27th Dec 2026",
+    usd: "749 USD",
+    inr: "20,999 INR",
+    bookedSeats: 0,
+    totalSeats: 50,
+  },
 ];
 
 const includedFee = [
@@ -479,23 +375,39 @@ const hatha43 = [
   { n: 7, name: "Trikonasana", sub: "Triangle pose" },
   { n: 8, name: "Virabhadrasana", sub: "Warrior pose" },
   { n: 9, name: "Parsvakonasana", sub: "Side angle pose" },
-  { n: 10, name: "Utthita Parsvottanasana", sub: "Intense side stretching pose" },
+  {
+    n: 10,
+    name: "Utthita Parsvottanasana",
+    sub: "Intense side stretching pose",
+  },
   { n: 11, name: "Virabhadrasana-1", sub: "Warrior pose -1" },
   { n: 12, name: "Parivartita Trikonasana", sub: "Revolving triangle pose" },
   { n: 13, name: "Prasarita Padottanasana", sub: "Spread leg forward bend" },
   { n: 14, name: "Utthita Hasta Padangustasana", sub: "Hand to feet pose" },
-  { n: 15, name: "Uttanasana or Padabastasana", sub: "Standing forward bending pose" },
+  {
+    n: 15,
+    name: "Uttanasana or Padabastasana",
+    sub: "Standing forward bending pose",
+  },
   { n: 16, name: "Utkatasana", sub: "Chair pose" },
   { n: 17, name: "Marichiasana", sub: "Marichi sage pose" },
   { n: 18, name: "Janusirasana", sub: "Head to knee pose" },
-  { n: 19, name: "Trinmuhkapaschimmotanasana", sub: "Three faced seated forward bending pose" },
+  {
+    n: 19,
+    name: "Trinmuhkapaschimmotanasana",
+    sub: "Three faced seated forward bending pose",
+  },
   { n: 20, name: "Paschimottanasana", sub: "Seated head to knee pose" },
   { n: 21, name: "Purvottanasana", sub: "Front stretch pose" },
   { n: 22, name: "Mastendrasana", sub: "Sage pose" },
   { n: 23, name: "Upavistasana Konasana", sub: "Seated angle pose" },
   { n: 24, name: "Navasana", sub: "Boat pose" },
   { n: 25, name: "Badhakonasana", sub: "Butterfly pose" },
-  { n: 26, name: "Urdhva Paschimottanasana", sub: "Upward balanced head to knee pose" },
+  {
+    n: 26,
+    name: "Urdhva Paschimottanasana",
+    sub: "Upward balanced head to knee pose",
+  },
   { n: 27, name: "Padmasana", sub: "Lotus pose" },
   { n: 28, name: "Bhujangasana", sub: "Cobra pose" },
   { n: 29, name: "Urdhva Mukha Svanasana", sub: "Upward facing dog pose" },
@@ -524,7 +436,10 @@ const scheduleRows = [
   { time: "10:00 AM - 11:00 AM", schedule: "Brunch" },
   { time: "11:00 AM - 12:00 PM", schedule: "Karma Yoga" },
   { time: "12:00 PM - 01:00 PM", schedule: "Teaching Methodology" },
-  { time: "01:00 PM - 02:00 PM", schedule: "Self Study / Ayurveda (If you choose Ayurveda Course)" },
+  {
+    time: "01:00 PM - 02:00 PM",
+    schedule: "Self Study / Ayurveda (If you choose Ayurveda Course)",
+  },
   { time: "02:00 PM - 03:00 PM", schedule: "Refreshment" },
   { time: "03:00 PM - 04:00 PM", schedule: "Yoga Philosophy" },
   { time: "04:00 PM - 05:00 PM", schedule: "Yoga Anatomy" },
@@ -610,12 +525,7 @@ export default function TwoHundredHourYoga() {
   return (
     <div className={styles.root}>
       {/* Fixed mandala watermarks */}
-      <div className={styles.mandalaFixed} aria-hidden="true">
-        <div className={styles.mf1}><MandalaSVG size={700} opacity={0.055} /></div>
-        <div className={styles.mf2}><MandalaSVG size={520} opacity={0.045} /></div>
-        <div className={styles.mf3}><MandalaSVG size={400} opacity={0.04} /></div>
-        <div className={styles.mf4}><MandalaSVG size={300} opacity={0.035} /></div>
-      </div>
+
       <div className={styles.grainOverlay} aria-hidden="true" />
 
       <section className={styles.heroSection}>
@@ -630,7 +540,6 @@ export default function TwoHundredHourYoga() {
       </section>
       <section className={styles.heroSection2}>
         <div className={styles.heroTextWrap}>
-          <OmDivider />
           <VintageHeading>
             200 Hour Yoga Teacher Training in Rishikesh
           </VintageHeading>
@@ -698,10 +607,6 @@ export default function TwoHundredHourYoga() {
 
       {/* Aims + Overview + Dates */}
       <section className={styles.contentSection}>
-        <div className={styles.sectionMandalaL} aria-hidden="true">
-          <MandalaSVG size={320} opacity={0.07} />
-        </div>
-
         <h3 className={styles.h3Left}>
           200 Hour Yoga Teacher Training Rishikesh India - Aims &amp; Objective
         </h3>
@@ -723,11 +628,26 @@ export default function TwoHundredHourYoga() {
           </strong>
         </p>
         <ul className={styles.bulletList}>
-          <li>To deepen personal practice, Asanas to achieve fitness and flexibility.</li>
-          <li>To build confidence and competence in teaching yoga through a strong foundation in teaching methodology.</li>
-          <li>To promote rejuvenation, peace, and tranquility through the practice of yoga nidra and meditation.</li>
-          <li>To support emotional healing through mantra, meditation, and the havan fire ceremony.</li>
-          <li>To provide a strong foundation in the fundamental philosophical concepts of yoga.</li>
+          <li>
+            To deepen personal practice, Asanas to achieve fitness and
+            flexibility.
+          </li>
+          <li>
+            To build confidence and competence in teaching yoga through a strong
+            foundation in teaching methodology.
+          </li>
+          <li>
+            To promote rejuvenation, peace, and tranquility through the practice
+            of yoga nidra and meditation.
+          </li>
+          <li>
+            To support emotional healing through mantra, meditation, and the
+            havan fire ceremony.
+          </li>
+          <li>
+            To provide a strong foundation in the fundamental philosophical
+            concepts of yoga.
+          </li>
         </ul>
         <p className={styles.bodyText}>
           The 200-hour yoga training at AYM Yoga School in Rishikesh offers an
@@ -740,7 +660,6 @@ export default function TwoHundredHourYoga() {
           RVT 200 yoga teacher by Yoga Alliance.
         </p>
 
-        <OmDivider />
         <VintageHeading>
           Overview of 200 Hour Yoga Instructor Course Rishikesh India
         </VintageHeading>
@@ -775,7 +694,7 @@ export default function TwoHundredHourYoga() {
         {/* ══════════════════════════════════════════════
             DATES TABLE — updated with Seats + Apply cols
         ══════════════════════════════════════════════ */}
-        <OmDivider label="Upcoming Batches" />
+
         <VintageHeading>Upcoming Course Dates</VintageHeading>
         <p className={styles.centerSubtext}>
           Choose your preferred accommodation. Prices include tuition and meals.
@@ -815,18 +734,27 @@ export default function TwoHundredHourYoga() {
                       <td className={styles.roomPriceCell}>
                         Dorm <strong className={styles.priceAmt}>$749</strong> |{" "}
                         Twin <strong className={styles.priceAmt}>$849</strong> |{" "}
-                        Private <strong className={styles.priceAmt}>$1099</strong>
+                        Private{" "}
+                        <strong className={styles.priceAmt}>$1099</strong>
                       </td>
                       {/* Seats */}
                       <td>
-                        <SeatsCell booked={row.bookedSeats} total={row.totalSeats} />
+                        <SeatsCell
+                          booked={row.bookedSeats}
+                          total={row.totalSeats}
+                        />
                       </td>
                       {/* Apply */}
                       <td>
-                        {isFull
-                          ? <span className={styles.applyDisabled}>Apply Now</span>
-                          : <a href="#" className={styles.applyLink}>Apply Now</a>
-                        }
+                        {isFull ? (
+                          <span className={styles.applyDisabled}>
+                            Apply Now
+                          </span>
+                        ) : (
+                          <a href="#" className={styles.applyLink}>
+                            Apply Now
+                          </a>
+                        )}
                       </td>
                     </tr>
                   );
@@ -849,11 +777,7 @@ export default function TwoHundredHourYoga() {
       <BorderStrip />
 
       {/* Included / Not Included + Syllabus */}
-      <section className={styles.contentSection}>
-        <div className={styles.sectionMandalaR} aria-hidden="true">
-          <MandalaSVG size={280} opacity={0.07} />
-        </div>
-
+      <section className={styles.contentSection2}>
         <div className={styles.feeInclGrid}>
           <div className={styles.feeInclCard}>
             <CornerOrnament pos="tl" />
@@ -886,12 +810,12 @@ export default function TwoHundredHourYoga() {
             </ol>
           </div>
         </div>
-
-        <OmDivider label="Curriculum" />
+<div className={styles.bodyContaint}>
         <h3 className={styles.h3Left}>
           200 Hour Yoga Teacher Training In Rishikesh India- The Syllabus
         </h3>
         <div className={styles.underlineBar} />
+        
         <p className={styles.bodyText}>
           It is our commitment as yoga school to provide a safe environment for
           all to practice yoga without injuries. We strictly adhere to all
@@ -920,7 +844,7 @@ export default function TwoHundredHourYoga() {
           fundamentals you need to know on the path of yoga. It's categorized
           into several modules which help you know:
         </p>
-
+</div>
         <div className={styles.moduleGrid}>
           <ModuleCard
             title="Module 1: The Philosophy of Yoga"
@@ -949,10 +873,6 @@ export default function TwoHundredHourYoga() {
 
       {/* Modules 5-8 + 8.1 Ashtanga */}
       <section className={styles.contentSection}>
-        <div className={styles.sectionMandalaL} aria-hidden="true">
-          <MandalaSVG size={300} opacity={0.07} />
-        </div>
-
         <div className={styles.moduleGrid}>
           <ModuleCard
             title="Module 5: Knowledge of Meditation"
@@ -976,10 +896,10 @@ export default function TwoHundredHourYoga() {
           />
         </div>
 
-        <OmDivider />
         <VintageHeading>Module 8.1: Ashtanga Vinyasa Yoga</VintageHeading>
         <p className={styles.centerSubtext}>
-          Discover the transformative practice that synchronizes breath with movement
+          Discover the transformative practice that synchronizes breath with
+          movement
         </p>
 
         <div className={styles.moduleDetailGrid}>
@@ -1004,9 +924,13 @@ export default function TwoHundredHourYoga() {
               Ashtanga vinyasa system of practice in 20th century.
             </p>
             <div className={styles.featurePills}>
-              <span className={styles.pill}>📋 Breath-synchronized movement</span>
+              <span className={styles.pill}>
+                📋 Breath-synchronized movement
+              </span>
               <span className={styles.pill}>🧠 Calms the mind</span>
-              <span className={styles.pill}>🕉️ Ancient practice with modern application</span>
+              <span className={styles.pill}>
+                🕉️ Ancient practice with modern application
+              </span>
             </div>
           </div>
         </div>
@@ -1015,7 +939,7 @@ export default function TwoHundredHourYoga() {
       <BorderStrip />
 
       {/* Primary Series + Module 8.2 Hatha */}
-      <section className={styles.contentSection}>
+      <section className={styles.contentSection3}>
         <div className={styles.primaryCurrCard}>
           <CornerOrnament pos="tl" />
           <CornerOrnament pos="tr" />
@@ -1046,31 +970,59 @@ export default function TwoHundredHourYoga() {
           <div className={styles.weekGrid}>
             {[
               {
-                week: "Week 1", icon: "☀️",
+                week: "Week 1",
+                icon: "☀️",
                 items: [
-                  { t: "Sun Salutation A", d: "Learning the foundational sequence that warms up the body" },
-                  { t: "Sun Salutation B", d: "Building strength and endurance with the second sequence" },
+                  {
+                    t: "Sun Salutation A",
+                    d: "Learning the foundational sequence that warms up the body",
+                  },
+                  {
+                    t: "Sun Salutation B",
+                    d: "Building strength and endurance with the second sequence",
+                  },
                 ],
               },
               {
-                week: "Week 2", icon: "🚶",
+                week: "Week 2",
+                icon: "🚶",
                 items: [
-                  { t: "Fundamental Postures", d: "Mastering the basic poses that form the foundation" },
-                  { t: "Standing Asanas", d: "Building stability and balance through standing poses" },
+                  {
+                    t: "Fundamental Postures",
+                    d: "Mastering the basic poses that form the foundation",
+                  },
+                  {
+                    t: "Standing Asanas",
+                    d: "Building stability and balance through standing poses",
+                  },
                 ],
               },
               {
-                week: "Week 3", icon: "🧘",
+                week: "Week 3",
+                icon: "🧘",
                 items: [
-                  { t: "Sitting Asanas", d: "Deepening practice with seated poses and hip openers" },
-                  { t: "Finishing Asanas", d: "Cooling down and integrating the practice" },
+                  {
+                    t: "Sitting Asanas",
+                    d: "Deepening practice with seated poses and hip openers",
+                  },
+                  {
+                    t: "Finishing Asanas",
+                    d: "Cooling down and integrating the practice",
+                  },
                 ],
               },
               {
-                week: "Final Days", icon: "🏅",
+                week: "Final Days",
+                icon: "🏅",
                 items: [
-                  { t: "Ashtanga Closing Mantra", d: "Learning the traditional closing chant" },
-                  { t: "Complete Series", d: "Putting it all together in a full practice" },
+                  {
+                    t: "Ashtanga Closing Mantra",
+                    d: "Learning the traditional closing chant",
+                  },
+                  {
+                    t: "Complete Series",
+                    d: "Putting it all together in a full practice",
+                  },
                 ],
               },
             ].map((w, i) => (
@@ -1093,7 +1045,6 @@ export default function TwoHundredHourYoga() {
           </div>
         </div>
 
-        <OmDivider />
         <VintageHeading>Module 8.2: Hatha Yoga</VintageHeading>
         <p className={styles.centerSubtext}>
           Discover the traditional, ancient and classical yoga practice
@@ -1123,9 +1074,15 @@ export default function TwoHundredHourYoga() {
               limited to listed below.
             </p>
             <div className={styles.featurePills}>
-              <span className={styles.pill}>📋 Traditional &amp; Ancient Practice</span>
-              <span className={styles.pill}>🎓 YCB Certification Board Level-I</span>
-              <span className={styles.pill}>✋ Expert Guidance &amp; Correction</span>
+              <span className={styles.pill}>
+                📋 Traditional &amp; Ancient Practice
+              </span>
+              <span className={styles.pill}>
+                🎓 YCB Certification Board Level-I
+              </span>
+              <span className={styles.pill}>
+                ✋ Expert Guidance &amp; Correction
+              </span>
             </div>
           </div>
         </div>
@@ -1135,12 +1092,10 @@ export default function TwoHundredHourYoga() {
 
       {/* 43 Hatha Yoga Asanas */}
       <section className={styles.contentSection}>
-        <div className={styles.sectionMandalaR} aria-hidden="true">
-          <MandalaSVG size={260} opacity={0.07} />
-        </div>
         <VintageHeading>Hatha Yoga Asanas</VintageHeading>
         <p className={styles.centerSubtext}>
-          Master these 43 essential postures as part of your comprehensive training
+          Master these 43 essential postures as part of your comprehensive
+          training
         </p>
 
         <div className={styles.asanaFilterRow}>
@@ -1171,11 +1126,7 @@ export default function TwoHundredHourYoga() {
       <BorderStrip />
 
       {/* Evaluation + Accommodation + Food */}
-      <section className={styles.contentSection}>
-        <div className={styles.sectionMandalaL} aria-hidden="true">
-          <MandalaSVG size={280} opacity={0.07} />
-        </div>
-
+      <section className={styles.contentSection4}>
         <VintageHeading center={false}>
           Evolution and certification
         </VintageHeading>
@@ -1193,7 +1144,8 @@ export default function TwoHundredHourYoga() {
           questions (MCQ) paper. It covers all classes which has lectures and
           total marks for it is 60 Marks.
           <br />
-          Practical examination has total marks of 140 and its distribution is as:
+          Practical examination has total marks of 140 and its distribution is
+          as:
         </p>
         <ol className={styles.numberedListSimple}>
           <li>Demonstration Skills: 80 Marks.</li>
@@ -1202,7 +1154,6 @@ export default function TwoHundredHourYoga() {
           <li>Field Experience: 10 Marks.</li>
         </ol>
 
-        <OmDivider />
         <VintageHeading>Accommodation</VintageHeading>
         <div className={styles.photoSliderWrap}>
           <CornerOrnament pos="tl" />
@@ -1216,12 +1167,16 @@ export default function TwoHundredHourYoga() {
               "https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?w=400&q=80",
               "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&q=80",
             ].map((src, i) => (
-              <img key={i} src={src} alt={`Accommodation ${i + 1}`} className={styles.sliderImg} />
+              <img
+                key={i}
+                src={src}
+                alt={`Accommodation ${i + 1}`}
+                className={styles.sliderImg}
+              />
             ))}
           </div>
         </div>
 
-        <OmDivider />
         <VintageHeading>Food</VintageHeading>
         <div className={styles.photoSliderWrap}>
           <CornerOrnament pos="tl" />
@@ -1235,7 +1190,12 @@ export default function TwoHundredHourYoga() {
               "https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=400&q=80",
               "https://images.unsplash.com/photo-1571197119669-df5e2a9e0cb5?w=400&q=80",
             ].map((src, i) => (
-              <img key={i} src={src} alt={`Food ${i + 1}`} className={styles.sliderImg} />
+              <img
+                key={i}
+                src={src}
+                alt={`Food ${i + 1}`}
+                className={styles.sliderImg}
+              />
             ))}
           </div>
         </div>
@@ -1245,10 +1205,6 @@ export default function TwoHundredHourYoga() {
 
       {/* Luxury Room + Indian Fee + Class Schedule */}
       <section className={styles.contentSection}>
-        <div className={styles.sectionMandalaR} aria-hidden="true">
-          <MandalaSVG size={300} opacity={0.065} />
-        </div>
-
         <VintageHeading>LUXURY ROOM &amp; FEATURES</VintageHeading>
         <div className={styles.luxuryGrid}>
           <div className={styles.luxuryLeft}>
@@ -1265,21 +1221,31 @@ export default function TwoHundredHourYoga() {
               "Premium Bedding",
             ].map((it) => (
               <div key={it} className={styles.luxuryItem}>
-                <span className={styles.luxuryDot}><MandalaSVG size={12} opacity={0.8} /></span>
                 {it}
               </div>
             ))}
           </div>
           <div className={styles.luxuryRight}>
             <div className={styles.luxuryImgGrid}>
-              <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=400&q=80" alt="Luxury room" className={styles.luxuryImg} />
-              <img src="https://images.unsplash.com/photo-1540518614846-7eded433c457?w=400&q=80" alt="Luxury room 2" className={styles.luxuryImg} />
-              <img src="https://images.unsplash.com/photo-1571197119669-df5e2a9e0cb5?w=800&q=80" alt="Pool" className={`${styles.luxuryImg} ${styles.luxuryImgWide}`} />
+              <img
+                src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=400&q=80"
+                alt="Luxury room"
+                className={styles.luxuryImg}
+              />
+              <img
+                src="https://images.unsplash.com/photo-1540518614846-7eded433c457?w=400&q=80"
+                alt="Luxury room 2"
+                className={styles.luxuryImg}
+              />
+              <img
+                src="https://images.unsplash.com/photo-1571197119669-df5e2a9e0cb5?w=800&q=80"
+                alt="Pool"
+                className={`${styles.luxuryImg} ${styles.luxuryImgWide}`}
+              />
             </div>
           </div>
         </div>
 
-        <OmDivider />
         <VintageHeading>200 Hour Course Fee for Indian Students</VintageHeading>
         <div className={styles.indianFeeGrid}>
           {[
@@ -1299,7 +1265,6 @@ export default function TwoHundredHourYoga() {
           ))}
         </div>
 
-        <OmDivider />
         <VintageHeading>
           200 Hour yoga teacher training in india - Yoga Class Schedule
         </VintageHeading>
@@ -1308,7 +1273,8 @@ export default function TwoHundredHourYoga() {
           takes 24 days and will teach you everything you need to know. With a
           focus on yoga, this course is designed for aspiring or current
           teachers who want to deepen their understanding of the practice.
-          You'll learn how to give safe, effective classes appropriate for all levels.
+          You'll learn how to give safe, effective classes appropriate for all
+          levels.
         </p>
         <p className={styles.bodyText}>
           You are required to attend the yoga teacher program from Monday to
@@ -1345,7 +1311,12 @@ export default function TwoHundredHourYoga() {
               "https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?w=300&q=80",
               "https://images.unsplash.com/photo-1588286840104-8957b019727f?w=300&q=80",
             ].map((src, i) => (
-              <img key={i} src={src} alt={`Yoga class ${i + 1}`} className={styles.schedImg} />
+              <img
+                key={i}
+                src={src}
+                alt={`Yoga class ${i + 1}`}
+                className={styles.schedImg}
+              />
             ))}
           </div>
         </div>
@@ -1355,18 +1326,16 @@ export default function TwoHundredHourYoga() {
 
       {/* More Info + CTA Banner */}
       <section className={styles.contentSection}>
-        <div className={styles.sectionMandalaL} aria-hidden="true">
-          <MandalaSVG size={280} opacity={0.065} />
-        </div>
-
-        <OmDivider />
         <VintageHeading>
           More Information: 200 Hour Yoga School in Rishikesh
         </VintageHeading>
 
         <div className={styles.infoBlock}>
           <p className={styles.bodyText}>
-            <strong>The medium of instruction of 200 hour yoga teacher training course in Rishikesh India:</strong>
+            <strong>
+              The medium of instruction of 200 hour yoga teacher training course
+              in Rishikesh India:
+            </strong>
           </p>
           <ol className={styles.numberedListSimple}>
             <li>English (course happens every month)</li>
@@ -1381,7 +1350,10 @@ export default function TwoHundredHourYoga() {
         <div className={styles.infoDivider} />
         <div className={styles.infoBlock}>
           <p className={styles.bodyText}>
-            <strong>Eligibility criteria for attending 200 hour yoga teacher training India:</strong>
+            <strong>
+              Eligibility criteria for attending 200 hour yoga teacher training
+              India:
+            </strong>
           </p>
           <p className={styles.bodyText}>
             A curious mind to learn and practice yoga, basic English knowledge,
@@ -1404,7 +1376,8 @@ export default function TwoHundredHourYoga() {
             2) Another option is to have a student visa. AYM school can give you
             an invitation letter after you have completed the registration
             process as well as the advance fee payment. You need to apply for
-            the visa before you arrive in order to avoid last-minute inconveniences.
+            the visa before you arrive in order to avoid last-minute
+            inconveniences.
           </p>
         </div>
 
@@ -1424,8 +1397,12 @@ export default function TwoHundredHourYoga() {
           </div>
           <div className={styles.ctaBannerRight}>
             <p className={styles.ctaBannerBook}>Book Your Spot Today!</p>
-            <a href="#" className={styles.applyNowBtn}>Apply Now</a>
-            <a href="tel:+919528023390" className={styles.phoneBtn}>📱 +91-9528023390</a>
+            <a href="#" className={styles.applyNowBtn}>
+              Apply Now
+            </a>
+            <a href="tel:+919528023390" className={styles.phoneBtn}>
+              📱 +91-9528023390
+            </a>
           </div>
         </div>
       </section>
@@ -1434,13 +1411,10 @@ export default function TwoHundredHourYoga() {
 
       {/* New Programs + Global Cert */}
       <section className={styles.contentSection}>
-        <div className={styles.sectionMandalaR} aria-hidden="true">
-          <MandalaSVG size={300} opacity={0.065} />
-        </div>
-
         <VintageHeading>Our New 200 Hour Yoga Programs</VintageHeading>
         <p className={styles.centerSubtext}>
-          Expand your teaching expertise with our specialized certification combinations
+          Expand your teaching expertise with our specialized certification
+          combinations
         </p>
 
         <div className={styles.programGrid}>
@@ -1450,26 +1424,34 @@ export default function TwoHundredHourYoga() {
               <CornerOrnament pos="tr" />
               <CornerOrnament pos="bl" />
               <CornerOrnament pos="br" />
-              <div className={styles.programIcon}><MandalaSVG size={48} opacity={0.6} /></div>
+
               <h3 className={styles.programTitle}>{p.title}</h3>
               <p className={styles.programDesc}>{p.desc}</p>
               <div className={styles.programMeta}>
-                <div><span className={styles.metaLabel}>Duration:</span> {p.duration}</div>
-                <div><span className={styles.metaLabel}>Start Date:</span> {p.start}</div>
+                <div>
+                  <span className={styles.metaLabel}>Duration:</span>{" "}
+                  {p.duration}
+                </div>
+                <div>
+                  <span className={styles.metaLabel}>Start Date:</span>{" "}
+                  {p.start}
+                </div>
                 <div>
                   <span className={styles.metaLabel}>Price:</span>{" "}
                   <s className={styles.oldPrice}>{p.oldPrice}</s>{" "}
                   <strong className={styles.newPrice}>{p.price}</strong>
                 </div>
               </div>
-              <a href="#" className={styles.learnMoreBtn}>Learn More</a>
+              <a href="#" className={styles.learnMoreBtn}>
+                Learn More
+              </a>
             </div>
           ))}
         </div>
 
-        <OmDivider />
         <VintageHeading>
-          Learn the Art of Yoga and Meditation with Experts - Get Globally Certified
+          Learn the Art of Yoga and Meditation with Experts - Get Globally
+          Certified
         </VintageHeading>
         <p className={styles.bodyText}>
           At Association for Yoga and Meditation, we have highly trained yoga
@@ -1486,7 +1468,8 @@ export default function TwoHundredHourYoga() {
           and ways you can associate with your students in the process. When you
           search for the best yoga teacher training course near me, we are the
           one who comes to the top where you will learn to change people's lives
-          for the better and help them recover both their physical and mental well-being.
+          for the better and help them recover both their physical and mental
+          well-being.
         </p>
       </section>
 
@@ -1494,12 +1477,9 @@ export default function TwoHundredHourYoga() {
 
       {/* What you need to know */}
       <section className={styles.contentSection}>
-        <div className={styles.sectionMandalaL} aria-hidden="true">
-          <MandalaSVG size={280} opacity={0.065} />
-        </div>
-
         <VintageHeading>
-          What you need to know before start 200 hour yoga teacher training in Rishikesh
+          What you need to know before start 200 hour yoga teacher training in
+          Rishikesh
         </VintageHeading>
 
         <div className={styles.requirementsGrid}>
@@ -1584,7 +1564,9 @@ export default function TwoHundredHourYoga() {
           <div key={i} className={styles.infoBlock}>
             <h4 className={styles.infoQ}>{item.q}</h4>
             {item.a.split("\n\n").map((para, j) => (
-              <p key={j} className={styles.bodyText}>{para}</p>
+              <p key={j} className={styles.bodyText}>
+                {para}
+              </p>
             ))}
           </div>
         ))}
@@ -1594,11 +1576,9 @@ export default function TwoHundredHourYoga() {
 
       {/* Best 200hr + What's Included + Reviews */}
       <section className={styles.contentSection}>
-        <div className={styles.sectionMandalaR} aria-hidden="true">
-          <MandalaSVG size={280} opacity={0.065} />
-        </div>
-
-        <h4 className={styles.infoQ}>Best 200 hour yoga teacher training in India</h4>
+        <h4 className={styles.infoQ}>
+          Best 200 hour yoga teacher training in India
+        </h4>
         <p className={styles.bodyText}>
           Where is the best yoga teacher training in the world? This is
           definitely in Rishikesh, the world's capital of yoga. Rishikesh is the
@@ -1621,10 +1601,10 @@ export default function TwoHundredHourYoga() {
           <li>Washing Machine for Self cloths wash.</li>
         </ol>
 
-        <OmDivider label="Testimonials" />
         <VintageHeading>Student Reviews &amp; Success Stories</VintageHeading>
         <p className={styles.centerSubtext}>
-          Authentic stories of transformation from students who began just like you.
+          Authentic stories of transformation from students who began just like
+          you.
         </p>
 
         <div className={styles.reviewsGrid}>
@@ -1635,7 +1615,6 @@ export default function TwoHundredHourYoga() {
               <CornerOrnament pos="bl" />
               <CornerOrnament pos="br" />
               <div className={styles.reviewHeader}>
-                <div className={styles.reviewAvatar}><MandalaSVG size={48} opacity={0.5} /></div>
                 <div>
                   <div className={styles.reviewName}>{r.name}</div>
                   <div className={styles.reviewRole}>{r.role}</div>
@@ -1649,9 +1628,18 @@ export default function TwoHundredHourYoga() {
 
         <div className={styles.videoGrid}>
           {[
-            { thumb: "https://img.youtube.com/vi/dQw4w9WgXcQ/mqdefault.jpg", label: "Student Testimonial of AYM" },
-            { thumb: "https://img.youtube.com/vi/dQw4w9WgXcQ/mqdefault.jpg", label: "200 Hour (Beginners) Yoga" },
-            { thumb: "https://img.youtube.com/vi/dQw4w9WgXcQ/mqdefault.jpg", label: "Yoga Testimonials" },
+            {
+              thumb: "https://img.youtube.com/vi/dQw4w9WgXcQ/mqdefault.jpg",
+              label: "Student Testimonial of AYM",
+            },
+            {
+              thumb: "https://img.youtube.com/vi/dQw4w9WgXcQ/mqdefault.jpg",
+              label: "200 Hour (Beginners) Yoga",
+            },
+            {
+              thumb: "https://img.youtube.com/vi/dQw4w9WgXcQ/mqdefault.jpg",
+              label: "Yoga Testimonials",
+            },
           ].map((v, i) => (
             <div key={i} className={styles.videoThumb}>
               <img src={v.thumb} alt={v.label} className={styles.videoImg} />
@@ -1660,7 +1648,9 @@ export default function TwoHundredHourYoga() {
           ))}
         </div>
         <div style={{ textAlign: "center", marginTop: "1.5rem" }}>
-          <a href="#" className={styles.readMoreBtn}>Read More Reviews</a>
+          <a href="#" className={styles.readMoreBtn}>
+            Read More Reviews
+          </a>
         </div>
       </section>
 
@@ -1668,27 +1658,27 @@ export default function TwoHundredHourYoga() {
 
       {/* How to Book + FAQ */}
       <section className={styles.contentSection}>
-        <div className={styles.sectionMandalaL} aria-hidden="true">
-          <MandalaSVG size={280} opacity={0.065} />
-        </div>
-
         <VintageHeading>How to book your spot?</VintageHeading>
         <div className={styles.bookingSteps}>
           {[
             {
-              icon: "💻", title: "Apply Now",
+              icon: "💻",
+              title: "Apply Now",
               text: "Click on Apply Now, and you'll be redirected to the application page where you'll enter necessary details about yourself.",
             },
             {
-              icon: "👍", title: "Confirmation",
+              icon: "👍",
+              title: "Confirmation",
               text: "Once we recive your applciation. We'll review form within 24 hours and send confirmation to your email.",
             },
             {
-              icon: "🏛", title: "Advance-Deposit",
+              icon: "🏛",
+              title: "Advance-Deposit",
               text: "After confirmation, you need to deposit an advance fee, Once you desposit an advance fee you will get confirmation email.",
             },
             {
-              icon: "📝", title: "Refund Rules",
+              icon: "📝",
+              title: "Refund Rules",
               text: "The advance deposit will not be refundable however, you can join us on other schedules in the span of one year.",
             },
           ].map((s, i) => (
@@ -1704,7 +1694,6 @@ export default function TwoHundredHourYoga() {
           ))}
         </div>
 
-        <OmDivider />
         <VintageHeading>Frequently Asked Questions</VintageHeading>
         <div className={styles.faqList}>
           {faqs.map((q, i) => (
@@ -1714,7 +1703,9 @@ export default function TwoHundredHourYoga() {
                 onClick={() => setOpenFaq(openFaq === i ? null : i)}
               >
                 <span>{q}</span>
-                <span className={styles.faqIcon}>{openFaq === i ? "−" : "+"}</span>
+                <span className={styles.faqIcon}>
+                  {openFaq === i ? "−" : "+"}
+                </span>
               </button>
               {openFaq === i && (
                 <div className={styles.faqAnswer}>

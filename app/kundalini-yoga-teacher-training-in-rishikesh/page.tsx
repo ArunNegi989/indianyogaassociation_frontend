@@ -3,6 +3,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import styles from "@/assets/style/kundalini-yoga-teacher-training-in-rishikesh/Kundaliniyogattc.module.css";
 import HowToReach from "@/components/home/Howtoreach";
+import Image from "next/image";
+import heroImg from "@/assets/images/10.webp";
 
 /* ─────────────────────────────────────────
    MANDALA SVG COMPONENT
@@ -394,67 +396,14 @@ export default function KundaliniYogaTTC() {
       {/* ══════════════════════════════════════
           SECTION 1 — HERO + INTRO
       ══════════════════════════════════════ */}
-      <section className={styles.heroSection}>
-        <div className={styles.heroBannerWrap}>
-          <img
-            src="https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?w=1400&q=85"
-            alt="Kundalini Yoga Teacher Training in Rishikesh — students in savasana"
-            className={styles.heroBannerImg}
-            loading="eager"
-          />
-          <div className={styles.heroOverlay} />
-          <div className={styles.heroFrame} />
-          <div className={styles.heroContent}>
-            <div className={styles.heroChakra}>
-              <ChakraSVG size={52} color="#f5c842" />
-            </div>
-            <p className={styles.heroSmall}>
-              AYM YOGA SCHOOL · RISHIKESH, INDIA
-            </p>
-            <h1 className={styles.heroScript}>Kundalini</h1>
-            <p className={styles.heroSub}>Yoga Teacher Training</p>
-            <a href="#schedule" className={styles.heroBookBtn}>
-              BOOK YOUR SEAT
-            </a>
-            <p className={styles.heroUrl}>WWW.INDIANYOGAASSOCIATION.COM</p>
-          </div>
-        </div>
-
-        <div className="container px-3 px-md-4">
-          <div className={styles.introWrap}>
-            <h2 className={styles.pageTitle}>
-              Kundalini Yoga Teacher Training In Rishikesh
-            </h2>
-            <OmDivider />
-            <p className={styles.bodyPara}>
-              Have you been looking forward to growing a solid foundation in
-              Kundalini yoga teaching and practice? Do you aim to establish your
-              reputation as a skilled yoga instructor? This means you are
-              looking for an ideal kundalini yoga training program to enlighten
-              yourself and transform yourself into a true professional. In this
-              case, look no further. We at AYM provide a top-rated{" "}
-              <strong>
-                Kundalini yoga teacher training program in Rishikesh
-              </strong>{" "}
-              for the aspirants.
-            </p>
-            <p className={styles.bodyPara}>
-              If you share the same goals as ours, which is having a passion for
-              yoga and spirituality, then we are an ideal platform. Our{" "}
-              <strong>Kundalini YTT course in Rishikesh</strong> has been
-              designed to take you from beginners to advanced levels while
-              offering in-depth knowledge.
-            </p>
-            <p className={styles.bodyPara}>
-              We ensure an ultimate awakening experience that raises your
-              vibrations opens energy centres and achieves professionalism. Our
-              200-hour, 300-hour, and{" "}
-              <strong>500 hour kundalini yoga teacher training courses</strong>{" "}
-              enable you to discover your inner self while undergoing a
-              life-changing experience.
-            </p>
-          </div>
-        </div>
+       <section className={styles.heroSection}>
+        <Image
+          src={heroImg}
+          alt="Yoga Students Group"
+         
+          className={styles.heroImage}
+          priority
+        />
       </section>
 
       {/* ══════════════════════════════════════
