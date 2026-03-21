@@ -32,6 +32,21 @@
 /* ────────────────────────────────────────
    PAGE WRAPPER
 ──────────────────────────────────────── */
+.heroSection {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  line-height: 0;
+}
+
+.heroImage {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+}
 .page {
   font-family: 'Cormorant Garamond', serif;
   background: linear-gradient(160deg, var(--parch-lt) 0%, var(--parch) 55%, var(--parch-dk) 100%);

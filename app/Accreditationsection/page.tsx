@@ -3,13 +3,13 @@
 import React from "react";
 import Image, { StaticImageData } from "next/image";
 import styles from "@/assets/style/Accreditationsection/Accreditationsection.module.css";
-
 import yogabanner from "@/assets/images/aym-yoga-school-200-300-and-500-RYS.jpg";
 import yogacetificate from "@/assets/images/Minstry-Of-Ayush,-Government-of-India-for-web.jpg";
 import RYS200 from "@/assets/images/RYS-200.jpg";
 import RYS300 from "@/assets/images/RYS-300.jpg";
 import yogalogo from "@/assets/images/logo.jpg";
 import HowToReach from "@/components/home/Howtoreach";
+import heroImg from "@/assets/images/26.webp";
 
 /* ── Data ── */
 interface YogaCert {
@@ -44,6 +44,16 @@ const SectionTitle = ({ children }: { children: React.ReactNode }) => (
 const AccreditationSection: React.FC = () => {
   return (
     <>
+    <section className={styles.heroSection}>
+            <Image
+              src={heroImg}
+              alt="Yoga Students Group"
+              width={1180}
+              height={540}
+              className={styles.heroImage}
+              priority
+            />
+          </section>
     <section className={styles.section}>
       {/* PART 1 */}
       <div className={styles.container}>

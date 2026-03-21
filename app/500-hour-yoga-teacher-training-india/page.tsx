@@ -5,7 +5,7 @@ import styles from "@/assets/style/500-hour-yoga-teacher-training-india/Yogattc5
 import HowToReach from "@/components/home/Howtoreach";
 
 import Image from "next/image";
-import heroImg from "@/assets/images/500hours.svg";
+import heroImg from "@/assets/images/9.webp";
 const YouTubeEmbed = ({
   videoId,
   title,

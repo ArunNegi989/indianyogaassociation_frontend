@@ -29,7 +29,21 @@
   --r:           6px;
   --tr:          0.22s ease;
 }
+.heroSection {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  line-height: 0;
+}
 
+.heroImage {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+}
 /* ── Scroll reveal ── */
 .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.65s ease, transform 0.65s ease; }
 .reveal.visible { opacity: 1; transform: none; }
@@ -53,141 +67,7 @@
   user-select: none;
 }
 
-/* ════════ HERO ════════ */
-.hero {
-  position: relative;
-  min-height: 100svh;
-  display: flex;
-  align-items: center;
-  overflow: hidden;
-}
 
-.heroBg {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center 40%;
-  filter: saturate(0.6) sepia(0.45) brightness(0.85);
-}
-
-.heroVeil {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    140deg,
-    rgba(25,10,0,0.85) 0%,
-    rgba(50,22,0,0.65) 55%,
-    rgba(80,35,0,0.38) 100%
-  );
-  z-index: 1;
-}
-
-.heroMandalaLeft {
-  position: absolute;
-  left: -60px;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 2;
-  pointer-events: none;
-}
-
-.heroMandalaRight {
-  position: absolute;
-  right: 80px;
-  bottom: 60px;
-  z-index: 2;
-  pointer-events: none;
-}
-
-.heroContent {
-  position: relative;
-  z-index: 3;
-  padding: clamp(5rem,10vw,8rem) clamp(1.5rem,6vw,5rem);
-  max-width: 750px;
-}
-
-.heroPre {
-  font-family: var(--ff-f);
-  font-size: clamp(0.72rem,1.3vw,0.88rem);
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--saff-lt);
-  margin-bottom: 1rem;
-}
-
-.heroTitle {
-  font-family: var(--ff-d);
-  font-size: clamp(2rem,7vw,4.8rem);
-  font-weight: 700;
-  color: #fff8ee;
-  line-height: 1.2;
-  margin-bottom: 1.2rem;
-  text-shadow: 0 2px 20px rgba(0,0,0,0.45);
-}
-
-.heroTitle em {
-  font-style: normal;
-  font-family: var(--ff-s);
-  color: var(--saff-lt);
-  font-size: 1.1em;
-}
-
-.heroSub {
-  font-family: var(--ff-f);
-  font-size: clamp(0.82rem,1.4vw,0.96rem);
-  color: rgba(255,240,200,0.8);
-  letter-spacing: 0.06em;
-  margin-bottom: 2rem;
-}
-
-.heroBtns {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  margin-bottom: 2.5rem;
-}
-
-.heroStats {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0;
-  background: rgba(25,10,0,0.55);
-  border: var(--border);
-  border-radius: var(--r);
-  backdrop-filter: blur(6px);
-  overflow: hidden;
-  max-width: 560px;
-}
-
-.heroStat {
-  flex: 1;
-  min-width: 100px;
-  padding: 0.85rem 1rem;
-  text-align: center;
-  border-right: 1px solid rgba(224,123,0,0.18);
-  display: flex;
-  flex-direction: column;
-  gap: 0.2rem;
-}
-
-.heroStat:last-child { border-right: none; }
-
-.heroStatVal {
-  font-family: var(--ff-d);
-  font-size: clamp(1rem,2vw,1.4rem);
-  font-weight: 700;
-  color: var(--saff-lt);
-}
-
-.heroStatLbl {
-  font-family: var(--ff-f);
-  font-size: 0.68rem;
-  letter-spacing: 0.08em;
-  color: rgba(255,240,200,0.7);
-  text-transform: uppercase;
-}
 
 /* ── Chakra Spine ── */
 .chakraSpine {

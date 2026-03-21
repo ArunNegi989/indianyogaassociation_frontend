@@ -4,7 +4,7 @@ import React from "react";
 import Image from "next/image";
 import styles from "@/assets/style/Aboutaym/Aboutus.module.css";
 import HowToReach from "@/components/home/Howtoreach";
-
+import heroImg from "@/assets/images/27.webp";
 // ── DATA ─────────────────────────────────────────────────────────
 const objectives = [
   "Establishment of yoga study centers in India and abroad.",
@@ -29,6 +29,16 @@ const AboutUs: React.FC = () => {
       {/* ══════════════════════════════════════
           BLOCK 1 — Yoga School in India
       ══════════════════════════════════════ */}
+      <section className={styles.heroSection}>
+              <Image
+                src={heroImg}
+                alt="Yoga Students Group"
+                width={1180}
+                height={540}
+                className={styles.heroImage}
+                priority
+              />
+            </section>
       <section className={styles.schoolSection}>
         <div className={styles.container}>
 

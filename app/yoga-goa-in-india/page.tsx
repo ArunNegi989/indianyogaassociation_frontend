@@ -2,7 +2,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from "@/assets/style/yoga-goa-in-india/Goayogapage.module.css";
 import HowToReach from "@/components/home/Howtoreach";
-
+import Image from "next/image";
+import heroImg from "@/assets/images/16.webp";
 /* ─── Images (Unsplash / Google) ─── */
 const IMG = {
   hero: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=1800&q=85",
@@ -171,59 +172,15 @@ export default function GoaYogaPage() {
       </div>
 
       {/* ════════ HERO ════════ */}
-      <section className={styles.hero}>
-        <img src={IMG.hero} alt="Yoga on Goa Beach" className={styles.heroBg} />
-        <div className={styles.heroVeil} />
-
-        {/* Floating chakra spine */}
-        <div className={styles.chakraSpine} aria-label="7 chakras">
-          {chakras.map((c, i) => (
-            <button key={c.name} className={styles.chakraDot}
-              style={{ "--cc": c.color } as React.CSSProperties}
-              onMouseEnter={() => setChakraHover(i)}
-              onMouseLeave={() => setChakraHover(null)}>
-              <span className={styles.chakraSym}>{c.symbol}</span>
-              {chakraHover === i && (
-                <span className={styles.chakraTip}>
-                  <strong>{c.name}</strong><br /><small>{c.meaning}</small>
-                </span>
-              )}
-            </button>
-          ))}
-        </div>
-
-        {/* Mandala ring hero */}
-        <div className={styles.heroMandalaLeft} aria-hidden="true">
-          <MandalaRing size={380} opacity={0.13} />
-        </div>
-        <div className={styles.heroMandalaRight} aria-hidden="true">
-          <MandalaRing size={260} opacity={0.08} />
-        </div>
-
-        <div className={styles.heroContent}>
-          <p className={styles.heroPre}>AYM Yoga School · Arambol, Goa</p>
-          <h1 className={styles.heroTitle}>
-            Yoga Teacher<br />
-            <em>Training in Goa</em>
-          </h1>
-          <OmDivider />
-          <p className={styles.heroSub}>
-            100 · 200 · 300 · 500 Hour · Yoga Alliance Certified
-          </p>
-          <div className={styles.heroBtns}>
-            <a href="#programs" className={styles.btnPrimary}>Explore Programs</a>
-            <a href="#apply" className={styles.btnOutline}>Apply Now</a>
-          </div>
-          {/* Stats */}
-          <div className={styles.heroStats}>
-            {[["500+", "Graduates"], ["20+", "Years Teaching"], ["4", "Programs"], ["Arambol", "Beach Location"]].map(([v, l]) => (
-              <div key={l} className={styles.heroStat}>
-                <span className={styles.heroStatVal}>{v}</span>
-                <span className={styles.heroStatLbl}>{l}</span>
-              </div>
-            ))}
-          </div>
-        </div>
+     <section className={styles.heroSection}>
+        <Image
+          src={heroImg}
+          alt="Yoga Students Group"
+          width={1180}
+          height={540}
+          className={styles.heroImage}
+          priority
+        />
       </section>
 
       {/* ════════ INTRO ════════ */}

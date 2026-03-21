@@ -3,7 +3,8 @@
 import React from "react";
 import styles from "@/assets/style/yoga-teacher-training-in-india/Yogattcindia.module.css";
 import HowToReach from "@/components/home/Howtoreach";
-
+import Image from "next/image";
+import heroImg from "@/assets/images/14.webp";
 /* ─── MANDALA SVG ─── */
 const MandalaSVG = ({
   size = 300,
@@ -253,7 +254,16 @@ export default function YogaTTCIndia() {
         <MandalaSVG size={230} c1="#d4a017" c2="#e07b00" sw={0.55} />
       </div>
       <div className={styles.chakraGlow} aria-hidden="true" />
-
+<section className={styles.heroSection}>
+        <Image
+          src={heroImg}
+          alt="Yoga Students Group"
+          width={1180}
+          height={540}
+          className={styles.heroImage}
+          priority
+        />
+      </section>
       {/* ══════════════════════════════
           SECTION 1 — HERO + WHO WE ARE
       ══════════════════════════════ */}

@@ -2,7 +2,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from "@/assets/style/hatha-yoga-teacher-training-Rishikesh/Hathayogapage.module.css";
 import HowToReach from "@/components/home/Howtoreach";
-
+import Image from "next/image";
+import heroImg from "@/assets/images/15.webp";
 /* ── Google / Unsplash image URLs ── */
 const IMG = {
   hero: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=1600&q=80",
@@ -147,63 +148,17 @@ export default function HathaYogaPage() {
       <div className={styles.mandalaWatermark} aria-hidden="true">
         <MandalaSVG opacity={0.04} size={700} />
       </div>
-
-      {/* ══════════════════════ HERO ══════════════════════ */}
-      <section className={styles.hero}>
-        <div className={styles.heroOverlay} />
-        <img src={IMG.hero} alt="Yoga in Rishikesh" className={styles.heroBg} />
-        <div className={styles.heroContent}>
-          <div className={styles.heroMandala} aria-hidden="true">
-            <MandalaRingSVG />
-          </div>
-          <p className={styles.heroSuper}>AYM Yoga School · Rishikesh, India</p>
-          <h1 className={styles.heroTitle}>
-            Hatha Yoga
-            <br />
-            <em>Teacher Training</em>
-            <br />
-            in Rishikesh, India
-          </h1>
-          <div className={styles.heroDivider}>
-            <span className={styles.heroLine} />
-            <span className={styles.heroOm}>ॐ</span>
-            <span className={styles.heroLine} />
-          </div>
-          <p className={styles.heroSub}>
-            200 · 300 · 500 Hour · Yoga Alliance Certified · Since 2001
-          </p>
-          <div className={styles.heroBtns}>
-            <a href="#apply" className={styles.btnPrimary}>
-              Apply Now
-            </a>
-            <a href="#curriculum" className={styles.btnOutline}>
-              View Curriculum
-            </a>
-          </div>
-        </div>
-        {/* Chakra spine on right */}
-        <div className={styles.chakraSpine} aria-label="7 chakras">
-          {chakras.map((c, i) => (
-            <button
-              key={c.name}
-              className={styles.chakraDot}
-              style={{ "--c": c.color } as React.CSSProperties}
-              title={`${c.name} — ${c.meaning}`}
-              onMouseEnter={() => setActiveChakra(i)}
-              onMouseLeave={() => setActiveChakra(null)}
-            >
-              <span>{c.symbol}</span>
-              {activeChakra === i && (
-                <span className={styles.chakraTooltip}>
-                  {c.name}
-                  <br />
-                  <small>{c.meaning}</small>
-                </span>
-              )}
-            </button>
-          ))}
-        </div>
+<section className={styles.heroSection}>
+        <Image
+          src={heroImg}
+          alt="Yoga Students Group"
+          width={1180}
+          height={540}
+          className={styles.heroImage}
+          priority
+        />
       </section>
+      
 
       {/* ══════════════════════ INTRO ══════════════════════ */}
       <section className={`${styles.section} ${styles.introSection}`}>

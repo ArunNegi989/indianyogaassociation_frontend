@@ -2,10 +2,11 @@
 import React, { useEffect, useState, useRef } from "react";
 import styles from "@/assets/style/yoga-teacher-training-course-bali/Baliyogapage.module.css";
 import HowToReach from "@/components/home/Howtoreach";
-
+import Image from "next/image";
+import heroImg from "@/assets/images/17.webp";
 /* ─── Images ─── */
 const IMG = {
-  hero: "https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=1800&q=85",
+  hero: heroImg,
   group:
     "https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?w=1100&q=80",
   ubud: "https://images.unsplash.com/photo-1555400038-63f5ba517a47?w=1100&q=80",
@@ -170,78 +171,15 @@ export default function BaliYogaPage() {
       </div>
 
       {/* ════════════ HERO ════════════ */}
-      <section className={styles.hero}>
-        <img src={IMG.hero} alt="Bali Yoga" className={styles.heroBg} />
-        <div className={styles.heroVeil} />
-
-        {/* Floating side mandalas */}
-        <div className={styles.heroMandalaL} aria-hidden="true">
-          <MandalaRing size={440} opacity={0.14} />
-        </div>
-        <div className={styles.heroMandalaR} aria-hidden="true">
-          <MandalaRing size={280} opacity={0.09} />
-        </div>
-
-        {/* Chakra Spine */}
-        <div className={styles.chakraSpine} aria-label="Seven Chakras">
-          {chakras.map((c, i) => (
-            <button
-              key={c.name}
-              className={styles.chakraDot}
-              style={{ "--cc": c.color } as React.CSSProperties}
-              onMouseEnter={() => setHoveredChakra(i)}
-              onMouseLeave={() => setHoveredChakra(null)}
-              onClick={() => setActiveChakra(activeChakra === i ? null : i)}
-              aria-label={c.name}
-            >
-              <span className={styles.chakraSym}>{c.symbol}</span>
-              {hoveredChakra === i && (
-                <span className={styles.chakraTip}>
-                  <strong>{c.name}</strong>
-                  <br />
-                  <small>{c.meaning}</small>
-                  <br />
-                  <em>Mantra: {c.mantra}</em>
-                </span>
-              )}
-            </button>
-          ))}
-        </div>
-
-        <div className={styles.heroContent}>
-          <p className={styles.heroPre}>AYM Yoga School · Ubud, Bali</p>
-          <h1 className={styles.heroH1}>
-            200 Hour Yoga
-            <br />
-            <em>Teacher Training</em>
-            <br />
-            in Bali
-          </h1>
-          <OmBar />
-          <p className={styles.heroSub}>
-            Take Your Yoga Journey to the Next Level in Paradise
-          </p>
-          <div className={styles.heroBtns}>
-            <a href="#courses" className={styles.btnPrimary}>
-              Explore Courses
-            </a>
-            <a href="#destination" className={styles.btnGhost}>
-              Discover Bali
-            </a>
-          </div>
-
-          <div className={styles.heroStamps}>
-            {[
-              "Island of the Gods",
-              "Yoga Alliance Certified",
-              "Ubud · Bali",
-            ].map((s) => (
-              <span key={s} className={styles.heroStamp}>
-                {s}
-              </span>
-            ))}
-          </div>
-        </div>
+      <section className={styles.heroSection}>
+        <Image
+          src={heroImg}
+          alt="Yoga Students Group"
+          width={1180}
+          height={540}
+          className={styles.heroImage}
+          priority
+        />
       </section>
 
       {/* ════════════ INTRO — What is Bali ════════════ */}

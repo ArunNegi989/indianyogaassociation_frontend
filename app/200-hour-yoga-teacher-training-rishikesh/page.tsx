@@ -3,8 +3,8 @@ import React, { useState } from "react";
 import styles from "@/assets/style/200-hour-yoga-teacher-training-rishikesh/Twohundredhouryoga.module.css";
 import HowToReach from "@/components/home/Howtoreach";
 import Image from "next/image";
-import heroImg from "@/assets/images/200hours.svg";
-import { style } from "framer-motion/client";
+import heroImg from "@/assets/images/7.webp";
+
 
 /* ══════════════════════════════════════════════════
    MANDALA SVG — 7-layer concentric chakra wheel

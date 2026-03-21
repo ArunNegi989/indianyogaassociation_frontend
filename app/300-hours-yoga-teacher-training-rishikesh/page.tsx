@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import styles from "@/assets/style/300-hours-yoga-teacher-training-rishikesh/Yogattc300.module.css";
 import HowToReach from "@/components/home/Howtoreach";
 import Image from "next/image";
-import heroImg from "@/assets/images/300hours.svg";
+import heroImg from "@/assets/images/8.webp";
 
 /* ─────────────────────────────────────────
    YOUTUBE EMBED

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import styles from "@/assets/style/100-hour-yoga-teacher-training-in-rishikesh/Hundredhouryoga.module.css";
 import HowToReach from "@/components/home/Howtoreach";
 import Image from "next/image";
-import heroImg from "@/assets/images/100hours.svg";
+import heroImg from "@/assets/images/6.webp";
 import api from "@/lib/api";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "";
