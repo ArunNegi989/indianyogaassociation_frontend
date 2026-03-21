@@ -86,13 +86,6 @@ function SingleImageUpload({ preview, badge, hint, error, onSelect, onRemove }: 
    Jodit config — OUTSIDE component so the
    object reference never changes between
    renders and Jodit never re-mounts.
-
-   ✅ Rich toolbar same as AddHomeAboutPage:
-      source, bold, italic, font, fontsize,
-      brush (text color), paragraph, align,
-      ul, ol, link, undo, redo, paste, etc.
-
-   `as any` silences TS on placeholder etc.
 ───────────────────────────────────────── */
 const joditConfig = {
   readonly: false,
@@ -138,23 +131,11 @@ function isEditorEmpty(html: string): boolean {
 
 /* ─────────────────────────────────────────
    Reusable JoditField for EDIT forms.
-
-   KEY POINTS:
-   • `initialValue` — pre-populates the editor
-     with existing data loaded from API.
-     We use a `key` prop trick: when
-     `initialValue` changes (after fetch),
-     the component re-mounts with fresh content.
-   • No `value` prop on JoditEditor itself —
-     prevents re-mount on every React render,
-     which was causing paste to break.
-   • contentRef tracks the latest HTML for
-     submit time.
 ───────────────────────────────────────── */
 interface JoditFieldProps {
   label: string;
   hint?: string;
-  initialValue: string;        // existing data from API
+  initialValue: string;
   contentRef: React.MutableRefObject<string>;
   error?: string;
   onClearError: () => void;
@@ -174,8 +155,6 @@ function JoditField({
 }: JoditFieldProps) {
   const config = { ...joditConfig, placeholder, height };
 
-  // When initialValue arrives (after API fetch), sync it into the ref
-  // so submit reads the correct value even if the user doesn't type.
   useEffect(() => {
     if (initialValue) {
       contentRef.current = initialValue;
@@ -194,12 +173,6 @@ function JoditField({
         className={error ? styles.inputError : ""}
         style={{ borderRadius: 8, overflow: "hidden" }}
       >
-        {/*
-          `key={initialValue}` — forces Jodit to re-mount ONCE when the
-          existing data arrives from the API, so the editor shows the
-          pre-populated HTML. After that it stays stable (no re-mounts).
-          This is the correct pattern for edit forms with rich-text editors.
-        */}
         <JoditEditor
           key={initialValue}
           value={initialValue}
@@ -300,7 +273,6 @@ export default function EditClassCampusAmenitiesPage() {
         const res = await api.get(`/class-campus-amenities/${id}`);
         const d   = res.data.data;
 
-        // Populate all plain-text RHF fields
         reset({
           classSizeSuperLabel:  d.classSizeSuperLabel  || "",
           classSizeTitle:       d.classSizeTitle       || "",
@@ -319,18 +291,14 @@ export default function EditClassCampusAmenitiesPage() {
           amenityMosaicTag:     d.amenityMosaicTag     || "",
         });
 
-        // Set initial values for Jodit editors
-        // These trigger a one-time re-mount via key={initialValue}
-        setClassSizeParaInit(d.classSizePara  || "");
-        setCampusParaInit(d.campusPara        || "");
+        setClassSizeParaInit(d.classSizePara     || "");
+        setCampusParaInit(d.campusPara           || "");
         setAmenitiesParaInit(d.amenitiesMainPara || "");
 
-        // Also pre-fill refs so submit works even without editing
-        classSizeParaRef.current = d.classSizePara    || "";
-        campusParaRef.current    = d.campusPara       || "";
+        classSizeParaRef.current = d.classSizePara     || "";
+        campusParaRef.current    = d.campusPara        || "";
         amenitiesParaRef.current = d.amenitiesMainPara || "";
 
-        // Existing image previews
         if (d.classSizeImage)    setClassSizeImagePreview(d.classSizeImage);
         if (d.campusImages?.[0]) setCampusImagePreview(d.campusImages[0]);
         if (d.amenityImage)      setAmenityImagePreview(d.amenityImage);
@@ -394,7 +362,6 @@ export default function EditClassCampusAmenitiesPage() {
       const fd = new FormData();
       fd.append("id", id);
 
-      // Plain-text RHF fields
       const {
         classSizePara: _a,
         campusPara: _b,
@@ -407,19 +374,25 @@ export default function EditClassCampusAmenitiesPage() {
         else fd.append(k, v as string);
       });
 
-      // Rich-text content from refs
       fd.append("classSizePara",     classSizeParaRef.current);
       fd.append("campusPara",        campusParaRef.current);
       fd.append("amenitiesMainPara", amenitiesParaRef.current);
 
-      // New files only — backend keeps existing if not replaced
       if (classSizeImageFile) fd.append("classSizeImage", classSizeImageFile);
       if (campusImageFile)    fd.append("campusImage_0",  campusImageFile);
       if (amenityImageFile)   fd.append("amenityImage",   amenityImageFile);
 
-      await api.put("/class-campus-amenities/update", fd, {
+      const response = await api.put("/class-campus-amenities/update", fd, {
         headers: { "Content-Type": "multipart/form-data" },
       });
+
+      // ✅ FIX: Refresh image previews from the response so stale relative
+      // paths don't get cached in state. The controller now always returns
+      // full https:// URLs, so these previews will be correct on live too.
+      const updated = response.data.data;
+      if (updated?.classSizeImage)    setClassSizeImagePreview(updated.classSizeImage);
+      if (updated?.campusImages?.[0]) setCampusImagePreview(updated.campusImages[0]);
+      if (updated?.amenityImage)      setAmenityImagePreview(updated.amenityImage);
 
       setSubmitted(true);
       setTimeout(() => router.push("/admin/dashboard/Classcampusameniti"), 1500);
@@ -551,7 +524,6 @@ export default function EditClassCampusAmenitiesPage() {
             {errors.classSizeHighlight && <p className={styles.errorMsg}>⚠ {errors.classSizeHighlight.message}</p>}
           </div>
 
-          {/* JoditField: classSizePara — pre-populated with existing data */}
           <JoditField
             label="Description Paragraph"
             hint="Full description about the class size policy"
@@ -623,7 +595,6 @@ export default function EditClassCampusAmenitiesPage() {
             {errors.campusHighlight && <p className={styles.errorMsg}>⚠ {errors.campusHighlight.message}</p>}
           </div>
 
-          {/* JoditField: campusPara — pre-populated with existing data */}
           <JoditField
             label="Description Paragraph"
             hint="Full description about the campus"
@@ -672,7 +643,6 @@ export default function EditClassCampusAmenitiesPage() {
             {errors.amenitiesTitle && <p className={styles.errorMsg}>⚠ {errors.amenitiesTitle.message}</p>}
           </div>
 
-          {/* JoditField: amenitiesMainPara — pre-populated with existing data */}
           <JoditField
             label="Main Paragraph"
             hint="First paragraph about accommodation and rooms"
