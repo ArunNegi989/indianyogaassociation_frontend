@@ -1,258 +1,392 @@
+// FILE: src/app/admin/dashboard/200hr-seats/add-new/page.tsx
 "use client";
 
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { useForm, Controller } from "react-hook-form";
-import styles from "@/assets/style/Admin/dashboard/twohundredhourpage/batches/Batches.module.css";
 import api from "@/lib/api";
+import styles from "@/assets/style/Admin/yogacourse/200hourscourse/200hr-seatsbatch.module.css";
 
-/* ─────────────── Types ─────────────── */
-interface BatchForm {
-  date: string;
-  usd: string;
-  inr: string;
-  roomDorm: string;
-  roomTwin: string;
-  roomPrivate: string;
-  bookedSeats: number;
-  totalSeats: number;
-  earlyBirdNote: string;
+interface FormData {
+  startDate: string;
+  endDate: string;
+  usdFee: string;
+  inrFee: string;
+  dormPrice: string;
+  twinPrice: string;
+  privatePrice: string;
+  totalSeats: string;
+  note: string;
 }
 
-/* ── Field Primitives ── */
-function TXT({ label, hint, val, err, onCh, ph, max = 150, req = true, prefix }:
-  { label: string; hint?: string; val: string; err?: string; onCh: (v: string) => void; ph: string; max?: number; req?: boolean; prefix?: string }) {
-  return (
-    <div className={styles.fieldGroup}>
-      <label className={styles.label}><span className={styles.labelIcon}>✦</span>{label}{req && <span className={styles.required}>*</span>}</label>
-      {hint && <p className={styles.fieldHint}>{hint}</p>}
-      <div className={`${styles.inputWrap} ${prefix ? styles.inputWithPrefix : ""} ${err ? styles.inputError : ""} ${val && !err ? styles.inputSuccess : ""}`}>
-        {prefix && <span className={styles.inputPrefix}>{prefix}</span>}
-        <input type="text" className={`${styles.input} ${prefix ? styles.inputPrefixed : ""}`}
-          placeholder={ph} value={val} maxLength={max} onChange={e => onCh(e.target.value)} />
-        <span className={styles.charCount}>{val.length}/{max}</span>
-      </div>
-      {err && <p className={styles.errorMsg}>⚠ {err}</p>}
-    </div>
-  );
+interface FormErrors {
+  startDate?: string;
+  endDate?: string;
+  usdFee?: string;
+  inrFee?: string;
+  dormPrice?: string;
+  twinPrice?: string;
+  privatePrice?: string;
+  totalSeats?: string;
 }
 
-function NUM({ label, hint, val, err, onCh, ph, min = 0, max = 9999, req = true }:
-  { label: string; hint?: string; val: number; err?: string; onCh: (v: number) => void; ph: string; min?: number; max?: number; req?: boolean }) {
-  return (
-    <div className={styles.fieldGroup}>
-      <label className={styles.label}><span className={styles.labelIcon}>✦</span>{label}{req && <span className={styles.required}>*</span>}</label>
-      {hint && <p className={styles.fieldHint}>{hint}</p>}
-      <div className={`${styles.inputWrap} ${err ? styles.inputError : ""} ${!err ? styles.inputSuccess : ""}`}>
-        <input type="number" className={styles.input} placeholder={ph} value={val}
-          min={min} max={max} onChange={e => onCh(Number(e.target.value))} />
-      </div>
-      {err && <p className={styles.errorMsg}>⚠ {err}</p>}
-    </div>
-  );
-}
+const EMPTY: FormData = {
+  startDate: "",
+  endDate: "",
+  usdFee: "",
+  inrFee: "",
+  dormPrice: "",
+  twinPrice: "",
+  privatePrice: "",
+  totalSeats: "50",
+  note: "A $50 USD early bird discount is available on all accommodation types if booked 60 days in advance.",
+};
 
-export default function BatchesAddNew() {
+export default function SeatsAddPage() {
   const router = useRouter();
+  const [form, setForm] = useState<FormData>(EMPTY);
+  const [errors, setErrors] = useState<FormErrors>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
 
-  const { control, handleSubmit, watch, formState: { isSubmitting } } = useForm<BatchForm>({
-    defaultValues: {
-      date: "", usd: "", inr: "",
-      roomDorm: "", roomTwin: "", roomPrivate: "",
-      bookedSeats: 0, totalSeats: 50,
-      earlyBirdNote: "A $100 USD early bird discount is available on all accommodation types if booked 60 days in advance.",
-    },
-  });
-
-  const watchedDate    = watch("date");
-  const watchedUsd     = watch("usd");
-  const watchedBooked  = watch("bookedSeats");
-  const watchedTotal   = watch("totalSeats");
-
-  const onSubmit = async (data: BatchForm) => {
-    try {
-      await api.post("/two-hundred-hour/batches/create", {
-        date:          data.date,
-        usd:           data.usd,
-        inr:           data.inr,
-        roomDorm:      data.roomDorm,
-        roomTwin:      data.roomTwin,
-        roomPrivate:   data.roomPrivate,
-        bookedSeats:   Number(data.bookedSeats),
-        totalSeats:    Number(data.totalSeats),
-        earlyBirdNote: data.earlyBirdNote,
-      });
-      router.push("/admin/dashboard/twohundredhourpage/batches");
-    } catch (err: any) {
-      alert(err?.response?.data?.message || "Failed to save. Please try again.");
-    }
+  const set = (key: keyof FormData, val: string) => {
+    setForm(p => ({ ...p, [key]: val }));
+    setErrors(p => ({ ...p, [key]: undefined } as FormErrors));
   };
 
-  const isFull    = Number(watchedBooked) >= Number(watchedTotal);
-  const remaining = Number(watchedTotal) - Number(watchedBooked);
+  /* ── Date preview ── */
+  const formatDate = (d: string) => {
+    if (!d) return "";
+    return new Date(d).toLocaleDateString("en-GB", {
+      day: "2-digit", month: "short", year: "numeric",
+    });
+  };
+  const dateRangePreview =
+    form.startDate && form.endDate
+      ? `${formatDate(form.startDate)} – ${formatDate(form.endDate)}`
+      : null;
+
+  const validate = (): boolean => {
+    const e: FormErrors = {};
+    if (!form.startDate) e.startDate = "Start date is required";
+    if (!form.endDate)   e.endDate   = "End date is required";
+    if (form.startDate && form.endDate && form.endDate <= form.startDate)
+      e.endDate = "End date must be after start date";
+    if (!form.usdFee.trim())        e.usdFee       = "USD fee is required";
+    if (!form.inrFee.trim())        e.inrFee       = "INR fee is required";
+    if (!form.dormPrice.trim())     e.dormPrice    = "Dorm price is required";
+    if (!form.twinPrice.trim())     e.twinPrice    = "Twin price is required";
+    if (!form.privatePrice.trim())  e.privatePrice = "Private price is required";
+    if (!form.totalSeats.trim() || isNaN(Number(form.totalSeats)) || Number(form.totalSeats) < 1)
+      e.totalSeats = "Valid total seats required (min 1)";
+    setErrors(e);
+    return Object.keys(e).length === 0;
+  };
+
+ const handleSubmit = async () => {
+  if (!validate()) return;
+
+  try {
+    setIsSubmitting(true);
+
+    await api.post("/200hr-seats/createBatch", {
+      startDate: form.startDate,
+      endDate: form.endDate,
+      usdFee: form.usdFee,
+      inrFee: form.inrFee,
+      dormPrice: Number(form.dormPrice),
+      twinPrice: Number(form.twinPrice),
+      privatePrice: Number(form.privatePrice),
+      totalSeats: Number(form.totalSeats),
+      note: form.note,
+    });
+
+    setSubmitted(true);
+
+    setTimeout(() => {
+      router.push("/admin/yogacourse/200hourscourse/200hr-seats");
+    }, 1500);
+
+  } catch (err: any) {
+    alert(err?.response?.data?.message || "Failed to save");
+  } finally {
+    setIsSubmitting(false);
+  }
+};
+  if (submitted) {
+    return (
+      <div className={styles.successScreen}>
+        <div className={styles.successCard}>
+          <div className={styles.successOm}>ॐ</div>
+          <div className={styles.successCheck}>✓</div>
+          <h2 className={styles.successTitle}>Batch Added!</h2>
+          <p className={styles.successText}>Redirecting…</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className={styles.page}>
+    <div className={styles.formPage}>
 
       {/* Breadcrumb */}
       <div className={styles.breadcrumb}>
-        <button className={styles.bcLink} onClick={() => router.push("/admin/dashboard")}>Dashboard</button>
-        <span className={styles.bcSep}>›</span>
-        <button className={styles.bcLink} onClick={() => router.push("/admin/dashboard/twohundredhourpage")}>200 Hour</button>
-        <span className={styles.bcSep}>›</span>
-        <button className={styles.bcLink} onClick={() => router.push("/admin/dashboard/twohundredhourpage/batches")}>Batches</button>
-        <span className={styles.bcSep}>›</span>
-        <span className={styles.bcCurrent}>Add New</span>
+        <Link href="/admin/yogacourse/200hourscourse/200hr-seats" className={styles.breadcrumbLink}>
+          Seats & Dates
+        </Link>
+        <span className={styles.breadcrumbSep}>›</span>
+        <span className={styles.breadcrumbCurrent}>Add Batch</span>
       </div>
 
       <div className={styles.pageHeader}>
         <h1 className={styles.pageTitle}>Add New Batch</h1>
-        <p className={styles.pageSubtitle}>Add a new course date with pricing and seat availability</p>
+        <p className={styles.pageSubtitle}>
+          Fill in all batch details including dates, fees and seat count
+        </p>
       </div>
 
       <div className={styles.ornament}>
-        <span>❧</span><div className={styles.ornamentLine} /><span>ॐ</span><div className={styles.ornamentLine} /><span>❧</span>
+        <span>❧</span><div className={styles.ornamentLine} />
+        <span>ॐ</span><div className={styles.ornamentLine} /><span>❧</span>
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className={styles.formCard}>
+      <div className={styles.formCard}>
 
-          {/* ── Section: Date & Fees ── */}
-          <div className={styles.sectionBlock}>
-            <div className={styles.sectionHeader}>
-              <span className={styles.sectionIcon}>✦</span>
-              <h3 className={styles.sectionTitle}>Date &amp; Course Fees</h3>
-            </div>
-
-            {/* Date — full width */}
-            <Controller control={control} name="date" rules={{ required: "Date is required" }}
-              render={({ field, fieldState }) => (
-                <TXT label="Date Range" hint='Displayed in the table — e.g. "3rd Mar – 27th Mar 2026"'
-                  val={field.value} err={fieldState.error?.message} onCh={field.onChange}
-                  ph="e.g. 3rd Mar – 27th Mar 2026" max={60} />
-              )} />
-
-            <div className={styles.twoCol}>
-              {/* USD Fee */}
-              <Controller control={control} name="usd" rules={{ required: "USD fee is required" }}
-                render={({ field, fieldState }) => (
-                  <TXT label="FEE (USD)" hint='International student fee — e.g. "749 USD"'
-                    val={field.value} err={fieldState.error?.message} onCh={field.onChange}
-                    ph="749 USD" max={30} prefix="$" />
-                )} />
-
-              {/* INR Fee */}
-              <Controller control={control} name="inr" rules={{ required: "INR fee is required" }}
-                render={({ field, fieldState }) => (
-                  <TXT label="FEE (Indian / INR)" hint='Indian student fee — e.g. "20,999 INR"'
-                    val={field.value} err={fieldState.error?.message} onCh={field.onChange}
-                    ph="20,999 INR" max={30} prefix="₹" />
-                )} />
-            </div>
+        {/* ── BATCH DATES ── */}
+        <div className={styles.sectionBlock}>
+          <div className={styles.sectionHeader}>
+            <span className={styles.sectionIcon}>✦</span>
+            <h3 className={styles.sectionTitle}>Batch Dates</h3>
           </div>
 
-          <div className={styles.formDivider} />
-
-          {/* ── Section: Room Prices ── */}
-          <div className={styles.sectionBlock}>
-            <div className={styles.sectionHeader}>
-              <span className={styles.sectionIcon}>✦</span>
-              <h3 className={styles.sectionTitle}>Room Prices (USD)</h3>
-            </div>
-            <p className={styles.fieldHint}>These appear in the Room Price column: Dorm $749 | Twin $849 | Private $1099</p>
-
-            <div className={styles.threeCol}>
-              <Controller control={control} name="roomDorm" rules={{ required: "Required" }}
-                render={({ field, fieldState }) => (
-                  <TXT label="Dormitory" hint="Dorm room price" val={field.value}
-                    err={fieldState.error?.message} onCh={field.onChange} ph="749" max={10} prefix="$" />
-                )} />
-              <Controller control={control} name="roomTwin" rules={{ required: "Required" }}
-                render={({ field, fieldState }) => (
-                  <TXT label="Twin Sharing" hint="Twin room price" val={field.value}
-                    err={fieldState.error?.message} onCh={field.onChange} ph="849" max={10} prefix="$" />
-                )} />
-              <Controller control={control} name="roomPrivate" rules={{ required: "Required" }}
-                render={({ field, fieldState }) => (
-                  <TXT label="Private Room" hint="Private room price" val={field.value}
-                    err={fieldState.error?.message} onCh={field.onChange} ph="1099" max={10} prefix="$" />
-                )} />
-            </div>
-          </div>
-
-          <div className={styles.formDivider} />
-
-          {/* ── Section: Seats ── */}
-          <div className={styles.sectionBlock}>
-            <div className={styles.sectionHeader}>
-              <span className={styles.sectionIcon}>✦</span>
-              <h3 className={styles.sectionTitle}>Seat Availability</h3>
-            </div>
-
-            <div className={styles.twoCol}>
-              <Controller control={control} name="bookedSeats"
-                render={({ field, fieldState }) => (
-                  <NUM label="Booked Seats" hint="Number of seats already booked"
-                    val={field.value} err={fieldState.error?.message} onCh={field.onChange}
-                    ph="0" min={0} max={500} req={false} />
-                )} />
-              <Controller control={control} name="totalSeats" rules={{ required: "Required" }}
-                render={({ field, fieldState }) => (
-                  <NUM label="Total Seats" hint="Maximum capacity for this batch"
-                    val={field.value} err={fieldState.error?.message} onCh={field.onChange}
-                    ph="50" min={1} max={500} />
-                )} />
-            </div>
-
-            {/* Live seats preview */}
-            {watchedDate && (
-              <div className={styles.previewBox}>
-                <span className={styles.previewLabel}>Table preview:</span>
-                <span className={styles.previewDate}>📅 {watchedDate}</span>
-                <span className={styles.previewFee}>{watchedUsd}</span>
-                {isFull
-                  ? <span className={styles.badgeFull}>Fully Booked</span>
-                  : <span className={styles.badgeAvail}>{remaining} / {Number(watchedTotal)} Seats</span>
-                }
-                <span className={styles.previewApply}>
-                  {isFull
-                    ? <span className={styles.applyDisabled}>Apply Now</span>
-                    : <span className={styles.applyActive}>Apply Now</span>
-                  }
-                </span>
+          <div className={styles.twoCol}>
+            <div className={styles.fieldGroup}>
+              <label className={styles.label}>
+                <span className={styles.labelIcon}>✦</span>
+                Start Date<span className={styles.required}>*</span>
+              </label>
+              <p className={styles.fieldHint}>Course start date</p>
+              <div className={`${styles.inputWrap} ${errors.startDate ? styles.inputError : ""} ${form.startDate && !errors.startDate ? styles.inputSuccess : ""}`}>
+                <input type="date" className={styles.input}
+                  value={form.startDate}
+                  onChange={e => set("startDate", e.target.value)} />
               </div>
-            )}
-          </div>
-
-          <div className={styles.formDivider} />
-
-          {/* ── Section: Early Bird Note ── */}
-          <div className={styles.sectionBlock}>
-            <div className={styles.sectionHeader}>
-              <span className={styles.sectionIcon}>✦</span>
-              <h3 className={styles.sectionTitle}>Early Bird Note</h3>
+              {errors.startDate && <p className={styles.errorMsg}>⚠ {errors.startDate}</p>}
             </div>
-            <Controller control={control} name="earlyBirdNote"
-              render={({ field }) => (
-                <TXT label="Note text" hint="Shown below the table. Leave blank to hide."
-                  val={field.value} onCh={field.onChange}
-                  ph="A $100 USD early bird discount is available on all accommodation types if booked 60 days in advance."
-                  max={250} req={false} />
-              )} />
+
+            <div className={styles.fieldGroup}>
+              <label className={styles.label}>
+                <span className={styles.labelIcon}>✦</span>
+                End Date<span className={styles.required}>*</span>
+              </label>
+              <p className={styles.fieldHint}>Course end date</p>
+              <div className={`${styles.inputWrap} ${errors.endDate ? styles.inputError : ""} ${form.endDate && !errors.endDate ? styles.inputSuccess : ""}`}>
+                <input type="date" className={styles.input}
+                  value={form.endDate}
+                  min={form.startDate || undefined}
+                  onChange={e => set("endDate", e.target.value)} />
+              </div>
+              {errors.endDate && <p className={styles.errorMsg}>⚠ {errors.endDate}</p>}
+            </div>
           </div>
 
-          <div className={styles.formDivider} />
-
-          {/* ── Actions ── */}
-          <div className={styles.formActions}>
-            <Link href="/admin/dashboard/twohundredhourpage/batches" className={styles.cancelBtn}>← Cancel</Link>
-            <button type="submit" className={`${styles.submitBtn} ${isSubmitting ? styles.submitBtnLoading : ""}`} disabled={isSubmitting}>
-              {isSubmitting ? <><span className={styles.spinner} /> Saving…</> : <><span>✦</span> Create Batch</>}
-            </button>
-          </div>
-
+          {dateRangePreview && (
+            <div className={styles.datePreview}>
+              <span className={styles.datePreviewIcon}>📅</span>
+              <span className={styles.datePreviewText}>{dateRangePreview}</span>
+              <span className={styles.datePreviewNote}>— Frontend pe aisa dikhega</span>
+            </div>
+          )}
         </div>
-      </form>
+
+        <div className={styles.formDivider} />
+
+        {/* ── COURSE FEES ── */}
+        <div className={styles.sectionBlock}>
+          <div className={styles.sectionHeader}>
+            <span className={styles.sectionIcon}>✦</span>
+            <h3 className={styles.sectionTitle}>Course Fees</h3>
+          </div>
+          <div className={styles.twoCol}>
+            <div className={styles.fieldGroup}>
+              <label className={styles.label}>
+                <span className={styles.labelIcon}>✦</span>
+                Fee (USD)<span className={styles.required}>*</span>
+              </label>
+              <p className={styles.fieldHint}>e.g. 950 USD</p>
+              <div className={`${styles.inputWrap} ${errors.usdFee ? styles.inputError : ""} ${form.usdFee && !errors.usdFee ? styles.inputSuccess : ""}`}>
+                <input type="text" className={styles.input} placeholder="950 USD"
+                  value={form.usdFee} maxLength={30}
+                  onChange={e => set("usdFee", e.target.value)} />
+              </div>
+              {errors.usdFee && <p className={styles.errorMsg}>⚠ {errors.usdFee}</p>}
+            </div>
+
+            <div className={styles.fieldGroup}>
+              <label className={styles.label}>
+                <span className={styles.labelIcon}>✦</span>
+                Fee (INR)<span className={styles.required}>*</span>
+              </label>
+              <p className={styles.fieldHint}>e.g. 38,000 INR</p>
+              <div className={`${styles.inputWrap} ${errors.inrFee ? styles.inputError : ""} ${form.inrFee && !errors.inrFee ? styles.inputSuccess : ""}`}>
+                <input type="text" className={styles.input} placeholder="38,000 INR"
+                  value={form.inrFee} maxLength={30}
+                  onChange={e => set("inrFee", e.target.value)} />
+              </div>
+              {errors.inrFee && <p className={styles.errorMsg}>⚠ {errors.inrFee}</p>}
+            </div>
+          </div>
+        </div>
+
+        <div className={styles.formDivider} />
+
+        {/* ── ROOM PRICES ── */}
+        <div className={styles.sectionBlock}>
+          <div className={styles.sectionHeader}>
+            <span className={styles.sectionIcon}>✦</span>
+            <h3 className={styles.sectionTitle}>Room Prices (USD)</h3>
+          </div>
+          <div className={styles.threeCol}>
+            <div className={styles.fieldGroup}>
+              <label className={styles.label}>
+                <span className={styles.labelIcon}>✦</span>
+                Dormitory<span className={styles.required}>*</span>
+              </label>
+              <p className={styles.fieldHint}>e.g. 949</p>
+              <div className={`${styles.inputWrapPrefix} ${errors.dormPrice ? styles.inputError : ""} ${form.dormPrice && !errors.dormPrice ? styles.inputSuccess : ""}`}>
+                <span className={styles.prefix}>$</span>
+                <input type="number" className={styles.inputPrefixed} placeholder="949"
+                  value={form.dormPrice} onChange={e => set("dormPrice", e.target.value)} />
+              </div>
+              {errors.dormPrice && <p className={styles.errorMsg}>⚠ {errors.dormPrice}</p>}
+            </div>
+
+            <div className={styles.fieldGroup}>
+              <label className={styles.label}>
+                <span className={styles.labelIcon}>✦</span>
+                Twin Sharing<span className={styles.required}>*</span>
+              </label>
+              <p className={styles.fieldHint}>e.g. 1049</p>
+              <div className={`${styles.inputWrapPrefix} ${errors.twinPrice ? styles.inputError : ""} ${form.twinPrice && !errors.twinPrice ? styles.inputSuccess : ""}`}>
+                <span className={styles.prefix}>$</span>
+                <input type="number" className={styles.inputPrefixed} placeholder="1049"
+                  value={form.twinPrice} onChange={e => set("twinPrice", e.target.value)} />
+              </div>
+              {errors.twinPrice && <p className={styles.errorMsg}>⚠ {errors.twinPrice}</p>}
+            </div>
+
+            <div className={styles.fieldGroup}>
+              <label className={styles.label}>
+                <span className={styles.labelIcon}>✦</span>
+                Private Room<span className={styles.required}>*</span>
+              </label>
+              <p className={styles.fieldHint}>e.g. 1249</p>
+              <div className={`${styles.inputWrapPrefix} ${errors.privatePrice ? styles.inputError : ""} ${form.privatePrice && !errors.privatePrice ? styles.inputSuccess : ""}`}>
+                <span className={styles.prefix}>$</span>
+                <input type="number" className={styles.inputPrefixed} placeholder="1249"
+                  value={form.privatePrice} onChange={e => set("privatePrice", e.target.value)} />
+              </div>
+              {errors.privatePrice && <p className={styles.errorMsg}>⚠ {errors.privatePrice}</p>}
+            </div>
+          </div>
+        </div>
+
+        <div className={styles.formDivider} />
+
+        {/* ── SEAT MANAGEMENT ── */}
+        <div className={styles.sectionBlock}>
+          <div className={styles.sectionHeader}>
+            <span className={styles.sectionIcon}>✦</span>
+            <h3 className={styles.sectionTitle}>Seat Management</h3>
+          </div>
+
+          <div className={styles.seatInfoBanner}>
+            <span className={styles.seatInfoIcon}>ℹ</span>
+            <p className={styles.seatInfoText}>
+              Only set the <strong>Total Seats</strong>. Booked seats will start from <strong>0</strong> and
+              will automatically increase whenever a student submits the registration form.
+            </p>
+          </div>
+
+          <div className={styles.fieldGroup}>
+            <label className={styles.label}>
+              <span className={styles.labelIcon}>✦</span>
+              Total Seats<span className={styles.required}>*</span>
+            </label>
+            <p className={styles.fieldHint}>Maximum capacity for this batch (e.g. 50)</p>
+            <div className={`${styles.inputWrap} ${styles.inputWrapNarrow} ${errors.totalSeats ? styles.inputError : ""} ${form.totalSeats && !errors.totalSeats ? styles.inputSuccess : ""}`}>
+              <input type="number" className={styles.input} min="1" max="500"
+                placeholder="50" value={form.totalSeats}
+                onChange={e => set("totalSeats", e.target.value)} />
+            </div>
+            {errors.totalSeats && <p className={styles.errorMsg}>⚠ {errors.totalSeats}</p>}
+          </div>
+
+          {form.totalSeats && !isNaN(Number(form.totalSeats)) && Number(form.totalSeats) > 0 && (
+            <div className={styles.seatsPreview}>
+              <span className={styles.seatsPreviewLabel}>Preview:</span>
+              <span className={styles.badgeOpen}>
+                {form.totalSeats} / {form.totalSeats} Seats Available
+              </span>
+              <span className={styles.seatsPreviewNote}>
+                (registrations aane par automatically kam hoga)
+              </span>
+            </div>
+          )}
+        </div>
+
+        <div className={styles.formDivider} />
+
+        {/* ── NOTE ── */}
+        <div className={styles.sectionBlock}>
+          <div className={styles.sectionHeader}>
+            <span className={styles.sectionIcon}>✦</span>
+            <h3 className={styles.sectionTitle}>Table Note</h3>
+          </div>
+          <div className={styles.fieldGroup}>
+            <label className={styles.label}>
+              <span className={styles.labelIcon}>✦</span>
+              Note
+            </label>
+            <p className={styles.fieldHint}>
+              Shown below the dates table on the frontend (e.g. early bird discount info)
+            </p>
+            <div className={styles.noteInputWrap}>
+              <span className={styles.noteIcon}>📝</span>
+              <textarea
+                className={styles.noteTextarea}
+                rows={3}
+                maxLength={400}
+                placeholder="e.g. A $50 USD early bird discount is available on all accommodation types if booked 60 days in advance."
+                value={form.note}
+                onChange={e => set("note", e.target.value)}
+              />
+              <span className={styles.noteCharCount}>{form.note.length}/400</span>
+            </div>
+          </div>
+        </div>
+
+        <div className={styles.formDivider} />
+
+        {/* Actions */}
+        <div className={styles.formActions}>
+          <Link href="/admin/yogacourse/200hourscourse/200hr-seats" className={styles.cancelBtn}>
+            ← Cancel
+          </Link>
+          <button
+            type="button"
+            className={`${styles.submitBtn} ${isSubmitting ? styles.submitBtnLoading : ""}`}
+            onClick={handleSubmit}
+            disabled={isSubmitting}
+          >
+            {isSubmitting
+              ? <><span className={styles.spinner} /> Saving…</>
+              : <><span>✦</span> Add Batch</>
+            }
+          </button>
+        </div>
+
+      </div>
     </div>
   );
 }

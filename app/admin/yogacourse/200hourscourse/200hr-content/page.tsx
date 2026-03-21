@@ -1,93 +1,71 @@
 "use client";
-// ══════════════════════════════════════════════════════════════════
-//  ContentPart1_List.tsx
-//  200hr Admin — Hero, Transform, WhatIs, WhyChoose, Suitable, WhyEnrol
-// ══════════════════════════════════════════════════════════════════
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
-import toast, { Toaster } from "react-hot-toast";
-import styles from "@/assets/style/Admin/dashboard/twohundredhourpage/content-part1/ContentPart1.module.css";
+import styles from "@/assets/style/Admin/yogacourse/200hourscourse/Yoga200hr.module.css";
 import api from "@/lib/api";
+import toast, { Toaster } from "react-hot-toast";
 
-interface ContentPart1Data {
-  _id: string;
-  heroTitle: string;
-  heroDesc: string;
-  transformTitle: string;
-  transformParas: string[];
-  whatIsTitle: string;
-  whatIsParas: string[];
-  whyChooseTitle: string;
-  whyChooseParas: string[];
-  suitableTitle: string;
-  suitableItems: string[];
-  whyEnrolTitle: string;
-  whyEnrolItems: string[];
-  createdAt: string;
+interface Yoga200Item {
+  id: string;
+  metaTitle: string;
+  slug: string;
+  status: "Active" | "Inactive";
   updatedAt: string;
 }
 
-function strip(html: string): string {
-  if (!html) return "";
-  return html.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
-}
+export default function Yoga200ListPage() {
+  const [items, setItems]             = useState<Yoga200Item[]>([]);
+  const [loading, setLoading]         = useState(true);
+  const [deleteModal, setDeleteModal] = useState<string | null>(null);
+  const [deleting, setDeleting]       = useState(false);
 
-export default function ContentPart1List() {
-  const router = useRouter();
-  const [data,      setData]      = useState<ContentPart1Data | null>(null);
-  const [loading,   setLoading]   = useState(true);
-  const [fetchErr,  setFetchErr]  = useState<string | null>(null);
-  const [showDel,   setShowDel]   = useState(false);
-  const [deleting,  setDeleting]  = useState(false);
+  const isLimitReached = items.length >= 1;
 
   useEffect(() => {
     (async () => {
       try {
-        const res = await api.get("/two-hundred-hour/content-part1/get");
-        setData(res.data?.data || null);
-      } catch (err: any) {
-        setFetchErr(err?.response?.data?.message || "Failed to load");
+        const res = await api.get("/yoga-200hr");
+        if (res.data.success) {
+          setItems(res.data.data.map((d: any) => ({
+            id:        d._id,
+            metaTitle: d.metaTitle || "—",
+            slug:      d.slug      || "—",
+            status:    d.status    || "Active",
+            updatedAt: d.updatedAt ? new Date(d.updatedAt).toLocaleDateString() : "—",
+          })));
+        }
+      } catch {
+        toast.error("Failed to load data");
       } finally {
         setLoading(false);
       }
     })();
   }, []);
 
+  const toggleStatus = (id: string) =>
+    setItems(prev => prev.map(i => i.id === id ? { ...i, status: i.status === "Active" ? "Inactive" : "Active" } : i));
+
   const handleDelete = async () => {
+    if (!deleteModal) return;
     try {
       setDeleting(true);
-      await api.delete("/two-hundred-hour/content-part1/delete");
-      setData(null);
-      setShowDel(false);
-      toast.success("Content Part 1 deleted.");
-    } catch (err: any) {
-      toast.error(err?.response?.data?.message || "Delete failed.");
+      await api.delete(`/yoga-200hr/${deleteModal}`);
+      setItems(prev => prev.filter(i => i.id !== deleteModal));
+      setDeleteModal(null);
+      toast.success("Page deleted");
+    } catch (e: any) {
+      toast.error(e?.response?.data?.message || "Delete failed");
     } finally {
       setDeleting(false);
     }
   };
 
-  const fmtDate = (iso: string) =>
-    new Date(iso).toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" });
-
   if (loading) return (
     <div className={styles.page}>
       <div className={styles.skeletonHeader} />
       <div className={styles.skeletonCard}>
-        {[...Array(4)].map((_, i) => <div key={i} className={styles.skeletonField} style={{ animationDelay: `${i * 0.1}s` }} />)}
-      </div>
-    </div>
-  );
-
-  if (fetchErr) return (
-    <div className={styles.page}>
-      <div className={styles.emptyState}>
-        <div className={styles.emptyIcon}>⚠️</div>
-        <h3 className={styles.emptyTitle}>Failed to load</h3>
-        <p className={styles.emptyText}>{fetchErr}</p>
-        <button className={styles.retryBtn} onClick={() => window.location.reload()}>↺ Retry</button>
+        {[...Array(3)].map((_, i) => <div key={i} className={styles.skeletonField} />)}
       </div>
     </div>
   );
@@ -96,145 +74,74 @@ export default function ContentPart1List() {
     <div className={styles.page}>
       <Toaster position="bottom-right" toastOptions={{ duration: 3000, style: { background: "#1f2937", color: "#fff", borderRadius: "10px", fontSize: "14px" } }} />
 
-      {/* Breadcrumb */}
-      <div className={styles.breadcrumb}>
-        <button className={styles.bcLink} onClick={() => router.push("/admin/dashboard")}>Dashboard</button>
-        <span className={styles.bcSep}>›</span>
-        <button className={styles.bcLink} onClick={() => router.push("/admin/dashboard/twohundredhourpage")}>200 Hour</button>
-        <span className={styles.bcSep}>›</span>
-        <span className={styles.bcCurrent}>Content Part 1</span>
-      </div>
-
-      <div className={styles.listHeader}>
-        <div>
-          <h1 className={styles.pageTitle}>Content Part 1 — Hero &amp; Sections</h1>
-          <p className={styles.pageSubtitle}>Hero title, Transform, What is YTT, Why Choose, Suitable For, Why Enrol</p>
+      <div className={styles.pageHeader}>
+        <div className={styles.pageHeaderText}>
+          <h1 className={styles.pageTitle}>200 Hour Yoga Teacher Training</h1>
+          <p className={styles.pageSubtitle}>Manage main page content · {items.length} record{items.length !== 1 ? "s" : ""}</p>
         </div>
-        <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
-          {data && (
-            <button onClick={() => setShowDel(true)} className={styles.deletepageBtn}>🗑 Delete</button>
-          )}
-          <Link
-            href="/admin/dashboard/twohundredhourpage/content-part1/add-new"
-            className={`${styles.addNewBtn} ${data ? styles.disabledBtn : ""}`}
-            onClick={e => {
-              if (data) {
-                e.preventDefault();
-                toast.error("Content already exists. Edit or Delete first.", {
-                  style: { background: "#7f1d1d", color: "#fff", borderRadius: "10px", fontSize: "14px" },
-                });
-              }
-            }}>
-            <span>✦</span> Add Content
+        {isLimitReached ? (
+          <button className={styles.addBtn} onClick={() => toast("Page already exists. Edit or delete it first.", { icon: "🔒", style: { background: "#1f2937", color: "#fff", borderRadius: "10px", fontSize: "14px" } })}>
+            <span className={styles.addPlus}>+</span><span className={styles.addLabel}>Add Page</span>
+          </button>
+        ) : (
+          <Link href="/admin/yogacourse/200hourscourse/200hr-content/add-new" className={styles.addBtn}>
+            <span className={styles.addPlus}>+</span><span className={styles.addLabel}>Add Page</span>
           </Link>
-        </div>
+        )}
       </div>
 
       <div className={styles.ornament}>
         <span>❧</span><div className={styles.ornamentLine} /><span>ॐ</span><div className={styles.ornamentLine} /><span>❧</span>
       </div>
 
-      {!data ? (
-        <div className={styles.emptyState}>
-          <div className={styles.emptyIcon}>📝</div>
-          <h3 className={styles.emptyTitle}>No content yet</h3>
-          <p className={styles.emptyText}>Add hero and section content for the 200hr page.</p>
-          <Link href="/admin/dashboard/twohundredhourpage/content-part1/add-new" className={styles.emptyAddBtn}>
-            + Add Content Part 1
-          </Link>
-        </div>
-      ) : (
-        <>
-          {/* Meta row */}
-          <div className={styles.metaRow}>
-            <span className={styles.metaPill}>🕐 Created: {fmtDate(data.createdAt)}</span>
-            <span className={styles.metaPill}>✏️ Updated: {fmtDate(data.updatedAt)}</span>
+      <div className={styles.tableWrap}>
+        {items.length === 0 ? (
+          <div className={styles.empty}>
+            <span className={styles.emptyOm}>ॐ</span>
+            <p>No page found. Add your 200 Hour Yoga page.</p>
           </div>
-
-          {/* Content preview cards */}
-          <div className={styles.previewGrid}>
-
-            {/* Hero */}
-            <div className={styles.previewCard}>
-              <div className={styles.previewCardHeader}>
-                <span className={styles.previewCardIcon}>🏔</span>
-                <span className={styles.previewCardTitle}>Hero Section</span>
-              </div>
-              <div className={styles.previewCardBody}>
-                <div className={styles.previewRow}><span className={styles.previewKey}>Title</span><span className={styles.previewVal}>{strip(data.heroTitle) || "—"}</span></div>
-                <div className={styles.previewRow}><span className={styles.previewKey}>Description</span><span className={styles.previewVal}>{strip(data.heroDesc).slice(0, 100)}{strip(data.heroDesc).length > 100 ? "…" : ""}</span></div>
-              </div>
-            </div>
-
-            {/* Transform */}
-            <div className={styles.previewCard}>
-              <div className={styles.previewCardHeader}><span className={styles.previewCardIcon}>🌿</span><span className={styles.previewCardTitle}>Transform Your Practice</span></div>
-              <div className={styles.previewCardBody}>
-                <div className={styles.previewRow}><span className={styles.previewKey}>Title</span><span className={styles.previewVal}>{strip(data.transformTitle) || "—"}</span></div>
-                <div className={styles.previewRow}><span className={styles.previewKey}>Paragraphs</span><span className={styles.previewCount}>{data.transformParas?.length || 0} added</span></div>
-              </div>
-            </div>
-
-            {/* What Is */}
-            <div className={styles.previewCard}>
-              <div className={styles.previewCardHeader}><span className={styles.previewCardIcon}>❓</span><span className={styles.previewCardTitle}>What is a 100 Hour YTT?</span></div>
-              <div className={styles.previewCardBody}>
-                <div className={styles.previewRow}><span className={styles.previewKey}>Title</span><span className={styles.previewVal}>{strip(data.whatIsTitle) || "—"}</span></div>
-                <div className={styles.previewRow}><span className={styles.previewKey}>Paragraphs</span><span className={styles.previewCount}>{data.whatIsParas?.length || 0} added</span></div>
-              </div>
-            </div>
-
-            {/* Why Choose */}
-            <div className={styles.previewCard}>
-              <div className={styles.previewCardHeader}><span className={styles.previewCardIcon}>🏫</span><span className={styles.previewCardTitle}>Why Choose AYM</span></div>
-              <div className={styles.previewCardBody}>
-                <div className={styles.previewRow}><span className={styles.previewKey}>Title</span><span className={styles.previewVal}>{strip(data.whyChooseTitle) || "—"}</span></div>
-                <div className={styles.previewRow}><span className={styles.previewKey}>Paragraphs</span><span className={styles.previewCount}>{data.whyChooseParas?.length || 0} added</span></div>
-              </div>
-            </div>
-
-            {/* Suitable For */}
-            <div className={styles.previewCard}>
-              <div className={styles.previewCardHeader}><span className={styles.previewCardIcon}>👥</span><span className={styles.previewCardTitle}>Suitable For</span></div>
-              <div className={styles.previewCardBody}>
-                <div className={styles.previewRow}><span className={styles.previewKey}>Title</span><span className={styles.previewVal}>{strip(data.suitableTitle) || "—"}</span></div>
-                <div className={styles.previewRow}><span className={styles.previewKey}>List Items</span><span className={styles.previewCount}>{data.suitableItems?.length || 0} items</span></div>
-              </div>
-            </div>
-
-            {/* Why Enrol */}
-            <div className={styles.previewCard}>
-              <div className={styles.previewCardHeader}><span className={styles.previewCardIcon}>✅</span><span className={styles.previewCardTitle}>Why Enrol in AYM</span></div>
-              <div className={styles.previewCardBody}>
-                <div className={styles.previewRow}><span className={styles.previewKey}>Title</span><span className={styles.previewVal}>{strip(data.whyEnrolTitle) || "—"}</span></div>
-                <div className={styles.previewRow}><span className={styles.previewKey}>List Items</span><span className={styles.previewCount}>{data.whyEnrolItems?.length || 0} items</span></div>
-              </div>
-            </div>
-
-          </div>
-
-          {/* Edit button */}
-          <div style={{ marginTop: "1.5rem" }}>
-            <button className={styles.editBtnLg}
-              onClick={() => router.push("/admin/dashboard/twohundredhourpage/content-part1/edit")}>
-              ✏️ Edit Content Part 1
-            </button>
-          </div>
-        </>
-      )}
+        ) : (
+          <table className={styles.table}>
+            <thead>
+              <tr>
+                <th>#</th><th>Meta Title</th><th>Slug</th><th>Status</th><th>Updated</th><th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {items.map((item, i) => (
+                <tr key={item.id}>
+                  <td className={styles.tdCenter}>{i + 1}</td>
+                  <td><div className={styles.cellTitle}>{item.metaTitle}</div></td>
+                  <td><span className={styles.metaChip}>{item.slug}</span></td>
+                  <td className={styles.tdCenter}>
+                    <button className={`${styles.statusBadge} ${item.status === "Active" ? styles.statusActive : styles.statusInactive}`} onClick={() => toggleStatus(item.id)}>
+                      <span className={styles.statusDot} />{item.status}
+                    </button>
+                  </td>
+                  <td>{item.updatedAt}</td>
+                  <td className={styles.tdCenter}>
+                    <div className={styles.actionBtns}>
+                      <Link href={`/admin/dashboard/yoga-200hr/edit/${item.id}`} className={styles.editBtn}>✎ Edit</Link>
+                      <button className={styles.deleteBtn} onClick={() => setDeleteModal(item.id)}>✕ Delete</button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+      </div>
 
       {/* Delete Modal */}
-      {showDel && (
-        <div className={styles.modalBackdrop} onClick={() => !deleting && setShowDel(false)}>
-          <div className={styles.modalBox} onClick={e => e.stopPropagation()}>
-            <div className={styles.modalIcon}>🗑️</div>
-            <h3 className={styles.modalTitle}>Delete Content Part 1?</h3>
-            <p className={styles.modalText}>This will permanently delete all Hero &amp; Sections content.</p>
+      {deleteModal && (
+        <div className={styles.modalOverlay} onClick={() => !deleting && setDeleteModal(null)}>
+          <div className={styles.modal} onClick={e => e.stopPropagation()}>
+            <div className={styles.modalOm}>ॐ</div>
+            <h3 className={styles.modalTitle}>Confirm Deletion</h3>
+            <p className={styles.modalText}>Are you sure you want to delete this page? This cannot be undone.</p>
             <div className={styles.modalActions}>
-              <button className={styles.modalCancelBtn} onClick={() => setShowDel(false)} disabled={deleting}>Cancel</button>
-              <button className={styles.modalDeleteBtn} onClick={handleDelete} disabled={deleting}>
-                {deleting ? <><span className={styles.spinner} /> Deleting…</> : "Yes, Delete"}
-              </button>
+              <button className={styles.modalCancel} onClick={() => setDeleteModal(null)} disabled={deleting}>Cancel</button>
+              <button className={styles.modalConfirm} onClick={handleDelete} disabled={deleting}>{deleting ? "Deleting…" : "Delete"}</button>
             </div>
           </div>
         </div>

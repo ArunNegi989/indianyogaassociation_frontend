@@ -68,8 +68,9 @@ const navItems: NavItem[] = [
         label: "200 Hours",
         icon: "②",
         children: [
-          { href: "/admin/dashboard/200hr-seats",   label: "Seats & Dates" },
-          { href: "/admin/dashboard/200hr-content", label: "Page Content" },
+          { href: "/admin/yogacourse/200hourscourse/200hr-seats",   label: "Seats & Dates" },
+           { href: "/admin/yogacourse/200hourscourse/200hr-content",   label: "page Content" },
+         
         ],
       },
       {

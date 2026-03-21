@@ -390,19 +390,25 @@ export default function SeatsEditPage() {
             </div>
 
             {/* Booked Seats — editable in edit form for manual correction */}
-            <div className={styles.fieldGroup}>
-              <label className={styles.label}>
-                <span className={styles.labelIcon}>✦</span>
-                Booked Seats
-              </label>
-              <p className={styles.fieldHint}>Current bookings (auto-managed, edit only if needed)</p>
-              <div className={`${styles.inputWrap} ${errors.bookedSeats ? styles.inputError : ""} ${form.bookedSeats && !errors.bookedSeats ? styles.inputSuccess : ""}`}>
-                <input type="number" className={styles.input} min="0"
-                  placeholder="0" value={form.bookedSeats}
-                  onChange={e => set("bookedSeats", e.target.value)} />
-              </div>
-              {errors.bookedSeats && <p className={styles.errorMsg}>⚠ {errors.bookedSeats}</p>}
-            </div>
+           <div className={styles.fieldGroup}>
+  <label className={styles.label}>
+    <span className={styles.labelIcon}>✦</span>
+    Booked Seats
+  </label>
+
+  <p className={styles.fieldHint}>
+    Auto-managed (based on registrations)
+  </p>
+
+  <div className={`${styles.inputWrap} ${styles.inputDisabled}`}>
+    <input
+      type="number"
+      className={styles.input}
+      value={form.bookedSeats}
+      disabled
+    />
+  </div>
+</div>
           </div>
 
           {/* Live preview */}
