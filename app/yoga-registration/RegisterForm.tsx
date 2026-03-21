@@ -77,43 +77,46 @@ export default function RegisterForm() {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    setIsSubmitting(true);
+const handleSubmit = async () => {
+  setIsSubmitting(true);
 
-    try {
-      // ✅ 1. Email send
-      const res = await api.post("/email/send-email", {
-        ...formData,
-        gender,
-        batchId,
-      });
+  try {
+    // ✅ SAVE DATA
+    await api.post("/registration/create", {
+      ...formData,
+      gender,
+      batchId,
+    });
 
-      if (res.data.success) {
-        // ✅ 2. Seat update (🔥 NEW ADD)
-        if (batchId) {
-          await api.post("/100hr-seats/book-seat", {
-            batchId,
-          });
-        }
+    // ✅ EMAIL
+    const res = await api.post("/email/send-email", {
+      ...formData,
+      gender,
+      batchId,
+    });
 
-        // ✅ 3. Success UI
-        setSubmitSuccess(true);
-        setTimeout(() => {
-          setSubmitSuccess(false);
-          setGender("Male");
-          setFormData(INITIAL_FORM);
-        }, 2800);
-      } else {
-        alert("Failed ❌");
+    if (res?.data?.success) {
+      if (batchId) {
+        await api.post("/100hr-seats/book-seat", { batchId });
       }
-    } catch (err) {
-      console.log(err);
-      alert("Server error ❌");
-    } finally {
-      setIsSubmitting(false);
+
+      setSubmitSuccess(true);
+
+      setTimeout(() => {
+        setSubmitSuccess(false);
+        setGender("Male");
+        setFormData(INITIAL_FORM);
+      }, 2800);
+    } else {
+      alert("Email failed ❌");
     }
-  };
+  } catch (err) {
+    console.log("ERROR:", err);
+    alert("Server error ❌");
+  } finally {
+    setIsSubmitting(false);
+  }
+};
   useEffect(() => {
     if (!batchId) return;
 
