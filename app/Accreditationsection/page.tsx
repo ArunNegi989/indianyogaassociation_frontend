@@ -26,10 +26,10 @@ const yogaAllianceCerts: YogaCert[] = [
 
 const OmDivider = () => (
   <div className={styles.omDivider}>
-    <span className={styles.divLine} />
-    <span className={styles.omSun}>☀</span>
-    <span className={styles.divLine} />
-  </div>
+            <span className={styles.dividerLine} />
+            <span className={styles.omSymbol}>ॐ</span>
+            <span className={styles.dividerLine} />
+          </div>
 );
 
 const SectionTitle = ({ children }: { children: React.ReactNode }) => (

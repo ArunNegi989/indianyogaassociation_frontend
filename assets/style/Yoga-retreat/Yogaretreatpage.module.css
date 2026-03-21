@@ -81,14 +81,29 @@
 }
 
 /* Orange underline rule beneath all titles */
-.titleRule {
-  width: 80px;
-  height: 2.5px;
-  background: var(--saffron);
-  margin: 0 auto 1.8rem;
-  border-radius: 2px;
+/* ── Om divider ── */
+.omDivider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.85rem;
+  margin: 1.5rem 0;
 }
 
+.dividerLine {
+  flex: 1;
+  max-width: 180px;
+  height: 1.5px;
+  background: linear-gradient(90deg, transparent, #e07b00, transparent);
+}
+
+.omSymbol {
+  font-family: 'Cinzel', serif;
+  font-size: 1.6rem;
+  color: #e07b00;
+  line-height: 1;
+  filter: drop-shadow(0 1px 3px rgba(224, 123, 0, 0.3));
+}
 .bodyPara {
   font-family: 'Cormorant Garamond', serif;
   font-size: clamp(0.93rem, 1.65vw, 1.06rem);

@@ -82,6 +82,7 @@ const scheduleRows = [
   },
 ];
 
+
 export default function SoundHealingPage() {
   return (
     <div className={styles.page}>
@@ -138,7 +139,11 @@ export default function SoundHealingPage() {
       <section className={styles.whatSection}>
         <div className={styles.container}>
           <h2 className={styles.secTitleOrange}>What is a Sound Healing Course?</h2>
-          <div className={styles.titleUnderline} />
+          <div className={styles.omDivider}>
+            <span className={styles.divLine} />
+            <span className={styles.omGlyph}>ॐ</span>
+            <span className={styles.divLine} />
+          </div>
           <p className={styles.bodyPara}>
             Sound healing is a process that helps in releasing stress from the body. It has been
             demonstrated to be a successful process as this approach makes it simple to remove toxins
@@ -181,7 +186,11 @@ export default function SoundHealingPage() {
 
         <div className={styles.container}>
           <h2 className={styles.secTitleOrange}>What Does Sound Healing Aim at?</h2>
-          <div className={styles.titleUnderline} />
+          <div className={styles.omDivider}>
+            <span className={styles.divLine} />
+            <span className={styles.omGlyph}>ॐ</span>
+            <span className={styles.divLine} />
+          </div>
           <p className={styles.bodyPara}>
             Stress is a major reason behind every toxicity and negativity. And this is what yoga sound
             healing course aims at. It helps in improving the health and well-being of a person. Used
@@ -203,7 +212,11 @@ export default function SoundHealingPage() {
           <h2 className={styles.secTitleOrange}>
             What are the Benefits of a Sound Healing Course?
           </h2>
-          <div className={styles.titleUnderline} />
+          <div className={styles.omDivider}>
+            <span className={styles.divLine} />
+            <span className={styles.omGlyph}>ॐ</span>
+            <span className={styles.divLine} />
+          </div>
 
           <div className={styles.benefitsGrid}>
             {/* Left — text */}
@@ -272,7 +285,11 @@ export default function SoundHealingPage() {
           <h2 className={styles.secTitleOrange}>
             What can you Expect at AYM for Sound Healing Teacher Training Course?
           </h2>
-          <div className={styles.titleUnderline} />
+          <div className={styles.omDivider}>
+            <span className={styles.divLine} />
+            <span className={styles.omGlyph}>ॐ</span>
+            <span className={styles.divLine} />
+          </div>
 
           <p className={styles.bodyPara}>
             When looking for the best sound healing training course near me, you'll surely come
@@ -306,7 +323,11 @@ export default function SoundHealingPage() {
           <h2 className={styles.secTitleOrange} style={{ marginTop: "2.8rem" }}>
             Why Should You Join AYM?
           </h2>
-          <div className={styles.titleUnderline} />
+          <div className={styles.omDivider}>
+            <span className={styles.divLine} />
+            <span className={styles.omGlyph}>ॐ</span>
+            <span className={styles.divLine} />
+          </div>
 
           <p className={styles.bodyPara}>
             With so many availabilities of sound healing and YTT center, wondering why you should
@@ -325,7 +346,11 @@ export default function SoundHealingPage() {
           <h2 className={styles.secTitleOrange} style={{ marginTop: "2.8rem" }}>
             Availability Of Sound Healing Program - 2025
           </h2>
-          <div className={styles.titleUnderline} />
+          <div className={styles.omDivider}>
+            <span className={styles.divLine} />
+            <span className={styles.omGlyph}>ॐ</span>
+            <span className={styles.divLine} />
+          </div>
 
           <div className={styles.tableWrap}>
             <table className={styles.schedTable}>

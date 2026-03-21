@@ -54,6 +54,13 @@ const overviewItems = [
     value: "Mediation, Hatha, Ashtanga Class & 1 Ayurveda Treatment Everyday",
   },
 ];
+const OmDivider = () => (
+  <div className={styles.omDivider}>
+            <span className={styles.dividerLine} />
+            <span className={styles.omSymbol}>ॐ</span>
+            <span className={styles.dividerLine} />
+          </div>
+);
 
 export default function YogaRetreatPage() {
   return (
@@ -69,7 +76,7 @@ export default function YogaRetreatPage() {
         <div className={styles.container}>
 
           <h1 className={styles.pageTitle}>The Best Yoga Retreats in Rishikesh, India</h1>
-          <div className={styles.titleRule} />
+          <OmDivider/>
 
           {/* Banner image */}
           <div className={styles.bannerWrap}>
@@ -132,7 +139,7 @@ export default function YogaRetreatPage() {
           <h2 className={styles.secTitle}>
             Schedule of Best Yoga Retreats in Rishikesh, India.
           </h2>
-          <div className={styles.titleRule} />
+          <OmDivider/>
 
           <p className={styles.scheduleIntro}>
             The Association of Yoga and Meditation (AYM) offers a flexible schedule for all its{" "}
@@ -199,7 +206,7 @@ export default function YogaRetreatPage() {
         <div className={styles.container}>
 
           <h2 className={styles.secTitle}>3 to 7 Days Yoga Retreat in Rishikesh</h2>
-          <div className={styles.titleRule} />
+          <OmDivider/>
           <p className={styles.bodyPara}>
             This is one of our shortest{" "}
             <strong>yoga and meditation Rishikesh</strong> programs. Take a small break from your
@@ -216,7 +223,7 @@ export default function YogaRetreatPage() {
           <h2 className={styles.secTitle} style={{ marginTop: "2.6rem" }}>
             3 to 7 Days Yoga and Ayurveda Retreat in Rishikesh
           </h2>
-          <div className={styles.titleRule} />
+         <OmDivider/>
           <p className={styles.bodyPara}>
             Integrate your yoga practice with the ancient science of Ayurveda. AYM also offers{" "}
             <strong>Yoga and Ayurveda detox retreats in Rishikesh</strong>, which promise total
@@ -248,7 +255,7 @@ export default function YogaRetreatPage() {
           <h2 className={styles.secTitle}>
             7 to 14 Days Yoga Retreats India( Two Weeks Yoga Retreat )
           </h2>
-          <div className={styles.titleRule} />
+           <OmDivider/>
           <p className={styles.bodyPara}>
             Experience a transformative journey into yoga and Ayurveda in the serene Tapovan area
             of Rishikesh. At AYM, one of the best yoga training centres in Rishikesh, we offer 7
@@ -267,7 +274,7 @@ export default function YogaRetreatPage() {
           <h2 className={styles.secTitle} style={{ marginTop: "2.6rem" }}>
             7 to 14 Day Yoga and Ayurveda Retreats in Rishikesh
           </h2>
-          <div className={styles.titleRule} />
+          <OmDivider/>
           <p className={styles.bodyPara}>
             Dive into a holistic approach to healthy living with our{" "}
             <strong>Rishikesh yoga courses</strong>, which also cover Ayurvedic detoxification. You
@@ -287,7 +294,7 @@ export default function YogaRetreatPage() {
           <h2 className={styles.secTitle} style={{ marginTop: "2.6rem" }}>
             Affordable Yoga Retreats in Rishikesh
           </h2>
-          <div className={styles.titleRule} />
+         <OmDivider/>
           <p className={styles.bodyPara}>
             AYM is among the best places to learn yoga. Whether you're seeking a{" "}
             <strong>yoga retreat for beginners</strong> or looking to pursue yoga professionally,
@@ -341,7 +348,7 @@ export default function YogaRetreatPage() {
           <h2 className={styles.secTitle}>
             Schedule of yoga classes in Yoga Retreat India ( Rishikesh &amp; Goa )
           </h2>
-          <div className={styles.titleRule} />
+          <OmDivider/>
           <p className={styles.bodyPara}>
             Our <strong>Rishikesh yoga courses</strong> offer a flexible schedule. Depending on
             your area of interest, you can opt for several courses, such as{" "}
@@ -360,7 +367,7 @@ export default function YogaRetreatPage() {
           <h2 className={styles.secTitle} style={{ marginTop: "2.6rem" }}>
             How to Book Yoga Retreat in Rishikesh?
           </h2>
-          <div className={styles.titleRule} />
+          <OmDivider/>
           <p className={styles.bodyPara}>
             <a href="#" className={styles.inlineLink}>AYM's yoga ashram in Rishikesh</a> tends to
             fill up quickly, with bookings made one to two months in advance. We recommend
@@ -371,7 +378,7 @@ export default function YogaRetreatPage() {
           <h2 className={styles.secTitle} style={{ marginTop: "2.6rem" }}>
             Refund Rules
           </h2>
-          <div className={styles.titleRule} />
+           <OmDivider/>
           <p className={styles.bodyPara}>
             Please note that no refunds are issued if you are unable to attend due to unforeseen
             circumstances. However, we are happy to accommodate you for your next available date
@@ -395,7 +402,7 @@ export default function YogaRetreatPage() {
           <h2 className={styles.secTitle}>
             How can you reach AYM Yoga School for Yoga Retreats in Rishikesh?
           </h2>
-          <div className={styles.titleRule} />
+         <OmDivider/>
           <p className={styles.bodyPara}>
             The most reasonable option for foreign travellers is to arrive at Delhi Airport and
             then continue to Jolly Grant Airport in Dehradun by connecting with a domestic flight.

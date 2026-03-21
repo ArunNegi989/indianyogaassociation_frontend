@@ -13,6 +13,14 @@ const objectives = [
   "Promotion of research in yoga and yoga institutes in India.",
 ];
 
+const OmDivider = () => (
+  <div className={styles.omDivider}>
+            <span className={styles.dividerLine} />
+            <span className={styles.omSymbol}>ॐ</span>
+            <span className={styles.dividerLine} />
+          </div>
+);
+
 // ── COMPONENT ────────────────────────────────────────────────────
 const AboutUs: React.FC = () => {
   return (
@@ -27,9 +35,7 @@ const AboutUs: React.FC = () => {
           {/* Heading */}
           <header className={styles.blockHeader}>
             <h1 className={styles.blockTitle}>Yoga School in India</h1>
-            <div className={styles.titleRule}>
-              <span className={styles.ruleLine} />
-            </div>
+             <OmDivider/>
           </header>
 
           {/* Logo badge */}
@@ -85,9 +91,9 @@ const AboutUs: React.FC = () => {
 
           <header className={styles.blockHeader}>
             <h2 className={styles.blockTitle}>Vision and Mission</h2>
-            <div className={styles.titleRule}>
-              <span className={styles.ruleLine} />
-            </div>
+          
+             <OmDivider/>
+           
           </header>
 
           <div className={styles.prose}>
@@ -123,9 +129,9 @@ const AboutUs: React.FC = () => {
 
           <header className={styles.blockHeader}>
             <h2 className={styles.blockTitle}>Aims and Objectives of AYM India</h2>
-            <div className={styles.titleRule}>
-              <span className={styles.ruleLine} />
-            </div>
+          
+               <OmDivider/>
+          
           </header>
 
           <div className={styles.prose}>
@@ -155,9 +161,9 @@ const AboutUs: React.FC = () => {
 
           <header className={styles.blockHeader}>
             <h2 className={styles.blockTitle}>History of AYM</h2>
-            <div className={styles.titleRule}>
-              <span className={styles.ruleLine} />
-            </div>
+           
+              <OmDivider/>
+           
           </header>
 
           <div className={styles.prose}>
@@ -195,9 +201,9 @@ const AboutUs: React.FC = () => {
 
           <header className={styles.blockHeader}>
             <h2 className={styles.blockTitle}>Activities</h2>
-            <div className={styles.titleRule}>
-              <span className={styles.ruleLine} />
-            </div>
+          
+              <OmDivider/>
+         
           </header>
 
           <div className={styles.prose}>

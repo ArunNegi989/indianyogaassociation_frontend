@@ -4,6 +4,8 @@ import styles from "@/assets/style/our-teachers/Teachers.module.css";
 import HowToReach from "@/components/home/Howtoreach";
 import Link from "next/link";
 import api from "@/lib/api";
+import Image from "next/image";
+import heroImg from "@/assets/images/20.webp";
 
 interface Founder {
   _id: string; name: string; subtitle: string;
@@ -288,16 +290,13 @@ const Teachers: React.FC = () => {
 
         {/* HERO */}
         <section className={styles.heroSection}>
-          <div className={styles.heroBg} aria-hidden="true" />
-          <div className={styles.heroInner}>
-            <p className={styles.heroEyebrow}>Our Faculty</p>
-            <h1 className={styles.heroTitle}>Yoga Teachers in Rishikesh<br />India at AYM Yoga School</h1>
-            <OmDivider />
-            <p className={styles.heroSub}>Each of our teachers brings decades of authentic practice, traditional ashram training, and a lifelong dedication to the sacred science of yoga.</p>
-            <div className={styles.heroBreadcrumb}>
-              <span>Home</span><span className={styles.breadSep}>/</span><span>Our Teachers</span>
-            </div>
-          </div>
+          <Image
+                    src={heroImg}
+                    alt="Yoga Students Group"
+                    
+                    className={styles.heroImage}
+                    priority
+                  />
         </section>
 
         {/* FOUNDER */}
