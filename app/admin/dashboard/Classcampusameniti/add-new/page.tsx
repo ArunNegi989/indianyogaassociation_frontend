@@ -8,12 +8,8 @@ import dynamic from "next/dynamic";
 import styles from "@/assets/style/Admin/dashboard/Classcampusameniti/Classcampusamenities.module.css";
 import api from "@/lib/api";
 
-// ── JoditEditor (SSR disabled — it needs the browser DOM) ──
 const JoditEditor = dynamic(() => import("jodit-react"), { ssr: false });
 
-/* ─────────────────────────────────────────
-   Types
-───────────────────────────────────────── */
 interface FormData {
   classSizeSuperLabel: string;
   classSizeTitle: string;
@@ -32,9 +28,6 @@ interface FormData {
   amenityMosaicTag: string;
 }
 
-/* ─────────────────────────────────────────
-   Reusable single-image uploader
-───────────────────────────────────────── */
 interface SingleImageProps {
   preview: string;
   badge?: string;
@@ -58,20 +51,19 @@ function SingleImageUpload({
     onSelect(file, URL.createObjectURL(file));
     e.target.value = "";
   };
-
   return (
     <div>
       <div
-        className={`${styles.imageUploadZone} ${preview ? styles.hasImage : ""} ${
-          error ? styles.inputError : ""
-        }`}
+        className={`${styles.imageUploadZone} ${preview ? styles.hasImage : ""} ${error ? styles.inputError : ""}`}
       >
         {!preview ? (
           <>
             <input type="file" accept="image/*" onChange={handleChange} />
             <div className={styles.imageUploadPlaceholder}>
               <span className={styles.imageUploadIcon}>🖼️</span>
-              <span className={styles.imageUploadText}>Click to Upload Image</span>
+              <span className={styles.imageUploadText}>
+                Click to Upload Image
+              </span>
               <span className={styles.imageUploadSub}>{hint}</span>
             </div>
           </>
@@ -106,20 +98,6 @@ function SingleImageUpload({
   );
 }
 
-/* ─────────────────────────────────────────
-   Jodit config — defined OUTSIDE component
-   so the object reference is stable across
-   renders and Jodit never re-mounts.
-
-   ✅ Same rich toolbar as AddHomeAboutPage:
-      source, bold, italic, underline,
-      font, fontsize, brush (text color),
-      paragraph, align, ul, ol, link,
-      undo, redo, cut, copy, paste
-
-   `as any` silences TS errors on placeholder
-   and other unlisted Jodit props.
-───────────────────────────────────────── */
 const joditConfig = {
   readonly: false,
   toolbar: true,
@@ -135,42 +113,60 @@ const joditConfig = {
   defaultActionOnPaste: "insert_clear_html",
   enableDragAndDropFileToEditor: false,
   buttons: [
-    "source", "|",
-    "bold", "italic", "underline", "strikethrough", "|",
-    "font", "fontsize", "brush", "|",
-    "paragraph", "align", "|",
-    "ul", "ol", "outdent", "indent", "|",
-    "link", "|",
-    "undo", "redo", "|",
-    "selectall", "cut", "copy", "paste",
+    "source",
+    "|",
+    "bold",
+    "italic",
+    "underline",
+    "strikethrough",
+    "|",
+    "font",
+    "fontsize",
+    "brush",
+    "|",
+    "paragraph",
+    "align",
+    "|",
+    "ul",
+    "ol",
+    "outdent",
+    "indent",
+    "|",
+    "link",
+    "|",
+    "undo",
+    "redo",
+    "|",
+    "selectall",
+    "cut",
+    "copy",
+    "paste",
   ],
-  uploader: {
-    insertImageAsBase64URI: true,
-  },
+  uploader: { insertImageAsBase64URI: true },
   height: 220,
   colors: {
     picks: [
-      "#000000", "#888888", "#ffffff", "#ff0000", "#00ff00", "#0000ff",
-      "#ffff00", "#ff00ff", "#00ffff", "#ff9900", "#9900ff", "#ff6600",
+      "#000000",
+      "#888888",
+      "#ffffff",
+      "#ff0000",
+      "#00ff00",
+      "#0000ff",
+      "#ffff00",
+      "#ff00ff",
+      "#00ffff",
+      "#ff9900",
+      "#9900ff",
+      "#ff6600",
     ],
   },
   placeholder: "",
 } as any;
 
-/* ─────────────────────────────────────────
-   Helper — is the HTML actually empty?
-───────────────────────────────────────── */
 function isEditorEmpty(html: string): boolean {
   return html.replace(/<[^>]*>/g, "").trim() === "";
 }
 
-/* ─────────────────────────────────────────
-   Reusable JoditField component
-   KEY FIX: No `value` prop passed to JoditEditor.
-   Content stored in ref via onChange.
-   Prevents Jodit re-mounting on React re-render
-   which was causing paste/typed text to vanish.
-───────────────────────────────────────── */
 interface JoditFieldProps {
   label: string;
   hint?: string;
@@ -180,7 +176,6 @@ interface JoditFieldProps {
   placeholder?: string;
   height?: number;
 }
-
 function JoditField({
   label,
   hint,
@@ -190,12 +185,7 @@ function JoditField({
   placeholder = "Start typing here...",
   height = 220,
 }: JoditFieldProps) {
-  const config = {
-    ...joditConfig,
-    placeholder,
-    height,
-  };
-
+  const config = { ...joditConfig, placeholder, height };
   return (
     <div className={styles.fieldGroup}>
       <label className={styles.label}>
@@ -221,16 +211,14 @@ function JoditField({
   );
 }
 
-/* ─────────────────────────────────────────
-   Main Page
-───────────────────────────────────────── */
 export default function AddClassCampusAmenitiesPage() {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
-  // ── Image states ──
-  const [classSizeImageFile, setClassSizeImageFile] = useState<File | null>(null);
+  const [classSizeImageFile, setClassSizeImageFile] = useState<File | null>(
+    null,
+  );
   const [classSizeImagePreview, setClassSizeImagePreview] = useState("");
   const [classSizeImageError, setClassSizeImageError] = useState("");
 
@@ -242,17 +230,14 @@ export default function AddClassCampusAmenitiesPage() {
   const [amenityImagePreview, setAmenityImagePreview] = useState("");
   const [amenityImageError, setAmenityImageError] = useState("");
 
-  // ── Jodit content refs ──
   const classSizeParaRef = useRef<string>("");
-  const campusParaRef    = useRef<string>("");
+  const campusParaRef = useRef<string>("");
   const amenitiesParaRef = useRef<string>("");
 
-  // ── Validation error states for rich-text fields ──
   const [classSizeParaError, setClassSizeParaError] = useState("");
-  const [campusParaError,    setCampusParaError]    = useState("");
+  const [campusParaError, setCampusParaError] = useState("");
   const [amenitiesParaError, setAmenitiesParaError] = useState("");
 
-  /* ── react-hook-form ── */
   const {
     register,
     handleSubmit,
@@ -279,20 +264,19 @@ export default function AddClassCampusAmenitiesPage() {
     },
   });
 
-  const amenities           = watch("amenities");
-  const classSizeSuperLabel  = watch("classSizeSuperLabel");
-  const classSizeTitle       = watch("classSizeTitle");
+  const amenities = watch("amenities");
+  const classSizeSuperLabel = watch("classSizeSuperLabel");
+  const classSizeTitle = watch("classSizeTitle");
   const classSizeWelcomeText = watch("classSizeWelcomeText");
-  const classSizeHighlight   = watch("classSizeHighlight");
-  const campusSuperLabel     = watch("campusSuperLabel");
-  const campusTitle          = watch("campusTitle");
-  const campusHighlight      = watch("campusHighlight");
-  const amenitiesSuperLabel  = watch("amenitiesSuperLabel");
-  const amenitiesTitle       = watch("amenitiesTitle");
-  const amenitiesSubLabel    = watch("amenitiesSubLabel");
-  const amenityMosaicTag     = watch("amenityMosaicTag");
+  const classSizeHighlight = watch("classSizeHighlight");
+  const campusSuperLabel = watch("campusSuperLabel");
+  const campusTitle = watch("campusTitle");
+  const campusHighlight = watch("campusHighlight");
+  const amenitiesSuperLabel = watch("amenitiesSuperLabel");
+  const amenitiesTitle = watch("amenitiesTitle");
+  const amenitiesSubLabel = watch("amenitiesSubLabel");
+  const amenityMosaicTag = watch("amenityMosaicTag");
 
-  /* ── Amenity helpers ── */
   const updateAmenity = (i: number, val: string) => {
     const updated = [...amenities];
     updated[i] = val;
@@ -302,82 +286,82 @@ export default function AddClassCampusAmenitiesPage() {
     if (amenities.length >= 10) return;
     setValue("amenities", [...amenities, ""]);
   };
-  const removeAmenity = (i: number) => {
-    setValue("amenities", amenities.filter((_, idx) => idx !== i));
-  };
+  const removeAmenity = (i: number) =>
+    setValue(
+      "amenities",
+      amenities.filter((_, idx) => idx !== i),
+    );
 
-  /* ── Submit ── */
   const onSubmit = async (data: FormData) => {
-    // Validate rich-text fields from refs
-    let hasRichTextError = false;
-
+    let hasError = false;
     if (isEditorEmpty(classSizeParaRef.current)) {
       setClassSizeParaError("Paragraph is required");
-      hasRichTextError = true;
-    } else {
-      setClassSizeParaError("");
-    }
-
+      hasError = true;
+    } else setClassSizeParaError("");
     if (isEditorEmpty(campusParaRef.current)) {
       setCampusParaError("Paragraph is required");
-      hasRichTextError = true;
-    } else {
-      setCampusParaError("");
-    }
-
+      hasError = true;
+    } else setCampusParaError("");
     if (isEditorEmpty(amenitiesParaRef.current)) {
       setAmenitiesParaError("Main paragraph is required");
-      hasRichTextError = true;
-    } else {
-      setAmenitiesParaError("");
+      hasError = true;
+    } else setAmenitiesParaError("");
+    if (!classSizeImageFile) {
+      setClassSizeImageError("Class size image is required");
+      hasError = true;
     }
-
-    // Validate images
-    let hasImgError = false;
-    if (!classSizeImageFile) { setClassSizeImageError("Class size image is required"); hasImgError = true; }
-    if (!campusImageFile)    { setCampusImageError("Campus photo is required");        hasImgError = true; }
-    if (!amenityImageFile)   { setAmenityImageError("Amenity room image is required"); hasImgError = true; }
-
-    if (hasRichTextError || hasImgError) return;
+    if (!campusImageFile) {
+      setCampusImageError("Campus photo is required");
+      hasError = true;
+    }
+    if (!amenityImageFile) {
+      setAmenityImageError("Amenity room image is required");
+      hasError = true;
+    }
+    if (hasError) return;
 
     try {
       setIsSubmitting(true);
-
       const fd = new FormData();
 
+      // Append all plain text fields (exclude rich-text & amenities — sent separately)
       const {
         classSizePara: _a,
         campusPara: _b,
         amenitiesMainPara: _c,
-        ...rhfData
+        amenities: _am,
+        ...rest
       } = data;
+      Object.entries(rest).forEach(([k, v]) => fd.append(k, v as string));
 
-      Object.entries(rhfData).forEach(([key, value]) => {
-        if (Array.isArray(value)) {
-          value.forEach((item) => fd.append(key, item));
-        } else {
-          fd.append(key, value as string);
-        }
-      });
+      // FIX: amenities sent as individual entries → backend reads req.body.amenities as array
+      amenities.forEach((item) => fd.append("amenities", item));
 
-      // Rich-text content from refs
-      fd.append("classSizePara",     classSizeParaRef.current);
-      fd.append("campusPara",        campusParaRef.current);
+      // Rich-text from Jodit refs
+      fd.append("classSizePara", classSizeParaRef.current);
+      fd.append("campusPara", campusParaRef.current);
       fd.append("amenitiesMainPara", amenitiesParaRef.current);
 
-      // Images
-      fd.append("classSizeImage", classSizeImageFile!);
-      fd.append("campusImage_0",  campusImageFile!);
-      fd.append("amenityImage",   amenityImageFile!);
+      // FIX: multer field names must match exactly
+      fd.append("classSizeImage", classSizeImageFile!); // → multer: classSizeImage
+      fd.append("campusImage_0", campusImageFile!); // → multer: campusImage_0
+      fd.append("amenityImage", amenityImageFile!); // → multer: amenityImage
 
       await api.post("/class-campus-amenities/create", fd, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
       setSubmitted(true);
-      setTimeout(() => router.push("/admin/dashboard/Classcampusameniti"), 1500);
+      setTimeout(
+        () => router.push("/admin/dashboard/Classcampusameniti"),
+        1500,
+      );
     } catch (error: any) {
-      alert(error?.response?.data?.message || error?.message || "Something went wrong");
+      alert(
+        error?.response?.data?.message ||
+          error?.message ||
+          "Something went wrong",
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -412,7 +396,9 @@ export default function AddClassCampusAmenitiesPage() {
       <div className={styles.pageHeader}>
         <div className={styles.pageHeaderText}>
           <h1 className={styles.pageTitle}>Add Class, Campus & Amenities</h1>
-          <p className={styles.pageSubtitle}>Fill in all details to configure this section</p>
+          <p className={styles.pageSubtitle}>
+            Fill in all details to configure this section
+          </p>
         </div>
       </div>
 
@@ -425,45 +411,45 @@ export default function AddClassCampusAmenitiesPage() {
       </div>
 
       <div className={styles.formCard}>
-
-        {/* ══════════════════════════════════════
-            BLOCK 1 — CLASS SIZE
-        ══════════════════════════════════════ */}
+        {/* ══ BLOCK 1 — CLASS SIZE ══ */}
         <div className={styles.sectionBlock}>
           <div className={styles.sectionHeader}>
             <span className={styles.sectionIcon}>✦</span>
             <h3 className={styles.sectionTitle}>AYM Class Size Block</h3>
           </div>
 
-          {/* Super Label */}
           <div className={styles.fieldGroup}>
             <label className={styles.label}>
               <span className={styles.labelIcon}>✦</span>Super Label
               <span className={styles.required}>*</span>
             </label>
             <p className={styles.fieldHint}>
-              Small label above the title (e.g. Small Batches · Personal Attention)
+              Small label above the title (e.g. Small Batches · Personal
+              Attention)
             </p>
             <div
-              className={`${styles.inputWrap} ${errors.classSizeSuperLabel ? styles.inputError : ""} ${
-                classSizeSuperLabel && !errors.classSizeSuperLabel ? styles.inputSuccess : ""
-              }`}
+              className={`${styles.inputWrap} ${errors.classSizeSuperLabel ? styles.inputError : ""} ${classSizeSuperLabel && !errors.classSizeSuperLabel ? styles.inputSuccess : ""}`}
             >
               <input
                 type="text"
                 className={styles.input}
                 placeholder="e.g. Small Batches · Personal Attention"
                 maxLength={80}
-                {...register("classSizeSuperLabel", { required: "Super label is required" })}
+                {...register("classSizeSuperLabel", {
+                  required: "Super label is required",
+                })}
               />
-              <span className={styles.charCount}>{classSizeSuperLabel?.length ?? 0}/80</span>
+              <span className={styles.charCount}>
+                {classSizeSuperLabel?.length ?? 0}/80
+              </span>
             </div>
             {errors.classSizeSuperLabel && (
-              <p className={styles.errorMsg}>⚠ {errors.classSizeSuperLabel.message}</p>
+              <p className={styles.errorMsg}>
+                ⚠ {errors.classSizeSuperLabel.message}
+              </p>
             )}
           </div>
 
-          {/* Block Title */}
           <div className={styles.fieldGroup}>
             <label className={styles.label}>
               <span className={styles.labelIcon}>✦</span>Block Title
@@ -471,32 +457,35 @@ export default function AddClassCampusAmenitiesPage() {
             </label>
             <p className={styles.fieldHint}>Main heading for this block</p>
             <div
-              className={`${styles.inputWrap} ${errors.classSizeTitle ? styles.inputError : ""} ${
-                classSizeTitle && !errors.classSizeTitle ? styles.inputSuccess : ""
-              }`}
+              className={`${styles.inputWrap} ${errors.classSizeTitle ? styles.inputError : ""} ${classSizeTitle && !errors.classSizeTitle ? styles.inputSuccess : ""}`}
             >
               <input
                 type="text"
                 className={styles.input}
                 placeholder="e.g. AYM CLASS SIZE"
                 maxLength={60}
-                {...register("classSizeTitle", { required: "Title is required" })}
+                {...register("classSizeTitle", {
+                  required: "Title is required",
+                })}
               />
-              <span className={styles.charCount}>{classSizeTitle?.length ?? 0}/60</span>
+              <span className={styles.charCount}>
+                {classSizeTitle?.length ?? 0}/60
+              </span>
             </div>
             {errors.classSizeTitle && (
-              <p className={styles.errorMsg}>⚠ {errors.classSizeTitle.message}</p>
+              <p className={styles.errorMsg}>
+                ⚠ {errors.classSizeTitle.message}
+              </p>
             )}
           </div>
 
-          {/* Class Size Image */}
           <div className={styles.fieldGroup}>
             <label className={styles.label}>
               <span className={styles.labelIcon}>✦</span>Class Group Photo
               <span className={styles.required}>*</span>
             </label>
             <p className={styles.fieldHint}>
-              Main image in the class size block — the script overlay text appears on top of this image
+              Main image — overlay text appears on top of this
             </p>
             <SingleImageUpload
               preview={classSizeImagePreview}
@@ -508,67 +497,75 @@ export default function AddClassCampusAmenitiesPage() {
                 setClassSizeImagePreview(preview);
                 setClassSizeImageError("");
               }}
-              onRemove={() => { setClassSizeImageFile(null); setClassSizeImagePreview(""); }}
+              onRemove={() => {
+                setClassSizeImageFile(null);
+                setClassSizeImagePreview("");
+              }}
             />
           </div>
 
-          {/* Image Overlay Text */}
           <div className={styles.fieldGroup}>
             <label className={styles.label}>
               <span className={styles.labelIcon}>✦</span>Image Overlay Text
               <span className={styles.required}>*</span>
             </label>
             <p className={styles.fieldHint}>
-              Script text shown as overlay on the class image (e.g. Welcome to AYM Family)
+              Script text shown as overlay on the class image
             </p>
             <div
-              className={`${styles.inputWrap} ${errors.classSizeWelcomeText ? styles.inputError : ""} ${
-                classSizeWelcomeText && !errors.classSizeWelcomeText ? styles.inputSuccess : ""
-              }`}
+              className={`${styles.inputWrap} ${errors.classSizeWelcomeText ? styles.inputError : ""} ${classSizeWelcomeText && !errors.classSizeWelcomeText ? styles.inputSuccess : ""}`}
             >
               <input
                 type="text"
                 className={styles.input}
                 placeholder="e.g. Welcome to AYM Family"
                 maxLength={60}
-                {...register("classSizeWelcomeText", { required: "Overlay text is required" })}
+                {...register("classSizeWelcomeText", {
+                  required: "Overlay text is required",
+                })}
               />
-              <span className={styles.charCount}>{classSizeWelcomeText?.length ?? 0}/60</span>
+              <span className={styles.charCount}>
+                {classSizeWelcomeText?.length ?? 0}/60
+              </span>
             </div>
             {errors.classSizeWelcomeText && (
-              <p className={styles.errorMsg}>⚠ {errors.classSizeWelcomeText.message}</p>
+              <p className={styles.errorMsg}>
+                ⚠ {errors.classSizeWelcomeText.message}
+              </p>
             )}
           </div>
 
-          {/* Highlight Text */}
           <div className={styles.fieldGroup}>
             <label className={styles.label}>
               <span className={styles.labelIcon}>✦</span>Highlight Text
               <span className={styles.required}>*</span>
             </label>
             <p className={styles.fieldHint}>
-              Bold highlighted word/phrase inside the paragraph (e.g. 25 students)
+              Bold highlighted phrase inside the paragraph (e.g. 25 students)
             </p>
             <div
-              className={`${styles.inputWrap} ${errors.classSizeHighlight ? styles.inputError : ""} ${
-                classSizeHighlight && !errors.classSizeHighlight ? styles.inputSuccess : ""
-              }`}
+              className={`${styles.inputWrap} ${errors.classSizeHighlight ? styles.inputError : ""} ${classSizeHighlight && !errors.classSizeHighlight ? styles.inputSuccess : ""}`}
             >
               <input
                 type="text"
                 className={styles.input}
                 placeholder="e.g. 25 students"
                 maxLength={40}
-                {...register("classSizeHighlight", { required: "Highlight text is required" })}
+                {...register("classSizeHighlight", {
+                  required: "Highlight text is required",
+                })}
               />
-              <span className={styles.charCount}>{classSizeHighlight?.length ?? 0}/40</span>
+              <span className={styles.charCount}>
+                {classSizeHighlight?.length ?? 0}/40
+              </span>
             </div>
             {errors.classSizeHighlight && (
-              <p className={styles.errorMsg}>⚠ {errors.classSizeHighlight.message}</p>
+              <p className={styles.errorMsg}>
+                ⚠ {errors.classSizeHighlight.message}
+              </p>
             )}
           </div>
 
-          {/* JoditField: classSizePara */}
           <JoditField
             label="Description Paragraph"
             hint="Full description about the class size policy"
@@ -582,16 +579,13 @@ export default function AddClassCampusAmenitiesPage() {
 
         <div className={styles.formDivider} />
 
-        {/* ══════════════════════════════════════
-            BLOCK 2 — CAMPUS
-        ══════════════════════════════════════ */}
+        {/* ══ BLOCK 2 — CAMPUS ══ */}
         <div className={styles.sectionBlock}>
           <div className={styles.sectionHeader}>
             <span className={styles.sectionIcon}>✦</span>
             <h3 className={styles.sectionTitle}>AYM Yoga Campus Block</h3>
           </div>
 
-          {/* Super Label */}
           <div className={styles.fieldGroup}>
             <label className={styles.label}>
               <span className={styles.labelIcon}>✦</span>Super Label
@@ -601,35 +595,38 @@ export default function AddClassCampusAmenitiesPage() {
               Small label above the title (e.g. 5000 sq.mts. · Rishikesh)
             </p>
             <div
-              className={`${styles.inputWrap} ${errors.campusSuperLabel ? styles.inputError : ""} ${
-                campusSuperLabel && !errors.campusSuperLabel ? styles.inputSuccess : ""
-              }`}
+              className={`${styles.inputWrap} ${errors.campusSuperLabel ? styles.inputError : ""} ${campusSuperLabel && !errors.campusSuperLabel ? styles.inputSuccess : ""}`}
             >
               <input
                 type="text"
                 className={styles.input}
                 placeholder="e.g. 5000 sq.mts. · Rishikesh"
                 maxLength={80}
-                {...register("campusSuperLabel", { required: "Super label is required" })}
+                {...register("campusSuperLabel", {
+                  required: "Super label is required",
+                })}
               />
-              <span className={styles.charCount}>{campusSuperLabel?.length ?? 0}/80</span>
+              <span className={styles.charCount}>
+                {campusSuperLabel?.length ?? 0}/80
+              </span>
             </div>
             {errors.campusSuperLabel && (
-              <p className={styles.errorMsg}>⚠ {errors.campusSuperLabel.message}</p>
+              <p className={styles.errorMsg}>
+                ⚠ {errors.campusSuperLabel.message}
+              </p>
             )}
           </div>
 
-          {/* Block Title */}
           <div className={styles.fieldGroup}>
             <label className={styles.label}>
               <span className={styles.labelIcon}>✦</span>Block Title
               <span className={styles.required}>*</span>
             </label>
-            <p className={styles.fieldHint}>Main heading for the campus block</p>
+            <p className={styles.fieldHint}>
+              Main heading for the campus block
+            </p>
             <div
-              className={`${styles.inputWrap} ${errors.campusTitle ? styles.inputError : ""} ${
-                campusTitle && !errors.campusTitle ? styles.inputSuccess : ""
-              }`}
+              className={`${styles.inputWrap} ${errors.campusTitle ? styles.inputError : ""} ${campusTitle && !errors.campusTitle ? styles.inputSuccess : ""}`}
             >
               <input
                 type="text"
@@ -638,20 +635,23 @@ export default function AddClassCampusAmenitiesPage() {
                 maxLength={60}
                 {...register("campusTitle", { required: "Title is required" })}
               />
-              <span className={styles.charCount}>{campusTitle?.length ?? 0}/60</span>
+              <span className={styles.charCount}>
+                {campusTitle?.length ?? 0}/60
+              </span>
             </div>
             {errors.campusTitle && (
               <p className={styles.errorMsg}>⚠ {errors.campusTitle.message}</p>
             )}
           </div>
 
-          {/* Campus Photo */}
           <div className={styles.fieldGroup}>
             <label className={styles.label}>
               <span className={styles.labelIcon}>✦</span>Campus Photo
               <span className={styles.required}>*</span>
             </label>
-            <p className={styles.fieldHint}>Main campus image shown in the campus block</p>
+            <p className={styles.fieldHint}>
+              Main campus image shown in this block
+            </p>
             <SingleImageUpload
               preview={campusImagePreview}
               badge="AYM Campus"
@@ -662,53 +662,58 @@ export default function AddClassCampusAmenitiesPage() {
                 setCampusImagePreview(preview);
                 setCampusImageError("");
               }}
-              onRemove={() => { setCampusImageFile(null); setCampusImagePreview(""); }}
+              onRemove={() => {
+                setCampusImageFile(null);
+                setCampusImagePreview("");
+              }}
             />
           </div>
 
-          {/* Highlight Text */}
           <div className={styles.fieldGroup}>
             <label className={styles.label}>
               <span className={styles.labelIcon}>✦</span>Highlight Text
               <span className={styles.required}>*</span>
             </label>
-            <p className={styles.fieldHint}>Bold text inside the paragraph (e.g. 5000 sq.mts.)</p>
+            <p className={styles.fieldHint}>
+              Bold text inside the paragraph (e.g. 5000 sq.mts.)
+            </p>
             <div
-              className={`${styles.inputWrap} ${errors.campusHighlight ? styles.inputError : ""} ${
-                campusHighlight && !errors.campusHighlight ? styles.inputSuccess : ""
-              }`}
+              className={`${styles.inputWrap} ${errors.campusHighlight ? styles.inputError : ""} ${campusHighlight && !errors.campusHighlight ? styles.inputSuccess : ""}`}
             >
               <input
                 type="text"
                 className={styles.input}
                 placeholder="e.g. 5000 sq.mts."
                 maxLength={40}
-                {...register("campusHighlight", { required: "Highlight text is required" })}
+                {...register("campusHighlight", {
+                  required: "Highlight text is required",
+                })}
               />
-              <span className={styles.charCount}>{campusHighlight?.length ?? 0}/40</span>
+              <span className={styles.charCount}>
+                {campusHighlight?.length ?? 0}/40
+              </span>
             </div>
             {errors.campusHighlight && (
-              <p className={styles.errorMsg}>⚠ {errors.campusHighlight.message}</p>
+              <p className={styles.errorMsg}>
+                ⚠ {errors.campusHighlight.message}
+              </p>
             )}
           </div>
 
-          {/* JoditField: campusPara */}
           <JoditField
             label="Description Paragraph"
             hint="Full description about the campus"
             contentRef={campusParaRef}
             error={campusParaError}
             onClearError={() => setCampusParaError("")}
-            placeholder="e.g. Spread across an expansive 5000 sq.mts., the AYM campus is one of the lushest…"
+            placeholder="e.g. Spread across an expansive 5000 sq.mts.…"
             height={250}
           />
         </div>
 
         <div className={styles.formDivider} />
 
-        {/* ══════════════════════════════════════
-            BLOCK 3 — AMENITIES
-        ══════════════════════════════════════ */}
+        {/* ══ BLOCK 3 — AMENITIES ══ */}
         <div className={styles.sectionBlock}>
           <div className={styles.sectionHeader}>
             <span className={styles.sectionIcon}>✦</span>
@@ -716,7 +721,6 @@ export default function AddClassCampusAmenitiesPage() {
             <span className={styles.sectionBadge}>{amenities.length}/10</span>
           </div>
 
-          {/* Super Label */}
           <div className={styles.fieldGroup}>
             <label className={styles.label}>
               <span className={styles.labelIcon}>✦</span>Super Label
@@ -726,51 +730,59 @@ export default function AddClassCampusAmenitiesPage() {
               Small label above the title (e.g. Comfort · Nature · Serenity)
             </p>
             <div
-              className={`${styles.inputWrap} ${errors.amenitiesSuperLabel ? styles.inputError : ""} ${
-                amenitiesSuperLabel && !errors.amenitiesSuperLabel ? styles.inputSuccess : ""
-              }`}
+              className={`${styles.inputWrap} ${errors.amenitiesSuperLabel ? styles.inputError : ""} ${amenitiesSuperLabel && !errors.amenitiesSuperLabel ? styles.inputSuccess : ""}`}
             >
               <input
                 type="text"
                 className={styles.input}
                 placeholder="e.g. Comfort · Nature · Serenity"
                 maxLength={80}
-                {...register("amenitiesSuperLabel", { required: "Super label is required" })}
+                {...register("amenitiesSuperLabel", {
+                  required: "Super label is required",
+                })}
               />
-              <span className={styles.charCount}>{amenitiesSuperLabel?.length ?? 0}/80</span>
+              <span className={styles.charCount}>
+                {amenitiesSuperLabel?.length ?? 0}/80
+              </span>
             </div>
             {errors.amenitiesSuperLabel && (
-              <p className={styles.errorMsg}>⚠ {errors.amenitiesSuperLabel.message}</p>
+              <p className={styles.errorMsg}>
+                ⚠ {errors.amenitiesSuperLabel.message}
+              </p>
             )}
           </div>
 
-          {/* Block Title */}
           <div className={styles.fieldGroup}>
             <label className={styles.label}>
               <span className={styles.labelIcon}>✦</span>Block Title
               <span className={styles.required}>*</span>
             </label>
-            <p className={styles.fieldHint}>Main heading for the amenities block</p>
+            <p className={styles.fieldHint}>
+              Main heading for the amenities block
+            </p>
             <div
-              className={`${styles.inputWrap} ${errors.amenitiesTitle ? styles.inputError : ""} ${
-                amenitiesTitle && !errors.amenitiesTitle ? styles.inputSuccess : ""
-              }`}
+              className={`${styles.inputWrap} ${errors.amenitiesTitle ? styles.inputError : ""} ${amenitiesTitle && !errors.amenitiesTitle ? styles.inputSuccess : ""}`}
             >
               <input
                 type="text"
                 className={styles.input}
                 placeholder="e.g. AMENITIES"
                 maxLength={60}
-                {...register("amenitiesTitle", { required: "Title is required" })}
+                {...register("amenitiesTitle", {
+                  required: "Title is required",
+                })}
               />
-              <span className={styles.charCount}>{amenitiesTitle?.length ?? 0}/60</span>
+              <span className={styles.charCount}>
+                {amenitiesTitle?.length ?? 0}/60
+              </span>
             </div>
             {errors.amenitiesTitle && (
-              <p className={styles.errorMsg}>⚠ {errors.amenitiesTitle.message}</p>
+              <p className={styles.errorMsg}>
+                ⚠ {errors.amenitiesTitle.message}
+              </p>
             )}
           </div>
 
-          {/* JoditField: amenitiesMainPara */}
           <JoditField
             label="Main Paragraph"
             hint="First paragraph about accommodation and rooms"
@@ -781,7 +793,6 @@ export default function AddClassCampusAmenitiesPage() {
             height={250}
           />
 
-          {/* List Intro Label */}
           <div className={styles.fieldGroup}>
             <label className={styles.label}>
               <span className={styles.labelIcon}>✦</span>List Intro Label
@@ -797,11 +808,12 @@ export default function AddClassCampusAmenitiesPage() {
                 maxLength={80}
                 {...register("amenitiesSubLabel")}
               />
-              <span className={styles.charCount}>{amenitiesSubLabel?.length ?? 0}/80</span>
+              <span className={styles.charCount}>
+                {amenitiesSubLabel?.length ?? 0}/80
+              </span>
             </div>
           </div>
 
-          {/* Amenities List */}
           <div className={styles.fieldGroup}>
             <label className={styles.label}>
               <span className={styles.labelIcon}>✦</span>Amenities List
@@ -819,11 +831,13 @@ export default function AddClassCampusAmenitiesPage() {
               {amenities.map((item, i) => (
                 <div key={i} className={styles.amenityRow}>
                   <div className={styles.amenityIndex}>{i + 1}</div>
-                  <div className={`${styles.inputWrap} ${styles.amenityInputWrap}`}>
+                  <div
+                    className={`${styles.inputWrap} ${styles.amenityInputWrap}`}
+                  >
                     <input
                       type="text"
                       className={styles.input}
-                      placeholder={`e.g. ${
+                      placeholder={
                         [
                           "Accommodation ( Private / Shared / Dormitory )",
                           "Spacious yoga hall",
@@ -831,7 +845,7 @@ export default function AddClassCampusAmenitiesPage() {
                           "Lush Garden area",
                           "Hot / Cold water 24x7",
                         ][i] ?? "Add amenity"
-                      }`}
+                      }
                       value={item}
                       maxLength={100}
                       onChange={(e) => updateAmenity(i, e.target.value)}
@@ -852,11 +866,16 @@ export default function AddClassCampusAmenitiesPage() {
               type="hidden"
               {...register("amenities", {
                 validate: (v) =>
-                  v.every((a) => a.trim() !== "") || "All amenity fields must be filled",
+                  v.every((a) => a.trim() !== "") ||
+                  "All amenity fields must be filled",
               })}
             />
             {amenities.length < 10 && (
-              <button type="button" className={styles.addAmenityBtn} onClick={addAmenity}>
+              <button
+                type="button"
+                className={styles.addAmenityBtn}
+                onClick={addAmenity}
+              >
                 + Add Amenity
               </button>
             )}
@@ -874,11 +893,10 @@ export default function AddClassCampusAmenitiesPage() {
             )}
           </div>
 
-          {/* Amenity Room Image */}
           <div className={styles.fieldGroup}>
             <label className={styles.label}>
-              <span className={styles.labelIcon}>✦</span>Amenity Mosaic / Room Image
-              <span className={styles.required}>*</span>
+              <span className={styles.labelIcon}>✦</span>Amenity Mosaic / Room
+              Image<span className={styles.required}>*</span>
             </label>
             <p className={styles.fieldHint}>
               Right-side image shown alongside the amenities list
@@ -893,17 +911,19 @@ export default function AddClassCampusAmenitiesPage() {
                 setAmenityImagePreview(preview);
                 setAmenityImageError("");
               }}
-              onRemove={() => { setAmenityImageFile(null); setAmenityImagePreview(""); }}
+              onRemove={() => {
+                setAmenityImageFile(null);
+                setAmenityImagePreview("");
+              }}
             />
           </div>
 
-          {/* Image Tag Label */}
           <div className={styles.fieldGroup}>
             <label className={styles.label}>
               <span className={styles.labelIcon}>✦</span>Image Tag Label
             </label>
             <p className={styles.fieldHint}>
-              Text tag shown as an overlay on the room image (e.g. Furnished Rooms)
+              Text tag shown as overlay on the room image (e.g. Furnished Rooms)
             </p>
             <div className={styles.inputWrap}>
               <input
@@ -913,7 +933,9 @@ export default function AddClassCampusAmenitiesPage() {
                 maxLength={40}
                 {...register("amenityMosaicTag")}
               />
-              <span className={styles.charCount}>{amenityMosaicTag?.length ?? 0}/40</span>
+              <span className={styles.charCount}>
+                {amenityMosaicTag?.length ?? 0}/40
+              </span>
             </div>
           </div>
         </div>
@@ -921,7 +943,10 @@ export default function AddClassCampusAmenitiesPage() {
         <div className={styles.formDivider} />
 
         <div className={styles.formActions}>
-          <Link href="/admin/dashboard/Classcampusameniti" className={styles.cancelBtn}>
+          <Link
+            href="/admin/dashboard/Classcampusameniti"
+            className={styles.cancelBtn}
+          >
             ← Cancel
           </Link>
           <button
@@ -931,9 +956,13 @@ export default function AddClassCampusAmenitiesPage() {
             disabled={isSubmitting}
           >
             {isSubmitting ? (
-              <><span className={styles.spinner} /> Saving…</>
+              <>
+                <span className={styles.spinner} /> Saving…
+              </>
             ) : (
-              <><span>✦</span> Save Section</>
+              <>
+                <span>✦</span> Save Section
+              </>
             )}
           </button>
         </div>

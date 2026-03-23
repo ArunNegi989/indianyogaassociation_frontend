@@ -5,25 +5,34 @@ import styles from "../../assets/style/Home/Classcampusamenities.module.css";
 import api from "@/lib/api";
 
 /* ─────────────────────────────────────────
+   Helper — convert relative /uploads/... path
+   to full URL using the backend base URL.
+   Backend returns "/uploads/filename.jpg"
+   We need "http://localhost:5014/uploads/filename.jpg"
+───────────────────────────────────────── */
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL || ""; // e.g. http://localhost:5014
+
+function getImageUrl(path: string): string {
+  if (!path) return "";
+  if (path.startsWith("http")) return path;       // already full URL
+  return `${BASE_URL}${path}`;                    // prepend base URL
+}
+
+/* ─────────────────────────────────────────
    Type
 ───────────────────────────────────────── */
 interface SectionData {
-  /* Class Size */
   classSizeSuperLabel: string;
   classSizeTitle: string;
   classSizeWelcomeText: string;
   classSizeHighlight: string;
   classSizePara: string;
   classSizeImage: string;
-
-  /* Campus */
   campusSuperLabel: string;
   campusTitle: string;
   campusHighlight: string;
   campusPara: string;
-  campusImages: string[];        // array — we use [0]
-
-  /* Amenities */
+  campusImages: string[];
   amenitiesSuperLabel: string;
   amenitiesTitle: string;
   amenitiesMainPara: string;
@@ -41,10 +50,10 @@ export const ClassCampusAmenities: React.FC = () => {
   const [data, setData] = useState<SectionData | null>(null);
   const [loading, setLoading] = useState(true);
 
-  /* ── Fetch ── */
   useEffect(() => {
     const fetchData = async () => {
       try {
+        // GET /api/class-campus-amenities → { success: true, data: [...] }
         const res = await api.get("/class-campus-amenities");
         if (res.data.success && res.data.data?.length > 0) {
           setData(res.data.data[0]);
@@ -58,7 +67,6 @@ export const ClassCampusAmenities: React.FC = () => {
     fetchData();
   }, []);
 
-  /* ── Intersection observer (runs after data loads) ── */
   useEffect(() => {
     if (!data) return;
     const els = sectionRef.current?.querySelectorAll(`.${styles.reveal}`);
@@ -75,10 +83,7 @@ export const ClassCampusAmenities: React.FC = () => {
     return () => observer.disconnect();
   }, [data]);
 
-  /* ── Loading state ── */
-  if (loading) return null; // or a skeleton — returns nothing until data arrives
-
-  /* ── No data ── */
+  if (loading) return null;
   if (!data) return null;
 
   return (
@@ -86,9 +91,7 @@ export const ClassCampusAmenities: React.FC = () => {
       <div className={styles.topBorder} />
 
       <div className={styles.container}>
-        {/* ══════════════════════════════════════
-            TOP ROW — Class Size + Campus
-        ══════════════════════════════════════ */}
+        {/* ══ TOP ROW — Class Size + Campus ══ */}
         <div className={styles.topRow}>
 
           {/* ── AYM CLASS SIZE ── */}
@@ -101,22 +104,20 @@ export const ClassCampusAmenities: React.FC = () => {
 
             <div className={styles.classImgWrap}>
               <div className={styles.classImgFrame}>
+                {/* FIX: wrap with getImageUrl() — backend returns /uploads/... relative path */}
                 <img
-                  src={data.classSizeImage}
+                  src={getImageUrl(data.classSizeImage)}
                   alt="AYM Yoga Class Group"
                   className={styles.classImg}
                 />
                 <div className={styles.classImgOverlay}>
-                  <span className={styles.welcomeScript}>
-                    {data.classSizeWelcomeText}
-                  </span>
+                  <span className={styles.welcomeScript}>{data.classSizeWelcomeText}</span>
                 </div>
                 <span className={styles.cornerTL} aria-hidden="true" />
                 <span className={styles.cornerBR} aria-hidden="true" />
               </div>
             </div>
 
-            {/* HTML from JoditEditor — rendered safely (admin-only input) */}
             <div
               className={styles.blockPara}
               dangerouslySetInnerHTML={{ __html: data.classSizePara }}
@@ -141,18 +142,17 @@ export const ClassCampusAmenities: React.FC = () => {
               <div className={styles.titleBar} />
             </div>
 
-            {/* Single campus image (index 0) */}
+            {/* FIX: campusImages is array, use [0], wrap with getImageUrl() */}
             {data.campusImages?.[0] && (
               <div className={styles.campusThumb}>
                 <img
-                  src={data.campusImages[0]}
+                  src={getImageUrl(data.campusImages[0])}
                   alt="AYM Yoga Campus"
                   className={styles.campusThumbImg}
                 />
               </div>
             )}
 
-            {/* HTML from JoditEditor */}
             <div
               className={styles.blockPara}
               dangerouslySetInnerHTML={{ __html: data.campusPara }}
@@ -167,9 +167,7 @@ export const ClassCampusAmenities: React.FC = () => {
           <span className={styles.ornLine} />
         </div>
 
-        {/* ══════════════════════════════════════
-            AMENITIES ROW
-        ══════════════════════════════════════ */}
+        {/* ══ AMENITIES ROW ══ */}
         <div className={styles.amenitiesRow}>
 
           {/* Left — text */}
@@ -180,7 +178,6 @@ export const ClassCampusAmenities: React.FC = () => {
               <div className={styles.titleBar} />
             </div>
 
-            {/* HTML from JoditEditor */}
             <div
               className={styles.amenPara}
               dangerouslySetInnerHTML={{ __html: data.amenitiesMainPara }}
@@ -191,7 +188,7 @@ export const ClassCampusAmenities: React.FC = () => {
             )}
 
             <ul className={styles.amenityList}>
-              {data.amenities.map((item, i) => (
+              {data.amenities?.map((item, i) => (
                 <li
                   key={i}
                   className={`${styles.amenityItem} ${styles.reveal}`}
@@ -210,8 +207,9 @@ export const ClassCampusAmenities: React.FC = () => {
             style={{ "--d": "0.12s" } as React.CSSProperties}
           >
             <div className={styles.amenityMosaic}>
+              {/* FIX: wrap with getImageUrl() */}
               <img
-                src={data.amenityImage}
+                src={getImageUrl(data.amenityImage)}
                 alt="Furnished Room"
                 className={styles.mosaicImg}
               />
