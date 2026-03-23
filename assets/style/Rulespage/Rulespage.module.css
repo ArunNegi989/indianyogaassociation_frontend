@@ -82,6 +82,22 @@
 @keyframes cwSpin  { to { transform: rotate(360deg);  } }
 @keyframes ccwSpin { to { transform: rotate(-360deg); } }
 
+.heroSection {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  line-height: 0;
+}
+
+.heroImage {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+}
+
 /* Sanskrit label */
 .cLabel {
   font-family: 'Noto Serif Devanagari', serif;

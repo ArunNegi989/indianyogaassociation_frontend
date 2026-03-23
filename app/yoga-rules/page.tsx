@@ -8,6 +8,8 @@
 import React, { useEffect, useState } from "react";
 import styles from "@/assets/style/Rulespage/Rulespage.module.css";
 import HowToReach from "@/components/home/Howtoreach";
+import Image from "next/image";
+import heroImg from "@/assets/images/yogarulesbanner.webp";
 
 // ─── Chakra Lotus SVG (background decorative) ────────────────────
 const ChakraLotus: React.FC<{
@@ -240,6 +242,18 @@ const RulesPage: React.FC = () => {
   }, []);
 
   return (
+    <>
+     <section className={styles.heroSection}>
+                <Image
+                  src={heroImg}
+                  alt="Yoga Students Group"
+                  width={1180}
+                  height={540}
+                  className={styles.heroImage}
+                  priority
+                />
+              </section>
+   
     <div className={`${styles.page} ${visible ? styles.visible : ""}`}>
       {/* ════ CHAKRA BACKGROUND ════ */}
       <div className={styles.chakraBg} aria-hidden="true">
@@ -527,6 +541,7 @@ const RulesPage: React.FC = () => {
         <Mandala size={22} />
       </footer>
     </div>
+     </>
   );
 };
 
