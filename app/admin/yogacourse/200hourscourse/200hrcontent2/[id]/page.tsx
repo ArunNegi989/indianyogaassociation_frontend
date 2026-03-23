@@ -1,14 +1,16 @@
 "use client";
 
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useCallback } from "react";
 import { useForm } from "react-hook-form";
-import { useRouter, useParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import styles from "@/assets/style/Admin/yogacourse/200hourscourse/Yoga200hr.module.css";
 import api from "@/lib/api";
 
 const JoditEditor = dynamic(() => import("jodit-react"), { ssr: false });
+
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "";
 
 /* ─────────────────────────── Jodit Config ─────────────────────────── */
 const joditConfig = {
@@ -55,69 +57,119 @@ function F({ label, hint, req, children }: { label: string; hint?: string; req?:
 
 function D() { return <div className={styles.sectionDivider}><span>❧</span></div>; }
 
-function JoditField({ label, hint, contentRef, defaultValue = "", error, onClearError, placeholder = "Start typing…", height = 200 }: {
-  label: string; hint?: string; contentRef: React.MutableRefObject<string>; defaultValue?: string;
-  error?: string; onClearError: () => void; placeholder?: string; height?: number;
+/* ─────────────────────────── LazyJodit (with defaultValue) ─────────────────────────── */
+function LazyJodit({
+  label, hint, cr, err, clr, ph = "Start typing…", h = 200, required = false, defaultValue = "",
+}: {
+  label: string; hint?: string; cr: React.MutableRefObject<string>;
+  err?: string; clr?: () => void; ph?: string; h?: number; required?: boolean; defaultValue?: string;
 }) {
+  const [visible, setVisible] = useState(false);
+  const wrapRef = useRef<HTMLDivElement>(null);
+
+  /* Set ref value immediately so submit always has the value even if editor never scrolled into view */
+  useEffect(() => {
+    if (defaultValue) cr.current = defaultValue;
+  }, [defaultValue]);
+
+  useEffect(() => {
+    const el = wrapRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) { setVisible(true); observer.disconnect(); } },
+      { rootMargin: "300px" }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  const handleChange = useCallback((v: string) => {
+    cr.current = v;
+    if (clr && !isEditorEmpty(v)) clr();
+  }, [cr, clr]);
+
   return (
     <div className={styles.fieldGroup}>
-      <label className={styles.label}><span className={styles.labelIcon}>✦</span>{label}<span className={styles.required}>*</span></label>
+      <label className={styles.label}>
+        <span className={styles.labelIcon}>✦</span>{label}
+        {required && <span className={styles.required}>*</span>}
+      </label>
       {hint && <p className={styles.fieldHint}>{hint}</p>}
-      <div className={`${styles.joditWrap} ${error ? styles.joditError : ""}`}>
-        <JoditEditor value={defaultValue} config={{ ...joditConfig, placeholder, height }}
-          onChange={val => { contentRef.current = val; if (!isEditorEmpty(val)) onClearError(); }} />
+      <div
+        ref={wrapRef}
+        className={`${styles.joditWrap} ${err ? styles.joditError : ""}`}
+        style={{ minHeight: h }}
+      >
+        {visible ? (
+          /* key=defaultValue forces remount with correct initial content */
+          <JoditEditor
+            key={defaultValue || "empty"}
+            value={defaultValue}
+            config={{ ...joditConfig, placeholder: ph, height: h }}
+            onChange={handleChange}
+          />
+        ) : (
+          <div style={{
+            height: h, display: "flex", alignItems: "center", justifyContent: "center",
+            background: "#faf8f4", border: "1px solid #e8d5b5",
+            borderRadius: 8, color: "#bbb", fontSize: 13,
+          }}>
+            {defaultValue
+              ? <span style={{ color: "#8a7560", fontSize: 12 }}>✦ Scroll to load editor (content saved)…</span>
+              : <span>✦ Scroll to load editor…</span>
+            }
+          </div>
+        )}
       </div>
-      {error && <p className={styles.errorMsg}>⚠ {error}</p>}
+      {err && <p className={styles.errorMsg}>⚠ {err}</p>}
     </div>
   );
 }
 
-function JoditOpt({ label, hint, contentRef, defaultValue = "", placeholder = "Start typing…", height = 180 }: {
-  label: string; hint?: string; contentRef: React.MutableRefObject<string>; defaultValue?: string;
-  placeholder?: string; height?: number;
-}) {
+/* ─────────────────────────── ExistingImages ─────────────────────────── */
+/* Shows server images with remove option — new uploads replace them */
+function ExistingImages({ urls, label }: { urls: string[]; label: string }) {
+  if (!urls?.length) return null;
   return (
-    <div className={styles.fieldGroup}>
-      <label className={styles.label}><span className={styles.labelIcon}>✦</span>{label}</label>
-      {hint && <p className={styles.fieldHint}>{hint}</p>}
-      <div className={styles.joditWrap}>
-        <JoditEditor value={defaultValue} config={{ ...joditConfig, placeholder, height }}
-          onChange={val => { contentRef.current = val; }} />
+    <div style={{ marginBottom: "0.8rem" }}>
+      <p style={{ fontSize: "0.8rem", color: "#8a7560", marginBottom: "0.4rem" }}>
+        Current {label} ({urls.length})
+      </p>
+      <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
+        {urls.map((u, i) => (
+          <img key={i} src={`${BASE_URL}${u}`} alt=""
+            style={{ width: 80, height: 60, objectFit: "cover", borderRadius: 6, border: "1.5px solid #e8d5b5" }} />
+        ))}
       </div>
+      <p style={{ fontSize: "0.75rem", color: "#bbb", marginTop: "0.3rem" }}>
+        ↑ New images upload karne pe yeh replace ho jayenge
+      </p>
     </div>
   );
 }
 
-function MultiImageUpload({ files, previews, existingUrls = [], hint, label = "Image", onSelect, onRemove, onRemoveExisting, maxFiles = 8 }: {
-  files: File[]; previews: string[]; existingUrls?: string[]; hint: string; label?: string;
-  onSelect: (f: File[], p: string[]) => void; onRemove: (i: number) => void;
-  onRemoveExisting: (i: number) => void; maxFiles?: number;
+/* ─────────────────────────── MultiImageUpload ─────────────────────────── */
+function MultiImageUpload({ files, previews, hint, label = "Image", onSelect, onRemove, maxFiles = 8 }: {
+  files: File[]; previews: string[]; hint: string; label?: string;
+  onSelect: (f: File[], p: string[]) => void; onRemove: (i: number) => void; maxFiles?: number;
 }) {
-  const totalCount = existingUrls.length + files.length;
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const sel = Array.from(e.target.files || []);
     if (!sel.length) return;
-    const nf = [...files, ...sel].slice(0, maxFiles - existingUrls.length);
-    const np = [...previews, ...sel.map(f => URL.createObjectURL(f))].slice(0, maxFiles - existingUrls.length);
+    const nf = [...files, ...sel].slice(0, maxFiles);
+    const np = [...previews, ...sel.map(f => URL.createObjectURL(f))].slice(0, maxFiles);
     onSelect(nf, np); e.target.value = "";
   };
   return (
     <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill,minmax(150px,1fr))", gap: "0.7rem" }}>
-      {existingUrls.map((url, i) => (
-        <div key={`ex-${i}`} style={{ position: "relative", borderRadius: 8, overflow: "hidden", border: "1.5px solid #c9a96e" }}>
-          <span className={styles.imageBadge}>{label} {i + 1}</span>
-          <img src={url} alt="" style={{ width: "100%", height: 110, objectFit: "cover", display: "block" }} />
-          <button type="button" className={styles.removeImageBtn} onClick={() => onRemoveExisting(i)}>✕</button>
-        </div>
-      ))}
       {previews.map((p, i) => (
-        <div key={`new-${i}`} style={{ position: "relative", borderRadius: 8, overflow: "hidden", border: "1.5px dashed #c9a96e" }}>
-          <span className={styles.imageBadge}>New {existingUrls.length + i + 1}</span>
+        <div key={i} style={{ position: "relative", borderRadius: 8, overflow: "hidden", border: "1.5px solid #e8d5b5" }}>
+          <span className={styles.imageBadge}>{label} {i + 1}</span>
           <img src={p} alt="" style={{ width: "100%", height: 110, objectFit: "cover", display: "block" }} />
           <button type="button" className={styles.removeImageBtn} onClick={() => onRemove(i)}>✕</button>
         </div>
       ))}
-      {totalCount < maxFiles && (
+      {files.length < maxFiles && (
         <div className={styles.imageUploadZone} style={{ minHeight: 110, position: "relative" }}>
           <input type="file" accept="image/*" multiple onChange={handleChange}
             style={{ position: "absolute", inset: 0, opacity: 0, cursor: "pointer", zIndex: 2, width: "100%", height: "100%" }} />
@@ -132,19 +184,19 @@ function MultiImageUpload({ files, previews, existingUrls = [], hint, label = "I
   );
 }
 
-function SingleImageUpload({ preview, existingUrl, badge, hint, error, onSelect, onRemove }: {
-  preview: string; existingUrl?: string; badge?: string; hint: string; error?: string;
+/* ─────────────────────────── SingleImageUpload ─────────────────────────── */
+function SingleImageUpload({ preview, badge, hint, error, onSelect, onRemove }: {
+  preview: string; badge?: string; hint: string; error?: string;
   onSelect: (f: File, p: string) => void; onRemove: () => void;
 }) {
-  const displaySrc = preview || existingUrl || "";
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]; if (!file) return;
     onSelect(file, URL.createObjectURL(file)); e.target.value = "";
   };
   return (
     <div>
-      <div className={`${styles.imageUploadZone} ${displaySrc ? styles.hasImage : ""} ${error ? styles.inputError : ""}`}>
-        {!displaySrc ? (
+      <div className={`${styles.imageUploadZone} ${preview ? styles.hasImage : ""} ${error ? styles.inputError : ""}`}>
+        {!preview ? (
           <>
             <input type="file" accept="image/*" onChange={handleChange} />
             <div className={styles.imageUploadPlaceholder}>
@@ -156,7 +208,7 @@ function SingleImageUpload({ preview, existingUrl, badge, hint, error, onSelect,
         ) : (
           <div className={styles.imagePreviewWrap}>
             {badge && <span className={styles.imageBadge}>{badge}</span>}
-            <img src={displaySrc} alt="preview" className={styles.imagePreview} />
+            <img src={preview} alt="preview" className={styles.imagePreview} />
             <div className={styles.imagePreviewOverlay}>
               <span className={styles.imagePreviewAction}>✎ Change</span>
               <input type="file" accept="image/*" className={styles.imagePreviewOverlayInput} onChange={handleChange} />
@@ -170,6 +222,7 @@ function SingleImageUpload({ preview, existingUrl, badge, hint, error, onSelect,
   );
 }
 
+/* ─────────────────────────── StringListField ─────────────────────────── */
 function StringListField({ items, label, placeholder, onAdd, onRemove, onUpdate }: {
   items: string[]; label: string; placeholder: string;
   onAdd: () => void; onRemove: (i: number) => void; onUpdate: (i: number, v: string) => void;
@@ -192,6 +245,7 @@ function StringListField({ items, label, placeholder, onAdd, onRemove, onUpdate 
   );
 }
 
+/* ─────────────────────────── StarRatingPicker ─────────────────────────── */
 function StarRatingPicker({ value, onChange }: { value: number; onChange: (v: number) => void }) {
   const [hovered, setHovered] = useState(0);
   return (
@@ -211,21 +265,52 @@ function StarRatingPicker({ value, onChange }: { value: number; onChange: (v: nu
   );
 }
 
+/* ─────────────────────────── MetaCharCount ─────────────────────────── */
+function MetaCharCount({ maxLen, fieldName, register, error, defaultValue = "" }: {
+  maxLen: number; fieldName: string; register: any; error?: string; defaultValue?: string;
+}) {
+  const [len, setLen] = useState(defaultValue.length);
+  return (
+    <div>
+      <div className={`${styles.inputWrap} ${error ? styles.inputError : ""}`} style={{ position: "relative" }}>
+        {fieldName === "metaDesc" ? (
+          <textarea className={`${styles.input} ${styles.textarea}`} maxLength={maxLen}
+            {...register(fieldName, {
+              required: "Required",
+              onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => setLen(e.target.value.length),
+            })} />
+        ) : (
+          <input className={styles.input} maxLength={maxLen}
+            {...register(fieldName, {
+              required: "Required",
+              onChange: (e: React.ChangeEvent<HTMLInputElement>) => setLen(e.target.value.length),
+            })} />
+        )}
+        <span className={`${styles.charCount} ${len > maxLen * 0.9 ? styles.charCountMid : ""}`}>
+          {len}/{maxLen}
+        </span>
+      </div>
+      {error && <p className={styles.errorMsg}>⚠ {error}</p>}
+    </div>
+  );
+}
+
 /* ══════════════════════════════════════════════════════════════════
-   MAIN EDIT FORM — CONTENT 2 (Sections 21–39)
+   MAIN EDIT FORM
 ══════════════════════════════════════════════════════════════════ */
-export default function Content2Edit() {
-  const router   = useRouter();
-  const { id }   = useParams<{ id: string }>();
-  const { register, handleSubmit, watch, reset, formState: { errors } } = useForm({ defaultValues: { status: "Active" } });
-  const w = watch();
-
-  const [loading,      setLoading]      = useState(true);
+export default function Content2EditPage() {
+  const router = useRouter();
+  const [pageLoading, setPageLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitted,    setSubmitted]    = useState(false);
-  const [fetchErr,     setFetchErr]     = useState("");
+  const [submitted, setSubmitted]       = useState(false);
 
-  /* ── Jodit Refs (initialized with "" — will be filled after API load) ── */
+  /* ── Existing server data ── */
+  const [existing, setExisting] = useState<any>(null);
+
+  /* ── react-hook-form ── */
+  const { register, handleSubmit, reset, formState: { errors } } = useForm<any>();
+
+  /* ── Jodit Refs ── */
   const evalRef         = useRef("");
   const schedDescRef    = useRef("");
   const visaRef         = useRef("");
@@ -241,194 +326,159 @@ export default function Content2Edit() {
   const step3Ref        = useRef("");
   const step4Ref        = useRef("");
 
-  /* ── Jodit default values for render ── */
-  const [joditDefaults, setJoditDefaults] = useState<Record<string, string>>({});
+  /* ── Dynamic arrays ── */
+  const [programs, setPrograms] = useState<any[]>([]);
+  const progRefs = useRef<React.MutableRefObject<string>[]>([]);
 
-  /* ── Dynamic lists ── */
-  const [programs, setPrograms]   = useState<{ title: string; duration: string; start: string; oldPrice: string; price: string }[]>([]);
-  const progRefs  = useRef<React.MutableRefObject<string>[]>([]);
-  const [progDefaults, setProgDefaults] = useState<string[]>([]);
+  const [reviews, setReviews] = useState<any[]>([]);
+  const revRefs = useRef<React.MutableRefObject<string>[]>([]);
 
-  const [reviews, setReviews]     = useState<{ name: string; role: string; rating: number }[]>([]);
-  const revRefs   = useRef<React.MutableRefObject<string>[]>([]);
-  const [revDefaults, setRevDefaults]   = useState<string[]>([]);
-
-  /* ── Image states ── */
-  const [accomFiles,    setAccomFiles]      = useState<File[]>([]);
-  const [accomPrevs,    setAccomPrevs]      = useState<string[]>([]);
-  const [accomExisting, setAccomExisting]   = useState<string[]>([]);
-  const [foodFiles,     setFoodFiles]       = useState<File[]>([]);
-  const [foodPrevs,     setFoodPrevs]       = useState<string[]>([]);
-  const [foodExisting,  setFoodExisting]    = useState<string[]>([]);
-  const [luxImgFiles,   setLuxImgFiles]     = useState<File[]>([]);
-  const [luxImgPrevs,   setLuxImgPrevs]     = useState<string[]>([]);
-  const [luxImgExisting,setLuxImgExisting]  = useState<string[]>([]);
-  const [schedImgFiles, setSchedImgFiles]   = useState<File[]>([]);
-  const [schedImgPrevs, setSchedImgPrevs]   = useState<string[]>([]);
-  const [schedImgExisting,setSchedImgExisting]=useState<string[]>([]);
-  const [reqImgFile,    setReqImgFile]      = useState<File | null>(null);
-  const [reqImgPrev,    setReqImgPrev]      = useState("");
-  const [reqImgExisting,setReqImgExisting]  = useState("");
+  /* ── Image states (new uploads) ── */
+  const [accomFiles,    setAccomFiles]    = useState<File[]>([]);
+  const [accomPrevs,    setAccomPrevs]    = useState<string[]>([]);
+  const [foodFiles,     setFoodFiles]     = useState<File[]>([]);
+  const [foodPrevs,     setFoodPrevs]     = useState<string[]>([]);
+  const [luxImgFiles,   setLuxImgFiles]   = useState<File[]>([]);
+  const [luxImgPrevs,   setLuxImgPrevs]   = useState<string[]>([]);
+  const [schedImgFiles, setSchedImgFiles] = useState<File[]>([]);
+  const [schedImgPrevs, setSchedImgPrevs] = useState<string[]>([]);
+  const [reqImgFile,    setReqImgFile]    = useState<File | null>(null);
+  const [reqImgPrev,    setReqImgPrev]    = useState("");
 
   /* ── List states ── */
-  const [inclFee,    setInclFee]    = useState<string[]>([""]);
-  const [notInclFee, setNotInclFee] = useState<string[]>([""]);
-  const [luxFeatures,setLuxFeatures]= useState<string[]>([""]);
-  const [whatIncl,   setWhatIncl]   = useState<string[]>([""]);
-  const [instrLangs, setInstrLangs] = useState([{ lang: "", note: "" }]);
-  const [indianFees, setIndianFees] = useState([{ label: "", price: "" }]);
-  const [schedRows,  setSchedRows]  = useState([{ time: "", activity: "" }]);
-  const [faqItems,   setFaqItems]   = useState([{ q: "", a: "" }]);
-  const [knowQA,     setKnowQA]     = useState([{ q: "", a: "" }]);
+  const [inclFee,     setInclFee]     = useState<string[]>([""]);
+  const [notInclFee,  setNotInclFee]  = useState<string[]>([""]);
+  const [luxFeatures, setLuxFeatures] = useState<string[]>([""]);
+  const [whatIncl,    setWhatIncl]    = useState<string[]>([""]);
+  const [instrLangs,  setInstrLangs]  = useState<any[]>([{ lang: "", note: "" }]);
+  const [indianFees,  setIndianFees]  = useState<any[]>([{ label: "", price: "" }]);
+  const [schedRows,   setSchedRows]   = useState<any[]>([{ time: "", activity: "" }]);
+  const [faqItems,    setFaqItems]    = useState<any[]>([{ q: "", a: "" }]);
+  const [knowQA,      setKnowQA]      = useState<any[]>([{ q: "", a: "" }]);
 
   /* ── Jodit errors ── */
   const [evErr, setEvErr] = useState("");
 
-  /* ── Helper ── */
-  const upd = <T,>(arr: T[], set: (v: T[]) => void, i: number, k: keyof T, v: string) => {
-    const a = [...arr] as any[]; a[i] = { ...a[i], [k]: v }; set(a);
-  };
-
-  /* ══════════════════════════════════════
-     FETCH EXISTING DATA
-  ══════════════════════════════════════ */
+  /* ── Fetch existing data and pre-fill ── */
   useEffect(() => {
     const load = async () => {
       try {
-        const res = await api.get(`/yoga-200hr/content2/${id}`);
-        const d   = res.data?.data;
+        const res = await api.get("/yoga-200hr/content2/get");
+        const d = res.data.data;
+        if (!d) { router.push("/admin/dashboard/yoga-200hr/200hrcontent2/list"); return; }
 
-        // ── Text fields (react-hook-form reset) ──
+        setExisting(d);
+
+        /* Pre-fill react-hook-form fields */
         reset({
-          evalH2: d.evalH2 ?? "",
-          accommodationH2: d.accommodationH2 ?? "",
-          foodH2: d.foodH2 ?? "",
-          luxuryH2: d.luxuryH2 ?? "",
-          indianFeeH2: d.indianFeeH2 ?? "",
-          scheduleH2: d.scheduleH2 ?? "",
-          moreInfoH2: d.moreInfoH2 ?? "",
-          spanishChineseNote: d.spanishChineseNote ?? "",
-          eligibilityInfoTitle: d.eligibilityInfoTitle ?? "",
-          eligibilityInfoText: d.eligibilityInfoText ?? "",
-          visaPassportTitle: d.visaPassportTitle ?? "",
-          ctaTitle: d.ctaTitle ?? "",
-          ctaSubtitle: d.ctaSubtitle ?? "",
-          ctaPhone: d.ctaPhone ?? "",
-          ctaApplyBtnText: d.ctaApplyBtnText ?? "",
-          newProgramsH2: d.newProgramsH2 ?? "",
-          newProgramsSubtext: d.newProgramsSubtext ?? "",
-          globalCertH2: d.globalCertH2 ?? "",
-          requirementsH2: d.requirementsH2 ?? "",
-          requirementsImgAlt: d.requirementsImgAlt ?? "",
-          whatYouNeedH2: d.whatYouNeedH2 ?? "",
-          best200HrH4: d.best200HrH4 ?? "",
-          whatsIncludedH4: d.whatsIncludedH4 ?? "",
-          reviewsH2: d.reviewsH2 ?? "",
-          reviewsSubtext: d.reviewsSubtext ?? "",
-          videosH2: d.videosH2 ?? "",
-          video1Label: d.video1Label ?? "", video1Url: d.video1Url ?? "", video1Thumb: d.video1Thumb ?? "",
-          video2Label: d.video2Label ?? "", video2Url: d.video2Url ?? "", video2Thumb: d.video2Thumb ?? "",
-          video3Label: d.video3Label ?? "", video3Url: d.video3Url ?? "", video3Thumb: d.video3Thumb ?? "",
-          bookingH2: d.bookingH2 ?? "",
-          step1Icon: d.step1Icon ?? "", step1Title: d.step1Title ?? "",
-          step2Icon: d.step2Icon ?? "", step2Title: d.step2Title ?? "",
-          step3Icon: d.step3Icon ?? "", step3Title: d.step3Title ?? "",
-          step4Icon: d.step4Icon ?? "", step4Title: d.step4Title ?? "",
-          faqH2: d.faqH2 ?? "",
-          metaTitle: d.metaTitle ?? "",
-          metaDesc: d.metaDesc ?? "",
-          slug: d.slug ?? "",
-          metaKeywords: d.metaKeywords ?? "",
-          status: d.status ?? "Active",
+          evalH2:               d.evalH2               || "",
+          accommodationH2:      d.accommodationH2      || "",
+          foodH2:               d.foodH2               || "",
+          luxuryH2:             d.luxuryH2             || "",
+          indianFeeH2:          d.indianFeeH2          || "",
+          scheduleH2:           d.scheduleH2           || "",
+          moreInfoH2:           d.moreInfoH2           || "",
+          spanishChineseNote:   d.spanishChineseNote   || "",
+          eligibilityInfoTitle: d.eligibilityInfoTitle || "",
+          eligibilityInfoText:  d.eligibilityInfoText  || "",
+          visaPassportTitle:    d.visaPassportTitle    || "",
+          ctaTitle:             d.ctaTitle             || "",
+          ctaSubtitle:          d.ctaSubtitle          || "",
+          ctaPhone:             d.ctaPhone             || "",
+          ctaApplyBtnText:      d.ctaApplyBtnText      || "",
+          newProgramsH2:        d.newProgramsH2        || "",
+          newProgramsSubtext:   d.newProgramsSubtext   || "",
+          globalCertH2:         d.globalCertH2         || "",
+          requirementsH2:       d.requirementsH2       || "",
+          requirementsImgAlt:   d.requirementsImgAlt   || "",
+          whatYouNeedH2:        d.whatYouNeedH2        || "",
+          best200HrH4:          d.best200HrH4          || "",
+          whatsIncludedH4:      d.whatsIncludedH4      || "",
+          reviewsH2:            d.reviewsH2            || "",
+          reviewsSubtext:       d.reviewsSubtext       || "",
+          videosH2:             d.videosH2             || "",
+          video1Label:          d.video1Label          || "",
+          video1Url:            d.video1Url            || "",
+          video1Thumb:          d.video1Thumb          || "",
+          video2Label:          d.video2Label          || "",
+          video2Url:            d.video2Url            || "",
+          video2Thumb:          d.video2Thumb          || "",
+          video3Label:          d.video3Label          || "",
+          video3Url:            d.video3Url            || "",
+          video3Thumb:          d.video3Thumb          || "",
+          bookingH2:            d.bookingH2            || "",
+          step1Icon:            d.step1Icon            || "",
+          step1Title:           d.step1Title           || "",
+          step2Icon:            d.step2Icon            || "",
+          step2Title:           d.step2Title           || "",
+          step3Icon:            d.step3Icon            || "",
+          step3Title:           d.step3Title           || "",
+          step4Icon:            d.step4Icon            || "",
+          step4Title:           d.step4Title           || "",
+          faqH2:                d.faqH2                || "",
+          metaTitle:            d.metaTitle            || "",
+          metaDesc:             d.metaDesc             || "",
+          slug:                 d.slug                 || "",
+          metaKeywords:         d.metaKeywords         || "",
+          status:               d.status               || "Active",
         });
 
-        // ── Jodit defaults ──
-        const jd: Record<string, string> = {
-          evalDesc: d.evalDesc ?? "",
-          schedDesc: d.schedDesc ?? "",
-          visaPassportDesc: d.visaPassportDesc ?? "",
-          globalCert1: d.globalCert1 ?? "",
-          globalCert2: d.globalCert2 ?? "",
-          req1: d.req1 ?? "",
-          req2: d.req2 ?? "",
-          req3: d.req3 ?? "",
-          req4: d.req4 ?? "",
-          best200Hr: d.best200Hr ?? "",
-          bookingStep1Desc: d.bookingStep1Desc ?? "",
-          bookingStep2Desc: d.bookingStep2Desc ?? "",
-          bookingStep3Desc: d.bookingStep3Desc ?? "",
-          bookingStep4Desc: d.bookingStep4Desc ?? "",
-        };
-        setJoditDefaults(jd);
-        // Populate refs
-        evalRef.current         = jd.evalDesc;
-        schedDescRef.current    = jd.schedDesc;
-        visaRef.current         = jd.visaPassportDesc;
-        globalCert1Ref.current  = jd.globalCert1;
-        globalCert2Ref.current  = jd.globalCert2;
-        req1Ref.current         = jd.req1;
-        req2Ref.current         = jd.req2;
-        req3Ref.current         = jd.req3;
-        req4Ref.current         = jd.req4;
-        best200HrRef.current    = jd.best200Hr;
-        step1Ref.current        = jd.bookingStep1Desc;
-        step2Ref.current        = jd.bookingStep2Desc;
-        step3Ref.current        = jd.bookingStep3Desc;
-        step4Ref.current        = jd.bookingStep4Desc;
+        /* Pre-fill list states */
+        if (d.inclFee?.length)     setInclFee(d.inclFee);
+        if (d.notInclFee?.length)  setNotInclFee(d.notInclFee);
+        if (d.luxFeatures?.length) setLuxFeatures(d.luxFeatures);
+        if (d.whatIncl?.length)    setWhatIncl(d.whatIncl);
+        if (d.instrLangs?.length)  setInstrLangs(d.instrLangs);
+        if (d.indianFees?.length)  setIndianFees(d.indianFees);
+        if (d.schedRows?.length)   setSchedRows(d.schedRows);
+        if (d.faqItems?.length)    setFaqItems(d.faqItems);
+        if (d.knowQA?.length)      setKnowQA(d.knowQA);
 
-        // ── Programs ──
-        const progs = d.programs?.length ? d.programs : [{ title: "", duration: "", start: "", oldPrice: "", price: "", desc: "" }];
-        setPrograms(progs.map((p: any) => ({ title: p.title ?? "", duration: p.duration ?? "", start: p.start ?? "", oldPrice: p.oldPrice ?? "", price: p.price ?? "" })));
-        progRefs.current = progs.map(() => ({ current: "" }));
-        setProgDefaults(progs.map((p: any) => p.desc ?? ""));
-        progs.forEach((p: any, i: number) => { if (progRefs.current[i]) progRefs.current[i].current = p.desc ?? ""; });
+        /* Pre-fill programs with jodit refs */
+        const progs = d.programs?.length
+          ? d.programs
+          : [{ title: "", duration: "", start: "", oldPrice: "", price: "", desc: "" }];
+        setPrograms(progs);
+        progRefs.current = progs.map((p: any) => ({ current: p.desc || "" }));
 
-        // ── Reviews ──
-        const revs = d.reviews?.length ? d.reviews : [{ name: "", role: "", rating: 5, reviewText: "" }];
-        setReviews(revs.map((r: any) => ({ name: r.name ?? "", role: r.role ?? "", rating: r.rating ?? 5 })));
-        revRefs.current = revs.map(() => ({ current: "" }));
-        setRevDefaults(revs.map((r: any) => r.reviewText ?? ""));
-        revs.forEach((r: any, i: number) => { if (revRefs.current[i]) revRefs.current[i].current = r.reviewText ?? ""; });
+        /* Pre-fill reviews with jodit refs */
+        const revs = d.reviews?.length
+          ? d.reviews
+          : [{ name: "", role: "", rating: 5, reviewText: "" }];
+        setReviews(revs);
+        revRefs.current = revs.map((r: any) => ({ current: r.reviewText || "" }));
 
-        // ── Images ──
-        setAccomExisting(d.accomImages ?? []);
-        setFoodExisting(d.foodImages ?? []);
-        setLuxImgExisting(d.luxImages ?? []);
-        setSchedImgExisting(d.schedImages ?? []);
-        setReqImgExisting(d.reqImage ?? "");
-
-        // ── Lists ──
-        setInclFee(d.inclFee?.length    ? d.inclFee    : [""]);
-        setNotInclFee(d.notInclFee?.length ? d.notInclFee : [""]);
-        setLuxFeatures(d.luxFeatures?.length ? d.luxFeatures : [""]);
-        setWhatIncl(d.whatIncl?.length  ? d.whatIncl   : [""]);
-        setInstrLangs(d.instrLangs?.length ? d.instrLangs : [{ lang: "", note: "" }]);
-        setIndianFees(d.indianFees?.length ? d.indianFees : [{ label: "", price: "" }]);
-        setSchedRows(d.schedRows?.length ? d.schedRows  : [{ time: "", activity: "" }]);
-        setFaqItems(d.faqItems?.length   ? d.faqItems   : [{ q: "", a: "" }]);
-        setKnowQA(d.knowQA?.length       ? d.knowQA     : [{ q: "", a: "" }]);
+        /* Pre-fill req image preview */
+        if (d.reqImage) setReqImgPrev(`${BASE_URL}${d.reqImage}`);
 
       } catch {
-        setFetchErr("Record load nahi ho saka.");
+        alert("Data load nahi ho saka.");
       } finally {
-        setLoading(false);
+        setPageLoading(false);
       }
     };
     load();
-  }, [id]);
+  }, []);
 
-  /* ══════════════════════════════════════
-     SUBMIT (PUT)
-  ══════════════════════════════════════ */
+  /* ── Generic nested updater ── */
+  const upd = useCallback(<T,>(arr: T[], set: (v: T[]) => void, i: number, k: keyof T, v: string) => {
+    const a = [...arr] as any[]; a[i] = { ...a[i], [k]: v }; set(a);
+  }, []);
+
+  /* ── Submit ── */
   const onSubmit = async (data: any) => {
-    if (isEditorEmpty(evalRef.current)) { setEvErr("Required"); window.scrollTo({ top: 0, behavior: "smooth" }); return; }
+    if (isEditorEmpty(evalRef.current)) {
+      setEvErr("Required");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
 
     setIsSubmitting(true);
     try {
       const fd = new FormData();
-
       Object.entries(data).forEach(([k, v]) => fd.append(k, String(v ?? "")));
 
+      /* Jodit rich text */
       fd.append("evalDesc",         evalRef.current);
       fd.append("schedDesc",        schedDescRef.current);
       fd.append("visaPassportDesc", visaRef.current);
@@ -444,12 +494,14 @@ export default function Content2Edit() {
       fd.append("bookingStep3Desc", step3Ref.current);
       fd.append("bookingStep4Desc", step4Ref.current);
 
+      /* Programs & Reviews */
       const progs = programs.map((p, i) => ({ ...p, desc: progRefs.current[i]?.current ?? "" }));
       fd.append("programs", JSON.stringify(progs));
 
       const revs = reviews.map((r, i) => ({ ...r, reviewText: revRefs.current[i]?.current ?? "" }));
       fd.append("reviews", JSON.stringify(revs));
 
+      /* Lists */
       fd.append("inclFee",     JSON.stringify(inclFee));
       fd.append("notInclFee",  JSON.stringify(notInclFee));
       fd.append("luxFeatures", JSON.stringify(luxFeatures));
@@ -460,55 +512,37 @@ export default function Content2Edit() {
       fd.append("faqItems",    JSON.stringify(faqItems));
       fd.append("knowQA",      JSON.stringify(knowQA));
 
-      // Existing image URLs to keep
-      fd.append("keepAccomImages",  JSON.stringify(accomExisting));
-      fd.append("keepFoodImages",   JSON.stringify(foodExisting));
-      fd.append("keepLuxImages",    JSON.stringify(luxImgExisting));
-      fd.append("keepSchedImages",  JSON.stringify(schedImgExisting));
-      fd.append("keepReqImage",     reqImgExisting);
-
-      // New images
+      /* New images (only if user selected new ones) */
       accomFiles.forEach(f    => fd.append("accomImages",  f));
       foodFiles.forEach(f     => fd.append("foodImages",   f));
       luxImgFiles.forEach(f   => fd.append("luxImages",    f));
       schedImgFiles.forEach(f => fd.append("schedImages",  f));
       if (reqImgFile) fd.append("reqImage", reqImgFile);
 
-      await api.put(`/yoga-200hr/content2/${id}`, fd, {
+      await api.put("/yoga-200hr/content2/update", fd, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
       setSubmitted(true);
       setTimeout(() => router.push("/admin/dashboard/yoga-200hr/200hrcontent2/list"), 1500);
     } catch {
-      alert("Update nahi ho saka. Dobara try karo.");
+      alert("Save nahi ho saka. Dobara try karo.");
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  /* ── Loading ── */
-  if (loading) {
+  /* ── Loading screen ── */
+  if (pageLoading) {
     return (
-      <div className={styles.loadingWrap} style={{ minHeight: "60vh", flexDirection: "column", gap: "1rem" }}>
-        <span className={styles.spinner} style={{ width: 40, height: 40 }} />
-        <span style={{ color: "#8a7560" }}>Data load ho raha hai…</span>
+      <div className={styles.successScreen}>
+        <div className={styles.successOm}>ॐ</div>
+        <p style={{ color: "#8a7560" }}>Loading data…</p>
       </div>
     );
   }
 
-  /* ── Fetch error ── */
-  if (fetchErr) {
-    return (
-      <div className={styles.emptyState}>
-        <div className={styles.emptyOm}>⚠</div>
-        <h3 className={styles.emptyTitle}>{fetchErr}</h3>
-        <Link href="/admin/dashboard/yoga-200hr/200hrcontent2/list" className={styles.addNewBtn}>← Back to List</Link>
-      </div>
-    );
-  }
-
-  /* ── Success ── */
+  /* ── Success screen ── */
   if (submitted) {
     return (
       <div className={styles.successScreen}>
@@ -540,24 +574,31 @@ export default function Content2Edit() {
         {/* ════ 21. EVALUATION ════ */}
         <Sec title="Evaluation & Certification">
           <F label="Section H2 Heading">
-            <div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("evalH2")} /></div>
+            <div className={styles.inputWrap}>
+              <input className={`${styles.input} ${styles.inputNoCount}`} {...register("evalH2")} />
+            </div>
           </F>
-          <JoditField label="Evaluation Description" contentRef={evalRef} defaultValue={joditDefaults.evalDesc}
-            error={evErr} onClearError={() => setEvErr("")} placeholder="There will be practical and theoretical exam…" height={220} />
+          <LazyJodit
+            label="Evaluation Description" cr={evalRef} err={evErr} clr={() => setEvErr("")}
+            ph="There will be practical and theoretical exam…" h={220} required
+            defaultValue={existing?.evalDesc || ""}
+          />
         </Sec>
         <D />
 
         {/* ════ 22. ACCOMMODATION ════ */}
         <Sec title="Accommodation">
           <F label="Section Heading">
-            <div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("accommodationH2")} /></div>
+            <div className={styles.inputWrap}>
+              <input className={`${styles.input} ${styles.inputNoCount}`} {...register("accommodationH2")} />
+            </div>
           </F>
-          <F label="Accommodation Images" hint="Up to 8 photos">
-            <MultiImageUpload files={accomFiles} previews={accomPrevs} existingUrls={accomExisting}
-              hint="JPG/PNG · 400px wide" label="Room" maxFiles={8}
+          <F label="Accommodation Images" hint="New upload karoge toh purani replace ho jayengi">
+            <ExistingImages urls={existing?.accomImages} label="Accommodation" />
+            <MultiImageUpload files={accomFiles} previews={accomPrevs} hint="JPG/PNG · 400px wide" label="Room"
               onSelect={(f, p) => { setAccomFiles(f); setAccomPrevs(p); }}
               onRemove={i => { setAccomFiles(accomFiles.filter((_, x) => x !== i)); setAccomPrevs(accomPrevs.filter((_, x) => x !== i)); }}
-              onRemoveExisting={i => setAccomExisting(accomExisting.filter((_, x) => x !== i))} />
+              maxFiles={8} />
           </F>
         </Sec>
         <D />
@@ -565,14 +606,16 @@ export default function Content2Edit() {
         {/* ════ 23. FOOD ════ */}
         <Sec title="Food">
           <F label="Section Heading">
-            <div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("foodH2")} /></div>
+            <div className={styles.inputWrap}>
+              <input className={`${styles.input} ${styles.inputNoCount}`} {...register("foodH2")} />
+            </div>
           </F>
-          <F label="Food Images" hint="Up to 8 photos">
-            <MultiImageUpload files={foodFiles} previews={foodPrevs} existingUrls={foodExisting}
-              hint="JPG/PNG · 400px wide" label="Food" maxFiles={8}
+          <F label="Food Images" hint="New upload karoge toh purani replace ho jayengi">
+            <ExistingImages urls={existing?.foodImages} label="Food" />
+            <MultiImageUpload files={foodFiles} previews={foodPrevs} hint="JPG/PNG · 400px wide" label="Food"
               onSelect={(f, p) => { setFoodFiles(f); setFoodPrevs(p); }}
               onRemove={i => { setFoodFiles(foodFiles.filter((_, x) => x !== i)); setFoodPrevs(foodPrevs.filter((_, x) => x !== i)); }}
-              onRemoveExisting={i => setFoodExisting(foodExisting.filter((_, x) => x !== i))} />
+              maxFiles={8} />
           </F>
         </Sec>
         <D />
@@ -580,7 +623,9 @@ export default function Content2Edit() {
         {/* ════ 24. LUXURY ════ */}
         <Sec title="Luxury Room & Features">
           <F label="Section Heading">
-            <div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("luxuryH2")} /></div>
+            <div className={styles.inputWrap}>
+              <input className={`${styles.input} ${styles.inputNoCount}`} {...register("luxuryH2")} />
+            </div>
           </F>
           <F label="Luxury Features List">
             <StringListField items={luxFeatures} label="Feature" placeholder="Accommodation (Private)"
@@ -588,12 +633,11 @@ export default function Content2Edit() {
               onRemove={i => setLuxFeatures(luxFeatures.filter((_, x) => x !== i))}
               onUpdate={(i, v) => { const a = [...luxFeatures]; a[i] = v; setLuxFeatures(a); }} />
           </F>
-          <F label="Luxury Room Images" hint="Up to 4 images">
-            <MultiImageUpload files={luxImgFiles} previews={luxImgPrevs} existingUrls={luxImgExisting}
-              hint="JPG/PNG · 400px wide" label="Luxury" maxFiles={4}
+          <F label="Luxury Room Images" hint="New upload karoge toh purani replace ho jayengi">
+            <ExistingImages urls={existing?.luxImages} label="Luxury" />
+            <MultiImageUpload files={luxImgFiles} previews={luxImgPrevs} hint="JPG/PNG · 400px wide" label="Luxury" maxFiles={4}
               onSelect={(f, p) => { setLuxImgFiles(f); setLuxImgPrevs(p); }}
-              onRemove={i => { setLuxImgFiles(luxImgFiles.filter((_, x) => x !== i)); setLuxImgPrevs(luxImgPrevs.filter((_, x) => x !== i)); }}
-              onRemoveExisting={i => setLuxImgExisting(luxImgExisting.filter((_, x) => x !== i))} />
+              onRemove={i => { setLuxImgFiles(luxImgFiles.filter((_, x) => x !== i)); setLuxImgPrevs(luxImgPrevs.filter((_, x) => x !== i)); }} />
           </F>
         </Sec>
         <D />
@@ -601,7 +645,9 @@ export default function Content2Edit() {
         {/* ════ 25. INDIAN FEES ════ */}
         <Sec title="Course Fee for Indian Students">
           <F label="Section Heading">
-            <div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("indianFeeH2")} /></div>
+            <div className={styles.inputWrap}>
+              <input className={`${styles.input} ${styles.inputNoCount}`} {...register("indianFeeH2")} />
+            </div>
           </F>
           {indianFees.map((fee, i) => (
             <div key={i} className={styles.listItemRow} style={{ marginBottom: "0.5rem" }}>
@@ -618,16 +664,23 @@ export default function Content2Edit() {
                 onClick={() => setIndianFees(indianFees.filter((_, x) => x !== i))} disabled={indianFees.length <= 1}>✕</button>
             </div>
           ))}
-          <button type="button" className={styles.addItemBtn} onClick={() => setIndianFees([...indianFees, { label: "", price: "" }])}>＋ Add Fee Tier</button>
+          <button type="button" className={styles.addItemBtn} onClick={() => setIndianFees([...indianFees, { label: "", price: "" }])}>
+            ＋ Add Fee Tier
+          </button>
         </Sec>
         <D />
 
         {/* ════ 26. SCHEDULE ════ */}
         <Sec title="Class Schedule">
           <F label="Section H2 Heading">
-            <div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("scheduleH2")} /></div>
+            <div className={styles.inputWrap}>
+              <input className={`${styles.input} ${styles.inputNoCount}`} {...register("scheduleH2")} />
+            </div>
           </F>
-          <JoditOpt label="Schedule Introduction" contentRef={schedDescRef} defaultValue={joditDefaults.schedDesc} placeholder="Planning on teaching yoga?…" height={180} />
+          <LazyJodit label="Schedule Introduction" cr={schedDescRef}
+            ph="Planning on teaching yoga?…" h={180}
+            defaultValue={existing?.schedDesc || ""}
+          />
           <F label="Schedule Rows (Time → Activity)">
             {schedRows.map((row, i) => (
               <div key={i} className={styles.listItemRow} style={{ marginBottom: "0.5rem" }}>
@@ -644,14 +697,15 @@ export default function Content2Edit() {
                   onClick={() => setSchedRows(schedRows.filter((_, x) => x !== i))} disabled={schedRows.length <= 1}>✕</button>
               </div>
             ))}
-            <button type="button" className={styles.addItemBtn} onClick={() => setSchedRows([...schedRows, { time: "", activity: "" }])}>＋ Add Row</button>
+            <button type="button" className={styles.addItemBtn} onClick={() => setSchedRows([...schedRows, { time: "", activity: "" }])}>
+              ＋ Add Row
+            </button>
           </F>
-          <F label="Schedule Images" hint="Up to 4 images">
-            <MultiImageUpload files={schedImgFiles} previews={schedImgPrevs} existingUrls={schedImgExisting}
-              hint="JPG/PNG · 300px wide" label="Schedule" maxFiles={4}
+          <F label="Schedule Images" hint="New upload karoge toh purani replace ho jayengi">
+            <ExistingImages urls={existing?.schedImages} label="Schedule" />
+            <MultiImageUpload files={schedImgFiles} previews={schedImgPrevs} hint="JPG/PNG · 300px wide" label="Schedule" maxFiles={4}
               onSelect={(f, p) => { setSchedImgFiles(f); setSchedImgPrevs(p); }}
-              onRemove={i => { setSchedImgFiles(schedImgFiles.filter((_, x) => x !== i)); setSchedImgPrevs(schedImgPrevs.filter((_, x) => x !== i)); }}
-              onRemoveExisting={i => setSchedImgExisting(schedImgExisting.filter((_, x) => x !== i))} />
+              onRemove={i => { setSchedImgFiles(schedImgFiles.filter((_, x) => x !== i)); setSchedImgPrevs(schedImgPrevs.filter((_, x) => x !== i)); }} />
           </F>
         </Sec>
         <D />
@@ -659,7 +713,9 @@ export default function Content2Edit() {
         {/* ════ 27. MORE INFORMATION ════ */}
         <Sec title="More Information Section">
           <F label="Section H2 Heading">
-            <div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("moreInfoH2")} /></div>
+            <div className={styles.inputWrap}>
+              <input className={`${styles.input} ${styles.inputNoCount}`} {...register("moreInfoH2")} />
+            </div>
           </F>
           <F label="Medium of Instruction Languages">
             {instrLangs.map((row, i) => (
@@ -677,7 +733,9 @@ export default function Content2Edit() {
                   onClick={() => setInstrLangs(instrLangs.filter((_, x) => x !== i))} disabled={instrLangs.length <= 1}>✕</button>
               </div>
             ))}
-            <button type="button" className={styles.addItemBtn} onClick={() => setInstrLangs([...instrLangs, { lang: "", note: "" }])}>＋ Add Language</button>
+            <button type="button" className={styles.addItemBtn} onClick={() => setInstrLangs([...instrLangs, { lang: "", note: "" }])}>
+              ＋ Add Language
+            </button>
           </F>
           <F label="Spanish & Chinese Note">
             <div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("spanishChineseNote")} /></div>
@@ -691,7 +749,10 @@ export default function Content2Edit() {
           <F label="Visa & Passport Sub-heading">
             <div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("visaPassportTitle")} /></div>
           </F>
-          <JoditOpt label="Visa & Passport Information" contentRef={visaRef} defaultValue={joditDefaults.visaPassportDesc} placeholder="You may need to have a valid tourist visa…" height={200} />
+          <LazyJodit label="Visa & Passport Information" cr={visaRef}
+            ph="You may need to have a valid tourist visa…" h={200}
+            defaultValue={existing?.visaPassportDesc || ""}
+          />
         </Sec>
         <D />
 
@@ -719,23 +780,31 @@ export default function Content2Edit() {
               <div className={styles.nestedCardHeader}>
                 <span className={styles.nestedCardNum}>Program {i + 1}</span>
                 <button type="button" className={styles.removeNestedBtn}
-                  onClick={() => { setPrograms(programs.filter((_, x) => x !== i)); progRefs.current = progRefs.current.filter((_, x) => x !== i); }}
-                  disabled={programs.length <= 1}>✕ Remove</button>
+                  onClick={() => {
+                    setPrograms(programs.filter((_, x) => x !== i));
+                    progRefs.current = progRefs.current.filter((_, x) => x !== i);
+                  }} disabled={programs.length <= 1}>✕ Remove</button>
               </div>
               <div className={styles.nestedCardBody}>
                 <div className={styles.grid2}>
-                  <F label="Title"><div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} value={prog.title} onChange={e => upd(programs, setPrograms, i, "title", e.target.value)} /></div></F>
-                  <F label="Duration"><div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} value={prog.duration} onChange={e => upd(programs, setPrograms, i, "duration", e.target.value)} /></div></F>
-                  <F label="Start Date"><div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} value={prog.start} onChange={e => upd(programs, setPrograms, i, "start", e.target.value)} /></div></F>
-                  <F label="Old Price"><div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} value={prog.oldPrice} onChange={e => upd(programs, setPrograms, i, "oldPrice", e.target.value)} /></div></F>
-                  <F label="New Price"><div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} value={prog.price} onChange={e => upd(programs, setPrograms, i, "price", e.target.value)} /></div></F>
+                  <F label="Title"><div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} value={prog.title || ""} onChange={e => upd(programs, setPrograms, i, "title", e.target.value)} /></div></F>
+                  <F label="Duration"><div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} value={prog.duration || ""} onChange={e => upd(programs, setPrograms, i, "duration", e.target.value)} /></div></F>
+                  <F label="Start Date"><div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} value={prog.start || ""} onChange={e => upd(programs, setPrograms, i, "start", e.target.value)} /></div></F>
+                  <F label="Old Price"><div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} value={prog.oldPrice || ""} onChange={e => upd(programs, setPrograms, i, "oldPrice", e.target.value)} /></div></F>
+                  <F label="New Price"><div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} value={prog.price || ""} onChange={e => upd(programs, setPrograms, i, "price", e.target.value)} /></div></F>
                 </div>
-                <JoditOpt label="Program Description" contentRef={progRefs.current[i]} defaultValue={progDefaults[i] ?? ""} placeholder="Program description…" height={140} />
+                <LazyJodit label="Program Description" cr={progRefs.current[i]}
+                  ph="Program description…" h={140}
+                  defaultValue={prog.desc || ""}
+                />
               </div>
             </div>
           ))}
           <button type="button" className={styles.addItemBtn}
-            onClick={() => { setPrograms([...programs, { title: "", duration: "", start: "", oldPrice: "", price: "" }]); progRefs.current = [...progRefs.current, { current: "" }]; }}>
+            onClick={() => {
+              setPrograms([...programs, { title: "", duration: "", start: "", oldPrice: "", price: "", desc: "" }]);
+              progRefs.current = [...progRefs.current, { current: "" }];
+            }}>
             ＋ Add New Program
           </button>
         </Sec>
@@ -746,8 +815,14 @@ export default function Content2Edit() {
           <F label="Section H2 Heading">
             <div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("globalCertH2")} /></div>
           </F>
-          <JoditOpt label="Paragraph 1" contentRef={globalCert1Ref} defaultValue={joditDefaults.globalCert1} placeholder="At Association for Yoga and Meditation…" height={160} />
-          <JoditOpt label="Paragraph 2" contentRef={globalCert2Ref} defaultValue={joditDefaults.globalCert2} placeholder="As the best 200 Hour Yoga Teacher Teaching Course…" height={160} />
+          <LazyJodit label="Paragraph 1 — About Expert Teachers" cr={globalCert1Ref}
+            ph="At Association for Yoga and Meditation…" h={160}
+            defaultValue={existing?.globalCert1 || ""}
+          />
+          <LazyJodit label="Paragraph 2 — Best 200hr School" cr={globalCert2Ref}
+            ph="As the best 200 Hour Yoga Teacher Teaching Course…" h={160}
+            defaultValue={existing?.globalCert2 || ""}
+          />
         </Sec>
         <D />
 
@@ -756,18 +831,25 @@ export default function Content2Edit() {
           <F label="Section Heading">
             <div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("requirementsH2")} /></div>
           </F>
-          <F label="Requirements Section Image" hint="Recommended 600×450px">
-            <SingleImageUpload preview={reqImgPrev} existingUrl={reqImgExisting} badge="Requirements" hint="JPG / PNG · 600×450px"
-              onSelect={(f, p) => { setReqImgFile(f); setReqImgPrev(p); setReqImgExisting(""); }}
-              onRemove={() => { setReqImgFile(null); setReqImgPrev(""); setReqImgExisting(""); }} />
+          <F label="Requirements Section Image" hint="New upload karoge toh purana replace ho jayega">
+            {existing?.reqImage && !reqImgFile && (
+              <div style={{ marginBottom: "0.6rem" }}>
+                <p style={{ fontSize: "0.8rem", color: "#8a7560", marginBottom: "0.3rem" }}>Current Image</p>
+                <img src={`${BASE_URL}${existing.reqImage}`} alt=""
+                  style={{ width: 160, height: 110, objectFit: "cover", borderRadius: 8, border: "1.5px solid #e8d5b5" }} />
+              </div>
+            )}
+            <SingleImageUpload preview={reqImgPrev} badge="Requirements" hint="JPG / PNG · 600×450px"
+              onSelect={(f, p) => { setReqImgFile(f); setReqImgPrev(p); }}
+              onRemove={() => { setReqImgFile(null); setReqImgPrev(""); }} />
           </F>
           <F label="Requirements Image Alt Text">
             <div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("requirementsImgAlt")} /></div>
           </F>
-          <JoditOpt label="Paragraph 1" contentRef={req1Ref} defaultValue={joditDefaults.req1} placeholder="AYM Yoga School provides…" height={160} />
-          <JoditOpt label="Paragraph 2" contentRef={req2Ref} defaultValue={joditDefaults.req2} placeholder="The basic requirements for a 200 hour RYT…" height={160} />
-          <JoditOpt label="Paragraph 3" contentRef={req3Ref} defaultValue={joditDefaults.req3} placeholder="The applicant must have…" height={140} />
-          <JoditOpt label="Paragraph 4" contentRef={req4Ref} defaultValue={joditDefaults.req4} placeholder="The basics of anatomy should include…" height={140} />
+          <LazyJodit label="Paragraph 1 — About RYT 200 / Yoga Alliance" cr={req1Ref} ph="AYM Yoga School provides…" h={160} defaultValue={existing?.req1 || ""} />
+          <LazyJodit label="Paragraph 2 — Basic Requirements"             cr={req2Ref} ph="The basic requirements for a 200 hour RYT…" h={160} defaultValue={existing?.req2 || ""} />
+          <LazyJodit label="Paragraph 3 — One Year Experience"            cr={req3Ref} ph="The applicant must have…" h={140} defaultValue={existing?.req3 || ""} />
+          <LazyJodit label="Paragraph 4 — Anatomy Knowledge"              cr={req4Ref} ph="The basics of anatomy should include…" h={140} defaultValue={existing?.req4 || ""} />
         </Sec>
         <D />
 
@@ -785,12 +867,14 @@ export default function Content2Edit() {
               </div>
               <div className={styles.nestedCardBody}>
                 <F label="Question / Sub-heading">
-                  <div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} value={item.q}
+                  <div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} value={item.q || ""}
+                    placeholder="What to expect in 200 hour yoga teacher training?"
                     onChange={e => { const a = [...knowQA]; a[i] = { ...a[i], q: e.target.value }; setKnowQA(a); }} /></div>
                 </F>
                 <F label="Answer">
                   <div className={styles.inputWrap}><textarea className={`${styles.input} ${styles.textarea} ${styles.inputNoCount}`} rows={5}
-                    value={item.a} onChange={e => { const a = [...knowQA]; a[i] = { ...a[i], a: e.target.value }; setKnowQA(a); }} /></div>
+                    value={item.a || ""} placeholder="Answer text…"
+                    onChange={e => { const a = [...knowQA]; a[i] = { ...a[i], a: e.target.value }; setKnowQA(a); }} /></div>
                 </F>
               </div>
             </div>
@@ -800,11 +884,14 @@ export default function Content2Edit() {
         <D />
 
         {/* ════ 33. BEST 200HR ════ */}
-        <Sec title="Best 200 Hour Yoga Teacher Training">
+        <Sec title="Best 200 Hour Yoga Teacher Training — Paragraph">
           <F label="Sub-heading (H4)">
             <div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("best200HrH4")} /></div>
           </F>
-          <JoditOpt label="Best 200hr Paragraph" contentRef={best200HrRef} defaultValue={joditDefaults.best200Hr} placeholder="Where is the best yoga teacher training…" height={160} />
+          <LazyJodit label="Best 200hr Paragraph" cr={best200HrRef}
+            ph="Where is the best yoga teacher training in the world?…" h={160}
+            defaultValue={existing?.best200Hr || ""}
+          />
         </Sec>
         <D />
 
@@ -826,32 +913,40 @@ export default function Content2Edit() {
         <Sec title="Student Reviews" badge={`${reviews.length} reviews`}>
           <div className={styles.grid2}>
             <F label="Section H2 Heading"><div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("reviewsH2")} /></div></F>
-            <F label="Sub-text"><div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("reviewsSubtext")} /></div></F>
+            <F label="Sub-text below heading"><div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("reviewsSubtext")} /></div></F>
           </div>
           {reviews.map((rev, i) => (
             <div key={i} className={styles.nestedCard}>
               <div className={styles.nestedCardHeader}>
                 <span className={styles.nestedCardNum}>Review {i + 1}</span>
                 <button type="button" className={styles.removeNestedBtn}
-                  onClick={() => { setReviews(reviews.filter((_, x) => x !== i)); revRefs.current = revRefs.current.filter((_, x) => x !== i); }}
-                  disabled={reviews.length <= 1}>✕ Remove</button>
+                  onClick={() => {
+                    setReviews(reviews.filter((_, x) => x !== i));
+                    revRefs.current = revRefs.current.filter((_, x) => x !== i);
+                  }} disabled={reviews.length <= 1}>✕ Remove</button>
               </div>
               <div className={styles.nestedCardBody}>
                 <div className={styles.grid2}>
-                  <F label="Name"><div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} value={rev.name}
-                    onChange={e => { const a = [...reviews]; a[i] = { ...a[i], name: e.target.value }; setReviews(a); }} /></div></F>
-                  <F label="Role / Location"><div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} value={rev.role}
-                    onChange={e => { const a = [...reviews]; a[i] = { ...a[i], role: e.target.value }; setReviews(a); }} /></div></F>
+                  <F label="Name"><div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} value={rev.name || ""}
+                    placeholder="Belle Cheng" onChange={e => { const a = [...reviews]; a[i] = { ...a[i], name: e.target.value }; setReviews(a); }} /></div></F>
+                  <F label="Role / Location"><div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} value={rev.role || ""}
+                    placeholder="Certified Yoga Teacher" onChange={e => { const a = [...reviews]; a[i] = { ...a[i], role: e.target.value }; setReviews(a); }} /></div></F>
                 </div>
-                <F label="Star Rating">
-                  <StarRatingPicker value={rev.rating} onChange={val => { const a = [...reviews]; a[i] = { ...a[i], rating: val }; setReviews(a); }} />
+                <F label="Star Rating" hint="Click stars to set rating (1–5)">
+                  <StarRatingPicker value={rev.rating || 5} onChange={val => { const a = [...reviews]; a[i] = { ...a[i], rating: val }; setReviews(a); }} />
                 </F>
-                <JoditOpt label="Review Text" contentRef={revRefs.current[i]} defaultValue={revDefaults[i] ?? ""} placeholder="Review text…" height={140} />
+                <LazyJodit label="Review Text" cr={revRefs.current[i]}
+                  ph="Review text…" h={140}
+                  defaultValue={rev.reviewText || ""}
+                />
               </div>
             </div>
           ))}
           <button type="button" className={styles.addItemBtn}
-            onClick={() => { setReviews([...reviews, { name: "", role: "", rating: 5 }]); revRefs.current = [...revRefs.current, { current: "" }]; }}>
+            onClick={() => {
+              setReviews([...reviews, { name: "", role: "", rating: 5, reviewText: "" }]);
+              revRefs.current = [...revRefs.current, { current: "" }];
+            }}>
             ＋ Add Review
           </button>
         </Sec>
@@ -867,9 +962,9 @@ export default function Content2Edit() {
               <div className={styles.nestedCardHeader}><span className={styles.nestedCardNum}>Video {n}</span></div>
               <div className={styles.nestedCardBody}>
                 <div className={styles.grid3}>
-                  <F label="Label"><div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register(`video${n}Label`)} /></div></F>
-                  <F label="YouTube URL"><div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register(`video${n}Url`)} /></div></F>
-                  <F label="Thumbnail URL"><div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register(`video${n}Thumb`)} /></div></F>
+                  <F label="Label"><div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} placeholder="Student Testimonial of AYM" {...register(`video${n}Label`)} /></div></F>
+                  <F label="YouTube URL"><div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} placeholder="https://youtube.com/watch?v=…" {...register(`video${n}Url`)} /></div></F>
+                  <F label="Thumbnail URL"><div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} placeholder="https://img.youtube.com/…" {...register(`video${n}Thumb`)} /></div></F>
                 </div>
               </div>
             </div>
@@ -883,11 +978,11 @@ export default function Content2Edit() {
             <div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("bookingH2")} /></div>
           </F>
           {([
-            [1, step1Ref, joditDefaults.bookingStep1Desc],
-            [2, step2Ref, joditDefaults.bookingStep2Desc],
-            [3, step3Ref, joditDefaults.bookingStep3Desc],
-            [4, step4Ref, joditDefaults.bookingStep4Desc],
-          ] as [number, React.MutableRefObject<string>, string][]).map(([n, ref, def]) => (
+            [1, step1Ref, existing?.bookingStep1Desc],
+            [2, step2Ref, existing?.bookingStep2Desc],
+            [3, step3Ref, existing?.bookingStep3Desc],
+            [4, step4Ref, existing?.bookingStep4Desc],
+          ] as [number, React.MutableRefObject<string>, string][]).map(([n, ref, dv]) => (
             <div key={n} className={styles.nestedCard}>
               <div className={styles.nestedCardHeader}><span className={styles.nestedCardNum}>Step {n}</span></div>
               <div className={styles.nestedCardBody}>
@@ -895,7 +990,7 @@ export default function Content2Edit() {
                   <F label="Icon (emoji)"><div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register(`step${n}Icon`)} /></div></F>
                   <F label="Title"><div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register(`step${n}Title`)} /></div></F>
                 </div>
-                <JoditOpt label="Step Description" contentRef={ref} defaultValue={def ?? ""} placeholder="Step description…" height={130} />
+                <LazyJodit label="Step Description" cr={ref} ph="Step description text…" h={130} defaultValue={dv || ""} />
               </div>
             </div>
           ))}
@@ -916,12 +1011,14 @@ export default function Content2Edit() {
               </div>
               <div className={styles.nestedCardBody}>
                 <F label="Question">
-                  <div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} value={item.q}
+                  <div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} value={item.q || ""}
+                    placeholder="Is prior Yoga experience required?"
                     onChange={e => { const a = [...faqItems]; a[i] = { ...a[i], q: e.target.value }; setFaqItems(a); }} /></div>
                 </F>
                 <F label="Answer">
                   <div className={styles.inputWrap}><textarea className={`${styles.input} ${styles.textarea} ${styles.inputNoCount}`} rows={3}
-                    value={item.a} onChange={e => { const a = [...faqItems]; a[i] = { ...a[i], a: e.target.value }; setFaqItems(a); }} /></div>
+                    value={item.a || ""} placeholder="Answer text…"
+                    onChange={e => { const a = [...faqItems]; a[i] = { ...a[i], a: e.target.value }; setFaqItems(a); }} /></div>
                 </F>
               </div>
             </div>
@@ -933,30 +1030,27 @@ export default function Content2Edit() {
         {/* ════ 39. SEO & META ════ */}
         <Sec title="SEO & Meta">
           <F label="Meta Title" req>
-            <div className={`${styles.inputWrap} ${errors.metaTitle ? styles.inputError : ""}`}>
-              <input className={styles.input} maxLength={70} placeholder="200 Hour Yoga Teacher Training in Rishikesh | AYM"
-                {...register("metaTitle", { required: "Required" })} />
-              <span className={`${styles.charCount} ${styles.charCountMid}`}>{w.metaTitle?.length ?? 0}/70</span>
-            </div>
-            {errors.metaTitle && <p className={styles.errorMsg}>⚠ {errors.metaTitle.message as string}</p>}
+            <MetaCharCount maxLen={70} fieldName="metaTitle" register={register}
+              error={errors.metaTitle?.message as string}
+              defaultValue={existing?.metaTitle || ""}
+            />
           </F>
           <F label="Meta Description" req>
-            <div className={`${styles.inputWrap} ${errors.metaDesc ? styles.inputError : ""}`}>
-              <textarea className={`${styles.input} ${styles.textarea}`} maxLength={160}
-                placeholder="Short description for search engines..." {...register("metaDesc", { required: "Required" })} />
-              <span className={styles.charCount}>{w.metaDesc?.length ?? 0}/160</span>
-            </div>
-            {errors.metaDesc && <p className={styles.errorMsg}>⚠ {errors.metaDesc.message as string}</p>}
+            <MetaCharCount maxLen={160} fieldName="metaDesc" register={register}
+              error={errors.metaDesc?.message as string}
+              defaultValue={existing?.metaDesc || ""}
+            />
           </F>
           <div className={styles.grid2}>
             <F label="Slug" req>
               <div className={`${styles.inputWrap} ${errors.slug ? styles.inputError : ""}`}>
-                <input className={`${styles.input} ${styles.inputNoCount}`} {...register("slug", { required: "Required" })} />
+                <input className={`${styles.input} ${styles.inputNoCount}`} placeholder="200-hour-yoga-teacher-training-rishikesh"
+                  {...register("slug", { required: "Required" })} />
               </div>
               {errors.slug && <p className={styles.errorMsg}>⚠ {errors.slug.message as string}</p>}
             </F>
             <F label="Meta Keywords">
-              <div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("metaKeywords")} /></div>
+              <div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} placeholder="200 hour yoga, rishikesh..." {...register("metaKeywords")} /></div>
             </F>
           </div>
           <F label="Status">
@@ -972,13 +1066,18 @@ export default function Content2Edit() {
 
         {/* ── Submit ── */}
         <div className={styles.formActions}>
-          <Link href="/admin/dashboard/yoga-200hr/200hrcontent2/list" className={styles.cancelBtn}>✕ Cancel</Link>
+          <Link href="/admin/dashboard/yoga-200hr/200hrcontent2/list" className={styles.cancelBtn}>
+            ✕ Cancel
+          </Link>
           <button
             type="submit"
             className={`${styles.submitBtn} ${isSubmitting ? styles.submitBtnLoading : ""}`}
             disabled={isSubmitting}
           >
-            {isSubmitting ? <><span className={styles.spinner} /> Updating…</> : <><span>✦</span> Update Content 2</>}
+            {isSubmitting
+              ? <><span className={styles.spinner} /> Saving…</>
+              : <><span>✦</span> Update Content 2</>
+            }
           </button>
         </div>
 

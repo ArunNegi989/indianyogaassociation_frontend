@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect, useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -55,38 +55,67 @@ function F({ label, hint, req, children }: { label: string; hint?: string; req?:
 
 function D() { return <div className={styles.sectionDivider}><span>❧</span></div>; }
 
-function JoditField({ label, hint, contentRef, error, onClearError, placeholder = "Start typing…", height = 200 }: {
-  label: string; hint?: string; contentRef: React.MutableRefObject<string>;
-  error?: string; onClearError: () => void; placeholder?: string; height?: number;
+/* ─────────────────────────── LazyJodit ─────────────────────────── */
+/* FIX: Editors only mount when scrolled into view — same as Content1  */
+function LazyJodit({
+  label, hint, cr, err, clr, ph = "Start typing…", h = 200, required = false,
+}: {
+  label: string; hint?: string; cr: React.MutableRefObject<string>;
+  err?: string; clr?: () => void; ph?: string; h?: number; required?: boolean;
 }) {
+  const [visible, setVisible] = useState(false);
+  const wrapRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = wrapRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) { setVisible(true); observer.disconnect(); } },
+      { rootMargin: "300px" }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  const handleChange = useCallback((v: string) => {
+    cr.current = v;
+    if (clr && !isEditorEmpty(v)) clr();
+  }, [cr, clr]);
+
   return (
     <div className={styles.fieldGroup}>
-      <label className={styles.label}><span className={styles.labelIcon}>✦</span>{label}<span className={styles.required}>*</span></label>
+      <label className={styles.label}>
+        <span className={styles.labelIcon}>✦</span>{label}
+        {required && <span className={styles.required}>*</span>}
+      </label>
       {hint && <p className={styles.fieldHint}>{hint}</p>}
-      <div className={`${styles.joditWrap} ${error ? styles.joditError : ""}`}>
-        <JoditEditor config={{ ...joditConfig, placeholder, height }}
-          onChange={val => { contentRef.current = val; if (!isEditorEmpty(val)) onClearError(); }} />
+      <div
+        ref={wrapRef}
+        className={`${styles.joditWrap} ${err ? styles.joditError : ""}`}
+        style={{ minHeight: h }}
+      >
+        {visible ? (
+          <JoditEditor
+            config={{ ...joditConfig, placeholder: ph, height: h }}
+            onChange={handleChange}
+          />
+        ) : (
+          <div style={{
+            height: h,
+            display: "flex", alignItems: "center", justifyContent: "center",
+            background: "#faf8f4", border: "1px solid #e8d5b5",
+            borderRadius: 8, color: "#bbb", fontSize: 13, cursor: "default",
+          }}>
+            ✦ Scroll to load editor…
+          </div>
+        )}
       </div>
-      {error && <p className={styles.errorMsg}>⚠ {error}</p>}
+      {err && <p className={styles.errorMsg}>⚠ {err}</p>}
     </div>
   );
 }
 
-function JoditOpt({ label, hint, contentRef, placeholder = "Start typing…", height = 180 }: {
-  label: string; hint?: string; contentRef: React.MutableRefObject<string>; placeholder?: string; height?: number;
-}) {
-  return (
-    <div className={styles.fieldGroup}>
-      <label className={styles.label}><span className={styles.labelIcon}>✦</span>{label}</label>
-      {hint && <p className={styles.fieldHint}>{hint}</p>}
-      <div className={styles.joditWrap}>
-        <JoditEditor config={{ ...joditConfig, placeholder, height }}
-          onChange={val => { contentRef.current = val; }} />
-      </div>
-    </div>
-  );
-}
-
+/* ─────────────────────────── MultiImageUpload ─────────────────────────── */
 function MultiImageUpload({ files, previews, hint, label = "Image", onSelect, onRemove, maxFiles = 8 }: {
   files: File[]; previews: string[]; hint: string; label?: string;
   onSelect: (f: File[], p: string[]) => void; onRemove: (i: number) => void; maxFiles?: number;
@@ -122,6 +151,7 @@ function MultiImageUpload({ files, previews, hint, label = "Image", onSelect, on
   );
 }
 
+/* ─────────────────────────── SingleImageUpload ─────────────────────────── */
 function SingleImageUpload({ preview, badge, hint, error, onSelect, onRemove }: {
   preview: string; badge?: string; hint: string; error?: string;
   onSelect: (f: File, p: string) => void; onRemove: () => void;
@@ -159,6 +189,7 @@ function SingleImageUpload({ preview, badge, hint, error, onSelect, onRemove }: 
   );
 }
 
+/* ─────────────────────────── StringListField ─────────────────────────── */
 function StringListField({ items, label, placeholder, onAdd, onRemove, onUpdate }: {
   items: string[]; label: string; placeholder: string;
   onAdd: () => void; onRemove: (i: number) => void; onUpdate: (i: number, v: string) => void;
@@ -181,6 +212,7 @@ function StringListField({ items, label, placeholder, onAdd, onRemove, onUpdate 
   );
 }
 
+/* ─────────────────────────── StarRatingPicker ─────────────────────────── */
 function StarRatingPicker({ value, onChange }: { value: number; onChange: (v: number) => void }) {
   const [hovered, setHovered] = useState(0);
   return (
@@ -200,13 +232,51 @@ function StarRatingPicker({ value, onChange }: { value: number; onChange: (v: nu
   );
 }
 
+/* ─────────────────────────── MetaCharCount ─────────────────────────── */
+/* FIX: Separate component for char counter so only IT re-renders, not the whole form */
+function MetaCharCount({ maxLen, fieldName, register, error }: {
+  maxLen: number; fieldName: string; register: any; error?: string;
+}) {
+  const [len, setLen] = useState(0);
+  return (
+    <div>
+      <div className={`${styles.inputWrap} ${error ? styles.inputError : ""}`} style={{ position: "relative" }}>
+        {fieldName === "metaDesc" ? (
+          <textarea
+            className={`${styles.input} ${styles.textarea}`}
+            maxLength={maxLen}
+            {...register(fieldName, {
+              required: "Required",
+              onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => setLen(e.target.value.length),
+            })}
+          />
+        ) : (
+          <input
+            className={styles.input}
+            maxLength={maxLen}
+            {...register(fieldName, {
+              required: "Required",
+              onChange: (e: React.ChangeEvent<HTMLInputElement>) => setLen(e.target.value.length),
+            })}
+          />
+        )}
+        <span className={`${styles.charCount} ${len > maxLen * 0.9 ? styles.charCountMid : ""}`}>
+          {len}/{maxLen}
+        </span>
+      </div>
+      {error && <p className={styles.errorMsg}>⚠ {error}</p>}
+    </div>
+  );
+}
+
 /* ══════════════════════════════════════════════════════════════════
    MAIN ADD-NEW FORM — CONTENT 2 (Sections 21–39)
 ══════════════════════════════════════════════════════════════════ */
 export default function Content2AddNew() {
   const router = useRouter();
-  const { register, handleSubmit, watch, formState: { errors } } = useForm({ defaultValues: { status: "Active" } });
-  const w = watch();
+
+  /* FIX: Removed watch() — was causing full re-render on every keystroke */
+  const { register, handleSubmit, formState: { errors } } = useForm<any>({ defaultValues: { status: "Active" } });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted]       = useState(false);
@@ -227,16 +297,22 @@ export default function Content2AddNew() {
   const step3Ref        = useRef("");
   const step4Ref        = useRef("");
 
-  /* ── Dynamic Jodit arrays ── */
-  const [programs, setPrograms]   = useState([{ title: "", duration: "", start: "", oldPrice: "", price: "" },
+  /* ── Dynamic arrays ── */
+  const [programs, setPrograms] = useState([
     { title: "", duration: "", start: "", oldPrice: "", price: "" },
     { title: "", duration: "", start: "", oldPrice: "", price: "" },
-    { title: "", duration: "", start: "", oldPrice: "", price: "" }]);
+    { title: "", duration: "", start: "", oldPrice: "", price: "" },
+    { title: "", duration: "", start: "", oldPrice: "", price: "" },
+  ]);
+  /* FIX: progRefs as stable ref array — not recreated on re-render */
   const progRefs = useRef<React.MutableRefObject<string>[]>(programs.map(() => ({ current: "" })));
 
-  const [reviews, setReviews]     = useState([{ name: "", role: "", rating: 5 },
-    { name: "", role: "", rating: 5 }, { name: "", role: "", rating: 5 }]);
-  const revRefs  = useRef<React.MutableRefObject<string>[]>(reviews.map(() => ({ current: "" })));
+  const [reviews, setReviews] = useState([
+    { name: "", role: "", rating: 5 },
+    { name: "", role: "", rating: 5 },
+    { name: "", role: "", rating: 5 },
+  ]);
+  const revRefs = useRef<React.MutableRefObject<string>[]>(reviews.map(() => ({ current: "" })));
 
   /* ── Image states ── */
   const [accomFiles,    setAccomFiles]    = useState<File[]>([]);
@@ -251,37 +327,37 @@ export default function Content2AddNew() {
   const [reqImgPrev,    setReqImgPrev]    = useState("");
 
   /* ── List states ── */
-  const [inclFee,    setInclFee]    = useState<string[]>(["", "", ""]);
-  const [notInclFee, setNotInclFee] = useState<string[]>(["", ""]);
-  const [luxFeatures,setLuxFeatures]= useState<string[]>(["", "", ""]);
-  const [whatIncl,   setWhatIncl]   = useState<string[]>(["", "", ""]);
-  const [instrLangs, setInstrLangs] = useState([{ lang: "", note: "" }, { lang: "", note: "" }]);
-  const [indianFees, setIndianFees] = useState([{ label: "", price: "" }, { label: "", price: "" }]);
-  const [schedRows,  setSchedRows]  = useState([{ time: "", activity: "" }, { time: "", activity: "" }]);
-  const [faqItems,   setFaqItems]   = useState([{ q: "", a: "" }, { q: "", a: "" }]);
-  const [knowQA,     setKnowQA]     = useState([{ q: "", a: "" }, { q: "", a: "" }]);
+  const [inclFee,     setInclFee]     = useState<string[]>(["", "", ""]);
+  const [notInclFee,  setNotInclFee]  = useState<string[]>(["", ""]);
+  const [luxFeatures, setLuxFeatures] = useState<string[]>(["", "", ""]);
+  const [whatIncl,    setWhatIncl]    = useState<string[]>(["", "", ""]);
+  const [instrLangs,  setInstrLangs]  = useState([{ lang: "", note: "" }, { lang: "", note: "" }]);
+  const [indianFees,  setIndianFees]  = useState([{ label: "", price: "" }, { label: "", price: "" }]);
+  const [schedRows,   setSchedRows]   = useState([{ time: "", activity: "" }, { time: "", activity: "" }]);
+  const [faqItems,    setFaqItems]    = useState([{ q: "", a: "" }, { q: "", a: "" }]);
+  const [knowQA,      setKnowQA]      = useState([{ q: "", a: "" }, { q: "", a: "" }]);
 
   /* ── Jodit errors ── */
   const [evErr, setEvErr] = useState("");
 
-  /* ── Helper ── */
-  const upd = <T,>(arr: T[], set: (v: T[]) => void, i: number, k: keyof T, v: string) => {
+  /* ── Generic nested updater (memoized) ── */
+  const upd = useCallback(<T,>(arr: T[], set: (v: T[]) => void, i: number, k: keyof T, v: string) => {
     const a = [...arr] as any[]; a[i] = { ...a[i], [k]: v }; set(a);
-  };
+  }, []);
 
   /* ── Submit ── */
   const onSubmit = async (data: any) => {
-    // Required Jodit validation
-    if (isEditorEmpty(evalRef.current)) { setEvErr("Required"); window.scrollTo({ top: 0, behavior: "smooth" }); return; }
+    if (isEditorEmpty(evalRef.current)) {
+      setEvErr("Required");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
 
     setIsSubmitting(true);
     try {
       const fd = new FormData();
-
-      // All text fields
       Object.entries(data).forEach(([k, v]) => fd.append(k, String(v ?? "")));
 
-      // Jodit rich text
       fd.append("evalDesc",         evalRef.current);
       fd.append("schedDesc",        schedDescRef.current);
       fd.append("visaPassportDesc", visaRef.current);
@@ -297,15 +373,12 @@ export default function Content2AddNew() {
       fd.append("bookingStep3Desc", step3Ref.current);
       fd.append("bookingStep4Desc", step4Ref.current);
 
-      // Programs with jodit
       const progs = programs.map((p, i) => ({ ...p, desc: progRefs.current[i]?.current ?? "" }));
       fd.append("programs", JSON.stringify(progs));
 
-      // Reviews with jodit
       const revs = reviews.map((r, i) => ({ ...r, reviewText: revRefs.current[i]?.current ?? "" }));
       fd.append("reviews", JSON.stringify(revs));
 
-      // Lists
       fd.append("inclFee",     JSON.stringify(inclFee));
       fd.append("notInclFee",  JSON.stringify(notInclFee));
       fd.append("luxFeatures", JSON.stringify(luxFeatures));
@@ -316,11 +389,10 @@ export default function Content2AddNew() {
       fd.append("faqItems",    JSON.stringify(faqItems));
       fd.append("knowQA",      JSON.stringify(knowQA));
 
-      // Images
-      accomFiles.forEach(f    => fd.append("accomImages",    f));
-      foodFiles.forEach(f     => fd.append("foodImages",     f));
-      luxImgFiles.forEach(f   => fd.append("luxImages",      f));
-      schedImgFiles.forEach(f => fd.append("schedImages",    f));
+      accomFiles.forEach(f    => fd.append("accomImages",  f));
+      foodFiles.forEach(f     => fd.append("foodImages",   f));
+      luxImgFiles.forEach(f   => fd.append("luxImages",    f));
+      schedImgFiles.forEach(f => fd.append("schedImages",  f));
       if (reqImgFile) fd.append("reqImage", reqImgFile);
 
       await api.post("/yoga-200hr/content2/create", fd, {
@@ -373,8 +445,10 @@ export default function Content2AddNew() {
               <input className={`${styles.input} ${styles.inputNoCount}`} {...register("evalH2")} />
             </div>
           </F>
-          <JoditField label="Evaluation Description" contentRef={evalRef} error={evErr} onClearError={() => setEvErr("")}
-            placeholder="There will be practical and theoretical exam…" height={220} />
+          <LazyJodit
+            label="Evaluation Description" cr={evalRef} err={evErr} clr={() => setEvErr("")}
+            ph="There will be practical and theoretical exam…" h={220} required
+          />
         </Sec>
         <D />
 
@@ -466,7 +540,7 @@ export default function Content2AddNew() {
               <input className={`${styles.input} ${styles.inputNoCount}`} {...register("scheduleH2")} />
             </div>
           </F>
-          <JoditOpt label="Schedule Introduction" contentRef={schedDescRef} placeholder="Planning on teaching yoga?…" height={180} />
+          <LazyJodit label="Schedule Introduction" cr={schedDescRef} ph="Planning on teaching yoga?…" h={180} />
           <F label="Schedule Rows (Time → Activity)">
             {schedRows.map((row, i) => (
               <div key={i} className={styles.listItemRow} style={{ marginBottom: "0.5rem" }}>
@@ -534,7 +608,7 @@ export default function Content2AddNew() {
           <F label="Visa & Passport Sub-heading">
             <div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("visaPassportTitle")} /></div>
           </F>
-          <JoditOpt label="Visa & Passport Information" contentRef={visaRef} placeholder="You may need to have a valid tourist visa…" height={200} />
+          <LazyJodit label="Visa & Passport Information" cr={visaRef} ph="You may need to have a valid tourist visa…" h={200} />
         </Sec>
         <D />
 
@@ -576,7 +650,7 @@ export default function Content2AddNew() {
                   <F label="Old Price"><div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} value={prog.oldPrice} onChange={e => upd(programs, setPrograms, i, "oldPrice", e.target.value)} /></div></F>
                   <F label="New Price"><div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} value={prog.price} onChange={e => upd(programs, setPrograms, i, "price", e.target.value)} /></div></F>
                 </div>
-                <JoditOpt label="Program Description" contentRef={progRefs.current[i]} placeholder="Program description…" height={140} />
+                <LazyJodit label="Program Description" cr={progRefs.current[i]} ph="Program description…" h={140} />
               </div>
             </div>
           ))}
@@ -595,8 +669,8 @@ export default function Content2AddNew() {
           <F label="Section H2 Heading">
             <div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("globalCertH2")} /></div>
           </F>
-          <JoditOpt label="Paragraph 1 — About Expert Teachers" contentRef={globalCert1Ref} placeholder="At Association for Yoga and Meditation…" height={160} />
-          <JoditOpt label="Paragraph 2 — Best 200hr School" contentRef={globalCert2Ref} placeholder="As the best 200 Hour Yoga Teacher Teaching Course…" height={160} />
+          <LazyJodit label="Paragraph 1 — About Expert Teachers" cr={globalCert1Ref} ph="At Association for Yoga and Meditation…" h={160} />
+          <LazyJodit label="Paragraph 2 — Best 200hr School" cr={globalCert2Ref} ph="As the best 200 Hour Yoga Teacher Teaching Course…" h={160} />
         </Sec>
         <D />
 
@@ -613,10 +687,10 @@ export default function Content2AddNew() {
           <F label="Requirements Image Alt Text">
             <div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("requirementsImgAlt")} /></div>
           </F>
-          <JoditOpt label="Paragraph 1 — About RYT 200 / Yoga Alliance" contentRef={req1Ref} placeholder="AYM Yoga School provides…" height={160} />
-          <JoditOpt label="Paragraph 2 — Basic Requirements" contentRef={req2Ref} placeholder="The basic requirements for a 200 hour RYT…" height={160} />
-          <JoditOpt label="Paragraph 3 — One Year Experience" contentRef={req3Ref} placeholder="The applicant must have…" height={140} />
-          <JoditOpt label="Paragraph 4 — Anatomy Knowledge" contentRef={req4Ref} placeholder="The basics of anatomy should include…" height={140} />
+          <LazyJodit label="Paragraph 1 — About RYT 200 / Yoga Alliance" cr={req1Ref} ph="AYM Yoga School provides…" h={160} />
+          <LazyJodit label="Paragraph 2 — Basic Requirements" cr={req2Ref} ph="The basic requirements for a 200 hour RYT…" h={160} />
+          <LazyJodit label="Paragraph 3 — One Year Experience" cr={req3Ref} ph="The applicant must have…" h={140} />
+          <LazyJodit label="Paragraph 4 — Anatomy Knowledge" cr={req4Ref} ph="The basics of anatomy should include…" h={140} />
         </Sec>
         <D />
 
@@ -655,7 +729,7 @@ export default function Content2AddNew() {
           <F label="Sub-heading (H4)">
             <div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("best200HrH4")} /></div>
           </F>
-          <JoditOpt label="Best 200hr Paragraph" contentRef={best200HrRef} placeholder="Where is the best yoga teacher training in the world?…" height={160} />
+          <LazyJodit label="Best 200hr Paragraph" cr={best200HrRef} ph="Where is the best yoga teacher training in the world?…" h={160} />
         </Sec>
         <D />
 
@@ -699,7 +773,7 @@ export default function Content2AddNew() {
                 <F label="Star Rating" hint="Click stars to set rating (1–5)">
                   <StarRatingPicker value={rev.rating} onChange={val => { const a = [...reviews]; a[i] = { ...a[i], rating: val }; setReviews(a); }} />
                 </F>
-                <JoditOpt label="Review Text" contentRef={revRefs.current[i]} placeholder="Review text…" height={140} />
+                <LazyJodit label="Review Text" cr={revRefs.current[i]} ph="Review text…" h={140} />
               </div>
             </div>
           ))}
@@ -748,7 +822,7 @@ export default function Content2AddNew() {
                   <F label="Icon (emoji)"><div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register(`step${n}Icon`)} /></div></F>
                   <F label="Title"><div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register(`step${n}Title`)} /></div></F>
                 </div>
-                <JoditOpt label="Step Description" contentRef={ref} placeholder="Step description text…" height={130} />
+                <LazyJodit label="Step Description" cr={ref} ph="Step description text…" h={130} />
               </div>
             </div>
           ))}
@@ -787,21 +861,22 @@ export default function Content2AddNew() {
 
         {/* ════ 39. SEO & META ════ */}
         <Sec title="SEO & Meta">
+          {/* FIX: MetaCharCount is an isolated component — only it re-renders on typing, not the whole form */}
           <F label="Meta Title" req>
-            <div className={`${styles.inputWrap} ${errors.metaTitle ? styles.inputError : ""}`}>
-              <input className={styles.input} maxLength={70} placeholder="200 Hour Yoga Teacher Training in Rishikesh | AYM"
-                {...register("metaTitle", { required: "Required" })} />
-              <span className={`${styles.charCount} ${styles.charCountMid}`}>{w.metaTitle?.length ?? 0}/70</span>
-            </div>
-            {errors.metaTitle && <p className={styles.errorMsg}>⚠ {errors.metaTitle.message as string}</p>}
+            <MetaCharCount
+              maxLen={70}
+              fieldName="metaTitle"
+              register={register}
+              error={errors.metaTitle?.message as string}
+            />
           </F>
           <F label="Meta Description" req>
-            <div className={`${styles.inputWrap} ${errors.metaDesc ? styles.inputError : ""}`}>
-              <textarea className={`${styles.input} ${styles.textarea}`} maxLength={160}
-                placeholder="Short description for search engines..." {...register("metaDesc", { required: "Required" })} />
-              <span className={styles.charCount}>{w.metaDesc?.length ?? 0}/160</span>
-            </div>
-            {errors.metaDesc && <p className={styles.errorMsg}>⚠ {errors.metaDesc.message as string}</p>}
+            <MetaCharCount
+              maxLen={160}
+              fieldName="metaDesc"
+              register={register}
+              error={errors.metaDesc?.message as string}
+            />
           </F>
           <div className={styles.grid2}>
             <F label="Slug" req>

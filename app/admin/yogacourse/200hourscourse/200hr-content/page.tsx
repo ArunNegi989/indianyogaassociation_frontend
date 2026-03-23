@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import api from "@/lib/api";
 import styles from "@/assets/style/Admin/yogacourse/200hourscourse/Yoga200hr.module.css";
+import toast from "react-hot-toast";
 
 interface Content1Row {
   _id: string;
@@ -69,9 +70,26 @@ export default function Content1ListPage() {
             Hero · Intro · Stats · Aims · Overview · Fee · Syllabus · Modules 1–8 · Ashtanga · Hatha · Asanas
           </p>
         </div>
-        <Link href="/admin/dashboard/yoga-200hr/200hrcontent1/add-new" className={styles.addNewBtn}>
-          ＋ Add New
-        </Link>
+      
+{rows.length > 0 ? (
+  <button
+    className={styles.addNewBtn}
+   onClick={() =>
+  toast.error("Record already present. Please edit or delete first.")
+}
+  >
+    ＋ Add New
+  </button>
+) : (
+  <Link
+    href="/admin/yogacourse/200hourscourse/200hr-content/add-new"
+    className={styles.addNewBtn}
+  >
+    ＋ Add New
+  </Link>
+)}
+
+
       </div>
 
       <div className={styles.ornament} style={{ margin: "0.5rem 0 1.5rem" }}>
@@ -96,9 +114,14 @@ export default function Content1ListPage() {
           <div className={styles.emptyOm}>ॐ</div>
           <h3 className={styles.emptyTitle}>No records yet</h3>
           <p className={styles.emptyText}>Add your first Content Part 1 record.</p>
-          <Link href="/admin/dashboard/yoga-200hr/200hrcontent1/add-new" className={styles.addNewBtn}>
-            ＋ Add First Record
-          </Link>
+          {rows.length === 0 && (
+  <Link
+    href="/admin/yogacourse/200hourscourse/200hr-content/add-new"
+    className={styles.addNewBtn}
+  >
+    ＋ Add First Record
+  </Link>
+)}
         </div>
 
       ) : (

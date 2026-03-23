@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import toast from "react-hot-toast";          // ← import toast
 import api from "@/lib/api";
 import styles from "@/assets/style/Admin/yogacourse/200hourscourse/Yoga200hr.module.css";
 
@@ -16,16 +17,20 @@ interface Content2Row {
 
 export default function Content2ListPage() {
   const router = useRouter();
-  const [rows, setRows]         = useState<Content2Row[]>([]);
-  const [loading, setLoading]   = useState(true);
-  const [deleting, setDeleting] = useState<string | null>(null);
-  const [error, setError]       = useState("");
+  const [rows, setRows]             = useState<Content2Row[]>([]);
+  const [loading, setLoading]       = useState(true);
+  const [deleting, setDeleting]     = useState(false);
+  const [togglingId, setTogglingId] = useState<string | null>(null);
+  const [error, setError]           = useState("");
 
+  // ── Fetch ──────────────────────────────────────────────
   const fetchList = async () => {
     try {
       setLoading(true);
-      const res = await api.get("/yoga-200hr/content2/list");
-      setRows(res.data?.data || []);
+      setError("");
+      const res = await api.get("/yoga-200hr/content2/get");
+      const record = res.data?.data;
+      setRows(record ? [record] : []);
     } catch {
       setError("Records load nahi ho sake. Dobara try karo.");
     } finally {
@@ -35,26 +40,44 @@ export default function Content2ListPage() {
 
   useEffect(() => { fetchList(); }, []);
 
-  const handleDelete = async (id: string, title: string) => {
+  // ── Add New guard ──────────────────────────────────────
+  const handleAddNew = () => {
+    if (rows.length > 0) {
+      toast.error("Record already exists! Please edit or delete it first.");
+      return;
+    }
+    router.push("/admin/yogacourse/200hourscourse/200hrcontent2/add-new");
+  };
+
+  // ── Delete ─────────────────────────────────────────────
+  const handleDelete = async (title: string) => {
     if (!confirm(`"${title}" delete karna chahte ho?\nYeh permanently delete ho jayega.`)) return;
     try {
-      setDeleting(id);
-      await api.delete(`/yoga-200hr/content2/${id}`);
-      setRows(prev => prev.filter(r => r._id !== id));
+      setDeleting(true);
+      await api.delete("/yoga-200hr/content2/delete");
+      setRows([]);
+      toast.success("Record delete ho gaya 🗑️");
     } catch {
-      alert("Delete nahi ho saka. Dobara try karo.");
+      toast.error("Delete nahi ho saka. Dobara try karo.");
     } finally {
-      setDeleting(null);
+      setDeleting(false);
     }
   };
 
+  // ── Status toggle ──────────────────────────────────────
   const toggleStatus = async (id: string, current: "Active" | "Inactive") => {
     const next = current === "Active" ? "Inactive" : "Active";
     try {
-      await api.patch(`/yoga-200hr/content2/${id}/status`, { status: next });
+      setTogglingId(id);
+      const fd = new FormData();
+      fd.append("status", next);
+      await api.put("/yoga-200hr/content2/update", fd);
       setRows(prev => prev.map(r => r._id === id ? { ...r, status: next } : r));
+      toast.success(`Status updated to ${next}`);
     } catch {
-      alert("Status update nahi ho saka.");
+      toast.error("Status update nahi ho saka.");
+    } finally {
+      setTogglingId(null);
     }
   };
 
@@ -69,12 +92,15 @@ export default function Content2ListPage() {
             Evaluation · Accommodation · Food · Schedule · Programs · Reviews · FAQ · SEO
           </p>
         </div>
-        <Link
-          href="/admin/yogacourse/200hourscourse/200hrcontent2/add-new"
+
+        {/* Always visible — shows toast if record already exists */}
+        <button
+          type="button"
           className={styles.addNewBtn}
+          onClick={handleAddNew}
         >
           ＋ Add New
-        </Link>
+        </button>
       </div>
 
       <div className={styles.ornament} style={{ margin: "0.5rem 0 1.5rem" }}>
@@ -106,12 +132,13 @@ export default function Content2ListPage() {
           <div className={styles.emptyOm}>ॐ</div>
           <h3 className={styles.emptyTitle}>Koi record nahi mila</h3>
           <p className={styles.emptyText}>Pehla Content Part 2 record banao.</p>
-          <Link
-            href="/admin/yogacourse/200hourscourse/200hrcontent2/add-new"
+          <button
+            type="button"
             className={styles.addNewBtn}
+            onClick={handleAddNew}
           >
             ＋ Add New
-          </Link>
+          </button>
         </div>
 
       ) : (
@@ -156,9 +183,12 @@ export default function Content2ListPage() {
                         row.status === "Active" ? styles.statusActive : styles.statusInactive
                       }`}
                       onClick={() => toggleStatus(row._id, row.status)}
+                      disabled={togglingId === row._id}
                       title="Click to toggle"
                     >
-                      {row.status}
+                      {togglingId === row._id
+                        ? <span className={styles.spinner} />
+                        : row.status}
                     </button>
                   </td>
 
@@ -183,7 +213,7 @@ export default function Content2ListPage() {
                         className={styles.editBtn}
                         onClick={() =>
                           router.push(
-                            `/admin/dashboard/yoga-200hr/200hrcontent2/edit/${row._id}`
+                            `/admin/yogacourse/200hourscourse/200hrcontent2/edit`
                           )
                         }
                         title="Edit"
@@ -193,15 +223,11 @@ export default function Content2ListPage() {
                       <button
                         type="button"
                         className={styles.deleteBtn}
-                        onClick={() => handleDelete(row._id, row.metaTitle)}
-                        disabled={deleting === row._id}
+                        onClick={() => handleDelete(row.metaTitle)}
+                        disabled={deleting}
                         title="Delete"
                       >
-                        {deleting === row._id ? (
-                          <span className={styles.spinner} />
-                        ) : (
-                          "🗑"
-                        )}
+                        {deleting ? <span className={styles.spinner} /> : "🗑"}
                       </button>
                     </div>
                   </td>
