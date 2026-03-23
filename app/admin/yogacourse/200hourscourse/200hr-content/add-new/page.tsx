@@ -23,7 +23,10 @@ const joditConfig = {
 
 const isEmpty = (html: string) => html.replace(/<[^>]*>/g, "").trim() === "";
 
-/* ─── Divider ─── */
+/* ── Filter options ── */
+const FILTER_OPTIONS = ["All Poses", "Standing", "Sitting", "Lying", "Balancing"] as const;
+
+/* ── Divider ── */
 function D() {
   return (
     <div style={{
@@ -34,7 +37,7 @@ function D() {
   );
 }
 
-/* ─── Section wrapper ─── */
+/* ── Section wrapper ── */
 function Sec({ title, badge, children }: { title: string; badge?: string; children: React.ReactNode }) {
   return (
     <div className={styles.sectionBlock}>
@@ -48,7 +51,7 @@ function Sec({ title, badge, children }: { title: string; badge?: string; childr
   );
 }
 
-/* ─── Field wrapper ─── */
+/* ── Field wrapper ── */
 function F({ label, hint, req, children }: { label: string; hint?: string; req?: boolean; children: React.ReactNode }) {
   return (
     <div className={styles.fieldGroup}>
@@ -62,7 +65,7 @@ function F({ label, hint, req, children }: { label: string; hint?: string; req?:
   );
 }
 
-/* ─── Lazy Jodit: editor only mounts when scrolled into view ─── */
+/* ── Lazy Jodit ── */
 function LazyJodit({
   label, hint, cr, err, clr, ph = "Start typing…", h = 200, required = false,
 }: {
@@ -77,7 +80,7 @@ function LazyJodit({
     if (!el) return;
     const observer = new IntersectionObserver(
       ([entry]) => { if (entry.isIntersecting) { setVisible(true); observer.disconnect(); } },
-      { rootMargin: "300px" }   // 300px pehle load shuru ho jata hai
+      { rootMargin: "300px" }
     );
     observer.observe(el);
     return () => observer.disconnect();
@@ -95,20 +98,12 @@ function LazyJodit({
         {required && <span className={styles.required}>*</span>}
       </label>
       {hint && <p className={styles.fieldHint}>{hint}</p>}
-      <div
-        ref={wrapRef}
-        className={`${styles.joditWrap} ${err ? styles.joditError : ""}`}
-        style={{ minHeight: h }}
-      >
+      <div ref={wrapRef} className={`${styles.joditWrap} ${err ? styles.joditError : ""}`} style={{ minHeight: h }}>
         {visible ? (
-          <JoditEditor
-            config={{ ...joditConfig, placeholder: ph, height: h }}
-            onChange={handleChange}
-          />
+          <JoditEditor config={{ ...joditConfig, placeholder: ph, height: h }} onChange={handleChange} />
         ) : (
           <div style={{
-            height: h,
-            display: "flex", alignItems: "center", justifyContent: "center",
+            height: h, display: "flex", alignItems: "center", justifyContent: "center",
             background: "#faf8f4", border: "1px solid #e8d5b5",
             borderRadius: 8, color: "#bbb", fontSize: 13, cursor: "default",
           }}>
@@ -121,7 +116,7 @@ function LazyJodit({
   );
 }
 
-/* ─── String list ─── */
+/* ── String list ── */
 function StrList({ items, onAdd, onRemove, onUpdate, max = 30, ph, label }: {
   items: string[]; onAdd: () => void; onRemove: (i: number) => void;
   onUpdate: (i: number, v: string) => void; max?: number; ph?: string; label: string;
@@ -141,10 +136,8 @@ function StrList({ items, onAdd, onRemove, onUpdate, max = 30, ph, label }: {
               />
             </div>
             <button
-              type="button"
-              className={styles.removeItemBtn}
-              onClick={() => onRemove(i)}
-              disabled={items.length <= 1}
+              type="button" className={styles.removeItemBtn}
+              onClick={() => onRemove(i)} disabled={items.length <= 1}
             >✕</button>
           </div>
         ))}
@@ -158,7 +151,7 @@ function StrList({ items, onAdd, onRemove, onUpdate, max = 30, ph, label }: {
   );
 }
 
-/* ─── Single image uploader ─── */
+/* ── Single image uploader ── */
 function SingleImg({ preview, badge, hint, error, onSelect, onRemove }: {
   preview: string; badge?: string; hint: string; error?: string;
   onSelect: (f: File, p: string) => void; onRemove: () => void;
@@ -168,13 +161,10 @@ function SingleImg({ preview, badge, hint, error, onSelect, onRemove }: {
       <div className={`${styles.imageUploadZone} ${preview ? styles.hasImage : ""} ${error ? styles.inputError : ""}`}>
         {!preview ? (
           <>
-            <input
-              type="file" accept="image/*"
-              onChange={e => {
-                const f = e.target.files?.[0];
-                if (f) { onSelect(f, URL.createObjectURL(f)); e.target.value = ""; }
-              }}
-            />
+            <input type="file" accept="image/*" onChange={e => {
+              const f = e.target.files?.[0];
+              if (f) { onSelect(f, URL.createObjectURL(f)); e.target.value = ""; }
+            }} />
             <div className={styles.imageUploadPlaceholder}>
               <span className={styles.imageUploadIcon}>🖼️</span>
               <span className={styles.imageUploadText}>Click to Upload</span>
@@ -187,19 +177,12 @@ function SingleImg({ preview, badge, hint, error, onSelect, onRemove }: {
             <img src={preview} alt="" className={styles.imagePreview} />
             <div className={styles.imagePreviewOverlay}>
               <span className={styles.imagePreviewAction}>✎ Change</span>
-              <input
-                type="file" accept="image/*" className={styles.imagePreviewOverlayInput}
-                onChange={e => {
-                  const f = e.target.files?.[0];
-                  if (f) { onSelect(f, URL.createObjectURL(f)); e.target.value = ""; }
-                }}
-              />
+              <input type="file" accept="image/*" className={styles.imagePreviewOverlayInput} onChange={e => {
+                const f = e.target.files?.[0];
+                if (f) { onSelect(f, URL.createObjectURL(f)); e.target.value = ""; }
+              }} />
             </div>
-            <button
-              type="button"
-              className={styles.removeImageBtn}
-              onClick={e => { e.stopPropagation(); onRemove(); }}
-            >✕</button>
+            <button type="button" className={styles.removeImageBtn} onClick={e => { e.stopPropagation(); onRemove(); }}>✕</button>
           </div>
         )}
       </div>
@@ -208,7 +191,7 @@ function SingleImg({ preview, badge, hint, error, onSelect, onRemove }: {
   );
 }
 
-/* ─── Form data type ─── */
+/* ── Form data type ── */
 interface FormData {
   slug: string; status: "Active" | "Inactive";
   pageMainH1: string; heroImgAlt: string;
@@ -247,15 +230,15 @@ export default function Content1AddNewPage() {
   const [submitted, setSubmitted]       = useState(false);
 
   /* images */
-  const [heroFile, setHeroFile]         = useState<File | null>(null);
-  const [heroPrev, setHeroPrev]         = useState("");
-  const [heroErr, setHeroErr]           = useState("");
-  const [ashtangaFile, setAshtangaFile] = useState<File | null>(null);
-  const [ashtangaPrev, setAshtangaPrev] = useState("");
-  const [hathaFile, setHathaFile]       = useState<File | null>(null);
-  const [hathaPrev, setHathaPrev]       = useState("");
+  const [heroFile,      setHeroFile]      = useState<File | null>(null);
+  const [heroPrev,      setHeroPrev]      = useState("");
+  const [heroErr,       setHeroErr]       = useState("");
+  const [ashtangaFile,  setAshtangaFile]  = useState<File | null>(null);
+  const [ashtangaPrev,  setAshtangaPrev]  = useState("");
+  const [hathaFile,     setHathaFile]     = useState<File | null>(null);
+  const [hathaPrev,     setHathaPrev]     = useState("");
 
-  /* jodit refs — these never cause re-renders */
+  /* jodit refs */
   const ip1Ref           = useRef("");
   const ip2Ref           = useRef("");
   const ip3Ref           = useRef("");
@@ -263,19 +246,13 @@ export default function Content1AddNewPage() {
   const aimsIntroRef     = useRef("");
   const aimsOutroRef     = useRef("");
   const syllabusIntroRef = useRef("");
-  const mod1Ref          = useRef("");
-  const mod2Ref          = useRef("");
-  const mod3Ref          = useRef("");
-  const mod4Ref          = useRef("");
-  const mod5Ref          = useRef("");
-  const mod6Ref          = useRef("");
-  const mod7Ref          = useRef("");
-  const mod8Ref          = useRef("");
-  const ashtangaRef      = useRef("");
-  const primaryRef       = useRef("");
-  const hathaRef         = useRef("");
+  const mod1Ref = useRef(""); const mod2Ref = useRef(""); const mod3Ref = useRef(""); const mod4Ref = useRef("");
+  const mod5Ref = useRef(""); const mod6Ref = useRef(""); const mod7Ref = useRef(""); const mod8Ref = useRef("");
+  const ashtangaRef = useRef("");
+  const primaryRef  = useRef("");
+  const hathaRef    = useRef("");
 
-  /* jodit validation errors */
+  /* jodit errors */
   const [ip1Err,  setIp1Err]  = useState("");
   const [ip2Err,  setIp2Err]  = useState("");
   const [ip3Err,  setIp3Err]  = useState("");
@@ -289,31 +266,32 @@ export default function Content1AddNewPage() {
   const [aimsBullets, setAimsBullets] = useState<string[]>([""]);
   const [inclFee,     setInclFee]     = useState<string[]>([""]);
   const [notInclFee,  setNotInclFee]  = useState<string[]>([""]);
-  const [mod1Items,   setMod1Items]   = useState<string[]>([""]);
-  const [mod2Items,   setMod2Items]   = useState<string[]>([""]);
-  const [mod3Items,   setMod3Items]   = useState<string[]>([""]);
-  const [mod4Items,   setMod4Items]   = useState<string[]>([""]);
-  const [mod5Items,   setMod5Items]   = useState<string[]>([""]);
-  const [mod6Items,   setMod6Items]   = useState<string[]>([""]);
-  const [mod7Items,   setMod7Items]   = useState<string[]>([""]);
-  const [mod8Items,   setMod8Items]   = useState<string[]>([""]);
-  const [foundItems,  setFoundItems]  = useState<string[]>([""]);
+  const [mod1Items, setMod1Items] = useState<string[]>([""]);
+  const [mod2Items, setMod2Items] = useState<string[]>([""]);
+  const [mod3Items, setMod3Items] = useState<string[]>([""]);
+  const [mod4Items, setMod4Items] = useState<string[]>([""]);
+  const [mod5Items, setMod5Items] = useState<string[]>([""]);
+  const [mod6Items, setMod6Items] = useState<string[]>([""]);
+  const [mod7Items, setMod7Items] = useState<string[]>([""]);
+  const [mod8Items, setMod8Items] = useState<string[]>([""]);
+  const [foundItems, setFoundItems] = useState<string[]>([""]);
 
-  const [hatha43, setHatha43] = useState<{ n: string; name: string; sub: string }[]>([
-    { n: "1", name: "", sub: "" },
-  ]);
-  const [weekGrid, setWeekGrid] = useState<{ week: string; icon: string; t1: string; d1: string; t2: string; d2: string }[]>([
-    { week: "Week 1", icon: "☀️", t1: "", d1: "", t2: "", d2: "" },
-  ]);
+  /* ✅ hatha43 — now includes filter field */
+  const [hatha43, setHatha43] = useState<
+    { n: string; name: string; sub: string; filter: string }[]
+  >([{ n: "1", name: "", sub: "", filter: "All Poses" }]);
 
-  /* Generic nested object updater */
+  const [weekGrid, setWeekGrid] = useState<
+    { week: string; icon: string; t1: string; d1: string; t2: string; d2: string }[]
+  >([{ week: "Week 1", icon: "☀️", t1: "", d1: "", t2: "", d2: "" }]);
+
+  /* Generic nested updater */
   const upd = useCallback(<T,>(arr: T[], set: (v: T[]) => void, i: number, k: keyof T, v: string) => {
     const a = [...arr] as any[];
     a[i] = { ...a[i], [k]: v };
     set(a);
   }, []);
 
-  /* react-hook-form — NO watch() call */
   const { register, handleSubmit, formState: { errors } } = useForm<FormData>({
     defaultValues: {
       slug: "", status: "Active",
@@ -335,14 +313,14 @@ export default function Content1AddNewPage() {
       feeIncludedTitle: "Included in 200 Hour yoga ttc course in india",
       feeNotIncludedTitle: "Not Included in 200 hour yoga ttc course in Rishikesh",
       syllabusH3: "200 Hour Yoga Teacher Training In Rishikesh India - The Syllabus",
-      mod1Title: "Module 1: The Philosophy of Yoga",              mod1Intro: "The course covers fundamental concepts underlying Ashtanga Yoga.",
+      mod1Title: "Module 1: The Philosophy of Yoga",               mod1Intro: "The course covers fundamental concepts underlying Ashtanga Yoga.",
       mod2Title: "Module 2: The Yogic Breathing Techniques/Pranayama", mod2Intro: "You will learn about different types of breathing used in pranayama.",
-      mod3Title: "Module 3: The Shat Kriyas (Cleansing Detox)",   mod3Intro: "This module gives you understanding of the detoxification process.",
-      mod4Title: "Module 4: Anatomy and Physiology",              mod4Intro: "Teacher will connect ancient science of yoga to the present science.",
-      mod5Title: "Module 5: Knowledge of Meditation",             mod5Intro: "Meditation is the key part of yoga teacher training.",
-      mod6Title: "Module 6: Mantras, Chants, and Prayers",        mod6Intro: "Mantras are coded in Sanskrit native language of India.",
-      mod7Title: "Module 7: Mastering the Art of Teaching Yoga",  mod7Intro: "This module gives you the confidence to take your yoga classes to the next level.",
-      mod8Title: "Module 8: Knowledge of Asanas (Yoga Postures)", mod8Intro: "By the end of your training, you will have learned all the poses.",
+      mod3Title: "Module 3: The Shat Kriyas (Cleansing Detox)",    mod3Intro: "This module gives you understanding of the detoxification process.",
+      mod4Title: "Module 4: Anatomy and Physiology",               mod4Intro: "Teacher will connect ancient science of yoga to the present science.",
+      mod5Title: "Module 5: Knowledge of Meditation",              mod5Intro: "Meditation is the key part of yoga teacher training.",
+      mod6Title: "Module 6: Mantras, Chants, and Prayers",         mod6Intro: "Mantras are coded in Sanskrit native language of India.",
+      mod7Title: "Module 7: Mastering the Art of Teaching Yoga",   mod7Intro: "This module gives you the confidence to take your yoga classes to the next level.",
+      mod8Title: "Module 8: Knowledge of Asanas (Yoga Postures)",  mod8Intro: "By the end of your training, you will have learned all the poses.",
       ashtangaH2: "Module 8.1: Ashtanga Vinyasa Yoga",
       ashtangaSubtitle: "Discover the transformative practice that synchronizes breath with movement",
       ashtangaImgAlt: "Ashtanga Vinyasa Yoga",
@@ -358,7 +336,7 @@ export default function Content1AddNewPage() {
     },
   });
 
-  /* ─── Module configs — memoized so they don't recreate on every render ─── */
+  /* Module configs */
   const modConfigs = useMemo(() => [
     { num: "1", name: "Philosophy of Yoga",            items: mod1Items, setItems: setMod1Items, bodyRef: mod1Ref },
     { num: "2", name: "Pranayama",                     items: mod2Items, setItems: setMod2Items, bodyRef: mod2Ref },
@@ -370,7 +348,7 @@ export default function Content1AddNewPage() {
     { num: "8", name: "Knowledge of Asanas",           items: mod8Items, setItems: setMod8Items, bodyRef: mod8Ref },
   ], [mod1Items, mod2Items, mod3Items, mod4Items, mod5Items, mod6Items, mod7Items, mod8Items]);
 
-  /* ─── Submit ─── */
+  /* Submit */
   const onSubmit = async (data: FormData) => {
     let hasErr = false;
     if (isEmpty(ip1Ref.current))           { setIp1Err("Required");  hasErr = true; }
@@ -390,38 +368,41 @@ export default function Content1AddNewPage() {
       Object.entries(data).forEach(([k, v]) => fd.append(k, v as string));
 
       const richFields: [string, string][] = [
-        ["introPara1",     ip1Ref.current],
-        ["introPara2",     ip2Ref.current],
-        ["introPara3",     ip3Ref.current],
-        ["introPara4",     ip4Ref.current],
-        ["aimsIntro",      aimsIntroRef.current],
-        ["aimsOutro",      aimsOutroRef.current],
-        ["syllabusIntro",  syllabusIntroRef.current],
-        ["mod1Body",       mod1Ref.current],
-        ["mod2Body",       mod2Ref.current],
-        ["mod3Body",       mod3Ref.current],
-        ["mod4Body",       mod4Ref.current],
-        ["mod5Body",       mod5Ref.current],
-        ["mod6Body",       mod6Ref.current],
-        ["mod7Body",       mod7Ref.current],
-        ["mod8Body",       mod8Ref.current],
-        ["ashtangaDesc",   ashtangaRef.current],
-        ["primaryIntro",   primaryRef.current],
-        ["hathaDesc",      hathaRef.current],
+        ["introPara1",    ip1Ref.current],
+        ["introPara2",    ip2Ref.current],
+        ["introPara3",    ip3Ref.current],
+        ["introPara4",    ip4Ref.current],
+        ["aimsIntro",     aimsIntroRef.current],
+        ["aimsOutro",     aimsOutroRef.current],
+        ["syllabusIntro", syllabusIntroRef.current],
+        ["mod1Body",      mod1Ref.current],
+        ["mod2Body",      mod2Ref.current],
+        ["mod3Body",      mod3Ref.current],
+        ["mod4Body",      mod4Ref.current],
+        ["mod5Body",      mod5Ref.current],
+        ["mod6Body",      mod6Ref.current],
+        ["mod7Body",      mod7Ref.current],
+        ["mod8Body",      mod8Ref.current],
+        ["ashtangaDesc",  ashtangaRef.current],
+        ["primaryIntro",  primaryRef.current],
+        ["hathaDesc",     hathaRef.current],
       ];
       richFields.forEach(([k, v]) => fd.append(k, v));
 
-      aimsBullets.forEach(v  => fd.append("aimsBullets", v));
-      inclFee.forEach(v      => fd.append("includedFee", v));
-      notInclFee.forEach(v   => fd.append("notIncludedFee", v));
+      aimsBullets.forEach(v => fd.append("aimsBullets", v));
+      inclFee.forEach(v     => fd.append("includedFee", v));
+      notInclFee.forEach(v  => fd.append("notIncludedFee", v));
       [mod1Items, mod2Items, mod3Items, mod4Items, mod5Items, mod6Items, mod7Items, mod8Items]
         .forEach((arr, i) => arr.forEach(v => fd.append(`mod${i + 1}Items`, v)));
-      foundItems.forEach(v   => fd.append("foundationItems", v));
-      fd.append("hatha43",   JSON.stringify(hatha43));
-      fd.append("weekGrid",  JSON.stringify(weekGrid));
+      foundItems.forEach(v  => fd.append("foundationItems", v));
+
+      /* ✅ hatha43 now includes filter field */
+      fd.append("hatha43",  JSON.stringify(hatha43));
+      fd.append("weekGrid", JSON.stringify(weekGrid));
+
       fd.append("heroImage", heroFile!);
       if (ashtangaFile) fd.append("ashtangaImage", ashtangaFile);
-      if (hathaFile)    fd.append("hathaImage",    hathaFile);
+      if (hathaFile)    fd.append("hathaImage", hathaFile);
 
       await api.post("/yoga-200hr/content1/create", fd, {
         headers: { "Content-Type": "multipart/form-data" },
@@ -436,7 +417,7 @@ export default function Content1AddNewPage() {
     }
   };
 
-  /* ─── Success screen ─── */
+  /* Success screen */
   if (submitted) return (
     <div className={styles.successScreen}>
       <div className={styles.successCard}>
@@ -448,19 +429,13 @@ export default function Content1AddNewPage() {
     </div>
   );
 
-  /* ════════════════════════════════════════
-     RENDER
-  ════════════════════════════════════════ */
   return (
     <div className={styles.formPage}>
 
       {/* Breadcrumb */}
       <div className={styles.breadcrumb}>
-        <button
-          className={styles.breadcrumbLink}
-          onClick={() => router.push("/admin/yogacourse/200hourscourse/200hr-content")}
-        >
-         200 hour Content section first
+        <button className={styles.breadcrumbLink} onClick={() => router.push("/admin/yogacourse/200hourscourse/200hr-content")}>
+          200 hour Content section first
         </button>
         <span className={styles.breadcrumbSep}>›</span>
         <span className={styles.breadcrumbCurrent}>Add New</span>
@@ -506,10 +481,10 @@ export default function Content1AddNewPage() {
 
         {/* ════ 2. INTRO PARAGRAPHS ════ */}
         <Sec title="Introduction Paragraphs">
-          <LazyJodit label="Paragraph 1 — Main Introduction"    cr={ip1Ref} err={ip1Err} clr={() => setIp1Err("")}  ph="Yoga means union…"                           required />
-          <LazyJodit label="Paragraph 2 — Years of Experience"  cr={ip2Ref} err={ip2Err} clr={() => setIp2Err("")}  ph="With 25 Years of Experience…"               required />
-          <LazyJodit label="Paragraph 3 — Daily Schedule"       cr={ip3Ref} err={ip3Err} clr={() => setIp3Err("")}  ph="Each day of the 200-hour course includes…"  required />
-          <LazyJodit label="Paragraph 4 — Yoga Alliance"        cr={ip4Ref} err={ip4Err} clr={() => setIp4Err("")}  ph="We are among the best 200-hour yoga ttc…"   required />
+          <LazyJodit label="Paragraph 1 — Main Introduction"   cr={ip1Ref} err={ip1Err} clr={() => setIp1Err("")} ph="Yoga means union…" required />
+          <LazyJodit label="Paragraph 2 — Years of Experience" cr={ip2Ref} err={ip2Err} clr={() => setIp2Err("")} ph="With 25 Years of Experience…" required />
+          <LazyJodit label="Paragraph 3 — Daily Schedule"      cr={ip3Ref} err={ip3Err} clr={() => setIp3Err("")} ph="Each day of the 200-hour course includes…" required />
+          <LazyJodit label="Paragraph 4 — Yoga Alliance"       cr={ip4Ref} err={ip4Err} clr={() => setIp4Err("")} ph="We are among the best 200-hour yoga ttc…" required />
         </Sec><D />
 
         {/* ════ 3. STATS ════ */}
@@ -542,10 +517,7 @@ export default function Content1AddNewPage() {
               <input className={`${styles.input} ${styles.inputNoCount}`} {...register("aimsH3")} />
             </div>
           </F>
-          <LazyJodit
-            label="Aims Introduction" cr={aimsIntroRef} err={aimsErr} clr={() => setAimsErr("")}
-            ph="The 200 hour yoga teacher training is carefully designed…" h={180} required
-          />
+          <LazyJodit label="Aims Introduction" cr={aimsIntroRef} err={aimsErr} clr={() => setAimsErr("")} ph="The 200 hour yoga teacher training is carefully designed…" h={180} required />
           <F label="Key Objectives Bold Label" hint="Bold sentence before bullet list">
             <div className={styles.inputWrap}>
               <input className={`${styles.input} ${styles.inputNoCount}`} {...register("aimsKeyObjLabel")} />
@@ -559,10 +531,7 @@ export default function Content1AddNewPage() {
               onUpdate={(i, v) => { const a = [...aimsBullets]; a[i] = v; setAimsBullets(a); }}
             />
           </F>
-          <LazyJodit
-            label="Aims Outro Paragraph (optional)" cr={aimsOutroRef}
-            ph="The 200-hour yoga training at AYM Yoga School offers…" h={180}
-          />
+          <LazyJodit label="Aims Outro Paragraph (optional)" cr={aimsOutroRef} ph="The 200-hour yoga training at AYM Yoga School offers…" h={180} />
         </Sec><D />
 
         {/* ════ 5. OVERVIEW ════ */}
@@ -635,10 +604,7 @@ export default function Content1AddNewPage() {
               <input className={`${styles.input} ${styles.inputNoCount}`} {...register("syllabusH3")} />
             </div>
           </F>
-          <LazyJodit
-            label="Syllabus Introduction" cr={syllabusIntroRef} err={sylErr} clr={() => setSylErr("")}
-            ph="It is our commitment as yoga school…" h={250} required
-          />
+          <LazyJodit label="Syllabus Introduction" cr={syllabusIntroRef} err={sylErr} clr={() => setSylErr("")} ph="It is our commitment as yoga school…" h={250} required />
         </Sec><D />
 
         {/* ════ 9–16. MODULES 1–8 ════ */}
@@ -663,10 +629,7 @@ export default function Content1AddNewPage() {
                   onUpdate={(i, v) => { const a = [...items]; a[i] = v; setItems(a); }}
                 />
               </F>
-              <LazyJodit
-                label="Module Extra Rich Text (optional)" cr={bodyRef}
-                ph="Additional description…" h={160}
-              />
+              <LazyJodit label="Module Extra Rich Text (optional)" cr={bodyRef} ph="Additional description…" h={160} />
             </Sec><D />
           </div>
         ))}
@@ -683,10 +646,7 @@ export default function Content1AddNewPage() {
             />
           </F>
           <F label="Image Alt Text"><div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("ashtangaImgAlt")} /></div></F>
-          <LazyJodit
-            label="Ashtanga Description" cr={ashtangaRef} err={astErr} clr={() => setAstErr("")}
-            ph="This form of yoga practice combines breath and body movements…" required
-          />
+          <LazyJodit label="Ashtanga Description" cr={ashtangaRef} err={astErr} clr={() => setAstErr("")} ph="This form of yoga practice combines breath and body movements…" required />
           <div className={styles.grid3}>
             {([1, 2, 3] as const).map(n => (
               <F key={n} label={`Feature Pill ${n}`}>
@@ -702,10 +662,7 @@ export default function Content1AddNewPage() {
         <Sec title="Primary Series Curriculum">
           <F label="Section H3"><div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("primarySeriesH3")} /></div></F>
           <F label="Sub-text"><div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("primarySeriesSubtext")} /></div></F>
-          <LazyJodit
-            label="Primary Series Intro Paragraph (optional)" cr={primaryRef}
-            ph="All students of 200 hour yoga teacher training will practice primary series…" h={180}
-          />
+          <LazyJodit label="Primary Series Intro Paragraph (optional)" cr={primaryRef} ph="All students of 200 hour yoga teacher training will practice primary series…" h={180} />
           <F label="Foundation Items">
             <StrList
               items={foundItems} label="Item" ph="Introduction to ashtanga vinyasa yoga"
@@ -719,11 +676,9 @@ export default function Content1AddNewPage() {
               <div key={i} className={styles.nestedCard} style={{ marginBottom: "0.8rem" }}>
                 <div className={styles.nestedCardHeader}>
                   <span className={styles.nestedCardNum}>Week Card {i + 1}</span>
-                  <button
-                    type="button" className={styles.removeNestedBtn}
+                  <button type="button" className={styles.removeNestedBtn}
                     onClick={() => setWeekGrid(weekGrid.filter((_, x) => x !== i))}
-                    disabled={weekGrid.length <= 1}
-                  >✕ Remove</button>
+                    disabled={weekGrid.length <= 1}>✕ Remove</button>
                 </div>
                 <div className={styles.nestedCardBody}>
                   <div className={styles.grid2}>
@@ -737,10 +692,8 @@ export default function Content1AddNewPage() {
                 </div>
               </div>
             ))}
-            <button
-              type="button" className={styles.addItemBtn}
-              onClick={() => setWeekGrid([...weekGrid, { week: `Week ${weekGrid.length + 1}`, icon: "🧘", t1: "", d1: "", t2: "", d2: "" }])}
-            >
+            <button type="button" className={styles.addItemBtn}
+              onClick={() => setWeekGrid([...weekGrid, { week: `Week ${weekGrid.length + 1}`, icon: "🧘", t1: "", d1: "", t2: "", d2: "" }])}>
               ＋ Add Week Card
             </button>
           </F>
@@ -758,10 +711,7 @@ export default function Content1AddNewPage() {
             />
           </F>
           <F label="Image Alt Text"><div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("hathaImgAlt")} /></div></F>
-          <LazyJodit
-            label="Hatha Description" cr={hathaRef} err={htErr} clr={() => setHtErr("")}
-            ph="Hatha yoga is the traditional, ancient and classical yoga…" required
-          />
+          <LazyJodit label="Hatha Description" cr={hathaRef} err={htErr} clr={() => setHtErr("")} ph="Hatha yoga is the traditional, ancient and classical yoga…" required />
           <div className={styles.grid3}>
             {([1, 2, 3] as const).map(n => (
               <F key={n} label={`Feature Pill ${n}`}>
@@ -773,34 +723,87 @@ export default function Content1AddNewPage() {
           </div>
         </Sec><D />
 
-        {/* ════ 20. HATHA 43 ASANAS ════ */}
+        {/* ════ 20. HATHA 43 ASANAS — WITH FILTER DROPDOWN ════ */}
         <Sec title="Hatha Yoga Asanas List" badge={`${hatha43.length} asanas`}>
           <div className={styles.grid2}>
             <F label="Section H2"><div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("asanasH2")} /></div></F>
             <F label="Sub-text"><div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("asanasSubtext")} /></div></F>
           </div>
+
+          {/* Column headers */}
+          <div style={{ display: "flex", gap: "0.5rem", padding: "0.4rem 0", marginBottom: "0.2rem", borderBottom: "1px solid #e8d5b5" }}>
+            <span style={{ width: 32, fontSize: 11, color: "#b8860b", fontWeight: 600 }}>#</span>
+            <span style={{ width: 55, fontSize: 11, color: "#b8860b", fontWeight: 600 }}>No.</span>
+            <span style={{ flex: 1, fontSize: 11, color: "#b8860b", fontWeight: 600 }}>Asana Name</span>
+            <span style={{ flex: 1, fontSize: 11, color: "#b8860b", fontWeight: 600 }}>Sub Name</span>
+            <span style={{ width: 130, fontSize: 11, color: "#b8860b", fontWeight: 600 }}>Filter Category ✅</span>
+            <span style={{ width: 32 }} />
+          </div>
+
           {hatha43.map((a, i) => (
-            <div key={i} className={styles.listItemRow} style={{ marginBottom: "0.5rem", gap: "0.5rem" }}>
+            <div key={i} className={styles.listItemRow} style={{ marginBottom: "0.4rem", gap: "0.5rem", alignItems: "center" }}>
               <span className={styles.listNum}>{i + 1}</span>
+
+              {/* Pose number */}
               <div className={styles.inputWrap} style={{ width: 55, flexShrink: 0 }}>
-                <input className={`${styles.input} ${styles.inputNoCount}`} value={a.n} placeholder="#" onChange={e => upd(hatha43, setHatha43, i, "n", e.target.value)} />
+                <input
+                  className={`${styles.input} ${styles.inputNoCount}`}
+                  value={a.n}
+                  placeholder="#"
+                  onChange={e => upd(hatha43, setHatha43, i, "n", e.target.value)}
+                />
               </div>
+
+              {/* Asana name */}
               <div className={`${styles.inputWrap} ${styles.listInput}`}>
-                <input className={`${styles.input} ${styles.inputNoCount}`} value={a.name} placeholder="Asana name" onChange={e => upd(hatha43, setHatha43, i, "name", e.target.value)} />
+                <input
+                  className={`${styles.input} ${styles.inputNoCount}`}
+                  value={a.name}
+                  placeholder="e.g. Tadasana"
+                  onChange={e => upd(hatha43, setHatha43, i, "name", e.target.value)}
+                />
               </div>
+
+              {/* Sub name */}
               <div className={`${styles.inputWrap} ${styles.listInput}`}>
-                <input className={`${styles.input} ${styles.inputNoCount}`} value={a.sub} placeholder="Sub name" onChange={e => upd(hatha43, setHatha43, i, "sub", e.target.value)} />
+                <input
+                  className={`${styles.input} ${styles.inputNoCount}`}
+                  value={a.sub}
+                  placeholder="e.g. Mountain pose"
+                  onChange={e => upd(hatha43, setHatha43, i, "sub", e.target.value)}
+                />
               </div>
+
+              {/* ✅ Filter category dropdown */}
+              <div className={styles.selectWrap} style={{ width: 130, flexShrink: 0 }}>
+                <select
+                  className={styles.select}
+                  value={a.filter}
+                  onChange={e => upd(hatha43, setHatha43, i, "filter", e.target.value)}
+                >
+                  {FILTER_OPTIONS.map((opt) => (
+                    <option key={opt} value={opt}>{opt}</option>
+                  ))}
+                </select>
+                <span className={styles.selectArrow}>▾</span>
+              </div>
+
+              {/* Remove */}
               <button
-                type="button" className={styles.removeItemBtn}
+                type="button"
+                className={styles.removeItemBtn}
                 onClick={() => setHatha43(hatha43.filter((_, x) => x !== i))}
                 disabled={hatha43.length <= 1}
               >✕</button>
             </div>
           ))}
+
           <button
-            type="button" className={styles.addItemBtn}
-            onClick={() => setHatha43([...hatha43, { n: String(hatha43.length + 1), name: "", sub: "" }])}
+            type="button"
+            className={styles.addItemBtn}
+            onClick={() =>
+              setHatha43([...hatha43, { n: String(hatha43.length + 1), name: "", sub: "", filter: "All Poses" }])
+            }
           >
             ＋ Add Asana
           </button>
