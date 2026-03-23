@@ -206,7 +206,7 @@ export default function AddAccreditationSectionPage() {
       });
 
       setSubmitted(true);
-     setTimeout(() => router.push("/admin/dashboard/accreditation"), 1500);
+     setTimeout(() => router.push("/admin/dashboard/accreditationsection"), 1500);
 
     } catch (error: any) {
       alert(error?.response?.data?.message || "Failed to save");
@@ -239,7 +239,7 @@ export default function AddAccreditationSectionPage() {
   return (
     <div className={styles.page}>
       <div className={styles.breadcrumb}>
-        <button className={styles.breadcrumbLink} onClick={() => router.push("/admin/dashboard/accreditation")}>Accreditation</button>
+        <button className={styles.breadcrumbLink} onClick={() => router.push("/admin/dashboard/accreditationsection")}>Accreditation</button>
         <span className={styles.breadcrumbSep}>›</span>
         <span className={styles.breadcrumbCurrent}>Add Section</span>
       </div>
