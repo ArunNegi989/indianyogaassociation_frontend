@@ -70,6 +70,7 @@ const navItems: NavItem[] = [
         children: [
           { href: "/admin/yogacourse/200hourscourse/200hr-seats",   label: "Seats & Dates" },
            { href: "/admin/yogacourse/200hourscourse/200hr-content",   label: "page Content" },
+            { href: "/admin/yogacourse/200hourscourse/200hrcontent2",   label: "page Content second" },
          
         ],
       },

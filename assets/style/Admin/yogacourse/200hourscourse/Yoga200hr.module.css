@@ -1,6 +1,6 @@
 /* ================================================================
    Yoga200hr.module.css  —  AYM Admin
-   Shared: ListPage | AddNewPage | EditPage | FaqListPage | FaqAddPage | FaqEditPage
+   Shared: ListPage | AddNewPage | EditPage
    ================================================================ */
 
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&display=swap');
@@ -8,6 +8,29 @@
 /* ── Page shells ── */
 .page     { width:100%; padding:1rem clamp(0.75rem,3vw,1.5rem) 2.5rem; }
 .formPage { width:100%; max-width:860px; margin:0 auto; padding:1rem clamp(0.75rem,3vw,1.5rem) 3rem; }
+
+/* ── pageWrap (Add-New / Edit pages) ── */
+.pageWrap {
+  width:100%;
+  max-width:900px;
+  margin:0 auto;
+  padding:1rem clamp(0.75rem,3vw,1.5rem) 3rem;
+}
+
+/* ── Back Link ── */
+.backLink {
+  display:inline-flex;
+  align-items:center;
+  gap:0.35rem;
+  font-family:'Cormorant Garamond',serif;
+  font-size:0.85rem;
+  color:#a07840;
+  font-style:italic;
+  text-decoration:none;
+  margin-bottom:0.45rem;
+  transition:color 0.18s;
+}
+.backLink:hover { color:#e07b00; }
 
 /* ── Breadcrumb ── */
 .breadcrumb        { display:flex; align-items:center; gap:0.5rem; margin-bottom:1.3rem; flex-wrap:wrap; }
@@ -41,17 +64,232 @@
 .ornamentLine { flex:1; height:1px; background:linear-gradient(90deg,rgba(224,123,0,0.25),rgba(224,123,0,0.06)); }
 
 /* ================================================================
-   TABLE  (list pages)
+   LIST PAGE
    ================================================================ */
-.tableWrap { background:#fffaf2; border:1px solid #e8d5b5; border-radius:12px; overflow:hidden; box-shadow:0 4px 24px rgba(92,45,0,0.07); overflow-x:auto; -webkit-overflow-scrolling:touch; }
-.table     { width:100%; border-collapse:collapse; font-family:'Cormorant Garamond',serif; min-width:560px; }
-.table thead { background:linear-gradient(135deg,#3d1d00,#5c2d00); }
-.table thead th { font-family:'Cinzel',serif; font-size:0.66rem; font-weight:700; letter-spacing:0.1em; color:rgba(245,216,154,0.85); text-transform:uppercase; padding:0.85rem 1rem; text-align:left; white-space:nowrap; }
-.table tbody tr { border-bottom:1px solid #f0e2c8; transition:background 0.15s; }
-.table tbody tr:last-child { border-bottom:none; }
-.table tbody tr:hover { background:rgba(224,123,0,0.04); }
-.table td { padding:0.85rem 1rem; vertical-align:middle; font-size:0.92rem; color:#3d1d00; }
+
+/* ── List Page Shell ── */
+.listPage {
+  width:100%;
+  padding:1rem clamp(0.75rem,3vw,1.5rem) 2.5rem;
+}
+
+/* ── List Header ── */
+.listHeader {
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:1rem;
+  margin-bottom:1.2rem;
+  flex-wrap:wrap;
+}
+.listTitle {
+  font-family:'Cinzel',serif;
+  font-size:clamp(1.05rem,3vw,1.5rem);
+  font-weight:700;
+  color:#3d1d00;
+  margin:0 0 0.2rem;
+  letter-spacing:0.04em;
+}
+.listSubtitle {
+  font-family:'Cormorant Garamond',serif;
+  font-size:0.88rem;
+  color:#a07840;
+  margin:0;
+  font-style:italic;
+}
+
+/* ── Add New Button (list page variant) ── */
+.addNewBtn {
+  display:inline-flex;
+  align-items:center;
+  gap:0.45rem;
+  padding:0.58rem 1.35rem;
+  background:linear-gradient(135deg,#3d1d00,#5c2d00);
+  border:1px solid rgba(224,123,0,0.35);
+  border-radius:8px;
+  font-family:'Cinzel',serif;
+  font-size:0.72rem;
+  font-weight:600;
+  letter-spacing:0.07em;
+  color:#f5d89a;
+  text-decoration:none;
+  cursor:pointer;
+  transition:all 0.22s;
+  box-shadow:0 3px 12px rgba(92,45,0,0.2);
+  white-space:nowrap;
+  flex-shrink:0;
+}
+.addNewBtn:hover {
+  background:linear-gradient(135deg,#5c2d00,#7a3d00);
+  transform:translateY(-1px);
+  box-shadow:0 5px 18px rgba(92,45,0,0.3);
+}
+
+/* ── Error Banner ── */
+.errorBanner {
+  display:flex;
+  align-items:center;
+  gap:0.75rem;
+  padding:0.75rem 1rem;
+  background:rgba(196,74,0,0.07);
+  border:1px solid rgba(196,74,0,0.25);
+  border-radius:8px;
+  font-family:'Cormorant Garamond',serif;
+  font-size:0.9rem;
+  color:#8b2000;
+  margin-bottom:1.2rem;
+}
+.errorBanner button {
+  background:none;
+  border:1px solid rgba(196,74,0,0.3);
+  border-radius:5px;
+  color:#c44a00;
+  font-family:'Cinzel',serif;
+  font-size:0.65rem;
+  letter-spacing:0.06em;
+  padding:0.22rem 0.6rem;
+  cursor:pointer;
+  transition:all 0.18s;
+  margin-left:auto;
+}
+.errorBanner button:hover { background:rgba(196,74,0,0.1); }
+
+/* ── Loading ── */
+.loadingWrap {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:0.75rem;
+  padding:4rem 2rem;
+  font-family:'Cormorant Garamond',serif;
+  font-size:1rem;
+  color:#a07840;
+  font-style:italic;
+}
+
+/* ── Empty State ── */
+.emptyState {
+  text-align:center;
+  padding:4rem 2rem;
+  background:#fffaf2;
+  border:1px solid #e8d5b5;
+  border-radius:12px;
+}
+.emptyOm {
+  display:block;
+  font-family:'Cinzel',serif;
+  font-size:3rem;
+  color:rgba(224,123,0,0.2);
+  margin-bottom:0.8rem;
+  line-height:1;
+}
+.emptyTitle {
+  font-family:'Cinzel',serif;
+  font-size:1rem;
+  font-weight:700;
+  color:#3d1d00;
+  margin:0 0 0.5rem;
+  letter-spacing:0.05em;
+}
+.emptyText {
+  font-family:'Cormorant Garamond',serif;
+  font-size:0.95rem;
+  color:#a07840;
+  margin:0 0 1.5rem;
+  font-style:italic;
+}
+/* legacy .empty also kept */
+.empty   { text-align:center; padding:4rem 2rem; }
+.empty p { font-family:'Cormorant Garamond',serif; font-size:1rem; color:#a07840; font-style:italic; margin:0; }
+
+/* ── Table ── */
+.tableWrap {
+  background:#fffaf2;
+  border:1px solid #e8d5b5;
+  border-radius:12px;
+  overflow:hidden;
+  box-shadow:0 4px 24px rgba(92,45,0,0.07);
+  overflow-x:auto;
+  -webkit-overflow-scrolling:touch;
+}
+.table {
+  width:100%;
+  border-collapse:collapse;
+  font-family:'Cormorant Garamond',serif;
+  min-width:560px;
+}
+.table thead {
+  background:linear-gradient(135deg,#3d1d00,#5c2d00);
+}
+.th {
+  font-family:'Cinzel',serif;
+  font-size:0.66rem;
+  font-weight:700;
+  letter-spacing:0.1em;
+  color:rgba(245,216,154,0.85);
+  text-transform:uppercase;
+  padding:0.85rem 1rem;
+  text-align:left;
+  white-space:nowrap;
+}
+.tr {
+  border-bottom:1px solid #f0e2c8;
+  transition:background 0.15s;
+}
+.tr:last-child { border-bottom:none; }
+.tr:hover { background:rgba(224,123,0,0.04); }
+.td {
+  padding:0.85rem 1rem;
+  vertical-align:middle;
+  font-size:0.92rem;
+  color:#3d1d00;
+}
 .tdCenter { text-align:center; }
+
+/* ── Table Cell content ── */
+.rowNum {
+  font-family:'Cinzel',serif;
+  font-size:0.72rem;
+  font-weight:700;
+  color:rgba(160,120,64,0.6);
+  letter-spacing:0.05em;
+}
+.rowTitle {
+  font-family:'Cormorant Garamond',serif;
+  font-size:0.95rem;
+  color:#3d1d00;
+  font-weight:600;
+  line-height:1.4;
+}
+.slugBadge {
+  display:inline-block;
+  font-family:'Cormorant Garamond',serif;
+  font-size:0.8rem;
+  color:#5c2d00;
+  background:rgba(224,123,0,0.08);
+  border:1px solid rgba(224,123,0,0.2);
+  border-radius:5px;
+  padding:0.15rem 0.55rem;
+  letter-spacing:0.02em;
+}
+.dateText {
+  font-family:'Cormorant Garamond',serif;
+  font-size:0.85rem;
+  color:#a07840;
+  font-style:italic;
+  white-space:nowrap;
+}
+.tableCount {
+  font-family:'Cormorant Garamond',serif;
+  font-size:0.82rem;
+  color:#a07840;
+  font-style:italic;
+  padding:0.7rem 1rem;
+  text-align:right;
+  border-top:1px solid #f0e2c8;
+}
+
+/* ── Legacy table classes (kept for compatibility) ── */
 .cellTitle { font-family:'Cinzel',serif; font-size:0.78rem; font-weight:600; color:#3d1d00; letter-spacing:0.02em; line-height:1.4; }
 .cellSub   { font-family:'Cormorant Garamond',serif; font-size:0.82rem; color:#a07840; font-style:italic; margin-top:0.12rem; }
 .metaChip    { display:inline-block; font-family:'Cormorant Garamond',serif; font-size:0.78rem; color:#5c2d00; background:rgba(224,123,0,0.09); border:1px solid rgba(224,123,0,0.2); border-radius:20px; padding:0.18rem 0.65rem; white-space:nowrap; }
@@ -66,48 +304,46 @@
 .statusDot { width:5px; height:5px; border-radius:50%; background:currentColor; flex-shrink:0; }
 
 /* ── Action Buttons ── */
-.actionBtns { display:flex; align-items:center; gap:0.45rem; justify-content:center; flex-wrap:wrap; }
-.editBtn    { display:inline-flex; align-items:center; gap:0.3rem; padding:0.32rem 0.8rem; background:rgba(224,123,0,0.08); border:1px solid rgba(224,123,0,0.28); border-radius:6px; font-family:'Cinzel',serif; font-size:0.65rem; font-weight:700; letter-spacing:0.06em; color:#7a3d00; text-decoration:none; cursor:pointer; transition:all 0.18s; }
+.actionBtns { display:flex; align-items:center; gap:0.45rem; justify-content:flex-start; flex-wrap:wrap; }
+.editBtn    { display:inline-flex; align-items:center; gap:0.3rem; padding:0.32rem 0.8rem; background:rgba(224,123,0,0.08); border:1px solid rgba(224,123,0,0.28); border-radius:6px; font-family:'Cinzel',serif; font-size:0.65rem; font-weight:700; letter-spacing:0.06em; color:#7a3d00; text-decoration:none; cursor:pointer; transition:all 0.18s; white-space:nowrap; }
 .editBtn:hover  { background:rgba(224,123,0,0.18); border-color:#e07b00; color:#3d1d00; }
 .deleteBtn  { display:inline-flex; align-items:center; gap:0.3rem; padding:0.32rem 0.8rem; background:rgba(196,74,0,0.07); border:1px solid rgba(196,74,0,0.25); border-radius:6px; font-family:'Cinzel',serif; font-size:0.65rem; font-weight:700; letter-spacing:0.06em; color:#c44a00; cursor:pointer; transition:all 0.18s; }
 .deleteBtn:hover { background:rgba(196,74,0,0.16); border-color:#c44a00; color:#8b2000; }
 
-/* ── Empty State ── */
-.empty   { text-align:center; padding:4rem 2rem; }
-.emptyOm { display:block; font-family:'Cinzel',serif; font-size:3rem; color:rgba(224,123,0,0.2); margin-bottom:0.8rem; }
-.empty p { font-family:'Cormorant Garamond',serif; font-size:1rem; color:#a07840; font-style:italic; margin:0; }
-
 /* ================================================================
-   SKELETON
+   FORM SECTIONS  (Add-New / Edit pages)
    ================================================================ */
-.skeletonHeader { height:2.2rem; width:55%; background:linear-gradient(90deg,#f0e2c8 25%,#f8f0e0 50%,#f0e2c8 75%); background-size:200% 100%; animation:shimmer 1.4s infinite; border-radius:8px; margin-bottom:1.5rem; }
-.skeletonCard   { background:#fffaf2; border:1px solid #e8d5b5; border-radius:14px; padding:2rem; display:flex; flex-direction:column; gap:1.2rem; }
-.skeletonField  { height:2.8rem; background:linear-gradient(90deg,#f0e2c8 25%,#f8f0e0 50%,#f0e2c8 75%); background-size:200% 100%; animation:shimmer 1.4s infinite; border-radius:8px; }
-@keyframes shimmer { to { background-position:-200% 0; } }
 
-/* ================================================================
-   DELETE MODAL
-   ================================================================ */
-.modalOverlay { position:fixed; inset:0; background:rgba(30,10,0,0.55); backdrop-filter:blur(3px); z-index:1000; display:flex; align-items:center; justify-content:center; padding:1rem; }
-.modal        { background:#fffaf2; border:1px solid #e8d5b5; border-radius:14px; padding:2.2rem 2rem; max-width:380px; width:100%; text-align:center; box-shadow:0 16px 48px rgba(92,45,0,0.22); animation:fadeUp 0.28s ease; }
-.modalOm      { font-family:'Cinzel',serif; font-size:2rem; color:rgba(224,123,0,0.28); margin-bottom:0.5rem; }
-.modalTitle   { font-family:'Cinzel',serif; font-size:1rem; font-weight:700; color:#3d1d00; margin:0 0 0.6rem; letter-spacing:0.05em; }
-.modalText    { font-family:'Cormorant Garamond',serif; font-size:0.92rem; color:#7a5c2e; font-style:italic; margin:0 0 1.5rem; line-height:1.55; }
-.modalActions { display:flex; gap:0.7rem; }
-.modalCancel  { flex:1; padding:0.6rem 1.4rem; background:none; border:1.5px solid #e8d5b5; border-radius:8px; font-family:'Cinzel',serif; font-size:0.7rem; letter-spacing:0.07em; color:#7a5c2e; cursor:pointer; transition:all 0.18s; }
-.modalCancel:hover  { background:rgba(224,123,0,0.06); border-color:#e07b00; }
-.modalConfirm { flex:1; padding:0.6rem 1.4rem; background:linear-gradient(135deg,#8b2000,#c44a00); border:1px solid rgba(196,74,0,0.4); border-radius:8px; font-family:'Cinzel',serif; font-size:0.7rem; font-weight:700; letter-spacing:0.07em; color:#fff0e0; cursor:pointer; transition:all 0.18s; box-shadow:0 3px 10px rgba(139,32,0,0.25); }
-.modalConfirm:hover { background:linear-gradient(135deg,#a02000,#e05500); transform:translateY(-1px); }
-
-/* ================================================================
-   FORM CARD
-   ================================================================ */
-.formCard    { background:#fffaf2; border:1px solid #e8d5b5; border-radius:14px; padding:clamp(1.3rem,4vw,2.2rem); box-shadow:0 4px 28px rgba(92,45,0,0.08); }
-.formDivider { height:1px; background:linear-gradient(90deg,transparent,#e8d5b5,transparent); margin:0.4rem 0 1.8rem; }
-
-/* ── Section Header ── */
+/* ── Section Block ── */
+.section {
+  background:#fffaf2;
+  border:1px solid #e8d5b5;
+  border-radius:12px;
+  overflow:hidden;
+  margin-bottom:1.2rem;
+  box-shadow:0 2px 12px rgba(92,45,0,0.05);
+}
+.sectionHeader {
+  display:flex;
+  align-items:center;
+  gap:0.6rem;
+  padding:0.85rem 1.2rem;
+  background:linear-gradient(90deg,rgba(224,123,0,0.07),rgba(224,123,0,0.02));
+  border-bottom:1px solid #e8d5b5;
+}
+.sectionBody {
+  padding:1.2rem 1.2rem 0.4rem;
+}
+.sectionDivider {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:0.6rem 0;
+  color:rgba(224,123,0,0.3);
+  font-size:1rem;
+  margin-bottom:0.2rem;
+}
 .sectionBlock  { margin-bottom:0.4rem; }
-.sectionHeader { display:flex; align-items:center; gap:0.6rem; margin-bottom:1.2rem; }
 .sectionIcon   { font-size:0.55rem; color:#e07b00; flex-shrink:0; }
 .sectionTitle  { font-family:'Cinzel',serif; font-size:0.88rem; font-weight:700; color:#5c2d00; margin:0; letter-spacing:0.07em; text-transform:uppercase; }
 .sectionBadge  { font-family:'Cormorant Garamond',serif; font-size:0.78rem; color:#a07840; background:rgba(224,123,0,0.08); border:1px solid rgba(224,123,0,0.2); border-radius:20px; padding:0.1rem 0.6rem; margin-left:auto; font-style:italic; }
@@ -163,7 +399,7 @@
 .addItemBtn  { display:inline-flex; align-items:center; gap:0.35rem; padding:0.45rem 1rem; background:transparent; border:1.5px dashed rgba(224,123,0,0.4); border-radius:8px; font-family:'Cormorant Garamond',serif; font-size:0.9rem; color:#e07b00; cursor:pointer; font-style:italic; transition:all 0.2s; }
 .addItemBtn:hover { background:rgba(224,123,0,0.06); border-color:#e07b00; }
 
-/* ── Nested Card (for object arrays) ── */
+/* ── Nested Card ── */
 .nestedCard       { border:1px solid #e8d5b5; border-radius:10px; overflow:hidden; background:#fff; margin-bottom:0.8rem; }
 .nestedCardHeader { display:flex; align-items:center; justify-content:space-between; padding:0.55rem 1rem; background:linear-gradient(90deg,rgba(224,123,0,0.06),rgba(224,123,0,0.02)); border-bottom:1px solid #e8d5b5; }
 .nestedCardNum    { font-family:'Cinzel',serif; font-size:0.7rem; font-weight:700; color:#7a3d00; letter-spacing:0.08em; text-transform:uppercase; }
@@ -202,6 +438,10 @@
 .spinner     { width:14px; height:14px; border:2px solid rgba(245,216,154,0.3); border-top-color:#f5d89a; border-radius:50%; display:inline-block; animation:spin 0.7s linear infinite; }
 @keyframes spin { to { transform:rotate(360deg); } }
 
+/* ── Form Card (legacy) ── */
+.formCard    { background:#fffaf2; border:1px solid #e8d5b5; border-radius:14px; padding:clamp(1.3rem,4vw,2.2rem); box-shadow:0 4px 28px rgba(92,45,0,0.08); }
+.formDivider { height:1px; background:linear-gradient(90deg,transparent,#e8d5b5,transparent); margin:0.4rem 0 1.8rem; }
+
 /* ── Success Screen ── */
 .successScreen { display:flex; align-items:center; justify-content:center; min-height:60vh; }
 .successCard   { text-align:center; padding:3rem 2.5rem; background:#fffaf2; border:1px solid #e8d5b5; border-radius:16px; box-shadow:0 8px 32px rgba(92,45,0,0.1); animation:fadeUp 0.4s ease; }
@@ -212,17 +452,40 @@
 @keyframes fadeUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
 
 /* ================================================================
+   SKELETON
+   ================================================================ */
+.skeletonHeader { height:2.2rem; width:55%; background:linear-gradient(90deg,#f0e2c8 25%,#f8f0e0 50%,#f0e2c8 75%); background-size:200% 100%; animation:shimmer 1.4s infinite; border-radius:8px; margin-bottom:1.5rem; }
+.skeletonCard   { background:#fffaf2; border:1px solid #e8d5b5; border-radius:14px; padding:2rem; display:flex; flex-direction:column; gap:1.2rem; }
+.skeletonField  { height:2.8rem; background:linear-gradient(90deg,#f0e2c8 25%,#f8f0e0 50%,#f0e2c8 75%); background-size:200% 100%; animation:shimmer 1.4s infinite; border-radius:8px; }
+@keyframes shimmer { to { background-position:-200% 0; } }
+
+/* ================================================================
+   DELETE MODAL
+   ================================================================ */
+.modalOverlay { position:fixed; inset:0; background:rgba(30,10,0,0.55); backdrop-filter:blur(3px); z-index:1000; display:flex; align-items:center; justify-content:center; padding:1rem; }
+.modal        { background:#fffaf2; border:1px solid #e8d5b5; border-radius:14px; padding:2.2rem 2rem; max-width:380px; width:100%; text-align:center; box-shadow:0 16px 48px rgba(92,45,0,0.22); animation:fadeUp 0.28s ease; }
+.modalOm      { font-family:'Cinzel',serif; font-size:2rem; color:rgba(224,123,0,0.28); margin-bottom:0.5rem; }
+.modalTitle   { font-family:'Cinzel',serif; font-size:1rem; font-weight:700; color:#3d1d00; margin:0 0 0.6rem; letter-spacing:0.05em; }
+.modalText    { font-family:'Cormorant Garamond',serif; font-size:0.92rem; color:#7a5c2e; font-style:italic; margin:0 0 1.5rem; line-height:1.55; }
+.modalActions { display:flex; gap:0.7rem; }
+.modalCancel  { flex:1; padding:0.6rem 1.4rem; background:none; border:1.5px solid #e8d5b5; border-radius:8px; font-family:'Cinzel',serif; font-size:0.7rem; letter-spacing:0.07em; color:#7a5c2e; cursor:pointer; transition:all 0.18s; }
+.modalCancel:hover  { background:rgba(224,123,0,0.06); border-color:#e07b00; }
+.modalConfirm { flex:1; padding:0.6rem 1.4rem; background:linear-gradient(135deg,#8b2000,#c44a00); border:1px solid rgba(196,74,0,0.4); border-radius:8px; font-family:'Cinzel',serif; font-size:0.7rem; font-weight:700; letter-spacing:0.07em; color:#fff0e0; cursor:pointer; transition:all 0.18s; box-shadow:0 3px 10px rgba(139,32,0,0.25); }
+.modalConfirm:hover { background:linear-gradient(135deg,#a02000,#e05500); transform:translateY(-1px); }
+
+/* ================================================================
    RESPONSIVE
    ================================================================ */
 @media (max-width:479px) {
-  .page,.formPage { padding:0.8rem 0.75rem 2rem; }
-  .pageHeader     { flex-direction:column; align-items:stretch; }
-  .addBtn         { width:100%; justify-content:center; }
-  .formCard       { padding:1.1rem; border-radius:10px; }
+  .page,.formPage,.pageWrap,.listPage { padding:0.8rem 0.75rem 2rem; }
+  .pageHeader,.listHeader { flex-direction:column; align-items:stretch; }
+  .addBtn,.addNewBtn { width:100%; justify-content:center; }
+  .formCard    { padding:1.1rem; border-radius:10px; }
+  .sectionBody { padding:0.9rem 0.9rem 0.2rem; }
   .grid2,.grid3,.grid2x1 { grid-template-columns:1fr; }
-  .formActions    { flex-direction:column-reverse; align-items:stretch; }
+  .formActions { flex-direction:column-reverse; align-items:stretch; }
   .cancelBtn,.submitBtn { width:100%; justify-content:center; }
-  .modalActions   { flex-direction:column; }
+  .modalActions { flex-direction:column; }
   .modalCancel,.modalConfirm { width:100%; }
   .nestedCardBody { padding:0.75rem; }
 }
