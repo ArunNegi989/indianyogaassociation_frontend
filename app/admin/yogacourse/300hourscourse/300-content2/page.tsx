@@ -63,7 +63,7 @@ export default function List300hrContent2() {
             ＋ Add New
           </button>
         ) : (
-          <Link href="/admin/yogacourse/300hourscourse/300hr-content2/add-new" className={styles.addNewBtn}>
+          <Link href="/admin/yogacourse/300hourscourse/300-content2/add-new" className={styles.addNewBtn}>
             ＋ Add New
           </Link>
         )}
@@ -87,7 +87,7 @@ export default function List300hrContent2() {
           <div className={styles.emptyOm}>ॐ</div>
           <h3 className={styles.emptyTitle}>No records yet</h3>
           <p className={styles.emptyText}>Add your first Content Part 2 record.</p>
-          <Link href="/admin/yogacourse/300hourscourse/300hr-content2/add-new" className={styles.addNewBtn}>
+          <Link href="/admin/yogacourse/300hourscourse/300-content2/add-new" className={styles.addNewBtn}>
             ＋ Add First Record
           </Link>
         </div>

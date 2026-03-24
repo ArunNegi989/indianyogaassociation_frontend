@@ -56,7 +56,7 @@ function F({ label, hint, req, children }: { label: string; hint?: string; req?:
   );
 }
 
-/* ── Inline Jodit (lazy + intersection observer) ── */
+/* ── Inline Jodit ── */
 function InlineJodit({ value, onChange, ph = "Start typing…", h = 200, err, clr }: {
   value: string; onChange: (v: string) => void;
   ph?: string; h?: number; err?: string; clr?: () => void;
@@ -83,7 +83,7 @@ function InlineJodit({ value, onChange, ph = "Start typing…", h = 200, err, cl
   );
 }
 
-/* ── Lazy Jodit (ref-based, for fixed fields) ── */
+/* ── Lazy Jodit (ref-based) ── */
 function LazyJodit({ label, hint, cr, err, clr, ph = "Start typing…", h = 200, required = false }: {
   label: string; hint?: string; cr: React.MutableRefObject<string>;
   err?: string; clr?: () => void; ph?: string; h?: number; required?: boolean;
@@ -114,7 +114,7 @@ function LazyJodit({ label, hint, cr, err, clr, ph = "Start typing…", h = 200,
   );
 }
 
-/* ── Dynamic Rich Text List (expandable paragraphs) ── */
+/* ── Dynamic Rich Text List ── */
 function DynamicRichList({ items, onAdd, onUpdate, onRemove, addLabel, ph }: {
   items: { id: string; content: string }[];
   onAdd: () => void; onUpdate: (id: string, v: string) => void; onRemove: (id: string) => void;
@@ -199,34 +199,163 @@ function SingleImg({ preview, badge, hint, error, onSelect, onRemove }: {
   );
 }
 
-/* ── Module state type ── */
-interface ModuleState {
-  num: number; label: string; title: string;
-  content: string; subTitle: string; listItems: string[]; twoCol: boolean;
+/* ════════════════════════════════════════
+   OVERVIEW FIELD TYPES
+════════════════════════════════════════ */
+
+/** A single overview row: label + value (supports textarea for long text) */
+interface OverviewField {
+  id: string;
+  label: string;
+  value: string;
+  multiline: boolean; // false = input, true = textarea
 }
 
-const INIT_MODULES: ModuleState[] = [
-  { num: 1, label: "Module 1", title: "Concept and Meaning of Yoga Therapy",  content: "", subTitle: "", listItems: [""], twoCol: false },
-  { num: 2, label: "Module 2", title: "Yoga Philosophy",                       content: "", subTitle: "", listItems: [""], twoCol: false },
-  { num: 3, label: "Module 3", title: "Yoga Anatomy and Ayurveda",             content: "", subTitle: "", listItems: [""], twoCol: false },
-  { num: 4, label: "Module 4", title: "Static Multi-style",                    content: "", subTitle: "", listItems: [""], twoCol: false },
-  { num: 5, label: "Module 5", title: "Dynamic Multi-style",                   content: "", subTitle: "", listItems: [""], twoCol: false },
-  { num: 6, label: "Module 6", title: "Kriya or Detoxification",               content: "", subTitle: "", listItems: [""], twoCol: false },
-  { num: 7, label: "Module 7", title: "Teaching Practice",                     content: "", subTitle: "", listItems: [""], twoCol: false },
-  { num: 8, label: "Module 8", title: "Pranayama and Meditation",              content: "", subTitle: "Meditation techniques", listItems: [""], twoCol: true },
-  { num: 9, label: "Module 9", title: "Mantra Chanting",                       content: "", subTitle: "", listItems: [""], twoCol: false },
+const INIT_OVERVIEW_FIELDS: OverviewField[] = [
+  { id: "ov1", label: "Certification Name", value: "300-hour yoga teacher training / Yoga wellness instructor (YWI)", multiline: false },
+  { id: "ov2", label: "Course Level",        value: "Level-II",                                                         multiline: false },
+  { id: "ov3", label: "Eligibility",         value: "Physically fit and open for all, but it is suggested that the candidate should have passed the 10th standard or completed 200 YTTC.", multiline: true },
+  { id: "ov4", label: "Min Age",             value: "No age limit",                                                     multiline: false },
+  { id: "ov5", label: "Credits",             value: "14 credits",                                                       multiline: false },
+  { id: "ov6", label: "Language",            value: "English, Hindi (Separate Groups)",                                  multiline: false },
 ];
+
+/* ── Dynamic Overview Fields Component ── */
+function OverviewFields({ fields, onChange }: {
+  fields: OverviewField[];
+  onChange: (fields: OverviewField[]) => void;
+}) {
+  const update = (id: string, key: keyof OverviewField, val: any) =>
+    onChange(fields.map(f => f.id === id ? { ...f, [key]: val } : f));
+
+  const remove = (id: string) => onChange(fields.filter(f => f.id !== id));
+
+  const add = () => onChange([
+    ...fields,
+    { id: `ov-${Date.now()}`, label: "", value: "", multiline: false },
+  ]);
+
+  return (
+    <div>
+      {fields.map((field, i) => (
+        <div key={field.id} className={styles.nestedCard} style={{ marginBottom: "0.8rem" }}>
+          <div className={styles.nestedCardHeader}>
+            <span className={styles.nestedCardNum}>Field {i + 1}</span>
+            <div style={{ display: "flex", alignItems: "center", gap: "0.8rem" }}>
+              {/* Multiline toggle */}
+              <label style={{ display: "flex", alignItems: "center", gap: "0.35rem", cursor: "pointer", fontSize: "0.82rem", color: "#7a5c3a", fontFamily: "Cormorant Garamond, serif" }}>
+                <input
+                  type="checkbox"
+                  checked={field.multiline}
+                  onChange={e => update(field.id, "multiline", e.target.checked)}
+                  style={{ width: 13, height: 13 }}
+                />
+                Long text
+              </label>
+              {/* Remove — keep at least 1 field */}
+              {fields.length > 1 && (
+                <button type="button" className={styles.removeNestedBtn} onClick={() => remove(field.id)}>✕ Remove</button>
+              )}
+            </div>
+          </div>
+          <div className={styles.nestedCardBody}>
+            <div className={styles.grid2} style={{ marginBottom: "0.6rem" }}>
+              {/* Label */}
+              <div className={styles.fieldGroup}>
+                <label className={styles.label} style={{ fontSize: "0.8rem" }}>
+                  <span className={styles.labelIcon}>✦</span>Field Label
+                </label>
+                <div className={styles.inputWrap}>
+                  <input
+                    className={`${styles.input} ${styles.inputNoCount}`}
+                    placeholder="e.g. Certificate, Duration, Style…"
+                    value={field.label}
+                    onChange={e => update(field.id, "label", e.target.value)}
+                  />
+                </div>
+              </div>
+              {/* Value */}
+              <div className={styles.fieldGroup}>
+                <label className={styles.label} style={{ fontSize: "0.8rem" }}>
+                  <span className={styles.labelIcon}>✦</span>Field Value
+                </label>
+                <div className={styles.inputWrap}>
+                  {field.multiline ? (
+                    <textarea
+                      className={`${styles.input} ${styles.textarea} ${styles.inputNoCount}`}
+                      rows={2}
+                      placeholder="Enter value…"
+                      value={field.value}
+                      onChange={e => update(field.id, "value", e.target.value)}
+                    />
+                  ) : (
+                    <input
+                      className={`${styles.input} ${styles.inputNoCount}`}
+                      placeholder="Enter value…"
+                      value={field.value}
+                      onChange={e => update(field.id, "value", e.target.value)}
+                    />
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
+      <button type="button" className={styles.addItemBtn} onClick={add}>＋ Add Overview Field</button>
+    </div>
+  );
+}
+
+/* ════════════════════════════════════════
+   MODULE STATE
+════════════════════════════════════════ */
+interface ModuleState {
+  id: string;
+  num: number;
+  label: string;
+  title: string;
+  content: string;
+  subTitle: string;
+  listItems: string[];
+  twoCol: boolean;
+}
+
+const makeModule = (num: number, label: string, title: string, subTitle = "", twoCol = false): ModuleState => ({
+  id: `mod-${Date.now()}-${num}`,
+  num, label, title,
+  content: "", subTitle, listItems: [""], twoCol,
+});
+
+const INIT_MODULES: ModuleState[] = [
+  makeModule(1, "Module 1", "Concept and Meaning of Yoga Therapy"),
+  makeModule(2, "Module 2", "Yoga Philosophy"),
+  makeModule(3, "Module 3", "Yoga Anatomy and Ayurveda"),
+  makeModule(4, "Module 4", "Static Multi-style"),
+  makeModule(5, "Module 5", "Dynamic Multi-style"),
+  makeModule(6, "Module 6", "Kriya or Detoxification"),
+  makeModule(7, "Module 7", "Teaching Practice"),
+  makeModule(8, "Module 8", "Pranayama and Meditation", "Meditation techniques", true),
+  makeModule(9, "Module 9", "Mantra Chanting"),
+];
+
+/* ── Re-number modules after add/remove ── */
+const renumber = (mods: ModuleState[]): ModuleState[] =>
+  mods.map((m, i) => ({ ...m, num: i + 1, label: m.label.startsWith("Module") ? `Module ${i + 1}` : m.label }));
 
 /* ── Form fields ── */
 interface FormData {
-  slug: string; status: "Active" | "Inactive";
-  pageMainH1: string; heroImgAlt: string;
+  slug: string;
+  status: "Active" | "Inactive";
+  pageMainH1: string;
+  heroImgAlt: string;
   topSectionH2: string;
-  overviewH2: string; overviewCertName: string; overviewLevel: string;
-  overviewEligibility: string; overviewMinAge: string; overviewCredits: string; overviewLanguage: string;
-  upcomingDatesH3: string; upcomingDatesSubtext: string;
-  feeIncludedTitle: string; feeNotIncludedTitle: string;
-  syllabusH2: string; syllabusIntroPara: string;
+  overviewH2: string;
+  upcomingDatesH3: string;
+  upcomingDatesSubtext: string;
+  feeIncludedTitle: string;
+  feeNotIncludedTitle: string;
+  syllabusH2: string;
 }
 
 /* ════════════════════════════════════════
@@ -250,11 +379,14 @@ export default function Add300hrContent1() {
   const syllabusIntroRef = useRef("");
   const [sylErr, setSylErr] = useState("");
 
-  /* modules state */
+  /* ── Dynamic overview fields ── */
+  const [overviewFields, setOverviewFields] = useState<OverviewField[]>(INIT_OVERVIEW_FIELDS);
+
+  /* ── Dynamic modules ── */
   const [modules, setModules] = useState<ModuleState[]>(INIT_MODULES);
 
   /* fee lists */
-  const [inclFee, setInclFee]    = useState<string[]>([""]);
+  const [inclFee, setInclFee]       = useState<string[]>([""]);
   const [notInclFee, setNotInclFee] = useState<string[]>([""]);
 
   /* para helpers */
@@ -265,15 +397,40 @@ export default function Add300hrContent1() {
   const updatePara = (set: React.Dispatch<React.SetStateAction<{id:string;content:string}[]>>, id: string, v: string) =>
     set(p => p.map(x => x.id === id ? { ...x, content: v } : x));
 
-  /* module helpers */
-  const updMod = useCallback((idx: number, key: keyof ModuleState, val: any) =>
-    setModules(p => p.map((m, i) => i === idx ? { ...m, [key]: val } : m)), []);
-  const updModItem = useCallback((idx: number, ii: number, val: string) =>
-    setModules(p => p.map((m, i) => { if (i !== idx) return m; const a = [...m.listItems]; a[ii] = val; return { ...m, listItems: a }; })), []);
-  const addModItem = useCallback((idx: number) =>
-    setModules(p => p.map((m, i) => i === idx ? { ...m, listItems: [...m.listItems, ""] } : m)), []);
-  const removeModItem = useCallback((idx: number, ii: number) =>
-    setModules(p => p.map((m, i) => i === idx ? { ...m, listItems: m.listItems.filter((_, x) => x !== ii) } : m)), []);
+  /* ── Module CRUD ── */
+  const addModule = () =>
+    setModules(p => {
+      const next = p.length + 1;
+      return [...p, makeModule(next, `Module ${next}`, "New Module Title")];
+    });
+
+  const removeModule = (id: string) =>
+    setModules(p => renumber(p.filter(m => m.id !== id)));
+
+  const moveModule = (id: string, dir: -1 | 1) =>
+    setModules(p => {
+      const idx = p.findIndex(m => m.id === id);
+      const next = idx + dir;
+      if (next < 0 || next >= p.length) return p;
+      const arr = [...p];
+      [arr[idx], arr[next]] = [arr[next], arr[idx]];
+      return renumber(arr);
+    });
+
+  const updMod = useCallback((id: string, key: keyof ModuleState, val: any) =>
+    setModules(p => p.map(m => m.id === id ? { ...m, [key]: val } : m)), []);
+
+  const updModItem = useCallback((id: string, ii: number, val: string) =>
+    setModules(p => p.map(m => {
+      if (m.id !== id) return m;
+      const a = [...m.listItems]; a[ii] = val; return { ...m, listItems: a };
+    })), []);
+
+  const addModItem = useCallback((id: string) =>
+    setModules(p => p.map(m => m.id === id ? { ...m, listItems: [...m.listItems, ""] } : m)), []);
+
+  const removeModItem = useCallback((id: string, ii: number) =>
+    setModules(p => p.map(m => m.id === id ? { ...m, listItems: m.listItems.filter((_, x) => x !== ii) } : m)), []);
 
   const { register, handleSubmit, formState: { errors } } = useForm<FormData>({
     defaultValues: {
@@ -282,17 +439,11 @@ export default function Add300hrContent1() {
       heroImgAlt: "Yoga Students Group",
       topSectionH2: "Top 300 Hour Yoga Teacher Training India",
       overviewH2: "Overview of 300 Hour Multi-Style Yoga Teacher Training in Rishikesh, India",
-      overviewCertName: "300-hour yoga teacher training / Yoga wellness instructor (YWI)",
-      overviewLevel: "Level-II",
-      overviewEligibility: "Physically fit and open for all, but it is suggested that the candidate should have passed the 10th standard or completed 200 YTTC.",
-      overviewMinAge: "No age limit", overviewCredits: "14 credits",
-      overviewLanguage: "English, Hindi (Separate Groups)",
       upcomingDatesH3: "Upcoming Course Dates",
       upcomingDatesSubtext: "Choose your preferred accommodation. Prices include tuition and meals.",
       feeIncludedTitle: "Included in 300 Hour yoga ttc course in india",
       feeNotIncludedTitle: "Not Included in 300 hour yoga ttc course in Rishikesh",
       syllabusH2: "Outline of syllabus — Yoga teacher training in India",
-      syllabusIntroPara: "",
     },
   });
 
@@ -309,12 +460,21 @@ export default function Add300hrContent1() {
 
       introParagraphs.forEach((p, i) => fd.append(`introPara${i + 1}`, p.content));
       fd.append("introParagraphCount", String(introParagraphs.length));
+
       topParagraphs.forEach((p, i) => fd.append(`topPara${i + 1}`, p.content));
       fd.append("topParagraphCount", String(topParagraphs.length));
+
       fd.append("syllabusIntro", syllabusIntroRef.current);
+
+      /* overview fields as JSON array */
+      fd.append("overviewFields", JSON.stringify(overviewFields));
+
       inclFee.forEach(v    => fd.append("includedFee", v));
       notInclFee.forEach(v => fd.append("notIncludedFee", v));
+
+      /* modules as JSON array */
       fd.append("modules", JSON.stringify(modules));
+
       fd.append("heroImage", heroFile!);
 
       await api.post("/yoga-300hr/content1/create", fd, { headers: { "Content-Type": "multipart/form-data" } });
@@ -344,7 +504,7 @@ export default function Add300hrContent1() {
       <div className={styles.pageHeader}>
         <div className={styles.pageHeaderText}>
           <h1 className={styles.pageTitle}>Add New — 300hr Content Part 1</h1>
-          <p className={styles.pageSubtitle}>Hero → Syllabus · Modules 1–9</p>
+          <p className={styles.pageSubtitle}>Hero → Syllabus · Modules (Dynamic)</p>
         </div>
       </div>
       <div className={styles.ornament}><span>❧</span><div className={styles.ornamentLine}/><span>ॐ</span><div className={styles.ornamentLine}/><span>❧</span></div>
@@ -366,7 +526,7 @@ export default function Add300hrContent1() {
           </F>
         </Sec><D />
 
-        {/* ════ 2. INTRO PARAGRAPHS (Expandable) ════ */}
+        {/* ════ 2. INTRO PARAGRAPHS ════ */}
         <Sec title="Introduction Paragraphs" badge="Expandable">
           <p className={styles.fieldHint}>Main body text below the hero section. You can add more paragraphs anytime.</p>
           <DynamicRichList
@@ -396,23 +556,15 @@ export default function Add300hrContent1() {
           </F>
         </Sec><D />
 
-        {/* ════ 4. OVERVIEW ════ */}
-        <Sec title="Course Overview Box">
+        {/* ════ 4. OVERVIEW — now fully dynamic ════ */}
+        <Sec title="Course Overview Box" badge="Dynamic Fields">
           <F label="Overview H2 Heading">
             <div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("overviewH2")} /></div>
           </F>
-          <div className={styles.grid2}>
-            <F label="Certification Name"><div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("overviewCertName")} /></div></F>
-            <F label="Course Level"><div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("overviewLevel")} /></div></F>
-          </div>
-          <F label="Eligibility">
-            <div className={styles.inputWrap}><textarea className={`${styles.input} ${styles.textarea} ${styles.inputNoCount}`} rows={2} {...register("overviewEligibility")} /></div>
-          </F>
-          <div className={styles.grid3}>
-            <F label="Min Age"><div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("overviewMinAge")} /></div></F>
-            <F label="Credits"><div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("overviewCredits")} /></div></F>
-            <F label="Language"><div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("overviewLanguage")} /></div></F>
-          </div>
+          <p className={styles.fieldHint} style={{ marginBottom: "0.8rem" }}>
+            Add, remove, or reorder any overview field (Certification, Level, Eligibility, Age, Credits, Language, Duration, Style, etc.). Toggle "Long text" for multi-line values.
+          </p>
+          <OverviewFields fields={overviewFields} onChange={setOverviewFields} />
         </Sec><D />
 
         {/* ════ 5. UPCOMING DATES ════ */}
@@ -423,7 +575,7 @@ export default function Add300hrContent1() {
           </div>
         </Sec><D />
 
-        {/* ════ 6. FEE INCLUDED / NOT INCLUDED ════ */}
+        {/* ════ 6. FEE ════ */}
         <Sec title="Fee — Included & Not Included">
           <F label="Included Section Title">
             <div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("feeIncludedTitle")} /></div>
@@ -456,55 +608,128 @@ export default function Add300hrContent1() {
             ph="Below is the summarized course syllabus of the 300-hour yoga instructor certification diploma…" h={200} required />
         </Sec><D />
 
-        {/* ════ 8–16. MODULES 1–9 ════ */}
+        {/* ════ 8. MODULES — Dynamic add/remove/reorder ════ */}
+        <Sec title="Course Modules" badge="Dynamic — Add / Remove / Reorder">
+          <p className={styles.fieldHint} style={{ marginBottom: "1rem" }}>
+            Modules are automatically renumbered when you add, remove, or reorder them. You can have any number of modules.
+          </p>
+        </Sec>
+
         {modules.map((mod, idx) => (
-          <div key={mod.num}>
-            <Sec title={`${mod.label}: ${mod.title}`}>
+          <div key={mod.id}>
+            {/* Module card header with controls */}
+            <div className={styles.sectionBlock}>
+              <div className={styles.sectionHeader} style={{ justifyContent: "space-between", flexWrap: "wrap", gap: "0.5rem" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
+                  <span className={styles.sectionIcon}>✦</span>
+                  <h3 className={styles.sectionTitle}>{mod.label}: {mod.title || "Untitled Module"}</h3>
+                  <span className={styles.sectionBadge}>#{mod.num}</span>
+                </div>
+                {/* Reorder + Remove controls */}
+                <div style={{ display: "flex", gap: "0.4rem", alignItems: "center", flexShrink: 0 }}>
+                  <button
+                    type="button"
+                    title="Move Up"
+                    disabled={idx === 0}
+                    onClick={() => moveModule(mod.id, -1)}
+                    style={{
+                      padding: "0.25rem 0.55rem", fontSize: "0.8rem", borderRadius: 6,
+                      border: "1px solid #e8d5b5", background: "#faf8f4", cursor: idx === 0 ? "not-allowed" : "pointer",
+                      color: idx === 0 ? "#ccc" : "#7a5c3a", fontFamily: "inherit",
+                    }}
+                  >▲</button>
+                  <button
+                    type="button"
+                    title="Move Down"
+                    disabled={idx === modules.length - 1}
+                    onClick={() => moveModule(mod.id, 1)}
+                    style={{
+                      padding: "0.25rem 0.55rem", fontSize: "0.8rem", borderRadius: 6,
+                      border: "1px solid #e8d5b5", background: "#faf8f4", cursor: idx === modules.length - 1 ? "not-allowed" : "pointer",
+                      color: idx === modules.length - 1 ? "#ccc" : "#7a5c3a", fontFamily: "inherit",
+                    }}
+                  >▼</button>
+                  {modules.length > 1 && (
+                    <button
+                      type="button"
+                      onClick={() => removeModule(mod.id)}
+                      style={{
+                        padding: "0.25rem 0.7rem", fontSize: "0.8rem", borderRadius: 6,
+                        border: "1px solid #e8a0a0", background: "#fff5f5", cursor: "pointer",
+                        color: "#c0392b", fontFamily: "inherit",
+                      }}
+                    >✕ Remove</button>
+                  )}
+                </div>
+              </div>
+
+              {/* Module fields */}
               <div className={styles.grid2}>
                 <F label="Tab Label (e.g. Module 1)">
                   <div className={styles.inputWrap}>
                     <input className={`${styles.input} ${styles.inputNoCount}`} value={mod.label}
-                      onChange={e => updMod(idx, "label", e.target.value)} />
+                      onChange={e => updMod(mod.id, "label", e.target.value)} />
                   </div>
                 </F>
                 <F label="Module Title">
                   <div className={styles.inputWrap}>
                     <input className={`${styles.input} ${styles.inputNoCount}`} value={mod.title}
-                      onChange={e => updMod(idx, "title", e.target.value)} />
+                      onChange={e => updMod(mod.id, "title", e.target.value)} />
                   </div>
                 </F>
               </div>
+
               <F label="Module Rich Content (Body Text)">
-                <InlineJodit value={mod.content} onChange={v => updMod(idx, "content", v)}
+                <InlineJodit value={mod.content} onChange={v => updMod(mod.id, "content", v)}
                   ph="This module covers…" h={200} />
               </F>
+
               <F label="Sub-Heading (optional)" hint="e.g. 'Meditation techniques' — shown above list">
                 <div className={styles.inputWrap}>
                   <input className={`${styles.input} ${styles.inputNoCount}`} value={mod.subTitle}
                     placeholder="Optional sub-heading…"
-                    onChange={e => updMod(idx, "subTitle", e.target.value)} />
+                    onChange={e => updMod(mod.id, "subTitle", e.target.value)} />
                 </div>
               </F>
+
               <F label="Topic / Item List">
                 <StrList
                   items={mod.listItems} label="Item" ph="Enter topic or list item…"
-                  onAdd={() => addModItem(idx)}
-                  onRemove={ii => removeModItem(idx, ii)}
-                  onUpdate={(ii, v) => updModItem(idx, ii, v)} />
+                  onAdd={() => addModItem(mod.id)}
+                  onRemove={ii => removeModItem(mod.id, ii)}
+                  onUpdate={(ii, v) => updModItem(mod.id, ii, v)} />
               </F>
+
               <F label="Two-Column Layout" hint="Enable for modules with many list items (e.g. Pranayama/Meditation)">
                 <label style={{ display: "flex", alignItems: "center", gap: "0.5rem", cursor: "pointer" }}>
                   <input type="checkbox" checked={mod.twoCol}
-                    onChange={e => updMod(idx, "twoCol", e.target.checked)}
+                    onChange={e => updMod(mod.id, "twoCol", e.target.checked)}
                     style={{ width: 16, height: 16 }} />
                   <span style={{ fontFamily: "Cormorant Garamond, serif", fontSize: "0.95rem", color: "#3d1d00" }}>
                     Display list in two columns
                   </span>
                 </label>
               </F>
-            </Sec><D />
+            </div>
+            <D />
           </div>
         ))}
+
+        {/* Add Module button */}
+        <div style={{ textAlign: "center", marginBottom: "2rem" }}>
+          <button
+            type="button"
+            onClick={addModule}
+            style={{
+              padding: "0.7rem 2rem", fontSize: "0.95rem", borderRadius: 8,
+              border: "1.5px dashed #c9a96e", background: "#fffdf8", cursor: "pointer",
+              color: "#7a5c3a", fontFamily: "Cormorant Garamond, serif", letterSpacing: "0.03em",
+              transition: "all 0.2s",
+            }}
+          >
+            ＋ Add New Module
+          </button>
+        </div>
 
         {/* ════ PAGE SETTINGS ════ */}
         <Sec title="Page Settings">

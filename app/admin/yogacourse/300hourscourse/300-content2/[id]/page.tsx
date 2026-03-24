@@ -2,7 +2,7 @@
 
 import { useState, useRef, useCallback, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { useRouter } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import styles from "@/assets/style/Admin/yogacourse/200hourscourse/Yoga200hr.module.css";
@@ -56,25 +56,33 @@ function F({ label, hint, req, children }: { label: string; hint?: string; req?:
 }
 
 /* ── Lazy Jodit (ref-based) ── */
-function LazyJodit({ label, hint, cr, err, clr, ph = "Start typing…", h = 200, required = false }: {
+function LazyJodit({ label, hint, cr, err, clr, ph = "Start typing…", h = 200, required = false, initialValue = "" }: {
   label: string; hint?: string; cr: React.MutableRefObject<string>; err?: string; clr?: () => void;
-  ph?: string; h?: number; required?: boolean;
+  ph?: string; h?: number; required?: boolean; initialValue?: string;
 }) {
   const [visible, setVisible] = useState(false);
   const wrapRef = useRef<HTMLDivElement>(null);
+
+  // Sync initialValue into the ref once on mount
+  useEffect(() => {
+    if (initialValue) cr.current = initialValue;
+  }, [initialValue]);
+
   useEffect(() => {
     const el = wrapRef.current; if (!el) return;
     const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setVisible(true); obs.disconnect(); } }, { rootMargin: "300px" });
     obs.observe(el); return () => obs.disconnect();
   }, []);
+
   const handleChange = useCallback((v: string) => { cr.current = v; if (clr && !isEmpty(v)) clr(); }, [cr, clr]);
+
   return (
     <div className={styles.fieldGroup}>
       <label className={styles.label}><span className={styles.labelIcon}>✦</span>{label}{required && <span className={styles.required}>*</span>}</label>
       {hint && <p className={styles.fieldHint}>{hint}</p>}
       <div ref={wrapRef} className={`${styles.joditWrap} ${err ? styles.joditError : ""}`} style={{ minHeight: h }}>
         {visible ? (
-          <JoditEditor config={{ ...joditConfig, placeholder: ph, height: h }} onChange={handleChange} />
+          <JoditEditor value={cr.current} config={{ ...joditConfig, placeholder: ph, height: h }} onChange={handleChange} />
         ) : (
           <div style={{ height: h, display: "flex", alignItems: "center", justifyContent: "center", background: "#faf8f4", border: "1px solid #e8d5b5", borderRadius: 8, color: "#bbb", fontSize: 13 }}>
             ✦ Scroll to load editor…
@@ -110,7 +118,7 @@ function InlineJodit({ value, onChange, ph = "Start typing…", h = 180 }: {
   );
 }
 
-/* ── Dynamic Rich Paragraph List (add/remove expandable paragraphs) ── */
+/* ── Dynamic Rich Paragraph List ── */
 type ParaItem = { id: string; content: string };
 
 function DynamicParaList({ items, onAdd, onUpdate, onRemove, addLabel, ph }: {
@@ -175,14 +183,16 @@ function StrList({ items, onAdd, onRemove, onUpdate, max = 30, ph, label }: {
 }
 
 /* ── Single image ── */
-function SingleImg({ preview, badge, hint, error, onSelect, onRemove }: {
+function SingleImg({ preview, badge, hint, error, onSelect, onRemove, existingUrl }: {
   preview: string; badge?: string; hint: string; error?: string;
   onSelect: (f: File, p: string) => void; onRemove: () => void;
+  existingUrl?: string;
 }) {
+  const displayPreview = preview || existingUrl || "";
   return (
     <div>
-      <div className={`${styles.imageUploadZone} ${preview ? styles.hasImage : ""} ${error ? styles.inputError : ""}`}>
-        {!preview ? (
+      <div className={`${styles.imageUploadZone} ${displayPreview ? styles.hasImage : ""} ${error ? styles.inputError : ""}`}>
+        {!displayPreview ? (
           <>
             <input type="file" accept="image/*" onChange={e => { const f = e.target.files?.[0]; if (f) { onSelect(f, URL.createObjectURL(f)); e.target.value = ""; } }} />
             <div className={styles.imageUploadPlaceholder}>
@@ -194,7 +204,16 @@ function SingleImg({ preview, badge, hint, error, onSelect, onRemove }: {
         ) : (
           <div className={styles.imagePreviewWrap}>
             {badge && <span className={styles.imageBadge}>{badge}</span>}
-            <img src={preview} alt="" className={styles.imagePreview} />
+            {!existingUrl || preview ? (
+              <img src={displayPreview} alt="" className={styles.imagePreview} />
+            ) : (
+              <div style={{ position: "relative" }}>
+                <img src={displayPreview} alt="" className={styles.imagePreview} />
+                <span style={{ position: "absolute", bottom: 4, left: 4, background: "rgba(0,0,0,0.5)", color: "#fff", fontSize: "0.7rem", padding: "2px 6px", borderRadius: 4, fontFamily: "Cormorant Garamond,serif" }}>
+                  Current
+                </span>
+              </div>
+            )}
             <div className={styles.imagePreviewOverlay}>
               <span className={styles.imagePreviewAction}>✎ Change</span>
               <input type="file" accept="image/*" className={styles.imagePreviewOverlayInput}
@@ -210,7 +229,8 @@ function SingleImg({ preview, badge, hint, error, onSelect, onRemove }: {
 }
 
 /* ── Multi-image carousel uploader ── */
-type ImgItem = { id: string; file: File | null; preview: string };
+type ImgItem = { id: string; file: File | null; preview: string; existingUrl?: string };
+
 function MultiImg({ items, onAdd, onRemove, hint, label }: {
   items: ImgItem[]; onAdd: (f: File, p: string) => void;
   onRemove: (id: string) => void; hint: string; label: string;
@@ -220,7 +240,12 @@ function MultiImg({ items, onAdd, onRemove, hint, label }: {
       <div style={{ display: "flex", flexWrap: "wrap", gap: "0.6rem", marginBottom: "0.8rem" }}>
         {items.map(img => (
           <div key={img.id} style={{ position: "relative", width: 130, height: 95, borderRadius: 8, overflow: "hidden", border: "1px solid #e8d5b5" }}>
-            <img src={img.preview} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+            <img src={img.preview || img.existingUrl || ""} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+            {img.existingUrl && !img.file && (
+              <span style={{ position: "absolute", bottom: 0, left: 0, right: 0, background: "rgba(0,0,0,0.45)", color: "#fff", fontSize: "0.65rem", textAlign: "center", padding: "2px 0", fontFamily: "Cormorant Garamond,serif" }}>
+                Existing
+              </span>
+            )}
             <button type="button" className={styles.removeImageBtn} style={{ top: 4, right: 4 }}
               onClick={() => onRemove(img.id)}>✕</button>
           </div>
@@ -273,70 +298,54 @@ interface FaqItem      { id: string; question: string; answer: string }
 interface ScheduleItem { id: string; time: string; activity: string }
 interface ReviewItem   { id: string; name: string; role: string; rating: number; text: string }
 
-/* YouTube video: supports both file upload and URL link */
 interface YouTubeItem {
   id: string;
   title: string;
-  type: "url" | "file";       // which mode
-  videoId: string;            // used when type=url  (YouTube video ID)
-  file: File | null;          // used when type=file
-  filePreview: string;        // local preview URL for file
+  type: "url" | "file";
+  videoId: string;
+  file: File | null;
+  filePreview: string;
+  existingFileUrl?: string;
 }
 
-/* ── Form Data type ── */
 interface FormData {
   slug: string; status: "Active" | "Inactive";
-  // Evolution
   evolutionH2: string;
-  // Mark Distribution
   markDistH3: string; markDistSubText: string;
   markTotalLabel: string; markTotalText: string;
   markTheoryLabel: string; markTheoryText: string;
   markPracticalLabel: string; markPracticalText: string;
-  // Career
   careerH3: string;
-  // Fee Cards
   feeCard1Title: string; feeCard2Title: string;
-  // FAQ
   faqH2: string;
-  // Sections headings
   accomH3: string; foodH3: string;
   luxuryH2: string;
   featuresH2: string; scheduleH3: string;
-  // Learning
   learningH2: string;
-  // Eligibility
   eligibilityH2: string; eligibilityTag: string;
-  // Evaluation
   evaluationH2: string;
-  // Ethics
   ethicsH2: string; ethicsNaturalisticPara: string; ethicsQuote: string;
-  // Misconceptions
   misconH2: string;
-  // Reviews
   reviewsH2: string; reviewsSubtext: string;
 }
 
 /* ════════════════════════════════════════
    MAIN COMPONENT
 ════════════════════════════════════════ */
-export default function Add300hrContent2() {
+export default function Edit300hrContent2() {
   const router = useRouter();
+  const params = useParams();
+  const id = params?.id as string;
+
+  const [loading, setLoading]       = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitted, setSubmitted]       = useState(false);
+  const [submitted, setSubmitted]   = useState(false);
+  const [fetchError, setFetchError] = useState("");
 
   /* ── Jodit refs ── */
-  const evolutionIntroRef = useRef("");
-  const eligibilityRef    = useRef("");
-  const evaluationRef     = useRef("");
-  const ethicsIntroRef    = useRef("");
-  const misconIntroRef    = useRef("");
   const markPracticalDetailRef = useRef("");
-  const [evoErr,  setEvoErr]  = useState("");
-  const [eligErr, setEligErr] = useState("");
-  const [evalErr, setEvalErr] = useState("");
 
-  /* ── Dynamic paragraph arrays (expandable rich text) ── */
+  /* ── Dynamic paragraph arrays ── */
   const [evolutionParas,   setEvolutionParas]   = useState<ParaItem[]>([{ id: "ep1", content: "" }]);
   const [eligibilityParas, setEligibilityParas] = useState<ParaItem[]>([{ id: "elp1", content: "" }]);
   const [evaluationParas,  setEvaluationParas]  = useState<ParaItem[]>([{ id: "evp1", content: "" }]);
@@ -362,10 +371,13 @@ export default function Add300hrContent2() {
   ]);
 
   /* ── Single images ── */
-  const [diplomaFile, setDiplomaFile]         = useState<File | null>(null);
-  const [diplomaPrev, setDiplomaPrev]         = useState("");
-  const [yogaGardenFile, setYogaGardenFile]   = useState<File | null>(null);
-  const [yogaGardenPrev, setYogaGardenPrev]   = useState("");
+  const [diplomaFile,    setDiplomaFile]    = useState<File | null>(null);
+  const [diplomaPrev,    setDiplomaPrev]    = useState("");
+  const [diplomaExisting, setDiplomaExisting] = useState("");
+
+  const [yogaGardenFile,    setYogaGardenFile]    = useState<File | null>(null);
+  const [yogaGardenPrev,    setYogaGardenPrev]    = useState("");
+  const [yogaGardenExisting, setYogaGardenExisting] = useState("");
 
   /* ── Carousel image arrays ── */
   const [accomImages,    setAccomImages]    = useState<ImgItem[]>([]);
@@ -392,48 +404,132 @@ export default function Add300hrContent2() {
   const removeYtFile = (id: string) =>
     setYoutubeVideos(p => p.map(x => x.id === id ? { ...x, file: null, filePreview: "" } : x));
 
-  const { register, handleSubmit, formState: { errors } } = useForm<FormData>({
-    defaultValues: {
-      slug: "", status: "Active",
-      evolutionH2: "Evolution and certification",
-      markDistH3: "Mark Distribution: 300 hour yoga teacher training course in india at AYM Yoga School",
-      markDistSubText: "",
-      markTotalLabel: "Total Marks of 300 hour yoga ttc examination",
-      markTotalText: "",
-      markTheoryLabel: "In theory examination",
-      markTheoryText: "",
-      markPracticalLabel: "Practical examination",
-      markPracticalText: "",
-      careerH3: "Scope & Career Opportunities",
-      feeCard1Title: "300 Hour Yoga Teacher Training Online",
-      feeCard2Title: "300 Hour Yoga Teacher Training Course",
-      faqH2: "300 Hour Yoga Teacher Training in India",
-      accomH3: "Accommodation", foodH3: "Food",
-      luxuryH2: "LUXURY ROOM & FEATURES",
-      featuresH2: "300 Hour Yoga Teacher Training in Rishikesh — Features",
-      scheduleH3: "Daily Schedule",
-      learningH2: "Learning Outcomes of 300 Hour yoga teacher training course in Rishikesh",
-      eligibilityH2: "300 Hour Yoga Teacher Training in Rishikesh",
-      eligibilityTag: "Eligibility",
-      evaluationH2: "Evaluation and Certification — 300 Hour Yoga Teacher Training in India",
-      ethicsH2: "Yoga ethics — Codes of conduct during 300 Hour Yoga TTC in Rishikesh at AYM",
-      ethicsNaturalisticPara: "According to yoga gurus, to actualize the naturalistic power of yoga one must have to follow proper yoga ethics and discipline or we can say Yama and Niyamas. Here are some guidelines we marked for our students to follow at our yoga school.",
-      ethicsQuote: "The very heart of yoga is abhyasa means constant practice with steady effort in the direction you want to go.",
-      misconH2: "Misconceptions about 300 hour yoga teacher training Rishikesh India",
-      reviewsH2: "Student Reviews & Success Stories",
-      reviewsSubtext: "Authentic stories of transformation from students who began just like you.",
-    },
-  });
+  const { register, handleSubmit, reset, formState: { errors } } = useForm<FormData>();
 
+  /* ════════════════
+     FETCH EXISTING DATA
+  ════════════════ */
+  useEffect(() => {
+    if (!id) return;
+    (async () => {
+      try {
+        setLoading(true);
+        const res = await api.get(`/yoga-300hr/content2/${id}`);
+        const d = res.data?.data || res.data;
+
+        /* — react-hook-form fields — */
+        reset({
+          slug:               d.slug               ?? "",
+          status:             d.status             ?? "Active",
+          evolutionH2:        d.evolutionH2        ?? "",
+          markDistH3:         d.markDistH3         ?? "",
+          markDistSubText:    d.markDistSubText     ?? "",
+          markTotalLabel:     d.markTotalLabel      ?? "",
+          markTotalText:      d.markTotalText       ?? "",
+          markTheoryLabel:    d.markTheoryLabel     ?? "",
+          markTheoryText:     d.markTheoryText      ?? "",
+          markPracticalLabel: d.markPracticalLabel  ?? "",
+          markPracticalText:  d.markPracticalText   ?? "",
+          careerH3:           d.careerH3            ?? "",
+          feeCard1Title:      d.feeCard1Title       ?? "",
+          feeCard2Title:      d.feeCard2Title       ?? "",
+          faqH2:              d.faqH2               ?? "",
+          accomH3:            d.accomH3             ?? "",
+          foodH3:             d.foodH3              ?? "",
+          luxuryH2:           d.luxuryH2            ?? "",
+          featuresH2:         d.featuresH2          ?? "",
+          scheduleH3:         d.scheduleH3          ?? "",
+          learningH2:         d.learningH2          ?? "",
+          eligibilityH2:      d.eligibilityH2       ?? "",
+          eligibilityTag:     d.eligibilityTag      ?? "",
+          evaluationH2:       d.evaluationH2        ?? "",
+          ethicsH2:           d.ethicsH2            ?? "",
+          ethicsNaturalisticPara: d.ethicsNaturalisticPara ?? "",
+          ethicsQuote:        d.ethicsQuote         ?? "",
+          misconH2:           d.misconH2            ?? "",
+          reviewsH2:          d.reviewsH2           ?? "",
+          reviewsSubtext:     d.reviewsSubtext      ?? "",
+        });
+
+        /* — Jodit refs — */
+        if (d.markPracticalDetail) markPracticalDetailRef.current = d.markPracticalDetail;
+
+        /* — Dynamic paragraph arrays — */
+        const toPara = (arr: string[] | undefined, prefix: string): ParaItem[] =>
+          arr && arr.length > 0
+            ? arr.map((content, i) => ({ id: `${prefix}${i}`, content }))
+            : [{ id: `${prefix}0`, content: "" }];
+
+        if (d.evolutionParas)   setEvolutionParas(toPara(d.evolutionParas, "ep"));
+        if (d.eligibilityParas) setEligibilityParas(toPara(d.eligibilityParas, "elp"));
+        if (d.evaluationParas)  setEvaluationParas(toPara(d.evaluationParas, "evp"));
+        if (d.ethicsParas)      setEthicsParas(toPara(d.ethicsParas, "etp"));
+        if (d.misconParas)      setMisconParas(toPara(d.misconParas, "mp"));
+
+        /* — String lists — */
+        const toStrList = (arr: string[] | undefined) => (arr && arr.length > 0 ? arr : [""]);
+        if (d.careerItems)    setCareerItems(toStrList(d.careerItems));
+        if (d.feeCard1Items)  setFeeCard1Items(toStrList(d.feeCard1Items));
+        if (d.feeCard2Items)  setFeeCard2Items(toStrList(d.feeCard2Items));
+        if (d.luxuryFeatures) setLuxuryFeatures(toStrList(d.luxuryFeatures));
+        if (d.featuresList)   setFeaturesList(toStrList(d.featuresList));
+        if (d.learningItems)  setLearningItems(toStrList(d.learningItems));
+        if (d.ethicsRules)    setEthicsRules(toStrList(d.ethicsRules));
+        if (d.misconItems)    setMisconItems(toStrList(d.misconItems));
+
+        /* — FAQ items — */
+        if (d.faqItems && d.faqItems.length > 0)
+          setFaqItems(d.faqItems.map((f: any, i: number) => ({ id: `faq${i}`, question: f.question ?? "", answer: f.answer ?? "" })));
+
+        /* — Schedule items — */
+        if (d.scheduleItems && d.scheduleItems.length > 0)
+          setScheduleItems(d.scheduleItems.map((s: any, i: number) => ({ id: `s${i}`, time: s.time ?? "", activity: s.activity ?? "" })));
+
+        /* — Reviews — */
+        if (d.reviews && d.reviews.length > 0)
+          setReviews(d.reviews.map((r: any, i: number) => ({ id: `r${i}`, name: r.name ?? "", role: r.role ?? "", rating: r.rating ?? 5, text: r.text ?? "" })));
+
+        /* — YouTube videos — */
+        if (d.youtubeVideos && d.youtubeVideos.length > 0)
+          setYoutubeVideos(d.youtubeVideos.map((yt: any, i: number) => ({
+            id: `yt${i}`,
+            title: yt.title ?? "",
+            type: yt.type ?? "url",
+            videoId: yt.videoId ?? "",
+            file: null,
+            filePreview: "",
+            existingFileUrl: yt.fileUrl ?? "",
+          })));
+
+        /* — Single images — */
+        if (d.diplomaImage)    setDiplomaExisting(d.diplomaImage);
+        if (d.yogaGardenImage) setYogaGardenExisting(d.yogaGardenImage);
+
+        /* — Carousel images (pre-populate with existing URLs) — */
+        const toImgItems = (urls: string[] | undefined): ImgItem[] =>
+          (urls || []).map((url, i) => ({ id: `existing-${i}-${Math.random()}`, file: null, preview: "", existingUrl: url }));
+        if (d.accomImages)    setAccomImages(toImgItems(d.accomImages));
+        if (d.foodImages)     setFoodImages(toImgItems(d.foodImages));
+        if (d.luxuryImages)   setLuxuryImages(toImgItems(d.luxuryImages));
+        if (d.scheduleImages) setScheduleImages(toImgItems(d.scheduleImages));
+
+      } catch (e: any) {
+        setFetchError(e?.response?.data?.message || e?.message || "Failed to load content");
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, [id, reset]);
+
+  /* ════════════════
+     SUBMIT
+  ════════════════ */
   const onSubmit = async (data: FormData) => {
-    let hasErr = false;
-    if (hasErr) return;
     try {
       setIsSubmitting(true);
       const fd = new FormData();
       Object.entries(data).forEach(([k, v]) => fd.append(k, v as string));
 
-      /* dynamic paragraph arrays — send as JSON */
       fd.append("evolutionParas",   JSON.stringify(evolutionParas.map(p => p.content)));
       fd.append("eligibilityParas", JSON.stringify(eligibilityParas.map(p => p.content)));
       fd.append("evaluationParas",  JSON.stringify(evaluationParas.map(p => p.content)));
@@ -455,19 +551,37 @@ export default function Add300hrContent2() {
       fd.append("scheduleItems", JSON.stringify(scheduleItems));
       fd.append("reviews",       JSON.stringify(reviews.map(r => ({ name: r.name, role: r.role, rating: r.rating, text: r.text }))));
 
-      /* YouTube videos — metadata as JSON, files appended separately */
-      const ytMeta = youtubeVideos.map(yt => ({ id: yt.id, title: yt.title, type: yt.type, videoId: yt.videoId }));
+      const ytMeta = youtubeVideos.map(yt => ({
+        id: yt.id, title: yt.title, type: yt.type, videoId: yt.videoId,
+        existingFileUrl: yt.existingFileUrl ?? "",
+      }));
       fd.append("youtubeVideosMeta", JSON.stringify(ytMeta));
       youtubeVideos.forEach(yt => { if (yt.type === "file" && yt.file) fd.append(`ytFile_${yt.id}`, yt.file); });
 
+      /* Single images — only append if a new file was chosen */
       if (diplomaFile)    fd.append("diplomaImage",    diplomaFile);
-      if (yogaGardenFile) fd.append("yogaGardenImage", yogaGardenFile);
-      accomImages.forEach(img    => { if (img.file) fd.append("accomImages",    img.file); });
-      foodImages.forEach(img     => { if (img.file) fd.append("foodImages",     img.file); });
-      luxuryImages.forEach(img   => { if (img.file) fd.append("luxuryImages",   img.file); });
-      scheduleImages.forEach(img => { if (img.file) fd.append("scheduleImages", img.file); });
+      else if (!diplomaPrev && diplomaExisting) fd.append("diplomaImageKeep", "true");
 
-      await api.post("/yoga-300hr/content2/create", fd, { headers: { "Content-Type": "multipart/form-data" } });
+      if (yogaGardenFile) fd.append("yogaGardenImage", yogaGardenFile);
+      else if (!yogaGardenPrev && yogaGardenExisting) fd.append("yogaGardenImageKeep", "true");
+
+      /* Carousel images — new files + keep existing URLs */
+      const appendCarousel = (
+        imgArr: ImgItem[],
+        newKey: string,
+        keepKey: string
+      ) => {
+        imgArr.forEach(img => {
+          if (img.file) fd.append(newKey, img.file);
+          else if (img.existingUrl) fd.append(keepKey, img.existingUrl);
+        });
+      };
+      appendCarousel(accomImages,    "accomImages",    "accomImagesKeep");
+      appendCarousel(foodImages,     "foodImages",     "foodImagesKeep");
+      appendCarousel(luxuryImages,   "luxuryImages",   "luxuryImagesKeep");
+      appendCarousel(scheduleImages, "scheduleImages", "scheduleImagesKeep");
+
+      await api.put(`/yoga-300hr/content2/${id}`, fd, { headers: { "Content-Type": "multipart/form-data" } });
       setSubmitted(true);
       setTimeout(() => router.push("/admin/yogacourse/300hourscourse/300hr-content2"), 1500);
     } catch (e: any) {
@@ -475,10 +589,31 @@ export default function Add300hrContent2() {
     } finally { setIsSubmitting(false); }
   };
 
+  /* ── Loading state ── */
+  if (loading) return (
+    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", minHeight: "60vh", gap: "1rem" }}>
+      <div style={{ fontFamily: "Cormorant Garamond,serif", fontSize: "2.5rem", color: "#c9a96e", animation: "spin 2s linear infinite" }}>ॐ</div>
+      <p style={{ fontFamily: "Cormorant Garamond,serif", fontSize: "1.1rem", color: "#7a5c3a", fontStyle: "italic" }}>Loading content…</p>
+      <style>{`@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }`}</style>
+    </div>
+  );
+
+  /* ── Fetch error state ── */
+  if (fetchError) return (
+    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", minHeight: "60vh", gap: "1rem" }}>
+      <p style={{ fontFamily: "Cormorant Garamond,serif", fontSize: "1.1rem", color: "#c0392b" }}>⚠ {fetchError}</p>
+      <button onClick={() => router.push("/admin/yogacourse/300hourscourse/300hr-content2")}
+        style={{ fontFamily: "Cormorant Garamond,serif", padding: "0.5rem 1.5rem", borderRadius: 8, border: "1px solid #e8d5b5", background: "#faf8f4", cursor: "pointer", color: "#7a5c3a" }}>
+        ← Back to List
+      </button>
+    </div>
+  );
+
+  /* ── Success state ── */
   if (submitted) return (
     <div className={styles.successScreen}><div className={styles.successCard}>
       <div className={styles.successOm}>ॐ</div><div className={styles.successCheck}>✓</div>
-      <h2 className={styles.successTitle}>Content 2 Saved!</h2>
+      <h2 className={styles.successTitle}>Content 2 Updated!</h2>
       <p className={styles.successText}>Redirecting to list…</p>
     </div></div>
   );
@@ -493,10 +628,10 @@ export default function Add300hrContent2() {
           300 Hour Content Part 2
         </button>
         <span className={styles.breadcrumbSep}>›</span>
-        <span className={styles.breadcrumbCurrent}>Add New</span>
+        <span className={styles.breadcrumbCurrent}>Edit</span>
       </div>
       <div className={styles.pageHeader}><div className={styles.pageHeaderText}>
-        <h1 className={styles.pageTitle}>Add New — 300hr Content Part 2</h1>
+        <h1 className={styles.pageTitle}>Edit — 300hr Content Part 2</h1>
         <p className={styles.pageSubtitle}>Evolution · FAQ · Accommodation · Schedule · Reviews</p>
       </div></div>
       <div className={styles.ornament}><span>❧</span><div className={styles.ornamentLine}/><span>ॐ</span><div className={styles.ornamentLine}/><span>❧</span></div>
@@ -509,7 +644,6 @@ export default function Add300hrContent2() {
             <div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("evolutionH2")} /></div>
           </F>
 
-          {/* Dynamic expandable paragraphs for evolution intro */}
           <F label="Introduction Paragraphs" hint="Add as many paragraphs as needed." req>
             <DynamicParaList
               items={evolutionParas}
@@ -521,13 +655,11 @@ export default function Add300hrContent2() {
             />
           </F>
 
-          {/* ── Mark Distribution ── */}
           <div style={{ marginTop: "1.5rem", padding: "1.2rem", background: "#faf8f4", borderRadius: 10, border: "1px solid #e8d5b5" }}>
             <p style={{ fontFamily: "Cormorant Garamond,serif", fontWeight: 600, color: "#5a3a1a", fontSize: "0.95rem", marginBottom: "1rem" }}>
               ✦ Mark Distribution Block
             </p>
 
-            {/* H3 label + sub-text */}
             <F label="Mark Distribution H3 Label">
               <div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("markDistH3")} /></div>
             </F>
@@ -535,7 +667,6 @@ export default function Add300hrContent2() {
               <div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("markDistSubText")} placeholder="e.g. The examination is divided as follows…" /></div>
             </F>
 
-            {/* Total Marks */}
             <div className={styles.grid2} style={{ marginTop: "0.8rem" }}>
               <F label="Total Marks — Label">
                 <div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("markTotalLabel")} /></div>
@@ -545,7 +676,6 @@ export default function Add300hrContent2() {
               </F>
             </div>
 
-            {/* Theory Marks */}
             <div className={styles.grid2}>
               <F label="Theory Examination — Label">
                 <div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("markTheoryLabel")} /></div>
@@ -555,7 +685,6 @@ export default function Add300hrContent2() {
               </F>
             </div>
 
-            {/* Practical Marks */}
             <div className={styles.grid2}>
               <F label="Practical Examination — Label">
                 <div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("markPracticalLabel")} /></div>
@@ -565,11 +694,11 @@ export default function Add300hrContent2() {
               </F>
             </div>
 
-            {/* Practical Detail Para Box */}
             <LazyJodit
               label="Practical Marks — Detailed Distribution Paragraph"
               hint="Full breakdown of practical marks (Demonstration, Teaching Skills, Application, Field Experience etc.)"
               cr={markPracticalDetailRef}
+              initialValue={markPracticalDetailRef.current}
               ph={`It's further marks distribution is as:\n1. Demonstration Skills of Sunsalutation, Asana, Pranayama, Mudra, Meditation: 80 Marks.\n2. Teaching Skills: Lesson planning, Class control, Giving instruction, Alignment and Adjustments - 40 Marks.\n3. Application of knowledge: It covers behavior and discipline during ttc classes - 10 Marks.\n4. Field Experience: It covers practical experience of Karma yoga, Bhakti yoga and contentment - 10 Marks.`}
               h={220}
             />
@@ -660,7 +789,7 @@ export default function Add300hrContent2() {
           <F label="Section H3">
             <div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("accomH3")} /></div>
           </F>
-          <F label="Accommodation Images" hint="JPG/PNG/WEBP · Multiple images supported">
+          <F label="Accommodation Images" hint="JPG/PNG/WEBP · Existing images shown. Add new ones or remove existing.">
             <MultiImg items={accomImages} onAdd={addImg(setAccomImages)} onRemove={removeImg(setAccomImages)} hint="Add image" label="accommodation images" />
           </F>
         </Sec><D />
@@ -670,7 +799,7 @@ export default function Add300hrContent2() {
           <F label="Section H3">
             <div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("foodH3")} /></div>
           </F>
-          <F label="Food Images" hint="JPG/PNG/WEBP · Multiple images supported">
+          <F label="Food Images" hint="JPG/PNG/WEBP · Existing images shown. Add new ones or remove existing.">
             <MultiImg items={foodImages} onAdd={addImg(setFoodImages)} onRemove={removeImg(setFoodImages)} hint="Add image" label="food images" />
           </F>
         </Sec><D />
@@ -690,9 +819,14 @@ export default function Add300hrContent2() {
             <MultiImg items={luxuryImages} onAdd={addImg(setLuxuryImages)} onRemove={removeImg(setLuxuryImages)} hint="Add image" label="luxury images" />
           </F>
           <F label="Yoga Garden / Full-Width Banner Image" hint="Wide banner image below luxury features">
-            <SingleImg preview={yogaGardenPrev} badge="Garden" hint="Wide banner image"
+            <SingleImg
+              preview={yogaGardenPrev}
+              existingUrl={yogaGardenExisting}
+              badge="Garden"
+              hint="Wide banner image"
               onSelect={(f, p) => { setYogaGardenFile(f); setYogaGardenPrev(p); }}
-              onRemove={() => { setYogaGardenFile(null); setYogaGardenPrev(""); }} />
+              onRemove={() => { setYogaGardenFile(null); setYogaGardenPrev(""); setYogaGardenExisting(""); }}
+            />
           </F>
         </Sec><D />
 
@@ -752,15 +886,12 @@ export default function Add300hrContent2() {
 
         {/* ════ 9. ELIGIBILITY ════ */}
         <Sec title="Eligibility Section">
-          {/* H2 heading */}
           <F label="Section H2 Heading">
             <div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("eligibilityH2")} /></div>
           </F>
-          {/* Eligibility Tag — the label/badge shown above the para */}
           <F label="Eligibility Tag" hint="Short tag label shown above the paragraph, e.g. 'Eligibility'">
             <div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("eligibilityTag")} placeholder="Eligibility" /></div>
           </F>
-          {/* Expandable paragraphs */}
           <F label="Eligibility Paragraphs" hint="Add as many paragraphs as needed." req>
             <DynamicParaList
               items={eligibilityParas}
@@ -795,7 +926,6 @@ export default function Add300hrContent2() {
           <F label="Section H2">
             <div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("ethicsH2")} /></div>
           </F>
- {/* Additional expandable paragraphs for ethics intro */}
           <F label="Additional Ethics Introduction Paragraphs (optional)"
             hint="Any extra paragraphs before the guidelines list.">
             <DynamicParaList
@@ -807,13 +937,11 @@ export default function Add300hrContent2() {
               ph="Yoga is a spiritual discipline that combines physical, mental and spiritual elements…"
             />
           </F>
-        <F label="Ethics Quote" hint="Displayed in styled quote block">
+          <F label="Ethics Quote" hint="Displayed in styled quote block">
             <div className={styles.inputWrap}>
               <textarea className={`${styles.input} ${styles.textarea} ${styles.inputNoCount}`} rows={2} {...register("ethicsQuote")} />
             </div>
           </F>
-
-          {/* Naturalistic power para — previously missing, now a dedicated field */}
           <F label="Naturalistic Power of Yoga — Intro Paragraph"
             hint="The paragraph starting 'According to yoga gurus, to actualize the naturalistic power…'">
             <div className={styles.inputWrap}>
@@ -821,21 +949,21 @@ export default function Add300hrContent2() {
                 {...register("ethicsNaturalisticPara")} />
             </div>
           </F>
-           
- 
-         
-
           <F label="Ethics Rules / Guidelines">
             <StrList items={ethicsRules} label="Rule" ph="Students need to be obedient in classes…"
               onAdd={() => setEthicsRules(p => [...p, ""])}
               onRemove={i => setEthicsRules(p => p.filter((_, x) => x !== i))}
               onUpdate={(i, v) => { const a = [...ethicsRules]; a[i] = v; setEthicsRules(a); }} />
           </F>
-
           <F label="Diploma / Graduation Image" hint="Full-width image below ethics rules">
-            <SingleImg preview={diplomaPrev} badge="Diploma" hint="Students with diploma image"
+            <SingleImg
+              preview={diplomaPrev}
+              existingUrl={diplomaExisting}
+              badge="Diploma"
+              hint="Students with diploma image"
               onSelect={(f, p) => { setDiplomaFile(f); setDiplomaPrev(p); }}
-              onRemove={() => { setDiplomaFile(null); setDiplomaPrev(""); }} />
+              onRemove={() => { setDiplomaFile(null); setDiplomaPrev(""); setDiplomaExisting(""); }}
+            />
           </F>
         </Sec><D />
 
@@ -844,8 +972,6 @@ export default function Add300hrContent2() {
           <F label="Section H2">
             <div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("misconH2")} /></div>
           </F>
-
-          {/* Expandable intro paragraphs */}
           <F label="Shake Your Myths — Intro Paragraphs (optional)"
             hint="Add introductory paragraphs before the misconception list.">
             <DynamicParaList
@@ -857,7 +983,6 @@ export default function Add300hrContent2() {
               ph="The 300-hour yoga teacher training is often seen as merely an advanced step…"
             />
           </F>
-
           <F label="Misconception Items">
             <StrList items={misconItems} label="Misconception"
               ph="You think you are signing up to learn yoga, but what you are truly learning about is yourself…"
@@ -904,15 +1029,9 @@ export default function Add300hrContent2() {
                         onChange={e => updNested(reviews, setReviews, r.id, "role", e.target.value)} /></div>
                     </F>
                   </div>
-
-                  {/* Star Rating — replaced Initial field */}
                   <F label="Star Rating">
-                    <StarRating
-                      value={r.rating}
-                      onChange={v => updNested(reviews, setReviews, r.id, "rating", v)}
-                    />
+                    <StarRating value={r.rating} onChange={v => updNested(reviews, setReviews, r.id, "rating", v)} />
                   </F>
-
                   <F label="Review Text">
                     <div className={styles.inputWrap}>
                       <textarea className={`${styles.input} ${styles.textarea} ${styles.inputNoCount}`} rows={4}
@@ -941,8 +1060,6 @@ export default function Add300hrContent2() {
                   )}
                 </div>
                 <div className={styles.nestedCardBody}>
-
-                  {/* Title — present in both modes */}
                   <F label="Video Title">
                     <div className={styles.inputWrap}>
                       <input className={`${styles.input} ${styles.inputNoCount}`} value={yt.title}
@@ -950,26 +1067,18 @@ export default function Add300hrContent2() {
                         onChange={e => updYt(yt.id, "title", e.target.value)} />
                     </div>
                   </F>
-
-                  {/* Mode toggle */}
                   <F label="Video Source Type">
                     <div style={{ display: "flex", gap: "1.2rem", alignItems: "center", flexWrap: "wrap" }}>
                       {(["url", "file"] as const).map(opt => (
                         <label key={opt} style={{ display: "flex", alignItems: "center", gap: "0.4rem", cursor: "pointer", fontFamily: "Cormorant Garamond,serif", fontSize: "0.92rem", color: "#5a3a1a" }}>
-                          <input
-                            type="radio"
-                            name={`ytType-${yt.id}`}
-                            checked={yt.type === opt}
-                            onChange={() => updYt(yt.id, "type", opt)}
-                            style={{ width: 14, height: 14 }}
-                          />
+                          <input type="radio" name={`ytType-${yt.id}`} checked={yt.type === opt}
+                            onChange={() => updYt(yt.id, "type", opt)} style={{ width: 14, height: 14 }} />
                           {opt === "url" ? "🔗 YouTube URL (Video ID)" : "📁 Upload Video File"}
                         </label>
                       ))}
                     </div>
                   </F>
 
-                  {/* URL mode */}
                   {yt.type === "url" && (
                     <F label="YouTube Video ID" hint="e.g. pXU4_SXdNdY — the part after watch?v=">
                       <div className={styles.inputWrap}>
@@ -979,22 +1088,28 @@ export default function Add300hrContent2() {
                       </div>
                       {yt.videoId && (
                         <div style={{ marginTop: "0.5rem" }}>
-                          <img
-                            src={`https://img.youtube.com/vi/${yt.videoId}/mqdefault.jpg`}
-                            alt="YouTube thumbnail"
-                            style={{ width: 200, borderRadius: 6, border: "1px solid #e8d5b5" }}
-                          />
+                          <img src={`https://img.youtube.com/vi/${yt.videoId}/mqdefault.jpg`} alt="YouTube thumbnail"
+                            style={{ width: 200, borderRadius: 6, border: "1px solid #e8d5b5" }} />
                         </div>
                       )}
                     </F>
                   )}
 
-                  {/* File upload mode */}
                   {yt.type === "file" && (
                     <F label="Upload Video File" hint="MP4/WebM/MOV · Max recommended 200MB">
+                      {/* Show existing video if no new file chosen */}
+                      {!yt.filePreview && yt.existingFileUrl && (
+                        <div style={{ marginBottom: "0.6rem" }}>
+                          <p style={{ fontFamily: "Cormorant Garamond,serif", fontSize: "0.82rem", color: "#7a5c3a", fontStyle: "italic", marginBottom: "0.3rem" }}>
+                            Current video:
+                          </p>
+                          <video src={yt.existingFileUrl} controls style={{ maxWidth: 280, borderRadius: 8, border: "1px solid #e8d5b5" }} />
+                        </div>
+                      )}
+
                       {!yt.filePreview ? (
                         <label style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem", padding: "0.5rem 1rem", borderRadius: 8, border: "1.5px dashed #c9a96e", background: "#fffdf8", cursor: "pointer", fontFamily: "Cormorant Garamond,serif", fontSize: "0.9rem", color: "#7a5c3a" }}>
-                          📁 Choose Video File
+                          {yt.existingFileUrl ? "✎ Replace Video File" : "📁 Choose Video File"}
                           <input type="file" accept="video/*" style={{ display: "none" }}
                             onChange={e => { const f = e.target.files?.[0]; if (f) setYtFile(yt.id, f); e.target.value = ""; }} />
                         </label>
@@ -1016,7 +1131,6 @@ export default function Add300hrContent2() {
                       )}
                     </F>
                   )}
-
                 </div>
               </div>
             ))}
@@ -1025,7 +1139,6 @@ export default function Add300hrContent2() {
               ＋ Add Video
             </button>
           </F>
-
         </Sec><D />
 
         {/* ════ PAGE SETTINGS ════ */}
@@ -1058,7 +1171,7 @@ export default function Add300hrContent2() {
         <button type="button"
           className={`${styles.submitBtn} ${isSubmitting ? styles.submitBtnLoading : ""}`}
           onClick={handleSubmit(onSubmit)} disabled={isSubmitting}>
-          {isSubmitting ? <><span className={styles.spinner} /> Saving…</> : <><span>✦</span> Save Content 2</>}
+          {isSubmitting ? <><span className={styles.spinner} /> Updating…</> : <><span>✦</span> Update Content 2</>}
         </button>
       </div>
     </div>
