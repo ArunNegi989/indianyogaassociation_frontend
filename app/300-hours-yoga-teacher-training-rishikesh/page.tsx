@@ -1,10 +1,41 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "@/assets/style/300-hours-yoga-teacher-training-rishikesh/Yogattc300.module.css";
 import HowToReach from "@/components/home/Howtoreach";
 import Image from "next/image";
 import heroImg from "@/assets/images/8.webp";
+
+/* ─────────────────────────────────────────
+   TYPES
+───────────────────────────────────────── */
+interface Batch {
+  _id: string;
+  startDate: string;
+  endDate: string;
+  usdFee: string;
+  inrFee: string;
+  dormPrice: number;
+  twinPrice: number;
+  privatePrice: number;
+  totalSeats: number;
+  bookedSeats: number;
+  note?: string;
+}
+
+/* ─────────────────────────────────────────
+   HELPERS
+───────────────────────────────────────── */
+function formatDateRange(start: string, end: string): string {
+  const opts: Intl.DateTimeFormatOptions = {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  };
+  const s = new Date(start).toLocaleDateString("en-IN", opts);
+  const e = new Date(end).toLocaleDateString("en-IN", opts);
+  return `${s} - ${e}`;
+}
 
 /* ─────────────────────────────────────────
    YOUTUBE EMBED
@@ -124,6 +155,21 @@ const FaqItem = ({
     </div>
   );
 };
+
+/* ─────────────────────────────────────────
+   SEATS CELL
+───────────────────────────────────────── */
+function SeatsCell({ booked, total }: { booked: number; total: number }) {
+  const isFull = booked >= total;
+  const remaining = total - booked;
+  if (isFull)
+    return <span className={styles.fullyBooked}>Fully Booked</span>;
+  return (
+    <span className={styles.seatsAvailable}>
+      {remaining} / {total} Seats
+    </span>
+  );
+}
 
 /* ─────────────────────────────────────────
    SYLLABUS TABS DATA
@@ -258,24 +304,6 @@ const modules = [
 ];
 
 /* ─────────────────────────────────────────
-   COURSE DATES
-───────────────────────────────────────── */
-const courseDates = [
-  "5th Jan - 31st Jan 2026",
-  "1st Feb - 28th Feb 2026",
-  "1st Mar - 28th Mar 2026",
-  "1st Apr - 28th Apr 2026",
-  "1st May - 28th May 2026",
-  "1st Jun - 28th Jun 2026",
-  "1st Jul - 28th Jul 2026",
-  "1st Aug - 28th Aug 2026",
-  "1st Sep - 28th Sep 2026",
-  "1st Oct - 28th Oct 2026",
-  "1st Nov - 28th Nov 2026",
-  "1st Dec - 28th Dec 2026",
-];
-
-/* ─────────────────────────────────────────
    ACCOMMODATION IMAGES (Unsplash yoga/room)
 ───────────────────────────────────────── */
 const accomImages = [
@@ -310,7 +338,28 @@ const yogaGardenImg =
 ───────────────────────────────────────── */
 export default function YogaTTC300() {
   const [activeModule, setActiveModule] = useState(0);
+  const [batches, setBatches] = useState<Batch[]>([]);
+  const [batchesLoading, setBatchesLoading] = useState(true);
+
   const mod = modules[activeModule];
+
+  /* ── Fetch batches from API ── */
+  useEffect(() => {
+    const fetchBatches = async () => {
+      try {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/300hr-seats/getAllBatches`
+        );
+        const data = await res.json();
+        setBatches(data?.data || []);
+      } catch (err) {
+        console.error("300hr batch fetch error:", err);
+      } finally {
+        setBatchesLoading(false);
+      }
+    };
+    fetchBatches();
+  }, []);
 
   return (
     <div className={styles.page}>
@@ -322,20 +371,17 @@ export default function YogaTTC300() {
           SECTION 1 — HERO (Image 1)
       ══════════════════════════════════════ */}
       <section className={styles.heroSection}>
-       <Image
-                src={heroImg}
-                alt="Yoga Students Group"
-                width={1180}
-                height={540}
-                className={styles.heroImage}
-                priority
-              />
-
-        
+        <Image
+          src={heroImg}
+          alt="Yoga Students Group"
+          width={1180}
+          height={540}
+          className={styles.heroImage}
+          priority
+        />
       </section>
-       <section className={styles.heroSection2}>
-        
 
+      <section className={styles.heroSection2}>
         <div className="container">
           <div className={styles.topBorderLine} />
           <h1 className={styles.heroTitle}>
@@ -414,7 +460,7 @@ export default function YogaTTC300() {
       </section>
 
       {/* ══════════════════════════════════════
-          SECTION 2 — OVERVIEW + COURSE DATES (Image 2)
+          SECTION 2 — OVERVIEW + COURSE DATES
       ══════════════════════════════════════ */}
       <section className={`${styles.section} ${styles.sectionLight}`}>
         <div className="container">
@@ -449,32 +495,114 @@ export default function YogaTTC300() {
             </p>
           </div>
 
+          {/* ── DATES TABLE (matching 200hr design) ── */}
           <div className={styles.datesBox}>
             <h3 className={styles.datesTitle}>Upcoming Course Dates</h3>
             <p className={styles.datesSubtitle}>
-              Choose your preferred accommodation. Prices include tuition and
-              meals.
+              Choose your preferred accommodation. Prices include tuition and meals.
             </p>
-            <div className={styles.datesTable}>
-              {courseDates.map((date, i) => (
-                <div key={i} className={styles.dateRow}>
-                  <span className={styles.dateText}>{date}</span>
-                  <span className={styles.datePrices}>
-                    Dorm <strong className={styles.priceVal}>$849</strong>
-                    <span className={styles.priceSep}> | </span>
-                    Twin <strong className={styles.priceVal}>$999</strong>
-                    <span className={styles.priceSep}> | </span>
-                    Private <strong className={styles.priceVal}>$1199</strong>
-                  </span>
-                  <span className={styles.earlyBird}>● Early Bird</span>
-                </div>
-              ))}
+
+            <div className={styles.tableScroll}>
+              <table className={styles.datesTable}>
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Fee (USD)</th>
+                    <th>Fee (Indian)</th>
+                    <th>Room Price</th>
+                    <th>Seats</th>
+                    <th>Apply</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {batchesLoading ? (
+                    <tr>
+                      <td
+                        colSpan={6}
+                        style={{
+                          textAlign: "center",
+                          padding: "2rem",
+                          color: "var(--muted)",
+                          fontStyle: "italic",
+                        }}
+                      >
+                        Loading batches...
+                      </td>
+                    </tr>
+                  ) : batches.length === 0 ? (
+                    <tr>
+                      <td
+                        colSpan={6}
+                        style={{
+                          textAlign: "center",
+                          padding: "2rem",
+                          color: "var(--muted)",
+                        }}
+                      >
+                        No upcoming batches found.
+                      </td>
+                    </tr>
+                  ) : (
+                    batches.map((batch) => {
+                      const isFull = batch.bookedSeats >= batch.totalSeats;
+                      return (
+                        <tr key={batch._id}>
+                          <td className={styles.dateCell}>
+                            <span className={styles.dateCal}>📅</span>{" "}
+                            {formatDateRange(batch.startDate, batch.endDate)}
+                          </td>
+                          <td>{batch.usdFee}</td>
+                          <td>{batch.inrFee}</td>
+                          <td className={styles.roomPriceCell}>
+                            Dorm{" "}
+                            <strong className={styles.priceVal}>
+                              ${batch.dormPrice}
+                            </strong>
+                            <span className={styles.priceSep}> | </span>
+                            Twin{" "}
+                            <strong className={styles.priceVal}>
+                              ${batch.twinPrice}
+                            </strong>
+                            <span className={styles.priceSep}> | </span>
+                            Private{" "}
+                            <strong className={styles.priceVal}>
+                              ${batch.privatePrice}
+                            </strong>
+                          </td>
+                          <td>
+                            <SeatsCell
+                              booked={batch.bookedSeats}
+                              total={batch.totalSeats}
+                            />
+                          </td>
+                          <td>
+                            {isFull ? (
+                              <span className={styles.applyDisabled}>
+                                Apply Now
+                              </span>
+                            ) : (
+                              <a
+                                href={`/yoga-registration?batchId=${batch._id}&type=300hr`}
+                                className={styles.applyLink}
+                              >
+                                Apply Now
+                              </a>
+                            )}
+                          </td>
+                        </tr>
+                      );
+                    })
+                  )}
+                </tbody>
+              </table>
             </div>
-            <p className={styles.datesNote}>
-              <strong>Note:</strong> A $100 USD early bird discount is available
-              on all accommodation types if booked 60 days in advance.
-            </p>
-            <div className="text-center mt-3">
+
+            {batches[0]?.note && (
+              <p className={styles.datesNote}>
+                <strong>Note:</strong> {batches[0].note}
+              </p>
+            )}
+            <div className="text-center mt-3" style={{ padding: "1rem 0 0.5rem" }}>
               <a href="#" className={styles.btnPrimary}>
                 Reserve Your Spot Now
               </a>
@@ -484,7 +612,7 @@ export default function YogaTTC300() {
       </section>
 
       {/* ══════════════════════════════════════
-          SECTION 3 — INCLUDED / NOT INCLUDED (Image 3)
+          SECTION 3 — INCLUDED / NOT INCLUDED
       ══════════════════════════════════════ */}
       <section className={`${styles.section}`}>
         <div className="container">
@@ -539,7 +667,7 @@ export default function YogaTTC300() {
       </section>
 
       {/* ══════════════════════════════════════
-          SECTION 4 — SYLLABUS TABS (Images 4–12)
+          SECTION 4 — SYLLABUS TABS
       ══════════════════════════════════════ */}
       <section className={`${styles.section} ${styles.sectionLight}`}>
         <div className="container">
@@ -611,7 +739,7 @@ export default function YogaTTC300() {
       </section>
 
       {/* ══════════════════════════════════════
-          SECTION 5 — EVOLUTION & CERTIFICATION (Image 13)
+          SECTION 5 — EVOLUTION & CERTIFICATION
       ══════════════════════════════════════ */}
       <section className={styles.section}>
         <div className="container">
@@ -730,7 +858,7 @@ export default function YogaTTC300() {
       </section>
 
       {/* ══════════════════════════════════════
-          SECTION 6 — FAQ + ACCOMMODATION + FOOD (Image 14)
+          SECTION 6 — FAQ + ACCOMMODATION + FOOD
       ══════════════════════════════════════ */}
       <section className={`${styles.section} ${styles.sectionLight}`}>
         <div className="container">
@@ -770,7 +898,7 @@ export default function YogaTTC300() {
       </section>
 
       {/* ══════════════════════════════════════
-          SECTION 7 — LUXURY ROOM & FEATURES (Image 15)
+          SECTION 7 — LUXURY ROOM & FEATURES
       ══════════════════════════════════════ */}
       <section className={styles.section}>
         <div className="container">
@@ -828,7 +956,7 @@ export default function YogaTTC300() {
       </section>
 
       {/* ══════════════════════════════════════
-          SECTION 8 — FEATURES + DAILY SCHEDULE (Image 16)
+          SECTION 8 — FEATURES + DAILY SCHEDULE
       ══════════════════════════════════════ */}
       <section className={`${styles.section} ${styles.sectionLight}`}>
         <div className="container">
@@ -906,7 +1034,7 @@ export default function YogaTTC300() {
       </section>
 
       {/* ══════════════════════════════════════
-          SECTION 9 — LEARNING OUTCOMES + ELIGIBILITY + EVALUATION (Image 17)
+          SECTION 9 — LEARNING OUTCOMES + ELIGIBILITY + EVALUATION
       ══════════════════════════════════════ */}
       <section className={styles.section}>
         <div className="container">
@@ -984,7 +1112,7 @@ export default function YogaTTC300() {
       </section>
 
       {/* ══════════════════════════════════════
-          SECTION 10 — YOGA ETHICS (Image 18)
+          SECTION 10 — YOGA ETHICS
       ══════════════════════════════════════ */}
       <section className={`${styles.section} ${styles.sectionLight}`}>
         <div className="container">
@@ -1036,7 +1164,7 @@ export default function YogaTTC300() {
       </section>
 
       {/* ══════════════════════════════════════
-          SECTION 11 — MISCONCEPTIONS (Image 19)
+          SECTION 11 — MISCONCEPTIONS
       ══════════════════════════════════════ */}
       <section className={styles.section}>
         <div className="container">
@@ -1076,7 +1204,7 @@ export default function YogaTTC300() {
       </section>
 
       {/* ══════════════════════════════════════
-          SECTION 12 — STUDENT REVIEWS & VIDEOS (Image 20)
+          SECTION 12 — STUDENT REVIEWS & VIDEOS
       ══════════════════════════════════════ */}
       <section className={`${styles.section} ${styles.sectionGray}`}>
         <div className="container">
