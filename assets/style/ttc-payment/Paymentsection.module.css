@@ -24,6 +24,23 @@
   --shadow-saffron: rgba(224, 123, 0, 0.25);
 }
 
+
+.heroSection {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  line-height: 0;
+}
+
+.heroImage {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+}
+
 /* ── Section ── */
 .section {
   background-image: url("../../images/1905x4862.webp") ;

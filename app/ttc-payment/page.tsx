@@ -3,6 +3,9 @@
 import React, { useState } from "react";
 import styles from "@/assets/style/ttc-payment/Paymentsection.module.css";
 import HowToReach from "@/components/home/Howtoreach";
+import Image from "next/image";
+import heroImg from "@/assets/images/32.webp";
+
 
 const PaymentSection = () => {
   const [copiedField, setCopiedField] = useState<string | null>(null);
@@ -60,6 +63,17 @@ const PaymentSection = () => {
 
   return (
     <>
+
+    <section className={styles.heroSection}>
+            <Image
+              src={heroImg}
+              alt="Yoga Students Group"
+              width={1180}
+              height={540}
+              className={styles.heroImage}
+              priority
+            />
+          </section>
       <section className={styles.section}>
         {/* Mandala background decoration */}
       

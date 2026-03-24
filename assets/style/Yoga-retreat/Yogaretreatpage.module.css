@@ -43,7 +43,21 @@
     transparent 100%
   );
 }
+.heroSection {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  line-height: 0;
+}
 
+.heroImage {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+}
 /* ──────────────────────────────────────────
    CONTAINER
 ────────────────────────────────────────── */
@@ -130,14 +144,14 @@
 /* ──────────────────────────────────────────
    SECTION 1 — HERO / INTRO
 ────────────────────────────────────────── */
-.heroSection {
+.heroSection1 {
   background: var(--cream);
   padding: clamp(2.4rem, 5vw, 4rem) 0 clamp(2.4rem, 5vw, 3.5rem);
   position: relative;
 }
 
 /* Subtle OM watermark */
-.heroSection::after {
+.heroSection1::after {
   content: 'ॐ';
   position: absolute;
   top: 50%;
@@ -152,7 +166,7 @@
   user-select: none;
 }
 
-.heroSection .container {
+.heroSection1 .container {
   position: relative;
   z-index: 1;
 }

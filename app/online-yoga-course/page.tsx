@@ -9,6 +9,8 @@ import chakra4 from "@/assets/images/solar-plexus-chakra.png";
 import chakra5 from "@/assets/images/heart-chakra.png";
 import chakra6 from "@/assets/images/throat-chakra.png";
 import HowToReach from "@/components/home/Howtoreach";
+import heroImg from "@/assets/images/30.webp";
+
 
 const liveCourses = [
   {
@@ -439,56 +441,15 @@ export default function OnlineYogaCourse() {
       {/* ══════════════════════════════════════
           HERO — Screenshot 1
       ══════════════════════════════════════ */}
-      <section className={styles.hero}>
-        <div className={styles.heroLeft}>
-          <h1 className={styles.heroTitle}>
-            <span className={styles.heroTitleBold}>ONLINE YOGA</span>
-            <span className={styles.heroTitleScript}>Course</span>
-          </h1>
-          <div className={styles.heroCourseCards}>
-            {[
-              { num: "100", label: "HOUR YOGA" },
-              { num: "200", label: "HOUR YOGA" },
-              { num: "300", label: "HOUR YOGA" },
-              { num: "500", label: "HOUR YOGA" },
-              { num: "100", label: "HOUR YOGA\nPRENATAL" },
-            ].map((c, i) => (
-              <div key={i} className={styles.heroCard}>
-                <div className={styles.laptopWrap}>
-                  <div className={styles.laptop}>
-                    <div className={styles.laptopScreen} />
-                  </div>
-                  <div className={styles.laptopFoot} />
-                </div>
-                <p className={styles.heroCardNum}>{c.num}</p>
-                <p className={styles.heroCardLabel}>{c.label}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-        <div className={styles.heroRight}>
-          <div className={styles.heroRightMandala} aria-hidden="true">
-            <svg viewBox="0 0 300 300">
-              <g fill="none" stroke="rgba(255,255,255,0.15)" strokeWidth="1">
-                {[30, 60, 90, 120, 145].map((r, i) => (
-                  <circle key={i} cx="150" cy="150" r={r} />
-                ))}
-                {Array.from({ length: 24 }, (_, i) => {
-                  const a = (((i * 360) / 24) * Math.PI) / 180;
-                  return (
-                    <line
-                      key={i}
-                      x1="150"
-                      y1="150"
-                      x2={150 + 145 * Math.cos(a)}
-                      y2={150 + 145 * Math.sin(a)}
-                    />
-                  );
-                })}
-              </g>
-            </svg>
-          </div>
-        </div>
+      <section className={styles.heroSection}>
+        <Image
+          src={heroImg}
+          alt="Yoga Students Group"
+          width={1180}
+          height={540}
+          className={styles.heroImage}
+          priority
+        />
       </section>
 
       {/* ══════════════════════════════════════

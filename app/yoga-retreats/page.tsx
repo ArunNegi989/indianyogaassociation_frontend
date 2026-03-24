@@ -2,7 +2,8 @@
 import React from "react";
 import styles from "@/assets/style/Yoga-retreat/Yogaretreatpage.module.css";
 import HowToReach from "@/components/home/Howtoreach";
-
+import Image from "next/image";
+import heroImg from "@/assets/images/33.webp";
 /* ─────────────────────────────────────────
    Real Unsplash image URLs (free to use)
    Each URL is a direct, embeddable link.
@@ -65,14 +66,23 @@ const OmDivider = () => (
 export default function YogaRetreatPage() {
   return (
     <div className={styles.page}>
-
+<section className={styles.heroSection}>
+        <Image
+          src={heroImg}
+          alt="Yoga Students Group"
+          width={1180}
+          height={540}
+          className={styles.heroImage}
+          priority
+        />
+      </section>
       {/* TOP BORDER */}
       <div className={styles.topBorder} />
 
       {/* ════════════════════════════════════════════
           SECTION 1 — HERO + INTRO (Screenshot 1)
       ════════════════════════════════════════════ */}
-      <section className={styles.heroSection}>
+      <section className={styles.heroSection1}>
         <div className={styles.container}>
 
           <h1 className={styles.pageTitle}>The Best Yoga Retreats in Rishikesh, India</h1>

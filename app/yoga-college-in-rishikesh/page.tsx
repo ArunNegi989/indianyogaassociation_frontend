@@ -7,7 +7,7 @@ import image1 from "@/assets/images/200-hour-ayush-ministry-yoga-course-15-days.
 import image2 from "@/assets/images/400-hour-yoga-program-ayush-ministry-28-days.jpg";
 import image3 from "@/assets/images/800-hour-yoga.jpg";
 import HowToReach from "@/components/home/Howtoreach";
-
+import heroImg from "@/assets/images/31.webp";
 // ── Tab data ──────────────────────────────────────────────────────
 const tabs = [
   {
@@ -438,31 +438,25 @@ export default function YogaCollegeRishikesh() {
 
   return (
     <div className={styles.page}>
+
+      <section className={styles.heroSection}>
+              <Image
+                src={heroImg}
+                alt="Yoga Students Group"
+                width={1180}
+                height={540}
+                className={styles.heroImage}
+                priority
+              />
+            </section>
       {/* ══════════════════════════════════════
           SECTION 1 — Hero image gallery (Screenshot 1)
       ══════════════════════════════════════ */}
-      <section className={styles.heroSection}>
+      <section className={styles.heroSection1}>
         <div className={styles.container}>
           <h2 className={styles.heroTitle}>Yoga College in Rishikesh</h2>
           <div className={styles.heroUnderline} />
-          <div className={styles.heroImageGrid}>
-            <div className={styles.heroImageLeft}>
-              <Image
-                src={yogabanner}
-                alt="Yoga College students celebrating"
-                fill
-                className={styles.heroImg}
-              />
-            </div>
-            <div className={styles.heroImageRight}>
-              <Image
-                src="/images/yoga-college-2.jpg"
-                alt="Yoga College students taking selfie"
-                fill
-                className={styles.heroImg}
-              />
-            </div>
-          </div>
+         
         </div>
       </section>
 

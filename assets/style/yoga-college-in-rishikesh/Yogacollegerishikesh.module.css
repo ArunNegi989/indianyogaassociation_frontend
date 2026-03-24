@@ -27,6 +27,22 @@
   overflow-x: hidden;
 }
 
+.heroSection {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  line-height: 0;
+}
+
+.heroImage {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+}
+
 /* ── Container ── */
 .container {
   max-width: 1180px;
@@ -37,7 +53,7 @@
 /* ================================================================
    HERO SECTION — Screenshot 1
    ================================================================ */
-.heroSection {
+.heroSection1 {
   padding: clamp(2rem, 4vw, 3.5rem) 0;
   background: #fff;
   border-bottom: 1px solid var(--border);
