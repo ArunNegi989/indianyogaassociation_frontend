@@ -229,7 +229,7 @@
 ================================================================ */
 .founderSection {
   padding: clamp(2.5rem, 5vw, 4rem) 0;
-  background-image: url("../../images/1905x1290.webp");
+  background-image: url("../../images/1905x1450.webp");
   background-size: contain;
   position: relative;
 }
@@ -634,8 +634,8 @@
 }
 
 .frameLG {
-  width: 260px;
-  height: 260px;
+  width: 360px;
+  height: 360px;
 }
 
 .frameMD {
@@ -665,8 +665,8 @@
 }
 
 .frameLG .framePhoto {
-  width: 185px;
-  height: 185px;
+  width: 270px;
+  height: 270px;
 }
 
 .frameMD .framePhoto {
