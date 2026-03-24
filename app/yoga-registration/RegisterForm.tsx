@@ -68,6 +68,35 @@ export default function RegisterForm() {
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const searchParams = useSearchParams();
   const batchId = searchParams.get("batchId");
+  
+  type CourseType = "100hr" | "200hr" | "300hr";
+const rawType = searchParams.get("type");
+const type = rawType as CourseType;
+
+  const API_MAP: Record<
+  CourseType,
+  {
+    getBatch: string;
+    bookSeat: string;
+    courseName: string;
+  }
+> = {
+  "100hr": {
+    getBatch: "/100hr-seats/get-batch",
+    bookSeat: "/100hr-seats/book-seat",
+    courseName: "100 Hour Yoga TTC",
+  },
+  "200hr": {
+    getBatch: "/200hr-seats/getBatch",
+    bookSeat: "/200hr-seats/bookSeat",
+    courseName: "200 Hour Yoga TTC",
+  },
+  "300hr": {
+    getBatch: "/300hr-seats/getBatch",
+    bookSeat: "/300hr-seats/bookSeat",
+    courseName: "300 Hour Yoga TTC",
+  },
+};
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -77,59 +106,62 @@ export default function RegisterForm() {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-const handleSubmit = async () => {
-  setIsSubmitting(true);
+  const handleSubmit = async () => {
+    setIsSubmitting(true);
 
-  try {
-    // ✅ SAVE DATA
-    await api.post("/registration/create", {
-      ...formData,
-      gender,
-      batchId,
-    });
+    try {
+      // ✅ SAVE DATA
+      await api.post("/registration/create", {
+        ...formData,
+        gender,
+        batchId,
+        type,
+      });
 
-    // ✅ EMAIL
-    const res = await api.post("/email/send-email", {
-      ...formData,
-      gender,
-      batchId,
-    });
+      // ✅ EMAIL
+      const res = await api.post("/email/send-email", {
+        ...formData,
+        gender,
+        batchId,
+        type,
+      });
 
-    if (res?.data?.success) {
-      if (batchId) {
-        await api.post("/100hr-seats/book-seat", { batchId });
+      if (res?.data?.success) {
+        if (batchId && type && API_MAP[type]) {
+          await api.patch(`${API_MAP[type].bookSeat}/${batchId}`);
+        }
+
+        setSubmitSuccess(true);
+
+        setTimeout(() => {
+          setSubmitSuccess(false);
+          setGender("Male");
+          setFormData(INITIAL_FORM);
+        }, 2800);
+      } else {
+        alert("Email failed ❌");
       }
-
-      setSubmitSuccess(true);
-
-      setTimeout(() => {
-        setSubmitSuccess(false);
-        setGender("Male");
-        setFormData(INITIAL_FORM);
-      }, 2800);
-    } else {
-      alert("Email failed ❌");
+    } catch (err) {
+      console.log("ERROR:", err);
+      alert("Server error ❌");
+    } finally {
+      setIsSubmitting(false);
     }
-  } catch (err) {
-    console.log("ERROR:", err);
-    alert("Server error ❌");
-  } finally {
-    setIsSubmitting(false);
-  }
-};
+  };
   useEffect(() => {
-    if (!batchId) return;
+    if (!batchId || !type || !API_MAP[type]) return;
 
     const fetchBatch = async () => {
       try {
-        const res = await api.get(`/100hr-seats/get-batch/${batchId}`);
+        const res = await api.get(`${API_MAP[type].getBatch}/${batchId}`);
+
         const batch = res.data.data;
 
         setFormData((prev) => ({
           ...prev,
           startDate: batch.startDate?.split("T")[0],
           endDate: batch.endDate?.split("T")[0],
-          course: "100 Hour Yoga TTC", // dynamic bhi kar sakte ho later
+          course: API_MAP[type].courseName,
         }));
       } catch (err) {
         console.log("Batch fetch error", err);
@@ -137,7 +169,7 @@ const handleSubmit = async () => {
     };
 
     fetchBatch();
-  }, [batchId]);
+  }, [batchId, type]);
   return (
     <>
       <div className={styles.page}>

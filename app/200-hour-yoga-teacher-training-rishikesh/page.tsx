@@ -482,11 +482,15 @@ export default function TwoHundredHourYoga() {
                           <SeatsCell booked={batch.bookedSeats} total={batch.totalSeats} />
                         </td>
                         <td>
-                          {isFull ? (
-                            <span className={styles.applyDisabled}>Apply Now</span>
-                          ) : (
-                            <a href="#" className={styles.applyLink}>Apply Now</a>
-                          )}
+                          {isFull
+                            ? <span className={styles.applyDisabled}>Apply Now</span>
+                            : <a
+  href={`/yoga-registration?batchId=${batch._id}&type=200hr`}
+  className={styles.applyLink}
+>
+  Apply Now
+</a>
+                          }
                         </td>
                       </tr>
                     );
