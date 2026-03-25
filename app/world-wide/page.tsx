@@ -3,7 +3,8 @@ import React, { useEffect } from "react";
 import Link from "next/link";
 import styles from "@/assets/style/world-wide/Worldwidepage.module.css";
 import HowToReach from "@/components/home/Howtoreach";
-
+import heroImg from "@/assets/images/18.webp";
+import Image from "next/image";
 /* ─── All worldwide locations ─── */
 const locations = [
   {
@@ -187,57 +188,15 @@ export default function WorldwidePage() {
 
       {/* ════════ HERO SECTION ════════ */}
       <section className={styles.heroSection}>
-        <div className={styles.heroBg}>
-          <img
-            src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=1800&q=85"
-            alt="Yoga worldwide"
-            className={styles.heroBgImg}
-          />
-          <div className={styles.heroVeil} />
-        </div>
-        <div className="container">
-          <div className={`row justify-content-center ${styles.heroRow}`}>
-            <div className="col-12 col-lg-9">
-              <div className={styles.heroContent}>
-                <MandalaRing size={320} opacity={0.12} />
-                <div className={styles.heroText}>
-                  <span className={styles.superLabel}>Global Community</span>
-                  <h2 className={styles.heroTitle}>
-                    Yoga Teacher Training
-                    <br />
-                    <em>Worldwide</em>
-                    <br />
-                    AYM YOGA SCHOOL
-                  </h2>
-                  <OmBar dark />
-                  <p className={styles.heroPara}>
-                    Yoga is a way of living that goes beyond stretching. It
-                    offers complete benefits to both mind and body as well as
-                    soul. You not only learn yoga but also get the chance to
-                    deliver this ancient wisdom to others. Can't wait to gain
-                    all the skills and spread positivity around you? Why wait?
-                    Pamper yourself in luxury at our{" "}
-                    <strong>
-                      yoga teacher training course in Rishikesh, India
-                    </strong>
-                    , and our professionals will guide you. So join us and treat
-                    yourself with the love you deserve.
-                  </p>
-                  <div className={styles.heroBtns}>
-                    {/* Same-page anchor — plain <a> is correct here */}
-                    <a href="#locations" className={styles.btnPrimary}>
-                      Explore Locations
-                    </a>
-                    <a href="#curriculum" className={styles.btnOutline}>
-                      View Curriculum
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+              <Image
+                src={heroImg}
+                alt="Yoga Students Group"
+                width={1180}
+                height={540}
+                className={styles.heroImage}
+                priority
+              />
+            </section>
 
       {/* ════════ STATS BAR ════════ */}
       <div className={styles.statsBar}>
