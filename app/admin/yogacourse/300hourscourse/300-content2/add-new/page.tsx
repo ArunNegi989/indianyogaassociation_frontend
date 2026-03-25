@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useCallback, useEffect } from "react";
+import { useState, useRef, useCallback, useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -9,6 +9,8 @@ import styles from "@/assets/style/Admin/yogacourse/200hourscourse/Yoga200hr.mod
 import api from "@/lib/api";
 
 const JoditEditor = dynamic(() => import("jodit-react"), { ssr: false });
+
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
 const joditConfig = {
   readonly: false,
@@ -73,7 +75,11 @@ function F({ label, hint, req, children }: { label: string; hint?: string; req?:
   );
 }
 
-/* ── Lazy Jodit (ref-based, uncontrolled) ── */
+/* ────────────────────────────────────────
+   LazyJodit — ref-based, uncontrolled
+   FIX: initialValueRef prevents Jodit from
+   resetting when parent re-renders.
+──────────────────────────────────────── */
 function LazyJodit({
   label, hint, cr, err, clr, ph = "Start typing…", h = 200, required = false,
 }: {
@@ -82,6 +88,9 @@ function LazyJodit({
 }) {
   const [visible, setVisible] = useState(false);
   const wrapRef = useRef<HTMLDivElement>(null);
+  // KEY FIX: capture initial value once — never re-pass updated value to Jodit
+  const initialValueRef = useRef(cr.current);
+
   useEffect(() => {
     const el = wrapRef.current;
     if (!el) return;
@@ -92,21 +101,32 @@ function LazyJodit({
     obs.observe(el);
     return () => obs.disconnect();
   }, []);
-  const handleChange = useCallback((v: string) => {
-    cr.current = v;
-    if (clr && v.replace(/<[^>]*>/g, "").trim() !== "") clr();
-  }, [cr, clr]);
+
+  const handleChange = useCallback(
+    (v: string) => {
+      cr.current = v;
+      if (clr && v.replace(/<[^>]*>/g, "").trim() !== "") clr();
+    },
+    [cr, clr]
+  );
+
+  // KEY FIX: memoize config so Jodit never remounts due to config object change
+  const config = useMemo(() => ({ ...joditConfig, placeholder: ph, height: h }), [ph, h]);
+
   return (
     <div className={styles.fieldGroup}>
       <label className={styles.label}>
         <span className={styles.labelIcon}>✦</span>
-        {label}
-        {required && <span className={styles.required}>*</span>}
+        {label}{required && <span className={styles.required}>*</span>}
       </label>
       {hint && <p className={styles.fieldHint}>{hint}</p>}
       <div ref={wrapRef} className={`${styles.joditWrap} ${err ? styles.joditError : ""}`} style={{ minHeight: h }}>
         {visible ? (
-          <JoditEditor config={{ ...joditConfig, placeholder: ph, height: h }} onChange={handleChange} />
+          <JoditEditor
+            value={initialValueRef.current}
+            config={config}
+            onChange={handleChange}
+          />
         ) : (
           <div style={{ height: h, display: "flex", alignItems: "center", justifyContent: "center", background: "#faf8f4", border: "1px solid #e8d5b5", borderRadius: 8, color: "#bbb", fontSize: 13 }}>
             ✦ Scroll to load editor…
@@ -118,26 +138,31 @@ function LazyJodit({
   );
 }
 
-/*
-  ── InlineJodit ──────────────────────────────────────────────────────────
-  ROOT CAUSE OF PAGE FREEZE:
-  Passing `value` prop to JoditEditor causes it to completely re-mount
-  (destroy + recreate the DOM iframe) on every single keystroke, which
-  freezes the page. The fix: make it fully UNCONTROLLED — never pass
-  `value`. We only use `onChange` and store the content in the parent
-  state via onUpdate. The editor itself holds its own internal state.
-  ─────────────────────────────────────────────────────────────────────── */
+/* ────────────────────────────────────────
+   InlineJodit — fully uncontrolled
+   FIX: initialValueRef.current is passed as
+   `value` so Jodit NEVER gets a new value
+   prop after mount → no reset, no focus loss.
+──────────────────────────────────────── */
 const InlineJodit = ({
   onChange,
+  initialValue = "",
   ph = "Start typing…",
   h = 180,
 }: {
   onChange: (v: string) => void;
+  initialValue?: string;
   ph?: string;
   h?: number;
 }) => {
   const [visible, setVisible] = useState(false);
   const wrapRef = useRef<HTMLDivElement>(null);
+  const onChangeRef = useRef(onChange);
+  // KEY FIX: capture initial value in ref — never changes after mount
+  const initialValueRef = useRef(initialValue);
+
+  // Always keep the ref pointing at latest onChange
+  useEffect(() => { onChangeRef.current = onChange; });
 
   useEffect(() => {
     const el = wrapRef.current;
@@ -150,17 +175,20 @@ const InlineJodit = ({
     return () => obs.disconnect();
   }, []);
 
-  // Stable onChange so Jodit does not re-mount when parent re-renders
+  // Stable callback — reads latest onChange via ref
   const stableOnChange = useCallback((v: string) => {
-    onChange(v);
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+    onChangeRef.current(v);
+  }, []);
+
+  // KEY FIX: memoize config to prevent Jodit from remounting
+  const config = useMemo(() => ({ ...joditConfig, placeholder: ph, height: h }), [ph, h]);
 
   return (
     <div ref={wrapRef} style={{ minHeight: h, border: "1px solid #e8d5b5", borderRadius: 8 }}>
       {visible ? (
-        // ✅ NO `value` prop — uncontrolled, editor owns its own state
         <JoditEditor
-          config={{ ...joditConfig, placeholder: ph, height: h }}
+          value={initialValueRef.current}
+          config={config}
           onChange={stableOnChange}
         />
       ) : (
@@ -198,8 +226,11 @@ function DynamicParaList({
             )}
           </div>
           <div className={styles.nestedCardBody}>
-            {/* ✅ No value prop passed — uncontrolled editor, no freeze */}
-            <InlineJodit onChange={(v) => onUpdate(item.id, v)} ph={ph} />
+            <InlineJodit
+              initialValue={item.content}
+              onChange={(v) => onUpdate(item.id, v)}
+              ph={ph}
+            />
           </div>
         </div>
       ))}
@@ -231,7 +262,12 @@ function StrList({
           <div key={i} className={styles.listItemRow}>
             <span className={styles.listNum}>{i + 1}</span>
             <div className={`${styles.inputWrap} ${styles.listInput}`}>
-              <input className={`${styles.input} ${styles.inputNoCount}`} value={val} placeholder={ph || "Enter item…"} onChange={(e) => onUpdate(i, e.target.value)} />
+              <input
+                className={`${styles.input} ${styles.inputNoCount}`}
+                value={val}
+                placeholder={ph || "Enter item…"}
+                onChange={(e) => onUpdate(i, e.target.value)}
+              />
             </div>
             <button type="button" className={styles.removeItemBtn} onClick={() => onRemove(i)} disabled={items.length <= 1}>✕</button>
           </div>
@@ -246,15 +282,16 @@ function StrList({
 
 /* ── Single image ── */
 function SingleImg({
-  preview, badge, hint, error, onSelect, onRemove,
+  preview, badge, hint, error, onSelect, onRemove, existingUrl,
 }: {
   preview: string; badge?: string; hint: string; error?: string;
-  onSelect: (f: File, p: string) => void; onRemove: () => void;
+  onSelect: (f: File, p: string) => void; onRemove: () => void; existingUrl?: string;
 }) {
+  const displayPreview = preview || (existingUrl ? `${BASE_URL}${existingUrl}` : "");
   return (
     <div>
-      <div className={`${styles.imageUploadZone} ${preview ? styles.hasImage : ""} ${error ? styles.inputError : ""}`}>
-        {!preview ? (
+      <div className={`${styles.imageUploadZone} ${displayPreview ? styles.hasImage : ""} ${error ? styles.inputError : ""}`}>
+        {!displayPreview ? (
           <>
             <input type="file" accept="image/*" onChange={(e) => { const f = e.target.files?.[0]; if (f) { onSelect(f, URL.createObjectURL(f)); e.target.value = ""; } }} />
             <div className={styles.imageUploadPlaceholder}>
@@ -266,7 +303,12 @@ function SingleImg({
         ) : (
           <div className={styles.imagePreviewWrap}>
             {badge && <span className={styles.imageBadge}>{badge}</span>}
-            <img src={preview} alt="" className={styles.imagePreview} />
+            <img src={displayPreview} alt="" className={styles.imagePreview} />
+            {existingUrl && !preview && (
+              <span style={{ position: "absolute", bottom: 4, left: 4, background: "rgba(0,0,0,0.5)", color: "#fff", fontSize: "0.7rem", padding: "2px 6px", borderRadius: 4, fontFamily: "Cormorant Garamond,serif" }}>
+                Current
+              </span>
+            )}
             <div className={styles.imagePreviewOverlay}>
               <span className={styles.imagePreviewAction}>✎ Change</span>
               <input type="file" accept="image/*" className={styles.imagePreviewOverlayInput} onChange={(e) => { const f = e.target.files?.[0]; if (f) { onSelect(f, URL.createObjectURL(f)); e.target.value = ""; } }} />
@@ -281,7 +323,8 @@ function SingleImg({
 }
 
 /* ── Multi-image carousel uploader ── */
-type ImgItem = { id: string; file: File | null; preview: string };
+type ImgItem = { id: string; file: File | null; preview: string; existingUrl?: string };
+
 function MultiImg({ items, onAdd, onRemove, hint, label }: {
   items: ImgItem[]; onAdd: (f: File, p: string) => void;
   onRemove: (id: string) => void; hint: string; label: string;
@@ -289,12 +332,20 @@ function MultiImg({ items, onAdd, onRemove, hint, label }: {
   return (
     <div>
       <div style={{ display: "flex", flexWrap: "wrap", gap: "0.6rem", marginBottom: "0.8rem" }}>
-        {items.map((img) => (
-          <div key={img.id} style={{ position: "relative", width: 130, height: 95, borderRadius: 8, overflow: "hidden", border: "1px solid #e8d5b5" }}>
-            <img src={img.preview} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-            <button type="button" className={styles.removeImageBtn} style={{ top: 4, right: 4 }} onClick={() => onRemove(img.id)}>✕</button>
-          </div>
-        ))}
+        {items.map((img) => {
+          const src = img.preview || (img.existingUrl ? `${BASE_URL}${img.existingUrl}` : "");
+          return (
+            <div key={img.id} style={{ position: "relative", width: 130, height: 95, borderRadius: 8, overflow: "hidden", border: "1px solid #e8d5b5" }}>
+              {src && <img src={src} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />}
+              {img.existingUrl && !img.file && (
+                <span style={{ position: "absolute", bottom: 0, left: 0, right: 0, background: "rgba(0,0,0,0.45)", color: "#fff", fontSize: "0.65rem", textAlign: "center", padding: "2px 0", fontFamily: "Cormorant Garamond,serif" }}>
+                  Existing
+                </span>
+              )}
+              <button type="button" className={styles.removeImageBtn} style={{ top: 4, right: 4 }} onClick={() => onRemove(img.id)}>✕</button>
+            </div>
+          );
+        })}
         <label style={{ width: 130, height: 95, borderRadius: 8, border: "2px dashed rgba(224,123,0,0.4)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", cursor: "pointer", background: "rgba(255,250,242,0.6)", gap: "0.3rem" }}>
           <span style={{ fontSize: "1.4rem", color: "rgba(224,123,0,0.5)" }}>＋</span>
           <span style={{ fontFamily: "Cormorant Garamond,serif", fontSize: "0.72rem", color: "#a07840", fontStyle: "italic" }}>{hint}</span>
@@ -308,16 +359,14 @@ function MultiImg({ items, onAdd, onRemove, hint, label }: {
   );
 }
 
-/* ── Star Rating Selector ── */
+/* ── Star Rating ── */
 function StarRating({ value, onChange }: { value: number; onChange: (v: number) => void }) {
   const [hovered, setHovered] = useState(0);
   return (
     <div style={{ display: "flex", gap: "0.25rem", alignItems: "center" }}>
       {[1, 2, 3, 4, 5].map((star) => (
         <button key={star} type="button" onMouseEnter={() => setHovered(star)} onMouseLeave={() => setHovered(0)} onClick={() => onChange(star)}
-          style={{ background: "none", border: "none", cursor: "pointer", padding: "0 2px", fontSize: "1.6rem", lineHeight: 1, color: star <= (hovered || value) ? "#e8a800" : "#d9cfc0", transition: "color 0.15s" }}>
-          ★
-        </button>
+          style={{ background: "none", border: "none", cursor: "pointer", padding: "0 2px", fontSize: "1.6rem", lineHeight: 1, color: star <= (hovered || value) ? "#e8a800" : "#d9cfc0", transition: "color 0.15s" }}>★</button>
       ))}
       <span style={{ marginLeft: "0.4rem", fontFamily: "Cormorant Garamond,serif", fontSize: "0.9rem", color: "#7a5c3a" }}>
         {value > 0 ? `${value} / 5` : "Not rated"}
@@ -343,8 +392,7 @@ interface FormData {
   markPracticalLabel: string; markPracticalText: string;
   careerH3: string;
   feeCard1Title: string; feeCard2Title: string;
-  faqH2: string;
-  accomH3: string; foodH3: string;
+  faqH2: string; accomH3: string; foodH3: string;
   luxuryH2: string; featuresH2: string; scheduleH3: string;
   learningH2: string;
   eligibilityH2: string; eligibilityTag: string;
@@ -355,7 +403,7 @@ interface FormData {
 }
 
 /* ════════════════════════════════════════
-   MAIN COMPONENT
+   MAIN COMPONENT — ADD
 ════════════════════════════════════════ */
 export default function Add300hrContent2() {
   const router = useRouter();
@@ -403,10 +451,8 @@ export default function Add300hrContent2() {
     set(arr.map((x: any) => (x.id === id ? { ...x, [key]: val } : x)) as T[]);
   }, []);
 
-  const updYt = (id: string, key: keyof Omit<YouTubeItem, "file">, val: any) =>
+  const updYt = (id: string, key: keyof YouTubeItem, val: any) =>
     setYoutubeVideos((p) => p.map((x) => (x.id === id ? { ...x, [key]: val } : x)));
-  const setYtSourceType = (id: string, val: "url" | "file") =>
-    setYoutubeVideos((p) => p.map((x) => (x.id === id ? { ...x, sourceType: val } : x)));
   const setYtFile = (id: string, f: File) =>
     setYoutubeVideos((p) => p.map((x) => x.id === id ? { ...x, file: f, filePreview: URL.createObjectURL(f) } : x));
   const removeYtFile = (id: string) =>
@@ -480,7 +526,6 @@ export default function Add300hrContent2() {
       scheduleImages.forEach((img) => { if (img.file) fd.append("scheduleImages", img.file); });
 
       await api.post("/yoga-300hr/content2/create", fd, { headers: { "Content-Type": "multipart/form-data" } });
-
       setSubmitted(true);
       setTimeout(() => router.push("/admin/yogacourse/300hourscourse/300-content2"), 1500);
     } catch (e: any) {
@@ -523,7 +568,7 @@ export default function Add300hrContent2() {
 
       <div className={styles.formCard}>
 
-        {/* ════ 1. EVOLUTION & CERTIFICATION ════ */}
+        {/* ════ 1. EVOLUTION ════ */}
         <Sec title="Evolution and Certification">
           <F label="Section H2 Heading">
             <div className={styles.inputWrap}>
@@ -540,29 +585,28 @@ export default function Add300hrContent2() {
               ph="The primary purpose of an examination is to prepare students…"
             />
           </F>
-
           <div style={{ marginTop: "1.5rem", padding: "1.2rem", background: "#faf8f4", borderRadius: 10, border: "1px solid #e8d5b5" }}>
             <p style={{ fontFamily: "Cormorant Garamond,serif", fontWeight: 600, color: "#5a3a1a", fontSize: "0.95rem", marginBottom: "1rem" }}>✦ Mark Distribution Block</p>
             <F label="Mark Distribution H3 Label">
               <div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("markDistH3")} /></div>
             </F>
-            <F label="Mark Distribution Sub-text / Intro Line" hint="Short description shown below the H3 (optional)">
+            <F label="Mark Distribution Sub-text" hint="Short description below H3 (optional)">
               <div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("markDistSubText")} placeholder="e.g. The examination is divided as follows…" /></div>
             </F>
             <div className={styles.grid2} style={{ marginTop: "0.8rem" }}>
               <F label="Total Marks — Label"><div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("markTotalLabel")} /></div></F>
-              <F label="Total Marks — Text / Value"><div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("markTotalText")} placeholder="e.g. 200 Marks" /></div></F>
+              <F label="Total Marks — Value"><div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("markTotalText")} placeholder="e.g. 200 Marks" /></div></F>
             </div>
             <div className={styles.grid2}>
-              <F label="Theory Examination — Label"><div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("markTheoryLabel")} /></div></F>
-              <F label="Theory Examination — Text / Value"><div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("markTheoryText")} placeholder="e.g. 60 Marks" /></div></F>
+              <F label="Theory — Label"><div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("markTheoryLabel")} /></div></F>
+              <F label="Theory — Value"><div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("markTheoryText")} placeholder="e.g. 60 Marks" /></div></F>
             </div>
             <div className={styles.grid2}>
-              <F label="Practical Examination — Label"><div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("markPracticalLabel")} /></div></F>
-              <F label="Practical Examination — Text / Value"><div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("markPracticalText")} placeholder="e.g. 140 Marks" /></div></F>
+              <F label="Practical — Label"><div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("markPracticalLabel")} /></div></F>
+              <F label="Practical — Value"><div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("markPracticalText")} placeholder="e.g. 140 Marks" /></div></F>
             </div>
             <LazyJodit
-              label="Practical Marks — Detailed Distribution Paragraph"
+              label="Practical Marks — Detailed Distribution"
               hint="Full breakdown of practical marks"
               cr={markPracticalDetailRef}
               ph="It's further marks distribution is as: 1. Demonstration Skills…"
@@ -578,7 +622,8 @@ export default function Add300hrContent2() {
             <div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("careerH3")} /></div>
           </F>
           <F label="Career Items">
-            <StrList items={careerItems} label="Career" ph="Yoga Instructor at the health clubs"
+            <StrList
+              items={careerItems} label="Career" ph="Yoga Instructor at the health clubs"
               onAdd={() => setCareerItems((p) => [...p, ""])}
               onRemove={(i) => setCareerItems((p) => p.filter((_, x) => x !== i))}
               onUpdate={(i, v) => { const a = [...careerItems]; a[i] = v; setCareerItems(a); }}
@@ -629,35 +674,49 @@ export default function Add300hrContent2() {
               <div key={faq.id} className={styles.nestedCard} style={{ marginBottom: "0.8rem" }}>
                 <div className={styles.nestedCardHeader}>
                   <span className={styles.nestedCardNum}>FAQ {i + 1}</span>
-                  {faqItems.length > 1 && <button type="button" className={styles.removeNestedBtn} onClick={() => setFaqItems((p) => p.filter((x) => x.id !== faq.id))}>✕ Remove</button>}
+                  {faqItems.length > 1 && (
+                    <button type="button" className={styles.removeNestedBtn} onClick={() => setFaqItems((p) => p.filter((x) => x.id !== faq.id))}>✕ Remove</button>
+                  )}
                 </div>
                 <div className={styles.nestedCardBody}>
                   <F label="Question">
-                    <div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} value={faq.question} placeholder="Why 300 hour yoga TTC in Rishikesh at AYM?" onChange={(e) => updNested(faqItems, setFaqItems, faq.id, "question", e.target.value)} /></div>
+                    <div className={styles.inputWrap}>
+                      <input className={`${styles.input} ${styles.inputNoCount}`} value={faq.question} placeholder="Why 300 hour yoga TTC in Rishikesh at AYM?"
+                        onChange={(e) => updNested(faqItems, setFaqItems, faq.id, "question", e.target.value)} />
+                    </div>
                   </F>
                   <F label="Answer">
-                    <div className={styles.inputWrap}><textarea className={`${styles.input} ${styles.textarea} ${styles.inputNoCount}`} rows={3} value={faq.answer} placeholder="AYM Yoga School offers…" onChange={(e) => updNested(faqItems, setFaqItems, faq.id, "answer", e.target.value)} /></div>
+                    <div className={styles.inputWrap}>
+                      <textarea className={`${styles.input} ${styles.textarea} ${styles.inputNoCount}`} rows={3} value={faq.answer} placeholder="AYM Yoga School offers…"
+                        onChange={(e) => updNested(faqItems, setFaqItems, faq.id, "answer", e.target.value)} />
+                    </div>
                   </F>
                 </div>
               </div>
             ))}
-            <button type="button" className={styles.addItemBtn} onClick={() => setFaqItems((p) => [...p, { id: `faq-${Date.now()}`, question: "", answer: "" }])}>＋ Add FAQ Item</button>
+            <button type="button" className={styles.addItemBtn} onClick={() => setFaqItems((p) => [...p, { id: `faq-${Date.now()}`, question: "", answer: "" }])}>
+              ＋ Add FAQ Item
+            </button>
           </F>
         </Sec>
         <D />
 
-        {/* ════ 4. ACCOMMODATION CAROUSEL ════ */}
+        {/* ════ 4. ACCOMMODATION ════ */}
         <Sec title="Accommodation Carousel Images" badge={`${accomImages.length} images`}>
-          <F label="Section H3"><div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("accomH3")} /></div></F>
+          <F label="Section H3">
+            <div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("accomH3")} /></div>
+          </F>
           <F label="Accommodation Images" hint="JPG/PNG/WEBP · Multiple images supported">
             <MultiImg items={accomImages} onAdd={addImg(setAccomImages)} onRemove={removeImg(setAccomImages)} hint="Add image" label="accommodation images" />
           </F>
         </Sec>
         <D />
 
-        {/* ════ 5. FOOD CAROUSEL ════ */}
+        {/* ════ 5. FOOD ════ */}
         <Sec title="Food Carousel Images" badge={`${foodImages.length} images`}>
-          <F label="Section H3"><div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("foodH3")} /></div></F>
+          <F label="Section H3">
+            <div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("foodH3")} /></div>
+          </F>
           <F label="Food Images" hint="JPG/PNG/WEBP · Multiple images supported">
             <MultiImg items={foodImages} onAdd={addImg(setFoodImages)} onRemove={removeImg(setFoodImages)} hint="Add image" label="food images" />
           </F>
@@ -666,7 +725,9 @@ export default function Add300hrContent2() {
 
         {/* ════ 6. LUXURY ROOM ════ */}
         <Sec title="Luxury Room & Features">
-          <F label="Section H2"><div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("luxuryH2")} /></div></F>
+          <F label="Section H2">
+            <div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("luxuryH2")} /></div>
+          </F>
           <F label="Luxury Features List">
             <StrList items={luxuryFeatures} label="Feature" ph="Swimming pool"
               onAdd={() => setLuxuryFeatures((p) => [...p, ""])}
@@ -678,7 +739,8 @@ export default function Add300hrContent2() {
             <MultiImg items={luxuryImages} onAdd={addImg(setLuxuryImages)} onRemove={removeImg(setLuxuryImages)} hint="Add image" label="luxury images" />
           </F>
           <F label="Yoga Garden / Full-Width Banner Image" hint="Wide banner image below luxury features">
-            <SingleImg preview={yogaGardenPrev} badge="Garden" hint="Wide banner image"
+            <SingleImg
+              preview={yogaGardenPrev} badge="Garden" hint="Wide banner image"
               onSelect={(f, p) => { setYogaGardenFile(f); setYogaGardenPrev(p); }}
               onRemove={() => { setYogaGardenFile(null); setYogaGardenPrev(""); }}
             />
@@ -686,9 +748,11 @@ export default function Add300hrContent2() {
         </Sec>
         <D />
 
-        {/* ════ 7. FEATURES & DAILY SCHEDULE ════ */}
+        {/* ════ 7. FEATURES & SCHEDULE ════ */}
         <Sec title="Features & Daily Schedule">
-          <F label="Features Section H2"><div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("featuresH2")} /></div></F>
+          <F label="Features Section H2">
+            <div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("featuresH2")} /></div>
+          </F>
           <F label="Features List">
             <StrList items={featuresList} label="Feature" ph="Students with basic, intermediate, or advanced knowledge…"
               onAdd={() => setFeaturesList((p) => [...p, ""])}
@@ -696,23 +760,31 @@ export default function Add300hrContent2() {
               onUpdate={(i, v) => { const a = [...featuresList]; a[i] = v; setFeaturesList(a); }}
             />
           </F>
-          <F label="Schedule H3"><div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("scheduleH3")} /></div></F>
+          <F label="Schedule H3">
+            <div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("scheduleH3")} /></div>
+          </F>
           <F label="Daily Schedule Items" hint="Time → Activity pairs.">
             {scheduleItems.map((s, i) => (
               <div key={s.id} className={styles.listItemRow} style={{ marginBottom: "0.5rem", gap: "0.5rem" }}>
                 <span className={styles.listNum}>{i + 1}</span>
                 <div className={styles.inputWrap} style={{ width: 120, flexShrink: 0 }}>
-                  <input className={`${styles.input} ${styles.inputNoCount}`} value={s.time} placeholder="06:30 AM" onChange={(e) => updNested(scheduleItems, setScheduleItems, s.id, "time", e.target.value)} />
+                  <input className={`${styles.input} ${styles.inputNoCount}`} value={s.time} placeholder="06:30 AM"
+                    onChange={(e) => updNested(scheduleItems, setScheduleItems, s.id, "time", e.target.value)} />
                 </div>
                 <div className={`${styles.inputWrap} ${styles.listInput}`}>
-                  <input className={`${styles.input} ${styles.inputNoCount}`} value={s.activity} placeholder="Pranayama And Meditation" onChange={(e) => updNested(scheduleItems, setScheduleItems, s.id, "activity", e.target.value)} />
+                  <input className={`${styles.input} ${styles.inputNoCount}`} value={s.activity} placeholder="Pranayama And Meditation"
+                    onChange={(e) => updNested(scheduleItems, setScheduleItems, s.id, "activity", e.target.value)} />
                 </div>
-                <button type="button" className={styles.removeItemBtn} onClick={() => setScheduleItems((p) => p.filter((x) => x.id !== s.id))} disabled={scheduleItems.length <= 1}>✕</button>
+                <button type="button" className={styles.removeItemBtn}
+                  onClick={() => setScheduleItems((p) => p.filter((x) => x.id !== s.id))} disabled={scheduleItems.length <= 1}>✕</button>
               </div>
             ))}
-            <button type="button" className={styles.addItemBtn} onClick={() => setScheduleItems((p) => [...p, { id: `s-${Date.now()}`, time: "", activity: "" }])}>＋ Add Schedule Row</button>
+            <button type="button" className={styles.addItemBtn}
+              onClick={() => setScheduleItems((p) => [...p, { id: `s-${Date.now()}`, time: "", activity: "" }])}>
+              ＋ Add Schedule Row
+            </button>
           </F>
-          <F label="Schedule Side Images" hint="3 images shown beside the schedule table">
+          <F label="Schedule Side Images" hint="Images shown beside the schedule table">
             <MultiImg items={scheduleImages} onAdd={addImg(setScheduleImages)} onRemove={removeImg(setScheduleImages)} hint="Add image" label="schedule images" />
           </F>
         </Sec>
@@ -720,8 +792,10 @@ export default function Add300hrContent2() {
 
         {/* ════ 8. LEARNING OUTCOMES ════ */}
         <Sec title="Learning Outcomes">
-          <F label="Section H2"><div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("learningH2")} /></div></F>
-          <F label="Learning Outcome Items" hint="Each item is displayed as a separate point below the heading.">
+          <F label="Section H2">
+            <div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("learningH2")} /></div>
+          </F>
+          <F label="Learning Outcome Items" hint="Each item is displayed as a separate point.">
             <StrList items={learningItems} label="Outcome" ph="Upon completion, students will be awarded the prestigious 300-hour YTTC certification…"
               onAdd={() => setLearningItems((p) => [...p, ""])}
               onRemove={(i) => setLearningItems((p) => p.filter((_, x) => x !== i))}
@@ -733,8 +807,10 @@ export default function Add300hrContent2() {
 
         {/* ════ 9. ELIGIBILITY ════ */}
         <Sec title="Eligibility Section">
-          <F label="Section H2 Heading"><div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("eligibilityH2")} /></div></F>
-          <F label="Eligibility Tag" hint="Short tag label shown above the paragraph, e.g. 'Eligibility'">
+          <F label="Section H2 Heading">
+            <div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("eligibilityH2")} /></div>
+          </F>
+          <F label="Eligibility Tag" hint="Short tag label, e.g. 'Eligibility'">
             <div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("eligibilityTag")} placeholder="Eligibility" /></div>
           </F>
           <F label="Eligibility Paragraphs" hint="Add as many paragraphs as needed." req>
@@ -750,9 +826,11 @@ export default function Add300hrContent2() {
         </Sec>
         <D />
 
-        {/* ════ 10. EVALUATION & CERTIFICATION ════ */}
+        {/* ════ 10. EVALUATION ════ */}
         <Sec title="Evaluation and Certification">
-          <F label="Section H2"><div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("evaluationH2")} /></div></F>
+          <F label="Section H2">
+            <div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("evaluationH2")} /></div>
+          </F>
           <F label="Evaluation Paragraphs" hint="Add as many paragraphs as needed." req>
             <DynamicParaList
               items={evaluationParas}
@@ -768,8 +846,10 @@ export default function Add300hrContent2() {
 
         {/* ════ 11. YOGA ETHICS ════ */}
         <Sec title="Yoga Ethics — Code of Conduct">
-          <F label="Section H2"><div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("ethicsH2")} /></div></F>
-          <F label="Additional Ethics Introduction Paragraphs (optional)" hint="Any extra paragraphs before the guidelines list.">
+          <F label="Section H2">
+            <div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("ethicsH2")} /></div>
+          </F>
+          <F label="Ethics Introduction Paragraphs (optional)" hint="Any extra paragraphs before the guidelines list.">
             <DynamicParaList
               items={ethicsParas}
               onAdd={() => addPara(setEthicsParas)}
@@ -780,10 +860,14 @@ export default function Add300hrContent2() {
             />
           </F>
           <F label="Ethics Quote" hint="Displayed in styled quote block">
-            <div className={styles.inputWrap}><textarea className={`${styles.input} ${styles.textarea} ${styles.inputNoCount}`} rows={2} {...register("ethicsQuote")} /></div>
+            <div className={styles.inputWrap}>
+              <textarea className={`${styles.input} ${styles.textarea} ${styles.inputNoCount}`} rows={2} {...register("ethicsQuote")} />
+            </div>
           </F>
           <F label="Naturalistic Power of Yoga — Intro Paragraph" hint="The paragraph starting 'According to yoga gurus…'">
-            <div className={styles.inputWrap}><textarea className={`${styles.input} ${styles.textarea} ${styles.inputNoCount}`} rows={3} {...register("ethicsNaturalisticPara")} /></div>
+            <div className={styles.inputWrap}>
+              <textarea className={`${styles.input} ${styles.textarea} ${styles.inputNoCount}`} rows={3} {...register("ethicsNaturalisticPara")} />
+            </div>
           </F>
           <F label="Ethics Rules / Guidelines">
             <StrList items={ethicsRules} label="Rule" ph="Students need to be obedient in classes…"
@@ -793,7 +877,8 @@ export default function Add300hrContent2() {
             />
           </F>
           <F label="Diploma / Graduation Image" hint="Full-width image below ethics rules">
-            <SingleImg preview={diplomaPrev} badge="Diploma" hint="Students with diploma image"
+            <SingleImg
+              preview={diplomaPrev} badge="Diploma" hint="Students with diploma image"
               onSelect={(f, p) => { setDiplomaFile(f); setDiplomaPrev(p); }}
               onRemove={() => { setDiplomaFile(null); setDiplomaPrev(""); }}
             />
@@ -803,7 +888,9 @@ export default function Add300hrContent2() {
 
         {/* ════ 12. MISCONCEPTIONS ════ */}
         <Sec title="Misconceptions Section">
-          <F label="Section H2"><div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("misconH2")} /></div></F>
+          <F label="Section H2">
+            <div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("misconH2")} /></div>
+          </F>
           <F label="Shake Your Myths — Intro Paragraphs (optional)" hint="Add introductory paragraphs before the misconception list.">
             <DynamicParaList
               items={misconParas}
@@ -824,53 +911,78 @@ export default function Add300hrContent2() {
         </Sec>
         <D />
 
-        {/* ════ 13. STUDENT REVIEWS & YOUTUBE VIDEOS ════ */}
+        {/* ════ 13. REVIEWS & YOUTUBE ════ */}
         <Sec title="Student Reviews & YouTube Videos" badge={`${reviews.length} reviews · ${youtubeVideos.length} videos`}>
           <div className={styles.grid2}>
-            <F label="Section H2"><div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("reviewsH2")} /></div></F>
-            <F label="Sub-text"><div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("reviewsSubtext")} /></div></F>
+            <F label="Section H2">
+              <div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("reviewsH2")} /></div>
+            </F>
+            <F label="Sub-text">
+              <div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("reviewsSubtext")} /></div>
+            </F>
           </div>
-
           <F label="Review Cards">
             {reviews.map((r, i) => (
               <div key={r.id} className={styles.nestedCard} style={{ marginBottom: "0.8rem" }}>
                 <div className={styles.nestedCardHeader}>
                   <span className={styles.nestedCardNum}>Review {i + 1}</span>
-                  {reviews.length > 1 && <button type="button" className={styles.removeNestedBtn} onClick={() => setReviews((p) => p.filter((x) => x.id !== r.id))}>✕ Remove</button>}
+                  {reviews.length > 1 && (
+                    <button type="button" className={styles.removeNestedBtn} onClick={() => setReviews((p) => p.filter((x) => x.id !== r.id))}>✕ Remove</button>
+                  )}
                 </div>
                 <div className={styles.nestedCardBody}>
                   <div className={styles.grid2}>
-                    <F label="Name"><div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} value={r.name} placeholder="Karina Miller" onChange={(e) => updNested(reviews, setReviews, r.id, "name", e.target.value)} /></div></F>
-                    <F label="Role"><div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} value={r.role} placeholder="Certified Yoga Teacher" onChange={(e) => updNested(reviews, setReviews, r.id, "role", e.target.value)} /></div></F>
+                    <F label="Name">
+                      <div className={styles.inputWrap}>
+                        <input className={`${styles.input} ${styles.inputNoCount}`} value={r.name} placeholder="Karina Miller"
+                          onChange={(e) => updNested(reviews, setReviews, r.id, "name", e.target.value)} />
+                      </div>
+                    </F>
+                    <F label="Role">
+                      <div className={styles.inputWrap}>
+                        <input className={`${styles.input} ${styles.inputNoCount}`} value={r.role} placeholder="Certified Yoga Teacher"
+                          onChange={(e) => updNested(reviews, setReviews, r.id, "role", e.target.value)} />
+                      </div>
+                    </F>
                   </div>
                   <F label="Star Rating">
                     <StarRating value={r.rating} onChange={(v) => updNested(reviews, setReviews, r.id, "rating", v)} />
                   </F>
                   <F label="Review Text">
-                    <div className={styles.inputWrap}><textarea className={`${styles.input} ${styles.textarea} ${styles.inputNoCount}`} rows={4} value={r.text} placeholder="My experience at AYM Yoga School was amazing!…" onChange={(e) => updNested(reviews, setReviews, r.id, "text", e.target.value)} /></div>
+                    <div className={styles.inputWrap}>
+                      <textarea className={`${styles.input} ${styles.textarea} ${styles.inputNoCount}`} rows={4} value={r.text} placeholder="My experience at AYM Yoga School was amazing!…"
+                        onChange={(e) => updNested(reviews, setReviews, r.id, "text", e.target.value)} />
+                    </div>
                   </F>
                 </div>
               </div>
             ))}
-            <button type="button" className={styles.addItemBtn} onClick={() => setReviews((p) => [...p, { id: `r-${Date.now()}`, name: "", role: "", rating: 5, text: "" }])}>＋ Add Review</button>
+            <button type="button" className={styles.addItemBtn}
+              onClick={() => setReviews((p) => [...p, { id: `r-${Date.now()}`, name: "", role: "", rating: 5, text: "" }])}>
+              ＋ Add Review
+            </button>
           </F>
-
-          <F label="YouTube Videos" hint="Each video supports either a YouTube URL link or a direct video file upload.">
+          <F label="YouTube Videos" hint="Each video supports YouTube URL or direct video file upload.">
             {youtubeVideos.map((yt, i) => (
               <div key={yt.id} className={styles.nestedCard} style={{ marginBottom: "0.8rem" }}>
                 <div className={styles.nestedCardHeader}>
                   <span className={styles.nestedCardNum}>Video {i + 1}</span>
-                  {youtubeVideos.length > 1 && <button type="button" className={styles.removeNestedBtn} onClick={() => setYoutubeVideos((p) => p.filter((x) => x.id !== yt.id))}>✕ Remove</button>}
+                  {youtubeVideos.length > 1 && (
+                    <button type="button" className={styles.removeNestedBtn} onClick={() => setYoutubeVideos((p) => p.filter((x) => x.id !== yt.id))}>✕ Remove</button>
+                  )}
                 </div>
                 <div className={styles.nestedCardBody}>
                   <F label="Video Title">
-                    <div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} value={yt.title} placeholder="300 Hour Yoga TTC Review by Alex…" onChange={(e) => updYt(yt.id, "title", e.target.value)} /></div>
+                    <div className={styles.inputWrap}>
+                      <input className={`${styles.input} ${styles.inputNoCount}`} value={yt.title} placeholder="300 Hour Yoga TTC Review by Alex…"
+                        onChange={(e) => updYt(yt.id, "title", e.target.value)} />
+                    </div>
                   </F>
                   <F label="Video Source Type">
                     <div style={{ display: "flex", gap: "1.2rem", alignItems: "center", flexWrap: "wrap" }}>
                       {(["url", "file"] as const).map((opt) => (
                         <label key={opt} style={{ display: "flex", alignItems: "center", gap: "0.4rem", cursor: "pointer", fontFamily: "Cormorant Garamond,serif", fontSize: "0.92rem", color: "#5a3a1a" }}>
-                          <input type="radio" name={`ytSourceType-${yt.id}`} checked={yt.sourceType === opt} onChange={() => setYtSourceType(yt.id, opt)} style={{ width: 14, height: 14 }} />
+                          <input type="radio" name={`ytSourceType-${yt.id}`} checked={yt.sourceType === opt} onChange={() => updYt(yt.id, "sourceType", opt)} style={{ width: 14, height: 14 }} />
                           {opt === "url" ? "🔗 YouTube URL (Video ID)" : "📁 Upload Video File"}
                         </label>
                       ))}
@@ -878,10 +990,14 @@ export default function Add300hrContent2() {
                   </F>
                   {yt.sourceType === "url" && (
                     <F label="YouTube Video ID" hint="e.g. pXU4_SXdNdY — the part after watch?v=">
-                      <div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} value={yt.videoId} placeholder="pXU4_SXdNdY" onChange={(e) => updYt(yt.id, "videoId", e.target.value)} /></div>
+                      <div className={styles.inputWrap}>
+                        <input className={`${styles.input} ${styles.inputNoCount}`} value={yt.videoId} placeholder="pXU4_SXdNdY"
+                          onChange={(e) => updYt(yt.id, "videoId", e.target.value)} />
+                      </div>
                       {yt.videoId && (
                         <div style={{ marginTop: "0.5rem" }}>
-                          <img src={`https://img.youtube.com/vi/${yt.videoId}/mqdefault.jpg`} alt="YouTube thumbnail" style={{ width: 200, borderRadius: 6, border: "1px solid #e8d5b5" }} />
+                          <img src={`https://img.youtube.com/vi/${yt.videoId}/mqdefault.jpg`} alt="YouTube thumbnail"
+                            style={{ width: 200, borderRadius: 6, border: "1px solid #e8d5b5" }} />
                         </div>
                       )}
                     </F>
@@ -901,7 +1017,10 @@ export default function Add300hrContent2() {
                               ✎ Change
                               <input type="file" accept="video/*" style={{ display: "none" }} onChange={(e) => { const f = e.target.files?.[0]; if (f) setYtFile(yt.id, f); e.target.value = ""; }} />
                             </label>
-                            <button type="button" onClick={() => removeYtFile(yt.id)} style={{ padding: "0.35rem 0.8rem", borderRadius: 6, border: "1px solid #e8a0a0", background: "#fff5f5", cursor: "pointer", color: "#c0392b", fontFamily: "Cormorant Garamond,serif", fontSize: "0.85rem" }}>✕ Remove</button>
+                            <button type="button" onClick={() => removeYtFile(yt.id)}
+                              style={{ padding: "0.35rem 0.8rem", borderRadius: 6, border: "1px solid #e8a0a0", background: "#fff5f5", cursor: "pointer", color: "#c0392b", fontFamily: "Cormorant Garamond,serif", fontSize: "0.85rem" }}>
+                              ✕ Remove
+                            </button>
                           </div>
                         </div>
                       )}
@@ -910,7 +1029,10 @@ export default function Add300hrContent2() {
                 </div>
               </div>
             ))}
-            <button type="button" className={styles.addItemBtn} onClick={() => setYoutubeVideos((p) => [...p, { id: `yt-${Date.now()}`, title: "", sourceType: "url", videoId: "", file: null, filePreview: "" }])}>＋ Add Video</button>
+            <button type="button" className={styles.addItemBtn}
+              onClick={() => setYoutubeVideos((p) => [...p, { id: `yt-${Date.now()}`, title: "", sourceType: "url", videoId: "", file: null, filePreview: "" }])}>
+              ＋ Add Video
+            </button>
           </F>
         </Sec>
         <D />
@@ -920,7 +1042,8 @@ export default function Add300hrContent2() {
           <div className={styles.grid2}>
             <F label="Slug" req>
               <div className={`${styles.inputWrap} ${errors.slug ? styles.inputError : ""}`}>
-                <input className={`${styles.input} ${styles.inputNoCount}`} placeholder="300-hour-yoga-ttc-content2" {...register("slug", { required: "Required" })} />
+                <input className={`${styles.input} ${styles.inputNoCount}`} placeholder="300-hour-yoga-ttc-content2"
+                  {...register("slug", { required: "Required" })} />
               </div>
               {errors.slug && <p className={styles.errorMsg}>⚠ {errors.slug.message}</p>}
             </F>
@@ -939,12 +1062,8 @@ export default function Add300hrContent2() {
 
       <div className={styles.formActions}>
         <Link href="/admin/yogacourse/300hourscourse/300-content2" className={styles.cancelBtn}>← Cancel</Link>
-        <button
-          type="button"
-          className={`${styles.submitBtn} ${isSubmitting ? styles.submitBtnLoading : ""}`}
-          onClick={handleSubmit(onSubmit)}
-          disabled={isSubmitting}
-        >
+        <button type="button" className={`${styles.submitBtn} ${isSubmitting ? styles.submitBtnLoading : ""}`}
+          onClick={handleSubmit(onSubmit)} disabled={isSubmitting}>
           {isSubmitting ? (<><span className={styles.spinner} /> Saving…</>) : (<><span>✦</span> Save Content 2</>)}
         </button>
       </div>

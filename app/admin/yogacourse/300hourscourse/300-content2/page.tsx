@@ -22,31 +22,52 @@ export default function List300hrContent2() {
 
   const fetchList = async () => {
     try {
-      setLoading(true); setError("");
-const res = await api.get("/yoga-300hr/content2");
-setRows(res.data ? [res.data] : []);
-    } catch { setError("Failed to load records."); }
-    finally { setLoading(false); }
+      setLoading(true);
+      setError("");
+      const res = await api.get("/yoga-300hr/content2");
+      // API returns { success, data } — wrap single record in array
+      const record = res.data?.data || res.data;
+      setRows(record && record._id ? [record] : []);
+    } catch (e: any) {
+      // 404 means no record yet — that's fine, not an error
+      if (e?.response?.status === 404) {
+        setRows([]);
+      } else {
+        setError("Failed to load records.");
+      }
+    } finally {
+      setLoading(false);
+    }
   };
+
   useEffect(() => { fetchList(); }, []);
 
-  const handleDelete = async (id: string) => {
-    if (!confirm("Delete this record?\nThis cannot be undone.")) return;
-    try {
-      setDeleting(id);
-      await api.delete(`/yoga-300hr/content2/delete`);
-setRows([]);
-      setRows(p => p.filter(r => r._id !== id));
-    } catch { alert("Delete failed. Please try again."); }
-    finally { setDeleting(null); }
-  };
+ const handleDelete = async (id: string) => {
+  try {
+    setDeleting(id);
+
+    await api.delete("/yoga-300hr/content2/delete");
+
+    setRows([]);
+
+    toast.success("Record deleted successfully");
+  } catch {
+    toast.error("Delete failed. Please try again.");
+  } finally {
+    setDeleting(null);
+  }
+};
 
   const toggleStatus = async (id: string, cur: "Active" | "Inactive") => {
     const next = cur === "Active" ? "Inactive" : "Active";
     try {
-      await api.put(`/yoga-300hr/content2/update`, { status: next });
-      setRows(p => p.map(r => r._id === id ? { ...r, status: next } : r));
-    } catch { alert("Status update failed."); }
+      // FIX: use PATCH /status — never PUT /update for status-only changes
+      // PUT /update runs parseData() which would wipe all array fields
+      await api.patch("/yoga-300hr/content2/status", { status: next });
+      setRows((p) => p.map((r) => (r._id === id ? { ...r, status: next } : r)));
+    } catch {
+      alert("Status update failed.");
+    }
   };
 
   return (
@@ -59,8 +80,10 @@ setRows([]);
           </p>
         </div>
         {rows.length > 0 ? (
-          <button className={styles.addNewBtn}
-            onClick={() => toast.error("Record already present. Please edit or delete first.")}>
+          <button
+            className={styles.addNewBtn}
+            onClick={() => toast.error("Record already present. Please edit or delete first.")}
+          >
             ＋ Add New
           </button>
         ) : (
@@ -114,24 +137,36 @@ setRows([]);
                   </td>
                   <td className={styles.td}><code className={styles.slugBadge}>{row.slug || "—"}</code></td>
                   <td className={styles.td}>
-                    <button type="button"
+                    <button
+                      type="button"
                       className={`${styles.statusBadge} ${row.status === "Active" ? styles.statusActive : styles.statusInactive}`}
-                      onClick={() => toggleStatus(row._id, row.status)} title="Click to toggle">
+                      onClick={() => toggleStatus(row._id, row.status)}
+                      title="Click to toggle"
+                    >
                       {row.status}
                     </button>
                   </td>
                   <td className={styles.td}>
                     <span className={styles.dateText}>
-                      {row.createdAt ? new Date(row.createdAt).toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" }) : "—"}
+                      {row.createdAt
+                        ? new Date(row.createdAt).toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" })
+                        : "—"}
                     </span>
                   </td>
                   <td className={styles.td}>
                     <div className={styles.actionBtns}>
-                      <Link className={styles.editBtn}
-                        href={`/admin/yogacourse/300hourscourse/300-content2/${row._id}`}>✎ Edit</Link>
-                      <button type="button" className={styles.deleteBtn}
+                      <Link
+                        className={styles.editBtn}
+                        href={`/admin/yogacourse/300hourscourse/300-content2/${row._id}`}
+                      >
+                        ✎ Edit
+                      </Link>
+                      <button
+                        type="button"
+                        className={styles.deleteBtn}
                         onClick={() => handleDelete(row._id)}
-                        disabled={deleting === row._id}>
+                        disabled={deleting === row._id}
+                      >
                         {deleting === row._id ? <span className={styles.spinner} /> : "🗑 Delete"}
                       </button>
                     </div>
