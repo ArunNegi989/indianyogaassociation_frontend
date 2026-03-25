@@ -68,7 +68,7 @@ export default function AyurvedaCourseListPage() {
     try {
       setLoading(true);
       setError("");
-      const res = await api.get("/ayurveda-course/list");
+      const res = await api.get("/ayurveda-course");
       setRows(res.data?.data || []);
     } catch {
       setError("Failed to load Ayurveda courses.");
@@ -233,7 +233,7 @@ export default function AyurvedaCourseListPage() {
                     <div className={styles.actionBtns}>
                       <Link
                         className={styles.editBtn}
-                        href={`/admin/ayurveda-course/${row._id}`}
+                        href={`/admin/yogacourse/yoga-ayurveda-teacher/${row._id}`}
                       >
                         ✎ Edit
                       </Link>
