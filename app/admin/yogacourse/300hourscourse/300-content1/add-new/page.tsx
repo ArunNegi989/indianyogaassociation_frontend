@@ -514,8 +514,11 @@ export default function Add300hrContent1() {
   const [heroErr, setHeroErr] = useState("");
 
   /* Para IDs only in state — content in refs, zero re-renders on typing */
-  const [introIds, setIntroIds] = useState<string[]>(["ip1"]);
-  const introRef = useRef<Record<string, string>>({ ip1: "" });
+ const [introIds, setIntroIds] = useState<string[]>(["ip1", "ip2"]);
+  const introRef = useRef<Record<string, string>>({
+  ip1: "",
+  ip2: "",
+});
 
   const [topIds, setTopIds] = useState<string[]>(["tp1"]);
   const topRef = useRef<Record<string, string>>({ tp1: "" });
@@ -535,11 +538,11 @@ export default function Add300hrContent1() {
   const [notInclFee, setNotInclFee] = useState<string[]>([""]);
 
   /* ── Stable para handlers ── */
-  const addIntroPara = useCallback(() => {
-    const id = `ip-${Date.now()}`;
-    introRef.current[id] = "";
-    setIntroIds(p => [...p, id]);
-  }, []);
+ const addIntroPara = useCallback(() => {
+  const id = `ip-${Date.now()}`;
+  introRef.current[id] = "";
+  setIntroIds(p => [...p, id]);
+}, []);
   const removeIntroPara = useCallback((id: string) => {
     delete introRef.current[id];
     setIntroIds(p => p.filter(x => x !== id));
@@ -730,9 +733,11 @@ export default function Add300hrContent1() {
               ph="The 300 hour yoga teacher training course in Rishikesh…"
             />
           ))}
-          <button type="button" className={styles.addItemBtn} onClick={addIntroPara}>
-            ＋ Add Intro Paragraph
-          </button>
+         
+  <button type="button" className={styles.addItemBtn} onClick={addIntroPara}>
+    ＋ Add Intro Paragraph
+  </button>
+
         </Sec>
         <D />
 

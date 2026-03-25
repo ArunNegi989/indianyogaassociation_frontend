@@ -539,8 +539,11 @@ export default function Edit300hrContent1({ params }: { params: Promise<{ id: st
   const [heroPrev, setHeroPrev] = useState("");
 
   /* ── Para: IDs in state, content in ref map ── */
-  const [introIds, setIntroIds] = useState<string[]>(["ip1"]);
-  const introRef  = useRef<Record<string, string>>({ ip1: "" });
+  const [introIds, setIntroIds] = useState<string[]>(["ip1", "ip2"]);
+ const introRef = useRef<Record<string, string>>({
+  ip1: "",
+  ip2: "",
+});
   const introDefaults = useRef<Record<string, string>>({});   // prefill defaults
 
   const [topIds, setTopIds] = useState<string[]>(["tp1"]);
@@ -649,28 +652,37 @@ export default function Edit300hrContent1({ params }: { params: Promise<{ id: st
         });
 
         /* intro paragraphs — populate ids + ref map + defaults */
-        if (d.introParagraphs?.length) {
-          const ids = d.introParagraphs.map((_: string, i: number) => `ip-api-${i}`);
-          introRef.current = {};
-          introDefaults.current = {};
-          d.introParagraphs.forEach((c: string, i: number) => {
-            introRef.current[ids[i]] = c;
-            introDefaults.current[ids[i]] = c;
-          });
-          setIntroIds(ids);
-        }
+       if (d.introParagraphs?.length) {
+  const limitedParas = d.introParagraphs.slice(0, 2); // 👈 sirf 2 lo
 
+  const ids = limitedParas.map((_: string, i: number) => `ip-api-${i}`);
+
+  introRef.current = {};
+  introDefaults.current = {};
+
+  limitedParas.forEach((c: string, i: number) => {
+    introRef.current[ids[i]] = c;
+    introDefaults.current[ids[i]] = c;
+  });
+
+  setIntroIds(ids);
+}
         /* top paragraphs */
-        if (d.topParagraphs?.length) {
-          const ids = d.topParagraphs.map((_: string, i: number) => `tp-api-${i}`);
-          topRef.current = {};
-          topDefaults.current = {};
-          d.topParagraphs.forEach((c: string, i: number) => {
-            topRef.current[ids[i]] = c;
-            topDefaults.current[ids[i]] = c;
-          });
-          setTopIds(ids);
-        }
+       if (d.topParagraphs?.length) {
+  const limitedParas = d.topParagraphs.slice(0, 2); // 👈 sirf 2 lo
+
+  const ids = limitedParas.map((_: string, i: number) => `tp-api-${i}`);
+
+  topRef.current = {};
+  topDefaults.current = {};
+
+  limitedParas.forEach((c: string, i: number) => {
+    topRef.current[ids[i]] = c;
+    topDefaults.current[ids[i]] = c;
+  });
+
+  setTopIds(ids);
+}
 
         /* syllabus */
         syllabusIntroRef.current = d.syllabusIntro || "";

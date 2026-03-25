@@ -92,6 +92,14 @@ const navItems: NavItem[] = [
         ],
       },
       {
+        label: "Yoga Ayurveda Teacher",
+        icon: "⑤",
+        children: [
+          { href: "/admin/yogacourse/yoga-ayurveda-teacher",   label: "Yoga Ayurveda " },
+        
+        ],
+      },
+      {
         label: "World Wide",
         icon: "⑤",
         children: [

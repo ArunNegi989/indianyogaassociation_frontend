@@ -2,7 +2,8 @@
 import React, { useEffect, useState } from "react";
 import styles from "@/assets/style/yoga-ayurveda-teacher-training-rishikesh/Ayurvedapage.module.css";
 import HowToReach from "@/components/home/Howtoreach";
-
+import Image from "next/image";
+import heroImg from "@/assets/images/19.webp";
 /* ─── Images ─── */
 const IMG = {
   hero:      "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=1800&q=85",
@@ -143,33 +144,15 @@ export default function AyurvedaPage() {
       </div>
 
       {/* ════════ HERO ════════ */}
-      <section className={styles.hero}>
-        <img src={IMG.hero} alt="Ayurveda Rishikesh" className={styles.heroBg} />
-        <div className={styles.heroVeil} />
-        <div className={styles.heroMandalaL} aria-hidden="true"><MandalaRing size={420} opacity={0.14} /></div>
-        <div className={styles.heroMandalaR} aria-hidden="true"><MandalaRing size={260} opacity={0.09} /></div>
-        <div className={styles.heroContent}>
-          <span className={styles.heroPre}>AYM Ayurveda Clinic & Panchakarma Centre · Rishikesh, India</span>
-          <h1 className={styles.heroH1}>
-            Introductory Course<br />
-            <em>in Ayurveda</em><br />
-            in Rishikesh, India
-          </h1>
-          <OmBar />
-          <p className={styles.heroSub}>5000-Year-Old Science of Life · Heal Body, Mind & Soul</p>
-          <div className={styles.heroBtns}>
-            <a href="#courses" className={styles.btnPrimary}>View Courses</a>
-            <a href="#apply" className={styles.btnOutline}>Apply Now</a>
-          </div>
-          <div className={styles.heroStats}>
-            {[["5000", "Years Old Science"], ["3", "Dosha Types"], ["5", "Panchakarma Therapies"], ["Rishikesh", "Sacred Location"]].map(([v, l]) => (
-              <div key={l} className={styles.heroStat}>
-                <span className={styles.heroStatV}>{v}</span>
-                <span className={styles.heroStatL}>{l}</span>
-              </div>
-            ))}
-          </div>
-        </div>
+     <section className={styles.heroSection}>
+        <Image
+          src={heroImg}
+          alt="Yoga Students Group"
+          width={1180}
+          height={540}
+          className={styles.heroImage}
+          priority
+        />
       </section>
 
       {/* ════════ INTRO ════════ */}

@@ -1,183 +1,169 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import styles from "@/assets/style/world-wide/Worldwidepage.module.css";
 import HowToReach from "@/components/home/Howtoreach";
-import heroImg from "@/assets/images/18.webp";
-import Image from "next/image";
-/* ─── All worldwide locations ─── */
-const locations = [
-  {
-    name: "Yoga Teacher Training In Germany",
-    flag: "🇩🇪",
-    href: "/world-wide/yoga-teacher-training-in-germany",
-    region: "Europe",
-  },
-  {
-    name: "Yoga Teacher Training In Italy",
-    flag: "🇮🇹",
-    href: "/world-wide/yoga-teacher-training-in-italy",
-    region: "Europe",
-  },
-  {
-    name: "Yoga Teacher Training In Switzerland",
-    flag: "🇨🇭",
-    href: "/world-wide/yoga-teacher-training-in-switzerland",
-    region: "Europe",
-  },
-  {
-    name: "Yoga Teacher Training In Poland",
-    flag: "🇵🇱",
-    href: "/world-wide/yoga-teacher-training-in-poland",
-    region: "Europe",
-  },
-  {
-    name: "Yoga Teacher Training In Pokhara",
-    flag: "🇳🇵",
-    href: "/world-wide/yoga-teacher-training-course-in-pokhara",
-    region: "Asia",
-  },
-  {
-    name: "Yoga Teacher Training In Nepal",
-    flag: "🇳🇵",
-    href: "/world-wide/yoga-teacher-training-in-nepal",
-    region: "Asia",
-  },
-  {
-    name: "Yoga Teacher Training In Europe",
-    flag: "🌍",
-    href: "/world-wide/yoga-teacher-training-in-europe",
-    region: "Europe",
-  },
-  {
-    name: "Yoga Teacher Training In Asia",
-    flag: "🌏",
-    href: "/world-wide/yoga-teacher-training-in-asia",
-    region: "Asia",
-  },
-  {
-    name: "Yoga Teacher Training In Ubud",
-    flag: "🇮🇩",
-    href: "/world-wide/yoga-teacher-training-in-ubud",
-    region: "Asia",
-  },
-  {
-    name: "Yoga Teacher Training in Koh Samui",
-    flag: "🇹🇭",
-    href: "/world-wide/yoga-teacher-training-in-koh-samui",
-    region: "Asia",
-  },
-  {
-    name: "Yoga Teacher Training in Maldives",
-    flag: "🇲🇻",
-    href: "/world-wide/yoga-teacher-training-in-maldives",
-    region: "Asia",
-  },
-  {
-    name: "Yoga Training in New Zealand",
-    flag: "🇳🇿",
-    href: "/world-wide/yoga-teacher-training-in-new-zealand",
-    region: "Pacific",
-  },
-  {
-    name: "Yoga Training In Koh Phangan",
-    flag: "🇹🇭",
-    href: "/world-wide/yoga-teacher-training-in-koh-phangan",
-    region: "Asia",
-  },
-  {
-    name: "Yoga Teacher Training in Vietnam",
-    flag: "🇻🇳",
-    href: "/world-wide/yoga-teacher-training-in-vietnam",
-    region: "Asia",
-  },
-  {
-    name: "Yoga Training in Thailand",
-    flag: "🇹🇭",
-    href: "/world-wide/yoga-teacher-training-in-thailand",
-    region: "Asia",
-  },
-  {
-    name: "Yoga Training In Philippines",
-    flag: "🇵🇭",
-    href: "/world-wide/yoga-teacher-training-in-philippines",
-    region: "Asia",
-  },
-  {
-    name: "Yoga Teacher Training in Malaysia",
-    flag: "🇲🇾",
-    href: "/world-wide/yoga-teacher-training-in-malaysia",
-    region: "Asia",
-  },
-  {
-    name: "Yoga Training In Hong Kong",
-    flag: "🇭🇰",
-    href: "/world-wide/yoga-teacher-training-in-hong-kong",
-    region: "Asia",
-  },
-  {
-    name: "Yoga Teacher Training in Indonesia",
-    flag: "🇮🇩",
-    href: "/world-wide/yoga-teacher-training-in-indonesia",
-    region: "Asia",
-  },
-];
+import heroImgFallback from "@/assets/images/18.webp";
+import api from "@/lib/api"; // ← your axios instance
 
-/* ─── Curriculum items ─── */
-const curriculum = [
-  "Foundations of yoga philosophy",
-  "Different yoga and its poses",
-  "Anatomy and physiology",
-  "Panchakarma treatment in Rishikesh",
-  "Shirodhara treatment in Rishikesh",
-  "Pranayama and meditation",
-  "Teaching methodologies",
-];
+/* ─── Types ─── */
+interface Stat {
+  val: string;
+  label: string;
+}
 
-/* ─── Benefits ─── */
-const benefits = [
-  {
-    num: "01",
-    text: "In addition to developing mindfulness, you'll thoroughly deepen your understanding of yoga.",
-  },
-  {
-    num: "02",
-    text: "By enrolling in our yoga teacher training course in Rishikesh and learning from highly qualified teachers, you'll become a proficient teacher.",
-  },
-  {
-    num: "03",
-    text: "You'll learn more about yourself, your goals, and your physical and mental well-being.",
-  },
-  {
-    num: "04",
-    text: "You'll learn and be able to handle relationships in a better way.",
-  },
-];
+interface Benefit {
+  num: string;
+  text: string;
+}
 
-/* ─── Stats ─── */
-const stats = [
-  { val: "19+", label: "Countries" },
-  { val: "500+", label: "Graduates" },
-  { val: "20+", label: "Years Experience" },
-  { val: "100%", label: "Yoga Alliance" },
-];
+interface Location {
+  name: string;
+  flag: string;
+  href: string;
+  region: string;
+}
+
+interface WorldwideData {
+  slug: string;
+  status: string;
+
+  pageTitleH1: string;
+  heroImgAlt: string;
+  heroImage: string;
+
+  topParagraphs: string[];
+
+  statsTitle: string;
+  stats: Stat[];
+
+  curriculumTitle: string;
+  curriculumSubHeading: string;
+  curriculumIntro: string;
+  curriculumParagraphs: string[];
+  curriculumItems: string[];
+  curriculumRightImage: string;
+  curriculumRightImageAlt: string;
+
+  teacherTeamTitle: string;
+  teacherTeamSubtitle: string;
+  teacherTeamDescription: string;
+  teacherTeamLeftImage: string;
+  teacherTeamLeftImageAlt: string;
+  teacherTeamBadgeValue: string;
+  teacherTeamBadgeLabel: string;
+
+  benefitsHeading: string;
+  benefitsTitle: string;
+  benefitsSubtext: string;
+  benefits: Benefit[];
+
+  wellnessTitle: string;
+  wellnessDescription: string;
+
+  communityTitle: string;
+  communitySubtext: string;
+  communityDescription: string;
+
+  locationsTitle: string;
+  locationsSubtext: string;
+  locations: Location[];
+
+  footerTitle: string;
+  footerSubtext: string;
+  footerMetaText: string;
+}
+
+/* ─── Base URL for uploaded images ─── */
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "";
+
+const resolveImg = (path?: string) => {
+  if (!path) return null;
+  return path.startsWith("http") ? path : `${BASE_URL}${path}`;
+};
 
 /* ═══════════════════════ MAIN ═══════════════════════ */
 export default function WorldwidePage() {
-  /* Scroll reveal */
+  const [data, setData] = useState<WorldwideData | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  /* ── Fetch from backend using axios ── */
   useEffect(() => {
+    api
+      .get("/worldwide/content")
+      .then((res) => {
+        if (res.data.success) {
+          setData(res.data.data);
+        } else {
+          throw new Error("Invalid response");
+        }
+      })
+      .catch((err) => {
+        console.error("WorldwidePage fetch error:", err);
+        setError(err.message || "Something went wrong");
+      })
+      .finally(() => setLoading(false));
+  }, []);
+
+  /* ── Scroll reveal (runs after data loads) ── */
+  useEffect(() => {
+    if (!data) return;
     const obs = new IntersectionObserver(
       (entries) =>
         entries.forEach((e) => {
           if (e.isIntersecting) e.target.classList.add(styles.visible);
         }),
-      { threshold: 0.08 },
+      { threshold: 0.08 }
     );
     document
       .querySelectorAll(`.${styles.reveal}`)
       .forEach((el) => obs.observe(el));
     return () => obs.disconnect();
-  }, []);
+  }, [data]);
+
+  /* ── Loading ── */
+  if (loading) {
+    return (
+      <div className={styles.page}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            minHeight: "60vh",
+            fontSize: "1.2rem",
+            color: "#c46a00",
+          }}
+        >
+          Loading...
+        </div>
+      </div>
+    );
+  }
+
+  /* ── Error ── */
+  if (error || !data) {
+    return (
+      <div className={styles.page}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            minHeight: "60vh",
+            fontSize: "1.1rem",
+            color: "#c00",
+          }}
+        >
+          Content could not be loaded. Please try again later.
+        </div>
+      </div>
+    );
+  }
+
+  const heroSrc = resolveImg(data.heroImage);
 
   return (
     <div className={styles.page}>
@@ -188,75 +174,102 @@ export default function WorldwidePage() {
 
       {/* ════════ HERO SECTION ════════ */}
       <section className={styles.heroSection}>
-              <Image
-                src={heroImg}
-                alt="Yoga Students Group"
-                width={1180}
-                height={540}
-                className={styles.heroImage}
-                priority
-              />
-            </section>
+        {heroSrc ? (
+          <img
+            src={heroSrc}
+            alt={data.heroImgAlt || "Yoga Students Group"}
+            className={styles.heroImage}
+            style={{ width: "100%", height: "auto", display: "block" }}
+          />
+        ) : (
+          <Image
+            src={heroImgFallback}
+            alt={data.heroImgAlt || "Yoga Students Group"}
+            width={1180}
+            height={540}
+            className={styles.heroImage}
+            priority
+          />
+        )}
+      </section>
 
       {/* ════════ STATS BAR ════════ */}
-      <div className={styles.statsBar}>
-        <div className="container">
-          <div className="row g-0">
-            {stats.map((s) => (
-              <div key={s.label} className="col-6 col-md-3">
-                <div className={styles.statCell}>
-                  <span className={styles.statVal}>{s.val}</span>
-                  <span className={styles.statLbl}>{s.label}</span>
+      {data.stats?.length > 0 && (
+        <div className={styles.statsBar}>
+          <div className="container">
+            <div className="row g-0">
+              {data.stats.map((s) => (
+                <div key={s.label} className="col-6 col-md-3">
+                  <div className={styles.statCell}>
+                    <span className={styles.statVal}>{s.val}</span>
+                    <span className={styles.statLbl}>{s.label}</span>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
-      </div>
+      )}
 
       {/* ════════ CURRICULUM ════════ */}
-      <section id="curriculum" className={`${styles.section}`}>
+      <section id="curriculum" className={styles.section}>
         <div className={styles.mandalaBg} aria-hidden="true">
           <MandalaRing size={580} opacity={0.04} />
         </div>
         <div className="container">
           <div className={`row ${styles.reveal}`}>
             <div className="col-12 col-lg-6">
-              <span className={styles.superLabel}>What You'll Study</span>
-              <h2 className={styles.sectionTitle}>Course Curriculum</h2>
+              <span className={styles.superLabel}>
+                {data.curriculumSubHeading || "What You'll Study"}
+              </span>
+              <h2 className={styles.sectionTitle}>
+                {data.curriculumTitle || "Course Curriculum"}
+              </h2>
               <OmBar align="left" />
-              <p className={styles.para}>
-                Being one of the{" "}
-                <strong>
-                  best yoga teacher training course providers in Rishikesh
-                </strong>
-                , we at AYM offer a comprehensive yoga curriculum. Our courses
-                are designed to provide in-depth knowledge and skills in theory
-                and practical form. Our teachings will lead you to the path of
-                healing and spiritual awakening.
-              </p>
-              <p className={styles.para}>
-                You'll learn about different topics and techniques of all levels
-                — beginners, intermediate and advanced. Our courses and programs
-                are designed to empower you and help you empower others by
-                verifying you as a yoga instructor. Moreover, by enrolling on
-                our <strong>yoga teacher training course in Rishikesh</strong>,
-                here is what you'll learn during the Course:
-              </p>
-              <ol className={styles.curriculumList}>
-                {curriculum.map((c, i) => (
-                  <li key={i} className={styles.curriculumItem}>
-                    <span className={styles.currNum}>{String(i + 1)}.</span>
-                    <span>{c}</span>
-                  </li>
-                ))}
-              </ol>
+
+              {data.topParagraphs?.map((para, i) => (
+                <p
+                  key={i}
+                  className={styles.para}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+
+              {data.curriculumIntro && (
+                <p
+                  className={styles.para}
+                  dangerouslySetInnerHTML={{ __html: data.curriculumIntro }}
+                />
+              )}
+
+              {data.curriculumParagraphs?.map((para, i) => (
+                <p
+                  key={i}
+                  className={styles.para}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+
+              {data.curriculumItems?.length > 0 && (
+                <ol className={styles.curriculumList}>
+                  {data.curriculumItems.map((c, i) => (
+                    <li key={i} className={styles.curriculumItem}>
+                      <span className={styles.currNum}>{String(i + 1)}.</span>
+                      <span>{c}</span>
+                    </li>
+                  ))}
+                </ol>
+              )}
             </div>
+
             <div className="col-12 col-lg-6 mt-4 mt-lg-0">
               <div className={styles.curriculumImgWrap}>
                 <img
-                  src="https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?w=900&q=80"
-                  alt="Yoga curriculum"
+                  src={
+                    resolveImg(data.curriculumRightImage) ||
+                    "https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?w=900&q=80"
+                  }
+                  alt={data.curriculumRightImageAlt || "Yoga curriculum"}
                   className={styles.curriculumImg}
                 />
                 <div className={styles.imgMandalaCorner} aria-hidden="true">
@@ -275,189 +288,191 @@ export default function WorldwidePage() {
             <div className="col-12 col-lg-5 mb-4 mb-lg-0">
               <div className={styles.teamImgWrap}>
                 <img
-                  src="https://images.unsplash.com/photo-1588286840104-8957b019727f?w=900&q=80"
-                  alt="Experienced yoga teachers"
+                  src={
+                    resolveImg(data.teacherTeamLeftImage) ||
+                    "https://images.unsplash.com/photo-1588286840104-8957b019727f?w=900&q=80"
+                  }
+                  alt={data.teacherTeamLeftImageAlt || "Experienced yoga teachers"}
                   className={styles.teamImg}
                 />
-                <div className={styles.teamImgBadge}>
-                  <span className={styles.teamBadgeVal}>20+</span>
-                  <span className={styles.teamBadgeLbl}>Years Teaching</span>
-                </div>
+                {(data.teacherTeamBadgeValue || data.teacherTeamBadgeLabel) && (
+                  <div className={styles.teamImgBadge}>
+                    <span className={styles.teamBadgeVal}>
+                      {data.teacherTeamBadgeValue}
+                    </span>
+                    <span className={styles.teamBadgeLbl}>
+                      {data.teacherTeamBadgeLabel}
+                    </span>
+                  </div>
+                )}
               </div>
             </div>
+
             <div className="col-12 col-lg-7 ps-lg-5">
-              <span className={styles.superLabel}>Our Faculty</span>
+              <span className={styles.superLabel}>
+                {data.teacherTeamSubtitle || "Our Faculty"}
+              </span>
               <h2 className={styles.sectionTitle}>
-                Experienced Yoga Teacher Team
-                <br />— AYM YOGA SCHOOL
+                {data.teacherTeamTitle || "Experienced Yoga Teacher Team"}
               </h2>
               <OmBar align="left" />
-              <p className={styles.para}>
-                At AYM, our{" "}
-                <strong>yoga teacher training course in Rishikesh</strong> is
-                conducted by reputed teachers with years of experience. Our
-                teachers and staff offer a safe space for you to explore and
-                grow in different parts of the world. Our teachers are super
-                friendly and are always ready to assist with any queries.
-              </p>
-              <p className={styles.para}>
-                Whether you choose{" "}
-                <strong>200 hour yoga TTC in Rishikesh</strong> or{" "}
-                <strong>500 hour yoga TTC in Rishikesh</strong>, the teachers
-                will guide you thoroughly. Through hard work, dedication and
-                offering top-notch education and services, we are highly
-                recognized for our Yoga Teacher Training course worldwide.
-              </p>
+              {data.teacherTeamDescription && (
+                <p
+                  className={styles.para}
+                  dangerouslySetInnerHTML={{ __html: data.teacherTeamDescription }}
+                />
+              )}
             </div>
           </div>
         </div>
       </section>
 
       {/* ════════ BENEFITS ════════ */}
-      <section className={styles.section}>
-        <div className="container">
-          <div className={`text-center mb-4 ${styles.reveal}`}>
-            <span className={styles.superLabel}>Transformation</span>
-            <h2 className={styles.sectionTitle}>
-              How will you Benefit from this Course?
-            </h2>
-            <OmBar />
-            <p
-              className={`${styles.paraCenter} mx-auto`}
-              style={{ maxWidth: 760 }}
-            >
-              How will the{" "}
-              <strong>yoga teacher training course in Rishikesh</strong> benefit
-              you? Well, here is what you need to know:
-            </p>
-          </div>
-          <div className={`row g-3 ${styles.reveal}`}>
-            {benefits.map((b) => (
-              <div key={b.num} className="col-12 col-md-6">
-                <div className={styles.benefitCard}>
-                  <div className={styles.benefitNum}>{b.num}</div>
-                  <p className={styles.benefitText}>{b.text}</p>
+      {data.benefits?.length > 0 && (
+        <section className={styles.section}>
+          <div className="container">
+            <div className={`text-center mb-4 ${styles.reveal}`}>
+              <span className={styles.superLabel}>
+                {data.benefitsHeading || "Transformation"}
+              </span>
+              <h2 className={styles.sectionTitle}>
+                {data.benefitsTitle || "How will you Benefit from this Course?"}
+              </h2>
+              <OmBar />
+              {data.benefitsSubtext && (
+                <p
+                  className={`${styles.paraCenter} mx-auto`}
+                  style={{ maxWidth: 760 }}
+                  dangerouslySetInnerHTML={{ __html: data.benefitsSubtext }}
+                />
+              )}
+            </div>
+
+            <div className={`row g-3 ${styles.reveal}`}>
+              {data.benefits.map((b) => (
+                <div key={b.num} className="col-12 col-md-6">
+                  <div className={styles.benefitCard}>
+                    <div className={styles.benefitNum}>{b.num}</div>
+                    <p className={styles.benefitText}>{b.text}</p>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Commit to wellness */}
-          <div className={`${styles.wellnessBox} ${styles.reveal} mt-5`}>
-            <div className={styles.wellnessMandala} aria-hidden="true">
-              <MandalaRing size={200} opacity={0.1} />
+              ))}
             </div>
-            <div className="row align-items-center">
-              <div className="col-12 col-md-3 text-center mb-3 mb-md-0">
-                <div className={styles.wellnessIcon}>🌿</div>
-                <h3 className={styles.wellnessTitle}>
-                  Commit to Wellness
-                  <br />
-                  and a Healthy Life
-                </h3>
-              </div>
-              <div className="col-12 col-md-9">
-                <p className={styles.para} style={{ margin: 0 }}>
-                  Want to live a peaceful and healthy life? At AYM, we welcome
-                  you as a part of our family and allow you to commit to mental
-                  and physical wellness. Whether you enrol for a{" "}
-                  <strong>300 hour yoga TTC in Rishikesh</strong> or{" "}
-                  <strong>body massage in Rishikesh</strong>, you'll learn with
-                  people of different cultures. Our program will give you
-                  calmness and a deeper understanding of the lifestyle. You'll
-                  spend quality time in nature and grow in our fun-loving
-                  community.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
-      {/* ════════ JOIN COMMUNITY ════════ */}
-      <section className={`${styles.section} ${styles.sectionTinted}`}>
-        <div className={styles.mandalaBgR} aria-hidden="true">
-          <MandalaRing size={500} opacity={0.04} />
-        </div>
-        <div className="container">
-          <div className={`${styles.reveal}`}>
-            <span className={styles.superLabel}>Worldwide Network</span>
-            <h2 className={styles.sectionTitle}>
-              Join an Empowering Community for Life
-            </h2>
-            <OmBar align="left" />
-            <p className={styles.para} style={{ maxWidth: 880 }}>
-              Whether you want to deepen your knowledge of yoga or take a step
-              towards a new career, our{" "}
-              <strong>yoga teacher training course in Rishikesh</strong> has got
-              you covered. At AYM, we are known for the best, thorough yoga
-              teacher training program worldwide. Once you complete, you'll gain
-              knowledge and confidence to help you grow. Besides, if you plan to
-              teach yoga less professionally, we guarantee this Course will help
-              you learn about yourself, your desires, and your goals.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* ════════ WORLDWIDE LOCATIONS GRID ════════ */}
-      <section
-        id="locations"
-        className={`${styles.section} ${styles.locationsSection}`}
-      >
-        <div className="container">
-          <div className={`text-center mb-5 ${styles.reveal}`}>
-            <span className={styles.superLabel}>Our Global Reach</span>
-            <h2 className={styles.sectionTitle}>
-              Yoga Teacher Training
-              <br />
-              Locations Worldwide
-            </h2>
-            <OmBar />
-          </div>
-          <div className={`row g-3 ${styles.reveal}`}>
-            {locations.map((loc) => (
-              <div key={loc.name} className="col-12 col-sm-6 col-lg-4">
-                <div className={styles.locationCard}>
-                  <div className={styles.locationCardInner}>
-                    {/* Mandala watermark per card */}
-                    <div className={styles.cardMandala} aria-hidden="true">
-                      <MandalaRing size={120} opacity={0.08} />
-                    </div>
-                    <div className={styles.locationTop}>
-                      <span className={styles.locationFlag}>{loc.flag}</span>
-                      <span className={styles.locationRegion}>
-                        {loc.region}
-                      </span>
-                    </div>
-                    <h3 className={styles.locationName}>{loc.name}</h3>
-                    {/* ✅ Next.js Link — no page reload */}
-                    <Link
-                      href={loc.href}
-                      className={styles.readMoreBtn}
-                      aria-label={`Read more about ${loc.name}`}
-                    >
-                      <span className={styles.readMoreArrow}>
-                        <svg
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        >
-                          <polyline points="9 18 15 12 9 6" />
-                        </svg>
-                      </span>
-                      <span className={styles.readMoreText}>Read more</span>
-                    </Link>
+            {/* Wellness Box */}
+            {(data.wellnessTitle || data.wellnessDescription) && (
+              <div className={`${styles.wellnessBox} ${styles.reveal} mt-5`}>
+                <div className={styles.wellnessMandala} aria-hidden="true">
+                  <MandalaRing size={200} opacity={0.1} />
+                </div>
+                <div className="row align-items-center">
+                  <div className="col-12 col-md-3 text-center mb-3 mb-md-0">
+                    <div className={styles.wellnessIcon}>🌿</div>
+                    <h3
+                      className={styles.wellnessTitle}
+                      dangerouslySetInnerHTML={{
+                        __html: data.wellnessTitle || "Commit to Wellness",
+                      }}
+                    />
+                  </div>
+                  <div className="col-12 col-md-9">
+                    <p
+                      className={styles.para}
+                      style={{ margin: 0 }}
+                      dangerouslySetInnerHTML={{
+                        __html: data.wellnessDescription || "",
+                      }}
+                    />
                   </div>
                 </div>
               </div>
-            ))}
+            )}
           </div>
-        </div>
-      </section>
+        </section>
+      )}
+
+      {/* ════════ JOIN COMMUNITY ════════ */}
+      {(data.communityTitle || data.communityDescription) && (
+        <section className={`${styles.section} ${styles.sectionTinted}`}>
+          <div className={styles.mandalaBgR} aria-hidden="true">
+            <MandalaRing size={500} opacity={0.04} />
+          </div>
+          <div className="container">
+            <div className={styles.reveal}>
+              <span className={styles.superLabel}>
+                {data.communitySubtext || "Worldwide Network"}
+              </span>
+              <h2 className={styles.sectionTitle}>{data.communityTitle}</h2>
+              <OmBar align="left" />
+              {data.communityDescription && (
+                <p
+                  className={styles.para}
+                  style={{ maxWidth: 880 }}
+                  dangerouslySetInnerHTML={{ __html: data.communityDescription }}
+                />
+              )}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* ════════ WORLDWIDE LOCATIONS GRID ════════ */}
+      {data.locations?.length > 0 && (
+        <section
+          id="locations"
+          className={`${styles.section} ${styles.locationsSection}`}
+        >
+          <div className="container">
+            <div className={`text-center mb-5 ${styles.reveal}`}>
+              <span className={styles.superLabel}>
+                {data.locationsSubtext || "Our Global Reach"}
+              </span>
+              <h2 className={styles.sectionTitle}>
+                {data.locationsTitle || "Yoga Teacher Training Locations Worldwide"}
+              </h2>
+              <OmBar />
+            </div>
+
+            <div className={`row g-3 ${styles.reveal}`}>
+              {data.locations.map((loc) => (
+                <div key={loc.name} className="col-12 col-sm-6 col-lg-4">
+                  <div className={styles.locationCard}>
+                    <div className={styles.locationCardInner}>
+                      <div className={styles.cardMandala} aria-hidden="true">
+                        <MandalaRing size={120} opacity={0.08} />
+                      </div>
+                      <div className={styles.locationTop}>
+                        <span className={styles.locationFlag}>{loc.flag}</span>
+                        <span className={styles.locationRegion}>{loc.region}</span>
+                      </div>
+                      <h3 className={styles.locationName}>{loc.name}</h3>
+                      <Link
+                        href={loc.href}
+                        className={styles.readMoreBtn}
+                        aria-label={`Read more about ${loc.name}`}
+                      >
+                        <span className={styles.readMoreArrow}>
+                          <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          >
+                            <polyline points="9 18 15 12 9 6" />
+                          </svg>
+                        </span>
+                        <span className={styles.readMoreText}>Read more</span>
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* ════════ FOOTER CTA ════════ */}
       <section className={styles.footerCta}>
@@ -467,35 +482,31 @@ export default function WorldwidePage() {
         <div className="container">
           <div className={`text-center ${styles.footerCtaInner}`}>
             <div className={styles.footerOm}>ॐ</div>
-            <h2 className={styles.footerTitle}>Begin Your Sacred Journey</h2>
+            <h2 className={styles.footerTitle}>
+              {data.footerTitle || "Begin Your Sacred Journey"}
+            </h2>
             <OmBar dark />
-            <p className={styles.footerSub}>
-              Join thousands of students who have transformed their lives at AYM
-              Yoga School — teaching yoga worldwide since 2001
-            </p>
+            {data.footerSubtext && (
+              <p className={styles.footerSub}>{data.footerSubtext}</p>
+            )}
             <div className="d-flex flex-wrap justify-content-center gap-3 mt-3">
-              {/* ✅ Next.js Link for internal routes */}
               <Link href="/apply" className={styles.btnPrimary}>
                 Apply Now
               </Link>
-              {/* ✅ mailto — plain <a> is correct here */}
-              <a
-                href="mailto:aymyogaschool@gmail.com"
-                className={styles.btnGhost}
-              >
+              <a href="mailto:aymyogaschool@gmail.com" className={styles.btnGhost}>
                 Email Us
               </a>
             </div>
-            <div className={styles.footerMeta}>
-              <span>Yoga Alliance Certified</span>
-              <span className={styles.dot}>·</span>
-              <span>Est. 2001</span>
-              <span className={styles.dot}>·</span>
-              <span>19+ Countries</span>
-            </div>
+            {data.footerMetaText && (
+              <div
+                className={styles.footerMeta}
+                dangerouslySetInnerHTML={{ __html: data.footerMetaText }}
+              />
+            )}
           </div>
         </div>
       </section>
+
       <HowToReach />
     </div>
   );
@@ -648,7 +659,7 @@ function MandalaFull({
                 transform={`rotate(${(i / n) * 360} ${R * Math.cos(a)} ${R * Math.sin(a)})`}
               />
             );
-          }),
+          })
         )}
       </g>
     </svg>
