@@ -123,7 +123,7 @@ export default function List300hrContent1() {
                   <td className={styles.td}>
                     <div className={styles.actionBtns}>
                       <Link className={styles.editBtn}
-                        href={`/admin/yogacourse/300hourscourse/300hr-content1/${row._id}`}>✎ Edit</Link>
+                        href={`/admin/yogacourse/300hourscourse/300-content1/${row._id}`}>✎ Edit</Link>
                       <button type="button" className={styles.deleteBtn}
                         onClick={() => handleDelete(row._id, row.pageMainH1)}
                         disabled={deleting === row._id}>

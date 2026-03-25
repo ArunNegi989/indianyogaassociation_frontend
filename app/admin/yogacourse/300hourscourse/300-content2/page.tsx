@@ -23,8 +23,8 @@ export default function List300hrContent2() {
   const fetchList = async () => {
     try {
       setLoading(true); setError("");
-      const res = await api.get("/yoga-300hr/content2");
-      setRows(res.data?.data || []);
+const res = await api.get("/yoga-300hr/content2");
+setRows(res.data ? [res.data] : []);
     } catch { setError("Failed to load records."); }
     finally { setLoading(false); }
   };
@@ -34,7 +34,8 @@ export default function List300hrContent2() {
     if (!confirm("Delete this record?\nThis cannot be undone.")) return;
     try {
       setDeleting(id);
-      await api.delete(`/yoga-300hr/content2/delete/${id}`);
+      await api.delete(`/yoga-300hr/content2/delete`);
+setRows([]);
       setRows(p => p.filter(r => r._id !== id));
     } catch { alert("Delete failed. Please try again."); }
     finally { setDeleting(null); }
@@ -43,7 +44,7 @@ export default function List300hrContent2() {
   const toggleStatus = async (id: string, cur: "Active" | "Inactive") => {
     const next = cur === "Active" ? "Inactive" : "Active";
     try {
-      await api.put(`/yoga-300hr/content2/update/${id}`, { status: next });
+      await api.put(`/yoga-300hr/content2/update`, { status: next });
       setRows(p => p.map(r => r._id === id ? { ...r, status: next } : r));
     } catch { alert("Status update failed."); }
   };
@@ -127,7 +128,7 @@ export default function List300hrContent2() {
                   <td className={styles.td}>
                     <div className={styles.actionBtns}>
                       <Link className={styles.editBtn}
-                        href={`/admin/yogacourse/300hourscourse/300hr-content2/${row._id}`}>✎ Edit</Link>
+                        href={`/admin/yogacourse/300hourscourse/300-content2/${row._id}`}>✎ Edit</Link>
                       <button type="button" className={styles.deleteBtn}
                         onClick={() => handleDelete(row._id)}
                         disabled={deleting === row._id}>
