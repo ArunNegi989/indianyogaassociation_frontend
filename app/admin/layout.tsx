@@ -91,6 +91,14 @@ const navItems: NavItem[] = [
           { href: "/admin/dashboard/500hr-content", label: "Page Content" },
         ],
       },
+      {
+        label: "World Wide",
+        icon: "⑤",
+        children: [
+          { href: "/admin/yogacourse/world-wide",   label: "World Wide" },
+        
+        ],
+      },
     ],
   },
 
