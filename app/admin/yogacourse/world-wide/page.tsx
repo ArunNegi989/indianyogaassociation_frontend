@@ -41,18 +41,17 @@ setRows(res.data?.data ? [res.data.data] : []);
   useEffect(() => { fetchList(); }, []);
 
   const handleDelete = async (id: string, title: string) => {
-    if (!confirm(`Delete "${title}"?\nThis cannot be undone.`)) return;
-    try {
-      setDeleting(id);
-      await api.delete("/worldwide/content/delete");
-      setRows(prev => prev.filter(r => r._id !== id));
-      toast.success("Page deleted successfully");
-    } catch {
-      toast.error("Delete failed. Please try again.");
-    } finally {
-      setDeleting(null);
-    }
-  };
+  try {
+    setDeleting(id);
+    await api.delete("/worldwide/content/delete");
+    setRows(prev => prev.filter(r => r._id !== id));
+    toast.success("Page deleted successfully");
+  } catch {
+    toast.error("Delete failed. Please try again.");
+  } finally {
+    setDeleting(null);
+  }
+};
 
   const toggleStatus = async (id: string, current: "Active" | "Inactive") => {
     const next = current === "Active" ? "Inactive" : "Active";
