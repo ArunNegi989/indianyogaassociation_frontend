@@ -81,19 +81,21 @@ export default function AyurvedaCourseListPage() {
     fetchList();
   }, []);
 
-  const handleDelete = async (id: string, title: string) => {
-    if (!confirm(`Delete "${title}"?\nThis cannot be undone.`)) return;
-    try {
-      setDeleting(id);
-      await api.delete(`/ayurveda-course/delete/${id}`);
-      setRows(prev => prev.filter(r => r._id !== id));
-      toast.success("Page deleted successfully");
-    } catch {
-      toast.error("Delete failed. Please try again.");
-    } finally {
-      setDeleting(null);
-    }
-  };
+const handleDelete = async (id: string) => {
+  try {
+    setDeleting(id);
+
+    await api.delete(`/ayurveda-course/delete/${id}`);
+
+    setRows(prev => prev.filter(r => r._id !== id));
+
+    toast.success("Page deleted successfully");
+  } catch {
+    toast.error("Delete failed. Please try again.");
+  } finally {
+    setDeleting(null);
+  }
+};
 
   const toggleStatus = async (id: string, current: "Active" | "Inactive") => {
     const next = current === "Active" ? "Inactive" : "Active";
@@ -237,12 +239,12 @@ export default function AyurvedaCourseListPage() {
                       >
                         ✎ Edit
                       </Link>
-                      <button
-                        type="button"
-                        className={styles.deleteBtn}
-                        onClick={() => handleDelete(row._id, row.pageTitleH1)}
-                        disabled={deleting === row._id}
-                      >
+                     <button
+  type="button"
+  className={styles.deleteBtn}
+  onClick={() => handleDelete(row._id)}
+  disabled={deleting === row._id}
+>
                         {deleting === row._id ? (
                           <span className={styles.spinner} />
                         ) : (
