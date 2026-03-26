@@ -40,7 +40,13 @@ export default function AshtangaVinyasaTTCListPage() {
       setLoading(true);
       setError("");
       const res = await api.get("/ashtanga-vinyasa-ttc");
-      setRows(res.data?.data || []);
+      const d = res.data?.data;
+
+if (d) {
+  setRows([d]); // 👈 wrap in array
+} else {
+  setRows([]);
+}
     } catch {
       setError("Failed to load Ashtanga Vinyasa TTC pages.");
     } finally {
@@ -54,7 +60,7 @@ export default function AshtangaVinyasaTTCListPage() {
     if (!confirm(`Delete "${title}"?\nThis cannot be undone.`)) return;
     try {
       setDeleting(id);
-      await api.delete(`/ashtanga-vinyasa-ttc/delete/${id}`);
+      await api.delete(`/ashtanga-vinyasa-ttc`);
       setRows((prev) => prev.filter((r) => r._id !== id));
       toast.success("Page deleted successfully");
     } catch {
@@ -67,7 +73,7 @@ export default function AshtangaVinyasaTTCListPage() {
   const toggleStatus = async (id: string, current: "Active" | "Inactive") => {
     const next = current === "Active" ? "Inactive" : "Active";
     try {
-      await api.put(`/ashtanga-vinyasa-ttc/update/${id}`, { status: next });
+     await api.put(`/ashtanga-vinyasa-ttc/update`, { status: next });
       setRows((prev) => prev.map((r) => (r._id === id ? { ...r, status: next } : r)));
       toast.success(`Status updated to ${next}`);
     } catch {
@@ -85,7 +91,7 @@ export default function AshtangaVinyasaTTCListPage() {
             Intro · Course Details · Who Can Apply · Promo · Teachers · Community · Accommodation · Certification · Schedule · Testimonial
           </p>
         </div>
-        <Link href="/admin/yogacourse/ashtanga-vinyasa-ttc/add-new" className={styles.addNewBtn}>
+        <Link href="/admin/yogacourse/vinyasa-teacher-training/add-new" className={styles.addNewBtn}>
           ＋ Add New
         </Link>
       </div>
@@ -115,7 +121,7 @@ export default function AshtangaVinyasaTTCListPage() {
           <p className={styles.emptyText}>
             Create your first Ashtanga Vinyasa TTC page to showcase the course, schedule, and testimonials.
           </p>
-          <Link href="/admin/yogacourse/ashtanga-vinyasa-ttc/add-new" className={styles.addNewBtn}>
+          <Link href="/admin/yogacourse/vinyasa-teacher-training/add-new" className={styles.addNewBtn}>
             ＋ Create First Page
           </Link>
         </div>
@@ -142,9 +148,7 @@ export default function AshtangaVinyasaTTCListPage() {
                   <td className={styles.td}>
                     <div>
                       <strong>{row.pageH1Title || "—"}</strong>
-                      <div className={styles.cellSub}>
-                        📅 {row.scheduleRows?.length || 0} Schedule Batches
-                      </div>
+                      
                       <div className={styles.cellSub}>
                         💬 {row.testimonials?.length || 0} Testimonials
                       </div>
@@ -160,9 +164,7 @@ export default function AshtangaVinyasaTTCListPage() {
                     <div className={styles.metaChip}>
                       👥 {row.whoItems?.length || 0} Who Items
                     </div>
-                    <div className={styles.metaChip}>
-                      📅 {row.scheduleRows?.length || 0} Batches
-                    </div>
+                    
                   </td>
                   <td className={styles.td}>
                     <button
@@ -187,7 +189,7 @@ export default function AshtangaVinyasaTTCListPage() {
                     <div className={styles.actionBtns}>
                       <Link
                         className={styles.editBtn}
-                        href={`/admin/yogacourse/ashtanga-vinyasa-ttc/${row._id}`}
+                       href={`/admin/yogacourse/vinyasa-teacher-training/${row._id}`}
                       >
                         ✎ Edit
                       </Link>

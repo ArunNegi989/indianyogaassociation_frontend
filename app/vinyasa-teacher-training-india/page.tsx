@@ -1,10 +1,39 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "@/assets/style/vinyasa-teacher-training-india/Ashtangavinyasattc.module.css";
 import HowToReach from "@/components/home/Howtoreach";
 import Image from "next/image";
 import heroImg from "@/assets/images/13.webp";
+import api from "@/lib/api";
+
+/* ─────────────────────────────────────────
+   TYPES
+───────────────────────────────────────── */
+interface SeatBatch {
+  _id: string;
+  startDate: string;
+  endDate: string;
+  usdFee: string;
+  inrFee: string;
+  dormPrice: number;
+  twinPrice: number;
+  privatePrice: number;
+  totalSeats: number;
+  bookedSeats: number;
+  note: string;
+}
+
+/* ─────────────────────────────────────────
+   DATE FORMATTER
+───────────────────────────────────────── */
+const formatDateRange = (start: string, end: string) => {
+  const s = new Date(start);
+  const e = new Date(end);
+  const opts: Intl.DateTimeFormatOptions = { day: "2-digit", month: "short", year: "numeric" };
+  return `${s.toLocaleDateString("en-IN", opts)} – ${e.toLocaleDateString("en-IN", opts)}`;
+};
+
 /* ─────────────────────────────────────────
    MANDALA SVG
 ───────────────────────────────────────── */
@@ -99,32 +128,9 @@ const LotusChakra = ({
   color?: string;
 }) => (
   <svg viewBox="0 0 100 100" width={size} height={size} aria-hidden="true">
-    <circle
-      cx="50"
-      cy="50"
-      r="46"
-      fill="none"
-      stroke={color}
-      strokeWidth="1.2"
-    />
-    <circle
-      cx="50"
-      cy="50"
-      r="32"
-      fill="none"
-      stroke={color}
-      strokeWidth="0.8"
-      opacity="0.6"
-    />
-    <circle
-      cx="50"
-      cy="50"
-      r="18"
-      fill="none"
-      stroke={color}
-      strokeWidth="1"
-      opacity="0.8"
-    />
+    <circle cx="50" cy="50" r="46" fill="none" stroke={color} strokeWidth="1.2" />
+    <circle cx="50" cy="50" r="32" fill="none" stroke={color} strokeWidth="0.8" opacity="0.6" />
+    <circle cx="50" cy="50" r="18" fill="none" stroke={color} strokeWidth="1" opacity="0.8" />
     <circle cx="50" cy="50" r="7" fill={color} opacity="0.45" />
     {[0, 45, 90, 135, 180, 225, 270, 315].map((deg) => {
       const r = (deg * Math.PI) / 180;
@@ -141,15 +147,7 @@ const LotusChakra = ({
         />
       );
     })}
-    <text
-      x="50"
-      y="56"
-      textAnchor="middle"
-      fontSize="20"
-      fill={color}
-      fontFamily="serif"
-      opacity="0.9"
-    >
+    <text x="50" y="56" textAnchor="middle" fontSize="20" fill={color} fontFamily="serif" opacity="0.9">
       ॐ
     </text>
   </svg>
@@ -173,7 +171,73 @@ const SimpleDivider = () => (
 );
 
 /* ─────────────────────────────────────────
-   DATA
+   CORNER ORNAMENT
+───────────────────────────────────────── */
+function CornerOrnament({ pos }: { pos: "tl" | "tr" | "bl" | "br" }) {
+  const flip = {
+    tl: "scale(1,1)",
+    tr: "scale(-1,1)",
+    bl: "scale(1,-1)",
+    br: "scale(-1,-1)",
+  }[pos];
+  return (
+    <svg
+      viewBox="0 0 40 40"
+      className={styles.cornerOrn}
+      style={{ transform: flip }}
+    >
+      <path d="M2,2 L2,18 M2,2 L18,2" stroke="#b8860b" strokeWidth="1.5" fill="none" />
+      <path d="M2,2 Q8,8 16,2 Q8,8 2,16" stroke="#b8860b" strokeWidth="0.7" fill="none" />
+      <circle cx="2" cy="2" r="2" fill="#b8860b" opacity="0.7" />
+      <circle cx="10" cy="10" r="1.5" fill="#b8860b" opacity="0.4" />
+    </svg>
+  );
+}
+
+/* ─────────────────────────────────────────
+   BORDER STRIP
+───────────────────────────────────────── */
+function BorderStrip() {
+  return (
+    <div className={styles.borderStrip}>
+      <svg
+        viewBox="0 0 800 14"
+        preserveAspectRatio="none"
+        xmlns="http://www.w3.org/2000/svg"
+        className={styles.borderSvg}
+      >
+        {Array.from({ length: 40 }, (_, i) => {
+          const x = i * 20 + 10;
+          return (
+            <g key={i}>
+              <polygon
+                points={`${x},7 ${x + 6},2 ${x + 12},7 ${x + 6},12`}
+                fill="none"
+                stroke="#b8860b"
+                strokeWidth="0.8"
+              />
+              <circle cx={x + 6} cy={7} r="1.2" fill="#b8860b" opacity="0.7" />
+            </g>
+          );
+        })}
+        <line x1="0" y1="7" x2="800" y2="7" stroke="#e07b00" strokeWidth="0.3" />
+      </svg>
+    </div>
+  );
+}
+
+/* ─────────────────────────────────────────
+   SEATS CELL — dynamic (same as 100hr)
+───────────────────────────────────────── */
+function SeatsCell({ booked, total }: { booked: number; total: number }) {
+  const isFull = booked >= total;
+  const remaining = total - booked;
+  if (isFull) return <span className={styles.fullyBooked}>Fully Booked</span>;
+  return <span className={styles.seatsAvailable}>{remaining} / {total} Seats</span>;
+}
+
+/* ─────────────────────────────────────────
+   DATA — static content
 ───────────────────────────────────────── */
 const learnItems = [
   "How to teach professionally.",
@@ -193,43 +257,21 @@ const whoItems = [
   "Looking forward to sharing the teachings with others for a happy and meaningful life.",
 ];
 
-const scheduleRows = [
-  {
-    date: "05th Jan to 29th Jan 2026",
-    dorm: "$749",
-    shared: "$899",
-    priv: "$1099",
-  },
-  {
-    date: "03rd Feb to 27th Feb 2026",
-    dorm: "$749",
-    shared: "$899",
-    priv: "$1099",
-  },
-  {
-    date: "03rd Mar to 27th Mar 2026",
-    dorm: "$749",
-    shared: "$899",
-    priv: "$1099",
-  },
-  {
-    date: "03rd Apr to 27th Apr 2026",
-    dorm: "$749",
-    shared: "$899",
-    priv: "$1099",
-  },
-  {
-    date: "03rd May to 27th May 2026",
-    dorm: "$749",
-    shared: "$899",
-    priv: "$1099",
-  },
-];
-
 /* ═══════════════════════════════════════════
    MAIN COMPONENT
 ═══════════════════════════════════════════ */
 export default function AshtangaVinyasaTTC() {
+  const [seats, setSeats] = useState<SeatBatch[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    api
+      .get("/vinyasa-seats/get-all-batches")
+      .then((res) => setSeats(res.data.data ?? []))
+      .catch((err) => console.error("Failed to fetch vinyasa seats:", err))
+      .finally(() => setLoading(false));
+  }, []);
+
   return (
     <div className={styles.page}>
       {/* Fixed Mandala Decorations */}
@@ -246,7 +288,8 @@ export default function AshtangaVinyasaTTC() {
         <MandalaSVG size={220} c1="#d4a017" c2="#e07b00" sw={0.56} />
       </div>
       <div className={styles.chakraGlow} aria-hidden="true" />
-<section className={styles.heroSection}>
+
+      <section className={styles.heroSection}>
         <Image
           src={heroImg}
           alt="Yoga Students Group"
@@ -256,6 +299,7 @@ export default function AshtangaVinyasaTTC() {
           priority
         />
       </section>
+
       {/* ══════════════════════════════════════
           SECTION 1 — INTRO + COURSE DETAILS
       ══════════════════════════════════════ */}
@@ -498,41 +542,127 @@ export default function AshtangaVinyasaTTC() {
             </p>
           </div>
 
-          {/* Availability Table */}
-          <div className={`table-responsive ${styles.tableWrap} mt-4`}>
-            <table className={styles.schedTable}>
-              <thead>
-                <tr>
-                  <th>DATE</th>
-                  <th>DORMITORY</th>
-                  <th>SHARED ROOM</th>
-                  <th>PRIVATE ROOM</th>
-                  <th>AVAILABILITY</th>
-                </tr>
-              </thead>
-              <tbody>
-                {scheduleRows.map((row, i) => (
-                  <tr key={i}>
-                    <td>{row.date}</td>
-                    <td>{row.dorm}</td>
-                    <td>{row.shared}</td>
-                    <td>{row.priv}</td>
-                    <td className={styles.availCell}>Available</td>
-                  </tr>
-                ))}
-                <tr className={styles.bookRow}>
-                  <td className={styles.bookLabel}>Book Your Spot</td>
-                  <td>Register your spot</td>
-                  <td>by Paying $110 only</td>
-                  <td colSpan={2}>
-                    <a href="#" className={styles.payBtn}>
-                      🛒 Payments Page
-                    </a>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+          {/* ── DATES TABLE — 100HR STYLE ── */}
+          <BorderStrip />
+
+          <div className={styles.datesSection}>
+            <div className={styles.omDivider}>
+              <div className={styles.divLineLeft} />
+              <div className={styles.omDividerCenter}>
+                <MandalaSVG size={52} c1="#e07b00" c2="#d4a017" sw={0.5} />
+                <span className={styles.omDividerLabel}>Upcoming Batches</span>
+              </div>
+              <div className={styles.divLineRight} />
+            </div>
+
+            <div className={styles.datesVintageHeadingWrap}>
+              <h2 className={styles.datesVintageHeading}>
+                Upcoming Ashtanga Vinyasa Yoga Teacher Training Rishikesh
+              </h2>
+              <div className={styles.datesVintageHeadingUnderline}>
+                <svg
+                  viewBox="0 0 200 8"
+                  xmlns="http://www.w3.org/2000/svg"
+                  className={styles.headingUndSvg}
+                >
+                  <path
+                    d="M0,4 Q50,0 100,4 Q150,8 200,4"
+                    stroke="#e07b00"
+                    strokeWidth="1.2"
+                    fill="none"
+                  />
+                  <circle cx="100" cy="4" r="3" fill="#e07b00" opacity="0.7" />
+                  <circle cx="10" cy="4" r="1.5" fill="#b8860b" opacity="0.5" />
+                  <circle cx="190" cy="4" r="1.5" fill="#b8860b" opacity="0.5" />
+                </svg>
+              </div>
+            </div>
+
+            <p className={styles.centerSubtext}>
+              Choose your preferred accommodation. Prices include tuition and meals.
+            </p>
+
+            <div className={styles.tableContainer}>
+              <CornerOrnament pos="tl" />
+              <CornerOrnament pos="tr" />
+              <CornerOrnament pos="bl" />
+              <CornerOrnament pos="br" />
+
+              <div className={styles.tableScroll}>
+                {loading ? (
+                  <p style={{ padding: "2rem", textAlign: "center", fontFamily: "serif", color: "#8b4513" }}>
+                    Loading upcoming batches…
+                  </p>
+                ) : seats.length === 0 ? (
+                  <p style={{ padding: "2rem", textAlign: "center", fontFamily: "serif", color: "#8b4513" }}>
+                    No upcoming batches available at the moment.
+                  </p>
+                ) : (
+                  <table className={styles.datesTable}>
+                    <thead>
+                      <tr>
+                        <th>Date</th>
+                        <th>Fee</th>
+                        <th>Fee (Indian)</th>
+                        <th>Room Price</th>
+                        <th>Seats</th>
+                        <th>Apply</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {seats.map((row) => {
+                        const isFull = row.bookedSeats >= row.totalSeats;
+                        return (
+                          <tr key={row._id}>
+                            <td>
+                              <span className={styles.dateCal}>📅</span>{" "}
+                              {formatDateRange(row.startDate, row.endDate)}
+                            </td>
+                            <td>{row.usdFee}</td>
+                            <td>{row.inrFee}</td>
+                            <td className={styles.roomPriceCell}>
+                              Dorm <strong className={styles.priceAmt}>${row.dormPrice}</strong> |{" "}
+                              Twin <strong className={styles.priceAmt}>${row.twinPrice}</strong> |{" "}
+                              Private <strong className={styles.priceAmt}>${row.privatePrice}</strong>
+                            </td>
+                            <td>
+                              <SeatsCell booked={row.bookedSeats} total={row.totalSeats} />
+                            </td>
+                            <td>
+                              {isFull ? (
+                                <span className={styles.applyDisabled}>Apply Now</span>
+                              ) : (
+                                <a
+                                  href={`/yoga-registration?batchId=${row._id}&type=vinyasa`}
+                                  className={styles.applyLink}
+                                >
+                                  Apply Now
+                                </a>
+                              )}
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                )}
+              </div>
+
+              {seats.find((s) => s.note) && (
+                <p className={styles.tableNote}>
+                  <strong>Note:</strong> {seats.find((s) => s.note)?.note}
+                </p>
+              )}
+
+              <div style={{ textAlign: "center", padding: "1rem 0 0.5rem" }}>
+                <a href="#" className={styles.joinBtn}>
+                  🛒 Payments Page
+                </a>
+              </div>
+            </div>
           </div>
+
+          <BorderStrip />
 
           {/* Testimonial */}
           <div className={`${styles.testimonialBlock} mt-5`}>

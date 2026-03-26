@@ -100,6 +100,14 @@ const navItems: NavItem[] = [
         ],
       },
       {
+        label: "Vinyasa Teacher Training",
+        icon: "⑤",
+        children: [
+          { href: "/admin/yogacourse/vinyasa-teacher-training",   label: "vinyasa teacher training" },
+        
+        ],
+      },
+      {
         label: "Yoga Course Bali",
         icon: "⑤",
         children: [
