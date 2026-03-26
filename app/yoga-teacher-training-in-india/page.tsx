@@ -165,15 +165,43 @@ const OmDivider = ({ slim = false }: { slim?: boolean }) => (
 const AccredBadges = () => (
   <div className={styles.badgesRow}>
     {[
-      { label: "Yoga Alliance", sub: "USA" },
-      { label: "RYS", sub: "200" },
-      { label: "RYS", sub: "300" },
-      { label: "RYS", sub: "500" },
-      { label: "Ministry of", sub: "AYUSH" },
+      {
+        img: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Yoga_Alliance_logo.svg/200px-Yoga_Alliance_logo.svg.png",
+        label: "Yoga Alliance USA",
+      },
+      {
+        img: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Logo_Ministry_of_AYUSH.png/200px-Logo_Ministry_of_AYUSH.png",
+        label: "Ministry of AYUSH",
+      },
+      {
+        img: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Yoga_Alliance_logo.svg/200px-Yoga_Alliance_logo.svg.png",
+        label: "RYS 200",
+      },
+      {
+        img: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Yoga_Alliance_logo.svg/200px-Yoga_Alliance_logo.svg.png",
+        label: "RYS 300",
+      },
+      {
+        img: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Yoga_Alliance_logo.svg/200px-Yoga_Alliance_logo.svg.png",
+        label: "RYS 500",
+      },
+      {
+        img: "https://www.rishikulyogshala.org/wp-content/uploads/2022/09/india-logo.png",
+        label: "Made in India",
+      },
+      {
+        img: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Logo_Ministry_of_AYUSH.png/200px-Logo_Ministry_of_AYUSH.png",
+        label: "AYUSH Certified",
+      },
     ].map((b, i) => (
       <div key={i} className={styles.badge}>
-        <span className={styles.badgeTop}>{b.label}</span>
-        <span className={styles.badgeSub}>{b.sub}</span>
+        <img
+          src={b.img}
+          alt={b.label}
+          className={styles.badgeImg}
+          loading="lazy"
+        />
+        <span className={styles.badgeLabel}>{b.label}</span>
       </div>
     ))}
   </div>

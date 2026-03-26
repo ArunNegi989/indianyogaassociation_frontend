@@ -91,7 +91,14 @@ const navItems: NavItem[] = [
           { href: "/admin/yogacourse/500hourscourse/content", label: "Page Content" },
         ],
       },
-      
+      {
+        label: "Yoga Teacher In India",
+        icon: "⑤",
+        children: [
+          { href: "/admin/yogacourse/yoga-teacher-in-india",   label: "Yoga Teacher India" },
+        
+        ],
+      },
       {
         label: "Yoga Course Bali",
         icon: "⑤",
