@@ -91,6 +91,15 @@ const navItems: NavItem[] = [
           { href: "/admin/dashboard/500hr-content", label: "Page Content" },
         ],
       },
+      
+      {
+        label: "Yoga Course Bali",
+        icon: "⑤",
+        children: [
+          { href: "/admin/yogacourse/yoga-course-bali",   label: "Yoga Course Bali" },
+        
+        ],
+      },
       {
         label: "Yoga Ayurveda Teacher",
         icon: "⑤",
