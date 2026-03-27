@@ -48,19 +48,18 @@ export default function BestYogaSchoolListPage() {
 
   useEffect(() => { fetchList(); }, []);
 
-  const handleDelete = async (id: string, title: string) => {
-    if (!confirm(`Delete "${title}"?\nThis cannot be undone.`)) return;
-    try {
-      setDeleting(id);
-      await api.delete(`/best-yoga-school/delete`);
-      setRows([]);
-      toast.success("Page deleted successfully");
-    } catch {
-      toast.error("Delete failed. Please try again.");
-    } finally {
-      setDeleting(null);
-    }
-  };
+const handleDelete = async (id: string, title: string) => {
+  try {
+    setDeleting(id);
+    await api.delete(`/best-yoga-school/delete`);
+    await fetchList();  
+    toast.success("Page deleted successfully");
+  } catch {
+    toast.error("Delete failed");
+  } finally {
+    setDeleting(null);
+  }
+};
 
   const toggleStatus = async (id: string, current: "Active" | "Inactive") => {
     const next = current === "Active" ? "Inactive" : "Active";
@@ -85,9 +84,14 @@ export default function BestYogaSchoolListPage() {
             Hero · Accreditations · Body Text · Courses (200/300/500hr) · Specialty Courses
           </p>
         </div>
-        <Link href="/admin/yogacourse/yoga-teacher-in-rishikesh/add-new" className={styles.addNewBtn}>
-          ＋ Add New
-        </Link>
+        {rows.length === 0 && (
+  <Link
+    href="/admin/yogacourse/yoga-teacher-in-rishikesh/add-new"
+    className={styles.addNewBtn}
+  >
+    ＋ Add New
+  </Link>
+)}
       </div>
 
       <div className={styles.ornament} style={{ margin: "0.5rem 0 1.5rem" }}>
@@ -203,7 +207,7 @@ export default function BestYogaSchoolListPage() {
                     <div className={styles.actionBtns}>
                       <Link
                         className={styles.editBtn}
-                        href="/admin/yogacourse/best-yoga-school/add-new"
+                        href={`/admin/yogacourse/yoga-teacher-in-rishikesh/${row._id}`}
                       >
                         ✎ Edit
                       </Link>

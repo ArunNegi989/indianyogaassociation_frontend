@@ -732,7 +732,7 @@ export default function BestYogaSchoolAdminForm() {
         toast.success("Page created successfully!");
       }
       setSubmitted(true);
-      setTimeout(() => router.push("/admin/yogacourse/best-yoga-school"), 1500);
+      setTimeout(() => router.push("/admin/yogacourse/yoga-teacher-in-rishikesh"), 1500);
     } catch (e: any) {
       toast.error(e?.response?.data?.message || e?.message || "Something went wrong");
     } finally {
@@ -767,7 +767,7 @@ export default function BestYogaSchoolAdminForm() {
     <div className={styles.formPage}>
       {/* Breadcrumb */}
       <div className={styles.breadcrumb}>
-        <button className={styles.breadcrumbLink} onClick={() => router.push("/admin/yogacourse/best-yoga-school")}>
+        <button className={styles.breadcrumbLink} onClick={() => router.push("/admin/yogacourse/yoga-teacher-in-rishikesh")}>
           Best Yoga School
         </button>
         <span className={styles.breadcrumbSep}>›</span>
@@ -926,7 +926,7 @@ export default function BestYogaSchoolAdminForm() {
 
       {/* Actions */}
       <div className={styles.formActions}>
-        <Link href="/admin/yogacourse/best-yoga-school" className={styles.cancelBtn}>← Cancel</Link>
+        <Link href="/admin/yogacourse/yoga-teacher-in-rishikesh" className={styles.cancelBtn}>← Cancel</Link>
         <button type="button"
           className={`${styles.submitBtn} ${isSubmitting ? styles.submitBtnLoading : ""}`}
           onClick={handleSubmit(onSubmit)} disabled={isSubmitting}>
