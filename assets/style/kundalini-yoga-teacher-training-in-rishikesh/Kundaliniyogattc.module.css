@@ -590,58 +590,193 @@
 }
 .classImgWrap:hover .classImg { transform: scale(1.03); }
 
-/* ────────────────────────────────────────
-   AVAILABILITY TABLE
-──────────────────────────────────────── */
-.tableWrap {
-  border-radius: 7px; overflow: hidden;
-  box-shadow: 0 6px 26px var(--shadow-md);
-  border: 1px solid var(--border);
+/* ════════════════════════════════════════
+   SECTION 8 — AVAILABILITY TABLE
+   (100-hour page style — vintage bordered)
+════════════════════════════════════════ */
+
+/* Subtext under heading */
+.kCenterSubtext {
+  text-align: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: clamp(.9rem,1.4vw,1rem);
+  color: var(--ink-lt);
+  margin-bottom: 1.5rem;
 }
-.availTable { width: 100%; border-collapse: collapse; background: #fff; }
-.availTable thead tr {
+
+/* ── Outer container with inner border glow ── */
+.kTableContainer {
+  position: relative;
+  border: 2px solid var(--gold);
+  border-radius: 2px;
+  box-shadow:
+    inset 0 0 0 5px rgba(212,160,23,.1),
+    0 6px 30px var(--shadow-md);
+  background: linear-gradient(160deg, var(--parch-lt) 0%, var(--parch-dk) 100%);
+  padding: 0.4rem;
+}
+
+/* ── Corner Ornament ── */
+.kCornerOrn {
+  position: absolute;
+  width: 38px;
+  height: 38px;
+  z-index: 5;
+  pointer-events: none;
+}
+.kTableContainer > .kCornerOrn:nth-child(1) { top: 4px;    left: 4px;  }
+.kTableContainer > .kCornerOrn:nth-child(2) { top: 4px;    right: 4px; }
+.kTableContainer > .kCornerOrn:nth-child(3) { bottom: 4px; left: 4px;  }
+.kTableContainer > .kCornerOrn:nth-child(4) { bottom: 4px; right: 4px; }
+
+/* ── Scroll wrapper ── */
+.kTableScroll { overflow-x: auto; }
+
+/* ── Table ── */
+.kDatesTable {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 760px;
+  background: #fff;
+}
+
+/* Head */
+.kDatesTable thead tr {
   background: linear-gradient(135deg, var(--saffron) 0%, var(--saffron-dk) 100%);
 }
-.availTable thead th {
-  font-family: 'Cinzel', serif; font-weight: 700;
-  font-size: clamp(.65rem,1.1vw,.8rem);
-  color: #fff; padding: .85rem 1rem; text-align: center;
-  letter-spacing: .07em; white-space: nowrap;
+.kDatesTable thead th {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(.63rem,1.05vw,.78rem);
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: #fff;
+  padding: .9rem 1rem;
+  text-align: center;
+  text-shadow: 0 1px 2px rgba(0,0,0,.3);
   border: none;
+  white-space: nowrap;
 }
-.availTable thead th:first-child { text-align: left; min-width: 160px; }
+.kDatesTable thead th:first-child { text-align: left; min-width: 190px; }
 
-.availTable tbody tr:nth-child(even) { background: rgba(255,253,245,.9); }
-.availTable tbody tr:nth-child(odd)  { background: rgba(245,232,200,.35); }
-.availTable tbody tr { transition: background .15s; }
-.availTable tbody tr:hover:not(.bookRow) { background: rgba(224,123,0,.06); }
-
-.availTable td {
-  padding: .65rem 1rem; text-align: center;
-  font-size: clamp(.78rem,1.3vw,.9rem);
-  color: var(--ink); border-bottom: 1px solid var(--border-lt);
+/* Body rows */
+.kDatesTable tbody tr {
+  border-bottom: 1px solid rgba(212,160,23,.15);
+  transition: background .18s;
 }
-.availTable td:first-child { text-align: left; }
+.kDatesTable tbody tr:nth-child(odd)  { background: rgba(245,230,200,.6); }
+.kDatesTable tbody tr:nth-child(even) { background: rgba(232,210,168,.45); }
+.kDatesTable tbody tr:hover           { background: rgba(224,123,0,.08); }
 
-.availTd { color: var(--saffron); font-weight: 700; font-family: 'Cinzel', serif; }
-
-.bookRow td {
-  font-weight: 700; background: rgba(245,232,195,.6) !important;
-  border-top: 2px solid var(--border);
+.kDatesTable td {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(.83rem,1.28vw,.95rem);
+  color: var(--ink-md);
+  padding: .7rem 1rem;
+  text-align: center;
+  vertical-align: middle;
 }
-.bookLabel { font-family: 'Cinzel', serif; color: var(--ink-md); }
+.kDatesTable td:first-child { text-align: left; }
 
-.payBtn {
+/* Date calendar emoji */
+.kDateCal { margin-right: .25rem; }
+
+/* Room price cell */
+.kRoomPriceCell {
+  font-size: clamp(.8rem,1.18vw,.88rem) !important;
+  white-space: nowrap;
+}
+.kPriceAmt {
+  color: var(--crimson);
+  font-weight: 700;
+}
+
+/* ── Seats badges ── */
+.kSeatsAvailable {
+  font-family: 'Cinzel', serif;
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .05em;
+  color: #3d6000;
+  background: rgba(90,138,0,.1);
+  border: 1px solid rgba(90,138,0,.3);
+  border-radius: 20px;
+  padding: .22rem .75rem;
+  white-space: nowrap;
   display: inline-block;
-  font-family: 'Cinzel', serif; font-size: clamp(.66rem,1vw,.78rem);
-  font-weight: 700; letter-spacing: .08em;
-  text-decoration: none; color: #fff;
-  background: linear-gradient(135deg, var(--saffron), var(--saffron-dk));
-  padding: .4rem 1.1rem; border-radius: 3px;
-  box-shadow: 0 3px 12px var(--glow);
-  transition: transform .2s, box-shadow .2s;
 }
-.payBtn:hover { transform: translateY(-2px); box-shadow: 0 6px 18px var(--glow); color: #fff; }
+.kFullyBooked {
+  font-family: 'Cinzel', serif;
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .05em;
+  color: #8a2c00;
+  background: rgba(184,64,0,.1);
+  border: 1px solid rgba(184,64,0,.35);
+  border-radius: 20px;
+  padding: .22rem .75rem;
+  white-space: nowrap;
+  display: inline-block;
+}
+
+/* ── Apply links ── */
+.kApplyLink {
+  font-family: 'Cinzel', serif;
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+  color: var(--saffron);
+  text-decoration: none;
+  border-bottom: 1px dotted var(--saffron);
+  transition: color .18s, border-color .18s;
+  white-space: nowrap;
+}
+.kApplyLink:hover { color: var(--crimson); border-color: var(--crimson); }
+
+.kApplyDisabled {
+  font-family: 'Cinzel', serif;
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+  color: #b0a090;
+  border-bottom: 1px dotted #b0a090;
+  cursor: not-allowed;
+  opacity: .5;
+  pointer-events: none;
+}
+
+/* ── Table note ── */
+.kTableNote {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: .9rem;
+  font-style: italic;
+  color: var(--ink-lt);
+  padding: .8rem 1.2rem .4rem;
+}
+.kTableNote strong { color: var(--ink-md); }
+
+/* ── Join button ── */
+.kJoinBtn {
+  display: inline-block;
+  font-family: 'Cinzel', serif;
+  font-size: clamp(.66rem,1vw,.78rem);
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: #fff;
+  text-decoration: none;
+  background: linear-gradient(135deg, var(--saffron) 0%, var(--saffron-dk) 100%);
+  padding: .75rem 2rem;
+  border-radius: 2px;
+  box-shadow: 0 4px 16px var(--glow);
+  transition: box-shadow .2s, transform .15s;
+}
+.kJoinBtn:hover {
+  box-shadow: 0 6px 22px var(--glow);
+  transform: translateY(-1px);
+  color: #fff;
+}
 
 /* ────────────────────────────────────────
    POLICY ITEMS
@@ -711,6 +846,9 @@
   .accordBody { padding: .75rem .9rem .85rem 1rem; }
   .readingBox, .noteBox { margin: .8rem; }
   .sectionChakra { display: none; }
+  /* Table responsive */
+  .kRoomPriceCell { white-space: normal !important; }
+  .kCornerOrn { width: 28px; height: 28px; }
 }
 
 /* 576px */
@@ -733,8 +871,10 @@
   .accordCheck { font-size: .8rem; }
   .schedTime { min-width: 68px; font-size: .72rem; }
   .schedAct { font-size: .82rem; }
-  .availTable thead th { padding: .65rem .65rem; font-size: .63rem; }
-  .availTable td { padding: .55rem .65rem; font-size: .77rem; }
+  /* Table responsive */
+  .kDatesTable thead th { padding: .65rem .65rem; font-size: .6rem; }
+  .kDatesTable td { padding: .55rem .65rem; font-size: .8rem; }
+  .kJoinBtn { font-size: .63rem; padding: .6rem 1.4rem; }
   .benefitItem { font-size: .85rem; padding: .45rem .65rem; }
   .highlightItem { padding: .7rem .85rem; }
   .whyCard { padding: .75rem .85rem; }
@@ -757,7 +897,7 @@
   .accordionWrap { padding: .5rem .6rem; }
   .accordHead { padding: .6rem .7rem; }
   .accordTitle { font-size: .73rem; }
-  .payBtn { font-size: .62rem; padding: .35rem .85rem; }
+  .kJoinBtn { font-size: .6rem; padding: .5rem 1.1rem; }
   .readingBox, .noteBox { margin: .5rem; padding: .75rem .85rem; }
   .bodyPara { font-size: .85rem; }
 }

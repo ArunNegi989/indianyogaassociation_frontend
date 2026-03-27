@@ -7,23 +7,27 @@ import api from "@/lib/api";
 import styles from "@/assets/style/Admin/yogacourse/200hourscourse/Yoga200hr.module.css";
 import toast from "react-hot-toast";
 
-interface YogaTTCIndiaData {
+interface KundaliniTTCData {
   _id: string;
-  heroTitle: string;
-  slug: string;
   status: "Active" | "Inactive";
   createdAt: string;
-  accredBadges?: Array<{ label: string; imgUrl?: string }>;
-  courseCards?: Array<{ hours: string; title: string }>;
-  locations?: Array<{ name: string }>;
-  quoteCards?: Array<{ quote: string }>;
-  arrivalList?: string[];
-  feeList?: string[];
+  // Section titles
+  whatIsTitle?: string;
+  syllabusBigTitle?: string;
+  whyAYMTitle?: string;
+  // Arrays for stats
+  syllabusModules?: Array<{ id: string; title: string; items: string[] }>;
+  highlightCards?: Array<{ id: string; title: string; desc: string }>;
+  whyCards?: Array<{ id: string; label: string; desc: string }>;
+  benefitItems?: string[];
+  scheduleItems?: Array<{ id: string; time: string; activity: string }>;
+  facilityItems?: string[];
+  refundItems?: string[];
 }
 
-export default function YogaTTCIndiaListPage() {
+export default function KundaliniTTCListPage() {
   const router = useRouter();
-  const [rows, setRows] = useState<YogaTTCIndiaData[]>([]);
+  const [rows, setRows] = useState<KundaliniTTCData[]>([]);
   const [loading, setLoading] = useState(true);
   const [deleting, setDeleting] = useState<string | null>(null);
   const [error, setError] = useState("");
@@ -32,16 +36,16 @@ export default function YogaTTCIndiaListPage() {
     try {
       setLoading(true);
       setError("");
-      const res = await api.get("/yoga-ttc-india");
-     const data = res.data?.data;
+      const res = await api.get("/kundalini-ttc-content/get");
+      const data = res.data?.data;
 
-if (data) {
-  setRows([data]); 
-} else {
-  setRows([]);
-}
+      if (data) {
+        setRows([data]);
+      } else {
+        setRows([]);
+      }
     } catch {
-      setError("Failed to load Yoga TTC India pages.");
+      setError("Failed to load Kundalini TTC page.");
     } finally {
       setLoading(false);
     }
@@ -49,33 +53,29 @@ if (data) {
 
   useEffect(() => { fetchList(); }, []);
 
-  const handleDelete = async (id: string, title: string) => {
-    if (!confirm(`Delete "${title}"?\nThis cannot be undone.`)) return;
-    try {
-      setDeleting(id);
-      await api.delete(`/yoga-ttc-india/delete`);
-setRows([]);
-      setRows((prev) => prev.filter((r) => r._id !== id));
-      toast.success("Page deleted successfully");
-    } catch {
-      toast.error("Delete failed. Please try again.");
-    } finally {
-      setDeleting(null);
-    }
-  };
+const handleDelete = async (id: string, title: string) => {
+  try {
+    setDeleting(id);
+    await api.delete(`/kundalini-ttc-content/delete`);
+    setRows([]);
+    toast.success("Page deleted successfully");
+  } catch {
+    toast.error("Delete failed. Please try again.");
+  } finally {
+    setDeleting(null);
+  }
+};
 
   const toggleStatus = async (id: string, current: "Active" | "Inactive") => {
     const next = current === "Active" ? "Inactive" : "Active";
     try {
-     await api.put(`/yoga-ttc-india/update`, { status: next });
-
-setRows((prev) =>
-  prev.map((r) => ({
-    ...r,
-    status: next,
-  }))
-);
-      setRows((prev) => prev.map((r) => (r._id === id ? { ...r, status: next } : r)));
+      await api.put(`/kundalini-ttc-content/update`, { status: next });
+      setRows((prev) =>
+        prev.map((r) => ({
+          ...r,
+          status: next,
+        }))
+      );
       toast.success(`Status updated to ${next}`);
     } catch {
       toast.error("Status update failed.");
@@ -87,19 +87,14 @@ setRows((prev) =>
       {/* Header */}
       <div className={styles.listHeader}>
         <div>
-          <h1 className={styles.listTitle}>Yoga TTC India Pages</h1>
+          <h1 className={styles.listTitle}>Kundalini TTC Pages</h1>
           <p className={styles.listSubtitle}>
-            Hero · Badges · Locations · Courses · Why AYM · Quotes · Arrival · Fee
+            Hero · What is Kundalini · Benefits · Highlights · Syllabus · Eligibility · Facilities · Schedule · Why AYM · Rishikesh · Refund
           </p>
         </div>
-       {rows.length === 0 && (
-  <Link
-    href="/admin/yogacourse/yoga-teacher-in-india/add-new"
-    className={styles.addNewBtn}
-  >
-    ＋ Add New
-  </Link>
-)}
+        <Link href="/admin/yogacourse/kundalini-yoga-teacher-training/add-new" className={styles.addNewBtn}>
+          ＋ Add New
+        </Link>
       </div>
 
       <div className={styles.ornament} style={{ margin: "0.5rem 0 1.5rem" }}>
@@ -118,16 +113,16 @@ setRows((prev) =>
       {loading ? (
         <div className={styles.loadingWrap}>
           <span className={styles.spinner} />
-          <span>Loading Yoga TTC India pages…</span>
+          <span>Loading Kundalini TTC page…</span>
         </div>
       ) : rows.length === 0 ? (
         <div className={styles.emptyState}>
           <div className={styles.emptyOm}>🧘</div>
-          <h3 className={styles.emptyTitle}>No Yoga TTC India pages yet</h3>
+          <h3 className={styles.emptyTitle}>No Kundalini TTC page yet</h3>
           <p className={styles.emptyText}>
-            Create your first Yoga TTC India page to showcase your yoga teacher training programs, locations, and accreditations.
+            Create your first Kundalini TTC page to showcase your 200-hour Kundalini Yoga Teacher Training program, syllabus, and facilities.
           </p>
-          <Link href="/admin/yogacourse/yoga-teacher-in-india/add-new" className={styles.addNewBtn}>
+          <Link href="/admin/yogacourse/kundalini-yoga-teacher-training/add-new" className={styles.addNewBtn}>
             ＋ Create First Page
           </Link>
         </div>
@@ -138,7 +133,7 @@ setRows((prev) =>
               <tr>
                 <th className={styles.th}>#</th>
                 <th className={styles.th}>Page Details</th>
-                <th className={styles.th}>URL Slug</th>
+                <th className={styles.th}>Syllabus</th>
                 <th className={styles.th}>Content Stats</th>
                 <th className={styles.th}>Visibility</th>
                 <th className={styles.th}>Created Date</th>
@@ -153,27 +148,36 @@ setRows((prev) =>
                   </td>
                   <td className={styles.td}>
                     <div>
-                      <strong>{row.heroTitle || "—"}</strong>
+                      <strong>{row.whatIsTitle || "Kundalini TTC Page"}</strong>
                       <div className={styles.cellSub}>
-                        🎓 {row.courseCards?.length || 0} Course Cards
+                        🏷️ {row.highlightCards?.length || 0} Highlight Cards
                       </div>
                       <div className={styles.cellSub}>
-                        📍 {row.locations?.length || 0} Locations
+                        ✅ {row.benefitItems?.length || 0} Benefits
                       </div>
                     </div>
                   </td>
                   <td className={styles.td}>
-                    <code className={styles.slugBadge}>{row.slug || "—"}</code>
+                    <div className={styles.metaChip}>
+                      📚 {row.syllabusModules?.length || 0} Modules
+                    </div>
+                    <div className={styles.cellSub} style={{ fontSize: "0.72rem", marginTop: 2 }}>
+                      {row.syllabusBigTitle
+                        ? row.syllabusBigTitle.length > 36
+                          ? row.syllabusBigTitle.slice(0, 36) + "…"
+                          : row.syllabusBigTitle
+                        : "—"}
+                    </div>
                   </td>
                   <td className={styles.td}>
                     <div className={styles.metaChip}>
-                      🏅 {row.accredBadges?.length || 0} Badges
+                      🏛️ {row.whyCards?.length || 0} Why Cards
                     </div>
                     <div className={styles.metaChip}>
-                      💬 {row.quoteCards?.length || 0} Quotes
+                      🕐 {row.scheduleItems?.length || 0} Schedule Rows
                     </div>
                     <div className={styles.metaChip}>
-                      📋 {row.feeList?.length || 0} Fee Items
+                      🏠 {row.facilityItems?.length || 0} Facilities
                     </div>
                   </td>
                   <td className={styles.td}>
@@ -199,14 +203,14 @@ setRows((prev) =>
                     <div className={styles.actionBtns}>
                       <Link
                         className={styles.editBtn}
-                       href={`/admin/yogacourse/yoga-teacher-in-india/${row._id}`}
+                        href={`/admin/yogacourse/kundalini-yoga-teacher-training/${row._id}`}
                       >
                         ✎ Edit
                       </Link>
                       <button
                         type="button"
                         className={styles.deleteBtn}
-                        onClick={() => handleDelete(row._id, row.heroTitle)}
+                        onClick={() => handleDelete(row._id, row.whatIsTitle || "Kundalini TTC Page")}
                         disabled={deleting === row._id}
                       >
                         {deleting === row._id ? <span className={styles.spinner} /> : "🗑 Delete"}

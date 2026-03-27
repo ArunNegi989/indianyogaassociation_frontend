@@ -78,57 +78,22 @@ const ChakraSVG = ({
   color?: string;
 }) => (
   <svg viewBox="0 0 100 100" width={size} height={size} aria-hidden="true">
-    <circle
-      cx="50"
-      cy="50"
-      r="46"
-      fill="none"
-      stroke={color}
-      strokeWidth="1.2"
-    />
-    <circle
-      cx="50"
-      cy="50"
-      r="36"
-      fill="none"
-      stroke={color}
-      strokeWidth="0.8"
-      opacity="0.6"
-    />
-    <circle
-      cx="50"
-      cy="50"
-      r="20"
-      fill="none"
-      stroke={color}
-      strokeWidth="1"
-      opacity="0.8"
-    />
+    <circle cx="50" cy="50" r="46" fill="none" stroke={color} strokeWidth="1.2" />
+    <circle cx="50" cy="50" r="36" fill="none" stroke={color} strokeWidth="0.8" opacity="0.6" />
+    <circle cx="50" cy="50" r="20" fill="none" stroke={color} strokeWidth="1" opacity="0.8" />
     <circle cx="50" cy="50" r="8" fill={color} opacity="0.5" />
     {[0, 45, 90, 135, 180, 225, 270, 315].map((deg) => {
       const r = (deg * Math.PI) / 180;
       return (
         <line
           key={deg}
-          x1={50 + 22 * Math.cos(r)}
-          y1={50 + 22 * Math.sin(r)}
-          x2={50 + 44 * Math.cos(r)}
-          y2={50 + 44 * Math.sin(r)}
-          stroke={color}
-          strokeWidth="1"
-          opacity="0.6"
+          x1={50 + 22 * Math.cos(r)} y1={50 + 22 * Math.sin(r)}
+          x2={50 + 44 * Math.cos(r)} y2={50 + 44 * Math.sin(r)}
+          stroke={color} strokeWidth="1" opacity="0.6"
         />
       );
     })}
-    <text
-      x="50"
-      y="56"
-      textAnchor="middle"
-      fontSize="22"
-      fill={color}
-      fontFamily="serif"
-      opacity="0.9"
-    >
+    <text x="50" y="56" textAnchor="middle" fontSize="22" fill={color} fontFamily="serif" opacity="0.9">
       ॐ
     </text>
   </svg>
@@ -144,6 +109,36 @@ const OmDivider = ({ centered = true }: { centered?: boolean }) => (
     <span className={styles.omLine} />
   </div>
 );
+
+/* ─────────────────────────────────────────
+   CORNER ORNAMENT (100-hour style)
+───────────────────────────────────────── */
+const CornerOrnamentK = ({ pos }: { pos: "tl" | "tr" | "bl" | "br" }) => {
+  const flip = {
+    tl: "scale(1,1)",
+    tr: "scale(-1,1)",
+    bl: "scale(1,-1)",
+    br: "scale(-1,-1)",
+  }[pos];
+  return (
+    <svg viewBox="0 0 40 40" className={styles.kCornerOrn} style={{ transform: flip }}>
+      <path d="M2,2 L2,18 M2,2 L18,2" stroke="#b8860b" strokeWidth="1.5" fill="none" />
+      <path d="M2,2 Q8,8 16,2 Q8,8 2,16" stroke="#b8860b" strokeWidth="0.7" fill="none" />
+      <circle cx="2" cy="2" r="2" fill="#b8860b" opacity="0.7" />
+      <circle cx="10" cy="10" r="1.5" fill="#b8860b" opacity="0.4" />
+    </svg>
+  );
+};
+
+/* ─────────────────────────────────────────
+   SEATS CELL
+───────────────────────────────────────── */
+const SeatsCell = ({ booked, total }: { booked: number; total: number }) => {
+  const isFull = booked >= total;
+  const remaining = total - booked;
+  if (isFull) return <span className={styles.kFullyBooked}>Fully Booked</span>;
+  return <span className={styles.kSeatsAvailable}>{remaining} / {total} Seats</span>;
+};
 
 /* ─────────────────────────────────────────
    ACCORDION ITEM
@@ -299,56 +294,108 @@ const syllabusData = [
 ];
 
 /* ─────────────────────────────────────────
-   SCHEDULE TABLE DATA
+   SCHEDULE TABLE DATA  (updated with all fields)
 ───────────────────────────────────────── */
-const scheduleData = [
+interface ScheduleRow {
+  date: string;
+  usdFee: string;
+  inrFee: string;
+  dormPrice: number;
+  twinPrice: number;
+  privatePrice: number;
+  totalSeats: number;
+  bookedSeats: number;
+  note: string;
+}
+
+const scheduleData: ScheduleRow[] = [
   {
     date: "5th Dec to 27th Dec 2025",
-    shared: "$1299",
-    private: "$1499",
-    luxury: "$1699",
+    usdFee: "$1299",
+    inrFee: "₹1,07,000",
+    dormPrice: 1299,
+    twinPrice: 1499,
+    privatePrice: 1699,
+    totalSeats: 20,
+    bookedSeats: 18,
+    note: "",
   },
   {
     date: "5th Jan to 29th Jan 2026",
-    shared: "$1299",
-    private: "$1499",
-    luxury: "$1699",
+    usdFee: "$1299",
+    inrFee: "₹1,07,000",
+    dormPrice: 1299,
+    twinPrice: 1499,
+    privatePrice: 1699,
+    totalSeats: 20,
+    bookedSeats: 10,
+    note: "",
   },
   {
     date: "3rd Feb to 27th Feb 2026",
-    shared: "$1299",
-    private: "$1499",
-    luxury: "$1699",
+    usdFee: "$1299",
+    inrFee: "₹1,07,000",
+    dormPrice: 1299,
+    twinPrice: 1499,
+    privatePrice: 1699,
+    totalSeats: 20,
+    bookedSeats: 7,
+    note: "",
   },
   {
     date: "3rd Mar to 27th Mar 2026",
-    shared: "$1299",
-    private: "$1499",
-    luxury: "$1699",
+    usdFee: "$1299",
+    inrFee: "₹1,07,000",
+    dormPrice: 1299,
+    twinPrice: 1499,
+    privatePrice: 1699,
+    totalSeats: 20,
+    bookedSeats: 4,
+    note: "",
   },
   {
     date: "3rd Apr to 27th Apr 2026",
-    shared: "$1299",
-    private: "$1499",
-    luxury: "$1699",
+    usdFee: "$1299",
+    inrFee: "₹1,07,000",
+    dormPrice: 1299,
+    twinPrice: 1499,
+    privatePrice: 1699,
+    totalSeats: 20,
+    bookedSeats: 2,
+    note: "",
   },
   {
     date: "3rd May to 27th May 2026",
-    shared: "$1299",
-    private: "$1499",
-    luxury: "$1699",
+    usdFee: "$1299",
+    inrFee: "₹1,07,000",
+    dormPrice: 1299,
+    twinPrice: 1499,
+    privatePrice: 1699,
+    totalSeats: 20,
+    bookedSeats: 0,
+    note: "",
   },
   {
     date: "3rd Jun to 27th Jun 2026",
-    shared: "$1299",
-    private: "$1499",
-    luxury: "$1699",
+    usdFee: "$1299",
+    inrFee: "₹1,07,000",
+    dormPrice: 1299,
+    twinPrice: 1499,
+    privatePrice: 1699,
+    totalSeats: 20,
+    bookedSeats: 0,
+    note: "",
   },
   {
     date: "3rd Jul to 27th Jul 2026",
-    shared: "$1299",
-    private: "$1499",
-    luxury: "$1699",
+    usdFee: "$1299",
+    inrFee: "₹1,07,000",
+    dormPrice: 1299,
+    twinPrice: 1499,
+    privatePrice: 1699,
+    totalSeats: 20,
+    bookedSeats: 0,
+    note: "Register your spot by paying $110 only.",
   },
 ];
 
@@ -360,47 +407,26 @@ export default function KundaliniYogaTTC() {
     <div className={styles.page}>
       {/* ── Fixed Mandala Decorations ── */}
       <div className={styles.mandalaTL} aria-hidden="true">
-        <MandalaSVG
-          size={380}
-          color1="#e07b00"
-          color2="#d4a017"
-          strokeW={0.45}
-        />
+        <MandalaSVG size={380} color1="#e07b00" color2="#d4a017" strokeW={0.45} />
       </div>
       <div className={styles.mandalaBR} aria-hidden="true">
-        <MandalaSVG
-          size={340}
-          color1="#d4a017"
-          color2="#e07b00"
-          strokeW={0.45}
-        />
+        <MandalaSVG size={340} color1="#d4a017" color2="#e07b00" strokeW={0.45} />
       </div>
       <div className={styles.mandalaTR} aria-hidden="true">
-        <MandalaSVG
-          size={200}
-          color1="#e07b00"
-          color2="#d4a017"
-          strokeW={0.6}
-        />
+        <MandalaSVG size={200} color1="#e07b00" color2="#d4a017" strokeW={0.6} />
       </div>
       <div className={styles.mandalaBL} aria-hidden="true">
-        <MandalaSVG
-          size={200}
-          color1="#d4a017"
-          color2="#e07b00"
-          strokeW={0.6}
-        />
+        <MandalaSVG size={200} color1="#d4a017" color2="#e07b00" strokeW={0.6} />
       </div>
       <div className={styles.chakraGlow} aria-hidden="true" />
 
       {/* ══════════════════════════════════════
           SECTION 1 — HERO + INTRO
       ══════════════════════════════════════ */}
-       <section className={styles.heroSection}>
+      <section className={styles.heroSection}>
         <Image
           src={heroImg}
           alt="Yoga Students Group"
-         
           className={styles.heroImage}
           priority
         />
@@ -413,51 +439,41 @@ export default function KundaliniYogaTTC() {
         <div className="container px-3 px-md-4">
           <div className={styles.vintageCard}>
             <span className={styles.cardCorner}>✦</span>
-            <h2 className={styles.sectionTitleCenter}>
-              What is Kundalini Yoga?
-            </h2>
+            <h2 className={styles.sectionTitleCenter}>What is Kundalini Yoga?</h2>
             <OmDivider />
             <p className={styles.bodyPara}>
-              When we talk about the awakening of Kundalini, we have to
-              understand what Kundalini is. Kundalini yoga can be understood as
-              a practice that awakens the spiritual pranic force that energises
-              your chakras. This force is usually dormant, lying quietly and
-              coiled (like a snake) at the base of the spine, or root chakra.
-              From where does this force come from in the root chakra? Who has
-              created this? Actually, kundalini is that prana which is coiled
-              like a kundal, and we are born with it; it is not created in our
-              body. It flows in our pranic channels and chakras.
+              When we talk about the awakening of Kundalini, we have to understand what Kundalini is.
+              Kundalini yoga can be understood as a practice that awakens the spiritual pranic force that
+              energises your chakras. This force is usually dormant, lying quietly and coiled (like a
+              snake) at the base of the spine, or root chakra. From where does this force come from in
+              the root chakra? Who has created this? Actually, kundalini is that prana which is coiled
+              like a kundal, and we are born with it; it is not created in our body. It flows in our
+              pranic channels and chakras.
             </p>
             <p className={styles.bodyPara}>
-              <strong>Kundal</strong> means a ring or a coil; in this, prana
-              rotates in a coiled form, and when nadies are clean, this prana
-              uncoils, resulting in the awakening of kundalini. We also know
-              kundalini as Bhujangni energy, or coiled like a cobra.
+              <strong>Kundal</strong> means a ring or a coil; in this, prana rotates in a coiled form,
+              and when nadies are clean, this prana uncoils, resulting in the awakening of kundalini. We
+              also know kundalini as Bhujangni energy, or coiled like a cobra.
             </p>
             <p className={styles.bodyPara}>
-              Kundalini is the reserve spiritual energy that rotates at the base
-              of the mooladhara chakra, and when uncloiled, can rise, infuse the
-              body's cells and organs with extra life force, and confer special
-              powers, qualities, and psychic abilities.
+              Kundalini is the reserve spiritual energy that rotates at the base of the mooladhara
+              chakra, and when uncloiled, can rise, infuse the body's cells and organs with extra life
+              force, and confer special powers, qualities, and psychic abilities.
             </p>
             <p className={styles.bodyPara}>
-              Our 200 Hour Kundalini Yoga Teacher Training in Rishikesh, India,
-              focuses on awakening Kundalini energy by combining postures
-              (asanas), breathing techniques (pranayama), Kundalini yoga
-              meditation, chanting, and energy locks (bandhas). The primary goal
-              of this practice is to raise energy through the chakras and
-              promote spirituality within. Mantras and sounds resonate with the
-              energy centres, and kundalini yoga promotes physical, mental, and
-              emotional well-being.
+              Our 200 Hour Kundalini Yoga Teacher Training in Rishikesh, India, focuses on awakening
+              Kundalini energy by combining postures (asanas), breathing techniques (pranayama),
+              Kundalini yoga meditation, chanting, and energy locks (bandhas). The primary goal of this
+              practice is to raise energy through the chakras and promote spirituality within. Mantras
+              and sounds resonate with the energy centres, and kundalini yoga promotes physical, mental,
+              and emotional well-being.
             </p>
             <p className={styles.bodyPara}>
-              At AYM, we offer an exclusive 300-hour Kundalini yoga teacher
-              training course in Rishikesh, as well as a{" "}
-              <strong>200-hour Kundalini yoga course</strong> that provides a
-              deeper understanding of this practice. Under the guidance of our
-              experienced instructors and the influence of the Ashram lifestyle,
-              aspirants of the <strong>Kundalini YTTC in Rishikesh</strong> can
-              feel rejuvenated and complete.
+              At AYM, we offer an exclusive 300-hour Kundalini yoga teacher training course in
+              Rishikesh, as well as a <strong>200-hour Kundalini yoga course</strong> that provides a
+              deeper understanding of this practice. Under the guidance of our experienced instructors
+              and the influence of the Ashram lifestyle, aspirants of the{" "}
+              <strong>Kundalini YTTC in Rishikesh</strong> can feel rejuvenated and complete.
             </p>
           </div>
         </div>
@@ -468,62 +484,50 @@ export default function KundaliniYogaTTC() {
       ══════════════════════════════════════ */}
       <section className={`${styles.section} ${styles.sectionLight}`}>
         <div className="container px-3 px-md-4">
-          {/* Inline chakra watermark */}
           <div className={styles.sectionChakra} aria-hidden="true">
             <ChakraSVG size={120} color="rgba(224,123,0,0.08)" />
           </div>
 
           <h2 className={styles.sectionTitleCenter}>
-            Activate your Kundalini through the kundalini yoga TTC in rishikesh
-            at AYM
+            Activate your Kundalini through the kundalini yoga TTC in rishikesh at AYM
           </h2>
           <OmDivider />
           <p className={styles.bodyPara}>
-            When approached with care, patience, proper guidance, and a focus on
-            spiritual growth, awakening your Kundalini energy can be an
-            uplifting experience - bringing joy, heightened consciousness, and
-            enhanced intuitive and psychic abilities. This is why many seekers
-            pursue enlightenment through practices such as Kundalini yoga and
-            meditation. However, if Kundalini energy is awakened suddenly -
-            whether through yoga or by coming into contact with someone whose
-            Kundalini is already active - and you are not prepared or have
-            energetic blockages, the energy may become stuck.
+            When approached with care, patience, proper guidance, and a focus on spiritual growth,
+            awakening your Kundalini energy can be an uplifting experience - bringing joy, heightened
+            consciousness, and enhanced intuitive and psychic abilities. This is why many seekers pursue
+            enlightenment through practices such as Kundalini yoga and meditation. However, if Kundalini
+            energy is awakened suddenly - whether through yoga or by coming into contact with someone
+            whose Kundalini is already active - and you are not prepared or have energetic blockages,
+            the energy may become stuck.
           </p>
           <p className={styles.bodyPara}>
-            If your Kundalini energy awakens unexpectedly and you are
-            unprepared, it is essential to seek guidance from a traditional
-            Kundalini yoga teacher who can support you through the awakening
-            process. Remember, activating Kundalini power is only one way to
-            access your chakras, your body, and your mental power. While the
-            tradition of arousing Kundalini has endured for centuries, there are
-            traditional and modern approaches to awakening your chakras.
-            Traditional Kundalini yoga in Rishikesh is found only in a few of
-            the oldest Kundalini yoga schools within the traditional yoga
-            lineages.
+            If your Kundalini energy awakens unexpectedly and you are unprepared, it is essential to
+            seek guidance from a traditional Kundalini yoga teacher who can support you through the
+            awakening process. Remember, activating Kundalini power is only one way to access your
+            chakras, your body, and your mental power. While the tradition of arousing Kundalini has
+            endured for centuries, there are traditional and modern approaches to awakening your chakras.
+            Traditional Kundalini yoga in Rishikesh is found only in a few of the oldest Kundalini yoga
+            schools within the traditional yoga lineages.
           </p>
 
           {/* Benefits */}
           <div className={`${styles.vintageCard} mt-4`}>
             <span className={styles.cardCorner}>✦</span>
-            <h2 className={styles.sectionTitleCenter}>
-              What are the Benefits of Kundalini Yoga?
-            </h2>
+            <h2 className={styles.sectionTitleCenter}>What are the Benefits of Kundalini Yoga?</h2>
             <OmDivider />
             <p className={styles.bodyPara}>
-              Is Kundalini yoga the right choice for you? Does it even provide
-              any positive impact on the body? Can I benefit from it in any way?
-              Well, of course, yes. It is natural to have such questions in mind
-              if you have recently been interested in taking up the{" "}
+              Is Kundalini yoga the right choice for you? Does it even provide any positive impact on
+              the body? Can I benefit from it in any way? Well, of course, yes. It is natural to have
+              such questions in mind if you have recently been interested in taking up the{" "}
               <strong>Kundalini YTT course in India</strong>.
             </p>
             <p className={styles.bodyPara}>
               You must know that enrolling in our{" "}
-              <strong>Kundalini YTT course in Rishikesh</strong> at AYM will
-              transform your personal and professional lives. So look at the
-              benefits this yoga practice can offer and become firm in your
-              decision.
+              <strong>Kundalini YTT course in Rishikesh</strong> at AYM will transform your personal
+              and professional lives. So look at the benefits this yoga practice can offer and become
+              firm in your decision.
             </p>
-
             <div className={styles.benefitGrid}>
               {[
                 "It promotes spiritual growth, higher consciousness and self-awareness.",
@@ -551,15 +555,11 @@ export default function KundaliniYogaTTC() {
             <OmDivider />
             <p className={styles.bodyPara}>
               At AYM, we offer the{" "}
-              <strong>
-                best Kundalini yoga teacher training course in rishikesh
-              </strong>{" "}
-              for aspiring students. Our course has been distinctively and
-              masterfully designed to meet the expectations of our students and
-              promote their teaching careers. Take a look at our course
+              <strong>best Kundalini yoga teacher training course in rishikesh</strong> for aspiring
+              students. Our course has been distinctively and masterfully designed to meet the
+              expectations of our students and promote their teaching careers. Take a look at our course
               highlights by reading below:
             </p>
-
             <div className="row g-3 mt-2">
               {[
                 {
@@ -587,9 +587,7 @@ export default function KundaliniYogaTTC() {
                   <div className={styles.highlightItem}>
                     <div className={styles.highlightDot} />
                     <div>
-                      <strong className={styles.highlightTitle}>
-                        {h.title}:
-                      </strong>
+                      <strong className={styles.highlightTitle}>{h.title}:</strong>
                       <span className={styles.highlightDesc}> {h.desc}</span>
                     </div>
                   </div>
@@ -612,55 +610,38 @@ export default function KundaliniYogaTTC() {
               </h2>
               <p className={styles.syllabusSchool}>Aym Yoga School</p>
             </div>
-
             <div className={styles.courseOverview}>
               <h3 className={styles.overviewTitle}>Course Overview:</h3>
               <p className={styles.bodyPara} style={{ marginBottom: 0 }}>
-                This comprehensive 200-hour Kundalini Yoga Teacher Training in
-                India at Aym Yoga School is designed to provide students with a
-                deep understanding of Kundalini Yoga, including its philosophy,
-                techniques, practice, teaching methodology, anatomy, and
-                lifestyle. Upon completion, participants will be equipped to
-                teach Kundalini Yoga classes with confidence and authenticity.
+                This comprehensive 200-hour Kundalini Yoga Teacher Training in India at Aym Yoga School
+                is designed to provide students with a deep understanding of Kundalini Yoga, including
+                its philosophy, techniques, practice, teaching methodology, anatomy, and lifestyle. Upon
+                completion, participants will be equipped to teach Kundalini Yoga classes with confidence
+                and authenticity.
               </p>
             </div>
-
             <div className={styles.accordionWrap}>
               {syllabusData.map((item, i) => (
-                <AccordionItem
-                  key={i}
-                  num={i + 1}
-                  title={item.title}
-                  items={item.items}
-                />
+                <AccordionItem key={i} num={i + 1} title={item.title} items={item.items} />
               ))}
             </div>
-
-            {/* Required Reading */}
             <div className={styles.readingBox}>
               <h3 className={styles.readingTitle}>
-                Required Reading: Kundalini Yoga teacher training 200 hours
-                India
+                Required Reading: Kundalini Yoga teacher training 200 hours India
               </h3>
               <ul className={styles.readingList}>
                 <li>"The Aquarian Teacher" by Yogi Bhajan</li>
                 <li>"Hatha yoga pradipika: Bihar school of Yoga</li>
                 <li>"The Yoga Sutras of Patanjali"</li>
-                <li>
-                  Aym Yoga School Training Manual of Kundalini Yoga TTC in
-                  Rishikesh.
-                </li>
+                <li>Aym Yoga School Training Manual of Kundalini Yoga TTC in Rishikesh.</li>
               </ul>
             </div>
-
-            {/* Note */}
             <div className={styles.noteBox}>
               <h3 className={styles.noteTitle}>Note:</h3>
               <p className={styles.bodyPara} style={{ marginBottom: 0 }}>
-                The above syllabus is in accordance with the specific guidelines
-                and vision of Best Kundalini Yoga teacher training India at Aym
-                Yoga School and the Yoga Alliance certified Kundalini Yoga
-                India.
+                The above syllabus is in accordance with the specific guidelines and vision of Best
+                Kundalini Yoga teacher training India at Aym Yoga School and the Yoga Alliance certified
+                Kundalini Yoga India.
               </p>
             </div>
           </div>
@@ -676,56 +657,47 @@ export default function KundaliniYogaTTC() {
           <div className={styles.vintageCard}>
             <span className={styles.cardCorner}>✦</span>
             <h2 className={styles.sectionTitleCenter}>
-              Who Is Eligible to Join the Kundalini Yoga Teacher Training Course
-              in Rishikesh?
+              Who Is Eligible to Join the Kundalini Yoga Teacher Training Course in Rishikesh?
             </h2>
             <OmDivider />
             <p className={styles.bodyPara}>
-              Wondering if you will ever get the chance to complete your dream
-              of becoming a yoga teacher? Aspirants often have the question of
-              whether they are eligible enough to enrol in yoga teacher training
-              in Rishikesh. But that's not right. At AYM, we offer courses to
+              Wondering if you will ever get the chance to complete your dream of becoming a yoga
+              teacher? Aspirants often have the question of whether they are eligible enough to enrol in
+              yoga teacher training in Rishikesh. But that's not right. At AYM, we offer courses to
               people from all regions and backgrounds.
             </p>
             <p className={styles.bodyPara}>
-              There is no age boundary, and there are no qualification
-              requirements. Also, you do not need to have any prior knowledge of
-              yoga. We allow you to start right from scratch and foster skills
-              until you reach the advanced level. All we need our aspirants to
-              have is the motivation to learn yoga, be open-minded, and aim to
-              build a career for themselves in this age-old practice.
+              There is no age boundary, and there are no qualification requirements. Also, you do not
+              need to have any prior knowledge of yoga. We allow you to start right from scratch and
+              foster skills until you reach the advanced level. All we need our aspirants to have is the
+              motivation to learn yoga, be open-minded, and aim to build a career for themselves in this
+              age-old practice.
             </p>
           </div>
 
           {/* Location */}
           <div className={`${styles.vintageCard} mt-4`}>
             <span className={styles.cardCorner}>✦</span>
-            <h2 className={styles.sectionTitleCenter}>
-              Is the Location Prime for Yoga Learning?
-            </h2>
+            <h2 className={styles.sectionTitleCenter}>Is the Location Prime for Yoga Learning?</h2>
             <OmDivider />
             <p className={styles.bodyPara}>
-              When learning yoga, we understand how much the surroundings and
-              the environment matter. This is why we have chosen Rishikesh as
-              our prime location for offering top kundalini yoga teacher
-              training courses. Our institute is surrounded by lush greenery as
-              it lies in the lap of the Himalayas.
+              When learning yoga, we understand how much the surroundings and the environment matter.
+              This is why we have chosen Rishikesh as our prime location for offering top kundalini yoga
+              teacher training courses. Our institute is surrounded by lush greenery as it lies in the
+              lap of the Himalayas.
             </p>
             <p className={styles.bodyPara}>
-              Being surrounded by nature allows our students to connect with
-              their higher selves and foster calmness. Our ashrams are
-              traditionally established with a perfect blend of modern touches.
-              Our studios are sound-proof and spacious enough to concentrate on
-              your practices. Moreover, our studios are equipped with all the
-              study materials required to complete the{" "}
+              Being surrounded by nature allows our students to connect with their higher selves and
+              foster calmness. Our ashrams are traditionally established with a perfect blend of modern
+              touches. Our studios are sound-proof and spacious enough to concentrate on your practices.
+              Moreover, our studios are equipped with all the study materials required to complete the{" "}
               <strong>yoga TTC in Rishikesh</strong> without hassle.
             </p>
             <p className={styles.bodyPara}>
-              Aspirants are provided accommodation that includes private rooms,
-              shared rooms, and dormitories. Depending on their preference,
-              students can pick any. In addition to this, we offer our{" "}
-              <strong>kundalini yoga courses in Rishikesh</strong>, retreats,
-              and workshops in India and across the globe.
+              Aspirants are provided accommodation that includes private rooms, shared rooms, and
+              dormitories. Depending on their preference, students can pick any. In addition to this, we
+              offer our <strong>kundalini yoga courses in Rishikesh</strong>, retreats, and workshops in
+              India and across the globe.
             </p>
           </div>
 
@@ -737,14 +709,12 @@ export default function KundaliniYogaTTC() {
             </h2>
             <OmDivider />
             <p className={styles.bodyPara}>
-              Aspirants often worry that learning yoga will break the bank. If
-              you are thinking the same, then there's no need to worry. Our 500
-              hour kundalini yoga TTC programmes were masterfully prepared
-              keeping the convenience and affordability of the students in mind.
-              To reach everyone, we have offered our courses at a minimal fee.
-              Not only that, our fee includes several facilities that students
-              can enjoy during their course program. Some of them are listed
-              below.
+              Aspirants often worry that learning yoga will break the bank. If you are thinking the
+              same, then there's no need to worry. Our 500 hour kundalini yoga TTC programmes were
+              masterfully prepared keeping the convenience and affordability of the students in mind. To
+              reach everyone, we have offered our courses at a minimal fee. Not only that, our fee
+              includes several facilities that students can enjoy during their course program. Some of
+              them are listed below.
             </p>
             <div className="row g-2 mt-2">
               {[
@@ -836,33 +806,16 @@ export default function KundaliniYogaTTC() {
       ══════════════════════════════════════ */}
       <section className={`${styles.section} ${styles.sectionLight}`}>
         <div className="container px-3 px-md-4">
-          <h2 className={styles.sectionTitleCenter}>
-            Why Choose AYM Yoga School?
-          </h2>
+          <h2 className={styles.sectionTitleCenter}>Why Choose AYM Yoga School?</h2>
           <OmDivider />
           <div className="row g-3 mb-4">
             {[
-              [
-                "Tradition",
-                "We follow Ancient Traditional yoga of The Himalayas.",
-              ],
-              [
-                "Location",
-                "We are located in a peaceful, serene, and beautiful place in Rishikesh.",
-              ],
-              [
-                "Teacher",
-                "We have 14+ experienced teachers under the guidance of Yogi Chetan Mahesh.",
-              ],
+              ["Tradition", "We follow Ancient Traditional yoga of The Himalayas."],
+              ["Location", "We are located in a peaceful, serene, and beautiful place in Rishikesh."],
+              ["Teacher", "We have 14+ experienced teachers under the guidance of Yogi Chetan Mahesh."],
               ["Courses", "We offer different important yoga courses."],
-              [
-                "Experiences",
-                "Until now, our ashram has trained more than 6000+ yoga teachers worldwide.",
-              ],
-              [
-                "Kundalini-Based Training",
-                "Our primary purpose is to awaken the latent energy of our students.",
-              ],
+              ["Experiences", "Until now, our ashram has trained more than 6000+ yoga teachers worldwide."],
+              ["Kundalini-Based Training", "Our primary purpose is to awaken the latent energy of our students."],
             ].map(([label, desc], i) => (
               <div key={i} className="col-12 col-md-6 col-lg-4">
                 <div className={styles.whyCard}>
@@ -875,8 +828,6 @@ export default function KundaliniYogaTTC() {
               </div>
             ))}
           </div>
-
-          {/* Class photo */}
           <div className={styles.classImgWrap}>
             <img
               src="https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?w=1200&q=85"
@@ -889,51 +840,89 @@ export default function KundaliniYogaTTC() {
       </section>
 
       {/* ══════════════════════════════════════
-          SECTION 8 — AVAILABILITY TABLE
+          SECTION 8 — AVAILABILITY TABLE  (100-hour style)
       ══════════════════════════════════════ */}
-      <section
-        className={`${styles.section} ${styles.sectionWarm}`}
-        id="schedule"
-      >
+      <section className={`${styles.section} ${styles.sectionWarm}`} id="schedule">
         <div className="container px-3 px-md-4">
           <h2 className={styles.sectionTitleCenter}>
             Availability Of The 200 Hour Kundalini Yoga TTC 2026
           </h2>
           <OmDivider />
+          <p className={styles.kCenterSubtext}>
+            Choose your preferred accommodation. Prices include tuition and meals.
+          </p>
 
-          <div className={`table-responsive ${styles.tableWrap}`}>
-            <table className={styles.availTable}>
-              <thead>
-                <tr>
-                  <th>DATE</th>
-                  <th>SHARED ACCOMMODATION</th>
-                  <th>PRIVATE ACCOMMODATION</th>
-                  <th>LUXURY ACCOMMODATION</th>
-                  <th>AVAILABILITY</th>
-                </tr>
-              </thead>
-              <tbody>
-                {scheduleData.map((row, i) => (
-                  <tr key={i}>
-                    <td>{row.date}</td>
-                    <td>{row.shared}</td>
-                    <td>{row.private}</td>
-                    <td>{row.luxury}</td>
-                    <td className={styles.availTd}>Available</td>
+          {/* ── Table container with corner ornaments ── */}
+          <div className={styles.kTableContainer}>
+            <CornerOrnamentK pos="tl" />
+            <CornerOrnamentK pos="tr" />
+            <CornerOrnamentK pos="bl" />
+            <CornerOrnamentK pos="br" />
+
+            <div className={styles.kTableScroll}>
+              <table className={styles.kDatesTable}>
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Fee</th>
+                    <th>Fee (Indian)</th>
+                    <th>Room Price</th>
+                    <th>Seats</th>
+                    <th>Apply</th>
                   </tr>
-                ))}
-                <tr className={styles.bookRow}>
-                  <td className={styles.bookLabel}>Book Your Spot</td>
-                  <td>Register your spot</td>
-                  <td>by Paying $110 only</td>
-                  <td colSpan={2}>
-                    <a href="#" className={styles.payBtn}>
-                      🛒 Payments Page
-                    </a>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {scheduleData.map((row, i) => {
+                    const isFull = row.bookedSeats >= row.totalSeats;
+                    return (
+                      <tr key={i}>
+                        <td>
+                          <span className={styles.kDateCal}>📅</span> {row.date}
+                        </td>
+                        <td>{row.usdFee}</td>
+                        <td>{row.inrFee}</td>
+                        <td className={styles.kRoomPriceCell}>
+                          Dorm{" "}
+                          <strong className={styles.kPriceAmt}>${row.dormPrice}</strong> |{" "}
+                          Twin{" "}
+                          <strong className={styles.kPriceAmt}>${row.twinPrice}</strong> |{" "}
+                          Private{" "}
+                          <strong className={styles.kPriceAmt}>${row.privatePrice}</strong>
+                        </td>
+                        <td>
+                          <SeatsCell booked={row.bookedSeats} total={row.totalSeats} />
+                        </td>
+                        <td>
+                          {isFull ? (
+                            <span className={styles.kApplyDisabled}>Apply Now</span>
+                          ) : (
+                            <a
+                              href={`/yoga-registration?type=kundalini-200hr&batch=${i + 1}`}
+                              className={styles.kApplyLink}
+                            >
+                              Apply Now
+                            </a>
+                          )}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Note from last batch */}
+            {scheduleData.find((s) => s.note) && (
+              <p className={styles.kTableNote}>
+                <strong>Note:</strong> {scheduleData.find((s) => s.note)?.note}
+              </p>
+            )}
+
+            <div style={{ textAlign: "center", padding: "1rem 0 0.5rem" }}>
+              <a href="#" className={styles.kJoinBtn}>
+                Join Your Yoga Journey
+              </a>
+            </div>
           </div>
         </div>
       </section>
@@ -949,57 +938,43 @@ export default function KundaliniYogaTTC() {
               Why choose Kundalini Yoga classes and training in rishikesh?
             </h2>
             <OmDivider />
-
-            <h3 className={styles.subHeading}>
-              Spiritual significance of Rishikesh:
-            </h3>
+            <h3 className={styles.subHeading}>Spiritual significance of Rishikesh:</h3>
             <p className={styles.bodyPara}>
-              Rishikesh, situated on the banks of the sacred Ganges River and
-              nestled in the foothills of the Himalayas, is globally recognized
-              as the yoga capital of the world. In this vibrant city, there are
-              many authentic yoga schools, and experienced teachers attract
-              kundalini yoga seekers from every corner of the globe.
+              Rishikesh, situated on the banks of the sacred Ganges River and nestled in the foothills
+              of the Himalayas, is globally recognized as the yoga capital of the world. In this vibrant
+              city, there are many authentic yoga schools, and experienced teachers attract kundalini
+              yoga seekers from every corner of the globe.
             </p>
-
             <h3 className={styles.subHeading}>
               Natural setting and serene environment of Rishikesh:
             </h3>
             <p className={styles.bodyPara}>
-              The tranquil ambiance, combined with the region's powerful energy,
-              creates an ideal environment for learning authentic Kundalini yoga
-              in rishikesh. Whether you're a seasoned yogi or a curious
-              beginner, Rishikesh provides the perfect setting to embark on a
+              The tranquil ambiance, combined with the region's powerful energy, creates an ideal
+              environment for learning authentic Kundalini yoga in rishikesh. Whether you're a seasoned
+              yogi or a curious beginner, Rishikesh provides the perfect setting to embark on a
               transformative journey through Kundalini yoga.
             </p>
-
-            <h3 className={styles.subHeading}>
-              Types of Kundalini Yoga Classes in Rishikesh
-            </h3>
+            <h3 className={styles.subHeading}>Types of Kundalini Yoga Classes in Rishikesh</h3>
             <ul className={styles.bulletList}>
               <li>Beginner to advanced kundalini classes</li>
               <li>Kundalini yoga retreats and intensive courses</li>
               <li>Teacher training programs.</li>
             </ul>
-
             <h3 className={styles.subHeading}>
               Top Kundalini Yoga Schools and Centers in Rishikesh
             </h3>
             <p className={styles.bodyPara}>
-              In recent times, Kundalini yoga has become popular, and many
-              seekers are opting for it, and due to it, many Kundalini yoga
-              schools in rishikesh are starting to surface. But only a few offer
-              a structured, well-designed Kundalini yoga curriculum. AYM yoga
-              school and Hatha yoga school are among the Top Kundalini Yoga
-              Schools in Rishikesh.
+              In recent times, Kundalini yoga has become popular, and many seekers are opting for it,
+              and due to it, many Kundalini yoga schools in rishikesh are starting to surface. But only
+              a few offer a structured, well-designed Kundalini yoga curriculum. AYM yoga school and
+              Hatha yoga school are among the Top Kundalini Yoga Schools in Rishikesh.
             </p>
           </div>
 
           {/* Refund Policy */}
           <div className={`${styles.vintageCard} mt-4`}>
             <span className={styles.cardCorner}>✦</span>
-            <h2 className={styles.sectionTitleCenter}>
-              Refund Policy - AYM Yoga School
-            </h2>
+            <h2 className={styles.sectionTitleCenter}>Refund Policy - AYM Yoga School</h2>
             <OmDivider />
             <div className="row g-3">
               {[
@@ -1021,6 +996,7 @@ export default function KundaliniYogaTTC() {
           <OmDivider />
         </div>
       </section>
+
       <HowToReach />
     </div>
   );

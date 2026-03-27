@@ -92,10 +92,26 @@ const navItems: NavItem[] = [
         ],
       },
       {
+        label: "Yoga Teacher Rishikesh",
+        icon: "⑤",
+        children: [
+          { href: "/admin/yogacourse/yoga-teacher-in-rishikesh",   label: "Yoga Teacher Rishikesh" },
+        
+        ],
+      },
+      {
         label: "Yoga Teacher In India",
         icon: "⑤",
         children: [
           { href: "/admin/yogacourse/yoga-teacher-in-india",   label: "Yoga Teacher India" },
+        
+        ],
+      },
+       {
+        label: "kundalini-yoga",
+        icon: "⑤",
+        children: [
+          { href: "/admin/yogacourse/kundalini-yoga-teacher-training",   label: "Yoga Teacher India" },
         
         ],
       },
