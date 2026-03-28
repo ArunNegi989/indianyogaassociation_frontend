@@ -107,6 +107,15 @@ const navItems: NavItem[] = [
         
         ],
       },
+      {
+        label: "Prenatal Yoga Course",
+        icon: "⑤",
+        children: [
+          { href: "/admin/yogacourse/prenatal-yoga-course/prenatal-seats",   label: "prenatal yoga seats "},
+          { href: "/admin/yogacourse/prenatal-yoga-course/prenatal-content",   label: "prenatal content "},
+        
+        ],
+      },
        {
         label: "kundalini-yoga",
         icon: "⑤",

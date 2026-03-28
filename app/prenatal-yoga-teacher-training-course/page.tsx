@@ -1,10 +1,11 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styles from "@/assets/style/prenatal-yoga-teacher-training-course/Pregnancyyogattc.module.css";
 import HowToReach from "@/components/home/Howtoreach";
 import Image from "next/image";
 import heroImg from "@/assets/images/12.webp";
+import api from "@/lib/api";
 
 /* ─────────────────────────────────────────
    MANDALA SVG
@@ -85,87 +86,87 @@ const OmDivider = () => (
 );
 
 /* ─────────────────────────────────────────
-   SCHEDULE DATA
+   CORNER ORNAMENT (same as 200hr)
 ───────────────────────────────────────── */
-const scheduleRows = [
-  {
-    date: "24th Jan to 31st Jan 2026",
-    dorm: "$399",
-    priv: "$499",
-    lux: "$699",
-  },
-  {
-    date: "24th Feb to 03rd Mar 2026",
-    dorm: "$399",
-    priv: "$499",
-    lux: "$699",
-  },
-  {
-    date: "24th Mar to 31st Mar 2026",
-    dorm: "$399",
-    priv: "$499",
-    lux: "$699",
-  },
-  {
-    date: "24th Apr to 01st Apr 2026",
-    dorm: "$399",
-    priv: "$499",
-    lux: "$699",
-  },
-  {
-    date: "24th May to 31st May 2026",
-    dorm: "$399",
-    priv: "$499",
-    lux: "$699",
-  },
-  {
-    date: "24th Jun to 01st Jun 2026",
-    dorm: "$399",
-    priv: "$499",
-    lux: "$699",
-  },
-  {
-    date: "24th Jul to 31st Jul 2026",
-    dorm: "$399",
-    priv: "$499",
-    lux: "$699",
-  },
-  {
-    date: "24th Aug to 31st Aug 2026",
-    dorm: "$399",
-    priv: "$499",
-    lux: "$699",
-  },
-  {
-    date: "24th Sep to 01st Sep 2026",
-    dorm: "$399",
-    priv: "$499",
-    lux: "$699",
-  },
-  {
-    date: "24th Oct to 31st Oct 2026",
-    dorm: "$399",
-    priv: "$499",
-    lux: "$699",
-  },
-  {
-    date: "24th Nov to 01st Nov 2026",
-    dorm: "$399",
-    priv: "$499",
-    lux: "$699",
-  },
-  {
-    date: "24th Dec to 31st Dec 2026",
-    dorm: "$399",
-    priv: "$499",
-    lux: "$699",
-  },
-];
+function CornerOrnament({ pos }: { pos: "tl" | "tr" | "bl" | "br" }) {
+  const flip = { tl: "scale(1,1)", tr: "scale(-1,1)", bl: "scale(1,-1)", br: "scale(-1,-1)" }[pos];
+  return (
+    <svg viewBox="0 0 40 40" className={styles.cornerOrn} style={{ transform: flip }}>
+      <path d="M2,2 L2,18 M2,2 L18,2" stroke="#b8860b" strokeWidth="1.5" fill="none" />
+      <path d="M2,2 Q8,8 16,2 Q8,8 2,16" stroke="#b8860b" strokeWidth="0.7" fill="none" />
+      <circle cx="2" cy="2" r="2" fill="#b8860b" opacity="0.7" />
+      <circle cx="10" cy="10" r="1.5" fill="#b8860b" opacity="0.4" />
+    </svg>
+  );
+}
+
+/* ─────────────────────────────────────────
+   SEATS CELL (same as 200hr)
+───────────────────────────────────────── */
+function SeatsCell({ booked, total }: { booked: number; total: number }) {
+  const isFull = booked >= total;
+  const remaining = total - booked;
+  if (isFull) return <span className={styles.fullyBooked}>Fully Booked</span>;
+  return <span className={styles.seatsAvailable}>{remaining} / {total} Seats</span>;
+}
+
+/* ─────────────────────────────────────────
+   BATCH TYPE
+───────────────────────────────────────── */
+interface Batch {
+  _id: string;
+  startDate: string;
+  endDate: string;
+  usdFee: string;
+  inrFee: string;
+  dormPrice: number;
+  twinPrice: number;
+  privatePrice: number;
+  totalSeats: number;
+  bookedSeats: number;
+  note?: string;
+}
+
+/* ─────────────────────────────────────────
+   HELPERS
+───────────────────────────────────────── */
+function formatDateRange(start: string, end: string): string {
+  const opts: Intl.DateTimeFormatOptions = {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  };
+  const s = new Date(start).toLocaleDateString("en-IN", opts);
+  const e = new Date(end).toLocaleDateString("en-IN", opts);
+  return `${s} - ${e}`;
+}
+
+function stripHtml(html: string): string {
+  if (!html) return "";
+  return html.replace(/<[^>]*>/g, "").trim();
+}
 
 /* ═══════════════════════════════════════════
    MAIN COMPONENT
 ═══════════════════════════════════════════ */
 export default function PregnancyYogaTTC() {
+  const [batches, setBatches] = useState<Batch[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchBatches = async () => {
+      try {
+        const res = await api.get("/prenatal-seats/getAllBatches");
+        setBatches(res.data?.data || []);
+      } catch (err) {
+        console.error("Batch fetch error:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchBatches();
+  }, []);
+
   return (
     <div className={styles.page}>
       {/* ── Fixed Mandala Decorations ── */}
@@ -182,7 +183,9 @@ export default function PregnancyYogaTTC() {
         <MandalaSVG size={210} c1="#d4a017" c2="#e07b00" sw={0.58} />
       </div>
       <div className={styles.chakraGlow} aria-hidden="true" />
-<section className={styles.heroSection}>
+
+      {/* ── Hero Banner Image ── */}
+      <section className={styles.heroSection}>
         <Image
           src={heroImg}
           alt="Yoga Students Group"
@@ -192,6 +195,7 @@ export default function PregnancyYogaTTC() {
           priority
         />
       </section>
+
       {/* ══════════════════════════════════════
           SECTION 1 — HERO INTRO + 3 IMAGES
       ══════════════════════════════════════ */}
@@ -343,49 +347,93 @@ export default function PregnancyYogaTTC() {
       </section>
 
       {/* ══════════════════════════════════════
-          SECTION 3 — AVAILABILITY TABLE + COSTS + ONLINE
+          SECTION 3 — DYNAMIC BATCH TABLE (200hr style)
       ══════════════════════════════════════ */}
       <section className={`${styles.section} ${styles.sectionDeep}`}>
         <div className="container px-3 px-md-4">
-          {/* ── Schedule Table ── */}
+
           <h2 className={styles.sectionTitle}>
             Upcoming Prenatal Yoga Teacher Training India 2026
           </h2>
           <div className={styles.titleUnderline} />
 
-          <div className={`table-responsive ${styles.tableWrap}`}>
-            <table className={styles.schedTable}>
-              <thead>
-                <tr>
-                  <th>DATE</th>
-                  <th>DORMITORY ACCOMMODATION</th>
-                  <th>PRIVATE ACCOMMODATION</th>
-                  <th>LUXURY ACCOMMODATION</th>
-                  <th>AVAILABILITY</th>
-                </tr>
-              </thead>
-              <tbody>
-                {scheduleRows.map((row, i) => (
-                  <tr key={i}>
-                    <td>{row.date}</td>
-                    <td>{row.dorm}</td>
-                    <td>{row.priv}</td>
-                    <td>{row.lux}</td>
-                    <td className={styles.availCell}>Available</td>
+          {/* ── Dynamic Batch Table (same design as 200hr) ── */}
+          <div className={styles.tableContainer}>
+            <CornerOrnament pos="tl" />
+            <CornerOrnament pos="tr" />
+            <CornerOrnament pos="bl" />
+            <CornerOrnament pos="br" />
+            <div className={styles.tableScroll}>
+              <table className={styles.datesTable}>
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>FEE</th>
+                    <th>FEE (Indian)</th>
+                    <th>Room Price</th>
+                    <th>Seats</th>
+                    <th>Apply</th>
                   </tr>
-                ))}
-                <tr className={styles.bookRow}>
-                  <td className={styles.bookLabel}>Book Your Spot</td>
-                  <td>Register your spot</td>
-                  <td>by Paying $110 only</td>
-                  <td colSpan={2}>
-                    <a href="#" className={styles.payBtn}>
-                      🛒 Payments Page
-                    </a>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {loading ? (
+                    <tr>
+                      <td colSpan={6} style={{ textAlign: "center", padding: "2rem" }}>
+                        Loading upcoming batches...
+                      </td>
+                    </tr>
+                  ) : batches.length === 0 ? (
+                    <tr>
+                      <td colSpan={6} style={{ textAlign: "center", padding: "2rem" }}>
+                        No upcoming batches found.
+                      </td>
+                    </tr>
+                  ) : (
+                    batches.map((batch) => {
+                      const isFull = batch.bookedSeats >= batch.totalSeats;
+                      return (
+                        <tr key={batch._id}>
+                          <td className={styles.dateCell}>
+                            <span className={styles.dateCal}>📅</span>{" "}
+                            {formatDateRange(batch.startDate, batch.endDate)}
+                          </td>
+                          <td>{stripHtml(batch.usdFee)}</td>
+                          <td>{stripHtml(batch.inrFee)}</td>
+                          <td className={styles.roomPriceCell}>
+                            Dorm <strong className={styles.priceAmt}>${batch.dormPrice}</strong>{" "}
+                            | Twin <strong className={styles.priceAmt}>${batch.twinPrice}</strong>{" "}
+                            | Private <strong className={styles.priceAmt}>${batch.privatePrice}</strong>
+                          </td>
+                          <td>
+                            <SeatsCell booked={batch.bookedSeats} total={batch.totalSeats} />
+                          </td>
+                          <td>
+                            {isFull ? (
+                              <span className={styles.applyDisabled}>Apply Now</span>
+                            ) : (
+                              <a
+                                href={`/yoga-registration?batchId=${batch._id}&type=prenatal`}
+                                className={styles.applyLink}
+                              >
+                                Apply Now
+                              </a>
+                            )}
+                          </td>
+                        </tr>
+                      );
+                    })
+                  )}
+                </tbody>
+              </table>
+            </div>
+            {batches[0]?.note && (
+              <p className={styles.tableNote}>
+                <strong>Note:</strong> {stripHtml(batches[0].note)}
+              </p>
+            )}
+            <div style={{ textAlign: "center", padding: "1rem 0 0.5rem" }}>
+              <a href="#" className={styles.joinBtn}>Join Your Yoga Journey</a>
+            </div>
           </div>
 
           {/* ── TTC Costs ── */}
@@ -451,6 +499,7 @@ export default function PregnancyYogaTTC() {
           </div>
         </div>
       </section>
+
       <HowToReach />
     </div>
   );
