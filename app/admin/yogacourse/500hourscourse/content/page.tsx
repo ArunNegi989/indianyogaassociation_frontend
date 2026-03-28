@@ -390,13 +390,27 @@ export default function Yoga500hrList() {
             </strong>
           </p>
         </div>
-        <Link
-          href="/admin/yogacourse/500hourscourse/content/add-new"
-          className={styles.addBtn}
-        >
-          <span className={styles.addPlus}>＋</span>
-          <span className={styles.addLabel}>Add New Page</span>
-        </Link>
+        <button
+  className={styles.addBtn}
+  onClick={async () => {
+    try {
+      const res = await api.get("/yoga-500hr/content");
+
+      if (res.data.data?._id) {
+        // 🔥 already exists → show toast
+        toast.error("Only one page allowed. Please edit existing page.");
+      } else {
+        // ✅ allow navigation
+        router.push("/admin/yogacourse/500hourscourse/content/add-new");
+      }
+    } catch {
+      toast.error("Something went wrong");
+    }
+  }}
+>
+  <span className={styles.addPlus}>＋</span>
+  <span className={styles.addLabel}>Add New Page</span>
+</button>
       </div>
 
       {/* ── Ornament ── */}

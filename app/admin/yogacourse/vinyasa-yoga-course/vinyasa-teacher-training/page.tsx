@@ -91,7 +91,7 @@ if (d) {
             Intro · Course Details · Who Can Apply · Promo · Teachers · Community · Accommodation · Certification · Schedule · Testimonial
           </p>
         </div>
-        <Link href="/admin/yogacourse/vinyasa-teacher-training/add-new" className={styles.addNewBtn}>
+        <Link href="/admin/yogacourse/vinyasa-yoga-course/vinyasa-teacher-training/add-new" className={styles.addNewBtn}>
           ＋ Add New
         </Link>
       </div>
@@ -121,7 +121,7 @@ if (d) {
           <p className={styles.emptyText}>
             Create your first Ashtanga Vinyasa TTC page to showcase the course, schedule, and testimonials.
           </p>
-          <Link href="/admin/yogacourse/vinyasa-teacher-training/add-new" className={styles.addNewBtn}>
+          <Link href="/admin/yogacourse/vinyasa-yoga-course/vinyasa-teacher-training/add-new" className={styles.addNewBtn}>
             ＋ Create First Page
           </Link>
         </div>
