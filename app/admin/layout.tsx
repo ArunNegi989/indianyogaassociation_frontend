@@ -145,6 +145,16 @@ const navItems: NavItem[] = [
         
         ],
       },
+       {
+        label: "Yoga GOA in India",
+        icon: "⑤",
+        children: [
+          { href: "/admin/yogacourse/yoga-goa-in-india/yoga-goa-200hr-seats",   label: "200hr-seats-in-goa" },
+          { href: "/admin/yogacourse/yoga-goa-in-india/yoga-goa-300hr-seats",   label: "300hr-seats-in-goa" },
+          { href: "/admin/yogacourse/yoga-goa-in-india/yoga-goa-500hr-seats",   label: "500hr-seats-in-goa" },
+        
+        ],
+      },
       {
         label: "Yoga Course Bali",
         icon: "⑤",
