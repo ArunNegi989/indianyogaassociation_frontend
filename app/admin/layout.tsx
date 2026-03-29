@@ -108,6 +108,24 @@ const navItems: NavItem[] = [
         
         ],
       },
+        {
+        label: "Prenatal Yoga Course",
+        icon: "⑤",
+        children: [
+          { href: "/admin/yogacourse/prenatal-yoga-course/prenatal-seats",   label: "prenatal yoga seats "},
+          { href: "/admin/yogacourse/prenatal-yoga-course/prenatal-content",   label: "prenatal content "},
+        
+        ],
+      },
+       {
+        label: "Vinyasa Teacher Training",
+        icon: "⑤",
+        children: [
+           { href: "/admin/yogacourse/vinyasa-yoga-course/vinyasa-seats",   label: "vinyasa Seat" },
+          { href: "/admin/yogacourse/vinyasa-yoga-course/vinyasa-teacher-training",   label: "vinyasa teacher training" },
+        
+        ],
+      },
       {
         label: "Yoga Teacher In India",
         icon: "⑤",
@@ -126,25 +144,9 @@ const navItems: NavItem[] = [
         
         ],
       },
-      {
-        label: "Prenatal Yoga Course",
-        icon: "⑤",
-        children: [
-          { href: "/admin/yogacourse/prenatal-yoga-course/prenatal-seats",   label: "prenatal yoga seats "},
-          { href: "/admin/yogacourse/prenatal-yoga-course/prenatal-content",   label: "prenatal content "},
-        
-        ],
-      },
+    
        
-      {
-        label: "Vinyasa Teacher Training",
-        icon: "⑤",
-        children: [
-           { href: "/admin/yogacourse/vinyasa-yoga-course/vinyasa-seats",   label: "vinyasa Seat" },
-          { href: "/admin/yogacourse/vinyasa-yoga-course/vinyasa-teacher-training",   label: "vinyasa teacher training" },
-        
-        ],
-      },
+     
        {
         label: "Yoga GOA in India",
         icon: "⑤",
@@ -152,6 +154,7 @@ const navItems: NavItem[] = [
           { href: "/admin/yogacourse/yoga-goa-in-india/yoga-goa-200hr-seats",   label: "200hr-seats-in-goa" },
           { href: "/admin/yogacourse/yoga-goa-in-india/yoga-goa-300hr-seats",   label: "300hr-seats-in-goa" },
           { href: "/admin/yogacourse/yoga-goa-in-india/yoga-goa-500hr-seats",   label: "500hr-seats-in-goa" },
+          { href: "/admin/yogacourse/yoga-goa-in-india/yoga-goa-content",   label: "content-in-goa" },
         
         ],
       },
