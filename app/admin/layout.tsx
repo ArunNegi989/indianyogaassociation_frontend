@@ -92,6 +92,15 @@ const navItems: NavItem[] = [
         ],
       },
       {
+        label: "kundalini-yoga",
+        icon: "⑤",
+        children: [
+          { href: "/admin/yogacourse/kundalini-yoga/kundalini-yoga-seat",   label: "Yoga Teacher Seat" },
+          { href: "/admin/yogacourse/kundalini-yoga/kundalini-yoga-teacher-training",   label: "Yoga Teacher India" },
+        
+        ],
+      },
+      {
         label: "Yoga Teacher Rishikesh",
         icon: "⑤",
         children: [
@@ -116,15 +125,7 @@ const navItems: NavItem[] = [
         
         ],
       },
-       {
-        label: "kundalini-yoga",
-        icon: "⑤",
-        children: [
-          { href: "/admin/yogacourse/kundalini-yoga/kundalini-yoga-seat",   label: "Yoga Teacher Seat" },
-          { href: "/admin/yogacourse/kundalini-yoga/kundalini-yoga-teacher-training",   label: "Yoga Teacher India" },
-        
-        ],
-      },
+       
       {
         label: "Vinyasa Teacher Training",
         icon: "⑤",

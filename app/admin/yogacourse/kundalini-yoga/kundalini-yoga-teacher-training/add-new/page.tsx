@@ -719,7 +719,7 @@ export default function KundaliniTTCAdminForm() {
         toast.success("Page created successfully!");
       }
       setSubmitted(true);
-      setTimeout(() => router.push("/admin/yogacourse/kundalini-yoga-teacher-training"), 1500);
+      setTimeout(() => router.push("/admin/yogacourse/kundalini-yoga/kundalini-yoga-teacher-training"), 1500);
     } catch (e: any) {
       toast.error(e?.response?.data?.message || e?.message || "Something went wrong");
     } finally {
@@ -754,7 +754,7 @@ export default function KundaliniTTCAdminForm() {
     <div className={styles.formPage}>
       {/* Breadcrumb */}
       <div className={styles.breadcrumb}>
-        <button className={styles.breadcrumbLink} onClick={() => router.push("/admin/yogacourse/kundalini-yoga-teacher-training")}>
+        <button className={styles.breadcrumbLink} onClick={() => router.push("/admin/yogacourse/kundalini-yoga/kundalini-yoga-teacher-training")}>
           Kundalini TTC
         </button>
         <span className={styles.breadcrumbSep}>›</span>
@@ -1209,7 +1209,7 @@ export default function KundaliniTTCAdminForm() {
 
       {/* Actions */}
       <div className={styles.formActions}>
-        <Link href="/admin/yogacourse/kundalini-yoga-teacher-training" className={styles.cancelBtn}>← Cancel</Link>
+        <Link href="/admin/yogacourse/kundalini-yoga/kundalini-yoga-teacher-training" className={styles.cancelBtn}>← Cancel</Link>
         <button type="button"
           className={`${styles.submitBtn} ${isSubmitting ? styles.submitBtnLoading : ""}`}
           onClick={handleSubmit(onSubmit)} disabled={isSubmitting}>

@@ -203,7 +203,7 @@ const handleDelete = async (id: string, title: string) => {
                     <div className={styles.actionBtns}>
                       <Link
                         className={styles.editBtn}
-                        href={`/admin/yogacourse/kundalini-yoga-teacher-training/${row._id}`}
+                        href={`/admin/yogacourse/kundalini-yoga/kundalini-yoga-teacher-training/${row._id}`}
                       >
                         ✎ Edit
                       </Link>
