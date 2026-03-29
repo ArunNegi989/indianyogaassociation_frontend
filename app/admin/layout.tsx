@@ -117,6 +117,16 @@ const navItems: NavItem[] = [
         ],
       },
       {
+        label: "Hatha Yoga Teacher Training",
+        icon: "⑤",
+        children: [
+          { href: "/admin/yogacourse/hatha-yoga-teacher-training/hatha-yoga-training-seats",   label: "Hatha Yoga Seats" },
+          { href: "/admin/yogacourse/hatha-yoga-teacher-training/hatha-yoga-teacher-training-content",   label: "Hatha Yoga Teacher Content" },
+          
+        
+        ],
+      },
+      {
         label: "Prenatal Yoga Course",
         icon: "⑤",
         children: [
