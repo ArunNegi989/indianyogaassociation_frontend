@@ -4,9 +4,7 @@ import React, { useState, useEffect } from "react";
 import styles from "@/assets/style/500-hour-yoga-teacher-training-india/Yogattc500.module.css";
 import seatStyles from "@/assets/style/500-hour-yoga-teacher-training-india/Yogattc500.module.css";
 import HowToReach from "@/components/home/Howtoreach";
-import Image from "next/image";
-
-const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? "";
+import api from "@/lib/api";
 
 /* ─────────────────────────────────────────
    TYPES
@@ -114,13 +112,10 @@ function formatDateRange(start: string, end: string): string {
 function imgSrc(path: string): string {
   if (!path) return "";
   if (path.startsWith("http")) return path;
-  return `${API_BASE}${path}`;
+  return `${process.env.NEXT_PUBLIC_API_URL}${path}`;
 }
 
-/** Render a paragraph string safely.
- *  If the string contains HTML tags (e.g. <p>...</p> from rich-text editor),
- *  use dangerouslySetInnerHTML so they render as HTML, not raw text.
- */
+/** Render a paragraph string safely. */
 const Para = ({ html, className }: { html: string; className?: string }) => (
   <div
     className={className}
@@ -156,8 +151,7 @@ function SeatBookingSection() {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${API_BASE}/api${apiPath}`);
-      const data = await res.json();
+      const { data } = await api.get(apiPath);
       setBatchCache((prev) => ({ ...prev, [tab]: data?.data || [] }));
     } catch {
       setError("Failed to load batches. Please try again.");
@@ -394,10 +388,9 @@ export default function YogaTTC500() {
   useEffect(() => {
     const fetchContent = async () => {
       try {
-        const res = await fetch(`${API_BASE}/api/yoga-500hr/content`);
-        const json = await res.json();
-        if (json?.success && json?.data) {
-          setContent(json.data);
+        const { data } = await api.get("/yoga-500hr/content");
+        if (data?.success && data?.data) {
+          setContent(data.data);
         } else {
           setError("Content not available.");
         }

@@ -3,9 +3,108 @@
 import React, { useState, useEffect } from "react";
 import styles from "@/assets/style/prenatal-yoga-teacher-training-course/Pregnancyyogattc.module.css";
 import HowToReach from "@/components/home/Howtoreach";
-import Image from "next/image";
-import heroImg from "@/assets/images/12.webp";
 import api from "@/lib/api";
+
+/* ─────────────────────────────────────────
+   TYPES
+───────────────────────────────────────── */
+interface Batch {
+  _id: string;
+  startDate: string;
+  endDate: string;
+  usdFee: string;
+  inrFee: string;
+  dormPrice: number;
+  twinPrice: number;
+  privatePrice: number;
+  totalSeats: number;
+  bookedSeats: number;
+  note?: string;
+}
+
+interface HeroGridImage {
+  _id: string;
+  url: string;
+  alt: string;
+}
+
+interface ScheduleItem {
+  _id: string;
+  time: string;
+  activity: string;
+}
+
+interface CurriculumItem {
+  _id: string;
+  title: string;
+  hours: string;
+}
+
+interface HoursSummaryItem {
+  _id: string;
+  label: string;
+  value: string;
+}
+
+interface PageData {
+  _id: string;
+  slug: string;
+  status: string;
+  pageTitleH1: string;
+  heroImage: string;
+  heroImgAlt: string;
+  introSectionTitle: string;
+  introPara1: string;
+  introPara2: string;
+  introPara3: string;
+  introExtraParagraphs: string[];
+  heroGridImages: HeroGridImage[];
+  featuresSectionTitle: string;
+  featuresSuperLabel: string;
+  featuresPara1: string;
+  featuresPara2: string;
+  featuresExtraParagraphs: string[];
+  locationSubTitle: string;
+  locationPara: string;
+  locationImage: string;
+  schedule: ScheduleItem[];
+  batchSectionTitle: string;
+  joinBtnText: string;
+  joinBtnUrl: string;
+  costsSectionTitle: string;
+  costsPara: string;
+  costsExtraParagraphs: string[];
+  onlineSectionTitle: string;
+  onlinePara: string;
+  onlineExtraParagraphs: string[];
+  curriculum: CurriculumItem[];
+  hoursSummary: HoursSummaryItem[];
+}
+
+/* ─────────────────────────────────────────
+   HELPERS
+───────────────────────────────────────── */
+function imgSrc(path: string): string {
+  if (!path) return "";
+  if (path.startsWith("http")) return path;
+  return `${process.env.NEXT_PUBLIC_API_URL}${path}`;
+}
+
+function formatDateRange(start: string, end: string): string {
+  const opts: Intl.DateTimeFormatOptions = {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  };
+  const s = new Date(start).toLocaleDateString("en-IN", opts);
+  const e = new Date(end).toLocaleDateString("en-IN", opts);
+  return `${s} - ${e}`;
+}
+
+function stripHtml(html: string): string {
+  if (!html) return "";
+  return html.replace(/<[^>]*>/g, "").trim();
+}
 
 /* ─────────────────────────────────────────
    MANDALA SVG
@@ -86,14 +185,33 @@ const OmDivider = () => (
 );
 
 /* ─────────────────────────────────────────
-   CORNER ORNAMENT (same as 200hr)
+   CORNER ORNAMENT
 ───────────────────────────────────────── */
 function CornerOrnament({ pos }: { pos: "tl" | "tr" | "bl" | "br" }) {
-  const flip = { tl: "scale(1,1)", tr: "scale(-1,1)", bl: "scale(1,-1)", br: "scale(-1,-1)" }[pos];
+  const flip = {
+    tl: "scale(1,1)",
+    tr: "scale(-1,1)",
+    bl: "scale(1,-1)",
+    br: "scale(-1,-1)",
+  }[pos];
   return (
-    <svg viewBox="0 0 40 40" className={styles.cornerOrn} style={{ transform: flip }}>
-      <path d="M2,2 L2,18 M2,2 L18,2" stroke="#b8860b" strokeWidth="1.5" fill="none" />
-      <path d="M2,2 Q8,8 16,2 Q8,8 2,16" stroke="#b8860b" strokeWidth="0.7" fill="none" />
+    <svg
+      viewBox="0 0 40 40"
+      className={styles.cornerOrn}
+      style={{ transform: flip }}
+    >
+      <path
+        d="M2,2 L2,18 M2,2 L18,2"
+        stroke="#b8860b"
+        strokeWidth="1.5"
+        fill="none"
+      />
+      <path
+        d="M2,2 Q8,8 16,2 Q8,8 2,16"
+        stroke="#b8860b"
+        strokeWidth="0.7"
+        fill="none"
+      />
       <circle cx="2" cy="2" r="2" fill="#b8860b" opacity="0.7" />
       <circle cx="10" cy="10" r="1.5" fill="#b8860b" opacity="0.4" />
     </svg>
@@ -101,71 +219,93 @@ function CornerOrnament({ pos }: { pos: "tl" | "tr" | "bl" | "br" }) {
 }
 
 /* ─────────────────────────────────────────
-   SEATS CELL (same as 200hr)
+   SEATS CELL
 ───────────────────────────────────────── */
 function SeatsCell({ booked, total }: { booked: number; total: number }) {
   const isFull = booked >= total;
   const remaining = total - booked;
   if (isFull) return <span className={styles.fullyBooked}>Fully Booked</span>;
-  return <span className={styles.seatsAvailable}>{remaining} / {total} Seats</span>;
+  return (
+    <span className={styles.seatsAvailable}>
+      {remaining} / {total} Seats
+    </span>
+  );
 }
 
 /* ─────────────────────────────────────────
-   BATCH TYPE
+   SKELETON
 ───────────────────────────────────────── */
-interface Batch {
-  _id: string;
-  startDate: string;
-  endDate: string;
-  usdFee: string;
-  inrFee: string;
-  dormPrice: number;
-  twinPrice: number;
-  privatePrice: number;
-  totalSeats: number;
-  bookedSeats: number;
-  note?: string;
-}
-
-/* ─────────────────────────────────────────
-   HELPERS
-───────────────────────────────────────── */
-function formatDateRange(start: string, end: string): string {
-  const opts: Intl.DateTimeFormatOptions = {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-  };
-  const s = new Date(start).toLocaleDateString("en-IN", opts);
-  const e = new Date(end).toLocaleDateString("en-IN", opts);
-  return `${s} - ${e}`;
-}
-
-function stripHtml(html: string): string {
-  if (!html) return "";
-  return html.replace(/<[^>]*>/g, "").trim();
-}
+const PageSkeleton = () => (
+  <div
+    className={styles.page}
+    style={{
+      minHeight: "60vh",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+    }}
+  >
+    <div style={{ textAlign: "center", color: "#b87333", fontSize: "1.5rem" }}>
+      🕉️ Loading...
+    </div>
+  </div>
+);
 
 /* ═══════════════════════════════════════════
    MAIN COMPONENT
 ═══════════════════════════════════════════ */
 export default function PregnancyYogaTTC() {
+  const [pageData, setPageData] = useState<PageData | null>(null);
   const [batches, setBatches] = useState<Batch[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [pageLoading, setPageLoading] = useState(true);
+  const [batchLoading, setBatchLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
+  /* ── Fetch Page Content ── */
+  useEffect(() => {
+    const fetchPage = async () => {
+      try {
+        const { data } = await api.get("/prenatal-page");
+        if (data?.success && data?.data) {
+          setPageData(data.data);
+        } else {
+          setError("Content not available.");
+        }
+      } catch {
+        setError("Failed to load page content.");
+      } finally {
+        setPageLoading(false);
+      }
+    };
+    fetchPage();
+  }, []);
+
+  /* ── Fetch Batches ── */
   useEffect(() => {
     const fetchBatches = async () => {
       try {
-        const res = await api.get("/prenatal-seats/getAllBatches");
-        setBatches(res.data?.data || []);
+        const { data } = await api.get("/prenatal-seats");
+        setBatches(data?.data || []);
       } catch (err) {
         console.error("Batch fetch error:", err);
       } finally {
-        setLoading(false);
+        setBatchLoading(false);
       }
     };
     fetchBatches();
   }, []);
+
+  if (pageLoading) return <PageSkeleton />;
+  if (error || !pageData) {
+    return (
+      <div
+        className={styles.page}
+        style={{ padding: "4rem", textAlign: "center", color: "#c00" }}
+      >
+        {error || "Something went wrong."}
+      </div>
+    );
+  }
 
   return (
     <div className={styles.page}>
@@ -184,180 +324,194 @@ export default function PregnancyYogaTTC() {
       </div>
       <div className={styles.chakraGlow} aria-hidden="true" />
 
-      {/* ── Hero Banner Image ── */}
-      <section className={styles.heroSection}>
-        <Image
-          src={heroImg}
-          alt="Yoga Students Group"
-          width={1180}
-          height={540}
-          className={styles.heroImage}
-          priority
-        />
-      </section>
+      {/* ══ HERO IMAGE ══ */}
+      {pageData.heroImage && (
+        <section className={styles.heroSection}>
+          <img
+            src={imgSrc(pageData.heroImage)}
+            alt={pageData.heroImgAlt || "Prenatal Yoga"}
+            width={1180}
+            height={540}
+            className={styles.heroImage}
+          />
+        </section>
+      )}
 
       {/* ══════════════════════════════════════
-          SECTION 1 — HERO INTRO + 3 IMAGES
+          SECTION 1 — INTRO + HERO GRID IMAGES
       ══════════════════════════════════════ */}
       <section className={`${styles.section} ${styles.sectionLight}`}>
         <div className="container px-3 px-md-4">
-          <h1 className={styles.heroTitle}>
-            Pregnancy Yoga Course in Rishikesh
-          </h1>
+
+          {/* Page Title */}
+          {pageData.pageTitleH1 && (
+            <h1 className={styles.heroTitle}>{pageData.pageTitleH1}</h1>
+          )}
           <div className={styles.titleUnderline} />
 
-          <p className={styles.bodyPara}>
-            Pregnancy is one of the most crucial and beautiful phases in a
-            woman's life. During this time, her body undergoes significant
-            physical and emotional changes. To support women during this sacred
-            journey, AYM Yoga School offers the best prenatal yoga teacher
-            training in Rishikesh, including our specialized 85-hour prenatal
-            yoga course designed to meet the needs of expecting mothers.
-          </p>
-          <p className={styles.bodyPara}>
-            Our program blends traditional techniques with modern approaches,
-            incorporating Garbh Sanskar practices to nurture both the mother and
-            the baby. From mindfulness and emotional balance to building
-            strength and preparing for childbirth, this certification course
-            provides holistic support for a healthy and joyful pregnancy.
-          </p>
-          <p className={styles.bodyPara}>
-            Join AYM - the trusted name in pregnancy and prenatal yoga in
-            Rishikesh—and experience a transformative journey toward motherhood.
-          </p>
+          {/* Intro Section Title */}
+          {pageData.introSectionTitle && (
+            <h2 className={styles.sectionTitle}>{pageData.introSectionTitle}</h2>
+          )}
 
-          {/* 3-image grid */}
-          <div className={styles.heroImageGrid}>
-            <div className={styles.heroImgWrap}>
-              <img
-                src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=600&q=80"
-                alt="Prenatal yoga pose with bolster"
-                className={styles.heroImg}
-                loading="eager"
-              />
-              <div className={styles.heroImgOverlay} />
+          {/* Intro Paragraphs */}
+          {pageData.introPara1 && (
+            <div
+              className={styles.bodyPara}
+              dangerouslySetInnerHTML={{ __html: pageData.introPara1 }}
+            />
+          )}
+          {pageData.introPara2 && (
+            <div
+              className={styles.bodyPara}
+              dangerouslySetInnerHTML={{ __html: pageData.introPara2 }}
+            />
+          )}
+          {pageData.introPara3 && (
+            <div
+              className={styles.bodyPara}
+              dangerouslySetInnerHTML={{ __html: pageData.introPara3 }}
+            />
+          )}
+          {pageData.introExtraParagraphs?.map((para, i) => (
+            <div
+              key={i}
+              className={styles.bodyPara}
+              dangerouslySetInnerHTML={{ __html: para }}
+            />
+          ))}
+
+          {/* Hero Grid Images */}
+          {pageData.heroGridImages?.length > 0 && (
+            <div className={styles.heroImageGrid}>
+              {pageData.heroGridImages.map((img) => (
+                <div key={img._id} className={styles.heroImgWrap}>
+                  <img
+                    src={imgSrc(img.url)}
+                    alt={img.alt || "Prenatal yoga"}
+                    className={styles.heroImg}
+                    loading="eager"
+                  />
+                  <div className={styles.heroImgOverlay} />
+                </div>
+              ))}
             </div>
-            <div className={styles.heroImgWrap}>
-              <img
-                src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=600&q=80"
-                alt="Prenatal yoga pose with chair support"
-                className={styles.heroImg}
-                loading="eager"
-              />
-              <div className={styles.heroImgOverlay} />
-            </div>
-            <div className={styles.heroImgWrap}>
-              <img
-                src="https://images.unsplash.com/photo-1588286840104-8957b019727f?w=600&q=80"
-                alt="Prenatal yoga triangle pose"
-                className={styles.heroImg}
-                loading="eager"
-              />
-              <div className={styles.heroImgOverlay} />
-            </div>
-          </div>
+          )}
         </div>
       </section>
 
       {/* ══════════════════════════════════════
-          SECTION 2 — COURSE FEATURES
+          SECTION 2 — FEATURES + LOCATION + SCHEDULE
       ══════════════════════════════════════ */}
       <section className={`${styles.section} ${styles.sectionWarm}`}>
         <div className="container px-3 px-md-4">
-          <h2 className={styles.sectionTitle}>
-            Prenatal Yoga Teacher Training Course Features
-          </h2>
+
+          {/* Features Section */}
+          {pageData.featuresSectionTitle && (
+            <h2 className={styles.sectionTitle}>
+              {pageData.featuresSectionTitle}
+            </h2>
+          )}
           <div className={styles.titleUnderline} />
 
-          <p className={styles.bodyPara}>
-            Being at the top of the list of{" "}
-            <strong>best pregnancy yoga courses in Rishikesh</strong>, we offer
-            tailored courses for pregnant women. We aim to offer a soothing
-            journey towards a healthy pregnancy. Our courses include different
-            forms and techniques of yoga and practical guidance. It is a
-            comprehensive program where students learn how to teach yoga to
-            pregnant women.
-          </p>
-          <p className={styles.bodyPara}>
-            All the techniques are beneficial for expecting mothers. In addition
-            to teaching, our <strong>pregnancy yoga course in Rishikesh</strong>{" "}
-            also involves practical workshops to offer you hands-on experience.
-            Moreover, here is the detailed structure of the course:
-          </p>
+          {pageData.featuresSuperLabel && (
+            <p className={styles.superLabel}>{pageData.featuresSuperLabel}</p>
+          )}
 
-          {/* Location sub-section */}
-          <div className={styles.vintageCard}>
-            <span className={styles.cardCorner}>✦</span>
-            <h2 className={styles.subSectionTitle}>
-              Prenatal Yoga School in Rishikesh – Location
-            </h2>
-            <div className={styles.subUnderline} />
-            <p className={styles.bodyPara}>
-              AYM Yoga Ashram is set back in the stunning location of Tapovan,
-              Rishikesh and is surrounded by beautiful mountains, waterfalls,
-              and supreme tranquility. The famous Laxman Jhula Bridge over the
-              graceful and holy Ganges River is just a 12-minute walk from our
-              ashram, allowing our students the opportunity to enjoy and immerse
-              themselves in the exciting Indian culture during the days off.
-            </p>
+          {pageData.featuresPara1 && (
+            <div
+              className={styles.bodyPara}
+              dangerouslySetInnerHTML={{ __html: pageData.featuresPara1 }}
+            />
+          )}
+          {pageData.featuresPara2 && (
+            <div
+              className={styles.bodyPara}
+              dangerouslySetInnerHTML={{ __html: pageData.featuresPara2 }}
+            />
+          )}
+          {pageData.featuresExtraParagraphs?.map((para, i) => (
+            <div
+              key={i}
+              className={styles.bodyPara}
+              dangerouslySetInnerHTML={{ __html: para }}
+            />
+          ))}
 
-            {/* Schedule grid: left list + right image */}
-            <div className="row g-4 align-items-start mt-2">
-              <div className="col-12 col-lg-6">
-                <div className={styles.scheduleBlock}>
-                  <div className={styles.scheduleHeader}>
-                    The program, a draft of a schedule:
-                  </div>
-                  <div className={styles.scheduleList}>
-                    {[
-                      ["07.00h – 08.00h", "Meditation / Pranayama"],
-                      ["08.00h – 08.30h", "Tea"],
-                      ["08.30h – 10.00h", "Pregnancy yoga"],
-                      ["10.00h – 10.30h", "Breakfast"],
-                      ["10.30h – 11.30h", "Philosophy"],
-                      ["12.00h – 13.00h", "Teaching Practice"],
-                      ["13.00h – 14.45h", "Lunch Break"],
-                      ["14.45h – 16.00h", "Anatomy"],
-                      ["16.30h – 18.00h", "Asana Practice"],
-                      ["19.30h – 20.30h", "Light Dinner"],
-                    ].map(([time, act], i) => (
-                      <div key={i} className={styles.schedRow}>
-                        <span className={styles.schedTime}>{time}</span>
-                        <span className={styles.schedSep}>:</span>
-                        <span className={styles.schedAct}>{act}</span>
+          {/* Location + Schedule */}
+          {(pageData.locationSubTitle || pageData.schedule?.length > 0) && (
+            <div className={styles.vintageCard}>
+              <span className={styles.cardCorner}>✦</span>
+
+              {pageData.locationSubTitle && (
+                <h2 className={styles.subSectionTitle}>
+                  {pageData.locationSubTitle}
+                </h2>
+              )}
+              <div className={styles.subUnderline} />
+
+              {pageData.locationPara && (
+                <div
+                  className={styles.bodyPara}
+                  dangerouslySetInnerHTML={{ __html: pageData.locationPara }}
+                />
+              )}
+
+              <div className="row g-4 align-items-start mt-2">
+                {/* Schedule List */}
+                {pageData.schedule?.length > 0 && (
+                  <div className="col-12 col-lg-6">
+                    <div className={styles.scheduleBlock}>
+                      <div className={styles.scheduleHeader}>
+                        The program, a draft of a schedule:
                       </div>
-                    ))}
+                      <div className={styles.scheduleList}>
+                        {pageData.schedule.map((row) => (
+                          <div key={row._id} className={styles.schedRow}>
+                            <span className={styles.schedTime}>{row.time}</span>
+                            <span className={styles.schedSep}>:</span>
+                            <span className={styles.schedAct}>{row.activity}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-              <div className="col-12 col-lg-6">
-                <div className={styles.locationImgWrap}>
-                  <img
-                    src="https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?w=700&q=80"
-                    alt="AYM Yoga School Rishikesh studio class"
-                    className={styles.locationImg}
-                    loading="lazy"
-                  />
-                  <div className={styles.locationImgFrame} />
-                </div>
+                )}
+
+                {/* Location Image */}
+                {pageData.locationImage && (
+                  <div className="col-12 col-lg-6">
+                    <div className={styles.locationImgWrap}>
+                      <img
+                        src={imgSrc(pageData.locationImage)}
+                        alt={pageData.locationSubTitle || "Location"}
+                        className={styles.locationImg}
+                        loading="lazy"
+                      />
+                      <div className={styles.locationImgFrame} />
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
-          </div>
+          )}
         </div>
       </section>
 
       {/* ══════════════════════════════════════
-          SECTION 3 — DYNAMIC BATCH TABLE (200hr style)
+          SECTION 3 — BATCH TABLE
       ══════════════════════════════════════ */}
       <section className={`${styles.section} ${styles.sectionDeep}`}>
         <div className="container px-3 px-md-4">
 
-          <h2 className={styles.sectionTitle}>
-            Upcoming Prenatal Yoga Teacher Training India 2026
-          </h2>
+          {pageData.batchSectionTitle && (
+            <h2 className={styles.sectionTitle}>
+              {pageData.batchSectionTitle}
+            </h2>
+          )}
           <div className={styles.titleUnderline} />
 
-          {/* ── Dynamic Batch Table (same design as 200hr) ── */}
+          {/* Batch Table */}
           <div className={styles.tableContainer}>
             <CornerOrnament pos="tl" />
             <CornerOrnament pos="tr" />
@@ -376,15 +530,21 @@ export default function PregnancyYogaTTC() {
                   </tr>
                 </thead>
                 <tbody>
-                  {loading ? (
+                  {batchLoading ? (
                     <tr>
-                      <td colSpan={6} style={{ textAlign: "center", padding: "2rem" }}>
+                      <td
+                        colSpan={6}
+                        style={{ textAlign: "center", padding: "2rem" }}
+                      >
                         Loading upcoming batches...
                       </td>
                     </tr>
                   ) : batches.length === 0 ? (
                     <tr>
-                      <td colSpan={6} style={{ textAlign: "center", padding: "2rem" }}>
+                      <td
+                        colSpan={6}
+                        style={{ textAlign: "center", padding: "2rem" }}
+                      >
                         No upcoming batches found.
                       </td>
                     </tr>
@@ -400,16 +560,30 @@ export default function PregnancyYogaTTC() {
                           <td>{stripHtml(batch.usdFee)}</td>
                           <td>{stripHtml(batch.inrFee)}</td>
                           <td className={styles.roomPriceCell}>
-                            Dorm <strong className={styles.priceAmt}>${batch.dormPrice}</strong>{" "}
-                            | Twin <strong className={styles.priceAmt}>${batch.twinPrice}</strong>{" "}
-                            | Private <strong className={styles.priceAmt}>${batch.privatePrice}</strong>
+                            Dorm{" "}
+                            <strong className={styles.priceAmt}>
+                              ${batch.dormPrice}
+                            </strong>{" "}
+                            | Twin{" "}
+                            <strong className={styles.priceAmt}>
+                              ${batch.twinPrice}
+                            </strong>{" "}
+                            | Private{" "}
+                            <strong className={styles.priceAmt}>
+                              ${batch.privatePrice}
+                            </strong>
                           </td>
                           <td>
-                            <SeatsCell booked={batch.bookedSeats} total={batch.totalSeats} />
+                            <SeatsCell
+                              booked={batch.bookedSeats}
+                              total={batch.totalSeats}
+                            />
                           </td>
                           <td>
                             {isFull ? (
-                              <span className={styles.applyDisabled}>Apply Now</span>
+                              <span className={styles.applyDisabled}>
+                                Apply Now
+                              </span>
                             ) : (
                               <a
                                 href={`/yoga-registration?batchId=${batch._id}&type=prenatal`}
@@ -426,77 +600,96 @@ export default function PregnancyYogaTTC() {
                 </tbody>
               </table>
             </div>
+
             {batches[0]?.note && (
               <p className={styles.tableNote}>
                 <strong>Note:</strong> {stripHtml(batches[0].note)}
               </p>
             )}
+
             <div style={{ textAlign: "center", padding: "1rem 0 0.5rem" }}>
-              <a href="#" className={styles.joinBtn}>Join Your Yoga Journey</a>
+              <a
+                href={pageData.joinBtnUrl || "#"}
+                className={styles.joinBtn}
+              >
+                {pageData.joinBtnText || "Join Your Yoga Journey"}
+              </a>
             </div>
           </div>
 
-          {/* ── TTC Costs ── */}
-          <div className={styles.costsBlock}>
-            <h2 className={styles.sectionTitle}>
-              Prenatal Yoga TTC Costs and How to Apply
-            </h2>
-            <div className={styles.titleUnderline} />
-            <p className={styles.bodyPara}>
-              Course Fee: <strong>399 USD</strong>. This fee includes food,
-              accommodation and course fees. To apply to send us an email.
-            </p>
-          </div>
+          {/* ── Costs Section ── */}
+          {pageData.costsSectionTitle && (
+            <div className={styles.costsBlock}>
+              <h2 className={styles.sectionTitle}>
+                {pageData.costsSectionTitle}
+              </h2>
+              <div className={styles.titleUnderline} />
 
-          {/* ── Online Course ── */}
-          <div className={styles.vintageCard}>
-            <span className={styles.cardCorner}>✦</span>
-            <h2 className={styles.subSectionTitle}>
-              Online Pregnancy Yoga Teacher Training in Rishikesh
-            </h2>
-            <div className={styles.subUnderline} />
-            <p className={styles.bodyPara}>
-              Detailed Structure of the course for online and offline course.
-            </p>
-
-            {/* Bullet items */}
-            <ul className={styles.bulletList}>
-              <li>
-                2 Asana class, One pranayama, Meditation and Kriya Class - 35
-                Hours
-              </li>
-              <li>
-                Teaching Methodology (TM) Teaching Skills Teaching Methodology
-                (TM) = 10.00 Hours Lecture and Practice on Teaching Methodology
-              </li>
-              <li>Prenatal Anatomy &amp; Physiology (AP) = 10.00 Hours</li>
-              <li>
-                Yoga Philosophy for Mothers, Yoga Philosophy/LifeStyle Ethics
-                (YPLE) = 10.00 hours Philosophy of Yoga in Relation to Pregnancy
-              </li>
-              <li>
-                Practicum teaching and feedback Practicum = 20.00 = Hours (
-                Online watching of videos of yoga teaching) – Self
-              </li>
-              <li>Supplementary hours – Mantra and Kirtan = 2 Hours</li>
-            </ul>
-
-            {/* Hours summary */}
-            <div className={styles.hoursSummary}>
-              {[
-                ["Total Hours", "100 Hours"],
-                ["Contact Hours", "35 + 10 + 10 + 10 + 20 + 2 = 87 Hours"],
-                ["Non-contact Hours", "13 Hours"],
-                ["Yoga Course Package Price", "USD 399"],
-              ].map(([label, value], i) => (
-                <div key={i} className={styles.hoursRow}>
-                  <span className={styles.hoursLabel}>{label}</span>
-                  <span className={styles.hoursSep}>–</span>
-                  <span className={styles.hoursValue}>{value}</span>
-                </div>
+              {pageData.costsPara && (
+                <div
+                  className={styles.bodyPara}
+                  dangerouslySetInnerHTML={{ __html: pageData.costsPara }}
+                />
+              )}
+              {pageData.costsExtraParagraphs?.map((para, i) => (
+                <div
+                  key={i}
+                  className={styles.bodyPara}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
               ))}
             </div>
-          </div>
+          )}
+
+          {/* ── Online Section ── */}
+          {pageData.onlineSectionTitle && (
+            <div className={styles.vintageCard}>
+              <span className={styles.cardCorner}>✦</span>
+
+              <h2 className={styles.subSectionTitle}>
+                {pageData.onlineSectionTitle}
+              </h2>
+              <div className={styles.subUnderline} />
+
+              {pageData.onlinePara && (
+                <div
+                  className={styles.bodyPara}
+                  dangerouslySetInnerHTML={{ __html: pageData.onlinePara }}
+                />
+              )}
+              {pageData.onlineExtraParagraphs?.map((para, i) => (
+                <div
+                  key={i}
+                  className={styles.bodyPara}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+
+              {/* Curriculum List */}
+              {pageData.curriculum?.length > 0 && (
+                <ul className={styles.bulletList}>
+                  {pageData.curriculum.map((item) => (
+                    <li key={item._id}>
+                      {item.title} – {item.hours} Hours
+                    </li>
+                  ))}
+                </ul>
+              )}
+
+              {/* Hours Summary */}
+              {pageData.hoursSummary?.length > 0 && (
+                <div className={styles.hoursSummary}>
+                  {pageData.hoursSummary.map((row) => (
+                    <div key={row._id} className={styles.hoursRow}>
+                      <span className={styles.hoursLabel}>{row.label}</span>
+                      <span className={styles.hoursSep}>–</span>
+                      <span className={styles.hoursValue}>{row.value}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </section>
 

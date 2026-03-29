@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import styles from "@/assets/style/300-hours-yoga-teacher-training-rishikesh/Yogattc300.module.css";
 import HowToReach from "@/components/home/Howtoreach";
+import api from "@/lib/api";
 
 /* ─────────────────────────────────────────
    TYPES
@@ -147,13 +148,12 @@ interface Content2 {
 /* ─────────────────────────────────────────
    HELPERS
 ───────────────────────────────────────── */
-const API_BASE = process.env.NEXT_PUBLIC_API_URL;
 
 /** Image URL helper — if it starts with /uploads/ prefix with API base */
 function imgUrl(path: string): string {
   if (!path) return "";
   if (path.startsWith("http")) return path;
-  return `${API_BASE}${path}`;
+  return `${process.env.NEXT_PUBLIC_API_URL}${path}`;
 }
 
 function formatDateRange(start: string, end: string): string {
@@ -360,9 +360,7 @@ export default function YogaTTC300() {
   useEffect(() => {
     const fetchContent1 = async () => {
       try {
-        const res = await fetch(`${API_BASE}/api/yoga-300hr/content1`);
-        const data = await res.json();
-        // API returns array
+        const { data } = await api.get("/yoga-300hr/content1");
         const record = Array.isArray(data?.data) ? data.data[0] : data?.data;
         setContent1(record || null);
       } catch (err) {
@@ -378,8 +376,7 @@ export default function YogaTTC300() {
   useEffect(() => {
     const fetchContent2 = async () => {
       try {
-        const res = await fetch(`${API_BASE}/api/yoga-300hr/content2`);
-        const data = await res.json();
+        const { data } = await api.get("/yoga-300hr/content2");
         setContent2(data?.data || null);
       } catch (err) {
         console.error("300hr content2 fetch error:", err);
@@ -394,8 +391,7 @@ export default function YogaTTC300() {
   useEffect(() => {
     const fetchBatches = async () => {
       try {
-        const res = await fetch(`${API_BASE}/api/300hr-seats/all`)
-        const data = await res.json();
+        const { data } = await api.get("/300hr-seats/all");
         setBatches(data?.data || []);
       } catch (err) {
         console.error("300hr batch fetch error:", err);
