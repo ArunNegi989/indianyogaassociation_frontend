@@ -168,11 +168,11 @@
 }
 
 .sectionWarm {
-  background: linear-gradient(135deg, var(--parch-dk) 0%, var(--parch) 50%, var(--parch-dk) 100%);
+  background: linear-gradient(135deg, #f8f4e8 0%, var(--parch) 50%, #fffbf4 100%);
 }
 
 .sectionDeep {
-  background: linear-gradient(160deg, var(--parch-deep) 0%, var(--parch-dk) 100%);
+  background: linear-gradient(135deg, #f8f4e8 0%, var(--parch) 50%, #fffbf4 100%);
 }
 
 /* ── OM DIVIDER ── */

@@ -179,7 +179,7 @@
 }
 
 .sectionAlt {
-  background: linear-gradient(160deg, var(--parch2) 0%, var(--parch) 100%);
+  background: linear-gradient(160deg, #fffbf4 0%, #fffcf5 100%);
 }
 
 .container {

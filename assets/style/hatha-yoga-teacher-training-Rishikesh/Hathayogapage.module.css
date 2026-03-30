@@ -232,7 +232,7 @@
    INTRO SECTION
 ════════════════════════════════════════ */
 .introSection {
-  background: linear-gradient(160deg, var(--clr-parchment) 0%, var(--clr-parchment2) 100%);
+  background: linear-gradient(160deg, #fffbf4 0%, #fffcf5 100%);
   border-top: 4px solid transparent;
   border-image: linear-gradient(90deg, transparent, var(--clr-saffron), transparent) 1;
 }
@@ -334,7 +334,7 @@
    WHAT IS HATHA SECTION
 ════════════════════════════════════════ */
 .whatSection {
-  background: linear-gradient(135deg, #fef2d8 0%, #fff8ee 50%, #fef2d8 100%);
+  background: linear-gradient(160deg, #fffbf4 0%, #fffcf5 100%);
   border-top: 3px solid;
   border-bottom: 3px solid;
   border-image: linear-gradient(90deg, transparent 0%, #e07b00 30%, #f5b800 50%, #e07b00 70%, transparent 100%) 1;
@@ -421,7 +421,7 @@
    BENEFITS SECTION
 ════════════════════════════════════════ */
 .benefitsSection {
-  background: linear-gradient(160deg, var(--clr-parchment2) 0%, var(--clr-parchment) 100%);
+  background: linear-gradient(160deg, #fffbf4 0%, #fffcf5 100%);
 }
 
 .benefitsGrid {
@@ -527,7 +527,7 @@
    CERTIFICATION SECTION
 ════════════════════════════════════════ */
 .certSection {
-  background: #fef2d8;
+  background: linear-gradient(160deg, #fffbf4 0%, #fffcf5 100%);
   position: relative;
   overflow: hidden;
 }
@@ -653,7 +653,7 @@
    CURRICULUM
 ════════════════════════════════════════ */
 .curriculumSection {
-  background: linear-gradient(135deg, #fef4e0 0%, var(--clr-parchment2) 100%);
+  background: linear-gradient(160deg, #fffbf4 0%, #fffcf5 100%);
   border-top: 3px solid;
   border-image: linear-gradient(90deg, transparent, var(--clr-saffron), transparent) 1;
 }
@@ -693,7 +693,7 @@
    PRICING SECTION
 ════════════════════════════════════════ */
 .pricingSection {
-  background: linear-gradient(160deg, var(--clr-parchment2) 0%, #fef4e0 100%);
+  background: linear-gradient(160deg, #fffbf4 0%, #fffcf5 100%);
   position: relative;
   overflow: hidden;
 }

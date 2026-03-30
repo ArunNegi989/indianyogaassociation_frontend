@@ -202,8 +202,8 @@
 ──────────────────────────────────────── */
 .section    { padding: clamp(2.5rem,6vw,5rem) 0; position: relative; z-index: 1; }
 .sectionLight { background: var(--parch-lt); }
-.sectionWarm  { background: linear-gradient(135deg, var(--parch-dk) 0%, var(--parch) 50%, var(--parch-dk) 100%); }
-.sectionDeep  { background: linear-gradient(160deg, var(--parch-deep) 0%, var(--parch-dk) 100%); }
+.sectionWarm  { background: linear-gradient(135deg, #fffbf0 0%, var(--parch) 50%, #f3f2ef 100%); }
+.sectionDeep  { background: linear-gradient(135deg, #fffbf0 0%, var(--parch) 50%, #f3f2ef 100%); }
 
 /* Top gold line per section */
 .section::before {
