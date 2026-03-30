@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useForm, useFieldArray, Controller } from "react-hook-form";
+import { useForm, useFieldArray } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import styles from "@/assets/style/Admin/dashboard/accreditationsection/Accreditationsection.module.css";
@@ -22,7 +22,6 @@ interface BadgeItem {
 }
 
 interface FormData {
-  // Auth Section
   sectionTitle: string;
   authPara1: string;
   authPara2: string;
@@ -30,29 +29,21 @@ interface FormData {
   authPara4: string;
   imageCaption: string;
   pullQuote: string;
-  // Video + Immerse
   videoSrc: string;
   immerseTitle: string;
   immersePara1: string;
   immersePara2: string;
   immerseCtaText: string;
   immerseCtaLink: string;
-  // Recognition
   recognitionTitle: string;
   recognitionPara1: string;
   recognitionPara2: string;
-  // Certs & Badges
   certs: CertItem[];
   badges: BadgeItem[];
-  // Image handling
   mainImage?: File | string;
   _mainImagePreview?: string;
 }
-const getImageUrl = (path: string) => {
-  if (!path) return "";
-  return `${process.env.NEXT_PUBLIC_API_URL}/${path}`;
-};
-/* ─────────────────────── Initial Values ─────────────────────── */
+
 const EMPTY_CERT: CertItem = { label: "", tag: "", alt: "", imagePreview: "" };
 const EMPTY_BADGE: BadgeItem = { icon: "", text: "" };
 
@@ -75,7 +66,10 @@ export default function AddAccreditationSectionPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [mainImageFile, setMainImageFile] = useState<File | null>(null);
+
+  // certFiles[i] = File | null — parallel array to certFields
   const [certFiles, setCertFiles] = useState<(File | null)[]>([null]);
+
   const [activeTab, setActiveTab] = useState<"auth" | "video" | "recognition" | "certs">("auth");
 
   const {
@@ -91,59 +85,35 @@ export default function AddAccreditationSectionPage() {
     mode: "onChange",
   });
 
-  // Watch values for character counts and previews
   const watchAllFields = watch();
 
   /* ─────────────────────── Field Arrays ─────────────────────── */
-  const {
-    fields: certFields,
-    append: appendCert,
-    remove: removeCert,
-  } = useFieldArray({
-    control,
-    name: "certs",
-  });
-
-  const {
-    fields: badgeFields,
-    append: appendBadge,
-    remove: removeBadge,
-  } = useFieldArray({
-    control,
-    name: "badges",
-  });
+  const { fields: certFields, append: appendCert, remove: removeCert } = useFieldArray({ control, name: "certs" });
+  const { fields: badgeFields, append: appendBadge, remove: removeBadge } = useFieldArray({ control, name: "badges" });
 
   /* ─────────────────────── Image Handlers ─────────────────────── */
   const handleMainImage = (file: File | null) => {
     if (!file) return;
-
     setMainImageFile(file);
-
     const reader = new FileReader();
-    reader.onload = (e) => {
-      setValue("_mainImagePreview", e.target?.result as string);
-    };
+    reader.onload = (e) => setValue("_mainImagePreview", e.target?.result as string);
     reader.readAsDataURL(file);
   };
 
   const handleCertImage = (index: number, file: File | null) => {
     if (!file) return;
-
-    // Store file
     setCertFiles((prev) => {
       const arr = [...prev];
       arr[index] = file;
       return arr;
     });
-
-    // Preview
     const reader = new FileReader();
     reader.onload = (e) => {
       const currentCerts = getValues("certs");
-      const updatedCerts = currentCerts.map((cert, i) => 
+      const updated = currentCerts.map((cert, i) =>
         i === index ? { ...cert, imagePreview: e.target?.result as string } : cert
       );
-      setValue("certs", updatedCerts);
+      setValue("certs", updated);
     };
     reader.readAsDataURL(file);
   };
@@ -157,57 +127,56 @@ export default function AddAccreditationSectionPage() {
 
   const removeCertHandler = (index: number) => {
     removeCert(index);
-    setCertFiles((prev) => prev.filter((_, idx) => idx !== index));
+    setCertFiles((prev) => prev.filter((_, i) => i !== index));
   };
 
   const addBadge = () => {
-    if (badgeFields.length < 6) {
-      appendBadge({ ...EMPTY_BADGE });
-    }
+    if (badgeFields.length < 6) appendBadge({ ...EMPTY_BADGE });
   };
 
-  /* ─────────────────────── Submit Handler ─────────────────────── */
+  /* ─────────────────────── Submit ─────────────────────── */
   const onSubmit = async (data: FormData) => {
     try {
       setIsSubmitting(true);
-
       const formData = new FormData();
 
-      // Append all text fields
+      // Text fields
       Object.entries(data).forEach(([key, value]) => {
-        if (key !== "certs" && key !== "badges" && key !== "_mainImagePreview" && key !== "mainImage") {
+        if (!["certs", "badges", "_mainImagePreview", "mainImage"].includes(key)) {
           formData.append(key, value as string);
         }
       });
 
-      // Append certs and badges as JSON strings
-      formData.append("certs", JSON.stringify(data.certs.map(cert => ({
-        label: cert.label,
-        tag: cert.tag,
-        alt: cert.alt,
-      }))));
+      // Certs & badges as JSON (strip imagePreview, keep only DB fields)
+      formData.append(
+        "certs",
+        JSON.stringify(data.certs.map(({ label, tag, alt }) => ({ label, tag, alt })))
+      );
       formData.append("badges", JSON.stringify(data.badges));
 
-      // Append main image
-      if (mainImageFile) {
-        formData.append("mainImage", mainImageFile);
-      }
+      // Main image
+      if (mainImageFile) formData.append("mainImage", mainImageFile);
 
-      // Append cert images
-      certFiles.forEach((file) => {
-        if (file) formData.append("certImages", file);
+      // ✅ KEY FIX: only append files that exist, and record their cert indexes
+      const certImageIndexList: number[] = [];
+      certFiles.forEach((file, idx) => {
+        if (file) {
+          formData.append("certImages", file);
+          certImageIndexList.push(idx);
+        }
       });
 
-      // API Call
+      // Tell the controller which cert slot each uploaded image belongs to
+      if (certImageIndexList.length > 0) {
+        formData.append("certImageIndexes", certImageIndexList.join(","));
+      }
+
       await api.post("/accreditation", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
+        headers: { "Content-Type": "multipart/form-data" },
       });
 
       setSubmitted(true);
-     setTimeout(() => router.push("/admin/dashboard/accreditationsection"), 1500);
-
+      setTimeout(() => router.push("/admin/dashboard/accreditationsection"), 1500);
     } catch (error: any) {
       alert(error?.response?.data?.message || "Failed to save");
     } finally {
@@ -215,6 +184,7 @@ export default function AddAccreditationSectionPage() {
     }
   };
 
+  /* ─────────────────────── Success Screen ─────────────────────── */
   if (submitted) {
     return (
       <div className={styles.successScreen}>
@@ -228,7 +198,6 @@ export default function AddAccreditationSectionPage() {
     );
   }
 
-  // Tab error indicators
   const tabErrors = {
     auth: !!(errors.sectionTitle || errors.authPara1 || errors.authPara2 || errors.authPara3 || errors.authPara4 || errors.pullQuote),
     video: !!(errors.videoSrc || errors.immerseTitle || errors.immersePara1 || errors.immerseCtaText || errors.immerseCtaLink),
@@ -256,11 +225,11 @@ export default function AddAccreditationSectionPage() {
       {/* Tab Navigation */}
       <div className={styles.tabNav}>
         {(["auth", "video", "recognition", "certs"] as const).map((tab) => {
-          const labels = { 
-            auth: "① Auth Section", 
-            video: "② Video & Immerse", 
-            recognition: "③ Recognition", 
-            certs: "④ Certs & Badges" 
+          const labels = {
+            auth: "① Auth Section",
+            video: "② Video & Immerse",
+            recognition: "③ Recognition",
+            certs: "④ Certs & Badges",
           };
           return (
             <button
@@ -277,6 +246,7 @@ export default function AddAccreditationSectionPage() {
 
       <div className={styles.formCard}>
         <form onSubmit={handleSubmit(onSubmit)}>
+
           {/* ══════════ TAB 1 — AUTH SECTION ══════════ */}
           {activeTab === "auth" && (
             <>
@@ -298,14 +268,12 @@ export default function AddAccreditationSectionPage() {
                       placeholder="e.g. Authentic, Internationally recognized Yoga Teacher Training Certification School in Rishikesh"
                       maxLength={200}
                       rows={2}
-                      {...register("sectionTitle", { 
+                      {...register("sectionTitle", {
                         required: "Section title is required",
-                        maxLength: { value: 200, message: "Maximum 200 characters" }
+                        maxLength: { value: 200, message: "Maximum 200 characters" },
                       })}
                     />
-                    <span className={`${styles.charCount} ${styles.charCountBottom}`}>
-                      {watchAllFields.sectionTitle?.length || 0}/200
-                    </span>
+                    <span className={`${styles.charCount} ${styles.charCountBottom}`}>{watchAllFields.sectionTitle?.length || 0}/200</span>
                   </div>
                   {errors.sectionTitle && <p className={styles.errorMsg}>⚠ {errors.sectionTitle.message}</p>}
                 </div>
@@ -319,16 +287,16 @@ export default function AddAccreditationSectionPage() {
                   <h3 className={styles.sectionTitle}>Left Column — Body Paragraphs</h3>
                 </div>
 
-                {[
-                  { name: "authPara1" as const, label: "Paragraph 1", hint: "Accreditation overview — Yoga Alliance USA & YCB", ph: "Our Yoga Teacher Training in Rishikesh is accredited by Yoga Alliance USA…", required: true },
-                  { name: "authPara2" as const, label: "Paragraph 2", hint: "Curriculum structure — beginner to advanced", ph: "Our yoga school in Rishikesh offers a well-structured and updated curriculum…", required: true },
-                  { name: "authPara3" as const, label: "Paragraph 3", hint: "Specialized programs (Kundalini, Prenatal, Hatha)", ph: "Our training is deeply rooted in traditional yoga practices…", required: true },
-                  { name: "authPara4" as const, label: "Paragraph 4", hint: "Online training & closing note", ph: "In addition to our immersive teacher training courses, we provide online…", required: true },
-                ].map(({ name, label, hint, ph, required }) => (
+                {([
+                  { name: "authPara1" as const, label: "Paragraph 1", hint: "Accreditation overview — Yoga Alliance USA & YCB", ph: "Our Yoga Teacher Training in Rishikesh is accredited by Yoga Alliance USA…" },
+                  { name: "authPara2" as const, label: "Paragraph 2", hint: "Curriculum structure — beginner to advanced", ph: "Our yoga school in Rishikesh offers a well-structured and updated curriculum…" },
+                  { name: "authPara3" as const, label: "Paragraph 3", hint: "Specialized programs (Kundalini, Prenatal, Hatha)", ph: "Our training is deeply rooted in traditional yoga practices…" },
+                  { name: "authPara4" as const, label: "Paragraph 4", hint: "Online training & closing note", ph: "In addition to our immersive teacher training courses, we provide online…" },
+                ]).map(({ name, label, hint, ph }) => (
                   <div key={name} className={styles.fieldGroup}>
                     <label className={styles.label}>
                       <span className={styles.labelIcon}>✦</span>{label}
-                      {required && <span className={styles.required}>*</span>}
+                      <span className={styles.required}>*</span>
                     </label>
                     <p className={styles.fieldHint}>{hint}</p>
                     <div className={`${styles.inputWrap} ${errors[name] ? styles.inputError : ""} ${watchAllFields[name] && !errors[name] ? styles.inputSuccess : ""}`}>
@@ -337,14 +305,12 @@ export default function AddAccreditationSectionPage() {
                         placeholder={ph}
                         maxLength={600}
                         rows={3}
-                        {...register(name, { 
-                          required: required ? `${label} is required` : false,
-                          maxLength: { value: 600, message: "Maximum 600 characters" }
+                        {...register(name, {
+                          required: `${label} is required`,
+                          maxLength: { value: 600, message: "Maximum 600 characters" },
                         })}
                       />
-                      <span className={`${styles.charCount} ${styles.charCountBottom}`}>
-                        {watchAllFields[name]?.length || 0}/600
-                      </span>
+                      <span className={`${styles.charCount} ${styles.charCountBottom}`}>{watchAllFields[name]?.length || 0}/600</span>
                     </div>
                     {errors[name] && <p className={styles.errorMsg}>⚠ {errors[name].message}</p>}
                   </div>
@@ -363,14 +329,9 @@ export default function AddAccreditationSectionPage() {
                   <label className={styles.label}><span className={styles.labelIcon}>✦</span>Main Section Image</label>
                   <p className={styles.fieldHint}>Upload curriculum/study materials image (recommended 420×300px)</p>
                   <label className={styles.uploadArea}>
-                    <input
-                      type="file"
-                      accept="image/*"
-                      className={styles.fileInput}
-                      onChange={(e) => handleMainImage(e.target.files?.[0] || null)}
-                    />
+                    <input type="file" accept="image/*" className={styles.fileInput} onChange={(e) => handleMainImage(e.target.files?.[0] || null)} />
                     {watchAllFields._mainImagePreview ? (
-                      <img src={watchAllFields._mainImagePreview} alt="preview" style={{ maxWidth: '100%', maxHeight: '200px' }} />
+                      <img src={watchAllFields._mainImagePreview} alt="preview" style={{ maxWidth: "100%", maxHeight: "200px" }} />
                     ) : (
                       <>
                         <span className={styles.uploadIcon}>📷</span>
@@ -385,13 +346,7 @@ export default function AddAccreditationSectionPage() {
                   <label className={styles.label}><span className={styles.labelIcon}>✦</span>Image Caption</label>
                   <p className={styles.fieldHint}>Small caption displayed below the image</p>
                   <div className={styles.inputWrap}>
-                    <input
-                      type="text"
-                      className={styles.input}
-                      placeholder="e.g. AYM Study Materials & Curriculum"
-                      maxLength={80}
-                      {...register("imageCaption", { maxLength: { value: 80, message: "Maximum 80 characters" } })}
-                    />
+                    <input type="text" className={styles.input} placeholder="e.g. AYM Study Materials & Curriculum" maxLength={80} {...register("imageCaption")} />
                     <span className={styles.charCount}>{watchAllFields.imageCaption?.length || 0}/80</span>
                   </div>
                 </div>
@@ -408,9 +363,9 @@ export default function AddAccreditationSectionPage() {
                       className={styles.input}
                       placeholder='e.g. Learn, grow, and transform.'
                       maxLength={120}
-                      {...register("pullQuote", { 
+                      {...register("pullQuote", {
                         required: "Pull quote is required",
-                        maxLength: { value: 120, message: "Maximum 120 characters" }
+                        maxLength: { value: 120, message: "Maximum 120 characters" },
                       })}
                     />
                     <span className={styles.charCount}>{watchAllFields.pullQuote?.length || 0}/120</span>
@@ -442,12 +397,9 @@ export default function AddAccreditationSectionPage() {
                       type="text"
                       className={`${styles.input} ${styles.inputPrefixed}`}
                       placeholder="https://youtu.be/A-Zcjg1_y5U or https://…/video.mp4"
-                      {...register("videoSrc", { 
+                      {...register("videoSrc", {
                         required: "Video URL is required",
-                        pattern: {
-                          value: /^https?:\/\/.+/,
-                          message: "Enter a valid URL"
-                        }
+                        pattern: { value: /^https?:\/\/.+/, message: "Enter a valid URL" },
                       })}
                     />
                   </div>
@@ -480,9 +432,9 @@ export default function AddAccreditationSectionPage() {
                       className={styles.input}
                       placeholder="e.g. Immerse Yourself in Yoga in Rishikesh"
                       maxLength={120}
-                      {...register("immerseTitle", { 
+                      {...register("immerseTitle", {
                         required: "Immerse title is required",
-                        maxLength: { value: 120, message: "Maximum 120 characters" }
+                        maxLength: { value: 120, message: "Maximum 120 characters" },
                       })}
                     />
                     <span className={styles.charCount}>{watchAllFields.immerseTitle?.length || 0}/120</span>
@@ -502,22 +454,18 @@ export default function AddAccreditationSectionPage() {
                       placeholder="Rishikesh, the Yoga Capital of the World, invites you to embark…"
                       maxLength={500}
                       rows={3}
-                      {...register("immersePara1", { 
+                      {...register("immersePara1", {
                         required: "Paragraph 1 is required",
-                        maxLength: { value: 500, message: "Maximum 500 characters" }
+                        maxLength: { value: 500, message: "Maximum 500 characters" },
                       })}
                     />
-                    <span className={`${styles.charCount} ${styles.charCountBottom}`}>
-                      {watchAllFields.immersePara1?.length || 0}/500
-                    </span>
+                    <span className={`${styles.charCount} ${styles.charCountBottom}`}>{watchAllFields.immersePara1?.length || 0}/500</span>
                   </div>
                   {errors.immersePara1 && <p className={styles.errorMsg}>⚠ {errors.immersePara1.message}</p>}
                 </div>
 
                 <div className={styles.fieldGroup}>
-                  <label className={styles.label}>
-                    <span className={styles.labelIcon}>✦</span>Paragraph 2
-                  </label>
+                  <label className={styles.label}><span className={styles.labelIcon}>✦</span>Paragraph 2</label>
                   <p className={styles.fieldHint}>Breathwork, asanas, meditation — optional closing note</p>
                   <div className={styles.inputWrap}>
                     <textarea
@@ -527,9 +475,7 @@ export default function AddAccreditationSectionPage() {
                       rows={3}
                       {...register("immersePara2", { maxLength: { value: 500, message: "Maximum 500 characters" } })}
                     />
-                    <span className={`${styles.charCount} ${styles.charCountBottom}`}>
-                      {watchAllFields.immersePara2?.length || 0}/500
-                    </span>
+                    <span className={`${styles.charCount} ${styles.charCountBottom}`}>{watchAllFields.immersePara2?.length || 0}/500</span>
                   </div>
                 </div>
 
@@ -546,9 +492,9 @@ export default function AddAccreditationSectionPage() {
                         className={styles.input}
                         placeholder="e.g. Know More About AYM"
                         maxLength={60}
-                        {...register("immerseCtaText", { 
+                        {...register("immerseCtaText", {
                           required: "CTA text is required",
-                          maxLength: { value: 60, message: "Maximum 60 characters" }
+                          maxLength: { value: 60, message: "Maximum 60 characters" },
                         })}
                       />
                       <span className={styles.charCount}>{watchAllFields.immerseCtaText?.length || 0}/60</span>
@@ -568,12 +514,9 @@ export default function AddAccreditationSectionPage() {
                         type="text"
                         className={`${styles.input} ${styles.inputPrefixed}`}
                         placeholder="/about or https://…"
-                        {...register("immerseCtaLink", { 
+                        {...register("immerseCtaLink", {
                           required: "CTA link is required",
-                          pattern: {
-                            value: /^(https?:\/\/.+\..+|\/[^\s]*)$/,
-                            message: "Enter a valid URL or path"
-                          }
+                          pattern: { value: /^(https?:\/\/.+\..+|\/[^\s]*)$/, message: "Enter a valid URL or path" },
                         })}
                       />
                     </div>
@@ -604,9 +547,9 @@ export default function AddAccreditationSectionPage() {
                     className={styles.input}
                     placeholder="e.g. Recognition & Endorsements"
                     maxLength={120}
-                    {...register("recognitionTitle", { 
+                    {...register("recognitionTitle", {
                       required: "Recognition title is required",
-                      maxLength: { value: 120, message: "Maximum 120 characters" }
+                      maxLength: { value: 120, message: "Maximum 120 characters" },
                     })}
                   />
                   <span className={styles.charCount}>{watchAllFields.recognitionTitle?.length || 0}/120</span>
@@ -626,22 +569,18 @@ export default function AddAccreditationSectionPage() {
                     placeholder="At AYM Yoga School in Rishikesh, all our programs are accredited by…"
                     maxLength={600}
                     rows={4}
-                    {...register("recognitionPara1", { 
+                    {...register("recognitionPara1", {
                       required: "Paragraph 1 is required",
-                      maxLength: { value: 600, message: "Maximum 600 characters" }
+                      maxLength: { value: 600, message: "Maximum 600 characters" },
                     })}
                   />
-                  <span className={`${styles.charCount} ${styles.charCountBottom}`}>
-                    {watchAllFields.recognitionPara1?.length || 0}/600
-                  </span>
+                  <span className={`${styles.charCount} ${styles.charCountBottom}`}>{watchAllFields.recognitionPara1?.length || 0}/600</span>
                 </div>
                 {errors.recognitionPara1 && <p className={styles.errorMsg}>⚠ {errors.recognitionPara1.message}</p>}
               </div>
 
               <div className={styles.fieldGroup}>
-                <label className={styles.label}>
-                  <span className={styles.labelIcon}>✦</span>Paragraph 2
-                </label>
+                <label className={styles.label}><span className={styles.labelIcon}>✦</span>Paragraph 2</label>
                 <p className={styles.fieldHint}>Best yoga TTC pitch — optional closing paragraph</p>
                 <div className={styles.inputWrap}>
                   <textarea
@@ -651,9 +590,7 @@ export default function AddAccreditationSectionPage() {
                     rows={4}
                     {...register("recognitionPara2", { maxLength: { value: 600, message: "Maximum 600 characters" } })}
                   />
-                  <span className={`${styles.charCount} ${styles.charCountBottom}`}>
-                    {watchAllFields.recognitionPara2?.length || 0}/600
-                  </span>
+                  <span className={`${styles.charCount} ${styles.charCountBottom}`}>{watchAllFields.recognitionPara2?.length || 0}/600</span>
                 </div>
               </div>
             </div>
@@ -698,11 +635,7 @@ export default function AddAccreditationSectionPage() {
                               onChange={(e) => handleCertImage(index, e.target.files?.[0] || null)}
                             />
                             {watchAllFields.certs?.[index]?.imagePreview ? (
-                              <img 
-                                src={watchAllFields.certs[index].imagePreview} 
-                                alt="preview" 
-                                className={styles.certImgPreview} 
-                              />
+                              <img src={watchAllFields.certs[index].imagePreview} alt="preview" className={styles.certImgPreview} />
                             ) : (
                               <>
                                 <span className={styles.uploadIcon}>🏅</span>
@@ -727,9 +660,9 @@ export default function AddAccreditationSectionPage() {
                                   className={styles.input}
                                   placeholder="e.g. Yoga Alliance USA — RYS 500"
                                   maxLength={60}
-                                  {...register(`certs.${index}.label`, { 
+                                  {...register(`certs.${index}.label`, {
                                     required: "Label is required",
-                                    maxLength: { value: 60, message: "Maximum 60 characters" }
+                                    maxLength: { value: 60, message: "Maximum 60 characters" },
                                   })}
                                 />
                               </div>
@@ -747,9 +680,9 @@ export default function AddAccreditationSectionPage() {
                                   className={styles.input}
                                   placeholder="e.g. International Recognition"
                                   maxLength={40}
-                                  {...register(`certs.${index}.tag`, { 
+                                  {...register(`certs.${index}.tag`, {
                                     required: "Tag is required",
-                                    maxLength: { value: 40, message: "Maximum 40 characters" }
+                                    maxLength: { value: 40, message: "Maximum 40 characters" },
                                   })}
                                 />
                               </div>
@@ -757,9 +690,7 @@ export default function AddAccreditationSectionPage() {
                           </div>
 
                           <div className={styles.fieldGroup} style={{ marginBottom: 0 }}>
-                            <label className={styles.label}>
-                              <span className={styles.labelIcon}>✦</span>Alt Text
-                            </label>
+                            <label className={styles.label}><span className={styles.labelIcon}>✦</span>Alt Text</label>
                             <p className={styles.fieldHint}>Accessibility description for screen readers & SEO</p>
                             <div className={styles.inputWrap}>
                               <input
@@ -767,9 +698,7 @@ export default function AddAccreditationSectionPage() {
                                 className={styles.input}
                                 placeholder="e.g. Yoga Alliance USA — Certificate of Registration RYS 500"
                                 maxLength={150}
-                                {...register(`certs.${index}.alt`, { 
-                                  maxLength: { value: 150, message: "Maximum 150 characters" }
-                                })}
+                                {...register(`certs.${index}.alt`)}
                               />
                             </div>
                           </div>
@@ -809,9 +738,9 @@ export default function AddAccreditationSectionPage() {
                             className={styles.input}
                             placeholder="Icon (e.g. 🏅)"
                             maxLength={4}
-                            {...register(`badges.${index}.icon`, { 
+                            {...register(`badges.${index}.icon`, {
                               required: "Icon is required",
-                              maxLength: { value: 4, message: "Maximum 4 characters" }
+                              maxLength: { value: 4, message: "Maximum 4 characters" },
                             })}
                           />
                         </div>
@@ -821,9 +750,9 @@ export default function AddAccreditationSectionPage() {
                             className={styles.input}
                             placeholder="Badge text (e.g. Yoga Alliance USA — RYS 200 & 300 & 500)"
                             maxLength={80}
-                            {...register(`badges.${index}.text`, { 
+                            {...register(`badges.${index}.text`, {
                               required: "Badge text is required",
-                              maxLength: { value: 80, message: "Maximum 80 characters" }
+                              maxLength: { value: 80, message: "Maximum 80 characters" },
                             })}
                           />
                         </div>
@@ -872,22 +801,19 @@ export default function AddAccreditationSectionPage() {
                   className={styles.prevBtn}
                   onClick={() => {
                     const order = ["auth", "video", "recognition", "certs"];
-                    const idx = order.indexOf(activeTab);
-                    setActiveTab(order[idx - 1] as any);
+                    setActiveTab(order[order.indexOf(activeTab) - 1] as any);
                   }}
                 >
                   ← Previous
                 </button>
               )}
-              
               {activeTab !== "certs" ? (
                 <button
                   type="button"
                   className={styles.nextBtn}
                   onClick={() => {
                     const order = ["auth", "video", "recognition", "certs"];
-                    const idx = order.indexOf(activeTab);
-                    setActiveTab(order[idx + 1] as any);
+                    setActiveTab(order[order.indexOf(activeTab) + 1] as any);
                   }}
                 >
                   Next →

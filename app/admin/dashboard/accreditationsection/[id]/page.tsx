@@ -7,19 +7,19 @@ import { useForm, useFieldArray } from "react-hook-form";
 import styles from "@/assets/style/Admin/dashboard/accreditationsection/Accreditationsection.module.css";
 import api from "@/lib/api";
 
-/* ─────────────────────── Types ─────────────────────── */
-
+/* ─────────────────────── Helpers ─────────────────────── */
 const getImageUrl = (path: string) => {
   if (!path) return "";
-  const cleanPath = path.replace(/\\/g, "/");
-  return `${process.env.NEXT_PUBLIC_API_URL}/${cleanPath}`;
+  return `${process.env.NEXT_PUBLIC_API_URL}/${path.replace(/\\/g, "/")}`;
 };
+
+/* ─────────────────────── Types ─────────────────────── */
 interface CertItem {
   label: string;
   tag: string;
   alt: string;
-  image?: string;
-  imagePreview?: string;
+  image?: string;       // existing DB path
+  imagePreview?: string; // local preview URL (base64 or full URL)
 }
 
 interface BadgeItem {
@@ -42,23 +42,6 @@ interface FormData {
   _mainImagePreview?: string;
 }
 
-interface ApiResponse {
-  success: boolean;
-  data: {
-    sectionTitle: string;
-    authPara1: string; authPara2: string; authPara3: string; authPara4: string;
-    imageCaption?: string; pullQuote: string;
-    videoSrc: string;
-    immerseTitle: string; immersePara1: string; immersePara2?: string;
-    immerseCtaText: string; immerseCtaLink: string;
-    recognitionTitle: string;
-    recognitionPara1: string; recognitionPara2?: string;
-    certs?: CertItem[];
-    badges?: BadgeItem[];
-    mainImage?: string;
-  };
-}
-
 const EMPTY_CERT: CertItem = { label: "", tag: "", alt: "", imagePreview: "" };
 const EMPTY_BADGE: BadgeItem = { icon: "", text: "" };
 
@@ -73,17 +56,13 @@ export default function EditAccreditationSectionPage() {
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<"auth" | "video" | "recognition" | "certs">("auth");
   const [mainImageFile, setMainImageFile] = useState<File | null>(null);
+
+  // certFiles[i] = new File or null (null = keep existing image)
   const [certFiles, setCertFiles] = useState<(File | null)[]>([]);
 
   const {
-    control,
-    handleSubmit,
-    register,
-    formState: { errors },
-    watch,
-    setValue,
-    getValues,
-    reset,
+    control, handleSubmit, register,
+    formState: { errors }, watch, setValue, getValues, reset,
   } = useForm<FormData>({
     defaultValues: {
       sectionTitle: "",
@@ -100,120 +79,87 @@ export default function EditAccreditationSectionPage() {
     mode: "onChange",
   });
 
-  // Watch values for character counts and previews
   const watchAllFields = watch();
 
   /* ─────────────────────── Field Arrays ─────────────────────── */
-  const {
-    fields: certFields,
-    append: appendCert,
-    remove: removeCert,
-  } = useFieldArray({
-    control,
-    name: "certs",
-  });
+  const { fields: certFields, append: appendCert, remove: removeCert } = useFieldArray({ control, name: "certs" });
+  const { fields: badgeFields, append: appendBadge, remove: removeBadge } = useFieldArray({ control, name: "badges" });
 
-  const {
-    fields: badgeFields,
-    append: appendBadge,
-    remove: removeBadge,
-  } = useFieldArray({
-    control,
-    name: "badges",
-  });
-
-  /* fetch existing data */
+  /* ─────────────────────── Fetch ─────────────────────── */
   useEffect(() => {
+    if (!id) return;
     const fetchData = async () => {
       try {
         setLoading(true);
-        const res = await api.get<ApiResponse>(`/accreditation/${id}`);
+        const res = await api.get(`/accreditation/${id}`);
         const d = res.data.data;
-        
-        // Prepare certs with imagePreview from existing images
-        const certsWithPreview = d.certs?.map(cert => ({
-  ...cert,
-  imagePreview: cert.image ? getImageUrl(cert.image) : "",
-})) || [{ ...EMPTY_CERT }];
 
-        // Prepare badges with proper fallback
-        const badgesWithFallback = d.badges?.length ? d.badges : [{ ...EMPTY_BADGE }];
+        const certsWithPreview: CertItem[] = (d.certs || []).map((cert: CertItem) => ({
+          ...cert,
+          imagePreview: cert.image ? getImageUrl(cert.image) : "",
+        }));
 
-        // Reset form with fetched data
         reset({
-          sectionTitle: d.sectionTitle || "",
-          authPara1: d.authPara1 || "",
-          authPara2: d.authPara2 || "",
-          authPara3: d.authPara3 || "",
-          authPara4: d.authPara4 || "",
-          imageCaption: d.imageCaption || "",
-          pullQuote: d.pullQuote || "",
-          videoSrc: d.videoSrc || "",
-          immerseTitle: d.immerseTitle || "",
-          immersePara1: d.immersePara1 || "",
-          immersePara2: d.immersePara2 || "",
-          immerseCtaText: d.immerseCtaText || "",
-          immerseCtaLink: d.immerseCtaLink || "",
-          recognitionTitle: d.recognitionTitle || "",
-          recognitionPara1: d.recognitionPara1 || "",
-          recognitionPara2: d.recognitionPara2 || "",
-          certs: certsWithPreview,
-          badges: badgesWithFallback,
-          mainImage: d.mainImage,
+          sectionTitle:     d.sectionTitle     || "",
+          authPara1:        d.authPara1         || "",
+          authPara2:        d.authPara2         || "",
+          authPara3:        d.authPara3         || "",
+          authPara4:        d.authPara4         || "",
+          imageCaption:     d.imageCaption      || "",
+          pullQuote:        d.pullQuote         || "",
+          videoSrc:         d.videoSrc          || "",
+          immerseTitle:     d.immerseTitle      || "",
+          immersePara1:     d.immersePara1      || "",
+          immersePara2:     d.immersePara2      || "",
+          immerseCtaText:   d.immerseCtaText    || "",
+          immerseCtaLink:   d.immerseCtaLink    || "",
+          recognitionTitle: d.recognitionTitle  || "",
+          recognitionPara1: d.recognitionPara1  || "",
+          recognitionPara2: d.recognitionPara2  || "",
+          certs:            certsWithPreview.length ? certsWithPreview : [{ ...EMPTY_CERT }],
+          badges:           d.badges?.length   ? d.badges            : [{ ...EMPTY_BADGE }],
+          mainImage:        d.mainImage,
         });
 
-        // Initialize certFiles array with nulls (no new files initially)
-        setCertFiles(new Array(certsWithPreview.length).fill(null));
+        // All nulls — no new files yet
+        setCertFiles(new Array(certsWithPreview.length || 1).fill(null));
 
-        // Set main image preview if exists
-       if (d.mainImage) {
-  setValue("_mainImagePreview", getImageUrl(d.mainImage));
-}
-
+        if (d.mainImage) setValue("_mainImagePreview", getImageUrl(d.mainImage));
       } catch (err) {
-        console.error("Failed to fetch accreditation data:", err);
+        console.error(err);
         alert("Failed to load data");
       } finally {
         setLoading(false);
       }
     };
-
-    if (id) {
-      fetchData();
-    }
+    fetchData();
   }, [id, reset, setValue]);
 
   /* ─────────────────────── Image Handlers ─────────────────────── */
   const handleMainImage = (file: File | null) => {
     if (!file) return;
-
     setMainImageFile(file);
-
     const reader = new FileReader();
-    reader.onload = (e) => {
-      setValue("_mainImagePreview", e.target?.result as string);
-    };
+    reader.onload = (e) => setValue("_mainImagePreview", e.target?.result as string);
     reader.readAsDataURL(file);
   };
 
   const handleCertImage = (index: number, file: File | null) => {
     if (!file) return;
-
-    // Store file for upload
     setCertFiles((prev) => {
       const arr = [...prev];
       arr[index] = file;
       return arr;
     });
-
-    // Preview
     const reader = new FileReader();
     reader.onload = (e) => {
-      const currentCerts = getValues("certs");
-      const updatedCerts = currentCerts.map((cert, i) => 
-        i === index ? { ...cert, imagePreview: e.target?.result as string } : cert
+      const current = getValues("certs");
+      setValue(
+        "certs",
+        current.map((cert, i) =>
+          i === index ? { ...cert, imagePreview: e.target?.result as string } : cert
+        )
       );
-      setValue("certs", updatedCerts);
     };
     reader.readAsDataURL(file);
   };
@@ -227,77 +173,69 @@ export default function EditAccreditationSectionPage() {
 
   const removeCertHandler = (index: number) => {
     removeCert(index);
-    setCertFiles((prev) => prev.filter((_, idx) => idx !== index));
+    setCertFiles((prev) => prev.filter((_, i) => i !== index));
   };
 
   const addBadge = () => {
-    if (badgeFields.length < 6) {
-      appendBadge({ ...EMPTY_BADGE });
-    }
+    if (badgeFields.length < 6) appendBadge({ ...EMPTY_BADGE });
   };
 
-  /* ─────────────────────── Submit Handler ─────────────────────── */
+  /* ─────────────────────── Submit ─────────────────────── */
   const onSubmit = async (data: FormData) => {
     try {
       setIsSubmitting(true);
-
       const formData = new FormData();
 
-      // Append all text fields
+      // Text fields
       const textFields: (keyof FormData)[] = [
-        'sectionTitle', 'authPara1', 'authPara2', 'authPara3', 'authPara4',
-        'imageCaption', 'pullQuote', 'videoSrc', 'immerseTitle', 'immersePara1',
-        'immersePara2', 'immerseCtaText', 'immerseCtaLink', 'recognitionTitle',
-        'recognitionPara1', 'recognitionPara2'
+        "sectionTitle", "authPara1", "authPara2", "authPara3", "authPara4",
+        "imageCaption", "pullQuote", "videoSrc", "immerseTitle", "immersePara1",
+        "immersePara2", "immerseCtaText", "immerseCtaLink", "recognitionTitle",
+        "recognitionPara1", "recognitionPara2",
       ];
-
-      textFields.forEach(field => {
-        const value = data[field];
-        if (value !== undefined && value !== null) {
-          formData.append(field, String(value));
-        }
+      textFields.forEach((field) => {
+        const val = data[field];
+        if (val !== undefined && val !== null) formData.append(field, String(val));
       });
 
-      // Prepare certs data without preview URLs
-      const certsData = data.certs.map(cert => ({
-        label: cert.label,
-        tag: cert.tag,
-        alt: cert.alt || "",
-        image: cert.image, // Keep existing image path if any
+      // Certs — keep existing image path, strip imagePreview
+      const certsData = data.certs.map(({ label, tag, alt, image }) => ({
+        label, tag, alt: alt || "", image: image || "",
       }));
-
       formData.append("certs", JSON.stringify(certsData));
       formData.append("badges", JSON.stringify(data.badges));
 
-      // Append new main image if selected
-      if (mainImageFile) {
-        formData.append("mainImage", mainImageFile);
-      }
+      // Main image
+      if (mainImageFile) formData.append("mainImage", mainImageFile);
 
-      // Append new cert images
-      certFiles.forEach((file) => {
-        if (file) formData.append("certImages", file);
+      // ✅ KEY FIX: collect only certs that have a NEW file, track their indexes
+      const certImageIndexList: number[] = [];
+      certFiles.forEach((file, idx) => {
+        if (file) {
+          formData.append("certImages", file);
+          certImageIndexList.push(idx);
+        }
       });
 
-      // API Call
+      if (certImageIndexList.length > 0) {
+        formData.append("certImageIndexes", certImageIndexList.join(","));
+      }
+
       await api.put(`/accreditation/${id}`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
+        headers: { "Content-Type": "multipart/form-data" },
       });
 
       setSubmitted(true);
       setTimeout(() => router.push("/admin/dashboard/accreditationsection"), 1500);
-
     } catch (error: any) {
-      console.error("Update error:", error);
+      console.error(error);
       alert(error?.response?.data?.message || error?.message || "Failed to update");
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  /* loading skeleton */
+  /* ─────────────────────── Loading / Success ─────────────────────── */
   if (loading) {
     return (
       <div className={styles.page}>
@@ -308,13 +246,12 @@ export default function EditAccreditationSectionPage() {
         </div>
         <div className={styles.pageHeader}>
           <h1 className={styles.pageTitle}>Edit Accreditation Section</h1>
-          <p className={styles.pageSubtitle}>Loading...</p>
+          <p className={styles.pageSubtitle}>Loading…</p>
         </div>
         <div className={styles.formCard}>
-          <div className={styles.skeletonField} style={{ height: '60px', marginBottom: '20px' }} />
-          <div className={styles.skeletonField} style={{ height: '100px', marginBottom: '20px' }} />
-          <div className={styles.skeletonField} style={{ height: '100px', marginBottom: '20px' }} />
-          <div className={styles.skeletonField} style={{ height: '100px', marginBottom: '20px' }} />
+          {[60, 100, 100, 100].map((h, i) => (
+            <div key={i} className={styles.skeletonField} style={{ height: `${h}px`, marginBottom: "20px" }} />
+          ))}
         </div>
       </div>
     );
@@ -374,6 +311,7 @@ export default function EditAccreditationSectionPage() {
 
       <div className={styles.formCard}>
         <form onSubmit={handleSubmit(onSubmit)}>
+
           {/* ══════════ TAB 1 — AUTH SECTION ══════════ */}
           {activeTab === "auth" && (
             <>
@@ -390,19 +328,11 @@ export default function EditAccreditationSectionPage() {
                   </label>
                   <p className={styles.fieldHint}>Main heading shown at the top of the auth section</p>
                   <div className={`${styles.inputWrap} ${errors.sectionTitle ? styles.inputError : ""} ${watchAllFields.sectionTitle && !errors.sectionTitle ? styles.inputSuccess : ""}`}>
-                    <textarea
-                      className={`${styles.input} ${styles.textarea}`}
+                    <textarea className={`${styles.input} ${styles.textarea}`} maxLength={200} rows={2}
                       placeholder="e.g. Authentic, Internationally recognized Yoga Teacher Training Certification School in Rishikesh"
-                      maxLength={200}
-                      rows={2}
-                      {...register("sectionTitle", { 
-                        required: "Section title is required",
-                        maxLength: { value: 200, message: "Maximum 200 characters" }
-                      })}
+                      {...register("sectionTitle", { required: "Section title is required", maxLength: { value: 200, message: "Maximum 200 characters" } })}
                     />
-                    <span className={`${styles.charCount} ${styles.charCountBottom}`}>
-                      {watchAllFields.sectionTitle?.length || 0}/200
-                    </span>
+                    <span className={`${styles.charCount} ${styles.charCountBottom}`}>{watchAllFields.sectionTitle?.length || 0}/200</span>
                   </div>
                   {errors.sectionTitle && <p className={styles.errorMsg}>⚠ {errors.sectionTitle.message}</p>}
                 </div>
@@ -416,32 +346,22 @@ export default function EditAccreditationSectionPage() {
                   <h3 className={styles.sectionTitle}>Left Column — Body Paragraphs</h3>
                 </div>
 
-                {[
+                {([
                   { name: "authPara1" as const, label: "Paragraph 1", hint: "Accreditation overview — Yoga Alliance USA & YCB", ph: "Our Yoga Teacher Training in Rishikesh is accredited by Yoga Alliance USA…" },
                   { name: "authPara2" as const, label: "Paragraph 2", hint: "Curriculum structure — beginner to advanced", ph: "Our yoga school in Rishikesh offers a well-structured and updated curriculum…" },
                   { name: "authPara3" as const, label: "Paragraph 3", hint: "Specialized programs (Kundalini, Prenatal, Hatha)", ph: "Our training is deeply rooted in traditional yoga practices…" },
                   { name: "authPara4" as const, label: "Paragraph 4", hint: "Online training & closing note", ph: "In addition to our immersive teacher training courses, we provide online…" },
-                ].map(({ name, label, hint, ph }) => (
+                ]).map(({ name, label, hint, ph }) => (
                   <div key={name} className={styles.fieldGroup}>
                     <label className={styles.label}>
-                      <span className={styles.labelIcon}>✦</span>{label}
-                      <span className={styles.required}>*</span>
+                      <span className={styles.labelIcon}>✦</span>{label}<span className={styles.required}>*</span>
                     </label>
                     <p className={styles.fieldHint}>{hint}</p>
                     <div className={`${styles.inputWrap} ${errors[name] ? styles.inputError : ""} ${watchAllFields[name] && !errors[name] ? styles.inputSuccess : ""}`}>
-                      <textarea
-                        className={`${styles.input} ${styles.textarea}`}
-                        placeholder={ph}
-                        maxLength={600}
-                        rows={3}
-                        {...register(name, { 
-                          required: `${label} is required`,
-                          maxLength: { value: 600, message: "Maximum 600 characters" }
-                        })}
+                      <textarea className={`${styles.input} ${styles.textarea}`} placeholder={ph} maxLength={600} rows={3}
+                        {...register(name, { required: `${label} is required`, maxLength: { value: 600, message: "Maximum 600 characters" } })}
                       />
-                      <span className={`${styles.charCount} ${styles.charCountBottom}`}>
-                        {watchAllFields[name]?.length || 0}/600
-                      </span>
+                      <span className={`${styles.charCount} ${styles.charCountBottom}`}>{watchAllFields[name]?.length || 0}/600</span>
                     </div>
                     {errors[name] && <p className={styles.errorMsg}>⚠ {errors[name].message}</p>}
                   </div>
@@ -460,14 +380,9 @@ export default function EditAccreditationSectionPage() {
                   <label className={styles.label}><span className={styles.labelIcon}>✦</span>Main Section Image</label>
                   <p className={styles.fieldHint}>Upload new image to replace existing (leave empty to keep current)</p>
                   <label className={styles.uploadArea}>
-                    <input
-                      type="file"
-                      accept="image/*"
-                      className={styles.fileInput}
-                      onChange={(e) => handleMainImage(e.target.files?.[0] || null)}
-                    />
+                    <input type="file" accept="image/*" className={styles.fileInput} onChange={(e) => handleMainImage(e.target.files?.[0] || null)} />
                     {watchAllFields._mainImagePreview ? (
-                      <img src={watchAllFields._mainImagePreview} alt="preview" style={{ maxWidth: '100%', maxHeight: '200px' }} />
+                      <img src={watchAllFields._mainImagePreview} alt="preview" style={{ maxWidth: "100%", maxHeight: "200px" }} />
                     ) : (
                       <>
                         <span className={styles.uploadIcon}>📷</span>
@@ -482,33 +397,19 @@ export default function EditAccreditationSectionPage() {
                   <label className={styles.label}><span className={styles.labelIcon}>✦</span>Image Caption</label>
                   <p className={styles.fieldHint}>Small caption displayed below the image</p>
                   <div className={styles.inputWrap}>
-                    <input
-                      type="text"
-                      className={styles.input}
-                      placeholder="e.g. AYM Study Materials & Curriculum"
-                      maxLength={80}
-                      {...register("imageCaption")}
-                    />
+                    <input type="text" className={styles.input} placeholder="e.g. AYM Study Materials & Curriculum" maxLength={80} {...register("imageCaption")} />
                     <span className={styles.charCount}>{watchAllFields.imageCaption?.length || 0}/80</span>
                   </div>
                 </div>
 
                 <div className={styles.fieldGroup}>
                   <label className={styles.label}>
-                    <span className={styles.labelIcon}>✦</span>Pull Quote
-                    <span className={styles.required}>*</span>
+                    <span className={styles.labelIcon}>✦</span>Pull Quote<span className={styles.required}>*</span>
                   </label>
                   <p className={styles.fieldHint}>Short quote shown in the styled blockquote with " " marks</p>
                   <div className={`${styles.inputWrap} ${errors.pullQuote ? styles.inputError : ""} ${watchAllFields.pullQuote && !errors.pullQuote ? styles.inputSuccess : ""}`}>
-                    <input
-                      type="text"
-                      className={styles.input}
-                      placeholder='e.g. Learn, grow, and transform.'
-                      maxLength={120}
-                      {...register("pullQuote", { 
-                        required: "Pull quote is required",
-                        maxLength: { value: 120, message: "Maximum 120 characters" }
-                      })}
+                    <input type="text" className={styles.input} placeholder='e.g. Learn, grow, and transform.' maxLength={120}
+                      {...register("pullQuote", { required: "Pull quote is required", maxLength: { value: 120, message: "Maximum 120 characters" } })}
                     />
                     <span className={styles.charCount}>{watchAllFields.pullQuote?.length || 0}/120</span>
                   </div>
@@ -529,23 +430,13 @@ export default function EditAccreditationSectionPage() {
 
                 <div className={styles.fieldGroup}>
                   <label className={styles.label}>
-                    <span className={styles.labelIcon}>✦</span>Video URL
-                    <span className={styles.required}>*</span>
+                    <span className={styles.labelIcon}>✦</span>Video URL<span className={styles.required}>*</span>
                   </label>
                   <p className={styles.fieldHint}>YouTube link (youtu.be or youtube.com/watch) or direct MP4 URL</p>
                   <div className={`${styles.inputWrap} ${styles.inputWithPrefix} ${errors.videoSrc ? styles.inputError : ""} ${watchAllFields.videoSrc && !errors.videoSrc ? styles.inputSuccess : ""}`}>
                     <span className={styles.inputPrefix}>🎬</span>
-                    <input
-                      type="text"
-                      className={`${styles.input} ${styles.inputPrefixed}`}
-                      placeholder="https://youtu.be/... or https://…/video.mp4"
-                      {...register("videoSrc", { 
-                        required: "Video URL is required",
-                        pattern: {
-                          value: /^https?:\/\/.+/,
-                          message: "Enter a valid URL"
-                        }
-                      })}
+                    <input type="text" className={`${styles.input} ${styles.inputPrefixed}`} placeholder="https://youtu.be/... or https://…/video.mp4"
+                      {...register("videoSrc", { required: "Video URL is required", pattern: { value: /^https?:\/\/.+/, message: "Enter a valid URL" } })}
                     />
                   </div>
                   {errors.videoSrc && <p className={styles.errorMsg}>⚠ {errors.videoSrc.message}</p>}
@@ -566,21 +457,11 @@ export default function EditAccreditationSectionPage() {
                 </div>
 
                 <div className={styles.fieldGroup}>
-                  <label className={styles.label}>
-                    <span className={styles.labelIcon}>✦</span>Immerse Title (H3)
-                    <span className={styles.required}>*</span>
-                  </label>
+                  <label className={styles.label}><span className={styles.labelIcon}>✦</span>Immerse Title (H3)<span className={styles.required}>*</span></label>
                   <p className={styles.fieldHint}>Heading displayed beside the video</p>
                   <div className={`${styles.inputWrap} ${errors.immerseTitle ? styles.inputError : ""} ${watchAllFields.immerseTitle && !errors.immerseTitle ? styles.inputSuccess : ""}`}>
-                    <input
-                      type="text"
-                      className={styles.input}
-                      placeholder="e.g. Immerse Yourself in Yoga in Rishikesh"
-                      maxLength={120}
-                      {...register("immerseTitle", { 
-                        required: "Immerse title is required",
-                        maxLength: { value: 120, message: "Maximum 120 characters" }
-                      })}
+                    <input type="text" className={styles.input} placeholder="e.g. Immerse Yourself in Yoga in Rishikesh" maxLength={120}
+                      {...register("immerseTitle", { required: "Immerse title is required", maxLength: { value: 120, message: "Maximum 120 characters" } })}
                     />
                     <span className={styles.charCount}>{watchAllFields.immerseTitle?.length || 0}/120</span>
                   </div>
@@ -588,65 +469,37 @@ export default function EditAccreditationSectionPage() {
                 </div>
 
                 <div className={styles.fieldGroup}>
-                  <label className={styles.label}>
-                    <span className={styles.labelIcon}>✦</span>Paragraph 1
-                    <span className={styles.required}>*</span>
-                  </label>
+                  <label className={styles.label}><span className={styles.labelIcon}>✦</span>Paragraph 1<span className={styles.required}>*</span></label>
                   <p className={styles.fieldHint}>About Rishikesh setting</p>
                   <div className={`${styles.inputWrap} ${errors.immersePara1 ? styles.inputError : ""} ${watchAllFields.immersePara1 && !errors.immersePara1 ? styles.inputSuccess : ""}`}>
-                    <textarea
-                      className={`${styles.input} ${styles.textarea}`}
+                    <textarea className={`${styles.input} ${styles.textarea}`} maxLength={500} rows={3}
                       placeholder="Rishikesh, the Yoga Capital of the World, invites you to embark…"
-                      maxLength={500}
-                      rows={3}
-                      {...register("immersePara1", { 
-                        required: "Paragraph 1 is required",
-                        maxLength: { value: 500, message: "Maximum 500 characters" }
-                      })}
+                      {...register("immersePara1", { required: "Paragraph 1 is required", maxLength: { value: 500, message: "Maximum 500 characters" } })}
                     />
-                    <span className={`${styles.charCount} ${styles.charCountBottom}`}>
-                      {watchAllFields.immersePara1?.length || 0}/500
-                    </span>
+                    <span className={`${styles.charCount} ${styles.charCountBottom}`}>{watchAllFields.immersePara1?.length || 0}/500</span>
                   </div>
                   {errors.immersePara1 && <p className={styles.errorMsg}>⚠ {errors.immersePara1.message}</p>}
                 </div>
 
                 <div className={styles.fieldGroup}>
-                  <label className={styles.label}>
-                    <span className={styles.labelIcon}>✦</span>Paragraph 2
-                  </label>
+                  <label className={styles.label}><span className={styles.labelIcon}>✦</span>Paragraph 2</label>
                   <p className={styles.fieldHint}>Breathwork, asanas, meditation — optional</p>
                   <div className={styles.inputWrap}>
-                    <textarea
-                      className={`${styles.input} ${styles.textarea}`}
+                    <textarea className={`${styles.input} ${styles.textarea}`} maxLength={500} rows={3}
                       placeholder="From mastering breathwork and asanas to exploring meditation…"
-                      maxLength={500}
-                      rows={3}
                       {...register("immersePara2")}
                     />
-                    <span className={`${styles.charCount} ${styles.charCountBottom}`}>
-                      {watchAllFields.immersePara2?.length || 0}/500
-                    </span>
+                    <span className={`${styles.charCount} ${styles.charCountBottom}`}>{watchAllFields.immersePara2?.length || 0}/500</span>
                   </div>
                 </div>
 
                 <div className={styles.twoCol}>
                   <div className={styles.fieldGroup}>
-                    <label className={styles.label}>
-                      <span className={styles.labelIcon}>✦</span>CTA Button Text
-                      <span className={styles.required}>*</span>
-                    </label>
+                    <label className={styles.label}><span className={styles.labelIcon}>✦</span>CTA Button Text<span className={styles.required}>*</span></label>
                     <p className={styles.fieldHint}>Text on the Know More button</p>
                     <div className={`${styles.inputWrap} ${errors.immerseCtaText ? styles.inputError : ""} ${watchAllFields.immerseCtaText && !errors.immerseCtaText ? styles.inputSuccess : ""}`}>
-                      <input
-                        type="text"
-                        className={styles.input}
-                        placeholder="e.g. Know More About AYM"
-                        maxLength={60}
-                        {...register("immerseCtaText", { 
-                          required: "CTA text is required",
-                          maxLength: { value: 60, message: "Maximum 60 characters" }
-                        })}
+                      <input type="text" className={styles.input} placeholder="e.g. Know More About AYM" maxLength={60}
+                        {...register("immerseCtaText", { required: "CTA text is required", maxLength: { value: 60, message: "Maximum 60 characters" } })}
                       />
                       <span className={styles.charCount}>{watchAllFields.immerseCtaText?.length || 0}/60</span>
                     </div>
@@ -654,24 +507,12 @@ export default function EditAccreditationSectionPage() {
                   </div>
 
                   <div className={styles.fieldGroup}>
-                    <label className={styles.label}>
-                      <span className={styles.labelIcon}>✦</span>CTA Button Link
-                      <span className={styles.required}>*</span>
-                    </label>
+                    <label className={styles.label}><span className={styles.labelIcon}>✦</span>CTA Button Link<span className={styles.required}>*</span></label>
                     <p className={styles.fieldHint}>URL or path</p>
                     <div className={`${styles.inputWrap} ${styles.inputWithPrefix} ${errors.immerseCtaLink ? styles.inputError : ""} ${watchAllFields.immerseCtaLink && !errors.immerseCtaLink ? styles.inputSuccess : ""}`}>
                       <span className={styles.inputPrefix}>🔗</span>
-                      <input
-                        type="text"
-                        className={`${styles.input} ${styles.inputPrefixed}`}
-                        placeholder="/about or https://…"
-                        {...register("immerseCtaLink", { 
-                          required: "CTA link is required",
-                          pattern: {
-                            value: /^(https?:\/\/.+\..+|\/[^\s]*)$/,
-                            message: "Enter a valid URL or path"
-                          }
-                        })}
+                      <input type="text" className={`${styles.input} ${styles.inputPrefixed}`} placeholder="/about or https://…"
+                        {...register("immerseCtaLink", { required: "CTA link is required", pattern: { value: /^(https?:\/\/.+\..+|\/[^\s]*)$/, message: "Enter a valid URL or path" } })}
                       />
                     </div>
                     {errors.immerseCtaLink && <p className={styles.errorMsg}>⚠ {errors.immerseCtaLink.message}</p>}
@@ -690,21 +531,11 @@ export default function EditAccreditationSectionPage() {
               </div>
 
               <div className={styles.fieldGroup}>
-                <label className={styles.label}>
-                  <span className={styles.labelIcon}>✦</span>Recognition Title (H2)
-                  <span className={styles.required}>*</span>
-                </label>
+                <label className={styles.label}><span className={styles.labelIcon}>✦</span>Recognition Title (H2)<span className={styles.required}>*</span></label>
                 <p className={styles.fieldHint}>Section heading for the recognition block</p>
                 <div className={`${styles.inputWrap} ${errors.recognitionTitle ? styles.inputError : ""} ${watchAllFields.recognitionTitle && !errors.recognitionTitle ? styles.inputSuccess : ""}`}>
-                  <input
-                    type="text"
-                    className={styles.input}
-                    placeholder="e.g. Recognition & Endorsements"
-                    maxLength={120}
-                    {...register("recognitionTitle", { 
-                      required: "Recognition title is required",
-                      maxLength: { value: 120, message: "Maximum 120 characters" }
-                    })}
+                  <input type="text" className={styles.input} placeholder="e.g. Recognition & Endorsements" maxLength={120}
+                    {...register("recognitionTitle", { required: "Recognition title is required", maxLength: { value: 120, message: "Maximum 120 characters" } })}
                   />
                   <span className={styles.charCount}>{watchAllFields.recognitionTitle?.length || 0}/120</span>
                 </div>
@@ -712,45 +543,27 @@ export default function EditAccreditationSectionPage() {
               </div>
 
               <div className={styles.fieldGroup}>
-                <label className={styles.label}>
-                  <span className={styles.labelIcon}>✦</span>Paragraph 1
-                  <span className={styles.required}>*</span>
-                </label>
+                <label className={styles.label}><span className={styles.labelIcon}>✦</span>Paragraph 1<span className={styles.required}>*</span></label>
                 <p className={styles.fieldHint}>YCB & Yoga Alliance + registration info</p>
                 <div className={`${styles.inputWrap} ${errors.recognitionPara1 ? styles.inputError : ""} ${watchAllFields.recognitionPara1 && !errors.recognitionPara1 ? styles.inputSuccess : ""}`}>
-                  <textarea
-                    className={`${styles.input} ${styles.textarea}`}
+                  <textarea className={`${styles.input} ${styles.textarea}`} maxLength={600} rows={4}
                     placeholder="At AYM Yoga School in Rishikesh, all our programs are accredited by…"
-                    maxLength={600}
-                    rows={4}
-                    {...register("recognitionPara1", { 
-                      required: "Paragraph 1 is required",
-                      maxLength: { value: 600, message: "Maximum 600 characters" }
-                    })}
+                    {...register("recognitionPara1", { required: "Paragraph 1 is required", maxLength: { value: 600, message: "Maximum 600 characters" } })}
                   />
-                  <span className={`${styles.charCount} ${styles.charCountBottom}`}>
-                    {watchAllFields.recognitionPara1?.length || 0}/600
-                  </span>
+                  <span className={`${styles.charCount} ${styles.charCountBottom}`}>{watchAllFields.recognitionPara1?.length || 0}/600</span>
                 </div>
                 {errors.recognitionPara1 && <p className={styles.errorMsg}>⚠ {errors.recognitionPara1.message}</p>}
               </div>
 
               <div className={styles.fieldGroup}>
-                <label className={styles.label}>
-                  <span className={styles.labelIcon}>✦</span>Paragraph 2
-                </label>
+                <label className={styles.label}><span className={styles.labelIcon}>✦</span>Paragraph 2</label>
                 <p className={styles.fieldHint}>Best yoga TTC pitch — optional</p>
                 <div className={styles.inputWrap}>
-                  <textarea
-                    className={`${styles.input} ${styles.textarea}`}
+                  <textarea className={`${styles.input} ${styles.textarea}`} maxLength={600} rows={4}
                     placeholder="If you're looking for the best Yoga TTC in Rishikesh…"
-                    maxLength={600}
-                    rows={4}
                     {...register("recognitionPara2")}
                   />
-                  <span className={`${styles.charCount} ${styles.charCountBottom}`}>
-                    {watchAllFields.recognitionPara2?.length || 0}/600
-                  </span>
+                  <span className={`${styles.charCount} ${styles.charCountBottom}`}>{watchAllFields.recognitionPara2?.length || 0}/600</span>
                 </div>
               </div>
             </div>
@@ -773,12 +586,7 @@ export default function EditAccreditationSectionPage() {
                       <div className={styles.certCardHeader}>
                         <span className={styles.certCardNum}>{index + 1}</span>
                         <span className={styles.certCardTitle}>Certificate #{index + 1}</span>
-                        <button
-                          type="button"
-                          className={styles.removeBtn}
-                          onClick={() => removeCertHandler(index)}
-                          disabled={certFields.length <= 1}
-                        >
+                        <button type="button" className={styles.removeBtn} onClick={() => removeCertHandler(index)} disabled={certFields.length <= 1}>
                           ✕ Remove
                         </button>
                       </div>
@@ -786,18 +594,11 @@ export default function EditAccreditationSectionPage() {
                       <div className={styles.certCardBody}>
                         <div className={styles.certImageUpload}>
                           <label className={`${styles.uploadArea} ${styles.uploadAreaSm}`}>
-                            <input
-                              type="file"
-                              accept="image/*"
-                              className={styles.fileInput}
+                            <input type="file" accept="image/*" className={styles.fileInput}
                               onChange={(e) => handleCertImage(index, e.target.files?.[0] || null)}
                             />
                             {watchAllFields.certs?.[index]?.imagePreview ? (
-                              <img 
-                                src={watchAllFields.certs[index].imagePreview} 
-                                alt="preview" 
-                                className={styles.certImgPreview} 
-                              />
+                              <img src={watchAllFields.certs[index].imagePreview} alt="preview" className={styles.certImgPreview} />
                             ) : (
                               <>
                                 <span className={styles.uploadIcon}>🏅</span>
@@ -811,57 +612,31 @@ export default function EditAccreditationSectionPage() {
                         <div className={styles.certFields}>
                           <div className={styles.twoCol}>
                             <div className={styles.fieldGroup}>
-                              <label className={styles.label}>
-                                <span className={styles.labelIcon}>✦</span>Label
-                                <span className={styles.required}>*</span>
-                              </label>
+                              <label className={styles.label}><span className={styles.labelIcon}>✦</span>Label<span className={styles.required}>*</span></label>
                               <p className={styles.fieldHint}>Card footer name</p>
                               <div className={styles.inputWrap}>
-                                <input
-                                  type="text"
-                                  className={styles.input}
-                                  placeholder="e.g. Yoga Alliance USA — RYS 500"
-                                  maxLength={60}
-                                  {...register(`certs.${index}.label`, { 
-                                    required: "Label is required",
-                                    maxLength: { value: 60, message: "Maximum 60 characters" }
-                                  })}
+                                <input type="text" className={styles.input} placeholder="e.g. Yoga Alliance USA — RYS 500" maxLength={60}
+                                  {...register(`certs.${index}.label`, { required: "Label is required" })}
                                 />
                               </div>
                             </div>
 
                             <div className={styles.fieldGroup}>
-                              <label className={styles.label}>
-                                <span className={styles.labelIcon}>✦</span>Tag
-                                <span className={styles.required}>*</span>
-                              </label>
+                              <label className={styles.label}><span className={styles.labelIcon}>✦</span>Tag<span className={styles.required}>*</span></label>
                               <p className={styles.fieldHint}>Small chip above label</p>
                               <div className={styles.inputWrap}>
-                                <input
-                                  type="text"
-                                  className={styles.input}
-                                  placeholder="e.g. International Recognition"
-                                  maxLength={40}
-                                  {...register(`certs.${index}.tag`, { 
-                                    required: "Tag is required",
-                                    maxLength: { value: 40, message: "Maximum 40 characters" }
-                                  })}
+                                <input type="text" className={styles.input} placeholder="e.g. International Recognition" maxLength={40}
+                                  {...register(`certs.${index}.tag`, { required: "Tag is required" })}
                                 />
                               </div>
                             </div>
                           </div>
 
                           <div className={styles.fieldGroup} style={{ marginBottom: 0 }}>
-                            <label className={styles.label}>
-                              <span className={styles.labelIcon}>✦</span>Alt Text
-                            </label>
+                            <label className={styles.label}><span className={styles.labelIcon}>✦</span>Alt Text</label>
                             <p className={styles.fieldHint}>Accessibility & SEO description</p>
                             <div className={styles.inputWrap}>
-                              <input
-                                type="text"
-                                className={styles.input}
-                                placeholder="e.g. Yoga Alliance USA — Certificate of Registration RYS 500"
-                                maxLength={150}
+                              <input type="text" className={styles.input} placeholder="e.g. Yoga Alliance USA — Certificate of Registration RYS 500" maxLength={150}
                                 {...register(`certs.${index}.alt`)}
                               />
                             </div>
@@ -873,9 +648,7 @@ export default function EditAccreditationSectionPage() {
                 </div>
 
                 {certFields.length < 6 && (
-                  <button type="button" className={styles.addBtn} onClick={addCert}>
-                    + Add Certificate Card
-                  </button>
+                  <button type="button" className={styles.addBtn} onClick={addCert}>+ Add Certificate Card</button>
                 )}
               </div>
 
@@ -895,38 +668,17 @@ export default function EditAccreditationSectionPage() {
                       <div className={styles.badgeIndex}>{index + 1}</div>
                       <div className={styles.badgeFields}>
                         <div className={`${styles.inputWrap} ${styles.badgeIconInput}`}>
-                          <input
-                            type="text"
-                            className={styles.input}
-                            placeholder="🏅"
-                            maxLength={4}
-                            {...register(`badges.${index}.icon`, { 
-                              required: "Icon is required",
-                              maxLength: { value: 4, message: "Maximum 4 characters" }
-                            })}
+                          <input type="text" className={styles.input} placeholder="🏅" maxLength={4}
+                            {...register(`badges.${index}.icon`, { required: "Icon is required" })}
                           />
                         </div>
                         <div className={styles.inputWrap} style={{ flex: 1 }}>
-                          <input
-                            type="text"
-                            className={styles.input}
-                            placeholder="e.g. Yoga Alliance USA — RYS 200 & 300 & 500"
-                            maxLength={80}
-                            {...register(`badges.${index}.text`, { 
-                              required: "Badge text is required",
-                              maxLength: { value: 80, message: "Maximum 80 characters" }
-                            })}
+                          <input type="text" className={styles.input} placeholder="e.g. Yoga Alliance USA — RYS 200 & 300 & 500" maxLength={80}
+                            {...register(`badges.${index}.text`, { required: "Badge text is required" })}
                           />
                         </div>
                       </div>
-                      <button
-                        type="button"
-                        className={styles.removeBadgeBtn}
-                        onClick={() => removeBadge(index)}
-                        disabled={badgeFields.length <= 1}
-                      >
-                        ✕
-                      </button>
+                      <button type="button" className={styles.removeBadgeBtn} onClick={() => removeBadge(index)} disabled={badgeFields.length <= 1}>✕</button>
                     </div>
                   ))}
                 </div>
@@ -943,9 +695,7 @@ export default function EditAccreditationSectionPage() {
                 )}
 
                 {badgeFields.length < 6 && (
-                  <button type="button" className={styles.addBtn} onClick={addBadge}>
-                    + Add Badge
-                  </button>
+                  <button type="button" className={styles.addBtn} onClick={addBadge}>+ Add Badge</button>
                 )}
               </div>
             </>
@@ -958,40 +708,25 @@ export default function EditAccreditationSectionPage() {
             <Link href="/admin/dashboard/accreditationsection" className={styles.cancelBtn}>← Cancel</Link>
             <div className={styles.actionsRight}>
               {activeTab !== "auth" && (
-                <button
-                  type="button"
-                  className={styles.prevBtn}
+                <button type="button" className={styles.prevBtn}
                   onClick={() => {
                     const order = ["auth", "video", "recognition", "certs"];
                     setActiveTab(order[order.indexOf(activeTab) - 1] as any);
-                  }}
-                >
+                  }}>
                   ← Previous
                 </button>
               )}
-              
               {activeTab !== "certs" ? (
-                <button
-                  type="button"
-                  className={styles.nextBtn}
+                <button type="button" className={styles.nextBtn}
                   onClick={() => {
                     const order = ["auth", "video", "recognition", "certs"];
                     setActiveTab(order[order.indexOf(activeTab) + 1] as any);
-                  }}
-                >
+                  }}>
                   Next →
                 </button>
               ) : (
-                <button
-                  type="submit"
-                  className={`${styles.submitBtn} ${isSubmitting ? styles.submitBtnLoading : ""}`}
-                  disabled={isSubmitting}
-                >
-                  {isSubmitting ? (
-                    <><span className={styles.spinner} /> Updating…</>
-                  ) : (
-                    <><span>✦</span> Update Section</>
-                  )}
+                <button type="submit" className={`${styles.submitBtn} ${isSubmitting ? styles.submitBtnLoading : ""}`} disabled={isSubmitting}>
+                  {isSubmitting ? <><span className={styles.spinner} /> Updating…</> : <><span>✦</span> Update Section</>}
                 </button>
               )}
             </div>

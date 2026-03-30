@@ -19,6 +19,10 @@ interface Course {
   enrollHref: string;
   exploreLabel: string;
   exploreHref: string;
+  priceINR: string;
+  priceUSD: string;
+  totalSeats: number;
+  seatsLeft: number;
 }
 
 const courses: Course[] = [
@@ -52,6 +56,10 @@ const courses: Course[] = [
     enrollHref: "#",
     exploreLabel: "Explore Our Retreats",
     exploreHref: "#",
+    priceINR: "₹18,500",
+    priceUSD: "$225",
+    totalSeats: 20,
+    seatsLeft: 7,
   },
   {
     id: 2,
@@ -81,6 +89,10 @@ const courses: Course[] = [
     enrollHref: "#",
     exploreLabel: "Explore 100 Hour TTC",
     exploreHref: "#",
+    priceINR: "₹32,000",
+    priceUSD: "$385",
+    totalSeats: 25,
+    seatsLeft: 12,
   },
   {
     id: 3,
@@ -115,6 +127,10 @@ const courses: Course[] = [
     enrollHref: "#",
     exploreLabel: "Explore 200 Hour TTC",
     exploreHref: "#",
+    priceINR: "₹58,000",
+    priceUSD: "$699",
+    totalSeats: 30,
+    seatsLeft: 5,
   },
   {
     id: 4,
@@ -144,6 +160,10 @@ const courses: Course[] = [
     enrollHref: "#",
     exploreLabel: "Explore 300 Hour TTC",
     exploreHref: "#",
+    priceINR: "₹85,000",
+    priceUSD: "$1,025",
+    totalSeats: 20,
+    seatsLeft: 3,
   },
 ];
 
@@ -211,7 +231,46 @@ export const CoursesSection: React.FC = () => {
                   ))}
                 </ul>
               </div>
+
+              {/* ── CTA Column ── */}
               <div className={styles.ctaColumn}>
+                {/* Price block */}
+                <div className={styles.priceBlock}>
+                  <span className={styles.priceINR}>{course.priceINR}</span>
+                  <span className={styles.priceUSD}>{course.priceUSD}</span>
+                </div>
+
+                {/* Seats info */}
+                <div className={styles.seatsBlock}>
+                  <div className={styles.seatsRow}>
+                    <span className={styles.seatsLabel}>Total Seats</span>
+                    <span className={styles.seatsValue}>{course.totalSeats}</span>
+                  </div>
+                  <div className={styles.seatsRow}>
+                    <span className={styles.seatsLabel}>Seats Left</span>
+                    <span
+                      className={`${styles.seatsValue} ${
+                        course.seatsLeft <= 5 ? styles.seatsUrgent : ""
+                      }`}
+                    >
+                      {course.seatsLeft}
+                    </span>
+                  </div>
+                  {/* Seats progress bar */}
+                  <div className={styles.seatsBar}>
+                    <div
+                      className={styles.seatsBarFill}
+                      style={{
+                        width: `${((course.totalSeats - course.seatsLeft) / course.totalSeats) * 100}%`,
+                      }}
+                    />
+                  </div>
+                </div>
+
+                {/* Divider */}
+                <div className={styles.ctaDivider} />
+
+                {/* Buttons at bottom */}
                 <a href={course.enrollHref} className={styles.btnEnroll}>
                   Enroll Now
                 </a>

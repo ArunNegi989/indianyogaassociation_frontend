@@ -225,7 +225,6 @@
   padding: 0 0.2rem;
 }
 
-/* Description */
 .description {
   font-family: 'Cormorant Garamond', serif;
   font-size: clamp(0.88rem, 1.4vw, 0.97rem);
@@ -288,21 +287,107 @@
   text-decoration-color: rgba(138, 62, 0, 0.5);
 }
 
+/* ── CTA Column ── */
 .ctaColumn {
   grid-area: cta;
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  justify-content: center;
-  gap: 0.65rem;
+  justify-content: space-between;
+  gap: 0;
   padding: 1.2rem 1.4rem;
   border-left: 1px solid #ede0c8;
   background: linear-gradient(180deg, #fff9f0, #fff4e4);
-  min-width: 160px;
+  min-width: 170px;
   position: relative;
   z-index: 1;
 }
 
+/* Price block */
+.priceBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  padding-bottom: 0.85rem;
+}
+
+.priceINR {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(1.25rem, 2vw, 1.55rem);
+  font-weight: 700;
+  color: #c46a00;
+  line-height: 1;
+  letter-spacing: 0.01em;
+}
+
+.priceUSD {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(0.82rem, 1.2vw, 0.92rem);
+  color: #9a7040;
+  font-style: italic;
+  letter-spacing: 0.02em;
+}
+
+/* Seats block */
+.seatsBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding-bottom: 0.85rem;
+}
+
+.seatsRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.seatsLabel {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.78rem;
+  color: #7a5c2e;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.seatsValue {
+  font-family: 'Cinzel', serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #3d1d00;
+}
+
+.seatsUrgent {
+  color: #c0290d;
+}
+
+/* Seats progress bar */
+.seatsBar {
+  height: 5px;
+  background: rgba(224, 123, 0, 0.15);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 0.25rem;
+}
+
+.seatsBarFill {
+  height: 100%;
+  background: linear-gradient(90deg, #e07b00, #f5b800);
+  border-radius: 10px;
+  transition: width 0.4s ease;
+}
+
+/* Divider between info and buttons */
+.ctaDivider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #e0c898, transparent);
+  margin-bottom: 0.85rem;
+}
+
+/* Buttons */
 .btnEnroll {
   display: inline-flex;
   align-items: center;
@@ -320,6 +405,7 @@
   white-space: nowrap;
   box-shadow: 0 4px 14px rgba(224, 123, 0, 0.35);
   transition: box-shadow 0.22s ease, transform 0.22s ease;
+  margin-bottom: 0.65rem;
 }
 
 .btnEnroll:hover {
@@ -359,7 +445,7 @@
   }
 
   .ctaColumn {
-    min-width: 150px;
+    min-width: 160px;
     padding: 1rem 1.2rem;
   }
 }
@@ -371,7 +457,7 @@
   }
 
   .ctaColumn {
-    min-width: 140px;
+    min-width: 150px;
     padding: 1rem;
   }
 
@@ -402,8 +488,8 @@
   .ctaColumn {
     border-left: 1px solid #ede0c8;
     border-top: none;
-    justify-content: center;
-    min-width: 140px;
+    justify-content: space-between;
+    min-width: 150px;
   }
 
   .mainTitle {
@@ -428,21 +514,39 @@
   }
 
   .ctaColumn {
-    flex-direction: row;
+    flex-direction: column;
     border-left: none;
     border-top: 1px solid #ede0c8;
-    padding: 0.9rem 1.2rem;
-    gap: 0.7rem;
+    padding: 1rem 1.2rem;
     min-width: unset;
-    justify-content: center;
   }
 
+  /* On small screens, price + seats side by side */
+  .priceBlock {
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: baseline;
+    gap: 0.6rem;
+    padding-bottom: 0.7rem;
+  }
+
+  .seatsBlock {
+    padding-bottom: 0.7rem;
+  }
+
+  /* Buttons row */
   .btnEnroll,
   .btnExplore {
-    flex: 1;
-    max-width: 220px;
+    width: 100%;
     font-size: 0.75rem;
     padding: 0.7rem 0.8rem;
+    text-align: center;
+    justify-content: center;
+    margin-bottom: 0;
+  }
+
+  .btnEnroll {
+    margin-bottom: 0.6rem;
   }
 
   .content {
@@ -474,18 +578,17 @@
   }
 
   .ctaColumn {
-    flex-direction: row;
-    gap: 0.6rem;
-    padding: 0.8rem 1rem;
+    padding: 0.9rem 1rem;
+  }
+
+  .priceINR {
+    font-size: 1.2rem;
   }
 
   .btnEnroll,
   .btnExplore {
-    flex: 1;
     font-size: 0.72rem;
     padding: 0.65rem 0.6rem;
-    text-align: center;
-    letter-spacing: 0.05em;
   }
 
   .omDivider .dividerLine {
@@ -521,19 +624,16 @@
   }
 
   .ctaColumn {
-    flex-direction: column;
-    align-items: stretch;
+    padding: 0.85rem 0.9rem;
+  }
+
+  .priceBlock {
+    flex-direction: row;
     gap: 0.5rem;
-    padding: 0.8rem;
   }
 
   .btnEnroll,
   .btnExplore {
-    max-width: 100%;
-    flex: unset;
-    width: 100%;
-    text-align: center;
-    justify-content: center;
     font-size: 0.73rem;
     padding: 0.7rem 1rem;
   }
@@ -564,6 +664,10 @@
   .imageWrapper {
     min-height: 140px;
     max-height: 155px;
+  }
+
+  .priceINR {
+    font-size: 1.1rem;
   }
 
   .btnEnroll,

@@ -4,14 +4,9 @@ import Image from "next/image";
 import styles from "../../assets/style/Home/Accreditationsection.module.css";
 import api from "@/lib/api";
 
-
-
 const getImageUrl = (path: string) => {
   if (!path) return "";
-
-  // 🔥 FIX: backslash → slash
   const cleanPath = path.replace(/\\/g, "/");
-
   return `${process.env.NEXT_PUBLIC_API_URL}/${cleanPath}`;
 };
 
@@ -34,10 +29,8 @@ function SmartVideo({ src, poster }: { src: string; poster?: string }) {
   const containerRef = React.useRef<HTMLDivElement>(null);
   const [isUserActive, setIsUserActive] = React.useState(false);
   const [isMuted, setIsMuted] = React.useState(true);
- 
   const hideTimer = React.useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Autoplay when scrolled into view
   React.useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
@@ -46,7 +39,7 @@ function SmartVideo({ src, poster }: { src: string; poster?: string }) {
         if (entry.isIntersecting) video.play().catch(() => {});
         else video.pause();
       },
-      { threshold: 0.4 },
+      { threshold: 0.4 }
     );
     observer.observe(video);
     return () => observer.disconnect();
@@ -91,6 +84,7 @@ function SmartVideo({ src, poster }: { src: string; poster?: string }) {
       </div>
     );
   }
+
   return (
     <div
       ref={containerRef}
@@ -118,6 +112,7 @@ function SmartVideo({ src, poster }: { src: string; poster?: string }) {
         <source src={src} type="video/mp4" />
         Your browser does not support the video tag.
       </video>
+
       <div
         style={{
           position: "absolute",
@@ -199,6 +194,7 @@ function SmartVideo({ src, poster }: { src: string; poster?: string }) {
           style={{ flex: 1, accentColor: "#e65c00", cursor: "pointer" }}
         />
       </div>
+
       {!isUserActive && (
         <div
           style={{
@@ -221,27 +217,25 @@ function SmartVideo({ src, poster }: { src: string; poster?: string }) {
   );
 }
 
-
-
 export const AccreditationSection: React.FC = () => {
   const [data, setData] = useState<any>(null);
-const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
   const [modalImg, setModalImg] = useState<any>(null);
 
   useEffect(() => {
-  const fetchData = async () => {
-    try {
-      const res = await api.get("/accreditation");
-      setData(res.data.data[0]);
-    } catch (err) {
-      console.log(err);
-    } finally {
-      setLoading(false);
-    }
-  };
+    const fetchData = async () => {
+      try {
+        const res = await api.get("/accreditation");
+        setData(res.data.data[0]);
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
 
-  fetchData();
-}, []);
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") setModalImg(null);
@@ -258,26 +252,25 @@ const [loading, setLoading] = useState(true);
   }, [modalImg]);
 
   if (loading) return <p>Loading...</p>;
-if (!data) return <p>No data found</p>;
+  if (!data) return <p>No data found</p>;
 
   return (
     <>
+      {/* ══════════════ AUTHENTIC SECTION ══════════════ */}
       <section className={styles.authenticSection}>
         <div className={styles.topBorder} />
         <div className={styles.container}>
           <div className={styles.sectionHeaderCenter}>
-            <h2 className={styles.sectionTitle}>
-             {data.sectionTitle}
-            </h2>
+            <h2 className={styles.sectionTitle}>{data.sectionTitle}</h2>
             <div className={styles.titleUnderline} />
           </div>
 
           <div className={styles.authGrid}>
             <div className={styles.authText}>
               <p className={styles.para}>{data.authPara1}</p>
-<p className={styles.para}>{data.authPara2}</p>
-<p className={styles.para}>{data.authPara3}</p>
-<p className={styles.para}>{data.authPara4}</p>
+              <p className={styles.para}>{data.authPara2}</p>
+              <p className={styles.para}>{data.authPara3}</p>
+              <p className={styles.para}>{data.authPara4}</p>
             </div>
 
             <div className={styles.authImageCol}>
@@ -296,9 +289,7 @@ if (!data) return <p>No data found</p>;
                     }}
                     priority
                   />
-                  <p className={styles.imageCaption}>
-  {data.imageCaption}
-</p>
+                  <p className={styles.imageCaption}>{data.imageCaption}</p>
                 </div>
                 <div className={styles.frameCornerTL} />
                 <div className={styles.frameCornerTR} />
@@ -307,10 +298,10 @@ if (!data) return <p>No data found</p>;
               </div>
 
               <div className={styles.pullQuote}>
-  <span className={styles.pullQMark}>"</span>
-  {data.pullQuote}
-  <span className={styles.pullQMark}>"</span>
-</div>
+                <span className={styles.pullQMark}>"</span>
+                {data.pullQuote}
+                <span className={styles.pullQMark}>"</span>
+              </div>
             </div>
           </div>
 
@@ -318,25 +309,20 @@ if (!data) return <p>No data found</p>;
             <div className={styles.videoBlock}>
               <div className={styles.videoPlaceholder}>
                 <SmartVideo
-                   src={data.videoSrc}
-  poster="/images/video-thumbnail.jpg"
+                  src={data.videoSrc}
+                  poster="/images/video-thumbnail.jpg"
                 />
               </div>
             </div>
 
             <div className={styles.immerseBlock}>
-              <h3 className={styles.immerseTitle}>
-               {data.immerseTitle}
-              </h3>
+              <h3 className={styles.immerseTitle}>{data.immerseTitle}</h3>
               <div className={styles.immerseDivider} />
-              <p className={styles.para}>
-                {data.immersePara1}
-              </p>
-              <p className={styles.para}>
-                {data.immersePara2}
-              </p>
+              <p className={styles.para}>{data.immersePara1}</p>
+              <p className={styles.para}>{data.immersePara2}</p>
               <a href={data.immerseCtaLink} className={styles.knowMoreBtn}>
-                {data.immerseCtaText} <span className={styles.btnArrow}>→</span>
+                {data.immerseCtaText}{" "}
+                <span className={styles.btnArrow}>→</span>
               </a>
             </div>
           </div>
@@ -344,64 +330,114 @@ if (!data) return <p>No data found</p>;
         <div className={styles.bottomBorder} />
       </section>
 
+      {/* ══════════════ RECOGNITION SECTION ══════════════ */}
       <section className={styles.recognitionSection}>
         <div className={styles.container}>
           <div className={styles.sectionHeaderCenter}>
-            <h2 className={styles.sectionTitle}>
-              {data.recognitionTitle}
-            </h2>
+            <h2 className={styles.sectionTitle}>{data.recognitionTitle}</h2>
             <div className={styles.titleUnderline} />
           </div>
 
           <div className={styles.recognitionText}>
-            <p className={styles.para}>
-             {data.recognitionPara1}
-            </p>
-            <p className={styles.para}>
-             {data.recognitionPara2}
-            </p>
+            <p className={styles.para}>{data.recognitionPara1}</p>
+            <p className={styles.para}>{data.recognitionPara2}</p>
           </div>
 
+          {/* ── 3-2-1 Pyramid Grid ── */}
           <div className={styles.certsGrid}>
-           {data.certs.map((cert: any, index: number) => (
-  <div
-    key={index}
-    className={styles.certCard}
-    onClick={() => setModalImg(cert)}
-  >
-    <div className={styles.certImageWrap}>
-      <Image
-        src={getImageUrl(cert.image)}
-        alt={cert.alt}
-        fill
-        style={{ objectFit: "cover" }}
-      />
-    </div>
 
-    <div className={styles.certCardFooter}>
-      <span className={styles.certTag}>{cert.tag}</span>
-      <span className={styles.certCardLabel}>{cert.label}</span>
-    </div>
-  </div>
-))}
+            {/* Row 1 — 3 cards */}
+            <div className={styles.certsRow}>
+              {data.certs.slice(0, 3).map((cert: any, index: number) => (
+                <div
+                  key={index}
+                  className={styles.certCard}
+                  onClick={() => setModalImg(cert)}
+                >
+                  <div className={styles.certImageWrap}>
+                    <Image
+                      src={getImageUrl(cert.image)}
+                      alt={cert.alt}
+                      fill
+                      style={{ objectFit: "cover" }}
+                    />
+                  </div>
+                  <div className={styles.certCardFooter}>
+                    <span className={styles.certTag}>{cert.tag}</span>
+                    <span className={styles.certCardLabel}>{cert.label}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Row 2 — 2 cards */}
+            <div className={styles.certsRow}>
+              {data.certs.slice(3, 5).map((cert: any, index: number) => (
+                <div
+                  key={index + 3}
+                  className={styles.certCard}
+                  onClick={() => setModalImg(cert)}
+                >
+                  <div className={styles.certImageWrap}>
+                    <Image
+                      src={getImageUrl(cert.image)}
+                      alt={cert.alt}
+                      fill
+                      style={{ objectFit: "cover" }}
+                    />
+                  </div>
+                  <div className={styles.certCardFooter}>
+                    <span className={styles.certTag}>{cert.tag}</span>
+                    <span className={styles.certCardLabel}>{cert.label}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Row 3 — 1 card (centered) */}
+            <div className={styles.certsRow}>
+              {data.certs.slice(5, 6).map((cert: any, index: number) => (
+                <div
+                  key={index + 5}
+                  className={styles.certCard}
+                  onClick={() => setModalImg(cert)}
+                >
+                  <div className={styles.certImageWrap}>
+                    <Image
+                      src={getImageUrl(cert.image)}
+                      alt={cert.alt}
+                      fill
+                      style={{ objectFit: "cover" }}
+                    />
+                  </div>
+                  <div className={styles.certCardFooter}>
+                    <span className={styles.certTag}>{cert.tag}</span>
+                    <span className={styles.certCardLabel}>{cert.label}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+
           </div>
+          {/* ── End Pyramid Grid ── */}
 
-         <div className={styles.badgesRow}>
-  {data.badges.map((b: any, i: number) => (
-    <React.Fragment key={i}>
-      <div className={styles.badge}>
-        <span className={styles.badgeIcon}>{b.icon}</span>
-        <span className={styles.badgeText}>{b.text}</span>
-      </div>
-      {i < data.badges.length - 1 && (
-        <div className={styles.badgeSep}>✦</div>
-      )}
-    </React.Fragment>
-  ))}
-</div>
+          <div className={styles.badgesRow}>
+            {data.badges.map((b: any, i: number) => (
+              <React.Fragment key={i}>
+                <div className={styles.badge}>
+                  <span className={styles.badgeIcon}>{b.icon}</span>
+                  <span className={styles.badgeText}>{b.text}</span>
+                </div>
+                {i < data.badges.length - 1 && (
+                  <div className={styles.badgeSep}>✦</div>
+                )}
+              </React.Fragment>
+            ))}
+          </div>
         </div>
       </section>
 
+      {/* ══════════════ MODAL ══════════════ */}
       {modalImg && (
         <div
           className={styles.modalBackdrop}
@@ -410,7 +446,10 @@ if (!data) return <p>No data found</p>;
           aria-modal="true"
           aria-label="Certificate preview"
         >
-          <div className={styles.modalBox} onClick={(e) => e.stopPropagation()}>
+          <div
+            className={styles.modalBox}
+            onClick={(e) => e.stopPropagation()}
+          >
             <button
               className={styles.modalClose}
               onClick={() => setModalImg(null)}
@@ -447,23 +486,21 @@ if (!data) return <p>No data found</p>;
                 onClick={() => {
                   const idx = data.certs.findIndex((c: any) => c === modalImg);
                   setModalImg(
-                    data.certs[
-  (idx - 1 + data.certs.length) % data.certs.length
-],
+                    data.certs[(idx - 1 + data.certs.length) % data.certs.length]
                   );
                 }}
               >
                 ← Prev
               </button>
-             <span className={styles.modalNavCount}>
-  {data.certs.findIndex((c: any) => c === modalImg) + 1} /{" "}
-  {data.certs.length}
-</span>
+              <span className={styles.modalNavCount}>
+                {data.certs.findIndex((c: any) => c === modalImg) + 1} /{" "}
+                {data.certs.length}
+              </span>
               <button
                 className={styles.modalNavBtn}
                 onClick={() => {
                   const idx = data.certs.findIndex((c: any) => c === modalImg);
-setModalImg(data.certs[(idx + 1) % data.certs.length]);
+                  setModalImg(data.certs[(idx + 1) % data.certs.length]);
                 }}
               >
                 Next →

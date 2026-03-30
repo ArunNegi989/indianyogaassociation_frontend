@@ -73,7 +73,7 @@
   top: 22%;
   height: 56%;
   width: 1px;
-  background: rgba(255, 255, 255, 0.3);
+  background: #6c34054d;
 }
 
 .navLink {
@@ -81,14 +81,13 @@
   align-items: center;
   gap: 4px;
   padding: 0 0.85rem;
-  color: #fff;
+  color: #652d04;
   text-decoration: none;
   font-family: 'Georgia', 'Times New Roman', serif;
   font-size: 0.8rem;
   font-weight: 600;
   letter-spacing: 0.03em;
   white-space: nowrap;
-  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
   transition: background 0.2s ease;
   border-radius: 0;
   cursor: pointer;
