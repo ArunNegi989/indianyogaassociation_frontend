@@ -92,10 +92,37 @@ const navItems: NavItem[] = [
         ],
       },
       {
+        label: "kundalini-yoga",
+        icon: "⑤",
+        children: [
+          { href: "/admin/yogacourse/kundalini-yoga/kundalini-yoga-seat",   label: "Yoga Teacher Seat" },
+          { href: "/admin/yogacourse/kundalini-yoga/kundalini-yoga-teacher-training",   label: "Yoga Teacher India" },
+        
+        ],
+      },
+      {
         label: "Yoga Teacher Rishikesh",
         icon: "⑤",
         children: [
           { href: "/admin/yogacourse/yoga-teacher-in-rishikesh",   label: "Yoga Teacher Rishikesh" },
+        
+        ],
+      },
+        {
+        label: "Prenatal Yoga Course",
+        icon: "⑤",
+        children: [
+          { href: "/admin/yogacourse/prenatal-yoga-course/prenatal-seats",   label: "prenatal yoga seats "},
+          { href: "/admin/yogacourse/prenatal-yoga-course/prenatal-content",   label: "prenatal content "},
+        
+        ],
+      },
+       {
+        label: "Vinyasa Teacher Training",
+        icon: "⑤",
+        children: [
+           { href: "/admin/yogacourse/vinyasa-yoga-course/vinyasa-seats",   label: "vinyasa Seat" },
+          { href: "/admin/yogacourse/vinyasa-yoga-course/vinyasa-teacher-training",   label: "vinyasa teacher training" },
         
         ],
       },
@@ -107,19 +134,27 @@ const navItems: NavItem[] = [
         
         ],
       },
-       {
-        label: "kundalini-yoga",
+      {
+        label: "Hatha Yoga Teacher Training",
         icon: "⑤",
         children: [
-          { href: "/admin/yogacourse/kundalini-yoga-teacher-training",   label: "Yoga Teacher India" },
+          { href: "/admin/yogacourse/hatha-yoga-teacher-training/hatha-yoga-training-seats",   label: "Hatha Yoga Seats" },
+          { href: "/admin/yogacourse/hatha-yoga-teacher-training/hatha-yoga-teacher-training-content",   label: "Hatha Yoga Teacher Content" },
+          
         
         ],
       },
-      {
-        label: "Vinyasa Teacher Training",
+    
+       
+     
+       {
+        label: "Yoga GOA in India",
         icon: "⑤",
         children: [
-          { href: "/admin/yogacourse/vinyasa-teacher-training",   label: "vinyasa teacher training" },
+          { href: "/admin/yogacourse/yoga-goa-in-india/yoga-goa-200hr-seats",   label: "200hr-seats-in-goa" },
+          { href: "/admin/yogacourse/yoga-goa-in-india/yoga-goa-300hr-seats",   label: "300hr-seats-in-goa" },
+          { href: "/admin/yogacourse/yoga-goa-in-india/yoga-goa-500hr-seats",   label: "500hr-seats-in-goa" },
+          { href: "/admin/yogacourse/yoga-goa-in-india/yoga-goa-content",   label: "content-in-goa" },
         
         ],
       },

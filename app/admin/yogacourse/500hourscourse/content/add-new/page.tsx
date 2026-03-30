@@ -69,7 +69,9 @@ function makeConfig(ph: string, h: number) {
   };
 }
 
-/* ─── Divider ─── */
+/* ─────────────────────────────────────────
+   DIVIDER
+───────────────────────────────────────── */
 function D() {
   return (
     <div
@@ -82,7 +84,9 @@ function D() {
   );
 }
 
-/* ─── Section wrapper ─── */
+/* ─────────────────────────────────────────
+   SECTION WRAPPER
+───────────────────────────────────────── */
 function Sec({
   title,
   badge,
@@ -104,7 +108,9 @@ function Sec({
   );
 }
 
-/* ─── Field wrapper ─── */
+/* ─────────────────────────────────────────
+   FIELD WRAPPER
+───────────────────────────────────────── */
 function F({
   label,
   hint,
@@ -130,7 +136,7 @@ function F({
 }
 
 /* ─────────────────────────────────────────
-   STABLE JODIT  (lazy via IntersectionObserver)
+   STABLE JODIT
 ───────────────────────────────────────── */
 const StableJodit = memo(function StableJodit({
   onSave,
@@ -165,7 +171,7 @@ const StableJodit = memo(function StableJodit({
           obs.disconnect();
         }
       },
-      { rootMargin: "300px" },
+      { rootMargin: "300px" }
     );
     obs.observe(el);
     return () => obs.disconnect();
@@ -207,7 +213,6 @@ const StableJodit = memo(function StableJodit({
 
 /* ─────────────────────────────────────────
    DYNAMIC PARAGRAPH LIST
-   — 1 para shown by default, Jodit editor per para
 ───────────────────────────────────────── */
 interface ParaItem {
   id: string;
@@ -235,13 +240,9 @@ function DynamicParaList({
     (id: string, val: string) => {
       onChange(items.map((p) => (p.id === id ? { ...p, value: val } : p)));
     },
-    [items, onChange],
+    [items, onChange]
   );
-
-  const handleAdd = () => {
-    onChange([...items, mkPara()]);
-  };
-
+  const handleAdd = () => onChange([...items, mkPara()]);
   const handleRemove = (id: string) => {
     if (items.length <= minItems) return;
     onChange(items.filter((p) => p.id !== id));
@@ -419,19 +420,23 @@ function SingleImg({
 }
 
 /* ─────────────────────────────────────────
-   MULTI IMAGE UPLOADER  (improved design)
+   MULTI IMAGE UPLOADER
+   ✅ FIX: serverPath tracks raw "/uploads/xxx.jpg"
+      for existing images so they are sent to backend
+      on update and merged with newly uploaded files.
 ───────────────────────────────────────── */
 interface MultiImgItem {
   id: string;
-  file?: File;
-  preview: string;
+  file?: File;          // only present for brand-new uploads
+  preview: string;      // always a displayable URL
+  serverPath?: string;  // raw server path for existing images e.g. "/uploads/abc.jpg"
 }
 
 function MultiImg({
   items,
   onChange,
   hint,
-  max = 10,
+  max = 20,
   label,
 }: {
   items: MultiImgItem[];
@@ -446,15 +451,17 @@ function MultiImg({
       id: `img-${Date.now()}-${Math.random()}`,
       file: f,
       preview: URL.createObjectURL(f),
+      // no serverPath — this is a brand-new file
     }));
     onChange([...items, ...newItems]);
     e.target.value = "";
   };
+
   const remove = (id: string) => onChange(items.filter((i) => i.id !== id));
 
   return (
     <div>
-      {/* Empty state: full drop zone */}
+      {/* Empty state */}
       {items.length === 0 && (
         <label
           style={{
@@ -471,17 +478,15 @@ function MultiImg({
             transition: "all 0.22s",
             marginBottom: "0.75rem",
           }}
-          onMouseEnter={(e) => (e.currentTarget.style.borderColor = "#e07b00")}
+          onMouseEnter={(e) =>
+            (e.currentTarget.style.borderColor = "#e07b00")
+          }
           onMouseLeave={(e) =>
             (e.currentTarget.style.borderColor = "rgba(224,123,0,0.35)")
           }
         >
           <span
-            style={{
-              fontSize: "2rem",
-              color: "rgba(224,123,0,0.4)",
-              lineHeight: 1,
-            }}
+            style={{ fontSize: "2rem", color: "rgba(224,123,0,0.4)", lineHeight: 1 }}
           >
             🖼️
           </span>
@@ -549,7 +554,6 @@ function MultiImg({
                   display: "block",
                 }}
               />
-              {/* hover overlay */}
               <div
                 style={{
                   position: "absolute",
@@ -624,11 +628,7 @@ function MultiImg({
               }
             >
               <span
-                style={{
-                  fontSize: "1.5rem",
-                  color: "rgba(224,123,0,0.5)",
-                  lineHeight: 1,
-                }}
+                style={{ fontSize: "1.5rem", color: "rgba(224,123,0,0.5)", lineHeight: 1 }}
               >
                 ＋
               </span>
@@ -657,11 +657,7 @@ function MultiImg({
       )}
 
       <p className={styles.fieldHint} style={{ margin: 0 }}>
-        {hint} ·{" "}
-        <strong>
-          {items.length}/{max}
-        </strong>{" "}
-        uploaded
+        {hint} · <strong>{items.length}/{max}</strong> uploaded
       </p>
     </div>
   );
@@ -752,9 +748,6 @@ interface PageFormValues {
   indianFeeH3: string;
 }
 
-/* ─────────────────────────────────────────
-   REVIEW TYPE  (star rating + Jodit text)
-───────────────────────────────────────── */
 interface ReviewItem {
   name: string;
   platform: string;
@@ -789,51 +782,33 @@ export default function AddEdit500HrPage() {
   const [accomImgs, setAccomImgs] = useState<MultiImgItem[]>([]);
   const [foodImgs, setFoodImgs] = useState<MultiImgItem[]>([]);
 
-  /* ── Dynamic Paragraph Lists (Jodit) ── */
+  /* ── Dynamic Paragraph Lists ── */
   const [introParas, setIntroParas] = useState<ParaItem[]>([
-    mkPara(
-      "Welcome to our transformative 500 hour yoga teacher training course in Rishikesh…",
-    ),
+    mkPara("Welcome to our transformative 500 hour yoga teacher training course in Rishikesh…"),
   ]);
   const [standApartParas, setStandApartParas] = useState<ParaItem[]>([
-    mkPara(
-      "Our school was established in 2005, and since then, thousands of yogis worldwide have marked their sacred yogic journeys through our Yoga TTC courses in India.",
-    ),
+    mkPara("Our school was established in 2005, and since then, thousands of yogis worldwide have marked their sacred yogic journeys through our Yoga TTC courses in India."),
   ]);
   const [gainsParas, setGainsParas] = useState<ParaItem[]>([
-    mkPara(
-      "This 500 hours of yoga TTC not only gives you the credibility to begin your classes as an advanced-level yoga teacher…",
-    ),
+    mkPara("This 500 hours of yoga TTC not only gives you the credibility to begin your classes as an advanced-level yoga teacher…"),
   ]);
   const [credibilityParas, setCredibilityParas] = useState<ParaItem[]>([
-    mkPara(
-      "Once you have completed this course from our yoga school, you are eligible to register with the Yoga Certification Board (YCB) of the Ministry of Ayush - Government of India, as well as with international yoga authorities like Yoga Alliance, USA.",
-    ),
+    mkPara("Once you have completed this course from our yoga school, you are eligible to register with the Yoga Certification Board (YCB) of the Ministry of Ayush - Government of India, as well as with international yoga authorities like Yoga Alliance, USA."),
   ]);
   const [durationParas, setDurationParas] = useState<ParaItem[]>([
-    mkPara(
-      "This is a two-month-long course (It takes a total of eight weeks of stay in Rishikesh to complete this program.)",
-    ),
+    mkPara("This is a two-month-long course (It takes a total of eight weeks of stay in Rishikesh to complete this program.)"),
   ]);
   const [syllabusParas, setSyllabusParas] = useState<ParaItem[]>([
-    mkPara(
-      "Since this is a merged program of 200 hour of yoga TTC and 300 hour of yoga TTC courses, the curriculum is vast and advanced.",
-    ),
+    mkPara("Since this is a merged program of 200 hour of yoga TTC and 300 hour of yoga TTC courses, the curriculum is vast and advanced."),
   ]);
   const [eligibilityParas, setEligibilityParas] = useState<ParaItem[]>([
-    mkPara(
-      "A dedicated mindset to learn yoga is required to join this course.",
-    ),
+    mkPara("A dedicated mindset to learn yoga is required to join this course."),
   ]);
   const [evaluationParas, setEvaluationParas] = useState<ParaItem[]>([
-    mkPara(
-      "At the end of each module, a written exam needs to be given (mostly open book exams). This helps you to retain the knowledge.",
-    ),
+    mkPara("At the end of each module, a written exam needs to be given (mostly open book exams). This helps you to retain the knowledge."),
   ]);
   const [fictionParas, setFictionParas] = useState<ParaItem[]>([
-    mkPara(
-      "Where 500 hrs yoga training, Search Blooms and Blossoms - AYM School of Yoga, Rishikesh…",
-    ),
+    mkPara("Where 500 hrs yoga training, Search Blooms and Blossoms - AYM School of Yoga, Rishikesh…"),
   ]);
 
   /* ── String Lists ── */
@@ -868,37 +843,16 @@ export default function AddEdit500HrPage() {
   const [syllabusModules, setSyllabusModules] = useState<
     Array<{ label: string; text: string }>
   >([
-    {
-      label: "The Yogic Philosophy:",
-      text: "Here, you will learn the history of yoga, the various paths of yoga, Patanjali Yoga Sutras, etc.",
-    },
-    {
-      label: "Asana:",
-      text: "Yoga Postures are taught in various styles (Hatha yoga, Ashtanga, Kundalini, Sivananda, power, flow, Iyengar style, etc.)",
-    },
-    {
-      label: "Yoga Therapy:",
-      text: "Sessions are planned in the second half of the 500 hours course on Yoga Therapy for the management of common diseases, etc.",
-    },
-    {
-      label: "Pranayama:",
-      text: "Various types of breathing exercises are taught practically.",
-    },
-    {
-      label: "Meditation:",
-      text: "Various methods of meditation are taught here.",
-    },
-    {
-      label: "Anatomy Sessions & Alignment Classes:",
-      text: "These sessions give you an idea about the structure of the human body.",
-    },
-    {
-      label: "Yoga Teaching Techniques:",
-      text: "Through these various techniques, you can manage a group of people when you conduct your yoga sessions.",
-    },
+    { label: "The Yogic Philosophy:", text: "Here, you will learn the history of yoga, the various paths of yoga, Patanjali Yoga Sutras, etc." },
+    { label: "Asana:", text: "Yoga Postures are taught in various styles (Hatha yoga, Ashtanga, Kundalini, Sivananda, power, flow, Iyengar style, etc.)" },
+    { label: "Yoga Therapy:", text: "Sessions are planned in the second half of the 500 hours course on Yoga Therapy for the management of common diseases, etc." },
+    { label: "Pranayama:", text: "Various types of breathing exercises are taught practically." },
+    { label: "Meditation:", text: "Various methods of meditation are taught here." },
+    { label: "Anatomy Sessions & Alignment Classes:", text: "These sessions give you an idea about the structure of the human body." },
+    { label: "Yoga Teaching Techniques:", text: "Through these various techniques, you can manage a group of people when you conduct your yoga sessions." },
   ]);
 
-  /* ── Reviews (star rating + Jodit) ── */
+  /* ── Reviews ── */
   const [reviews, setReviews] = useState<ReviewItem[]>([
     { name: "", platform: "on Google", initial: "", rating: 5, text: "" },
   ]);
@@ -915,126 +869,92 @@ export default function AddEdit500HrPage() {
       status: "Active",
       pageMainH1: "500 Hour Yoga Teacher Training Course in Rishikesh",
       heroImgAlt: "Yoga Students Group",
-      standApartH2:
-        "What makes AYM School's Yoga Teachers Training Courses stand apart from the rest?",
-      gainsH2:
-        "What do I gain from the 500 Hour Yoga Teacher Training Course in Rishikesh?",
+      standApartH2: "What makes AYM School's Yoga Teachers Training Courses stand apart from the rest?",
+      gainsH2: "What do I gain from the 500 Hour Yoga Teacher Training Course in Rishikesh?",
       seatSectionH2: "500 Hour Yoga Teacher Training India – Upcoming Batches",
       seatSectionSubtext: "",
-      tableNoteText:
-        "Course Fee: 1649 USD (Including: Dormitory Stay and Food) | For the upgrade you accommodation send us E-mail. Available accommodation Categories: Shared, Private and Luxury.",
+      tableNoteText: "Course Fee: 1649 USD (Including: Dormitory Stay and Food) | For the upgrade you accommodation send us E-mail. Available accommodation Categories: Shared, Private and Luxury.",
       tableNoteEmail: "",
-      tableNoteAirportText:
-        "Airport pick up from Delhi airport to Yoga school Rishikesh will cost 90 USD and Round Trip 150 USD.",
+      tableNoteAirportText: "Airport pick up from Delhi airport to Yoga school Rishikesh will cost 90 USD and Round Trip 150 USD.",
       credibilityH2: "What is The Credibility of This Course?",
       durationH2: "How Long is The Duration of The Course?",
       syllabusH2: "Overview of Syllabus",
       eligibilityH3: "What are the Eligibility Criteria?",
       evaluationH3: "Is there an Evaluation Process for the Course?",
       includedTitle: "Included in the package of 500-Hour Courses in India",
-      includedNote:
-        "All items in the above included list are part of the course package. And incase you opt out any of these items, we will not be initiating a refund for that particular item.",
+      includedNote: "All items in the above included list are part of the course package. And incase you opt out any of these items, we will not be initiating a refund for that particular item.",
       notIncludedTitle: "Not Included",
-      fictionH3:
-        "500 Hour Yoga Teacher Training in Rishikesh, India: Separating Fact from Fiction",
+      fictionH3: "500 Hour Yoga Teacher Training in Rishikesh, India: Separating Fact from Fiction",
       reviewsSectionH2: "Student's Reviews",
       refundH3: "What are the Refund Rules for the Course Fee?",
-      refundPara:
-        "You can reserve your spot by paying an advance booking fee of 215 USD. However, for any reason, if you couldn't join on the given date, a refund cannot be issued, but you will be allowed to utilize the amount for booking another yoga TTC from AYM School within one year.",
+      refundPara: "You can reserve your spot by paying an advance booking fee of 215 USD. However, for any reason, if you couldn't join on the given date, a refund cannot be issued, but you will be allowed to utilize the amount for booking another yoga TTC from AYM School within one year.",
       applyH3: "How to Apply for the Course?",
-      applyPara:
-        "Fill out the online application form, and once you get our approval you could transfer the initial advance payment fee (either through Paypal or through bank transfer) to reserve your seat. You will get an email acknowledgment once we receive the advance fee.",
+      applyPara: "Fill out the online application form, and once you get our approval you could transfer the initial advance payment fee (either through Paypal or through bank transfer) to reserve your seat. You will get an email acknowledgment once we receive the advance fee.",
       indianFeeH3: "500 Hour Course Fee for Indian Students",
     },
   });
 
-  /* ── Fetch on edit ── */
+  /* ── Fetch on Edit ── */
   useEffect(() => {
     if (!isEdit) return;
     const fetchData = async () => {
       setLoadingData(true);
       try {
-       const res = await api.get("/yoga-500hr/content");
-const d = res.data.data;
-        
+        const res = await api.get("/yoga-500hr/content");
+        const d = res.data.data;
 
         const fields: (keyof PageFormValues)[] = [
-          "slug",
-          "status",
-          "pageMainH1",
-          "heroImgAlt",
-          "standApartH2",
-          "gainsH2",
-          "seatSectionH2",
-          "seatSectionSubtext",
-          "tableNoteText",
-          "tableNoteEmail",
-          "tableNoteAirportText",
-          "credibilityH2",
-          "durationH2",
-          "syllabusH2",
-          "eligibilityH3",
-          "evaluationH3",
-          "includedTitle",
-          "includedNote",
-          "notIncludedTitle",
-          "fictionH3",
-          "reviewsSectionH2",
-          "refundH3",
-          "refundPara",
-          "applyH3",
-          "applyPara",
-          "indianFeeH3",
+          "slug", "status", "pageMainH1", "heroImgAlt", "standApartH2",
+          "gainsH2", "seatSectionH2", "seatSectionSubtext", "tableNoteText",
+          "tableNoteEmail", "tableNoteAirportText", "credibilityH2", "durationH2",
+          "syllabusH2", "eligibilityH3", "evaluationH3", "includedTitle",
+          "includedNote", "notIncludedTitle", "fictionH3", "reviewsSectionH2",
+          "refundH3", "refundPara", "applyH3", "applyPara", "indianFeeH3",
         ];
-        fields.forEach((k) => {
-          if (d[k] !== undefined) setValue(k, d[k]);
-        });
+        fields.forEach((k) => { if (d[k] !== undefined) setValue(k, d[k]); });
 
         if (d.heroImage) setHeroPrev(BASE_URL + d.heroImage);
         if (d.shivaImage) setShivaPrev(BASE_URL + d.shivaImage);
         if (d.evalImage) setEvalImgPrev(BASE_URL + d.evalImage);
 
-        if (d.accomImages?.length)
+        // ✅ FIX: store serverPath so submit can send kept paths to backend
+        if (d.accomImages?.length) {
           setAccomImgs(
             d.accomImages.map((src: string, i: number) => ({
               id: `a${i}`,
               preview: BASE_URL + src,
-            })),
+              serverPath: src, // raw path e.g. "/uploads/abc.jpg"
+            }))
           );
-        if (d.foodImages?.length)
+        }
+
+        if (d.foodImages?.length) {
           setFoodImgs(
             d.foodImages.map((src: string, i: number) => ({
               id: `f${i}`,
               preview: BASE_URL + src,
-            })),
+              serverPath: src, // raw path e.g. "/uploads/abc.jpg"
+            }))
           );
+        }
+
         if (d.includedItems?.length) setIncludedItems(d.includedItems);
         if (d.notIncludedItems?.length) setNotIncludedItems(d.notIncludedItems);
         if (d.indianFees?.length) setIndianFees(d.indianFees);
         if (d.syllabusModules?.length) setSyllabusModules(d.syllabusModules);
 
-        // Load dynamic para arrays
         const toItems = (arr: string[] | undefined, fallback: ParaItem[]) =>
           arr?.length ? arr.map((v) => mkPara(v)) : fallback;
-        if (d.introParas?.length)
-          setIntroParas(toItems(d.introParas, introParas));
-        if (d.standApartParas?.length)
-          setStandApartParas(toItems(d.standApartParas, standApartParas));
-        if (d.gainsParas?.length)
-          setGainsParas(toItems(d.gainsParas, gainsParas));
-        if (d.credibilityParas?.length)
-          setCredibilityParas(toItems(d.credibilityParas, credibilityParas));
-        if (d.durationParas?.length)
-          setDurationParas(toItems(d.durationParas, durationParas));
-        if (d.syllabusParas?.length)
-          setSyllabusParas(toItems(d.syllabusParas, syllabusParas));
-        if (d.eligibilityParas?.length)
-          setEligibilityParas(toItems(d.eligibilityParas, eligibilityParas));
-        if (d.evaluationParas?.length)
-          setEvaluationParas(toItems(d.evaluationParas, evaluationParas));
-        if (d.fictionParas?.length)
-          setFictionParas(toItems(d.fictionParas, fictionParas));
 
+        if (d.introParas?.length) setIntroParas(toItems(d.introParas, introParas));
+        if (d.standApartParas?.length) setStandApartParas(toItems(d.standApartParas, standApartParas));
+        if (d.gainsParas?.length) setGainsParas(toItems(d.gainsParas, gainsParas));
+        if (d.credibilityParas?.length) setCredibilityParas(toItems(d.credibilityParas, credibilityParas));
+        if (d.durationParas?.length) setDurationParas(toItems(d.durationParas, durationParas));
+        if (d.syllabusParas?.length) setSyllabusParas(toItems(d.syllabusParas, syllabusParas));
+        if (d.eligibilityParas?.length) setEligibilityParas(toItems(d.eligibilityParas, eligibilityParas));
+        if (d.evaluationParas?.length) setEvaluationParas(toItems(d.evaluationParas, evaluationParas));
+        if (d.fictionParas?.length) setFictionParas(toItems(d.fictionParas, fictionParas));
         if (d.reviews?.length) setReviews(d.reviews);
       } catch {
         toast.error("Failed to load");
@@ -1055,39 +975,18 @@ const d = res.data.data;
     try {
       setIsSubmitting(true);
       const fd = new window.FormData();
+
       Object.entries(data).forEach(([k, v]) => fd.append(k, v as string));
 
-      // Dynamic para arrays → JSON arrays of HTML strings
       fd.append("introParas", JSON.stringify(introParas.map((p) => p.value)));
-      fd.append(
-        "standApartParas",
-        JSON.stringify(standApartParas.map((p) => p.value)),
-      );
+      fd.append("standApartParas", JSON.stringify(standApartParas.map((p) => p.value)));
       fd.append("gainsParas", JSON.stringify(gainsParas.map((p) => p.value)));
-      fd.append(
-        "credibilityParas",
-        JSON.stringify(credibilityParas.map((p) => p.value)),
-      );
-      fd.append(
-        "durationParas",
-        JSON.stringify(durationParas.map((p) => p.value)),
-      );
-      fd.append(
-        "syllabusParas",
-        JSON.stringify(syllabusParas.map((p) => p.value)),
-      );
-      fd.append(
-        "eligibilityParas",
-        JSON.stringify(eligibilityParas.map((p) => p.value)),
-      );
-      fd.append(
-        "evaluationParas",
-        JSON.stringify(evaluationParas.map((p) => p.value)),
-      );
-      fd.append(
-        "fictionParas",
-        JSON.stringify(fictionParas.map((p) => p.value)),
-      );
+      fd.append("credibilityParas", JSON.stringify(credibilityParas.map((p) => p.value)));
+      fd.append("durationParas", JSON.stringify(durationParas.map((p) => p.value)));
+      fd.append("syllabusParas", JSON.stringify(syllabusParas.map((p) => p.value)));
+      fd.append("eligibilityParas", JSON.stringify(eligibilityParas.map((p) => p.value)));
+      fd.append("evaluationParas", JSON.stringify(evaluationParas.map((p) => p.value)));
+      fd.append("fictionParas", JSON.stringify(fictionParas.map((p) => p.value)));
 
       fd.append("includedItems", JSON.stringify(includedItems));
       fd.append("notIncludedItems", JSON.stringify(notIncludedItems));
@@ -1098,13 +997,30 @@ const d = res.data.data;
       if (heroFile) fd.append("heroImage", heroFile);
       if (shivaFile) fd.append("shivaImage", shivaFile);
       if (evalImgFile) fd.append("evalImage", evalImgFile);
-     accomImgs.forEach((img) => {
-  if (img.file) fd.append("accomImage", img.file);
-});
 
-foodImgs.forEach((img) => {
-  if (img.file) fd.append("foodImage", img.file);
-});
+      // ✅ FIX — Accommodation images
+      // 1. Tell backend which existing images to KEEP
+      const keptAccomPaths = accomImgs
+       .filter((img) => img.serverPath)
+        .map((img) => img.serverPath as string);
+      fd.append("existingAccomImages", JSON.stringify(keptAccomPaths));
+
+      // 2. Upload only brand-new files
+      accomImgs.forEach((img) => {
+        if (img.file) fd.append("accomImage", img.file);
+      });
+
+      // ✅ FIX — Food images
+      // 1. Tell backend which existing images to KEEP
+      const keptFoodPaths = foodImgs
+        .filter((img) => img.serverPath)
+        .map((img) => img.serverPath as string);
+      fd.append("existingFoodImages", JSON.stringify(keptFoodPaths));
+
+      // 2. Upload only brand-new files
+      foodImgs.forEach((img) => {
+        if (img.file) fd.append("foodImage", img.file);
+      });
 
       if (isEdit) {
         fd.append("_id", pageId);
@@ -1118,18 +1034,22 @@ foodImgs.forEach((img) => {
         });
         toast.success("Page created successfully");
       }
+
       setSubmitted(true);
-      setTimeout(() => router.push("/admin/yogacourse/500hourscourse/content"), 1500);
+      setTimeout(
+        () => router.push("/admin/yogacourse/500hourscourse/content"),
+        1500
+      );
     } catch (e: any) {
       toast.error(
-        e?.response?.data?.message || e?.message || "Something went wrong",
+        e?.response?.data?.message || e?.message || "Something went wrong"
       );
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  /* ── Loading / Success ── */
+  /* ── Loading ── */
   if (loadingData)
     return (
       <div className={styles.loadingWrap}>
@@ -1138,6 +1058,7 @@ foodImgs.forEach((img) => {
       </div>
     );
 
+  /* ── Success ── */
   if (submitted)
     return (
       <div className={styles.successScreen}>
@@ -1157,11 +1078,13 @@ foodImgs.forEach((img) => {
   ══════════════════════════════════════════ */
   return (
     <div className={styles.formPage}>
-      {/* Breadcrumb */}
+      {/* ── Breadcrumb ── */}
       <div className={styles.breadcrumb}>
         <button
           className={styles.breadcrumbLink}
-          onClick={() => router.push("/admin/yogacourse/500hourscourse/content")}
+          onClick={() =>
+            router.push("/admin/yogacourse/500hourscourse/content")
+          }
         >
           500hr Content
         </button>
@@ -1171,7 +1094,7 @@ foodImgs.forEach((img) => {
         </span>
       </div>
 
-      {/* Page Header */}
+      {/* ── Page Header ── */}
       <div className={styles.pageHeader}>
         <div className={styles.pageHeaderText}>
           <h1 className={styles.pageTitle}>
@@ -1195,6 +1118,7 @@ foodImgs.forEach((img) => {
       </div>
 
       <div className={styles.formCard}>
+
         {/* ══ 1. HERO ══ */}
         <Sec title="Hero Section" badge="Banner Image + H1">
           <F label="Page H1 Heading" req>
@@ -1240,7 +1164,7 @@ foodImgs.forEach((img) => {
         </Sec>
         <D />
 
-        {/* ══ 2. INTRO PARAGRAPHS (dynamic Jodit) ══ */}
+        {/* ══ 2. INTRO PARAGRAPHS ══ */}
         <Sec
           title="Introduction Paragraphs"
           badge="Rich text · Add as many as needed"
@@ -1259,7 +1183,7 @@ foodImgs.forEach((img) => {
         </Sec>
         <D />
 
-        {/* ══ 3. STAND APART (dynamic Jodit) ══ */}
+        {/* ══ 3. STAND APART ══ */}
         <Sec title="What Makes AYM Stand Apart" badge="Card section">
           <F label="Section H2 Heading">
             <div className={styles.inputWrap}>
@@ -1280,7 +1204,7 @@ foodImgs.forEach((img) => {
         </Sec>
         <D />
 
-        {/* ══ 4. GAINS (dynamic Jodit) ══ */}
+        {/* ══ 4. GAINS ══ */}
         <Sec title="What Do I Gain Section" badge="Inside card block">
           <F label="Section H2 Heading">
             <div className={styles.inputWrap}>
@@ -1394,7 +1318,7 @@ foodImgs.forEach((img) => {
         <D />
 
         {/* ══ 6. ACCOMMODATION IMAGES ══ */}
-        <Sec title="Accommodation Images" badge="Carousel — up to 10">
+        <Sec title="Accommodation Images" badge="Carousel — up to 20">
           <F
             label="Upload Accommodation Photos"
             hint="JPG/PNG/WEBP · 400×300px each · Max 20"
@@ -1411,7 +1335,7 @@ foodImgs.forEach((img) => {
         <D />
 
         {/* ══ 7. FOOD IMAGES ══ */}
-        <Sec title="Food Images" badge="Carousel — up to 10">
+        <Sec title="Food Images" badge="Carousel — up to 20">
           <F
             label="Upload Food Photos"
             hint="JPG/PNG/WEBP · 400×300px each · Max 20"
@@ -1428,7 +1352,7 @@ foodImgs.forEach((img) => {
         <D />
 
         {/* ══ 8. INDIAN FEES ══ */}
-        <Sec title="Indian Student Fee Chips" badge="Shown as 4 fee chips">
+        <Sec title="Indian Student Fee Chips" badge="Shown as fee chips">
           <F label="H3 Heading">
             <div className={styles.inputWrap}>
               <input
@@ -1457,7 +1381,7 @@ foodImgs.forEach((img) => {
         </Sec>
         <D />
 
-        {/* ══ 9. CREDIBILITY (dynamic Jodit) ══ */}
+        {/* ══ 9. CREDIBILITY ══ */}
         <Sec title="Credibility" badge="Inside card block">
           <F label="Credibility H2 Heading">
             <div className={styles.inputWrap}>
@@ -1478,7 +1402,7 @@ foodImgs.forEach((img) => {
         </Sec>
         <D />
 
-        {/* ══ 10. DURATION (dynamic Jodit) ══ */}
+        {/* ══ 10. DURATION ══ */}
         <Sec title="Duration" badge="Inside card block">
           <F label="Duration H2 Heading">
             <div className={styles.inputWrap}>
@@ -1533,7 +1457,7 @@ foodImgs.forEach((img) => {
                         className={styles.removeNestedBtn}
                         onClick={() =>
                           setSyllabusModules((p) =>
-                            p.filter((_, idx) => idx !== i),
+                            p.filter((_, idx) => idx !== i)
                           )
                         }
                       >
@@ -1718,7 +1642,9 @@ foodImgs.forEach((img) => {
                   onAdd={() => setNotIncludedItems((p) => [...p, ""])}
                   onRemove={(i) => {
                     if (notIncludedItems.length <= 1) return;
-                    setNotIncludedItems((p) => p.filter((_, idx) => idx !== i));
+                    setNotIncludedItems((p) =>
+                      p.filter((_, idx) => idx !== i)
+                    );
                   }}
                   onUpdate={(i, v) => {
                     const n = [...notIncludedItems];
@@ -1732,7 +1658,7 @@ foodImgs.forEach((img) => {
         </Sec>
         <D />
 
-        {/* ══ 14. FACT FROM FICTION (dynamic Jodit) ══ */}
+        {/* ══ 14. FACT FROM FICTION ══ */}
         <Sec title="Separating Fact from Fiction" badge="Bordered box section">
           <F label="Box H3 Heading">
             <div className={styles.inputWrap}>
@@ -1753,7 +1679,7 @@ foodImgs.forEach((img) => {
         </Sec>
         <D />
 
-        {/* ══ 15. STUDENT REVIEWS (star rating + Jodit) ══ */}
+        {/* ══ 15. STUDENT REVIEWS ══ */}
         <Sec
           title="Student Reviews"
           badge="Star rating + Rich text review cards"
@@ -1792,7 +1718,6 @@ foodImgs.forEach((img) => {
                     )}
                   </div>
                   <div className={styles.nestedCardBody}>
-                    {/* Row 1: Name, Platform, Initial */}
                     <div
                       className={styles.grid2}
                       style={{ marginBottom: "1rem" }}
@@ -1860,7 +1785,6 @@ foodImgs.forEach((img) => {
                       </div>
                     </div>
 
-                    {/* Row 2: Star Rating */}
                     <div
                       className={styles.fieldGroup}
                       style={{ marginBottom: "1rem" }}
@@ -1892,7 +1816,6 @@ foodImgs.forEach((img) => {
                       </div>
                     </div>
 
-                    {/* Row 3: Jodit Review Text */}
                     <div className={styles.fieldGroup} style={{ margin: 0 }}>
                       <label
                         className={styles.label}
@@ -1926,13 +1849,7 @@ foodImgs.forEach((img) => {
                 onClick={() =>
                   setReviews((p) => [
                     ...p,
-                    {
-                      name: "",
-                      platform: "on Google",
-                      initial: "",
-                      rating: 5,
-                      text: "",
-                    },
+                    { name: "", platform: "on Google", initial: "", rating: 5, text: "" },
                   ])
                 }
               >
@@ -2019,10 +1936,11 @@ foodImgs.forEach((img) => {
             </F>
           </div>
         </Sec>
+
       </div>
       {/* /formCard */}
 
-      {/* Form Actions */}
+      {/* ── Form Actions ── */}
       <div className={styles.formActions}>
         <Link
           href="/admin/yogacourse/500hourscourse/content"

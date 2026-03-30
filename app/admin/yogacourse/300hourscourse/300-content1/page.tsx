@@ -30,15 +30,21 @@ export default function List300hrContent1() {
   };
   useEffect(() => { fetchList(); }, []);
 
-  const handleDelete = async (id: string, title: string) => {
-    if (!confirm(`Delete "${title}"?\nThis cannot be undone.`)) return;
-    try {
-      setDeleting(id);
-      await api.delete(`/yoga-300hr/content1/delete/${id}`);
-      setRows(p => p.filter(r => r._id !== id));
-    } catch { alert("Delete failed. Please try again."); }
-    finally { setDeleting(null); }
-  };
+  const handleDelete = async (id: string) => {
+  try {
+    setDeleting(id);
+
+    await api.delete(`/yoga-300hr/content1/delete/${id}`);
+
+    setRows(p => p.filter(r => r._id !== id));
+
+    toast.success("Record deleted successfully ✅");
+  } catch {
+    toast.error("Delete failed. Please try again ❌");
+  } finally {
+    setDeleting(null);
+  }
+};
 
   const toggleStatus = async (id: string, cur: "Active" | "Inactive") => {
     const next = cur === "Active" ? "Inactive" : "Active";
@@ -124,11 +130,14 @@ export default function List300hrContent1() {
                     <div className={styles.actionBtns}>
                       <Link className={styles.editBtn}
                         href={`/admin/yogacourse/300hourscourse/300-content1/${row._id}`}>✎ Edit</Link>
-                      <button type="button" className={styles.deleteBtn}
-                        onClick={() => handleDelete(row._id, row.pageMainH1)}
-                        disabled={deleting === row._id}>
-                        {deleting === row._id ? <span className={styles.spinner} /> : "🗑 Delete"}
-                      </button>
+                      <button
+  type="button"
+  className={styles.deleteBtn}
+  onClick={() => handleDelete(row._id)}
+  disabled={deleting === row._id}
+>
+  {deleting === row._id ? <span className={styles.spinner} /> : "🗑 Delete"}
+</button>
                     </div>
                   </td>
                 </tr>

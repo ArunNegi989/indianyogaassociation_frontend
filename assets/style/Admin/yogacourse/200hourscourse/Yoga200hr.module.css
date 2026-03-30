@@ -501,3 +501,13 @@
   .removeItemBtn { width:2.2rem; height:2.2rem; }
   .editBtn,.deleteBtn { padding:0.42rem 0.9rem; }
 }
+
+.scheduleRow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #f5ede0;
+}
+.scheduleRow:last-child { border-bottom: none; }
+ 

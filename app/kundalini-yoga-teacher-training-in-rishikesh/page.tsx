@@ -1,10 +1,128 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "@/assets/style/kundalini-yoga-teacher-training-in-rishikesh/Kundaliniyogattc.module.css";
 import HowToReach from "@/components/home/Howtoreach";
 import Image from "next/image";
-import heroImg from "@/assets/images/10.webp";
+import api from "@/lib/api"; // your axios instance
+
+/* ─────────────────────────────────────────
+   TYPES
+───────────────────────────────────────── */
+interface SyllabusModule {
+  id: string;
+  title: string;
+  items: string[];
+}
+
+interface HighlightCard {
+  id: string;
+  title: string;
+  desc: string;
+}
+
+interface ScheduleItem {
+  id: string;
+  time: string;
+  activity: string;
+}
+
+interface WhyCard {
+  id: string;
+  label: string;
+  desc: string;
+}
+
+interface KundaliniContent {
+  _id: string;
+  status: string;
+  whatIsTitle: string;
+  activateTitle: string;
+  benefitsTitle: string;
+  benefitsIntro1: string;
+  benefitsIntro2: string;
+  highlightsTitle: string;
+  highlightsIntro: string;
+  syllabusBigTitle: string;
+  syllabusSchool: string;
+  courseOverviewTitle: string;
+  courseOverviewPara: string;
+  readingBoxTitle: string;
+  readingBoxNote: string;
+  noteBoxTitle: string;
+  noteBoxPara: string;
+  eligibilityTitle: string;
+  locationTitle: string;
+  facilitiesTitle: string;
+  facilitiesIntro: string;
+  facilitiesIntroRich: string;
+  scheduleSectionTitle: string;
+  whyAYMTitle: string;
+  whyRishikeshTitle: string;
+  spiritualTitle: string;
+  spiritualPara: string;
+  naturalTitle: string;
+  naturalPara: string;
+  typesTitle: string;
+  topSchoolsTitle: string;
+  topSchoolsPara: string;
+  refundTitle: string;
+  whatIsParagraphs: string[];
+  activateParagraphs: string[];
+  eligibilityParagraphs: string[];
+  locationParagraphs: string[];
+  syllabusModules: SyllabusModule[];
+  benefitItems: string[];
+  highlightCards: HighlightCard[];
+  readingItems: string[];
+  facilityItems: string[];
+  scheduleItems: ScheduleItem[];
+  whyCards: WhyCard[];
+  typesItems: string[];
+  refundItems: string[];
+  heroImage: string;
+  classImage: string;
+  schedImg1: string;
+  schedImg2: string;
+}
+
+interface KundaliniSeat {
+  _id: string;
+  startDate: string;
+  endDate: string;
+  usdFee: string;
+  inrFee: string;
+  dormPrice: number;
+  twinPrice: number;
+  privatePrice: number;
+  totalSeats: number;
+  bookedSeats: number;
+  note: string;
+}
+
+/* ─────────────────────────────────────────
+   HELPERS
+───────────────────────────────────────── */
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? "";
+
+/** Prepend base URL only when path starts with /uploads/ */
+const imgSrc = (path: string) =>
+  path?.startsWith("/uploads/") ? `${BASE_URL}${path}` : path ?? "";
+
+/** Format a Date string as "3rd Jan 2026" style */
+const fmtDate = (iso: string) => {
+  const d = new Date(iso);
+  const day = d.getDate();
+  const suffix =
+    day % 10 === 1 && day !== 11
+      ? "st"
+      : day % 10 === 2 && day !== 12
+      ? "nd"
+      : day % 10 === 3 && day !== 13
+      ? "rd"
+      : "th";
+  return `${day}${suffix} ${d.toLocaleString("en-US", { month: "short" })} ${d.getFullYear()}`;
+};
 
 /* ─────────────────────────────────────────
    MANDALA SVG COMPONENT
@@ -87,13 +205,25 @@ const ChakraSVG = ({
       return (
         <line
           key={deg}
-          x1={50 + 22 * Math.cos(r)} y1={50 + 22 * Math.sin(r)}
-          x2={50 + 44 * Math.cos(r)} y2={50 + 44 * Math.sin(r)}
-          stroke={color} strokeWidth="1" opacity="0.6"
+          x1={50 + 22 * Math.cos(r)}
+          y1={50 + 22 * Math.sin(r)}
+          x2={50 + 44 * Math.cos(r)}
+          y2={50 + 44 * Math.sin(r)}
+          stroke={color}
+          strokeWidth="1"
+          opacity="0.6"
         />
       );
     })}
-    <text x="50" y="56" textAnchor="middle" fontSize="22" fill={color} fontFamily="serif" opacity="0.9">
+    <text
+      x="50"
+      y="56"
+      textAnchor="middle"
+      fontSize="22"
+      fill={color}
+      fontFamily="serif"
+      opacity="0.9"
+    >
       ॐ
     </text>
   </svg>
@@ -111,7 +241,7 @@ const OmDivider = ({ centered = true }: { centered?: boolean }) => (
 );
 
 /* ─────────────────────────────────────────
-   CORNER ORNAMENT (100-hour style)
+   CORNER ORNAMENT
 ───────────────────────────────────────── */
 const CornerOrnamentK = ({ pos }: { pos: "tl" | "tr" | "bl" | "br" }) => {
   const flip = {
@@ -137,7 +267,11 @@ const SeatsCell = ({ booked, total }: { booked: number; total: number }) => {
   const isFull = booked >= total;
   const remaining = total - booked;
   if (isFull) return <span className={styles.kFullyBooked}>Fully Booked</span>;
-  return <span className={styles.kSeatsAvailable}>{remaining} / {total} Seats</span>;
+  return (
+    <span className={styles.kSeatsAvailable}>
+      {remaining} / {total} Seats
+    </span>
+  );
 };
 
 /* ─────────────────────────────────────────
@@ -179,230 +313,106 @@ const AccordionItem = ({
 };
 
 /* ─────────────────────────────────────────
-   SYLLABUS DATA
+   LOADING SKELETON
 ───────────────────────────────────────── */
-const syllabusData = [
-  {
-    title: "Kundalini Yoga Philosophy & History of Yoga",
-    items: [
-      "Introduction to Kundalini Yoga and its Origins",
-      "The Tradition of Kundalini Yoga: Yogi Bhajan's Teachings",
-      "Core Concepts: Prana, Nadis, Chakras, and Kundalini Energy",
-      "Patanjali's Eight Limbs of Yoga and Their Relevance",
-      "The Aquarian Age and Kundalini Yoga's Role",
-      "Sat Nam: Truth as Identity",
-    ],
-  },
-  {
-    title: "Hatha yoga asana (Physical Postures) & Kriyas",
-    items: [
-      "Introduction to Kundalini Yoga Asanas",
-      "Detailed study of fundamental postures",
-      "Alignment, Benefits, and Contraindications",
-      "Kundalini Kriyas: Explanation and Practice",
-      "Set Structure: Warm-up, Kriya, Relaxation, Meditation",
-      "Common Kundalini Yoga Lesson Sets",
-      "Modifications and Use of Props",
-    ],
-  },
-  {
-    title: "Pranayama & Breathwork",
-    items: [
-      "The Science of Breath in Kundalini Yoga",
-      "Basic Pranayamas: Long Deep Breathing, Breath of Fire, Sitali, Bhastrika",
-      "Advanced Techniques: Alternate Nostril Breathing, One-Minute Breath",
-      "Bandhas (Body Locks): Mula Bandha, Uddiyana Bandha, Jalandhara Bandha",
-      "Breath Awareness in Kriya Practice",
-    ],
-  },
-  {
-    title: "Mantra, Mudra, and Naad Yoga",
-    items: [
-      "The Role of Mantra in Kundalini Yoga",
-      "Pronunciation and Chanting Practice (e.g., Sat Nam, Ong Namo Guru Dev Namo)",
-      "Understanding Naad (Sacred Sound)",
-      "Common Mudras and Their Applications",
-      "Incorporating Mantra and Mudra into Practice",
-      "Using the Gong and Other sound Instruments for kundalini awakening",
-    ],
-  },
-  {
-    title: "Meditation & Dhyana",
-    items: [
-      "The Purpose and Types of Meditation in Kundalini Yoga",
-      "Guided Meditations and Silent Practice",
-      "Common Kundalini Meditations (e.g., Kirtan Kriya, Sodarshan Chakra Kriya)",
-      "Using Breath, Mantra, and Mudra in Meditation",
-      "Mindfulness and Concentration Techniques",
-      "Developing a Personal Meditation Practice",
-    ],
-  },
-  {
-    title: "Anatomy & Physiology",
-    items: [
-      "Yogic and Western Anatomy Overview",
-      "The Chakra System: 7 Major Chakras",
-      "The Nadis: Ida, Pingala, Sushumna",
-      "The Endocrine and Nervous Systems",
-      "Impact of Kundalini Practice on Body Systems",
-      "Injury Prevention and Safety in Practice",
-    ],
-  },
-  {
-    title: "Teaching Methodology & Practicum",
-    items: [
-      "Principles of Effective Teaching",
-      "Sequencing Classes and Kriyas",
-      "Voice, Language, and Presence",
-      "Adjustments and Assists",
-      "Managing Different Student Levels and Needs",
-      "Leading Sadhana (Daily Practice)",
-      "Class Management and Ethics",
-      "Practicum: Practice Teaching (Peer and Public Classes)",
-      "Feedback and Self-Reflection",
-    ],
-  },
-  {
-    title: "Yogic Lifestyle & Ethics",
-    items: [
-      "The Aquarian Teacher Code of Ethics",
-      "Sattvic Diet and Lifestyle",
-      "Seva (Selfless Service) and Sangat (Community)",
-      "Sadhana: Daily Spiritual Practice",
-      "Boundaries and Professional Ethics in Teaching",
-    ],
-  },
-  {
-    title: "Self-Study & Assignments (30 marks)",
-    items: [
-      "Daily Practice Journal",
-      "Written Assignments on Philosophy and Anatomy",
-      "Peer Teaching Observations",
-      "Reading and Reflection Assignments",
-    ],
-  },
-  {
-    title: "Assessment & Certification (170 marks)",
-    items: [
-      "Written Examination on Philosophy and Anatomy",
-      "Practical Teaching Assessment",
-      "Attendance and Participation",
-      "Final Kriya and Meditation Demonstration",
-      "Yoga Alliance USA Registered Certificate upon completion",
-    ],
-  },
-];
-
-/* ─────────────────────────────────────────
-   SCHEDULE TABLE DATA  (updated with all fields)
-───────────────────────────────────────── */
-interface ScheduleRow {
-  date: string;
-  usdFee: string;
-  inrFee: string;
-  dormPrice: number;
-  twinPrice: number;
-  privatePrice: number;
-  totalSeats: number;
-  bookedSeats: number;
-  note: string;
-}
-
-const scheduleData: ScheduleRow[] = [
-  {
-    date: "5th Dec to 27th Dec 2025",
-    usdFee: "$1299",
-    inrFee: "₹1,07,000",
-    dormPrice: 1299,
-    twinPrice: 1499,
-    privatePrice: 1699,
-    totalSeats: 20,
-    bookedSeats: 18,
-    note: "",
-  },
-  {
-    date: "5th Jan to 29th Jan 2026",
-    usdFee: "$1299",
-    inrFee: "₹1,07,000",
-    dormPrice: 1299,
-    twinPrice: 1499,
-    privatePrice: 1699,
-    totalSeats: 20,
-    bookedSeats: 10,
-    note: "",
-  },
-  {
-    date: "3rd Feb to 27th Feb 2026",
-    usdFee: "$1299",
-    inrFee: "₹1,07,000",
-    dormPrice: 1299,
-    twinPrice: 1499,
-    privatePrice: 1699,
-    totalSeats: 20,
-    bookedSeats: 7,
-    note: "",
-  },
-  {
-    date: "3rd Mar to 27th Mar 2026",
-    usdFee: "$1299",
-    inrFee: "₹1,07,000",
-    dormPrice: 1299,
-    twinPrice: 1499,
-    privatePrice: 1699,
-    totalSeats: 20,
-    bookedSeats: 4,
-    note: "",
-  },
-  {
-    date: "3rd Apr to 27th Apr 2026",
-    usdFee: "$1299",
-    inrFee: "₹1,07,000",
-    dormPrice: 1299,
-    twinPrice: 1499,
-    privatePrice: 1699,
-    totalSeats: 20,
-    bookedSeats: 2,
-    note: "",
-  },
-  {
-    date: "3rd May to 27th May 2026",
-    usdFee: "$1299",
-    inrFee: "₹1,07,000",
-    dormPrice: 1299,
-    twinPrice: 1499,
-    privatePrice: 1699,
-    totalSeats: 20,
-    bookedSeats: 0,
-    note: "",
-  },
-  {
-    date: "3rd Jun to 27th Jun 2026",
-    usdFee: "$1299",
-    inrFee: "₹1,07,000",
-    dormPrice: 1299,
-    twinPrice: 1499,
-    privatePrice: 1699,
-    totalSeats: 20,
-    bookedSeats: 0,
-    note: "",
-  },
-  {
-    date: "3rd Jul to 27th Jul 2026",
-    usdFee: "$1299",
-    inrFee: "₹1,07,000",
-    dormPrice: 1299,
-    twinPrice: 1499,
-    privatePrice: 1699,
-    totalSeats: 20,
-    bookedSeats: 0,
-    note: "Register your spot by paying $110 only.",
-  },
-];
+const PageSkeleton = () => (
+  <div className={styles.page} style={{ minHeight: "100vh", padding: "2rem" }}>
+    <div
+      style={{
+        maxWidth: 900,
+        margin: "0 auto",
+        display: "flex",
+        flexDirection: "column",
+        gap: "1.5rem",
+      }}
+    >
+      {[300, 200, 400, 180, 350].map((h, i) => (
+        <div
+          key={i}
+          style={{
+            height: h,
+            borderRadius: 8,
+            background: "linear-gradient(90deg,#f0e8d8 25%,#e8dcc8 50%,#f0e8d8 75%)",
+            backgroundSize: "400% 100%",
+            animation: "shimmer 1.4s ease infinite",
+          }}
+        />
+      ))}
+      <style>{`@keyframes shimmer{0%{background-position:100% 0}100%{background-position:-100% 0}}`}</style>
+    </div>
+  </div>
+);
 
 /* ═══════════════════════════════════════════
    MAIN COMPONENT
 ═══════════════════════════════════════════ */
 export default function KundaliniYogaTTC() {
+  const [content, setContent] = useState<KundaliniContent | null>(null);
+  const [seats, setSeats] = useState<KundaliniSeat[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const [contentRes, seatsRes] = await Promise.all([
+          api.get("/kundalini-ttc-content/get"),
+          api.get("/kundalini-seats"),
+        ]);
+
+        if (contentRes.data?.success) {
+          setContent(contentRes.data.data);
+        }
+        if (seatsRes.data?.success) {
+          setSeats(seatsRes.data.data ?? []);
+        }
+      } catch (err) {
+        console.error("Failed to load Kundalini TTC data:", err);
+        setError("Failed to load page content. Please refresh.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if (loading) return <PageSkeleton />;
+
+  if (error) {
+    return (
+      <div
+        style={{
+          minHeight: "60vh",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          flexDirection: "column",
+          gap: "1rem",
+          color: "#b8860b",
+        }}
+      >
+        <p style={{ fontSize: "1.1rem" }}>{error}</p>
+        <button
+          onClick={() => window.location.reload()}
+          style={{
+            padding: "0.5rem 1.5rem",
+            background: "#e07b00",
+            color: "#fff",
+            border: "none",
+            borderRadius: 4,
+            cursor: "pointer",
+          }}
+        >
+          Retry
+        </button>
+      </div>
+    );
+  }
+
+  if (!content) return null;
+
   return (
     <div className={styles.page}>
       {/* ── Fixed Mandala Decorations ── */}
@@ -421,15 +431,17 @@ export default function KundaliniYogaTTC() {
       <div className={styles.chakraGlow} aria-hidden="true" />
 
       {/* ══════════════════════════════════════
-          SECTION 1 — HERO + INTRO
+          SECTION 1 — HERO
       ══════════════════════════════════════ */}
       <section className={styles.heroSection}>
-        <Image
-          src={heroImg}
-          alt="Yoga Students Group"
-          className={styles.heroImage}
-          priority
-        />
+        {content.heroImage && (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={imgSrc(content.heroImage)}
+            alt="Yoga Students Group"
+            className={styles.heroImage}
+          />
+        )}
       </section>
 
       {/* ══════════════════════════════════════
@@ -439,42 +451,15 @@ export default function KundaliniYogaTTC() {
         <div className="container px-3 px-md-4">
           <div className={styles.vintageCard}>
             <span className={styles.cardCorner}>✦</span>
-            <h2 className={styles.sectionTitleCenter}>What is Kundalini Yoga?</h2>
+            <h2 className={styles.sectionTitleCenter}>{content.whatIsTitle}</h2>
             <OmDivider />
-            <p className={styles.bodyPara}>
-              When we talk about the awakening of Kundalini, we have to understand what Kundalini is.
-              Kundalini yoga can be understood as a practice that awakens the spiritual pranic force that
-              energises your chakras. This force is usually dormant, lying quietly and coiled (like a
-              snake) at the base of the spine, or root chakra. From where does this force come from in
-              the root chakra? Who has created this? Actually, kundalini is that prana which is coiled
-              like a kundal, and we are born with it; it is not created in our body. It flows in our
-              pranic channels and chakras.
-            </p>
-            <p className={styles.bodyPara}>
-              <strong>Kundal</strong> means a ring or a coil; in this, prana rotates in a coiled form,
-              and when nadies are clean, this prana uncoils, resulting in the awakening of kundalini. We
-              also know kundalini as Bhujangni energy, or coiled like a cobra.
-            </p>
-            <p className={styles.bodyPara}>
-              Kundalini is the reserve spiritual energy that rotates at the base of the mooladhara
-              chakra, and when uncloiled, can rise, infuse the body's cells and organs with extra life
-              force, and confer special powers, qualities, and psychic abilities.
-            </p>
-            <p className={styles.bodyPara}>
-              Our 200 Hour Kundalini Yoga Teacher Training in Rishikesh, India, focuses on awakening
-              Kundalini energy by combining postures (asanas), breathing techniques (pranayama),
-              Kundalini yoga meditation, chanting, and energy locks (bandhas). The primary goal of this
-              practice is to raise energy through the chakras and promote spirituality within. Mantras
-              and sounds resonate with the energy centres, and kundalini yoga promotes physical, mental,
-              and emotional well-being.
-            </p>
-            <p className={styles.bodyPara}>
-              At AYM, we offer an exclusive 300-hour Kundalini yoga teacher training course in
-              Rishikesh, as well as a <strong>200-hour Kundalini yoga course</strong> that provides a
-              deeper understanding of this practice. Under the guidance of our experienced instructors
-              and the influence of the Ashram lifestyle, aspirants of the{" "}
-              <strong>Kundalini YTTC in Rishikesh</strong> can feel rejuvenated and complete.
-            </p>
+            {content.whatIsParagraphs?.map((para, i) => (
+              <div
+                key={i}
+                className={styles.bodyPara}
+                dangerouslySetInnerHTML={{ __html: para }}
+              />
+            ))}
           </div>
         </div>
       </section>
@@ -488,56 +473,29 @@ export default function KundaliniYogaTTC() {
             <ChakraSVG size={120} color="rgba(224,123,0,0.08)" />
           </div>
 
-          <h2 className={styles.sectionTitleCenter}>
-            Activate your Kundalini through the kundalini yoga TTC in rishikesh at AYM
-          </h2>
+          <h2 className={styles.sectionTitleCenter}>{content.activateTitle}</h2>
           <OmDivider />
-          <p className={styles.bodyPara}>
-            When approached with care, patience, proper guidance, and a focus on spiritual growth,
-            awakening your Kundalini energy can be an uplifting experience - bringing joy, heightened
-            consciousness, and enhanced intuitive and psychic abilities. This is why many seekers pursue
-            enlightenment through practices such as Kundalini yoga and meditation. However, if Kundalini
-            energy is awakened suddenly - whether through yoga or by coming into contact with someone
-            whose Kundalini is already active - and you are not prepared or have energetic blockages,
-            the energy may become stuck.
-          </p>
-          <p className={styles.bodyPara}>
-            If your Kundalini energy awakens unexpectedly and you are unprepared, it is essential to
-            seek guidance from a traditional Kundalini yoga teacher who can support you through the
-            awakening process. Remember, activating Kundalini power is only one way to access your
-            chakras, your body, and your mental power. While the tradition of arousing Kundalini has
-            endured for centuries, there are traditional and modern approaches to awakening your chakras.
-            Traditional Kundalini yoga in Rishikesh is found only in a few of the oldest Kundalini yoga
-            schools within the traditional yoga lineages.
-          </p>
+          {content.activateParagraphs?.map((para, i) => (
+            <div
+              key={i}
+              className={styles.bodyPara}
+              dangerouslySetInnerHTML={{ __html: para }}
+            />
+          ))}
 
           {/* Benefits */}
           <div className={`${styles.vintageCard} mt-4`}>
             <span className={styles.cardCorner}>✦</span>
-            <h2 className={styles.sectionTitleCenter}>What are the Benefits of Kundalini Yoga?</h2>
+            <h2 className={styles.sectionTitleCenter}>{content.benefitsTitle}</h2>
             <OmDivider />
-            <p className={styles.bodyPara}>
-              Is Kundalini yoga the right choice for you? Does it even provide any positive impact on
-              the body? Can I benefit from it in any way? Well, of course, yes. It is natural to have
-              such questions in mind if you have recently been interested in taking up the{" "}
-              <strong>Kundalini YTT course in India</strong>.
-            </p>
-            <p className={styles.bodyPara}>
-              You must know that enrolling in our{" "}
-              <strong>Kundalini YTT course in Rishikesh</strong> at AYM will transform your personal
-              and professional lives. So look at the benefits this yoga practice can offer and become
-              firm in your decision.
-            </p>
+            {content.benefitsIntro1 && (
+              <p className={styles.bodyPara}>{content.benefitsIntro1}</p>
+            )}
+            {content.benefitsIntro2 && (
+              <p className={styles.bodyPara}>{content.benefitsIntro2}</p>
+            )}
             <div className={styles.benefitGrid}>
-              {[
-                "It promotes spiritual growth, higher consciousness and self-awareness.",
-                "This practice raises and balances energy, promoting overall well-being.",
-                "It offers calmness to the mind and lowers stress and anxiety.",
-                "Not only does it balance the nervous system, but it also improves flexibility and strengthens the immune system.",
-                "As you take up kundalini Rishikesh yoga, it TTC enhances emotional intelligence, fosters inner peace and offers mental clarity.",
-                "Kundalini yoga promotes self-growth, self-love, self-acceptance, self-healing, and cultivating intuition.",
-                "It helps to overcome addictive behaviours and facilitates profound personal growth and spiritual evolution.",
-              ].map((benefit, i) => (
+              {content.benefitItems?.map((benefit, i) => (
                 <div key={i} className={styles.benefitItem}>
                   <span className={styles.benefitNum}>{i + 1}.</span>
                   <span>{benefit}</span>
@@ -549,41 +507,14 @@ export default function KundaliniYogaTTC() {
           {/* Course Highlights */}
           <div className={`${styles.vintageCard} mt-4`}>
             <span className={styles.cardCorner}>✦</span>
-            <h2 className={styles.sectionTitleCenter}>
-              Kundalini YTT Course Highlights at AYM in Rishikesh
-            </h2>
+            <h2 className={styles.sectionTitleCenter}>{content.highlightsTitle}</h2>
             <OmDivider />
-            <p className={styles.bodyPara}>
-              At AYM, we offer the{" "}
-              <strong>best Kundalini yoga teacher training course in rishikesh</strong> for aspiring
-              students. Our course has been distinctively and masterfully designed to meet the
-              expectations of our students and promote their teaching careers. Take a look at our course
-              highlights by reading below:
-            </p>
+            {content.highlightsIntro && (
+              <p className={styles.bodyPara}>{content.highlightsIntro}</p>
+            )}
             <div className="row g-3 mt-2">
-              {[
-                {
-                  title: "Daily Guided Practices",
-                  desc: "Our Kundalini yoga teacher training programs have been carefully curated. Each class focuses on offering a deep understanding of this practice, and together, they promote physical, mental, and spiritual well-being.",
-                },
-                {
-                  title: "Meditation and Breathing Techniques",
-                  desc: "We offer a practical and theoretical understanding of kundalini yoga and powerful techniques that can foster calmness. We aim to introduce you to exclusive meditation and breathing techniques that bring mental peace and balance your energy.",
-                },
-                {
-                  title: "Mantra and Chanting",
-                  desc: "During the 300 hour Kundalini yoga teacher training in Rishikesh, we allow aspirants to experience the vibrational power of the mantras. This allows them to develop powerful consciousness and create a connection with the divine self.",
-                },
-                {
-                  title: "Personalized Approach",
-                  desc: "We believe in creating a long-lasting relationship with our students. This is why we provide our 500 hour kundalini YTTC in Rishikesh through a personalized approach. We provide guidance and support throughout the course. We are also transparent about the course and our students' progress.",
-                },
-                {
-                  title: "Fostering Connection",
-                  desc: "Students can find themselves in the company of like-minded individuals who help to instil confidence and a sense of trust. It allows them to connect with people who share their goals and are on a similar journey to success.",
-                },
-              ].map((h, i) => (
-                <div key={i} className="col-12 col-md-6">
+              {content.highlightCards?.map((h) => (
+                <div key={h.id} className="col-12 col-md-6">
                   <div className={styles.highlightItem}>
                     <div className={styles.highlightDot} />
                     <div>
@@ -605,43 +536,39 @@ export default function KundaliniYogaTTC() {
         <div className="container px-3 px-md-4">
           <div className={styles.syllabusWrap}>
             <div className={styles.syllabusHeader}>
-              <h2 className={styles.syllabusBigTitle}>
-                200-Hour Kundalini Yoga Teacher Training Syllabus
-              </h2>
-              <p className={styles.syllabusSchool}>Aym Yoga School</p>
+              <h2 className={styles.syllabusBigTitle}>{content.syllabusBigTitle}</h2>
+              <p className={styles.syllabusSchool}>{content.syllabusSchool}</p>
             </div>
             <div className={styles.courseOverview}>
-              <h3 className={styles.overviewTitle}>Course Overview:</h3>
-              <p className={styles.bodyPara} style={{ marginBottom: 0 }}>
-                This comprehensive 200-hour Kundalini Yoga Teacher Training in India at Aym Yoga School
-                is designed to provide students with a deep understanding of Kundalini Yoga, including
-                its philosophy, techniques, practice, teaching methodology, anatomy, and lifestyle. Upon
-                completion, participants will be equipped to teach Kundalini Yoga classes with confidence
-                and authenticity.
-              </p>
+              <h3 className={styles.overviewTitle}>{content.courseOverviewTitle}</h3>
+              <div
+                className={styles.bodyPara}
+                style={{ marginBottom: 0 }}
+                dangerouslySetInnerHTML={{ __html: content.courseOverviewPara ?? "" }}
+              />
             </div>
             <div className={styles.accordionWrap}>
-              {syllabusData.map((item, i) => (
-                <AccordionItem key={i} num={i + 1} title={item.title} items={item.items} />
+              {content.syllabusModules?.map((item, i) => (
+                <AccordionItem key={item.id} num={i + 1} title={item.title} items={item.items} />
               ))}
             </div>
             <div className={styles.readingBox}>
-              <h3 className={styles.readingTitle}>
-                Required Reading: Kundalini Yoga teacher training 200 hours India
-              </h3>
+              <h3 className={styles.readingTitle}>{content.readingBoxTitle}</h3>
               <ul className={styles.readingList}>
-                <li>"The Aquarian Teacher" by Yogi Bhajan</li>
-                <li>"Hatha yoga pradipika: Bihar school of Yoga</li>
-                <li>"The Yoga Sutras of Patanjali"</li>
-                <li>Aym Yoga School Training Manual of Kundalini Yoga TTC in Rishikesh.</li>
+                {content.readingItems?.map((r, i) => (
+                  <li key={i}>{r}</li>
+                ))}
               </ul>
+              {content.readingBoxNote && (
+                <p className={styles.bodyPara} style={{ marginTop: "0.5rem" }}>
+                  {content.readingBoxNote}
+                </p>
+              )}
             </div>
             <div className={styles.noteBox}>
-              <h3 className={styles.noteTitle}>Note:</h3>
+              <h3 className={styles.noteTitle}>{content.noteBoxTitle}</h3>
               <p className={styles.bodyPara} style={{ marginBottom: 0 }}>
-                The above syllabus is in accordance with the specific guidelines and vision of Best
-                Kundalini Yoga teacher training India at Aym Yoga School and the Yoga Alliance certified
-                Kundalini Yoga India.
+                {content.noteBoxPara}
               </p>
             </div>
           </div>
@@ -656,81 +583,48 @@ export default function KundaliniYogaTTC() {
           {/* Eligibility */}
           <div className={styles.vintageCard}>
             <span className={styles.cardCorner}>✦</span>
-            <h2 className={styles.sectionTitleCenter}>
-              Who Is Eligible to Join the Kundalini Yoga Teacher Training Course in Rishikesh?
-            </h2>
+            <h2 className={styles.sectionTitleCenter}>{content.eligibilityTitle}</h2>
             <OmDivider />
-            <p className={styles.bodyPara}>
-              Wondering if you will ever get the chance to complete your dream of becoming a yoga
-              teacher? Aspirants often have the question of whether they are eligible enough to enrol in
-              yoga teacher training in Rishikesh. But that's not right. At AYM, we offer courses to
-              people from all regions and backgrounds.
-            </p>
-            <p className={styles.bodyPara}>
-              There is no age boundary, and there are no qualification requirements. Also, you do not
-              need to have any prior knowledge of yoga. We allow you to start right from scratch and
-              foster skills until you reach the advanced level. All we need our aspirants to have is the
-              motivation to learn yoga, be open-minded, and aim to build a career for themselves in this
-              age-old practice.
-            </p>
+            {content.eligibilityParagraphs?.map((para, i) => (
+              <div
+                key={i}
+                className={styles.bodyPara}
+                dangerouslySetInnerHTML={{ __html: para }}
+              />
+            ))}
           </div>
 
           {/* Location */}
           <div className={`${styles.vintageCard} mt-4`}>
             <span className={styles.cardCorner}>✦</span>
-            <h2 className={styles.sectionTitleCenter}>Is the Location Prime for Yoga Learning?</h2>
+            <h2 className={styles.sectionTitleCenter}>{content.locationTitle}</h2>
             <OmDivider />
-            <p className={styles.bodyPara}>
-              When learning yoga, we understand how much the surroundings and the environment matter.
-              This is why we have chosen Rishikesh as our prime location for offering top kundalini yoga
-              teacher training courses. Our institute is surrounded by lush greenery as it lies in the
-              lap of the Himalayas.
-            </p>
-            <p className={styles.bodyPara}>
-              Being surrounded by nature allows our students to connect with their higher selves and
-              foster calmness. Our ashrams are traditionally established with a perfect blend of modern
-              touches. Our studios are sound-proof and spacious enough to concentrate on your practices.
-              Moreover, our studios are equipped with all the study materials required to complete the{" "}
-              <strong>yoga TTC in Rishikesh</strong> without hassle.
-            </p>
-            <p className={styles.bodyPara}>
-              Aspirants are provided accommodation that includes private rooms, shared rooms, and
-              dormitories. Depending on their preference, students can pick any. In addition to this, we
-              offer our <strong>kundalini yoga courses in Rishikesh</strong>, retreats, and workshops in
-              India and across the globe.
-            </p>
+            {content.locationParagraphs?.map((para, i) => (
+              <div
+                key={i}
+                className={styles.bodyPara}
+                dangerouslySetInnerHTML={{ __html: para }}
+              />
+            ))}
           </div>
 
           {/* Facilities */}
           <div className={`${styles.vintageCard} mt-4`}>
             <span className={styles.cardCorner}>✦</span>
-            <h2 className={styles.sectionTitleCenter}>
-              What Facilities are Included in the Course Fee?
-            </h2>
+            <h2 className={styles.sectionTitleCenter}>{content.facilitiesTitle}</h2>
             <OmDivider />
-            <p className={styles.bodyPara}>
-              Aspirants often worry that learning yoga will break the bank. If you are thinking the
-              same, then there's no need to worry. Our 500 hour kundalini yoga TTC programmes were
-              masterfully prepared keeping the convenience and affordability of the students in mind. To
-              reach everyone, we have offered our courses at a minimal fee. Not only that, our fee
-              includes several facilities that students can enjoy during their course program. Some of
-              them are listed below.
-            </p>
+            {content.facilitiesIntroRich ? (
+              <div
+                className={styles.bodyPara}
+                dangerouslySetInnerHTML={{ __html: content.facilitiesIntroRich }}
+              />
+            ) : (
+              content.facilitiesIntro && (
+                <p className={styles.bodyPara}>{content.facilitiesIntro}</p>
+              )
+            )}
             <div className="row g-2 mt-2">
-              {[
-                "Accommodation in spacious and furnished rooms with attached bathrooms.",
-                "Guidance and access to highly skilled professionals in yoga.",
-                "Access to study material includes online resources, yoga mats, books, and more.",
-                "CCTV surveillance for extra security.",
-                "Around-the-clock management support.",
-                "Attend seminars, workshops, and other related events that promote yoga.",
-                "Detox drinks and juices are offered.",
-                "Vegetarian and healthy meals are provided three times a day.",
-                "Access to free wifi and 24/7 hot water service is offered.",
-                "A piece of Mala is provided to every student.",
-                "Students are taken to nature excursions that elevate their experience.",
-                "Kundalini yoga teacher training course certification is provided at the end of the course.",
-              ].map((fac, i) => (
+              {content.facilityItems?.map((fac, i) => (
                 <div key={i} className="col-12 col-md-6">
                   <div className={styles.facilityItem}>
                     <span className={styles.facNum}>{i + 1}.</span>
@@ -750,51 +644,46 @@ export default function KundaliniYogaTTC() {
         <div className="container px-3 px-md-4">
           <div className="row g-4 align-items-center">
             <div className="col-12 col-lg-6">
-              <h2 className={styles.sectionTitleLeft}>Daily Schedule</h2>
+              <h2 className={styles.sectionTitleLeft}>{content.scheduleSectionTitle}</h2>
               <div className={styles.underlineLeft} />
               <div className={styles.scheduleList}>
-                {[
-                  ["06:30 AM", "Kundalini Pranayama and Meditation"],
-                  ["08:00 AM", "Tea"],
-                  ["08:30 AM", "Traditional Kundalini Tantra Theory & Asanas"],
-                  ["10:00 AM", "Breakfast"],
-                  ["11:00 AM", "Kundalini Philosophy"],
-                  ["12:15 AM", "Yoga Alignment & Adjustment"],
-                  ["01:30 PM", "Lunch - Rest/Self-Study"],
-                  ["03:30 PM", "Yoga & Spritual Anatomy"],
-                  ["05:30 PM", "Classical Hatha Yoga"],
-                  ["07:30 PM", "Dinner"],
-                ].map(([time, act], i) => (
-                  <div key={i} className={styles.schedRow}>
-                    <span className={styles.schedTime}>{time}</span>
+                {content.scheduleItems?.map((s) => (
+                  <div key={s.id} className={styles.schedRow}>
+                    <span className={styles.schedTime}>{s.time}</span>
                     <span className={styles.schedSep}>:</span>
-                    <span className={styles.schedAct}>{act}</span>
+                    <span className={styles.schedAct}>{s.activity}</span>
                   </div>
                 ))}
               </div>
             </div>
             <div className="col-12 col-lg-6">
               <div className="row g-2">
-                <div className="col-6">
-                  <div className={styles.schedImgWrap}>
-                    <img
-                      src="https://images.unsplash.com/photo-1588286840104-8957b019727f?w=500&q=80"
-                      alt="Yoga practice by river"
-                      className={styles.schedImg}
-                      loading="lazy"
-                    />
+                {content.schedImg1 && (
+                  <div className="col-6">
+                    <div className={styles.schedImgWrap}>
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={imgSrc(content.schedImg1)}
+                        alt="Daily schedule"
+                        className={styles.schedImg}
+                        loading="lazy"
+                      />
+                    </div>
                   </div>
-                </div>
-                <div className="col-6">
-                  <div className={styles.schedImgWrap}>
-                    <img
-                      src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=500&q=80"
-                      alt="Kundalini yoga pose"
-                      className={styles.schedImg}
-                      loading="lazy"
-                    />
+                )}
+                {content.schedImg2 && (
+                  <div className="col-6">
+                    <div className={styles.schedImgWrap}>
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={imgSrc(content.schedImg2)}
+                        alt="Daily practice"
+                        className={styles.schedImg}
+                        loading="lazy"
+                      />
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
             </div>
           </div>
@@ -802,45 +691,41 @@ export default function KundaliniYogaTTC() {
       </section>
 
       {/* ══════════════════════════════════════
-          SECTION 7 — WHY CHOOSE AYM + CLASS IMAGE
+          SECTION 7 — WHY CHOOSE AYM
       ══════════════════════════════════════ */}
       <section className={`${styles.section} ${styles.sectionLight}`}>
         <div className="container px-3 px-md-4">
-          <h2 className={styles.sectionTitleCenter}>Why Choose AYM Yoga School?</h2>
+          <h2 className={styles.sectionTitleCenter}>{content.whyAYMTitle}</h2>
           <OmDivider />
           <div className="row g-3 mb-4">
-            {[
-              ["Tradition", "We follow Ancient Traditional yoga of The Himalayas."],
-              ["Location", "We are located in a peaceful, serene, and beautiful place in Rishikesh."],
-              ["Teacher", "We have 14+ experienced teachers under the guidance of Yogi Chetan Mahesh."],
-              ["Courses", "We offer different important yoga courses."],
-              ["Experiences", "Until now, our ashram has trained more than 6000+ yoga teachers worldwide."],
-              ["Kundalini-Based Training", "Our primary purpose is to awaken the latent energy of our students."],
-            ].map(([label, desc], i) => (
-              <div key={i} className="col-12 col-md-6 col-lg-4">
+            {content.whyCards?.map((card, i) => (
+              <div key={card.id} className="col-12 col-md-6 col-lg-4">
                 <div className={styles.whyCard}>
                   <div className={styles.whyNum}>{i + 1}</div>
                   <div>
-                    <strong className={styles.whyLabel}>{label}</strong>
-                    <span className={styles.whyDesc}> - {desc}</span>
+                    <strong className={styles.whyLabel}>{card.label}</strong>
+                    <span className={styles.whyDesc}> - {card.desc}</span>
                   </div>
                 </div>
               </div>
             ))}
           </div>
-          <div className={styles.classImgWrap}>
-            <img
-              src="https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?w=1200&q=85"
-              alt="AYM Yoga School Kundalini class in Rishikesh"
-              className={styles.classImg}
-              loading="lazy"
-            />
-          </div>
+          {content.classImage && (
+            <div className={styles.classImgWrap}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={imgSrc(content.classImage)}
+                alt="AYM Yoga School Kundalini class in Rishikesh"
+                className={styles.classImg}
+                loading="lazy"
+              />
+            </div>
+          )}
         </div>
       </section>
 
       {/* ══════════════════════════════════════
-          SECTION 8 — AVAILABILITY TABLE  (100-hour style)
+          SECTION 8 — AVAILABILITY TABLE (from /kundalini-seats)
       ══════════════════════════════════════ */}
       <section className={`${styles.section} ${styles.sectionWarm}`} id="schedule">
         <div className="container px-3 px-md-4">
@@ -852,7 +737,6 @@ export default function KundaliniYogaTTC() {
             Choose your preferred accommodation. Prices include tuition and meals.
           </p>
 
-          {/* ── Table container with corner ornaments ── */}
           <div className={styles.kTableContainer}>
             <CornerOrnamentK pos="tl" />
             <CornerOrnamentK pos="tr" />
@@ -872,49 +756,58 @@ export default function KundaliniYogaTTC() {
                   </tr>
                 </thead>
                 <tbody>
-                  {scheduleData.map((row, i) => {
-                    const isFull = row.bookedSeats >= row.totalSeats;
-                    return (
-                      <tr key={i}>
-                        <td>
-                          <span className={styles.kDateCal}>📅</span> {row.date}
-                        </td>
-                        <td>{row.usdFee}</td>
-                        <td>{row.inrFee}</td>
-                        <td className={styles.kRoomPriceCell}>
-                          Dorm{" "}
-                          <strong className={styles.kPriceAmt}>${row.dormPrice}</strong> |{" "}
-                          Twin{" "}
-                          <strong className={styles.kPriceAmt}>${row.twinPrice}</strong> |{" "}
-                          Private{" "}
-                          <strong className={styles.kPriceAmt}>${row.privatePrice}</strong>
-                        </td>
-                        <td>
-                          <SeatsCell booked={row.bookedSeats} total={row.totalSeats} />
-                        </td>
-                        <td>
-                          {isFull ? (
-                            <span className={styles.kApplyDisabled}>Apply Now</span>
-                          ) : (
-                            <a
-                              href={`/yoga-registration?type=kundalini-200hr&batch=${i + 1}`}
-                              className={styles.kApplyLink}
-                            >
-                              Apply Now
-                            </a>
-                          )}
-                        </td>
-                      </tr>
-                    );
-                  })}
+                  {seats.length === 0 ? (
+                    <tr>
+                      <td colSpan={6} style={{ textAlign: "center", padding: "2rem", color: "#888" }}>
+                        No batches available at the moment.
+                      </td>
+                    </tr>
+                  ) : (
+                    seats.map((row, i) => {
+                      const isFull = row.bookedSeats >= row.totalSeats;
+                      const dateLabel = `${fmtDate(row.startDate)} to ${fmtDate(row.endDate)}`;
+                      return (
+                        <tr key={row._id}>
+                          <td>
+                            <span className={styles.kDateCal}>📅</span> {dateLabel}
+                          </td>
+                          <td>{row.usdFee}</td>
+                          <td>{row.inrFee}</td>
+                          <td className={styles.kRoomPriceCell}>
+                            Dorm{" "}
+                            <strong className={styles.kPriceAmt}>${row.dormPrice}</strong> |{" "}
+                            Twin{" "}
+                            <strong className={styles.kPriceAmt}>${row.twinPrice}</strong> |{" "}
+                            Private{" "}
+                            <strong className={styles.kPriceAmt}>${row.privatePrice}</strong>
+                          </td>
+                          <td>
+                            <SeatsCell booked={row.bookedSeats} total={row.totalSeats} />
+                          </td>
+                          <td>
+                            {isFull ? (
+                              <span className={styles.kApplyDisabled}>Apply Now</span>
+                            ) : (
+                              <a
+                                href={`/yoga-registration?type=kundalini-200hr&batch=${i + 1}`}
+                                className={styles.kApplyLink}
+                              >
+                                Apply Now
+                              </a>
+                            )}
+                          </td>
+                        </tr>
+                      );
+                    })
+                  )}
                 </tbody>
               </table>
             </div>
 
-            {/* Note from last batch */}
-            {scheduleData.find((s) => s.note) && (
+            {/* Notes from any batch */}
+            {seats.some((s) => s.note) && (
               <p className={styles.kTableNote}>
-                <strong>Note:</strong> {scheduleData.find((s) => s.note)?.note}
+                <strong>Note:</strong> {seats.find((s) => s.note)?.note}
               </p>
             )}
 
@@ -934,55 +827,55 @@ export default function KundaliniYogaTTC() {
         <div className="container px-3 px-md-4">
           <div className={styles.vintageCard}>
             <span className={styles.cardCorner}>✦</span>
-            <h2 className={styles.sectionTitleCenter}>
-              Why choose Kundalini Yoga classes and training in rishikesh?
-            </h2>
+            <h2 className={styles.sectionTitleCenter}>{content.whyRishikeshTitle}</h2>
             <OmDivider />
-            <h3 className={styles.subHeading}>Spiritual significance of Rishikesh:</h3>
-            <p className={styles.bodyPara}>
-              Rishikesh, situated on the banks of the sacred Ganges River and nestled in the foothills
-              of the Himalayas, is globally recognized as the yoga capital of the world. In this vibrant
-              city, there are many authentic yoga schools, and experienced teachers attract kundalini
-              yoga seekers from every corner of the globe.
-            </p>
-            <h3 className={styles.subHeading}>
-              Natural setting and serene environment of Rishikesh:
-            </h3>
-            <p className={styles.bodyPara}>
-              The tranquil ambiance, combined with the region's powerful energy, creates an ideal
-              environment for learning authentic Kundalini yoga in rishikesh. Whether you're a seasoned
-              yogi or a curious beginner, Rishikesh provides the perfect setting to embark on a
-              transformative journey through Kundalini yoga.
-            </p>
-            <h3 className={styles.subHeading}>Types of Kundalini Yoga Classes in Rishikesh</h3>
-            <ul className={styles.bulletList}>
-              <li>Beginner to advanced kundalini classes</li>
-              <li>Kundalini yoga retreats and intensive courses</li>
-              <li>Teacher training programs.</li>
-            </ul>
-            <h3 className={styles.subHeading}>
-              Top Kundalini Yoga Schools and Centers in Rishikesh
-            </h3>
-            <p className={styles.bodyPara}>
-              In recent times, Kundalini yoga has become popular, and many seekers are opting for it,
-              and due to it, many Kundalini yoga schools in rishikesh are starting to surface. But only
-              a few offer a structured, well-designed Kundalini yoga curriculum. AYM yoga school and
-              Hatha yoga school are among the Top Kundalini Yoga Schools in Rishikesh.
-            </p>
+
+            {content.spiritualTitle && (
+              <h3 className={styles.subHeading}>{content.spiritualTitle}</h3>
+            )}
+            {content.spiritualPara && (
+              <div
+                className={styles.bodyPara}
+                dangerouslySetInnerHTML={{ __html: content.spiritualPara }}
+              />
+            )}
+
+            {content.naturalTitle && (
+              <h3 className={styles.subHeading}>{content.naturalTitle}</h3>
+            )}
+            {content.naturalPara && (
+              <div
+                className={styles.bodyPara}
+                dangerouslySetInnerHTML={{ __html: content.naturalPara }}
+              />
+            )}
+
+            {content.typesTitle && (
+              <h3 className={styles.subHeading}>{content.typesTitle}</h3>
+            )}
+            {content.typesItems && content.typesItems.length > 0 && (
+              <ul className={styles.bulletList}>
+                {content.typesItems.map((item, i) => (
+                  <li key={i}>{item}</li>
+                ))}
+              </ul>
+            )}
+
+            {content.topSchoolsTitle && (
+              <h3 className={styles.subHeading}>{content.topSchoolsTitle}</h3>
+            )}
+            {content.topSchoolsPara && (
+              <p className={styles.bodyPara}>{content.topSchoolsPara}</p>
+            )}
           </div>
 
           {/* Refund Policy */}
           <div className={`${styles.vintageCard} mt-4`}>
             <span className={styles.cardCorner}>✦</span>
-            <h2 className={styles.sectionTitleCenter}>Refund Policy - AYM Yoga School</h2>
+            <h2 className={styles.sectionTitleCenter}>{content.refundTitle}</h2>
             <OmDivider />
             <div className="row g-3">
-              {[
-                "An advance course fee will not be refundable. Students can join us on other schedules in case of an emergency.",
-                "If students cancel the course, we accept the cancellation, but the advance deposit will not be refunded in cancellation.",
-                "There is no charge for course cancellation. The student has to inform by email.",
-                "AYM Yoga School is not responsible for any mishappenings before the course schedule.",
-              ].map((policy, i) => (
+              {content.refundItems?.map((policy, i) => (
                 <div key={i} className="col-12 col-md-6">
                   <div className={styles.policyItem}>
                     <span className={styles.policyNum}>{i + 1}.</span>

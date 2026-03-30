@@ -1,10 +1,192 @@
-"use client"
-import React, { useEffect, useRef, useState } from "react";
+"use client";
+
+import React, { useState, useEffect } from "react";
 import styles from "@/assets/style/yoga-goa-in-india/Goayogapage.module.css";
 import HowToReach from "@/components/home/Howtoreach";
 import Image from "next/image";
 import heroImg from "@/assets/images/16.webp";
-/* ─── Images (Unsplash / Google) ─── */
+
+/* ─────────────────────────────────────────
+   TYPES
+───────────────────────────────────────── */
+interface Batch {
+  _id: string;
+  startDate: string;
+  endDate: string;
+  usdFee: string;
+  inrFee: string;
+  dormPrice: number;
+  twinPrice: number;
+  privatePrice: number;
+  totalSeats: number;
+  bookedSeats: number;
+  note?: string;
+}
+
+/* ─────────────────────────────────────────
+   HELPERS
+───────────────────────────────────────── */
+function formatDateRange(start: string, end: string): string {
+  const opts: Intl.DateTimeFormatOptions = {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  };
+  const s = new Date(start).toLocaleDateString("en-IN", opts);
+  const e = new Date(end).toLocaleDateString("en-IN", opts);
+  return `${s} - ${e}`;
+}
+
+/* ─────────────────────────────────────────
+   TAB CONFIG  (Goa ke 3 courses)
+───────────────────────────────────────── */
+const COURSE_TABS = [
+  { label: "200 Hour", key: "200hr", apiPath: "/goa-200hr-seats/getAllBatches" },
+  { label: "300 Hour", key: "300hr", apiPath: "/goa-300hr-seats/all" },
+  { label: "500 Hour", key: "500hr", apiPath: "/goa-500hr-seats" },
+] as const;
+
+type TabKey = (typeof COURSE_TABS)[number]["key"];
+
+/* ─────────────────────────────────────────
+   SEAT BOOKING SECTION
+───────────────────────────────────────── */
+function SeatBookingSection() {
+  const [activeTab, setActiveTab] = useState<TabKey>("200hr");
+  const [batchCache, setBatchCache] = useState<Record<string, Batch[]>>({});
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? "";
+
+  const fetchBatches = async (tab: TabKey) => {
+    if (batchCache[tab]) return;
+    const apiPath = COURSE_TABS.find((t) => t.key === tab)?.apiPath;
+    if (!apiPath) return;
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await fetch(`${API_BASE}/api${apiPath}`);
+      const data = await res.json();
+      setBatchCache((prev) => ({ ...prev, [tab]: data?.data || [] }));
+    } catch {
+      setError("Failed to load batches. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchBatches(activeTab);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeTab]);
+
+  const currentBatches: Batch[] = batchCache[activeTab] || [];
+  const activeTabLabel = COURSE_TABS.find((t) => t.key === activeTab)?.label;
+
+  return (
+    <div className={styles.wrapper}>
+      {/* Tab Bar */}
+      <div className={styles.tabBar}>
+        {COURSE_TABS.map((tab) => (
+          <button
+            key={tab.key}
+            className={`${styles.tab} ${activeTab === tab.key ? styles.tabActive : ""}`}
+            onClick={() => setActiveTab(tab.key)}
+          >
+            {tab.label}
+          </button>
+        ))}
+      </div>
+
+      {/* Table Container */}
+      <div className={styles.tableContainer}>
+        {loading ? (
+          <div className={styles.stateBox}>🕉️ Loading batches...</div>
+        ) : error ? (
+          <div className={`${styles.stateBox} ${styles.stateError}`}>{error}</div>
+        ) : currentBatches.length === 0 ? (
+          <div className={styles.stateBox}>
+            No upcoming batches available for {activeTabLabel}.
+          </div>
+        ) : (
+          <div className={styles.tableScroll}>
+            <table className={styles.table}>
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Fee (USD)</th>
+                  <th>Fee (Indian)</th>
+                  <th>Room Price</th>
+                  <th>Seats</th>
+                  <th>Apply</th>
+                </tr>
+              </thead>
+              <tbody>
+                {currentBatches.map((batch) => {
+                  const isFull = batch.bookedSeats >= batch.totalSeats;
+                  const remaining = batch.totalSeats - batch.bookedSeats;
+                  return (
+                    <tr key={batch._id}>
+                      <td className={styles.tdDate}>
+                        <span className={styles.calIcon}>📅</span>{" "}
+                        {formatDateRange(batch.startDate, batch.endDate)}
+                      </td>
+                      <td>{batch.usdFee}</td>
+                      <td>{batch.inrFee}</td>
+                      <td className={styles.tdRoom}>
+                        Dorm <strong className={styles.price}>${batch.dormPrice}</strong>{" "}
+                        | Twin <strong className={styles.price}>${batch.twinPrice}</strong>{" "}
+                        | Private <strong className={styles.price}>${batch.privatePrice}</strong>
+                      </td>
+                      <td>
+                        {isFull ? (
+                          <span className={styles.fullyBooked}>Fully Booked</span>
+                        ) : (
+                          <span className={styles.seatsAvailable}>
+                            {remaining} / {batch.totalSeats} Seats
+                          </span>
+                        )}
+                      </td>
+                      <td>
+                        {isFull ? (
+                          <span className={styles.applyDisabled}>Apply Now</span>
+                        ) : (
+                          <a
+                            href={`/yoga-registration?batchId=${batch._id}&type=${activeTab}`}
+                            className={styles.applyLink}
+                          >
+                            Apply Now
+                          </a>
+                        )}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        )}
+
+        {currentBatches[0]?.note && (
+          <p className={styles.note}>
+            <strong>Note:</strong> {currentBatches[0].note}
+          </p>
+        )}
+
+        <div className={styles.ctaRow}>
+          <a href="#" className={styles.joinBtn}>
+            Join Your Yoga Journey
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ─────────────────────────────────────────
+   IMAGES
+───────────────────────────────────────── */
 const IMG = {
   hero: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=1800&q=85",
   beach1: "https://images.unsplash.com/photo-1515940175183-6798529cb860?w=800&q=80",
@@ -23,17 +205,6 @@ const IMG = {
     { src: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=800&q=80", label: "Sunset Sessions" },
   ],
 };
-
-/* ─── Data ─── */
-const chakras = [
-  { name: "Muladhara", color: "#c0392b", symbol: "◼", meaning: "Root · Stability" },
-  { name: "Svadhisthana", color: "#e67e22", symbol: "◉", meaning: "Sacral · Creativity" },
-  { name: "Manipura", color: "#f1c40f", symbol: "▲", meaning: "Solar Plexus · Power" },
-  { name: "Anahata", color: "#27ae60", symbol: "✦", meaning: "Heart · Love" },
-  { name: "Vishuddha", color: "#2980b9", symbol: "◎", meaning: "Throat · Truth" },
-  { name: "Ajna", color: "#8e44ad", symbol: "◈", meaning: "Third Eye · Intuition" },
-  { name: "Sahasrara", color: "#9b59b6", symbol: "✿", meaning: "Crown · Consciousness" },
-];
 
 const corePrograms = [
   { hrs: "100", tag: "Foundation", desc: "A foundational course for beginners or those looking to deepen their personal practice." },
@@ -90,56 +261,9 @@ const schedule = [
   { time: "10:30 pm", activity: "Lights Out — Good Night" },
 ];
 
-const pricing200 = [
-  { date: "JULY 05–27, 2025", shared: "$849", pvt: "$999" },
-  { date: "AUGUST 05–27, 2025", shared: "$849", pvt: "$999" },
-  { date: "SEPTEMBER 05–27, 2025", shared: "$849", pvt: "$999" },
-  { date: "OCTOBER 05–27, 2025", shared: "$849", pvt: "$999" },
-  { date: "NOVEMBER 05–27, 2025", shared: "$899", pvt: "$1099" },
-  { date: "DECEMBER 05–27, 2025", shared: "$899", pvt: "$1099" },
-  { date: "JANUARY 05–27, 2026", shared: "$899", pvt: "$1099" },
-  { date: "FEBRUARY 05–27, 2026", shared: "$899", pvt: "$1099" },
-  { date: "MARCH 05–27, 2026", shared: "$899", pvt: "$1099" },
-  { date: "APRIL 05–27, 2026", shared: "$899", pvt: "$1099" },
-  { date: "MAY 05–27, 2026", shared: "$899", pvt: "$1099" },
-  { date: "JUN 05–27, 2026", shared: "$899", pvt: "$1099" },
-];
-
-const pricing300 = [
-  { date: "JULY 05–30, 2025", shared: "$949", pvt: "$1099" },
-  { date: "AUGUST 05–30, 2025", shared: "$949", pvt: "$1099" },
-  { date: "SEPTEMBER 05–30, 2025", shared: "$949", pvt: "$1099" },
-  { date: "OCTOBER 05–30, 2025", shared: "$949", pvt: "$1099" },
-  { date: "NOVEMBER 05–30, 2025", shared: "$999", pvt: "$1199" },
-  { date: "DECEMBER 05–30, 2025", shared: "$999", pvt: "$1199" },
-  { date: "JANUARY 05–30, 2026", shared: "$999", pvt: "$1199" },
-  { date: "FEBRUARY 05–30, 2026", shared: "$999", pvt: "$1199" },
-  { date: "MARCH 05–30, 2026", shared: "$999", pvt: "$1199" },
-  { date: "APRIL 05–30, 2026", shared: "$999", pvt: "$1199" },
-  { date: "MAY 05–30, 2026", shared: "$999", pvt: "$1199" },
-  { date: "JUN 05–30, 2026", shared: "$999", pvt: "$1199" },
-];
-
-const pricing500 = [
-  { date: "05 JUNE–30 JULY, 2025", shared: "$1799", pvt: "$2099" },
-  { date: "05 JULY–30 AUG, 2025", shared: "$1799", pvt: "$2099" },
-  { date: "05 AUG–30 SEP, 2025", shared: "$1799", pvt: "$2099" },
-  { date: "05 SEP–30 OCT, 2025", shared: "$1799", pvt: "$2099" },
-  { date: "05 OCT–30 NOV, 2025", shared: "$1799", pvt: "$2099" },
-  { date: "05 NOV–30 DEC, 2025", shared: "$1899", pvt: "$2199" },
-  { date: "05 DEC–30 JAN, 2026", shared: "$1899", pvt: "$2199" },
-  { date: "05 JAN–02 MAR, 2026", shared: "$1899", pvt: "$2199" },
-  { date: "05 FEB–30 MAR, 2026", shared: "$1899", pvt: "$2199" },
-  { date: "05 MAR–30 APR, 2026", shared: "$1899", pvt: "$2199" },
-  { date: "05 APR–30 MAY, 2026", shared: "$1899", pvt: "$2199" },
-  { date: "05 MAY–30 JUNE, 2026", shared: "$1899", pvt: "$2199" },
-];
-
 /* ════════════════ MAIN COMPONENT ════════════════ */
 export default function GoaYogaPage() {
-  const [activeTab, setActiveTab] = useState<"200" | "300" | "500">("200");
   const [modal, setModal] = useState<{ src: string; label: string } | null>(null);
-  const [chakraHover, setChakraHover] = useState<number | null>(null);
 
   useEffect(() => {
     const obs = new IntersectionObserver(
@@ -150,18 +274,11 @@ export default function GoaYogaPage() {
     return () => obs.disconnect();
   }, []);
 
-  /* Close modal on Escape */
   useEffect(() => {
     const handler = (e: KeyboardEvent) => { if (e.key === "Escape") setModal(null); };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
   }, []);
-
-  const pricingData = activeTab === "200" ? pricing200 : activeTab === "300" ? pricing300 : pricing500;
-  const pricingLabel = activeTab === "200" ? "200 Hour Yoga TTC in GOA — 2025 & 2026"
-    : activeTab === "300" ? "300 Hour Yoga TTC in GOA — 2025 & 2026"
-    : "500 Hour Yoga Teacher Training in Goa 2025 & 2026";
-  const bookLabel = activeTab === "500" ? "Reserve Your Spot" : "Book Your Spot";
 
   return (
     <div className={styles.page}>
@@ -172,7 +289,7 @@ export default function GoaYogaPage() {
       </div>
 
       {/* ════════ HERO ════════ */}
-     <section className={styles.heroSection}>
+      <section className={styles.heroSection}>
         <Image
           src={heroImg}
           alt="Yoga Students Group"
@@ -237,7 +354,6 @@ export default function GoaYogaPage() {
             </p>
           </div>
 
-          {/* Core Programs */}
           <div className={`${styles.reveal}`}>
             <h3 className={styles.subHeading}>Core Yoga Teacher Training Programs</h3>
             <div className={styles.programsGrid}>
@@ -247,13 +363,12 @@ export default function GoaYogaPage() {
                   <div className={styles.programTag}>{p.tag}</div>
                   <h4 className={styles.programTitle}>{p.hrs}-Hour Yoga Teacher Training in Goa</h4>
                   <p className={styles.programDesc}>{p.desc}</p>
-                  <a href="#pricing" className={styles.programLink}>View Dates & Fees →</a>
+                  <a href="#dates" className={styles.programLink}>View Dates & Fees →</a>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Specialized */}
           <div className={`${styles.reveal} ${styles.specialWrap}`}>
             <h3 className={styles.subHeading}>Specialized Programs: Yoga & Sound Healing</h3>
             <div className={styles.specialGrid}>
@@ -267,7 +382,6 @@ export default function GoaYogaPage() {
             </div>
           </div>
 
-          {/* Arambol description + 3 beach photos */}
           <div className={`${styles.reveal} ${styles.arambolBox}`}>
             <p className={styles.paraCenter}>
               AYM Yoga School in Goa is located at Arambol. Arambol Beach is a beautiful and serene destination located in Goa, India. It is known for its cleanliness, greenery, and tranquil atmosphere. The beach is a popular spot for yoga enthusiasts, offering a perfect setting for yoga practice. With its pristine waters, soft sand, and breathtaking sunsets, Arambol Beach is a must-visit destination for anyone looking to experience the beauty of Goa.
@@ -306,7 +420,6 @@ export default function GoaYogaPage() {
             ))}
           </div>
 
-          {/* Best time */}
           <div className={`${styles.reveal} ${styles.bestTimeBox}`}>
             <h3 className={styles.subHeading}>When is the best time to attend the yoga teachers' training course in Goa?</h3>
             <OmDivider align="left" />
@@ -337,7 +450,6 @@ export default function GoaYogaPage() {
             ))}
           </div>
 
-          {/* Main Focus */}
           <div className={`${styles.reveal} ${styles.focusSection}`}>
             <h3 className={styles.subHeading}>Main Focus on Yoga Teacher Training in Goa</h3>
             <OmDivider align="left" />
@@ -349,29 +461,6 @@ export default function GoaYogaPage() {
                 <span key={f} className={styles.focusChip}>{f}</span>
               ))}
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ════════ CHAKRAS SECTION ════════ */}
-      <section className={`${styles.section} ${styles.chakraSection}`}>
-        <div className={styles.chakraMandala} aria-hidden="true"><MandalaFull size={550} opacity={0.07} /></div>
-        <div className={styles.container}>
-          <div className={`${styles.reveal} ${styles.centered}`}>
-            <span className={styles.superLabel}>Sacred Energy</span>
-            <h2 className={styles.sectionTitle}>Seven Chakras of the Body</h2>
-            <OmDivider />
-            <p className={styles.paraCenter}>Understanding and balancing the 7 chakras is at the heart of our yoga philosophy curriculum.</p>
-          </div>
-          <div className={`${styles.reveal} ${styles.chakraCardsGrid}`}>
-            {chakras.map((c) => (
-              <div key={c.name} className={styles.chakraCard} style={{ "--cc": c.color } as React.CSSProperties}>
-                <div className={styles.chakraCardTop} />
-                <div className={styles.chakraGlyph}>{c.symbol}</div>
-                <h4 className={styles.chakraCardName}>{c.name}</h4>
-                <p className={styles.chakraCardMeaning}>{c.meaning}</p>
-              </div>
-            ))}
           </div>
         </div>
       </section>
@@ -402,59 +491,27 @@ export default function GoaYogaPage() {
         </div>
       </section>
 
-      {/* ════════ PRICING ════════ */}
-      <section id="pricing" className={styles.section}>
-        <div className={styles.mandalaBg} style={{ right: "auto", left: "-100px" }} aria-hidden="true">
-          <MandalaRing size={500} opacity={0.05} />
-        </div>
+      {/* ════════ SEAT BOOKING — 500hr same design ════════ */}
+      <section className={styles.section} id="dates">
         <div className={styles.container}>
+          <OmDivider />
           <div className={`${styles.reveal} ${styles.centered}`}>
             <span className={styles.superLabel}>Investment</span>
-            <h2 className={styles.sectionTitle}>Course Fees & Dates</h2>
+            <h2 className={styles.sectionTitle}>Yoga Teacher Training Goa<br />— Upcoming Batches</h2>
             <OmDivider />
           </div>
-          {/* Tabs */}
-          <div className={`${styles.reveal} ${styles.pricingTabs}`}>
-            {(["200", "300", "500"] as const).map((t) => (
-              <button key={t} className={`${styles.tab} ${activeTab === t ? styles.tabActive : ""}`}
-                onClick={() => setActiveTab(t)}>{t}-Hour</button>
-            ))}
-          </div>
-          <div className={`${styles.reveal} ${styles.tableWrapper}`}>
-            <h3 className={styles.tableTitle}>{pricingLabel}</h3>
-            <div className={styles.tableScroll}>
-              <table className={styles.pricingTable}>
-                <thead>
-                  <tr>
-                    <th>Date</th>
-                    <th>Price: Shared Accom.</th>
-                    <th>Price: Private Accom</th>
-                    <th>Availability</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {pricingData.map((row, i) => (
-                    <tr key={i}>
-                      <td>{row.date}</td>
-                      <td className={styles.priceCell}>
-                        <span className={styles.oldPrice}>{activeTab === "200" ? "$1199" : activeTab === "300" ? "$1799" : "$3199"}</span>
-                        {" "}<strong>{row.shared}</strong>
-                      </td>
-                      <td className={styles.priceCell}>
-                        <span className={styles.oldPrice}>{activeTab === "200" ? "$1499" : activeTab === "300" ? "$1899" : "$3299"}</span>
-                        {" "}<strong>{row.pvt}</strong>
-                      </td>
-                      <td><span className={styles.available}>Available</span></td>
-                    </tr>
-                  ))}
-                  <tr className={styles.bookRow}>
-                    <td><strong>{bookLabel}</strong></td>
-                    <td colSpan={2} className={styles.bookMid}>Register your spot – Pay advance fee ($110)</td>
-                    <td><a href="#apply" className={styles.btnPrimary} style={{ fontSize: "0.72rem", padding: "0.55rem 1.2rem" }}>💳 Payments Page</a></td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+
+          <SeatBookingSection />
+
+          <div className={styles.tableNote}>
+            <p>
+              <strong>Note:</strong> Course Fee includes Dormitory Stay and Food. For accommodation upgrades,{" "}
+              <a href="mailto:aymyogaschool@gmail.com" className={styles.emailLink}>email us</a>.
+              Available accommodation categories: Shared, Private and Luxury.
+            </p>
+            <p>
+              Airport pickup from Goa airport to Arambol Yoga School will cost extra. Contact us for details.
+            </p>
           </div>
         </div>
       </section>
@@ -487,7 +544,6 @@ export default function GoaYogaPage() {
       <section id="apply" className={styles.section}>
         <div className={styles.container}>
           <div className={`${styles.reveal} ${styles.infoGrid}`}>
-            {/* Address */}
             <div className={styles.infoCard}>
               <span className={styles.infoIcon}>📍</span>
               <h3 className={styles.infoTitle}>Address</h3>
@@ -502,7 +558,6 @@ export default function GoaYogaPage() {
               </address>
             </div>
 
-            {/* How to reach */}
             <div className={styles.infoCard}>
               <span className={styles.infoIcon}>✈️</span>
               <h3 className={styles.infoTitle}>How to reach Arambol Beach, Goa</h3>
@@ -512,7 +567,6 @@ export default function GoaYogaPage() {
               </p>
             </div>
 
-            {/* How to Apply */}
             <div className={styles.infoCard}>
               <span className={styles.infoIcon}>📝</span>
               <h3 className={styles.infoTitle}>How to Apply</h3>
@@ -527,7 +581,6 @@ export default function GoaYogaPage() {
               </div>
             </div>
 
-            {/* Refund */}
             <div className={styles.infoCard}>
               <span className={styles.infoIcon}>🔄</span>
               <h3 className={styles.infoTitle}>Refund Rules</h3>
@@ -552,15 +605,14 @@ export default function GoaYogaPage() {
             <h2 className={styles.footerTitle}>Begin Your Sacred Journey in Goa</h2>
             <p className={styles.footerSub}>Join thousands of students who have transformed their lives at AYM Yoga School on the pristine beaches of Arambol</p>
             <div className={styles.heroBtns}>
-              <a href="#pricing" className={styles.btnPrimary}>View Dates & Fees</a>
+              <a href="#dates" className={styles.btnPrimary}>View Dates & Fees</a>
               <a href="mailto:aymyogaschool@gmail.com" className={styles.btnOutline}>Email Us</a>
             </div>
           </div>
         </div>
       </section>
 
-      <HowToReach/>
-
+      <HowToReach />
 
       {/* ════════ MODAL ════════ */}
       {modal && (
@@ -581,7 +633,6 @@ export default function GoaYogaPage() {
 }
 
 /* ─── SHARED SUB-COMPONENTS ─── */
-
 function OmDivider({ align = "center" }: { align?: "center" | "left" }) {
   return (
     <div className={styles.omDivider} style={{ justifyContent: align === "left" ? "flex-start" : "center" }}>
@@ -603,17 +654,12 @@ function MandalaRing({ size = 300, opacity = 0.08 }: { size?: number; opacity?: 
         {rings.map((r, i) => <circle key={i} cx={c} cy={c} r={r} />)}
         {Array.from({ length: spokes }).map((_, i) => {
           const a = (i / spokes) * 2 * Math.PI;
-          return <line key={i}
-            x1={c + rings[2] * Math.cos(a)} y1={c + rings[2] * Math.sin(a)}
-            x2={c + rings[0] * Math.cos(a)} y2={c + rings[0] * Math.sin(a)} />;
+          return <line key={i} x1={c + rings[2] * Math.cos(a)} y1={c + rings[2] * Math.sin(a)} x2={c + rings[0] * Math.cos(a)} y2={c + rings[0] * Math.sin(a)} />;
         })}
         {Array.from({ length: petals }).map((_, i) => {
           const a = (i / petals) * 2 * Math.PI;
           const r = rings[1];
-          return <ellipse key={i}
-            cx={c + r * Math.cos(a)} cy={c + r * Math.sin(a)}
-            rx={size * 0.07} ry={size * 0.025}
-            transform={`rotate(${(i / petals) * 360} ${c + r * Math.cos(a)} ${c + r * Math.sin(a)})`} />;
+          return <ellipse key={i} cx={c + r * Math.cos(a)} cy={c + r * Math.sin(a)} rx={size * 0.07} ry={size * 0.025} transform={`rotate(${(i / petals) * 360} ${c + r * Math.cos(a)} ${c + r * Math.sin(a)})`} />;
         })}
       </g>
     </svg>
@@ -636,9 +682,7 @@ function MandalaFull({ size = 600, opacity = 0.05 }: { size?: number; opacity?: 
         {[8, 16].map((n, ni) => Array.from({ length: n }).map((_, i) => {
           const a = (i / n) * 2 * Math.PI;
           const r = size * (ni === 0 ? 0.32 : 0.2);
-          return <ellipse key={`${ni}-${i}`} cx={r * Math.cos(a)} cy={r * Math.sin(a)}
-            rx={size * (ni === 0 ? 0.065 : 0.04)} ry={size * 0.02}
-            transform={`rotate(${(i / n) * 360} ${r * Math.cos(a)} ${r * Math.sin(a)})`} />;
+          return <ellipse key={`${ni}-${i}`} cx={r * Math.cos(a)} cy={r * Math.sin(a)} rx={size * (ni === 0 ? 0.065 : 0.04)} ry={size * 0.02} transform={`rotate(${(i / n) * 360} ${r * Math.cos(a)} ${r * Math.sin(a)})`} />;
         }))}
       </g>
     </svg>

@@ -872,7 +872,7 @@ export default function AddEditAshtangaVinyasaPage() {
 
       setSubmitted(true);
       setTimeout(
-        () => router.push("/admin/yogacourse/vinyasa-teacher-training"),
+        () => router.push("/admin/yogacourse/vinyasa-yoga-course/vinyasa-teacher-training"),
         1500,
       );
     } catch (e: any) {
@@ -914,7 +914,7 @@ export default function AddEditAshtangaVinyasaPage() {
         <button
           className={styles.breadcrumbLink}
           onClick={() =>
-            router.push("/admin/yogacourse/vinyasa-teacher-training")
+            router.push("/admin/yogacourse/vinyasa-yoga-course/vinyasa-teacher-training")
           }
         >
           Ashtanga Vinyasa TTC
@@ -1472,7 +1472,7 @@ export default function AddEditAshtangaVinyasaPage() {
       {/* ── Actions ── */}
       <div className={styles.formActions}>
         <Link
-          href="/admin/yogacourse/vinyasa-teacher-training"
+          href="/admin/yogacourse/vinyasa-yoga-course/vinyasa-teacher-training"
           className={styles.cancelBtn}
         >
           ← Cancel

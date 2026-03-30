@@ -4,6 +4,7 @@ import styles from "@/assets/style/hatha-yoga-teacher-training-Rishikesh/Hathayo
 import HowToReach from "@/components/home/Howtoreach";
 import Image from "next/image";
 import heroImg from "@/assets/images/15.webp";
+
 /* ── Google / Unsplash image URLs ── */
 const IMG = {
   hero: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=1600&q=80",
@@ -20,45 +21,6 @@ const IMG = {
 };
 
 /* ── Chakra data ── */
-const chakras = [
-  {
-    name: "Muladhara",
-    color: "#c0392b",
-    symbol: "◼",
-    meaning: "Root — Stability",
-  },
-  {
-    name: "Svadhisthana",
-    color: "#e67e22",
-    symbol: "◉",
-    meaning: "Sacral — Creativity",
-  },
-  {
-    name: "Manipura",
-    color: "#f1c40f",
-    symbol: "▲",
-    meaning: "Solar Plexus — Power",
-  },
-  { name: "Anahata", color: "#27ae60", symbol: "✦", meaning: "Heart — Love" },
-  {
-    name: "Vishuddha",
-    color: "#2980b9",
-    symbol: "◎",
-    meaning: "Throat — Truth",
-  },
-  {
-    name: "Ajna",
-    color: "#8e44ad",
-    symbol: "◈",
-    meaning: "Third Eye — Intuition",
-  },
-  {
-    name: "Sahasrara",
-    color: "#9b59b6",
-    symbol: "✿",
-    meaning: "Crown — Consciousness",
-  },
-];
 
 /* ── Benefits ── */
 const benefits = [
@@ -85,38 +47,13 @@ const courseDetails = [
   "Tests and assessments to keep track of learning progress",
 ];
 
-/* ── Pricing ── */
-const pricing = [
-  {
-    date: "05th Jan to 29th Jan 2026",
-    dorm: "$749",
-    shared: "$999",
-    pvt: "$1099",
-  },
-  {
-    date: "03rd Feb to 27th Feb 2026",
-    dorm: "$749",
-    shared: "$999",
-    pvt: "$1099",
-  },
-  {
-    date: "03rd Mar to 27th Mar 2026",
-    dorm: "$749",
-    shared: "$999",
-    pvt: "$1099",
-  },
-  {
-    date: "03rd Apr to 27th Apr 2026",
-    dorm: "$749",
-    shared: "$999",
-    pvt: "$1099",
-  },
-  {
-    date: "03rd May to 27th May 2026",
-    dorm: "$749",
-    shared: "$999",
-    pvt: "$1099",
-  },
+/* ── Pricing data (200hr style) ── */
+const pricingData = [
+  { date: "05th Jan to 29th Jan 2026", usdFee: "$1,099", inrFee: "₹45,000", dormPrice: 749, twinPrice: 999, privatePrice: 1099, totalSeats: 20, bookedSeats: 8 },
+  { date: "03rd Feb to 27th Feb 2026", usdFee: "$1,099", inrFee: "₹45,000", dormPrice: 749, twinPrice: 999, privatePrice: 1099, totalSeats: 20, bookedSeats: 12 },
+  { date: "03rd Mar to 27th Mar 2026", usdFee: "$1,099", inrFee: "₹45,000", dormPrice: 749, twinPrice: 999, privatePrice: 1099, totalSeats: 20, bookedSeats: 20 },
+  { date: "03rd Apr to 27th Apr 2026", usdFee: "$1,099", inrFee: "₹45,000", dormPrice: 749, twinPrice: 999, privatePrice: 1099, totalSeats: 20, bookedSeats: 5 },
+  { date: "03rd May to 27th May 2026", usdFee: "$1,099", inrFee: "₹45,000", dormPrice: 749, twinPrice: 999, privatePrice: 1099, totalSeats: 20, bookedSeats: 0 },
 ];
 
 /* ════════════════════════════════════════════
@@ -148,7 +85,8 @@ export default function HathaYogaPage() {
       <div className={styles.mandalaWatermark} aria-hidden="true">
         <MandalaSVG opacity={0.04} size={700} />
       </div>
-<section className={styles.heroSection}>
+
+      <section className={styles.heroSection}>
         <Image
           src={heroImg}
           alt="Yoga Students Group"
@@ -158,7 +96,6 @@ export default function HathaYogaPage() {
           priority
         />
       </section>
-      
 
       {/* ══════════════════════ INTRO ══════════════════════ */}
       <section className={`${styles.section} ${styles.introSection}`}>
@@ -178,9 +115,7 @@ export default function HathaYogaPage() {
               </p>
               <p className={styles.para}>
                 At AYM Yoga School, we are recognized globally for our{" "}
-                <strong>
-                  200 Hour Hatha Yoga Teacher Training in Rishikesh
-                </strong>
+                <strong>200 Hour Hatha Yoga Teacher Training in Rishikesh</strong>
                 , designed to help you master the foundations of Hatha yoga
                 while deepening your spiritual and teaching journey.
               </p>
@@ -193,9 +128,7 @@ export default function HathaYogaPage() {
               </p>
               <p className={styles.paraSmall}>
                 Looking to explore deeper paths? We also offer{" "}
-                <strong>
-                  300-Hour and 500-Hour Hatha Yoga Teacher Training
-                </strong>{" "}
+                <strong>300-Hour and 500-Hour Hatha Yoga Teacher Training</strong>{" "}
                 in Rishikesh, ideal for those wanting to refine their personal
                 practice and become internationally recognized instructors.
               </p>
@@ -247,9 +180,7 @@ export default function HathaYogaPage() {
             <p className={styles.paraCenter}>
               If you seek meditative practices or in-depth knowledge of yoga's
               physical and energetic aspects, enrol in our{" "}
-              <strong>
-                200 hour Hatha yoga teacher training in Rishikesh.
-              </strong>{" "}
+              <strong>200 hour Hatha yoga teacher training in Rishikesh.</strong>{" "}
               We are licensed and registered with Yoga Alliance and provide
               top-rated courses based on theoretical and practical learning
               methods.
@@ -257,20 +188,7 @@ export default function HathaYogaPage() {
           </div>
 
           {/* Chakra Grid */}
-          <div className={`${styles.reveal} ${styles.chakraGrid}`}>
-            {chakras.map((c) => (
-              <div
-                key={c.name}
-                className={styles.chakraCard}
-                style={{ "--c": c.color } as React.CSSProperties}
-              >
-                <div className={styles.chakraGlyph}>{c.symbol}</div>
-                <h4 className={styles.chakraName}>{c.name}</h4>
-                <p className={styles.chakraMeaning}>{c.meaning}</p>
-                <div className={styles.chakraBar} />
-              </div>
-            ))}
-          </div>
+         
         </div>
       </section>
 
@@ -285,9 +203,7 @@ export default function HathaYogaPage() {
               <p className={styles.para}>
                 It may not always be the right decision to learn yoga. Before
                 you decide to take up the{" "}
-                <strong>
-                  Hatha yoga teacher training course program in Rishikesh
-                </strong>
+                <strong>Hatha yoga teacher training course program in Rishikesh</strong>
                 , let us tell you why you should stick to this decision.
               </p>
               <ol className={styles.benefitsList}>
@@ -305,7 +221,7 @@ export default function HathaYogaPage() {
               <div className={styles.imageFrameTall}>
                 <img src={IMG.ashram} alt="Yoga Ashram Rishikesh" />
               </div>
-              <div className={`${styles.pullQuote}`}>
+              <div className={styles.pullQuote}>
                 <span className={styles.quoteGlyph}>"</span>
                 Yoga is not about touching your toes. It is what you learn on
                 the way down.
@@ -335,33 +251,16 @@ export default function HathaYogaPage() {
               conduct regular tests and assessments to ensure students know
               everything. Once the course is complete, we reward the knowledge
               and expertise of our students by offering them{" "}
-              <strong>
-                hatha yoga teacher training certification in India
-              </strong>
+              <strong>hatha yoga teacher training certification in India</strong>
               . Our certification can be used anywhere in the world to start
               one's career as a professional.
             </p>
           </div>
           <div className={`${styles.reveal} ${styles.certCards}`}>
             {[
-              {
-                h: "200 Hour",
-                sub: "Foundation Programme",
-                img: IMG.pose200,
-                href: "#200hr",
-              },
-              {
-                h: "300 Hour",
-                sub: "Advanced Programme",
-                img: IMG.pose300,
-                href: "#300hr",
-              },
-              {
-                h: "500 Hour",
-                sub: "Master Programme",
-                img: IMG.pose500,
-                href: "#500hr",
-              },
+              { h: "200 Hour", sub: "Foundation Programme", img: IMG.pose200, href: "#200hr" },
+              { h: "300 Hour", sub: "Advanced Programme",   img: IMG.pose300, href: "#300hr" },
+              { h: "500 Hour", sub: "Master Programme",     img: IMG.pose500, href: "#500hr" },
             ].map((c) => (
               <a key={c.h} href={c.href} className={styles.certCard}>
                 <div className={styles.certCardImg}>
@@ -459,7 +358,9 @@ export default function HathaYogaPage() {
         <div className={styles.pricingBg} aria-hidden="true">
           <MandalaRingSVG size={800} opacity={0.04} />
         </div>
+
         <div className={styles.container}>
+          {/* Heading */}
           <div className={`${styles.reveal} ${styles.centered}`}>
             <p className={styles.superLabel}>Enrolment</p>
             <h2 className={styles.sectionTitle}>
@@ -478,42 +379,86 @@ export default function HathaYogaPage() {
             </p>
           </div>
 
-          <div className={`${styles.reveal} ${styles.tableWrapper}`}>
-            <table className={styles.pricingTable}>
-              <thead>
-                <tr>
-                  <th>Date</th>
-                  <th>Dormitory</th>
-                  <th>Shared Room</th>
-                  <th>Private Room</th>
-                  <th>Availability</th>
-                </tr>
-              </thead>
-              <tbody>
-                {pricing.map((row, i) => (
-                  <tr key={i}>
-                    <td>{row.date}</td>
-                    <td className={styles.price}>{row.dorm}</td>
-                    <td className={styles.price}>{row.shared}</td>
-                    <td className={styles.price}>{row.pvt}</td>
-                    <td>
-                      <span className={styles.available}>Available</span>
-                    </td>
+          {/* ── Table (200hr style) ── */}
+          <div className={`${styles.reveal} ${styles.tableContainer}`}>
+            <CornerOrnament pos="tl" />
+            <CornerOrnament pos="tr" />
+            <CornerOrnament pos="bl" />
+            <CornerOrnament pos="br" />
+
+            <div className={styles.tableScroll}>
+              <table className={styles.datesTable}>
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>FEE</th>
+                    <th>FEE (Indian)</th>
+                    <th>Room Price</th>
+                    <th>Seats</th>
+                    <th>Apply</th>
                   </tr>
-                ))}
-                <tr className={styles.bookRow}>
-                  <td>
-                    <strong>Book Your Spot</strong>
-                  </td>
-                  <td colSpan={2}>Register your spot by Paying $110 only</td>
-                  <td colSpan={2}>
-                    <a href="#" className={styles.btnPrimary}>
-                      💳 Payments Page
-                    </a>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {pricingData.map((row, i) => {
+                    const isFull = row.bookedSeats >= row.totalSeats;
+                    return (
+                      <tr key={i}>
+                        <td className={styles.dateCell}>
+                          <span className={styles.dateCal}>📅</span> {row.date}
+                        </td>
+                        <td>{row.usdFee}</td>
+                        <td>{row.inrFee}</td>
+                        <td className={styles.roomPriceCell}>
+                          Dorm{" "}
+                          <strong className={styles.priceAmt}>
+                            ${row.dormPrice}
+                          </strong>{" "}
+                          | Twin{" "}
+                          <strong className={styles.priceAmt}>
+                            ${row.twinPrice}
+                          </strong>{" "}
+                          | Private{" "}
+                          <strong className={styles.priceAmt}>
+                            ${row.privatePrice}
+                          </strong>
+                        </td>
+                        <td>
+                          <SeatsCell
+                            booked={row.bookedSeats}
+                            total={row.totalSeats}
+                          />
+                        </td>
+                        <td>
+                          {isFull ? (
+                            <span className={styles.applyDisabled}>
+                              Apply Now
+                            </span>
+                          ) : (
+                            <a
+                              href="/yoga-registration?type=hatha"
+                              className={styles.applyLink}
+                            >
+                              Apply Now
+                            </a>
+                          )}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+
+            <p className={styles.tableNote}>
+              <strong>Note:</strong> Register your spot by paying $110 only as
+              advance deposit.
+            </p>
+
+            <div style={{ textAlign: "center", padding: "1rem 0 0.5rem" }}>
+              <a href="#" className={styles.joinBtn}>
+                Join Your Yoga Journey
+              </a>
+            </div>
           </div>
 
           {/* Programme overview */}
@@ -524,15 +469,14 @@ export default function HathaYogaPage() {
               courses available for novices, whereas we have 300 hour courses
               for advanced learners. Anyone who wants to complete the course
               thoroughly and develop a career as a yoga practitioner can take up
-              the <strong>500 hour yoga teacher training in India</strong>.
+              the{" "}
+              <strong>500 hour yoga teacher training in India</strong>.
             </p>
             <p className={styles.para}>
               Our syllabus for each programme is created uniquely by our
               certified instructors, who aim to meet the global standard. At the
               end of the course, students are offered a{" "}
-              <strong>
-                recognized hatha yoga teacher training certification
-              </strong>
+              <strong>recognized hatha yoga teacher training certification</strong>
               , which proves their expertise in the area — enabling them to
               kickstart their careers anywhere across the globe.
             </p>
@@ -587,6 +531,76 @@ function OrnamentDivider() {
   );
 }
 
+function CornerOrnament({ pos }: { pos: "tl" | "tr" | "bl" | "br" }) {
+  const flip = {
+    tl: "scale(1,1)",
+    tr: "scale(-1,1)",
+    bl: "scale(1,-1)",
+    br: "scale(-1,-1)",
+  }[pos];
+  return (
+    <svg
+      viewBox="0 0 40 40"
+      className={styles.cornerOrn}
+      style={{ transform: flip }}
+    >
+      <path
+        d="M2,2 L2,18 M2,2 L18,2"
+        stroke="#b8860b"
+        strokeWidth="1.5"
+        fill="none"
+      />
+      <path
+        d="M2,2 Q8,8 16,2 Q8,8 2,16"
+        stroke="#b8860b"
+        strokeWidth="0.7"
+        fill="none"
+      />
+      <circle cx="2" cy="2" r="2" fill="#b8860b" opacity="0.7" />
+      <circle cx="10" cy="10" r="1.5" fill="#b8860b" opacity="0.4" />
+    </svg>
+  );
+}
+
+function BorderStrip() {
+  return (
+    <div className={styles.borderStrip}>
+      <svg
+        viewBox="0 0 800 14"
+        preserveAspectRatio="none"
+        className={styles.borderSvg}
+      >
+        {Array.from({ length: 40 }, (_, i) => {
+          const x = i * 20 + 10;
+          return (
+            <g key={i}>
+              <polygon
+                points={`${x},7 ${x + 6},2 ${x + 12},7 ${x + 6},12`}
+                fill="none"
+                stroke="#b8860b"
+                strokeWidth="0.8"
+              />
+              <circle cx={x + 6} cy={7} r="1.2" fill="#b8860b" opacity="0.7" />
+            </g>
+          );
+        })}
+        <line x1="0" y1="7" x2="800" y2="7" stroke="#e07b00" strokeWidth="0.3" />
+      </svg>
+    </div>
+  );
+}
+
+function SeatsCell({ booked, total }: { booked: number; total: number }) {
+  const isFull = booked >= total;
+  const remaining = total - booked;
+  if (isFull) return <span className={styles.fullyBooked}>Fully Booked</span>;
+  return (
+    <span className={styles.seatsAvailable}>
+      {remaining} / {total} Seats
+    </span>
+  );
+}
+
 function MandalaRingSVG({
   size = 300,
   opacity = 0.08,
@@ -632,7 +646,9 @@ function MandalaRingSVG({
               cy={(y1 + y2) / 2}
               rx={14}
               ry={5}
-              transform={`rotate(${(i / 8) * 360} ${(x1 + x2) / 2} ${(y1 + y2) / 2})`}
+              transform={`rotate(${(i / 8) * 360} ${(x1 + x2) / 2} ${
+                (y1 + y2) / 2
+              })`}
             />
           );
         })}

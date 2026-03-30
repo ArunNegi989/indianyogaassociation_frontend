@@ -1,6 +1,8 @@
 /* ================================================================
    PregnancyYogaTTC.module.css
    Vintage Parchment × Saffron × Mandala
+   + 200hr-style Batch Table (tableContainer, datesTable,
+     seatsAvailable, fullyBooked, applyLink, roomPriceCell …)
    Breakpoints: 380 / 576 / 768 / 992 / 1200 / 1400px
    ================================================================ */
 
@@ -25,7 +27,15 @@
   --shadow-md:  rgba(42,21,5,.18);
   --glow:       rgba(224,123,0,.22);
   --glow-gold:  rgba(212,160,23,.28);
+  --cream:      #fdf8ee;
+  --maroon:     #6b1a00;
+  --saffron-bright: #e07b00;
+  --saffron-gold:   #b8860b;
+  --font-display:   'Cinzel', serif;
+  --font-body:      'Cormorant Garamond', serif;
 }
+
+/* ── HERO ── */
 .heroSection {
   position: relative;
   z-index: 1;
@@ -34,13 +44,13 @@
   padding: 0;
   line-height: 0;
 }
-
 .heroImage {
   width: 100%;
   height: auto;
   display: block;
   object-fit: contain;
 }
+
 /* ── PAGE ── */
 .page {
   font-family: 'Cormorant Garamond', serif;
@@ -73,7 +83,6 @@
 
 @keyframes spin  { to{transform:rotate(360deg);} }
 @keyframes pulse { 0%,100%{opacity:.7;transform:translateX(-50%) scale(1);} 50%{opacity:1;transform:translateX(-50%) scale(1.07);} }
-@keyframes fadeInUp { from{opacity:0;transform:translateY(24px);} to{opacity:1;transform:translateY(0);} }
 
 /* ── SECTIONS ── */
 .section { padding:clamp(2.5rem,6vw,5rem) 0; position:relative; z-index:1; }
@@ -211,46 +220,189 @@
   border-radius:3px; pointer-events:none;
 }
 
-/* ── AVAILABILITY TABLE ── */
-.tableWrap {
-  border-radius:7px; overflow:hidden;
-  box-shadow:0 6px 26px var(--shadow-md);
-  border:1px solid var(--border);
-  margin-bottom:2.5rem;
+/* ══════════════════════════════════════════════
+   CORNER ORNAMENT (same as 200hr)
+══════════════════════════════════════════════ */
+.cornerOrn {
+  position: absolute;
+  width: 38px;
+  height: 38px;
+  z-index: 5;
+  pointer-events: none;
 }
-.schedTable { width:100%; border-collapse:collapse; background:#fff; }
-.schedTable thead tr { background:linear-gradient(135deg,var(--saffron) 0%,var(--saffron-dk) 100%); }
-.schedTable thead th {
-  font-family:'Cinzel',serif; font-weight:700;
-  font-size:clamp(.64rem,1.1vw,.8rem); color:#fff;
-  padding:.85rem 1rem; text-align:center;
-  letter-spacing:.07em; white-space:nowrap; border:none;
+
+/* ══════════════════════════════════════════════
+   BATCH TABLE CONTAINER (same as 200hr)
+══════════════════════════════════════════════ */
+.tableContainer {
+  position: relative;
+  border: 2px solid var(--saffron-gold);
+  border-radius: 2px;
+  background: linear-gradient(160deg, #fdf5e0 0%, #fff9eb 100%);
+  box-shadow: inset 0 0 0 5px rgba(184, 134, 11, 0.1), 0 6px 30px var(--shadow-md);
+  padding: 0.4rem;
+  margin-bottom: 2.5rem;
 }
-.schedTable thead th:first-child { text-align:left; min-width:170px; }
-.schedTable tbody tr:nth-child(even) { background:rgba(255,253,245,.9); }
-.schedTable tbody tr:nth-child(odd)  { background:rgba(245,232,200,.35); }
-.schedTable tbody tr { transition:background .15s; }
-.schedTable tbody tr:hover:not(.bookRow) { background:rgba(224,123,0,.06); }
-.schedTable td {
-  padding:.65rem 1rem; text-align:center;
-  font-size:clamp(.78rem,1.3vw,.9rem);
-  color:var(--ink); border-bottom:1px solid var(--border-lt);
+
+.tableContainer .cornerOrn:nth-child(1) { top: 4px; left: 4px; }
+.tableContainer .cornerOrn:nth-child(2) { top: 4px; right: 4px; }
+.tableContainer .cornerOrn:nth-child(3) { bottom: 4px; left: 4px; }
+.tableContainer .cornerOrn:nth-child(4) { bottom: 4px; right: 4px; }
+
+.tableScroll { overflow-x: auto; }
+
+/* ── DATES TABLE (exact same as 200hr) ── */
+.datesTable {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 780px;
 }
-.schedTable td:first-child { text-align:left; }
-.availCell { color:var(--saffron); font-weight:700; font-family:'Cinzel',serif; }
-.bookRow td { font-weight:700; background:rgba(245,232,195,.6)!important; border-top:2px solid var(--border); }
-.bookLabel  { font-family:'Cinzel',serif; color:var(--ink-md); }
-.payBtn {
-  display:inline-block;
-  font-family:'Cinzel',serif; font-size:clamp(.64rem,1vw,.76rem);
-  font-weight:700; letter-spacing:.08em;
-  text-decoration:none; color:#fff;
-  background:linear-gradient(135deg,var(--saffron),var(--saffron-dk));
-  padding:.4rem 1.1rem; border-radius:3px;
-  box-shadow:0 3px 12px var(--glow);
-  transition:transform .2s,box-shadow .2s;
+
+.datesTable thead tr {
+  background: linear-gradient(135deg, var(--saffron-bright) 0%, var(--saffron-dk) 100%);
 }
-.payBtn:hover { transform:translateY(-2px); box-shadow:0 6px 18px var(--glow); color:#fff; }
+
+.datesTable thead th {
+  font-family: var(--font-display);
+  font-size: 0.82rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--cream);
+  padding: 0.9rem 1rem;
+  text-align: center;
+  font-weight: 600;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.datesTable tbody tr {
+  border-bottom: 1px solid rgba(184, 134, 11, 0.15);
+  transition: background 0.2s;
+}
+
+.datesTable tbody tr:nth-child(odd)  { background: rgba(245, 230, 200, 0.6); }
+.datesTable tbody tr:nth-child(even) { background: rgba(232, 210, 168, 0.5); }
+.datesTable tbody tr:hover           { background: rgba(200, 112, 10, 0.1); }
+
+.datesTable tbody td {
+  padding: 0.7rem 1rem;
+  font-family: var(--font-body);
+  text-align: center;
+  vertical-align: middle;
+  font-size: clamp(0.82rem, 1.3vw, 0.94rem);
+  color: var(--ink);
+}
+
+.dateCell {
+  font-size: clamp(0.88rem, 1.3vw, 0.97rem);
+  color: var(--ink-md);
+  text-align: left !important;
+}
+
+.dateCal { color: var(--saffron); margin-right: 0.3rem; }
+
+.roomPriceCell {
+  font-size: clamp(0.82rem, 1.2vw, 0.9rem) !important;
+  white-space: nowrap;
+}
+
+.priceAmt {
+  color: var(--maroon);
+  font-weight: 700;
+}
+
+/* ════════════════════════
+   SEATS COLUMN STYLES (same as 200hr)
+════════════════════════ */
+.seatsAvailable {
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: #3d6000;
+  background: rgba(90, 138, 0, 0.1);
+  border: 1px solid rgba(90, 138, 0, 0.3);
+  border-radius: 20px;
+  padding: 0.22rem 0.7rem;
+  white-space: nowrap;
+  display: inline-block;
+}
+
+.fullyBooked {
+  font-family: var(--font-display);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: #8a2c00;
+  background: rgba(184, 64, 0, 0.1);
+  border: 1px solid rgba(184, 64, 0, 0.35);
+  border-radius: 20px;
+  padding: 0.22rem 0.7rem;
+  white-space: nowrap;
+  display: inline-block;
+}
+
+/* ════════════════════════
+   APPLY LINK / DISABLED (same as 200hr)
+════════════════════════ */
+.applyLink {
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--saffron);
+  text-decoration: none;
+  border-bottom: 1px dotted var(--saffron);
+  transition: color 0.18s, border-color 0.18s;
+  white-space: nowrap;
+}
+
+.applyLink:hover {
+  color: var(--maroon);
+  border-color: var(--maroon);
+}
+
+.applyDisabled {
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #b0a090;
+  border-bottom: 1px dotted #b0a090;
+  cursor: not-allowed;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.tableNote {
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  color: var(--ink-lt);
+  font-style: italic;
+  text-align: center;
+  padding: 0.8rem 1rem 0;
+}
+
+.joinBtn {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--cream);
+  background: linear-gradient(135deg, var(--saffron-bright), var(--saffron-dk));
+  padding: 0.8rem 2.2rem;
+  border-radius: 2px;
+  text-decoration: none;
+  box-shadow: 0 4px 18px rgba(200, 112, 10, 0.35), 2px 2px 0 rgba(80, 40, 5, 0.2);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.joinBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(200, 112, 10, 0.45);
+  color: var(--cream);
+}
 
 /* ── COSTS BLOCK ── */
 .costsBlock { margin:2.5rem 0 2rem; text-align:center; }
@@ -301,6 +453,7 @@
   .mandalaTR,.mandalaBL { display:none; }
   .heroImageGrid { grid-template-columns:repeat(3,1fr); }
   .schedTime { min-width:95px; }
+  .roomPriceCell { white-space: normal !important; }
 }
 /* ≤767 */
 @media (max-width:767.98px) {
@@ -314,6 +467,7 @@
   .schedTime { min-width:85px; font-size:.72rem; }
   .schedAct  { font-size:.82rem; }
   .locationImg { aspect-ratio:16/9; }
+  .datesTable { min-width: 560px; }
 }
 /* ≤575 */
 @media (max-width:575.98px) {
@@ -326,14 +480,18 @@
   .schedRow   { padding:.52rem .85rem; }
   .schedTime  { min-width:76px; font-size:.68rem; }
   .schedAct   { font-size:.78rem; }
-  .schedTable thead th { padding:.65rem .65rem; font-size:.62rem; }
-  .schedTable td { padding:.55rem .65rem; font-size:.76rem; }
+  .datesTable thead th { padding:.65rem .65rem; font-size:.62rem; }
+  .datesTable tbody td { padding:.55rem .65rem; font-size:.76rem; }
   .vintageCard { padding:1rem .85rem; }
   .bulletList li { font-size:.84rem; }
   .hoursLabel { font-size:.78rem; }
   .hoursValue { font-size:.8rem; }
   .hoursSummary { padding:.8rem .95rem; gap:.45rem; }
-  .payBtn { font-size:.6rem; padding:.36rem .85rem; }
+  .seatsAvailable,
+  .fullyBooked { font-size: 0.62rem; padding: 0.18rem 0.55rem; }
+  .applyLink,
+  .applyDisabled { font-size: 0.65rem; }
+  .joinBtn { font-size: 0.68rem; padding: 0.65rem 1.6rem; }
 }
 /* ≤399 */
 @media (max-width:399.98px) {
@@ -344,9 +502,10 @@
   .vintageCard  { padding:.85rem .75rem; }
   .schedTime    { min-width:68px; font-size:.64rem; }
   .schedAct     { font-size:.74rem; }
-  .schedTable thead th { padding:.55rem .5rem; font-size:.58rem; }
-  .schedTable td { padding:.48rem .5rem; font-size:.72rem; }
+  .datesTable thead th { padding:.55rem .5rem; font-size:.58rem; }
+  .datesTable tbody td { padding:.48rem .5rem; font-size:.72rem; }
   .bodyPara     { font-size:.84rem; }
   .bulletList li { font-size:.8rem; }
-  .payBtn { font-size:.56rem; padding:.32rem .7rem; }
+  .datesTable   { min-width: 420px; }
+  .cornerOrn    { width: 26px; height: 26px; }
 }
