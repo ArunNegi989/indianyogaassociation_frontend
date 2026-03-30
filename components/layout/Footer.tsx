@@ -10,19 +10,29 @@ const quickLinks = [
   { label: "Student Reviews", href: "#testimonials" },
   { label: "FAQ", href: "/faq" },
   { label: "Yoga Competition", href: "/yoga-competition" },
-  { label: "Blog", href: "/blog" },
-  { label: "Payment", href: "/payment" },
-  { label: "How to Reach", href: "/how-to-reach" },
+  { label: "Blog", href: "/aym-yoga-blog" },
+  { label: "Payment", href: "/ttc-payment" },
+  { label: "How to Reach", href: "#how-to-reach" },
   { label: "Contact", href: "/Contact-us" },
 ];
 
 const courseLinks = [
-  { label: "200 Hour Yoga Teacher Training", href: "/200-hour-ytt" },
-  { label: "300 Hour Yoga Teacher Training", href: "/300-hour-ytt" },
-  { label: "500 Hour Yoga Teacher Training", href: "/500-hour-ytt" },
-  { label: "Yoga Competition", href: "/yoga-competition" },
-  { label: "Students Blogs", href: "/blog" },
-  { label: "Sitemap", href: "/sitemap" },
+  { label: "100 Hour Yoga Teacher Training", href: "/100-hour-yoga-teacher-training-in-rishikesh" },
+  { label: "200 Hour Yoga Teacher Training", href: "/200-hour-yoga-teacher-training-rishikesh" },
+  { label: "300 Hour Yoga Teacher Training", href: "/300-hours-yoga-teacher-training-rishikesh" },
+  { label: "500 Hour Yoga Teacher Training", href: "/500-hour-yoga-teacher-training-india" },
+  { label: "Kundalini Yoga", href: "/kundalini-yoga-teacher-training-in-rishikesh" },
+ { label: "Yoga Teacher In Rishikesh", href: "/yoga-teacher-training-in-rishikesh" },
+ { label: "Prenatal Yoga Teacher Training", href: "/prenatal-yoga-teacher-training-course" },
+ { label: "Vinyasa Yoga Teacher Training", href: "/vinyasa-teacher-training-india" },
+ { label: "Yoga Teacher Training in India", href: "/yoga-teacher-training-in-india" },
+ { label: "Hatha Yoga Teacher Training in Rishikesh", href: "/hatha-yoga-teacher-training-Rishikesh" },
+ { label: "Yoga in Goa", href: "/yoga-goa-in-india" },
+ { label: "Yoga Teacher Training Course in Bali", href: "/yoga-teacher-training-course-bali" },
+ { label: "Yoga and Ayurveda Teacher Training", href: "/yoga-ayurveda-teacher-training-rishikesh" },
+ { label: "Worldwide Yoga Teacher Training", href: "/world-wide" },
+
+
 ];
 
 const socialLinks = [

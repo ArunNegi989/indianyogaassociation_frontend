@@ -511,7 +511,7 @@
 .teachersSection {
   position: relative;
   background: var(--parchment);
-  background-image: url("../../images/yogateacherbackground.webp");
+  background-image: url("../../images/yogateacherbackground.png");
   overflow: hidden;
 }
 
@@ -1168,7 +1168,7 @@
 ════════════════════════════════════════════════ */
 @media (max-width: 767px) {
   .teachersSection {
-    background-image: url('../../images/767x2423.svg') !important;
+    background-image: url('../../images/1850x1715.png') !important;
   }
 }
 

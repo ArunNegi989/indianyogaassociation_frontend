@@ -80,7 +80,7 @@
 
 .authenticSection {
   position: relative;
-  background-image: url('../../images/1680x1260.webp');
+  background-image: url('../../images/1905x1460.png');
   overflow: hidden;
 }
 
@@ -307,6 +307,8 @@
  background-image: url("../../images/recognitionSection.png");
   border-top: 1px solid var(--gold-border);
   overflow: hidden;
+  background-repeat: no-repeat;
+    background-size: cover;
 }
 
 .recognitionSection::before {

@@ -316,7 +316,7 @@ export default function HowToReach(): React.ReactElement {
   };
 
   return (
-    <section className={styles.reachSection} aria-label="How to Reach Indian Yoga Association">
+    <section className={styles.reachSection} aria-label="How to Reach Indian Yoga Association" id="how-to-reach">
       <div className={styles.omWatermark} aria-hidden="true">ॐ</div>
       <div className={styles.topBorder} />
 
