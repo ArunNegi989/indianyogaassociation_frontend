@@ -92,7 +92,7 @@ const handleDelete = async (id: string, title: string) => {
             Hero · What is Kundalini · Benefits · Highlights · Syllabus · Eligibility · Facilities · Schedule · Why AYM · Rishikesh · Refund
           </p>
         </div>
-        <Link href="/admin/yogacourse/kundalini-yoga-teacher-training/add-new" className={styles.addNewBtn}>
+        <Link href="/admin/yogacourse/kundalini-yoga/kundalini-yoga-teacher-training/add-new" className={styles.addNewBtn}>
           ＋ Add New
         </Link>
       </div>
@@ -122,7 +122,7 @@ const handleDelete = async (id: string, title: string) => {
           <p className={styles.emptyText}>
             Create your first Kundalini TTC page to showcase your 200-hour Kundalini Yoga Teacher Training program, syllabus, and facilities.
           </p>
-          <Link href="/admin/yogacourse/kundalini-yoga-teacher-training/add-new" className={styles.addNewBtn}>
+          <Link href="/admin/yogacourse/kundalini-yoga/kundalini-yoga-teacher-training/add-new" className={styles.addNewBtn}>
             ＋ Create First Page
           </Link>
         </div>

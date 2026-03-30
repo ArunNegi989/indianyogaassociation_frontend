@@ -23,6 +23,19 @@ const joditConfig = {
   height: 220, placeholder: "",
 } as any;
 
+/* Fields that come from Jodit refs — must NOT be appended from react-hook-form data object */
+const JODIT_FIELDS = new Set([
+  "evalDesc","schedDesc","visaPassportDesc","globalCert1","globalCert2",
+  "req1","req2","req3","req4","best200Hr",
+  "bookingStep1Desc","bookingStep2Desc","bookingStep3Desc","bookingStep4Desc",
+]);
+
+/* Fields that come from JSON-stringified state — must NOT be appended from react-hook-form data object */
+const JSON_FIELDS = new Set([
+  "programs","reviews","inclFee","notInclFee","luxFeatures","whatIncl",
+  "instrLangs","indianFees","schedRows","faqItems","knowQA",
+]);
+
 function isEditorEmpty(html: string) {
   return html.replace(/<[^>]*>/g, "").trim() === "";
 }
@@ -56,7 +69,6 @@ function F({ label, hint, req, children }: { label: string; hint?: string; req?:
 function D() { return <div className={styles.sectionDivider}><span>❧</span></div>; }
 
 /* ─────────────────────────── LazyJodit ─────────────────────────── */
-/* FIX: Editors only mount when scrolled into view — same as Content1  */
 function LazyJodit({
   label, hint, cr, err, clr, ph = "Start typing…", h = 200, required = false,
 }: {
@@ -233,7 +245,6 @@ function StarRatingPicker({ value, onChange }: { value: number; onChange: (v: nu
 }
 
 /* ─────────────────────────── MetaCharCount ─────────────────────────── */
-/* FIX: Separate component for char counter so only IT re-renders, not the whole form */
 function MetaCharCount({ maxLen, fieldName, register, error }: {
   maxLen: number; fieldName: string; register: any; error?: string;
 }) {
@@ -275,7 +286,6 @@ function MetaCharCount({ maxLen, fieldName, register, error }: {
 export default function Content2AddNew() {
   const router = useRouter();
 
-  /* FIX: Removed watch() — was causing full re-render on every keystroke */
   const { register, handleSubmit, formState: { errors } } = useForm<any>({ defaultValues: { status: "Active" } });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -304,9 +314,9 @@ export default function Content2AddNew() {
     { title: "", duration: "", start: "", oldPrice: "", price: "" },
     { title: "", duration: "", start: "", oldPrice: "", price: "" },
   ]);
-  /* FIX: progRefs as stable ref array — not recreated on re-render */
   const progRefs = useRef<React.MutableRefObject<string>[]>(programs.map(() => ({ current: "" })));
 
+  /* ── Reviews — unlimited add supported ── */
   const [reviews, setReviews] = useState([
     { name: "", role: "", rating: 5 },
     { name: "", role: "", rating: 5 },
@@ -340,7 +350,7 @@ export default function Content2AddNew() {
   /* ── Jodit errors ── */
   const [evErr, setEvErr] = useState("");
 
-  /* ── Generic nested updater (memoized) ── */
+  /* ── Generic nested updater ── */
   const upd = useCallback(<T,>(arr: T[], set: (v: T[]) => void, i: number, k: keyof T, v: string) => {
     const a = [...arr] as any[]; a[i] = { ...a[i], [k]: v }; set(a);
   }, []);
@@ -356,8 +366,19 @@ export default function Content2AddNew() {
     setIsSubmitting(true);
     try {
       const fd = new FormData();
-      Object.entries(data).forEach(([k, v]) => fd.append(k, String(v ?? "")));
 
+      /*
+       * FIX: Only append plain string/select fields from react-hook-form data.
+       * Skip jodit fields and json-array fields — they are appended separately
+       * below to avoid duplicate keys in FormData.
+       */
+      Object.entries(data).forEach(([k, v]) => {
+        if (!JODIT_FIELDS.has(k) && !JSON_FIELDS.has(k)) {
+          fd.append(k, String(v ?? ""));
+        }
+      });
+
+      /* ── Jodit rich-text fields ── */
       fd.append("evalDesc",         evalRef.current);
       fd.append("schedDesc",        schedDescRef.current);
       fd.append("visaPassportDesc", visaRef.current);
@@ -373,12 +394,14 @@ export default function Content2AddNew() {
       fd.append("bookingStep3Desc", step3Ref.current);
       fd.append("bookingStep4Desc", step4Ref.current);
 
+      /* ── Programs & Reviews (with jodit desc / reviewText) ── */
       const progs = programs.map((p, i) => ({ ...p, desc: progRefs.current[i]?.current ?? "" }));
       fd.append("programs", JSON.stringify(progs));
 
       const revs = reviews.map((r, i) => ({ ...r, reviewText: revRefs.current[i]?.current ?? "" }));
       fd.append("reviews", JSON.stringify(revs));
 
+      /* ── JSON array fields ── */
       fd.append("inclFee",     JSON.stringify(inclFee));
       fd.append("notInclFee",  JSON.stringify(notInclFee));
       fd.append("luxFeatures", JSON.stringify(luxFeatures));
@@ -389,6 +412,7 @@ export default function Content2AddNew() {
       fd.append("faqItems",    JSON.stringify(faqItems));
       fd.append("knowQA",      JSON.stringify(knowQA));
 
+      /* ── Image files ── */
       accomFiles.forEach(f    => fd.append("accomImages",  f));
       foodFiles.forEach(f     => fd.append("foodImages",   f));
       luxImgFiles.forEach(f   => fd.append("luxImages",    f));
@@ -423,7 +447,6 @@ export default function Content2AddNew() {
   return (
     <div className={styles.pageWrap}>
 
-      {/* Page Header */}
       <div className={styles.pageHeader}>
         <div>
           <Link href="/admin/yogacourse/200hourscourse/200hrcontent2" className={styles.backLink}>← Back to List</Link>
@@ -777,6 +800,7 @@ export default function Content2AddNew() {
               </div>
             </div>
           ))}
+          {/* ── Unlimited reviews add ── */}
           <button type="button" className={styles.addItemBtn}
             onClick={() => {
               setReviews([...reviews, { name: "", role: "", rating: 5 }]);
@@ -861,22 +885,11 @@ export default function Content2AddNew() {
 
         {/* ════ 39. SEO & META ════ */}
         <Sec title="SEO & Meta">
-          {/* FIX: MetaCharCount is an isolated component — only it re-renders on typing, not the whole form */}
           <F label="Meta Title" req>
-            <MetaCharCount
-              maxLen={70}
-              fieldName="metaTitle"
-              register={register}
-              error={errors.metaTitle?.message as string}
-            />
+            <MetaCharCount maxLen={70} fieldName="metaTitle" register={register} error={errors.metaTitle?.message as string} />
           </F>
           <F label="Meta Description" req>
-            <MetaCharCount
-              maxLen={160}
-              fieldName="metaDesc"
-              register={register}
-              error={errors.metaDesc?.message as string}
-            />
+            <MetaCharCount maxLen={160} fieldName="metaDesc" register={register} error={errors.metaDesc?.message as string} />
           </F>
           <div className={styles.grid2}>
             <F label="Slug" req>
@@ -887,7 +900,9 @@ export default function Content2AddNew() {
               {errors.slug && <p className={styles.errorMsg}>⚠ {errors.slug.message as string}</p>}
             </F>
             <F label="Meta Keywords">
-              <div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} placeholder="200 hour yoga, rishikesh..." {...register("metaKeywords")} /></div>
+              <div className={styles.inputWrap}>
+                <input className={`${styles.input} ${styles.inputNoCount}`} placeholder="200 hour yoga, rishikesh..." {...register("metaKeywords")} />
+              </div>
             </F>
           </div>
           <F label="Status">

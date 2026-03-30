@@ -25,6 +25,19 @@ const joditConfig = {
   height: 220, placeholder: "",
 } as any;
 
+/* Fields that come from Jodit refs — must NOT be appended from react-hook-form data object */
+const JODIT_FIELDS = new Set([
+  "evalDesc","schedDesc","visaPassportDesc","globalCert1","globalCert2",
+  "req1","req2","req3","req4","best200Hr",
+  "bookingStep1Desc","bookingStep2Desc","bookingStep3Desc","bookingStep4Desc",
+]);
+
+/* Fields that come from JSON-stringified state — must NOT be appended from react-hook-form data object */
+const JSON_FIELDS = new Set([
+  "programs","reviews","inclFee","notInclFee","luxFeatures","whatIncl",
+  "instrLangs","indianFees","schedRows","faqItems","knowQA",
+]);
+
 function isEditorEmpty(html: string) {
   return html.replace(/<[^>]*>/g, "").trim() === "";
 }
@@ -67,7 +80,7 @@ function LazyJodit({
   const [visible, setVisible] = useState(false);
   const wrapRef = useRef<HTMLDivElement>(null);
 
-  /* Set ref value immediately so submit always has the value even if editor never scrolled into view */
+  /* Seed ref immediately so submit captures value even if editor never scrolled into view */
   useEffect(() => {
     if (defaultValue) cr.current = defaultValue;
   }, [defaultValue]);
@@ -101,7 +114,6 @@ function LazyJodit({
         style={{ minHeight: h }}
       >
         {visible ? (
-          /* key=defaultValue forces remount with correct initial content */
           <JoditEditor
             key={defaultValue || "empty"}
             value={defaultValue}
@@ -127,7 +139,6 @@ function LazyJodit({
 }
 
 /* ─────────────────────────── ExistingImages ─────────────────────────── */
-/* Shows server images with remove option — new uploads replace them */
 function ExistingImages({ urls, label }: { urls: string[]; label: string }) {
   if (!urls?.length) return null;
   return (
@@ -304,10 +315,8 @@ export default function Content2EditPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted]       = useState(false);
 
-  /* ── Existing server data ── */
   const [existing, setExisting] = useState<any>(null);
 
-  /* ── react-hook-form ── */
   const { register, handleSubmit, reset, formState: { errors } } = useForm<any>();
 
   /* ── Jodit Refs ── */
@@ -330,10 +339,11 @@ export default function Content2EditPage() {
   const [programs, setPrograms] = useState<any[]>([]);
   const progRefs = useRef<React.MutableRefObject<string>[]>([]);
 
+  /* ── Reviews — unlimited ── */
   const [reviews, setReviews] = useState<any[]>([]);
   const revRefs = useRef<React.MutableRefObject<string>[]>([]);
 
-  /* ── Image states (new uploads) ── */
+  /* ── Image states ── */
   const [accomFiles,    setAccomFiles]    = useState<File[]>([]);
   const [accomPrevs,    setAccomPrevs]    = useState<string[]>([]);
   const [foodFiles,     setFoodFiles]     = useState<File[]>([]);
@@ -359,7 +369,7 @@ export default function Content2EditPage() {
   /* ── Jodit errors ── */
   const [evErr, setEvErr] = useState("");
 
-  /* ── Fetch existing data and pre-fill ── */
+  /* ── Fetch & pre-fill ── */
   useEffect(() => {
     const load = async () => {
       try {
@@ -369,7 +379,6 @@ export default function Content2EditPage() {
 
         setExisting(d);
 
-        /* Pre-fill react-hook-form fields */
         reset({
           evalH2:               d.evalH2               || "",
           accommodationH2:      d.accommodationH2      || "",
@@ -423,7 +432,6 @@ export default function Content2EditPage() {
           status:               d.status               || "Active",
         });
 
-        /* Pre-fill list states */
         if (d.inclFee?.length)     setInclFee(d.inclFee);
         if (d.notInclFee?.length)  setNotInclFee(d.notInclFee);
         if (d.luxFeatures?.length) setLuxFeatures(d.luxFeatures);
@@ -434,21 +442,18 @@ export default function Content2EditPage() {
         if (d.faqItems?.length)    setFaqItems(d.faqItems);
         if (d.knowQA?.length)      setKnowQA(d.knowQA);
 
-        /* Pre-fill programs with jodit refs */
         const progs = d.programs?.length
           ? d.programs
           : [{ title: "", duration: "", start: "", oldPrice: "", price: "", desc: "" }];
         setPrograms(progs);
         progRefs.current = progs.map((p: any) => ({ current: p.desc || "" }));
 
-        /* Pre-fill reviews with jodit refs */
         const revs = d.reviews?.length
           ? d.reviews
           : [{ name: "", role: "", rating: 5, reviewText: "" }];
         setReviews(revs);
         revRefs.current = revs.map((r: any) => ({ current: r.reviewText || "" }));
 
-        /* Pre-fill req image preview */
         if (d.reqImage) setReqImgPrev(`${BASE_URL}${d.reqImage}`);
 
       } catch {
@@ -460,7 +465,6 @@ export default function Content2EditPage() {
     load();
   }, []);
 
-  /* ── Generic nested updater ── */
   const upd = useCallback(<T,>(arr: T[], set: (v: T[]) => void, i: number, k: keyof T, v: string) => {
     const a = [...arr] as any[]; a[i] = { ...a[i], [k]: v }; set(a);
   }, []);
@@ -476,9 +480,19 @@ export default function Content2EditPage() {
     setIsSubmitting(true);
     try {
       const fd = new FormData();
-      Object.entries(data).forEach(([k, v]) => fd.append(k, String(v ?? "")));
 
-      /* Jodit rich text */
+      /*
+       * FIX: Only append plain string/select fields from react-hook-form data.
+       * Skip jodit fields and json-array fields — they are appended separately
+       * below to avoid duplicate keys in FormData.
+       */
+      Object.entries(data).forEach(([k, v]) => {
+        if (!JODIT_FIELDS.has(k) && !JSON_FIELDS.has(k)) {
+          fd.append(k, String(v ?? ""));
+        }
+      });
+
+      /* ── Jodit rich-text fields ── */
       fd.append("evalDesc",         evalRef.current);
       fd.append("schedDesc",        schedDescRef.current);
       fd.append("visaPassportDesc", visaRef.current);
@@ -494,14 +508,14 @@ export default function Content2EditPage() {
       fd.append("bookingStep3Desc", step3Ref.current);
       fd.append("bookingStep4Desc", step4Ref.current);
 
-      /* Programs & Reviews */
+      /* ── Programs & Reviews ── */
       const progs = programs.map((p, i) => ({ ...p, desc: progRefs.current[i]?.current ?? "" }));
       fd.append("programs", JSON.stringify(progs));
 
       const revs = reviews.map((r, i) => ({ ...r, reviewText: revRefs.current[i]?.current ?? "" }));
       fd.append("reviews", JSON.stringify(revs));
 
-      /* Lists */
+      /* ── JSON array fields ── */
       fd.append("inclFee",     JSON.stringify(inclFee));
       fd.append("notInclFee",  JSON.stringify(notInclFee));
       fd.append("luxFeatures", JSON.stringify(luxFeatures));
@@ -512,7 +526,7 @@ export default function Content2EditPage() {
       fd.append("faqItems",    JSON.stringify(faqItems));
       fd.append("knowQA",      JSON.stringify(knowQA));
 
-      /* New images (only if user selected new ones) */
+      /* ── Image files ── */
       accomFiles.forEach(f    => fd.append("accomImages",  f));
       foodFiles.forEach(f     => fd.append("foodImages",   f));
       luxImgFiles.forEach(f   => fd.append("luxImages",    f));
@@ -532,7 +546,6 @@ export default function Content2EditPage() {
     }
   };
 
-  /* ── Loading screen ── */
   if (pageLoading) {
     return (
       <div className={styles.successScreen}>
@@ -542,7 +555,6 @@ export default function Content2EditPage() {
     );
   }
 
-  /* ── Success screen ── */
   if (submitted) {
     return (
       <div className={styles.successScreen}>
@@ -942,6 +954,7 @@ export default function Content2EditPage() {
               </div>
             </div>
           ))}
+          {/* ── Unlimited reviews add ── */}
           <button type="button" className={styles.addItemBtn}
             onClick={() => {
               setReviews([...reviews, { name: "", role: "", rating: 5, reviewText: "" }]);
@@ -1050,7 +1063,9 @@ export default function Content2EditPage() {
               {errors.slug && <p className={styles.errorMsg}>⚠ {errors.slug.message as string}</p>}
             </F>
             <F label="Meta Keywords">
-              <div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} placeholder="200 hour yoga, rishikesh..." {...register("metaKeywords")} /></div>
+              <div className={styles.inputWrap}>
+                <input className={`${styles.input} ${styles.inputNoCount}`} placeholder="200 hour yoga, rishikesh..." {...register("metaKeywords")} />
+              </div>
             </F>
           </div>
           <F label="Status">
