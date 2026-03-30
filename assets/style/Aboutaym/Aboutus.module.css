@@ -44,7 +44,7 @@
 }
 /* ── Container ─────────────────────────────────────────────── */
 .container {
-  max-width: 1100px;
+  max-width: 1360px;
   margin: 0 auto;
   padding: clamp(2.5rem, 5vw, 5rem) clamp(1.5rem, 6vw, 4rem);
 }
@@ -240,7 +240,7 @@
    SCHOOL BODY — text block above gallery
    ================================================================ */
 .schoolBody {
-  max-width: 980px;
+  
   margin: 0 auto clamp(2rem, 4vw, 3rem);
 }
 
@@ -302,9 +302,6 @@
 /* ================================================================
    PROSE — shared body text wrapper
    ================================================================ */
-.prose {
-  max-width: 980px;
-}
 
 /* ================================================================
    PARAGRAPH

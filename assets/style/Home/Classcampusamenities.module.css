@@ -119,7 +119,7 @@
 .container {
   position: relative;
   z-index: 1;
-  max-width: 1200px;
+  max-width: 1460px;
   margin: 0 auto;
   padding: clamp(3rem, 5.5vw, 5.5rem) clamp(1.2rem, 5vw, 3rem);
 }

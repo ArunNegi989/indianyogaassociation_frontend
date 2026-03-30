@@ -2,8 +2,13 @@
 
 .section {
   position: relative;
-  background: #ffffff;
+  
   overflow: hidden;
+  background-image: url("../../../assets//images/coursebackgorund.png");
+  background-repeat: no-repeat;
+    background-size: cover;
+    
+   
 }
 
 .section::before {
@@ -46,7 +51,7 @@
 .container {
   position: relative;
   z-index: 1;
-  max-width: 1180px;
+  max-width: 1460px;
   margin: 0 auto;
   padding: clamp(2.5rem, 5vw, 4.5rem) clamp(1.2rem, 5vw, 3rem);
 }
