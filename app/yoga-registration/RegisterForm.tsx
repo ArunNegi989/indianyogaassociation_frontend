@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styles from "@/assets/style/yoga-registration/Registerform.module.css";
 import HowToReach from "@/components/home/Howtoreach";
 import api from "@/lib/api";
@@ -35,6 +35,13 @@ const locations = [
   "Online (Recorded)",
 ];
 
+const roomTypes = [
+  "Please Select Room Type",
+  "Dormitory",
+  "Shared (2-3 persons)",
+  "Luxury Private",
+];
+
 const chakraColors = [
   { name: "Muladhara", color: "#c62828", label: "Root" },
   { name: "Svadhisthana", color: "#e65100", label: "Sacral" },
@@ -58,45 +65,259 @@ const INITIAL_FORM = {
   startDate: "",
   endDate: "",
   location: "Please Select Location",
-  coupon: "",
+  roomType: "Please Select Room Type",
 };
 
+// ─── Dummy CAPTCHA Component ───────────────────────────────────────────────────
+type CaptchaState = "idle" | "verifying" | "verified" | "expired";
+
+function DummyCaptcha({
+  onVerify,
+  onExpire,
+}: {
+  onVerify: () => void;
+  onExpire: () => void;
+}) {
+  const [state, setState] = useState<CaptchaState>("idle");
+  const [expireTimer, setExpireTimer] = useState<ReturnType<typeof setTimeout> | null>(null);
+  const checkboxRef = useRef<HTMLInputElement>(null);
+
+  const handleCheck = () => {
+    if (state !== "idle" && state !== "expired") return;
+
+    setState("verifying");
+
+    // Simulate reCAPTCHA analysis delay (1.2–2s)
+    const delay = 1200 + Math.random() * 800;
+    setTimeout(() => {
+      setState("verified");
+      onVerify();
+
+      // Auto-expire after 90s (like real reCAPTCHA)
+      const t = setTimeout(() => {
+        setState("expired");
+        if (checkboxRef.current) checkboxRef.current.checked = false;
+        onExpire();
+      }, 90_000);
+      setExpireTimer(t);
+    }, delay);
+  };
+
+  useEffect(() => {
+    return () => {
+      if (expireTimer) clearTimeout(expireTimer);
+    };
+  }, [expireTimer]);
+
+  const isVerified = state === "verified";
+  const isVerifying = state === "verifying";
+  const isExpired = state === "expired";
+
+  return (
+    <div style={captchaWrapStyle}>
+      <div style={captchaBoxStyle(isVerified)}>
+        {/* Left: checkbox area */}
+        <div style={captchaLeftStyle}>
+          <label style={captchaLabelStyle} onClick={handleCheck} aria-label="I'm not a robot">
+            <div style={captchaCheckboxAreaStyle}>
+              {isVerifying ? (
+                <div style={spinnerWrapStyle}>
+                  <svg width="28" height="28" viewBox="0 0 28 28" style={{ animation: "captchaSpin 1s linear infinite" }}>
+                    <style>{`@keyframes captchaSpin { to { transform: rotate(360deg); } }`}</style>
+                    <circle cx="14" cy="14" r="11" fill="none" stroke="#e0e0e0" strokeWidth="2.5" />
+                    <path d="M14 3 A11 11 0 0 1 25 14" fill="none" stroke="#4a90d9" strokeWidth="2.5" strokeLinecap="round" />
+                  </svg>
+                </div>
+              ) : isVerified ? (
+                <div style={verifiedCheckStyle}>
+                  <svg width="20" height="20" viewBox="0 0 20 20">
+                    <polyline points="3,10 8,15 17,5" fill="none" stroke="#1a73e8" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </div>
+              ) : (
+                <div style={idleCheckboxStyle(isExpired)}>
+                  <input
+                    ref={checkboxRef}
+                    type="checkbox"
+                    style={{ display: "none" }}
+                    readOnly
+                    checked={false}
+                  />
+                </div>
+              )}
+            </div>
+            <span style={captchaTextStyle(isExpired)}>
+              {isExpired ? "Verification expired. Check again." : "I'm not a robot"}
+            </span>
+          </label>
+        </div>
+
+        {/* Right: reCAPTCHA branding */}
+        <div style={captchaRightStyle}>
+          <div style={recaptchaLogoStyle}>
+            <svg width="32" height="32" viewBox="0 0 64 64" fill="none">
+              <path d="M32 4C16.536 4 4 16.536 4 32s12.536 28 28 28 28-12.536 28-28S47.464 4 32 4z" fill="#4A90D9" />
+              <path d="M32 14l6 10H26l6-10z" fill="white" opacity="0.9" />
+              <path d="M20 34l-6-10h24L32 44l-12-10z" fill="white" opacity="0.7" />
+              <path d="M44 34l-6 10-6-10h12z" fill="white" opacity="0.5" />
+            </svg>
+          </div>
+          <div style={recaptchaTextStyle}>
+            <span style={{ fontSize: "11px", fontWeight: 700, color: "#555", letterSpacing: "0.02em" }}>reCAPTCHA</span>
+            <span style={{ fontSize: "9px", color: "#999", marginTop: "1px" }}>Privacy · Terms</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Verified subtext */}
+      {isVerified && (
+        <p style={verifiedMsgStyle}>
+          ✓ Human verification complete
+        </p>
+      )}
+    </div>
+  );
+}
+
+// ─── Inline styles for CAPTCHA ─────────────────────────────────────────────────
+const captchaWrapStyle: React.CSSProperties = {
+  marginBottom: "8px",
+};
+
+const captchaBoxStyle = (verified: boolean): React.CSSProperties => ({
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "space-between",
+  background: "#f9f9f9",
+  border: `1.5px solid ${verified ? "#c3d9f7" : "#d3d3d3"}`,
+  borderRadius: "4px",
+  padding: "12px 14px",
+  boxShadow: "0 1px 3px rgba(0,0,0,0.08), inset 0 0 0 1px rgba(255,255,255,0.9)",
+  transition: "border-color 0.3s ease",
+  cursor: "pointer",
+  userSelect: "none",
+  minHeight: "74px",
+});
+
+const captchaLeftStyle: React.CSSProperties = {
+  display: "flex",
+  alignItems: "center",
+  gap: "12px",
+  flex: 1,
+};
+
+const captchaLabelStyle: React.CSSProperties = {
+  display: "flex",
+  alignItems: "center",
+  gap: "14px",
+  cursor: "pointer",
+  width: "100%",
+};
+
+const captchaCheckboxAreaStyle: React.CSSProperties = {
+  width: "28px",
+  height: "28px",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  flexShrink: 0,
+};
+
+const spinnerWrapStyle: React.CSSProperties = {
+  width: "28px",
+  height: "28px",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+};
+
+const verifiedCheckStyle: React.CSSProperties = {
+  width: "28px",
+  height: "28px",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+};
+
+const idleCheckboxStyle = (expired: boolean): React.CSSProperties => ({
+  width: "24px",
+  height: "24px",
+  border: `2px solid ${expired ? "#e07b00" : "#c1c1c1"}`,
+  borderRadius: "3px",
+  background: "white",
+  transition: "border-color 0.2s",
+  boxShadow: "inset 0 1px 2px rgba(0,0,0,0.08)",
+});
+
+const captchaTextStyle = (expired: boolean): React.CSSProperties => ({
+  fontSize: "14px",
+  color: expired ? "#e07b00" : "#333",
+  fontFamily: "Roboto, Arial, sans-serif",
+  fontWeight: 400,
+});
+
+const captchaRightStyle: React.CSSProperties = {
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  gap: "4px",
+  marginLeft: "10px",
+  flexShrink: 0,
+};
+
+const recaptchaLogoStyle: React.CSSProperties = {
+  width: "32px",
+  height: "32px",
+};
+
+const recaptchaTextStyle: React.CSSProperties = {
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+};
+
+const verifiedMsgStyle: React.CSSProperties = {
+  fontSize: "12px",
+  color: "#1a73e8",
+  marginTop: "6px",
+  paddingLeft: "2px",
+  fontFamily: "Roboto, Arial, sans-serif",
+};
+
+// ─── Main RegisterForm ─────────────────────────────────────────────────────────
 export default function RegisterForm() {
   const [gender, setGender] = useState("Male");
   const [formData, setFormData] = useState(INITIAL_FORM);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [isCaptchaVerified, setIsCaptchaVerified] = useState(false);
   const searchParams = useSearchParams();
   const batchId = searchParams.get("batchId");
-  
+
   type CourseType = "100hr" | "200hr" | "300hr";
-const rawType = searchParams.get("type");
-const type = rawType as CourseType;
+  const rawType = searchParams.get("type");
+  const type = rawType as CourseType;
 
   const API_MAP: Record<
-  CourseType,
-  {
-    getBatch: string;
-    bookSeat: string;
-    courseName: string;
-  }
-> = {
-  "100hr": {
-    getBatch: "/100hr-seats/get-batch",
-    bookSeat: "/100hr-seats/book-seat",
-    courseName: "100 Hour Yoga TTC",
-  },
-  "200hr": {
-    getBatch: "/200hr-seats/getBatch",
-    bookSeat: "/200hr-seats/bookSeat",
-    courseName: "200 Hour Yoga TTC",
-  },
-  "300hr": {
-    getBatch: "/300hr-seats/getBatch",
-    bookSeat: "/300hr-seats/bookSeat",
-    courseName: "300 Hour Yoga TTC",
-  },
-};
+    CourseType,
+    { getBatch: string; bookSeat: string; courseName: string }
+  > = {
+    "100hr": {
+      getBatch: "/100hr-seats/get-batch",
+      bookSeat: "/100hr-seats/book-seat",
+      courseName: "100 Hour Yoga TTC",
+    },
+    "200hr": {
+      getBatch: "/200hr-seats/getBatch",
+      bookSeat: "/200hr-seats/bookSeat",
+      courseName: "200 Hour Yoga TTC",
+    },
+    "300hr": {
+      getBatch: "/300hr-seats/getBatch",
+      bookSeat: "/300hr-seats/bookSeat",
+      courseName: "300 Hour Yoga TTC",
+    },
+  };
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -107,10 +328,14 @@ const type = rawType as CourseType;
   };
 
   const handleSubmit = async () => {
+    if (!isCaptchaVerified) {
+      alert("Please complete the CAPTCHA verification before submitting.");
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
-      // ✅ SAVE DATA
       await api.post("/registration/create", {
         ...formData,
         gender,
@@ -118,7 +343,6 @@ const type = rawType as CourseType;
         type,
       });
 
-      // ✅ EMAIL
       const res = await api.post("/email/send-email", {
         ...formData,
         gender,
@@ -137,6 +361,7 @@ const type = rawType as CourseType;
           setSubmitSuccess(false);
           setGender("Male");
           setFormData(INITIAL_FORM);
+          setIsCaptchaVerified(false);
         }, 2800);
       } else {
         alert("Email failed ❌");
@@ -148,15 +373,14 @@ const type = rawType as CourseType;
       setIsSubmitting(false);
     }
   };
+
   useEffect(() => {
     if (!batchId || !type || !API_MAP[type]) return;
 
     const fetchBatch = async () => {
       try {
         const res = await api.get(`${API_MAP[type].getBatch}/${batchId}`);
-
         const batch = res.data.data;
-
         setFormData((prev) => ({
           ...prev,
           startDate: batch.startDate?.split("T")[0],
@@ -170,6 +394,7 @@ const type = rawType as CourseType;
 
     fetchBatch();
   }, [batchId, type]);
+
   return (
     <>
       <div className={styles.page}>
@@ -596,7 +821,7 @@ const type = rawType as CourseType;
                 </div>
               </div>
 
-              {/* Location + Coupon */}
+              {/* Location + Room Type */}
               <div className={styles.fieldRow}>
                 <div className={styles.fieldHalf}>
                   <label className={styles.label}>
@@ -619,18 +844,31 @@ const type = rawType as CourseType;
                   </div>
                 </div>
                 <div className={styles.fieldHalf}>
-                  <label className={styles.label}>
-                    Coupon / Promo Code: ( Optional )
-                  </label>
-                  <input
-                    type="text"
-                    name="coupon"
-                    value={formData.coupon}
-                    onChange={handleChange}
-                    placeholder="Enter Code"
-                    className={styles.input}
-                  />
+                  <label className={styles.label}>Room Type</label>
+                  <div className={styles.selectWrap}>
+                    <select
+                      name="roomType"
+                      value={formData.roomType}
+                      onChange={handleChange}
+                      className={styles.select}
+                    >
+                      {roomTypes.map((o) => (
+                        <option key={o} value={o}>
+                          {o}
+                        </option>
+                      ))}
+                    </select>
+                    <span className={styles.selectArrow}>▾</span>
+                  </div>
                 </div>
+              </div>
+
+              {/* ── CAPTCHA ── */}
+              <div className={styles.fieldFull}>
+                <DummyCaptcha
+                  onVerify={() => setIsCaptchaVerified(true)}
+                  onExpire={() => setIsCaptchaVerified(false)}
+                />
               </div>
 
               {/* ── Submit / Success Area ── */}
@@ -656,7 +894,12 @@ const type = rawType as CourseType;
                   type="button"
                   className={`${styles.submitBtn} ${isSubmitting ? styles.submitBtnLoading : ""}`}
                   onClick={handleSubmit}
-                  disabled={isSubmitting}
+                  disabled={isSubmitting || !isCaptchaVerified}
+                  style={
+                    !isCaptchaVerified
+                      ? { opacity: 0.6, cursor: "not-allowed" }
+                      : undefined
+                  }
                 >
                   {isSubmitting ? (
                     <>
