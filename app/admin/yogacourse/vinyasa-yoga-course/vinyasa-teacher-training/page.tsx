@@ -189,7 +189,7 @@ if (d) {
                     <div className={styles.actionBtns}>
                       <Link
                         className={styles.editBtn}
-                       href={`/admin/yogacourse/vinyasa-teacher-training/${row._id}`}
+                       href={`/admin/yogacourse/vinyasa-yoga-course/vinyasa-teacher-training/${row._id}`}
                       >
                         ✎ Edit
                       </Link>

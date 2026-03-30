@@ -128,29 +128,37 @@ export default function VinyasaSeatsEditPage() {
 
   /* ── Submit ── */
   const handleSubmit = async () => {
-    if (!validate()) return;
-    try {
-      setIsSubmitting(true);
-      await api.put(`/vinyasa-seats/${id}`, {
-        startDate:    form.startDate,
-        endDate:      form.endDate,
-        usdFee:       form.usdFee,
-        inrFee:       form.inrFee,
-        dormPrice:    Number(form.dormPrice),
-        twinPrice:    Number(form.twinPrice),
-        privatePrice: Number(form.privatePrice),
-        totalSeats:   Number(form.totalSeats),
-        bookedSeats:  Number(form.bookedSeats),
-        note:         form.note,
-      });
-      setSubmitted(true);
-      setTimeout(() => router.push("/admin/yogacourse/vinyasa-yoga-course/vinyasa-seats"), 1500);
-    } catch (err: any) {
-      alert(err?.response?.data?.message || "Failed to update");
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+  if (!validate()) return;
+
+  try {
+    setIsSubmitting(true);
+
+    await api.put(`/vinyasa-seats/${id}`, {
+      startDate: new Date(form.startDate).toISOString(),
+      endDate: new Date(form.endDate).toISOString(),
+      usdFee: form.usdFee,
+      inrFee: form.inrFee,
+      dormPrice: Number(form.dormPrice),
+      twinPrice: Number(form.twinPrice),
+      privatePrice: Number(form.privatePrice),
+      totalSeats: Number(form.totalSeats),
+      note: form.note,
+    });
+
+    toast.success("Batch updated successfully ✅");
+
+    setSubmitted(true);
+
+    setTimeout(() => {
+      router.push("/admin/yogacourse/vinyasa-yoga-course/vinyasa-seats");
+    }, 1500);
+
+  } catch (err: any) {
+    toast.error(err?.response?.data?.message || "Update failed ❌");
+  } finally {
+    setIsSubmitting(false);
+  }
+};
 
   /* ── Loading skeleton ── */
   if (loading) {
