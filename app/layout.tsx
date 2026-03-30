@@ -13,7 +13,8 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
-});
+});   
+
 
 export const metadata: Metadata = {
   title: "Yoga Teacher Training in Rishikesh - Best Yoga School in Rishikesh",

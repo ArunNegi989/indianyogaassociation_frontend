@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: "http",
-        hostname: "172.20.10.2",
+        hostname: "192.168.1.22",
         port: "5000",
         pathname: "/uploads/**",
       },
@@ -13,6 +13,7 @@ const nextConfig: NextConfig = {
     dangerouslyAllowSVG: true,
     unoptimized: true, // 👈 🔥 THIS LINE FIXES PRIVATE IP ISSUE
   },
+  reactStrictMode: false,
 };
 
 export default nextConfig;
