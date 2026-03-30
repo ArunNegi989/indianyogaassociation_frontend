@@ -400,7 +400,7 @@ export default function Content2AddNew() {
       });
 
       setSubmitted(true);
-      setTimeout(() => router.push("/admin/dashboard/yoga-200hr/200hrcontent2/list"), 1500);
+      setTimeout(() => router.push("/admin/yogacourse/200hourscourse/200hrcontent2"), 1500);
     } catch {
       alert("Save nahi ho saka. Dobara try karo.");
     } finally {
@@ -426,7 +426,7 @@ export default function Content2AddNew() {
       {/* Page Header */}
       <div className={styles.pageHeader}>
         <div>
-          <Link href="/admin/dashboard/yoga-200hr/200hrcontent2/list" className={styles.backLink}>← Back to List</Link>
+          <Link href="/admin/yogacourse/200hourscourse/200hrcontent2" className={styles.backLink}>← Back to List</Link>
           <h1 className={styles.pageTitle}>Add New — Content Part 2</h1>
           <p className={styles.pageSubtitle}>Sections 21–39: Evaluation · Accommodation · Food · Schedule · Programs · Reviews · FAQ · SEO</p>
         </div>
@@ -903,7 +903,7 @@ export default function Content2AddNew() {
 
         {/* ── Submit ── */}
         <div className={styles.formActions}>
-          <Link href="/admin/dashboard/yoga-200hr/200hrcontent2/list" className={styles.cancelBtn}>
+          <Link href="/admin/yogacourse/200hourscourse/200hrcontent2" className={styles.cancelBtn}>
             ✕ Cancel
           </Link>
           <button

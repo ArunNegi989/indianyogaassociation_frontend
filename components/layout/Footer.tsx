@@ -24,13 +24,7 @@ const courseLinks = [
   { label: "Kundalini Yoga", href: "/kundalini-yoga-teacher-training-in-rishikesh" },
  { label: "Yoga Teacher In Rishikesh", href: "/yoga-teacher-training-in-rishikesh" },
  { label: "Prenatal Yoga Teacher Training", href: "/prenatal-yoga-teacher-training-course" },
- { label: "Vinyasa Yoga Teacher Training", href: "/vinyasa-teacher-training-india" },
- { label: "Yoga Teacher Training in India", href: "/yoga-teacher-training-in-india" },
- { label: "Hatha Yoga Teacher Training in Rishikesh", href: "/hatha-yoga-teacher-training-Rishikesh" },
- { label: "Yoga in Goa", href: "/yoga-goa-in-india" },
- { label: "Yoga Teacher Training Course in Bali", href: "/yoga-teacher-training-course-bali" },
- { label: "Yoga and Ayurveda Teacher Training", href: "/yoga-ayurveda-teacher-training-rishikesh" },
- { label: "Worldwide Yoga Teacher Training", href: "/world-wide" },
+ 
 
 
 ];
