@@ -83,103 +83,12 @@ const formatDateRange = (start: string, end: string) => {
 /* ══════════════════════════════════════════════════
    MANDALA SVG
 ══════════════════════════════════════════════════ */
-function MandalaSVG({ size = 400, opacity = 0.13 }: { size?: number; opacity?: number }) {
-  const cx = 100, cy = 100;
-  const petals12 = Array.from({ length: 12 }, (_, i) => (i * 30 * Math.PI) / 180);
-  const petals8  = Array.from({ length: 8  }, (_, i) => (i * 45 * Math.PI) / 180);
-  const petals6  = Array.from({ length: 6  }, (_, i) => (i * 60 * Math.PI) / 180);
-  return (
-    <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg"
-      style={{ width: size, height: size, opacity }}>
-      {[95, 88, 80, 72, 60, 45, 30, 16].map((r, i) => (
-        <circle key={i} cx={cx} cy={cy} r={r} stroke="#8b4513" strokeWidth={i % 2 === 0 ? 0.7 : 0.3} fill="none" />
-      ))}
-      {petals12.map((a, i) => {
-        const x1 = cx + 60 * Math.cos(a), y1 = cy + 60 * Math.sin(a);
-        const x2 = cx + 88 * Math.cos(a), y2 = cy + 88 * Math.sin(a);
-        const lx = cx + 74 * Math.cos(a + 0.18), ly = cy + 74 * Math.sin(a + 0.18);
-        const rx = cx + 74 * Math.cos(a - 0.18), ry = cy + 74 * Math.sin(a - 0.18);
-        return (
-          <g key={i}>
-            <line x1={x1} y1={y1} x2={x2} y2={y2} stroke="#8b4513" strokeWidth="0.5" />
-            <path d={`M ${x1} ${y1} Q ${lx} ${ly} ${x2} ${y2} Q ${rx} ${ry} ${x1} ${y1}`}
-              stroke="#8b4513" strokeWidth="0.4" fill="rgba(139,69,19,0.04)" />
-          </g>
-        );
-      })}
-      {petals8.map((a, i) => {
-        const x1 = cx + 45 * Math.cos(a), y1 = cy + 45 * Math.sin(a);
-        const x2 = cx + 60 * Math.cos(a), y2 = cy + 60 * Math.sin(a);
-        const lx = cx + 52 * Math.cos(a + 0.25), ly = cy + 52 * Math.sin(a + 0.25);
-        const rx = cx + 52 * Math.cos(a - 0.25), ry = cy + 52 * Math.sin(a - 0.25);
-        return (
-          <g key={i}>
-            <path d={`M ${x1} ${y1} Q ${lx} ${ly} ${x2} ${y2} Q ${rx} ${ry} ${x1} ${y1}`}
-              stroke="#b8860b" strokeWidth="0.5" fill="rgba(184,134,11,0.05)" />
-          </g>
-        );
-      })}
-      {petals6.map((a, i) => {
-        const opp = a + Math.PI;
-        return (
-          <line key={i}
-            x1={cx + 30 * Math.cos(a)}   y1={cy + 30 * Math.sin(a)}
-            x2={cx + 30 * Math.cos(opp)} y2={cy + 30 * Math.sin(opp)}
-            stroke="#8b4513" strokeWidth="0.6" />
-        );
-      })}
-      {petals12.map((a, i) => (
-        <circle key={i} cx={cx + 80 * Math.cos(a)} cy={cy + 80 * Math.sin(a)} r="1.8" fill="#8b4513" opacity="0.6" />
-      ))}
-      {petals8.map((a, i) => (
-        <circle key={i} cx={cx + 45 * Math.cos(a)} cy={cy + 45 * Math.sin(a)} r="1.4" fill="#b8860b" opacity="0.5" />
-      ))}
-      {petals8.map((a, i) => {
-        const r1 = 16, r2 = 28;
-        const x0 = cx + r1 * Math.cos(a), y0 = cy + r1 * Math.sin(a);
-        const xl = cx + r2 * Math.cos(a + 0.45), yl = cy + r2 * Math.sin(a + 0.45);
-        const xr = cx + r2 * Math.cos(a - 0.45), yr = cy + r2 * Math.sin(a - 0.45);
-        return <polygon key={i} points={`${x0},${y0} ${xl},${yl} ${xr},${yr}`}
-          stroke="#b8860b" strokeWidth="0.4" fill="rgba(184,134,11,0.04)" />;
-      })}
-      <circle cx={cx} cy={cy} r="12" stroke="#8b4513" strokeWidth="0.8" fill="rgba(139,69,19,0.06)" />
-      <circle cx={cx} cy={cy} r="5"  stroke="#8b4513" strokeWidth="0.6" fill="rgba(139,69,19,0.1)" />
-      <circle cx={cx} cy={cy} r="2"  fill="#8b4513" opacity="0.5" />
-      {Array.from({ length: 24 }, (_, i) => {
-        const a = (i * 15 * Math.PI) / 180;
-        const inner = i % 2 === 0 ? 91 : 93;
-        return (
-          <line key={i}
-            x1={cx + inner * Math.cos(a)} y1={cy + inner * Math.sin(a)}
-            x2={cx + 95   * Math.cos(a)} y2={cy + 95   * Math.sin(a)}
-            stroke="#8b4513" strokeWidth="0.5" />
-        );
-      })}
-    </svg>
-  );
-}
+
 
 /* ══════════════════════════════
    BORDER STRIP
 ══════════════════════════════ */
-function BorderStrip() {
-  return (
-    <div className={styles.borderStrip}>
-      <svg viewBox="0 0 800 14" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" className={styles.borderSvg}>
-        {Array.from({ length: 40 }, (_, i) => {
-          const x = i * 20 + 10;
-          return (
-            <g key={i}>
-              <polygon points={`${x},7 ${x+6},2 ${x+12},7 ${x+6},12`} fill="none" stroke="#b8860b" strokeWidth="0.8" />
-              <circle cx={x + 6} cy={7} r="1.2" fill="#b8860b" opacity="0.7" />
-            </g>
-          );
-        })}
-        <line x1="0" y1="7" x2="800" y2="7" stroke="#e07b00" strokeWidth="0.3" />
-      </svg>
-    </div>
-  );
-}
+
 
 /* ══════════════════════════════
    OM DIVIDER
@@ -189,7 +98,7 @@ function OmDivider({ label }: { label?: string }) {
     <div className={styles.omDivider}>
       <div className={styles.divLineLeft} />
       <div className={styles.omDividerCenter}>
-        <MandalaSVG size={52} opacity={0.55} />
+      
         {label && <span className={styles.omDividerLabel}>{label}</span>}
       </div>
       <div className={styles.divLineRight} />
@@ -298,12 +207,7 @@ export default function HundredHourYoga() {
     <div className={styles.root}>
 
       {/* Background mandalas */}
-      <div className={styles.mandalaFixed} aria-hidden="true">
-        <div className={styles.mf1}><MandalaSVG size={700} opacity={0.055} /></div>
-        <div className={styles.mf2}><MandalaSVG size={520} opacity={0.045} /></div>
-        <div className={styles.mf3}><MandalaSVG size={400} opacity={0.04}  /></div>
-        <div className={styles.mf4}><MandalaSVG size={300} opacity={0.035} /></div>
-      </div>
+      
       <div className={styles.grainOverlay} aria-hidden="true" />
 
       {/* ══ HERO IMAGE ══ */}
@@ -323,7 +227,7 @@ export default function HundredHourYoga() {
       {/* ══ HERO TEXT ══ */}
       <section className={styles.heroSection2}>
         <div className={styles.heroMandalaBg} aria-hidden="true">
-          <MandalaSVG size={900} opacity={0.06} />
+        
         </div>
         <div className={styles.heroTextWrap}>
           <div className={styles.heroTitleRow}>
@@ -337,12 +241,11 @@ export default function HundredHourYoga() {
         </div>
       </section>
 
-      <BorderStrip />
+   
 
       {/* ══ TRANSFORM + WHAT IS + WHY CHOOSE + SUITABLE ══ */}
       <section className={styles.contentSection}>
-        <div className={styles.sectionMandalaL} aria-hidden="true"><MandalaSVG size={320} opacity={0.07} /></div>
-        <div className={styles.sectionMandalaR} aria-hidden="true"><MandalaSVG size={260} opacity={0.06} /></div>
+       
 
         <VintageHeading>{content.transformTitle}</VintageHeading>
         {content.transformParagraphs.map((p, i) => (
@@ -373,7 +276,7 @@ export default function HundredHourYoga() {
         </ol>
       </section>
 
-      <BorderStrip />
+      
 
       {/* ══ DATES TABLE — from /100hr-seats/get-all-batches ══ */}
       <section className={styles.datesSection} id="apply">
@@ -454,11 +357,11 @@ export default function HundredHourYoga() {
         </div>
       </section>
 
-      <BorderStrip />
+    
 
       {/* ══ SYLLABUS ══ */}
       <section className={styles.contentSection}>
-        <div className={styles.sectionMandalaL} aria-hidden="true"><MandalaSVG size={280} opacity={0.07} /></div>
+       
 
         <OmDivider label="Curriculum" />
         <VintageHeading>{content.syllabusTitle}</VintageHeading>
@@ -471,7 +374,7 @@ export default function HundredHourYoga() {
           <div className={styles.syllabusCard}>
             {content.syllabusLeft.map((m, i) => (
               <div key={i} className={styles.syllabusModule}>
-                <div className={styles.syllabusModuleIcon}><MandalaSVG size={28} opacity={0.6} /></div>
+               
                 <div>
                   <h3 className={styles.syllabusModuleTitle}>{m.title}</h3>
                   <p className={styles.syllabusModuleDesc}>{m.desc}</p>
@@ -482,7 +385,7 @@ export default function HundredHourYoga() {
           <div className={styles.syllabusCard}>
             {content.syllabusRight.map((m, i) => (
               <div key={i} className={styles.syllabusModule}>
-                <div className={styles.syllabusModuleIcon}><MandalaSVG size={28} opacity={0.6} /></div>
+              
                 <div>
                   <h3 className={styles.syllabusModuleTitle}>{m.title}</h3>
                   <p className={styles.syllabusModuleDesc}>{m.desc}</p>
@@ -493,14 +396,14 @@ export default function HundredHourYoga() {
         </div>
       </section>
 
-      <BorderStrip />
+     
 
       {/* ══ DAILY SCHEDULE ══ */}
       <section className={styles.scheduleSection}>
         <div className={styles.scheduleLayout}>
           <div className={styles.schedImgCol}>
             <div className={styles.schedImgOrnament}>
-              <div className={styles.schedMandalaBg}><MandalaSVG size={340} opacity={0.25} /></div>
+             
               {content.scheduleImage ? (
                 <img
                   src={imgUrl(content.scheduleImage)}
@@ -526,7 +429,7 @@ export default function HundredHourYoga() {
               <ul className={styles.schedList}>
                 {content.scheduleItems.map((item, i) => (
                   <li key={i} className={styles.schedItem}>
-                    <span className={styles.schedDot}><MandalaSVG size={10} opacity={0.8} /></span>
+                   
                     <span>{item.time} – {item.label}</span>
                   </li>
                 ))}
@@ -536,11 +439,11 @@ export default function HundredHourYoga() {
         </div>
       </section>
 
-      <BorderStrip />
+   
 
       {/* ══ SOUL SHINE BANNER + WHY ENROL ══ */}
       <section className={styles.contentSection}>
-        <div className={styles.sectionMandalaR} aria-hidden="true"><MandalaSVG size={320} opacity={0.07} /></div>
+       
 
         <OmDivider />
 
@@ -575,11 +478,11 @@ export default function HundredHourYoga() {
         </ol>
       </section>
 
-      <BorderStrip />
+     
 
       {/* ══ COMPREHENSIVE + CERTIFICATION + REGISTRATION + FEE ══ */}
       <section className={styles.contentSection}>
-        <div className={styles.sectionMandalaL} aria-hidden="true"><MandalaSVG size={300} opacity={0.065} /></div>
+       
 
         <OmDivider />
         <VintageHeading>{content.comprehensiveTitle}</VintageHeading>
@@ -610,7 +513,7 @@ export default function HundredHourYoga() {
             <ul className={styles.feeList}>
               {content.includedItems.map((it, i) => (
                 <li key={i}>
-                  <span className={styles.feeDot}><MandalaSVG size={12} opacity={0.7} /></span>
+                 
                   {it}
                 </li>
               ))}
@@ -625,7 +528,7 @@ export default function HundredHourYoga() {
             <ul className={styles.feeList}>
               {content.notIncludedItems.map((it, i) => (
                 <li key={i}>
-                  <span className={styles.feeDot}><MandalaSVG size={12} opacity={0.7} /></span>
+                
                   {it}
                 </li>
               ))}
@@ -634,7 +537,7 @@ export default function HundredHourYoga() {
         </div>
       </section>
 
-      <BorderStrip />
+   
       <HowToReach />
     </div>
   );
