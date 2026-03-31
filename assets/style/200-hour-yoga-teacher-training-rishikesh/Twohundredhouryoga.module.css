@@ -319,7 +319,7 @@
   position: relative;
   z-index: 1;
   padding: clamp(1.4rem, 3vw, 2.5rem) 0 0.5rem;
-  max-width: 1100px;
+  max-width: 1360px;
     margin: 0 auto;
 }
 
@@ -391,7 +391,7 @@
   position: relative;
   z-index: 1;
   padding: clamp(2rem, 4vw, 4rem) clamp(1rem, 5vw, 4rem);
-  max-width: 1180px;
+  max-width: 1480px;
   margin: 0 auto;
 }
 .contentSection2 {

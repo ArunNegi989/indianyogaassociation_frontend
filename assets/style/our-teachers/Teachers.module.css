@@ -229,7 +229,7 @@
 ================================================================ */
 .founderSection {
   padding: clamp(2.5rem, 5vw, 4rem) 0;
-  background-image: url("../../images/1905x1450.webp");
+  background-image: url("../../images/1905x1282.png");
   background-size: contain;
   position: relative;
 }
@@ -388,7 +388,7 @@
    TEACHER CARDS
 ================================================================ */
 .teachersSection {
-  background-image: url("../../images/1905x2531.webp");
+  background-image: url("../../images/1905x4418.png");
   background-size: contain;
 }
 
@@ -683,7 +683,7 @@
    GUEST FACULTY GRID
 ================================================================ */
 .guestSection {
-  background: var(--cream);
+  background: url("../../images/23.png");
   padding: clamp(2rem, 4vw, 3.5rem) 0;
 }
 

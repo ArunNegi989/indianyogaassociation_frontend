@@ -149,7 +149,7 @@
   position: relative;
   z-index: 1;
   padding: clamp(1.5rem, 3vw, 3rem) clamp(1rem, 4vw, 3.5rem);
-  max-width: 1180px;
+  max-width: 1460px;
   margin: 0 auto;
 }
 .heroMandalaBg {
@@ -193,7 +193,7 @@
   position: relative;
   z-index: 1;
   padding: clamp(2rem, 4vw, 4rem) clamp(1rem, 5vw, 4rem);
-  max-width: 1180px;
+  max-width: 1460px;
   margin: 0 auto;
 }
 .sectionMandalaL {

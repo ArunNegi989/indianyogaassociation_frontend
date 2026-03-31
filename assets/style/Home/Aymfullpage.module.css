@@ -103,7 +103,7 @@
    SECTION — ALIGNMENT & ADJUSTMENT
 ════════════════════════════════════════════════ */
 .alignSection {
-  background: var(--cream-white);
+  background: url("../../images/1905x1515.png");
   border-top: 1px solid var(--gold-border);
   border-bottom: 1px solid var(--gold-border);
 }
@@ -331,7 +331,7 @@
 ════════════════════════════════════════════════ */
 .campusSection {
   background: var(--parchment);
-  background-image: url("../../images/1905X2360.svg");
+  background-image: url("../../images/1905X2360.png");
   position: relative;
   background-size: contain;
 }

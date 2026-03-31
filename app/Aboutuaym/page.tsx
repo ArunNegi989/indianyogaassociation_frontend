@@ -166,7 +166,7 @@ const AboutUs: React.FC = () => {
       {/* ══════════════════════════════════════
           BLOCK 4 — History of AYM
       ══════════════════════════════════════ */}
-      <section className={styles.contentSection}>
+      <section className={`${styles.contentSection} ${styles.contentSectionLarge}`}>
         <div className={styles.container}>
 
           <header className={styles.blockHeader}>

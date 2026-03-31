@@ -56,12 +56,17 @@
   background: #f5f8f6; /* Softer calm spiritual tone */
   color: #3d2b10;
   animation: fadeIn 0.8s ease-in-out;
-  background-image: url("../../images/1905x1064.webp");
+  background-image: url("../../images/1905x1064.png");
   background-size: contain;
 }
 
 .contentSection {
-  background-color: var(--cream);
+  background-image: url("../../images/1905x580.png");
+  border-top: 1px solid var(--border-soft);
+}
+
+.contentSectionLarge{
+  background-image: url("../../images/1905x614.png");
   border-top: 1px solid var(--border-soft);
 }
 
