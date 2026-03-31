@@ -34,7 +34,7 @@
 }
 
 .outerPad {
-  max-width: 1240px;
+  max-width: 1500px;
   margin: 0 auto;
   padding-left: clamp(1.25rem, 5vw, 5rem);
   padding-right: clamp(1.25rem, 5vw, 5rem);
@@ -274,7 +274,7 @@
 .founderTextCol {
   padding-top: 0.5rem;
   width: 100%;
-  max-width: 860px;
+ 
 }
 
 .founderName {

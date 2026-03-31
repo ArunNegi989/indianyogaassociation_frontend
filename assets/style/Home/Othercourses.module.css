@@ -12,7 +12,7 @@
 .section {
   background: #f9f5ee;
   padding: clamp(3rem, 6vw, 5.5rem) 0;
-  background-image: url("../../images/banner2.webp");
+  background-image: url("../../images/1905x830.png");
   position: relative;
   overflow: hidden;
 }

@@ -143,7 +143,7 @@
 .coursesSection {
   position: relative;
   background: var(--parchment);
-  background-image: url("../../images/background6.webp");
+  background-image: url("../../images/1905x886.png");
   overflow: hidden;
 }
 
@@ -397,7 +397,7 @@
 
 .whoSection {
   position: relative;
-  background: linear-gradient(180deg, var(--parchment) 0%, #fdf0d8 50%, var(--parchment) 100%);
+  background: url("../../images/1905x865.png");
   overflow: hidden;
   border-top: 1px solid var(--gold-border);
   border-bottom: 1px solid var(--gold-border);

@@ -162,7 +162,7 @@
   /* Generous horizontal padding = left-right space from viewport */
   padding-left:  clamp(1.5rem, 6vw, 5rem);
   padding-right: clamp(1.5rem, 6vw, 5rem);
-  max-width: 1280px;
+  max-width: 1515px;
   margin: 0 auto;
 }
 

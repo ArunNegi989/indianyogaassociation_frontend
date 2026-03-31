@@ -22,9 +22,8 @@
 /* ─── Page Wrapper ─── */
 .page {
   font-family: 'Lato', sans-serif;
-  background-color: var(--off-white);
   color: var(--text-dark);
-  max-width: 1200px;
+  max-width: 1460px;
   margin: 0 auto;
   padding: 0 1.5rem 4rem;
 }

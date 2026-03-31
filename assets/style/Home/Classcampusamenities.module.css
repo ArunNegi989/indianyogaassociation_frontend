@@ -2,17 +2,16 @@
 
 .section {
   position: relative;
-  background: #fdf6ec;
+  
   overflow: hidden;
+  background-image: url("../../images/1905x1643.png");
 }
 
 .section::before {
   content: '';
   position: absolute;
   inset: 0;
-  background-image:
-    radial-gradient(ellipse at 8% 15%, rgba(224, 123, 0, 0.05) 0%, transparent 55%),
-    radial-gradient(ellipse at 92% 85%, rgba(92, 45, 0, 0.05) 0%, transparent 55%);
+  
   pointer-events: none;
   z-index: 0;
 }
