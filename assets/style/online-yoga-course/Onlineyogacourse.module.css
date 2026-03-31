@@ -22,7 +22,7 @@
   --shadow:         rgba(92,45,0,0.10);
 
   font-family: 'Cormorant Garamond', Georgia, serif;
-  background: var(--parchment);
+  background-image: url("../../images/1905x8000.png");
   color: var(--text);
   overflow-x: hidden;
   position: relative;
@@ -45,7 +45,7 @@
 .container {
   position: relative;
   z-index: 2;
-  max-width: 1180px;
+  max-width: 1460px;
   margin: 0 auto;
   padding: 0 clamp(1rem, 5vw, 3rem);
 }

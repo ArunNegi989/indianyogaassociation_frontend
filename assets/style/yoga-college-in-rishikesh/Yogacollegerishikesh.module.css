@@ -45,7 +45,7 @@
 
 /* ── Container ── */
 .container {
-  max-width: 1180px;
+  max-width: 1460px;
   margin: 0 auto;
   padding: 0 clamp(1rem, 5vw, 3rem);
 }

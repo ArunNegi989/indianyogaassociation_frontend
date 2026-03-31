@@ -129,7 +129,7 @@
    LAYOUT
    ================================================================ */
 .layout {
-  max-width: 1280px;
+  max-width: 1415px;
   margin: 0 auto;
   padding: clamp(1.5rem, 3vw, 3rem) clamp(1rem, 3vw, 2rem);
   display: grid;

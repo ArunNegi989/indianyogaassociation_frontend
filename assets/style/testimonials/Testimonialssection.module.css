@@ -29,7 +29,6 @@
 ════════════════════════════════════════ */
 .section {
   position: relative;
-  background: linear-gradient(160deg, #fff9f0 0%, #fdf4e3 45%, #ffefd4 100%);
   overflow: hidden;
   isolation: isolate;
   font-family: 'Cormorant Garamond', serif;
@@ -73,7 +72,7 @@
 /* ── Container ── */
 .container {
   position: relative; z-index: 1;
-  max-width: 1200px;
+  max-width: 1460px;
   margin: 0 auto;
   padding: clamp(2.5rem, 5vw, 5rem) clamp(1rem, 5vw, 3rem);
 }
@@ -125,7 +124,7 @@
 .block {
   margin-bottom: 3rem;
   padding: clamp(1.4rem, 3vw, 2.4rem);
-  background: linear-gradient(135deg, rgba(255,249,240,.93) 0%, rgba(253,240,220,.88) 100%);
+  background: linear-gradient(135deg, #fffcf6ed 0%, #fffcf6ed 100%);
   border: 1px solid var(--border);
   border-radius: 12px;
   box-shadow: 0 6px 28px var(--shadow), 0 1px 0 rgba(255,255,255,.7) inset;
