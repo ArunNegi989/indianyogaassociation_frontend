@@ -15,7 +15,7 @@
 ==================================================== */
 .pageWrapper {
   font-family: 'Open Sans', sans-serif;
-  background-color: var(--white);
+  background-image: url("../../images/1905x4874.png");
   color: var(--text-body);
   overflow-x: hidden;
 }

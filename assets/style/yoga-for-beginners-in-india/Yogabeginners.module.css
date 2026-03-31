@@ -19,7 +19,7 @@
 ==================================================== */
 .pageWrapper {
   font-family: 'Open Sans', sans-serif;
-  background: var(--white);
+  background-image: url("../../images/1905x4515.png");
   color: var(--text-body);
   overflow-x: hidden;
 }

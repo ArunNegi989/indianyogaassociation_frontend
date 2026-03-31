@@ -23,13 +23,14 @@
   font-family: 'Open Sans', sans-serif;
   color: var(--text-body);
   overflow-x: hidden;
+  background-image: url("../../images/1905x4702.png");
 }
 
 /* ====================================================
    WHITE SECTION (top part)
 ==================================================== */
 .whiteSection {
-  background: var(--white);
+  
   padding: 40px 32px 48px;
   max-width: 1460px;
   margin: 0 auto;
@@ -165,7 +166,7 @@
    BEIGE SECTION (lower part)
 ==================================================== */
 .beigeSection {
-  background: var(--beige-bg);
+  
   padding: 40px 32px 60px;
   max-width: 100%;
 }

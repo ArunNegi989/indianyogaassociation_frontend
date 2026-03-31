@@ -145,7 +145,7 @@
    SECTION 1 — HERO / INTRO
 ────────────────────────────────────────── */
 .heroSection1 {
-  background: var(--cream);
+  background: url("../../images/1905x623.png");
   padding: clamp(2.4rem, 5vw, 4rem) 0 clamp(2.4rem, 5vw, 3.5rem);
   position: relative;
 }
@@ -245,18 +245,11 @@
    SECTION 2 — SCHEDULE TABLE
 ────────────────────────────────────────── */
 .scheduleSection {
-  background: var(--parchment);
+  background: url("../../images/1905x810.png");
   padding: clamp(2.4rem, 5vw, 4rem) 0;
   border-top: 4px solid;
   border-bottom: 4px solid;
-  border-image: linear-gradient(
-    90deg,
-    transparent,
-    var(--saffron),
-    var(--saffron-light),
-    var(--saffron),
-    transparent
-  ) 1;
+  
 }
 
 .scheduleIntro {
@@ -393,7 +386,7 @@
 ────────────────────────────────────────── */
 .photoSection {
   background: var(--cream);
-   background-image: url("../../images/1905x915.png") ;
+   background-image: url("../../images/1905x855.png") ;
   background-size: contain;
 }
 
@@ -431,7 +424,7 @@
    SECTION 4 — 7–14 DAYS + AFFORDABLE
 ────────────────────────────────────────── */
 .altSection {
-  background: var(--parchment);
+  background: url("../../images/1905x965.png");
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
   padding: clamp(2.4rem, 5vw, 4rem) 0;
@@ -442,7 +435,7 @@
                HOW TO BOOK + REFUND
 ────────────────────────────────────────── */
 .accomSection {
-  background: var(--cream);
+  background:url("../../images/1905x1536.png");
   padding-bottom: clamp(2.4rem, 5vw, 4rem);
 }
 
@@ -492,7 +485,7 @@
    SECTION 6 — HOW TO REACH + BOOK
 ────────────────────────────────────────── */
 .reachSection {
-  background: var(--parchment);
+  background: url("../../images/1905x446.png");
   border-top: 4px solid;
   border-image: linear-gradient(
     90deg,
