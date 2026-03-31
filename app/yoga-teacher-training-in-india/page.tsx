@@ -1,10 +1,98 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "@/assets/style/yoga-teacher-training-in-india/Yogattcindia.module.css";
 import HowToReach from "@/components/home/Howtoreach";
 import Image from "next/image";
-import heroImg from "@/assets/images/14.webp";
+import api from "@/lib/api"; // your axios instance
+
+/* ─── TYPES ─── */
+interface AccredBadge {
+  _id: string;
+  label: string;
+  imgUrl?: string;
+  image?: string;
+}
+
+interface CourseCard {
+  _id: string;
+  hours: string;
+  title: string;
+  desc: string;
+  linkLabel: string;
+  href?: string;
+  imgUrl?: string;
+  image?: string;
+}
+
+interface QuoteCard {
+  _id: string;
+  quote: string;
+  imgAlt: string;
+  imgUrl?: string;
+  image?: string;
+}
+
+interface Location {
+  _id: string;
+  name: string;
+  desc: string;
+}
+
+interface YogaTTCData {
+  _id: string;
+  slug: string;
+  status: string;
+
+  heroImage: string;
+  heroImgAlt: string;
+  heroTitle: string;
+  heroSubTitle: string;
+
+  introPara: string;
+  whoWeArePara: string;
+  yytPara: string;
+  whyAYMPara1: string;
+  whyAYMPara2: string;
+  whyAYMPara3: string;
+  rishikeshDetailPara: string;
+  goaDetailPara: string;
+
+  introParagraphs: string[];
+  whyAYMParagraphs: string[];
+  rishikeshParagraphs: string[];
+  goaParagraphs: string[];
+
+  arrivalList: string[];
+  feeList: string[];
+
+  accredBadges: AccredBadge[];
+  courseCards: CourseCard[];
+  quoteCards: QuoteCard[];
+  locations: Location[];
+
+  whoWeAreTitle: string;
+  yytTitle: string;
+  rishikeshTitle: string;
+  goaTitle: string;
+  whyAYMTitle: string;
+  arrivalTitle: string;
+  feeTitle: string;
+}
+
+/* ─── IMAGE HELPER ─── */
+const getImageSrc = (
+  image?: string,
+  imgUrl?: string,
+  fallback?: string
+): string => {
+  if (image && image.startsWith("/uploads/")) {
+    return `${process.env.NEXT_PUBLIC_API_URL}${image}`;
+  }
+  if (imgUrl && imgUrl.length > 0) return imgUrl;
+  return fallback || "";
+};
+
 /* ─── MANDALA SVG ─── */
 const MandalaSVG = ({
   size = 300,
@@ -96,32 +184,9 @@ const ChakraSVG = ({
   color?: string;
 }) => (
   <svg viewBox="0 0 100 100" width={size} height={size} aria-hidden="true">
-    <circle
-      cx="50"
-      cy="50"
-      r="46"
-      fill="none"
-      stroke={color}
-      strokeWidth="1.2"
-    />
-    <circle
-      cx="50"
-      cy="50"
-      r="32"
-      fill="none"
-      stroke={color}
-      strokeWidth="0.8"
-      opacity="0.6"
-    />
-    <circle
-      cx="50"
-      cy="50"
-      r="18"
-      fill="none"
-      stroke={color}
-      strokeWidth="1"
-      opacity="0.8"
-    />
+    <circle cx="50" cy="50" r="46" fill="none" stroke={color} strokeWidth="1.2" />
+    <circle cx="50" cy="50" r="32" fill="none" stroke={color} strokeWidth="0.8" opacity="0.6" />
+    <circle cx="50" cy="50" r="18" fill="none" stroke={color} strokeWidth="1" opacity="0.8" />
     <circle cx="50" cy="50" r="7" fill={color} opacity="0.45" />
     {[0, 45, 90, 135, 180, 225, 270, 315].map((deg) => {
       const r = (deg * Math.PI) / 180;
@@ -162,103 +227,92 @@ const OmDivider = ({ slim = false }: { slim?: boolean }) => (
 );
 
 /* ─── ACCREDITATION BADGES ─── */
-const AccredBadges = () => (
-  <div className={styles.badgesRow}>
-    {[
-      {
-        img: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Yoga_Alliance_logo.svg/200px-Yoga_Alliance_logo.svg.png",
-        label: "Yoga Alliance USA",
-      },
-      {
-        img: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Logo_Ministry_of_AYUSH.png/200px-Logo_Ministry_of_AYUSH.png",
-        label: "Ministry of AYUSH",
-      },
-      {
-        img: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Yoga_Alliance_logo.svg/200px-Yoga_Alliance_logo.svg.png",
-        label: "RYS 200",
-      },
-      {
-        img: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Yoga_Alliance_logo.svg/200px-Yoga_Alliance_logo.svg.png",
-        label: "RYS 300",
-      },
-      {
-        img: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Yoga_Alliance_logo.svg/200px-Yoga_Alliance_logo.svg.png",
-        label: "RYS 500",
-      },
-      {
-        img: "https://www.rishikulyogshala.org/wp-content/uploads/2022/09/india-logo.png",
-        label: "Made in India",
-      },
-      {
-        img: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Logo_Ministry_of_AYUSH.png/200px-Logo_Ministry_of_AYUSH.png",
-        label: "AYUSH Certified",
-      },
-    ].map((b, i) => (
-      <div key={i} className={styles.badge}>
-        <img
-          src={b.img}
-          alt={b.label}
-          className={styles.badgeImg}
-          loading="lazy"
-        />
-        <span className={styles.badgeLabel}>{b.label}</span>
-      </div>
-    ))}
-  </div>
-);
+const AccredBadges = ({ badges }: { badges: AccredBadge[] }) => {
+  if (!badges || badges.length === 0) return null;
+  return (
+    <div className={styles.badgesRow}>
+      {badges.map((b, i) => {
+        const src = getImageSrc(b.image, b.imgUrl);
+        return (
+          <div key={b._id || i} className={styles.badge}>
+            {src ? (
+              <img
+                src={src}
+                alt={b.label}
+                className={styles.badgeImg}
+                loading="lazy"
+              />
+            ) : null}
+            <span className={styles.badgeLabel}>{b.label}</span>
+          </div>
+        );
+      })}
+    </div>
+  );
+};
 
 /* ─── QUOTE CARD ─── */
-const QuoteCard = ({
-  quote,
-  img,
-  imgAlt,
-}: {
-  quote: string;
-  img: string;
-  imgAlt: string;
-}) => (
-  <div className={styles.quoteImgCard}>
-    <img src={img} alt={imgAlt} className={styles.quoteImg} loading="lazy" />
-    <div className={styles.quoteOverlay}>
-      <span className={styles.quoteBar} />
-      <p className={styles.quoteCaption}>{quote}</p>
+const QuoteCard = ({ card }: { card: QuoteCard }) => {
+  const src = getImageSrc(
+    card.image,
+    card.imgUrl,
+    "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=700&q=80"
+  );
+  return (
+    <div className={styles.quoteImgCard}>
+      <img src={src} alt={card.imgAlt} className={styles.quoteImg} loading="lazy" />
+      <div className={styles.quoteOverlay}>
+        <span className={styles.quoteBar} />
+        <p className={styles.quoteCaption}>{card.quote}</p>
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 /* ─── COURSE CARD ─── */
-const CourseCard = ({
-  hours,
-  title,
-  desc,
-  linkLabel,
-  href = "#",
-}: {
-  hours: string;
-  title: string;
-  desc: string | React.ReactNode;
-  linkLabel: string;
-  href?: string;
-}) => (
-  <div className={styles.courseCard}>
-    <div className={styles.courseImgWrap}>
-      <img
-        src={`https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&q=80`}
-        alt={title}
-        className={styles.courseImg}
-        loading="lazy"
-      />
-      <div className={styles.courseImgOverlay} />
-      <div className={styles.courseHourBadge}>{hours} hr</div>
+const CourseCardComp = ({ card }: { card: CourseCard }) => {
+  const src = getImageSrc(
+    card.image,
+    card.imgUrl,
+    "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&q=80"
+  );
+  return (
+    <div className={styles.courseCard}>
+      <div className={styles.courseImgWrap}>
+        <img
+          src={src}
+          alt={card.title}
+          className={styles.courseImg}
+          loading="lazy"
+        />
+        <div className={styles.courseImgOverlay} />
+        <div className={styles.courseHourBadge}>{card.hours} hr</div>
+      </div>
+      <div className={styles.courseBody}>
+        <h3 className={styles.courseTitle}>{card.title}</h3>
+        <div className={styles.courseLine} />
+        {/* desc may contain HTML from rich text editor */}
+        {card.desc ? (
+          <div
+            className={styles.courseDesc}
+            dangerouslySetInnerHTML={{ __html: card.desc }}
+          />
+        ) : null}
+      </div>
+      <a href={card.href || "#"} className={styles.courseBtn}>
+        {card.linkLabel}
+      </a>
     </div>
-    <div className={styles.courseBody}>
-      <h3 className={styles.courseTitle}>{title}</h3>
-      <div className={styles.courseLine} />
-      <p className={styles.courseDesc}>{desc}</p>
+  );
+};
+
+/* ─── LOADING SKELETON ─── */
+const LoadingSkeleton = () => (
+  <div className={styles.page} style={{ minHeight: "60vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
+    <div style={{ textAlign: "center", color: "#e07b00", fontSize: "1.2rem", opacity: 0.7 }}>
+      <ChakraSVG size={48} color="#e07b00" />
+      <p style={{ marginTop: "1rem", fontFamily: "serif" }}>Loading...</p>
     </div>
-    <a href={href} className={styles.courseBtn}>
-      {linkLabel}
-    </a>
   </div>
 );
 
@@ -266,6 +320,50 @@ const CourseCard = ({
    MAIN COMPONENT
 ═══════════════════════════════════ */
 export default function YogaTTCIndia() {
+  const [data, setData] = useState<YogaTTCData | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await api.get("/yoga-ttc-india");
+        if (res.data?.success && res.data?.data) {
+          setData(res.data.data);
+        } else {
+          setError("No data found.");
+        }
+      } catch (err: any) {
+        setError(err?.message || "Failed to fetch data.");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
+
+  if (loading) return <LoadingSkeleton />;
+  if (error || !data) {
+    return (
+      <div className={styles.page} style={{ padding: "4rem", textAlign: "center", color: "#e07b00" }}>
+        <p>{error || "Something went wrong."}</p>
+      </div>
+    );
+  }
+
+  /* ── Derived hero image URL ── */
+  const heroSrc = data.heroImage?.startsWith("/uploads/")
+    ? `${process.env.NEXT_PUBLIC_API_URL}${data.heroImage}`
+    : data.heroImage || "";
+
+  /* ── Rishikesh & Goa location data ── */
+  const rishikeshLoc = data.locations?.find((l) =>
+    l.name?.toLowerCase().includes("rishikesh")
+  );
+  const goaLoc = data.locations?.find((l) =>
+    l.name?.toLowerCase().includes("goa")
+  );
+
   return (
     <div className={styles.page}>
       {/* Fixed Mandalas */}
@@ -282,16 +380,20 @@ export default function YogaTTCIndia() {
         <MandalaSVG size={230} c1="#d4a017" c2="#e07b00" sw={0.55} />
       </div>
       <div className={styles.chakraGlow} aria-hidden="true" />
-<section className={styles.heroSection}>
-        <Image
-          src={heroImg}
-          alt="Yoga Students Group"
-          width={1180}
-          height={540}
-          className={styles.heroImage}
-          priority
-        />
-      </section>
+
+      {/* ── HERO IMAGE ── */}
+      {heroSrc && (
+        <section className={styles.heroSection}>
+          <img
+            src={heroSrc}
+            alt={data.heroImgAlt || data.heroTitle || "Yoga Teacher Training"}
+            className={styles.heroImage}
+            style={{ width: "100%", height: "auto", display: "block" }}
+            loading="eager"
+          />
+        </section>
+      )}
+
       {/* ══════════════════════════════
           SECTION 1 — HERO + WHO WE ARE
       ══════════════════════════════ */}
@@ -299,112 +401,84 @@ export default function YogaTTCIndia() {
         <div className="container px-3 px-md-4">
           {/* Hero heading */}
           <div className={styles.heroWrap}>
-            <h1 className={styles.heroTitle}>YOGA TEACHER TRAINING IN INDIA</h1>
-            <p className={styles.heroSub}>AYM YOGA SCHOOL – RISHIKESH, INDIA</p>
+            {data.heroTitle && (
+              <h1 className={styles.heroTitle}>{data.heroTitle}</h1>
+            )}
+            {data.heroSubTitle && (
+              <p className={styles.heroSub}>{data.heroSubTitle}</p>
+            )}
             <div className={styles.heroUnderline} />
           </div>
 
-          <p className={styles.bodyPara}>
-            India, the birthplace of yoga, has shared its timeless yogic wisdom
-            with the world, inspiring millions to live happier and healthier
-            lives. If you truly wish to experience authentic yoga at its source,
-            India — especially Rishikesh, the yoga capital — is the best place
-            to begin your journey. Today, Rishikesh has become a global hub for
-            yoga teacher training, attracting students from every corner of the
-            world. At AYM Yoga School, we offer the best yoga TTC in Rishikesh
-            India, blending traditional teachings with modern methodology. Our
-            programs include the best{" "}
-            <a href="#" className={styles.link}>
-              200 hour yoga TTC in India
-            </a>
-            ,{" "}
-            <a href="#" className={styles.link}>
-              300 hour yoga TTC India
-            </a>
-            , and specialized advanced courses. AYM is recognized for offering
-            affordable yoga teacher training in India with the highest
-            international standards. If you're ready to advance your yoga
-            journey through a Yoga Alliance certified teacher training course in
-            India, AYM provides the perfect environment with expert teachers,
-            authentic practices, and complete yoga teacher training course with
-            accommodation in India.
-          </p>
+          {/* Intro Paragraphs (array) */}
+          {data.introParagraphs && data.introParagraphs.length > 0 ? (
+            data.introParagraphs.map((para, i) => (
+              <div
+                key={i}
+                className={styles.bodyPara}
+                dangerouslySetInnerHTML={{ __html: para }}
+              />
+            ))
+          ) : data.introPara ? (
+            <div
+              className={styles.bodyPara}
+              dangerouslySetInnerHTML={{ __html: data.introPara }}
+            />
+          ) : null}
 
           {/* Accreditation badges */}
-          <AccredBadges />
+          <AccredBadges badges={data.accredBadges} />
 
           {/* Who We Are */}
-          <div className={styles.vintageCard}>
-            <span className={styles.cardCorner}>✦</span>
-            <h2 className={styles.cardTitle}>Who We Are</h2>
-            <div className={styles.cardUnderline} />
-            <p className={styles.bodyPara}>
-              Founded in 2005, AYM Yoga School stands among the top yoga teacher
-              training schools in India, known for its excellence and
-              authenticity. As a{" "}
-              <a href="#" className={styles.link}>
-                Yoga Alliance, USA registered school
-              </a>
-              , AYM has trained over fifteen thousand graduates from more than
-              100 countries. Our goal is to provide students with transformative
-              learning experiences through comprehensive yoga teacher training
-              programs and holistic retreats. Whether you are a beginner seeking
-              foundational guidance through our 200-hour Yoga TTC, or a
-              dedicated practitioner aiming to deepen your skills through the
-              300-hour Yoga TTC India, our experienced faculty ensures a
-              life-changing journey. With world-class teachers, a serene
-              Himalayan setting, nutritious meals, and comfortable
-              accommodation, AYM continues to set the standard as the best yoga
-              TTC in India for those who aspire to become confident and
-              compassionate yoga instructors.
-            </p>
-          </div>
+          {(data.whoWeAreTitle || data.whoWeArePara) && (
+            <div className={styles.vintageCard}>
+              <span className={styles.cardCorner}>✦</span>
+              {data.whoWeAreTitle && (
+                <h2 className={styles.cardTitle}>{data.whoWeAreTitle}</h2>
+              )}
+              <div className={styles.cardUnderline} />
+              {data.whoWeArePara && (
+                <div
+                  className={styles.bodyPara}
+                  dangerouslySetInnerHTML={{ __html: data.whoWeArePara }}
+                />
+              )}
+            </div>
+          )}
 
           {/* YTT Through AYM */}
-          <div className={`${styles.vintageCard} mt-4`}>
-            <span className={styles.cardCorner}>✦</span>
-            <h2 className={styles.cardTitle}>
-              Yoga Teacher Training in India through AYM Yoga School
-            </h2>
-            <div className={styles.cardUnderline} />
-            <p className={styles.bodyPara}>
-              At AYM, we offer yoga teacher training in two distinct and
-              inspiring locations in India:
-            </p>
-            <div className="row g-3 mt-1">
-              <div className="col-12 col-md-6">
-                <div className={styles.locationCard}>
-                  <div className={styles.locationIcon}>
-                    <ChakraSVG size={36} color="#e07b00" />
-                  </div>
-                  <div>
-                    <h3 className={styles.locationName}>Rishikesh</h3>
-                    <p className={styles.locationDesc}>
-                      Revered as the world's yoga capital, nestled in the
-                      foothills of the Himalayas along the sacred Ganges River.
-                      Mother Ganga had nourished thousands of yogis with its
-                      nectar and healed them to achieve samadhi.
-                    </p>
-                  </div>
+          {(data.yytTitle || data.yytPara || (data.locations && data.locations.length > 0)) && (
+            <div className={`${styles.vintageCard} mt-4`}>
+              <span className={styles.cardCorner}>✦</span>
+              {data.yytTitle && (
+                <h2 className={styles.cardTitle}>{data.yytTitle}</h2>
+              )}
+              <div className={styles.cardUnderline} />
+              {data.yytPara && (
+                <div
+                  className={styles.bodyPara}
+                  dangerouslySetInnerHTML={{ __html: data.yytPara }}
+                />
+              )}
+              {data.locations && data.locations.length > 0 && (
+                <div className="row g-3 mt-1">
+                  {data.locations.map((loc, i) => (
+                    <div key={loc._id || i} className="col-12 col-md-6">
+                      <div className={styles.locationCard}>
+                        <div className={styles.locationIcon}>
+                          <ChakraSVG size={36} color={i === 0 ? "#e07b00" : "#d4a017"} />
+                        </div>
+                        <div>
+                          <h3 className={styles.locationName}>{loc.name}</h3>
+                          <p className={styles.locationDesc}>{loc.desc}</p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
                 </div>
-              </div>
-              <div className="col-12 col-md-6">
-                <div className={styles.locationCard}>
-                  <div className={styles.locationIcon}>
-                    <ChakraSVG size={36} color="#d4a017" />
-                  </div>
-                  <div>
-                    <h3 className={styles.locationName}>Goa</h3>
-                    <p className={styles.locationDesc}>
-                      A vibrant coastal paradise known for its stunning beaches
-                      and lively culture. Each location provides a unique
-                      environment for deepening your yoga practice.
-                    </p>
-                  </div>
-                </div>
-              </div>
+              )}
             </div>
-          </div>
+          )}
         </div>
       </section>
 
@@ -414,101 +488,69 @@ export default function YogaTTCIndia() {
       <section className={`${styles.section} ${styles.sectionWarm}`}>
         <div className="container px-3 px-md-4">
           {/* Rishikesh detail */}
-          <div className={styles.locationDetail}>
-            <h2 className={styles.locationDetailTitle}>Rishikesh</h2>
-            <div className={styles.locationDetailLine} />
-            <p className={styles.bodyPara}>
-              If you're drawn to the spiritual energy of the holy city of
-              Rishikesh, where the sacred Ganges winds through the Himalayan
-              foothills, our yoga school in Upper Tapovan offers an ideal
-              setting for transformative yoga practice. The serene and relaxing
-              environment here is ideal for deepening your yoga practice. Our
-              school provides comfortable accommodations to ensure a pleasant
-              and enriching stay during your training.
-            </p>
-          </div>
+          {(data.rishikeshTitle || data.rishikeshDetailPara || (data.rishikeshParagraphs && data.rishikeshParagraphs.length > 0)) && (
+            <div className={styles.locationDetail}>
+              {data.rishikeshTitle && (
+                <h2 className={styles.locationDetailTitle}>{data.rishikeshTitle}</h2>
+              )}
+              <div className={styles.locationDetailLine} />
+              {data.rishikeshParagraphs && data.rishikeshParagraphs.length > 0 ? (
+                data.rishikeshParagraphs.map((p, i) => (
+                  <div
+                    key={i}
+                    className={styles.bodyPara}
+                    dangerouslySetInnerHTML={{ __html: p }}
+                  />
+                ))
+              ) : data.rishikeshDetailPara ? (
+                <div
+                  className={styles.bodyPara}
+                  dangerouslySetInnerHTML={{ __html: data.rishikeshDetailPara }}
+                />
+              ) : rishikeshLoc?.desc ? (
+                <p className={styles.bodyPara}>{rishikeshLoc.desc}</p>
+              ) : null}
+            </div>
+          )}
 
           {/* Goa detail */}
-          <div className={styles.locationDetail}>
-            <h2 className={styles.locationDetailTitle}>Goa</h2>
-            <div className={styles.locationDetailLine} />
-            <p className={styles.bodyPara}>
-              If you are a beach person and want to learn yoga at the beachside,
-              join our AYM yoga school in Goa. Goa is one of India's best scenic
-              beachside tourist destinations, and this is one spot you shouldn't
-              miss if you plan to visit the beaches of India. In Goa, our school
-              is located towards the.
-            </p>
-          </div>
+          {(data.goaTitle || data.goaDetailPara || (data.goaParagraphs && data.goaParagraphs.length > 0)) && (
+            <div className={styles.locationDetail}>
+              {data.goaTitle && (
+                <h2 className={styles.locationDetailTitle}>{data.goaTitle}</h2>
+              )}
+              <div className={styles.locationDetailLine} />
+              {data.goaParagraphs && data.goaParagraphs.length > 0 ? (
+                data.goaParagraphs.map((p, i) => (
+                  <div
+                    key={i}
+                    className={styles.bodyPara}
+                    dangerouslySetInnerHTML={{ __html: p }}
+                  />
+                ))
+              ) : data.goaDetailPara ? (
+                <div
+                  className={styles.bodyPara}
+                  dangerouslySetInnerHTML={{ __html: data.goaDetailPara }}
+                />
+              ) : goaLoc?.desc ? (
+                <p className={styles.bodyPara}>{goaLoc.desc}</p>
+              ) : null}
+            </div>
+          )}
 
           <OmDivider />
 
-          {/* 3 Course Cards */}
-          <div className="row g-4 mt-1">
-            <div className="col-12 col-md-4">
-              <CourseCard
-                hours="200"
-                title="200 Hour Yoga Teacher Training Course in India"
-                desc={
-                  <>
-                    <a href="#" className={styles.link}>
-                      200 hour yoga teacher course in India
-                    </a>{" "}
-                    is a structured, intensive yoga course of traditional yoga
-                    in a modern pursuit. This training program will provide you
-                    with a comprehensive knowledge of yoga and develop strong
-                    teaching skills. You will learn various aspects of yoga,
-                    like pranayama, asana, mantras, physiology, and anatomy.
-                  </>
-                }
-                linkLabel="200 Hour More Information"
-              />
+          {/* Course Cards */}
+          {data.courseCards && data.courseCards.length > 0 && (
+            <div className="row g-4 mt-1">
+              {data.courseCards.map((card, i) => (
+                <div key={card._id || i} className="col-12 col-md-4">
+                  <CourseCardComp card={card} />
+                </div>
+              ))}
             </div>
-            <div className="col-12 col-md-4">
-              <CourseCard
-                hours="300"
-                title="300 Hour Yoga Teacher Training Course in India"
-                desc={
-                  <>
-                    India's{" "}
-                    <a href="#" className={styles.link}>
-                      300-hour yoga teacher training course
-                    </a>{" "}
-                    is an intensive yoga course registered under Yoga Alliance
-                    USA. It gives advanced knowledge of yoga to those who want
-                    to take their personal practice and teaching skills to
-                    another level. This specialized yoga course has been built
-                    for those who have completed their{" "}
-                    <strong>200 hour yoga.</strong>
-                  </>
-                }
-                linkLabel="300 Hour More Information"
-              />
-            </div>
-            <div className="col-12 col-md-4">
-              <CourseCard
-                hours="500"
-                title="500 Hour Yoga Teacher Training Course in India"
-                desc={
-                  <>
-                    The{" "}
-                    <a href="#" className={styles.link}>
-                      500 hour yoga teacher training course in India
-                    </a>{" "}
-                    is an advanced yoga course{" "}
-                    <strong>
-                      accredited with yoga alliance, USA. 500 hour yoga TTC in
-                      India
-                    </strong>{" "}
-                    is a multi-style intensive yoga course specializing in
-                    various yoga styles and specializations in yoga therapy and
-                    takes your teaching practice to another level.
-                  </>
-                }
-                linkLabel="500 Hour More Information"
-              />
-            </div>
-          </div>
+          )}
         </div>
       </section>
 
@@ -517,107 +559,100 @@ export default function YogaTTCIndia() {
       ══════════════════════════════ */}
       <section className={`${styles.section} ${styles.sectionDeep}`}>
         <div className="container px-3 px-md-4">
-          <h2 className={styles.whyTitle}>
-            Why AYM for Yoga Teachers Training Course?
-          </h2>
-          <div className={styles.whyUnderline} />
+          {data.whyAYMTitle && (
+            <>
+              <h2 className={styles.whyTitle}>{data.whyAYMTitle}</h2>
+              <div className={styles.whyUnderline} />
+            </>
+          )}
 
-          <p className={styles.bodyPara}>
-            Yoga is not just the study of asanas, aka yogic poses, but a way of
-            life. At AYM, we focus on this holistic aspect of yoga beyond the
-            yogic postures, which includes the yogic way of life, breathing
-            exercises, meditations, etc. Yes, yoga is an inward journey towards
-            oneself. In a yoga teachers' training session, you will experience
-            this.
-          </p>
-          <p className={styles.bodyPara}>
-            Our teacher training courses in India (200 hours, 300 hours and 500
-            hours yoga teacher training course) are approved by the Ministry of
-            Ayush, Govt. of India, and also by the Yoga Alliance, United States.
-            Our experienced teachers will guide you on the path of yoga. With
-            more than 20 years of experience teaching yoga to thousands of
-            students from around the globe, we can guarantee that we provide the
-            best yoga teacher training course in India.
-          </p>
+          {/* whyAYMParagraphs array */}
+          {data.whyAYMParagraphs && data.whyAYMParagraphs.length > 0 ? (
+            data.whyAYMParagraphs.map((p, i) => (
+              <div
+                key={i}
+                className={styles.bodyPara}
+                dangerouslySetInnerHTML={{ __html: p }}
+              />
+            ))
+          ) : (
+            <>
+              {data.whyAYMPara1 && (
+                <div
+                  className={styles.bodyPara}
+                  dangerouslySetInnerHTML={{ __html: data.whyAYMPara1 }}
+                />
+              )}
+              {data.whyAYMPara2 && (
+                <div
+                  className={styles.bodyPara}
+                  dangerouslySetInnerHTML={{ __html: data.whyAYMPara2 }}
+                />
+              )}
+              {data.whyAYMPara3 && (
+                <div
+                  className={styles.bodyPara}
+                  dangerouslySetInnerHTML={{ __html: data.whyAYMPara3 }}
+                />
+              )}
+            </>
+          )}
 
-          {/* Two quote images */}
-          <div className="row g-3 mb-4">
-            <div className="col-12 col-md-6">
-              <QuoteCard
-                quote='"Everyday is a great day for yoga!"'
-                img="https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=700&q=80"
-                imgAlt="Yoga practice outdoors Rishikesh"
-              />
+          {/* Quote Cards */}
+          {data.quoteCards && data.quoteCards.length > 0 && (
+            <div className="row g-3 mb-4">
+              {data.quoteCards.map((card, i) => (
+                <div key={card._id || i} className="col-12 col-md-6">
+                  <QuoteCard card={card} />
+                </div>
+              ))}
             </div>
-            <div className="col-12 col-md-6">
-              <QuoteCard
-                quote='"Yoga is a mirror to look at ourselves from within"'
-                img="https://images.unsplash.com/photo-1588286840104-8957b019727f?w=700&q=80"
-                imgAlt="Group yoga by the Ganges Rishikesh"
-              />
-            </div>
-          </div>
+          )}
 
           <OmDivider slim />
 
-          <p className={styles.bodyPara}>
-            We welcome you to our yoga school in India to feel the magic of yoga
-            and experience the transformation for yourselves. We offer courses
-            like 200 hours of yoga teacher training program and 300 hours of
-            yoga teacher training program. The 500 hours of the yoga teacher
-            training program (a combined program of 200 hours of yoga ttc and
-            300 hours of yoga ttc), various yoga retreats, prenatal yoga
-            sessions, yoga for beginners, yoga holiday retreats, yoga and
-            ayurvedic detoxification programs, etc. This life-changing
-            experience is certified by thousands of our graduates from various
-            parts of the world.
-          </p>
-
           {/* Arrival & Includes panels */}
-          <div className="row g-4 mt-2">
-            {/* Arrival & Departure */}
-            <div className="col-12 col-md-6">
-              <div className={styles.infoPanel}>
-                <h3 className={styles.panelTitle}>Arrival &amp; Departure</h3>
-                <div className={styles.panelUnderline} />
-                <ol className={styles.panelList}>
-                  <li>Day before Start date: Arrival and Rest.</li>
-                  <li>
-                    Starting Date: Includes opening ceremony and orientation.
-                  </li>
-                  <li>Day-Off: Sunday will be off day.</li>
-                  <li>
-                    Last Day: Departure after 2 pm (no extra charge for the last
-                    night).
-                  </li>
-                  <li>
-                    Additional Stay: You are welcome to stay before or after the
-                    retreat by paying an additional charge of $20/day, includes
-                    all meals.
-                  </li>
-                </ol>
-              </div>
+          {((data.arrivalList && data.arrivalList.length > 0) ||
+            (data.feeList && data.feeList.length > 0)) && (
+            <div className="row g-4 mt-2">
+              {/* Arrival & Departure */}
+              {data.arrivalList && data.arrivalList.length > 0 && (
+                <div className="col-12 col-md-6">
+                  <div className={styles.infoPanel}>
+                    <h3 className={styles.panelTitle}>
+                      {data.arrivalTitle || "Arrival & Departure"}
+                    </h3>
+                    <div className={styles.panelUnderline} />
+                    <ol className={styles.panelList}>
+                      {data.arrivalList.map((item, i) => (
+                        <li key={i}>{item}</li>
+                      ))}
+                    </ol>
+                  </div>
+                </div>
+              )}
+
+              {/* Includes in Fee */}
+              {data.feeList && data.feeList.length > 0 && (
+                <div className="col-12 col-md-6">
+                  <div className={styles.infoPanel}>
+                    <h3 className={styles.panelTitle}>
+                      {data.feeTitle || "Includes in Fee"}
+                    </h3>
+                    <div className={styles.panelUnderline} />
+                    <ol className={styles.panelList}>
+                      {data.feeList.map((item, i) => (
+                        <li key={i}>{item}</li>
+                      ))}
+                    </ol>
+                  </div>
+                </div>
+              )}
             </div>
-            {/* Includes in Fee */}
-            <div className="col-12 col-md-6">
-              <div className={styles.infoPanel}>
-                <h3 className={styles.panelTitle}>Includes in Fee</h3>
-                <div className={styles.panelUnderline} />
-                <ol className={styles.panelList}>
-                  <li>Accommodation and Food.</li>
-                  <li>Yoga Classes.</li>
-                  <li>
-                    Course Metrials. ( Book, Printed Manual, Notebook and Beg.)
-                  </li>
-                  <li>T-shirt</li>
-                  <li>1 Outtour ( Local Sightseen.)</li>
-                  <li>One ayurvedic Massage</li>
-                </ol>
-              </div>
-            </div>
-          </div>
+          )}
         </div>
       </section>
+
       <HowToReach />
     </div>
   );

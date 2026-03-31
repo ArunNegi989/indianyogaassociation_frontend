@@ -2,157 +2,343 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from "@/assets/style/hatha-yoga-teacher-training-Rishikesh/Hathayogapage.module.css";
 import HowToReach from "@/components/home/Howtoreach";
-import Image from "next/image";
-import heroImg from "@/assets/images/15.webp";
+import api from "@/lib/api";
 
-/* ── Google / Unsplash image URLs ── */
-const IMG = {
-  hero: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=1600&q=80",
-  classRoom:
-    "https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?w=900&q=80",
-  pose200:
-    "https://images.unsplash.com/photo-1545205597-3d9d02c29597?w=600&q=80",
-  pose300:
-    "https://images.unsplash.com/photo-1575052814086-f385e2e2ad1b?w=600&q=80",
-  pose500:
-    "https://images.unsplash.com/photo-1588286840104-8957b019727f?w=600&q=80",
-  ashram:
-    "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=1200&q=80",
+/* ══════════════════════════════════════
+   TYPES
+══════════════════════════════════════ */
+interface CertCard {
+  _id?: string;
+  hours: string;
+  sub: string;
+  href?: string;
+  imgUrl?: string;
+  image?: string;
+}
+
+interface HathaYogaData {
+  _id: string;
+  slug?: string;
+  status?: string;
+
+  heroImgAlt?: string;
+  heroImage?: string;
+
+  introSectionTitle?: string;
+  introSideImgAlt?: string;
+  introSideImage?: string;
+
+  whatSuperLabel?: string;
+  whatTitle?: string;
+
+  benefitsSuperLabel?: string;
+  benefitsTitle?: string;
+  benefitsSideImgAlt?: string;
+  benefitsSideImage?: string;
+  pullQuote?: string;
+
+  certSuperLabel?: string;
+  certTitle?: string;
+  certPara?: string;
+
+  ashramSuperLabel?: string;
+  ashramTitle?: string;
+  ashramImgAlt?: string;
+  ashramImage?: string;
+
+  curriculumSuperLabel?: string;
+  curriculumTitle?: string;
+
+  pricingSuperLabel?: string;
+  pricingTitle?: string;
+  pricingIntroPara?: string;
+  registrationFormLink?: string;
+  tableNote?: string;
+  joinBtnLabel?: string;
+  joinBtnHref?: string;
+  pricingProgrammePara?: string;
+
+  footerTitle?: string;
+  footerSubtitle?: string;
+  applyBtnLabel?: string;
+  applyBtnHref?: string;
+  contactBtnLabel?: string;
+  contactEmail?: string;
+
+  introParagraphs?: string[];
+  whatParagraphs?: string[];
+  ashramParagraphs?: string[];
+  programmeParagraphs?: string[];
+
+  accreditations?: string[];
+  benefitsList?: string[];
+  courseDetailsList?: string[];
+  benefitsIntroPara?: string;
+
+  certCards?: CertCard[];
+}
+
+interface Batch {
+  _id: string;
+  startDate: string;
+  endDate: string;
+  usdFee: string;
+  inrFee: string;
+  dormPrice: number;
+  twinPrice: number;
+  privatePrice: number;
+  totalSeats: number;
+  bookedSeats: number;
+  note?: string;
+}
+
+/* ══════════════════════════════════════
+   HELPERS
+══════════════════════════════════════ */
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "";
+
+const imgSrc = (image?: string, imgUrl?: string, fallback = ""): string => {
+  if (image && image.startsWith("/uploads/")) return `${BASE_URL}${image}`;
+  if (imgUrl && imgUrl.length > 0) return imgUrl;
+  return fallback;
 };
 
-/* ── Chakra data ── */
+const formatDate = (iso: string): string => {
+  if (!iso) return "";
+  const d = new Date(iso);
+  return d.toLocaleDateString("en-GB", {
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+  });
+};
 
-/* ── Benefits ── */
-const benefits = [
-  "Promotes physical strength and flexibility",
-  "Relieves stress and ensures deep relaxation",
-  "Harmonizes the body's chakras and creates balanced energy",
-  "Enhances lung capacity and improves respiratory health",
-  "Provides focus, mental clarity and cognitive functioning",
-  "Fosters a deep connection with oneself, nature and the universe",
-  "Improves blood circulation, cardiovascular & hormonal health",
-  "Promotes better sleep and healthy digestion",
-  "Enhances overall well-being and promotes a fulfilling life",
-];
+/* ══════════════════════════════════════
+   SUB-COMPONENTS
+══════════════════════════════════════ */
+function OrnamentDivider() {
+  return (
+    <div className={styles.ornamentDivider}>
+      <span className={styles.ornLine} />
+      <span className={styles.ornGlyph}>❧</span>
+      <span className={styles.ornLine} />
+    </div>
+  );
+}
 
-/* ── Course details ── */
-const courseDetails = [
-  "Upa Yoga, Yogasana, Surya Kriya, Prayanama, Mantra Yoga, Nada Yoga and more",
-  "Qualified instructors conduct both practical and theoretical classes",
-  "Students are introduced to yogic physiology alongside Siddha medicine",
-  "Excursions to holy places where inner peace can be discovered",
-  "Introduction to yogic principles and ways to employ them in real life",
-  "Students are helped to find inner peace through the hatha yoga TTC in India",
-  "A sattvic diet is provided while practising hatha yoga to achieve fitness",
-  "Tests and assessments to keep track of learning progress",
-];
+function CornerOrnament({ pos }: { pos: "tl" | "tr" | "bl" | "br" }) {
+  const flip = { tl: "scale(1,1)", tr: "scale(-1,1)", bl: "scale(1,-1)", br: "scale(-1,-1)" }[pos];
+  return (
+    <svg viewBox="0 0 40 40" className={styles.cornerOrn} style={{ transform: flip }}>
+      <path d="M2,2 L2,18 M2,2 L18,2" stroke="#b8860b" strokeWidth="1.5" fill="none" />
+      <path d="M2,2 Q8,8 16,2 Q8,8 2,16" stroke="#b8860b" strokeWidth="0.7" fill="none" />
+      <circle cx="2" cy="2" r="2" fill="#b8860b" opacity="0.7" />
+      <circle cx="10" cy="10" r="1.5" fill="#b8860b" opacity="0.4" />
+    </svg>
+  );
+}
 
-/* ── Pricing data (200hr style) ── */
-const pricingData = [
-  { date: "05th Jan to 29th Jan 2026", usdFee: "$1,099", inrFee: "₹45,000", dormPrice: 749, twinPrice: 999, privatePrice: 1099, totalSeats: 20, bookedSeats: 8 },
-  { date: "03rd Feb to 27th Feb 2026", usdFee: "$1,099", inrFee: "₹45,000", dormPrice: 749, twinPrice: 999, privatePrice: 1099, totalSeats: 20, bookedSeats: 12 },
-  { date: "03rd Mar to 27th Mar 2026", usdFee: "$1,099", inrFee: "₹45,000", dormPrice: 749, twinPrice: 999, privatePrice: 1099, totalSeats: 20, bookedSeats: 20 },
-  { date: "03rd Apr to 27th Apr 2026", usdFee: "$1,099", inrFee: "₹45,000", dormPrice: 749, twinPrice: 999, privatePrice: 1099, totalSeats: 20, bookedSeats: 5 },
-  { date: "03rd May to 27th May 2026", usdFee: "$1,099", inrFee: "₹45,000", dormPrice: 749, twinPrice: 999, privatePrice: 1099, totalSeats: 20, bookedSeats: 0 },
-];
+function SeatsCell({ booked, total }: { booked: number; total: number }) {
+  const isFull = booked >= total;
+  const remaining = total - booked;
+  if (isFull) return <span className={styles.fullyBooked}>Fully Booked</span>;
+  return <span className={styles.seatsAvailable}>{remaining} / {total} Seats</span>;
+}
+
+function MandalaRingSVG({ size = 300, opacity = 0.08 }: { size?: number; opacity?: number }) {
+  const n = 24;
+  const cx = size / 2;
+  const r1 = size * 0.44;
+  const r2 = size * 0.35;
+  const r3 = size * 0.24;
+  return (
+    <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} style={{ opacity }}>
+      <g stroke="#c46a00" strokeWidth="0.8" fill="none">
+        <circle cx={cx} cy={cx} r={r1} />
+        <circle cx={cx} cy={cx} r={r2} />
+        <circle cx={cx} cy={cx} r={r3} />
+        <circle cx={cx} cy={cx} r={size * 0.12} />
+        {Array.from({ length: n }).map((_, i) => {
+          const a = (i / n) * 2 * Math.PI;
+          const x1 = cx + r3 * Math.cos(a), y1 = cx + r3 * Math.sin(a);
+          const x2 = cx + r1 * Math.cos(a), y2 = cx + r1 * Math.sin(a);
+          return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} />;
+        })}
+        {Array.from({ length: 8 }).map((_, i) => {
+          const a = (i / 8) * 2 * Math.PI;
+          const x1 = cx + (r2 - 12) * Math.cos(a), y1 = cx + (r2 - 12) * Math.sin(a);
+          const x2 = cx + (r2 + 12) * Math.cos(a), y2 = cx + (r2 + 12) * Math.sin(a);
+          return (
+            <ellipse
+              key={i}
+              cx={(x1 + x2) / 2} cy={(y1 + y2) / 2}
+              rx={14} ry={5}
+              transform={`rotate(${(i / 8) * 360} ${(x1 + x2) / 2} ${(y1 + y2) / 2})`}
+            />
+          );
+        })}
+      </g>
+    </svg>
+  );
+}
+
+function MandalaSVG({ opacity = 0.05, size = 600 }: { opacity?: number; size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} style={{ opacity }} aria-hidden>
+      <g stroke="#c46a00" strokeWidth="0.6" fill="none" transform={`translate(${size / 2},${size / 2})`}>
+        {[0.46, 0.38, 0.28, 0.18, 0.09].map((r, ri) => (
+          <circle key={ri} cx={0} cy={0} r={r * size} />
+        ))}
+        {Array.from({ length: 36 }).map((_, i) => {
+          const a = (i / 36) * 2 * Math.PI;
+          return (
+            <line key={i}
+              x1={size * 0.09 * Math.cos(a)} y1={size * 0.09 * Math.sin(a)}
+              x2={size * 0.46 * Math.cos(a)} y2={size * 0.46 * Math.sin(a)}
+            />
+          );
+        })}
+        {Array.from({ length: 12 }).map((_, i) => {
+          const a = (i / 12) * 2 * Math.PI;
+          const r = size * 0.32;
+          return (
+            <ellipse key={i}
+              cx={r * Math.cos(a)} cy={r * Math.sin(a)}
+              rx={size * 0.07} ry={size * 0.025}
+              transform={`rotate(${(i / 12) * 360} ${r * Math.cos(a)} ${r * Math.sin(a)})`}
+            />
+          );
+        })}
+      </g>
+    </svg>
+  );
+}
+
+/* ══════════════════════════════════════
+   LOADING STATE
+══════════════════════════════════════ */
+function LoadingSpinner() {
+  return (
+    <div className={styles.page} style={{ minHeight: "60vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
+      <div style={{ textAlign: "center", color: "#e07b00", fontSize: "1.1rem", opacity: 0.75 }}>
+        <MandalaRingSVG size={80} opacity={0.6} />
+        <p style={{ marginTop: "1rem", fontFamily: "serif", letterSpacing: "0.05em" }}>Loading…</p>
+      </div>
+    </div>
+  );
+}
 
 /* ════════════════════════════════════════════
    MAIN COMPONENT
 ════════════════════════════════════════════ */
 export default function HathaYogaPage() {
-  const [activeChakra, setActiveChakra] = useState<number | null>(null);
-  const sectionRefs = useRef<HTMLElement[]>([]);
+  const [pageData, setPageData] = useState<HathaYogaData | null>(null);
+  const [batches, setBatches] = useState<Batch[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   /* Intersection observer for scroll-reveal */
   useEffect(() => {
     const obs = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((e) => {
-          if (e.isIntersecting) e.target.classList.add(styles.visible);
-        });
-      },
-      { threshold: 0.12 },
+      (entries) => { entries.forEach((e) => { if (e.isIntersecting) e.target.classList.add(styles.visible); }); },
+      { threshold: 0.12 }
     );
-    document
-      .querySelectorAll(`.${styles.reveal}`)
-      .forEach((el) => obs.observe(el));
+    document.querySelectorAll(`.${styles.reveal}`).forEach((el) => obs.observe(el));
     return () => obs.disconnect();
+  }, [pageData]); // re-run after data loads so elements exist
+
+  /* Fetch both APIs in parallel */
+  useEffect(() => {
+    const fetchAll = async () => {
+      try {
+        const [pageRes, batchRes] = await Promise.all([
+          api.get("/hatha-yoga"),
+          api.get("/hathayoga-seats/getAllBatches"),
+        ]);
+
+        if (pageRes.data?.success) setPageData(pageRes.data.data);
+        else setError("Page data not found.");
+
+        if (batchRes.data?.success) setBatches(batchRes.data.data || []);
+      } catch (err: any) {
+        setError(err?.message || "Failed to load page.");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchAll();
   }, []);
+
+  if (loading) return <LoadingSpinner />;
+  if (error || !pageData) {
+    return (
+      <div className={styles.page} style={{ padding: "4rem", textAlign: "center", color: "#e07b00" }}>
+        <p>{error || "Something went wrong."}</p>
+      </div>
+    );
+  }
+
+  const d = pageData; // shorthand
+
+  /* Image helpers */
+  const heroSrc    = imgSrc(d.heroImage, undefined, "");
+  const introSrc   = imgSrc(d.introSideImage, undefined, "https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?w=900&q=80");
+  const benefitSrc = imgSrc(d.benefitsSideImage, undefined, "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=1200&q=80");
+  const ashramSrc  = imgSrc(d.ashramImage, undefined, "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=1200&q=80");
 
   return (
     <div className={styles.page}>
-      {/* ══ Mandala BG watermark ══ */}
+      {/* Mandala BG watermark */}
       <div className={styles.mandalaWatermark} aria-hidden="true">
         <MandalaSVG opacity={0.04} size={700} />
       </div>
 
-      <section className={styles.heroSection}>
-        <Image
-          src={heroImg}
-          alt="Yoga Students Group"
-          width={1180}
-          height={540}
-          className={styles.heroImage}
-          priority
-        />
-      </section>
+      {/* ══ HERO IMAGE ══ */}
+      {heroSrc && (
+        <section className={styles.heroSection}>
+          <img
+            src={heroSrc}
+            alt={d.heroImgAlt || "Hatha Yoga Teacher Training"}
+            className={styles.heroImage}
+            style={{ width: "100%", height: "auto", display: "block" }}
+            loading="eager"
+          />
+        </section>
+      )}
 
       {/* ══════════════════════ INTRO ══════════════════════ */}
       <section className={`${styles.section} ${styles.introSection}`}>
         <div className={styles.container}>
           <div className={`${styles.reveal} ${styles.introGrid}`}>
             <div className={styles.introText}>
-              <h2 className={styles.sectionTitle}>A Sacred Path to Mastery</h2>
+              {d.introSectionTitle && (
+                <h2 className={styles.sectionTitle}>{d.introSectionTitle}</h2>
+              )}
               <OrnamentDivider />
-              <p className={styles.para}>
-                Have you ever felt physically drained or mentally overwhelmed?
-                You're not alone. In today's fast-paced, materialistic world,
-                more people are turning to <strong>Hatha yoga</strong> as a
-                time-tested way to restore balance, strength, and inner peace.
-                This ancient practice harmonises the energy flow between the
-                body, mind, and spirit, offering both physical and emotional
-                healing.
-              </p>
-              <p className={styles.para}>
-                At AYM Yoga School, we are recognized globally for our{" "}
-                <strong>200 Hour Hatha Yoga Teacher Training in Rishikesh</strong>
-                , designed to help you master the foundations of Hatha yoga
-                while deepening your spiritual and teaching journey.
-              </p>
-              <p className={styles.para}>
-                Whether you're a beginner or an experienced practitioner, our{" "}
-                <strong>Yoga Alliance certified Hatha YTT</strong> in Rishikesh
-                is a transformative blend of traditional yogic wisdom and modern
-                teaching methodology — supported by experienced teachers in the
-                yoga capital of the world.
-              </p>
-              <p className={styles.paraSmall}>
-                Looking to explore deeper paths? We also offer{" "}
-                <strong>300-Hour and 500-Hour Hatha Yoga Teacher Training</strong>{" "}
-                in Rishikesh, ideal for those wanting to refine their personal
-                practice and become internationally recognized instructors.
-              </p>
+
+              {/* Intro paragraphs (HTML from rich text editor) */}
+              {d.introParagraphs && d.introParagraphs.length > 0
+                ? d.introParagraphs.map((p, i) => (
+                    <div key={i} className={styles.para} dangerouslySetInnerHTML={{ __html: p }} />
+                  ))
+                : null}
             </div>
+
             <div className={styles.introImage}>
               <div className={styles.imageFrame}>
-                <img src={IMG.classRoom} alt="Yoga class in Rishikesh" />
-                <div className={styles.imageCaption}>
-                  Morning Satsang · AYM Ashram
+                <img src={introSrc} alt={d.introSideImgAlt || "Yoga class in Rishikesh"} />
+                <div className={styles.imageCaption}>Morning Satsang · AYM Ashram</div>
+              </div>
+
+              {/* Accreditations */}
+              {d.accreditations && d.accreditations.length > 0 && (
+                <div className={styles.accredBox}>
+                  <p className={styles.accredTitle}>Accreditations</p>
+                  {d.accreditations.map((a, i) => (
+                    <span key={i} className={styles.accredBadge}>{a}</span>
+                  ))}
                 </div>
-              </div>
-              <div className={styles.accredBox}>
-                <p className={styles.accredTitle}>Accreditations</p>
-                {[
-                  "✓ Yoga Alliance USA — RYS 200 / 300 / 500",
-                  "✓ Ministry of AYUSH, Government of India",
-                  "✓ International Yoga Federation",
-                  "✓ Internationally Recognised Certificate",
-                ].map((a) => (
-                  <span key={a} className={styles.accredBadge}>
-                    {a}
-                  </span>
-                ))}
-              </div>
+              )}
             </div>
           </div>
         </div>
@@ -165,30 +351,16 @@ export default function HathaYogaPage() {
         </div>
         <div className={styles.container}>
           <div className={`${styles.reveal} ${styles.centered}`}>
-            <p className={styles.superLabel}>Ancient Wisdom</p>
-            <h2 className={styles.sectionTitle}>What is Hatha Yoga?</h2>
+            {d.whatSuperLabel && <p className={styles.superLabel}>{d.whatSuperLabel}</p>}
+            {d.whatTitle && <h2 className={styles.sectionTitle}>{d.whatTitle}</h2>}
             <OrnamentDivider />
-            <p className={styles.paraCenter}>
-              Hatha yoga can be understood as a traditional and classical yoga
-              form. The term <em>hatha</em> refers to "force" or "effort." It
-              balances the body's energy and focuses on physical postures
-              (asanas) and breathing techniques (pranayama). A gentle and
-              slow-paced style of yoga, it emphasizes balancing the body's
-              energy centres (chakras) and channels (Nadis) and aims to
-              cultivate focus and self-awareness.
-            </p>
-            <p className={styles.paraCenter}>
-              If you seek meditative practices or in-depth knowledge of yoga's
-              physical and energetic aspects, enrol in our{" "}
-              <strong>200 hour Hatha yoga teacher training in Rishikesh.</strong>{" "}
-              We are licensed and registered with Yoga Alliance and provide
-              top-rated courses based on theoretical and practical learning
-              methods.
-            </p>
-          </div>
 
-          {/* Chakra Grid */}
-         
+            {d.whatParagraphs && d.whatParagraphs.length > 0
+              ? d.whatParagraphs.map((p, i) => (
+                  <div key={i} className={styles.paraCenter} dangerouslySetInnerHTML={{ __html: p }} />
+                ))
+              : null}
+          </div>
         </div>
       </section>
 
@@ -197,36 +369,37 @@ export default function HathaYogaPage() {
         <div className={styles.container}>
           <div className={`${styles.reveal} ${styles.benefitsGrid}`}>
             <div className={styles.benefitsLeft}>
-              <p className={styles.superLabel}>Transformation</p>
-              <h2 className={styles.sectionTitle}>Benefits of Hatha Yoga</h2>
+              {d.benefitsSuperLabel && <p className={styles.superLabel}>{d.benefitsSuperLabel}</p>}
+              {d.benefitsTitle && <h2 className={styles.sectionTitle}>{d.benefitsTitle}</h2>}
               <OrnamentDivider />
-              <p className={styles.para}>
-                It may not always be the right decision to learn yoga. Before
-                you decide to take up the{" "}
-                <strong>Hatha yoga teacher training course program in Rishikesh</strong>
-                , let us tell you why you should stick to this decision.
-              </p>
-              <ol className={styles.benefitsList}>
-                {benefits.map((b, i) => (
-                  <li key={i} className={styles.benefitItem}>
-                    <span className={styles.benefitNum}>
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
-                    <span>{b}</span>
-                  </li>
-                ))}
-              </ol>
+
+              {d.benefitsIntroPara && (
+                <div className={styles.para} dangerouslySetInnerHTML={{ __html: d.benefitsIntroPara }} />
+              )}
+
+              {d.benefitsList && d.benefitsList.length > 0 && (
+                <ol className={styles.benefitsList}>
+                  {d.benefitsList.map((b, i) => (
+                    <li key={i} className={styles.benefitItem}>
+                      <span className={styles.benefitNum}>{String(i + 1).padStart(2, "0")}</span>
+                      <span>{b}</span>
+                    </li>
+                  ))}
+                </ol>
+              )}
             </div>
+
             <div className={styles.benefitsRight}>
               <div className={styles.imageFrameTall}>
-                <img src={IMG.ashram} alt="Yoga Ashram Rishikesh" />
+                <img src={benefitSrc} alt={d.benefitsSideImgAlt || "Yoga Ashram Rishikesh"} />
               </div>
-              <div className={styles.pullQuote}>
-                <span className={styles.quoteGlyph}>"</span>
-                Yoga is not about touching your toes. It is what you learn on
-                the way down.
-                <span className={styles.quoteGlyph}>"</span>
-              </div>
+              {d.pullQuote && (
+                <div className={styles.pullQuote}>
+                  <span className={styles.quoteGlyph}>"</span>
+                  {d.pullQuote}
+                  <span className={styles.quoteGlyph}>"</span>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -239,43 +412,43 @@ export default function HathaYogaPage() {
         </div>
         <div className={styles.container}>
           <div className={`${styles.reveal} ${styles.centered}`}>
-            <p className={styles.superLabel}>Recognition</p>
-            <h2 className={styles.sectionTitle}>Hatha Yoga Certification</h2>
+            {d.certSuperLabel && <p className={styles.superLabel}>{d.certSuperLabel}</p>}
+            {d.certTitle && <h2 className={styles.sectionTitle}>{d.certTitle}</h2>}
             <OrnamentDivider />
-            <p className={styles.paraCenter}>
-              At AYM, regardless of the type of course programme the students
-              might have chosen, they are provided with the certification at the
-              end. As India's leading{" "}
-              <strong>hatha yoga teacher training institute</strong>, we provide
-              sessions sincerely, tracking students' progress. Our teachers also
-              conduct regular tests and assessments to ensure students know
-              everything. Once the course is complete, we reward the knowledge
-              and expertise of our students by offering them{" "}
-              <strong>hatha yoga teacher training certification in India</strong>
-              . Our certification can be used anywhere in the world to start
-              one's career as a professional.
-            </p>
+            {d.certPara && (
+              <div className={styles.paraCenter} dangerouslySetInnerHTML={{ __html: d.certPara }} />
+            )}
           </div>
-          <div className={`${styles.reveal} ${styles.certCards}`}>
-            {[
-              { h: "200 Hour", sub: "Foundation Programme", img: IMG.pose200, href: "#200hr" },
-              { h: "300 Hour", sub: "Advanced Programme",   img: IMG.pose300, href: "#300hr" },
-              { h: "500 Hour", sub: "Master Programme",     img: IMG.pose500, href: "#500hr" },
-            ].map((c) => (
-              <a key={c.h} href={c.href} className={styles.certCard}>
-                <div className={styles.certCardImg}>
-                  <img src={c.img} alt={c.h} />
-                  <div className={styles.certCardOverlay} />
-                </div>
-                <div className={styles.certCardBody}>
-                  <h3 className={styles.certCardTitle}>{c.h}</h3>
-                  <p className={styles.certCardSub}>Hatha Yoga Course</p>
-                  <p className={styles.certCardProg}>{c.sub}</p>
-                  <span className={styles.certCardLink}>Explore →</span>
-                </div>
-              </a>
-            ))}
-          </div>
+
+          {d.certCards && d.certCards.length > 0 && (
+            <div className={`${styles.reveal} ${styles.certCards}`}>
+              {d.certCards.map((c, i) => {
+                const cardSrc = imgSrc(
+                  c.image,
+                  c.imgUrl,
+                  [
+                    "https://images.unsplash.com/photo-1545205597-3d9d02c29597?w=600&q=80",
+                    "https://images.unsplash.com/photo-1575052814086-f385e2e2ad1b?w=600&q=80",
+                    "https://images.unsplash.com/photo-1588286840104-8957b019727f?w=600&q=80",
+                  ][i] || ""
+                );
+                return (
+                  <a key={c._id || i} href={c.href || "#"} className={styles.certCard}>
+                    <div className={styles.certCardImg}>
+                      {cardSrc && <img src={cardSrc} alt={c.hours} />}
+                      <div className={styles.certCardOverlay} />
+                    </div>
+                    <div className={styles.certCardBody}>
+                      <h3 className={styles.certCardTitle}>{c.hours}</h3>
+                      <p className={styles.certCardSub}>Hatha Yoga Course</p>
+                      <p className={styles.certCardProg}>{c.sub}</p>
+                      <span className={styles.certCardLink}>Explore →</span>
+                    </div>
+                  </a>
+                );
+              })}
+            </div>
+          )}
         </div>
       </section>
 
@@ -284,38 +457,22 @@ export default function HathaYogaPage() {
         <div className={styles.container}>
           <div className={`${styles.reveal} ${styles.ashramGrid}`}>
             <div className={styles.ashramText}>
-              <p className={styles.superLabel}>Sacred Space</p>
-              <h2 className={styles.sectionTitle}>
-                Hatha Yoga Ashram
-                <br />
-                Rishikesh, India
-              </h2>
+              {d.ashramSuperLabel && <p className={styles.superLabel}>{d.ashramSuperLabel}</p>}
+              {d.ashramTitle && (
+                <h2 className={styles.sectionTitle} dangerouslySetInnerHTML={{ __html: d.ashramTitle.replace(/,\s*/g, ",<br/>") }} />
+              )}
               <OrnamentDivider />
-              <p className={styles.para}>
-                At AYM, we are located in the world's most serene and beautiful
-                place. Our classes are held in Rishikesh, which is known to be
-                the birthplace of this aged old practice and heaven on earth.
-                With a clean and well-maintained ambience created, we ensure
-                that hygiene and peace are our priority.
-              </p>
-              <p className={styles.para}>
-                As students come to our institution, we give them a quick tour
-                before the{" "}
-                <strong>hatha yoga teacher training course in India</strong>{" "}
-                begins. They are shown their rooms, which are fully furnished
-                with the basic amenities — from comfortable beds to access to
-                hot water.
-              </p>
-              <p className={styles.para}>
-                Far from the city's hustle, our yoga school brings students
-                close to nature. Our ultimate aim is to provide students with
-                spaces where they can grow, nurture and engage in this mindful
-                practice with full attention.
-              </p>
+
+              {d.ashramParagraphs && d.ashramParagraphs.length > 0
+                ? d.ashramParagraphs.map((p, i) => (
+                    <div key={i} className={styles.para} dangerouslySetInnerHTML={{ __html: p }} />
+                  ))
+                : null}
             </div>
+
             <div className={styles.ashramImage}>
               <div className={styles.imageFrame}>
-                <img src={IMG.ashram} alt="AYM Yoga Ashram" />
+                <img src={ashramSrc} alt={d.ashramImgAlt || "AYM Yoga Ashram"} />
               </div>
             </div>
           </div>
@@ -323,38 +480,31 @@ export default function HathaYogaPage() {
       </section>
 
       {/* ══════════════════════ CURRICULUM ══════════════════════ */}
-      <section
-        id="curriculum"
-        className={`${styles.section} ${styles.curriculumSection}`}
-      >
-        <div className={styles.container}>
-          <div className={`${styles.reveal} ${styles.centered}`}>
-            <p className={styles.superLabel}>Syllabus</p>
-            <h2 className={styles.sectionTitle}>
-              Course Details of Hatha Yoga
-              <br />
-              Teacher Training in India
-            </h2>
-            <OrnamentDivider />
-          </div>
-          <div className={`${styles.reveal} ${styles.curriculumGrid}`}>
-            {courseDetails.map((d, i) => (
-              <div key={i} className={styles.curriculumItem}>
-                <span className={styles.curriculumNum}>
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <span className={styles.curriculumText}>{d}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      {d.courseDetailsList && d.courseDetailsList.length > 0 && (
+        <section id="curriculum" className={`${styles.section} ${styles.curriculumSection}`}>
+          <div className={styles.container}>
+            <div className={`${styles.reveal} ${styles.centered}`}>
+              {d.curriculumSuperLabel && <p className={styles.superLabel}>{d.curriculumSuperLabel}</p>}
+              {d.curriculumTitle && (
+                <h2 className={styles.sectionTitle} dangerouslySetInnerHTML={{ __html: d.curriculumTitle }} />
+              )}
+              <OrnamentDivider />
+            </div>
 
-      {/* ══════════════════════ PRICING ══════════════════════ */}
-      <section
-        id="apply"
-        className={`${styles.section} ${styles.pricingSection}`}
-      >
+            <div className={`${styles.reveal} ${styles.curriculumGrid}`}>
+              {d.courseDetailsList.map((item, i) => (
+                <div key={i} className={styles.curriculumItem}>
+                  <span className={styles.curriculumNum}>{String(i + 1).padStart(2, "0")}</span>
+                  <span className={styles.curriculumText}>{item}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* ══════════════════════ PRICING / BATCHES ══════════════════════ */}
+      <section id="apply" className={`${styles.section} ${styles.pricingSection}`}>
         <div className={styles.pricingBg} aria-hidden="true">
           <MandalaRingSVG size={800} opacity={0.04} />
         </div>
@@ -362,125 +512,108 @@ export default function HathaYogaPage() {
         <div className={styles.container}>
           {/* Heading */}
           <div className={`${styles.reveal} ${styles.centered}`}>
-            <p className={styles.superLabel}>Enrolment</p>
-            <h2 className={styles.sectionTitle}>
-              How to Apply for
-              <br />
-              Hatha Yoga Course
-            </h2>
+            {d.pricingSuperLabel && <p className={styles.superLabel}>{d.pricingSuperLabel}</p>}
+            {d.pricingTitle && <h2 className={styles.sectionTitle} dangerouslySetInnerHTML={{ __html: d.pricingTitle }} />}
             <OrnamentDivider />
-            <p className={styles.paraCenter}>
-              To apply, fill the{" "}
-              <a href="#" className={styles.inlineLink}>
-                Registration Form
-              </a>{" "}
-              and Deposit Advance Fee to secure your place in the teacher
-              training programs in India.
-            </p>
+            {d.pricingIntroPara && (
+              <p className={styles.paraCenter}>
+                {d.pricingIntroPara}{" "}
+                {d.registrationFormLink && (
+                  <a href={d.registrationFormLink} className={styles.inlineLink}>Registration Form</a>
+                )}
+              </p>
+            )}
           </div>
 
-          {/* ── Table (200hr style) ── */}
-          <div className={`${styles.reveal} ${styles.tableContainer}`}>
-            <CornerOrnament pos="tl" />
-            <CornerOrnament pos="tr" />
-            <CornerOrnament pos="bl" />
-            <CornerOrnament pos="br" />
+          {/* Batches Table */}
+          {batches.length > 0 ? (
+            <div className={`${styles.reveal} ${styles.tableContainer}`}>
+              <CornerOrnament pos="tl" />
+              <CornerOrnament pos="tr" />
+              <CornerOrnament pos="bl" />
+              <CornerOrnament pos="br" />
 
-            <div className={styles.tableScroll}>
-              <table className={styles.datesTable}>
-                <thead>
-                  <tr>
-                    <th>Date</th>
-                    <th>FEE</th>
-                    <th>FEE (Indian)</th>
-                    <th>Room Price</th>
-                    <th>Seats</th>
-                    <th>Apply</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {pricingData.map((row, i) => {
-                    const isFull = row.bookedSeats >= row.totalSeats;
-                    return (
-                      <tr key={i}>
-                        <td className={styles.dateCell}>
-                          <span className={styles.dateCal}>📅</span> {row.date}
-                        </td>
-                        <td>{row.usdFee}</td>
-                        <td>{row.inrFee}</td>
-                        <td className={styles.roomPriceCell}>
-                          Dorm{" "}
-                          <strong className={styles.priceAmt}>
-                            ${row.dormPrice}
-                          </strong>{" "}
-                          | Twin{" "}
-                          <strong className={styles.priceAmt}>
-                            ${row.twinPrice}
-                          </strong>{" "}
-                          | Private{" "}
-                          <strong className={styles.priceAmt}>
-                            ${row.privatePrice}
-                          </strong>
-                        </td>
-                        <td>
-                          <SeatsCell
-                            booked={row.bookedSeats}
-                            total={row.totalSeats}
-                          />
-                        </td>
-                        <td>
-                          {isFull ? (
-                            <span className={styles.applyDisabled}>
-                              Apply Now
-                            </span>
-                          ) : (
-                            <a
-                              href="/yoga-registration?type=hatha"
-                              className={styles.applyLink}
-                            >
-                              Apply Now
-                            </a>
-                          )}
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
+              <div className={styles.tableScroll}>
+                <table className={styles.datesTable}>
+                  <thead>
+                    <tr>
+                      <th>Date</th>
+                      <th>FEE (USD)</th>
+                      <th>FEE (INR)</th>
+                      <th>Room Price</th>
+                      <th>Seats</th>
+                      <th>Apply</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {batches.map((row) => {
+                      const isFull = row.bookedSeats >= row.totalSeats;
+                      const dateLabel = `${formatDate(row.startDate)} – ${formatDate(row.endDate)}`;
+                      return (
+                        <tr key={row._id}>
+                          <td className={styles.dateCell}>
+                            <span className={styles.dateCal}>📅</span> {dateLabel}
+                          </td>
+                          <td>{row.usdFee}</td>
+                          <td>{row.inrFee}</td>
+                          <td className={styles.roomPriceCell}>
+                            Dorm <strong className={styles.priceAmt}>${row.dormPrice}</strong>{" "}
+                            | Twin <strong className={styles.priceAmt}>${row.twinPrice}</strong>{" "}
+                            | Private <strong className={styles.priceAmt}>${row.privatePrice}</strong>
+                          </td>
+                          <td>
+                            <SeatsCell booked={row.bookedSeats} total={row.totalSeats} />
+                          </td>
+                          <td>
+                            {isFull ? (
+                              <span className={styles.applyDisabled}>Apply Now</span>
+                            ) : (
+                              <a href="/yoga-registration?type=hatha" className={styles.applyLink}>
+                                Apply Now
+                              </a>
+                            )}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+
+              {/* Per-batch notes (show first non-empty note as general note) */}
+              {(d.tableNote || batches.find((b) => b.note)) && (
+                <p className={styles.tableNote}>
+                  <strong>Note:</strong>{" "}
+                  {d.tableNote || batches.find((b) => b.note)?.note}
+                </p>
+              )}
+
+              {(d.joinBtnLabel || d.joinBtnHref) && (
+                <div style={{ textAlign: "center", padding: "1rem 0 0.5rem" }}>
+                  <a href={d.joinBtnHref || "#"} className={styles.joinBtn}>
+                    {d.joinBtnLabel || "Join Your Yoga Journey"}
+                  </a>
+                </div>
+              )}
             </div>
-
-            <p className={styles.tableNote}>
-              <strong>Note:</strong> Register your spot by paying $110 only as
-              advance deposit.
+          ) : (
+            <p className={styles.paraCenter} style={{ opacity: 0.6 }}>
+              No upcoming batches at the moment. Please check back soon.
             </p>
-
-            <div style={{ textAlign: "center", padding: "1rem 0 0.5rem" }}>
-              <a href="#" className={styles.joinBtn}>
-                Join Your Yoga Journey
-              </a>
-            </div>
-          </div>
+          )}
 
           {/* Programme overview */}
-          <div className={`${styles.reveal} ${styles.programmeBox}`}>
-            <p className={styles.para}>
-              Our <strong>Hatha Yoga Teacher Training in India</strong> is
-              available in three distinctive programmes. We have 200 hour
-              courses available for novices, whereas we have 300 hour courses
-              for advanced learners. Anyone who wants to complete the course
-              thoroughly and develop a career as a yoga practitioner can take up
-              the{" "}
-              <strong>500 hour yoga teacher training in India</strong>.
-            </p>
-            <p className={styles.para}>
-              Our syllabus for each programme is created uniquely by our
-              certified instructors, who aim to meet the global standard. At the
-              end of the course, students are offered a{" "}
-              <strong>recognized hatha yoga teacher training certification</strong>
-              , which proves their expertise in the area — enabling them to
-              kickstart their careers anywhere across the globe.
-            </p>
-          </div>
+          {((d.programmeParagraphs && d.programmeParagraphs.length > 0) || d.pricingProgrammePara) && (
+            <div className={`${styles.reveal} ${styles.programmeBox}`}>
+              {d.programmeParagraphs && d.programmeParagraphs.length > 0
+                ? d.programmeParagraphs.map((p, i) => (
+                    <div key={i} className={styles.para} dangerouslySetInnerHTML={{ __html: p }} />
+                  ))
+                : d.pricingProgrammePara && (
+                    <div className={styles.para} dangerouslySetInnerHTML={{ __html: d.pricingProgrammePara }} />
+                  )}
+            </div>
+          )}
         </div>
       </section>
 
@@ -492,21 +625,17 @@ export default function HathaYogaPage() {
         <div className={styles.container}>
           <div className={styles.footerCtaInner}>
             <span className={styles.footerOm}>ॐ</span>
-            <h2 className={styles.footerTitle}>Begin Your Sacred Journey</h2>
-            <p className={styles.footerSub}>
-              Join thousands of students who have transformed their lives at AYM
-              Yoga School
-            </p>
+            {d.footerTitle && <h2 className={styles.footerTitle}>{d.footerTitle}</h2>}
+            {d.footerSubtitle && <p className={styles.footerSub}>{d.footerSubtitle}</p>}
             <div className={styles.heroBtns}>
-              <a href="#apply" className={styles.btnPrimary}>
-                Apply Now
+              <a href={d.applyBtnHref || "#apply"} className={styles.btnPrimary}>
+                {d.applyBtnLabel || "Apply Now"}
               </a>
-              <a
-                href="mailto:info@aymyogaschool.com"
-                className={styles.btnOutline}
-              >
-                Contact Us
-              </a>
+              {d.contactEmail && (
+                <a href={`mailto:${d.contactEmail}`} className={styles.btnOutline}>
+                  {d.contactBtnLabel || "Contact Us"}
+                </a>
+              )}
             </div>
           </div>
         </div>
@@ -514,202 +643,5 @@ export default function HathaYogaPage() {
 
       <HowToReach />
     </div>
-  );
-}
-
-/* ════════════════════════════════════════════
-   SUB-COMPONENTS
-════════════════════════════════════════════ */
-
-function OrnamentDivider() {
-  return (
-    <div className={styles.ornamentDivider}>
-      <span className={styles.ornLine} />
-      <span className={styles.ornGlyph}>❧</span>
-      <span className={styles.ornLine} />
-    </div>
-  );
-}
-
-function CornerOrnament({ pos }: { pos: "tl" | "tr" | "bl" | "br" }) {
-  const flip = {
-    tl: "scale(1,1)",
-    tr: "scale(-1,1)",
-    bl: "scale(1,-1)",
-    br: "scale(-1,-1)",
-  }[pos];
-  return (
-    <svg
-      viewBox="0 0 40 40"
-      className={styles.cornerOrn}
-      style={{ transform: flip }}
-    >
-      <path
-        d="M2,2 L2,18 M2,2 L18,2"
-        stroke="#b8860b"
-        strokeWidth="1.5"
-        fill="none"
-      />
-      <path
-        d="M2,2 Q8,8 16,2 Q8,8 2,16"
-        stroke="#b8860b"
-        strokeWidth="0.7"
-        fill="none"
-      />
-      <circle cx="2" cy="2" r="2" fill="#b8860b" opacity="0.7" />
-      <circle cx="10" cy="10" r="1.5" fill="#b8860b" opacity="0.4" />
-    </svg>
-  );
-}
-
-function BorderStrip() {
-  return (
-    <div className={styles.borderStrip}>
-      <svg
-        viewBox="0 0 800 14"
-        preserveAspectRatio="none"
-        className={styles.borderSvg}
-      >
-        {Array.from({ length: 40 }, (_, i) => {
-          const x = i * 20 + 10;
-          return (
-            <g key={i}>
-              <polygon
-                points={`${x},7 ${x + 6},2 ${x + 12},7 ${x + 6},12`}
-                fill="none"
-                stroke="#b8860b"
-                strokeWidth="0.8"
-              />
-              <circle cx={x + 6} cy={7} r="1.2" fill="#b8860b" opacity="0.7" />
-            </g>
-          );
-        })}
-        <line x1="0" y1="7" x2="800" y2="7" stroke="#e07b00" strokeWidth="0.3" />
-      </svg>
-    </div>
-  );
-}
-
-function SeatsCell({ booked, total }: { booked: number; total: number }) {
-  const isFull = booked >= total;
-  const remaining = total - booked;
-  if (isFull) return <span className={styles.fullyBooked}>Fully Booked</span>;
-  return (
-    <span className={styles.seatsAvailable}>
-      {remaining} / {total} Seats
-    </span>
-  );
-}
-
-function MandalaRingSVG({
-  size = 300,
-  opacity = 0.08,
-}: {
-  size?: number;
-  opacity?: number;
-}) {
-  const n = 24;
-  const cx = size / 2;
-  const r1 = size * 0.44;
-  const r2 = size * 0.35;
-  const r3 = size * 0.24;
-  return (
-    <svg
-      width={size}
-      height={size}
-      viewBox={`0 0 ${size} ${size}`}
-      style={{ opacity }}
-    >
-      <g stroke="#c46a00" strokeWidth="0.8" fill="none">
-        <circle cx={cx} cy={cx} r={r1} />
-        <circle cx={cx} cy={cx} r={r2} />
-        <circle cx={cx} cy={cx} r={r3} />
-        <circle cx={cx} cy={cx} r={size * 0.12} />
-        {Array.from({ length: n }).map((_, i) => {
-          const a = (i / n) * 2 * Math.PI;
-          const x1 = cx + r3 * Math.cos(a);
-          const y1 = cx + r3 * Math.sin(a);
-          const x2 = cx + r1 * Math.cos(a);
-          const y2 = cx + r1 * Math.sin(a);
-          return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} />;
-        })}
-        {Array.from({ length: 8 }).map((_, i) => {
-          const a = (i / 8) * 2 * Math.PI;
-          const x1 = cx + (r2 - 12) * Math.cos(a);
-          const y1 = cx + (r2 - 12) * Math.sin(a);
-          const x2 = cx + (r2 + 12) * Math.cos(a);
-          const y2 = cx + (r2 + 12) * Math.sin(a);
-          return (
-            <ellipse
-              key={i}
-              cx={(x1 + x2) / 2}
-              cy={(y1 + y2) / 2}
-              rx={14}
-              ry={5}
-              transform={`rotate(${(i / 8) * 360} ${(x1 + x2) / 2} ${
-                (y1 + y2) / 2
-              })`}
-            />
-          );
-        })}
-      </g>
-    </svg>
-  );
-}
-
-function MandalaSVG({
-  opacity = 0.05,
-  size = 600,
-}: {
-  opacity?: number;
-  size?: number;
-}) {
-  return (
-    <svg
-      width={size}
-      height={size}
-      viewBox={`0 0 ${size} ${size}`}
-      style={{ opacity }}
-      aria-hidden
-    >
-      <g
-        stroke="#c46a00"
-        strokeWidth="0.6"
-        fill="none"
-        transform={`translate(${size / 2},${size / 2})`}
-      >
-        {[0.46, 0.38, 0.28, 0.18, 0.09].map((r, ri) => (
-          <circle key={ri} cx={0} cy={0} r={r * size} />
-        ))}
-        {Array.from({ length: 36 }).map((_, i) => {
-          const a = (i / 36) * 2 * Math.PI;
-          const r0 = size * 0.09;
-          const r1 = size * 0.46;
-          return (
-            <line
-              key={i}
-              x1={r0 * Math.cos(a)}
-              y1={r0 * Math.sin(a)}
-              x2={r1 * Math.cos(a)}
-              y2={r1 * Math.sin(a)}
-            />
-          );
-        })}
-        {Array.from({ length: 12 }).map((_, i) => {
-          const a = (i / 12) * 2 * Math.PI;
-          const r = size * 0.32;
-          return (
-            <ellipse
-              key={i}
-              cx={r * Math.cos(a)}
-              cy={r * Math.sin(a)}
-              rx={size * 0.07}
-              ry={size * 0.025}
-              transform={`rotate(${(i / 12) * 360} ${r * Math.cos(a)} ${r * Math.sin(a)})`}
-            />
-          );
-        })}
-      </g>
-    </svg>
   );
 }
