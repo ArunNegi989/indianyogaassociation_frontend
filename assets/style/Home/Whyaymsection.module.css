@@ -12,8 +12,9 @@
    ================================================================ */
 .section {
   position: relative;
-  background: #fdf6ec;
+ background-image: url("../../images/1905x1809.png");
   overflow: hidden;
+
 }
 
 /* Aged-paper texture */
