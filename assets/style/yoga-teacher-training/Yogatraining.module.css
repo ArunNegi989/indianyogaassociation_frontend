@@ -24,7 +24,6 @@
 /* ── Page shell ── */
 .page {
   position: relative;
-  background: linear-gradient(160deg, #fffdf8 0%, #fdf5e6 60%, #faf0dc 100%);
   overflow: hidden;
   min-height: 100vh;
 }
