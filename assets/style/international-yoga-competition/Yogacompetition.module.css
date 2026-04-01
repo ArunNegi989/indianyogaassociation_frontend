@@ -1,0 +1,880 @@
+/* ================================================================
+   YogaCompetition.module.css — AYM Yoga School
+   Vintage-meets-modern yoga aesthetic
+   Warm parchment tones + saffron accents + ornamental details
+   ================================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Dancing+Script:wght@600;700&display=swap');
+
+/* ── CSS Variables ── */
+:root {
+  --saffron: #e07b00;
+  --saffron-dark: #c46a00;
+  --saffron-light: #f5b800;
+  --brown-dark: #3d1d00;
+  --brown-mid: #7a5c2e;
+  --brown-light: #5c2d00;
+  --parchment: #fff9f0;
+  --parchment-mid: #fdf0dc;
+  --parchment-warm: #ffecd8;
+  --border-color: #e8d5b5;
+  --text-body: #3d2b10;
+  --text-small: #5a3e22;
+}
+
+/* ── Section shell ── */
+.section {
+  position: relative;
+  background: linear-gradient(160deg, #fffdf8 0%, #fdf5e6 50%, #faf0dc 100%);
+  overflow: hidden;
+  min-height: 100vh;
+}
+
+/* Subtle aged-paper texture */
+.section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(ellipse at 10% 20%, rgba(224, 123, 0, 0.04) 0%, transparent 55%),
+    radial-gradient(ellipse at 90% 80%, rgba(92, 45, 0, 0.05) 0%, transparent 55%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Large watermark OM */
+.section::after {
+  content: 'ॐ';
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: clamp(16rem, 30vw, 28rem);
+  color: rgba(224, 123, 0, 0.03);
+  font-family: 'Cinzel', serif;
+  pointer-events: none;
+  z-index: 0;
+  line-height: 1;
+  user-select: none;
+}
+
+/* ── Decorative border strips ── */
+.topBorder {
+  height: 5px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    #e07b00 20%,
+    #f5b800 50%,
+    #e07b00 80%,
+    transparent 100%);
+}
+
+/* ── Container ── */
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: clamp(2rem, 5vw, 4rem) clamp(1rem, 4vw, 2.5rem);
+}
+
+/* ================================================================
+   PAGE HEADER
+   ================================================================ */
+.pageHeader {
+  text-align: center;
+  margin-bottom: 2.5rem;
+  padding-bottom: 1.5rem;
+}
+
+.pageTitle {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+  font-style: italic;
+  font-weight: 600;
+  color: var(--brown-dark);
+  margin-bottom: 0.8rem;
+  line-height: 1.3;
+}
+
+.titleUnderline {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.underlineLine {
+  width: 120px;
+  height: 1.5px;
+  background: linear-gradient(90deg, transparent, var(--saffron), transparent);
+}
+
+/* ================================================================
+   SECTION HEADINGS
+   ================================================================ */
+.sectionHeading {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.3rem, 2.8vw, 1.9rem);
+  font-style: italic;
+  font-weight: 600;
+  color: var(--brown-dark);
+  text-align: center;
+  margin: 2rem 0 0.6rem;
+}
+
+.sectionUnderline {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.sectionUnderlineLine {
+  width: 100px;
+  height: 1.5px;
+  background: linear-gradient(90deg, transparent, var(--saffron), transparent);
+}
+
+/* ================================================================
+   CONTENT CARD
+   ================================================================ */
+.contentCard {
+  background: linear-gradient(135deg, var(--parchment) 0%, var(--parchment-mid) 100%);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: clamp(1.2rem, 3vw, 2rem);
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 12px rgba(92, 45, 0, 0.06);
+}
+
+/* ================================================================
+   PROSE / BODY TEXT
+   ================================================================ */
+.prose {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(0.95rem, 1.6vw, 1.05rem);
+  line-height: 1.85;
+  color: var(--text-body);
+  margin-bottom: 1rem;
+}
+
+.prose p {
+  margin-bottom: 0.75rem;
+}
+
+.prose strong,
+.prose b {
+  font-weight: 700;
+  color: var(--brown-dark);
+}
+
+.prose ul,
+.prose ol {
+  padding-left: 1.4rem;
+  margin: 0.6rem 0 0.8rem;
+}
+
+.prose li {
+  margin-bottom: 0.35rem;
+}
+
+.boldLabel {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(0.95rem, 1.6vw, 1.05rem);
+  font-weight: 700;
+  color: var(--brown-dark);
+  margin-bottom: 0.4rem;
+  margin-top: 1rem;
+}
+
+/* ================================================================
+   RESULTS ANNOUNCED BUTTON
+   ================================================================ */
+.btnCenter {
+  display: flex;
+  justify-content: center;
+  margin: 1.5rem 0;
+}
+
+.btnOrange {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #fff;
+  background: linear-gradient(135deg, var(--saffron) 0%, var(--saffron-dark) 100%);
+  padding: 0.7rem 1.8rem;
+  border-radius: 4px;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  box-shadow: 0 4px 18px rgba(224, 123, 0, 0.35);
+  transition: box-shadow 0.22s ease, transform 0.22s ease;
+}
+
+.btnOrange:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 7px 26px rgba(224, 123, 0, 0.5);
+}
+
+/* ================================================================
+   OBJECTIVES
+   ================================================================ */
+.objectivesList {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(0.93rem, 1.55vw, 1.03rem);
+  line-height: 1.85;
+  color: var(--text-body);
+  padding-left: 1.4rem;
+  margin: 0;
+}
+
+.objectivesList li {
+  margin-bottom: 0.5rem;
+}
+
+/* ================================================================
+   ELIGIBILITY / AGE GROUPS
+   ================================================================ */
+.twoColGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.subSection {
+  margin-bottom: 1.2rem;
+}
+
+.subHeading {
+  font-family: 'Cinzel', serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--brown-dark);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 0.6rem;
+  padding-bottom: 0.3rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.bulletList {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(0.9rem, 1.5vw, 1rem);
+  line-height: 1.8;
+  color: var(--text-body);
+  padding-left: 1.3rem;
+  margin: 0;
+}
+
+.bulletList li {
+  margin-bottom: 0.3rem;
+}
+
+/* ================================================================
+   SYLLABUS — 3 COLUMNS
+   ================================================================ */
+.threeColGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.2rem;
+  margin-top: 1rem;
+}
+
+.syllabusCard {
+  background: linear-gradient(135deg, var(--parchment) 0%, #fff3e4 100%);
+  border: 1px solid rgba(224, 123, 0, 0.2);
+  border-radius: 8px;
+  padding: 1.2rem 1rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.syllabusCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--saffron), var(--saffron-light));
+}
+
+.syllabusCardTitle {
+  font-family: 'Cinzel', serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--brown-dark);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.syllabusSubNote {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.87rem;
+  font-style: italic;
+  color: var(--brown-mid);
+  margin-bottom: 0.6rem;
+}
+
+.syllabusNote {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.87rem;
+  color: var(--text-small);
+  margin-top: 0.6rem;
+  line-height: 1.6;
+}
+
+/* ================================================================
+   BOOK YOUR SPOT BUTTONS ROW
+   ================================================================ */
+.bookRow {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.2rem;
+  margin: 1.5rem 0;
+}
+
+.bookCard {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ================================================================
+   HOW TO REGISTER
+   ================================================================ */
+.registerNote {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(0.93rem, 1.6vw, 1.03rem);
+  line-height: 1.8;
+  color: var(--text-body);
+  margin-bottom: 0.8rem;
+}
+
+.emailHighlight {
+  color: var(--saffron-dark);
+  font-weight: 600;
+}
+
+/* ================================================================
+   RULES & REGULATIONS
+   ================================================================ */
+.noteBox {
+  background: linear-gradient(135deg, #fff7eb 0%, #ffefd4 100%);
+  border-left: 3px solid var(--saffron);
+  border-radius: 0 6px 6px 0;
+  padding: 0.85rem 1.1rem;
+  margin: 0.8rem 0;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(0.9rem, 1.5vw, 1rem);
+  color: var(--brown-dark);
+  line-height: 1.7;
+}
+
+.noteLabel {
+  font-weight: 700;
+  color: var(--saffron-dark);
+}
+
+/* ================================================================
+   PREVIOUS RESULTS — PHOTO GRID
+   ================================================================ */
+.photoGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.photoCard {
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(92, 45, 0, 0.18);
+  min-height: 220px;
+  background: #e8d5b5;
+}
+
+/* ================================================================
+   SCHEDULE TABLE
+   ================================================================ */
+.scheduleTable {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  border: 1.5px solid rgba(224, 123, 0, 0.4);
+  border-radius: 6px;
+  overflow: hidden;
+  margin: 1rem 0;
+}
+
+.scheduleCell {
+  padding: 1.2rem 1.5rem;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(0.9rem, 1.5vw, 1rem);
+  line-height: 1.8;
+  color: var(--brown-dark);
+  background: linear-gradient(135deg, var(--parchment) 0%, var(--parchment-mid) 100%);
+}
+
+.scheduleCell:first-child {
+  border-right: 1.5px solid rgba(224, 123, 0, 0.3);
+  text-align: center;
+}
+
+.scheduleCell:last-child {
+  text-align: center;
+}
+
+.scheduleNote {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.9rem;
+  color: var(--brown-mid);
+  text-align: center;
+  margin-top: 0.6rem;
+}
+
+.scheduleNote strong {
+  color: var(--brown-dark);
+  font-weight: 700;
+}
+
+/* ================================================================
+   PRIZE SECTION
+   ================================================================ */
+.prizeBlock {
+  text-align: center;
+  padding: 1rem 0;
+}
+
+.prizeItem {
+  font-family: 'Dancing Script', cursive;
+  font-size: clamp(1rem, 2vw, 1.3rem);
+  font-weight: 600;
+  color: var(--saffron-dark);
+  line-height: 1.8;
+}
+
+/* ================================================================
+   PAYMENT OPTIONS — 3 CARDS
+   ================================================================ */
+.paymentGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.2rem;
+  margin: 1rem 0;
+}
+
+.paymentCard {
+  background: linear-gradient(135deg, var(--parchment) 0%, var(--parchment-mid) 100%);
+  border: 1.5px solid rgba(224, 123, 0, 0.3);
+  border-radius: 8px;
+  padding: 1.5rem 1.2rem;
+  text-align: center;
+}
+
+.paymentCardTitle {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1rem, 1.8vw, 1.15rem);
+  font-weight: 600;
+  color: var(--brown-dark);
+  margin-bottom: 0.8rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1.5px solid rgba(224, 123, 0, 0.3);
+}
+
+.paymentSubLabel {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.9rem;
+  font-style: italic;
+  color: var(--brown-mid);
+  margin: 0.6rem 0 0.4rem;
+}
+
+.paymentInfo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(0.85rem, 1.4vw, 0.95rem);
+  line-height: 1.75;
+  color: var(--text-body);
+  text-align: left;
+}
+
+.phonepeBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #5f259f;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.3rem;
+}
+
+.acceptedBadge {
+  font-family: 'Cinzel', serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  color: var(--saffron-dark);
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.qrPlaceholder {
+  width: 110px;
+  height: 110px;
+  background: #f0e8da;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  margin: 0.5rem auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--brown-mid);
+  font-size: 0.7rem;
+  font-family: 'Cormorant Garamond', serif;
+}
+
+.phonepeMobile {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.88rem;
+  color: var(--text-small);
+  margin-top: 0.5rem;
+}
+
+.phonepeName {
+  font-family: 'Cinzel', serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--brown-dark);
+  margin-top: 0.3rem;
+}
+
+/* ================================================================
+   DIVIDER
+   ================================================================ */
+.divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border-color), transparent);
+  margin: 2rem 0;
+}
+
+/* ================================================================
+   REGISTRATION FORM
+   ================================================================ */
+.formSection {
+  background: linear-gradient(135deg, var(--parchment) 0%, var(--parchment-mid) 100%);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: clamp(1.2rem, 3vw, 2rem);
+  margin-bottom: 1.5rem;
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.formLabel {
+  font-family: 'Cinzel', serif;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--brown-mid);
+}
+
+.formInput,
+.formSelect {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.97rem;
+  color: var(--brown-dark);
+  background: #fff;
+  border: 1.5px solid var(--border-color);
+  border-radius: 4px;
+  padding: 0.55rem 0.75rem;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.formInput:focus,
+.formSelect:focus {
+  border-color: var(--saffron);
+  box-shadow: 0 0 0 3px rgba(224, 123, 0, 0.12);
+}
+
+.formInput::placeholder {
+  color: #c4a882;
+  font-style: italic;
+}
+
+.formGroupFull {
+  grid-column: 1 / -1;
+}
+
+.submitRow {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.2rem;
+}
+
+/* ── Winner card image with overlay ── */
+.winnerImgWrap {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 220px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.winnerImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  min-height: 220px;
+  transition: transform 0.4s ease;
+}
+
+.winnerImgWrap:hover .winnerImg {
+  transform: scale(1.04);
+}
+
+.winnerOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(30, 10, 0, 0.88) 0%,
+    rgba(30, 10, 0, 0.45) 55%,
+    rgba(30, 10, 0, 0.15) 100%
+  );
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 1rem 0.9rem 0.9rem;
+  gap: 0.25rem;
+}
+
+.winnerOccasion {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  color: rgba(255, 220, 160, 0.85);
+  text-transform: uppercase;
+}
+
+.winnerCompTitle {
+  font-family: 'Cinzel', serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.04em;
+}
+
+.winnerChamp {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.82rem;
+  color: rgba(255, 220, 160, 0.9);
+}
+
+.winnerYear {
+  background: #e07b00;
+  color: #fff;
+  font-size: 0.7rem;
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+}
+
+.winnerName {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.85rem;
+  color: rgba(255, 240, 200, 0.95);
+  margin-top: 0.15rem;
+}
+
+
+.imgPlaceholder {
+  width: 100%;
+  max-width: 680px;
+  margin: 1.2rem auto;
+  aspect-ratio: 16/9;
+  background: linear-gradient(135deg, #f0e4cc 0%, #e8d5b5 100%);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Cormorant Garamond', serif;
+  color: var(--brown-mid);
+  font-style: italic;
+  border: 1px solid var(--border-color);
+  overflow: hidden;
+}
+
+.imgPlaceholder img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+/* ================================================================
+   FINAL ROUND DETAILS
+   ================================================================ */
+.finalRoundBox {
+  background: linear-gradient(135deg, #fff7eb 0%, #ffefd4 100%);
+  border: 1px solid rgba(224, 123, 0, 0.25);
+  border-radius: 8px;
+  padding: 1.1rem 1.4rem;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(0.9rem, 1.5vw, 1rem);
+  line-height: 1.8;
+  color: var(--text-body);
+}
+
+.finalRoundLabel {
+  font-weight: 700;
+  color: var(--brown-dark);
+}
+
+/* ================================================================
+   RESPONSIVE
+   ================================================================ */
+
+/* Large desktop */
+@media (max-width: 1200px) {
+  .container {
+    max-width: 100%;
+  }
+}
+
+/* Tablet landscape */
+@media (max-width: 1024px) {
+  .threeColGrid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+
+  .paymentGrid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+}
+
+/* Tablet portrait */
+@media (max-width: 860px) {
+  .twoColGrid {
+    grid-template-columns: 1fr;
+    gap: 0.8rem;
+  }
+
+  .threeColGrid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .photoGrid {
+    grid-template-columns: 1fr;
+    gap: 0.8rem;
+  }
+
+  .scheduleTable {
+    grid-template-columns: 1fr;
+  }
+
+  .scheduleCell:first-child {
+    border-right: none;
+    border-bottom: 1.5px solid rgba(224, 123, 0, 0.3);
+  }
+
+  .paymentGrid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .bookRow {
+    grid-template-columns: 1fr;
+    gap: 0.8rem;
+  }
+
+  .formGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .formGroupFull {
+    grid-column: 1;
+  }
+}
+
+/* Mobile */
+@media (max-width: 640px) {
+  .pageTitle {
+    font-size: 1.5rem;
+  }
+
+  .sectionHeading {
+    font-size: 1.3rem;
+  }
+
+  .contentCard {
+    padding: 1rem;
+  }
+
+  .syllabusCard {
+    padding: 1rem 0.85rem;
+  }
+
+  .paymentCard {
+    padding: 1.2rem 1rem;
+  }
+}
+
+/* Small mobile */
+@media (max-width: 480px) {
+  .pageTitle {
+    font-size: 1.3rem;
+  }
+
+  .container {
+    padding: 1.2rem 0.85rem;
+  }
+
+  .photoGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 380px) {
+  .pageTitle {
+    font-size: 1.15rem;
+  }
+
+  .sectionHeading {
+    font-size: 1.1rem;
+  }
+
+  .container {
+    padding: 1rem 0.7rem;
+  }
+}

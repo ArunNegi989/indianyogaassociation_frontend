@@ -14,6 +14,8 @@ const quickLinks = [
   { label: "Payment", href: "/ttc-payment" },
   { label: "How to Reach", href: "#how-to-reach" },
   { label: "Contact", href: "/Contact-us" },
+  { label: "International Yoga Competition", href: "/international-yoga-competition" },
+  { label: "Yoga Teacher Training", href: "/yoga-teacher-training" },
 ];
 
 const courseLinks = [

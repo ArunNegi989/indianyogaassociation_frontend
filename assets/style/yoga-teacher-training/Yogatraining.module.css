@@ -1,0 +1,500 @@
+/* ================================================================
+   YogaTraining.module.css — AYM Yoga School
+   Vintage-meets-modern yoga aesthetic
+   Warm parchment tones + saffron accents — matches AboutSection style
+   ================================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Dancing+Script:wght@600;700&display=swap');
+
+/* ── CSS Variables ── */
+:root {
+  --saffron: #e07b00;
+  --saffron-dark: #c46a00;
+  --saffron-light: #f5b800;
+  --brown-dark: #3d1d00;
+  --brown-mid: #7a5c2e;
+  --brown-light: #5c2d00;
+  --parchment: #fff9f0;
+  --parchment-mid: #fdf5e6;
+  --border-color: #e8d5b5;
+  --text-body: #3a3028;
+  --text-small: #5a3e22;
+}
+
+/* ── Page shell ── */
+.page {
+  position: relative;
+  background: linear-gradient(160deg, #fffdf8 0%, #fdf5e6 60%, #faf0dc 100%);
+  overflow: hidden;
+  min-height: 100vh;
+}
+
+/* Watermark OM */
+.page::after {
+  content: 'ॐ';
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: clamp(18rem, 32vw, 30rem);
+  color: rgba(224, 123, 0, 0.025);
+  font-family: 'Cinzel', serif;
+  pointer-events: none;
+  z-index: 0;
+  line-height: 1;
+  user-select: none;
+}
+
+/* ── Decorative border ── */
+.topBorder {
+  height: 5px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    #e07b00 20%,
+    #f5b800 50%,
+    #e07b00 80%,
+    transparent 100%);
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Container ── */
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: clamp(2rem, 5vw, 4rem) clamp(1rem, 4vw, 2.5rem);
+}
+
+/* ================================================================
+   PAGE HEADER
+   ================================================================ */
+.pageHeader {
+  text-align: center;
+  margin-bottom: clamp(2rem, 4vw, 3.5rem);
+}
+
+.pageTitle {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.6rem, 3.5vw, 2.5rem);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--brown-dark);
+  letter-spacing: 0.02em;
+  margin-bottom: 0.7rem;
+  line-height: 1.3;
+}
+
+.titleUnderline {
+  display: flex;
+  justify-content: center;
+}
+
+.underlineLine {
+  width: 120px;
+  height: 1.5px;
+  background: linear-gradient(90deg, transparent, var(--saffron), transparent);
+}
+
+/* ================================================================
+   ALTERNATING SECTIONS
+   ================================================================ */
+.section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(2rem, 4vw, 4.5rem);
+  align-items: center;
+  margin-bottom: clamp(3rem, 6vw, 5rem);
+  padding-bottom: clamp(2.5rem, 5vw, 4rem);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.section:last-of-type {
+  border-bottom: none;
+}
+
+/* Image on left — default */
+.sectionImageLeft {
+  direction: ltr;
+}
+
+/* Image on right — reverse columns */
+.sectionImageRight {
+  direction: rtl;
+}
+
+.sectionImageRight .imgWrap,
+.sectionImageRight .textWrap {
+  direction: ltr;
+}
+
+/* ── Image ── */
+.imgWrap {
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 6px 28px rgba(92, 45, 0, 0.14);
+  line-height: 0;
+  position: relative;
+}
+
+.imgWrap::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 4px;
+  box-shadow: inset 0 0 0 1.5px rgba(224, 123, 0, 0.12);
+  pointer-events: none;
+}
+
+.sectionImg {
+  width: 100%;
+  height: 100%;
+  min-height: 260px;
+  max-height: 440px;
+  object-fit: cover;
+  display: block;
+  border-radius: 4px;
+  transition: transform 0.5s ease;
+}
+
+.imgWrap:hover .sectionImg {
+  transform: scale(1.025);
+}
+
+/* ── Text ── */
+.textWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* Serif heading (right-aligned sections) */
+.headingSerif {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.25rem, 2.6vw, 1.8rem);
+  font-weight: 400;
+  font-style: normal;
+  color: var(--brown-dark);
+  line-height: 1.35;
+  margin-bottom: 0.6rem;
+  letter-spacing: 0.01em;
+}
+
+/* Script heading (left-aligned sections) */
+.headingScript {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.2rem, 2.4vw, 1.7rem);
+  font-weight: 300;
+  font-style: italic;
+  color: var(--brown-dark);
+  line-height: 1.4;
+  margin-bottom: 0.6rem;
+  letter-spacing: 0.01em;
+}
+
+.headingUnderline {
+  margin-bottom: 1.1rem;
+}
+
+.headingUnderlineLine {
+  width: 80px;
+  height: 1.5px;
+  background: linear-gradient(90deg, var(--saffron), transparent);
+}
+
+/* Body text */
+.bodyText {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(0.93rem, 1.6vw, 1.05rem);
+  line-height: 1.9;
+  color: var(--text-body);
+  text-align: justify;
+  margin: 0;
+}
+
+/* ================================================================
+   CITY LINKS SECTION
+   ================================================================ */
+.citySection {
+  background: linear-gradient(135deg, var(--parchment) 0%, var(--parchment-mid) 100%);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: clamp(1.5rem, 3vw, 2.2rem) clamp(1.2rem, 3vw, 2.5rem);
+  margin-top: 1rem;
+  text-align: center;
+  box-shadow: 0 2px 16px rgba(92, 45, 0, 0.06);
+  position: relative;
+  overflow: hidden;
+}
+
+/* subtle corner ornament */
+.citySection::before,
+.citySection::after {
+  content: '';
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  border-color: var(--saffron);
+  border-style: solid;
+  opacity: 0.35;
+}
+
+.citySection::before {
+  top: 8px;
+  left: 8px;
+  border-width: 2px 0 0 2px;
+}
+
+.citySection::after {
+  bottom: 8px;
+  right: 8px;
+  border-width: 0 2px 2px 0;
+}
+
+.cityHeading {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(0.95rem, 1.8vw, 1.15rem);
+  font-weight: 600;
+  color: var(--brown-dark);
+  margin-bottom: 0.85rem;
+  letter-spacing: 0.03em;
+}
+
+.cityLinksWrap {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(0.88rem, 1.5vw, 1rem);
+  line-height: 1.9;
+  color: var(--text-body);
+  text-align: left;
+}
+
+.cityLink {
+  color: var(--saffron-dark);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease, text-decoration-color 0.2s ease;
+  text-underline-offset: 2px;
+}
+
+.cityLink:hover {
+  color: var(--saffron);
+  text-decoration: underline;
+  text-decoration-color: var(--saffron);
+}
+
+.citySep {
+  color: var(--brown-mid);
+}
+
+.cityDot {
+  color: var(--brown-mid);
+}
+
+/* ================================================================
+   RESPONSIVE BREAKPOINTS
+   ================================================================ */
+
+/* ── 1200px ── */
+@media (max-width: 1200px) {
+  .container {
+    max-width: 100%;
+  }
+
+  .sectionImg {
+    min-height: 240px;
+    max-height: 380px;
+  }
+}
+
+/* ── 1024px ── */
+@media (max-width: 1024px) {
+  .section {
+    gap: 2.5rem;
+  }
+
+  .headingSerif {
+    font-size: clamp(1.2rem, 2.4vw, 1.6rem);
+  }
+
+  .headingScript {
+    font-size: clamp(1.1rem, 2.2vw, 1.5rem);
+  }
+}
+
+/* ── 860px — Stack image above text ── */
+@media (max-width: 860px) {
+  .section {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+    padding-bottom: 2.5rem;
+  }
+
+  /* For image-right sections: reset direction so img stacks on top */
+  .sectionImageRight {
+    direction: ltr;
+  }
+
+  /* Always put image first on mobile */
+  .sectionImageRight .imgWrap {
+    order: -1;
+  }
+
+  .sectionImg {
+    min-height: 260px;
+    max-height: 340px;
+    width: 100%;
+  }
+
+  .bodyText {
+    text-align: left;
+  }
+}
+
+/* ── 768px ── */
+@media (max-width: 768px) {
+  .pageTitle {
+    font-size: 1.6rem;
+  }
+
+  .sectionImg {
+    min-height: 220px;
+    max-height: 300px;
+  }
+
+  .headingSerif,
+  .headingScript {
+    font-size: 1.3rem;
+  }
+
+  .citySection {
+    padding: 1.2rem 1rem;
+  }
+}
+
+/* ── 640px ── */
+@media (max-width: 640px) {
+  .container {
+    padding: 1.5rem 0.9rem;
+  }
+
+  .pageTitle {
+    font-size: 1.4rem;
+  }
+
+  .section {
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    gap: 1.2rem;
+  }
+
+  .sectionImg {
+    min-height: 200px;
+    max-height: 260px;
+  }
+
+  .headingSerif,
+  .headingScript {
+    font-size: 1.2rem;
+  }
+
+  .bodyText {
+    font-size: 0.95rem;
+    line-height: 1.8;
+  }
+
+  .cityHeading {
+    font-size: 0.95rem;
+  }
+
+  .cityLinksWrap {
+    font-size: 0.9rem;
+  }
+}
+
+/* ── 480px ── */
+@media (max-width: 480px) {
+  .container {
+    padding: 1.2rem 0.75rem;
+  }
+
+  .pageTitle {
+    font-size: 1.25rem;
+  }
+
+  .headingSerif,
+  .headingScript {
+    font-size: 1.1rem;
+    line-height: 1.4;
+  }
+
+  .sectionImg {
+    min-height: 180px;
+    max-height: 230px;
+  }
+
+  .bodyText {
+    font-size: 0.93rem;
+  }
+
+  .section {
+    gap: 1rem;
+    margin-bottom: 1.8rem;
+    padding-bottom: 1.8rem;
+  }
+
+  .underlineLine {
+    width: 80px;
+  }
+}
+
+/* ── 380px ── */
+@media (max-width: 380px) {
+  .pageTitle {
+    font-size: 1.1rem;
+  }
+
+  .headingSerif,
+  .headingScript {
+    font-size: 1rem;
+  }
+
+  .bodyText {
+    font-size: 0.9rem;
+    line-height: 1.75;
+  }
+
+  .sectionImg {
+    min-height: 160px;
+    max-height: 200px;
+  }
+
+  .citySection {
+    padding: 1rem 0.75rem;
+  }
+
+  .cityLinksWrap {
+    font-size: 0.85rem;
+  }
+}
+
+/* ── 320px ── */
+@media (max-width: 320px) {
+  .container {
+    padding: 1rem 0.6rem;
+  }
+
+  .pageTitle {
+    font-size: 1rem;
+  }
+
+  .headingSerif,
+  .headingScript {
+    font-size: 0.95rem;
+  }
+
+  .sectionImg {
+    min-height: 140px;
+  }
+}
