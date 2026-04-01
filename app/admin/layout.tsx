@@ -42,6 +42,7 @@ const navItems: NavItem[] = [
     children: [
       { href: "/admin/dashboard/homebanner",            label: "Hero Section" },
       { href: "/admin/dashboard/yogateachertraning",    label: "About Section" },
+      { href: "/admin/dashboard/homeCoursessection",  label: "Home Course Section" },
       { href: "/admin/dashboard/accreditationsection",  label: "Accreditation Section" },
       { href: "/admin/dashboard/yogacoursespage",       label: "Yoga Courses Page" },
       { href: "/admin/dashboard/Classcampusameniti",    label: "Class Campus Ameniti" },

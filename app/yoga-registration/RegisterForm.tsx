@@ -21,7 +21,11 @@ const yogaCourses = [
   "200 Hour Yoga TTC",
   "300 Hour Yoga TTC",
   "500 Hour Yoga TTC",
+  "Kundalini Yoga TTC",
   "Prenatal Yoga TTC",
+  "Vinyasa Yoga TTC",
+  "Hatha Yoga TTC",
+  "Yoga Goa ",
   "Online Yoga Course",
   "Yoga Wellness Instructor",
   "Yoga Teacher and Evaluator",
@@ -294,7 +298,7 @@ export default function RegisterForm() {
   const searchParams = useSearchParams();
   const batchId = searchParams.get("batchId");
 
-  type CourseType = "100hr" | "200hr" | "300hr";
+  type CourseType = "100hr" | "200hr" | "300hr" ;
   const rawType = searchParams.get("type");
   const type = rawType as CourseType;
 
