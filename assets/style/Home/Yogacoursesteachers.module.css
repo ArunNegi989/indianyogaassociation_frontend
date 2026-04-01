@@ -4,8 +4,6 @@
    OM floating particles · Ornate borders · Cinzel typography
    ================================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Dancing+Script:wght@500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap');
-
 /* ── Variables ── */
 :root {
   --saffron: #e07b00;
@@ -29,7 +27,7 @@
 ════════════════════════════════════════════════ */
 
 .wrapper {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-lato), sans-serif;
   background: var(--parchment);
   color: var(--earth-warm);
   background-image: url("../../images/background3.png");
@@ -59,7 +57,7 @@
 }
 
 .eyebrow {
-  font-family: 'Dancing Script', cursive;
+  font-family: var(--font-lato), sans-serif;
   font-size: clamp(0.95rem, 2vw, 1.25rem);
   color: var(--saffron-deep);
   font-weight: 600;
@@ -68,7 +66,7 @@
 }
 
 .sectionTitle {
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-playfair), serif;
   font-size: clamp(1.1rem, 2.6vw, 1.75rem);
   font-weight: 700;
   color: var(--earth);
@@ -94,7 +92,7 @@
 }
 
 .divOm {
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-playfair), serif;
   font-size: 1.6rem;
   color: var(--saffron);
   line-height: 1;
@@ -114,7 +112,7 @@
 }
 
 .sectionDesc {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-lato), sans-serif;
   font-size: clamp(0.95rem, 1.6vw, 1.07rem);
   color: var(--earth-light);
   line-height: 1.85;
@@ -124,7 +122,7 @@
 }
 
 .para {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-lato), sans-serif;
   font-size: clamp(0.97rem, 1.6vw, 1.07rem);
   line-height: 1.9;
   color: var(--earth-warm);
@@ -155,7 +153,7 @@
   transform: translate(-50%, -50%);
   font-size: clamp(18rem, 35vw, 32rem);
   color: rgba(224, 123, 0, 0.028);
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-playfair), serif;
   pointer-events: none;
   z-index: 0;
   line-height: 1;
@@ -229,7 +227,7 @@
   position: absolute;
   top: 10px;
   right: 10px;
-  font-family: 'Dancing Script', cursive;
+  font-family:var(--font-lato), sans-serif;
   font-size: 0.72rem;
   font-weight: 600;
   color: rgba(255, 255, 255, 0.92);
@@ -246,7 +244,7 @@
   left: 0;
   right: 0;
   text-align: center;
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-playfair), serif;
   font-size: clamp(0.9rem, 1.5vw, 1.15rem);
   font-weight: 900;
   color: #fff;
@@ -260,7 +258,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%) scale(0);
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-playfair), serif;
   font-size: 3rem;
   color: rgba(255, 255, 255, 0.7);
   z-index: 3;
@@ -280,7 +278,7 @@
 }
 
 .cardName {
-  font-family: 'Playfair Display', serif;
+  font-family: var(--font-playfair), serif;
   font-size: clamp(0.88rem, 1.4vw, 1rem);
   font-style: italic;
   font-weight: 700;
@@ -320,7 +318,7 @@
 }
 
 .metaKey {
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-playfair), serif;
   font-size: 0.6rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -331,7 +329,7 @@
 }
 
 .metaVal {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-lato), sans-serif;
   font-size: 0.85rem;
   color: var(--earth-warm);
   font-weight: 600;
@@ -348,7 +346,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-playfair), serif;
   font-size: 0.6rem;
   font-weight: 600;
   letter-spacing: 0.06em;
@@ -372,7 +370,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-playfair), serif;
   font-size: 0.6rem;
   font-weight: 600;
   letter-spacing: 0.06em;
@@ -430,7 +428,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-playfair), serif;
   font-size: 8rem;
   color: rgba(224, 123, 0, 0.06);
   line-height: 1;
@@ -452,7 +450,7 @@
   display: flex;
   align-items: center;
   gap: 0.6rem;
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-lato), sans-serif;
   font-size: clamp(0.88rem, 1.4vw, 0.97rem);
   font-weight: 600;
   color: var(--earth-mid);
@@ -482,7 +480,7 @@
 }
 
 .whoDecorQuote {
-  font-family: 'Dancing Script', cursive;
+  font-family: var(--font-lato), sans-serif;
   font-size: clamp(0.95rem, 1.6vw, 1.1rem);
   font-weight: 600;
   color: var(--earth);
@@ -496,7 +494,7 @@
 
 .whoDecorAttrib {
   display: block;
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-playfair), serif;
   font-size: 0.6rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -523,7 +521,7 @@
   transform: translate(-50%, -50%);
   font-size: clamp(18rem, 35vw, 32rem);
   color: rgba(224, 123, 0, 0.025);
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-playfair), serif;
   pointer-events: none;
   z-index: 0;
   line-height: 1;
@@ -593,7 +591,7 @@
 }
 
 .founderImgName {
-  font-family: 'Dancing Script', cursive;
+  font-family: var(--font-lato), sans-serif;
   font-size: clamp(1rem, 2vw, 1.4rem);
   font-weight: 700;
   color: rgba(253, 246, 236, 0.95);
@@ -614,7 +612,7 @@
 .fCornerBR { bottom: 7px; right: 7px;  border-width: 0 2px 2px 0; }
 
 .founderEyebrow {
-  font-family: 'Dancing Script', cursive;
+  font-family:var(--font-lato), sans-serif;
   font-size: clamp(1rem, 1.8vw, 1.25rem);
   font-weight: 600;
   color: var(--earth-light);
@@ -622,7 +620,7 @@
 }
 
 .founderName {
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-playfair), serif;
   font-size: clamp(1.2rem, 2.4vw, 1.7rem);
   font-weight: 700;
   color: var(--saffron-deep);
@@ -742,7 +740,7 @@
 }
 
 .teacherOm {
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-playfair), serif;
   font-size: 1.5rem;
   color: rgba(245, 184, 0, 0.9);
   text-shadow: 0 0 12px rgba(224, 123, 0, 0.8);
@@ -754,7 +752,7 @@
   top: 10px;
   left: 50%;
   transform: translateX(-50%) translateY(-6px);
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-playfair), serif;
   font-size: 0.56rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -783,7 +781,7 @@
 
 .teacherName {
   display: block;
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-playfair), serif;
   font-size: clamp(0.7rem, 1.1vw, 0.8rem);
   font-weight: 700;
   color: var(--earth);
@@ -793,7 +791,7 @@
 
 .teacherSurname {
   display: block;
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-lato), sans-serif;
   font-size: clamp(0.75rem, 1.1vw, 0.86rem);
   color: var(--earth-light);
   font-weight: 600;
@@ -820,7 +818,7 @@
   box-shadow: 0 4px 16px var(--shadow-warm);
   transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
   padding: 0;
-  font-family: Georgia, serif;
+  font-family: var(--font-playfair), serif;
 }
 
 .sliderArrow:hover {
@@ -859,7 +857,7 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-playfair), serif;
   font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: 0.1em;
@@ -923,7 +921,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-playfair), serif;
   font-size: 12rem;
   color: rgba(224, 123, 0, 0.05);
   line-height: 1;
@@ -1026,7 +1024,7 @@
 }
 
 .modalOmIcon {
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-playfair), serif;
   font-size: 1.6rem;
   color: rgba(245, 184, 0, 0.9);
   text-shadow: 0 0 14px rgba(224, 123, 0, 0.9);
@@ -1039,7 +1037,7 @@
 }
 
 .modalEyebrow {
-  font-family: 'Dancing Script', cursive;
+  font-family: var(--font-lato), sans-serif;
   font-size: clamp(0.9rem, 2vw, 1.05rem);
   font-weight: 600;
   color: var(--earth-light);
@@ -1047,7 +1045,7 @@
 }
 
 .modalName {
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-playfair), serif;
   font-size: clamp(1.1rem, 2.4vw, 1.45rem);
   font-weight: 700;
   color: var(--saffron-deep);
@@ -1058,7 +1056,7 @@
 
 .modalSurname {
   display: block;
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-lato), sans-serif;
   font-size: clamp(0.95rem, 1.8vw, 1.1rem);
   font-weight: 400;
   font-style: italic;

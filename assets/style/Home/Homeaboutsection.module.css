@@ -4,7 +4,6 @@
    Warm parchment tones + saffron accents + ornamental details
    ================================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Dancing+Script:wght@600;700&display=swap');
 
 /* ── Section shell ── */
 .section {
@@ -37,7 +36,7 @@
   transform: translate(-50%, -50%);
   font-size: clamp(16rem, 30vw, 28rem);
   color: rgba(224, 123, 0, 0.04);
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-playfair), serif;
   pointer-events: none;
   z-index: 0;
   line-height: 1;
@@ -74,7 +73,7 @@
 }
 
 .superTitle {
-  font-family: 'Cormorant Garamond', serif;
+ font-family: var(--font-lato), sans-serif;
   font-size: clamp(1rem, 2.4vw, 1.4rem);
   font-style: italic;
   color: #7a5c2e;
@@ -83,7 +82,7 @@
 }
 
 .mainTitle {
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-playfair), serif;
   font-size: clamp(1.15rem, 2.6vw, 1.75rem);
   font-weight: 700;
   color: #3d1d00;
@@ -109,7 +108,7 @@
 }
 
 .omSymbol {
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-playfair), serif;
   font-size: 1.6rem;
   color: #e07b00;
   line-height: 1;
@@ -147,7 +146,7 @@
 }
 
 .statValue {
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-playfair), serif;
   font-size: clamp(1.4rem, 2.8vw, 1.9rem);
   font-weight: 700;
   color: #e07b00;
@@ -155,7 +154,7 @@
 }
 
 .statLabel {
-  font-family: 'Cormorant Garamond', serif;
+ font-family: var(--font-lato), sans-serif;
   font-size: clamp(0.7rem, 1.3vw, 0.82rem);
   color: #7a5c2e;
   letter-spacing: 0.08em;
@@ -175,7 +174,7 @@
 
 /* ── Paragraphs with HTML content support ── */
 .para {
-  font-family: 'Cormorant Garamond', serif;
+ font-family: var(--font-lato), sans-serif;
   font-size: clamp(0.95rem, 1.6vw, 1.05rem);
   line-height: 1.85;
   color: #3d2b10;
@@ -187,7 +186,7 @@
 }
 
 .para h1, .para h2, .para h3, .para h4 {
-  font-family: 'Cinzel', serif;
+font-family: var(--font-playfair), serif;
   font-weight: 600;
   color: #3d1d00;
   margin: 1.2rem 0 0.8rem;
@@ -243,7 +242,7 @@
 }
 
 .paraSmall {
-  font-family: 'Cormorant Garamond', serif;
+ font-family: var(--font-lato), sans-serif;
   font-size: clamp(0.88rem, 1.4vw, 0.97rem);
   line-height: 1.8;
   color: #5a3e22;
@@ -288,7 +287,7 @@
 }
 
 .accBadge {
-  font-family: 'Cormorant Garamond', serif;
+ font-family: var(--font-lato), sans-serif;
   font-size: 0.88rem;
   color: #5c2d00;
   font-weight: 600;
@@ -297,7 +296,7 @@
 
 /* ── Pull quote ── */
 .quote {
-  font-family: 'Dancing Script', cursive;
+  font-family: var(--font-lato), sans-serif;
   font-size: clamp(1.2rem, 2.4vw, 1.6rem);
   font-weight: 600;
   color: #3d1d00;
@@ -354,7 +353,7 @@
 }
 
 .stylesTitle {
-  font-family: 'Cinzel', serif;
+ font-family: var(--font-playfair), serif;
   font-size: 0.75rem;
   font-weight: 600;
   color: #7a5c2e;
@@ -372,7 +371,7 @@
 }
 
 .styleChip {
-  font-family: 'Cormorant Garamond', serif;
+ font-family: var(--font-lato), sans-serif;
   font-size: 0.82rem;
   font-weight: 600;
   color: #7a3f00;
@@ -405,7 +404,7 @@
 }
 
 .ctaText {
-  font-family: 'Cormorant Garamond', serif;
+ font-family: var(--font-lato), sans-serif;
   font-size: clamp(0.9rem, 1.6vw, 1.05rem);
   color: #5c2d00;
   font-style: italic;
@@ -427,7 +426,7 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-family: 'Cinzel', serif;
+ font-family: var(--font-playfair), serif;
   font-size: 0.78rem;
   font-weight: 600;
   letter-spacing: 0.1em;

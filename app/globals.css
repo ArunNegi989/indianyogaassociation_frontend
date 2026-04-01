@@ -1,15 +1,15 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff !important;
+  --background: #ffffff;
   --foreground: #171717;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-lato);
+  --font-heading: var(--font-playfair);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -22,5 +22,33 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-lato), Arial, sans-serif;
+  font-size: 17px;
+  font-weight: 300;
+  line-height: 1.7;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-playfair), Georgia, serif;
+  line-height: 1.6;
+  font-weight: 500;
+}
+
+h1 { font-size: clamp(42px, 5vw, 56px);  font-weight: 600; }
+h2 { font-size: clamp(30px, 3.5vw, 36px); font-weight: 500; }
+h3 { font-size: clamp(22px, 2.5vw, 26px); font-weight: 500; }
+h4 { font-size: 20px; font-weight: 500; }
+h5 { font-size: 18px; font-weight: 500; }
+h6 { font-size: 16px; font-weight: 500; }
+
+p, li, span, a, td, th, label, input, textarea, select {
+  font-family: var(--font-lato), Arial, sans-serif;
+  font-size: 17px;
+  font-weight: 300;
+  line-height: 1.7;
+}
+
+small, .text-small {
+  font-size: 14px;
+  line-height: 1.6;
 }

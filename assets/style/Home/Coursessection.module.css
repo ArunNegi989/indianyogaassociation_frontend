@@ -1,14 +1,11 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Dancing+Script:wght@600;700&display=swap');
+/* @import HATAO — Next.js layout.tsx se fonts aa rahe hain */
 
 .section {
   position: relative;
-  
   overflow: hidden;
   background-image: url("../../../assets//images/coursebackgorund.png");
   background-repeat: no-repeat;
-    background-size: cover;
-    
-   
+  background-size: cover;
 }
 
 .section::before {
@@ -30,7 +27,7 @@
   transform: translate(-50%, -50%);
   font-size: clamp(16rem, 30vw, 28rem);
   color: rgba(224, 123, 0, 0.03);
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-playfair), serif;   /* Cinzel → Playfair */
   pointer-events: none;
   z-index: 0;
   line-height: 1;
@@ -62,26 +59,26 @@
 }
 
 .superTitle {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-lato), sans-serif;   /* Cormorant → Lato */
   font-size: clamp(0.95rem, 2.2vw, 1.35rem);
   font-style: italic;
+  font-weight: 300;
   color: #7a5c2e;
   letter-spacing: 0.05em;
   margin: 0 0 0.6rem;
 }
 
 .mainTitle {
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-playfair), serif;   /* Cinzel → Playfair */
   font-size: clamp(1.1rem, 2.4vw, 1.7rem);
-  font-weight: 700;
+  font-weight: 600;
   color: #3d1d00;
-  line-height: 1.4;
+  line-height: 1.6;
   max-width: 760px;
   margin: 0 auto 1.4rem;
   letter-spacing: 0.02em;
 }
 
-/* Om divider */
 .omDivider {
   display: flex;
   align-items: center;
@@ -97,7 +94,7 @@
 }
 
 .omSymbol {
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-playfair), serif;   /* Cinzel → Playfair */
   font-size: 1.6rem;
   color: #e07b00;
   line-height: 1;
@@ -187,11 +184,11 @@
 }
 
 .courseTitle {
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-playfair), serif;   /* Cinzel → Playfair */
   font-size: clamp(1rem, 1.8vw, 1.3rem);
-  font-weight: 700;
+  font-weight: 600;
   color: #3d1d00;
-  line-height: 1.3;
+  line-height: 1.6;
   margin: 0 0 0.45rem;
   letter-spacing: 0.01em;
 }
@@ -205,8 +202,9 @@
 }
 
 .courseMeta {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-lato), sans-serif;   /* Cormorant → Lato */
   font-size: clamp(0.8rem, 1.3vw, 0.88rem);
+  font-weight: 300;
   color: #5a3e22;
   letter-spacing: 0.01em;
   margin: 0;
@@ -214,10 +212,11 @@
   align-items: center;
   flex-wrap: wrap;
   gap: 0.25rem;
+  line-height: 1.7;
 }
 
 .metaLabel {
-  font-weight: 600;
+  font-weight: 400;
   color: #3d1d00;
 }
 
@@ -231,16 +230,17 @@
 }
 
 .description {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-lato), sans-serif;   /* Cormorant → Lato */
   font-size: clamp(0.88rem, 1.4vw, 0.97rem);
-  line-height: 1.82;
+  font-weight: 300;
+  line-height: 1.8;
   color: #3d2b10;
   margin: 0 0 0.9rem;
 }
 
 .inlineLink {
   color: #e07b00;
-  font-weight: 600;
+  font-weight: 400;
   text-decoration: underline;
   text-decoration-color: rgba(224, 123, 0, 0.4);
   text-underline-offset: 2px;
@@ -276,14 +276,14 @@
 }
 
 .courseLink {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-lato), sans-serif;   /* Cormorant → Lato */
   font-size: clamp(0.82rem, 1.3vw, 0.9rem);
+  font-weight: 400;
   color: #c46a00;
-  font-weight: 600;
   text-decoration: underline;
   text-decoration-color: rgba(196, 106, 0, 0.35);
   text-underline-offset: 2px;
-  line-height: 1.5;
+  line-height: 1.7;
   transition: color 0.18s ease;
 }
 
@@ -308,7 +308,6 @@
   z-index: 1;
 }
 
-/* Price block */
 .priceBlock {
   display: flex;
   flex-direction: column;
@@ -318,23 +317,23 @@
 }
 
 .priceINR {
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-playfair), serif;   /* Cinzel → Playfair */
   font-size: clamp(1.25rem, 2vw, 1.55rem);
-  font-weight: 700;
+  font-weight: 600;
   color: #c46a00;
   line-height: 1;
   letter-spacing: 0.01em;
 }
 
 .priceUSD {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-lato), sans-serif;   /* Cormorant → Lato */
   font-size: clamp(0.82rem, 1.2vw, 0.92rem);
+  font-weight: 300;
   color: #9a7040;
   font-style: italic;
   letter-spacing: 0.02em;
 }
 
-/* Seats block */
 .seatsBlock {
   display: flex;
   flex-direction: column;
@@ -350,18 +349,18 @@
 }
 
 .seatsLabel {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-lato), sans-serif;   /* Cormorant → Lato */
   font-size: 0.78rem;
+  font-weight: 400;
   color: #7a5c2e;
-  font-weight: 600;
   letter-spacing: 0.02em;
   white-space: nowrap;
 }
 
 .seatsValue {
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-playfair), serif;   /* Cinzel → Playfair */
   font-size: 0.82rem;
-  font-weight: 700;
+  font-weight: 500;
   color: #3d1d00;
 }
 
@@ -369,7 +368,6 @@
   color: #c0290d;
 }
 
-/* Seats progress bar */
 .seatsBar {
   height: 5px;
   background: rgba(224, 123, 0, 0.15);
@@ -385,19 +383,17 @@
   transition: width 0.4s ease;
 }
 
-/* Divider between info and buttons */
 .ctaDivider {
   height: 1px;
   background: linear-gradient(90deg, transparent, #e0c898, transparent);
   margin-bottom: 0.85rem;
 }
 
-/* Buttons */
 .btnEnroll {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-playfair), serif;   /* Cinzel → Playfair */
   font-size: 0.74rem;
   font-weight: 600;
   letter-spacing: 0.08em;
@@ -422,9 +418,9 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-lato), sans-serif;   /* Cormorant → Lato */
   font-size: 0.82rem;
-  font-weight: 600;
+  font-weight: 400;
   letter-spacing: 0.04em;
   color: #c46a00;
   background: transparent;
@@ -442,30 +438,26 @@
   border-color: #e07b00;
 }
 
-
-/* ── 1200px: Wide desktop ── */
+/* ── 1200px ── */
 @media (max-width: 1200px) {
   .courseCard {
     grid-template-columns: 190px 1fr auto;
   }
-
   .ctaColumn {
     min-width: 160px;
     padding: 1rem 1.2rem;
   }
 }
 
-/* ── 1024px: Laptop / tablet landscape ── */
+/* ── 1024px ── */
 @media (max-width: 1024px) {
   .courseCard {
     grid-template-columns: 170px 1fr auto;
   }
-
   .ctaColumn {
     min-width: 150px;
     padding: 1rem;
   }
-
   .btnEnroll,
   .btnExplore {
     font-size: 0.71rem;
@@ -473,7 +465,7 @@
   }
 }
 
-/* ── 860px: Tablet portrait — stack image on top ── */
+/* ── 860px ── */
 @media (max-width: 860px) {
   .courseCard {
     grid-template-columns: 1fr auto;
@@ -482,27 +474,24 @@
       'image image'
       'content cta';
   }
-
   .imageWrapper {
     min-height: 200px;
     max-height: 220px;
     width: 100%;
     border-radius: 0;
   }
-
   .ctaColumn {
     border-left: 1px solid #ede0c8;
     border-top: none;
     justify-content: space-between;
     min-width: 150px;
   }
-
   .mainTitle {
     font-size: clamp(1.05rem, 3vw, 1.45rem);
   }
 }
 
-/* ── 700px: Small tablet ── */
+/* ── 700px ── */
 @media (max-width: 700px) {
   .courseCard {
     grid-template-columns: 1fr;
@@ -512,12 +501,10 @@
       'content'
       'cta';
   }
-
   .imageWrapper {
     min-height: 190px;
     max-height: 210px;
   }
-
   .ctaColumn {
     flex-direction: column;
     border-left: none;
@@ -525,8 +512,6 @@
     padding: 1rem 1.2rem;
     min-width: unset;
   }
-
-  /* On small screens, price + seats side by side */
   .priceBlock {
     flex-direction: row;
     justify-content: flex-start;
@@ -534,12 +519,9 @@
     gap: 0.6rem;
     padding-bottom: 0.7rem;
   }
-
   .seatsBlock {
     padding-bottom: 0.7rem;
   }
-
-  /* Buttons row */
   .btnEnroll,
   .btnExplore {
     width: 100%;
@@ -549,147 +531,119 @@
     justify-content: center;
     margin-bottom: 0;
   }
-
   .btnEnroll {
     margin-bottom: 0.6rem;
   }
-
   .content {
     padding: 1rem 1.2rem;
   }
-
   .courseTitle {
     font-size: clamp(1rem, 3.5vw, 1.2rem);
   }
 }
 
-/* ── 540px: Large mobile ── */
+/* ── 540px ── */
 @media (max-width: 540px) {
   .container {
     padding: 2rem 1rem;
   }
-
   .courseList {
     gap: 1rem;
   }
-
   .imageWrapper {
     min-height: 170px;
     max-height: 190px;
   }
-
   .content {
     padding: 0.9rem 1rem;
   }
-
   .ctaColumn {
     padding: 0.9rem 1rem;
   }
-
   .priceINR {
     font-size: 1.2rem;
   }
-
   .btnEnroll,
   .btnExplore {
     font-size: 0.72rem;
     padding: 0.65rem 0.6rem;
   }
-
   .omDivider .dividerLine {
     max-width: 80px;
   }
-
   .mainTitle {
     font-size: 1.05rem;
   }
-
   .description {
     font-size: 0.88rem;
   }
-
   .courseLink {
     font-size: 0.82rem;
   }
 }
 
-/* ── 420px: Small mobile ── */
+/* ── 420px ── */
 @media (max-width: 420px) {
   .imageWrapper {
     min-height: 150px;
     max-height: 170px;
   }
-
   .courseTitle {
     font-size: 1rem;
   }
-
   .courseMeta {
     font-size: 0.78rem;
   }
-
   .ctaColumn {
     padding: 0.85rem 0.9rem;
   }
-
   .priceBlock {
     flex-direction: row;
     gap: 0.5rem;
   }
-
   .btnEnroll,
   .btnExplore {
     font-size: 0.73rem;
     padding: 0.7rem 1rem;
   }
-
   .content {
     padding: 0.85rem 0.9rem;
   }
-
   .superTitle {
     font-size: 0.88rem;
   }
 }
 
-/* ── 360px: Very small mobile ── */
+/* ── 360px ── */
 @media (max-width: 360px) {
   .container {
     padding: 1.6rem 0.8rem;
   }
-
   .mainTitle {
     font-size: 0.97rem;
   }
-
   .courseTitle {
     font-size: 0.95rem;
   }
-
   .imageWrapper {
     min-height: 140px;
     max-height: 155px;
   }
-
   .priceINR {
     font-size: 1.1rem;
   }
-
   .btnEnroll,
   .btnExplore {
     font-size: 0.7rem;
     padding: 0.62rem 0.8rem;
     letter-spacing: 0.04em;
   }
-
   .omSymbol {
     font-size: 1.3rem;
   }
-
   .linkItem {
     gap: 0.4rem;
   }
-
   .courseLink {
     font-size: 0.78rem;
   }

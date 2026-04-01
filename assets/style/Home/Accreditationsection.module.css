@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Dancing+Script:wght@500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
 
 :root {
   --saffron: #e07b00;
@@ -43,7 +43,7 @@
 }
 
 .sectionTitle {
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-playfair), serif;
   font-size: clamp(1.05rem, 2.3vw, 1.6rem);
   font-weight: 700;
   color: var(--earth);
@@ -62,7 +62,7 @@
 }
 
 .para {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-lato), sans-serif;
   font-size: clamp(0.97rem, 1.6vw, 1.07rem);
   line-height: 1.9;
   color: var(--earth-warm);
@@ -92,7 +92,7 @@
   transform: translate(-50%, -50%);
   font-size: clamp(14rem, 28vw, 26rem);
   color: rgba(224, 123, 0, 0.035);
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-playfair), serif;
   pointer-events: none;
   z-index: 0;
   line-height: 1;
@@ -171,7 +171,7 @@
 }
 
 .imageCaption {
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-playfair), serif;
   font-size: 0.72rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -180,7 +180,7 @@
 }
 
 .pullQuote {
-  font-family: 'Dancing Script', cursive;
+  font-family: var(--font-lato), sans-serif;
   font-size: clamp(1.3rem, 2.5vw, 1.75rem);
   font-weight: 700;
   color: var(--earth);
@@ -250,7 +250,7 @@
 }
 
 .immerseTitle {
-  font-family: 'Dancing Script', cursive;
+  font-family: var(--font-lato), sans-serif;
   font-size: clamp(1.2rem, 2.2vw, 1.6rem);
   font-weight: 700;
   color: var(--saffron-deep);
@@ -271,7 +271,7 @@
   align-items: center;
   gap: 8px;
   margin-top: 0.5rem;
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-playfair), serif;
   font-size: 0.78rem;
   font-weight: 600;
   letter-spacing: 0.1em;
@@ -407,7 +407,7 @@
 }
 
 .certTag {
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-playfair), serif;
   font-size: 0.58rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -416,7 +416,7 @@
 }
 
 .certCardLabel {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-lato), sans-serif;
   font-size: clamp(0.82rem, 1.3vw, 0.92rem);
   color: var(--earth);
   font-weight: 600;
@@ -448,7 +448,7 @@
 }
 
 .badgeText {
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-playfair), serif;
   font-size: clamp(0.62rem, 1.1vw, 0.75rem);
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -532,7 +532,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-playfair), serif;
   font-size: 12rem;
   color: rgba(224, 123, 0, 0.04);
   pointer-events: none;
@@ -558,7 +558,7 @@
   box-shadow: 0 3px 12px var(--shadow-saffron);
   transition: transform 0.2s, box-shadow 0.2s;
   z-index: 10;
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-playfair), serif;
   font-weight: 700;
 }
 
@@ -583,7 +583,7 @@
 
 .modalTag {
   display: inline-block;
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-playfair), serif;
   font-size: 0.6rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -595,7 +595,7 @@
 }
 
 .modalLabel {
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-playfair), serif;
   font-size: clamp(0.9rem, 1.8vw, 1.15rem);
   font-weight: 700;
   color: var(--earth);
@@ -604,7 +604,7 @@
 }
 
 .modalAlt {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-lato), sans-serif;
   font-size: 0.9rem;
   color: var(--earth-light);
   line-height: 1.6;
@@ -621,7 +621,7 @@
 }
 
 .modalNavBtn {
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-playfair), serif;
   font-size: 0.7rem;
   font-weight: 600;
   letter-spacing: 0.1em;
@@ -642,7 +642,7 @@
 }
 
 .modalNavCount {
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-playfair), serif;
   font-size: 0.72rem;
   letter-spacing: 0.1em;
   color: var(--earth-light);
