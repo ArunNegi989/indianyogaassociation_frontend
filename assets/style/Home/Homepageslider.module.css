@@ -2,8 +2,6 @@
    HomepageSlider.module.css — Perfect Responsive, No Scroll
    ================================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300&family=Dancing+Script:wght@600;700&family=Cinzel:wght@400;600&display=swap');
-
 /* ── Wrapper ── */
 .sliderWrapper {
   position: relative;
@@ -80,7 +78,7 @@
   display: inline-block;
   background: #e07b00;
   color: #fff;
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-playfair), serif;
   font-size: clamp(0.52rem, 1.1vw, 0.68rem);
   font-weight: 600;
   letter-spacing: 0.18em;
@@ -100,7 +98,7 @@
 
 /* Subtitle */
 .slideSubtitle {
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-playfair), serif;
   font-size: clamp(0.72rem, 1.6vw, 0.95rem);
   font-weight: 400;
   color: #ffe9b8;
@@ -119,7 +117,7 @@
 
 /* Main title */
 .slideTitle {
-  font-family: 'Dancing Script', cursive;
+  font-family: var(--font-lato), sans-serif;
   font-size: clamp(1.75rem, 5.2vw, 3.8rem);
   font-weight: 700;
   color: #fff;
@@ -144,7 +142,7 @@
   background: #e07b00;
   color: #fff;
   text-decoration: none;
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-playfair), serif;
   font-size: clamp(0.6rem, 1.3vw, 0.78rem);
   font-weight: 600;
   letter-spacing: 0.12em;
@@ -187,7 +185,7 @@
   right: 1.8rem;
   z-index: 3;
   color: rgba(255, 233, 170, 0.6);
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-lato), sans-serif;
   font-size: clamp(0.7rem, 1.4vw, 0.88rem);
   font-style: italic;
   letter-spacing: 0.06em;
@@ -291,7 +289,7 @@
   bottom: 1.5rem;
   right: 1.5rem;
   z-index: 10;
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-playfair), serif;
   font-size: 0.7rem;
   letter-spacing: 0.12em;
   color: rgba(255, 255, 255, 0.5);
