@@ -5,7 +5,6 @@ import styles from "@/assets/style/yoga-sanskrit-glossary/Yogaglossary.module.cs
 import sanskritglossary from "@/assets/images/Yoga-Sanskrit-Glossory.jpg";
 import HowToReach from "@/components/home/Howtoreach";
 
-// ---- Glossary term component ----
 const Term: React.FC<{ term: string; definition: string }> = ({
   term,
   definition,
@@ -15,7 +14,6 @@ const Term: React.FC<{ term: string; definition: string }> = ({
   </p>
 );
 
-// ===================== ALL GLOSSARY DATA =====================
 const glossaryTerms = [
   {
     term: "Yoga",

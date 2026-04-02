@@ -438,17 +438,16 @@ export default function YogaCollegeRishikesh() {
 
   return (
     <div className={styles.page}>
-
       <section className={styles.heroSection}>
-              <Image
-                src={heroImg}
-                alt="Yoga Students Group"
-                width={1180}
-                height={540}
-                className={styles.heroImage}
-                priority
-              />
-            </section>
+        <Image
+          src={heroImg}
+          alt="Yoga Students Group"
+          width={1180}
+          height={540}
+          className={styles.heroImage}
+          priority
+        />
+      </section>
       {/* ══════════════════════════════════════
           SECTION 1 — Hero image gallery (Screenshot 1)
       ══════════════════════════════════════ */}
@@ -456,7 +455,6 @@ export default function YogaCollegeRishikesh() {
         <div className={styles.container}>
           <h2 className={styles.heroTitle}>Yoga College in Rishikesh</h2>
           <div className={styles.heroUnderline} />
-         
         </div>
       </section>
 

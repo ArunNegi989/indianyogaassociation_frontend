@@ -10,7 +10,6 @@ import HowToReach from "@/components/home/Howtoreach";
 const DetoxRetreat: React.FC = () => {
   return (
     <div className={styles.pageWrapper}>
-      {/* ===== SECTION 1 — MAIN TITLE + INTRO ===== */}
       <section className={styles.section}>
         <h1 className={styles.mainTitle}>
           DETOXIFICATION RETREAT THROUGH HERBS, YOGA, AYURVEDA, AND NUTRITION
@@ -42,7 +41,6 @@ const DetoxRetreat: React.FC = () => {
 
         {/* Hero split image */}
         <div className={styles.heroImageBox}>
-          {/* Replace with your actual image path */}
           <Image
             src={detoxHero}
             alt="Ayurveda detoxification - herbs and treatment"

@@ -20,35 +20,27 @@ interface HathaYogaData {
   _id: string;
   slug?: string;
   status?: string;
-
   heroImgAlt?: string;
   heroImage?: string;
-
   introSectionTitle?: string;
   introSideImgAlt?: string;
   introSideImage?: string;
-
   whatSuperLabel?: string;
   whatTitle?: string;
-
   benefitsSuperLabel?: string;
   benefitsTitle?: string;
   benefitsSideImgAlt?: string;
   benefitsSideImage?: string;
   pullQuote?: string;
-
   certSuperLabel?: string;
   certTitle?: string;
   certPara?: string;
-
   ashramSuperLabel?: string;
   ashramTitle?: string;
   ashramImgAlt?: string;
   ashramImage?: string;
-
   curriculumSuperLabel?: string;
   curriculumTitle?: string;
-
   pricingSuperLabel?: string;
   pricingTitle?: string;
   pricingIntroPara?: string;
@@ -57,24 +49,20 @@ interface HathaYogaData {
   joinBtnLabel?: string;
   joinBtnHref?: string;
   pricingProgrammePara?: string;
-
   footerTitle?: string;
   footerSubtitle?: string;
   applyBtnLabel?: string;
   applyBtnHref?: string;
   contactBtnLabel?: string;
   contactEmail?: string;
-
   introParagraphs?: string[];
   whatParagraphs?: string[];
   ashramParagraphs?: string[];
   programmeParagraphs?: string[];
-
   accreditations?: string[];
   benefitsList?: string[];
   courseDetailsList?: string[];
   benefitsIntroPara?: string;
-
   certCards?: CertCard[];
 }
 
@@ -127,11 +115,30 @@ function OrnamentDivider() {
 }
 
 function CornerOrnament({ pos }: { pos: "tl" | "tr" | "bl" | "br" }) {
-  const flip = { tl: "scale(1,1)", tr: "scale(-1,1)", bl: "scale(1,-1)", br: "scale(-1,-1)" }[pos];
+  const flip = {
+    tl: "scale(1,1)",
+    tr: "scale(-1,1)",
+    bl: "scale(1,-1)",
+    br: "scale(-1,-1)",
+  }[pos];
   return (
-    <svg viewBox="0 0 40 40" className={styles.cornerOrn} style={{ transform: flip }}>
-      <path d="M2,2 L2,18 M2,2 L18,2" stroke="#b8860b" strokeWidth="1.5" fill="none" />
-      <path d="M2,2 Q8,8 16,2 Q8,8 2,16" stroke="#b8860b" strokeWidth="0.7" fill="none" />
+    <svg
+      viewBox="0 0 40 40"
+      className={styles.cornerOrn}
+      style={{ transform: flip }}
+    >
+      <path
+        d="M2,2 L2,18 M2,2 L18,2"
+        stroke="#b8860b"
+        strokeWidth="1.5"
+        fill="none"
+      />
+      <path
+        d="M2,2 Q8,8 16,2 Q8,8 2,16"
+        stroke="#b8860b"
+        strokeWidth="0.7"
+        fill="none"
+      />
       <circle cx="2" cy="2" r="2" fill="#b8860b" opacity="0.7" />
       <circle cx="10" cy="10" r="1.5" fill="#b8860b" opacity="0.4" />
     </svg>
@@ -142,17 +149,32 @@ function SeatsCell({ booked, total }: { booked: number; total: number }) {
   const isFull = booked >= total;
   const remaining = total - booked;
   if (isFull) return <span className={styles.fullyBooked}>Fully Booked</span>;
-  return <span className={styles.seatsAvailable}>{remaining} / {total} Seats</span>;
+  return (
+    <span className={styles.seatsAvailable}>
+      {remaining} / {total} Seats
+    </span>
+  );
 }
 
-function MandalaRingSVG({ size = 300, opacity = 0.08 }: { size?: number; opacity?: number }) {
+function MandalaRingSVG({
+  size = 300,
+  opacity = 0.08,
+}: {
+  size?: number;
+  opacity?: number;
+}) {
   const n = 24;
   const cx = size / 2;
   const r1 = size * 0.44;
   const r2 = size * 0.35;
   const r3 = size * 0.24;
   return (
-    <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} style={{ opacity }}>
+    <svg
+      width={size}
+      height={size}
+      viewBox={`0 0 ${size} ${size}`}
+      style={{ opacity }}
+    >
       <g stroke="#c46a00" strokeWidth="0.8" fill="none">
         <circle cx={cx} cy={cx} r={r1} />
         <circle cx={cx} cy={cx} r={r2} />
@@ -160,19 +182,25 @@ function MandalaRingSVG({ size = 300, opacity = 0.08 }: { size?: number; opacity
         <circle cx={cx} cy={cx} r={size * 0.12} />
         {Array.from({ length: n }).map((_, i) => {
           const a = (i / n) * 2 * Math.PI;
-          const x1 = cx + r3 * Math.cos(a), y1 = cx + r3 * Math.sin(a);
-          const x2 = cx + r1 * Math.cos(a), y2 = cx + r1 * Math.sin(a);
+          const x1 = cx + r3 * Math.cos(a),
+            y1 = cx + r3 * Math.sin(a);
+          const x2 = cx + r1 * Math.cos(a),
+            y2 = cx + r1 * Math.sin(a);
           return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} />;
         })}
         {Array.from({ length: 8 }).map((_, i) => {
           const a = (i / 8) * 2 * Math.PI;
-          const x1 = cx + (r2 - 12) * Math.cos(a), y1 = cx + (r2 - 12) * Math.sin(a);
-          const x2 = cx + (r2 + 12) * Math.cos(a), y2 = cx + (r2 + 12) * Math.sin(a);
+          const x1 = cx + (r2 - 12) * Math.cos(a),
+            y1 = cx + (r2 - 12) * Math.sin(a);
+          const x2 = cx + (r2 + 12) * Math.cos(a),
+            y2 = cx + (r2 + 12) * Math.sin(a);
           return (
             <ellipse
               key={i}
-              cx={(x1 + x2) / 2} cy={(y1 + y2) / 2}
-              rx={14} ry={5}
+              cx={(x1 + x2) / 2}
+              cy={(y1 + y2) / 2}
+              rx={14}
+              ry={5}
               transform={`rotate(${(i / 8) * 360} ${(x1 + x2) / 2} ${(y1 + y2) / 2})`}
             />
           );
@@ -182,19 +210,39 @@ function MandalaRingSVG({ size = 300, opacity = 0.08 }: { size?: number; opacity
   );
 }
 
-function MandalaSVG({ opacity = 0.05, size = 600 }: { opacity?: number; size?: number }) {
+function MandalaSVG({
+  opacity = 0.05,
+  size = 600,
+}: {
+  opacity?: number;
+  size?: number;
+}) {
   return (
-    <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} style={{ opacity }} aria-hidden>
-      <g stroke="#c46a00" strokeWidth="0.6" fill="none" transform={`translate(${size / 2},${size / 2})`}>
+    <svg
+      width={size}
+      height={size}
+      viewBox={`0 0 ${size} ${size}`}
+      style={{ opacity }}
+      aria-hidden
+    >
+      <g
+        stroke="#c46a00"
+        strokeWidth="0.6"
+        fill="none"
+        transform={`translate(${size / 2},${size / 2})`}
+      >
         {[0.46, 0.38, 0.28, 0.18, 0.09].map((r, ri) => (
           <circle key={ri} cx={0} cy={0} r={r * size} />
         ))}
         {Array.from({ length: 36 }).map((_, i) => {
           const a = (i / 36) * 2 * Math.PI;
           return (
-            <line key={i}
-              x1={size * 0.09 * Math.cos(a)} y1={size * 0.09 * Math.sin(a)}
-              x2={size * 0.46 * Math.cos(a)} y2={size * 0.46 * Math.sin(a)}
+            <line
+              key={i}
+              x1={size * 0.09 * Math.cos(a)}
+              y1={size * 0.09 * Math.sin(a)}
+              x2={size * 0.46 * Math.cos(a)}
+              y2={size * 0.46 * Math.sin(a)}
             />
           );
         })}
@@ -202,9 +250,12 @@ function MandalaSVG({ opacity = 0.05, size = 600 }: { opacity?: number; size?: n
           const a = (i / 12) * 2 * Math.PI;
           const r = size * 0.32;
           return (
-            <ellipse key={i}
-              cx={r * Math.cos(a)} cy={r * Math.sin(a)}
-              rx={size * 0.07} ry={size * 0.025}
+            <ellipse
+              key={i}
+              cx={r * Math.cos(a)}
+              cy={r * Math.sin(a)}
+              rx={size * 0.07}
+              ry={size * 0.025}
               transform={`rotate(${(i / 12) * 360} ${r * Math.cos(a)} ${r * Math.sin(a)})`}
             />
           );
@@ -219,10 +270,33 @@ function MandalaSVG({ opacity = 0.05, size = 600 }: { opacity?: number; size?: n
 ══════════════════════════════════════ */
 function LoadingSpinner() {
   return (
-    <div className={styles.page} style={{ minHeight: "60vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
-      <div style={{ textAlign: "center", color: "#e07b00", fontSize: "1.1rem", opacity: 0.75 }}>
+    <div
+      className={styles.page}
+      style={{
+        minHeight: "60vh",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <div
+        style={{
+          textAlign: "center",
+          color: "#e07b00",
+          fontSize: "1.1rem",
+          opacity: 0.75,
+        }}
+      >
         <MandalaRingSVG size={80} opacity={0.6} />
-        <p style={{ marginTop: "1rem", fontFamily: "serif", letterSpacing: "0.05em" }}>Loading…</p>
+        <p
+          style={{
+            marginTop: "1rem",
+            fontFamily: "serif",
+            letterSpacing: "0.05em",
+          }}
+        >
+          Loading…
+        </p>
       </div>
     </div>
   );
@@ -240,14 +314,19 @@ export default function HathaYogaPage() {
   /* Intersection observer for scroll-reveal */
   useEffect(() => {
     const obs = new IntersectionObserver(
-      (entries) => { entries.forEach((e) => { if (e.isIntersecting) e.target.classList.add(styles.visible); }); },
-      { threshold: 0.12 }
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) e.target.classList.add(styles.visible);
+        });
+      },
+      { threshold: 0.12 },
     );
-    document.querySelectorAll(`.${styles.reveal}`).forEach((el) => obs.observe(el));
+    document
+      .querySelectorAll(`.${styles.reveal}`)
+      .forEach((el) => obs.observe(el));
     return () => obs.disconnect();
-  }, [pageData]); // re-run after data loads so elements exist
+  }, [pageData]);
 
-  /* Fetch both APIs in parallel */
   useEffect(() => {
     const fetchAll = async () => {
       try {
@@ -272,7 +351,10 @@ export default function HathaYogaPage() {
   if (loading) return <LoadingSpinner />;
   if (error || !pageData) {
     return (
-      <div className={styles.page} style={{ padding: "4rem", textAlign: "center", color: "#e07b00" }}>
+      <div
+        className={styles.page}
+        style={{ padding: "4rem", textAlign: "center", color: "#e07b00" }}
+      >
         <p>{error || "Something went wrong."}</p>
       </div>
     );
@@ -281,10 +363,22 @@ export default function HathaYogaPage() {
   const d = pageData; // shorthand
 
   /* Image helpers */
-  const heroSrc    = imgSrc(d.heroImage, undefined, "");
-  const introSrc   = imgSrc(d.introSideImage, undefined, "https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?w=900&q=80");
-  const benefitSrc = imgSrc(d.benefitsSideImage, undefined, "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=1200&q=80");
-  const ashramSrc  = imgSrc(d.ashramImage, undefined, "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=1200&q=80");
+  const heroSrc = imgSrc(d.heroImage, undefined, "");
+  const introSrc = imgSrc(
+    d.introSideImage,
+    undefined,
+    "https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?w=900&q=80",
+  );
+  const benefitSrc = imgSrc(
+    d.benefitsSideImage,
+    undefined,
+    "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=1200&q=80",
+  );
+  const ashramSrc = imgSrc(
+    d.ashramImage,
+    undefined,
+    "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=1200&q=80",
+  );
 
   return (
     <div className={styles.page}>
@@ -319,15 +413,24 @@ export default function HathaYogaPage() {
               {/* Intro paragraphs (HTML from rich text editor) */}
               {d.introParagraphs && d.introParagraphs.length > 0
                 ? d.introParagraphs.map((p, i) => (
-                    <div key={i} className={styles.para} dangerouslySetInnerHTML={{ __html: p }} />
+                    <div
+                      key={i}
+                      className={styles.para}
+                      dangerouslySetInnerHTML={{ __html: p }}
+                    />
                   ))
                 : null}
             </div>
 
             <div className={styles.introImage}>
               <div className={styles.imageFrame}>
-                <img src={introSrc} alt={d.introSideImgAlt || "Yoga class in Rishikesh"} />
-                <div className={styles.imageCaption}>Morning Satsang · AYM Ashram</div>
+                <img
+                  src={introSrc}
+                  alt={d.introSideImgAlt || "Yoga class in Rishikesh"}
+                />
+                <div className={styles.imageCaption}>
+                  Morning Satsang · AYM Ashram
+                </div>
               </div>
 
               {/* Accreditations */}
@@ -335,7 +438,9 @@ export default function HathaYogaPage() {
                 <div className={styles.accredBox}>
                   <p className={styles.accredTitle}>Accreditations</p>
                   {d.accreditations.map((a, i) => (
-                    <span key={i} className={styles.accredBadge}>{a}</span>
+                    <span key={i} className={styles.accredBadge}>
+                      {a}
+                    </span>
                   ))}
                 </div>
               )}
@@ -351,13 +456,21 @@ export default function HathaYogaPage() {
         </div>
         <div className={styles.container}>
           <div className={`${styles.reveal} ${styles.centered}`}>
-            {d.whatSuperLabel && <p className={styles.superLabel}>{d.whatSuperLabel}</p>}
-            {d.whatTitle && <h2 className={styles.sectionTitle}>{d.whatTitle}</h2>}
+            {d.whatSuperLabel && (
+              <p className={styles.superLabel}>{d.whatSuperLabel}</p>
+            )}
+            {d.whatTitle && (
+              <h2 className={styles.sectionTitle}>{d.whatTitle}</h2>
+            )}
             <OrnamentDivider />
 
             {d.whatParagraphs && d.whatParagraphs.length > 0
               ? d.whatParagraphs.map((p, i) => (
-                  <div key={i} className={styles.paraCenter} dangerouslySetInnerHTML={{ __html: p }} />
+                  <div
+                    key={i}
+                    className={styles.paraCenter}
+                    dangerouslySetInnerHTML={{ __html: p }}
+                  />
                 ))
               : null}
           </div>
@@ -369,19 +482,28 @@ export default function HathaYogaPage() {
         <div className={styles.container}>
           <div className={`${styles.reveal} ${styles.benefitsGrid}`}>
             <div className={styles.benefitsLeft}>
-              {d.benefitsSuperLabel && <p className={styles.superLabel}>{d.benefitsSuperLabel}</p>}
-              {d.benefitsTitle && <h2 className={styles.sectionTitle}>{d.benefitsTitle}</h2>}
+              {d.benefitsSuperLabel && (
+                <p className={styles.superLabel}>{d.benefitsSuperLabel}</p>
+              )}
+              {d.benefitsTitle && (
+                <h2 className={styles.sectionTitle}>{d.benefitsTitle}</h2>
+              )}
               <OrnamentDivider />
 
               {d.benefitsIntroPara && (
-                <div className={styles.para} dangerouslySetInnerHTML={{ __html: d.benefitsIntroPara }} />
+                <div
+                  className={styles.para}
+                  dangerouslySetInnerHTML={{ __html: d.benefitsIntroPara }}
+                />
               )}
 
               {d.benefitsList && d.benefitsList.length > 0 && (
                 <ol className={styles.benefitsList}>
                   {d.benefitsList.map((b, i) => (
                     <li key={i} className={styles.benefitItem}>
-                      <span className={styles.benefitNum}>{String(i + 1).padStart(2, "0")}</span>
+                      <span className={styles.benefitNum}>
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
                       <span>{b}</span>
                     </li>
                   ))}
@@ -391,7 +513,10 @@ export default function HathaYogaPage() {
 
             <div className={styles.benefitsRight}>
               <div className={styles.imageFrameTall}>
-                <img src={benefitSrc} alt={d.benefitsSideImgAlt || "Yoga Ashram Rishikesh"} />
+                <img
+                  src={benefitSrc}
+                  alt={d.benefitsSideImgAlt || "Yoga Ashram Rishikesh"}
+                />
               </div>
               {d.pullQuote && (
                 <div className={styles.pullQuote}>
@@ -412,11 +537,18 @@ export default function HathaYogaPage() {
         </div>
         <div className={styles.container}>
           <div className={`${styles.reveal} ${styles.centered}`}>
-            {d.certSuperLabel && <p className={styles.superLabel}>{d.certSuperLabel}</p>}
-            {d.certTitle && <h2 className={styles.sectionTitle}>{d.certTitle}</h2>}
+            {d.certSuperLabel && (
+              <p className={styles.superLabel}>{d.certSuperLabel}</p>
+            )}
+            {d.certTitle && (
+              <h2 className={styles.sectionTitle}>{d.certTitle}</h2>
+            )}
             <OrnamentDivider />
             {d.certPara && (
-              <div className={styles.paraCenter} dangerouslySetInnerHTML={{ __html: d.certPara }} />
+              <div
+                className={styles.paraCenter}
+                dangerouslySetInnerHTML={{ __html: d.certPara }}
+              />
             )}
           </div>
 
@@ -430,10 +562,14 @@ export default function HathaYogaPage() {
                     "https://images.unsplash.com/photo-1545205597-3d9d02c29597?w=600&q=80",
                     "https://images.unsplash.com/photo-1575052814086-f385e2e2ad1b?w=600&q=80",
                     "https://images.unsplash.com/photo-1588286840104-8957b019727f?w=600&q=80",
-                  ][i] || ""
+                  ][i] || "",
                 );
                 return (
-                  <a key={c._id || i} href={c.href || "#"} className={styles.certCard}>
+                  <a
+                    key={c._id || i}
+                    href={c.href || "#"}
+                    className={styles.certCard}
+                  >
                     <div className={styles.certCardImg}>
                       {cardSrc && <img src={cardSrc} alt={c.hours} />}
                       <div className={styles.certCardOverlay} />
@@ -457,22 +593,36 @@ export default function HathaYogaPage() {
         <div className={styles.container}>
           <div className={`${styles.reveal} ${styles.ashramGrid}`}>
             <div className={styles.ashramText}>
-              {d.ashramSuperLabel && <p className={styles.superLabel}>{d.ashramSuperLabel}</p>}
+              {d.ashramSuperLabel && (
+                <p className={styles.superLabel}>{d.ashramSuperLabel}</p>
+              )}
               {d.ashramTitle && (
-                <h2 className={styles.sectionTitle} dangerouslySetInnerHTML={{ __html: d.ashramTitle.replace(/,\s*/g, ",<br/>") }} />
+                <h2
+                  className={styles.sectionTitle}
+                  dangerouslySetInnerHTML={{
+                    __html: d.ashramTitle.replace(/,\s*/g, ",<br/>"),
+                  }}
+                />
               )}
               <OrnamentDivider />
 
               {d.ashramParagraphs && d.ashramParagraphs.length > 0
                 ? d.ashramParagraphs.map((p, i) => (
-                    <div key={i} className={styles.para} dangerouslySetInnerHTML={{ __html: p }} />
+                    <div
+                      key={i}
+                      className={styles.para}
+                      dangerouslySetInnerHTML={{ __html: p }}
+                    />
                   ))
                 : null}
             </div>
 
             <div className={styles.ashramImage}>
               <div className={styles.imageFrame}>
-                <img src={ashramSrc} alt={d.ashramImgAlt || "AYM Yoga Ashram"} />
+                <img
+                  src={ashramSrc}
+                  alt={d.ashramImgAlt || "AYM Yoga Ashram"}
+                />
               </div>
             </div>
           </div>
@@ -481,12 +631,20 @@ export default function HathaYogaPage() {
 
       {/* ══════════════════════ CURRICULUM ══════════════════════ */}
       {d.courseDetailsList && d.courseDetailsList.length > 0 && (
-        <section id="curriculum" className={`${styles.section} ${styles.curriculumSection}`}>
+        <section
+          id="curriculum"
+          className={`${styles.section} ${styles.curriculumSection}`}
+        >
           <div className={styles.container}>
             <div className={`${styles.reveal} ${styles.centered}`}>
-              {d.curriculumSuperLabel && <p className={styles.superLabel}>{d.curriculumSuperLabel}</p>}
+              {d.curriculumSuperLabel && (
+                <p className={styles.superLabel}>{d.curriculumSuperLabel}</p>
+              )}
               {d.curriculumTitle && (
-                <h2 className={styles.sectionTitle} dangerouslySetInnerHTML={{ __html: d.curriculumTitle }} />
+                <h2
+                  className={styles.sectionTitle}
+                  dangerouslySetInnerHTML={{ __html: d.curriculumTitle }}
+                />
               )}
               <OrnamentDivider />
             </div>
@@ -494,7 +652,9 @@ export default function HathaYogaPage() {
             <div className={`${styles.reveal} ${styles.curriculumGrid}`}>
               {d.courseDetailsList.map((item, i) => (
                 <div key={i} className={styles.curriculumItem}>
-                  <span className={styles.curriculumNum}>{String(i + 1).padStart(2, "0")}</span>
+                  <span className={styles.curriculumNum}>
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
                   <span className={styles.curriculumText}>{item}</span>
                 </div>
               ))}
@@ -504,7 +664,10 @@ export default function HathaYogaPage() {
       )}
 
       {/* ══════════════════════ PRICING / BATCHES ══════════════════════ */}
-      <section id="apply" className={`${styles.section} ${styles.pricingSection}`}>
+      <section
+        id="apply"
+        className={`${styles.section} ${styles.pricingSection}`}
+      >
         <div className={styles.pricingBg} aria-hidden="true">
           <MandalaRingSVG size={800} opacity={0.04} />
         </div>
@@ -512,14 +675,26 @@ export default function HathaYogaPage() {
         <div className={styles.container}>
           {/* Heading */}
           <div className={`${styles.reveal} ${styles.centered}`}>
-            {d.pricingSuperLabel && <p className={styles.superLabel}>{d.pricingSuperLabel}</p>}
-            {d.pricingTitle && <h2 className={styles.sectionTitle} dangerouslySetInnerHTML={{ __html: d.pricingTitle }} />}
+            {d.pricingSuperLabel && (
+              <p className={styles.superLabel}>{d.pricingSuperLabel}</p>
+            )}
+            {d.pricingTitle && (
+              <h2
+                className={styles.sectionTitle}
+                dangerouslySetInnerHTML={{ __html: d.pricingTitle }}
+              />
+            )}
             <OrnamentDivider />
             {d.pricingIntroPara && (
               <p className={styles.paraCenter}>
                 {d.pricingIntroPara}{" "}
                 {d.registrationFormLink && (
-                  <a href={d.registrationFormLink} className={styles.inlineLink}>Registration Form</a>
+                  <a
+                    href={d.registrationFormLink}
+                    className={styles.inlineLink}
+                  >
+                    Registration Form
+                  </a>
                 )}
               </p>
             )}
@@ -552,23 +727,41 @@ export default function HathaYogaPage() {
                       return (
                         <tr key={row._id}>
                           <td className={styles.dateCell}>
-                            <span className={styles.dateCal}>📅</span> {dateLabel}
+                            <span className={styles.dateCal}>📅</span>{" "}
+                            {dateLabel}
                           </td>
                           <td>{row.usdFee}</td>
                           <td>{row.inrFee}</td>
                           <td className={styles.roomPriceCell}>
-                            Dorm <strong className={styles.priceAmt}>${row.dormPrice}</strong>{" "}
-                            | Twin <strong className={styles.priceAmt}>${row.twinPrice}</strong>{" "}
-                            | Private <strong className={styles.priceAmt}>${row.privatePrice}</strong>
+                            Dorm{" "}
+                            <strong className={styles.priceAmt}>
+                              ${row.dormPrice}
+                            </strong>{" "}
+                            | Twin{" "}
+                            <strong className={styles.priceAmt}>
+                              ${row.twinPrice}
+                            </strong>{" "}
+                            | Private{" "}
+                            <strong className={styles.priceAmt}>
+                              ${row.privatePrice}
+                            </strong>
                           </td>
                           <td>
-                            <SeatsCell booked={row.bookedSeats} total={row.totalSeats} />
+                            <SeatsCell
+                              booked={row.bookedSeats}
+                              total={row.totalSeats}
+                            />
                           </td>
                           <td>
                             {isFull ? (
-                              <span className={styles.applyDisabled}>Apply Now</span>
+                              <span className={styles.applyDisabled}>
+                                Apply Now
+                              </span>
                             ) : (
-                              <a href="/yoga-registration?type=hatha" className={styles.applyLink}>
+                              <a
+                                href="/yoga-registration?type=hatha"
+                                className={styles.applyLink}
+                              >
                                 Apply Now
                               </a>
                             )}
@@ -603,14 +796,24 @@ export default function HathaYogaPage() {
           )}
 
           {/* Programme overview */}
-          {((d.programmeParagraphs && d.programmeParagraphs.length > 0) || d.pricingProgrammePara) && (
+          {((d.programmeParagraphs && d.programmeParagraphs.length > 0) ||
+            d.pricingProgrammePara) && (
             <div className={`${styles.reveal} ${styles.programmeBox}`}>
               {d.programmeParagraphs && d.programmeParagraphs.length > 0
                 ? d.programmeParagraphs.map((p, i) => (
-                    <div key={i} className={styles.para} dangerouslySetInnerHTML={{ __html: p }} />
+                    <div
+                      key={i}
+                      className={styles.para}
+                      dangerouslySetInnerHTML={{ __html: p }}
+                    />
                   ))
                 : d.pricingProgrammePara && (
-                    <div className={styles.para} dangerouslySetInnerHTML={{ __html: d.pricingProgrammePara }} />
+                    <div
+                      className={styles.para}
+                      dangerouslySetInnerHTML={{
+                        __html: d.pricingProgrammePara,
+                      }}
+                    />
                   )}
             </div>
           )}
@@ -625,14 +828,24 @@ export default function HathaYogaPage() {
         <div className={styles.container}>
           <div className={styles.footerCtaInner}>
             <span className={styles.footerOm}>ॐ</span>
-            {d.footerTitle && <h2 className={styles.footerTitle}>{d.footerTitle}</h2>}
-            {d.footerSubtitle && <p className={styles.footerSub}>{d.footerSubtitle}</p>}
+            {d.footerTitle && (
+              <h2 className={styles.footerTitle}>{d.footerTitle}</h2>
+            )}
+            {d.footerSubtitle && (
+              <p className={styles.footerSub}>{d.footerSubtitle}</p>
+            )}
             <div className={styles.heroBtns}>
-              <a href={d.applyBtnHref || "#apply"} className={styles.btnPrimary}>
+              <a
+                href={d.applyBtnHref || "#apply"}
+                className={styles.btnPrimary}
+              >
                 {d.applyBtnLabel || "Apply Now"}
               </a>
               {d.contactEmail && (
-                <a href={`mailto:${d.contactEmail}`} className={styles.btnOutline}>
+                <a
+                  href={`mailto:${d.contactEmail}`}
+                  className={styles.btnOutline}
+                >
                   {d.contactBtnLabel || "Contact Us"}
                 </a>
               )}

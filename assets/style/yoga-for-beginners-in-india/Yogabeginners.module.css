@@ -3,15 +3,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Open+Sans:wght@300;400;500;600&display=swap');
 
 :root {
-  --orange:       #e8600a;
-  --orange-dark:  #c04800;
-  --text-dark:    #1a1a1a;
-  --text-body:    #2c2c2c;
-  --white:        #ffffff;
+  --orange: #e8600a;
+  --orange-dark: #c04800;
+  --text-dark: #1a1a1a;
+  --text-body: #2c2c2c;
+  --white: #ffffff;
   --table-header: #e8600a;
   --table-stripe: #fef6f0;
-  --border:       #e0c8b0;
-  --available:    #e8600a;
+  --border: #e0c8b0;
+  --available: #e8600a;
 }
 
 /* ====================================================
@@ -112,8 +112,14 @@
   margin-bottom: 1rem;
 }
 
-.bodyText strong { font-weight: 700; color: var(--text-dark); }
-.bodyText em     { font-style: italic; }
+.bodyText strong {
+  font-weight: 700;
+  color: var(--text-dark);
+}
+
+.bodyText em {
+  font-style: italic;
+}
 
 /* ====================================================
    UNDERSTANDING SECTION — two col
@@ -132,7 +138,9 @@
   margin-top: 16px;
 }
 
-.twoColText { /* left column — no extra styles needed */ }
+.twoColText {
+  /* left column — no extra styles needed */
+}
 
 .colHeading {
   font-family: 'Open Sans', sans-serif;
@@ -171,7 +179,9 @@
   margin-top: 16px;
 }
 
-.qaCol { /* each column */ }
+.qaCol {
+  /* each column */
+}
 
 .qaQuestion {
   font-family: 'Open Sans', sans-serif;
@@ -217,7 +227,7 @@
   overflow-x: auto;
   margin-top: 16px;
   border-radius: 4px;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
 }
 
 .pricingTable {
@@ -239,7 +249,7 @@
   padding: 12px 14px;
   letter-spacing: 0.05em;
   font-size: clamp(0.75rem, 1.2vw, 0.84rem);
-  border-right: 1px solid rgba(255,255,255,0.2);
+  border-right: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .pricingTable thead th:last-child {
@@ -315,6 +325,7 @@
 
 /* XS: < 576px */
 @media (max-width: 575.98px) {
+
   .heroImageSection,
   .titleSection,
   .understandingSection,
@@ -325,8 +336,13 @@
     padding-right: 14px;
   }
 
-  .heroImageBox  { height: 200px; }
-  .sideImageBox  { height: 220px; }
+  .heroImageBox {
+    height: 200px;
+  }
+
+  .sideImageBox {
+    height: 220px;
+  }
 
   /* Stack both two-col layouts */
   .twoColRow,
@@ -336,11 +352,14 @@
   }
 
   /* Image goes below text on mobile */
-  .twoColImage { order: -1; }
+  .twoColImage {
+    order: -1;
+  }
 }
 
 /* SM: 576px – 767px */
 @media (min-width: 576px) and (max-width: 767.98px) {
+
   .heroImageSection,
   .titleSection,
   .understandingSection,
@@ -351,8 +370,13 @@
     padding-right: 20px;
   }
 
-  .heroImageBox { height: 280px; }
-  .sideImageBox { height: 300px; }
+  .heroImageBox {
+    height: 280px;
+  }
+
+  .sideImageBox {
+    height: 300px;
+  }
 
   .twoColRow,
   .twoColQA {
@@ -360,11 +384,14 @@
     gap: 24px;
   }
 
-  .twoColImage { order: -1; }
+  .twoColImage {
+    order: -1;
+  }
 }
 
 /* MD: 768px – 991px */
 @media (min-width: 768px) and (max-width: 991.98px) {
+
   .heroImageSection,
   .titleSection,
   .understandingSection,
@@ -375,8 +402,13 @@
     padding-right: 24px;
   }
 
-  .heroImageBox { height: 320px; }
-  .sideImageBox { height: 380px; }
+  .heroImageBox {
+    height: 320px;
+  }
+
+  .sideImageBox {
+    height: 380px;
+  }
 
   .twoColRow {
     grid-template-columns: 1fr 1fr;
@@ -391,12 +423,18 @@
 
 /* LG: 992px – 1199px */
 @media (min-width: 992px) and (max-width: 1199.98px) {
-  .heroImageBox { height: 380px; }
-  .sideImageBox { height: 430px; }
+  .heroImageBox {
+    height: 380px;
+  }
+
+  .sideImageBox {
+    height: 430px;
+  }
 }
 
 /* XL: ≥ 1200px */
 @media (min-width: 1200px) {
+
   .heroImageSection,
   .titleSection,
   .understandingSection,
@@ -407,6 +445,11 @@
     padding-right: 48px;
   }
 
-  .heroImageBox { height: 460px; }
-  .sideImageBox { height: 500px; }
+  .heroImageBox {
+    height: 460px;
+  }
+
+  .sideImageBox {
+    height: 500px;
+  }
 }

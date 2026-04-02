@@ -1,7 +1,3 @@
-// ═══════════════════════════════════════════════════════
-// FILE LOCATION: src/app/aym-yoga-blog/[slug]/page.tsx
-// ═══════════════════════════════════════════════════════
-
 import SingleBlog from "@/components/singleblog/Singleblog";
 import { notFound } from "next/navigation";
 
@@ -12,19 +8,9 @@ interface PageProps {
   params: Promise<{ slug: string }>;
 }
 
-/* ─────────────────────────────────────────────
-   BASE URL — same logic jo api.ts use karta hai
-   NEXT_PUBLIC_API_URL = "http://localhost:5000"
-   api.ts adds "/api" → "http://localhost:5000/api"
-   Hum bhi wahi karenge yahan
-───────────────────────────────────────────── */
 const BASE = `${process.env.NEXT_PUBLIC_API_URL}/api`;
 
-/* ─────────────────────────────────────────────
-   NORMALISE — backend raw data → frontend Blog shape
-───────────────────────────────────────────── */
 function normalise(raw: any) {
-  // Image URL fix: agar relative path hai toh base origin lagao
   const origin = process.env.NEXT_PUBLIC_API_URL ?? "";
   const image = raw.coverImage
     ? raw.coverImage.startsWith("http")
@@ -61,7 +47,7 @@ export async function generateMetadata({ params }: PageProps) {
   try {
     const res = await fetch(
       `${BASE}/blogs/get-by-slug/${encodeURIComponent(slug)}`,
-      { cache: "no-store" }
+      { cache: "no-store" },
     );
     const data = await res.json();
     if (!data.success || !data.data) return {};
@@ -87,7 +73,7 @@ export default async function SingleBlogPage({ params }: PageProps) {
   try {
     const res = await fetch(
       `${BASE}/blogs/get-by-slug/${encodeURIComponent(slug)}`,
-      { cache: "no-store" }
+      { cache: "no-store" },
     );
 
     if (!res.ok) return notFound();
@@ -110,20 +96,13 @@ export default async function SingleBlogPage({ params }: PageProps) {
     allBlogs = (data.data ?? [])
       .filter((b: any) => b.status === "Published")
       .map(normalise);
-  } catch {
-    // Non-fatal: sidebar empty rahega, page toh open hoga
-  }
+  } catch {}
 
-  /* ── 3. Related posts — same category, current blog exclude ── */
   const relatedPosts = allBlogs
     .filter((b) => b.category === blog.category && b.id !== blog.id)
     .slice(0, 6);
 
-  /* ── 4. Recent posts — latest 5, current blog exclude ── */
-  const recentPosts = allBlogs
-    .filter((b) => b.id !== blog.id)
-    .slice(0, 5);
-
+  const recentPosts = allBlogs.filter((b) => b.id !== blog.id).slice(0, 5);
   return (
     <SingleBlog
       blog={blog}

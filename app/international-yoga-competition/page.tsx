@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useState } from "react";
 import styles from "@/assets/style/international-yoga-competition/Yogacompetition.module.css";
 import Link from "next/link";
@@ -83,7 +83,9 @@ const prizes = [
    SUBCOMPONENTS
 ───────────────────────────────────────────── */
 
-const SectionHeading: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+const SectionHeading: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => (
   <>
     <h2 className={styles.sectionHeading}>{children}</h2>
     <div className={styles.sectionUnderline}>
@@ -92,10 +94,10 @@ const SectionHeading: React.FC<{ children: React.ReactNode }> = ({ children }) =
   </>
 );
 
-const OrangeBtn: React.FC<{ children: React.ReactNode; onClick?: () => void }> = ({
-  children,
-  onClick,
-}) => (
+const OrangeBtn: React.FC<{
+  children: React.ReactNode;
+  onClick?: () => void;
+}> = ({ children, onClick }) => (
   <button className={styles.btnOrange} onClick={onClick} type="button">
     {children}
   </button>
@@ -140,7 +142,9 @@ const YogaCompetition: React.FC = () => {
   const [submitted, setSubmitted] = useState(false);
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >,
   ) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
@@ -152,14 +156,14 @@ const YogaCompetition: React.FC = () => {
 
   return (
     <div className={styles.section}>
-      {/* Top decorative border */}
       <div className={styles.topBorder} />
 
       <div className={styles.container}>
-
         {/* ── PAGE HEADER ── */}
         <div className={styles.pageHeader}>
-          <h1 className={styles.pageTitle}>7th International Yoga Competition</h1>
+          <h1 className={styles.pageTitle}>
+            7th International Yoga Competition
+          </h1>
           <div className={styles.titleUnderline}>
             <div className={styles.underlineLine} />
           </div>
@@ -169,11 +173,15 @@ const YogaCompetition: React.FC = () => {
         <div className={styles.contentCard}>
           <div className={styles.prose}>
             <p>
-              <strong>Association for Yoga and Meditation (AYM) yoga school in Rishikesh</strong> is
-              organizing <strong>7th International Yoga championship</strong>. This Online and
-              Offline yoga championship is open for participants worldwide to ensure that the maximum
-              number of yogis can take part in these competitions. The participants to submit their
-              videos before 15th May 2026.
+              <strong>
+                Association for Yoga and Meditation (AYM) yoga school in
+                Rishikesh
+              </strong>{" "}
+              is organizing <strong>7th International Yoga championship</strong>
+              . This Online and Offline yoga championship is open for
+              participants worldwide to ensure that the maximum number of yogis
+              can take part in these competitions. The participants to submit
+              their videos before 15th May 2026.
             </p>
             <ul>
               <li>The Video must not exceed 5 Minutes.</li>
@@ -208,8 +216,8 @@ const YogaCompetition: React.FC = () => {
 
         <div className={styles.contentCard}>
           <p className={styles.registerNote}>
-            This Online and Offline yoga competition is open to any participant as per age group any
-            one from any part of the world.
+            This Online and Offline yoga competition is open to any participant
+            as per age group any one from any part of the world.
           </p>
 
           <div className={styles.twoColGrid}>
@@ -248,7 +256,8 @@ const YogaCompetition: React.FC = () => {
                 ))}
               </ul>
               <div className={styles.syllabusNote}>
-                After Performing, Participant need to choose any 3 asana by self - Holding 15 sec.
+                After Performing, Participant need to choose any 3 asana by self
+                - Holding 15 sec.
               </div>
             </div>
           ))}
@@ -268,9 +277,11 @@ const YogaCompetition: React.FC = () => {
 
         <div className={styles.contentCard}>
           <p className={styles.registerNote}>
-            The participant can register in this international yoga championship by sending email
-            on:{" "}
-            <span className={styles.emailHighlight}>aymyogaschool@gmail.com</span>
+            The participant can register in this international yoga championship
+            by sending email on:{" "}
+            <span className={styles.emailHighlight}>
+              aymyogaschool@gmail.com
+            </span>
           </p>
 
           <div className={styles.boldLabel}>Registraion Fee:</div>
@@ -285,19 +296,22 @@ const YogaCompetition: React.FC = () => {
 
         <div className={styles.contentCard}>
           <p className={styles.registerNote}>
-            The last date of registration for the 1st round of the international yoga competition is{" "}
-            <strong>15th May 2026</strong> and the participants have to submit their performance video
-            before 15th May 2026. After 15th May submission is not valid.
+            The last date of registration for the 1st round of the international
+            yoga competition is <strong>15th May 2026</strong> and the
+            participants have to submit their performance video before 15th May
+            2026. After 15th May submission is not valid.
           </p>
 
           <div className={styles.noteBox}>
-            <span className={styles.noteLabel}>Please note: </span>The 1st round results will be
-            officially announced on our website on <strong>31st May 2026.</strong>
+            <span className={styles.noteLabel}>Please note: </span>The 1st round
+            results will be officially announced on our website on{" "}
+            <strong>31st May 2026.</strong>
           </div>
 
           <p className={styles.registerNote} style={{ marginTop: "0.8rem" }}>
-            Selected students from 1st round, will participate in the Final round of competition at
-            AYM Yoga School on the <strong>21st of June 2026.</strong>
+            Selected students from 1st round, will participate in the Final
+            round of competition at AYM Yoga School on the{" "}
+            <strong>21st of June 2026.</strong>
           </p>
 
           <ul className={styles.bulletList} style={{ marginTop: "0.6rem" }}>
@@ -308,7 +322,9 @@ const YogaCompetition: React.FC = () => {
         </div>
 
         {/* ── 6th COMPETITION RESULTS ── */}
-        <SectionHeading>6th International Yoga Competition - Final Result - 21 June 2025</SectionHeading>
+        <SectionHeading>
+          6th International Yoga Competition - Final Result - 21 June 2025
+        </SectionHeading>
 
         <div className={styles.photoGrid}>
           {previousWinners.map((winner, i) => (
@@ -320,15 +336,20 @@ const YogaCompetition: React.FC = () => {
                   className={styles.winnerImg}
                 />
                 <div className={styles.winnerOverlay}>
-                  <div className={styles.winnerOccasion}>On the Occasion of International Yoga Day</div>
-                  <div className={styles.winnerCompTitle}>International Yoga Competition</div>
+                  <div className={styles.winnerOccasion}>
+                    On the Occasion of International Yoga Day
+                  </div>
+                  <div className={styles.winnerCompTitle}>
+                    International Yoga Competition
+                  </div>
                   <div className={styles.winnerChamp}>
                     6th International yoga championship{" "}
                     <span className={styles.winnerYear}>2025</span>
                   </div>
                   <div className={styles.winnerName}>
                     ●●● {winner.place} winner{" "}
-                    <strong style={{ color: "#f5b800" }}>{winner.name}</strong> ●●●
+                    <strong style={{ color: "#f5b800" }}>{winner.name}</strong>{" "}
+                    ●●●
                   </div>
                 </div>
               </div>
@@ -337,18 +358,23 @@ const YogaCompetition: React.FC = () => {
         </div>
 
         {/* ── 7th COMPETITION DETAILS ── */}
-        <SectionHeading>7th International Yoga Competition - 21 June 2026 - Details</SectionHeading>
+        <SectionHeading>
+          7th International Yoga Competition - 21 June 2026 - Details
+        </SectionHeading>
 
         <div className={styles.contentCard}>
           <div className={styles.finalRoundBox}>
             <span className={styles.finalRoundLabel}>Final Round: </span>
-            Judges may ask participants to perform any asana from Categories A to E. Therefore, we
-            recommend practicing asanas from all categories to be fully prepared.
+            Judges may ask participants to perform any asana from Categories A
+            to E. Therefore, we recommend practicing asanas from all categories
+            to be fully prepared.
           </div>
         </div>
 
         {/* ── SCHEDULE ── */}
-        <SectionHeading>7th International Yoga Competition - 21 June 2026 - Schedule</SectionHeading>
+        <SectionHeading>
+          7th International Yoga Competition - 21 June 2026 - Schedule
+        </SectionHeading>
 
         <div className={styles.scheduleTable}>
           <div className={styles.scheduleCell}>
@@ -357,7 +383,9 @@ const YogaCompetition: React.FC = () => {
           </div>
           <div className={styles.scheduleCell}>
             <div>Breakfast: 10:00 AM to 11:00 AM</div>
-            <div style={{ marginTop: "0.4rem" }}>Refreshment: 2:00 PM to 3:00 PM</div>
+            <div style={{ marginTop: "0.4rem" }}>
+              Refreshment: 2:00 PM to 3:00 PM
+            </div>
           </div>
         </div>
 
@@ -366,7 +394,9 @@ const YogaCompetition: React.FC = () => {
         </p>
 
         {/* ── PRIZE ── */}
-        <SectionHeading>7th International Yoga Competition - Prize</SectionHeading>
+        <SectionHeading>
+          7th International Yoga Competition - Prize
+        </SectionHeading>
 
         <div className={styles.contentCard}>
           <div className={styles.prizeBlock}>
@@ -381,16 +411,11 @@ const YogaCompetition: React.FC = () => {
         {/* ── REGISTRATION FORM ── */}
         <SectionHeading>Registration Form</SectionHeading>
 
-        
-            
-         
-       <div className={styles.submitRow}>
-  <Link href="/yoga-registration">
-    <button className={styles.btnOrange}>
-      Submit Registration
-    </button>
-  </Link>
-</div>
+        <div className={styles.submitRow}>
+          <Link href="/yoga-registration">
+            <button className={styles.btnOrange}>Submit Registration</button>
+          </Link>
+        </div>
 
         {/* ── PAYMENT OPTIONS ── */}
         <SectionHeading>Payment Option</SectionHeading>
@@ -398,12 +423,16 @@ const YogaCompetition: React.FC = () => {
         <div className={styles.paymentGrid}>
           {/* Card 1 - UPI */}
           <div className={styles.paymentCard}>
-            <div className={styles.paymentCardTitle}>Pay By UPI / Bank / Debit / Credit Card</div>
+            <div className={styles.paymentCardTitle}>
+              Pay By UPI / Bank / Debit / Credit Card
+            </div>
             <div className={styles.paymentSubLabel}>For Indian Students</div>
             <div className={styles.btnCenter} style={{ marginBottom: "1rem" }}>
               <OrangeBtn>Book Now</OrangeBtn>
             </div>
-            <div className={styles.paymentSubLabel}>For International Students</div>
+            <div className={styles.paymentSubLabel}>
+              For International Students
+            </div>
             <div className={styles.btnCenter}>
               <OrangeBtn>Book Now</OrangeBtn>
             </div>
@@ -415,13 +444,16 @@ const YogaCompetition: React.FC = () => {
               <span style={{ fontSize: "1.1rem" }}>Ⓟ</span> PhonePe
             </div>
             <span className={styles.acceptedBadge}>Accepted Here</span>
-            <p className={styles.phonepeMobile} style={{ fontSize: "0.8rem", marginBottom: "0.5rem" }}>
+            <p
+              className={styles.phonepeMobile}
+              style={{ fontSize: "0.8rem", marginBottom: "0.5rem" }}
+            >
               Scan &amp; Pay Using PhonePe App
             </p>
-            <div className={styles.qrPlaceholder}>
-              [ QR Code ]
-            </div>
-            <p className={styles.phonepeMobile}>or Pay to Mobile Number using PhonePe App</p>
+            <div className={styles.qrPlaceholder}>[ QR Code ]</div>
+            <p className={styles.phonepeMobile}>
+              or Pay to Mobile Number using PhonePe App
+            </p>
             <div className={styles.phonepeName}>mahesh chand</div>
           </div>
 
@@ -434,8 +466,13 @@ const YogaCompetition: React.FC = () => {
               <div>Account Type: Current Account</div>
               <div>IFSC Code: IDIB000R639</div>
               <div>Name of bank: ALLAHABAD Bank</div>
-              <div>Address: Utpal Plaza, Haridwar Road, Rishikesh, Uttarakhand India.</div>
-              <div style={{ marginTop: "0.8rem" }}>International Students Pay via PayPal:</div>
+              <div>
+                Address: Utpal Plaza, Haridwar Road, Rishikesh, Uttarakhand
+                India.
+              </div>
+              <div style={{ marginTop: "0.8rem" }}>
+                International Students Pay via PayPal:
+              </div>
               <div>PayPal ID - aymyogaschool@gmail.com</div>
             </div>
           </div>

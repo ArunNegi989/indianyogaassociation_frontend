@@ -3,10 +3,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Open+Sans:wght@300;400;500;600;700&display=swap');
 
 :root {
-  --text-dark:  #0a0a0a;
-  --text-body:  #1c1c1c;
-  --white:      #ffffff;
-  --border:     #c8a84b;
+  --text-dark: #0a0a0a;
+  --text-body: #1c1c1c;
+  --white: #ffffff;
+  --border: #c8a84b;
 }
 
 /* ====================================================
@@ -87,6 +87,7 @@
 
 /* XS: < 576px */
 @media (max-width: 575.98px) {
+
   .titleSection,
   .bannerSection,
   .glossarySection {
@@ -94,13 +95,22 @@
     padding-right: 14px;
   }
 
-  .titleSection { padding-top: 24px; }
-  .bannerImageBox { height: 180px; }
-  .termLine { font-size: 0.82rem; }
+  .titleSection {
+    padding-top: 24px;
+  }
+
+  .bannerImageBox {
+    height: 180px;
+  }
+
+  .termLine {
+    font-size: 0.82rem;
+  }
 }
 
 /* SM: 576px – 767px */
 @media (min-width: 576px) and (max-width: 767.98px) {
+
   .titleSection,
   .bannerSection,
   .glossarySection {
@@ -108,11 +118,14 @@
     padding-right: 20px;
   }
 
-  .bannerImageBox { height: 240px; }
+  .bannerImageBox {
+    height: 240px;
+  }
 }
 
 /* MD: 768px – 991px */
 @media (min-width: 768px) and (max-width: 991.98px) {
+
   .titleSection,
   .bannerSection,
   .glossarySection {
@@ -120,16 +133,21 @@
     padding-right: 28px;
   }
 
-  .bannerImageBox { height: 300px; }
+  .bannerImageBox {
+    height: 300px;
+  }
 }
 
 /* LG: 992px – 1199px */
 @media (min-width: 992px) and (max-width: 1199.98px) {
-  .bannerImageBox { height: 340px; }
+  .bannerImageBox {
+    height: 340px;
+  }
 }
 
 /* XL: ≥ 1200px */
 @media (min-width: 1200px) {
+
   .titleSection,
   .bannerSection,
   .glossarySection {
@@ -137,5 +155,7 @@
     padding-right: 48px;
   }
 
-  .bannerImageBox { height: 380px; }
+  .bannerImageBox {
+    height: 380px;
+  }
 }

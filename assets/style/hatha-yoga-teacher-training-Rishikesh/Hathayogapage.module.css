@@ -1,30 +1,25 @@
-/* ================================================================
-   HathaYogaPage.module.css
-   Vintage Yoga · Warm Parchment × Saffron × Deep Mahogany
-   ================================================================ */
-
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,600&family=Dancing+Script:wght@500;600;700&family=IM+Fell+English:ital@0;1&display=swap');
 
 /* ── Design tokens ── */
 :root {
-  --clr-parchment:   #fdf6e8;
-  --clr-parchment2:  #f5e9cf;
-  --clr-saffron:     #e07b00;
-  --clr-saffron-lt:  #f5b800;
-  --clr-mahogany:    #3d1d00;
-  --clr-brown:       #7a5c2e;
-  --clr-brown-lt:    #b8956a;
-  --clr-ink:         #2e1a06;
-  --clr-rust:        #b85e00;
-  --ff-display:      'Cinzel', serif;
-  --ff-body:         'Cormorant Garamond', serif;
-  --ff-script:       'Dancing Script', cursive;
-  --ff-fell:         'IM Fell English', serif;
-  --shadow-warm:     0 4px 24px rgba(92, 45, 0, 0.14);
-  --shadow-saffron:  0 6px 28px rgba(224, 123, 0, 0.28);
-  --border-warm:     1.5px solid rgba(224, 123, 0, 0.25);
-  --radius:          6px;
-  --transition:      0.22s ease;
+  --clr-parchment: #fdf6e8;
+  --clr-parchment2: #f5e9cf;
+  --clr-saffron: #e07b00;
+  --clr-saffron-lt: #f5b800;
+  --clr-mahogany: #3d1d00;
+  --clr-brown: #7a5c2e;
+  --clr-brown-lt: #b8956a;
+  --clr-ink: #2e1a06;
+  --clr-rust: #b85e00;
+  --ff-display: 'Cinzel', serif;
+  --ff-body: 'Cormorant Garamond', serif;
+  --ff-script: 'Dancing Script', cursive;
+  --ff-fell: 'IM Fell English', serif;
+  --shadow-warm: 0 4px 24px rgba(92, 45, 0, 0.14);
+  --shadow-saffron: 0 6px 28px rgba(224, 123, 0, 0.28);
+  --border-warm: 1.5px solid rgba(224, 123, 0, 0.25);
+  --radius: 6px;
+  --transition: 0.22s ease;
 }
 
 /* ── Hero image ── */
@@ -50,6 +45,7 @@
   transform: translateY(28px);
   transition: opacity 0.6s ease, transform 0.6s ease;
 }
+
 .reveal.visible {
   opacity: 1;
   transform: none;
@@ -219,7 +215,10 @@
   text-decoration: none;
   border-bottom: 1px dashed var(--clr-saffron);
 }
-.inlineLink:hover { border-bottom-style: solid; }
+
+.inlineLink:hover {
+  border-bottom-style: solid;
+}
 
 /* ── Hero buttons row ── */
 .heroBtns {
@@ -328,7 +327,10 @@
   padding: 0.25rem 0;
   border-bottom: 1px solid rgba(224, 123, 0, 0.12);
 }
-.accredBadge:last-child { border-bottom: none; }
+
+.accredBadge:last-child {
+  border-bottom: none;
+}
 
 /* ════════════════════════════════════════
    WHAT IS HATHA SECTION
@@ -473,7 +475,9 @@
   transition: filter 0.4s ease;
 }
 
-.imageFrameTall img:hover { filter: saturate(0.95) sepia(0.05); }
+.imageFrameTall img:hover {
+  filter: saturate(0.95) sepia(0.05);
+}
 
 .pullQuote {
   font-family: var(--ff-script);
@@ -502,6 +506,7 @@
   border-right: none;
   border-bottom: none;
 }
+
 .pullQuote::after {
   content: '';
   position: absolute;
@@ -633,7 +638,9 @@
   transition: letter-spacing var(--transition);
 }
 
-.certCard:hover .certCardLink { letter-spacing: 0.2em; }
+.certCard:hover .certCardLink {
+  letter-spacing: 0.2em;
+}
 
 /* ════════════════════════════════════════
    ASHRAM SECTION
@@ -743,12 +750,29 @@
   margin: 2rem 0;
 }
 
-.tableContainer > .cornerOrn:nth-child(1) { top: 4px; left: 4px; }
-.tableContainer > .cornerOrn:nth-child(2) { top: 4px; right: 4px; }
-.tableContainer > .cornerOrn:nth-child(3) { bottom: 4px; left: 4px; }
-.tableContainer > .cornerOrn:nth-child(4) { bottom: 4px; right: 4px; }
+.tableContainer>.cornerOrn:nth-child(1) {
+  top: 4px;
+  left: 4px;
+}
 
-.tableScroll { overflow-x: auto; }
+.tableContainer>.cornerOrn:nth-child(2) {
+  top: 4px;
+  right: 4px;
+}
+
+.tableContainer>.cornerOrn:nth-child(3) {
+  bottom: 4px;
+  left: 4px;
+}
+
+.tableContainer>.cornerOrn:nth-child(4) {
+  bottom: 4px;
+  right: 4px;
+}
+
+.tableScroll {
+  overflow-x: auto;
+}
 
 .datesTable {
   width: 100%;
@@ -777,9 +801,17 @@
   transition: background 0.2s;
 }
 
-.datesTable tbody tr:nth-child(odd)  { background: rgba(245, 230, 200, 0.6); }
-.datesTable tbody tr:nth-child(even) { background: rgba(232, 210, 168, 0.5); }
-.datesTable tbody tr:hover           { background: rgba(224, 123, 0, 0.08); }
+.datesTable tbody tr:nth-child(odd) {
+  background: rgba(245, 230, 200, 0.6);
+}
+
+.datesTable tbody tr:nth-child(even) {
+  background: rgba(232, 210, 168, 0.5);
+}
+
+.datesTable tbody tr:hover {
+  background: rgba(224, 123, 0, 0.08);
+}
 
 .datesTable tbody td {
   padding: 0.7rem 1rem;
@@ -790,8 +822,14 @@
   color: #3d2b10;
 }
 
-.dateCell { color: #4a2e10; }
-.dateCal  { color: var(--clr-saffron); margin-right: 0.3rem; }
+.dateCell {
+  color: #4a2e10;
+}
+
+.dateCal {
+  color: var(--clr-saffron);
+  margin-right: 0.3rem;
+}
 
 .roomPriceCell {
   font-size: clamp(0.82rem, 1.2vw, 0.9rem) !important;
@@ -944,8 +982,15 @@
 }
 
 @keyframes omGlow {
-  0%, 100% { filter: drop-shadow(0 0 6px rgba(224, 123, 0, 0.4)); }
-  50%       { filter: drop-shadow(0 0 16px rgba(224, 123, 0, 0.8)); }
+
+  0%,
+  100% {
+    filter: drop-shadow(0 0 6px rgba(224, 123, 0, 0.4));
+  }
+
+  50% {
+    filter: drop-shadow(0 0 16px rgba(224, 123, 0, 0.8));
+  }
 }
 
 .footerTitle {
@@ -969,40 +1014,95 @@
 ════════════════════════════════════════ */
 
 @media (max-width: 1100px) {
-  .chakraGrid { grid-template-columns: repeat(4, 1fr); }
+  .chakraGrid {
+    grid-template-columns: repeat(4, 1fr);
+  }
 }
 
 @media (max-width: 900px) {
+
   .introGrid,
   .benefitsGrid,
-  .ashramGrid   { grid-template-columns: 1fr; gap: 2rem; }
-  .certCards    { grid-template-columns: 1fr 1fr; }
-  .chakraGrid   { grid-template-columns: repeat(4, 1fr); }
-  .curriculumGrid { grid-template-columns: 1fr; }
-  .roomPriceCell  { white-space: normal !important; }
+  .ashramGrid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .certCards {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .chakraGrid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .curriculumGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .roomPriceCell {
+    white-space: normal !important;
+  }
 }
 
 @media (max-width: 640px) {
-  .certCards  { grid-template-columns: 1fr; }
-  .chakraGrid { grid-template-columns: repeat(3, 1fr); gap: 0.5rem; }
-  .heroBtns   { flex-direction: column; }
+  .certCards {
+    grid-template-columns: 1fr;
+  }
+
+  .chakraGrid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+  }
+
+  .heroBtns {
+    flex-direction: column;
+  }
+
   .btnPrimary,
-  .btnOutline { width: 100%; justify-content: center; }
-  .pullQuote  { font-size: 1rem; }
+  .btnOutline {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .pullQuote {
+    font-size: 1rem;
+  }
 }
 
 @media (max-width: 540px) {
+
   .seatsAvailable,
-  .fullyBooked  { font-size: 0.62rem; padding: 0.18rem 0.55rem; }
+  .fullyBooked {
+    font-size: 0.62rem;
+    padding: 0.18rem 0.55rem;
+  }
+
   .applyLink,
-  .applyDisabled { font-size: 0.65rem; }
-  .datesTable   { min-width: 560px; }
-  .programmeBox { padding: 1.2rem 1rem; }
+  .applyDisabled {
+    font-size: 0.65rem;
+  }
+
+  .datesTable {
+    min-width: 560px;
+  }
+
+  .programmeBox {
+    padding: 1.2rem 1rem;
+  }
 }
 
 @media (max-width: 420px) {
-  .chakraGrid { grid-template-columns: repeat(2, 1fr); }
-  .datesTable { min-width: 420px; }
+  .chakraGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .datesTable {
+    min-width: 420px;
+  }
+
   .datesTable thead th,
-  .datesTable tbody td { padding: 0.5rem 0.6rem; }
+  .datesTable tbody td {
+    padding: 0.5rem 0.6rem;
+  }
 }

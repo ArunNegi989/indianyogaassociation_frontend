@@ -43,36 +43,28 @@ interface PageContent {
   heroImage: string;
   shivaImage: string;
   evalImage: string;
-
   standApartH2: string;
   gainsH2: string;
   seatSectionH2: string;
   seatSectionSubtext: string;
-
   tableNoteText: string;
   tableNoteEmail: string;
   tableNoteAirportText: string;
-
   credibilityH2: string;
   durationH2: string;
   syllabusH2: string;
   eligibilityH3: string;
   evaluationH3: string;
-
   includedTitle: string;
   includedNote: string;
   notIncludedTitle: string;
-
   fictionH3: string;
   reviewsSectionH2: string;
-
   refundH3: string;
   refundPara: string;
   applyH3: string;
   applyPara: string;
-
   indianFeeH3: string;
-
   introParas: string[];
   standApartParas: string[];
   gainsParas: string[];
@@ -82,14 +74,11 @@ interface PageContent {
   eligibilityParas: string[];
   evaluationParas: string[];
   fictionParas: string[];
-
   includedItems: string[];
   notIncludedItems: string[];
   indianFees: string[];
-
   syllabusModules: SyllabusModule[];
   reviews: Review[];
-
   accomImages: string[];
   foodImages: string[];
 }
@@ -117,10 +106,7 @@ function imgSrc(path: string): string {
 
 /** Render a paragraph string safely. */
 const Para = ({ html, className }: { html: string; className?: string }) => (
-  <div
-    className={className}
-    dangerouslySetInnerHTML={{ __html: html }}
-  />
+  <div className={className} dangerouslySetInnerHTML={{ __html: html }} />
 );
 
 /* ─────────────────────────────────────────
@@ -188,7 +174,9 @@ function SeatBookingSection() {
         {loading ? (
           <div className={seatStyles.stateBox}>🕉️ Loading batches...</div>
         ) : error ? (
-          <div className={`${seatStyles.stateBox} ${seatStyles.stateError}`}>{error}</div>
+          <div className={`${seatStyles.stateBox} ${seatStyles.stateError}`}>
+            {error}
+          </div>
         ) : currentBatches.length === 0 ? (
           <div className={seatStyles.stateBox}>
             No upcoming batches available for {activeTabLabel}.
@@ -219,13 +207,24 @@ function SeatBookingSection() {
                       <td>{batch.usdFee}</td>
                       <td>{batch.inrFee}</td>
                       <td className={seatStyles.tdRoom}>
-                        Dorm <strong className={seatStyles.price}>${batch.dormPrice}</strong>{" "}
-                        | Twin <strong className={seatStyles.price}>${batch.twinPrice}</strong>{" "}
-                        | Private <strong className={seatStyles.price}>${batch.privatePrice}</strong>
+                        Dorm{" "}
+                        <strong className={seatStyles.price}>
+                          ${batch.dormPrice}
+                        </strong>{" "}
+                        | Twin{" "}
+                        <strong className={seatStyles.price}>
+                          ${batch.twinPrice}
+                        </strong>{" "}
+                        | Private{" "}
+                        <strong className={seatStyles.price}>
+                          ${batch.privatePrice}
+                        </strong>
                       </td>
                       <td>
                         {isFull ? (
-                          <span className={seatStyles.fullyBooked}>Fully Booked</span>
+                          <span className={seatStyles.fullyBooked}>
+                            Fully Booked
+                          </span>
                         ) : (
                           <span className={seatStyles.seatsAvailable}>
                             {remaining} / {batch.totalSeats} Seats
@@ -234,7 +233,9 @@ function SeatBookingSection() {
                       </td>
                       <td>
                         {isFull ? (
-                          <span className={seatStyles.applyDisabled}>Apply Now</span>
+                          <span className={seatStyles.applyDisabled}>
+                            Apply Now
+                          </span>
                         ) : (
                           <a
                             href={`/yoga-registration?batchId=${batch._id}&type=${activeTab}`}
@@ -271,7 +272,13 @@ function SeatBookingSection() {
 /* ─────────────────────────────────────────
    YOUTUBE EMBED
 ───────────────────────────────────────── */
-const YouTubeEmbed = ({ videoId, title }: { videoId: string; title: string }) => {
+const YouTubeEmbed = ({
+  videoId,
+  title,
+}: {
+  videoId: string;
+  title: string;
+}) => {
   const [playing, setPlaying] = useState(false);
   return (
     <div className={styles.videoWrapper}>
@@ -297,7 +304,13 @@ const YouTubeEmbed = ({ videoId, title }: { videoId: string; title: string }) =>
           />
           <span className={styles.playBtn}>
             <svg viewBox="0 0 68 48" width="58" height="42">
-              <rect width="68" height="48" rx="10" fill="#e07b00" opacity="0.93" />
+              <rect
+                width="68"
+                height="48"
+                rx="10"
+                fill="#e07b00"
+                opacity="0.93"
+              />
               <polygon points="26,13 53,24 26,35" fill="#fff" />
             </svg>
           </span>
@@ -331,19 +344,42 @@ const Carousel = ({ images, alt }: { images: string[]; alt: string }) => {
 
   const prev = () => setIdx((i) => (i - 1 + len) % len);
   const next = () => setIdx((i) => (i + 1) % len);
-  const visible = Array.from({ length: visibleCount }, (_, o) => images[(idx + o) % len]);
+  const visible = Array.from(
+    { length: visibleCount },
+    (_, o) => images[(idx + o) % len],
+  );
 
   return (
     <div className={styles.carousel}>
-      <button className={`${styles.carBtn} ${styles.carBtnL}`} onClick={prev} aria-label="Previous">‹</button>
-      <div className={styles.carTrack} style={{ gridTemplateColumns: `repeat(${visibleCount}, 1fr)` }}>
+      <button
+        className={`${styles.carBtn} ${styles.carBtnL}`}
+        onClick={prev}
+        aria-label="Previous"
+      >
+        ‹
+      </button>
+      <div
+        className={styles.carTrack}
+        style={{ gridTemplateColumns: `repeat(${visibleCount}, 1fr)` }}
+      >
         {visible.map((src, i) => (
           <div key={i} className={styles.carSlide}>
-            <img src={imgSrc(src)} alt={`${alt} ${i + 1}`} className={styles.carImg} loading="lazy" />
+            <img
+              src={imgSrc(src)}
+              alt={`${alt} ${i + 1}`}
+              className={styles.carImg}
+              loading="lazy"
+            />
           </div>
         ))}
       </div>
-      <button className={`${styles.carBtn} ${styles.carBtnR}`} onClick={next} aria-label="Next">›</button>
+      <button
+        className={`${styles.carBtn} ${styles.carBtnR}`}
+        onClick={next}
+        aria-label="Next"
+      >
+        ›
+      </button>
     </div>
   );
 };
@@ -370,7 +406,15 @@ const OmDiv = () => (
    PAGE SKELETON (loading state)
 ───────────────────────────────────────── */
 const PageSkeleton = () => (
-  <div className={styles.page} style={{ minHeight: "60vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
+  <div
+    className={styles.page}
+    style={{
+      minHeight: "60vh",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+    }}
+  >
     <div style={{ textAlign: "center", color: "#b87333", fontSize: "1.5rem" }}>
       🕉️ Loading...
     </div>
@@ -406,7 +450,10 @@ export default function YogaTTC500() {
   if (loading) return <PageSkeleton />;
   if (error || !content) {
     return (
-      <div className={styles.page} style={{ padding: "4rem", textAlign: "center", color: "#c00" }}>
+      <div
+        className={styles.page}
+        style={{ padding: "4rem", textAlign: "center", color: "#c00" }}
+      >
         {error || "Something went wrong."}
       </div>
     );
@@ -433,7 +480,10 @@ export default function YogaTTC500() {
       <section className={styles.heroSection2}>
         <div className="container px-3 px-md-4">
           {content.pageMainH1 && (
-            <h1 className={styles.heroTitle} dangerouslySetInnerHTML={{ __html: content.pageMainH1 }} />
+            <h1
+              className={styles.heroTitle}
+              dangerouslySetInnerHTML={{ __html: content.pageMainH1 }}
+            />
           )}
           <OmDiv />
           <div className={styles.bodyText}>
@@ -450,7 +500,10 @@ export default function YogaTTC500() {
           <div className={styles.block}>
             {content.standApartH2 && (
               <>
-                <h2 className={styles.blockTitle} dangerouslySetInnerHTML={{ __html: content.standApartH2 }} />
+                <h2
+                  className={styles.blockTitle}
+                  dangerouslySetInnerHTML={{ __html: content.standApartH2 }}
+                />
                 <div className={styles.blockUnderline} />
               </>
             )}
@@ -495,7 +548,10 @@ export default function YogaTTC500() {
         <div className="container px-3 px-md-4">
           <OmDiv />
           {content.seatSectionH2 && (
-            <h2 className={styles.sectionTitleCentered} dangerouslySetInnerHTML={{ __html: content.seatSectionH2 }} />
+            <h2
+              className={styles.sectionTitleCentered}
+              dangerouslySetInnerHTML={{ __html: content.seatSectionH2 }}
+            />
           )}
           <div className={styles.sectionUnderlineCentered} />
 
@@ -503,9 +559,7 @@ export default function YogaTTC500() {
 
           {(content.tableNoteText || content.tableNoteAirportText) && (
             <div className={styles.tableNote}>
-              {content.tableNoteText && (
-                <Para html={content.tableNoteText} />
-              )}
+              {content.tableNoteText && <Para html={content.tableNoteText} />}
               {content.tableNoteAirportText && (
                 <Para html={content.tableNoteAirportText} />
               )}
@@ -537,7 +591,10 @@ export default function YogaTTC500() {
             <div className={styles.indianFeeBlock}>
               {content.indianFeeH3 && (
                 <>
-                  <h3 className={styles.indianFeeTitle} dangerouslySetInnerHTML={{ __html: content.indianFeeH3 }} />
+                  <h3
+                    className={styles.indianFeeTitle}
+                    dangerouslySetInnerHTML={{ __html: content.indianFeeH3 }}
+                  />
                   <div className={styles.sectionUnderlineCentered} />
                 </>
               )}
@@ -554,7 +611,10 @@ export default function YogaTTC500() {
           <div className={styles.block} style={{ marginTop: "2.5rem" }}>
             {content.credibilityH2 && (
               <>
-                <h2 className={styles.blockTitleCentered} dangerouslySetInnerHTML={{ __html: content.credibilityH2 }} />
+                <h2
+                  className={styles.blockTitleCentered}
+                  dangerouslySetInnerHTML={{ __html: content.credibilityH2 }}
+                />
                 <div className={styles.blockUnderlineCentered} />
               </>
             )}
@@ -589,7 +649,10 @@ export default function YogaTTC500() {
           <div className={styles.block}>
             {content.syllabusH2 && (
               <>
-                <h2 className={styles.blockTitleCentered} dangerouslySetInnerHTML={{ __html: content.syllabusH2 }} />
+                <h2
+                  className={styles.blockTitleCentered}
+                  dangerouslySetInnerHTML={{ __html: content.syllabusH2 }}
+                />
                 <div className={styles.blockUnderlineCentered} />
               </>
             )}
@@ -615,7 +678,10 @@ export default function YogaTTC500() {
             <div className="col-12 col-md-6">
               {content.eligibilityH3 && (
                 <div className={styles.blockSmall}>
-                  <h3 className={styles.blockSmallTitle} dangerouslySetInnerHTML={{ __html: content.eligibilityH3 }} />
+                  <h3
+                    className={styles.blockSmallTitle}
+                    dangerouslySetInnerHTML={{ __html: content.eligibilityH3 }}
+                  />
                   <div className={styles.blockSmallLine} />
                   <div className={styles.bodyPara}>
                     {content.eligibilityParas?.map((para, i) => (
@@ -626,8 +692,14 @@ export default function YogaTTC500() {
               )}
 
               {content.evaluationH3 && (
-                <div className={styles.blockSmall} style={{ marginTop: "1.5rem" }}>
-                  <h3 className={styles.blockSmallTitle} dangerouslySetInnerHTML={{ __html: content.evaluationH3 }} />
+                <div
+                  className={styles.blockSmall}
+                  style={{ marginTop: "1.5rem" }}
+                >
+                  <h3
+                    className={styles.blockSmallTitle}
+                    dangerouslySetInnerHTML={{ __html: content.evaluationH3 }}
+                  />
                   <div className={styles.blockSmallLine} />
                   <div className={styles.bodyPara}>
                     {content.evaluationParas?.map((para, i) => (
@@ -661,7 +733,12 @@ export default function YogaTTC500() {
               <div className="col-12 col-md-6">
                 {content.includedTitle && (
                   <>
-                    <h3 className={styles.inclTitle} dangerouslySetInnerHTML={{ __html: content.includedTitle }} />
+                    <h3
+                      className={styles.inclTitle}
+                      dangerouslySetInnerHTML={{
+                        __html: content.includedTitle,
+                      }}
+                    />
                     <div className={styles.inclLine} />
                   </>
                 )}
@@ -671,7 +748,10 @@ export default function YogaTTC500() {
                   ))}
                 </ol>
                 {content.includedNote && (
-                  <Para html={content.includedNote} className={styles.inclNote} />
+                  <Para
+                    html={content.includedNote}
+                    className={styles.inclNote}
+                  />
                 )}
               </div>
             )}
@@ -681,7 +761,12 @@ export default function YogaTTC500() {
               <div className="col-12 col-md-6">
                 {content.notIncludedTitle && (
                   <>
-                    <h3 className={styles.inclTitle} dangerouslySetInnerHTML={{ __html: content.notIncludedTitle }} />
+                    <h3
+                      className={styles.inclTitle}
+                      dangerouslySetInnerHTML={{
+                        __html: content.notIncludedTitle,
+                      }}
+                    />
                     <div className={styles.inclLine} />
                   </>
                 )}
@@ -697,7 +782,10 @@ export default function YogaTTC500() {
           {/* Fiction Block */}
           {content.fictionH3 && (
             <div className={styles.fictionBox}>
-              <h3 className={styles.fictionTitle} dangerouslySetInnerHTML={{ __html: content.fictionH3 }} />
+              <h3
+                className={styles.fictionTitle}
+                dangerouslySetInnerHTML={{ __html: content.fictionH3 }}
+              />
               <div className={styles.fictionUnderline} />
               <div className={styles.bodyText}>
                 {content.fictionParas?.map((para, i) => (
@@ -714,7 +802,10 @@ export default function YogaTTC500() {
         <div className="container px-3 px-md-4">
           {content.reviewsSectionH2 && (
             <>
-              <h2 className={styles.sectionTitleCentered} dangerouslySetInnerHTML={{ __html: content.reviewsSectionH2 }} />
+              <h2
+                className={styles.sectionTitleCentered}
+                dangerouslySetInnerHTML={{ __html: content.reviewsSectionH2 }}
+              />
               <div className={styles.sectionUnderlineCentered} />
             </>
           )}
@@ -733,13 +824,22 @@ export default function YogaTTC500() {
                         </div>
                       )}
                       <div className="flex-grow-1 overflow-hidden">
-                        <div className={styles.reviewName} dangerouslySetInnerHTML={{ __html: r.name }} />
-                        <div className={styles.reviewPlatform} dangerouslySetInnerHTML={{ __html: r.platform }} />
+                        <div
+                          className={styles.reviewName}
+                          dangerouslySetInnerHTML={{ __html: r.name }}
+                        />
+                        <div
+                          className={styles.reviewPlatform}
+                          dangerouslySetInnerHTML={{ __html: r.platform }}
+                        />
                       </div>
                       <span className={styles.googleG}>G</span>
                     </div>
                     <Stars n={r.rating || 5} />
-                    <div className={styles.reviewText} dangerouslySetInnerHTML={{ __html: r.text }} />
+                    <div
+                      className={styles.reviewText}
+                      dangerouslySetInnerHTML={{ __html: r.text }}
+                    />
                   </div>
                 </div>
               ))}
@@ -747,14 +847,19 @@ export default function YogaTTC500() {
           )}
 
           <div className="text-center mt-4">
-            <a href="#" className={styles.btnPrimary}>Read More Reviews</a>
+            <a href="#" className={styles.btnPrimary}>
+              Read More Reviews
+            </a>
           </div>
 
           <div className="row g-4 mt-4">
             {content.refundH3 && (
               <div className="col-12 col-md-6">
                 <div className={styles.infoBlock}>
-                  <h3 className={styles.infoBlockTitle} dangerouslySetInnerHTML={{ __html: content.refundH3 }} />
+                  <h3
+                    className={styles.infoBlockTitle}
+                    dangerouslySetInnerHTML={{ __html: content.refundH3 }}
+                  />
                   <div className={styles.infoBlockLine} />
                   <Para html={content.refundPara} className={styles.bodyPara} />
                 </div>
@@ -763,7 +868,10 @@ export default function YogaTTC500() {
             {content.applyH3 && (
               <div className="col-12 col-md-6">
                 <div className={styles.infoBlock}>
-                  <h3 className={styles.infoBlockTitle} dangerouslySetInnerHTML={{ __html: content.applyH3 }} />
+                  <h3
+                    className={styles.infoBlockTitle}
+                    dangerouslySetInnerHTML={{ __html: content.applyH3 }}
+                  />
                   <div className={styles.infoBlockLine} />
                   <Para html={content.applyPara} className={styles.bodyPara} />
                 </div>

@@ -8,7 +8,7 @@
   font-family: 'Cormorant Garamond', serif;
   background-image: url("../../images/1905x1229.png");
   background-size: contain;
-  
+
 }
 
 .reachSection::before {
@@ -428,6 +428,7 @@
     opacity: 0;
     transform: translateY(-12px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -523,8 +524,15 @@
 }
 
 @keyframes stepFade {
-  from { opacity: 0; transform: translateX(10px); }
-  to { opacity: 1; transform: translateX(0); }
+  from {
+    opacity: 0;
+    transform: translateX(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 .formStepHeader {

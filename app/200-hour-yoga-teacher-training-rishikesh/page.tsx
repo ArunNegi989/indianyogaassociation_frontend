@@ -171,7 +171,11 @@ function stripHtml(html: string): string {
 function BorderStrip() {
   return (
     <div className={styles.borderStrip}>
-      <svg viewBox="0 0 800 14" preserveAspectRatio="none" className={styles.borderSvg}>
+      <svg
+        viewBox="0 0 800 14"
+        preserveAspectRatio="none"
+        className={styles.borderSvg}
+      >
         {Array.from({ length: 40 }, (_, i) => {
           const x = i * 20 + 10;
           return (
@@ -186,27 +190,62 @@ function BorderStrip() {
             </g>
           );
         })}
-        <line x1="0" y1="7" x2="800" y2="7" stroke="#e07b00" strokeWidth="0.3" />
+        <line
+          x1="0"
+          y1="7"
+          x2="800"
+          y2="7"
+          stroke="#e07b00"
+          strokeWidth="0.3"
+        />
       </svg>
     </div>
   );
 }
 
 function CornerOrnament({ pos }: { pos: "tl" | "tr" | "bl" | "br" }) {
-  const flip = { tl: "scale(1,1)", tr: "scale(-1,1)", bl: "scale(1,-1)", br: "scale(-1,-1)" }[pos];
+  const flip = {
+    tl: "scale(1,1)",
+    tr: "scale(-1,1)",
+    bl: "scale(1,-1)",
+    br: "scale(-1,-1)",
+  }[pos];
   return (
-    <svg viewBox="0 0 40 40" className={styles.cornerOrn} style={{ transform: flip }}>
-      <path d="M2,2 L2,18 M2,2 L18,2" stroke="#b8860b" strokeWidth="1.5" fill="none" />
-      <path d="M2,2 Q8,8 16,2 Q8,8 2,16" stroke="#b8860b" strokeWidth="0.7" fill="none" />
+    <svg
+      viewBox="0 0 40 40"
+      className={styles.cornerOrn}
+      style={{ transform: flip }}
+    >
+      <path
+        d="M2,2 L2,18 M2,2 L18,2"
+        stroke="#b8860b"
+        strokeWidth="1.5"
+        fill="none"
+      />
+      <path
+        d="M2,2 Q8,8 16,2 Q8,8 2,16"
+        stroke="#b8860b"
+        strokeWidth="0.7"
+        fill="none"
+      />
       <circle cx="2" cy="2" r="2" fill="#b8860b" opacity="0.7" />
       <circle cx="10" cy="10" r="1.5" fill="#b8860b" opacity="0.4" />
     </svg>
   );
 }
 
-function VintageHeading({ children, center = true }: { children: React.ReactNode; center?: boolean }) {
+function VintageHeading({
+  children,
+  center = true,
+}: {
+  children: React.ReactNode;
+  center?: boolean;
+}) {
   return (
-    <div className={styles.vintageHeadingWrap} style={{ textAlign: center ? "center" : "left" }}>
+    <div
+      className={styles.vintageHeadingWrap}
+      style={{ textAlign: center ? "center" : "left" }}
+    >
       <h2 className={styles.vintageHeading}>{children}</h2>
       <div className={styles.omDivider}>
         <span className={styles.dividerLine} />
@@ -225,17 +264,31 @@ function SeatsCell({ booked, total }: { booked: number; total: number }) {
   const isFull = booked >= total;
   const remaining = total - booked;
   if (isFull) return <span className={styles.fullyBooked}>Fully Booked</span>;
-  return <span className={styles.seatsAvailable}>{remaining} / {total} Seats</span>;
+  return (
+    <span className={styles.seatsAvailable}>
+      {remaining} / {total} Seats
+    </span>
+  );
 }
 
-function ModuleCard({ title, intro, items }: { title: string; intro: string; items: string[] }) {
+function ModuleCard({
+  title,
+  intro,
+  items,
+}: {
+  title: string;
+  intro: string;
+  items: string[];
+}) {
   return (
     <div className={styles.moduleCard}>
       <h3 className={styles.moduleCardTitle}>{stripHtml(title)}</h3>
       <div className={styles.moduleCardUl} />
       <p className={styles.moduleCardIntro}>{stripHtml(intro)}</p>
       <ol className={styles.moduleOl}>
-        {items.map((it, i) => <li key={i}>{stripHtml(it)}</li>)}
+        {items.map((it, i) => (
+          <li key={i}>{stripHtml(it)}</li>
+        ))}
       </ol>
     </div>
   );
@@ -243,9 +296,14 @@ function ModuleCard({ title, intro, items }: { title: string; intro: string; ite
 
 function PageSkeleton() {
   return (
-    <div className={styles.root} style={{ padding: "4rem 2rem", textAlign: "center" }}>
+    <div
+      className={styles.root}
+      style={{ padding: "4rem 2rem", textAlign: "center" }}
+    >
       <div style={{ fontSize: "3rem", marginBottom: "1rem" }}>🕉️</div>
-      <p style={{ color: "#b8860b", fontSize: "1.2rem" }}>Loading yoga journey...</p>
+      <p style={{ color: "#b8860b", fontSize: "1.2rem" }}>
+        Loading yoga journey...
+      </p>
     </div>
   );
 }
@@ -253,7 +311,13 @@ function PageSkeleton() {
 /* ══════════════════════════════════════════════════
    FILTER OPTIONS
 ══════════════════════════════════════════════════ */
-const ASANA_FILTERS = ["All Poses", "Standing", "Sitting", "Lying", "Balancing"] as const;
+const ASANA_FILTERS = [
+  "All Poses",
+  "Standing",
+  "Sitting",
+  "Lying",
+  "Balancing",
+] as const;
 type AsanaFilter = (typeof ASANA_FILTERS)[number];
 
 /* ════════════════════════════════════════════════
@@ -262,12 +326,12 @@ type AsanaFilter = (typeof ASANA_FILTERS)[number];
 export default function TwoHundredHourYoga() {
   const [content1, setContent1] = useState<Content1 | null>(null);
   const [content2, setContent2] = useState<Content2 | null>(null);
-  const [batches, setBatches]   = useState<Batch[]>([]);
-  const [loading, setLoading]   = useState(true);
-  const [error, setError]       = useState<string | null>(null);
+  const [batches, setBatches] = useState<Batch[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   const [asanaFilter, setAsanaFilter] = useState<AsanaFilter>("All Poses");
-  const [openFaq, setOpenFaq]         = useState<number | null>(null);
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   /* ── Fetch all data in parallel ── */
   useEffect(() => {
@@ -281,7 +345,8 @@ export default function TwoHundredHourYoga() {
         ]);
 
         const c1List: Content1[] = c1Res.data?.data || [];
-        const activeC1 = c1List.find((c) => c.status === "Active") || c1List[0] || null;
+        const activeC1 =
+          c1List.find((c) => c.status === "Active") || c1List[0] || null;
         setContent1(activeC1);
         setContent2(c2Res.data?.data || null);
         setBatches(batchRes.data?.data || []);
@@ -298,13 +363,16 @@ export default function TwoHundredHourYoga() {
   if (loading) return <PageSkeleton />;
   if (error)
     return (
-      <div className={styles.root} style={{ padding: "4rem", textAlign: "center" }}>
+      <div
+        className={styles.root}
+        style={{ padding: "4rem", textAlign: "center" }}
+      >
         <p style={{ color: "red" }}>{error}</p>
       </div>
     );
 
-  const allAsanas  = content1?.hatha?.asanas || [];
-  const modules    = content1?.modules || [];
+  const allAsanas = content1?.hatha?.asanas || [];
+  const modules = content1?.modules || [];
 
   /* ── Filter asanas by selected category ── */
   const filteredAsanas =
@@ -334,13 +402,21 @@ export default function TwoHundredHourYoga() {
       <section className={styles.heroSection2}>
         <div className={styles.heroTextWrap}>
           <VintageHeading>
-            {content1?.pageMainH1 || "200 Hour Yoga Teacher Training in Rishikesh"}
+            {content1?.pageMainH1 ||
+              "200 Hour Yoga Teacher Training in Rishikesh"}
           </VintageHeading>
 
-          {[content1?.introPara1, content1?.introPara2, content1?.introPara3, content1?.introPara4]
+          {[
+            content1?.introPara1,
+            content1?.introPara2,
+            content1?.introPara3,
+            content1?.introPara4,
+          ]
             .filter(Boolean)
             .map((para, i) => (
-              <p key={i} className={styles.bodyText}>{stripHtml(para!)}</p>
+              <p key={i} className={styles.bodyText}>
+                {stripHtml(para!)}
+              </p>
             ))}
         </div>
 
@@ -348,8 +424,10 @@ export default function TwoHundredHourYoga() {
           <div className={styles.statsRow}>
             {content1.stats.map((s, i) => (
               <div key={i} className={styles.statCard}>
-                <CornerOrnament pos="tl" /><CornerOrnament pos="tr" />
-                <CornerOrnament pos="bl" /><CornerOrnament pos="br" />
+                <CornerOrnament pos="tl" />
+                <CornerOrnament pos="tr" />
+                <CornerOrnament pos="bl" />
+                <CornerOrnament pos="br" />
                 <span className={styles.statIcon}>{s.icon}</span>
                 <span className={styles.statVal}>{stripHtml(s.value)}</span>
                 <span className={styles.statTitle}>{stripHtml(s.title)}</span>
@@ -364,7 +442,6 @@ export default function TwoHundredHourYoga() {
 
       {/* ════ AIMS + OVERVIEW + DATES ════ */}
       <section className={styles.contentSection}>
-
         {/* Aims */}
         {content1?.aimsH3 && (
           <>
@@ -382,7 +459,9 @@ export default function TwoHundredHourYoga() {
         )}
         {content1?.aimsBullets?.length ? (
           <ul className={styles.bulletList}>
-            {content1.aimsBullets.map((b, i) => <li key={i}>{stripHtml(b)}</li>)}
+            {content1.aimsBullets.map((b, i) => (
+              <li key={i}>{stripHtml(b)}</li>
+            ))}
           </ul>
         ) : null}
         {content1?.aimsOutro && (
@@ -393,39 +472,48 @@ export default function TwoHundredHourYoga() {
         {content1?.overview && (
           <>
             <VintageHeading>
-              {stripHtml(content1.overview.h2) || "Overview of 200 Hour Yoga Instructor Course"}
+              {stripHtml(content1.overview.h2) ||
+                "Overview of 200 Hour Yoga Instructor Course"}
             </VintageHeading>
             <div className={styles.overviewBox}>
-              <CornerOrnament pos="tl" /><CornerOrnament pos="tr" />
-              <CornerOrnament pos="bl" /><CornerOrnament pos="br" />
+              <CornerOrnament pos="tl" />
+              <CornerOrnament pos="tr" />
+              <CornerOrnament pos="bl" />
+              <CornerOrnament pos="br" />
               {content1.overview.certName && (
                 <p className={styles.bodyText}>
-                  <strong>Name of the certification:</strong> {stripHtml(content1.overview.certName)}
+                  <strong>Name of the certification:</strong>{" "}
+                  {stripHtml(content1.overview.certName)}
                 </p>
               )}
               {content1.overview.level && (
                 <p className={styles.bodyText}>
-                  <strong>Course level:</strong> {stripHtml(content1.overview.level)}
+                  <strong>Course level:</strong>{" "}
+                  {stripHtml(content1.overview.level)}
                 </p>
               )}
               {content1.overview.eligibility && (
                 <p className={styles.bodyText}>
-                  <strong>Requirement/Eligibility:</strong> {stripHtml(content1.overview.eligibility)}
+                  <strong>Requirement/Eligibility:</strong>{" "}
+                  {stripHtml(content1.overview.eligibility)}
                 </p>
               )}
               {content1.overview.minAge && (
                 <p className={styles.bodyText}>
-                  <strong>Minimum age:</strong> {stripHtml(content1.overview.minAge)}
+                  <strong>Minimum age:</strong>{" "}
+                  {stripHtml(content1.overview.minAge)}
                 </p>
               )}
               {content1.overview.credits && (
                 <p className={styles.bodyText}>
-                  <strong>Credit points for certificate:</strong> {stripHtml(content1.overview.credits)}
+                  <strong>Credit points for certificate:</strong>{" "}
+                  {stripHtml(content1.overview.credits)}
                 </p>
               )}
               {content1.overview.language && (
                 <p className={styles.bodyText}>
-                  <strong>Language:</strong> {stripHtml(content1.overview.language)}
+                  <strong>Language:</strong>{" "}
+                  {stripHtml(content1.overview.language)}
                 </p>
               )}
             </div>
@@ -434,15 +522,21 @@ export default function TwoHundredHourYoga() {
 
         {/* Upcoming Dates from batches API */}
         <VintageHeading>
-          {content1?.upcomingDatesH2 ? stripHtml(content1.upcomingDatesH2) : "Upcoming Course Dates"}
+          {content1?.upcomingDatesH2
+            ? stripHtml(content1.upcomingDatesH2)
+            : "Upcoming Course Dates"}
         </VintageHeading>
         {content1?.upcomingDatesSubtext && (
-          <p className={styles.centerSubtext}>{stripHtml(content1.upcomingDatesSubtext)}</p>
+          <p className={styles.centerSubtext}>
+            {stripHtml(content1.upcomingDatesSubtext)}
+          </p>
         )}
 
         <div className={styles.tableContainer}>
-          <CornerOrnament pos="tl" /><CornerOrnament pos="tr" />
-          <CornerOrnament pos="bl" /><CornerOrnament pos="br" />
+          <CornerOrnament pos="tl" />
+          <CornerOrnament pos="tr" />
+          <CornerOrnament pos="bl" />
+          <CornerOrnament pos="br" />
           <div className={styles.tableScroll}>
             <table className={styles.datesTable}>
               <thead>
@@ -458,7 +552,10 @@ export default function TwoHundredHourYoga() {
               <tbody>
                 {batches.length === 0 ? (
                   <tr>
-                    <td colSpan={6} style={{ textAlign: "center", padding: "2rem" }}>
+                    <td
+                      colSpan={6}
+                      style={{ textAlign: "center", padding: "2rem" }}
+                    >
                       No upcoming batches found.
                     </td>
                   </tr>
@@ -474,23 +571,38 @@ export default function TwoHundredHourYoga() {
                         <td>{stripHtml(batch.usdFee)}</td>
                         <td>{stripHtml(batch.inrFee)}</td>
                         <td className={styles.roomPriceCell}>
-                          Dorm <strong className={styles.priceAmt}>${batch.dormPrice}</strong>{" "}
-                          | Twin <strong className={styles.priceAmt}>${batch.twinPrice}</strong>{" "}
-                          | Private <strong className={styles.priceAmt}>${batch.privatePrice}</strong>
+                          Dorm{" "}
+                          <strong className={styles.priceAmt}>
+                            ${batch.dormPrice}
+                          </strong>{" "}
+                          | Twin{" "}
+                          <strong className={styles.priceAmt}>
+                            ${batch.twinPrice}
+                          </strong>{" "}
+                          | Private{" "}
+                          <strong className={styles.priceAmt}>
+                            ${batch.privatePrice}
+                          </strong>
                         </td>
                         <td>
-                          <SeatsCell booked={batch.bookedSeats} total={batch.totalSeats} />
+                          <SeatsCell
+                            booked={batch.bookedSeats}
+                            total={batch.totalSeats}
+                          />
                         </td>
                         <td>
-                          {isFull
-                            ? <span className={styles.applyDisabled}>Apply Now</span>
-                            : <a
-  href={`/yoga-registration?batchId=${batch._id}&type=200hr`}
-  className={styles.applyLink}
->
-  Apply Now
-</a>
-                          }
+                          {isFull ? (
+                            <span className={styles.applyDisabled}>
+                              Apply Now
+                            </span>
+                          ) : (
+                            <a
+                              href={`/yoga-registration?batchId=${batch._id}&type=200hr`}
+                              className={styles.applyLink}
+                            >
+                              Apply Now
+                            </a>
+                          )}
                         </td>
                       </tr>
                     );
@@ -505,7 +617,9 @@ export default function TwoHundredHourYoga() {
             </p>
           )}
           <div style={{ textAlign: "center", padding: "1rem 0 0.5rem" }}>
-            <a href="#" className={styles.joinBtn}>Join Your Yoga Journey</a>
+            <a href="#" className={styles.joinBtn}>
+              Join Your Yoga Journey
+            </a>
           </div>
         </div>
       </section>
@@ -516,8 +630,10 @@ export default function TwoHundredHourYoga() {
       <section className={styles.contentSection2}>
         <div className={styles.feeInclGrid}>
           <div className={styles.feeInclCard}>
-            <CornerOrnament pos="tl" /><CornerOrnament pos="tr" />
-            <CornerOrnament pos="bl" /><CornerOrnament pos="br" />
+            <CornerOrnament pos="tl" />
+            <CornerOrnament pos="tr" />
+            <CornerOrnament pos="bl" />
+            <CornerOrnament pos="br" />
             <h3 className={styles.feeInclTitle}>
               {content1?.feeIncludedTitle
                 ? stripHtml(content1.feeIncludedTitle)
@@ -531,8 +647,10 @@ export default function TwoHundredHourYoga() {
             </ol>
           </div>
           <div className={styles.feeInclCard}>
-            <CornerOrnament pos="tl" /><CornerOrnament pos="tr" />
-            <CornerOrnament pos="bl" /><CornerOrnament pos="br" />
+            <CornerOrnament pos="tl" />
+            <CornerOrnament pos="tr" />
+            <CornerOrnament pos="bl" />
+            <CornerOrnament pos="br" />
             <h3 className={styles.feeInclTitle}>
               {content1?.feeNotIncludedTitle
                 ? stripHtml(content1.feeNotIncludedTitle)
@@ -550,19 +668,28 @@ export default function TwoHundredHourYoga() {
         <div className={styles.bodyContaint}>
           {content1?.syllabusH3 && (
             <>
-              <h3 className={styles.h3Left}>{stripHtml(content1.syllabusH3)}</h3>
+              <h3 className={styles.h3Left}>
+                {stripHtml(content1.syllabusH3)}
+              </h3>
               <div className={styles.underlineBar} />
             </>
           )}
           {content1?.syllabusIntro && (
-            <p className={styles.bodyText}>{stripHtml(content1.syllabusIntro)}</p>
+            <p className={styles.bodyText}>
+              {stripHtml(content1.syllabusIntro)}
+            </p>
           )}
         </div>
 
         {/* Modules 1–4 */}
         <div className={styles.moduleGrid}>
           {modules.slice(0, 4).map((mod, i) => (
-            <ModuleCard key={i} title={mod.title} intro={mod.intro} items={mod.items} />
+            <ModuleCard
+              key={i}
+              title={mod.title}
+              intro={mod.intro}
+              items={mod.items}
+            />
           ))}
         </div>
       </section>
@@ -573,7 +700,12 @@ export default function TwoHundredHourYoga() {
       <section className={styles.contentSection}>
         <div className={styles.moduleGrid}>
           {modules.slice(4, 8).map((mod, i) => (
-            <ModuleCard key={i} title={mod.title} intro={mod.intro} items={mod.items} />
+            <ModuleCard
+              key={i}
+              title={mod.title}
+              intro={mod.intro}
+              items={mod.items}
+            />
           ))}
         </div>
 
@@ -581,15 +713,20 @@ export default function TwoHundredHourYoga() {
         {content1?.ashtanga && (
           <>
             <VintageHeading>
-              {stripHtml(content1.ashtanga.h2) || "Module 8.1: Ashtanga Vinyasa Yoga"}
+              {stripHtml(content1.ashtanga.h2) ||
+                "Module 8.1: Ashtanga Vinyasa Yoga"}
             </VintageHeading>
             {content1.ashtanga.subtitle && (
-              <p className={styles.centerSubtext}>{stripHtml(content1.ashtanga.subtitle)}</p>
+              <p className={styles.centerSubtext}>
+                {stripHtml(content1.ashtanga.subtitle)}
+              </p>
             )}
             <div className={styles.moduleDetailGrid}>
               <div className={styles.moduleDetailImg}>
-                <CornerOrnament pos="tl" /><CornerOrnament pos="tr" />
-                <CornerOrnament pos="bl" /><CornerOrnament pos="br" />
+                <CornerOrnament pos="tl" />
+                <CornerOrnament pos="tr" />
+                <CornerOrnament pos="bl" />
+                <CornerOrnament pos="br" />
                 {content1.ashtanga.image && (
                   <img
                     src={imgUrl(content1.ashtanga.image)}
@@ -600,12 +737,16 @@ export default function TwoHundredHourYoga() {
               </div>
               <div className={styles.moduleDetailText}>
                 {content1.ashtanga.desc && (
-                  <p className={styles.bodyText}>{stripHtml(content1.ashtanga.desc)}</p>
+                  <p className={styles.bodyText}>
+                    {stripHtml(content1.ashtanga.desc)}
+                  </p>
                 )}
                 {content1.ashtanga.pills?.filter(Boolean).length ? (
                   <div className={styles.featurePills}>
                     {content1.ashtanga.pills.filter(Boolean).map((pill, i) => (
-                      <span key={i} className={styles.pill}>{stripHtml(pill)}</span>
+                      <span key={i} className={styles.pill}>
+                        {stripHtml(pill)}
+                      </span>
                     ))}
                   </div>
                 ) : null}
@@ -621,14 +762,18 @@ export default function TwoHundredHourYoga() {
       <section className={styles.contentSection3}>
         {content1?.primary && (
           <div className={styles.primaryCurrCard}>
-            <CornerOrnament pos="tl" /><CornerOrnament pos="tr" />
-            <CornerOrnament pos="bl" /><CornerOrnament pos="br" />
+            <CornerOrnament pos="tl" />
+            <CornerOrnament pos="tr" />
+            <CornerOrnament pos="bl" />
+            <CornerOrnament pos="br" />
             <h3 className={styles.h3Left}>
               {stripHtml(content1.primary.h3) || "Primary Series Curriculum"}
             </h3>
             <div className={styles.underlineBar} />
             {content1.primary.intro && (
-              <p className={styles.bodyText}>{stripHtml(content1.primary.intro)}</p>
+              <p className={styles.bodyText}>
+                {stripHtml(content1.primary.intro)}
+              </p>
             )}
 
             {content1.primary.foundationItems?.length ? (
@@ -658,7 +803,9 @@ export default function TwoHundredHourYoga() {
                         <div>
                           <strong>{stripHtml(it.t)}</strong>
                           <br />
-                          <span className={styles.weekDesc}>{stripHtml(it.d)}</span>
+                          <span className={styles.weekDesc}>
+                            {stripHtml(it.d)}
+                          </span>
                         </div>
                       </div>
                     ))}
@@ -676,12 +823,16 @@ export default function TwoHundredHourYoga() {
               {stripHtml(content1.hatha.h2) || "Module 8.2: Hatha Yoga"}
             </VintageHeading>
             {content1.hatha.subtitle && (
-              <p className={styles.centerSubtext}>{stripHtml(content1.hatha.subtitle)}</p>
+              <p className={styles.centerSubtext}>
+                {stripHtml(content1.hatha.subtitle)}
+              </p>
             )}
             <div className={styles.moduleDetailGrid}>
               <div className={styles.moduleDetailImg}>
-                <CornerOrnament pos="tl" /><CornerOrnament pos="tr" />
-                <CornerOrnament pos="bl" /><CornerOrnament pos="br" />
+                <CornerOrnament pos="tl" />
+                <CornerOrnament pos="tr" />
+                <CornerOrnament pos="bl" />
+                <CornerOrnament pos="br" />
                 {content1.hatha.image && (
                   <img
                     src={imgUrl(content1.hatha.image)}
@@ -692,12 +843,16 @@ export default function TwoHundredHourYoga() {
               </div>
               <div className={styles.moduleDetailText}>
                 {content1.hatha.desc && (
-                  <p className={styles.bodyText}>{stripHtml(content1.hatha.desc)}</p>
+                  <p className={styles.bodyText}>
+                    {stripHtml(content1.hatha.desc)}
+                  </p>
                 )}
                 {content1.hatha.pills?.filter(Boolean).length ? (
                   <div className={styles.featurePills}>
                     {content1.hatha.pills.filter(Boolean).map((pill, i) => (
-                      <span key={i} className={styles.pill}>{stripHtml(pill)}</span>
+                      <span key={i} className={styles.pill}>
+                        {stripHtml(pill)}
+                      </span>
                     ))}
                   </div>
                 ) : null}
@@ -714,7 +869,8 @@ export default function TwoHundredHourYoga() {
         <section className={styles.contentSection}>
           <VintageHeading>Hatha Yoga Asanas</VintageHeading>
           <p className={styles.centerSubtext}>
-            Master these {allAsanas.length} essential postures as part of your comprehensive training
+            Master these {allAsanas.length} essential postures as part of your
+            comprehensive training
           </p>
 
           {/* Filter Buttons */}
@@ -727,8 +883,15 @@ export default function TwoHundredHourYoga() {
               >
                 {f}
                 {f !== "All Poses" && (
-                  <span style={{ marginLeft: 4, opacity: 0.6, fontSize: "0.75em" }}>
-                    ({allAsanas.filter((a) => (a.filter || "All Poses") === f).length})
+                  <span
+                    style={{ marginLeft: 4, opacity: 0.6, fontSize: "0.75em" }}
+                  >
+                    (
+                    {
+                      allAsanas.filter((a) => (a.filter || "All Poses") === f)
+                        .length
+                    }
+                    )
                   </span>
                 )}
               </button>
@@ -762,7 +925,9 @@ export default function TwoHundredHourYoga() {
       <section className={styles.contentSection4}>
         {content2?.evalH2 && (
           <>
-            <VintageHeading center={false}>{stripHtml(content2.evalH2)}</VintageHeading>
+            <VintageHeading center={false}>
+              {stripHtml(content2.evalH2)}
+            </VintageHeading>
             {content2.evalDesc && (
               <p className={styles.bodyText}>{stripHtml(content2.evalDesc)}</p>
             )}
@@ -772,14 +937,23 @@ export default function TwoHundredHourYoga() {
         {/* Accommodation */}
         {content2?.accommodationH2 && (
           <>
-            <VintageHeading>{stripHtml(content2.accommodationH2)}</VintageHeading>
+            <VintageHeading>
+              {stripHtml(content2.accommodationH2)}
+            </VintageHeading>
             {content2.accomImages?.length ? (
               <div className={styles.photoSliderWrap}>
-                <CornerOrnament pos="tl" /><CornerOrnament pos="tr" />
-                <CornerOrnament pos="bl" /><CornerOrnament pos="br" />
+                <CornerOrnament pos="tl" />
+                <CornerOrnament pos="tr" />
+                <CornerOrnament pos="bl" />
+                <CornerOrnament pos="br" />
                 <div className={styles.photoSlider}>
                   {content2.accomImages.map((src, i) => (
-                    <img key={i} src={imgUrl(src)} alt={`Accommodation ${i + 1}`} className={styles.sliderImg} />
+                    <img
+                      key={i}
+                      src={imgUrl(src)}
+                      alt={`Accommodation ${i + 1}`}
+                      className={styles.sliderImg}
+                    />
                   ))}
                 </div>
               </div>
@@ -793,11 +967,18 @@ export default function TwoHundredHourYoga() {
             <VintageHeading>{stripHtml(content2.foodH2)}</VintageHeading>
             {content2.foodImages?.length ? (
               <div className={styles.photoSliderWrap}>
-                <CornerOrnament pos="tl" /><CornerOrnament pos="tr" />
-                <CornerOrnament pos="bl" /><CornerOrnament pos="br" />
+                <CornerOrnament pos="tl" />
+                <CornerOrnament pos="tr" />
+                <CornerOrnament pos="bl" />
+                <CornerOrnament pos="br" />
                 <div className={styles.photoSlider}>
                   {content2.foodImages.map((src, i) => (
-                    <img key={i} src={imgUrl(src)} alt={`Food ${i + 1}`} className={styles.sliderImg} />
+                    <img
+                      key={i}
+                      src={imgUrl(src)}
+                      alt={`Food ${i + 1}`}
+                      className={styles.sliderImg}
+                    />
                   ))}
                 </div>
               </div>
@@ -810,7 +991,6 @@ export default function TwoHundredHourYoga() {
 
       {/* ════ LUXURY + INDIAN FEE + SCHEDULE ════ */}
       <section className={styles.contentSection}>
-
         {/* Luxury */}
         {content2?.luxuryH2 && (
           <>
@@ -818,7 +998,9 @@ export default function TwoHundredHourYoga() {
             <div className={styles.luxuryGrid}>
               <div className={styles.luxuryLeft}>
                 {(content2.luxFeatures || []).map((it, i) => (
-                  <div key={i} className={styles.luxuryItem}>{stripHtml(it)}</div>
+                  <div key={i} className={styles.luxuryItem}>
+                    {stripHtml(it)}
+                  </div>
                 ))}
               </div>
               <div className={styles.luxuryRight}>
@@ -847,10 +1029,16 @@ export default function TwoHundredHourYoga() {
               <div className={styles.indianFeeGrid}>
                 {content2.indianFees.map((f, i) => (
                   <div key={i} className={styles.indianFeeCard}>
-                    <CornerOrnament pos="tl" /><CornerOrnament pos="tr" />
-                    <CornerOrnament pos="bl" /><CornerOrnament pos="br" />
-                    <span className={styles.indianFeeLabel}>{stripHtml(f.label)}</span>
-                    <span className={styles.indianFeePrice}>{stripHtml(f.price)}</span>
+                    <CornerOrnament pos="tl" />
+                    <CornerOrnament pos="tr" />
+                    <CornerOrnament pos="bl" />
+                    <CornerOrnament pos="br" />
+                    <span className={styles.indianFeeLabel}>
+                      {stripHtml(f.label)}
+                    </span>
+                    <span className={styles.indianFeePrice}>
+                      {stripHtml(f.price)}
+                    </span>
                   </div>
                 ))}
               </div>
@@ -867,8 +1055,10 @@ export default function TwoHundredHourYoga() {
             )}
             <div className={styles.schedLayout}>
               <div className={styles.schedTableWrap}>
-                <CornerOrnament pos="tl" /><CornerOrnament pos="tr" />
-                <CornerOrnament pos="bl" /><CornerOrnament pos="br" />
+                <CornerOrnament pos="tl" />
+                <CornerOrnament pos="tr" />
+                <CornerOrnament pos="bl" />
+                <CornerOrnament pos="br" />
                 <table className={styles.schedTable}>
                   <thead>
                     <tr>
@@ -889,7 +1079,12 @@ export default function TwoHundredHourYoga() {
               {content2.schedImages?.length ? (
                 <div className={styles.schedImgGrid}>
                   {content2.schedImages.map((src, i) => (
-                    <img key={i} src={imgUrl(src)} alt={`Yoga class ${i + 1}`} className={styles.schedImg} />
+                    <img
+                      key={i}
+                      src={imgUrl(src)}
+                      alt={`Yoga class ${i + 1}`}
+                      className={styles.schedImg}
+                    />
                   ))}
                 </div>
               ) : null}
@@ -913,7 +1108,9 @@ export default function TwoHundredHourYoga() {
             </p>
             <ol className={styles.numberedListSimple}>
               {content2.instrLangs.map((l, i) => (
-                <li key={i}>{typeof l === "string" ? stripHtml(l) : stripHtml(l.lang)}</li>
+                <li key={i}>
+                  {typeof l === "string" ? stripHtml(l) : stripHtml(l.lang)}
+                </li>
               ))}
             </ol>
           </div>
@@ -921,15 +1118,21 @@ export default function TwoHundredHourYoga() {
 
         {content2?.visaPassportDesc && (
           <div className={styles.infoBlock}>
-            <p className={styles.bodyText}><strong>Visa And Passport:</strong></p>
-            <p className={styles.bodyText}>{stripHtml(content2.visaPassportDesc)}</p>
+            <p className={styles.bodyText}>
+              <strong>Visa And Passport:</strong>
+            </p>
+            <p className={styles.bodyText}>
+              {stripHtml(content2.visaPassportDesc)}
+            </p>
           </div>
         )}
 
         {/* CTA Banner */}
         <div className={styles.ctaBanner}>
-          <CornerOrnament pos="tl" /><CornerOrnament pos="tr" />
-          <CornerOrnament pos="bl" /><CornerOrnament pos="br" />
+          <CornerOrnament pos="tl" />
+          <CornerOrnament pos="tr" />
+          <CornerOrnament pos="bl" />
+          <CornerOrnament pos="br" />
           <div className={styles.ctaBannerLeft}>
             <p className={styles.ctaBannerTitle}>
               We welcome you to AYM School for a wonderful yogic experience!
@@ -941,8 +1144,12 @@ export default function TwoHundredHourYoga() {
           </div>
           <div className={styles.ctaBannerRight}>
             <p className={styles.ctaBannerBook}>Book Your Spot Today!</p>
-            <a href="#" className={styles.applyNowBtn}>Apply Now</a>
-            <a href="tel:+919528023390" className={styles.phoneBtn}>📱 +91-9528023390</a>
+            <a href="#" className={styles.applyNowBtn}>
+              Apply Now
+            </a>
+            <a href="tel:+919528023390" className={styles.phoneBtn}>
+              📱 +91-9528023390
+            </a>
           </div>
         </div>
       </section>
@@ -954,25 +1161,38 @@ export default function TwoHundredHourYoga() {
         <section className={styles.contentSection}>
           <VintageHeading>Our New 200 Hour Yoga Programs</VintageHeading>
           <p className={styles.centerSubtext}>
-            Expand your teaching expertise with our specialized certification combinations
+            Expand your teaching expertise with our specialized certification
+            combinations
           </p>
           <div className={styles.programGrid}>
             {content2.programs.map((p, i) => (
               <div key={i} className={styles.programCard}>
-                <CornerOrnament pos="tl" /><CornerOrnament pos="tr" />
-                <CornerOrnament pos="bl" /><CornerOrnament pos="br" />
+                <CornerOrnament pos="tl" />
+                <CornerOrnament pos="tr" />
+                <CornerOrnament pos="bl" />
+                <CornerOrnament pos="br" />
                 <h3 className={styles.programTitle}>{stripHtml(p.title)}</h3>
                 <p className={styles.programDesc}>{stripHtml(p.desc)}</p>
                 <div className={styles.programMeta}>
-                  <div><span className={styles.metaLabel}>Duration:</span> {stripHtml(p.duration)}</div>
-                  <div><span className={styles.metaLabel}>Start Date:</span> {stripHtml(p.start)}</div>
+                  <div>
+                    <span className={styles.metaLabel}>Duration:</span>{" "}
+                    {stripHtml(p.duration)}
+                  </div>
+                  <div>
+                    <span className={styles.metaLabel}>Start Date:</span>{" "}
+                    {stripHtml(p.start)}
+                  </div>
                   <div>
                     <span className={styles.metaLabel}>Price:</span>{" "}
                     <s className={styles.oldPrice}>{stripHtml(p.oldPrice)}</s>{" "}
-                    <strong className={styles.newPrice}>{stripHtml(p.price)}</strong>
+                    <strong className={styles.newPrice}>
+                      {stripHtml(p.price)}
+                    </strong>
                   </div>
                 </div>
-                <a href="#" className={styles.learnMoreBtn}>Learn More</a>
+                <a href="#" className={styles.learnMoreBtn}>
+                  Learn More
+                </a>
               </div>
             ))}
           </div>
@@ -994,7 +1214,9 @@ export default function TwoHundredHourYoga() {
                       {stripHtml(item.a)
                         .split("\n\n")
                         .map((para, j) => (
-                          <p key={j} className={styles.bodyText}>{para}</p>
+                          <p key={j} className={styles.bodyText}>
+                            {para}
+                          </p>
                         ))}
                     </div>
                   ))
@@ -1002,9 +1224,15 @@ export default function TwoHundredHourYoga() {
             </div>
             {content2.reqImage && (
               <div className={styles.requirementsImg}>
-                <CornerOrnament pos="tl" /><CornerOrnament pos="tr" />
-                <CornerOrnament pos="bl" /><CornerOrnament pos="br" />
-                <img src={imgUrl(content2.reqImage)} alt="Yoga practitioner" className={styles.reqImg} />
+                <CornerOrnament pos="tl" />
+                <CornerOrnament pos="tr" />
+                <CornerOrnament pos="bl" />
+                <CornerOrnament pos="br" />
+                <img
+                  src={imgUrl(content2.reqImage)}
+                  alt="Yoga practitioner"
+                  className={styles.reqImg}
+                />
               </div>
             )}
           </div>
@@ -1018,13 +1246,16 @@ export default function TwoHundredHourYoga() {
         <section className={styles.contentSection}>
           <VintageHeading>Student Reviews &amp; Success Stories</VintageHeading>
           <p className={styles.centerSubtext}>
-            Authentic stories of transformation from students who began just like you.
+            Authentic stories of transformation from students who began just
+            like you.
           </p>
           <div className={styles.reviewsGrid}>
             {content2.reviews.map((r, i) => (
               <div key={i} className={styles.reviewCard}>
-                <CornerOrnament pos="tl" /><CornerOrnament pos="tr" />
-                <CornerOrnament pos="bl" /><CornerOrnament pos="br" />
+                <CornerOrnament pos="tl" />
+                <CornerOrnament pos="tr" />
+                <CornerOrnament pos="bl" />
+                <CornerOrnament pos="br" />
                 <div className={styles.reviewHeader}>
                   <div>
                     <div className={styles.reviewName}>{stripHtml(r.name)}</div>
@@ -1037,7 +1268,9 @@ export default function TwoHundredHourYoga() {
             ))}
           </div>
           <div style={{ textAlign: "center", marginTop: "1.5rem" }}>
-            <a href="#" className={styles.readMoreBtn}>Read More Reviews</a>
+            <a href="#" className={styles.readMoreBtn}>
+              Read More Reviews
+            </a>
           </div>
         </section>
       ) : null}
@@ -1049,14 +1282,32 @@ export default function TwoHundredHourYoga() {
         <VintageHeading>How to book your spot?</VintageHeading>
         <div className={styles.bookingSteps}>
           {[
-            { icon: "💻", title: "Apply Now",        text: "Click on Apply Now, and you'll be redirected to the application page where you'll enter necessary details about yourself." },
-            { icon: "👍", title: "Confirmation",     text: "Once we receive your application, we'll review it within 24 hours and send confirmation to your email." },
-            { icon: "🏛",  title: "Advance-Deposit", text: "After confirmation, you need to deposit an advance fee. Once you deposit you will get a confirmation email." },
-            { icon: "📝", title: "Refund Rules",     text: "The advance deposit will not be refundable however, you can join us on other schedules in the span of one year." },
+            {
+              icon: "💻",
+              title: "Apply Now",
+              text: "Click on Apply Now, and you'll be redirected to the application page where you'll enter necessary details about yourself.",
+            },
+            {
+              icon: "👍",
+              title: "Confirmation",
+              text: "Once we receive your application, we'll review it within 24 hours and send confirmation to your email.",
+            },
+            {
+              icon: "🏛",
+              title: "Advance-Deposit",
+              text: "After confirmation, you need to deposit an advance fee. Once you deposit you will get a confirmation email.",
+            },
+            {
+              icon: "📝",
+              title: "Refund Rules",
+              text: "The advance deposit will not be refundable however, you can join us on other schedules in the span of one year.",
+            },
           ].map((s, i) => (
             <div key={i} className={styles.bookingStep}>
-              <CornerOrnament pos="tl" /><CornerOrnament pos="tr" />
-              <CornerOrnament pos="bl" /><CornerOrnament pos="br" />
+              <CornerOrnament pos="tl" />
+              <CornerOrnament pos="tr" />
+              <CornerOrnament pos="bl" />
+              <CornerOrnament pos="br" />
               <div className={styles.bookingStepIcon}>{s.icon}</div>
               <div className={styles.bookingStepTitle}>{s.title}</div>
               <p className={styles.bookingStepText}>{s.text}</p>
@@ -1075,7 +1326,9 @@ export default function TwoHundredHourYoga() {
                     onClick={() => setOpenFaq(openFaq === i ? null : i)}
                   >
                     <span>{stripHtml(faq.q)}</span>
-                    <span className={styles.faqIcon}>{openFaq === i ? "−" : "+"}</span>
+                    <span className={styles.faqIcon}>
+                      {openFaq === i ? "−" : "+"}
+                    </span>
                   </button>
                   {openFaq === i && (
                     <div className={styles.faqAnswer}>

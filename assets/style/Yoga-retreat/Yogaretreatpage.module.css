@@ -1,24 +1,17 @@
-/* ================================================================
-   YogaRetreatPage.module.css
-   Indian Yoga Association — www.indianyogaassociation.com
-   Vintage parchment · saffron accents · Cinzel + Cormorant Garamond
-   Matches the aesthetic of the provided screenshots exactly.
-   ================================================================ */
-
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Dancing+Script:wght@600;700&display=swap');
 
 /* ── Variables ── */
 .page {
-  --saffron:       #e07b00;
-  --saffron-deep:  #c46a00;
+  --saffron: #e07b00;
+  --saffron-deep: #c46a00;
   --saffron-light: #f5b800;
-  --parchment:     #fff8eb;
+  --parchment: #fff8eb;
   --parchment-alt: #f7ead0;
-  --cream:         #fffaf2;
-  --ink:           #2e1a08;
-  --ink-mid:       #4a2e0f;
-  --ink-light:     #7a5c2e;
-  --border:        #e8d5b5;
+  --cream: #fffaf2;
+  --ink: #2e1a08;
+  --ink-mid: #4a2e0f;
+  --ink-light: #7a5c2e;
+  --border: #e8d5b5;
 
   font-family: 'Cormorant Garamond', serif;
   color: var(--ink);
@@ -34,15 +27,14 @@
 .topBorder,
 .bottomBorder {
   height: 5px;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    var(--saffron) 20%,
-    var(--saffron-light) 50%,
-    var(--saffron) 80%,
-    transparent 100%
-  );
+  background: linear-gradient(90deg,
+      transparent 0%,
+      var(--saffron) 20%,
+      var(--saffron-light) 50%,
+      var(--saffron) 80%,
+      transparent 100%);
 }
+
 .heroSection {
   position: relative;
   z-index: 1;
@@ -58,6 +50,7 @@
   display: block;
   object-fit: contain;
 }
+
 /* ──────────────────────────────────────────
    CONTAINER
 ────────────────────────────────────────── */
@@ -118,12 +111,13 @@
   line-height: 1;
   filter: drop-shadow(0 1px 3px rgba(224, 123, 0, 0.3));
 }
+
 .bodyPara {
   font-family: 'Cormorant Garamond', serif;
   font-size: clamp(0.93rem, 1.65vw, 1.06rem);
   line-height: 1.9;
   color: var(--ink-mid);
-  margin: 0 ;
+  margin: 0;
   text-align: justify;
 }
 
@@ -139,7 +133,10 @@
   text-underline-offset: 2px;
   transition: color 0.18s;
 }
-.inlineLink:hover { color: var(--saffron-deep); }
+
+.inlineLink:hover {
+  color: var(--saffron-deep);
+}
 
 /* ──────────────────────────────────────────
    SECTION 1 — HERO / INTRO
@@ -170,10 +167,12 @@
   position: relative;
   z-index: 1;
 }
-.heroSectionpara{
-  background-image: url("../../images/1905x257.png") ;
+
+.heroSectionpara {
+  background-image: url("../../images/1905x257.png");
   background-size: contain;
 }
+
 /* Banner image wrapper */
 .bannerWrap {
   position: relative;
@@ -211,7 +210,7 @@
   gap: 0.2rem;
   padding: 1rem 0.8rem;
   /* bracket corners — matching screenshot */
-  border-left: 2px solid rgba(255,255,255,0.25);
+  border-left: 2px solid rgba(255, 255, 255, 0.25);
 }
 
 /* White bracket corners inside overlay */
@@ -221,11 +220,21 @@
   position: absolute;
   width: 22px;
   height: 22px;
-  border-color: rgba(255,255,255,0.7);
+  border-color: rgba(255, 255, 255, 0.7);
   border-style: solid;
 }
-.bannerOverlay::before { top: 12px; left: 12px; border-width: 2px 0 0 2px; }
-.bannerOverlay::after  { bottom: 12px; right: 12px; border-width: 0 2px 2px 0; }
+
+.bannerOverlay::before {
+  top: 12px;
+  left: 12px;
+  border-width: 2px 0 0 2px;
+}
+
+.bannerOverlay::after {
+  bottom: 12px;
+  right: 12px;
+  border-width: 0 2px 2px 0;
+}
 
 .bannerTag {
   font-family: 'Cinzel', serif;
@@ -236,7 +245,7 @@
   line-height: 1.35;
   margin: 0;
   letter-spacing: 0.04em;
-  text-shadow: 0 1px 6px rgba(0,0,0,0.5);
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.5);
 }
 
 
@@ -249,7 +258,7 @@
   padding: clamp(2.4rem, 5vw, 4rem) 0;
   border-top: 4px solid;
   border-bottom: 4px solid;
-  
+
 }
 
 .scheduleIntro {
@@ -314,7 +323,9 @@
   align-items: baseline;
 }
 
-.pkgRow:last-child { border-bottom: none; }
+.pkgRow:last-child {
+  border-bottom: none;
+}
 
 
 .pkgPrice {
@@ -342,7 +353,9 @@
   align-items: baseline;
 }
 
-.ovRow:last-child { border-bottom: none; }
+.ovRow:last-child {
+  border-bottom: none;
+}
 
 .ovLabel {
   font-weight: 700;
@@ -351,7 +364,9 @@
   flex-shrink: 0;
 }
 
-.ovValue { flex: 1 1 160px; }
+.ovValue {
+  flex: 1 1 160px;
+}
 
 /* Apply button */
 .applyWrap {
@@ -386,7 +401,7 @@
 ────────────────────────────────────────── */
 .photoSection {
   background: var(--cream);
-   background-image: url("../../images/1905x855.png") ;
+  background-image: url("../../images/1905x855.png");
   background-size: contain;
 }
 
@@ -435,7 +450,7 @@
                HOW TO BOOK + REFUND
 ────────────────────────────────────────── */
 .accomSection {
-  background:url("../../images/1905x1536.png");
+  background: url("../../images/1905x1536.png");
   padding-bottom: clamp(2.4rem, 5vw, 4rem);
 }
 
@@ -487,14 +502,12 @@
 .reachSection {
   background: url("../../images/1905x446.png");
   border-top: 4px solid;
-  border-image: linear-gradient(
-    90deg,
-    transparent,
-    var(--saffron),
-    var(--saffron-light),
-    var(--saffron),
-    transparent
-  ) 1;
+  border-image: linear-gradient(90deg,
+      transparent,
+      var(--saffron),
+      var(--saffron-light),
+      var(--saffron),
+      transparent) 1;
   padding: clamp(2.4rem, 5vw, 4rem) 0;
 }
 

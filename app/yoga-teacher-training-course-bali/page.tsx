@@ -92,8 +92,6 @@ interface BaliPageData {
   aymSpecial?: AymSpecial[];
   aymSpecialParagraphs?: string[];
 
-  
-
   /* FOOTER / TEACHER STRIP */
   gardenImage?: string;
   ubudImage?: string;
@@ -120,17 +118,8 @@ const hasText = (s?: string) =>
   !!s && s.replace(/<[^>]*>/g, "").trim().length > 0;
 
 /* Renders backend HTML safely — prevents raw <p> tags showing as text */
-const Html = ({
-  html,
-  className,
-}: {
-  html: string;
-  className?: string;
-}) => (
-  <div
-    className={className}
-    dangerouslySetInnerHTML={{ __html: html }}
-  />
+const Html = ({ html, className }: { html: string; className?: string }) => (
+  <div className={className} dangerouslySetInnerHTML={{ __html: html }} />
 );
 
 /* ════════════════════════ MAIN ════════════════════════ */
@@ -158,7 +147,7 @@ export default function BaliYogaPage() {
           entries.forEach((e) => {
             if (e.isIntersecting) e.target.classList.add(styles.visible);
           }),
-        { threshold: 0.1 }
+        { threshold: 0.1 },
       );
       document
         .querySelectorAll(`.${styles.reveal}`)
@@ -169,11 +158,11 @@ export default function BaliYogaPage() {
   }, [loading]);
 
   /* ── Derived arrays — pure dynamic ── */
-  const uniquePoints: UniquePoint[] = data?.uniquePoints   ?? [];
-  const courses: Course[]           = data?.courses        ?? [];
-  const highlights: string[]        = data?.highlights     ?? [];
-  const aymSpecial: AymSpecial[]    = data?.aymSpecial     ?? [];
-  const destHighlights: string[]    = data?.destHighlights ?? [];
+  const uniquePoints: UniquePoint[] = data?.uniquePoints ?? [];
+  const courses: Course[] = data?.courses ?? [];
+  const highlights: string[] = data?.highlights ?? [];
+  const aymSpecial: AymSpecial[] = data?.aymSpecial ?? [];
+  const destHighlights: string[] = data?.destHighlights ?? [];
 
   if (loading) {
     return (
@@ -197,7 +186,6 @@ export default function BaliYogaPage() {
 
   return (
     <div className={styles.page}>
-
       {/* ══ Global mandala watermark ══ */}
       <div className={styles.pageWm} aria-hidden="true">
         <MandalaFull size={800} opacity={0.025} />
@@ -565,8 +553,6 @@ export default function BaliYogaPage() {
         </section>
       )}
 
-    
-
       <HowToReach />
     </div>
   );
@@ -742,7 +728,7 @@ function MandalaFull({
                 transform={`rotate(${(i / n) * 360} ${R * Math.cos(a)} ${R * Math.sin(a)})`}
               />
             );
-          })
+          }),
         )}
         {Array.from({ length: 8 }).map((_, i) => {
           const a = (i / 8) * 2 * Math.PI;

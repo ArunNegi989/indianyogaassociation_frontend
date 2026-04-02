@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Dancing+Script:wght@600;700&display=swap');
-
 /* ── CSS Variables ── */
 :root {
   --s: #e07b00;
@@ -1062,12 +1060,12 @@
   --red-text: #8a2c00;
   --red-bg: rgba(184, 64, 0, 0.1);
   --red-border: rgba(184, 64, 0, 0.35);
- 
+
   position: relative;
   z-index: 1;
   margin: 2rem 0;
 }
- 
+
 /* ════════════════════════════
    TAB BAR
 ════════════════════════════ */
@@ -1076,10 +1074,10 @@
   justify-content: center;
   flex-wrap: wrap;
   gap: 0;
-  
+
   margin-bottom: 0;
 }
- 
+
 .tab {
   font-family: 'Cinzel', serif;
   font-size: clamp(0.62rem, 1.1vw, 0.76rem);
@@ -1098,12 +1096,12 @@
   border-radius: 2px 2px 0 0;
   outline: none;
 }
- 
+
 .tab:hover {
   background: linear-gradient(160deg, #fff0cc, #eed8a0);
   color: var(--s);
 }
- 
+
 .tabActive {
   background: linear-gradient(135deg, var(--s), var(--sd)) !important;
   color: #fff !important;
@@ -1111,7 +1109,7 @@
   box-shadow: 0 -2px 10px rgba(224, 123, 0, 0.2);
   z-index: 2;
 }
- 
+
 /* ════════════════════════════
    TABLE CONTAINER
 ════════════════════════════ */
@@ -1126,7 +1124,7 @@
     0 6px 30px var(--shadow);
   padding: 0.4rem;
 }
- 
+
 /* ════════════════════════════
    STATE BOXES (loading / empty / error)
 ════════════════════════════ */
@@ -1138,18 +1136,18 @@
   color: var(--ink-soft);
   font-style: italic;
 }
- 
+
 .stateError {
   color: var(--red-text);
 }
- 
+
 /* ════════════════════════════
    TABLE SCROLL WRAPPER
 ════════════════════════════ */
 .tableScroll {
   overflow-x: auto;
 }
- 
+
 /* ════════════════════════════
    TABLE
 ════════════════════════════ */
@@ -1158,12 +1156,12 @@
   border-collapse: collapse;
   min-width: 780px;
 }
- 
+
 /* thead */
 .table thead tr {
   background: linear-gradient(135deg, var(--s) 0%, var(--sd) 100%);
 }
- 
+
 .table thead th {
   font-family: 'Cinzel', serif;
   font-size: 0.78rem;
@@ -1175,25 +1173,25 @@
   font-weight: 600;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
 }
- 
+
 /* tbody rows */
 .table tbody tr {
   border-bottom: 1px solid rgba(184, 134, 11, 0.15);
   transition: background 0.18s;
 }
- 
+
 .table tbody tr:nth-child(odd) {
   background: rgba(245, 230, 200, 0.6);
 }
- 
+
 .table tbody tr:nth-child(even) {
   background: rgba(232, 210, 168, 0.5);
 }
- 
+
 .table tbody tr:hover {
   background: rgba(224, 123, 0, 0.08);
 }
- 
+
 .table tbody td {
   padding: 0.7rem 1rem;
   font-family: 'Cormorant Garamond', serif;
@@ -1202,30 +1200,30 @@
   vertical-align: middle;
   color: #4a2e10;
 }
- 
+
 /* Date cell */
 .tdDate {
   color: #4a2e10;
   text-align: left !important;
   font-size: clamp(0.88rem, 1.3vw, 0.97rem);
 }
- 
+
 .calIcon {
   color: var(--s);
   margin-right: 0.3rem;
 }
- 
+
 /* Room price cell */
 .tdRoom {
   font-size: clamp(0.82rem, 1.2vw, 0.9rem) !important;
   white-space: nowrap;
 }
- 
+
 .price {
   color: var(--bm);
   font-weight: 700;
 }
- 
+
 /* ════════════════════════════
    SEATS BADGES
 ════════════════════════════ */
@@ -1242,7 +1240,7 @@
   white-space: nowrap;
   display: inline-block;
 }
- 
+
 .fullyBooked {
   font-family: 'Cinzel', serif;
   font-size: 0.68rem;
@@ -1256,7 +1254,7 @@
   white-space: nowrap;
   display: inline-block;
 }
- 
+
 /* ════════════════════════════
    APPLY LINK / DISABLED
 ════════════════════════════ */
@@ -1271,12 +1269,12 @@
   transition: color 0.18s, border-color 0.18s;
   white-space: nowrap;
 }
- 
+
 .applyLink:hover {
   color: var(--bd);
   border-color: var(--bd);
 }
- 
+
 .applyDisabled {
   font-family: 'Cinzel', serif;
   font-size: 0.7rem;
@@ -1288,7 +1286,7 @@
   opacity: 0.5;
   pointer-events: none;
 }
- 
+
 /* ════════════════════════════
    NOTE TEXT
 ════════════════════════════ */
@@ -1300,7 +1298,7 @@
   text-align: center;
   padding: 0.8rem 1rem 0;
 }
- 
+
 /* ════════════════════════════
    CTA ROW + JOIN BUTTON
 ════════════════════════════ */
@@ -1308,7 +1306,7 @@
   text-align: center;
   padding: 1rem 0 0.5rem;
 }
- 
+
 .joinBtn {
   display: inline-block;
   font-family: 'Cinzel', serif;
@@ -1326,67 +1324,69 @@
     2px 2px 0 rgba(80, 40, 5, 0.2);
   transition: transform 0.2s, box-shadow 0.2s;
 }
- 
+
 .joinBtn:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 28px rgba(224, 123, 0, 0.45);
   color: #fff;
 }
- 
+
 /* ════════════════════════════
    RESPONSIVE
 ════════════════════════════ */
- 
+
 /* 960px */
 @media (max-width: 960px) {
   .tdRoom {
     white-space: normal !important;
   }
 }
- 
+
 /* 720px */
 @media (max-width: 720px) {
   .table {
     min-width: 560px;
   }
- 
+
   .tab {
     padding: 0.6rem 1rem;
     font-size: 0.6rem;
     letter-spacing: 0.06em;
   }
 }
- 
+
 /* 540px */
 @media (max-width: 540px) {
+
   .seatsAvailable,
   .fullyBooked {
     font-size: 0.62rem;
     padding: 0.18rem 0.55rem;
   }
- 
+
   .applyLink,
   .applyDisabled {
     font-size: 0.65rem;
   }
- 
+
   .tableContainer {
     padding: 0.2rem;
   }
- 
+
   .tab {
     padding: 0.55rem 0.8rem;
     font-size: 0.58rem;
   }
 }
- 
+
 /* 400px */
 @media (max-width: 400px) {
+
   .table thead th,
   .table tbody td {
     padding: 0.5rem 0.6rem;
   }
- 
+
   .table {
     min-width: 420px;
   }

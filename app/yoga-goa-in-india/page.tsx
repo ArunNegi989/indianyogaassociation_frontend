@@ -177,9 +177,21 @@ function resolveImg(path: string, base: string): string {
    COURSE TABS
 ───────────────────────────────────────── */
 const COURSE_TABS = [
-  { label: "200 Hour", key: "200hr", apiPath: "/goa-200hr-seats/getAllBatches" },
-  { label: "300 Hour", key: "300hr", apiPath: "/goa-300hr-seats/getAllBatches" },
-  { label: "500 Hour", key: "500hr", apiPath: "/goa-500hr-seats/getAllBatches" },
+  {
+    label: "200 Hour",
+    key: "200hr",
+    apiPath: "/goa-200hr-seats/getAllBatches",
+  },
+  {
+    label: "300 Hour",
+    key: "300hr",
+    apiPath: "/goa-300hr-seats/getAllBatches",
+  },
+  {
+    label: "500 Hour",
+    key: "500hr",
+    apiPath: "/goa-500hr-seats/getAllBatches",
+  },
 ] as const;
 
 type TabKey = (typeof COURSE_TABS)[number]["key"];
@@ -240,7 +252,9 @@ function SeatBookingSection() {
         {loading ? (
           <div className={styles.stateBox}>🕉️ Loading batches...</div>
         ) : error ? (
-          <div className={`${styles.stateBox} ${styles.stateError}`}>{error}</div>
+          <div className={`${styles.stateBox} ${styles.stateError}`}>
+            {error}
+          </div>
         ) : currentBatches.length === 0 ? (
           <div className={styles.stateBox}>
             No upcoming batches available for {activeTabLabel}.
@@ -272,15 +286,23 @@ function SeatBookingSection() {
                       <td>{batch.inrFee}</td>
                       <td className={styles.tdRoom}>
                         Dorm{" "}
-                        <strong className={styles.price}>${batch.dormPrice}</strong>{" "}
+                        <strong className={styles.price}>
+                          ${batch.dormPrice}
+                        </strong>{" "}
                         | Twin{" "}
-                        <strong className={styles.price}>${batch.twinPrice}</strong>{" "}
+                        <strong className={styles.price}>
+                          ${batch.twinPrice}
+                        </strong>{" "}
                         | Private{" "}
-                        <strong className={styles.price}>${batch.privatePrice}</strong>
+                        <strong className={styles.price}>
+                          ${batch.privatePrice}
+                        </strong>
                       </td>
                       <td>
                         {isFull ? (
-                          <span className={styles.fullyBooked}>Fully Booked</span>
+                          <span className={styles.fullyBooked}>
+                            Fully Booked
+                          </span>
                         ) : (
                           <span className={styles.seatsAvailable}>
                             {remaining} / {batch.totalSeats} Seats
@@ -288,18 +310,18 @@ function SeatBookingSection() {
                         )}
                       </td>
                       <td>
-                       {
-  isFull ? (
-    <span className={styles.applyDisabled}>Apply Now</span>
-  ) : (
-    <a
-      href={`/yoga-registration?batchId=${batch._id}&type=${activeTab}`}
-      className={styles.applyLink}
-    >
-      Apply Now
-    </a>
-  )
-}
+                        {isFull ? (
+                          <span className={styles.applyDisabled}>
+                            Apply Now
+                          </span>
+                        ) : (
+                          <a
+                            href={`/yoga-registration?batchId=${batch._id}&type=${activeTab}`}
+                            className={styles.applyLink}
+                          >
+                            Apply Now
+                          </a>
+                        )}
                       </td>
                     </tr>
                   );
@@ -321,7 +343,9 @@ function SeatBookingSection() {
 
 /* ════════════════ MAIN PAGE ════════════════ */
 export default function GoaYogaPage() {
-  const [modal, setModal] = useState<{ src: string; label: string } | null>(null);
+  const [modal, setModal] = useState<{ src: string; label: string } | null>(
+    null,
+  );
   const [pageData, setPageData] = useState<PageData | null>(null);
   const [pageLoading, setPageLoading] = useState(true);
   const [pageError, setPageError] = useState(false);
@@ -356,9 +380,11 @@ export default function GoaYogaPage() {
         entries.forEach((e) => {
           if (e.isIntersecting) e.target.classList.add(styles.visible);
         }),
-      { threshold: 0.1 }
+      { threshold: 0.1 },
     );
-    document.querySelectorAll(`.${styles.reveal}`).forEach((el) => obs.observe(el));
+    document
+      .querySelectorAll(`.${styles.reveal}`)
+      .forEach((el) => obs.observe(el));
     return () => obs.disconnect();
   }, [pageData]);
 
@@ -376,7 +402,12 @@ export default function GoaYogaPage() {
     return (
       <div
         className={styles.page}
-        style={{ minHeight: "60vh", display: "flex", alignItems: "center", justifyContent: "center" }}
+        style={{
+          minHeight: "60vh",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
       >
         <div className={styles.stateBox}>🕉️ Loading...</div>
       </div>
@@ -387,7 +418,12 @@ export default function GoaYogaPage() {
     return (
       <div
         className={styles.page}
-        style={{ minHeight: "60vh", display: "flex", alignItems: "center", justifyContent: "center" }}
+        style={{
+          minHeight: "60vh",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
       >
         <div className={styles.stateBox}>
           Failed to load page. Please refresh.
@@ -397,14 +433,13 @@ export default function GoaYogaPage() {
   }
 
   /* ── Resolved image URLs ── */
-  const heroSrc      = resolveImg(pageData.heroImage, API_BASE);
-  const introBigSrc  = resolveImg(pageData.introBigImage, API_BASE);
+  const heroSrc = resolveImg(pageData.heroImage, API_BASE);
+  const introBigSrc = resolveImg(pageData.introBigImage, API_BASE);
   const introSmallSrc = resolveImg(pageData.introSmallImage, API_BASE);
-  const scheduleSrc  = resolveImg(pageData.scheduleImage, API_BASE);
+  const scheduleSrc = resolveImg(pageData.scheduleImage, API_BASE);
 
   return (
     <div className={styles.page}>
-
       {/* ══ Mandala watermark ══ */}
       <div className={styles.pageWatermark} aria-hidden="true">
         <MandalaFull size={700} opacity={0.03} />
@@ -425,13 +460,16 @@ export default function GoaYogaPage() {
       <section className={styles.section}>
         <div className={styles.container}>
           <div className={`${styles.reveal} ${styles.introGrid}`}>
-
             <div className={styles.introText}>
-              <span className={styles.superLabel}>{pageData.introSuperLabel}</span>
+              <span className={styles.superLabel}>
+                {pageData.introSuperLabel}
+              </span>
               <h2 className={styles.sectionTitle}>{pageData.introHeading}</h2>
               <OmDivider align="left" />
               {pageData.introParagraphs?.map((para, i) => (
-                <p key={i} className={styles.para}>{para}</p>
+                <p key={i} className={styles.para}>
+                  {para}
+                </p>
               ))}
             </div>
 
@@ -449,36 +487,48 @@ export default function GoaYogaPage() {
                 )}
               </div>
             </div>
-
           </div>
         </div>
       </section>
 
       {/* ════════ PROGRAMS ════════ */}
-      <section id="programs" className={`${styles.section} ${styles.sectionAlt}`}>
+      <section
+        id="programs"
+        className={`${styles.section} ${styles.sectionAlt}`}
+      >
         <div className={styles.mandalaBg} aria-hidden="true">
           <MandalaRing size={600} opacity={0.05} />
         </div>
         <div className={styles.container}>
-
           <div className={`${styles.reveal} ${styles.centered}`}>
-            <span className={styles.superLabel}>{pageData.programsSuperLabel}</span>
-            <h2 className={styles.sectionTitle}>{pageData.programsSectionTitle}</h2>
+            <span className={styles.superLabel}>
+              {pageData.programsSuperLabel}
+            </span>
+            <h2 className={styles.sectionTitle}>
+              {pageData.programsSectionTitle}
+            </h2>
             <OmDivider />
             <p className={styles.paraCenter}>{pageData.programsSubNote}</p>
           </div>
 
           {/* Core programs */}
           <div className={styles.reveal}>
-            <h3 className={styles.subHeading}>{pageData.coreProgramsSectionHeading}</h3>
+            <h3 className={styles.subHeading}>
+              {pageData.coreProgramsSectionHeading}
+            </h3>
             <div className={styles.programsGrid}>
               {pageData.corePrograms?.map((p) => (
                 <div key={p._id} className={styles.programCard}>
-                  <div className={styles.programHrs}>{p.hrs}<span>HR</span></div>
+                  <div className={styles.programHrs}>
+                    {p.hrs}
+                    <span>HR</span>
+                  </div>
                   <div className={styles.programTag}>{p.tag}</div>
                   <h4 className={styles.programTitle}>{p.subHeading}</h4>
                   <p className={styles.programDesc}>{p.desc}</p>
-                  <a href={p.linkHref} className={styles.programLink}>{p.linkText}</a>
+                  <a href={p.linkHref} className={styles.programLink}>
+                    {p.linkText}
+                  </a>
                 </div>
               ))}
             </div>
@@ -486,7 +536,9 @@ export default function GoaYogaPage() {
 
           {/* Special programs */}
           <div className={`${styles.reveal} ${styles.specialWrap}`}>
-            <h3 className={styles.subHeading}>{pageData.specialProgramsSectionHeading}</h3>
+            <h3 className={styles.subHeading}>
+              {pageData.specialProgramsSectionHeading}
+            </h3>
             <div className={styles.specialGrid}>
               {pageData.specialPrograms?.map((p) => (
                 <div key={p._id} className={styles.specialCard}>
@@ -514,17 +566,19 @@ export default function GoaYogaPage() {
               </div>
             )}
           </div>
-
         </div>
       </section>
 
       {/* ════════ HIGHLIGHTS ════════ */}
       <section className={styles.section}>
         <div className={styles.container}>
-
           <div className={`${styles.reveal} ${styles.centered}`}>
-            <span className={styles.superLabel}>{pageData.highlightsSuperLabel}</span>
-            <h2 className={styles.sectionTitle}>{pageData.highlightsSectionTitle}</h2>
+            <span className={styles.superLabel}>
+              {pageData.highlightsSuperLabel}
+            </span>
+            <h2 className={styles.sectionTitle}>
+              {pageData.highlightsSectionTitle}
+            </h2>
             <OmDivider />
             <p className={styles.paraCenter}>{pageData.highlightsSubNote}</p>
           </div>
@@ -546,27 +600,35 @@ export default function GoaYogaPage() {
             <OmDivider align="left" />
             <p className={styles.para}>{pageData.bestTimeText}</p>
           </div>
-
         </div>
       </section>
 
       {/* ════════ CURRICULUM ════════ */}
       <section className={`${styles.section} ${styles.sectionAlt}`}>
-        <div className={styles.mandalaBg} style={{ right: "-80px", left: "auto" }} aria-hidden="true">
+        <div
+          className={styles.mandalaBg}
+          style={{ right: "-80px", left: "auto" }}
+          aria-hidden="true"
+        >
           <MandalaRing size={500} opacity={0.05} />
         </div>
         <div className={styles.container}>
-
           <div className={`${styles.reveal} ${styles.centered}`}>
-            <span className={styles.superLabel}>{pageData.curriculumSuperLabel}</span>
-            <h2 className={styles.sectionTitle}>{pageData.curriculumSectionTitle}</h2>
+            <span className={styles.superLabel}>
+              {pageData.curriculumSuperLabel}
+            </span>
+            <h2 className={styles.sectionTitle}>
+              {pageData.curriculumSectionTitle}
+            </h2>
             <OmDivider />
           </div>
 
           <div className={`${styles.reveal} ${styles.learnGrid}`}>
             {pageData.learnings?.map((l, i) => (
               <div key={i} className={styles.learnItem}>
-                <span className={styles.learnNum}>{String(i + 1).padStart(2, "0")}</span>
+                <span className={styles.learnNum}>
+                  {String(i + 1).padStart(2, "0")}
+                </span>
                 <p>{l}</p>
               </div>
             ))}
@@ -578,21 +640,25 @@ export default function GoaYogaPage() {
             <p className={styles.para}>{pageData.focusBodyText}</p>
             <div className={styles.focusChips}>
               {pageData.mainFocus?.map((f) => (
-                <span key={f} className={styles.focusChip}>{f}</span>
+                <span key={f} className={styles.focusChip}>
+                  {f}
+                </span>
               ))}
             </div>
           </div>
-
         </div>
       </section>
 
       {/* ════════ SCHEDULE ════════ */}
       <section className={`${styles.section} ${styles.sectionAlt}`}>
         <div className={styles.container}>
-
           <div className={`${styles.reveal} ${styles.centered}`}>
-            <span className={styles.superLabel}>{pageData.scheduleSuperLabel}</span>
-            <h2 className={styles.sectionTitle}>{pageData.scheduleSectionTitle}</h2>
+            <span className={styles.superLabel}>
+              {pageData.scheduleSuperLabel}
+            </span>
+            <h2 className={styles.sectionTitle}>
+              {pageData.scheduleSectionTitle}
+            </h2>
             <OmDivider />
           </div>
 
@@ -604,7 +670,9 @@ export default function GoaYogaPage() {
               </div>
             )}
             <div className={styles.scheduleTable}>
-              <div className={styles.scheduleHeader}>{pageData.scheduleSectionTitle}</div>
+              <div className={styles.scheduleHeader}>
+                {pageData.scheduleSectionTitle}
+              </div>
               {pageData.scheduleRows?.map((s, i) => (
                 <div
                   key={s._id}
@@ -616,7 +684,6 @@ export default function GoaYogaPage() {
               ))}
             </div>
           </div>
-
         </div>
       </section>
 
@@ -625,8 +692,12 @@ export default function GoaYogaPage() {
         <div className={styles.container}>
           <OmDivider />
           <div className={`${styles.reveal} ${styles.centered}`}>
-            <span className={styles.superLabel}>{pageData.batchesSuperLabel}</span>
-            <h2 className={styles.sectionTitle}>{pageData.batchesSectionTitle}</h2>
+            <span className={styles.superLabel}>
+              {pageData.batchesSuperLabel}
+            </span>
+            <h2 className={styles.sectionTitle}>
+              {pageData.batchesSectionTitle}
+            </h2>
             <OmDivider />
           </div>
 
@@ -637,33 +708,43 @@ export default function GoaYogaPage() {
               <p>
                 <strong>Note:</strong> {pageData.batchesNote}{" "}
                 {pageData.batchesNoteEmail && (
-                  <a href={`mailto:${pageData.batchesNoteEmail}`} className={styles.emailLink}>
+                  <a
+                    href={`mailto:${pageData.batchesNoteEmail}`}
+                    className={styles.emailLink}
+                  >
                     {pageData.batchesNoteEmail}
                   </a>
                 )}
               </p>
             )}
-            {pageData.batchesAirportNote && <p>{pageData.batchesAirportNote}</p>}
+            {pageData.batchesAirportNote && (
+              <p>{pageData.batchesAirportNote}</p>
+            )}
           </div>
 
           {pageData.joinCtaText && (
             <div className={styles.ctaRow}>
-              <a href={pageData.footerCtaDatesHref || "#dates"} className={styles.joinBtn}>
+              <a
+                href={pageData.footerCtaDatesHref || "#dates"}
+                className={styles.joinBtn}
+              >
                 {pageData.joinCtaText}
               </a>
             </div>
           )}
-
         </div>
       </section>
 
       {/* ════════ CAMPUS GALLERY ════════ */}
       <section className={`${styles.section} ${styles.sectionAlt}`}>
         <div className={styles.container}>
-
           <div className={`${styles.reveal} ${styles.centered}`}>
-            <span className={styles.superLabel}>{pageData.gallerySuperLabel}</span>
-            <h2 className={styles.sectionTitle}>{pageData.gallerySectionTitle}</h2>
+            <span className={styles.superLabel}>
+              {pageData.gallerySuperLabel}
+            </span>
+            <h2 className={styles.sectionTitle}>
+              {pageData.gallerySectionTitle}
+            </h2>
             <OmDivider />
           </div>
 
@@ -690,7 +771,6 @@ export default function GoaYogaPage() {
               );
             })}
           </div>
-
         </div>
       </section>
 
@@ -698,20 +778,44 @@ export default function GoaYogaPage() {
       <section id="apply" className={styles.section}>
         <div className={styles.container}>
           <div className={`${styles.reveal} ${styles.infoGrid}`}>
-
             {/* Address */}
             <div className={styles.infoCard}>
               <span className={styles.infoIcon}>📍</span>
-              <h3 className={styles.infoTitle}>{pageData.addressSectionTitle}</h3>
+              <h3 className={styles.infoTitle}>
+                {pageData.addressSectionTitle}
+              </h3>
               <OmDivider align="left" />
               <address className={styles.address}>
-                {pageData.schoolName && <><strong>{pageData.schoolName}</strong><br /></>}
-                {pageData.address1 && <>{pageData.address1}<br /></>}
-                {pageData.address2 && <>{pageData.address2}<br /></>}
-                {pageData.address3 && <>{pageData.address3}<br /></>}
+                {pageData.schoolName && (
+                  <>
+                    <strong>{pageData.schoolName}</strong>
+                    <br />
+                  </>
+                )}
+                {pageData.address1 && (
+                  <>
+                    {pageData.address1}
+                    <br />
+                  </>
+                )}
+                {pageData.address2 && (
+                  <>
+                    {pageData.address2}
+                    <br />
+                  </>
+                )}
+                {pageData.address3 && (
+                  <>
+                    {pageData.address3}
+                    <br />
+                  </>
+                )}
                 <br />
                 {pageData.phone1 && (
-                  <><a href={`tel:${pageData.phone1}`}>{pageData.phone1}</a><br /></>
+                  <>
+                    <a href={`tel:${pageData.phone1}`}>{pageData.phone1}</a>
+                    <br />
+                  </>
                 )}
                 {pageData.phone2 && (
                   <a href={`tel:${pageData.phone2}`}>{pageData.phone2}</a>
@@ -742,7 +846,10 @@ export default function GoaYogaPage() {
               )}
               {pageData.applyEmail && (
                 <p className={styles.para}>
-                  <a href={`mailto:${pageData.applyEmail}`} className={styles.emailLink}>
+                  <a
+                    href={`mailto:${pageData.applyEmail}`}
+                    className={styles.emailLink}
+                  >
                     {pageData.applyEmail}
                   </a>
                 </p>
@@ -752,12 +859,15 @@ export default function GoaYogaPage() {
               )}
               {pageData.applyDepositAmount && !pageData.applyDepositNote && (
                 <p className={styles.para}>
-                  Deposit <strong>{pageData.applyDepositAmount}</strong> to confirm your seat.
+                  Deposit <strong>{pageData.applyDepositAmount}</strong> to
+                  confirm your seat.
                 </p>
               )}
               <div className={styles.formFields}>
                 {pageData.applyFields?.map((f) => (
-                  <span key={f._id} className={styles.formField}>· {f.label}</span>
+                  <span key={f._id} className={styles.formField}>
+                    · {f.label}
+                  </span>
                 ))}
               </div>
             </div>
@@ -765,7 +875,9 @@ export default function GoaYogaPage() {
             {/* Refund */}
             <div className={styles.infoCard}>
               <span className={styles.infoIcon}>🔄</span>
-              <h3 className={styles.infoTitle}>{pageData.refundSectionTitle}</h3>
+              <h3 className={styles.infoTitle}>
+                {pageData.refundSectionTitle}
+              </h3>
               <OmDivider align="left" />
               <p className={styles.para}>{pageData.refundPolicy}</p>
               {pageData.rulesHref && pageData.rulesLinkText && (
@@ -774,7 +886,6 @@ export default function GoaYogaPage() {
                 </a>
               )}
             </div>
-
           </div>
         </div>
       </section>
@@ -790,16 +901,21 @@ export default function GoaYogaPage() {
             <h2 className={styles.footerTitle}>{pageData.footerCtaTitle}</h2>
             <p className={styles.footerSub}>{pageData.footerCtaSub}</p>
             <div className={styles.heroBtns}>
-              <a href={pageData.footerCtaDatesHref || "#dates"} className={styles.btnPrimary}>
+              <a
+                href={pageData.footerCtaDatesHref || "#dates"}
+                className={styles.btnPrimary}
+              >
                 {pageData.viewDatesText}
               </a>
-              
-               <a
-  href={pageData.footerCtaEmailHref || `mailto:${pageData.applyEmail}`}
-  className={styles.btnOutline}
->
-  {pageData.emailUsText}
-</a>
+
+              <a
+                href={
+                  pageData.footerCtaEmailHref || `mailto:${pageData.applyEmail}`
+                }
+                className={styles.btnOutline}
+              >
+                {pageData.emailUsText}
+              </a>
             </div>
           </div>
         </div>
@@ -826,7 +942,11 @@ export default function GoaYogaPage() {
             <div className={styles.modalMandala} aria-hidden="true">
               <MandalaRing size={200} opacity={0.12} />
             </div>
-            <img src={modal.src} alt={modal.label} className={styles.modalImg} />
+            <img
+              src={modal.src}
+              alt={modal.label}
+              className={styles.modalImg}
+            />
             <div className={styles.modalCaption}>
               <OmDivider />
               <p>{modal.label}</p>
@@ -852,22 +972,38 @@ function OmDivider({ align = "center" }: { align?: "center" | "left" }) {
   );
 }
 
-function MandalaRing({ size = 300, opacity = 0.08 }: { size?: number; opacity?: number }) {
+function MandalaRing({
+  size = 300,
+  opacity = 0.08,
+}: {
+  size?: number;
+  opacity?: number;
+}) {
   const c = size / 2;
   const rings = [0.46, 0.36, 0.26, 0.14].map((r) => r * size);
   const spokes = 24;
   const petals = 12;
   return (
-    <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} style={{ opacity }} aria-hidden>
+    <svg
+      width={size}
+      height={size}
+      viewBox={`0 0 ${size} ${size}`}
+      style={{ opacity }}
+      aria-hidden
+    >
       <g stroke="#c46a00" strokeWidth="0.7" fill="none">
-        {rings.map((r, i) => <circle key={i} cx={c} cy={c} r={r} />)}
+        {rings.map((r, i) => (
+          <circle key={i} cx={c} cy={c} r={r} />
+        ))}
         {Array.from({ length: spokes }).map((_, i) => {
           const a = (i / spokes) * 2 * Math.PI;
           return (
             <line
               key={i}
-              x1={c + rings[2] * Math.cos(a)} y1={c + rings[2] * Math.sin(a)}
-              x2={c + rings[0] * Math.cos(a)} y2={c + rings[0] * Math.sin(a)}
+              x1={c + rings[2] * Math.cos(a)}
+              y1={c + rings[2] * Math.sin(a)}
+              x2={c + rings[0] * Math.cos(a)}
+              y2={c + rings[0] * Math.sin(a)}
             />
           );
         })}
@@ -877,8 +1013,10 @@ function MandalaRing({ size = 300, opacity = 0.08 }: { size?: number; opacity?: 
           return (
             <ellipse
               key={i}
-              cx={c + r * Math.cos(a)} cy={c + r * Math.sin(a)}
-              rx={size * 0.07} ry={size * 0.025}
+              cx={c + r * Math.cos(a)}
+              cy={c + r * Math.sin(a)}
+              rx={size * 0.07}
+              ry={size * 0.025}
               transform={`rotate(${(i / petals) * 360} ${c + r * Math.cos(a)} ${c + r * Math.sin(a)})`}
             />
           );
@@ -888,22 +1026,42 @@ function MandalaRing({ size = 300, opacity = 0.08 }: { size?: number; opacity?: 
   );
 }
 
-function MandalaFull({ size = 600, opacity = 0.05 }: { size?: number; opacity?: number }) {
+function MandalaFull({
+  size = 600,
+  opacity = 0.05,
+}: {
+  size?: number;
+  opacity?: number;
+}) {
   const c = size / 2;
   return (
-    <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} style={{ opacity }} aria-hidden>
-      <g stroke="#c46a00" strokeWidth="0.6" fill="none" transform={`translate(${c},${c})`}>
+    <svg
+      width={size}
+      height={size}
+      viewBox={`0 0 ${size} ${size}`}
+      style={{ opacity }}
+      aria-hidden
+    >
+      <g
+        stroke="#c46a00"
+        strokeWidth="0.6"
+        fill="none"
+        transform={`translate(${c},${c})`}
+      >
         {[0.46, 0.38, 0.3, 0.22, 0.14, 0.07].map((r, i) => (
           <circle key={i} cx={0} cy={0} r={r * size} />
         ))}
         {Array.from({ length: 36 }).map((_, i) => {
           const a = (i / 36) * 2 * Math.PI;
-          const r0 = size * 0.07, r1 = size * 0.46;
+          const r0 = size * 0.07,
+            r1 = size * 0.46;
           return (
             <line
               key={i}
-              x1={r0 * Math.cos(a)} y1={r0 * Math.sin(a)}
-              x2={r1 * Math.cos(a)} y2={r1 * Math.sin(a)}
+              x1={r0 * Math.cos(a)}
+              y1={r0 * Math.sin(a)}
+              x2={r1 * Math.cos(a)}
+              y2={r1 * Math.sin(a)}
             />
           );
         })}
@@ -914,12 +1072,14 @@ function MandalaFull({ size = 600, opacity = 0.05 }: { size?: number; opacity?: 
             return (
               <ellipse
                 key={`${ni}-${i}`}
-                cx={r * Math.cos(a)} cy={r * Math.sin(a)}
-                rx={size * (ni === 0 ? 0.065 : 0.04)} ry={size * 0.02}
+                cx={r * Math.cos(a)}
+                cy={r * Math.sin(a)}
+                rx={size * (ni === 0 ? 0.065 : 0.04)}
+                ry={size * 0.02}
                 transform={`rotate(${(i / n) * 360} ${r * Math.cos(a)} ${r * Math.sin(a)})`}
               />
             );
-          })
+          }),
         )}
       </g>
     </svg>

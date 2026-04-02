@@ -1,8 +1,3 @@
-/* ══════════════════════════════════════════
-   AYM YOGA HOME — VINTAGE MANDALA THEME
-   CSS Module
-══════════════════════════════════════════ */
-
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap');
 
 /* ── Variables ── */
@@ -39,13 +34,14 @@
   font-size: inherit;
   font-weight: inherit;
 }
+
 .section {
   position: relative;
   padding: 5rem 2rem;
   overflow: hidden;
 }
 
-.section + .section {
+.section+.section {
   border-top: 1px solid var(--border);
 }
 
@@ -86,8 +82,13 @@
 }
 
 @keyframes mandalaRotate {
-  from { transform: translateY(-50%) rotate(0deg); }
-  to   { transform: translateY(-50%) rotate(360deg); }
+  from {
+    transform: translateY(-50%) rotate(0deg);
+  }
+
+  to {
+    transform: translateY(-50%) rotate(360deg);
+  }
 }
 
 /* ══════════════════════════════════════════
@@ -132,8 +133,17 @@
 }
 
 @keyframes omPulse {
-  0%, 100% { opacity: 0.5; transform: scale(1); }
-  50%       { opacity: 0.9; transform: scale(1.08); }
+
+  0%,
+  100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.9;
+    transform: scale(1.08);
+  }
 }
 
 /* ══════════════════════════════════════════
@@ -341,11 +351,9 @@
 .aboutImgOverlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    180deg,
-    transparent 40%,
-    rgba(90, 30, 0, 0.45) 100%
-  );
+  background: linear-gradient(180deg,
+      transparent 40%,
+      rgba(90, 30, 0, 0.45) 100%);
   pointer-events: none;
   border-radius: 14px;
 }
@@ -565,11 +573,9 @@
 .contactImgOverlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    180deg,
-    transparent 30%,
-    rgba(90, 30, 0, 0.5) 100%
-  );
+  background: linear-gradient(180deg,
+      transparent 30%,
+      rgba(90, 30, 0, 0.5) 100%);
   pointer-events: none;
 }
 

@@ -23,8 +23,7 @@ api.interceptors.response.use(
         const res = await api.post("/auth/refresh");
         setAccessToken(res.data.accessToken);
 
-        error.config.headers.Authorization =
-          "Bearer " + res.data.accessToken;
+        error.config.headers.Authorization = "Bearer " + res.data.accessToken;
 
         return api(error.config);
       } catch {
@@ -32,5 +31,5 @@ api.interceptors.response.use(
       }
     }
     return Promise.reject(error);
-  }
+  },
 );

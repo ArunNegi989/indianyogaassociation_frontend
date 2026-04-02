@@ -170,11 +170,7 @@ function formatDateRange(start: string, end: string): string {
 /* ─────────────────────────────────────────
    YOUTUBE EMBED
 ───────────────────────────────────────── */
-const YouTubeEmbed = ({
-  video,
-}: {
-  video: YouTubeVideo;
-}) => {
+const YouTubeEmbed = ({ video }: { video: YouTubeVideo }) => {
   const [playing, setPlaying] = useState(false);
 
   // FILE type — render HTML5 video
@@ -218,7 +214,13 @@ const YouTubeEmbed = ({
           />
           <span className={styles.playBtn}>
             <svg viewBox="0 0 68 48" width="58" height="42">
-              <rect width="68" height="48" rx="10" fill="#e07b00" opacity="0.93" />
+              <rect
+                width="68"
+                height="48"
+                rx="10"
+                fill="#e07b00"
+                opacity="0.93"
+              />
               <polygon points="26,13 53,24 26,35" fill="#fff" />
             </svg>
           </span>
@@ -238,8 +240,9 @@ const Carousel = ({ images, alt }: { images: string[]; alt: string }) => {
   const prev = () => setIdx((i) => (i - 1 + images.length) % images.length);
   const next = () => setIdx((i) => (i + 1) % images.length);
   const count = Math.min(4, images.length);
-  const visible = Array.from({ length: count }, (_, offset) =>
-    images[(idx + offset) % images.length]
+  const visible = Array.from(
+    { length: count },
+    (_, offset) => images[(idx + offset) % images.length],
   );
 
   return (
@@ -277,7 +280,13 @@ const Carousel = ({ images, alt }: { images: string[]; alt: string }) => {
 /* ─────────────────────────────────────────
    FAQ ACCORDION ITEM
 ───────────────────────────────────────── */
-const FaqItem = ({ question, answer }: { question: string; answer: string }) => {
+const FaqItem = ({
+  question,
+  answer,
+}: {
+  question: string;
+  answer: string;
+}) => {
   const [open, setOpen] = useState(false);
   return (
     <div className={`${styles.faqItem} ${open ? styles.faqItemOpen : ""}`}>
@@ -456,7 +465,9 @@ export default function YogaTTC300() {
 
           {/* Top Section H2 */}
           {content1?.topSectionH2 && (
-            <h2 className={styles.sectionTitleOrange}>{content1.topSectionH2}</h2>
+            <h2 className={styles.sectionTitleOrange}>
+              {content1.topSectionH2}
+            </h2>
           )}
           <div className={styles.sectionUnderline} />
 
@@ -498,7 +509,9 @@ export default function YogaTTC300() {
               <h3 className={styles.datesTitle}>{content1.upcomingDatesH3}</h3>
             )}
             {content1?.upcomingDatesSubtext && (
-              <p className={styles.datesSubtitle}>{content1.upcomingDatesSubtext}</p>
+              <p className={styles.datesSubtitle}>
+                {content1.upcomingDatesSubtext}
+              </p>
             )}
 
             <div className={styles.tableScroll}>
@@ -602,7 +615,10 @@ export default function YogaTTC300() {
               </p>
             )}
 
-            <div className="text-center mt-3" style={{ padding: "1rem 0 0.5rem" }}>
+            <div
+              className="text-center mt-3"
+              style={{ padding: "1rem 0 0.5rem" }}
+            >
               <a href="#" className={styles.btnPrimary}>
                 Reserve Your Spot Now
               </a>
@@ -636,21 +652,22 @@ export default function YogaTTC300() {
               )}
 
               {/* Not Included */}
-              {content1?.notIncludedFee && content1.notIncludedFee.length > 0 && (
-                <div className="col-md-6">
-                  {content1?.feeNotIncludedTitle && (
-                    <h3 className={styles.notIncludedTitle}>
-                      {content1.feeNotIncludedTitle}
-                    </h3>
-                  )}
-                  <div className={styles.sectionUnderlineLeft} />
-                  <ol className={styles.inclList}>
-                    {content1.notIncludedFee.map((item, i) => (
-                      <li key={i}>{item}</li>
-                    ))}
-                  </ol>
-                </div>
-              )}
+              {content1?.notIncludedFee &&
+                content1.notIncludedFee.length > 0 && (
+                  <div className="col-md-6">
+                    {content1?.feeNotIncludedTitle && (
+                      <h3 className={styles.notIncludedTitle}>
+                        {content1.feeNotIncludedTitle}
+                      </h3>
+                    )}
+                    <div className={styles.sectionUnderlineLeft} />
+                    <ol className={styles.inclList}>
+                      {content1.notIncludedFee.map((item, i) => (
+                        <li key={i}>{item}</li>
+                      ))}
+                    </ol>
+                  </div>
+                )}
             </div>
           </div>
         </section>
@@ -663,7 +680,9 @@ export default function YogaTTC300() {
         <section className={`${styles.section} ${styles.sectionLight}`}>
           <div className="container">
             {content1?.syllabusH2 && (
-              <h2 className={styles.sectionTitleOrange}>{content1.syllabusH2}</h2>
+              <h2 className={styles.sectionTitleOrange}>
+                {content1.syllabusH2}
+              </h2>
             )}
             <div className={styles.sectionUnderline} />
 
@@ -698,13 +717,17 @@ export default function YogaTTC300() {
                     <strong>{mod.subTitle}</strong>
                   </p>
                 )}
-                {mod.listItems && mod.listItems.filter(Boolean).length > 0 && (
-                  mod.twoCol ? (
+                {mod.listItems &&
+                  mod.listItems.filter(Boolean).length > 0 &&
+                  (mod.twoCol ? (
                     <div className="row">
                       <div className="col-md-6">
                         {mod.listItems
                           .filter(Boolean)
-                          .slice(0, Math.ceil(mod.listItems.filter(Boolean).length / 2))
+                          .slice(
+                            0,
+                            Math.ceil(mod.listItems.filter(Boolean).length / 2),
+                          )
                           .map((item, i) => (
                             <p key={i} className={styles.moduleListItem}>
                               {i + 1}. {item}
@@ -714,10 +737,17 @@ export default function YogaTTC300() {
                       <div className="col-md-6">
                         {mod.listItems
                           .filter(Boolean)
-                          .slice(Math.ceil(mod.listItems.filter(Boolean).length / 2))
+                          .slice(
+                            Math.ceil(mod.listItems.filter(Boolean).length / 2),
+                          )
                           .map((item, i) => (
                             <p key={i} className={styles.moduleListItem}>
-                              {Math.ceil(mod.listItems.filter(Boolean).length / 2) + i + 1}. {item}
+                              {Math.ceil(
+                                mod.listItems.filter(Boolean).length / 2,
+                              ) +
+                                i +
+                                1}
+                              . {item}
                             </p>
                           ))}
                       </div>
@@ -730,8 +760,7 @@ export default function YogaTTC300() {
                         </p>
                       ))}
                     </div>
-                  )
-                )}
+                  ))}
               </div>
             )}
           </div>
@@ -745,7 +774,9 @@ export default function YogaTTC300() {
         <section className={styles.section}>
           <div className="container">
             {content2.evolutionH2 && (
-              <h2 className={styles.sectionTitleOrange}>{content2.evolutionH2}</h2>
+              <h2 className={styles.sectionTitleOrange}>
+                {content2.evolutionH2}
+              </h2>
             )}
             <div className={styles.sectionUnderline} />
 
@@ -766,17 +797,20 @@ export default function YogaTTC300() {
             <div className={styles.bodyText}>
               {content2.markTotalLabel && content2.markTotalText && (
                 <p>
-                  <strong>{content2.markTotalLabel}:</strong> {content2.markTotalText}
+                  <strong>{content2.markTotalLabel}:</strong>{" "}
+                  {content2.markTotalText}
                 </p>
               )}
               {content2.markTheoryLabel && content2.markTheoryText && (
                 <p>
-                  <strong>{content2.markTheoryLabel}:</strong> {content2.markTheoryText}
+                  <strong>{content2.markTheoryLabel}:</strong>{" "}
+                  {content2.markTheoryText}
                 </p>
               )}
               {content2.markPracticalLabel && content2.markPracticalText && (
                 <p>
-                  <strong>{content2.markPracticalLabel}:</strong> {content2.markPracticalText}
+                  <strong>{content2.markPracticalLabel}:</strong>{" "}
+                  {content2.markPracticalText}
                 </p>
               )}
             </div>
@@ -808,7 +842,9 @@ export default function YogaTTC300() {
               {content2.feeCard1Title && (
                 <div className="col-md-6">
                   <div className={styles.feeCardLight}>
-                    <h4 className={styles.feeCardTitle}>{content2.feeCard1Title}</h4>
+                    <h4 className={styles.feeCardTitle}>
+                      {content2.feeCard1Title}
+                    </h4>
                     {content2.feeCard1Items?.map((item, i) => (
                       <p key={i}>{item}</p>
                     ))}
@@ -821,7 +857,9 @@ export default function YogaTTC300() {
               {content2.feeCard2Title && (
                 <div className="col-md-6">
                   <div className={styles.feeCardDark}>
-                    <h4 className={styles.feeCardTitle}>{content2.feeCard2Title}</h4>
+                    <h4 className={styles.feeCardTitle}>
+                      {content2.feeCard2Title}
+                    </h4>
                     {content2.feeCard2Items?.map((item, i) => (
                       <p key={i}>{item}</p>
                     ))}
@@ -892,23 +930,26 @@ export default function YogaTTC300() {
         <section className={styles.section}>
           <div className="container">
             {content2.luxuryH2 && (
-              <h2 className={styles.sectionTitleCentered}>{content2.luxuryH2}</h2>
+              <h2 className={styles.sectionTitleCentered}>
+                {content2.luxuryH2}
+              </h2>
             )}
             <div className={styles.sectionUnderlineCentered} />
 
             <div className="row align-items-start g-4">
               {/* Luxury Features */}
-              {content2.luxuryFeatures && content2.luxuryFeatures.length > 0 && (
-                <div className="col-md-6">
-                  <ul className={styles.luxuryList}>
-                    {content2.luxuryFeatures.map((f, i) => (
-                      <li key={i}>
-                        <span className={styles.luxuryBullet}>●</span> {f}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
+              {content2.luxuryFeatures &&
+                content2.luxuryFeatures.length > 0 && (
+                  <div className="col-md-6">
+                    <ul className={styles.luxuryList}>
+                      {content2.luxuryFeatures.map((f, i) => (
+                        <li key={i}>
+                          <span className={styles.luxuryBullet}>●</span> {f}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
 
               {/* Luxury Images */}
               {content2.luxuryImages && content2.luxuryImages.length > 0 && (
@@ -951,7 +992,9 @@ export default function YogaTTC300() {
         <section className={`${styles.section} ${styles.sectionLight}`}>
           <div className="container">
             {content2.featuresH2 && (
-              <h2 className={styles.sectionTitleOrange}>{content2.featuresH2}</h2>
+              <h2 className={styles.sectionTitleOrange}>
+                {content2.featuresH2}
+              </h2>
             )}
             <div className={styles.sectionUnderline} />
 
@@ -969,37 +1012,45 @@ export default function YogaTTC300() {
               {/* Schedule */}
               <div className="col-lg-6">
                 {content2.scheduleH3 && (
-                  <h3 className={styles.subHeadingOrange}>{content2.scheduleH3}</h3>
+                  <h3 className={styles.subHeadingOrange}>
+                    {content2.scheduleH3}
+                  </h3>
                 )}
-                {content2.scheduleItems && content2.scheduleItems.length > 0 && (
-                  <div className={styles.scheduleTable}>
-                    {content2.scheduleItems.map((row) => (
-                      <div key={row._id} className={styles.scheduleRow}>
-                        <span className={styles.scheduleTime}>{row.time}</span>
-                        <span className={styles.scheduleActivity}>{row.activity}</span>
-                      </div>
-                    ))}
-                  </div>
-                )}
+                {content2.scheduleItems &&
+                  content2.scheduleItems.length > 0 && (
+                    <div className={styles.scheduleTable}>
+                      {content2.scheduleItems.map((row) => (
+                        <div key={row._id} className={styles.scheduleRow}>
+                          <span className={styles.scheduleTime}>
+                            {row.time}
+                          </span>
+                          <span className={styles.scheduleActivity}>
+                            {row.activity}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
               </div>
 
               {/* Schedule Images */}
-              {content2.scheduleImages && content2.scheduleImages.length > 0 && (
-                <div className="col-lg-6">
-                  <div className="row g-2 h-100">
-                    {content2.scheduleImages.map((src, i) => (
-                      <div key={i} className={i === 0 ? "col-12" : "col-6"}>
-                        <img
-                          src={imgUrl(src)}
-                          alt={`Schedule ${i + 1}`}
-                          className={styles.scheduleImg}
-                          loading="lazy"
-                        />
-                      </div>
-                    ))}
+              {content2.scheduleImages &&
+                content2.scheduleImages.length > 0 && (
+                  <div className="col-lg-6">
+                    <div className="row g-2 h-100">
+                      {content2.scheduleImages.map((src, i) => (
+                        <div key={i} className={i === 0 ? "col-12" : "col-6"}>
+                          <img
+                            src={imgUrl(src)}
+                            alt={`Schedule ${i + 1}`}
+                            className={styles.scheduleImg}
+                            loading="lazy"
+                          />
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
             </div>
           </div>
         </section>
@@ -1013,7 +1064,9 @@ export default function YogaTTC300() {
           <div className="container">
             {/* Learning Outcomes */}
             {content2.learningH2 && (
-              <h2 className={styles.sectionTitleOrange}>{content2.learningH2}</h2>
+              <h2 className={styles.sectionTitleOrange}>
+                {content2.learningH2}
+              </h2>
             )}
             <div className={styles.sectionUnderline} />
 
@@ -1088,11 +1141,15 @@ export default function YogaTTC300() {
             ))}
 
             {content2.ethicsQuote && (
-              <p className={styles.quoteText}>&ldquo;{content2.ethicsQuote}&rdquo;</p>
+              <p className={styles.quoteText}>
+                &ldquo;{content2.ethicsQuote}&rdquo;
+              </p>
             )}
 
             {content2.ethicsNaturalisticPara && (
-              <p className={styles.bodyPara}>{content2.ethicsNaturalisticPara}</p>
+              <p className={styles.bodyPara}>
+                {content2.ethicsNaturalisticPara}
+              </p>
             )}
 
             {content2.ethicsRules && content2.ethicsRules.length > 0 && (
@@ -1123,32 +1180,35 @@ export default function YogaTTC300() {
       {/* ══════════════════════════════════════
           SECTION 11 — MISCONCEPTIONS
       ══════════════════════════════════════ */}
-      {content2 && (content2.misconH2 || (content2.misconItems?.length ?? 0) > 0) && (
-        <section className={styles.section}>
-          <div className="container">
-            <div className={styles.misconceptionsBox}>
-              {content2.misconH2 && (
-                <h2 className={styles.sectionTitleOrange}>{content2.misconH2}</h2>
-              )}
-              <div className={styles.sectionUnderline} />
+      {content2 &&
+        (content2.misconH2 || (content2.misconItems?.length ?? 0) > 0) && (
+          <section className={styles.section}>
+            <div className="container">
+              <div className={styles.misconceptionsBox}>
+                {content2.misconH2 && (
+                  <h2 className={styles.sectionTitleOrange}>
+                    {content2.misconH2}
+                  </h2>
+                )}
+                <div className={styles.sectionUnderline} />
 
-              {content2.misconParas?.map((para, i) => (
-                <div key={i} className={styles.bodyPara}>
-                  <SafeHtml html={para} />
-                </div>
-              ))}
+                {content2.misconParas?.map((para, i) => (
+                  <div key={i} className={styles.bodyPara}>
+                    <SafeHtml html={para} />
+                  </div>
+                ))}
 
-              {content2.misconItems && content2.misconItems.length > 0 && (
-                <ol className={styles.miscList}>
-                  {content2.misconItems.map((item, i) => (
-                    <li key={i}>{item}</li>
-                  ))}
-                </ol>
-              )}
+                {content2.misconItems && content2.misconItems.length > 0 && (
+                  <ol className={styles.miscList}>
+                    {content2.misconItems.map((item, i) => (
+                      <li key={i}>{item}</li>
+                    ))}
+                  </ol>
+                )}
+              </div>
             </div>
-          </div>
-        </section>
-      )}
+          </section>
+        )}
 
       {/* ══════════════════════════════════════
           SECTION 12 — STUDENT REVIEWS & VIDEOS

@@ -1,9 +1,3 @@
-/* ================================================================
-   SingleBlog.module.css — AYM Yoga School
-   FILE LOCATION: src/assets/style/Singleblog/Singleblog.module.css
-   Ancient scroll meets editorial magazine — warm saffron & ink
-   ================================================================ */
-
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,600&family=Dancing+Script:wght@600;700&display=swap');
 
 .pageRoot {
@@ -34,12 +28,10 @@
 .heroOverlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    180deg,
-    rgba(20, 8, 0, 0.3) 0%,
-    rgba(40, 15, 0, 0.75) 60%,
-    rgba(30, 10, 0, 0.92) 100%
-  );
+  background: linear-gradient(180deg,
+      rgba(20, 8, 0, 0.3) 0%,
+      rgba(40, 15, 0, 0.75) 60%,
+      rgba(30, 10, 0, 0.92) 100%);
   z-index: 1;
 }
 
@@ -57,7 +49,9 @@
 }
 
 @keyframes rotateSlow {
-  to { transform: translateY(-50%) rotate(360deg); }
+  to {
+    transform: translateY(-50%) rotate(360deg);
+  }
 }
 
 .heroContent {
@@ -90,7 +84,9 @@
   transition: color 0.2s;
 }
 
-.breadLink:hover { color: #f5b800; }
+.breadLink:hover {
+  color: #f5b800;
+}
 
 .breadSep {
   color: rgba(255, 255, 255, 0.4);
@@ -126,7 +122,7 @@
   color: #fff8ee;
   line-height: 1.3;
   margin: 0 0 1rem;
-  text-shadow: 0 2px 20px rgba(0,0,0,0.5);
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
   max-width: 780px;
 }
 
@@ -193,8 +189,17 @@
   border-style: solid;
 }
 
-.article::before { top: 8px; left: 8px; border-width: 2px 0 0 2px; }
-.article::after  { bottom: 8px; right: 8px; border-width: 0 2px 2px 0; }
+.article::before {
+  top: 8px;
+  left: 8px;
+  border-width: 2px 0 0 2px;
+}
+
+.article::after {
+  bottom: 8px;
+  right: 8px;
+  border-width: 0 2px 2px 0;
+}
 
 /* Top ornament SVG */
 .ornamentTop {
@@ -299,9 +304,17 @@
   margin: 1.8rem 0;
 }
 
-.gridOne   { grid-template-columns: 1fr; }
-.gridTwo   { grid-template-columns: repeat(2, 1fr); }
-.gridThree { grid-template-columns: repeat(3, 1fr); }
+.gridOne {
+  grid-template-columns: 1fr;
+}
+
+.gridTwo {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.gridThree {
+  grid-template-columns: repeat(3, 1fr);
+}
 
 .articleImgFigure {
   margin: 0;
@@ -594,7 +607,9 @@
   border-bottom: 1px solid #f5ede0;
 }
 
-.relatedItem:last-child { border-bottom: none; }
+.relatedItem:last-child {
+  border-bottom: none;
+}
 
 .relatedLink {
   display: flex;
@@ -605,7 +620,9 @@
   transition: background 0.15s ease;
 }
 
-.relatedLink:hover { background: #fff7eb; }
+.relatedLink:hover {
+  background: #fff7eb;
+}
 
 .relatedImgWrap {
   position: relative;
@@ -622,9 +639,14 @@
   transition: transform 0.3s ease;
 }
 
-.relatedLink:hover .relatedImg { transform: scale(1.07); }
+.relatedLink:hover .relatedImg {
+  transform: scale(1.07);
+}
 
-.relatedInfo { flex: 1; min-width: 0; }
+.relatedInfo {
+  flex: 1;
+  min-width: 0;
+}
 
 .relatedTitle {
   font-family: 'Cormorant Garamond', serif;
@@ -639,7 +661,9 @@
   transition: color 0.15s;
 }
 
-.relatedLink:hover .relatedTitle { color: #c46a00; }
+.relatedLink:hover .relatedTitle {
+  color: #c46a00;
+}
 
 .relatedDate {
   font-family: 'Cormorant Garamond', serif;
@@ -700,13 +724,13 @@
   padding: 0.6rem 1.5rem;
   text-decoration: none;
   border-radius: 2px;
-  box-shadow: 0 3px 12px rgba(0,0,0,0.3);
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.3);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .ctaBtn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
 }
 
 /* ================================================================
@@ -727,8 +751,13 @@
   transition: background 0.15s ease;
 }
 
-.batchItem:hover { background: #fff7eb; }
-.batchItem:last-of-type { border-bottom: none; }
+.batchItem:hover {
+  background: #fff7eb;
+}
+
+.batchItem:last-of-type {
+  border-bottom: none;
+}
 
 .batchLabel {
   font-family: 'Cinzel', serif;
@@ -771,17 +800,23 @@
   border-radius: 2px;
 }
 
-.batchRegister:hover { filter: brightness(1.1); }
+.batchRegister:hover {
+  filter: brightness(1.1);
+}
 
 /* ================================================================
    RESPONSIVE
    ================================================================ */
 @media (max-width: 1024px) {
-  .layout { grid-template-columns: 1fr 260px; }
+  .layout {
+    grid-template-columns: 1fr 260px;
+  }
 }
 
 @media (max-width: 780px) {
-  .layout { grid-template-columns: 1fr; }
+  .layout {
+    grid-template-columns: 1fr;
+  }
 
   .sidebar {
     position: static;
@@ -790,31 +825,47 @@
     gap: 1rem;
   }
 
-  .sideCtaWidget { grid-column: 1 / -1; }
-  .heroMandala   { display: none; }
+  .sideCtaWidget {
+    grid-column: 1 / -1;
+  }
+
+  .heroMandala {
+    display: none;
+  }
 
   .heroContent {
     padding: 0 1.2rem;
     bottom: 3rem;
   }
 
-  .gridThree { grid-template-columns: repeat(2, 1fr); }
+  .gridThree {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 @media (max-width: 520px) {
-  .hero { height: clamp(260px, 68vw, 380px); }
+  .hero {
+    height: clamp(260px, 68vw, 380px);
+  }
 
-  .sidebar { grid-template-columns: 1fr; }
+  .sidebar {
+    grid-template-columns: 1fr;
+  }
 
-  .article { padding: 1.2rem; }
+  .article {
+    padding: 1.2rem;
+  }
 
   .gridTwo,
-  .gridThree { grid-template-columns: 1fr; }
+  .gridThree {
+    grid-template-columns: 1fr;
+  }
 }
 
 .gridWide {
   display: grid;
-  grid-template-columns: 1fr; /* full width single image */
+  grid-template-columns: 1fr;
+  /* full width single image */
   gap: 1rem;
 }
 

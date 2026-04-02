@@ -1,25 +1,19 @@
-/* ================================================================
-   YogaCollegeRishikesh.module.css
-   AYM Yoga College — Vintage Saffron & Parchment Aesthetic
-   Fully responsive · Mandala accents · Cinzel + Cormorant
-   ================================================================ */
-
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Dancing+Script:wght@500;600;700&display=swap');
 
 /* ── CSS Variables ── */
 .page {
-  --saffron:       #e07b00;
-  --saffron-dark:  #c46a00;
-  --saffron-pale:  #fff3e0;
-  --maroon:        #3d1d00;
-  --maroon-mid:    #7a3f00;
-  --parchment:     #fdf6ec;
-  --parchment-2:   #f5e9d4;
-  --cream:         #fffaf3;
-  --border:        #e8d5b5;
-  --text:          #3d2b10;
-  --text-muted:    #7a5c2e;
-  --shadow:        rgba(92,45,0,0.10);
+  --saffron: #e07b00;
+  --saffron-dark: #c46a00;
+  --saffron-pale: #fff3e0;
+  --maroon: #3d1d00;
+  --maroon-mid: #7a3f00;
+  --parchment: #fdf6ec;
+  --parchment-2: #f5e9d4;
+  --cream: #fffaf3;
+  --border: #e8d5b5;
+  --text: #3d2b10;
+  --text-muted: #7a5c2e;
+  --shadow: rgba(92, 45, 0, 0.10);
 
   font-family: 'Cormorant Garamond', Georgia, serif;
   background: var(--parchment);
@@ -114,13 +108,14 @@
 /* ================================================================
    TAB SECTION — Screenshots 2–5
    ================================================================ */
-.tabsectionmain{
-   background-image: url("../../images/1905x1705.webp") !important;
+.tabsectionmain {
+  background-image: url("../../images/1905x1705.webp") !important;
   background-size: contain;
 }
+
 .tabSection {
   padding: clamp(2rem, 4vw, 3rem) 0;
- 
+
   border-bottom: 1px solid var(--border);
 }
 
@@ -268,7 +263,10 @@
   transition: opacity 0.2s;
 }
 
-.applySmallBtn:hover { opacity: 0.7; text-decoration: underline; }
+.applySmallBtn:hover {
+  opacity: 0.7;
+  text-decoration: underline;
+}
 
 .applyFullBtn {
   display: block;
@@ -321,7 +319,7 @@
   font-size: 1.5rem;
   color: var(--saffron);
   line-height: 1;
-  filter: drop-shadow(0 1px 4px rgba(224,123,0,0.3));
+  filter: drop-shadow(0 1px 4px rgba(224, 123, 0, 0.3));
 }
 
 /* ================================================================
@@ -390,7 +388,9 @@
   transition: background 0.2s;
 }
 
-.certBtnOutline:hover { background: var(--border); }
+.certBtnOutline:hover {
+  background: var(--border);
+}
 
 .certBtnFill {
   flex: 1;
@@ -406,7 +406,9 @@
   transition: background 0.2s;
 }
 
-.certBtnFill:hover { background: var(--saffron-dark); }
+.certBtnFill:hover {
+  background: var(--saffron-dark);
+}
 
 /* ================================================================
    IN-PERSON COURSE SECTIONS — Screenshots 6b, 7, 8
@@ -624,7 +626,9 @@
     min-height: 280px;
   }
 
-  .heroImageLeft::after { display: none; }
+  .heroImageLeft::after {
+    display: none;
+  }
 
   .tabHeaders {
     flex-direction: column;

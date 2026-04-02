@@ -83,7 +83,9 @@ function DummyCaptcha({
   onExpire: () => void;
 }) {
   const [state, setState] = useState<CaptchaState>("idle");
-  const [expireTimer, setExpireTimer] = useState<ReturnType<typeof setTimeout> | null>(null);
+  const [expireTimer, setExpireTimer] = useState<ReturnType<
+    typeof setTimeout
+  > | null>(null);
   const checkboxRef = useRef<HTMLInputElement>(null);
 
   const handleCheck = () => {
@@ -122,20 +124,49 @@ function DummyCaptcha({
       <div style={captchaBoxStyle(isVerified)}>
         {/* Left: checkbox area */}
         <div style={captchaLeftStyle}>
-          <label style={captchaLabelStyle} onClick={handleCheck} aria-label="I'm not a robot">
+          <label
+            style={captchaLabelStyle}
+            onClick={handleCheck}
+            aria-label="I'm not a robot"
+          >
             <div style={captchaCheckboxAreaStyle}>
               {isVerifying ? (
                 <div style={spinnerWrapStyle}>
-                  <svg width="28" height="28" viewBox="0 0 28 28" style={{ animation: "captchaSpin 1s linear infinite" }}>
+                  <svg
+                    width="28"
+                    height="28"
+                    viewBox="0 0 28 28"
+                    style={{ animation: "captchaSpin 1s linear infinite" }}
+                  >
                     <style>{`@keyframes captchaSpin { to { transform: rotate(360deg); } }`}</style>
-                    <circle cx="14" cy="14" r="11" fill="none" stroke="#e0e0e0" strokeWidth="2.5" />
-                    <path d="M14 3 A11 11 0 0 1 25 14" fill="none" stroke="#4a90d9" strokeWidth="2.5" strokeLinecap="round" />
+                    <circle
+                      cx="14"
+                      cy="14"
+                      r="11"
+                      fill="none"
+                      stroke="#e0e0e0"
+                      strokeWidth="2.5"
+                    />
+                    <path
+                      d="M14 3 A11 11 0 0 1 25 14"
+                      fill="none"
+                      stroke="#4a90d9"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                    />
                   </svg>
                 </div>
               ) : isVerified ? (
                 <div style={verifiedCheckStyle}>
                   <svg width="20" height="20" viewBox="0 0 20 20">
-                    <polyline points="3,10 8,15 17,5" fill="none" stroke="#1a73e8" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                    <polyline
+                      points="3,10 8,15 17,5"
+                      fill="none"
+                      stroke="#1a73e8"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
                   </svg>
                 </div>
               ) : (
@@ -151,7 +182,9 @@ function DummyCaptcha({
               )}
             </div>
             <span style={captchaTextStyle(isExpired)}>
-              {isExpired ? "Verification expired. Check again." : "I'm not a robot"}
+              {isExpired
+                ? "Verification expired. Check again."
+                : "I'm not a robot"}
             </span>
           </label>
         </div>
@@ -160,24 +193,40 @@ function DummyCaptcha({
         <div style={captchaRightStyle}>
           <div style={recaptchaLogoStyle}>
             <svg width="32" height="32" viewBox="0 0 64 64" fill="none">
-              <path d="M32 4C16.536 4 4 16.536 4 32s12.536 28 28 28 28-12.536 28-28S47.464 4 32 4z" fill="#4A90D9" />
+              <path
+                d="M32 4C16.536 4 4 16.536 4 32s12.536 28 28 28 28-12.536 28-28S47.464 4 32 4z"
+                fill="#4A90D9"
+              />
               <path d="M32 14l6 10H26l6-10z" fill="white" opacity="0.9" />
-              <path d="M20 34l-6-10h24L32 44l-12-10z" fill="white" opacity="0.7" />
+              <path
+                d="M20 34l-6-10h24L32 44l-12-10z"
+                fill="white"
+                opacity="0.7"
+              />
               <path d="M44 34l-6 10-6-10h12z" fill="white" opacity="0.5" />
             </svg>
           </div>
           <div style={recaptchaTextStyle}>
-            <span style={{ fontSize: "11px", fontWeight: 700, color: "#555", letterSpacing: "0.02em" }}>reCAPTCHA</span>
-            <span style={{ fontSize: "9px", color: "#999", marginTop: "1px" }}>Privacy · Terms</span>
+            <span
+              style={{
+                fontSize: "11px",
+                fontWeight: 700,
+                color: "#555",
+                letterSpacing: "0.02em",
+              }}
+            >
+              reCAPTCHA
+            </span>
+            <span style={{ fontSize: "9px", color: "#999", marginTop: "1px" }}>
+              Privacy · Terms
+            </span>
           </div>
         </div>
       </div>
 
       {/* Verified subtext */}
       {isVerified && (
-        <p style={verifiedMsgStyle}>
-          ✓ Human verification complete
-        </p>
+        <p style={verifiedMsgStyle}>✓ Human verification complete</p>
       )}
     </div>
   );
@@ -196,7 +245,8 @@ const captchaBoxStyle = (verified: boolean): React.CSSProperties => ({
   border: `1.5px solid ${verified ? "#c3d9f7" : "#d3d3d3"}`,
   borderRadius: "4px",
   padding: "12px 14px",
-  boxShadow: "0 1px 3px rgba(0,0,0,0.08), inset 0 0 0 1px rgba(255,255,255,0.9)",
+  boxShadow:
+    "0 1px 3px rgba(0,0,0,0.08), inset 0 0 0 1px rgba(255,255,255,0.9)",
   transition: "border-color 0.3s ease",
   cursor: "pointer",
   userSelect: "none",
@@ -298,7 +348,7 @@ export default function RegisterForm() {
   const searchParams = useSearchParams();
   const batchId = searchParams.get("batchId");
 
-  type CourseType = "100hr" | "200hr" | "300hr" ;
+  type CourseType = "100hr" | "200hr" | "300hr";
   const rawType = searchParams.get("type");
   const type = rawType as CourseType;
 

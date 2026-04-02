@@ -1,32 +1,26 @@
-/* ================================================================
-   BestYogaSchool.module.css
-   Vintage Sacred Parchment × Saffron × Mandala
-   Breakpoints: 380 / 400 / 576 / 768 / 992 / 1200 / 1400px
-   ================================================================ */
-
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Dancing+Script:wght@500;600;700&display=swap');
 
 /* ── CSS VARIABLES ── */
 :root {
-  --saffron:    #e07b00;
+  --saffron: #e07b00;
   --saffron-lt: #f5a623;
   --saffron-dk: #b85f00;
-  --gold:       #d4a017;
-  --gold-lt:    #f0c040;
-  --gold-dk:    #a8780d;
-  --parch:      #fdf6e8;
-  --parch-lt:   #fffdf5;
-  --parch-dk:   #f5e8c8;
+  --gold: #d4a017;
+  --gold-lt: #f0c040;
+  --gold-dk: #a8780d;
+  --parch: #fdf6e8;
+  --parch-lt: #fffdf5;
+  --parch-dk: #f5e8c8;
   --parch-deep: #ede0b8;
-  --ink:        #2a1505;
-  --ink-md:     #4a2c0a;
-  --ink-lt:     #7a5228;
-  --border:     #d4b483;
-  --border-lt:  #e8d4a8;
-  --shadow:     rgba(42,21,5,.1);
-  --shadow-md:  rgba(42,21,5,.18);
-  --glow:       rgba(224,123,0,.22);
-  --glow-gold:  rgba(212,160,23,.28);
+  --ink: #2a1505;
+  --ink-md: #4a2c0a;
+  --ink-lt: #7a5228;
+  --border: #d4b483;
+  --border-lt: #e8d4a8;
+  --shadow: rgba(42, 21, 5, .1);
+  --shadow-md: rgba(42, 21, 5, .18);
+  --glow: rgba(224, 123, 0, .22);
+  --glow-gold: rgba(212, 160, 23, .28);
 }
 
 /* ────────────────────────────────────────
@@ -47,6 +41,7 @@
   display: block;
   object-fit: contain;
 }
+
 .page {
   font-family: 'Cormorant Garamond', serif;
   background: linear-gradient(160deg, var(--parch-lt) 0%, var(--parch) 55%, var(--parch-dk) 100%);
@@ -59,9 +54,12 @@
 /* Noise parchment texture */
 .page::before {
   content: '';
-  position: fixed; inset: 0;
+  position: fixed;
+  inset: 0;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.028'/%3E%3C/svg%3E");
-  pointer-events: none; z-index: 9998; opacity: .55;
+  pointer-events: none;
+  z-index: 9998;
+  opacity: .55;
 }
 
 /* ────────────────────────────────────────
@@ -75,85 +73,155 @@
   pointer-events: none;
   z-index: 0;
 }
+
 .mandalaTL {
-  top: -8vw; left: -8vw;
+  top: -8vw;
+  left: -8vw;
   opacity: .16;
   animation: mandalaSpin 105s linear infinite;
 }
+
 .mandalaBR {
-  bottom: -8vw; right: -8vw;
+  bottom: -8vw;
+  right: -8vw;
   opacity: .14;
   animation: mandalaSpin 120s linear infinite reverse;
 }
+
 .mandalaTR {
-  top: 20%; right: -5vw;
+  top: 20%;
+  right: -5vw;
   opacity: .08;
   animation: mandalaSpin 82s linear infinite;
 }
+
 .mandalaBL {
-  bottom: 18%; left: -5vw;
+  bottom: 18%;
+  left: -5vw;
   opacity: .08;
   animation: mandalaSpin 98s linear infinite reverse;
 }
+
 .chakraGlow {
   position: fixed;
-  top: 30%; left: 50%; transform: translateX(-50%);
+  top: 30%;
+  left: 50%;
+  transform: translateX(-50%);
   width: clamp(280px, 55vw, 800px);
   height: clamp(280px, 55vw, 800px);
-  background: radial-gradient(ellipse, rgba(245,166,35,.055) 0%, rgba(212,160,23,.03) 40%, transparent 70%);
-  pointer-events: none; z-index: 0;
+  background: radial-gradient(ellipse, rgba(245, 166, 35, .055) 0%, rgba(212, 160, 23, .03) 40%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
   animation: chakraPulse 7s ease-in-out infinite;
 }
 
-@keyframes mandalaSpin { to { transform: rotate(360deg); } }
+@keyframes mandalaSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 @keyframes chakraPulse {
-  0%,100% { opacity:.7; transform: translateX(-50%) scale(1); }
-  50%      { opacity:1;  transform: translateX(-50%) scale(1.07); }
+
+  0%,
+  100% {
+    opacity: .7;
+    transform: translateX(-50%) scale(1);
+  }
+
+  50% {
+    opacity: 1;
+    transform: translateX(-50%) scale(1.07);
+  }
 }
+
 @keyframes floatUp {
-  0%,100% { transform: translateY(0); }
-  50%     { transform: translateY(-9px); }
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-9px);
+  }
 }
+
 @keyframes shimmer {
-  0%   { background-position: -200% center; }
-  100% { background-position:  200% center; }
+  0% {
+    background-position: -200% center;
+  }
+
+  100% {
+    background-position: 200% center;
+  }
 }
+
 @keyframes fadeInUp {
-  from { opacity:0; transform:translateY(26px); }
-  to   { opacity:1; transform:translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(26px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* ────────────────────────────────────────
    SECTIONS
 ──────────────────────────────────────── */
 .section {
-  padding: clamp(2.5rem,6vw,5rem) 0;
-  position: relative; z-index: 1;
+  padding: clamp(2.5rem, 6vw, 5rem) 0;
+  position: relative;
+  z-index: 1;
 }
+
 .section::before {
   content: '';
-  position: absolute; top: 0; left: 0; right: 0; height: 1.5px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1.5px;
   background: linear-gradient(90deg, transparent, var(--gold), var(--saffron), var(--gold), transparent);
 }
-.sectionLight { background: var(--parch-lt); }
-.sectionWarm  { background: linear-gradient(135deg, #f8f4e8 0%, var(--parch) 50%, #fffbf4 100%); }
-.sectionDeep  { background: linear-gradient(135deg, #f8f4e8 0%, var(--parch) 50%, #fffbf4 100%); }
+
+.sectionLight {
+  background: var(--parch-lt);
+}
+
+.sectionWarm {
+  background: linear-gradient(135deg, #f8f4e8 0%, var(--parch) 50%, #fffbf4 100%);
+}
+
+.sectionDeep {
+  background: linear-gradient(135deg, #f8f4e8 0%, var(--parch) 50%, #fffbf4 100%);
+}
 
 /* ────────────────────────────────────────
    OM DIVIDER
 ──────────────────────────────────────── */
 .omDiv {
-  display: flex; align-items: center; justify-content: center;
-  gap: 1rem; margin: .45rem 0 1.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin: .45rem 0 1.8rem;
 }
+
 .omLine {
-  flex: 1; max-width: 200px; height: 1px;
+  flex: 1;
+  max-width: 200px;
+  height: 1px;
   background: linear-gradient(90deg, transparent, var(--saffron), var(--gold), var(--saffron), transparent);
   display: block;
 }
+
 .omGlyph {
   font-family: 'Cinzel', serif;
-  font-size: clamp(1.3rem,2.8vw,2rem);
+  font-size: clamp(1.3rem, 2.8vw, 2rem);
   color: var(--saffron);
   text-shadow: 0 0 18px var(--glow), 0 0 36px var(--glow-gold);
   line-height: 1;
@@ -165,52 +233,77 @@
 ──────────────────────────────────────── */
 .heroTitle {
   font-family: 'Cinzel', serif;
-  font-size: clamp(1rem,2.4vw,1.6rem);
-  font-weight: 700; color: var(--saffron);
-  text-align: center; letter-spacing: .04em;
-  line-height: 1.35; margin-bottom: .4rem;
+  font-size: clamp(1rem, 2.4vw, 1.6rem);
+  font-weight: 700;
+  color: var(--saffron);
+  text-align: center;
+  letter-spacing: .04em;
+  line-height: 1.35;
+  margin-bottom: .4rem;
 }
+
 .sectionTitleCenter {
   font-family: 'Cinzel', serif;
-  font-size: clamp(.92rem,2vw,1.3rem);
-  font-weight: 700; color: var(--saffron);
-  text-align: center; letter-spacing: .05em;
-  margin-bottom: .35rem; line-height: 1.3;
+  font-size: clamp(.92rem, 2vw, 1.3rem);
+  font-weight: 700;
+  color: var(--saffron);
+  text-align: center;
+  letter-spacing: .05em;
+  margin-bottom: .35rem;
+  line-height: 1.3;
 }
+
 .bodyPara {
-  font-size: clamp(.9rem,1.48vw,1.04rem);
-  line-height: 1.94; color: var(--ink);
+  font-size: clamp(.9rem, 1.48vw, 1.04rem);
+  line-height: 1.94;
+  color: var(--ink);
   margin-bottom: 1rem;
 }
-.inlineLink { color: var(--saffron); text-decoration: underline; font-weight: 600; }
-.inlineLink:hover { color: var(--saffron-dk); }
+
+.inlineLink {
+  color: var(--saffron);
+  text-decoration: underline;
+  font-weight: 600;
+}
+
+.inlineLink:hover {
+  color: var(--saffron-dk);
+}
 
 /* ────────────────────────────────────────
    ACCREDITATIONS
 ──────────────────────────────────────── */
-.accrSection { margin: 2.5rem 0 2rem; }
+.accrSection {
+  margin: 2.5rem 0 2rem;
+}
+
 .accrTitle {
   font-family: 'Cinzel', serif;
-  font-size: clamp(.9rem,1.9vw,1.2rem);
-  font-weight: 700; color: var(--saffron);
-  letter-spacing: .04em; margin-bottom: .4rem;
+  font-size: clamp(.9rem, 1.9vw, 1.2rem);
+  font-weight: 700;
+  color: var(--saffron);
+  letter-spacing: .04em;
+  margin-bottom: .4rem;
 }
+
 .accrUnderline {
-  width: 55px; height: 2.5px;
+  width: 55px;
+  height: 2.5px;
   background: linear-gradient(90deg, var(--saffron), var(--gold));
-  border-radius: 2px; margin-bottom: 1.6rem;
+  border-radius: 2px;
+  margin-bottom: 1.6rem;
 }
 
 /* 4-column certificate grid */
 .certGrid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: clamp(.8rem,2vw,1.4rem);
+  gap: clamp(.8rem, 2vw, 1.4rem);
   margin-bottom: 2rem;
 }
 
 .certCard {
-  background: rgba(255,253,248,.92);
+  background: rgba(255, 253, 248, .92);
   border: 1px solid var(--border);
   border-top: 3px solid var(--saffron);
   border-radius: 6px;
@@ -220,42 +313,59 @@
   transition: transform .22s, box-shadow .22s;
   position: relative;
 }
+
 .certCard:hover {
   transform: translateY(-5px);
   box-shadow: 0 10px 28px var(--glow);
 }
+
 .certImgWrap {
-  width: 100%; aspect-ratio: 4/3;
-  overflow: hidden; border-radius: 4px;
+  width: 100%;
+  aspect-ratio: 4/3;
+  overflow: hidden;
+  border-radius: 4px;
   border: 1px solid var(--border-lt);
   margin-bottom: .65rem;
   position: relative;
 }
+
 .certImg {
-  width: 100%; height: 100%;
-  object-fit: cover; display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
   filter: sepia(.25) saturate(.9);
   transition: transform .4s, filter .3s;
 }
-.certCard:hover .certImg { transform: scale(1.06); filter: sepia(.1) saturate(1.1); }
+
+.certCard:hover .certImg {
+  transform: scale(1.06);
+  filter: sepia(.1) saturate(1.1);
+}
 
 /* Ribbon badge overlay */
 .certBadge {
-  position: absolute; top: 10px; right: 10px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
   background: linear-gradient(135deg, var(--saffron), var(--saffron-dk));
   color: #fff;
   font-family: 'Cinzel', serif;
-  font-size: clamp(.58rem,.95vw,.72rem);
-  font-weight: 700; letter-spacing: .06em;
+  font-size: clamp(.58rem, .95vw, .72rem);
+  font-weight: 700;
+  letter-spacing: .06em;
   padding: .28rem .55rem;
   border-radius: 3px;
   box-shadow: 0 2px 8px var(--glow);
 }
+
 .certLabel {
   font-family: 'Cinzel', serif;
-  font-size: clamp(.65rem,1vw,.76rem);
-  font-weight: 600; color: var(--ink-md);
-  line-height: 1.35; margin: 0;
+  font-size: clamp(.65rem, 1vw, .76rem);
+  font-weight: 600;
+  color: var(--ink-md);
+  line-height: 1.35;
+  margin: 0;
   letter-spacing: .03em;
 }
 
@@ -265,10 +375,10 @@
 .courseCard {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: clamp(1.2rem,3vw,2.5rem);
+  gap: clamp(1.2rem, 3vw, 2.5rem);
   align-items: center;
-  margin-bottom: clamp(2rem,5vw,4rem);
-  background: rgba(255,253,248,.88);
+  margin-bottom: clamp(2rem, 5vw, 4rem);
+  background: rgba(255, 253, 248, .88);
   border: 1px solid var(--border);
   border-radius: 8px;
   overflow: hidden;
@@ -276,17 +386,31 @@
   transition: box-shadow .25s;
   position: relative;
 }
+
 .courseCard::before {
   content: '';
-  position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
   background: linear-gradient(90deg, var(--saffron), var(--gold), var(--saffron));
 }
-.courseCard:hover { box-shadow: 0 12px 38px var(--shadow-md); }
+
+.courseCard:hover {
+  box-shadow: 0 12px 38px var(--shadow-md);
+}
 
 /* Reversed: text first (grid order) */
-.courseCardRev { }
-.courseCardRev .courseImgWrap { order: 2; }
-.courseCardRev .courseBody    { order: 1; }
+.courseCardRev {}
+
+.courseCardRev .courseImgWrap {
+  order: 2;
+}
+
+.courseCardRev .courseBody {
+  order: 1;
+}
 
 /* Image side */
 .courseImgWrap {
@@ -294,84 +418,121 @@
   height: clamp(240px, 32vw, 480px);
   overflow: hidden;
 }
+
 .courseImg {
-  width: 100%; height: 100%;
-  object-fit: cover; display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
   transition: transform .55s ease;
 }
-.courseCard:hover .courseImg { transform: scale(1.05); }
+
+.courseCard:hover .courseImg {
+  transform: scale(1.05);
+}
+
 .courseImgOverlay {
-  position: absolute; inset: 0;
-  background: linear-gradient(135deg, rgba(42,21,5,.2) 0%, transparent 60%);
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(42, 21, 5, .2) 0%, transparent 60%);
   pointer-events: none;
 }
 
 /* Text side */
 .courseBody {
-  padding: clamp(1.4rem,3vw,2.2rem);
+  padding: clamp(1.4rem, 3vw, 2.2rem);
 }
+
 .courseTitle {
   font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(1rem,2vw,1.4rem);
-  font-weight: 600; font-style: italic;
+  font-size: clamp(1rem, 2vw, 1.4rem);
+  font-weight: 600;
+  font-style: italic;
   color: var(--saffron);
-  margin-bottom: .3rem; line-height: 1.25;
+  margin-bottom: .3rem;
+  line-height: 1.25;
 }
+
 .courseTitleLine {
-  width: 50px; height: 2px;
+  width: 50px;
+  height: 2px;
   background: linear-gradient(90deg, var(--saffron), var(--gold));
-  border-radius: 2px; margin-bottom: 1rem;
+  border-radius: 2px;
+  margin-bottom: 1rem;
 }
+
 .courseMeta {
   margin: .8rem 0 1.1rem;
   padding: .75rem .95rem;
-  background: rgba(245,232,195,.45);
+  background: rgba(245, 232, 195, .45);
   border-left: 3px solid var(--gold);
   border-radius: 0 4px 4px 0;
 }
+
 .metaRow {
-  font-size: clamp(.85rem,1.35vw,.96rem);
-  line-height: 1.6; color: var(--ink); margin: 0;
+  font-size: clamp(.85rem, 1.35vw, .96rem);
+  line-height: 1.6;
+  color: var(--ink);
+  margin: 0;
 }
-.metaRow + .metaRow { margin-top: .25rem; }
-.metaLabel { font-weight: 700; color: var(--ink-md); }
+
+.metaRow+.metaRow {
+  margin-top: .25rem;
+}
+
+.metaLabel {
+  font-weight: 700;
+  color: var(--ink-md);
+}
 
 /* Action buttons */
 .courseBtns {
-  display: flex; flex-wrap: wrap; gap: .65rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: .65rem;
   margin-top: 1rem;
 }
+
 .btnOrange {
   display: inline-block;
   font-family: 'Cinzel', serif;
-  font-size: clamp(.62rem,1.05vw,.78rem);
-  font-weight: 700; letter-spacing: .1em;
-  text-transform: uppercase; text-decoration: none;
+  font-size: clamp(.62rem, 1.05vw, .78rem);
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  text-decoration: none;
   color: #fff;
   background: linear-gradient(135deg, var(--saffron), var(--saffron-dk));
-  padding: .48rem 1.2rem; border-radius: 3px;
+  padding: .48rem 1.2rem;
+  border-radius: 3px;
   box-shadow: 0 3px 14px var(--glow);
   transition: transform .2s, box-shadow .2s, background-position .3s;
   background-size: 200% auto;
 }
+
 .btnOrange:hover {
   transform: translateY(-2px);
   box-shadow: 0 7px 20px var(--glow);
   color: #fff;
   background-position: right center;
 }
+
 .btnOutline {
   display: inline-block;
   font-family: 'Cinzel', serif;
-  font-size: clamp(.62rem,1.05vw,.78rem);
-  font-weight: 700; letter-spacing: .1em;
-  text-transform: uppercase; text-decoration: none;
+  font-size: clamp(.62rem, 1.05vw, .78rem);
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  text-decoration: none;
   color: var(--saffron);
   background: transparent;
   border: 1.5px solid var(--saffron);
-  padding: .46rem 1.2rem; border-radius: 3px;
+  padding: .46rem 1.2rem;
+  border-radius: 3px;
   transition: background .2s, color .2s, transform .2s, box-shadow .2s;
 }
+
 .btnOutline:hover {
   background: var(--saffron);
   color: #fff;
@@ -385,76 +546,210 @@
 
 /* ≤ 1399px */
 @media (max-width: 1399.98px) {
-  .mandalaTL, .mandalaBR { opacity: .12; }
+
+  .mandalaTL,
+  .mandalaBR {
+    opacity: .12;
+  }
 }
 
 /* ≤ 1199px */
 @media (max-width: 1199.98px) {
-  .mandalaTR, .mandalaBL { opacity: .06; }
+
+  .mandalaTR,
+  .mandalaBL {
+    opacity: .06;
+  }
 }
 
 /* ≤ 991px — stack course cards to single col */
 @media (max-width: 991.98px) {
-  .mandalaTL  { width: 200px; height: 200px; opacity: .1; }
-  .mandalaBR  { width: 180px; height: 180px; opacity: .1; }
-  .mandalaTR, .mandalaBL { display: none; }
+  .mandalaTL {
+    width: 200px;
+    height: 200px;
+    opacity: .1;
+  }
 
-  .certGrid { grid-template-columns: repeat(2, 1fr); }
+  .mandalaBR {
+    width: 180px;
+    height: 180px;
+    opacity: .1;
+  }
+
+  .mandalaTR,
+  .mandalaBL {
+    display: none;
+  }
+
+  .certGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 
   .courseCard {
     grid-template-columns: 1fr;
   }
-  /* Reset reverse on tablet */
-  .courseCardRev .courseImgWrap { order: 0; }
-  .courseCardRev .courseBody    { order: 0; }
 
-  .courseImgWrap { height: clamp(220px, 45vw, 380px); }
+  /* Reset reverse on tablet */
+  .courseCardRev .courseImgWrap {
+    order: 0;
+  }
+
+  .courseCardRev .courseBody {
+    order: 0;
+  }
+
+  .courseImgWrap {
+    height: clamp(220px, 45vw, 380px);
+  }
 }
 
 /* ≤ 767px */
 @media (max-width: 767.98px) {
-  .mandalaTL, .mandalaBR { display: none; }
-  .chakraGlow { display: none; }
 
-  .heroTitle { font-size: clamp(.95rem, 4.5vw, 1.25rem); }
-  .sectionTitleCenter { font-size: clamp(.9rem, 4vw, 1.1rem); }
-  .courseTitle { font-size: clamp(.95rem, 4vw, 1.2rem); }
-  .courseBody { padding: 1.2rem 1rem; }
-  .courseImgWrap { height: clamp(200px, 48vw, 340px); }
-  .certGrid { grid-template-columns: repeat(2, 1fr); gap: .7rem; }
+  .mandalaTL,
+  .mandalaBR {
+    display: none;
+  }
+
+  .chakraGlow {
+    display: none;
+  }
+
+  .heroTitle {
+    font-size: clamp(.95rem, 4.5vw, 1.25rem);
+  }
+
+  .sectionTitleCenter {
+    font-size: clamp(.9rem, 4vw, 1.1rem);
+  }
+
+  .courseTitle {
+    font-size: clamp(.95rem, 4vw, 1.2rem);
+  }
+
+  .courseBody {
+    padding: 1.2rem 1rem;
+  }
+
+  .courseImgWrap {
+    height: clamp(200px, 48vw, 340px);
+  }
+
+  .certGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: .7rem;
+  }
 }
 
 /* ≤ 575px */
 @media (max-width: 575.98px) {
-  .heroTitle { font-size: clamp(.9rem, 5vw, 1.15rem); }
-  .omGlyph { font-size: 1.3rem; }
-  .bodyPara { font-size: .88rem; line-height: 1.85; }
+  .heroTitle {
+    font-size: clamp(.9rem, 5vw, 1.15rem);
+  }
 
-  .certGrid { grid-template-columns: repeat(2, 1fr); gap: .55rem; }
-  .certLabel { font-size: .62rem; }
-  .certBadge { font-size: .55rem; padding: .22rem .42rem; }
+  .omGlyph {
+    font-size: 1.3rem;
+  }
 
-  .courseCard { border-radius: 6px; }
-  .courseCard::before { height: 2.5px; }
-  .courseImgWrap { height: clamp(185px, 52vw, 290px); }
-  .courseBody { padding: 1rem .85rem; }
-  .courseTitle { font-size: .95rem; }
-  .metaRow { font-size: .83rem; }
-  .courseMeta { padding: .6rem .75rem; }
-  .btnOrange, .btnOutline { font-size: .6rem; padding: .42rem .95rem; }
-  .courseBtns { gap: .5rem; }
+  .bodyPara {
+    font-size: .88rem;
+    line-height: 1.85;
+  }
 
-  .accrTitle { font-size: .9rem; }
+  .certGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: .55rem;
+  }
+
+  .certLabel {
+    font-size: .62rem;
+  }
+
+  .certBadge {
+    font-size: .55rem;
+    padding: .22rem .42rem;
+  }
+
+  .courseCard {
+    border-radius: 6px;
+  }
+
+  .courseCard::before {
+    height: 2.5px;
+  }
+
+  .courseImgWrap {
+    height: clamp(185px, 52vw, 290px);
+  }
+
+  .courseBody {
+    padding: 1rem .85rem;
+  }
+
+  .courseTitle {
+    font-size: .95rem;
+  }
+
+  .metaRow {
+    font-size: .83rem;
+  }
+
+  .courseMeta {
+    padding: .6rem .75rem;
+  }
+
+  .btnOrange,
+  .btnOutline {
+    font-size: .6rem;
+    padding: .42rem .95rem;
+  }
+
+  .courseBtns {
+    gap: .5rem;
+  }
+
+  .accrTitle {
+    font-size: .9rem;
+  }
 }
 
 /* ≤ 399px */
 @media (max-width: 399.98px) {
-  .heroTitle { font-size: .88rem; }
-  .certGrid { grid-template-columns: repeat(2, 1fr); gap: .45rem; }
-  .certLabel { font-size: .58rem; }
-  .certBadge { font-size: .5rem; padding: .18rem .38rem; top: 6px; right: 6px; }
-  .courseBody { padding: .85rem .75rem; }
-  .courseTitle { font-size: .88rem; }
-  .bodyPara { font-size: .84rem; }
-  .btnOrange, .btnOutline { font-size: .58rem; padding: .38rem .8rem; }
+  .heroTitle {
+    font-size: .88rem;
+  }
+
+  .certGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: .45rem;
+  }
+
+  .certLabel {
+    font-size: .58rem;
+  }
+
+  .certBadge {
+    font-size: .5rem;
+    padding: .18rem .38rem;
+    top: 6px;
+    right: 6px;
+  }
+
+  .courseBody {
+    padding: .85rem .75rem;
+  }
+
+  .courseTitle {
+    font-size: .88rem;
+  }
+
+  .bodyPara {
+    font-size: .84rem;
+  }
+
+  .btnOrange,
+  .btnOutline {
+    font-size: .58rem;
+    padding: .38rem .8rem;
+  }
 }

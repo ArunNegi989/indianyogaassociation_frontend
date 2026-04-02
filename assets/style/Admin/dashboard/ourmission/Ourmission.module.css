@@ -1,9 +1,3 @@
-/* ================================================================
-   OurMission.module.css — AYM Yoga Admin
-   Shared styles for OurMission List, Add New, Edit pages
-   Vintage parchment design — matches Gallery / HomeAbout system
-   ================================================================ */
-
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&display=swap');
 
 /* ================================================================
@@ -42,8 +36,15 @@
 }
 
 @keyframes slideUp {
-  from { opacity: 0; transform: translateY(10px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* ================================================================
@@ -103,7 +104,10 @@
   transition: color 0.18s;
   text-decoration: none;
 }
-.breadcrumbLink:hover { color: #e07b00; }
+
+.breadcrumbLink:hover {
+  color: #e07b00;
+}
 
 .breadcrumbSep {
   color: rgba(160, 120, 64, 0.45);
@@ -132,7 +136,7 @@
 .ornamentLine {
   flex: 1;
   height: 1px;
-  background: linear-gradient(90deg, rgba(224,123,0,0.25), rgba(224,123,0,0.08));
+  background: linear-gradient(90deg, rgba(224, 123, 0, 0.25), rgba(224, 123, 0, 0.08));
 }
 
 /* ================================================================
@@ -158,6 +162,7 @@
   flex-shrink: 0;
   text-decoration: none;
 }
+
 .addBtn:hover {
   background: linear-gradient(135deg, #5c2d00, #7a3d00);
   transform: translateY(-1px);
@@ -165,8 +170,15 @@
   text-decoration: none;
   color: #f5d89a;
 }
-.addPlus { font-size: 1rem; line-height: 1; }
-.addLabel { display: inline; }
+
+.addPlus {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.addLabel {
+  display: inline;
+}
 
 /* ================================================================
    TABLE (tablet + desktop)
@@ -209,17 +221,33 @@
   transition: background 0.18s ease;
   cursor: grab;
 }
-.row:last-child { border-bottom: none; }
-.row:hover { background: rgba(224, 123, 0, 0.04); }
-.row:active { cursor: grabbing; }
+
+.row:last-child {
+  border-bottom: none;
+}
+
+.row:hover {
+  background: rgba(224, 123, 0, 0.04);
+}
+
+.row:active {
+  cursor: grabbing;
+}
 
 .table td {
   padding: 0.85rem 0.9rem;
   vertical-align: middle;
 }
 
-.tdOrder { text-align: center; vertical-align: middle; }
-.tdCenter { text-align: center; vertical-align: middle; }
+.tdOrder {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.tdCenter {
+  text-align: center;
+  vertical-align: middle;
+}
 
 /* ================================================================
    ORDER BADGE & ARROWS
@@ -262,12 +290,17 @@
   transition: all 0.18s ease;
   line-height: 1;
 }
+
 .arrowBtn:hover:not(:disabled) {
   background: rgba(224, 123, 0, 0.1);
   border-color: #e07b00;
   color: #5c2d00;
 }
-.arrowBtn:disabled { opacity: 0.2; cursor: not-allowed; }
+
+.arrowBtn:disabled {
+  opacity: 0.2;
+  cursor: not-allowed;
+}
 
 .dragGroup {
   display: flex;
@@ -283,7 +316,10 @@
   transition: color 0.18s;
   line-height: 1;
 }
-.dragHandle:hover { color: #e07b00; }
+
+.dragHandle:hover {
+  color: #e07b00;
+}
 
 /* ================================================================
    TABLE TEXT CELLS
@@ -374,16 +410,30 @@
   color: #c8f0b0;
   border-color: rgba(100, 200, 60, 0.25);
 }
-.statusActive .statusDot { background: #7ddf50; box-shadow: 0 0 4px #7ddf50; }
-.statusActive:hover { background: linear-gradient(135deg, #1e4616, #2e6020); }
+
+.statusActive .statusDot {
+  background: #7ddf50;
+  box-shadow: 0 0 4px #7ddf50;
+}
+
+.statusActive:hover {
+  background: linear-gradient(135deg, #1e4616, #2e6020);
+}
 
 .statusInactive {
   background: linear-gradient(135deg, #5a1a00, #7a2800);
   color: #f5c8a0;
   border-color: rgba(200, 80, 20, 0.25);
 }
-.statusInactive .statusDot { background: #e07b40; box-shadow: 0 0 4px #e07b40; }
-.statusInactive:hover { background: linear-gradient(135deg, #3d1200, #5c1c00); }
+
+.statusInactive .statusDot {
+  background: #e07b40;
+  box-shadow: 0 0 4px #e07b40;
+}
+
+.statusInactive:hover {
+  background: linear-gradient(135deg, #3d1200, #5c1c00);
+}
 
 /* ================================================================
    ACTION BUTTONS
@@ -413,6 +463,7 @@
   background: rgba(224, 123, 0, 0.08);
   color: #7a3d00;
 }
+
 .editBtn:hover {
   background: rgba(224, 123, 0, 0.16);
   border-color: rgba(224, 123, 0, 0.42);
@@ -437,13 +488,16 @@
   background: rgba(180, 40, 0, 0.07);
   color: #8b2000;
 }
+
 .deleteBtn:hover {
   background: rgba(180, 40, 0, 0.15);
   border-color: rgba(180, 40, 0, 0.38);
   transform: translateY(-1px);
 }
 
-.btnLabel { display: inline; }
+.btnLabel {
+  display: inline;
+}
 
 /* ================================================================
    MOBILE CARDS (< 480px)
@@ -463,7 +517,11 @@
   cursor: grab;
   transition: box-shadow 0.2s ease, transform 0.2s ease;
 }
-.card:active { cursor: grabbing; }
+
+.card:active {
+  cursor: grabbing;
+}
+
 .card:hover {
   box-shadow: 0 5px 20px rgba(92, 45, 0, 0.12);
   transform: translateY(-1px);
@@ -509,7 +567,10 @@
   border-top: 1px solid #f0e2c8;
   background: rgba(224, 123, 0, 0.02);
 }
-.cardFooter .actionBtns { justify-content: flex-start; }
+
+.cardFooter .actionBtns {
+  justify-content: flex-start;
+}
 
 /* ================================================================
    EMPTY STATE
@@ -559,8 +620,15 @@
 }
 
 @keyframes modalIn {
-  from { opacity: 0; transform: scale(0.94) translateY(10px); }
-  to   { opacity: 1; transform: scale(1) translateY(0); }
+  from {
+    opacity: 0;
+    transform: scale(0.94) translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
 }
 
 .modalOm {
@@ -606,6 +674,7 @@
   cursor: pointer;
   transition: all 0.2s ease;
 }
+
 .modalCancel:hover {
   background: rgba(224, 123, 0, 0.06);
   border-color: #e07b00;
@@ -625,6 +694,7 @@
   transition: all 0.2s ease;
   box-shadow: 0 2px 10px rgba(139, 32, 0, 0.28);
 }
+
 .modalConfirm:hover {
   background: linear-gradient(135deg, #6b1800, #4d1000);
   transform: translateY(-1px);
@@ -836,6 +906,7 @@
   display: inline-flex;
   align-items: center;
 }
+
 .cancelBtn:hover {
   background: rgba(224, 123, 0, 0.06);
   border-color: #e07b00;
@@ -859,13 +930,22 @@
   transition: all 0.22s ease;
   box-shadow: 0 3px 14px rgba(92, 45, 0, 0.22);
 }
+
 .submitBtn:hover:not(:disabled) {
   background: linear-gradient(135deg, #5c2d00, #7a3d00);
   transform: translateY(-1px);
   box-shadow: 0 5px 20px rgba(92, 45, 0, 0.32);
 }
-.submitBtn:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
-.submitBtnLoading { opacity: 0.8; }
+
+.submitBtn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.submitBtnLoading {
+  opacity: 0.8;
+}
 
 .spinner {
   width: 14px;
@@ -877,7 +957,11 @@
   animation: spin 0.7s linear infinite;
 }
 
-@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
 
 /* ================================================================
    SUCCESS SCREEN
@@ -900,8 +984,15 @@
 }
 
 @keyframes fadeUp {
-  from { opacity: 0; transform: translateY(16px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .successOm {
@@ -948,37 +1039,107 @@
 
 /* Mobile (< 480px) */
 @media (max-width: 479px) {
-  .formCard { padding: 1.2rem; border-radius: 10px; }
-  .formActions { flex-direction: column-reverse; align-items: stretch; }
-  .cancelBtn, .submitBtn { width: 100%; justify-content: center; padding: 0.75rem 1rem; }
-  .table td { padding: 0.65rem 0.6rem; }
-  .table thead th { padding: 0.72rem 0.6rem; }
-  .btnLabel { display: none; }
-  .editBtn, .deleteBtn { padding: 0.35rem 0.55rem; }
-  .cardHeader { gap: 0.5rem; padding: 0.7rem 0.65rem 0.5rem; }
-  .blockLabel { font-size: 0.65rem; }
-  .sectionHeading { font-size: 0.8rem; }
+  .formCard {
+    padding: 1.2rem;
+    border-radius: 10px;
+  }
+
+  .formActions {
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
+
+  .cancelBtn,
+  .submitBtn {
+    width: 100%;
+    justify-content: center;
+    padding: 0.75rem 1rem;
+  }
+
+  .table td {
+    padding: 0.65rem 0.6rem;
+  }
+
+  .table thead th {
+    padding: 0.72rem 0.6rem;
+  }
+
+  .btnLabel {
+    display: none;
+  }
+
+  .editBtn,
+  .deleteBtn {
+    padding: 0.35rem 0.55rem;
+  }
+
+  .cardHeader {
+    gap: 0.5rem;
+    padding: 0.7rem 0.65rem 0.5rem;
+  }
+
+  .blockLabel {
+    font-size: 0.65rem;
+  }
+
+  .sectionHeading {
+    font-size: 0.8rem;
+  }
 }
 
 /* Tablet (480–767px) */
 @media (min-width: 480px) and (max-width: 767px) {
-  .formCard { padding: 1.5rem; }
-  .formActions { flex-direction: row; justify-content: stretch; }
-  .cancelBtn, .submitBtn { flex: 1; justify-content: center; }
-  .table td { padding: 0.65rem 0.6rem; }
-  .table thead th { padding: 0.72rem 0.6rem; }
-  .btnLabel { display: none; }
-  .editBtn, .deleteBtn { padding: 0.35rem 0.55rem; }
+  .formCard {
+    padding: 1.5rem;
+  }
+
+  .formActions {
+    flex-direction: row;
+    justify-content: stretch;
+  }
+
+  .cancelBtn,
+  .submitBtn {
+    flex: 1;
+    justify-content: center;
+  }
+
+  .table td {
+    padding: 0.65rem 0.6rem;
+  }
+
+  .table thead th {
+    padding: 0.72rem 0.6rem;
+  }
+
+  .btnLabel {
+    display: none;
+  }
+
+  .editBtn,
+  .deleteBtn {
+    padding: 0.35rem 0.55rem;
+  }
 }
 
 /* Small Desktop (768–1023px) */
 @media (min-width: 768px) and (max-width: 1023px) {
-  .formPage { max-width: 700px; }
-  .sectionHeading { -webkit-line-clamp: 1; }
+  .formPage {
+    max-width: 700px;
+  }
+
+  .sectionHeading {
+    -webkit-line-clamp: 1;
+  }
 }
 
 /* Large Desktop (1024px+) */
 @media (min-width: 1024px) {
-  .formPage { max-width: 860px; }
-  .btnLabel { display: inline; }
+  .formPage {
+    max-width: 860px;
+  }
+
+  .btnLabel {
+    display: inline;
+  }
 }

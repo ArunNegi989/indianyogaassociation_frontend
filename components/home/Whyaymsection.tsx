@@ -131,7 +131,7 @@ export const WhyAYMSection: React.FC = () => {
             if (e.isIntersecting) e.target.classList.add(styles.fadeUpVisible);
           });
         },
-        { threshold: 0.08 }
+        { threshold: 0.08 },
       );
 
       els.forEach((el) => observer.observe(el));
@@ -152,15 +152,12 @@ export const WhyAYMSection: React.FC = () => {
 
   return (
     <section className={styles.section} ref={sectionRef}>
-
       {/* ── Top decorative border ── */}
       <div className={styles.topBorder} />
 
       <div className={styles.container}>
-
         {/* ══ HEADER ══ */}
         <div className={`${styles.header} ${styles.fadeUp}`}>
-
           {/* superTitle — plain text */}
           <p className={styles.superTitle}>{data.superTitle}</p>
 
@@ -185,7 +182,6 @@ export const WhyAYMSection: React.FC = () => {
 
         {/* ══ BODY — image + side features ══ */}
         <div className={styles.body}>
-
           {/* ── Image Column ── */}
           <div className={`${styles.imageCol} ${styles.fadeUp}`}>
             <div className={styles.imageWrap}>
@@ -197,7 +193,11 @@ export const WhyAYMSection: React.FC = () => {
                       src={heroImageUrl}
                       alt={data.imageAlt || "AYM Yoga School"}
                       className={styles.heroImg}
-                      style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                      }}
                     />
                   ) : (
                     <Image
@@ -216,7 +216,9 @@ export const WhyAYMSection: React.FC = () => {
               {data.imgBadgeYear && (
                 <div className={styles.imgBadge}>
                   <span className={styles.imgBadgeOm}>ॐ</span>
-                  <span className={styles.imgBadgeYear}>{data.imgBadgeYear}</span>
+                  <span className={styles.imgBadgeYear}>
+                    {data.imgBadgeYear}
+                  </span>
                 </div>
               )}
 
@@ -286,7 +288,6 @@ export const WhyAYMSection: React.FC = () => {
             </div>
           ))}
         </div>
-
       </div>
       <div className={styles.bottomBorder} />
     </section>

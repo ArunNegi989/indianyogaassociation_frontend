@@ -66,11 +66,48 @@ const MandalaDecor = () => (
     xmlns="http://www.w3.org/2000/svg"
     aria-hidden="true"
   >
-    <circle cx="100" cy="100" r="95" stroke="#e07b00" strokeWidth="0.6" strokeDasharray="4 3" opacity="0.35" />
-    <circle cx="100" cy="100" r="78" stroke="#e07b00" strokeWidth="0.4" opacity="0.25" />
-    <circle cx="100" cy="100" r="60" stroke="#e07b00" strokeWidth="0.6" strokeDasharray="2 4" opacity="0.3" />
-    <circle cx="100" cy="100" r="42" stroke="#c46a00" strokeWidth="0.5" opacity="0.35" />
-    <circle cx="100" cy="100" r="24" stroke="#e07b00" strokeWidth="0.8" opacity="0.4" />
+    <circle
+      cx="100"
+      cy="100"
+      r="95"
+      stroke="#e07b00"
+      strokeWidth="0.6"
+      strokeDasharray="4 3"
+      opacity="0.35"
+    />
+    <circle
+      cx="100"
+      cy="100"
+      r="78"
+      stroke="#e07b00"
+      strokeWidth="0.4"
+      opacity="0.25"
+    />
+    <circle
+      cx="100"
+      cy="100"
+      r="60"
+      stroke="#e07b00"
+      strokeWidth="0.6"
+      strokeDasharray="2 4"
+      opacity="0.3"
+    />
+    <circle
+      cx="100"
+      cy="100"
+      r="42"
+      stroke="#c46a00"
+      strokeWidth="0.5"
+      opacity="0.35"
+    />
+    <circle
+      cx="100"
+      cy="100"
+      r="24"
+      stroke="#e07b00"
+      strokeWidth="0.8"
+      opacity="0.4"
+    />
     {[0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330].map((deg, i) => {
       const rad = (deg * Math.PI) / 180;
       const x1 = 100 + 24 * Math.cos(rad);
@@ -78,24 +115,55 @@ const MandalaDecor = () => (
       const x2 = 100 + 78 * Math.cos(rad);
       const y2 = 100 + 78 * Math.sin(rad);
       return (
-        <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="#e07b00" strokeWidth="0.4" opacity="0.2" />
+        <line
+          key={i}
+          x1={x1}
+          y1={y1}
+          x2={x2}
+          y2={y2}
+          stroke="#e07b00"
+          strokeWidth="0.4"
+          opacity="0.2"
+        />
       );
     })}
     {[0, 45, 90, 135, 180, 225, 270, 315].map((deg, i) => {
       const rad = (deg * Math.PI) / 180;
       const cx2 = 100 + 60 * Math.cos(rad);
       const cy2 = 100 + 60 * Math.sin(rad);
-      return <circle key={i} cx={cx2} cy={cy2} r="3.5" fill="#e07b00" opacity="0.25" />;
+      return (
+        <circle
+          key={i}
+          cx={cx2}
+          cy={cy2}
+          r="3.5"
+          fill="#e07b00"
+          opacity="0.25"
+        />
+      );
     })}
-    <text x="100" y="107" textAnchor="middle" fontSize="18" fill="#e07b00" opacity="0.5" fontFamily="serif">
+    <text
+      x="100"
+      y="107"
+      textAnchor="middle"
+      fontSize="18"
+      fill="#e07b00"
+      opacity="0.5"
+      fontFamily="serif"
+    >
       ॐ
     </text>
   </svg>
 );
 
-export default function BlogPage({ blogs: propBlogs, recentPosts }: BlogPageProps) {
+export default function BlogPage({
+  blogs: propBlogs,
+  recentPosts,
+}: BlogPageProps) {
   const [blogList, setBlogList] = useState<Blog[]>(propBlogs ?? []);
-  const [isLoading, setIsLoading] = useState(!propBlogs || propBlogs.length === 0);
+  const [isLoading, setIsLoading] = useState(
+    !propBlogs || propBlogs.length === 0,
+  );
   const [page, setPage] = useState(1);
 
   /* ── Fetch published blogs from API if none passed via props ── */
@@ -139,7 +207,9 @@ export default function BlogPage({ blogs: propBlogs, recentPosts }: BlogPageProp
               <span className={styles.omSym}>ॐ</span>
               <span className={styles.divLine} />
             </div>
-            <p className={styles.headerSub}>Ancient wisdom • Modern practice • Timeless transformation</p>
+            <p className={styles.headerSub}>
+              Ancient wisdom • Modern practice • Timeless transformation
+            </p>
           </div>
           <MandalaDecor />
         </div>
@@ -147,7 +217,11 @@ export default function BlogPage({ blogs: propBlogs, recentPosts }: BlogPageProp
           <main className={styles.main}>
             <div className={styles.grid}>
               {Array.from({ length: 6 }).map((_, i) => (
-                <div key={i} className={styles.card} style={{ pointerEvents: "none" }}>
+                <div
+                  key={i}
+                  className={styles.card}
+                  style={{ pointerEvents: "none" }}
+                >
                   <div
                     className={styles.cardImgWrap}
                     style={{ background: "rgba(224,123,0,0.08)" }}
@@ -202,7 +276,9 @@ export default function BlogPage({ blogs: propBlogs, recentPosts }: BlogPageProp
             <span className={styles.omSym}>ॐ</span>
             <span className={styles.divLine} />
           </div>
-          <p className={styles.headerSub}>Ancient wisdom • Modern practice • Timeless transformation</p>
+          <p className={styles.headerSub}>
+            Ancient wisdom • Modern practice • Timeless transformation
+          </p>
         </div>
         <MandalaDecor />
       </div>
@@ -227,10 +303,12 @@ export default function BlogPage({ blogs: propBlogs, recentPosts }: BlogPageProp
               <div className={styles.grid}>
                 {visibleBlogs.map((blog, idx) => (
                   <Link
-                    href={`/aym-yoga-blog/${blog.slug}`}  
+                    href={`/aym-yoga-blog/${blog.slug}`}
                     key={blog.id}
                     className={styles.card}
-                    style={{ animationDelay: `${(idx % BLOGS_PER_PAGE) * 0.07}s` }}
+                    style={{
+                      animationDelay: `${(idx % BLOGS_PER_PAGE) * 0.07}s`,
+                    }}
                   >
                     <span className={`${styles.corner} ${styles.cornerTL}`} />
                     <span className={`${styles.corner} ${styles.cornerTR}`} />
@@ -247,7 +325,9 @@ export default function BlogPage({ blogs: propBlogs, recentPosts }: BlogPageProp
                         className={styles.cardImg}
                         unoptimized={blog.image.includes("localhost")}
                       />
-                      <span className={styles.cardCategory}>{blog.category}</span>
+                      <span className={styles.cardCategory}>
+                        {blog.category}
+                      </span>
                     </div>
 
                     <div className={styles.cardBody}>
@@ -269,7 +349,9 @@ export default function BlogPage({ blogs: propBlogs, recentPosts }: BlogPageProp
                           {blog.date}
                         </span>
                         {blog.author && (
-                          <span className={styles.cardAuthor}>· {blog.author}</span>
+                          <span className={styles.cardAuthor}>
+                            · {blog.author}
+                          </span>
                         )}
                       </div>
                       <h3 className={styles.cardTitle}>{blog.title}</h3>
@@ -318,8 +400,8 @@ export default function BlogPage({ blogs: propBlogs, recentPosts }: BlogPageProp
                     </svg>
                   </button>
                   <p className={styles.loadMoreCount}>
-                    Showing {Math.min(page * BLOGS_PER_PAGE, blogList.length)} of{" "}
-                    {blogList.length} articles
+                    Showing {Math.min(page * BLOGS_PER_PAGE, blogList.length)}{" "}
+                    of {blogList.length} articles
                   </p>
                 </div>
               )}
@@ -346,7 +428,7 @@ export default function BlogPage({ blogs: propBlogs, recentPosts }: BlogPageProp
               {latestPosts.map((post) => (
                 <li key={post.id} className={styles.sidePostItem}>
                   <Link
-                    href={`/aym-yoga-blog/${post.slug}`}  
+                    href={`/aym-yoga-blog/${post.slug}`}
                     className={styles.sidePostLink}
                   >
                     <span className={styles.sidePostDot}>›</span>
@@ -374,8 +456,20 @@ export default function BlogPage({ blogs: propBlogs, recentPosts }: BlogPageProp
                   strokeWidth="0.8"
                   strokeDasharray="3 3"
                 />
-                <circle cx="60" cy="60" r="40" stroke="rgba(255,255,255,0.2)" strokeWidth="0.6" />
-                <circle cx="60" cy="60" r="22" stroke="rgba(255,255,255,0.25)" strokeWidth="0.8" />
+                <circle
+                  cx="60"
+                  cy="60"
+                  r="40"
+                  stroke="rgba(255,255,255,0.2)"
+                  strokeWidth="0.6"
+                />
+                <circle
+                  cx="60"
+                  cy="60"
+                  r="22"
+                  stroke="rgba(255,255,255,0.25)"
+                  strokeWidth="0.8"
+                />
                 <text
                   x="60"
                   y="67"

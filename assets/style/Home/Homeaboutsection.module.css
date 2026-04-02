@@ -1,10 +1,3 @@
-/* ================================================================
-   AboutSection.module.css — AYM Yoga School
-   Vintage-meets-modern yoga aesthetic
-   Warm parchment tones + saffron accents + ornamental details
-   ================================================================ */
-
-
 /* ── Section shell ── */
 .section {
   position: relative;
@@ -73,7 +66,7 @@
 }
 
 .superTitle {
- font-family: var(--font-lato), sans-serif;
+  font-family: var(--font-lato), sans-serif;
   font-size: clamp(1rem, 2.4vw, 1.4rem);
   font-style: italic;
   color: #7a5c2e;
@@ -154,7 +147,7 @@
 }
 
 .statLabel {
- font-family: var(--font-lato), sans-serif;
+  font-family: var(--font-lato), sans-serif;
   font-size: clamp(0.7rem, 1.3vw, 0.82rem);
   color: #7a5c2e;
   letter-spacing: 0.08em;
@@ -174,7 +167,7 @@
 
 /* ── Paragraphs with HTML content support ── */
 .para {
- font-family: var(--font-lato), sans-serif;
+  font-family: var(--font-lato), sans-serif;
   font-size: clamp(0.95rem, 1.6vw, 1.05rem);
   line-height: 1.85;
   color: #3d2b10;
@@ -185,24 +178,40 @@
   margin-bottom: 0.75rem;
 }
 
-.para h1, .para h2, .para h3, .para h4 {
-font-family: var(--font-playfair), serif;
+.para h1,
+.para h2,
+.para h3,
+.para h4 {
+  font-family: var(--font-playfair), serif;
   font-weight: 600;
   color: #3d1d00;
   margin: 1.2rem 0 0.8rem;
 }
 
-.para h1 { font-size: 2rem; }
-.para h2 { font-size: 1.75rem; }
-.para h3 { font-size: 1.5rem; }
-.para h4 { font-size: 1.25rem; }
+.para h1 {
+  font-size: 2rem;
+}
 
-.para strong, .para b {
+.para h2 {
+  font-size: 1.75rem;
+}
+
+.para h3 {
+  font-size: 1.5rem;
+}
+
+.para h4 {
+  font-size: 1.25rem;
+}
+
+.para strong,
+.para b {
   font-weight: 700;
   color: #b85e00;
 }
 
-.para em, .para i {
+.para em,
+.para i {
   font-style: italic;
 }
 
@@ -212,7 +221,8 @@ font-family: var(--font-playfair), serif;
   text-underline-offset: 2px;
 }
 
-.para ul, .para ol {
+.para ul,
+.para ol {
   margin: 0.75rem 0;
   padding-left: 1.5rem;
 }
@@ -242,7 +252,7 @@ font-family: var(--font-playfair), serif;
 }
 
 .paraSmall {
- font-family: var(--font-lato), sans-serif;
+  font-family: var(--font-lato), sans-serif;
   font-size: clamp(0.88rem, 1.4vw, 0.97rem);
   line-height: 1.8;
   color: #5a3e22;
@@ -287,7 +297,7 @@ font-family: var(--font-playfair), serif;
 }
 
 .accBadge {
- font-family: var(--font-lato), sans-serif;
+  font-family: var(--font-lato), sans-serif;
   font-size: 0.88rem;
   color: #5c2d00;
   font-weight: 600;
@@ -353,7 +363,7 @@ font-family: var(--font-playfair), serif;
 }
 
 .stylesTitle {
- font-family: var(--font-playfair), serif;
+  font-family: var(--font-playfair), serif;
   font-size: 0.75rem;
   font-weight: 600;
   color: #7a5c2e;
@@ -371,7 +381,7 @@ font-family: var(--font-playfair), serif;
 }
 
 .styleChip {
- font-family: var(--font-lato), sans-serif;
+  font-family: var(--font-lato), sans-serif;
   font-size: 0.82rem;
   font-weight: 600;
   color: #7a3f00;
@@ -404,7 +414,7 @@ font-family: var(--font-playfair), serif;
 }
 
 .ctaText {
- font-family: var(--font-lato), sans-serif;
+  font-family: var(--font-lato), sans-serif;
   font-size: clamp(0.9rem, 1.6vw, 1.05rem);
   color: #5c2d00;
   font-style: italic;
@@ -426,7 +436,7 @@ font-family: var(--font-playfair), serif;
   display: inline-flex;
   align-items: center;
   gap: 8px;
- font-family: var(--font-playfair), serif;
+  font-family: var(--font-playfair), serif;
   font-size: 0.78rem;
   font-weight: 600;
   letter-spacing: 0.1em;
@@ -558,7 +568,7 @@ font-family: var(--font-playfair), serif;
   .statsRow {
     grid-template-columns: 1fr 1fr;
   }
-  
+
   .statValue {
     font-size: 1.3rem;
   }

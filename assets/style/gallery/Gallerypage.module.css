@@ -1,28 +1,23 @@
-/* ================================================================
-   GalleryPage.module.css
-   AYM Yoga School — Gallery Page
-   Vintage parchment · saffron · Cinzel + Cormorant Garamond
-   Tab navigation · image cards · lightbox modal · fully responsive
-   ================================================================ */
+
 
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400;1,600&display=swap');
 
 /* ── Variables ── */
 .page {
-  --saffron:        #e07b00;
-  --saffron-deep:   #c46a00;
-  --saffron-light:  #f5b800;
-  --parchment:      #fdf4e3;
-  --cream:          #fffaf2;
-  --bg-section:     #f5f5f5;
-  --ink:            #1a0f00;
-  --ink-mid:        #3a2208;
-  --ink-light:      #7a5c2e;
-  --border:         #e8d5b5;
-  --white:          #ffffff;
-  --label-bg:       rgba(20, 10, 0, 0.72);
-  --shadow:         0 3px 18px rgba(46, 26, 8, 0.13);
-  --shadow-hover:   0 8px 32px rgba(46, 26, 8, 0.22);
+  --saffron: #e07b00;
+  --saffron-deep: #c46a00;
+  --saffron-light: #f5b800;
+  --parchment: #fdf4e3;
+  --cream: #fffaf2;
+  --bg-section: #f5f5f5;
+  --ink: #1a0f00;
+  --ink-mid: #3a2208;
+  --ink-light: #7a5c2e;
+  --border: #e8d5b5;
+  --white: #ffffff;
+  --label-bg: rgba(20, 10, 0, 0.72);
+  --shadow: 0 3px 18px rgba(46, 26, 8, 0.13);
+  --shadow-hover: 0 8px 32px rgba(46, 26, 8, 0.22);
 
   font-family: 'Cormorant Garamond', serif;
   color: var(--ink);
@@ -37,11 +32,9 @@
 ────────────────────────────────────────── */
 .bottomBorder {
   height: 5px;
-  background: linear-gradient(
-    90deg, transparent 0%,
-    var(--saffron) 20%, var(--saffron-light) 50%,
-    var(--saffron) 80%, transparent 100%
-  );
+  background: linear-gradient(90deg, transparent 0%,
+      var(--saffron) 20%, var(--saffron-light) 50%,
+      var(--saffron) 80%, transparent 100%);
   margin-top: 3rem;
 }
 
@@ -143,7 +136,8 @@
   cursor: pointer;
   white-space: nowrap;
   transition: color 0.18s, border-color 0.18s, background 0.18s;
-  margin-bottom: -2px; /* overlap border-bottom of wrap */
+  margin-bottom: -2px;
+  /* overlap border-bottom of wrap */
   flex-shrink: 0;
 }
 
@@ -322,8 +316,13 @@
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 .modalBox {
@@ -337,8 +336,15 @@
 }
 
 @keyframes slideUp {
-  from { transform: translateY(18px); opacity: 0; }
-  to   { transform: translateY(0);    opacity: 1; }
+  from {
+    transform: translateY(18px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 /* Close button */
@@ -366,7 +372,7 @@
 /* Image area */
 .modalImgWrap {
   width: 100%;
-  border: 3px solid rgba(255,255,255,0.12);
+  border: 3px solid rgba(255, 255, 255, 0.12);
   border-radius: 6px;
   overflow: hidden;
   background: #0d0800;
@@ -384,8 +390,15 @@
 }
 
 @keyframes imgFade {
-  from { opacity: 0.5; transform: scale(0.98); }
-  to   { opacity: 1;   transform: scale(1); }
+  from {
+    opacity: 0.5;
+    transform: scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 /* Prev / Next arrows */
@@ -407,9 +420,10 @@
   justify-content: center;
   z-index: 10;
   transition: background 0.18s, transform 0.18s;
-  box-shadow: 0 3px 14px rgba(0,0,0,0.45);
+  box-shadow: 0 3px 14px rgba(0, 0, 0, 0.45);
   /* sit outside the image */
-  margin-top: -2rem; /* offset the caption below */
+  margin-top: -2rem;
+  /* offset the caption below */
 }
 
 .modalArrow:hover {
@@ -417,8 +431,13 @@
   transform: translateY(-50%) scale(1.08);
 }
 
-.modalPrev { left: -1.4rem; }
-.modalNext { right: -1.4rem; }
+.modalPrev {
+  left: -1.4rem;
+}
+
+.modalNext {
+  right: -1.4rem;
+}
 
 /* Caption row */
 .modalCaption {
@@ -433,14 +452,14 @@
   font-family: 'Cinzel', serif;
   font-size: clamp(0.78rem, 1.5vw, 0.95rem);
   font-weight: 600;
-  color: rgba(255,255,255,0.9);
+  color: rgba(255, 255, 255, 0.9);
   letter-spacing: 0.05em;
 }
 
 .modalCounter {
   font-family: 'Cormorant Garamond', serif;
   font-size: clamp(0.75rem, 1.3vw, 0.88rem);
-  color: rgba(255,255,255,0.55);
+  color: rgba(255, 255, 255, 0.55);
   font-style: italic;
 }
 
@@ -462,7 +481,7 @@
   border-radius: 3px;
   overflow: hidden;
   cursor: pointer;
-  border: 2px solid rgba(255,255,255,0.15);
+  border: 2px solid rgba(255, 255, 255, 0.15);
   opacity: 0.55;
   transition: opacity 0.15s, border-color 0.15s;
   flex-shrink: 0;
@@ -510,8 +529,13 @@
     grid-template-rows: repeat(3, 1fr);
   }
 
-  .modalPrev { left: -0.8rem; }
-  .modalNext { right: -0.8rem; }
+  .modalPrev {
+    left: -0.8rem;
+  }
+
+  .modalNext {
+    right: -0.8rem;
+  }
 }
 
 /* ── 768px ── */
@@ -549,8 +573,13 @@
     max-width: 100%;
   }
 
-  .modalPrev { left: -0.4rem; }
-  .modalNext { right: -0.4rem; }
+  .modalPrev {
+    left: -0.4rem;
+  }
+
+  .modalNext {
+    right: -0.4rem;
+  }
 
   .modalImg {
     max-height: 56vw;
@@ -615,8 +644,13 @@
     font-size: 1.4rem;
   }
 
-  .modalPrev { left: 0.1rem; }
-  .modalNext { right: 0.1rem; }
+  .modalPrev {
+    left: 0.1rem;
+  }
+
+  .modalNext {
+    right: 0.1rem;
+  }
 }
 
 /* ── 380px — Small mobile ── */

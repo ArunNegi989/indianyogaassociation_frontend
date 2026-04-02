@@ -6,39 +6,126 @@ import Link from "next/link";
    CITY LINKS DATA
 ───────────────────────────────────────────── */
 const cityLinks: { name: string; href: string }[] = [
-  { name: "Jaipur", href: "/yoga-teacher-training/yoga-teacher-training-Jaipur" },
-  { name: "Mysore", href: "/yoga-teacher-training/yoga-teacher-training-Mysore" },
-  { name: "Haryana", href: "/yoga-teacher-training/yoga-teacher-training-Haryana" },
+  {
+    name: "Jaipur",
+    href: "/yoga-teacher-training/yoga-teacher-training-Jaipur",
+  },
+  {
+    name: "Mysore",
+    href: "/yoga-teacher-training/yoga-teacher-training-Mysore",
+  },
+  {
+    name: "Haryana",
+    href: "/yoga-teacher-training/yoga-teacher-training-Haryana",
+  },
   { name: "Agra", href: "/yoga-teacher-training/yoga-teacher-training-Agra" },
-  { name: "Mumbai", href: "/yoga-teacher-training/yoga-teacher-training-Mumbai" },
-  { name: "Coimbatore", href: "/yoga-teacher-training/yoga-teacher-training-Coimbatore" },
-  { name: "Uttrakhand", href: "/yoga-teacher-training/yoga-teacher-training-Uttrakhand" },
-  { name: "Varkala", href: "/yoga-teacher-training/yoga-teacher-training-Varkala" },
-  { name: "Gokarna", href: "/yoga-teacher-training/yoga-teacher-training-Gokarna" },
-  { name: "Tamil Nadu", href: "/yoga-teacher-training/yoga-teacher-training-Tamil-Nadu" },
+  {
+    name: "Mumbai",
+    href: "/yoga-teacher-training/yoga-teacher-training-Mumbai",
+  },
+  {
+    name: "Coimbatore",
+    href: "/yoga-teacher-training/yoga-teacher-training-Coimbatore",
+  },
+  {
+    name: "Uttrakhand",
+    href: "/yoga-teacher-training/yoga-teacher-training-Uttrakhand",
+  },
+  {
+    name: "Varkala",
+    href: "/yoga-teacher-training/yoga-teacher-training-Varkala",
+  },
+  {
+    name: "Gokarna",
+    href: "/yoga-teacher-training/yoga-teacher-training-Gokarna",
+  },
+  {
+    name: "Tamil Nadu",
+    href: "/yoga-teacher-training/yoga-teacher-training-Tamil-Nadu",
+  },
   { name: "Goa", href: "/yoga-teacher-training/yoga-teacher-training-Goa" },
   { name: "Kochi", href: "/yoga-teacher-training/yoga-teacher-training-Kochi" },
-  { name: "Munger", href: "/yoga-teacher-training/yoga-teacher-training-Munger" },
-  { name: "Dharamshala", href: "/yoga-teacher-training/yoga-teacher-training-Dharamshala" },
-  { name: "Lonavala", href: "/yoga-teacher-training/yoga-teacher-training-Lonavala" },
-  { name: "New Delhi", href: "/yoga-teacher-training/yoga-teacher-training-New-Delhi" },
-  { name: "Kerala", href: "/yoga-teacher-training/yoga-teacher-training-Kerala" },
-  { name: "Puducherry", href: "/yoga-teacher-training/yoga-teacher-training-Puducherry" },
-  { name: "Pushkar", href: "/yoga-teacher-training/yoga-teacher-training-Pushkar" },
-  { name: "Sikkim", href: "/yoga-teacher-training/yoga-teacher-training-Sikkim" },
-  { name: "Gurugram", href: "/yoga-teacher-training/yoga-teacher-training-Gurugram" },
+  {
+    name: "Munger",
+    href: "/yoga-teacher-training/yoga-teacher-training-Munger",
+  },
+  {
+    name: "Dharamshala",
+    href: "/yoga-teacher-training/yoga-teacher-training-Dharamshala",
+  },
+  {
+    name: "Lonavala",
+    href: "/yoga-teacher-training/yoga-teacher-training-Lonavala",
+  },
+  {
+    name: "New Delhi",
+    href: "/yoga-teacher-training/yoga-teacher-training-New-Delhi",
+  },
+  {
+    name: "Kerala",
+    href: "/yoga-teacher-training/yoga-teacher-training-Kerala",
+  },
+  {
+    name: "Puducherry",
+    href: "/yoga-teacher-training/yoga-teacher-training-Puducherry",
+  },
+  {
+    name: "Pushkar",
+    href: "/yoga-teacher-training/yoga-teacher-training-Pushkar",
+  },
+  {
+    name: "Sikkim",
+    href: "/yoga-teacher-training/yoga-teacher-training-Sikkim",
+  },
+  {
+    name: "Gurugram",
+    href: "/yoga-teacher-training/yoga-teacher-training-Gurugram",
+  },
   { name: "Pune", href: "/yoga-teacher-training/yoga-teacher-training-Pune" },
-  { name: "Chennai", href: "/yoga-teacher-training/yoga-teacher-training-Chennai" },
-  { name: "Varanasi", href: "/yoga-teacher-training/yoga-teacher-training-Varanasi" },
-  { name: "Maharashtra", href: "/yoga-teacher-training/yoga-teacher-training-Maharashtra" },
-  { name: "Arambol", href: "/yoga-teacher-training/yoga-teacher-training-Arambol" },
-  { name: "Thiruvananthapuram", href: "/yoga-teacher-training/yoga-teacher-training_Thiruvananthapuram" },
-  { name: "Kolkata", href: "/yoga-teacher-training/yoga-teacher-training-Kolkata" },
-  { name: "Rishikesh", href: "/yoga-teacher-training/yoga-teacher-training-Rishikesh" },
-  { name: "Himachal Pradesh", href: "/yoga-teacher-training/yoga-teacher-training-Himachal-Pradesh-1" },
-  { name: "Himachal Pradesh", href: "/yoga-teacher-training/yoga-teacher-training-Himachal-Pradesh-2" },
-  { name: "Bengaluru", href: "/yoga-teacher-training/yoga-teacher-training-Bengaluru" },
-  { name: "Auroville", href: "/yoga-teacher-training/yoga-teacher-training-Auroville" },
+  {
+    name: "Chennai",
+    href: "/yoga-teacher-training/yoga-teacher-training-Chennai",
+  },
+  {
+    name: "Varanasi",
+    href: "/yoga-teacher-training/yoga-teacher-training-Varanasi",
+  },
+  {
+    name: "Maharashtra",
+    href: "/yoga-teacher-training/yoga-teacher-training-Maharashtra",
+  },
+  {
+    name: "Arambol",
+    href: "/yoga-teacher-training/yoga-teacher-training-Arambol",
+  },
+  {
+    name: "Thiruvananthapuram",
+    href: "/yoga-teacher-training/yoga-teacher-training_Thiruvananthapuram",
+  },
+  {
+    name: "Kolkata",
+    href: "/yoga-teacher-training/yoga-teacher-training-Kolkata",
+  },
+  {
+    name: "Rishikesh",
+    href: "/yoga-teacher-training/yoga-teacher-training-Rishikesh",
+  },
+  {
+    name: "Himachal Pradesh",
+    href: "/yoga-teacher-training/yoga-teacher-training-Himachal-Pradesh-1",
+  },
+  {
+    name: "Himachal Pradesh",
+    href: "/yoga-teacher-training/yoga-teacher-training-Himachal-Pradesh-2",
+  },
+  {
+    name: "Bengaluru",
+    href: "/yoga-teacher-training/yoga-teacher-training-Bengaluru",
+  },
+  {
+    name: "Auroville",
+    href: "/yoga-teacher-training/yoga-teacher-training-Auroville",
+  },
 ];
 
 /* ─────────────────────────────────────────────
@@ -51,12 +138,13 @@ const YogaTrainingVarkala: React.FC = () => {
       <div className={styles.topBorder} />
 
       <div className={styles.container}>
-
         {/* ══════════════════════════════════════
             PAGE TITLE
         ══════════════════════════════════════ */}
         <div className={styles.pageHeader}>
-          <h1 className={styles.pageTitle}>Yoga Teacher Training Course in Varkala</h1>
+          <h1 className={styles.pageTitle}>
+            Yoga Teacher Training Course in Varkala
+          </h1>
           <div className={styles.titleUnderline}>
             <div className={styles.underlineLine} />
           </div>
@@ -79,21 +167,31 @@ const YogaTrainingVarkala: React.FC = () => {
             <h2 className={styles.headingSerif} style={{ textAlign: "center" }}>
               200 Hour Yoga Course in Varkala
             </h2>
-            <div className={styles.headingUnderline} style={{ display: "flex", justifyContent: "center" }}>
+            <div
+              className={styles.headingUnderline}
+              style={{ display: "flex", justifyContent: "center" }}
+            >
               <div className={styles.headingUnderlineLine} />
             </div>
             <p className={styles.bodyText}>
-              Rishikesh and Goa are home to AYM Yoga School campuses. We are a charitable
-              organization devoted to helping aspiring yoga teachers get the best possible
-              training as{" "}
-              <strong className={styles.boldLink}>YTT Varkala</strong>. At our yoga and
-              meditation institute in India, students have access to some of the world's most
-              revered yoga instructors and gurus to avail the{" "}
-              <strong className={styles.boldLink}>yoga teacher training Varkala</strong>. To
-              help with emotional distress, the AYM Yoga School also provides yoga therapy
-              retreats and yoga therapy teacher training. During your stay, the AYM Yoga School
-              facilities in Varkala will also be available if you wish to do a{" "}
-              <strong className={styles.boldLink}>yoga teacher training program in Varkala</strong>.
+              Rishikesh and Goa are home to AYM Yoga School campuses. We are a
+              charitable organization devoted to helping aspiring yoga teachers
+              get the best possible training as{" "}
+              <strong className={styles.boldLink}>YTT Varkala</strong>. At our
+              yoga and meditation institute in India, students have access to
+              some of the world's most revered yoga instructors and gurus to
+              avail the{" "}
+              <strong className={styles.boldLink}>
+                yoga teacher training Varkala
+              </strong>
+              . To help with emotional distress, the AYM Yoga School also
+              provides yoga therapy retreats and yoga therapy teacher training.
+              During your stay, the AYM Yoga School facilities in Varkala will
+              also be available if you wish to do a{" "}
+              <strong className={styles.boldLink}>
+                yoga teacher training program in Varkala
+              </strong>
+              .
             </p>
           </div>
         </div>
@@ -115,13 +213,17 @@ const YogaTrainingVarkala: React.FC = () => {
             <h2 className={styles.headingSerif} style={{ textAlign: "center" }}>
               Best Yoga School in Varkala
             </h2>
-            <div className={styles.headingUnderline} style={{ display: "flex", justifyContent: "center" }}>
+            <div
+              className={styles.headingUnderline}
+              style={{ display: "flex", justifyContent: "center" }}
+            >
               <div className={styles.headingUnderlineLine} />
             </div>
             <p className={styles.bodyText}>
-              Varkala is a lovely village in the southern Indian state of Kerala. The place is
-              ideal for yoga and meditation, with a serene environment spreading the boundaries.
-              Many tourists visit Kerala each year, particularly the Goa-like region near
+              Varkala is a lovely village in the southern Indian state of
+              Kerala. The place is ideal for yoga and meditation, with a serene
+              environment spreading the boundaries. Many tourists visit Kerala
+              each year, particularly the Goa-like region near
               Thiruvananthapuram.
             </p>
           </div>
@@ -142,17 +244,23 @@ const YogaTrainingVarkala: React.FC = () => {
           </div>
           <div className={styles.textWrap}>
             <h2 className={styles.headingSerif} style={{ textAlign: "center" }}>
-              Looking for Yoga Teacher Training in Varkala, AYM is the Best Option
+              Looking for Yoga Teacher Training in Varkala, AYM is the Best
+              Option
             </h2>
-            <div className={styles.headingUnderline} style={{ display: "flex", justifyContent: "center" }}>
+            <div
+              className={styles.headingUnderline}
+              style={{ display: "flex", justifyContent: "center" }}
+            >
               <div className={styles.headingUnderlineLine} />
             </div>
             <p className={styles.bodyText}>
-              Travellers will have a wonderful time experiencing all the Varkala has to offer.
-              Visit some of India's most famous historical sites, such as the Sivagiri Mutt,
-              Janadanswamy Temple, Achhuthengu Fort, etc. From the Varkala Lighthouse, you can
-              also see the waves of the Arabian Sea as they crash against the shore. Yoga and
-              meditation can be performed at the best level in a serene environment.
+              Travellers will have a wonderful time experiencing all the Varkala
+              has to offer. Visit some of India's most famous historical sites,
+              such as the Sivagiri Mutt, Janadanswamy Temple, Achhuthengu Fort,
+              etc. From the Varkala Lighthouse, you can also see the waves of
+              the Arabian Sea as they crash against the shore. Yoga and
+              meditation can be performed at the best level in a serene
+              environment.
             </p>
           </div>
         </div>
@@ -174,25 +282,36 @@ const YogaTrainingVarkala: React.FC = () => {
             <h2 className={styles.headingSerif} style={{ textAlign: "center" }}>
               200 hour yoga course in varkala - Best place for Yoga
             </h2>
-            <div className={styles.headingUnderline} style={{ display: "flex", justifyContent: "center" }}>
+            <div
+              className={styles.headingUnderline}
+              style={{ display: "flex", justifyContent: "center" }}
+            >
               <div className={styles.headingUnderlineLine} />
             </div>
             <p className={styles.bodyText}>
-              The AYM Yoga School in both Rishikesh and Goa is the best choice for anyone
-              seeking a safe and welcoming environment to study yoga and meditation and searching
-              for a{" "}
-              <strong className={styles.boldLink}>yoga teacher training course near me</strong>.
-              If you are a yoga practitioner or teacher, Varkala is considering a yoga retreat
-              in India. We are here to provide you with the finest advice and assistance
-              available. Our yoga instructors offer a{" "}
-              <strong className={styles.boldLink}>licensed yoga teacher training course, Varkala</strong>,
-              to lead you meditatively utilizing mantras, breathing techniques or Pranayama, and
-              a yoga prayer. Experts in education around the globe agree that what we've done is
-              genuinely exceptional. Our facilities and{" "}
-              <strong className={styles.boldLink}>Varkala yoga training course</strong> are
-              available to anyone, whether a local or a tourist. The Varkala International Yoga
-              certification is one of India's most sought-after certifications in yoga and is
-              globally acclaimed.
+              The AYM Yoga School in both Rishikesh and Goa is the best choice
+              for anyone seeking a safe and welcoming environment to study yoga
+              and meditation and searching for a{" "}
+              <strong className={styles.boldLink}>
+                yoga teacher training course near me
+              </strong>
+              . If you are a yoga practitioner or teacher, Varkala is
+              considering a yoga retreat in India. We are here to provide you
+              with the finest advice and assistance available. Our yoga
+              instructors offer a{" "}
+              <strong className={styles.boldLink}>
+                licensed yoga teacher training course, Varkala
+              </strong>
+              , to lead you meditatively utilizing mantras, breathing techniques
+              or Pranayama, and a yoga prayer. Experts in education around the
+              globe agree that what we've done is genuinely exceptional. Our
+              facilities and{" "}
+              <strong className={styles.boldLink}>
+                Varkala yoga training course
+              </strong>{" "}
+              are available to anyone, whether a local or a tourist. The Varkala
+              International Yoga certification is one of India's most
+              sought-after certifications in yoga and is globally acclaimed.
             </p>
           </div>
         </div>
@@ -217,18 +336,27 @@ const YogaTrainingVarkala: React.FC = () => {
             <h2 className={styles.headingSerif} style={{ textAlign: "center" }}>
               The Most Profound Yoga and Meditation Spot in Varkala
             </h2>
-            <div className={styles.headingUnderline} style={{ display: "flex", justifyContent: "center" }}>
+            <div
+              className={styles.headingUnderline}
+              style={{ display: "flex", justifyContent: "center" }}
+            >
               <div className={styles.headingUnderlineLine} />
             </div>
             <p className={styles.bodyText}>
-              Being one of the best yoga and meditation centres in Varkala, AYM Yoga School
-              offers one of the best{" "}
-              <strong className={styles.boldLink}>yoga teaching courses in Varkala</strong> that
-              teaches students how to practice yoga in a way that alleviates mental and emotional
-              suffering. Whether you want to learn yoga so that you may teach it or to unwind, we
-              have yoga teacher certification classes available in both Rishikesh and Goa,
+              Being one of the best yoga and meditation centres in Varkala, AYM
+              Yoga School offers one of the best{" "}
+              <strong className={styles.boldLink}>
+                yoga teaching courses in Varkala
+              </strong>{" "}
+              that teaches students how to practice yoga in a way that
+              alleviates mental and emotional suffering. Whether you want to
+              learn yoga so that you may teach it or to unwind, we have yoga
+              teacher certification classes available in both Rishikesh and Goa,
               offering{" "}
-              <strong className={styles.boldLink}>registered yoga teacher training courses in Varkala</strong>.
+              <strong className={styles.boldLink}>
+                registered yoga teacher training courses in Varkala
+              </strong>
+              .
             </p>
           </div>
         </div>
@@ -254,7 +382,6 @@ const YogaTrainingVarkala: React.FC = () => {
             <span className={styles.cityDot}>.</span>
           </div>
         </div>
-
       </div>
 
       {/* Bottom border */}

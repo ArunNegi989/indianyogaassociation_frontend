@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import styles from "@/assets/style/kundalini-yoga-teacher-training-in-rishikesh/Kundaliniyogattc.module.css";
 import HowToReach from "@/components/home/Howtoreach";
 import Image from "next/image";
-import api from "@/lib/api"; // your axios instance
+import api from "@/lib/api";
 
 /* ─────────────────────────────────────────
    TYPES
@@ -105,11 +105,9 @@ interface KundaliniSeat {
 ───────────────────────────────────────── */
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? "";
 
-/** Prepend base URL only when path starts with /uploads/ */
 const imgSrc = (path: string) =>
-  path?.startsWith("/uploads/") ? `${BASE_URL}${path}` : path ?? "";
+  path?.startsWith("/uploads/") ? `${BASE_URL}${path}` : (path ?? "");
 
-/** Format a Date string as "3rd Jan 2026" style */
 const fmtDate = (iso: string) => {
   const d = new Date(iso);
   const day = d.getDate();
@@ -117,10 +115,10 @@ const fmtDate = (iso: string) => {
     day % 10 === 1 && day !== 11
       ? "st"
       : day % 10 === 2 && day !== 12
-      ? "nd"
-      : day % 10 === 3 && day !== 13
-      ? "rd"
-      : "th";
+        ? "nd"
+        : day % 10 === 3 && day !== 13
+          ? "rd"
+          : "th";
   return `${day}${suffix} ${d.toLocaleString("en-US", { month: "short" })} ${d.getFullYear()}`;
 };
 
@@ -196,9 +194,32 @@ const ChakraSVG = ({
   color?: string;
 }) => (
   <svg viewBox="0 0 100 100" width={size} height={size} aria-hidden="true">
-    <circle cx="50" cy="50" r="46" fill="none" stroke={color} strokeWidth="1.2" />
-    <circle cx="50" cy="50" r="36" fill="none" stroke={color} strokeWidth="0.8" opacity="0.6" />
-    <circle cx="50" cy="50" r="20" fill="none" stroke={color} strokeWidth="1" opacity="0.8" />
+    <circle
+      cx="50"
+      cy="50"
+      r="46"
+      fill="none"
+      stroke={color}
+      strokeWidth="1.2"
+    />
+    <circle
+      cx="50"
+      cy="50"
+      r="36"
+      fill="none"
+      stroke={color}
+      strokeWidth="0.8"
+      opacity="0.6"
+    />
+    <circle
+      cx="50"
+      cy="50"
+      r="20"
+      fill="none"
+      stroke={color}
+      strokeWidth="1"
+      opacity="0.8"
+    />
     <circle cx="50" cy="50" r="8" fill={color} opacity="0.5" />
     {[0, 45, 90, 135, 180, 225, 270, 315].map((deg) => {
       const r = (deg * Math.PI) / 180;
@@ -251,9 +272,23 @@ const CornerOrnamentK = ({ pos }: { pos: "tl" | "tr" | "bl" | "br" }) => {
     br: "scale(-1,-1)",
   }[pos];
   return (
-    <svg viewBox="0 0 40 40" className={styles.kCornerOrn} style={{ transform: flip }}>
-      <path d="M2,2 L2,18 M2,2 L18,2" stroke="#b8860b" strokeWidth="1.5" fill="none" />
-      <path d="M2,2 Q8,8 16,2 Q8,8 2,16" stroke="#b8860b" strokeWidth="0.7" fill="none" />
+    <svg
+      viewBox="0 0 40 40"
+      className={styles.kCornerOrn}
+      style={{ transform: flip }}
+    >
+      <path
+        d="M2,2 L2,18 M2,2 L18,2"
+        stroke="#b8860b"
+        strokeWidth="1.5"
+        fill="none"
+      />
+      <path
+        d="M2,2 Q8,8 16,2 Q8,8 2,16"
+        stroke="#b8860b"
+        strokeWidth="0.7"
+        fill="none"
+      />
       <circle cx="2" cy="2" r="2" fill="#b8860b" opacity="0.7" />
       <circle cx="10" cy="10" r="1.5" fill="#b8860b" opacity="0.4" />
     </svg>
@@ -332,7 +367,8 @@ const PageSkeleton = () => (
           style={{
             height: h,
             borderRadius: 8,
-            background: "linear-gradient(90deg,#f0e8d8 25%,#e8dcc8 50%,#f0e8d8 75%)",
+            background:
+              "linear-gradient(90deg,#f0e8d8 25%,#e8dcc8 50%,#f0e8d8 75%)",
             backgroundSize: "400% 100%",
             animation: "shimmer 1.4s ease infinite",
           }}
@@ -417,16 +453,36 @@ export default function KundaliniYogaTTC() {
     <div className={styles.page}>
       {/* ── Fixed Mandala Decorations ── */}
       <div className={styles.mandalaTL} aria-hidden="true">
-        <MandalaSVG size={380} color1="#e07b00" color2="#d4a017" strokeW={0.45} />
+        <MandalaSVG
+          size={380}
+          color1="#e07b00"
+          color2="#d4a017"
+          strokeW={0.45}
+        />
       </div>
       <div className={styles.mandalaBR} aria-hidden="true">
-        <MandalaSVG size={340} color1="#d4a017" color2="#e07b00" strokeW={0.45} />
+        <MandalaSVG
+          size={340}
+          color1="#d4a017"
+          color2="#e07b00"
+          strokeW={0.45}
+        />
       </div>
       <div className={styles.mandalaTR} aria-hidden="true">
-        <MandalaSVG size={200} color1="#e07b00" color2="#d4a017" strokeW={0.6} />
+        <MandalaSVG
+          size={200}
+          color1="#e07b00"
+          color2="#d4a017"
+          strokeW={0.6}
+        />
       </div>
       <div className={styles.mandalaBL} aria-hidden="true">
-        <MandalaSVG size={200} color1="#d4a017" color2="#e07b00" strokeW={0.6} />
+        <MandalaSVG
+          size={200}
+          color1="#d4a017"
+          color2="#e07b00"
+          strokeW={0.6}
+        />
       </div>
       <div className={styles.chakraGlow} aria-hidden="true" />
 
@@ -435,7 +491,6 @@ export default function KundaliniYogaTTC() {
       ══════════════════════════════════════ */}
       <section className={styles.heroSection}>
         {content.heroImage && (
-          // eslint-disable-next-line @next/next/no-img-element
           <img
             src={imgSrc(content.heroImage)}
             alt="Yoga Students Group"
@@ -486,7 +541,9 @@ export default function KundaliniYogaTTC() {
           {/* Benefits */}
           <div className={`${styles.vintageCard} mt-4`}>
             <span className={styles.cardCorner}>✦</span>
-            <h2 className={styles.sectionTitleCenter}>{content.benefitsTitle}</h2>
+            <h2 className={styles.sectionTitleCenter}>
+              {content.benefitsTitle}
+            </h2>
             <OmDivider />
             {content.benefitsIntro1 && (
               <p className={styles.bodyPara}>{content.benefitsIntro1}</p>
@@ -507,7 +564,9 @@ export default function KundaliniYogaTTC() {
           {/* Course Highlights */}
           <div className={`${styles.vintageCard} mt-4`}>
             <span className={styles.cardCorner}>✦</span>
-            <h2 className={styles.sectionTitleCenter}>{content.highlightsTitle}</h2>
+            <h2 className={styles.sectionTitleCenter}>
+              {content.highlightsTitle}
+            </h2>
             <OmDivider />
             {content.highlightsIntro && (
               <p className={styles.bodyPara}>{content.highlightsIntro}</p>
@@ -518,7 +577,9 @@ export default function KundaliniYogaTTC() {
                   <div className={styles.highlightItem}>
                     <div className={styles.highlightDot} />
                     <div>
-                      <strong className={styles.highlightTitle}>{h.title}:</strong>
+                      <strong className={styles.highlightTitle}>
+                        {h.title}:
+                      </strong>
                       <span className={styles.highlightDesc}> {h.desc}</span>
                     </div>
                   </div>
@@ -536,20 +597,31 @@ export default function KundaliniYogaTTC() {
         <div className="container px-3 px-md-4">
           <div className={styles.syllabusWrap}>
             <div className={styles.syllabusHeader}>
-              <h2 className={styles.syllabusBigTitle}>{content.syllabusBigTitle}</h2>
+              <h2 className={styles.syllabusBigTitle}>
+                {content.syllabusBigTitle}
+              </h2>
               <p className={styles.syllabusSchool}>{content.syllabusSchool}</p>
             </div>
             <div className={styles.courseOverview}>
-              <h3 className={styles.overviewTitle}>{content.courseOverviewTitle}</h3>
+              <h3 className={styles.overviewTitle}>
+                {content.courseOverviewTitle}
+              </h3>
               <div
                 className={styles.bodyPara}
                 style={{ marginBottom: 0 }}
-                dangerouslySetInnerHTML={{ __html: content.courseOverviewPara ?? "" }}
+                dangerouslySetInnerHTML={{
+                  __html: content.courseOverviewPara ?? "",
+                }}
               />
             </div>
             <div className={styles.accordionWrap}>
               {content.syllabusModules?.map((item, i) => (
-                <AccordionItem key={item.id} num={i + 1} title={item.title} items={item.items} />
+                <AccordionItem
+                  key={item.id}
+                  num={i + 1}
+                  title={item.title}
+                  items={item.items}
+                />
               ))}
             </div>
             <div className={styles.readingBox}>
@@ -583,7 +655,9 @@ export default function KundaliniYogaTTC() {
           {/* Eligibility */}
           <div className={styles.vintageCard}>
             <span className={styles.cardCorner}>✦</span>
-            <h2 className={styles.sectionTitleCenter}>{content.eligibilityTitle}</h2>
+            <h2 className={styles.sectionTitleCenter}>
+              {content.eligibilityTitle}
+            </h2>
             <OmDivider />
             {content.eligibilityParagraphs?.map((para, i) => (
               <div
@@ -597,7 +671,9 @@ export default function KundaliniYogaTTC() {
           {/* Location */}
           <div className={`${styles.vintageCard} mt-4`}>
             <span className={styles.cardCorner}>✦</span>
-            <h2 className={styles.sectionTitleCenter}>{content.locationTitle}</h2>
+            <h2 className={styles.sectionTitleCenter}>
+              {content.locationTitle}
+            </h2>
             <OmDivider />
             {content.locationParagraphs?.map((para, i) => (
               <div
@@ -611,12 +687,16 @@ export default function KundaliniYogaTTC() {
           {/* Facilities */}
           <div className={`${styles.vintageCard} mt-4`}>
             <span className={styles.cardCorner}>✦</span>
-            <h2 className={styles.sectionTitleCenter}>{content.facilitiesTitle}</h2>
+            <h2 className={styles.sectionTitleCenter}>
+              {content.facilitiesTitle}
+            </h2>
             <OmDivider />
             {content.facilitiesIntroRich ? (
               <div
                 className={styles.bodyPara}
-                dangerouslySetInnerHTML={{ __html: content.facilitiesIntroRich }}
+                dangerouslySetInnerHTML={{
+                  __html: content.facilitiesIntroRich,
+                }}
               />
             ) : (
               content.facilitiesIntro && (
@@ -644,7 +724,9 @@ export default function KundaliniYogaTTC() {
         <div className="container px-3 px-md-4">
           <div className="row g-4 align-items-center">
             <div className="col-12 col-lg-6">
-              <h2 className={styles.sectionTitleLeft}>{content.scheduleSectionTitle}</h2>
+              <h2 className={styles.sectionTitleLeft}>
+                {content.scheduleSectionTitle}
+              </h2>
               <div className={styles.underlineLeft} />
               <div className={styles.scheduleList}>
                 {content.scheduleItems?.map((s) => (
@@ -661,7 +743,6 @@ export default function KundaliniYogaTTC() {
                 {content.schedImg1 && (
                   <div className="col-6">
                     <div className={styles.schedImgWrap}>
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={imgSrc(content.schedImg1)}
                         alt="Daily schedule"
@@ -674,7 +755,6 @@ export default function KundaliniYogaTTC() {
                 {content.schedImg2 && (
                   <div className="col-6">
                     <div className={styles.schedImgWrap}>
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={imgSrc(content.schedImg2)}
                         alt="Daily practice"
@@ -712,7 +792,6 @@ export default function KundaliniYogaTTC() {
           </div>
           {content.classImage && (
             <div className={styles.classImgWrap}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={imgSrc(content.classImage)}
                 alt="AYM Yoga School Kundalini class in Rishikesh"
@@ -727,14 +806,18 @@ export default function KundaliniYogaTTC() {
       {/* ══════════════════════════════════════
           SECTION 8 — AVAILABILITY TABLE (from /kundalini-seats)
       ══════════════════════════════════════ */}
-      <section className={`${styles.section} ${styles.sectionWarm}`} id="schedule">
+      <section
+        className={`${styles.section} ${styles.sectionWarm}`}
+        id="schedule"
+      >
         <div className="container px-3 px-md-4">
           <h2 className={styles.sectionTitleCenter}>
             Availability Of The 200 Hour Kundalini Yoga TTC 2026
           </h2>
           <OmDivider />
           <p className={styles.kCenterSubtext}>
-            Choose your preferred accommodation. Prices include tuition and meals.
+            Choose your preferred accommodation. Prices include tuition and
+            meals.
           </p>
 
           <div className={styles.kTableContainer}>
@@ -758,7 +841,14 @@ export default function KundaliniYogaTTC() {
                 <tbody>
                   {seats.length === 0 ? (
                     <tr>
-                      <td colSpan={6} style={{ textAlign: "center", padding: "2rem", color: "#888" }}>
+                      <td
+                        colSpan={6}
+                        style={{
+                          textAlign: "center",
+                          padding: "2rem",
+                          color: "#888",
+                        }}
+                      >
                         No batches available at the moment.
                       </td>
                     </tr>
@@ -769,24 +859,36 @@ export default function KundaliniYogaTTC() {
                       return (
                         <tr key={row._id}>
                           <td>
-                            <span className={styles.kDateCal}>📅</span> {dateLabel}
+                            <span className={styles.kDateCal}>📅</span>{" "}
+                            {dateLabel}
                           </td>
                           <td>{row.usdFee}</td>
                           <td>{row.inrFee}</td>
                           <td className={styles.kRoomPriceCell}>
                             Dorm{" "}
-                            <strong className={styles.kPriceAmt}>${row.dormPrice}</strong> |{" "}
-                            Twin{" "}
-                            <strong className={styles.kPriceAmt}>${row.twinPrice}</strong> |{" "}
-                            Private{" "}
-                            <strong className={styles.kPriceAmt}>${row.privatePrice}</strong>
+                            <strong className={styles.kPriceAmt}>
+                              ${row.dormPrice}
+                            </strong>{" "}
+                            | Twin{" "}
+                            <strong className={styles.kPriceAmt}>
+                              ${row.twinPrice}
+                            </strong>{" "}
+                            | Private{" "}
+                            <strong className={styles.kPriceAmt}>
+                              ${row.privatePrice}
+                            </strong>
                           </td>
                           <td>
-                            <SeatsCell booked={row.bookedSeats} total={row.totalSeats} />
+                            <SeatsCell
+                              booked={row.bookedSeats}
+                              total={row.totalSeats}
+                            />
                           </td>
                           <td>
                             {isFull ? (
-                              <span className={styles.kApplyDisabled}>Apply Now</span>
+                              <span className={styles.kApplyDisabled}>
+                                Apply Now
+                              </span>
                             ) : (
                               <a
                                 href={`/yoga-registration?type=kundalini-200hr&batch=${i + 1}`}
@@ -827,7 +929,9 @@ export default function KundaliniYogaTTC() {
         <div className="container px-3 px-md-4">
           <div className={styles.vintageCard}>
             <span className={styles.cardCorner}>✦</span>
-            <h2 className={styles.sectionTitleCenter}>{content.whyRishikeshTitle}</h2>
+            <h2 className={styles.sectionTitleCenter}>
+              {content.whyRishikeshTitle}
+            </h2>
             <OmDivider />
 
             {content.spiritualTitle && (

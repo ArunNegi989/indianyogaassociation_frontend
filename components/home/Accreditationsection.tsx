@@ -39,7 +39,7 @@ function SmartVideo({ src, poster }: { src: string; poster?: string }) {
         if (entry.isIntersecting) video.play().catch(() => {});
         else video.pause();
       },
-      { threshold: 0.4 }
+      { threshold: 0.4 },
     );
     observer.observe(video);
     return () => observer.disconnect();
@@ -321,8 +321,7 @@ export const AccreditationSection: React.FC = () => {
               <p className={styles.para}>{data.immersePara1}</p>
               <p className={styles.para}>{data.immersePara2}</p>
               <a href={data.immerseCtaLink} className={styles.knowMoreBtn}>
-                {data.immerseCtaText}{" "}
-                <span className={styles.btnArrow}>→</span>
+                {data.immerseCtaText} <span className={styles.btnArrow}>→</span>
               </a>
             </div>
           </div>
@@ -345,7 +344,6 @@ export const AccreditationSection: React.FC = () => {
 
           {/* ── 3-2-1 Pyramid Grid ── */}
           <div className={styles.certsGrid}>
-
             {/* Row 1 — 3 cards */}
             <div className={styles.certsRow}>
               {data.certs.slice(0, 3).map((cert: any, index: number) => (
@@ -417,7 +415,6 @@ export const AccreditationSection: React.FC = () => {
                 </div>
               ))}
             </div>
-
           </div>
           {/* ── End Pyramid Grid ── */}
 
@@ -446,10 +443,7 @@ export const AccreditationSection: React.FC = () => {
           aria-modal="true"
           aria-label="Certificate preview"
         >
-          <div
-            className={styles.modalBox}
-            onClick={(e) => e.stopPropagation()}
-          >
+          <div className={styles.modalBox} onClick={(e) => e.stopPropagation()}>
             <button
               className={styles.modalClose}
               onClick={() => setModalImg(null)}
@@ -486,7 +480,9 @@ export const AccreditationSection: React.FC = () => {
                 onClick={() => {
                   const idx = data.certs.findIndex((c: any) => c === modalImg);
                   setModalImg(
-                    data.certs[(idx - 1 + data.certs.length) % data.certs.length]
+                    data.certs[
+                      (idx - 1 + data.certs.length) % data.certs.length
+                    ],
                   );
                 }}
               >

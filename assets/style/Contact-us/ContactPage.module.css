@@ -70,10 +70,28 @@
   pointer-events: none;
 }
 
-.tl { top: 18px; left: 18px; }
-.tr { top: 18px; right: 18px; transform: scaleX(-1); }
-.bl { bottom: 18px; left: 18px; transform: scaleY(-1); }
-.br { bottom: 18px; right: 18px; transform: scale(-1); }
+.tl {
+  top: 18px;
+  left: 18px;
+}
+
+.tr {
+  top: 18px;
+  right: 18px;
+  transform: scaleX(-1);
+}
+
+.bl {
+  bottom: 18px;
+  left: 18px;
+  transform: scaleY(-1);
+}
+
+.br {
+  bottom: 18px;
+  right: 18px;
+  transform: scale(-1);
+}
 
 /* ── WATERMARK ── */
 .watermark {
@@ -103,10 +121,8 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: repeating-linear-gradient(
-    45deg, transparent, transparent 8px,
-    rgba(255, 255, 255, 0.02) 8px, rgba(255, 255, 255, 0.02) 9px
-  );
+  background: repeating-linear-gradient(45deg, transparent, transparent 8px,
+      rgba(255, 255, 255, 0.02) 8px, rgba(255, 255, 255, 0.02) 9px);
 }
 
 .schoolName {
@@ -165,8 +181,13 @@
 }
 
 @keyframes omGlow {
-  from { text-shadow: 0 0 10px rgba(184, 134, 11, 0.3); }
-  to   { text-shadow: 0 0 25px rgba(184, 134, 11, 0.7); }
+  from {
+    text-shadow: 0 0 10px rgba(184, 134, 11, 0.3);
+  }
+
+  to {
+    text-shadow: 0 0 25px rgba(184, 134, 11, 0.7);
+  }
 }
 
 /* ── SECTION TITLES ── */
@@ -495,6 +516,7 @@
   .grid {
     grid-template-columns: 1fr;
   }
+
   .reachGrid {
     grid-template-columns: 1fr;
   }
@@ -504,16 +526,20 @@
   .inner {
     padding: 2rem 1.5rem;
   }
+
   .schoolName {
     font-size: 1.1rem;
   }
+
   .sectionTitle {
     font-size: 1.5rem;
   }
+
   .topBand,
   .footerBand {
     padding: 1.2rem 1.5rem;
   }
+
   .watermark {
     font-size: 10rem;
   }

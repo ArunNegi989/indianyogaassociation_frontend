@@ -38,11 +38,9 @@ const Divider: React.FC = () => (
   </div>
 );
 
-// ---- Placeholder image util ----
 const imgPlaceholder = (label: string, bg = "4a7c59") =>
   `https://placehold.co/400x300/${bg}/ffffff?text=${encodeURIComponent(label)}`;
 
-// ---- Collage images (replace src with actual images) ----
 const collageImages = [
   {
     src: imgPlaceholder("Art of Living", "2e7d4f"),
@@ -124,7 +122,6 @@ const ashramPhotos = [
 const YogaAshrams: React.FC = () => {
   return (
     <div className={styles.pageWrapper}>
-      {/* ===== HERO / TITLE ===== */}
       <section className={styles.heroSection}>
         <div className="container-fluid px-0">
           <h1 className={styles.mainTitle}>Yoga Ashrams in India</h1>

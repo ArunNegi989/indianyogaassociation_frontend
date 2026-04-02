@@ -84,7 +84,7 @@ interface YogaTTCData {
 const getImageSrc = (
   image?: string,
   imgUrl?: string,
-  fallback?: string
+  fallback?: string,
 ): string => {
   if (image && image.startsWith("/uploads/")) {
     return `${process.env.NEXT_PUBLIC_API_URL}${image}`;
@@ -184,9 +184,32 @@ const ChakraSVG = ({
   color?: string;
 }) => (
   <svg viewBox="0 0 100 100" width={size} height={size} aria-hidden="true">
-    <circle cx="50" cy="50" r="46" fill="none" stroke={color} strokeWidth="1.2" />
-    <circle cx="50" cy="50" r="32" fill="none" stroke={color} strokeWidth="0.8" opacity="0.6" />
-    <circle cx="50" cy="50" r="18" fill="none" stroke={color} strokeWidth="1" opacity="0.8" />
+    <circle
+      cx="50"
+      cy="50"
+      r="46"
+      fill="none"
+      stroke={color}
+      strokeWidth="1.2"
+    />
+    <circle
+      cx="50"
+      cy="50"
+      r="32"
+      fill="none"
+      stroke={color}
+      strokeWidth="0.8"
+      opacity="0.6"
+    />
+    <circle
+      cx="50"
+      cy="50"
+      r="18"
+      fill="none"
+      stroke={color}
+      strokeWidth="1"
+      opacity="0.8"
+    />
     <circle cx="50" cy="50" r="7" fill={color} opacity="0.45" />
     {[0, 45, 90, 135, 180, 225, 270, 315].map((deg) => {
       const r = (deg * Math.PI) / 180;
@@ -256,11 +279,16 @@ const QuoteCard = ({ card }: { card: QuoteCard }) => {
   const src = getImageSrc(
     card.image,
     card.imgUrl,
-    "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=700&q=80"
+    "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=700&q=80",
   );
   return (
     <div className={styles.quoteImgCard}>
-      <img src={src} alt={card.imgAlt} className={styles.quoteImg} loading="lazy" />
+      <img
+        src={src}
+        alt={card.imgAlt}
+        className={styles.quoteImg}
+        loading="lazy"
+      />
       <div className={styles.quoteOverlay}>
         <span className={styles.quoteBar} />
         <p className={styles.quoteCaption}>{card.quote}</p>
@@ -274,7 +302,7 @@ const CourseCardComp = ({ card }: { card: CourseCard }) => {
   const src = getImageSrc(
     card.image,
     card.imgUrl,
-    "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&q=80"
+    "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&q=80",
   );
   return (
     <div className={styles.courseCard}>
@@ -308,8 +336,23 @@ const CourseCardComp = ({ card }: { card: CourseCard }) => {
 
 /* ─── LOADING SKELETON ─── */
 const LoadingSkeleton = () => (
-  <div className={styles.page} style={{ minHeight: "60vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
-    <div style={{ textAlign: "center", color: "#e07b00", fontSize: "1.2rem", opacity: 0.7 }}>
+  <div
+    className={styles.page}
+    style={{
+      minHeight: "60vh",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+    }}
+  >
+    <div
+      style={{
+        textAlign: "center",
+        color: "#e07b00",
+        fontSize: "1.2rem",
+        opacity: 0.7,
+      }}
+    >
       <ChakraSVG size={48} color="#e07b00" />
       <p style={{ marginTop: "1rem", fontFamily: "serif" }}>Loading...</p>
     </div>
@@ -345,7 +388,10 @@ export default function YogaTTCIndia() {
   if (loading) return <LoadingSkeleton />;
   if (error || !data) {
     return (
-      <div className={styles.page} style={{ padding: "4rem", textAlign: "center", color: "#e07b00" }}>
+      <div
+        className={styles.page}
+        style={{ padding: "4rem", textAlign: "center", color: "#e07b00" }}
+      >
         <p>{error || "Something went wrong."}</p>
       </div>
     );
@@ -358,10 +404,10 @@ export default function YogaTTCIndia() {
 
   /* ── Rishikesh & Goa location data ── */
   const rishikeshLoc = data.locations?.find((l) =>
-    l.name?.toLowerCase().includes("rishikesh")
+    l.name?.toLowerCase().includes("rishikesh"),
   );
   const goaLoc = data.locations?.find((l) =>
-    l.name?.toLowerCase().includes("goa")
+    l.name?.toLowerCase().includes("goa"),
   );
 
   return (
@@ -447,7 +493,9 @@ export default function YogaTTCIndia() {
           )}
 
           {/* YTT Through AYM */}
-          {(data.yytTitle || data.yytPara || (data.locations && data.locations.length > 0)) && (
+          {(data.yytTitle ||
+            data.yytPara ||
+            (data.locations && data.locations.length > 0)) && (
             <div className={`${styles.vintageCard} mt-4`}>
               <span className={styles.cardCorner}>✦</span>
               {data.yytTitle && (
@@ -466,7 +514,10 @@ export default function YogaTTCIndia() {
                     <div key={loc._id || i} className="col-12 col-md-6">
                       <div className={styles.locationCard}>
                         <div className={styles.locationIcon}>
-                          <ChakraSVG size={36} color={i === 0 ? "#e07b00" : "#d4a017"} />
+                          <ChakraSVG
+                            size={36}
+                            color={i === 0 ? "#e07b00" : "#d4a017"}
+                          />
                         </div>
                         <div>
                           <h3 className={styles.locationName}>{loc.name}</h3>
@@ -488,13 +539,19 @@ export default function YogaTTCIndia() {
       <section className={`${styles.section} ${styles.sectionWarm}`}>
         <div className="container px-3 px-md-4">
           {/* Rishikesh detail */}
-          {(data.rishikeshTitle || data.rishikeshDetailPara || (data.rishikeshParagraphs && data.rishikeshParagraphs.length > 0)) && (
+          {(data.rishikeshTitle ||
+            data.rishikeshDetailPara ||
+            (data.rishikeshParagraphs &&
+              data.rishikeshParagraphs.length > 0)) && (
             <div className={styles.locationDetail}>
               {data.rishikeshTitle && (
-                <h2 className={styles.locationDetailTitle}>{data.rishikeshTitle}</h2>
+                <h2 className={styles.locationDetailTitle}>
+                  {data.rishikeshTitle}
+                </h2>
               )}
               <div className={styles.locationDetailLine} />
-              {data.rishikeshParagraphs && data.rishikeshParagraphs.length > 0 ? (
+              {data.rishikeshParagraphs &&
+              data.rishikeshParagraphs.length > 0 ? (
                 data.rishikeshParagraphs.map((p, i) => (
                   <div
                     key={i}
@@ -514,7 +571,9 @@ export default function YogaTTCIndia() {
           )}
 
           {/* Goa detail */}
-          {(data.goaTitle || data.goaDetailPara || (data.goaParagraphs && data.goaParagraphs.length > 0)) && (
+          {(data.goaTitle ||
+            data.goaDetailPara ||
+            (data.goaParagraphs && data.goaParagraphs.length > 0)) && (
             <div className={styles.locationDetail}>
               {data.goaTitle && (
                 <h2 className={styles.locationDetailTitle}>{data.goaTitle}</h2>

@@ -70,15 +70,40 @@ const flights: ScheduleRow[] = [
 ];
 
 const trains: ScheduleRow[] = [
-  { col1: "Dehradun Shatabdi", col2: "06:45 AM", col3: "11:25 AM", col4: "Haridwar" },
-  { col1: "Mussoorie Express", col2: "10:00 PM", col3: "05:30 AM", col4: "Haridwar" },
-  { col1: "Jan Shatabdi Exp.", col2: "03:20 PM", col3: "09:00 PM", col4: "Haridwar" },
-  { col1: "Nanda Devi Exp.", col2: "11:50 PM", col3: "05:10 AM", col4: "Haridwar" },
+  {
+    col1: "Dehradun Shatabdi",
+    col2: "06:45 AM",
+    col3: "11:25 AM",
+    col4: "Haridwar",
+  },
+  {
+    col1: "Mussoorie Express",
+    col2: "10:00 PM",
+    col3: "05:30 AM",
+    col4: "Haridwar",
+  },
+  {
+    col1: "Jan Shatabdi Exp.",
+    col2: "03:20 PM",
+    col3: "09:00 PM",
+    col4: "Haridwar",
+  },
+  {
+    col1: "Nanda Devi Exp.",
+    col2: "11:50 PM",
+    col3: "05:10 AM",
+    col4: "Haridwar",
+  },
 ];
 
 const buses: ScheduleRow[] = [
   { col1: "Volvo AC", col2: "06:00 AM", col3: "11:30 AM", col4: "AC" },
-  { col1: "Sleeper Coach", col2: "09:00 PM", col3: "04:00 AM", col4: "Sleeper" },
+  {
+    col1: "Sleeper Coach",
+    col2: "09:00 PM",
+    col3: "04:00 AM",
+    col4: "Sleeper",
+  },
   { col1: "AC Seater", col2: "02:00 PM", col3: "07:30 PM", col4: "AC" },
   { col1: "Deluxe Bus", col2: "11:00 PM", col3: "05:30 AM", col4: "Deluxe" },
 ];
@@ -107,18 +132,28 @@ const WhatsAppIcon: React.FC = () => (
   </svg>
 );
 
-function ScheduleTable({ headers, rows }: ScheduleTableProps): React.ReactElement {
+function ScheduleTable({
+  headers,
+  rows,
+}: ScheduleTableProps): React.ReactElement {
   return (
     <div className={styles.scheduleTable}>
       <div className={styles.scheduleHeader}>
         {headers.map((h) => (
-          <span key={h} className={styles.scheduleHeaderCell}>{h}</span>
+          <span key={h} className={styles.scheduleHeaderCell}>
+            {h}
+          </span>
         ))}
       </div>
       {rows.map((row, i) => (
-        <div key={i} className={`${styles.scheduleRow} ${i % 2 !== 0 ? styles.scheduleRowAlt : ""}`}>
+        <div
+          key={i}
+          className={`${styles.scheduleRow} ${i % 2 !== 0 ? styles.scheduleRowAlt : ""}`}
+        >
           {Object.values(row).map((cell, j) => (
-            <span key={j} className={styles.scheduleCell}>{cell}</span>
+            <span key={j} className={styles.scheduleCell}>
+              {cell}
+            </span>
           ))}
         </div>
       ))}
@@ -126,21 +161,46 @@ function ScheduleTable({ headers, rows }: ScheduleTableProps): React.ReactElemen
   );
 }
 
-function TravelCard({ icon, title, subtitle, desc, headers, rows, btnText, btnHref, linkText, linkHref }: TravelCardProps): React.ReactElement {
+function TravelCard({
+  icon,
+  title,
+  subtitle,
+  desc,
+  headers,
+  rows,
+  btnText,
+  btnHref,
+  linkText,
+  linkHref,
+}: TravelCardProps): React.ReactElement {
   return (
     <article className={styles.travelCard}>
       <div className={styles.travelHeader}>
-        <div className={styles.iconCircle} aria-hidden="true">{icon}</div>
+        <div className={styles.iconCircle} aria-hidden="true">
+          {icon}
+        </div>
         <div>
           <h3 className={styles.travelTitle}>{title}</h3>
           <p className={styles.travelSubtitle}>{subtitle}</p>
         </div>
       </div>
-      <p className={styles.travelDesc} dangerouslySetInnerHTML={{ __html: desc }} />
+      <p
+        className={styles.travelDesc}
+        dangerouslySetInnerHTML={{ __html: desc }}
+      />
       <ScheduleTable headers={headers} rows={rows} />
       <div className={styles.cardActions}>
-        <a href={btnHref} target="_blank" rel="noopener noreferrer" className={styles.btnPrimary}>{btnText}</a>
-        <a href={linkHref} className={styles.linkSecondary}>{linkText} →</a>
+        <a
+          href={btnHref}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={styles.btnPrimary}
+        >
+          {btnText}
+        </a>
+        <a href={linkHref} className={styles.linkSecondary}>
+          {linkText} →
+        </a>
       </div>
     </article>
   );
@@ -153,18 +213,35 @@ function StepIndicator({ current }: { current: number }): React.ReactElement {
     <div className={styles.stepIndicator}>
       {STEPS.map((label, i) => (
         <div key={i} className={styles.stepItem}>
-          <div className={`${styles.stepCircle} ${i < current ? styles.stepDone : i === current ? styles.stepActive : styles.stepPending}`}>
+          <div
+            className={`${styles.stepCircle} ${i < current ? styles.stepDone : i === current ? styles.stepActive : styles.stepPending}`}
+          >
             {i < current ? (
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="3"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
                 <polyline points="20 6 9 17 4 12" />
               </svg>
             ) : (
               <span>{i + 1}</span>
             )}
           </div>
-          <span className={`${styles.stepLabel} ${i === current ? styles.stepLabelActive : ""}`}>{label}</span>
+          <span
+            className={`${styles.stepLabel} ${i === current ? styles.stepLabelActive : ""}`}
+          >
+            {label}
+          </span>
           {i < STEPS.length - 1 && (
-            <div className={`${styles.stepConnector} ${i < current ? styles.stepConnectorDone : ""}`} />
+            <div
+              className={`${styles.stepConnector} ${i < current ? styles.stepConnectorDone : ""}`}
+            />
           )}
         </div>
       ))}
@@ -234,7 +311,11 @@ export default function HowToReach(): React.ReactElement {
         newErrors.serviceType = "Please select a service type";
       }
 
-      if (form.pickupLocation && form.pickupLocation === "Other" && !form.pickupLocation.trim()) {
+      if (
+        form.pickupLocation &&
+        form.pickupLocation === "Other" &&
+        !form.pickupLocation.trim()
+      ) {
         newErrors.pickupLocation = "Please specify pickup location";
       }
 
@@ -271,7 +352,9 @@ export default function HowToReach(): React.ReactElement {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>): void => {
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
+  ): void => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
     // Clear error for this field when user starts typing
     if (errors[e.target.name as keyof FormErrors]) {
@@ -309,15 +392,29 @@ export default function HowToReach(): React.ReactElement {
     setPickupOpen(false);
     setErrors({});
     setForm({
-      fullName: "", email: "", phone: "", altPhone: "",
-      pickupLocation: "", dropLocation: "", arrivalDate: "",
-      arrivalTime: "", guests: "", instructions: "", serviceType: "",
+      fullName: "",
+      email: "",
+      phone: "",
+      altPhone: "",
+      pickupLocation: "",
+      dropLocation: "",
+      arrivalDate: "",
+      arrivalTime: "",
+      guests: "",
+      instructions: "",
+      serviceType: "",
     });
   };
 
   return (
-    <section className={styles.reachSection} aria-label="How to Reach Indian Yoga Association" id="how-to-reach">
-      <div className={styles.omWatermark} aria-hidden="true">ॐ</div>
+    <section
+      className={styles.reachSection}
+      aria-label="How to Reach Indian Yoga Association"
+      id="how-to-reach"
+    >
+      <div className={styles.omWatermark} aria-hidden="true">
+        ॐ
+      </div>
       <div className={styles.topBorder} />
 
       <div className={styles.container}>
@@ -418,7 +515,11 @@ export default function HowToReach(): React.ReactElement {
             className={`${styles.pickupTrigger} ${pickupOpen ? styles.pickupTriggerOpen : ""}`}
             onClick={() => {
               setPickupOpen((prev) => !prev);
-              if (!pickupOpen) { setStep(0); setSubmitted(false); setErrors({}); }
+              if (!pickupOpen) {
+                setStep(0);
+                setSubmitted(false);
+                setErrors({});
+              }
             }}
             role="button"
             tabIndex={0}
@@ -427,18 +528,42 @@ export default function HowToReach(): React.ReactElement {
           >
             <div className={styles.pickupTriggerLeft}>
               <div className={styles.pickupTriggerIcon}>
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <svg
+                  width="22"
+                  height="22"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
                   <circle cx="12" cy="12" r="10" />
                   <path d="M12 8v4l3 3" />
                 </svg>
               </div>
               <div>
-                <p className={styles.pickupTriggerTitle}>Pickup &amp; Drop Facility</p>
-                <p className={styles.pickupTriggerSub}>Book a comfortable transfer from airport, station or bus stand</p>
+                <p className={styles.pickupTriggerTitle}>
+                  Pickup &amp; Drop Facility
+                </p>
+                <p className={styles.pickupTriggerSub}>
+                  Book a comfortable transfer from airport, station or bus stand
+                </p>
               </div>
             </div>
-            <div className={`${styles.pickupChevron} ${pickupOpen ? styles.pickupChevronOpen : ""}`}>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <div
+              className={`${styles.pickupChevron} ${pickupOpen ? styles.pickupChevronOpen : ""}`}
+            >
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
                 <polyline points="6 9 12 15 18 9" />
               </svg>
             </div>
@@ -457,30 +582,102 @@ export default function HowToReach(): React.ReactElement {
                         <div className={styles.formStepHeader}>
                           <span className={styles.formStepNum}>01</span>
                           <div>
-                            <h4 className={styles.formStepTitle}>Your Contact Details</h4>
-                            <p className={styles.formStepDesc}>We'll use these to confirm your transfer</p>
+                            <h4 className={styles.formStepTitle}>
+                              Your Contact Details
+                            </h4>
+                            <p className={styles.formStepDesc}>
+                              We'll use these to confirm your transfer
+                            </p>
                           </div>
                         </div>
                         <div className={styles.formRow4}>
                           <div className={styles.formField}>
-                            <label className={styles.formLabel} htmlFor="fullName">Full Name <span className={styles.required}>*</span></label>
-                            <input id="fullName" name="fullName" type="text" required placeholder="e.g. Arjun Sharma" className={`${styles.formInput} ${errors.fullName ? styles.formInputError : ""}`} value={form.fullName} onChange={handleChange} />
-                            {errors.fullName && <span className={styles.errorMessage}>{errors.fullName}</span>}
+                            <label
+                              className={styles.formLabel}
+                              htmlFor="fullName"
+                            >
+                              Full Name{" "}
+                              <span className={styles.required}>*</span>
+                            </label>
+                            <input
+                              id="fullName"
+                              name="fullName"
+                              type="text"
+                              required
+                              placeholder="e.g. Arjun Sharma"
+                              className={`${styles.formInput} ${errors.fullName ? styles.formInputError : ""}`}
+                              value={form.fullName}
+                              onChange={handleChange}
+                            />
+                            {errors.fullName && (
+                              <span className={styles.errorMessage}>
+                                {errors.fullName}
+                              </span>
+                            )}
                           </div>
                           <div className={styles.formField}>
-                            <label className={styles.formLabel} htmlFor="email">Email Address <span className={styles.required}>*</span></label>
-                            <input id="email" name="email" type="email" required placeholder="your@email.com" className={`${styles.formInput} ${errors.email ? styles.formInputError : ""}`} value={form.email} onChange={handleChange} />
-                            {errors.email && <span className={styles.errorMessage}>{errors.email}</span>}
+                            <label className={styles.formLabel} htmlFor="email">
+                              Email Address{" "}
+                              <span className={styles.required}>*</span>
+                            </label>
+                            <input
+                              id="email"
+                              name="email"
+                              type="email"
+                              required
+                              placeholder="your@email.com"
+                              className={`${styles.formInput} ${errors.email ? styles.formInputError : ""}`}
+                              value={form.email}
+                              onChange={handleChange}
+                            />
+                            {errors.email && (
+                              <span className={styles.errorMessage}>
+                                {errors.email}
+                              </span>
+                            )}
                           </div>
                           <div className={styles.formField}>
-                            <label className={styles.formLabel} htmlFor="phone">Phone Number <span className={styles.required}>*</span></label>
-                            <input id="phone" name="phone" type="tel" required placeholder="+91 XXXXX XXXXX" className={`${styles.formInput} ${errors.phone ? styles.formInputError : ""}`} value={form.phone} onChange={handleChange} />
-                            {errors.phone && <span className={styles.errorMessage}>{errors.phone}</span>}
+                            <label className={styles.formLabel} htmlFor="phone">
+                              Phone Number{" "}
+                              <span className={styles.required}>*</span>
+                            </label>
+                            <input
+                              id="phone"
+                              name="phone"
+                              type="tel"
+                              required
+                              placeholder="+91 XXXXX XXXXX"
+                              className={`${styles.formInput} ${errors.phone ? styles.formInputError : ""}`}
+                              value={form.phone}
+                              onChange={handleChange}
+                            />
+                            {errors.phone && (
+                              <span className={styles.errorMessage}>
+                                {errors.phone}
+                              </span>
+                            )}
                           </div>
                           <div className={styles.formField}>
-                            <label className={styles.formLabel} htmlFor="altPhone">Alternate Phone</label>
-                            <input id="altPhone" name="altPhone" type="tel" placeholder="+91 XXXXX XXXXX" className={`${styles.formInput} ${errors.altPhone ? styles.formInputError : ""}`} value={form.altPhone} onChange={handleChange} />
-                            {errors.altPhone && <span className={styles.errorMessage}>{errors.altPhone}</span>}
+                            <label
+                              className={styles.formLabel}
+                              htmlFor="altPhone"
+                            >
+                              Alternate Phone
+                            </label>
+                            <input
+                              id="altPhone"
+                              name="altPhone"
+                              type="tel"
+                              placeholder="+91 XXXXX XXXXX"
+                              className={`${styles.formInput} ${errors.altPhone ? styles.formInputError : ""}`}
+                              value={form.altPhone}
+                              onChange={handleChange}
+                            />
+                            {errors.altPhone && (
+                              <span className={styles.errorMessage}>
+                                {errors.altPhone}
+                              </span>
+                            )}
                           </div>
                         </div>
                       </div>
@@ -492,14 +689,31 @@ export default function HowToReach(): React.ReactElement {
                         <div className={styles.formStepHeader}>
                           <span className={styles.formStepNum}>02</span>
                           <div>
-                            <h4 className={styles.formStepTitle}>Journey Information</h4>
-                            <p className={styles.formStepDesc}>Tell us where and when to pick you up</p>
+                            <h4 className={styles.formStepTitle}>
+                              Journey Information
+                            </h4>
+                            <p className={styles.formStepDesc}>
+                              Tell us where and when to pick you up
+                            </p>
                           </div>
                         </div>
                         <div className={styles.formRow4}>
                           <div className={styles.formField}>
-                            <label className={styles.formLabel} htmlFor="serviceType">Service Type <span className={styles.required}>*</span></label>
-                            <select id="serviceType" name="serviceType" required className={`${styles.formSelect} ${errors.serviceType ? styles.formInputError : ""}`} value={form.serviceType} onChange={handleChange}>
+                            <label
+                              className={styles.formLabel}
+                              htmlFor="serviceType"
+                            >
+                              Service Type{" "}
+                              <span className={styles.required}>*</span>
+                            </label>
+                            <select
+                              id="serviceType"
+                              name="serviceType"
+                              required
+                              className={`${styles.formSelect} ${errors.serviceType ? styles.formInputError : ""}`}
+                              value={form.serviceType}
+                              onChange={handleChange}
+                            >
                               <option value="">Select service…</option>
                               <option>Airport Pickup</option>
                               <option>Airport Drop</option>
@@ -507,11 +721,26 @@ export default function HowToReach(): React.ReactElement {
                               <option>Bus Stand Pickup</option>
                               <option>Both Pickup &amp; Drop</option>
                             </select>
-                            {errors.serviceType && <span className={styles.errorMessage}>{errors.serviceType}</span>}
+                            {errors.serviceType && (
+                              <span className={styles.errorMessage}>
+                                {errors.serviceType}
+                              </span>
+                            )}
                           </div>
                           <div className={styles.formField}>
-                            <label className={styles.formLabel} htmlFor="pickupLocation">Pickup Location</label>
-                            <select id="pickupLocation" name="pickupLocation" className={styles.formSelect} value={form.pickupLocation} onChange={handleChange}>
+                            <label
+                              className={styles.formLabel}
+                              htmlFor="pickupLocation"
+                            >
+                              Pickup Location
+                            </label>
+                            <select
+                              id="pickupLocation"
+                              name="pickupLocation"
+                              className={styles.formSelect}
+                              value={form.pickupLocation}
+                              onChange={handleChange}
+                            >
                               <option value="">Select location…</option>
                               <option>Jolly Grant Airport (Dehradun)</option>
                               <option>Haridwar Railway Station</option>
@@ -519,16 +748,54 @@ export default function HowToReach(): React.ReactElement {
                               <option>Rishikesh Bus Stand</option>
                               <option>Other</option>
                             </select>
-                            {errors.pickupLocation && <span className={styles.errorMessage}>{errors.pickupLocation}</span>}
+                            {errors.pickupLocation && (
+                              <span className={styles.errorMessage}>
+                                {errors.pickupLocation}
+                              </span>
+                            )}
                           </div>
                           <div className={styles.formField}>
-                            <label className={styles.formLabel} htmlFor="dropLocation">Drop Location</label>
-                            <input id="dropLocation" name="dropLocation" type="text" placeholder="e.g. Indian Yoga Association, Rishikesh" className={styles.formInput} value={form.dropLocation} onChange={handleChange} />
+                            <label
+                              className={styles.formLabel}
+                              htmlFor="dropLocation"
+                            >
+                              Drop Location
+                            </label>
+                            <input
+                              id="dropLocation"
+                              name="dropLocation"
+                              type="text"
+                              placeholder="e.g. Indian Yoga Association, Rishikesh"
+                              className={styles.formInput}
+                              value={form.dropLocation}
+                              onChange={handleChange}
+                            />
                           </div>
                           <div className={styles.formField}>
-                            <label className={styles.formLabel} htmlFor="guests">Number of Guests <span className={styles.required}>*</span></label>
-                            <input id="guests" name="guests" type="number" min="1" max="50" required placeholder="e.g. 2" className={`${styles.formInput} ${errors.guests ? styles.formInputError : ""}`} value={form.guests} onChange={handleChange} />
-                            {errors.guests && <span className={styles.errorMessage}>{errors.guests}</span>}
+                            <label
+                              className={styles.formLabel}
+                              htmlFor="guests"
+                            >
+                              Number of Guests{" "}
+                              <span className={styles.required}>*</span>
+                            </label>
+                            <input
+                              id="guests"
+                              name="guests"
+                              type="number"
+                              min="1"
+                              max="50"
+                              required
+                              placeholder="e.g. 2"
+                              className={`${styles.formInput} ${errors.guests ? styles.formInputError : ""}`}
+                              value={form.guests}
+                              onChange={handleChange}
+                            />
+                            {errors.guests && (
+                              <span className={styles.errorMessage}>
+                                {errors.guests}
+                              </span>
+                            )}
                           </div>
                         </div>
                       </div>
@@ -540,37 +807,101 @@ export default function HowToReach(): React.ReactElement {
                         <div className={styles.formStepHeader}>
                           <span className={styles.formStepNum}>03</span>
                           <div>
-                            <h4 className={styles.formStepTitle}>Arrival &amp; Special Requests</h4>
-                            <p className={styles.formStepDesc}>Almost done — just a few final details</p>
+                            <h4 className={styles.formStepTitle}>
+                              Arrival &amp; Special Requests
+                            </h4>
+                            <p className={styles.formStepDesc}>
+                              Almost done — just a few final details
+                            </p>
                           </div>
                         </div>
                         <div className={styles.formRow4}>
                           <div className={styles.formField}>
-                            <label className={styles.formLabel} htmlFor="arrivalDate">Arrival Date <span className={styles.required}>*</span></label>
-                            <input id="arrivalDate" name="arrivalDate" type="date" required className={`${styles.formInput} ${errors.arrivalDate ? styles.formInputError : ""}`} value={form.arrivalDate} onChange={handleChange} />
-                            {errors.arrivalDate && <span className={styles.errorMessage}>{errors.arrivalDate}</span>}
+                            <label
+                              className={styles.formLabel}
+                              htmlFor="arrivalDate"
+                            >
+                              Arrival Date{" "}
+                              <span className={styles.required}>*</span>
+                            </label>
+                            <input
+                              id="arrivalDate"
+                              name="arrivalDate"
+                              type="date"
+                              required
+                              className={`${styles.formInput} ${errors.arrivalDate ? styles.formInputError : ""}`}
+                              value={form.arrivalDate}
+                              onChange={handleChange}
+                            />
+                            {errors.arrivalDate && (
+                              <span className={styles.errorMessage}>
+                                {errors.arrivalDate}
+                              </span>
+                            )}
                           </div>
                           <div className={styles.formField}>
-                            <label className={styles.formLabel} htmlFor="arrivalTime">Arrival Time <span className={styles.required}>*</span></label>
-                            <input id="arrivalTime" name="arrivalTime" type="time" required className={`${styles.formInput} ${errors.arrivalTime ? styles.formInputError : ""}`} value={form.arrivalTime} onChange={handleChange} />
-                            {errors.arrivalTime && <span className={styles.errorMessage}>{errors.arrivalTime}</span>}
+                            <label
+                              className={styles.formLabel}
+                              htmlFor="arrivalTime"
+                            >
+                              Arrival Time{" "}
+                              <span className={styles.required}>*</span>
+                            </label>
+                            <input
+                              id="arrivalTime"
+                              name="arrivalTime"
+                              type="time"
+                              required
+                              className={`${styles.formInput} ${errors.arrivalTime ? styles.formInputError : ""}`}
+                              value={form.arrivalTime}
+                              onChange={handleChange}
+                            />
+                            {errors.arrivalTime && (
+                              <span className={styles.errorMessage}>
+                                {errors.arrivalTime}
+                              </span>
+                            )}
                           </div>
-                          <div className={`${styles.formField} ${styles.formFieldSpan2}`}>
-                            <label className={styles.formLabel} htmlFor="instructions">Special Instructions</label>
-                            <textarea id="instructions" name="instructions" placeholder="Accessibility needs, extra luggage, dietary preferences, or anything else we should know…" className={styles.formTextarea} value={form.instructions} onChange={handleChange} />
+                          <div
+                            className={`${styles.formField} ${styles.formFieldSpan2}`}
+                          >
+                            <label
+                              className={styles.formLabel}
+                              htmlFor="instructions"
+                            >
+                              Special Instructions
+                            </label>
+                            <textarea
+                              id="instructions"
+                              name="instructions"
+                              placeholder="Accessibility needs, extra luggage, dietary preferences, or anything else we should know…"
+                              className={styles.formTextarea}
+                              value={form.instructions}
+                              onChange={handleChange}
+                            />
                           </div>
                         </div>
                         <div className={styles.summaryCard}>
-                          <p className={styles.summaryTitle}>📋 Booking Summary</p>
+                          <p className={styles.summaryTitle}>
+                            📋 Booking Summary
+                          </p>
                           <div className={styles.summaryGrid}>
                             <span className={styles.summaryKey}>Name</span>
-                            <span className={styles.summaryVal}>{form.fullName || "—"}</span>
+                            <span className={styles.summaryVal}>
+                              {form.fullName || "—"}
+                            </span>
                             <span className={styles.summaryKey}>Service</span>
-                            <span className={styles.summaryVal}>{form.serviceType || "—"}</span>
+                            <span className={styles.summaryVal}>
+                              {form.serviceType || "—"}
+                            </span>
                             <span className={styles.summaryKey}>From</span>
-                            <span className={styles.summaryVal}>{form.pickupLocation || "—"}</span>
+                            <span className={styles.summaryVal}>
+                              {form.pickupLocation || "—"}
+                            </span>
                             <span className={styles.summaryKey}>Guests</span>
-                            <span className={styles.summaryVal}>{form.guests || "—"}</span>
+                            <span className={styles.summaryVal}>
+                              {form.guests || "—"}
+                            </span>
                           </div>
                         </div>
                       </div>
@@ -578,13 +909,27 @@ export default function HowToReach(): React.ReactElement {
 
                     <div className={styles.formNav}>
                       {step > 0 && (
-                        <button type="button" className={styles.navBtnBack} onClick={handleBack}>← Back</button>
+                        <button
+                          type="button"
+                          className={styles.navBtnBack}
+                          onClick={handleBack}
+                        >
+                          ← Back
+                        </button>
                       )}
                       <div className={styles.formNavRight}>
                         {step < 2 ? (
-                          <button type="button" className={styles.navBtnNext} onClick={handleNext}>Continue →</button>
+                          <button
+                            type="button"
+                            className={styles.navBtnNext}
+                            onClick={handleNext}
+                          >
+                            Continue →
+                          </button>
                         ) : (
-                          <button type="submit" className={styles.navBtnSubmit}>Confirm Booking 🙏</button>
+                          <button type="submit" className={styles.navBtnSubmit}>
+                            Confirm Booking 🙏
+                          </button>
                         )}
                       </div>
                     </div>
@@ -595,7 +940,12 @@ export default function HowToReach(): React.ReactElement {
                       <WhatsAppIcon />
                       <span>Prefer to chat? Connect directly on WhatsApp</span>
                     </div>
-                    <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className={styles.waStripBtn}>
+                    <a
+                      href={WHATSAPP_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={styles.waStripBtn}
+                    >
                       Open WhatsApp
                     </a>
                   </div>
@@ -603,20 +953,41 @@ export default function HowToReach(): React.ReactElement {
               ) : (
                 <div className={styles.successState}>
                   <div className={styles.successIcon}>
-                    <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <svg
+                      width="36"
+                      height="36"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
                       <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
                       <polyline points="22 4 12 14.01 9 11.01" />
                     </svg>
                   </div>
                   <h4 className={styles.successTitle}>Request Received!</h4>
                   <p className={styles.successMsg}>
-                    Namaste, <strong>{form.fullName}</strong>! 🙏 Your pickup request has been submitted. Our team will reach out to you on <strong>{form.phone}</strong> to confirm your transfer.
+                    Namaste, <strong>{form.fullName}</strong>! 🙏 Your pickup
+                    request has been submitted. Our team will reach out to you
+                    on <strong>{form.phone}</strong> to confirm your transfer.
                   </p>
                   <div className={styles.successActions}>
-                    <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className={styles.successWa}>
+                    <a
+                      href={WHATSAPP_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={styles.successWa}
+                    >
                       <WhatsAppIcon /> Follow up on WhatsApp
                     </a>
-                    <button className={styles.successReset} onClick={handleReset}>Submit Another Request</button>
+                    <button
+                      className={styles.successReset}
+                      onClick={handleReset}
+                    >
+                      Submit Another Request
+                    </button>
                   </div>
                 </div>
               )}

@@ -82,15 +82,15 @@ export const HomeaboutSection = () => {
         <div className={styles.body}>
           {/* LEFT */}
           <div className={styles.bodyLeft}>
-            <div 
+            <div
               className={styles.para}
               dangerouslySetInnerHTML={{ __html: data.paraOne }}
             />
-            <div 
+            <div
               className={styles.para}
               dangerouslySetInnerHTML={{ __html: data.paraTwo }}
             />
-            <div 
+            <div
               className={styles.para}
               dangerouslySetInnerHTML={{ __html: data.paraThree }}
             />
@@ -112,7 +112,7 @@ export const HomeaboutSection = () => {
               <span className={styles.quoteMarks}>"</span>
             </blockquote>
 
-            <div 
+            <div
               className={styles.para}
               dangerouslySetInnerHTML={{ __html: data.paraRight }}
             />
@@ -129,7 +129,7 @@ export const HomeaboutSection = () => {
               </div>
             </div>
 
-            <div 
+            <div
               className={styles.paraSmall}
               dangerouslySetInnerHTML={{ __html: data.paraSmall }}
             />
@@ -138,7 +138,7 @@ export const HomeaboutSection = () => {
 
         {/* CTA */}
         <div className={styles.ctaRow}>
-          <div 
+          <div
             className={styles.ctaText}
             dangerouslySetInnerHTML={{ __html: data.ctaText }}
           />

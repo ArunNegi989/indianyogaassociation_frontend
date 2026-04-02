@@ -11,8 +11,14 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "";
 /* ══════════════════════════════════════════════════
    TYPES
 ══════════════════════════════════════════════════ */
-interface SylModule { title: string; desc: string; }
-interface ScheduleItem { time: string; label: string; }
+interface SylModule {
+  title: string;
+  desc: string;
+}
+interface ScheduleItem {
+  time: string;
+  label: string;
+}
 
 interface ContentData {
   bannerImage: string;
@@ -76,19 +82,13 @@ const imgUrl = (path: string) => {
 const formatDateRange = (start: string, end: string) => {
   const s = new Date(start);
   const e = new Date(end);
-  const opts: Intl.DateTimeFormatOptions = { day: "2-digit", month: "short", year: "numeric" };
+  const opts: Intl.DateTimeFormatOptions = {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  };
   return `${s.toLocaleDateString("en-IN", opts)} – ${e.toLocaleDateString("en-IN", opts)}`;
 };
-
-/* ══════════════════════════════════════════════════
-   MANDALA SVG
-══════════════════════════════════════════════════ */
-
-
-/* ══════════════════════════════
-   BORDER STRIP
-══════════════════════════════ */
-
 
 /* ══════════════════════════════
    OM DIVIDER
@@ -98,7 +98,6 @@ function OmDivider({ label }: { label?: string }) {
     <div className={styles.omDivider}>
       <div className={styles.divLineLeft} />
       <div className={styles.omDividerCenter}>
-      
         {label && <span className={styles.omDividerLabel}>{label}</span>}
       </div>
       <div className={styles.divLineRight} />
@@ -110,11 +109,30 @@ function OmDivider({ label }: { label?: string }) {
    CORNER ORNAMENT
 ══════════════════════════════ */
 function CornerOrnament({ pos }: { pos: "tl" | "tr" | "bl" | "br" }) {
-  const flip = { tl: "scale(1,1)", tr: "scale(-1,1)", bl: "scale(1,-1)", br: "scale(-1,-1)" }[pos];
+  const flip = {
+    tl: "scale(1,1)",
+    tr: "scale(-1,1)",
+    bl: "scale(1,-1)",
+    br: "scale(-1,-1)",
+  }[pos];
   return (
-    <svg viewBox="0 0 40 40" className={styles.cornerOrn} style={{ transform: flip }}>
-      <path d="M2,2 L2,18 M2,2 L18,2" stroke="#b8860b" strokeWidth="1.5" fill="none" />
-      <path d="M2,2 Q8,8 16,2 Q8,8 2,16" stroke="#b8860b" strokeWidth="0.7" fill="none" />
+    <svg
+      viewBox="0 0 40 40"
+      className={styles.cornerOrn}
+      style={{ transform: flip }}
+    >
+      <path
+        d="M2,2 L2,18 M2,2 L18,2"
+        stroke="#b8860b"
+        strokeWidth="1.5"
+        fill="none"
+      />
+      <path
+        d="M2,2 Q8,8 16,2 Q8,8 2,16"
+        stroke="#b8860b"
+        strokeWidth="0.7"
+        fill="none"
+      />
       <circle cx="2" cy="2" r="2" fill="#b8860b" opacity="0.7" />
       <circle cx="10" cy="10" r="1.5" fill="#b8860b" opacity="0.4" />
     </svg>
@@ -129,10 +147,19 @@ function VintageHeading({ children }: { children: React.ReactNode }) {
     <div className={styles.vintageHeadingWrap}>
       <h2 className={styles.vintageHeading}>{children}</h2>
       <div className={styles.vintageHeadingUnderline}>
-        <svg viewBox="0 0 200 8" xmlns="http://www.w3.org/2000/svg" className={styles.headingUndSvg}>
-          <path d="M0,4 Q50,0 100,4 Q150,8 200,4" stroke="#e07b00" strokeWidth="1.2" fill="none" />
+        <svg
+          viewBox="0 0 200 8"
+          xmlns="http://www.w3.org/2000/svg"
+          className={styles.headingUndSvg}
+        >
+          <path
+            d="M0,4 Q50,0 100,4 Q150,8 200,4"
+            stroke="#e07b00"
+            strokeWidth="1.2"
+            fill="none"
+          />
           <circle cx="100" cy="4" r="3" fill="#e07b00" opacity="0.7" />
-          <circle cx="10"  cy="4" r="1.5" fill="#b8860b" opacity="0.5" />
+          <circle cx="10" cy="4" r="1.5" fill="#b8860b" opacity="0.5" />
           <circle cx="190" cy="4" r="1.5" fill="#b8860b" opacity="0.5" />
         </svg>
       </div>
@@ -147,7 +174,11 @@ function SeatsCell({ booked, total }: { booked: number; total: number }) {
   const isFull = booked >= total;
   const remaining = total - booked;
   if (isFull) return <span className={styles.fullyBooked}>Fully Booked</span>;
-  return <span className={styles.seatsAvailable}>{remaining} / {total} Seats</span>;
+  return (
+    <span className={styles.seatsAvailable}>
+      {remaining} / {total} Seats
+    </span>
+  );
 }
 
 /* ══════════════════════════════
@@ -155,12 +186,18 @@ function SeatsCell({ booked, total }: { booked: number; total: number }) {
 ══════════════════════════════ */
 function SkeletonBlock({ h = 24, w = "100%" }: { h?: number; w?: string }) {
   return (
-    <div style={{
-      height: h, width: w, borderRadius: 6, marginBottom: 12,
-      background: "linear-gradient(90deg, #f0e8d8 25%, #e8d9c0 50%, #f0e8d8 75%)",
-      backgroundSize: "200% 100%",
-      animation: "shimmer 1.4s infinite",
-    }} />
+    <div
+      style={{
+        height: h,
+        width: w,
+        borderRadius: 6,
+        marginBottom: 12,
+        background:
+          "linear-gradient(90deg, #f0e8d8 25%, #e8d9c0 50%, #f0e8d8 75%)",
+        backgroundSize: "200% 100%",
+        animation: "shimmer 1.4s infinite",
+      }}
+    />
   );
 }
 
@@ -169,7 +206,7 @@ function SkeletonBlock({ h = 24, w = "100%" }: { h?: number; w?: string }) {
 ══════════════════════════════ */
 export default function HundredHourYoga() {
   const [content, setContent] = useState<ContentData | null>(null);
-  const [seats,   setSeats]   = useState<SeatBatch[]>([]);
+  const [seats, setSeats] = useState<SeatBatch[]>([]);
   const [loading, setLoading] = useState(true);
 
   /* ── Fetch both APIs in parallel ── */
@@ -182,32 +219,40 @@ export default function HundredHourYoga() {
         setContent(contentRes.data.data ?? null);
         setSeats(seatsRes.data.data ?? []);
       })
-      .catch(err => console.error("Failed to fetch page data:", err))
+      .catch((err) => console.error("Failed to fetch page data:", err))
       .finally(() => setLoading(false));
   }, []);
 
   /* ── Loading state ── */
-  if (loading) return (
-    <div className={styles.root} style={{ padding: "4rem 2rem" }}>
-      <style>{`@keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }`}</style>
-      {[...Array(6)].map((_, i) => <SkeletonBlock key={i} h={i === 0 ? 400 : 28} />)}
-    </div>
-  );
+  if (loading)
+    return (
+      <div className={styles.root} style={{ padding: "4rem 2rem" }}>
+        <style>{`@keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }`}</style>
+        {[...Array(6)].map((_, i) => (
+          <SkeletonBlock key={i} h={i === 0 ? 400 : 28} />
+        ))}
+      </div>
+    );
 
   /* ── Fallback if no content ── */
-  if (!content) return (
-    <div className={styles.root} style={{ padding: "4rem 2rem", textAlign: "center" }}>
-      <p style={{ fontFamily: "serif", color: "#8b4513", fontSize: "1.2rem" }}>
-        Content not available yet. Please check back soon.
-      </p>
-    </div>
-  );
+  if (!content)
+    return (
+      <div
+        className={styles.root}
+        style={{ padding: "4rem 2rem", textAlign: "center" }}
+      >
+        <p
+          style={{ fontFamily: "serif", color: "#8b4513", fontSize: "1.2rem" }}
+        >
+          Content not available yet. Please check back soon.
+        </p>
+      </div>
+    );
 
   return (
     <div className={styles.root}>
-
       {/* Background mandalas */}
-      
+
       <div className={styles.grainOverlay} aria-hidden="true" />
 
       {/* ══ HERO IMAGE ══ */}
@@ -220,15 +265,20 @@ export default function HundredHourYoga() {
             style={{ width: "100%", objectFit: "cover" }}
           />
         ) : (
-          <Image src={heroImg} alt="Yoga Students Group" width={1180} height={540} className={styles.heroImage} priority />
+          <Image
+            src={heroImg}
+            alt="Yoga Students Group"
+            width={1180}
+            height={540}
+            className={styles.heroImage}
+            priority
+          />
         )}
       </section>
 
       {/* ══ HERO TEXT ══ */}
       <section className={styles.heroSection2}>
-        <div className={styles.heroMandalaBg} aria-hidden="true">
-        
-        </div>
+        <div className={styles.heroMandalaBg} aria-hidden="true"></div>
         <div className={styles.heroTextWrap}>
           <div className={styles.heroTitleRow}>
             <div className={styles.heroTitleLine} />
@@ -236,34 +286,46 @@ export default function HundredHourYoga() {
             <div className={styles.heroTitleLine} />
           </div>
           {content.heroParagraphs.map((para, i) => (
-            <p key={i} className={styles.bodyText} dangerouslySetInnerHTML={{ __html: para }} />
+            <p
+              key={i}
+              className={styles.bodyText}
+              dangerouslySetInnerHTML={{ __html: para }}
+            />
           ))}
         </div>
       </section>
 
-   
-
       {/* ══ TRANSFORM + WHAT IS + WHY CHOOSE + SUITABLE ══ */}
       <section className={styles.contentSection}>
-       
-
         <VintageHeading>{content.transformTitle}</VintageHeading>
         {content.transformParagraphs.map((p, i) => (
-          <p key={i} className={styles.bodyText} dangerouslySetInnerHTML={{ __html: p }} />
+          <p
+            key={i}
+            className={styles.bodyText}
+            dangerouslySetInnerHTML={{ __html: p }}
+          />
         ))}
 
         <OmDivider />
 
         <VintageHeading>{content.whatIsTitle}</VintageHeading>
         {content.whatIsParagraphs.map((p, i) => (
-          <p key={i} className={styles.bodyText} dangerouslySetInnerHTML={{ __html: p }} />
+          <p
+            key={i}
+            className={styles.bodyText}
+            dangerouslySetInnerHTML={{ __html: p }}
+          />
         ))}
 
         <OmDivider />
 
         <VintageHeading>{content.whyChooseTitle}</VintageHeading>
         {content.whyChooseParagraphs.map((p, i) => (
-          <p key={i} className={styles.bodyText} dangerouslySetInnerHTML={{ __html: p }} />
+          <p
+            key={i}
+            className={styles.bodyText}
+            dangerouslySetInnerHTML={{ __html: p }}
+          />
         ))}
 
         <OmDivider />
@@ -276,12 +338,12 @@ export default function HundredHourYoga() {
         </ol>
       </section>
 
-      
-
       {/* ══ DATES TABLE — from /100hr-seats/get-all-batches ══ */}
       <section className={styles.datesSection} id="apply">
         <OmDivider label="Upcoming Batches" />
-        <VintageHeading>Upcoming 100 Hour Yoga Teacher Training India</VintageHeading>
+        <VintageHeading>
+          Upcoming 100 Hour Yoga Teacher Training India
+        </VintageHeading>
         <p className={styles.centerSubtext}>
           Choose your preferred accommodation. Prices include tuition and meals.
         </p>
@@ -293,7 +355,14 @@ export default function HundredHourYoga() {
           <CornerOrnament pos="br" />
           <div className={styles.tableScroll}>
             {seats.length === 0 ? (
-              <p style={{ padding: "2rem", textAlign: "center", fontFamily: "serif", color: "#8b4513" }}>
+              <p
+                style={{
+                  padding: "2rem",
+                  textAlign: "center",
+                  fontFamily: "serif",
+                  color: "#8b4513",
+                }}
+              >
                 No upcoming batches available at the moment.
               </p>
             ) : (
@@ -320,23 +389,38 @@ export default function HundredHourYoga() {
                         <td>{row.usdFee}</td>
                         <td>{row.inrFee}</td>
                         <td className={styles.roomPriceCell}>
-                          Dorm <strong className={styles.priceAmt}>${row.dormPrice}</strong> |{" "}
-                          Twin <strong className={styles.priceAmt}>${row.twinPrice}</strong> |{" "}
-                          Private <strong className={styles.priceAmt}>${row.privatePrice}</strong>
+                          Dorm{" "}
+                          <strong className={styles.priceAmt}>
+                            ${row.dormPrice}
+                          </strong>{" "}
+                          | Twin{" "}
+                          <strong className={styles.priceAmt}>
+                            ${row.twinPrice}
+                          </strong>{" "}
+                          | Private{" "}
+                          <strong className={styles.priceAmt}>
+                            ${row.privatePrice}
+                          </strong>
                         </td>
                         <td>
-                          <SeatsCell booked={row.bookedSeats} total={row.totalSeats} />
+                          <SeatsCell
+                            booked={row.bookedSeats}
+                            total={row.totalSeats}
+                          />
                         </td>
                         <td>
-                          {isFull
-                            ? <span className={styles.applyDisabled}>Apply Now</span>
-                            : <a
-  href={`/yoga-registration?batchId=${row._id}&type=100hr`}
-  className={styles.applyLink}
->
-  Apply Now
-</a>
-                          }
+                          {isFull ? (
+                            <span className={styles.applyDisabled}>
+                              Apply Now
+                            </span>
+                          ) : (
+                            <a
+                              href={`/yoga-registration?batchId=${row._id}&type=100hr`}
+                              className={styles.applyLink}
+                            >
+                              Apply Now
+                            </a>
+                          )}
                         </td>
                       </tr>
                     );
@@ -346,35 +430,36 @@ export default function HundredHourYoga() {
             )}
           </div>
           {/* ── Note from first batch that has one, or fallback ── */}
-          {seats.find(s => s.note) && (
+          {seats.find((s) => s.note) && (
             <p className={styles.tableNote}>
-              <strong>Note:</strong> {seats.find(s => s.note)?.note}
+              <strong>Note:</strong> {seats.find((s) => s.note)?.note}
             </p>
           )}
           <div style={{ textAlign: "center", padding: "1rem 0 0.5rem" }}>
-            <a href="#" className={styles.joinBtn}>Join Your Yoga Journey</a>
+            <a href="#" className={styles.joinBtn}>
+              Join Your Yoga Journey
+            </a>
           </div>
         </div>
       </section>
 
-    
-
       {/* ══ SYLLABUS ══ */}
       <section className={styles.contentSection}>
-       
-
         <OmDivider label="Curriculum" />
         <VintageHeading>{content.syllabusTitle}</VintageHeading>
 
         {content.syllabusParagraphs.map((p, i) => (
-          <p key={i} className={styles.bodyText} dangerouslySetInnerHTML={{ __html: p }} />
+          <p
+            key={i}
+            className={styles.bodyText}
+            dangerouslySetInnerHTML={{ __html: p }}
+          />
         ))}
 
         <div className={styles.syllabusGrid}>
           <div className={styles.syllabusCard}>
             {content.syllabusLeft.map((m, i) => (
               <div key={i} className={styles.syllabusModule}>
-               
                 <div>
                   <h3 className={styles.syllabusModuleTitle}>{m.title}</h3>
                   <p className={styles.syllabusModuleDesc}>{m.desc}</p>
@@ -385,7 +470,6 @@ export default function HundredHourYoga() {
           <div className={styles.syllabusCard}>
             {content.syllabusRight.map((m, i) => (
               <div key={i} className={styles.syllabusModule}>
-              
                 <div>
                   <h3 className={styles.syllabusModuleTitle}>{m.title}</h3>
                   <p className={styles.syllabusModuleDesc}>{m.desc}</p>
@@ -396,14 +480,11 @@ export default function HundredHourYoga() {
         </div>
       </section>
 
-     
-
       {/* ══ DAILY SCHEDULE ══ */}
       <section className={styles.scheduleSection}>
         <div className={styles.scheduleLayout}>
           <div className={styles.schedImgCol}>
             <div className={styles.schedImgOrnament}>
-             
               {content.scheduleImage ? (
                 <img
                   src={imgUrl(content.scheduleImage)}
@@ -429,8 +510,9 @@ export default function HundredHourYoga() {
               <ul className={styles.schedList}>
                 {content.scheduleItems.map((item, i) => (
                   <li key={i} className={styles.schedItem}>
-                   
-                    <span>{item.time} – {item.label}</span>
+                    <span>
+                      {item.time} – {item.label}
+                    </span>
                   </li>
                 ))}
               </ul>
@@ -439,12 +521,8 @@ export default function HundredHourYoga() {
         </div>
       </section>
 
-   
-
       {/* ══ SOUL SHINE BANNER + WHY ENROL ══ */}
       <section className={styles.contentSection}>
-       
-
         <OmDivider />
 
         {/* Soul Shine Banner */}
@@ -454,22 +532,29 @@ export default function HundredHourYoga() {
           <CornerOrnament pos="bl" />
           <CornerOrnament pos="br" />
           <img
-            src={content.soulShineImage
-              ? imgUrl(content.soulShineImage)
-              : "https://images.unsplash.com/photo-1545389336-cf090694435e?w=1400&q=80"
+            src={
+              content.soulShineImage
+                ? imgUrl(content.soulShineImage)
+                : "https://images.unsplash.com/photo-1545389336-cf090694435e?w=1400&q=80"
             }
             alt="Yoga class Rishikesh"
             className={styles.classBannerImg}
           />
           <div className={styles.classBannerOverlay} />
-          <span className={styles.letYourSoul}>{content.soulShineText || "Let Your Soul Shine"}</span>
+          <span className={styles.letYourSoul}>
+            {content.soulShineText || "Let Your Soul Shine"}
+          </span>
         </div>
 
         <OmDivider />
 
         <VintageHeading>{content.enrollTitle}</VintageHeading>
         {content.enrollParagraphs.map((p, i) => (
-          <p key={i} className={styles.bodyText} dangerouslySetInnerHTML={{ __html: p }} />
+          <p
+            key={i}
+            className={styles.bodyText}
+            dangerouslySetInnerHTML={{ __html: p }}
+          />
         ))}
         <ol className={styles.vintageList}>
           {content.enrollItems.map((item, i) => (
@@ -478,28 +563,36 @@ export default function HundredHourYoga() {
         </ol>
       </section>
 
-     
-
       {/* ══ COMPREHENSIVE + CERTIFICATION + REGISTRATION + FEE ══ */}
       <section className={styles.contentSection}>
-       
-
         <OmDivider />
         <VintageHeading>{content.comprehensiveTitle}</VintageHeading>
         {content.comprehensiveParagraphs.map((p, i) => (
-          <p key={i} className={styles.bodyText} dangerouslySetInnerHTML={{ __html: p }} />
+          <p
+            key={i}
+            className={styles.bodyText}
+            dangerouslySetInnerHTML={{ __html: p }}
+          />
         ))}
 
         <OmDivider />
         <VintageHeading>{content.certTitle}</VintageHeading>
         {content.certParagraphs.map((p, i) => (
-          <p key={i} className={styles.bodyText} dangerouslySetInnerHTML={{ __html: p }} />
+          <p
+            key={i}
+            className={styles.bodyText}
+            dangerouslySetInnerHTML={{ __html: p }}
+          />
         ))}
 
         <OmDivider />
         <VintageHeading>{content.registrationTitle}</VintageHeading>
         {content.registrationParagraphs.map((p, i) => (
-          <p key={i} className={styles.bodyText} dangerouslySetInnerHTML={{ __html: p }} />
+          <p
+            key={i}
+            className={styles.bodyText}
+            dangerouslySetInnerHTML={{ __html: p }}
+          />
         ))}
 
         {/* ── Fee cards ── */}
@@ -512,10 +605,7 @@ export default function HundredHourYoga() {
             <div className={styles.feeCardHeaderGreen}>Included in Fee</div>
             <ul className={styles.feeList}>
               {content.includedItems.map((it, i) => (
-                <li key={i}>
-                 
-                  {it}
-                </li>
+                <li key={i}>{it}</li>
               ))}
             </ul>
           </div>
@@ -527,17 +617,13 @@ export default function HundredHourYoga() {
             <div className={styles.feeCardHeaderRed}>Not Included</div>
             <ul className={styles.feeList}>
               {content.notIncludedItems.map((it, i) => (
-                <li key={i}>
-                
-                  {it}
-                </li>
+                <li key={i}>{it}</li>
               ))}
             </ul>
           </div>
         </div>
       </section>
 
-   
       <HowToReach />
     </div>
   );

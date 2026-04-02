@@ -1,24 +1,18 @@
-/* ================================================================
-   RulesPage.module.css — AYM Yoga School
-   Exact image match · Chakras in BG · Left-right container spacing
-   Vintage parchment · Saffron palette · Bootstrap 5 compatible
-   ================================================================ */
-
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Noto+Serif+Devanagari:wght@400;600&display=swap');
 
 /* ── Variables ── */
 :root {
-  --saffron : #e07b00;
-  --deep    : #c46a00;
-  --gold    : #f5b800;
-  --dark    : #3d1d00;
-  --maroon  : #5c2d00;
-  --brown   : #7a5c2e;
-  --parch   : #fdf6e8;
-  --cream   : #fffaf2;
-  --warm    : #fceacc;
-  --border  : #e8d5b5;
-  --shadow  : rgba(92,45,0,0.13);
+  --saffron: #e07b00;
+  --deep: #c46a00;
+  --gold: #f5b800;
+  --dark: #3d1d00;
+  --maroon: #5c2d00;
+  --brown: #7a5c2e;
+  --parch: #fdf6e8;
+  --cream: #fffaf2;
+  --warm: #fceacc;
+  --border: #e8d5b5;
+  --shadow: rgba(92, 45, 0, 0.13);
 }
 
 /* ================================================================
@@ -29,9 +23,9 @@
   min-height: 100vh;
   background-color: var(--parch);
   background-image:
-    radial-gradient(ellipse at 10% 8%,  rgba(224,123,0,0.055) 0%, transparent 42%),
-    radial-gradient(ellipse at 90% 92%, rgba(92,45,0,0.055)   0%, transparent 42%),
-    radial-gradient(ellipse at 50% 48%, rgba(245,184,0,0.025) 0%, transparent 58%);
+    radial-gradient(ellipse at 10% 8%, rgba(224, 123, 0, 0.055) 0%, transparent 42%),
+    radial-gradient(ellipse at 90% 92%, rgba(92, 45, 0, 0.055) 0%, transparent 42%),
+    radial-gradient(ellipse at 50% 48%, rgba(245, 184, 0, 0.025) 0%, transparent 58%);
   overflow: hidden;
   opacity: 0;
   transform: translateY(8px);
@@ -64,23 +58,66 @@
 }
 
 /* LEFT column */
-.cpL1 { top:  1%;  left: -65px; }
-.cpL2 { top: 26%;  left: -75px; }
-.cpL3 { top: 54%;  left: -65px; }
-.cpL4 { top: 78%;  left: -60px; }
+.cpL1 {
+  top: 1%;
+  left: -65px;
+}
+
+.cpL2 {
+  top: 26%;
+  left: -75px;
+}
+
+.cpL3 {
+  top: 54%;
+  left: -65px;
+}
+
+.cpL4 {
+  top: 78%;
+  left: -60px;
+}
 
 /* RIGHT column */
-.cpR1 { top:  8%;  right: -65px; }
-.cpR2 { top: 36%;  right: -70px; }
-.cpR3 { top: 64%;  right: -65px; }
+.cpR1 {
+  top: 8%;
+  right: -65px;
+}
+
+.cpR2 {
+  top: 36%;
+  right: -70px;
+}
+
+.cpR3 {
+  top: 64%;
+  right: -65px;
+}
 
 /* Spin animations */
-.spinCW   { animation: cwSpin  72s linear infinite; }
-.spinSlow { animation: cwSpin  98s linear infinite; }
-.spinCCW  { animation: ccwSpin 82s linear infinite; }
+.spinCW {
+  animation: cwSpin 72s linear infinite;
+}
 
-@keyframes cwSpin  { to { transform: rotate(360deg);  } }
-@keyframes ccwSpin { to { transform: rotate(-360deg); } }
+.spinSlow {
+  animation: cwSpin 98s linear infinite;
+}
+
+.spinCCW {
+  animation: ccwSpin 82s linear infinite;
+}
+
+@keyframes cwSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes ccwSpin {
+  to {
+    transform: rotate(-360deg);
+  }
+}
 
 .heroSection {
   position: relative;
@@ -107,6 +144,7 @@
   line-height: 1.25;
   opacity: 0.7;
 }
+
 .cLabel em {
   display: block;
   font-family: 'Cormorant Garamond', serif;
@@ -117,13 +155,22 @@
 }
 
 /* Watermark mandalas */
-.wmL, .wmR {
+.wmL,
+.wmR {
   position: absolute;
   opacity: 0.04;
   animation: cwSpin 130s linear infinite;
 }
-.wmL { top: 10%; left: -90px; }
-.wmR { bottom: 2%; right: -70px; }
+
+.wmL {
+  top: 10%;
+  left: -90px;
+}
+
+.wmR {
+  bottom: 2%;
+  right: -70px;
+}
 
 /* ================================================================
    TOP / BOTTOM BORDERS
@@ -133,24 +180,21 @@
   position: relative;
   z-index: 2;
   height: 5px;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    var(--saffron) 18%,
-    var(--gold) 50%,
-    var(--saffron) 82%,
-    transparent 100%
-  );
+  background: linear-gradient(90deg,
+      transparent 0%,
+      var(--saffron) 18%,
+      var(--gold) 50%,
+      var(--saffron) 82%,
+      transparent 100%);
 }
+
 .topBorder::after,
 .bottomBorder::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: repeating-linear-gradient(
-    90deg, transparent, transparent 10px,
-    rgba(255,255,255,0.22) 10px, rgba(255,255,255,0.22) 11px
-  );
+  background: repeating-linear-gradient(90deg, transparent, transparent 10px,
+      rgba(255, 255, 255, 0.22) 10px, rgba(255, 255, 255, 0.22) 11px);
 }
 
 /* ================================================================
@@ -160,7 +204,7 @@
   position: relative;
   z-index: 2;
   /* Generous horizontal padding = left-right space from viewport */
-  padding-left:  clamp(1.5rem, 6vw, 5rem);
+  padding-left: clamp(1.5rem, 6vw, 5rem);
   padding-right: clamp(1.5rem, 6vw, 5rem);
   max-width: 1515px;
   margin: 0 auto;
@@ -172,7 +216,7 @@
 .headerWrap {
   position: relative;
   z-index: 2;
-  padding-top:    clamp(1.8rem, 4vw, 3.5rem);
+  padding-top: clamp(1.8rem, 4vw, 3.5rem);
   padding-bottom: clamp(0.8rem, 2vw, 1.5rem);
   text-align: center;
 }
@@ -218,23 +262,21 @@
    ================================================================ */
 .contentBox {
   position: relative;
-  background: linear-gradient(160deg, rgba(255,252,245,0.98) 0%, rgba(253,242,224,0.97) 100%);
+  background: linear-gradient(160deg, rgba(255, 252, 245, 0.98) 0%, rgba(253, 242, 224, 0.97) 100%);
   border: 1.5px solid var(--border);
   border-radius: 5px;
   box-shadow:
     0 2px 24px var(--shadow),
-    inset 0 0 0 1px rgba(255,255,255,0.55);
+    inset 0 0 0 1px rgba(255, 255, 255, 0.55);
   overflow: hidden;
   margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
 
   /* Subtle diagonal aged-paper texture */
   background-image:
-    linear-gradient(160deg, rgba(255,252,245,0.98) 0%, rgba(253,242,224,0.97) 100%),
-    repeating-linear-gradient(
-      135deg,
+    linear-gradient(160deg, rgba(255, 252, 245, 0.98) 0%, rgba(253, 242, 224, 0.97) 100%),
+    repeating-linear-gradient(135deg,
       transparent 0px, transparent 24px,
-      rgba(224,123,0,0.016) 24px, rgba(224,123,0,0.016) 25px
-    );
+      rgba(224, 123, 0, 0.016) 24px, rgba(224, 123, 0, 0.016) 25px);
 }
 
 /* Corner ornament lines */
@@ -242,15 +284,26 @@
 .contentBox::after {
   content: '';
   position: absolute;
-  width: 24px; height: 24px;
+  width: 24px;
+  height: 24px;
   border-color: var(--saffron);
   border-style: solid;
   opacity: 0.32;
   z-index: 1;
   pointer-events: none;
 }
-.contentBox::before { top: 7px;  left: 7px;  border-width: 1.5px 0 0 1.5px; }
-.contentBox::after  { bottom: 7px; right: 7px; border-width: 0 1.5px 1.5px 0; }
+
+.contentBox::before {
+  top: 7px;
+  left: 7px;
+  border-width: 1.5px 0 0 1.5px;
+}
+
+.contentBox::after {
+  bottom: 7px;
+  right: 7px;
+  border-width: 0 1.5px 1.5px 0;
+}
 
 /* ── Brown header bar — exact image match ── */
 .brownBar {
@@ -268,13 +321,17 @@
   text-transform: uppercase;
   position: relative;
 }
+
 .brownBar::after {
   content: '';
   position: absolute;
-  bottom: 0; left: 0;
-  width: 100%; height: 2px;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
   background: linear-gradient(90deg, transparent, var(--gold) 30%, var(--gold) 70%, transparent);
 }
+
 .barIcon {
   flex-shrink: 0;
   opacity: 0.55;
@@ -293,8 +350,9 @@
   color: #1e1000;
   margin: 0 0 0.75rem;
   padding-bottom: 0.75rem;
-  border-bottom: 1px solid rgba(232,213,181,0.5);
+  border-bottom: 1px solid rgba(232, 213, 181, 0.5);
 }
+
 .rule:last-of-type {
   border-bottom: none;
 }
@@ -330,6 +388,7 @@
   color: #1e1000;
   margin-bottom: 0.85rem;
 }
+
 .agreePara:last-child {
   margin-bottom: 0;
 }
@@ -362,82 +421,223 @@
 
 /* ── 1400px ── */
 @media (max-width: 1400px) {
-  .cpL1,.cpL2,.cpL3,.cpL4 { left:  -80px; }
-  .cpR1,.cpR2,.cpR3        { right: -80px; }
+
+  .cpL1,
+  .cpL2,
+  .cpL3,
+  .cpL4 {
+    left: -80px;
+  }
+
+  .cpR1,
+  .cpR2,
+  .cpR3 {
+    right: -80px;
+  }
 }
 
 /* ── 1200px ── */
 @media (max-width: 1200px) {
-  .cpL1,.cpL2,.cpL3,.cpL4 { left:  -95px; }
-  .cpR1,.cpR2,.cpR3        { right: -95px; }
-  .outerPad { padding-left: clamp(1.2rem, 4vw, 3rem); padding-right: clamp(1.2rem, 4vw, 3rem); }
+
+  .cpL1,
+  .cpL2,
+  .cpL3,
+  .cpL4 {
+    left: -95px;
+  }
+
+  .cpR1,
+  .cpR2,
+  .cpR3 {
+    right: -95px;
+  }
+
+  .outerPad {
+    padding-left: clamp(1.2rem, 4vw, 3rem);
+    padding-right: clamp(1.2rem, 4vw, 3rem);
+  }
 }
 
 /* ── 992px ── */
 @media (max-width: 992px) {
-  .cpL1,.cpL2,.cpL3,.cpL4 { left:  -110px; }
-  .cpR1,.cpR2,.cpR3        { right: -110px; }
-  .cLabel                  { display: none; }
-  .pageTitle               { font-size: clamp(0.95rem, 2.8vw, 1.25rem); }
-  .divLine                 { max-width: 160px; }
+
+  .cpL1,
+  .cpL2,
+  .cpL3,
+  .cpL4 {
+    left: -110px;
+  }
+
+  .cpR1,
+  .cpR2,
+  .cpR3 {
+    right: -110px;
+  }
+
+  .cLabel {
+    display: none;
+  }
+
+  .pageTitle {
+    font-size: clamp(0.95rem, 2.8vw, 1.25rem);
+  }
+
+  .divLine {
+    max-width: 160px;
+  }
 }
 
 /* ── 768px ── */
 @media (max-width: 768px) {
-  .cpL1,.cpL2,.cpL3,.cpL4 { left:  -130px; }
-  .cpR1,.cpR2,.cpR3        { right: -130px; }
-  .wmL,.wmR                { display: none; }
-  .outerPad                { padding-left: 1rem; padding-right: 1rem; }
-  .body                    { padding: 1rem 1rem; }
-  .brownBar                { padding: 0.6rem 1rem; font-size: 0.72rem; }
-  .divLine                 { max-width: 100px; }
+
+  .cpL1,
+  .cpL2,
+  .cpL3,
+  .cpL4 {
+    left: -130px;
+  }
+
+  .cpR1,
+  .cpR2,
+  .cpR3 {
+    right: -130px;
+  }
+
+  .wmL,
+  .wmR {
+    display: none;
+  }
+
+  .outerPad {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .body {
+    padding: 1rem 1rem;
+  }
+
+  .brownBar {
+    padding: 0.6rem 1rem;
+    font-size: 0.72rem;
+  }
+
+  .divLine {
+    max-width: 100px;
+  }
 }
 
 /* ── 576px ── */
 @media (max-width: 576px) {
+
   /* Hide chakras — only keep OM watermark */
-  .cpL1,.cpL2,.cpL3,.cpL4,
-  .cpR1,.cpR2,.cpR3        { display: none; }
+  .cpL1,
+  .cpL2,
+  .cpL3,
+  .cpL4,
+  .cpR1,
+  .cpR2,
+  .cpR3 {
+    display: none;
+  }
+
   /* OM watermark fallback */
   .chakraBg::before {
     content: 'ॐ';
     position: absolute;
-    top: 50%; left: 50%;
+    top: 50%;
+    left: 50%;
     transform: translate(-50%, -50%);
     font-size: clamp(16rem, 55vw, 26rem);
-    color: rgba(224,123,0,0.038);
+    color: rgba(224, 123, 0, 0.038);
     font-family: serif;
     pointer-events: none;
     line-height: 1;
     user-select: none;
   }
-  .pageTitle  { font-size: 0.9rem; }
-  .divLine    { max-width: 60px; }
-  .brownBar   { font-size: 0.67rem; letter-spacing: 0.04em; padding: 0.6rem 0.85rem; }
-  .rule       { font-size: 0.86rem; line-height: 1.76; margin-bottom: 0.65rem; padding-bottom: 0.65rem; }
-  .agreePara  { font-size: 0.86rem; }
-  .outerPad   { padding-left: 0.75rem; padding-right: 0.75rem; }
-  .body       { padding: 0.9rem 0.9rem; }
-  .footer     { font-size: 0.65rem; }
+
+  .pageTitle {
+    font-size: 0.9rem;
+  }
+
+  .divLine {
+    max-width: 60px;
+  }
+
+  .brownBar {
+    font-size: 0.67rem;
+    letter-spacing: 0.04em;
+    padding: 0.6rem 0.85rem;
+  }
+
+  .rule {
+    font-size: 0.86rem;
+    line-height: 1.76;
+    margin-bottom: 0.65rem;
+    padding-bottom: 0.65rem;
+  }
+
+  .agreePara {
+    font-size: 0.86rem;
+  }
+
+  .outerPad {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+
+  .body {
+    padding: 0.9rem 0.9rem;
+  }
+
+  .footer {
+    font-size: 0.65rem;
+  }
 }
 
 /* ── 400px ── */
 @media (max-width: 400px) {
-  .pageTitle  { font-size: 0.84rem; }
-  .brownBar   { font-size: 0.62rem; }
+  .pageTitle {
+    font-size: 0.84rem;
+  }
+
+  .brownBar {
+    font-size: 0.62rem;
+  }
+
   .rule,
-  .agreePara  { font-size: 0.83rem; }
-  .outerPad   { padding-left: 0.6rem; padding-right: 0.6rem; }
-  .body       { padding: 0.8rem 0.75rem; }
+  .agreePara {
+    font-size: 0.83rem;
+  }
+
+  .outerPad {
+    padding-left: 0.6rem;
+    padding-right: 0.6rem;
+  }
+
+  .body {
+    padding: 0.8rem 0.75rem;
+  }
+
   .contentBox::before,
-  .contentBox::after { display: none; }
+  .contentBox::after {
+    display: none;
+  }
 }
 
 /* ── Reduced motion ── */
 @media (prefers-reduced-motion: reduce) {
-  .page        { opacity: 1; transform: none; transition: none; }
+  .page {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
   .spinCW,
   .spinSlow,
   .spinCCW,
-  .wmL,.wmR    { animation: none !important; }
+  .wmL,
+  .wmR {
+    animation: none !important;
+  }
 }

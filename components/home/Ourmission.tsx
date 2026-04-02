@@ -67,7 +67,10 @@ export default function OurMission() {
         if (doc) setData(doc);
       })
       .catch((err) => {
-        console.error("OurMission API error:", err?.response?.data ?? err.message);
+        console.error(
+          "OurMission API error:",
+          err?.response?.data ?? err.message,
+        );
       })
       .finally(() => setLoading(false));
   }, []);
@@ -85,13 +88,14 @@ export default function OurMission() {
       aria-labelledby="mission-heading"
     >
       {/* decorative bg */}
-      <div className={styles.bgLotus} aria-hidden="true">❋</div>
+      <div className={styles.bgLotus} aria-hidden="true">
+        ❋
+      </div>
       <div className={styles.bgCornerTL} aria-hidden="true" />
       <div className={styles.bgCornerBR} aria-hidden="true" />
 
       <div className={styles.outerFrame}>
         <div className={styles.innerFrame}>
-
           {/* ── MISSION BLOCK ── */}
           <div className={styles.missionBlock}>
             <h2 id="mission-heading" className={styles.missionHeading}>
@@ -139,7 +143,6 @@ export default function OurMission() {
               ))}
             </div>
           </div>
-
         </div>
       </div>
     </section>

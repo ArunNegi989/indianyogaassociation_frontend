@@ -19,10 +19,15 @@ const lato = Lato({
 
 export const metadata: Metadata = {
   title: "Yoga Teacher Training in Rishikesh - Best Yoga School in Rishikesh",
-  description: "Yoga Teacher Training in Rishikesh - Best Yoga School in Rishikesh",
+  description:
+    "Yoga Teacher Training in Rishikesh - Best Yoga School in Rishikesh",
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en">
       <head>
@@ -37,7 +42,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
 
-      <body className={`${playfairDisplay.variable} ${lato.variable} antialiased`}>
+      <body
+        className={`${playfairDisplay.variable} ${lato.variable} antialiased`}
+      >
         <AuthProvider>
           <ConditionalLayout>{children}</ConditionalLayout>
         </AuthProvider>

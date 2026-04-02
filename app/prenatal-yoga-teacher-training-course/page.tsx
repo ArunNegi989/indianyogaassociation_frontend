@@ -342,7 +342,6 @@ export default function PregnancyYogaTTC() {
       ══════════════════════════════════════ */}
       <section className={`${styles.section} ${styles.sectionLight}`}>
         <div className="container px-3 px-md-4">
-
           {/* Page Title */}
           {pageData.pageTitleH1 && (
             <h1 className={styles.heroTitle}>{pageData.pageTitleH1}</h1>
@@ -351,7 +350,9 @@ export default function PregnancyYogaTTC() {
 
           {/* Intro Section Title */}
           {pageData.introSectionTitle && (
-            <h2 className={styles.sectionTitle}>{pageData.introSectionTitle}</h2>
+            <h2 className={styles.sectionTitle}>
+              {pageData.introSectionTitle}
+            </h2>
           )}
 
           {/* Intro Paragraphs */}
@@ -405,7 +406,6 @@ export default function PregnancyYogaTTC() {
       ══════════════════════════════════════ */}
       <section className={`${styles.section} ${styles.sectionWarm}`}>
         <div className="container px-3 px-md-4">
-
           {/* Features Section */}
           {pageData.featuresSectionTitle && (
             <h2 className={styles.sectionTitle}>
@@ -470,7 +470,9 @@ export default function PregnancyYogaTTC() {
                           <div key={row._id} className={styles.schedRow}>
                             <span className={styles.schedTime}>{row.time}</span>
                             <span className={styles.schedSep}>:</span>
-                            <span className={styles.schedAct}>{row.activity}</span>
+                            <span className={styles.schedAct}>
+                              {row.activity}
+                            </span>
                           </div>
                         ))}
                       </div>
@@ -503,7 +505,6 @@ export default function PregnancyYogaTTC() {
       ══════════════════════════════════════ */}
       <section className={`${styles.section} ${styles.sectionDeep}`}>
         <div className="container px-3 px-md-4">
-
           {pageData.batchSectionTitle && (
             <h2 className={styles.sectionTitle}>
               {pageData.batchSectionTitle}
@@ -608,10 +609,7 @@ export default function PregnancyYogaTTC() {
             )}
 
             <div style={{ textAlign: "center", padding: "1rem 0 0.5rem" }}>
-              <a
-                href={pageData.joinBtnUrl || "#"}
-                className={styles.joinBtn}
-              >
+              <a href={pageData.joinBtnUrl || "#"} className={styles.joinBtn}>
                 {pageData.joinBtnText || "Join Your Yoga Journey"}
               </a>
             </div>

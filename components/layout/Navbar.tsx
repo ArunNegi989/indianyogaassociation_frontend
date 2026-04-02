@@ -42,8 +42,14 @@ export const navLinks: NavLink[] = [
       { label: "Yoga Ashrams in India", href: "/yoga-ashrams-in-india" },
       { label: "Yoga Holidays & Camps", href: "/yoga-holidays-in-india" },
       { label: "Inner Awakening Retreat", href: "/inner-awakening" },
-      { label: "Yoga Course for Beginners", href: "/yoga-for-beginners-in-india" },
-      { label: "Ayurveda and Detox Retreat", href: "/yoga-ayurveda-detox-retreat" },
+      {
+        label: "Yoga Course for Beginners",
+        href: "/yoga-for-beginners-in-india",
+      },
+      {
+        label: "Ayurveda and Detox Retreat",
+        href: "/yoga-ayurveda-detox-retreat",
+      },
     ],
   },
   {
@@ -51,31 +57,65 @@ export const navLinks: NavLink[] = [
     href: "/yoga-teacher-training",
     clickable: false,
     children: [
-      { label: "100 Hour Yoga Teacher Training", href: "/100-hour-yoga-teacher-training-in-rishikesh" },
-      { label: "200 Hour Yoga Teacher Training", href: "/200-hour-yoga-teacher-training-rishikesh" },
-      { label: "300 Hour Yoga Teacher Training", href: "/300-hours-yoga-teacher-training-rishikesh" },
-      { label: "500 Hour Yoga Teacher Training", href: "/500-hour-yoga-teacher-training-india" },
-      { label: "Kundalini Yoga Teacher Training", href: "/kundalini-yoga-teacher-training-in-rishikesh" },
-      { label: "Yoga Teacher Training Rishikesh", href: "/yoga-teacher-training-in-rishikesh" },
-      { label: "Prenatal Yoga Teacher Training", href: "/prenatal-yoga-teacher-training-course" },
-      { label: "Vinyasa Yoga Teacher Training", href: "/vinyasa-teacher-training-india" },
-      { label: "Yoga Teacher Training in India", href: "/yoga-teacher-training-in-india" },
-      { label: "Hatha Yoga Teacher Training", href: "/hatha-yoga-teacher-training-Rishikesh" },
+      {
+        label: "100 Hour Yoga Teacher Training",
+        href: "/100-hour-yoga-teacher-training-in-rishikesh",
+      },
+      {
+        label: "200 Hour Yoga Teacher Training",
+        href: "/200-hour-yoga-teacher-training-rishikesh",
+      },
+      {
+        label: "300 Hour Yoga Teacher Training",
+        href: "/300-hours-yoga-teacher-training-rishikesh",
+      },
+      {
+        label: "500 Hour Yoga Teacher Training",
+        href: "/500-hour-yoga-teacher-training-india",
+      },
+      {
+        label: "Kundalini Yoga Teacher Training",
+        href: "/kundalini-yoga-teacher-training-in-rishikesh",
+      },
+      {
+        label: "Yoga Teacher Training Rishikesh",
+        href: "/yoga-teacher-training-in-rishikesh",
+      },
+      {
+        label: "Prenatal Yoga Teacher Training",
+        href: "/prenatal-yoga-teacher-training-course",
+      },
+      {
+        label: "Vinyasa Yoga Teacher Training",
+        href: "/vinyasa-teacher-training-india",
+      },
+      {
+        label: "Yoga Teacher Training in India",
+        href: "/yoga-teacher-training-in-india",
+      },
+      {
+        label: "Hatha Yoga Teacher Training",
+        href: "/hatha-yoga-teacher-training-Rishikesh",
+      },
       { label: "Yoga Teacher Training Goa", href: "/yoga-goa-in-india" },
-      { label: "Yoga Teacher Training Bali", href: "/yoga-teacher-training-course-bali" },
-      { label: "Ayurveda & Yoga TTC", href: "/yoga-ayurveda-teacher-training-rishikesh" },
+      {
+        label: "Yoga Teacher Training Bali",
+        href: "/yoga-teacher-training-course-bali",
+      },
+      {
+        label: "Ayurveda & Yoga TTC",
+        href: "/yoga-ayurveda-teacher-training-rishikesh",
+      },
       { label: "Yoga Teacher Training World Wide", href: "/world-wide" },
     ],
   },
   {
     label: "Online Yoga Course",
     href: "/online-yoga-course",
-    
   },
   {
     label: "AYUSH Courses",
     href: "/yoga-college-in-rishikesh",
-    
   },
   { label: "Register", href: "/yoga-registration" },
   { label: "Payment", href: "/ttc-payment" },
@@ -100,7 +140,9 @@ export const Navbar = () => {
 
   const closeAllDropdowns = () => {
     // Remove hover/focus state by blurring all focusable nav items
-    navRef.current?.querySelectorAll<HTMLElement>("li[tabindex]").forEach((el) => el.blur());
+    navRef.current
+      ?.querySelectorAll<HTMLElement>("li[tabindex]")
+      .forEach((el) => el.blur());
     if (document.activeElement instanceof HTMLElement) {
       document.activeElement.blur();
     }

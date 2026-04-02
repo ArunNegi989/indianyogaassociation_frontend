@@ -59,12 +59,11 @@ const HomepageSlider = () => {
     goTo((current - 1 + slides.length) % slides.length);
   }, [current, slides.length, goTo]);
 
-
   const getImageUrl = (img: string) => {
-  if (!img) return "";
-  if (img.startsWith("http")) return img;
-  return `${process.env.NEXT_PUBLIC_API_URL}${img}`;
-};
+    if (!img) return "";
+    if (img.startsWith("http")) return img;
+    return `${process.env.NEXT_PUBLIC_API_URL}${img}`;
+  };
   /* AUTOPLAY */
 
   useEffect(() => {
@@ -123,13 +122,13 @@ const HomepageSlider = () => {
           className={`${styles.slide} ${idx === current ? styles.active : ""}`}
           aria-hidden={idx !== current}
         >
-        <Image
-  src={getImageUrl(slide.image)}
-  alt={slide.bannerName}
-  fill
-  unoptimized
-  className={styles.slideImage}
-/>
+          <Image
+            src={getImageUrl(slide.image)}
+            alt={slide.bannerName}
+            fill
+            unoptimized
+            className={styles.slideImage}
+          />
           <div className={styles.slideOverlay} />
 
           <div className={styles.slideContent}>

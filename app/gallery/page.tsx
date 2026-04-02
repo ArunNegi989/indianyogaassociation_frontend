@@ -3,9 +3,6 @@ import React, { useState, useEffect, useCallback } from "react";
 import styles from "@/assets/style/gallery/Gallerypage.module.css";
 import HowToReach from "@/components/home/Howtoreach";
 import api from "@/lib/api";
-/* ─────────────────────────────────────────────────────────
-   IMAGE MAP — Unsplash free URLs grouped by section
-───────────────────────────────────────────────────────── */
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "";
 
 interface GallerySection {
@@ -26,7 +23,7 @@ export default function GalleryPage() {
   const [activeTab, setActiveTab] = useState("all");
   const [sections, setSections] = useState<GallerySection[]>([]);
   const [loading, setLoading] = useState(true);
-  
+
   const [modal, setModal] = useState<{
     src: string;
     label: string;
@@ -52,7 +49,6 @@ export default function GalleryPage() {
     fetchSections();
   }, []);
 
-  /* Close modal on Escape, navigate with arrow keys */
   const handleKey = useCallback(
     (e: KeyboardEvent) => {
       if (!modal) return;
@@ -163,45 +159,41 @@ export default function GalleryPage() {
       ══════════════════════════════════ */}
       <div className={styles.gallerySections}>
         {visibleSections.map((sec) => {
-  const formattedImages = formatImages(sec.images || []);
-  const cols = sec.cols ?? 4;
+          const formattedImages = formatImages(sec.images || []);
+          const cols = sec.cols ?? 4;
 
-  return (
-    <section key={sec._id} className={styles.gallerySection}>
-      <div className={styles.container}>
-        <h2 className={styles.secHeading}>{sec.heading}</h2>
-        <div className={styles.secRule} />
+          return (
+            <section key={sec._id} className={styles.gallerySection}>
+              <div className={styles.container}>
+                <h2 className={styles.secHeading}>{sec.heading}</h2>
+                <div className={styles.secRule} />
 
-        <div
-          className={styles.stdGrid}
-          style={{ "--cols": cols } as React.CSSProperties}
-        >
-          {formattedImages.map((img, i) => (
-            <div
-              key={i}
-              className={styles.imgCard}
-              onClick={() => {
-                openModal(img.src, img.label, formattedImages, i);
-              }}
-            >
-              <img  src={img.src}
-  alt={img.label}
-  loading="lazy" />
+                <div
+                  className={styles.stdGrid}
+                  style={{ "--cols": cols } as React.CSSProperties}
+                >
+                  {formattedImages.map((img, i) => (
+                    <div
+                      key={i}
+                      className={styles.imgCard}
+                      onClick={() => {
+                        openModal(img.src, img.label, formattedImages, i);
+                      }}
+                    >
+                      <img src={img.src} alt={img.label} loading="lazy" />
 
-              <span className={styles.imgLabel}>
-                <span className={styles.labelPin}>📍</span>
-                <span>{img.label}</span>
-                <span className={styles.labelSub}>
-                  AYM YOGA SCHOOL
-                </span>
-              </span>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-})}
+                      <span className={styles.imgLabel}>
+                        <span className={styles.labelPin}>📍</span>
+                        <span>{img.label}</span>
+                        <span className={styles.labelSub}>AYM YOGA SCHOOL</span>
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </section>
+          );
+        })}
       </div>
 
       {/* ══════════════════════════════════
@@ -289,7 +281,7 @@ export default function GalleryPage() {
                   <img
                     src={img.src}
                     alt={img.label}
-                     loading="lazy"
+                    loading="lazy"
                     className={styles.thumbImg}
                   />
                 </div>

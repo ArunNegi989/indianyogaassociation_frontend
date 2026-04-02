@@ -1,25 +1,19 @@
-/* ================================================================
-   OnlineYogaCourse.module.css
-   AYM Yoga School — Vintage Mandala Chakra Aesthetic
-   Parchment · Saffron · Deep maroon — fully responsive
-   ================================================================ */
-
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Dancing+Script:wght@500;600;700&display=swap');
 
 /* ── Root variables ── */
 .page {
-  --saffron:        #e07b00;
-  --saffron-light:  #f5b800;
-  --saffron-pale:   #fff3e0;
-  --maroon:         #3d1d00;
-  --maroon-mid:     #7a3f00;
-  --parchment:      #fdf6ec;
-  --parchment-2:    #f5e9d4;
-  --cream:          #fffaf3;
-  --border:         #e8d5b5;
-  --text:           #3d2b10;
-  --text-muted:     #7a5c2e;
-  --shadow:         rgba(92,45,0,0.10);
+  --saffron: #e07b00;
+  --saffron-light: #f5b800;
+  --saffron-pale: #fff3e0;
+  --maroon: #3d1d00;
+  --maroon-mid: #7a3f00;
+  --parchment: #fdf6ec;
+  --parchment-2: #f5e9d4;
+  --cream: #fffaf3;
+  --border: #e8d5b5;
+  --text: #3d2b10;
+  --text-muted: #7a5c2e;
+  --shadow: rgba(92, 45, 0, 0.10);
 
   font-family: 'Cormorant Garamond', Georgia, serif;
   background-image: url("../../images/1905x8000.png");
@@ -39,7 +33,11 @@
   pointer-events: none;
   z-index: 0;
 }
-.mandalaWatermark svg { width: 100%; height: 100%; }
+
+.mandalaWatermark svg {
+  width: 100%;
+  height: 100%;
+}
 
 /* ─── Generic container ─── */
 .container {
@@ -57,7 +55,10 @@
   padding: clamp(2.5rem, 5vw, 4rem) 0;
   border-bottom: 1px solid var(--border);
 }
-.section:last-child { border-bottom: none; }
+
+.section:last-child {
+  border-bottom: none;
+}
 
 /* ── Orange underline accent ── */
 .orangeUnderline {
@@ -121,7 +122,7 @@
   transform: translateX(-50%);
   width: 30%;
   height: 60%;
-  background: rgba(80,40,0,0.35);
+  background: rgba(80, 40, 0, 0.35);
   border-radius: 50% 50% 2px 2px;
 }
 
@@ -209,10 +210,18 @@
   padding: clamp(1.8rem, 3vw, 2.5rem) 0;
   border-bottom: 1px solid var(--border);
 }
-.courseBlock:last-child { border-bottom: none; }
 
-.courseBlockLeft { /* left column */ }
-.courseBlockRight { /* right column */ }
+.courseBlock:last-child {
+  border-bottom: none;
+}
+
+.courseBlockLeft {
+  /* left column */
+}
+
+.courseBlockRight {
+  /* right column */
+}
 
 .courseBlockTitle {
   font-family: 'Cinzel', serif;
@@ -237,9 +246,12 @@
   line-height: 1.55;
   color: var(--text);
   padding: 0.42rem 0;
-  border-bottom: 1px solid rgba(232,213,181,0.55);
+  border-bottom: 1px solid rgba(232, 213, 181, 0.55);
 }
-.courseDetailList li:last-child { border-bottom: none; }
+
+.courseDetailList li:last-child {
+  border-bottom: none;
+}
 
 .detailIconWrap {
   flex-shrink: 0;
@@ -266,7 +278,11 @@
   text-align: center;
   transition: opacity 0.2s, transform 0.2s;
 }
-.applyBtn:hover { opacity: 0.85; transform: translateY(-1px); }
+
+.applyBtn:hover {
+  opacity: 0.85;
+  transform: translateY(-1px);
+}
 
 /* Benefits side */
 .benefitsTitle {
@@ -314,7 +330,11 @@
   text-align: center;
   transition: opacity 0.2s, transform 0.2s;
 }
-.bookBtn:hover { opacity: 0.85; transform: translateY(-1px); }
+
+.bookBtn:hover {
+  opacity: 0.85;
+  transform: translateY(-1px);
+}
 
 /* ================================================================
    SCHEDULE TABLE — Screenshot 4 bottom
@@ -374,7 +394,10 @@
   font-weight: 600;
   text-decoration: none;
 }
-.tableApply:hover { text-decoration: underline; }
+
+.tableApply:hover {
+  text-decoration: underline;
+}
 
 /* ================================================================
    FAQ / ABOUT SECTION — Screenshot 5
@@ -393,7 +416,9 @@
   gap: 1.2rem;
 }
 
-.faqBlock { /* each Q&A pair */ }
+.faqBlock {
+  /* each Q&A pair */
+}
 
 .faqQ {
   font-family: 'Cormorant Garamond', serif;
@@ -548,7 +573,10 @@
   text-decoration: none;
   margin-top: 0.4rem;
 }
-.applyLinkBtn:hover { text-decoration: underline; }
+
+.applyLinkBtn:hover {
+  text-decoration: underline;
+}
 
 /* Screenshot 8 info text */
 .recordedInfoBox {
@@ -625,15 +653,30 @@
 
 /* Tablet landscape ≤ 1024px */
 @media (max-width: 1024px) {
-  .heroRight { width: 260px; }
-  .heroTitleBold { font-size: clamp(1.8rem, 6vw, 4rem); }
-  .heroTitleScript { font-size: clamp(1.5rem, 5vw, 3.5rem); }
+  .heroRight {
+    width: 260px;
+  }
+
+  .heroTitleBold {
+    font-size: clamp(1.8rem, 6vw, 4rem);
+  }
+
+  .heroTitleScript {
+    font-size: clamp(1.5rem, 5vw, 3.5rem);
+  }
 }
 
 /* Tablet portrait ≤ 860px */
 @media (max-width: 860px) {
-  .hero { flex-direction: column; min-height: auto; }
-  .heroRight { width: 100%; min-height: 160px; }
+  .hero {
+    flex-direction: column;
+    min-height: auto;
+  }
+
+  .heroRight {
+    width: 100%;
+    min-height: 160px;
+  }
 
   .courseBlock {
     grid-template-columns: 1fr;
@@ -645,54 +688,102 @@
     border-bottom: 1px solid var(--border);
   }
 
-  .chakraGrid { grid-template-columns: repeat(2, 1fr); }
+  .chakraGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 
-  .otherGrid { grid-template-columns: repeat(3, 1fr); }
+  .otherGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
 
-  .recordedGrid { grid-template-columns: 1fr 1fr; }
+  .recordedGrid {
+    grid-template-columns: 1fr 1fr;
+  }
 
-  .heroCourseCards { gap: 1rem 1.8rem; }
+  .heroCourseCards {
+    gap: 1rem 1.8rem;
+  }
 }
 
 /* Mobile ≤ 640px */
 @media (max-width: 640px) {
-  .hero { flex-direction: column; }
-  .heroRight { display: none; }
+  .hero {
+    flex-direction: column;
+  }
 
-  .heroTitleBold { font-size: clamp(1.6rem, 11vw, 3rem); }
-  .heroTitleScript { font-size: clamp(1.4rem, 9vw, 2.4rem); }
+  .heroRight {
+    display: none;
+  }
+
+  .heroTitleBold {
+    font-size: clamp(1.6rem, 11vw, 3rem);
+  }
+
+  .heroTitleScript {
+    font-size: clamp(1.4rem, 9vw, 2.4rem);
+  }
 
   .heroCourseCards {
     gap: 0.8rem 1.2rem;
     justify-content: center;
   }
 
-  .laptop { width: 60px; height: 40px; }
-  .laptopFoot { width: 72px; }
+  .laptop {
+    width: 60px;
+    height: 40px;
+  }
 
-  .chakraGrid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+  .laptopFoot {
+    width: 72px;
+  }
 
-  .chakraMandalaWrap { width: 80px; height: 80px; }
+  .chakraGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
 
-  .otherGrid { grid-template-columns: 1fr; max-width: 280px; margin: 0 auto; }
+  .chakraMandalaWrap {
+    width: 80px;
+    height: 80px;
+  }
 
-  .recordedGrid { grid-template-columns: 1fr; max-width: 380px; margin: 0 auto; }
+  .otherGrid {
+    grid-template-columns: 1fr;
+    max-width: 280px;
+    margin: 0 auto;
+  }
 
-  .sectionTitleOrange { font-size: 1rem; }
+  .recordedGrid {
+    grid-template-columns: 1fr;
+    max-width: 380px;
+    margin: 0 auto;
+  }
+
+  .sectionTitleOrange {
+    font-size: 1rem;
+  }
 
   .bodyPara,
   .noteText,
   .faqA,
-  .recordedInfoBox p { text-align: left; }
+  .recordedInfoBox p {
+    text-align: left;
+  }
 
-  .orangeUnderline { width: 50px; }
+  .orangeUnderline {
+    width: 50px;
+  }
 
-  .courseBlockTitle { font-size: 1rem; }
+  .courseBlockTitle {
+    font-size: 1rem;
+  }
 }
 
 /* Small mobile ≤ 420px */
 @media (max-width: 420px) {
-  .chakraGrid { grid-template-columns: 1fr; }
+  .chakraGrid {
+    grid-template-columns: 1fr;
+  }
 
   .scheduleTable thead th,
   .scheduleTable tbody td {
@@ -700,11 +791,24 @@
     font-size: 0.75rem;
   }
 
-  .heroCardNum { font-size: 1.1rem; }
-  .heroCardLabel { font-size: 0.5rem; }
+  .heroCardNum {
+    font-size: 1.1rem;
+  }
 
-  .heroCourseCards { gap: 0.7rem 0.9rem; }
+  .heroCardLabel {
+    font-size: 0.5rem;
+  }
 
-  .laptop { width: 50px; height: 34px; }
-  .laptopFoot { width: 60px; }
+  .heroCourseCards {
+    gap: 0.7rem 0.9rem;
+  }
+
+  .laptop {
+    width: 50px;
+    height: 34px;
+  }
+
+  .laptopFoot {
+    width: 60px;
+  }
 }

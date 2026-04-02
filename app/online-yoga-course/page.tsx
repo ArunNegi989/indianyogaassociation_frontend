@@ -11,7 +11,6 @@ import chakra6 from "@/assets/images/throat-chakra.png";
 import HowToReach from "@/components/home/Howtoreach";
 import heroImg from "@/assets/images/30.webp";
 
-
 const liveCourses = [
   {
     id: 1,

@@ -7,37 +7,51 @@ import api from "@/lib/api";
 /* ══════════════════════════════════════════════
    TYPES
 ══════════════════════════════════════════════ */
-interface BodyPlane     { label: string; listItem: string; }
-interface CampusFacility { bold: string; text: string; imageUrl?: string; imageAlt?: string; }
-interface PromoCard     { title: string; text: string; link: string; }
-interface JourneyPara   { text: string; }
+interface BodyPlane {
+  label: string;
+  listItem: string;
+}
+interface CampusFacility {
+  bold: string;
+  text: string;
+  imageUrl?: string;
+  imageAlt?: string;
+}
+interface PromoCard {
+  title: string;
+  text: string;
+  link: string;
+}
+interface JourneyPara {
+  text: string;
+}
 
 interface PageData {
-  alignTitle:         string;
-  salutation:         string;
-  alignPara1:         string;
-  alignPara2:         string;
-  alignPara3:         string;
-  bodyPlanes:         BodyPlane[];
-  planesPara:         string;
-  bodyPlanesImage:    string;
+  alignTitle: string;
+  salutation: string;
+  alignPara1: string;
+  alignPara2: string;
+  alignPara3: string;
+  bodyPlanes: BodyPlane[];
+  planesPara: string;
+  bodyPlanesImage: string;
   bodyPlanesImageAlt: string;
-  outdoorImage:       string;
-  outdoorImageAlt:    string;
-  outdoorCaption:     string;
-  highlight1:         string;
-  highlight2:         string;
-  campusTitle:        string;
-  campusFacilities:   CampusFacility[];
-  promoCard1:         PromoCard;
-  promoCard2:         PromoCard;
-  ctaHeading:         string;
-  ctaSubtext:         string;
-  whatsappLink:       string;
-  masterQuote:        string;
-  masterAttrib:       string;
-  journeyParas:       JourneyPara[];
-  namesteText:        string;
+  outdoorImage: string;
+  outdoorImageAlt: string;
+  outdoorCaption: string;
+  highlight1: string;
+  highlight2: string;
+  campusTitle: string;
+  campusFacilities: CampusFacility[];
+  promoCard1: PromoCard;
+  promoCard2: PromoCard;
+  ctaHeading: string;
+  ctaSubtext: string;
+  whatsappLink: string;
+  masterQuote: string;
+  masterAttrib: string;
+  journeyParas: JourneyPara[];
+  namesteText: string;
 }
 
 /* ══════════════════════════════════════════════
@@ -54,9 +68,9 @@ const toAbsUrl = (path: string | undefined | null): string => {
    COMPONENT
 ══════════════════════════════════════════════ */
 const AYMFullPage: React.FC = () => {
-  const [data,      setData]      = useState<PageData | null>(null);
+  const [data, setData] = useState<PageData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [error,     setError]     = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -64,47 +78,50 @@ const AYMFullPage: React.FC = () => {
         setIsLoading(true);
         const res = await api.get("/aym-full-page/get");
         const raw = res.data.data;
-        if (!raw) { setError("Content not found."); return; }
+        if (!raw) {
+          setError("Content not found.");
+          return;
+        }
 
         setData({
-          alignTitle:         raw.alignTitle         ?? "",
-          salutation:         raw.salutation         ?? "",
-          alignPara1:         raw.alignPara1         ?? "",
-          alignPara2:         raw.alignPara2         ?? "",
-          alignPara3:         raw.alignPara3         ?? "",
-          bodyPlanes:         raw.bodyPlanes         ?? [],
-          planesPara:         raw.planesPara         ?? "",
-          bodyPlanesImage:    toAbsUrl(raw.bodyPlanesImage),
+          alignTitle: raw.alignTitle ?? "",
+          salutation: raw.salutation ?? "",
+          alignPara1: raw.alignPara1 ?? "",
+          alignPara2: raw.alignPara2 ?? "",
+          alignPara3: raw.alignPara3 ?? "",
+          bodyPlanes: raw.bodyPlanes ?? [],
+          planesPara: raw.planesPara ?? "",
+          bodyPlanesImage: toAbsUrl(raw.bodyPlanesImage),
           bodyPlanesImageAlt: raw.bodyPlanesImageAlt ?? "",
-          outdoorImage:       toAbsUrl(raw.outdoorImage),
-          outdoorImageAlt:    raw.outdoorImageAlt    ?? "",
-          outdoorCaption:     raw.outdoorCaption     ?? "",
-          highlight1:         raw.highlight1         ?? "",
-          highlight2:         raw.highlight2         ?? "",
-          campusTitle:        raw.campusTitle        ?? "",
-          campusFacilities:   (raw.campusFacilities ?? []).map((f: any) => ({
-            bold:     f.bold     ?? "",
-            text:     f.text     ?? "",
+          outdoorImage: toAbsUrl(raw.outdoorImage),
+          outdoorImageAlt: raw.outdoorImageAlt ?? "",
+          outdoorCaption: raw.outdoorCaption ?? "",
+          highlight1: raw.highlight1 ?? "",
+          highlight2: raw.highlight2 ?? "",
+          campusTitle: raw.campusTitle ?? "",
+          campusFacilities: (raw.campusFacilities ?? []).map((f: any) => ({
+            bold: f.bold ?? "",
+            text: f.text ?? "",
             imageUrl: toAbsUrl(f.imageUrl),
             imageAlt: f.imageAlt ?? "",
           })),
           promoCard1: {
             title: raw.promoCard1?.title ?? "",
-            text:  raw.promoCard1?.text  ?? "",
-            link:  raw.promoCard1?.link  ?? "#",
+            text: raw.promoCard1?.text ?? "",
+            link: raw.promoCard1?.link ?? "#",
           },
           promoCard2: {
             title: raw.promoCard2?.title ?? "",
-            text:  raw.promoCard2?.text  ?? "",
-            link:  raw.promoCard2?.link  ?? "#",
+            text: raw.promoCard2?.text ?? "",
+            link: raw.promoCard2?.link ?? "#",
           },
-          ctaHeading:   raw.ctaHeading   ?? "",
-          ctaSubtext:   raw.ctaSubtext   ?? "",
+          ctaHeading: raw.ctaHeading ?? "",
+          ctaSubtext: raw.ctaSubtext ?? "",
           whatsappLink: raw.whatsappLink ?? "#",
-          masterQuote:  raw.masterQuote  ?? "",
+          masterQuote: raw.masterQuote ?? "",
           masterAttrib: raw.masterAttrib ?? "",
           journeyParas: raw.journeyParas ?? [],
-          namesteText:  raw.namesteText  ?? "",
+          namesteText: raw.namesteText ?? "",
         });
       } catch (err: any) {
         setError(err?.response?.data?.message || "Failed to load content.");
@@ -119,8 +136,23 @@ const AYMFullPage: React.FC = () => {
   /* ── Loading ── */
   if (isLoading) {
     return (
-      <div className={styles.pageWrapper} style={{ minHeight: "60vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
-        <p style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.1rem", color: "#a07840", fontStyle: "italic" }}>
+      <div
+        className={styles.pageWrapper}
+        style={{
+          minHeight: "60vh",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <p
+          style={{
+            fontFamily: "'Cormorant Garamond', serif",
+            fontSize: "1.1rem",
+            color: "#a07840",
+            fontStyle: "italic",
+          }}
+        >
           Loading…
         </p>
       </div>
@@ -130,8 +162,22 @@ const AYMFullPage: React.FC = () => {
   /* ── Error ── */
   if (error || !data) {
     return (
-      <div className={styles.pageWrapper} style={{ minHeight: "40vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
-        <p style={{ fontFamily: "'Cormorant Garamond', serif", color: "#c44a00", fontStyle: "italic" }}>
+      <div
+        className={styles.pageWrapper}
+        style={{
+          minHeight: "40vh",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <p
+          style={{
+            fontFamily: "'Cormorant Garamond', serif",
+            color: "#c44a00",
+            fontStyle: "italic",
+          }}
+        >
           {error ?? "Content unavailable."}
         </p>
       </div>
@@ -143,11 +189,9 @@ const AYMFullPage: React.FC = () => {
   ════════════════════════════════════════════ */
   return (
     <div className={styles.pageWrapper}>
-
       {/* ══════════ ALIGNMENT SECTION ══════════ */}
       <section className={styles.alignSection}>
         <div className={styles.container}>
-
           {/* Section heading — rich text */}
           <div className={styles.sectionHeaderCenter}>
             <h2
@@ -183,7 +227,9 @@ const AYMFullPage: React.FC = () => {
                   <div className={styles.diagramBox}>
                     <img
                       src={data.bodyPlanesImage}
-                      alt={data.bodyPlanesImageAlt || "Yoga body planes diagram"}
+                      alt={
+                        data.bodyPlanesImageAlt || "Yoga body planes diagram"
+                      }
                       className={styles.diagramImage}
                     />
                     {/* Diagram labels from bodyPlanes array */}
@@ -226,8 +272,7 @@ const AYMFullPage: React.FC = () => {
             dorsiflexion, abduction, and adduction, among others, during asana
             practice. While searching for your Yoga training school, You should
             search for{" "}
-            <strong className={styles.highlight}>{data.highlight1}</strong>
-            {" "}or{" "}
+            <strong className={styles.highlight}>{data.highlight1}</strong> or{" "}
             <strong className={styles.highlight}>{data.highlight2}</strong>
           </p>
 
@@ -257,7 +302,6 @@ const AYMFullPage: React.FC = () => {
       <section className={styles.campusSection}>
         <div className={styles.topBorder} />
         <div className={styles.container}>
-
           {/* Campus heading — rich text */}
           <div className={styles.sectionHeaderCenter}>
             <h2
@@ -286,7 +330,11 @@ const AYMFullPage: React.FC = () => {
                     src={f.imageUrl}
                     alt={f.imageAlt || f.bold}
                     className={styles.facilityImage}
-                    style={{ marginTop: "0.75rem", maxWidth: "100%", borderRadius: "8px" }}
+                    style={{
+                      marginTop: "0.75rem",
+                      maxWidth: "100%",
+                      borderRadius: "8px",
+                    }}
                   />
                 )}
               </div>
@@ -335,7 +383,6 @@ const AYMFullPage: React.FC = () => {
       <section className={styles.ctaSection}>
         <div className={styles.ctaBg} />
         <div className={styles.ctaContent}>
-
           {/* CTA heading — rich text */}
           <h2
             className={styles.ctaHeading}
@@ -370,7 +417,9 @@ const AYMFullPage: React.FC = () => {
               return (
                 <div
                   key={i}
-                  className={isLast ? `${styles.para} ${styles.namaste}` : styles.para}
+                  className={
+                    isLast ? `${styles.para} ${styles.namaste}` : styles.para
+                  }
                   dangerouslySetInnerHTML={{ __html: para.text }}
                 />
               );
@@ -385,7 +434,6 @@ const AYMFullPage: React.FC = () => {
           </div>
         </div>
       </section>
-
     </div>
   );
 };

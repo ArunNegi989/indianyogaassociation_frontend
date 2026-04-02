@@ -10,7 +10,8 @@ const sections = [
   {
     id: 1,
     imageLeft: true,
-    image: "https://images.unsplash.com/photo-1588286840104-8957b019727f?w=700&q=80&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1588286840104-8957b019727f?w=700&q=80&fit=crop",
     imageAlt: "Best Yoga Teacher Training in Mysore India",
     heading: "Best Yoga Teacher Training in Mysore India",
     headingStyle: "script" as const,
@@ -23,7 +24,8 @@ Besides focusing on mindfulness and meditation techniques, students are introduc
   {
     id: 2,
     imageLeft: false,
-    image: "https://images.unsplash.com/photo-1545389336-cf090694435e?w=700&q=80&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1545389336-cf090694435e?w=700&q=80&fit=crop",
     imageAlt: "Yoga Teacher Training in Mysore",
     heading: "Yoga Teacher Training in Mysore",
     headingStyle: "serif" as const,
@@ -34,7 +36,8 @@ Our extensive curriculum covers every detail of yoga, including anatomy, physiol
   {
     id: 3,
     imageLeft: true,
-    image: "https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?w=700&q=80&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?w=700&q=80&fit=crop",
     imageAlt: "Features of Yoga Teacher Training Course in Mysore",
     heading: "Features of Yoga Teacher Training Course in Mysore",
     headingStyle: "serif" as const,
@@ -54,8 +57,10 @@ Our extensive curriculum covers every detail of yoga, including anatomy, physiol
   {
     id: 4,
     imageLeft: false,
-    image: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=700&q=80&fit=crop",
-    imageAlt: "200 Hour and 300 Hour Yoga Teacher Training Course in Mysore India",
+    image:
+      "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=700&q=80&fit=crop",
+    imageAlt:
+      "200 Hour and 300 Hour Yoga Teacher Training Course in Mysore India",
     heading: "200 Hour Yoga Teacher Training Course in Mysore India",
     headingStyle: "serif" as const,
     subSections: [
@@ -74,7 +79,8 @@ Simply put, the updated 300 hour yoga teacher training course in Mysore has been
   {
     id: 5,
     imageLeft: true,
-    image: "https://images.unsplash.com/photo-1603988363607-e1e4a66962c6?w=700&q=80&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1603988363607-e1e4a66962c6?w=700&q=80&fit=crop",
     imageAlt: "Recognized Yoga Teacher Training Course Certification in Mysore",
     heading: "Recognized Yoga Teacher Training Course Certification in Mysore",
     headingStyle: "serif" as const,
@@ -83,38 +89,122 @@ Simply put, the updated 300 hour yoga teacher training course in Mysore has been
 ];
 
 const cityLinks: { name: string; href: string }[] = [
-  { name: "Jaipur", href: "/yoga-teacher-training/yoga-teacher-training-Jaipur" },
-  { name: "Mysore", href: "/yoga-teacher-training/yoga-teacher-training-Mysore" },
-  { name: "Haryana", href: "/yoga-teacher-training/yoga-teacher-training-Haryana" },
+  {
+    name: "Jaipur",
+    href: "/yoga-teacher-training/yoga-teacher-training-Jaipur",
+  },
+  {
+    name: "Mysore",
+    href: "/yoga-teacher-training/yoga-teacher-training-Mysore",
+  },
+  {
+    name: "Haryana",
+    href: "/yoga-teacher-training/yoga-teacher-training-Haryana",
+  },
   { name: "Agra", href: "/yoga-teacher-training/yoga-teacher-training-Agra" },
-  { name: "Mumbai", href: "/yoga-teacher-training/yoga-teacher-training-Mumbai" },
-  { name: "Coimbatore", href: "/yoga-teacher-training/yoga-teacher-training-Coimbatore" },
-  { name: "Uttrakhand", href: "/yoga-teacher-training/yoga-teacher-training-Uttrakhand" },
-  { name: "Varkala", href: "/yoga-teacher-training/yoga-teacher-training-Varkala" },
-  { name: "Gokarna", href: "/yoga-teacher-training/yoga-teacher-training-Gokarna" },
-  { name: "Tamil Nadu", href: "/yoga-teacher-training/yoga-teacher-training-Tamil Nadu" },
+  {
+    name: "Mumbai",
+    href: "/yoga-teacher-training/yoga-teacher-training-Mumbai",
+  },
+  {
+    name: "Coimbatore",
+    href: "/yoga-teacher-training/yoga-teacher-training-Coimbatore",
+  },
+  {
+    name: "Uttrakhand",
+    href: "/yoga-teacher-training/yoga-teacher-training-Uttrakhand",
+  },
+  {
+    name: "Varkala",
+    href: "/yoga-teacher-training/yoga-teacher-training-Varkala",
+  },
+  {
+    name: "Gokarna",
+    href: "/yoga-teacher-training/yoga-teacher-training-Gokarna",
+  },
+  {
+    name: "Tamil Nadu",
+    href: "/yoga-teacher-training/yoga-teacher-training-Tamil Nadu",
+  },
   { name: "Goa", href: "/yoga-teacher-training/yoga-teacher-training-Goa" },
   { name: "Kochi", href: "/yoga-teacher-training/yoga-teacher-training-Kochi" },
-  { name: "Munger", href: "/yoga-teacher-training/yoga-teacher-training-Munger" },
-  { name: "Dharamshala", href: "/yoga-teacher-training/yoga-teacher-training-Dharamshala" },
-  { name: "Lonavala", href: "/yoga-teacher-training/yoga-teacher-training-Lonavala" },
-  { name: "New Delhi", href: "/yoga-teacher-training/yoga-teacher-training-New Delhi" },
-  { name: "Kerala", href: "/yoga-teacher-training/yoga-teacher-training-Kerala" },
-  { name: "Puducherry", href: "/yoga-teacher-training/yoga-teacher-training-Puducherry" },
-  { name: "Pushkar", href: "/yoga-teacher-training/yoga-teacher-training-Pushkar" },
-  { name: "Sikkim", href: "/yoga-teacher-training/yoga-teacher-training-Sikkim" },
-  { name: "Gurugram", href: "/yoga-teacher-training/yoga-teacher-training-Gurugram" },
+  {
+    name: "Munger",
+    href: "/yoga-teacher-training/yoga-teacher-training-Munger",
+  },
+  {
+    name: "Dharamshala",
+    href: "/yoga-teacher-training/yoga-teacher-training-Dharamshala",
+  },
+  {
+    name: "Lonavala",
+    href: "/yoga-teacher-training/yoga-teacher-training-Lonavala",
+  },
+  {
+    name: "New Delhi",
+    href: "/yoga-teacher-training/yoga-teacher-training-New Delhi",
+  },
+  {
+    name: "Kerala",
+    href: "/yoga-teacher-training/yoga-teacher-training-Kerala",
+  },
+  {
+    name: "Puducherry",
+    href: "/yoga-teacher-training/yoga-teacher-training-Puducherry",
+  },
+  {
+    name: "Pushkar",
+    href: "/yoga-teacher-training/yoga-teacher-training-Pushkar",
+  },
+  {
+    name: "Sikkim",
+    href: "/yoga-teacher-training/yoga-teacher-training-Sikkim",
+  },
+  {
+    name: "Gurugram",
+    href: "/yoga-teacher-training/yoga-teacher-training-Gurugram",
+  },
   { name: "Pune", href: "/yoga-teacher-training/yoga-teacher-training-Pune" },
-  { name: "Chennai", href: "/yoga-teacher-training/yoga-teacher-training-Chennai" },
-  { name: "Varanasi", href: "/yoga-teacher-training/yoga-teacher-training-Varanasi" },
-  { name: "Maharashtra", href: "/yoga-teacher-training/yoga-teacher-training-Maharashtra" },
-  { name: "Arambol", href: "/yoga-teacher-training/yoga-teacher-training-Arambol" },
-  { name: "Thiruvananthapuram", href: "/yoga-teacher-training/yoga-teacher-training-Thiruvananthapuram" },
-  { name: "Kolkata", href: "/yoga-teacher-training/yoga-teacher-training-Kolkata" },
-  { name: "Rishikesh", href: "/yoga-teacher-training/yoga-teacher-training-Rishikesh" },
-  { name: "Himachal Pradesh", href: "/yoga-teacher-training/yoga-teacher-training-Himachal Pradesh" },
-  { name: "Bengaluru", href: "/yoga-teacher-training/yoga-teacher-training-Bengaluru" },
-  { name: "Auroville", href: "/yoga-teacher-training/yoga-teacher-training-Auroville" },
+  {
+    name: "Chennai",
+    href: "/yoga-teacher-training/yoga-teacher-training-Chennai",
+  },
+  {
+    name: "Varanasi",
+    href: "/yoga-teacher-training/yoga-teacher-training-Varanasi",
+  },
+  {
+    name: "Maharashtra",
+    href: "/yoga-teacher-training/yoga-teacher-training-Maharashtra",
+  },
+  {
+    name: "Arambol",
+    href: "/yoga-teacher-training/yoga-teacher-training-Arambol",
+  },
+  {
+    name: "Thiruvananthapuram",
+    href: "/yoga-teacher-training/yoga-teacher-training-Thiruvananthapuram",
+  },
+  {
+    name: "Kolkata",
+    href: "/yoga-teacher-training/yoga-teacher-training-Kolkata",
+  },
+  {
+    name: "Rishikesh",
+    href: "/yoga-teacher-training/yoga-teacher-training-Rishikesh",
+  },
+  {
+    name: "Himachal Pradesh",
+    href: "/yoga-teacher-training/yoga-teacher-training-Himachal Pradesh",
+  },
+  {
+    name: "Bengaluru",
+    href: "/yoga-teacher-training/yoga-teacher-training-Bengaluru",
+  },
+  {
+    name: "Auroville",
+    href: "/yoga-teacher-training/yoga-teacher-training-Auroville",
+  },
 ];
 
 /* ─────────────────────────────────────────────
@@ -127,10 +217,11 @@ const YogaTrainingMysore: React.FC = () => {
       <div className={styles.topBorder} />
 
       <div className={styles.container}>
-
         {/* ── PAGE TITLE ── */}
         <div className={styles.pageHeader}>
-          <h1 className={styles.pageTitle}>Yoga Teacher Training in Mysore India</h1>
+          <h1 className={styles.pageTitle}>
+            Yoga Teacher Training in Mysore India
+          </h1>
           <div className={styles.titleUnderline}>
             <div className={styles.underlineLine} />
           </div>
@@ -141,7 +232,9 @@ const YogaTrainingMysore: React.FC = () => {
           <div
             key={section.id}
             className={`${styles.section} ${
-              section.imageLeft ? styles.sectionImageLeft : styles.sectionImageRight
+              section.imageLeft
+                ? styles.sectionImageLeft
+                : styles.sectionImageRight
             }`}
           >
             {/* Image */}
@@ -174,7 +267,10 @@ const YogaTrainingMysore: React.FC = () => {
                 section.subSections.map((sub, idx) => (
                   <div key={idx} style={{ marginBottom: "1.2rem" }}>
                     {idx > 0 && (
-                      <h3 className={styles.headingSerif} style={{ marginTop: "1rem" }}>
+                      <h3
+                        className={styles.headingSerif}
+                        style={{ marginTop: "1rem" }}
+                      >
                         {sub.heading}
                       </h3>
                     )}
@@ -183,7 +279,10 @@ const YogaTrainingMysore: React.FC = () => {
                 ))
               ) : "textList" in section && section.textList ? (
                 /* Bullet list (section 3: features) */
-                <ul className={styles.bodyText} style={{ paddingLeft: "1.2rem", margin: 0 }}>
+                <ul
+                  className={styles.bodyText}
+                  style={{ paddingLeft: "1.2rem", margin: 0 }}
+                >
                   {section.textList.map((item, idx) => (
                     <li key={idx} style={{ marginBottom: "0.4rem" }}>
                       {item}
@@ -217,7 +316,6 @@ const YogaTrainingMysore: React.FC = () => {
             <span className={styles.cityDot}>.</span>
           </div>
         </div>
-
       </div>
 
       {/* Bottom border */}

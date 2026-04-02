@@ -1,9 +1,3 @@
-// ═══════════════════════════════════════════════════
-// FILE LOCATION: src/lib/blogs.ts
-// ═══════════════════════════════════════════════════
-// ✅ Sirf types hain — static allBlogs array hata diya
-// Blogs ab API se dynamically aate hain
-
 export type ImageLayout = "single" | "two-col" | "three-col" | "wide";
 
 export interface BlogImage {
@@ -15,7 +9,7 @@ export interface BlogSection {
   type: "heading" | "subheading" | "paragraph" | "images" | "divider";
   text?: string;
   images?: BlogImage[];
-  imageLayout?: ImageLayout; // ✅ Admin se set hota hai
+  imageLayout?: ImageLayout;
 }
 
 export interface Blog {

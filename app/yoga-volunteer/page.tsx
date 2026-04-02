@@ -1,31 +1,82 @@
-"use client"
+"use client";
 import React, { useEffect, useRef, useState } from "react";
 import styles from "@/assets/style/yoga-volunteer/Postyttcpage.module.css";
 import HowToReach from "@/components/home/Howtoreach";
 
 /* ── Inline SVG Mandala ── */
-const MandalaIcon = ({ size = 80, opacity = 0.18 }: { size?: number; opacity?: number }) => (
-  <svg width={size} height={size} viewBox="0 0 200 200" fill="none" style={{ opacity }}>
+const MandalaIcon = ({
+  size = 80,
+  opacity = 0.18,
+}: {
+  size?: number;
+  opacity?: number;
+}) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 200 200"
+    fill="none"
+    style={{ opacity }}
+  >
     <circle cx="100" cy="100" r="95" stroke="#e07b00" strokeWidth="1.5" />
     <circle cx="100" cy="100" r="75" stroke="#e07b00" strokeWidth="1" />
     <circle cx="100" cy="100" r="55" stroke="#e07b00" strokeWidth="1.5" />
     <circle cx="100" cy="100" r="35" stroke="#e07b00" strokeWidth="1" />
-    <circle cx="100" cy="100" r="15" stroke="#e07b00" strokeWidth="2" fill="rgba(224,123,0,0.15)" />
+    <circle
+      cx="100"
+      cy="100"
+      r="15"
+      stroke="#e07b00"
+      strokeWidth="2"
+      fill="rgba(224,123,0,0.15)"
+    />
     {[0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330].map((deg, i) => {
       const r = (deg * Math.PI) / 180;
-      const x1 = 100 + 15 * Math.cos(r); const y1 = 100 + 15 * Math.sin(r);
-      const x2 = 100 + 95 * Math.cos(r); const y2 = 100 + 95 * Math.sin(r);
-      return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="#e07b00" strokeWidth="0.8" />;
+      const x1 = 100 + 15 * Math.cos(r);
+      const y1 = 100 + 15 * Math.sin(r);
+      const x2 = 100 + 95 * Math.cos(r);
+      const y2 = 100 + 95 * Math.sin(r);
+      return (
+        <line
+          key={i}
+          x1={x1}
+          y1={y1}
+          x2={x2}
+          y2={y2}
+          stroke="#e07b00"
+          strokeWidth="0.8"
+        />
+      );
     })}
     {[0, 45, 90, 135, 180, 225, 270, 315].map((deg, i) => {
       const r = (deg * Math.PI) / 180;
-      const cx = 100 + 75 * Math.cos(r); const cy = 100 + 75 * Math.sin(r);
-      return <circle key={i} cx={cx} cy={cy} r="5" stroke="#e07b00" strokeWidth="1" fill="rgba(224,123,0,0.2)" />;
+      const cx = 100 + 75 * Math.cos(r);
+      const cy = 100 + 75 * Math.sin(r);
+      return (
+        <circle
+          key={i}
+          cx={cx}
+          cy={cy}
+          r="5"
+          stroke="#e07b00"
+          strokeWidth="1"
+          fill="rgba(224,123,0,0.2)"
+        />
+      );
     })}
     {[0, 60, 120, 180, 240, 300].map((deg, i) => {
       const r = (deg * Math.PI) / 180;
-      const cx = 100 + 55 * Math.cos(r); const cy = 100 + 55 * Math.sin(r);
-      return <polygon key={i} points={`${cx},${cy - 7} ${cx + 6},${cy + 4} ${cx - 6},${cy + 4}`} fill="rgba(224,123,0,0.25)" stroke="#e07b00" strokeWidth="0.8" />;
+      const cx = 100 + 55 * Math.cos(r);
+      const cy = 100 + 55 * Math.sin(r);
+      return (
+        <polygon
+          key={i}
+          points={`${cx},${cy - 7} ${cx + 6},${cy + 4} ${cx - 6},${cy + 4}`}
+          fill="rgba(224,123,0,0.25)"
+          stroke="#e07b00"
+          strokeWidth="0.8"
+        />
+      );
     })}
   </svg>
 );
@@ -52,7 +103,10 @@ const ChakraRow = () => {
     <div className={styles.chakraRow}>
       {chakras.map((c, i) => (
         <div key={i} className={styles.chakraItem}>
-          <div className={styles.chakraCircle} style={{ borderColor: c.color, color: c.color }}>
+          <div
+            className={styles.chakraCircle}
+            style={{ borderColor: c.color, color: c.color }}
+          >
             <span className={styles.chakraSymbol}>{c.symbol}</span>
           </div>
           <span className={styles.chakraName}>{c.name}</span>
@@ -65,13 +119,32 @@ const ChakraRow = () => {
 
 export default function PostYTTCPage() {
   const [visible, setVisible] = useState(false);
-  useEffect(() => { setTimeout(() => setVisible(true), 100); }, []);
+  useEffect(() => {
+    setTimeout(() => setVisible(true), 100);
+  }, []);
 
   const programs = [
-    { num: "01", title: "Yoga Volunteer Program", desc: "Students have to indulge in voluntary service in exchange for their stay. A sacred exchange of seva and spiritual growth." },
-    { num: "02", title: "Yoga Immersion", desc: "Immerse yourself in Teachings. Deep dive into the ancient wisdom passed down through Guru-parampara lineage." },
-    { num: "03", title: "Yoga Sadhana", desc: "They have to practice various asanas and meditation themselves to increase their learning and personal mastery." },
-    { num: "04", title: "Advance Yoga Sadhana", desc: "Inner awakening course — for those ready to transcend the ordinary and step into advanced yogic practices.", highlight: true },
+    {
+      num: "01",
+      title: "Yoga Volunteer Program",
+      desc: "Students have to indulge in voluntary service in exchange for their stay. A sacred exchange of seva and spiritual growth.",
+    },
+    {
+      num: "02",
+      title: "Yoga Immersion",
+      desc: "Immerse yourself in Teachings. Deep dive into the ancient wisdom passed down through Guru-parampara lineage.",
+    },
+    {
+      num: "03",
+      title: "Yoga Sadhana",
+      desc: "They have to practice various asanas and meditation themselves to increase their learning and personal mastery.",
+    },
+    {
+      num: "04",
+      title: "Advance Yoga Sadhana",
+      desc: "Inner awakening course — for those ready to transcend the ordinary and step into advanced yogic practices.",
+      highlight: true,
+    },
   ];
 
   const rules = [
@@ -94,9 +167,15 @@ export default function PostYTTCPage() {
   return (
     <div className={`${styles.page} ${visible ? styles.visible : ""}`}>
       {/* Background Mandalas */}
-      <div className={styles.bgMandala1}><MandalaIcon size={500} opacity={0.05} /></div>
-      <div className={styles.bgMandala2}><MandalaIcon size={380} opacity={0.04} /></div>
-      <div className={styles.bgMandala3}><MandalaIcon size={300} opacity={0.05} /></div>
+      <div className={styles.bgMandala1}>
+        <MandalaIcon size={500} opacity={0.05} />
+      </div>
+      <div className={styles.bgMandala2}>
+        <MandalaIcon size={380} opacity={0.04} />
+      </div>
+      <div className={styles.bgMandala3}>
+        <MandalaIcon size={300} opacity={0.05} />
+      </div>
 
       {/* ── TOP BORDER ── */}
       <div className={styles.topBorder} />
@@ -105,26 +184,42 @@ export default function PostYTTCPage() {
           HERO / HEADER
       ══════════════════════════════════════ */}
       <section className={styles.heroSection}>
-        <div className={styles.heroMandalaLeft}><MandalaIcon size={220} opacity={0.12} /></div>
-        <div className={styles.heroMandalaRight}><MandalaIcon size={220} opacity={0.12} /></div>
+        <div className={styles.heroMandalaLeft}>
+          <MandalaIcon size={220} opacity={0.12} />
+        </div>
+        <div className={styles.heroMandalaRight}>
+          <MandalaIcon size={220} opacity={0.12} />
+        </div>
 
         <div className={styles.container}>
           <p className={styles.superTitle}>AYM Yogic Lineage</p>
           <h1 className={styles.heroTitle}>
-            Welcome to AYM Yogic Lineage:<br />
+            Welcome to AYM Yogic Lineage:
+            <br />
             <em>Post YTTC course at AYM yoga</em>
           </h1>
           <OmDivider />
 
           <div className={styles.heroContent}>
             <p className={styles.heroPara}>
-              Recently there are ample of yoga schools has opened in Rishikesh for various reasons. Some are solely focusing on yoga teacher training and while some are focusing on the lineage of ancient yoga.
+              Recently there are ample of yoga schools has opened in Rishikesh
+              for various reasons. Some are solely focusing on yoga teacher
+              training and while some are focusing on the lineage of ancient
+              yoga.
             </p>
             <p className={styles.heroPara}>
-              The AYM <span className={styles.highlight}>yoga ashram in Rishikesh</span> is the perfect blend of both. We at AYM yoga ashram strongly believe in following Guru parampara and create a strong bond with their disciples even after the completion of their yoga courses.
+              The AYM{" "}
+              <span className={styles.highlight}>yoga ashram in Rishikesh</span>{" "}
+              is the perfect blend of both. We at AYM yoga ashram strongly
+              believe in following Guru parampara and create a strong bond with
+              their disciples even after the completion of their yoga courses.
             </p>
             <p className={styles.heroPara}>
-              The students who are willing to deepen their practice or sadhana under the guidance of our yoga gurus at AYM are welcome for post-yoga TTC in AYM yoga ashram. Our ashram firmly believes in creating a safe environment to encourage spirituality, respect, and moral and ethical behavior among our students.
+              The students who are willing to deepen their practice or sadhana
+              under the guidance of our yoga gurus at AYM are welcome for
+              post-yoga TTC in AYM yoga ashram. Our ashram firmly believes in
+              creating a safe environment to encourage spirituality, respect,
+              and moral and ethical behavior among our students.
             </p>
           </div>
         </div>
@@ -148,19 +243,30 @@ export default function PostYTTCPage() {
       <section className={styles.programSection}>
         <div className={styles.container}>
           <div className={styles.sectionHeader}>
-            <div className={styles.mandalaMini}><MandalaIcon size={60} opacity={0.4} /></div>
+            <div className={styles.mandalaMini}>
+              <MandalaIcon size={60} opacity={0.4} />
+            </div>
             <h2 className={styles.sectionTitle}>Post TTC Yoga Program</h2>
-            <div className={styles.mandalaMini}><MandalaIcon size={60} opacity={0.4} /></div>
+            <div className={styles.mandalaMini}>
+              <MandalaIcon size={60} opacity={0.4} />
+            </div>
           </div>
 
           <div className={styles.programGrid}>
             {programs.map((p, i) => (
-              <div key={i} className={`${styles.programCard} ${p.highlight ? styles.programCardHighlight : ""}`}>
+              <div
+                key={i}
+                className={`${styles.programCard} ${p.highlight ? styles.programCardHighlight : ""}`}
+              >
                 <div className={styles.programNum}>{p.num}</div>
                 <div className={styles.programInner}>
                   <h3 className={styles.programTitle}>{p.title}</h3>
                   <p className={styles.programDesc}>{p.desc}</p>
-                  {p.highlight && <span className={styles.innerBadge}>✦ Inner Awakening Course</span>}
+                  {p.highlight && (
+                    <span className={styles.innerBadge}>
+                      ✦ Inner Awakening Course
+                    </span>
+                  )}
                 </div>
                 <div className={styles.programCorner} />
               </div>
@@ -178,22 +284,42 @@ export default function PostYTTCPage() {
         <div className={styles.container}>
           <div className={styles.applyGrid}>
             <div className={styles.applyLeft}>
-              <h2 className={styles.sectionTitle}>How to Apply &amp; Details of the Courses</h2>
+              <h2 className={styles.sectionTitle}>
+                How to Apply &amp; Details of the Courses
+              </h2>
               <p className={styles.applyPara}>
-                Write us an email <span className={styles.emailBadge}>aymyogaschool[at]gmail.com</span> for the details of Post TTC yoga programs which you want to apply.
+                Write us an email{" "}
+                <span className={styles.emailBadge}>
+                  aymyogaschool[at]gmail.com
+                </span>{" "}
+                for the details of Post TTC yoga programs which you want to
+                apply.
               </p>
               <p className={styles.applyPara}>
-                Our school is welcoming students for a volunteering position at the moment, so if you are willing to improve your spiritual education and enhance your yogic knowledge, then it is for you. You will be provided with <span className={styles.highlight}>accommodation, food, and drop in facilities</span> in exchange for your services.
+                Our school is welcoming students for a volunteering position at
+                the moment, so if you are willing to improve your spiritual
+                education and enhance your yogic knowledge, then it is for you.
+                You will be provided with{" "}
+                <span className={styles.highlight}>
+                  accommodation, food, and drop in facilities
+                </span>{" "}
+                in exchange for your services.
               </p>
               <p className={styles.applyPara}>
-                Students who are willing to join must follow the discipline set by the school. Students behavior must be under the guidelines of ashram cultures. <em>One should not treat ashram like a resort.</em>
+                Students who are willing to join must follow the discipline set
+                by the school. Students behavior must be under the guidelines of
+                ashram cultures.{" "}
+                <em>One should not treat ashram like a resort.</em>
               </p>
             </div>
             <div className={styles.applyRight}>
-              <div className={styles.applyMandala}><MandalaIcon size={260} opacity={0.35} /></div>
+              <div className={styles.applyMandala}>
+                <MandalaIcon size={260} opacity={0.35} />
+              </div>
               <div className={styles.applyQuote}>
                 <span className={styles.quoteMarks}>"</span>
-                One should not treat ashram like a resort — it is a place of inner transformation, discipline, and devotion.
+                One should not treat ashram like a resort — it is a place of
+                inner transformation, discipline, and devotion.
                 <span className={styles.quoteMarks}>"</span>
               </div>
             </div>
@@ -209,9 +335,15 @@ export default function PostYTTCPage() {
       <section className={styles.rulesSection}>
         <div className={styles.container}>
           <div className={styles.sectionHeader}>
-            <div className={styles.mandalaMini}><MandalaIcon size={60} opacity={0.4} /></div>
-            <h2 className={styles.sectionTitle}>Rules and Regulation of Yoga Volunteer Program</h2>
-            <div className={styles.mandalaMini}><MandalaIcon size={60} opacity={0.4} /></div>
+            <div className={styles.mandalaMini}>
+              <MandalaIcon size={60} opacity={0.4} />
+            </div>
+            <h2 className={styles.sectionTitle}>
+              Rules and Regulation of Yoga Volunteer Program
+            </h2>
+            <div className={styles.mandalaMini}>
+              <MandalaIcon size={60} opacity={0.4} />
+            </div>
           </div>
 
           <div className={styles.rulesGrid}>
@@ -233,17 +365,28 @@ export default function PostYTTCPage() {
       <section className={styles.policiesSection}>
         <div className={styles.container}>
           <div className={styles.policiesGrid}>
-
             {/* Dress Code */}
             <div className={styles.policyCard}>
               <div className={styles.policyIcon}>🧣</div>
               <h3 className={styles.policyTitle}>Dress Code</h3>
-              <p className={styles.policyText}>Students are expected to wear modest clothing: tight clothing, clothes which reveal their shoulders, midriff, and legs are strictly prohibited.</p>
+              <p className={styles.policyText}>
+                Students are expected to wear modest clothing: tight clothing,
+                clothes which reveal their shoulders, midriff, and legs are
+                strictly prohibited.
+              </p>
               <div className={styles.policySubtitle}>This includes:</div>
               <ul className={styles.policyList}>
-                <li>Shorts, leggings, low cut and sleeveless T-shirt and tank tops</li>
-                <li>Dress code and student behavior are in accordance with local culture and for enhancing the spiritual atmosphere</li>
-                <li>Dress code should be maintained at all times, including yoga classes</li>
+                <li>
+                  Shorts, leggings, low cut and sleeveless T-shirt and tank tops
+                </li>
+                <li>
+                  Dress code and student behavior are in accordance with local
+                  culture and for enhancing the spiritual atmosphere
+                </li>
+                <li>
+                  Dress code should be maintained at all times, including yoga
+                  classes
+                </li>
               </ul>
             </div>
 
@@ -262,23 +405,42 @@ export default function PostYTTCPage() {
             <div className={styles.policyCard}>
               <div className={styles.policyIcon}>🪷</div>
               <h3 className={styles.policyTitle}>Attendance</h3>
-              <p className={styles.policyText}>Your attendance at all ashram activities is mandatory while Post YYTC program at AYM. You are supposed to be on time for each program. Though only resident guest is allowed during asana classes.</p>
+              <p className={styles.policyText}>
+                Your attendance at all ashram activities is mandatory while Post
+                YYTC program at AYM. You are supposed to be on time for each
+                program. Though only resident guest is allowed during asana
+                classes.
+              </p>
 
-              <div className={styles.policySubtitle} style={{ marginTop: "1.4rem" }}>Silence</div>
-              <p className={styles.policyText}>Guests are requested to keep silence during their meal, during the period of Satsang. Also, everyone has to keep their light off after <strong>10:30 PM</strong>.</p>
+              <div
+                className={styles.policySubtitle}
+                style={{ marginTop: "1.4rem" }}
+              >
+                Silence
+              </div>
+              <p className={styles.policyText}>
+                Guests are requested to keep silence during their meal, during
+                the period of Satsang. Also, everyone has to keep their light
+                off after <strong>10:30 PM</strong>.
+              </p>
             </div>
-
           </div>
         </div>
       </section>
 
       {/* ── BOTTOM CTA ── */}
       <section className={styles.ctaSection}>
-        <div className={styles.ctaMandala}><MandalaIcon size={400} opacity={0.07} /></div>
+        <div className={styles.ctaMandala}>
+          <MandalaIcon size={400} opacity={0.07} />
+        </div>
         <div className={styles.container}>
           <p className={styles.ctaSupra}>Begin Your Journey</p>
           <h2 className={styles.ctaTitle}>Ready to deepen your yogic path?</h2>
-          <p className={styles.ctaText}>Connect with AYM Yoga Ashram in Rishikesh and embark on the transformative post-TTC journey under authentic Guru parampara guidance.</p>
+          <p className={styles.ctaText}>
+            Connect with AYM Yoga Ashram in Rishikesh and embark on the
+            transformative post-TTC journey under authentic Guru parampara
+            guidance.
+          </p>
           <div className={styles.ctaActions}>
             <a href="mailto:aymyogaschool@gmail.com" className={styles.ctaBtn}>
               Write to Us <span className={styles.ctaArrow}>→</span>
@@ -289,7 +451,7 @@ export default function PostYTTCPage() {
       </section>
 
       <div className={styles.bottomBorder} />
-      <HowToReach/>
+      <HowToReach />
     </div>
   );
 }

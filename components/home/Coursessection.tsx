@@ -16,7 +16,7 @@ interface Course {
   title: string;
   duration: string;
   level: string;
-  description: string; // HTML string from backend
+  description: string;
   links: CourseLink[];
   enrollHref: string;
   exploreLabel: string;
@@ -31,7 +31,7 @@ interface Course {
 const getImageUrl = (path: string) => {
   if (!path) return "";
   if (path.startsWith("http")) return path;
-  return `${process.env.NEXT_PUBLIC_API_URL}${path}`; // no extra slash
+  return `${process.env.NEXT_PUBLIC_API_URL}${path}`;
 };
 
 export const CoursesSection: React.FC = () => {

@@ -14,21 +14,42 @@ const quickLinks = [
   { label: "Payment", href: "/ttc-payment" },
   { label: "How to Reach", href: "#how-to-reach" },
   { label: "Contact", href: "/Contact-us" },
-  { label: "International Yoga Competition", href: "/international-yoga-competition" },
+  {
+    label: "International Yoga Competition",
+    href: "/international-yoga-competition",
+  },
   { label: "Yoga Teacher Training", href: "/yoga-teacher-training" },
 ];
 
 const courseLinks = [
-  { label: "100 Hour Yoga Teacher Training", href: "/100-hour-yoga-teacher-training-in-rishikesh" },
-  { label: "200 Hour Yoga Teacher Training", href: "/200-hour-yoga-teacher-training-rishikesh" },
-  { label: "300 Hour Yoga Teacher Training", href: "/300-hours-yoga-teacher-training-rishikesh" },
-  { label: "500 Hour Yoga Teacher Training", href: "/500-hour-yoga-teacher-training-india" },
-  { label: "Kundalini Yoga", href: "/kundalini-yoga-teacher-training-in-rishikesh" },
- { label: "Yoga Teacher In Rishikesh", href: "/yoga-teacher-training-in-rishikesh" },
- { label: "Prenatal Yoga Teacher Training", href: "/prenatal-yoga-teacher-training-course" },
- 
-
-
+  {
+    label: "100 Hour Yoga Teacher Training",
+    href: "/100-hour-yoga-teacher-training-in-rishikesh",
+  },
+  {
+    label: "200 Hour Yoga Teacher Training",
+    href: "/200-hour-yoga-teacher-training-rishikesh",
+  },
+  {
+    label: "300 Hour Yoga Teacher Training",
+    href: "/300-hours-yoga-teacher-training-rishikesh",
+  },
+  {
+    label: "500 Hour Yoga Teacher Training",
+    href: "/500-hour-yoga-teacher-training-india",
+  },
+  {
+    label: "Kundalini Yoga",
+    href: "/kundalini-yoga-teacher-training-in-rishikesh",
+  },
+  {
+    label: "Yoga Teacher In Rishikesh",
+    href: "/yoga-teacher-training-in-rishikesh",
+  },
+  {
+    label: "Prenatal Yoga Teacher Training",
+    href: "/prenatal-yoga-teacher-training-course",
+  },
 ];
 
 const socialLinks = [
@@ -58,8 +79,25 @@ const socialLinks = [
     color: "#E1306C",
     icon: (
       <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
-        <rect x="2" y="2" width="20" height="20" rx="5" ry="5" fill="none" stroke="currentColor" strokeWidth="2" />
-        <circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" strokeWidth="2" />
+        <rect
+          x="2"
+          y="2"
+          width="20"
+          height="20"
+          rx="5"
+          ry="5"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+        />
+        <circle
+          cx="12"
+          cy="12"
+          r="4"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+        />
         <circle cx="17.5" cy="6.5" r="1.5" />
       </svg>
     ),
@@ -96,18 +134,23 @@ export const Footer = () => {
 
       {/* ── Main grid ── */}
       <div className={styles.mainGrid}>
-
         {/* Col 1 — Brand + About */}
         <div className={styles.brandCol}>
           <div className={styles.logoWrap}>
-            <Image src={logo} alt="AYM Yoga School" width={330} height={330} className={styles.logo} />
+            <Image
+              src={logo}
+              alt="AYM Yoga School"
+              width={330}
+              height={330}
+              className={styles.logo}
+            />
           </div>
           <p className={styles.tagline}>Authentic Yoga. Ancient Wisdom.</p>
           <p className={styles.aboutText}>
             Registered with <strong>Yoga Alliance, USA</strong> and{" "}
-            <strong>Yoga Certification Board</strong>, Ministry of Ayush,
-            Govt. of India. World-class authentic yoga education in the heart
-            of Rishikesh.
+            <strong>Yoga Certification Board</strong>, Ministry of Ayush, Govt.
+            of India. World-class authentic yoga education in the heart of
+            Rishikesh.
           </p>
           <div className={styles.badges}>
             <span className={styles.badge}>
@@ -168,7 +211,14 @@ export const Footer = () => {
           <div className={styles.contactCards}>
             <a href="tel:+917500277709" className={styles.contactCard}>
               <div className={styles.contactIconWrap}>
-                <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <svg
+                  width="16"
+                  height="16"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  viewBox="0 0 24 24"
+                >
                   <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 8.81a19.79 19.79 0 01-3.07-8.67A2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z" />
                 </svg>
               </div>
@@ -180,7 +230,14 @@ export const Footer = () => {
 
             <a href="mailto:aymindia@gmail.com" className={styles.contactCard}>
               <div className={styles.contactIconWrap}>
-                <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <svg
+                  width="16"
+                  height="16"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  viewBox="0 0 24 24"
+                >
                   <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
                   <polyline points="22,6 12,13 2,6" />
                 </svg>
@@ -193,7 +250,14 @@ export const Footer = () => {
 
             <div className={styles.contactCard}>
               <div className={styles.contactIconWrap}>
-                <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <svg
+                  width="16"
+                  height="16"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  viewBox="0 0 24 24"
+                >
                   <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" />
                   <circle cx="12" cy="10" r="3" />
                 </svg>
@@ -201,7 +265,9 @@ export const Footer = () => {
               <div>
                 <span className={styles.contactMeta}>Address</span>
                 <span className={styles.contactVal}>
-                  Upper Tapovan, Rishikesh,<br />Uttarakhand 249192
+                  Upper Tapovan, Rishikesh,
+                  <br />
+                  Uttarakhand 249192
                 </span>
               </div>
             </div>
@@ -219,7 +285,6 @@ export const Footer = () => {
                   rel="noopener noreferrer"
                   aria-label={s.label}
                   className={styles.socialBtn}
-                  
                 >
                   {s.icon}
                 </a>
@@ -235,13 +300,21 @@ export const Footer = () => {
           © {new Date().getFullYear()} AYM Yoga School. All rights reserved.
         </p>
         <nav className={styles.bottomNav}>
-          <Link href="/sitemap" className={styles.bottomLink}>Sitemap</Link>
+          <Link href="/sitemap" className={styles.bottomLink}>
+            Sitemap
+          </Link>
           <span className={styles.dot}>·</span>
-          <Link href="/faq" className={styles.bottomLink}>FAQ</Link>
+          <Link href="/faq" className={styles.bottomLink}>
+            FAQ
+          </Link>
           <span className={styles.dot}>·</span>
-          <Link href="/Contact-us" className={styles.bottomLink}>Contact</Link>
+          <Link href="/Contact-us" className={styles.bottomLink}>
+            Contact
+          </Link>
           <span className={styles.dot}>·</span>
-          <Link href="/payment" className={styles.bottomLink}>Payment</Link>
+          <Link href="/payment" className={styles.bottomLink}>
+            Payment
+          </Link>
         </nav>
       </div>
     </footer>

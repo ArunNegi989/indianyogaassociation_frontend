@@ -1,32 +1,28 @@
-/* ================================================================
-   AboutUs.module.css — AYM Yoga School | About Us Page
-   Design: Vintage parchment × saffron-gold × sacred serif
-   ================================================================ */
-
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=IM+Fell+DW+Pica:ital@0;1&display=swap');
 
 /* ── Design Tokens ─────────────────────────────────────────── */
 .page {
-  --gold:          #c8860a;
-  --gold-light:    #e5a020;
-  --gold-pale:     #f5d98a;
-  --brown-ink:     #2e1a00;
-  --brown-body:    #3a2510;
-  --brown-sub:     #6b4c22;
-  --brown-muted:   #96744a;
-  --cream:         #faf6ee;
-  --cream-warm:    #f5ecd8;
-  --cream-card:    #fdf8f0;
-  --parchment:     #f0e4c8;
-  --rule-color:    #c8a050;
-  --border-soft:   rgba(200, 134, 10, 0.22);
-  --shadow-warm:   rgba(80, 40, 0, 0.10);
+  --gold: #c8860a;
+  --gold-light: #e5a020;
+  --gold-pale: #f5d98a;
+  --brown-ink: #2e1a00;
+  --brown-body: #3a2510;
+  --brown-sub: #6b4c22;
+  --brown-muted: #96744a;
+  --cream: #faf6ee;
+  --cream-warm: #f5ecd8;
+  --cream-card: #fdf8f0;
+  --parchment: #f0e4c8;
+  --rule-color: #c8a050;
+  --border-soft: rgba(200, 134, 10, 0.22);
+  --shadow-warm: rgba(80, 40, 0, 0.10);
 
   font-family: 'Cormorant Garamond', 'Georgia', serif;
   background-color: var(--cream);
   color: var(--brown-body);
   min-height: 100vh;
 }
+
 .heroSection {
   position: relative;
   z-index: 1;
@@ -42,6 +38,7 @@
   display: block;
   object-fit: contain;
 }
+
 /* ── Container ─────────────────────────────────────────────── */
 .container {
   max-width: 1480px;
@@ -53,7 +50,8 @@
    SECTIONS
    ================================================================ */
 .schoolSection {
-  background: #f5f8f6; /* Softer calm spiritual tone */
+  background: #f5f8f6;
+  /* Softer calm spiritual tone */
   color: #3d2b10;
   animation: fadeIn 0.8s ease-in-out;
   background-image: url("../../images/1905x1064.png");
@@ -65,24 +63,27 @@
   border-top: 1px solid var(--border-soft);
 }
 
-.contentSectionLarge{
+.contentSectionLarge {
   background-image: url("../../images/1905x614.png");
   border-top: 1px solid var(--border-soft);
 }
 
-.altBg{
-  background: #f5f8f6; /* Softer calm spiritual tone */
+.altBg {
+  background: #f5f8f6;
+  /* Softer calm spiritual tone */
   color: #3d2b10;
   animation: fadeIn 0.8s ease-in-out;
-  background-image: url("../../images/1905x478.webp") ;
+  background-image: url("../../images/1905x478.webp");
   background-size: contain;
 }
 
-.altBg2{
-  background: #faf6ee; /* Softer calm spiritual tone */
-  
+.altBg2 {
+  background: #faf6ee;
+  /* Softer calm spiritual tone */
+
 
 }
+
 /* ================================================================
    BLOCK HEADER — Title + gold rule (matches screenshots exactly)
    ================================================================ */
@@ -100,7 +101,7 @@
   line-height: 1.3;
   margin: 0 0 0.65rem;
   /* Subtle italic shadow for depth */
-  text-shadow: 0 1px 0 rgba(255,255,255,0.7);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
 }
 
 /* The gold underline rule — exactly as in screenshots */
@@ -110,14 +111,12 @@
   display: block;
   width: clamp(80px, 15vw, 140px);
   height: 2px;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    var(--gold) 25%,
-    var(--gold-light) 50%,
-    var(--gold) 75%,
-    transparent 100%
-  );
+  background: linear-gradient(90deg,
+      transparent 0%,
+      var(--gold) 25%,
+      var(--gold-light) 50%,
+      var(--gold) 75%,
+      transparent 100%);
   border-radius: 2px;
   position: relative;
 }
@@ -245,7 +244,7 @@
    SCHOOL BODY — text block above gallery
    ================================================================ */
 .schoolBody {
-  
+
   margin: 0 auto clamp(2rem, 4vw, 3rem);
 }
 
@@ -260,7 +259,8 @@
   overflow: hidden;
   box-shadow: 0 6px 28px var(--shadow-warm);
   margin: 0 auto;
-  max-width: 760px; /* centered like screenshot */
+  max-width: 760px;
+  /* centered like screenshot */
 }
 
 .galleryCard {
@@ -290,8 +290,8 @@
   font-family: 'Cormorant Garamond', serif;
   font-size: 0.82rem;
   font-style: italic;
-  color: rgba(255,255,255,0.88);
-  text-shadow: 0 1px 4px rgba(0,0,0,0.35);
+  color: rgba(255, 255, 255, 0.88);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
   line-height: 1.4;
   position: relative;
   z-index: 1;
@@ -301,7 +301,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(0,0,0,0.35) 0%, transparent 55%);
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.35) 0%, transparent 55%);
 }
 
 /* ================================================================
@@ -495,7 +495,16 @@
    PRINT
    ================================================================ */
 @media print {
-  .altBg { background: white; }
-  .contentSection { border-top: 1px solid #ccc; }
-  .logoBadge { box-shadow: none; border: 1.5px solid #999; }
+  .altBg {
+    background: white;
+  }
+
+  .contentSection {
+    border-top: 1px solid #ccc;
+  }
+
+  .logoBadge {
+    box-shadow: none;
+    border: 1.5px solid #999;
+  }
 }

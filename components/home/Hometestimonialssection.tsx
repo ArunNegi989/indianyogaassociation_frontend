@@ -73,13 +73,18 @@ const PLATFORM_RATINGS = [
     fullStars: 5,
     halfStar: false,
     color: "#00AA6C",
-  icon: (
-  <img
-    src={tripIcon.src}
-    alt="TripAdvisor"
-    style={{ width: "100%", height: "100%", objectFit: "contain", display: "block" }}
-  />
-),
+    icon: (
+      <img
+        src={tripIcon.src}
+        alt="TripAdvisor"
+        style={{
+          width: "100%",
+          height: "100%",
+          objectFit: "contain",
+          display: "block",
+        }}
+      />
+    ),
   },
   {
     name: "Google Maps",
@@ -90,12 +95,17 @@ const PLATFORM_RATINGS = [
     halfStar: true,
     color: "#4285F4",
     icon: (
-  <img
-    src={googleIcon.src}
-    alt="TripAdvisor"
-    style={{ width: "100%", height: "100%", objectFit: "contain", display: "block" }}
-  />
-),
+      <img
+        src={googleIcon.src}
+        alt="TripAdvisor"
+        style={{
+          width: "100%",
+          height: "100%",
+          objectFit: "contain",
+          display: "block",
+        }}
+      />
+    ),
   },
   {
     name: "Yoga Alliance",
@@ -106,12 +116,17 @@ const PLATFORM_RATINGS = [
     halfStar: true,
     color: "#7B4F8E",
     icon: (
-  <img
-    src={trustpilotIcon.src}
-    alt="TripAdvisor"
-    style={{ width: "100%", height: "100%", objectFit: "contain", display: "block" }}
-  />
-),
+      <img
+        src={trustpilotIcon.src}
+        alt="TripAdvisor"
+        style={{
+          width: "100%",
+          height: "100%",
+          objectFit: "contain",
+          display: "block",
+        }}
+      />
+    ),
   },
   {
     name: "Trustpilot",
@@ -122,12 +137,17 @@ const PLATFORM_RATINGS = [
     halfStar: true,
     color: "#00B67A",
     icon: (
-  <img
-    src={truststar.src}
-    alt="TripAdvisor"
-    style={{ width: "100%", height: "100%", objectFit: "contain", display: "block" }}
-  />
-),
+      <img
+        src={truststar.src}
+        alt="TripAdvisor"
+        style={{
+          width: "100%",
+          height: "100%",
+          objectFit: "contain",
+          display: "block",
+        }}
+      />
+    ),
   },
 ];
 
@@ -148,7 +168,9 @@ function PlatformStars({ full, half }: { full: number; half: boolean }) {
   return (
     <div className={styles.platformStars}>
       {Array.from({ length: full }).map((_, i) => (
-        <span key={i} className={styles.platformStar}>★</span>
+        <span key={i} className={styles.platformStar}>
+          ★
+        </span>
       ))}
       {half && <span className={styles.platformStarHalf}>★</span>}
     </div>
@@ -177,16 +199,21 @@ function RatingsSummarySection() {
                 <span className={styles.overallScoreLabel}>Out Of 5 Stars</span>
                 <div className={styles.overallStars}>
                   {[1, 2, 3, 4].map((i) => (
-                    <span key={i} className={styles.overallStar}>★</span>
+                    <span key={i} className={styles.overallStar}>
+                      ★
+                    </span>
                   ))}
                   <span className={styles.overallStarHalf}>★</span>
                 </div>
               </div>
             </div>
-            <p className={styles.overallTotal}>Overall Rating of 1276+ Total Reviews</p>
+            <p className={styles.overallTotal}>
+              Overall Rating of 1276+ Total Reviews
+            </p>
             <p className={styles.overallDesc}>
-              Over the past decade, we empowered more than 13K+ awesome Yoga Instructors — who are
-              now successfully teaching on all 6 continents.
+              Over the past decade, we empowered more than 13K+ awesome Yoga
+              Instructors — who are now successfully teaching on all 6
+              continents.
             </p>
             <a href="#reviews" className={styles.overallBtn}>
               See Our Other Reviews
@@ -196,7 +223,9 @@ function RatingsSummarySection() {
 
         {/* RIGHT — Platform Ratings */}
         <div className={styles.platformsPanel}>
-          <h3 className={styles.platformsTitle}>We Know This Is A Big Step For You</h3>
+          <h3 className={styles.platformsTitle}>
+            We Know This Is A Big Step For You
+          </h3>
           <p className={styles.platformsSub}>
             So we do everything to make this the best investment of your life
           </p>
@@ -253,9 +282,12 @@ function TextReviewSlider({ reviews }: { reviews: TextReview[] }) {
         <span className={styles.dividerLine} />
       </div>
       <div className={styles.reviewSliderHeader}>
-        <h2 className={styles.reviewSliderTitle}>Student Reviews &amp; Success Stories</h2>
+        <h2 className={styles.reviewSliderTitle}>
+          Student Reviews &amp; Success Stories
+        </h2>
         <p className={styles.reviewSliderSub}>
-          Authentic stories of transformation from students who began just like you.
+          Authentic stories of transformation from students who began just like
+          you.
         </p>
       </div>
       <div
@@ -265,7 +297,9 @@ function TextReviewSlider({ reviews }: { reviews: TextReview[] }) {
       >
         <div
           className={styles.reviewTrack}
-          style={{ transform: `translateX(calc(-${current} * var(--slide-width)))` }}
+          style={{
+            transform: `translateX(calc(-${current} * var(--slide-width)))`,
+          }}
         >
           {reviews.map((review) => (
             <div key={review.id} className={styles.reviewSlide}>
@@ -283,7 +317,9 @@ function TextReviewSlider({ reviews }: { reviews: TextReview[] }) {
                         if (fallback) fallback.style.display = "flex";
                       }}
                     />
-                    <div className={styles.reviewAvatarFallback}>{review.name.charAt(0)}</div>
+                    <div className={styles.reviewAvatarFallback}>
+                      {review.name.charAt(0)}
+                    </div>
                   </div>
                   <div className={styles.reviewCardMeta}>
                     <span className={styles.reviewCardName}>{review.name}</span>
@@ -323,7 +359,12 @@ interface VideoCardProps {
   onClick: () => void;
 }
 
-function VideoCard({ testimonial, isActive, isPlaying, onClick }: VideoCardProps) {
+function VideoCard({
+  testimonial,
+  isActive,
+  isPlaying,
+  onClick,
+}: VideoCardProps) {
   const vid = getYoutubeId(testimonial.youtubeId);
   return (
     <button
@@ -345,7 +386,9 @@ function VideoCard({ testimonial, isActive, isPlaying, onClick }: VideoCardProps
           <span className={styles.videoFallbackOm}>ॐ</span>
         </div>
         <div className={styles.videoPlayOverlay}>
-          <span className={styles.videoPlayBtn}>{isActive && isPlaying ? "⏸" : "▶"}</span>
+          <span className={styles.videoPlayBtn}>
+            {isActive && isPlaying ? "⏸" : "▶"}
+          </span>
         </div>
         <div className={styles.videoCardBadge}>{testimonial.course}</div>
       </div>
@@ -426,7 +469,8 @@ const HomeTestimonialsSection: React.FC = () => {
           }));
 
         const metaSource =
-          videoRes.data.data?.[0]?.sectionMeta ?? textRes.data.data?.[0]?.sectionMeta;
+          videoRes.data.data?.[0]?.sectionMeta ??
+          textRes.data.data?.[0]?.sectionMeta;
 
         if (metaSource) {
           setMeta({
@@ -470,13 +514,24 @@ const HomeTestimonialsSection: React.FC = () => {
       <div className={styles.bgWatermark} aria-hidden="true">
         ॐ
       </div>
-      <div className={`${styles.corner} ${styles.cornerTL}`} aria-hidden="true" />
-      <div className={`${styles.corner} ${styles.cornerTR}`} aria-hidden="true" />
-      <div className={`${styles.corner} ${styles.cornerBL}`} aria-hidden="true" />
-      <div className={`${styles.corner} ${styles.cornerBR}`} aria-hidden="true" />
+      <div
+        className={`${styles.corner} ${styles.cornerTL}`}
+        aria-hidden="true"
+      />
+      <div
+        className={`${styles.corner} ${styles.cornerTR}`}
+        aria-hidden="true"
+      />
+      <div
+        className={`${styles.corner} ${styles.cornerBL}`}
+        aria-hidden="true"
+      />
+      <div
+        className={`${styles.corner} ${styles.cornerBR}`}
+        aria-hidden="true"
+      />
 
       <div className={styles.container}>
-
         {/* ── Text Reviews ── */}
         {textReviews.length > 0 && <TextReviewSlider reviews={textReviews} />}
 
@@ -532,13 +587,17 @@ const HomeTestimonialsSection: React.FC = () => {
                           tabIndex={0}
                           aria-label="Play video"
                           onClick={() => setIsPlaying(true)}
-                          onKeyDown={(e) => e.key === "Enter" && setIsPlaying(true)}
+                          onKeyDown={(e) =>
+                            e.key === "Enter" && setIsPlaying(true)
+                          }
                         >
                           <span className={styles.videoPlayIconLarge}>▶</span>
                         </div>
                       </>
                     )}
-                    <div className={styles.videoBadgeOverlay}>{active.course}</div>
+                    <div className={styles.videoBadgeOverlay}>
+                      {active.course}
+                    </div>
                   </div>
                   <div className={`${styles.tape} ${styles.tapeTL}`} />
                   <div className={`${styles.tape} ${styles.tapeTR}`} />
@@ -546,7 +605,9 @@ const HomeTestimonialsSection: React.FC = () => {
                   <div className={`${styles.tape} ${styles.tapeBR}`} />
                 </div>
                 <div className={styles.studentInfo}>
-                  <div className={styles.studentAvatar}>{active.name.charAt(0)}</div>
+                  <div className={styles.studentAvatar}>
+                    {active.name.charAt(0)}
+                  </div>
                   <div>
                     <p className={styles.studentName}>{active.name}</p>
                     <p className={styles.studentCountry}>
@@ -567,11 +628,17 @@ const HomeTestimonialsSection: React.FC = () => {
                 />
                 <div className={styles.quoteFooter}>
                   <div className={styles.quoteAuthorBlock}>
-                    <span className={styles.quoteAuthorName}>{active.name}</span>
+                    <span className={styles.quoteAuthorName}>
+                      {active.name}
+                    </span>
                     <span className={styles.quoteAuthorSeparator}>·</span>
-                    <span className={styles.quoteAuthorDetail}>{active.country}</span>
+                    <span className={styles.quoteAuthorDetail}>
+                      {active.country}
+                    </span>
                     <span className={styles.quoteAuthorSeparator}>·</span>
-                    <span className={styles.quoteAuthorDetail}>{active.course}</span>
+                    <span className={styles.quoteAuthorDetail}>
+                      {active.course}
+                    </span>
                   </div>
                   <div className={styles.ornamentRow}>
                     <span className={styles.ornamentLine} />

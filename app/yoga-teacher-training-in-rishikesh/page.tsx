@@ -193,7 +193,8 @@ const CourseCardComp = ({
           <strong className={styles.metaLabel}>Duration:</strong> {duration}
         </p>
         <p className={styles.metaRow}>
-          <strong className={styles.metaLabel}>Certificate:</strong> {certificate}
+          <strong className={styles.metaLabel}>Certificate:</strong>{" "}
+          {certificate}
         </p>
       </div>
       <div className={styles.courseBtns}>
@@ -300,7 +301,6 @@ export default function BestYogaSchool() {
       ══════════════════════════════════════ */}
       <section className={`${styles.section} ${styles.sectionLight}`}>
         <div className="container px-3 px-md-4">
-
           {/* Hero Title */}
           {data.heroTitle && (
             <h1 className={styles.heroTitle}>{data.heroTitle}</h1>

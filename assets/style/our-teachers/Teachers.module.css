@@ -1,8 +1,3 @@
-/* ================================================================
-   Teachers.module.css — AYM Yoga School · Teachers Page
-   Theme: Premium Vintage · Gold + Saffron + Ivory
-================================================================ */
-
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Noto+Serif+Devanagari:wght@400;600&display=swap');
 
 :root {
@@ -143,13 +138,13 @@
    HERO
 ================================================================ */
 .heroSection {
-    position: relative;
+  position: relative;
   z-index: 1;
   width: 100%;
   margin: 0;
   padding: 0;
   line-height: 0;
-  
+
 }
 
 .heroBg {
@@ -274,7 +269,7 @@
 .founderTextCol {
   padding-top: 0.5rem;
   width: 100%;
- 
+
 }
 
 .founderName {

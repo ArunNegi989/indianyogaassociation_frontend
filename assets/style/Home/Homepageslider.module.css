@@ -6,10 +6,10 @@
 .sliderWrapper {
   position: relative;
   width: 100%;
-  height: 59vh; /* ✅ Full viewport height */
-  max-height: 750px; /* ✅ Prevent too tall on desktop */
-  min-height: 400px; /* ✅ Minimum height */
-  overflow: hidden; /* ✅ No scroll */
+  height: 70vh; 
+  max-height: 750px; 
+  min-height: 400px; 
+  overflow: hidden; 
   background: #1a0e00;
   user-select: none;
 }

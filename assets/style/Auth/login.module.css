@@ -52,7 +52,9 @@
 .authWrapper::before {
   content: '';
   position: absolute;
-  top: 0; left: 0; right: 0;
+  top: 0;
+  left: 0;
+  right: 0;
   height: 5px;
   background: linear-gradient(90deg, transparent 0%, #e07b00 20%, #f5b800 50%, #e07b00 80%, transparent 100%);
   z-index: 10;
@@ -61,7 +63,9 @@
 .authWrapper::after {
   content: '';
   position: absolute;
-  bottom: 0; left: 0; right: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
   height: 5px;
   background: linear-gradient(90deg, transparent 0%, #e07b00 20%, #f5b800 50%, #e07b00 80%, transparent 100%);
   z-index: 10;
@@ -75,15 +79,43 @@
   transition: all 0.6s ease-in-out;
 }
 
-.loginFormBox { left: 0; width: 50%; z-index: 2; }
-.panelActive .loginFormBox { transform: translateX(100%); }
+.loginFormBox {
+  left: 0;
+  width: 50%;
+  z-index: 2;
+}
 
-.registerFormBox { left: 0; width: 50%; opacity: 0; z-index: 1; }
-.panelActive .registerFormBox { transform: translateX(100%); opacity: 1; z-index: 5; animation: show 0.6s; }
+.panelActive .loginFormBox {
+  transform: translateX(100%);
+}
+
+.registerFormBox {
+  left: 0;
+  width: 50%;
+  opacity: 0;
+  z-index: 1;
+}
+
+.panelActive .registerFormBox {
+  transform: translateX(100%);
+  opacity: 1;
+  z-index: 5;
+  animation: show 0.6s;
+}
 
 @keyframes show {
-  0%, 49.99% { opacity: 0; z-index: 1; }
-  50%, 100%  { opacity: 1; z-index: 5; }
+
+  0%,
+  49.99% {
+    opacity: 0;
+    z-index: 1;
+  }
+
+  50%,
+  100% {
+    opacity: 1;
+    z-index: 5;
+  }
 }
 
 .authFormBox form {
@@ -125,7 +157,10 @@
   font-style: italic;
 }
 
-.authFormBox a:hover { color: #e07b00; text-decoration: underline; }
+.authFormBox a:hover {
+  color: #e07b00;
+  text-decoration: underline;
+}
 
 /* Om divider line under heading */
 .omDividerSmall {
@@ -165,7 +200,10 @@
   transition: all 0.3s ease;
 }
 
-.authFormBox input::placeholder { color: #b89a70; font-style: italic; }
+.authFormBox input::placeholder {
+  color: #b89a70;
+  font-style: italic;
+}
 
 .authFormBox input:focus {
   outline: none;
@@ -198,7 +236,12 @@
 }
 
 /* ── Social links ── */
-.socialLinks { margin: 14px 0 8px; display: flex; gap: 10px; justify-content: center; }
+.socialLinks {
+  margin: 14px 0 8px;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
 
 .socialLinks a {
   border: 1.5px solid #e8d5b5;
@@ -206,7 +249,8 @@
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  height: 42px; width: 42px;
+  height: 42px;
+  width: 42px;
   color: #b85e00;
   text-decoration: none;
   background: #fff7eb;
@@ -227,21 +271,26 @@
    ================================================================ */
 .slidePanelWrapper {
   position: absolute;
-  top: 0; left: 50%;
-  width: 50%; height: 100%;
+  top: 0;
+  left: 50%;
+  width: 50%;
+  height: 100%;
   overflow: hidden;
   transition: transform 0.6s ease-in-out;
   z-index: 100;
 }
 
-.panelActive .slidePanelWrapper { transform: translateX(-100%); }
+.panelActive .slidePanelWrapper {
+  transform: translateX(-100%);
+}
 
 .slidePanel {
   background: linear-gradient(160deg, #e07b00 0%, #c46a00 45%, #8b3e00 100%);
   color: #ffffff;
   position: relative;
   left: -100%;
-  height: 100%; width: 200%;
+  height: 100%;
+  width: 200%;
   transform: translateX(0);
   transition: transform 0.6s ease-in-out;
   overflow: hidden;
@@ -250,7 +299,8 @@
 .slidePanel::before {
   content: 'ॐ';
   position: absolute;
-  top: 50%; left: 50%;
+  top: 50%;
+  left: 50%;
   transform: translate(-50%, -50%);
   font-size: clamp(8rem, 18vw, 14rem);
   color: rgba(255, 255, 255, 0.07);
@@ -260,7 +310,9 @@
   user-select: none;
 }
 
-.panelActive .slidePanel { transform: translateX(50%); }
+.panelActive .slidePanel {
+  transform: translateX(50%);
+}
 
 .panelContent {
   position: absolute;
@@ -270,7 +322,9 @@
   flex-direction: column;
   padding: 0 44px;
   text-align: center;
-  top: 0; height: 100%; width: 50%;
+  top: 0;
+  height: 100%;
+  width: 50%;
   transition: transform 0.6s ease-in-out;
 }
 
@@ -292,10 +346,22 @@
   font-style: italic;
 }
 
-.panelContentLeft { transform: translateX(-20%); }
-.panelActive .panelContentLeft { transform: translateX(0); }
-.panelContentRight { right: 0; transform: translateX(0); }
-.panelActive .panelContentRight { transform: translateX(20%); }
+.panelContentLeft {
+  transform: translateX(-20%);
+}
+
+.panelActive .panelContentLeft {
+  transform: translateX(0);
+}
+
+.panelContentRight {
+  right: 0;
+  transform: translateX(0);
+}
+
+.panelActive .panelContentRight {
+  transform: translateX(20%);
+}
 
 .transparentBtn {
   border-radius: 4px;
@@ -318,7 +384,9 @@
 }
 
 /* ── Mobile switch ── */
-.mobileSwitch { display: none; }
+.mobileSwitch {
+  display: none;
+}
 
 /* ================================================================
    RESPONSIVE — Every breakpoint
@@ -326,82 +394,208 @@
 
 /* Large desktop */
 @media (min-width: 1200px) {
-  .authWrapper { width: 960px; min-height: 580px; }
-  .authFormBox form { padding: 0 60px; }
+  .authWrapper {
+    width: 960px;
+    min-height: 580px;
+  }
+
+  .authFormBox form {
+    padding: 0 60px;
+  }
 }
 
 /* Tablet landscape */
 @media (max-width: 1024px) {
-  .authWrapper { width: 760px; min-height: 520px; }
-  .authFormBox form { padding: 0 36px; }
+  .authWrapper {
+    width: 760px;
+    min-height: 520px;
+  }
+
+  .authFormBox form {
+    padding: 0 36px;
+  }
 }
 
 /* Tablet portrait — switch to mobile layout */
 @media (max-width: 768px) {
-  .pageWrapper { padding: 16px; align-items: flex-start; padding-top: 40px; }
-  .authWrapper { width: 100%; min-height: auto; border-radius: 12px; }
+  .pageWrapper {
+    padding: 16px;
+    align-items: flex-start;
+    padding-top: 40px;
+  }
+
+  .authWrapper {
+    width: 100%;
+    min-height: auto;
+    border-radius: 12px;
+  }
 
   .authFormBox {
-    position: static !important; width: 100% !important;
-    transform: none !important; opacity: 1 !important; height: auto !important;
+    position: static !important;
+    width: 100% !important;
+    transform: none !important;
+    opacity: 1 !important;
+    height: auto !important;
   }
-  .loginFormBox, .registerFormBox {
-    position: static !important; width: 100% !important; left: 0 !important;
-    transform: none !important; opacity: 1 !important; z-index: 1 !important; height: auto !important;
-  }
-  .registerFormBox { display: none; }
-  .panelActive .loginFormBox { display: none; transform: none !important; }
-  .panelActive .registerFormBox { display: block !important; animation: none; }
-  .slidePanelWrapper { display: none !important; }
 
-  .authFormBox form { padding: 36px 28px 32px; height: auto; position: static; }
-  .authFormBox button[type="submit"] { width: 100%; }
+  .loginFormBox,
+  .registerFormBox {
+    position: static !important;
+    width: 100% !important;
+    left: 0 !important;
+    transform: none !important;
+    opacity: 1 !important;
+    z-index: 1 !important;
+    height: auto !important;
+  }
+
+  .registerFormBox {
+    display: none;
+  }
+
+  .panelActive .loginFormBox {
+    display: none;
+    transform: none !important;
+  }
+
+  .panelActive .registerFormBox {
+    display: block !important;
+    animation: none;
+  }
+
+  .slidePanelWrapper {
+    display: none !important;
+  }
+
+  .authFormBox form {
+    padding: 36px 28px 32px;
+    height: auto;
+    position: static;
+  }
+
+  .authFormBox button[type="submit"] {
+    width: 100%;
+  }
 
   .mobileSwitch {
-    display: flex; flex-direction: column; align-items: center;
-    margin-top: 22px; padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 22px;
+    padding-top: 20px;
     border-top: 1px solid #e8d5b5;
-    width: 100%; gap: 8px;
+    width: 100%;
+    gap: 8px;
   }
+
   .mobileSwitch p {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 1rem; color: #7a5c2e; font-style: italic; margin: 0;
+    font-size: 1rem;
+    color: #7a5c2e;
+    font-style: italic;
+    margin: 0;
   }
+
   .mobileSwitch button {
-    background: transparent; color: #e07b00;
-    border: 1.5px solid #e07b00; border-radius: 4px;
+    background: transparent;
+    color: #e07b00;
+    border: 1.5px solid #e07b00;
+    border-radius: 4px;
     padding: 10px 32px;
-    font-family: 'Cinzel', serif; font-size: 0.68rem; font-weight: 600;
-    letter-spacing: 0.1em; text-transform: uppercase;
-    cursor: pointer; transition: all 0.3s ease; box-shadow: none;
+    font-family: 'Cinzel', serif;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: none;
   }
-  .mobileSwitch button:hover { background: #e07b00; color: #fff; }
+
+  .mobileSwitch button:hover {
+    background: #e07b00;
+    color: #fff;
+  }
 }
 
 /* Mobile */
 @media (max-width: 600px) {
-  .pageWrapper { padding: 12px; padding-top: 30px; background: #fceacc; }
-  .authWrapper { border-radius: 10px; }
-  .authFormBox form { padding: 28px 20px 26px; }
-  .authFormBox h1 { font-size: 1.3rem; }
-  .socialLinks a { height: 38px; width: 38px; }
+  .pageWrapper {
+    padding: 12px;
+    padding-top: 30px;
+    background: #fceacc;
+  }
+
+  .authWrapper {
+    border-radius: 10px;
+  }
+
+  .authFormBox form {
+    padding: 28px 20px 26px;
+  }
+
+  .authFormBox h1 {
+    font-size: 1.3rem;
+  }
+
+  .socialLinks a {
+    height: 38px;
+    width: 38px;
+  }
 }
 
 /* Small mobile */
 @media (max-width: 480px) {
-  .pageWrapper { padding: 10px; padding-top: 20px; }
-  .authFormBox form { padding: 24px 16px 22px; }
-  .authFormBox h1 { font-size: 1.15rem; }
-  .authFormBox input { padding: 11px 13px; font-size: 0.9rem; }
-  .authFormBox button[type="submit"] { padding: 11px 32px; font-size: 0.65rem; }
-  .socialLinks { gap: 8px; }
-  .socialLinks a { height: 36px; width: 36px; }
+  .pageWrapper {
+    padding: 10px;
+    padding-top: 20px;
+  }
+
+  .authFormBox form {
+    padding: 24px 16px 22px;
+  }
+
+  .authFormBox h1 {
+    font-size: 1.15rem;
+  }
+
+  .authFormBox input {
+    padding: 11px 13px;
+    font-size: 0.9rem;
+  }
+
+  .authFormBox button[type="submit"] {
+    padding: 11px 32px;
+    font-size: 0.65rem;
+  }
+
+  .socialLinks {
+    gap: 8px;
+  }
+
+  .socialLinks a {
+    height: 36px;
+    width: 36px;
+  }
 }
 
 /* Very small mobile */
 @media (max-width: 380px) {
-  .authFormBox form { padding: 20px 14px 18px; }
-  .authFormBox h1 { font-size: 1.05rem; }
-  .authFormBox input { padding: 10px 12px; margin: 5px 0; }
-  .mobileSwitch button { width: 100%; text-align: center; }
+  .authFormBox form {
+    padding: 20px 14px 18px;
+  }
+
+  .authFormBox h1 {
+    font-size: 1.05rem;
+  }
+
+  .authFormBox input {
+    padding: 10px 12px;
+    margin: 5px 0;
+  }
+
+  .mobileSwitch button {
+    width: 100%;
+    text-align: center;
+  }
 }

@@ -90,15 +90,9 @@ const formatDateRange = (start: string, end: string) => {
    HTML RENDERER
 ───────────────────────────────────────── */
 function Html({ html, className }: { html: string; className?: string }) {
-  const clean = (html || "")
-    .replace(/<p>/g, "")
-    .replace(/<\/p>/g, " ")
-    .trim();
+  const clean = (html || "").replace(/<p>/g, "").replace(/<\/p>/g, " ").trim();
   return (
-    <div
-      className={className}
-      dangerouslySetInnerHTML={{ __html: clean }}
-    />
+    <div className={className} dangerouslySetInnerHTML={{ __html: clean }} />
   );
 }
 
@@ -204,9 +198,32 @@ function LotusChakra({
   const spokes = [0, 45, 90, 135, 180, 225, 270, 315];
   return (
     <svg viewBox="0 0 100 100" width={size} height={size} aria-hidden="true">
-      <circle cx="50" cy="50" r="46" fill="none" stroke={color} strokeWidth="1.2" />
-      <circle cx="50" cy="50" r="32" fill="none" stroke={color} strokeWidth="0.8" opacity="0.6" />
-      <circle cx="50" cy="50" r="18" fill="none" stroke={color} strokeWidth="1" opacity="0.8" />
+      <circle
+        cx="50"
+        cy="50"
+        r="46"
+        fill="none"
+        stroke={color}
+        strokeWidth="1.2"
+      />
+      <circle
+        cx="50"
+        cy="50"
+        r="32"
+        fill="none"
+        stroke={color}
+        strokeWidth="0.8"
+        opacity="0.6"
+      />
+      <circle
+        cx="50"
+        cy="50"
+        r="18"
+        fill="none"
+        stroke={color}
+        strokeWidth="1"
+        opacity="0.8"
+      />
       <circle cx="50" cy="50" r="7" fill={color} opacity="0.45" />
       {spokes.map((deg) => {
         const rad = (deg * Math.PI) / 180;
@@ -329,7 +346,14 @@ function BorderStrip() {
             </g>
           );
         })}
-        <line x1="0" y1="7" x2="800" y2="7" stroke="#e07b00" strokeWidth="0.3" />
+        <line
+          x1="0"
+          y1="7"
+          x2="800"
+          y2="7"
+          stroke="#e07b00"
+          strokeWidth="0.3"
+        />
       </svg>
     </div>
   );
@@ -360,10 +384,7 @@ export default function AshtangaVinyasaTTC() {
   const BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? "";
 
   useEffect(() => {
-    Promise.all([
-      api.get("/ashtanga-vinyasa-ttc/"),
-      api.get("/vinyasa-seats"),
-    ])
+    Promise.all([api.get("/ashtanga-vinyasa-ttc/"), api.get("/vinyasa-seats")])
       .then(([pageRes, seatsRes]) => {
         setPageData(pageRes.data.data ?? null);
         setSeats(seatsRes.data.data ?? []);
@@ -406,7 +427,6 @@ export default function AshtangaVinyasaTTC() {
 
   return (
     <div className={styles.page}>
-
       {/* Mandala Decorations */}
       <div className={styles.mandalaTL} aria-hidden="true">
         <MandalaSVG size={420} c1="#e07b00" c2="#d4a017" sw={0.42} />
@@ -437,7 +457,6 @@ export default function AshtangaVinyasaTTC() {
       {/* SECTION 1 — INTRO + COURSE DETAILS */}
       <section className={styles.section + " " + styles.sectionLight}>
         <div className="container px-3 px-md-4">
-
           <h1 className={styles.heroTitle}>{pageData.pageH1Title}</h1>
           <SimpleDivider />
           <Html html={pageData.introMainPara} className={styles.bodyPara} />
@@ -447,8 +466,14 @@ export default function AshtangaVinyasaTTC() {
             <span className={styles.cardCorner}>✦</span>
             <h2 className={styles.cardTitle}>{pageData.courseDetailsTitle}</h2>
             <div className={styles.cardUnderline} />
-            <Html html={pageData.courseDetailsIntro1} className={styles.bodyPara} />
-            <Html html={pageData.courseDetailsIntro2} className={styles.bodyPara} />
+            <Html
+              html={pageData.courseDetailsIntro1}
+              className={styles.bodyPara}
+            />
+            <Html
+              html={pageData.courseDetailsIntro2}
+              className={styles.bodyPara}
+            />
             <div className={styles.learnGrid}>
               {pageData.learnItems.map((item, i) => (
                 <div key={i} className={styles.learnItem}>
@@ -464,18 +489,25 @@ export default function AshtangaVinyasaTTC() {
             <span className={styles.cardCorner}>✦</span>
             <h2 className={styles.cardTitle}>{pageData.whoCanApplyTitle}</h2>
             <div className={styles.cardUnderline} />
-            <Html html={pageData.whoCanApplyPara1} className={styles.bodyPara} />
-            <Html html={pageData.whoCanApplyPara2} className={styles.bodyPara} />
+            <Html
+              html={pageData.whoCanApplyPara1}
+              className={styles.bodyPara}
+            />
+            <Html
+              html={pageData.whoCanApplyPara2}
+              className={styles.bodyPara}
+            />
             <div className={styles.whoList}>
               {pageData.whoItems.map((item, i) => (
                 <div key={i} className={styles.whoItem}>
                   <span className={styles.whoDot} />
-                  <span>{i + 1}. {item}</span>
+                  <span>
+                    {i + 1}. {item}
+                  </span>
                 </div>
               ))}
             </div>
           </div>
-
         </div>
       </section>
 
@@ -506,13 +538,13 @@ export default function AshtangaVinyasaTTC() {
                 {pageData.promoFeeLabel}{" "}
                 <strong>{pageData.promoFeeAmount}</strong>
               </p>
-              
-            <a
-  href={pageData.promoBtnHref || "#schedule"}
-  className={styles.promoBtn}
->
-  {pageData.promoBtnLabel}
-</a>
+
+              <a
+                href={pageData.promoBtnHref || "#schedule"}
+                className={styles.promoBtn}
+              >
+                {pageData.promoBtnLabel}
+              </a>
             </div>
           </div>
 
@@ -544,7 +576,6 @@ export default function AshtangaVinyasaTTC() {
               <Html key={i} html={para} className={styles.bodyPara} />
             ))}
           </div>
-
         </div>
       </section>
 
@@ -554,7 +585,6 @@ export default function AshtangaVinyasaTTC() {
         id="schedule"
       >
         <div className="container px-3 px-md-4">
-
           {/* Certification Card */}
           <div className={styles.vintageCard}>
             <span className={styles.cardCorner}>✦</span>
@@ -597,13 +627,20 @@ export default function AshtangaVinyasaTTC() {
                   />
                   <circle cx="100" cy="4" r="3" fill="#e07b00" opacity="0.7" />
                   <circle cx="10" cy="4" r="1.5" fill="#b8860b" opacity="0.5" />
-                  <circle cx="190" cy="4" r="1.5" fill="#b8860b" opacity="0.5" />
+                  <circle
+                    cx="190"
+                    cy="4"
+                    r="1.5"
+                    fill="#b8860b"
+                    opacity="0.5"
+                  />
                 </svg>
               </div>
             </div>
 
             <p className={styles.centerSubtext}>
-              Choose your preferred accommodation. Prices include tuition and meals.
+              Choose your preferred accommodation. Prices include tuition and
+              meals.
             </p>
 
             <div className={styles.tableContainer}>
@@ -677,13 +714,12 @@ export default function AshtangaVinyasaTTC() {
                                   Apply Now
                                 </span>
                               ) : (
-                                
                                 <a
-  href={applyHref}
-  className={styles.applyLink}
->
-  Apply Now
-</a>
+                                  href={applyHref}
+                                  className={styles.applyLink}
+                                >
+                                  Apply Now
+                                </a>
                               )}
                             </td>
                           </tr>
@@ -701,13 +737,12 @@ export default function AshtangaVinyasaTTC() {
               )}
 
               <div style={{ textAlign: "center", padding: "1rem 0 0.5rem" }}>
-                
-              <a
-  href={pageData.schedPayBtnHref || "#"}
-  className={styles.joinBtn}
->
-  {pageData.schedPayBtnLabel}
-</a>
+                <a
+                  href={pageData.schedPayBtnHref || "#"}
+                  className={styles.joinBtn}
+                >
+                  {pageData.schedPayBtnLabel}
+                </a>
               </div>
             </div>
           </div>
@@ -716,7 +751,9 @@ export default function AshtangaVinyasaTTC() {
 
           {/* Testimonials */}
           <div className={styles.testimonialBlock + " mt-5"}>
-            <h2 className={styles.testimTitle}>{pageData.testimSectionTitle}</h2>
+            <h2 className={styles.testimTitle}>
+              {pageData.testimSectionTitle}
+            </h2>
             <div className={styles.testimUnderline} />
             <p className={styles.testimIntro}>{pageData.testimIntroText}</p>
 
@@ -736,7 +773,6 @@ export default function AshtangaVinyasaTTC() {
               </div>
             ))}
           </div>
-
         </div>
       </section>
 

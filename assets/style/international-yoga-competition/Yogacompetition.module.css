@@ -1,9 +1,3 @@
-/* ================================================================
-   YogaCompetition.module.css — AYM Yoga School
-   Vintage-meets-modern yoga aesthetic
-   Warm parchment tones + saffron accents + ornamental details
-   ================================================================ */
-
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Dancing+Script:wght@600;700&display=swap');
 
 /* ── CSS Variables ── */
@@ -62,11 +56,11 @@
 .topBorder {
   height: 5px;
   background: linear-gradient(90deg,
-    transparent 0%,
-    #e07b00 20%,
-    #f5b800 50%,
-    #e07b00 80%,
-    transparent 100%);
+      transparent 0%,
+      #e07b00 20%,
+      #f5b800 50%,
+      #e07b00 80%,
+      transparent 100%);
 }
 
 /* ── Container ── */
@@ -662,12 +656,10 @@
 .winnerOverlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    to top,
-    rgba(30, 10, 0, 0.88) 0%,
-    rgba(30, 10, 0, 0.45) 55%,
-    rgba(30, 10, 0, 0.15) 100%
-  );
+  background: linear-gradient(to top,
+      rgba(30, 10, 0, 0.88) 0%,
+      rgba(30, 10, 0, 0.45) 55%,
+      rgba(30, 10, 0, 0.15) 100%);
   display: flex;
   flex-direction: column;
   justify-content: flex-end;

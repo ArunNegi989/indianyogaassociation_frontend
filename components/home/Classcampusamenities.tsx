@@ -3,19 +3,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from "../../assets/style/Home/Classcampusamenities.module.css";
 import api from "@/lib/api";
-
-/* ─────────────────────────────────────────
-   Helper — convert relative /uploads/... path
-   to full URL using the backend base URL.
-   Backend returns "/uploads/filename.jpg"
-   We need "http://localhost:5014/uploads/filename.jpg"
-───────────────────────────────────────── */
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL || ""; // e.g. http://localhost:5014
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "";
 
 function getImageUrl(path: string): string {
   if (!path) return "";
-  if (path.startsWith("http")) return path;       // already full URL
-  return `${BASE_URL}${path}`;                    // prepend base URL
+  if (path.startsWith("http")) return path;
+  return `${BASE_URL}${path}`;
 }
 
 /* ─────────────────────────────────────────
@@ -53,7 +46,6 @@ export const ClassCampusAmenities: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // GET /api/class-campus-amenities → { success: true, data: [...] }
         const res = await api.get("/class-campus-amenities");
         if (res.data.success && res.data.data?.length > 0) {
           setData(res.data.data[0]);
@@ -77,7 +69,7 @@ export const ClassCampusAmenities: React.FC = () => {
           if (e.isIntersecting) e.target.classList.add(styles.revealed);
         });
       },
-      { threshold: 0.08 }
+      { threshold: 0.08 },
     );
     els.forEach((el) => observer.observe(el));
     return () => observer.disconnect();
@@ -93,7 +85,6 @@ export const ClassCampusAmenities: React.FC = () => {
       <div className={styles.container}>
         {/* ══ TOP ROW — Class Size + Campus ══ */}
         <div className={styles.topRow}>
-
           {/* ── AYM CLASS SIZE ── */}
           <div className={`${styles.classBlock} ${styles.reveal}`}>
             <div className={styles.blockHeader}>
@@ -111,7 +102,9 @@ export const ClassCampusAmenities: React.FC = () => {
                   className={styles.classImg}
                 />
                 <div className={styles.classImgOverlay}>
-                  <span className={styles.welcomeScript}>{data.classSizeWelcomeText}</span>
+                  <span className={styles.welcomeScript}>
+                    {data.classSizeWelcomeText}
+                  </span>
                 </div>
                 <span className={styles.cornerTL} aria-hidden="true" />
                 <span className={styles.cornerBR} aria-hidden="true" />
@@ -169,7 +162,6 @@ export const ClassCampusAmenities: React.FC = () => {
 
         {/* ══ AMENITIES ROW ══ */}
         <div className={styles.amenitiesRow}>
-
           {/* Left — text */}
           <div className={`${styles.amenitiesLeft} ${styles.reveal}`}>
             <div className={styles.blockHeader}>
@@ -194,7 +186,9 @@ export const ClassCampusAmenities: React.FC = () => {
                   className={`${styles.amenityItem} ${styles.reveal}`}
                   style={{ "--d": `${i * 0.08}s` } as React.CSSProperties}
                 >
-                  <span className={styles.bullet} aria-hidden="true">ॐ</span>
+                  <span className={styles.bullet} aria-hidden="true">
+                    ॐ
+                  </span>
                   <span>{item}</span>
                 </li>
               ))}
@@ -215,7 +209,9 @@ export const ClassCampusAmenities: React.FC = () => {
               />
               {data.amenityMosaicTag && (
                 <div className={styles.mosaicMainOverlay}>
-                  <span className={styles.mosaicTag}>{data.amenityMosaicTag}</span>
+                  <span className={styles.mosaicTag}>
+                    {data.amenityMosaicTag}
+                  </span>
                 </div>
               )}
             </div>

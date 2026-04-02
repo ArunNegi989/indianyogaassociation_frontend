@@ -10,7 +10,8 @@ const sections = [
   {
     id: 1,
     imageLeft: true,
-    image: "https://images.unsplash.com/photo-1588286840104-8957b019727f?w=700&q=80&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1588286840104-8957b019727f?w=700&q=80&fit=crop",
     imageAlt: "Yoga teacher training class in India",
     heading: "Qualified yoga training in India",
     headingStyle: "serif" as const,
@@ -19,7 +20,8 @@ const sections = [
   {
     id: 2,
     imageLeft: false,
-    image: "https://images.unsplash.com/photo-1545389336-cf090694435e?w=700&q=80&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1545389336-cf090694435e?w=700&q=80&fit=crop",
     imageAlt: "Yoga meditation class AYM India",
     heading: "Experience the art of yoga and mediatation at AYM in India",
     headingStyle: "script" as const,
@@ -28,7 +30,8 @@ const sections = [
   {
     id: 3,
     imageLeft: true,
-    image: "https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?w=700&q=80&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?w=700&q=80&fit=crop",
     imageAlt: "Best yoga meditation centre India",
     heading: "Best yoga and mediation centre in India",
     headingStyle: "serif" as const,
@@ -37,7 +40,8 @@ const sections = [
   {
     id: 4,
     imageLeft: false,
-    image: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=700&q=80&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=700&q=80&fit=crop",
     imageAlt: "Experience yoga and meditation at AYM India",
     heading: "Experience the art of yoga and mediatation at AYM in India",
     headingStyle: "script" as const,
@@ -46,7 +50,8 @@ const sections = [
   {
     id: 5,
     imageLeft: true,
-    image: "https://images.unsplash.com/photo-1603988363607-e1e4a66962c6?w=700&q=80&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1603988363607-e1e4a66962c6?w=700&q=80&fit=crop",
     imageAlt: "Top yoga meditation centre India",
     heading: "Top yoga and mediation centre in India",
     headingStyle: "serif" as const,
@@ -55,39 +60,126 @@ const sections = [
 ];
 
 const cityLinks: { name: string; href: string }[] = [
-  { name: "Jaipur", href: "/yoga-teacher-training/yoga-teacher-training-Jaipur" },
-  { name: "Mysore", href: "/yoga-teacher-training/yoga-teacher-training-Mysore" },
-  { name: "Haryana", href: "/yoga-teacher-training/yoga-teacher-training-Haryana" },
+  {
+    name: "Jaipur",
+    href: "/yoga-teacher-training/yoga-teacher-training-Jaipur",
+  },
+  {
+    name: "Mysore",
+    href: "/yoga-teacher-training/yoga-teacher-training-Mysore",
+  },
+  {
+    name: "Haryana",
+    href: "/yoga-teacher-training/yoga-teacher-training-Haryana",
+  },
   { name: "Agra", href: "/yoga-teacher-training/yoga-teacher-training-Agra" },
-  { name: "Mumbai", href: "/yoga-teacher-training/yoga-teacher-training-Mumbai" },
-  { name: "Coimbatore", href: "/yoga-teacher-training/yoga-teacher-training-Coimbatore" },
-  { name: "Uttrakhand", href: "/yoga-teacher-training/yoga-teacher-training-Uttrakhand" },
-  { name: "Varkala", href: "/yoga-teacher-training/yoga-teacher-training-Varkala" },
-  { name: "Gokarna", href: "/yoga-teacher-training/yoga-teacher-training-Gokarna" },
-  { name: "Tamil Nadu", href: "/yoga-teacher-training/yoga-teacher-training-Tamil Nadu" },
+  {
+    name: "Mumbai",
+    href: "/yoga-teacher-training/yoga-teacher-training-Mumbai",
+  },
+  {
+    name: "Coimbatore",
+    href: "/yoga-teacher-training/yoga-teacher-training-Coimbatore",
+  },
+  {
+    name: "Uttrakhand",
+    href: "/yoga-teacher-training/yoga-teacher-training-Uttrakhand",
+  },
+  {
+    name: "Varkala",
+    href: "/yoga-teacher-training/yoga-teacher-training-Varkala",
+  },
+  {
+    name: "Gokarna",
+    href: "/yoga-teacher-training/yoga-teacher-training-Gokarna",
+  },
+  {
+    name: "Tamil Nadu",
+    href: "/yoga-teacher-training/yoga-teacher-training-Tamil Nadu",
+  },
   { name: "Goa", href: "/yoga-teacher-training/yoga-teacher-training-Goa" },
   { name: "Kochi", href: "/yoga-teacher-training/yoga-teacher-training-Kochi" },
-  { name: "Munger", href: "/yoga-teacher-training/yoga-teacher-training-Munger" },
-  { name: "Dharamshala", href: "/yoga-teacher-training/yoga-teacher-training-Dharamshala" },
-  { name: "Lonavala", href: "/yoga-teacher-training/yoga-teacher-training-Lonavala" },
-  { name: "New Delhi", href: "/yoga-teacher-training/yoga-teacher-training-New Delhi" },
-  { name: "Kerala", href: "/yoga-teacher-training/yoga-teacher-training-Kerala" },
-  { name: "Puducherry", href: "/yoga-teacher-training/yoga-teacher-training-Puducherry" },
-  { name: "Pushkar", href: "/yoga-teacher-training/yoga-teacher-training-Pushkar" },
-  { name: "Sikkim", href: "/yoga-teacher-training/yoga-teacher-training-Sikkim" },
-  { name: "Gurugram", href: "/yoga-teacher-training/yoga-teacher-training-Gurugram" },
+  {
+    name: "Munger",
+    href: "/yoga-teacher-training/yoga-teacher-training-Munger",
+  },
+  {
+    name: "Dharamshala",
+    href: "/yoga-teacher-training/yoga-teacher-training-Dharamshala",
+  },
+  {
+    name: "Lonavala",
+    href: "/yoga-teacher-training/yoga-teacher-training-Lonavala",
+  },
+  {
+    name: "New Delhi",
+    href: "/yoga-teacher-training/yoga-teacher-training-New Delhi",
+  },
+  {
+    name: "Kerala",
+    href: "/yoga-teacher-training/yoga-teacher-training-Kerala",
+  },
+  {
+    name: "Puducherry",
+    href: "/yoga-teacher-training/yoga-teacher-training-Puducherry",
+  },
+  {
+    name: "Pushkar",
+    href: "/yoga-teacher-training/yoga-teacher-training-Pushkar",
+  },
+  {
+    name: "Sikkim",
+    href: "/yoga-teacher-training/yoga-teacher-training-Sikkim",
+  },
+  {
+    name: "Gurugram",
+    href: "/yoga-teacher-training/yoga-teacher-training-Gurugram",
+  },
   { name: "Pune", href: "/yoga-teacher-training/yoga-teacher-training-Pune" },
-  { name: "Chennai", href: "/yoga-teacher-training/yoga-teacher-training-Chennai" },
-  { name: "Varanasi", href: "/yoga-teacher-training/yoga-teacher-training-Varanasi" },
-  { name: "Maharashtra", href: "/yoga-teacher-training/yoga-teacher-training-Maharashtra" },
-  { name: "Arambol", href: "/yoga-teacher-training/yoga-teacher-training-Arambol" },
-  { name: "Thiruvananthapuram", href: "/yoga-teacher-training/yoga-teacher-training-Thiruvananthapuram" },
-  { name: "Kolkata", href: "/yoga-teacher-training/yoga-teacher-training-Kolkata" },
-  { name: "Rishikesh", href: "/yoga-teacher-training/yoga-teacher-training-Rishikesh" },
-  { name: "Himachal Pradesh", href: "/yoga-teacher-training/yoga-teacher-training-Himachal Pradesh" },
-  { name: "Himachal Pradesh", href: "/yoga-teacher-training/yoga-teacher-training-Himachal Pradesh" },
-  { name: "Bengaluru", href: "/yoga-teacher-training/yoga-teacher-training-Bengaluru" },
-  { name: "Auroville", href: "/yoga-teacher-training/yoga-teacher-training-Auroville" },
+  {
+    name: "Chennai",
+    href: "/yoga-teacher-training/yoga-teacher-training-Chennai",
+  },
+  {
+    name: "Varanasi",
+    href: "/yoga-teacher-training/yoga-teacher-training-Varanasi",
+  },
+  {
+    name: "Maharashtra",
+    href: "/yoga-teacher-training/yoga-teacher-training-Maharashtra",
+  },
+  {
+    name: "Arambol",
+    href: "/yoga-teacher-training/yoga-teacher-training-Arambol",
+  },
+  {
+    name: "Thiruvananthapuram",
+    href: "/yoga-teacher-training/yoga-teacher-training-Thiruvananthapuram",
+  },
+  {
+    name: "Kolkata",
+    href: "/yoga-teacher-training/yoga-teacher-training-Kolkata",
+  },
+  {
+    name: "Rishikesh",
+    href: "/yoga-teacher-training/yoga-teacher-training-Rishikesh",
+  },
+  {
+    name: "Himachal Pradesh",
+    href: "/yoga-teacher-training/yoga-teacher-training-Himachal Pradesh",
+  },
+  {
+    name: "Himachal Pradesh",
+    href: "/yoga-teacher-training/yoga-teacher-training-Himachal Pradesh",
+  },
+  {
+    name: "Bengaluru",
+    href: "/yoga-teacher-training/yoga-teacher-training-Bengaluru",
+  },
+  {
+    name: "Auroville",
+    href: "/yoga-teacher-training/yoga-teacher-training-Auroville",
+  },
 ];
 
 /* ─────────────────────────────────────────────
@@ -100,7 +192,6 @@ const YogaTraining: React.FC = () => {
       <div className={styles.topBorder} />
 
       <div className={styles.container}>
-
         {/* ── PAGE TITLE ── */}
         <div className={styles.pageHeader}>
           <h1 className={styles.pageTitle}>Yoga Teacher Training in India</h1>
@@ -114,7 +205,9 @@ const YogaTraining: React.FC = () => {
           <div
             key={section.id}
             className={`${styles.section} ${
-              section.imageLeft ? styles.sectionImageLeft : styles.sectionImageRight
+              section.imageLeft
+                ? styles.sectionImageLeft
+                : styles.sectionImageRight
             }`}
           >
             {/* Image */}
@@ -165,7 +258,6 @@ const YogaTraining: React.FC = () => {
             <span className={styles.cityDot}>.</span>
           </div>
         </div>
-
       </div>
 
       {/* Bottom border */}

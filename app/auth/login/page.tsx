@@ -39,7 +39,7 @@ export default function LoginPage() {
       router.push("/admin");
     } catch (err: any) {
       setRegisterError(
-        err?.response?.data?.message || "Registration failed. Try again."
+        err?.response?.data?.message || "Registration failed. Try again.",
       );
     } finally {
       setRegisterLoading(false);
@@ -58,7 +58,7 @@ export default function LoginPage() {
       router.push("/admin");
     } catch (err: any) {
       setLoginError(
-        err?.response?.data?.message || "Invalid credentials. Try again."
+        err?.response?.data?.message || "Invalid credentials. Try again.",
       );
     } finally {
       setLoginLoading(false);
@@ -81,9 +81,15 @@ export default function LoginPage() {
               <span className={styles.omLineBar} />
             </div>
             <div className={styles.socialLinks}>
-              <a href="#" aria-label="Facebook"><i className="fab fa-facebook-f" /></a>
-              <a href="#" aria-label="Google"><i className="fab fa-google" /></a>
-              <a href="#" aria-label="LinkedIn"><i className="fab fa-linkedin-in" /></a>
+              <a href="#" aria-label="Facebook">
+                <i className="fab fa-facebook-f" />
+              </a>
+              <a href="#" aria-label="Google">
+                <i className="fab fa-google" />
+              </a>
+              <a href="#" aria-label="LinkedIn">
+                <i className="fab fa-linkedin-in" />
+              </a>
             </div>
             <span>or use your email for registration</span>
 
@@ -142,9 +148,15 @@ export default function LoginPage() {
               <span className={styles.omLineBar} />
             </div>
             <div className={styles.socialLinks}>
-              <a href="#" aria-label="Facebook"><i className="fab fa-facebook-f" /></a>
-              <a href="#" aria-label="Google"><i className="fab fa-google" /></a>
-              <a href="#" aria-label="LinkedIn"><i className="fab fa-linkedin-in" /></a>
+              <a href="#" aria-label="Facebook">
+                <i className="fab fa-facebook-f" />
+              </a>
+              <a href="#" aria-label="Google">
+                <i className="fab fa-google" />
+              </a>
+              <a href="#" aria-label="LinkedIn">
+                <i className="fab fa-linkedin-in" />
+              </a>
             </div>
             <span>or use your account</span>
 
@@ -187,7 +199,9 @@ export default function LoginPage() {
         {/* ── Sliding Overlay Panel ─────────────────────────── */}
         <div className={styles.slidePanelWrapper}>
           <div className={styles.slidePanel}>
-            <div className={`${styles.panelContent} ${styles.panelContentLeft}`}>
+            <div
+              className={`${styles.panelContent} ${styles.panelContentLeft}`}
+            >
               <h1>Welcome Back!</h1>
               <p>
                 Stay connected by logging in with your credentials and continue
@@ -201,7 +215,9 @@ export default function LoginPage() {
                 Sign In
               </button>
             </div>
-            <div className={`${styles.panelContent} ${styles.panelContentRight}`}>
+            <div
+              className={`${styles.panelContent} ${styles.panelContentRight}`}
+            >
               <h1>Namaste!</h1>
               <p>
                 Begin your amazing yoga journey by creating an account with us

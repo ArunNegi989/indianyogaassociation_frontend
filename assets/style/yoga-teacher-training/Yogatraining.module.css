@@ -1,9 +1,3 @@
-/* ================================================================
-   YogaTraining.module.css — AYM Yoga School
-   Vintage-meets-modern yoga aesthetic
-   Warm parchment tones + saffron accents — matches AboutSection style
-   ================================================================ */
-
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Dancing+Script:wght@600;700&display=swap');
 
 /* ── CSS Variables ── */
@@ -48,11 +42,11 @@
 .topBorder {
   height: 5px;
   background: linear-gradient(90deg,
-    transparent 0%,
-    #e07b00 20%,
-    #f5b800 50%,
-    #e07b00 80%,
-    transparent 100%);
+      transparent 0%,
+      #e07b00 20%,
+      #f5b800 50%,
+      #e07b00 80%,
+      transparent 100%);
   position: relative;
   z-index: 1;
 }

@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useEffect, useState } from "react";
 import styles from "@/assets/style/yoga-ayurveda-teacher-training-rishikesh/Ayurvedapage.module.css";
 import HowToReach from "@/components/home/Howtoreach";
@@ -7,12 +7,42 @@ import heroImgFallback from "@/assets/images/19.webp";
 import api from "@/lib/api";
 
 /* ─── Types ─── */
-interface DailyScheduleItem { time: string; activity: string; }
-interface CourseItem { level: string; fee: string; days: string; cert: string; color?: string; image?: string; }
-interface Dosha { name: string; elements: string; color: string; symbol: string; desc: string; }
-interface Therapy { num: string; name: string; desc: string; icon: string; }
-interface MassageType { num: string; name: string; desc: string; }
-interface YogaPricing { hrs: string; title: string; price: string; note: string; }
+interface DailyScheduleItem {
+  time: string;
+  activity: string;
+}
+interface CourseItem {
+  level: string;
+  fee: string;
+  days: string;
+  cert: string;
+  color?: string;
+  image?: string;
+}
+interface Dosha {
+  name: string;
+  elements: string;
+  color: string;
+  symbol: string;
+  desc: string;
+}
+interface Therapy {
+  num: string;
+  name: string;
+  desc: string;
+  icon: string;
+}
+interface MassageType {
+  num: string;
+  name: string;
+  desc: string;
+}
+interface YogaPricing {
+  hrs: string;
+  title: string;
+  price: string;
+  note: string;
+}
 
 interface AyurvedaData {
   _id: string;
@@ -115,7 +145,9 @@ const Html = ({ html, className }: { html: string; className?: string }) => (
 
 /* ════════════════════════ MAIN ════════════════════════ */
 export default function AyurvedaPage() {
-  const [activeTab, setActiveTab] = useState<"ayurveda" | "panchakarma">("ayurveda");
+  const [activeTab, setActiveTab] = useState<"ayurveda" | "panchakarma">(
+    "ayurveda",
+  );
   const [data, setData] = useState<AyurvedaData | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -141,9 +173,11 @@ export default function AyurvedaPage() {
           entries.forEach((e) => {
             if (e.isIntersecting) e.target.classList.add(styles.visible);
           }),
-        { threshold: 0.08 }
+        { threshold: 0.08 },
       );
-      document.querySelectorAll(`.${styles.reveal}`).forEach((el) => obs.observe(el));
+      document
+        .querySelectorAll(`.${styles.reveal}`)
+        .forEach((el) => obs.observe(el));
       return () => obs.disconnect();
     }, 50);
 
@@ -151,23 +185,30 @@ export default function AyurvedaPage() {
   }, [loading, activeTab]); /* 👈 activeTab dependency added */
 
   /* ── Pure dynamic data — no static fallbacks ── */
-  const ayurvedaCourses: CourseItem[]   = data?.ayurvedaCourses    ?? [];
-  const panchaKarmaCourses: CourseItem[]= data?.panchaKarmaCourses ?? [];
-  const therapies                        = data?.therapies          ?? [];
-  const doshas                           = data?.doshas             ?? [];
-  const dailySchedule                    = data?.dailySchedule      ?? [];
-  const syllabus                         = data?.syllabus           ?? [];
-  const included                         = data?.included           ?? [];
-  const yogaPricing                      = data?.yogaPricing        ?? [];
-  const massageTypes: MassageType[]      = data?.massageTypes       ?? [];
+  const ayurvedaCourses: CourseItem[] = data?.ayurvedaCourses ?? [];
+  const panchaKarmaCourses: CourseItem[] = data?.panchaKarmaCourses ?? [];
+  const therapies = data?.therapies ?? [];
+  const doshas = data?.doshas ?? [];
+  const dailySchedule = data?.dailySchedule ?? [];
+  const syllabus = data?.syllabus ?? [];
+  const included = data?.included ?? [];
+  const yogaPricing = data?.yogaPricing ?? [];
+  const massageTypes: MassageType[] = data?.massageTypes ?? [];
 
   if (loading) {
     return (
       <div
         className={styles.page}
-        style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center" }}
+        style={{
+          minHeight: "100vh",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
       >
-        <p style={{ fontSize: "1.2rem", color: "#c46a00", opacity: 0.7 }}>Loading...</p>
+        <p style={{ fontSize: "1.2rem", color: "#c46a00", opacity: 0.7 }}>
+          Loading...
+        </p>
       </div>
     );
   }
@@ -176,7 +217,6 @@ export default function AyurvedaPage() {
 
   return (
     <div className={styles.page}>
-
       <div className={styles.pageWm} aria-hidden="true">
         <MandalaFull size={780} opacity={0.025} />
       </div>
@@ -212,7 +252,10 @@ export default function AyurvedaPage() {
                 {data?.introSuperLabel || "Ancient Science of Life"}
               </span>
               <h2 className={styles.sectionTitle}>
-                {(data?.introTitle || "Introductory Course in Ayurveda\nin Rishikesh India")
+                {(
+                  data?.introTitle ||
+                  "Introductory Course in Ayurveda\nin Rishikesh India"
+                )
                   .split("\n")
                   .map((line, i, arr) => (
                     <React.Fragment key={i}>
@@ -272,11 +315,15 @@ export default function AyurvedaPage() {
               </h2>
               <OmBar />
               {hasContent(data?.doshasDescription) ? (
-                <Html html={data!.doshasDescription!} className={styles.paraCenter} />
+                <Html
+                  html={data!.doshasDescription!}
+                  className={styles.paraCenter}
+                />
               ) : (
                 <p className={styles.paraCenter}>
-                  Ayurveda prescribes Panchakarma therapies for cleansing body toxins and
-                  reviving lost &apos;urjaa&apos;. Panchakarma Therapy balances all Tridoshas.
+                  Ayurveda prescribes Panchakarma therapies for cleansing body
+                  toxins and reviving lost &apos;urjaa&apos;. Panchakarma
+                  Therapy balances all Tridoshas.
                 </p>
               )}
             </div>
@@ -335,7 +382,9 @@ export default function AyurvedaPage() {
           {activeTab === "ayurveda" && (
             <div className={`${styles.reveal} ${styles.courseGrid}`}>
               {ayurvedaCourses.length === 0 ? (
-                <p className={styles.para}>No Ayurveda courses available at the moment.</p>
+                <p className={styles.para}>
+                  No Ayurveda courses available at the moment.
+                </p>
               ) : (
                 ayurvedaCourses.map((c) => (
                   <div key={c.level} className={styles.courseCard}>
@@ -379,7 +428,9 @@ export default function AyurvedaPage() {
           {activeTab === "panchakarma" && (
             <div className={`${styles.reveal} ${styles.courseGrid}`}>
               {panchaKarmaCourses.length === 0 ? (
-                <p className={styles.para}>No Panchakarma courses available at the moment.</p>
+                <p className={styles.para}>
+                  No Panchakarma courses available at the moment.
+                </p>
               ) : (
                 panchaKarmaCourses.map((c) => (
                   <div key={c.level} className={styles.courseCard}>
@@ -477,7 +528,8 @@ export default function AyurvedaPage() {
         <div className={styles.imgStripContent}>
           <OmBar dark />
           <h3 className={styles.imgStripTitle}>
-            {data?.spicesStripTitle || "Yoga and Panchakarma Training Course in India"}
+            {data?.spicesStripTitle ||
+              "Yoga and Panchakarma Training Course in India"}
           </h3>
         </div>
       </div>
@@ -491,7 +543,11 @@ export default function AyurvedaPage() {
                 <div
                   key={c.level}
                   className={styles.pkCardFull}
-                  style={{ "--pc": i === 1 ? "#888" : c.color } as React.CSSProperties}
+                  style={
+                    {
+                      "--pc": i === 1 ? "#888" : c.color,
+                    } as React.CSSProperties
+                  }
                 >
                   <h3 className={styles.pkCardFullTitle}>
                     Panchkarma {c.level} Course
@@ -614,15 +670,19 @@ export default function AyurvedaPage() {
 
           <div className={`${styles.reveal} ${styles.registrationBox}`}>
             {hasContent(data?.registrationBoxText) ? (
-              <Html html={data!.registrationBoxText!} className={styles.inlineBlock} />
+              <Html
+                html={data!.registrationBoxText!}
+                className={styles.inlineBlock}
+              />
             ) : (
               <span>
                 <strong>Registration:</strong> Deposit{" "}
-                <strong>{data?.registrationAdvanceFee || "210 US Dollars"}</strong>{" "}
+                <strong>
+                  {data?.registrationAdvanceFee || "210 US Dollars"}
+                </strong>{" "}
                 advance fee to book your place.
               </span>
-            )}
-            {" "}
+            )}{" "}
             <a
               href={data?.registrationPaymentLink || "#apply"}
               className={styles.inlineLink}
@@ -646,7 +706,10 @@ export default function AyurvedaPage() {
             </h2>
             <OmBar />
             {hasContent(data?.spiritualCenterPara) ? (
-              <Html html={data!.spiritualCenterPara!} className={styles.paraCenter} />
+              <Html
+                html={data!.spiritualCenterPara!}
+                className={styles.paraCenter}
+              />
             ) : (
               <p className={styles.paraCenter}>
                 We have established our yoga place near the mountain valley and
@@ -686,7 +749,10 @@ export default function AyurvedaPage() {
               <span className={styles.superLabel}>
                 {data?.pricingSuperLabel || "Investment"}
               </span>
-              <h2 className={styles.sectionTitle} style={{ fontStyle: "italic" }}>
+              <h2
+                className={styles.sectionTitle}
+                style={{ fontStyle: "italic" }}
+              >
                 {data?.pricingSectionTitle ||
                   "Details of Price for Different Courses"}
               </h2>
@@ -737,7 +803,8 @@ export default function AyurvedaPage() {
                 >
                   aymyogaschool[at]gmail.com
                 </a>
-                . Deposit <strong>$200 in advance</strong> to confirm your place.
+                . Deposit <strong>$200 in advance</strong> to confirm your
+                place.
               </p>
             )}
             <div className={styles.applyBtns}>
@@ -814,10 +881,7 @@ function OmBar({
             : {}
         }
       />
-      <span
-        className={styles.omGlyph}
-        style={dark ? { color: "#f5b800" } : {}}
-      >
+      <span className={styles.omGlyph} style={dark ? { color: "#f5b800" } : {}}>
         ॐ
       </span>
       <span
@@ -907,11 +971,7 @@ function MandalaFull({
       style={{ opacity }}
       aria-hidden
     >
-      <g
-        transform={`translate(${c},${c})`}
-        stroke="#c46a00"
-        fill="none"
-      >
+      <g transform={`translate(${c},${c})`} stroke="#c46a00" fill="none">
         {[0.47, 0.39, 0.31, 0.23, 0.15, 0.08].map((r, i) => (
           <circle key={i} cx={0} cy={0} r={r * size} strokeWidth="0.65" />
         ))}
@@ -948,7 +1008,7 @@ function MandalaFull({
                 })`}
               />
             );
-          })
+          }),
         )}
       </g>
     </svg>

@@ -1,8 +1,3 @@
-/* ================================================================
-   HomeAbout.module.css — AYM Yoga Admin
-   Same design as HeroBanner — mobile cards / tablet / desktop table
-   ================================================================ */
-
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&display=swap');
 
 /* ── Page ── */
@@ -31,8 +26,15 @@
 }
 
 @keyframes slideUp {
-  from { opacity: 0; transform: translateY(10px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* ── Page Header ── */
@@ -83,6 +85,7 @@
   flex-shrink: 0;
   text-decoration: none;
 }
+
 .addBtn:hover {
   background: linear-gradient(135deg, #5c2d00, #7a3d00);
   transform: translateY(-1px);
@@ -90,7 +93,10 @@
   text-decoration: none;
 }
 
-.addPlus { font-size: 1rem; line-height: 1; }
+.addPlus {
+  font-size: 1rem;
+  line-height: 1;
+}
 
 /* ── Ornament ── */
 .ornament {
@@ -105,7 +111,7 @@
 .ornamentLine {
   flex: 1;
   height: 1px;
-  background: linear-gradient(90deg, rgba(224,123,0,0.25), rgba(224,123,0,0.08));
+  background: linear-gradient(90deg, rgba(224, 123, 0, 0.25), rgba(224, 123, 0, 0.08));
 }
 
 /* ================================================================
@@ -149,9 +155,18 @@
   transition: background 0.18s ease;
   cursor: grab;
 }
-.row:last-child { border-bottom: none; }
-.row:hover { background: rgba(224, 123, 0, 0.04); }
-.row:active { cursor: grabbing; }
+
+.row:last-child {
+  border-bottom: none;
+}
+
+.row:hover {
+  background: rgba(224, 123, 0, 0.04);
+}
+
+.row:active {
+  cursor: grabbing;
+}
 
 .table td {
   padding: 0.85rem 0.9rem;
@@ -163,7 +178,10 @@
   vertical-align: middle;
 }
 
-.tdCenter { text-align: center; vertical-align: middle; }
+.tdCenter {
+  text-align: center;
+  vertical-align: middle;
+}
 
 /* ── Order badge ── */
 .orderBadge {
@@ -205,12 +223,17 @@
   transition: all 0.18s ease;
   line-height: 1;
 }
+
 .arrowBtn:hover:not(:disabled) {
   background: rgba(224, 123, 0, 0.1);
   border-color: #e07b00;
   color: #5c2d00;
 }
-.arrowBtn:disabled { opacity: 0.2; cursor: not-allowed; }
+
+.arrowBtn:disabled {
+  opacity: 0.2;
+  cursor: not-allowed;
+}
 
 /* ── Drag group ── */
 .dragGroup {
@@ -227,7 +250,10 @@
   transition: color 0.18s;
   line-height: 1;
 }
-.dragHandle:hover { color: #e07b00; }
+
+.dragHandle:hover {
+  color: #e07b00;
+}
 
 /* ── Text cells ── */
 .sectionSuperTitle {
@@ -311,16 +337,30 @@
   color: #c8f0b0;
   border-color: rgba(100, 200, 60, 0.25);
 }
-.statusActive .statusDot { background: #7ddf50; box-shadow: 0 0 4px #7ddf50; }
-.statusActive:hover { background: linear-gradient(135deg, #1e4616, #2e6020); }
+
+.statusActive .statusDot {
+  background: #7ddf50;
+  box-shadow: 0 0 4px #7ddf50;
+}
+
+.statusActive:hover {
+  background: linear-gradient(135deg, #1e4616, #2e6020);
+}
 
 .statusInactive {
   background: linear-gradient(135deg, #5a1a00, #7a2800);
   color: #f5c8a0;
   border-color: rgba(200, 80, 20, 0.25);
 }
-.statusInactive .statusDot { background: #e07b40; box-shadow: 0 0 4px #e07b40; }
-.statusInactive:hover { background: linear-gradient(135deg, #3d1200, #5c1c00); }
+
+.statusInactive .statusDot {
+  background: #e07b40;
+  box-shadow: 0 0 4px #e07b40;
+}
+
+.statusInactive:hover {
+  background: linear-gradient(135deg, #3d1200, #5c1c00);
+}
 
 /* ── Action buttons ── */
 .actionBtns {
@@ -348,6 +388,7 @@
   background: rgba(224, 123, 0, 0.08);
   color: #7a3d00;
 }
+
 .editBtn:hover {
   background: rgba(224, 123, 0, 0.16);
   border-color: rgba(224, 123, 0, 0.42);
@@ -372,6 +413,7 @@
   background: rgba(180, 40, 0, 0.07);
   color: #8b2000;
 }
+
 .deleteBtn:hover {
   background: rgba(180, 40, 0, 0.15);
   border-color: rgba(180, 40, 0, 0.38);
@@ -396,7 +438,11 @@
   cursor: grab;
   transition: box-shadow 0.2s ease, transform 0.2s ease;
 }
-.card:active { cursor: grabbing; }
+
+.card:active {
+  cursor: grabbing;
+}
+
 .card:hover {
   box-shadow: 0 5px 20px rgba(92, 45, 0, 0.12);
   transform: translateY(-1px);
@@ -442,7 +488,10 @@
   border-top: 1px solid #f0e2c8;
   background: rgba(224, 123, 0, 0.02);
 }
-.cardFooter .actionBtns { justify-content: flex-start; }
+
+.cardFooter .actionBtns {
+  justify-content: flex-start;
+}
 
 /* ── Empty state ── */
 .empty {
@@ -490,8 +539,15 @@
 }
 
 @keyframes modalIn {
-  from { opacity: 0; transform: scale(0.94) translateY(10px); }
-  to   { opacity: 1; transform: scale(1) translateY(0); }
+  from {
+    opacity: 0;
+    transform: scale(0.94) translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
 }
 
 .modalOm {
@@ -537,6 +593,7 @@
   cursor: pointer;
   transition: all 0.2s ease;
 }
+
 .modalCancel:hover {
   background: rgba(224, 123, 0, 0.06);
   border-color: #e07b00;
@@ -556,6 +613,7 @@
   transition: all 0.2s ease;
   box-shadow: 0 2px 10px rgba(139, 32, 0, 0.28);
 }
+
 .modalConfirm:hover {
   background: linear-gradient(135deg, #6b1800, #4d1000);
   transform: translateY(-1px);
@@ -566,23 +624,51 @@
    ================================================================ */
 
 @media (max-width: 767px) {
-  .table td   { padding: 0.65rem 0.6rem; }
-  .table thead th { padding: 0.72rem 0.6rem; }
-  .btnLabel   { display: none; }
-  .editBtn, .deleteBtn { padding: 0.35rem 0.55rem; }
+  .table td {
+    padding: 0.65rem 0.6rem;
+  }
+
+  .table thead th {
+    padding: 0.72rem 0.6rem;
+  }
+
+  .btnLabel {
+    display: none;
+  }
+
+  .editBtn,
+  .deleteBtn {
+    padding: 0.35rem 0.55rem;
+  }
 }
 
 @media (min-width: 768px) and (max-width: 1023px) {
-  .sectionMainTitle { -webkit-line-clamp: 1; }
-  .addLabel { display: inline; }
+  .sectionMainTitle {
+    -webkit-line-clamp: 1;
+  }
+
+  .addLabel {
+    display: inline;
+  }
 }
 
 @media (min-width: 1024px) {
-  .btnLabel { display: inline; }
+  .btnLabel {
+    display: inline;
+  }
 }
 
 @media (max-width: 360px) {
-  .cardHeader { gap: 0.5rem; padding: 0.7rem 0.65rem 0.5rem; }
-  .sectionSuperTitle { font-size: 0.76rem; }
-  .sectionMainTitle  { font-size: 0.72rem; }
+  .cardHeader {
+    gap: 0.5rem;
+    padding: 0.7rem 0.65rem 0.5rem;
+  }
+
+  .sectionSuperTitle {
+    font-size: 0.76rem;
+  }
+
+  .sectionMainTitle {
+    font-size: 0.72rem;
+  }
 }

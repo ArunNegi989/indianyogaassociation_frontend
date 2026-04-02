@@ -150,7 +150,11 @@ function TeacherModal({
   return (
     <div className={styles.modalBackdrop} onClick={handleBackdrop}>
       <div className={styles.modalCard}>
-        <button className={styles.modalClose} onClick={onClose} aria-label="Close">
+        <button
+          className={styles.modalClose}
+          onClick={onClose}
+          aria-label="Close"
+        >
           ✕
         </button>
         <div className={styles.modalOmBg}>ॐ</div>
@@ -333,7 +337,9 @@ export const YogaCoursesTeachers: React.FC = () => {
   const [data, setData] = useState<PageData | null>(null);
   const [loading, setLoading] = useState(true);
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
-  const [selectedTeacher, setSelectedTeacher] = useState<TeacherItem | null>(null);
+  const [selectedTeacher, setSelectedTeacher] = useState<TeacherItem | null>(
+    null,
+  );
 
   useEffect(() => {
     (async () => {
@@ -354,7 +360,15 @@ export const YogaCoursesTeachers: React.FC = () => {
         <section className={styles.coursesSection}>
           <div className={styles.topBorder} />
           <div className={styles.container}>
-            <div style={{ minHeight: 400, display: "flex", alignItems: "center", justifyContent: "center", opacity: 0.4 }}>
+            <div
+              style={{
+                minHeight: 400,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                opacity: 0.4,
+              }}
+            >
               <span style={{ fontFamily: "serif", fontSize: "2rem" }}>ॐ</span>
             </div>
           </div>
@@ -366,11 +380,11 @@ export const YogaCoursesTeachers: React.FC = () => {
 
   if (!data) return null;
 
-  const { sectionHeader, courses, who, teachersHeader, founder, teachers } = data;
+  const { sectionHeader, courses, who, teachersHeader, founder, teachers } =
+    data;
 
   return (
     <div className={styles.wrapper}>
-
       {/* ══════════════════════════════════════════════════
           COURSES SECTION
       ══════════════════════════════════════════════════ */}
@@ -379,7 +393,9 @@ export const YogaCoursesTeachers: React.FC = () => {
         <div className={styles.container}>
           <div className={styles.sectionHead}>
             <p className={styles.eyebrow}>{sectionHeader.eyebrow}</p>
-            <h2 className={styles.sectionTitle}>{sectionHeader.sectionTitle}</h2>
+            <h2 className={styles.sectionTitle}>
+              {sectionHeader.sectionTitle}
+            </h2>
             <div className={styles.omDivider}>
               <span className={styles.divLine} />
               <span className={styles.divOm}>ॐ</span>
@@ -393,13 +409,28 @@ export const YogaCoursesTeachers: React.FC = () => {
               <div
                 key={course._id}
                 className={styles.courseCard}
-                style={{ "--card-color": course.color, "--delay": `${i * 0.1}s` } as React.CSSProperties}
+                style={
+                  {
+                    "--card-color": course.color,
+                    "--delay": `${i * 0.1}s`,
+                  } as React.CSSProperties
+                }
                 onMouseEnter={() => setHoveredCard(course._id)}
                 onMouseLeave={() => setHoveredCard(null)}
               >
                 <div className={styles.cardImgWrap}>
-                  <img src={getImageUrl(course.imgUrl)} alt={course.name} className={styles.cardImg} loading="lazy" />
-                  <div className={styles.cardImgOverlay} style={{ background: `linear-gradient(to top, ${course.color}ee 0%, ${course.color}88 40%, transparent 70%)` }} />
+                  <img
+                    src={getImageUrl(course.imgUrl)}
+                    alt={course.name}
+                    className={styles.cardImg}
+                    loading="lazy"
+                  />
+                  <div
+                    className={styles.cardImgOverlay}
+                    style={{
+                      background: `linear-gradient(to top, ${course.color}ee 0%, ${course.color}88 40%, transparent 70%)`,
+                    }}
+                  />
                   <span className={styles.cardDays}>{course.days}</span>
                   <div className={styles.cardHours}>{course.hours}</div>
                   <div className={styles.cardOmPulse}>ॐ</div>
@@ -408,14 +439,37 @@ export const YogaCoursesTeachers: React.FC = () => {
                   <h3 className={styles.cardName}>{course.name}</h3>
                   <div className={styles.cardNameUnderline} />
                   <div className={styles.cardMeta}>
-                    <div className={styles.metaRow}><span className={styles.metaKey}>Course Style</span><span className={styles.metaVal}>{course.style}</span></div>
-                    <div className={styles.metaRow}><span className={styles.metaKey}>Duration</span><span className={styles.metaVal}>{course.duration}</span></div>
-                    <div className={styles.metaRow}><span className={styles.metaKey}>Certificate</span><span className={styles.metaVal}>{course.certificate}</span></div>
-                    <div className={styles.metaRow}><span className={styles.metaKey}>Course Fee</span><span className={styles.metaVal}>{course.feeShared} USD / {course.feePrivate} USD</span></div>
+                    <div className={styles.metaRow}>
+                      <span className={styles.metaKey}>Course Style</span>
+                      <span className={styles.metaVal}>{course.style}</span>
+                    </div>
+                    <div className={styles.metaRow}>
+                      <span className={styles.metaKey}>Duration</span>
+                      <span className={styles.metaVal}>{course.duration}</span>
+                    </div>
+                    <div className={styles.metaRow}>
+                      <span className={styles.metaKey}>Certificate</span>
+                      <span className={styles.metaVal}>
+                        {course.certificate}
+                      </span>
+                    </div>
+                    <div className={styles.metaRow}>
+                      <span className={styles.metaKey}>Course Fee</span>
+                      <span className={styles.metaVal}>
+                        {course.feeShared} USD / {course.feePrivate} USD
+                      </span>
+                    </div>
                   </div>
                   <div className={styles.cardActions}>
-                    <a href={course.detailsLink || "#"} className={styles.detailsBtn}>More Details</a>
-                    <a href={course.bookLink || "#"} className={styles.bookBtn}>Book Now</a>
+                    <a
+                      href={course.detailsLink || "#"}
+                      className={styles.detailsBtn}
+                    >
+                      More Details
+                    </a>
+                    <a href={course.bookLink || "#"} className={styles.bookBtn}>
+                      Book Now
+                    </a>
                   </div>
                 </div>
               </div>
@@ -441,16 +495,24 @@ export const YogaCoursesTeachers: React.FC = () => {
           </div>
           <div className={styles.whoGrid}>
             <div className={styles.whoText}>
-              {[who.para1, who.para2, who.para3, who.para4, who.para5].map((para, i) => (
-                <p key={i} className={styles.para}>{para}</p>
-              ))}
+              {[who.para1, who.para2, who.para3, who.para4, who.para5].map(
+                (para, i) => (
+                  <p key={i} className={styles.para}>
+                    {para}
+                  </p>
+                ),
+              )}
             </div>
             <div className={styles.whoDecor}>
               <div className={styles.whoDecorInner}>
                 <div className={styles.bigOm}>ॐ</div>
                 <div className={styles.whoDecorItems}>
                   {who.chips.map((item, i) => (
-                    <div key={i} className={styles.whoDecorChip} style={{ animationDelay: `${i * 0.15}s` }}>
+                    <div
+                      key={i}
+                      className={styles.whoDecorChip}
+                      style={{ animationDelay: `${i * 0.15}s` }}
+                    >
                       <span className={styles.chipDot}>✦</span>
                       {item}
                     </div>
@@ -458,7 +520,9 @@ export const YogaCoursesTeachers: React.FC = () => {
                 </div>
                 <div className={styles.whoDecorQuote}>
                   "{who.quoteText}"
-                  <span className={styles.whoDecorAttrib}>{who.quoteAttrib}</span>
+                  <span className={styles.whoDecorAttrib}>
+                    {who.quoteAttrib}
+                  </span>
                 </div>
               </div>
             </div>
@@ -474,7 +538,9 @@ export const YogaCoursesTeachers: React.FC = () => {
         <div className={styles.container}>
           <div className={styles.sectionHead}>
             <p className={styles.eyebrow}>{teachersHeader.eyebrow}</p>
-            <h2 className={styles.sectionTitle}>{teachersHeader.sectionTitle}</h2>
+            <h2 className={styles.sectionTitle}>
+              {teachersHeader.sectionTitle}
+            </h2>
             <div className={styles.omDivider}>
               <span className={styles.divLine} />
               <span className={styles.divOm}>ॐ</span>
@@ -483,8 +549,16 @@ export const YogaCoursesTeachers: React.FC = () => {
           </div>
 
           <div className={styles.teachersIntro}>
-            <HighlightedPara text={teachersHeader.introPara1} highlight={teachersHeader.introPara1Highlight} className={styles.para} />
-            <HighlightedPara text={teachersHeader.introPara2} highlight={teachersHeader.introPara2Highlight} className={styles.para} />
+            <HighlightedPara
+              text={teachersHeader.introPara1}
+              highlight={teachersHeader.introPara1Highlight}
+              className={styles.para}
+            />
+            <HighlightedPara
+              text={teachersHeader.introPara2}
+              highlight={teachersHeader.introPara2Highlight}
+              className={styles.para}
+            />
           </div>
 
           {/* Founder Block */}
@@ -492,9 +566,32 @@ export const YogaCoursesTeachers: React.FC = () => {
             <div className={styles.founderImgCol}>
               <div className={styles.founderImgFrame}>
                 {getImageUrl(founder.imgUrl) ? (
-                  <img src={getImageUrl(founder.imgUrl)} alt={founder.imgAlt} className={styles.founderImg} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                  <img
+                    src={getImageUrl(founder.imgUrl)}
+                    alt={founder.imgAlt}
+                    className={styles.founderImg}
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                    }}
+                  />
                 ) : (
-                  <div style={{ width: "100%", height: "100%", minHeight: 300, background: "linear-gradient(135deg,#fdf6ec,#e8d5b5)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "3rem", opacity: 0.4 }}>🧘</div>
+                  <div
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      minHeight: 300,
+                      background: "linear-gradient(135deg,#fdf6ec,#e8d5b5)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontSize: "3rem",
+                      opacity: 0.4,
+                    }}
+                  >
+                    🧘
+                  </div>
                 )}
                 <div className={styles.founderImgOverlay}>
                   <span className={styles.founderImgName}>{founder.name}</span>
@@ -511,10 +608,21 @@ export const YogaCoursesTeachers: React.FC = () => {
               <div className={styles.founderNameUnderline} />
               <p className={styles.para}>{founder.para1}</p>
               <p className={styles.para}>{founder.para2}</p>
-              <HighlightedPara text={founder.para3} highlight={founder.para3Highlight} className={styles.para} />
+              <HighlightedPara
+                text={founder.para3}
+                highlight={founder.para3Highlight}
+                className={styles.para}
+              />
               <div className={styles.founderActions}>
-                <a href={founder.detailsBtnLink || "#"} className={styles.detailsBtn}>{founder.detailsBtnText}</a>
-                <a href={founder.bookBtnLink || "#"} className={styles.bookBtn}>{founder.bookBtnText}</a>
+                <a
+                  href={founder.detailsBtnLink || "#"}
+                  className={styles.detailsBtn}
+                >
+                  {founder.detailsBtnText}
+                </a>
+                <a href={founder.bookBtnLink || "#"} className={styles.bookBtn}>
+                  {founder.bookBtnText}
+                </a>
               </div>
             </div>
           </div>
@@ -525,7 +633,10 @@ export const YogaCoursesTeachers: React.FC = () => {
           )}
 
           <div className={styles.teachersCta}>
-            <a href={teachersHeader.ctaBtnLink || "#"} className={styles.teachersCtaBtn}>
+            <a
+              href={teachersHeader.ctaBtnLink || "#"}
+              className={styles.teachersCtaBtn}
+            >
               {teachersHeader.ctaBtnText} <span>→</span>
             </a>
           </div>
@@ -535,7 +646,10 @@ export const YogaCoursesTeachers: React.FC = () => {
 
       {/* Modal */}
       {selectedTeacher && (
-        <TeacherModal teacher={selectedTeacher} onClose={() => setSelectedTeacher(null)} />
+        <TeacherModal
+          teacher={selectedTeacher}
+          onClose={() => setSelectedTeacher(null)}
+        />
       )}
     </div>
   );

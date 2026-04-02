@@ -1,8 +1,3 @@
-/* ================================================================
-   AddBanner.module.css — AYM Yoga Admin
-   Add Banner form — vintage parchment, fully responsive
-   ================================================================ */
-
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&display=swap');
 
 /* ── Page shell ── */
@@ -31,7 +26,10 @@
   font-style: italic;
   transition: color 0.18s;
 }
-.breadcrumbLink:hover { color: #e07b00; }
+
+.breadcrumbLink:hover {
+  color: #e07b00;
+}
 
 .breadcrumbSep {
   color: rgba(160, 120, 64, 0.45);
@@ -80,7 +78,7 @@
 .ornamentLine {
   flex: 1;
   height: 1px;
-  background: linear-gradient(90deg, rgba(224,123,0,0.25), rgba(224,123,0,0.06));
+  background: linear-gradient(90deg, rgba(224, 123, 0, 0.25), rgba(224, 123, 0, 0.06));
 }
 
 /* ── Form Card ── */
@@ -361,7 +359,8 @@
   flex-shrink: 0;
 }
 
-.previewChange, .previewRemove {
+.previewChange,
+.previewRemove {
   padding: 0.32rem 0.85rem;
   border-radius: 6px;
   font-family: 'Cormorant Garamond', serif;
@@ -377,6 +376,7 @@
   border: 1px solid rgba(224, 123, 0, 0.45);
   color: #f5d89a;
 }
+
 .previewChange:hover {
   background: rgba(224, 123, 0, 0.4);
 }
@@ -386,6 +386,7 @@
   border: 1px solid rgba(180, 40, 0, 0.45);
   color: #ffc0a0;
 }
+
 .previewRemove:hover {
   background: rgba(180, 40, 0, 0.4);
 }
@@ -418,12 +419,17 @@
   cursor: pointer;
   transition: all 0.2s ease;
 }
+
 .cancelBtn:hover:not(:disabled) {
   background: rgba(224, 123, 0, 0.06);
   border-color: #e07b00;
   color: #5c2d00;
 }
-.cancelBtn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.cancelBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
 
 .submitBtn {
   display: inline-flex;
@@ -442,14 +448,22 @@
   transition: all 0.22s ease;
   box-shadow: 0 3px 14px rgba(92, 45, 0, 0.22);
 }
+
 .submitBtn:hover:not(:disabled) {
   background: linear-gradient(135deg, #5c2d00, #7a3d00);
   transform: translateY(-1px);
   box-shadow: 0 5px 20px rgba(92, 45, 0, 0.32);
 }
-.submitBtn:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
 
-.submitBtnLoading { opacity: 0.8; }
+.submitBtn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.submitBtnLoading {
+  opacity: 0.8;
+}
 
 /* ── Spinner ── */
 .spinner {
@@ -463,7 +477,9 @@
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* ── Success screen ── */
@@ -485,8 +501,15 @@
 }
 
 @keyframes fadeUp {
-  from { opacity: 0; transform: translateY(16px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .successOm {

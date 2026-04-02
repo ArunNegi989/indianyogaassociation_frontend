@@ -115,7 +115,7 @@ export default function WorldwidePage() {
         entries.forEach((e) => {
           if (e.isIntersecting) e.target.classList.add(styles.visible);
         }),
-      { threshold: 0.08 }
+      { threshold: 0.08 },
     );
     document
       .querySelectorAll(`.${styles.reveal}`)
@@ -292,7 +292,9 @@ export default function WorldwidePage() {
                     resolveImg(data.teacherTeamLeftImage) ||
                     "https://images.unsplash.com/photo-1588286840104-8957b019727f?w=900&q=80"
                   }
-                  alt={data.teacherTeamLeftImageAlt || "Experienced yoga teachers"}
+                  alt={
+                    data.teacherTeamLeftImageAlt || "Experienced yoga teachers"
+                  }
                   className={styles.teamImg}
                 />
                 {(data.teacherTeamBadgeValue || data.teacherTeamBadgeLabel) && (
@@ -319,7 +321,9 @@ export default function WorldwidePage() {
               {data.teacherTeamDescription && (
                 <p
                   className={styles.para}
-                  dangerouslySetInnerHTML={{ __html: data.teacherTeamDescription }}
+                  dangerouslySetInnerHTML={{
+                    __html: data.teacherTeamDescription,
+                  }}
                 />
               )}
             </div>
@@ -408,7 +412,9 @@ export default function WorldwidePage() {
                 <p
                   className={styles.para}
                   style={{ maxWidth: 880 }}
-                  dangerouslySetInnerHTML={{ __html: data.communityDescription }}
+                  dangerouslySetInnerHTML={{
+                    __html: data.communityDescription,
+                  }}
                 />
               )}
             </div>
@@ -428,7 +434,8 @@ export default function WorldwidePage() {
                 {data.locationsSubtext || "Our Global Reach"}
               </span>
               <h2 className={styles.sectionTitle}>
-                {data.locationsTitle || "Yoga Teacher Training Locations Worldwide"}
+                {data.locationsTitle ||
+                  "Yoga Teacher Training Locations Worldwide"}
               </h2>
               <OmBar />
             </div>
@@ -443,7 +450,9 @@ export default function WorldwidePage() {
                       </div>
                       <div className={styles.locationTop}>
                         <span className={styles.locationFlag}>{loc.flag}</span>
-                        <span className={styles.locationRegion}>{loc.region}</span>
+                        <span className={styles.locationRegion}>
+                          {loc.region}
+                        </span>
                       </div>
                       <h3 className={styles.locationName}>{loc.name}</h3>
                       <Link
@@ -493,7 +502,10 @@ export default function WorldwidePage() {
               <Link href="/apply" className={styles.btnPrimary}>
                 Apply Now
               </Link>
-              <a href="mailto:aymyogaschool@gmail.com" className={styles.btnGhost}>
+              <a
+                href="mailto:aymyogaschool@gmail.com"
+                className={styles.btnGhost}
+              >
                 Email Us
               </a>
             </div>
@@ -659,7 +671,7 @@ function MandalaFull({
                 transform={`rotate(${(i / n) * 360} ${R * Math.cos(a)} ${R * Math.sin(a)})`}
               />
             );
-          })
+          }),
         )}
       </g>
     </svg>

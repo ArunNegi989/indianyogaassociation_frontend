@@ -60,10 +60,8 @@ const InnerTransformation: React.FC = () => {
           with enlightens gurus.
         </p>
 
-        {/* Maharishi Image */}
         <div className={styles.imageWrapper}>
           <div className={styles.maharishiImageBox}>
-            {/* Replace with your actual image path */}
             <Image
               src={gurujiimage}
               alt="Yogiraj Sri Yogi Chetan Maharishi"
@@ -128,7 +126,6 @@ const InnerTransformation: React.FC = () => {
 
         {/* Two cards side by side */}
         <div className={styles.cardsRow}>
-          {/* Card 1 — 7 Points */}
           <div className={styles.card}>
             <div className={styles.cardHeader}>
               <h3 className={styles.cardTitle}>
@@ -184,7 +181,6 @@ const InnerTransformation: React.FC = () => {
       <section className={styles.triImageSection}>
         <div className={styles.triImageGrid}>
           <div className={styles.triImageItem}>
-            {/* Replace with your actual image path */}
             <Image
               src="/images/inner-transformation/woman-prayer.jpg"
               alt="Woman in prayer"

@@ -3,16 +3,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Open+Sans:wght@300;400;500;600&display=swap');
 
 :root {
-  --orange:       #e8600a;
-  --text-dark:    #1a1a1a;
-  --text-body:    #2c2c2c;
-  --link-blue:    #1a5276;
-  --white:        #ffffff;
-  --beige-bg:     #fff9e6;       /* warm yellow-beige from screenshots */
-  --beige-dark:   #f0d080;
-  --green-table:  #1db954;       /* bright green timetable */
-  --green-dark:   #169a45;
-  --btn-blue:     #2563eb;
+  --orange: #e8600a;
+  --text-dark: #1a1a1a;
+  --text-body: #2c2c2c;
+  --link-blue: #1a5276;
+  --white: #ffffff;
+  --beige-bg: #fff9e6;
+  --beige-dark: #f0d080;
+  --green-table: #1db954;
+  --green-dark: #169a45;
+  --btn-blue: #2563eb;
   --btn-blue-hov: #1d4ed8;
 }
 
@@ -25,6 +25,7 @@
   overflow-x: hidden;
   background-image: url("../../images/1905x4702.png");
 }
+
 .heroSection {
   position: relative;
   z-index: 1;
@@ -40,11 +41,12 @@
   display: block;
   object-fit: contain;
 }
+
 /* ====================================================
    WHITE SECTION (top part)
 ==================================================== */
 .whiteSection {
-  
+
   padding: 40px 32px 48px;
   max-width: 1460px;
   margin: 0 auto;
@@ -180,7 +182,7 @@
    BEIGE SECTION (lower part)
 ==================================================== */
 .beigeSection {
-  
+
   padding: 40px 32px 60px;
   max-width: 100%;
 }
@@ -263,7 +265,7 @@
   margin: 20px auto 24px;
   border-radius: 6px;
   overflow: hidden;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
 }
 
 .timetableHeader {
@@ -301,7 +303,7 @@
   font-size: clamp(2.5rem, 5vw, 4rem);
   line-height: 1;
   opacity: 0.9;
-  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
 }
 
 .timetableColumns {
