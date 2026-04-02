@@ -5,12 +5,21 @@ import styles from "@/assets/style/yoga-holidays-in-india/Yogaholidays.module.cs
 import image1 from "@/assets/images/Laxman-Jhula--rishikesh.jpg"
 import image2 from "@/assets/images/Yoga-Camp-in-Rishikesh.jpg"
 import HowToReach from "@/components/home/Howtoreach";
-
+import heroImg from "@/assets/images/36.png";
 // ===================== MAIN COMPONENT =====================
 const YogaHolidays: React.FC = () => {
   return (
     <div className={styles.pageWrapper}>
-
+<section className={styles.heroSection}>
+        <Image
+          src={heroImg}
+          alt="Yoga Students Group"
+          width={1180}
+          height={540}
+          className={styles.heroImage}
+          priority
+        />
+      </section>
       {/* ===== SECTION 1 — WHITE BG ===== */}
       <section className={styles.whiteSection}>
 

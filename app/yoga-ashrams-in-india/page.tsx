@@ -5,6 +5,7 @@ import styles from "@/assets/style/yoga-ashrams-in-india/Yogaashrams.module.css"
 import yogaashramimg1 from "@/assets/images/yoga-ashram-in-india.jpg";
 import yogaashramimg2 from "@/assets/images/yoga-ashram-in-rishikesh.jpg";
 import HowToReach from "@/components/home/Howtoreach";
+import heroImg from "@/assets/images/35.png";
 
 // ---- Om Symbol SVG ----
 const OmSVG: React.FC = () => (
@@ -37,9 +38,18 @@ const Divider: React.FC = () => (
 const YogaAshrams: React.FC = () => {
   return (
     <div className={styles.pageWrapper}>
-
+<section className={styles.heroSection}>
+        <Image
+          src={heroImg}
+          alt="Yoga Students Group"
+          width={1180}
+          height={540}
+          className={styles.heroImage}
+          priority
+        />
+      </section>
       {/* ===== HERO ===== */}
-      <section className={styles.heroSection}>
+      <section className={styles.heroSection1}>
         <h1 className={styles.mainTitle}>Yoga Ashrams in India</h1>
       </section>
 

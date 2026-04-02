@@ -8,22 +8,26 @@ import HowToReach from "@/components/home/Howtoreach";
 /* ─── Types ─── */
 interface PricingRow {
   date: string;
-  dormitory: string;
-  sharedRoom: string;
-  privateRoom: string;
-  availability: "Available" | "Book";
+  usdFee: string;
+  inrFee: string;
+  dormPrice: number;
+  twinPrice: number;
+  privatePrice: number;
+  totalSeats: number;
+  bookedSeats: number;
+  applyLink?: string;
 }
 
 /* ─── Data ─── */
 const pricingData: PricingRow[] = [
-  { date: "05th Jan to 29th Jan 2025", dormitory: "$799", sharedRoom: "$899", privateRoom: "$999", availability: "Available" },
-  { date: "03rd Feb to 27th Feb 2025", dormitory: "$799", sharedRoom: "$899", privateRoom: "$999", availability: "Available" },
-  { date: "03rd Mar to 27th Mar 2025", dormitory: "$799", sharedRoom: "$899", privateRoom: "$999", availability: "Available" },
-  { date: "03rd Apr to 27th Apr 2025", dormitory: "$799", sharedRoom: "$899", privateRoom: "$999", availability: "Available" },
-  { date: "03rd May to 27th May 2025", dormitory: "$799", sharedRoom: "$899", privateRoom: "$999", availability: "Available" },
-  { date: "03rd Jun to 27th Jun 2025", dormitory: "$799", sharedRoom: "$899", privateRoom: "$999", availability: "Available" },
-  { date: "03rd Jul to 27th Jul 2025", dormitory: "$799", sharedRoom: "$899", privateRoom: "$999", availability: "Available" },
-  { date: "03rd Aug to 27th Aug 2025", dormitory: "$799", sharedRoom: "$899", privateRoom: "$999", availability: "Available" },
+  { date: "05th Jan to 29th Jan 2025", usdFee: "$799", inrFee: "₹65,000", dormPrice: 799, twinPrice: 899, privatePrice: 999, totalSeats: 20, bookedSeats: 8 },
+  { date: "03rd Feb to 27th Feb 2025", usdFee: "$799", inrFee: "₹65,000", dormPrice: 799, twinPrice: 899, privatePrice: 999, totalSeats: 20, bookedSeats: 12 },
+  { date: "03rd Mar to 27th Mar 2025", usdFee: "$799", inrFee: "₹65,000", dormPrice: 799, twinPrice: 899, privatePrice: 999, totalSeats: 20, bookedSeats: 5 },
+  { date: "03rd Apr to 27th Apr 2025", usdFee: "$799", inrFee: "₹65,000", dormPrice: 799, twinPrice: 899, privatePrice: 999, totalSeats: 20, bookedSeats: 0 },
+  { date: "03rd May to 27th May 2025", usdFee: "$799", inrFee: "₹65,000", dormPrice: 799, twinPrice: 899, privatePrice: 999, totalSeats: 20, bookedSeats: 20 },
+  { date: "03rd Jun to 27th Jun 2025", usdFee: "$799", inrFee: "₹65,000", dormPrice: 799, twinPrice: 899, privatePrice: 999, totalSeats: 20, bookedSeats: 3 },
+  { date: "03rd Jul to 27th Jul 2025", usdFee: "$799", inrFee: "₹65,000", dormPrice: 799, twinPrice: 899, privatePrice: 999, totalSeats: 20, bookedSeats: 7 },
+  { date: "03rd Aug to 27th Aug 2025", usdFee: "$799", inrFee: "₹65,000", dormPrice: 799, twinPrice: 899, privatePrice: 999, totalSeats: 20, bookedSeats: 15 },
 ];
 
 /* ─── Om Divider ─── */
@@ -35,6 +39,36 @@ const OmDivider = () => (
   </div>
 );
 
+/* ─── Corner Ornament (100hr style) ─── */
+function CornerOrnament({ pos }: { pos: "tl" | "tr" | "bl" | "br" }) {
+  const flip = {
+    tl: "scale(1,1)",
+    tr: "scale(-1,1)",
+    bl: "scale(1,-1)",
+    br: "scale(-1,-1)",
+  }[pos];
+  return (
+    <svg
+      viewBox="0 0 40 40"
+      className={styles.vintageCornerOrn}
+      style={{ transform: flip }}
+    >
+      <path d="M2,2 L2,18 M2,2 L18,2" stroke="#b8860b" strokeWidth="1.5" fill="none" />
+      <path d="M2,2 Q8,8 16,2 Q8,8 2,16" stroke="#b8860b" strokeWidth="0.7" fill="none" />
+      <circle cx="2" cy="2" r="2" fill="#b8860b" opacity="0.7" />
+      <circle cx="10" cy="10" r="1.5" fill="#b8860b" opacity="0.4" />
+    </svg>
+  );
+}
+
+/* ─── Seats Cell — exactly like 100hr ─── */
+function SeatsCell({ booked, total }: { booked: number; total: number }) {
+  const isFull = booked >= total;
+  const remaining = total - booked;
+  if (isFull) return <span className={styles.vintageFullyBooked}>Fully Booked</span>;
+  return <span className={styles.vintageSeatsAvail}>{remaining} / {total} Seats</span>;
+}
+
 /* ─── Component ─── */
 const MeditationPage: React.FC = () => {
   return (
@@ -45,12 +79,10 @@ const MeditationPage: React.FC = () => {
       ══════════════════════════════════════ */}
       <section className={styles.heroSection}>
         <div className={styles.container}>
-
           <h1 className={styles.pageTitle}>
             Meditation Yoga Teacher Training Course in Rishikesh India
           </h1>
           <OmDivider />
-
           <div className={styles.bannerWrap}>
             <Image
               src={bannerImage}
@@ -59,12 +91,9 @@ const MeditationPage: React.FC = () => {
               priority
             />
           </div>
-
           <h2 className={styles.secTitle} style={{ marginTop: "2rem" }}>
             Meditation Yoga Teacher Training in Rishikesh
           </h2>
-         
-
         </div>
       </section>
 
@@ -73,10 +102,8 @@ const MeditationPage: React.FC = () => {
       ══════════════════════════════════════ */}
       <section className={styles.altSection}>
         <div className={styles.container}>
-
           <h2 className={styles.secTitle}>What is Meditation?</h2>
           <OmDivider />
-
           <p className={styles.bodyPara}>
             Meditation cannot be explained in words. Words serve as signposts, pointing toward
             something, but they are not the thing itself. As a great one once said, "words are the
@@ -98,7 +125,6 @@ const MeditationPage: React.FC = () => {
             reach that complete, blissful core essence. Once you begin this inner journey, all
             desires vanish, and you want nothing but to go deeper.
           </p>
-
         </div>
       </section>
 
@@ -107,10 +133,8 @@ const MeditationPage: React.FC = () => {
       ══════════════════════════════════════ */}
       <section className={styles.methodSection}>
         <div className={styles.container}>
-
           <h2 className={styles.secTitle}>What is your favorite method of meditation?</h2>
           <OmDivider />
-
           <p className={styles.bodyPara}>
             Vipassana involves sitting in a comfortable meditative posture. Focus on your breathing
             and the fact that you are now sitting. As you breathe, repeat in your mind: "in, out,
@@ -127,7 +151,6 @@ const MeditationPage: React.FC = () => {
             What is active meditation?
           </h2>
           <OmDivider />
-
           <p className={styles.bodyPara}>
             Active meditation uses the energy of the body to silence the mind. You use lots of
             energy before sitting still. This could involve exercises such as dancing or aerobatic
@@ -147,7 +170,6 @@ const MeditationPage: React.FC = () => {
             What is static meditation?
           </h2>
           <OmDivider />
-
           <p className={styles.bodyPara}>
             Static meditation is a practice in which the meditator sits still, focusing inward
             until reaching a meditative state. Over time, meditation can expand into every action
@@ -171,7 +193,6 @@ const MeditationPage: React.FC = () => {
             for a deeper experience, a spiritual meditation retreat in Rishikesh or meditation yoga
             training in Rishikesh offers unique chances for personal growth and self-discovery.
           </p>
-
         </div>
       </section>
 
@@ -180,10 +201,8 @@ const MeditationPage: React.FC = () => {
       ══════════════════════════════════════ */}
       <section className={styles.altSection}>
         <div className={styles.container}>
-
           <h2 className={styles.secTitle}>Elevate Your Practice and Inspire Others</h2>
           <OmDivider />
-
           <p className={styles.bodyPara}>
             Are you ready to take your yoga journey to the next level and empower others in their
             mindfulness practices? Our <strong>Meditation Yoga Teacher Training program</strong> is
@@ -196,7 +215,6 @@ const MeditationPage: React.FC = () => {
             Why Choose Our Program?
           </h2>
           <OmDivider />
-
           <ol className={styles.whyList}>
             <li className={styles.whyItem}>
               <strong>1. Empowering Environment:</strong> Traditional meditation is that kind of
@@ -234,7 +252,6 @@ const MeditationPage: React.FC = () => {
               beyond the program.
             </li>
           </ol>
-
         </div>
       </section>
 
@@ -243,7 +260,6 @@ const MeditationPage: React.FC = () => {
       ══════════════════════════════════════ */}
       <section className={styles.scheduleSection}>
         <div className={styles.container}>
-
           <h2 className={styles.secTitle}>
             Meditation Course in Rishikesh – AYM Yoga School
           </h2>
@@ -258,38 +274,66 @@ const MeditationPage: React.FC = () => {
             <li className={styles.highlightItem}>Flexible training options, available both online and in-person, to accommodate your lifestyle.</li>
           </ul>
 
-          {/* Pricing Table */}
-          <div className={styles.tableWrapper}>
-            <table className={styles.pricingTable}>
-              <thead>
-                <tr>
-                  <th>DATE</th>
-                  <th>DORMITORY</th>
-                  <th>SHARED ROOM</th>
-                  <th>PRIVATE ROOM</th>
-                  <th>AVAILABILITY</th>
-                </tr>
-              </thead>
-              <tbody>
-                {pricingData.map((row, idx) => (
-                  <tr key={idx}>
-                    <td>{row.date}</td>
-                    <td>{row.dormitory}</td>
-                    <td>{row.sharedRoom}</td>
-                    <td>{row.privateRoom}</td>
-                    <td className={styles.available}>{row.availability}</td>
+          {/* ══ VINTAGE SEATS TABLE — all 6 columns exactly like 100hr ══ */}
+          <div className={styles.vintageTableWrap}>
+            <CornerOrnament pos="tl" />
+            <CornerOrnament pos="tr" />
+            <CornerOrnament pos="bl" />
+            <CornerOrnament pos="br" />
+
+            <div className={styles.vintageTableScroll}>
+              <table className={styles.vintageTable}>
+                <thead>
+                  <tr>
+                    <th>DATE</th>
+                    <th>FEE</th>
+                    <th>FEE ( Indian )</th>
+                    <th>ROOM PRICE</th>
+                    <th>SEATS</th>
+                    <th>APPLY</th>
                   </tr>
-                ))}
-                <tr>
-                  <td><strong>Book Your Spot</strong></td>
-                  <td><span className={styles.registerText}>Register your spot</span></td>
-                  <td><span className={styles.byPaying}>by Paying $110 only</span></td>
-                  <td colSpan={2}>
-                    <button className={styles.payBtn}>🖥 Payments Page</button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {pricingData.map((row, idx) => {
+                    const isFull = row.bookedSeats >= row.totalSeats;
+                    return (
+                      <tr key={idx}>
+                        <td>
+                          <span className={styles.vintageDateCal}>📅</span>
+                          {row.date}
+                        </td>
+                        <td>{row.usdFee}</td>
+                        <td>{row.inrFee}</td>
+                        <td className={styles.vintageRoomPriceCell}>
+                          Dorm{" "}<strong className={styles.vintagePriceAmt}>${row.dormPrice}</strong>{" "}|{" "}
+                          Twin{" "}<strong className={styles.vintagePriceAmt}>${row.twinPrice}</strong>{" "}|{" "}
+                          Private{" "}<strong className={styles.vintagePriceAmt}>${row.privatePrice}</strong>
+                        </td>
+                        <td>
+                          <SeatsCell booked={row.bookedSeats} total={row.totalSeats} />
+                        </td>
+                        <td>
+                          {isFull ? (
+                            <span className={styles.vintageApplyDisabled}>Apply Now</span>
+                          ) : (
+                            <a
+                              href={row.applyLink ?? "/yoga-registration?type=meditation"}
+                              className={styles.vintageApplyLink}
+                            >
+                              Apply Now
+                            </a>
+                          )}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+
+            <div className={styles.vintageTableCta}>
+              <a href="#" className={styles.vintageJoinBtn}>Join Your Yoga Journey</a>
+            </div>
           </div>
 
         </div>
@@ -300,10 +344,8 @@ const MeditationPage: React.FC = () => {
       ══════════════════════════════════════ */}
       <section className={styles.ctaSection}>
         <div className={styles.container}>
-
           <h2 className={styles.secTitle}>Is This Meditation Program for You?</h2>
           <OmDivider />
-
           <p className={styles.bodyPara}>
             If you are passionate about yoga and eager to deepen your knowledge while sharing it
             with others, this training is for you. Whether you are a beginner or have extensive
@@ -315,13 +357,11 @@ const MeditationPage: React.FC = () => {
             Embark on Your Transformative Journey
           </h2>
           <OmDivider />
-
           <p className={styles.bodyPara}>
             Enroll in our Meditation Yoga Teacher Training program and take a significant step
             toward enhancing your practice and impacting the lives of others. Together, we will
             cultivate a world of mindful living, one breath at a time.
           </p>
-
         </div>
       </section>
 

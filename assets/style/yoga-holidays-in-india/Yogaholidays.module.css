@@ -25,7 +25,21 @@
   overflow-x: hidden;
   background-image: url("../../images/1905x4702.png");
 }
+.heroSection {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  line-height: 0;
+}
 
+.heroImage {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+}
 /* ====================================================
    WHITE SECTION (top part)
 ==================================================== */
