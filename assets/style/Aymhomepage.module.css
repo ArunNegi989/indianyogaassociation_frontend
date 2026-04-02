@@ -29,7 +29,16 @@
 /* ══════════════════════════════════════════
    SECTION LAYOUT
 ══════════════════════════════════════════ */
+.page b,
+.page strong {
+  font-weight: 700;
+  font-size: inherit;
+}
 
+.page span {
+  font-size: inherit;
+  font-weight: inherit;
+}
 .section {
   position: relative;
   padding: 5rem 2rem;
@@ -103,8 +112,6 @@
 
 .accent {
   color: var(--orange);
-  text-decoration: underline;
-  text-decoration-style: wavy;
   text-underline-offset: 6px;
 }
 

@@ -215,6 +215,8 @@
   margin: 0 0 1.2rem;
   text-align: center;
 }
+/* ════════ BOLD / STRONG FIX ════════ */
+
 .subTitle {
   font-family: var(--vn-ff-d);
   font-size: clamp(1rem, 2.2vw, 1.4rem);
