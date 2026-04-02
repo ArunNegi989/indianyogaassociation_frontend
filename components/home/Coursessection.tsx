@@ -52,7 +52,6 @@ export const CoursesSection: React.FC = () => {
     fetchCourses();
   }, []);
 
-  // Loading skeleton
   if (loading) {
     return (
       <section className={styles.section}>
@@ -87,9 +86,7 @@ export const CoursesSection: React.FC = () => {
       <div className={styles.container}>
         {/* Header */}
         <div className={styles.header}>
-          <p className={styles.superTitle}>
-            Authentic Yoga Education Since 2005
-          </p>
+          <p className={styles.superTitle}>Authentic Yoga Education Since 2005</p>
           <h2 className={styles.mainTitle}>
             Explore Our Yoga Teacher Training Courses &amp; Retreats
           </h2>
@@ -103,8 +100,8 @@ export const CoursesSection: React.FC = () => {
         <div className={styles.courseList}>
           {courses.map((course, idx) => {
             const filled = course.totalSeats - course.availableSeats;
-            const pct =
-              course.totalSeats > 0 ? (filled / course.totalSeats) * 100 : 0;
+            const pct = course.totalSeats > 0 ? (filled / course.totalSeats) * 100 : 0;
+            const isFull = course.availableSeats <= 0;
 
             return (
               <article
@@ -135,16 +132,13 @@ export const CoursesSection: React.FC = () => {
                     <div className={styles.titleUnderline} />
                     <p className={styles.courseMeta}>
                       <span className={styles.metaLabel}>Duration:</span>{" "}
-                      <span className={styles.metaValue}>
-                        {course.duration}
-                      </span>
+                      <span className={styles.metaValue}>{course.duration}</span>
                       <span className={styles.metaSep}>|</span>
                       <span className={styles.metaLabel}>Level:</span>{" "}
                       <span className={styles.metaValue}>{course.level}</span>
                     </p>
                   </div>
 
-                  {/* ✅ HTML description from Jodit editor */}
                   <div
                     className={styles.description}
                     dangerouslySetInnerHTML={{ __html: course.description }}
@@ -174,9 +168,7 @@ export const CoursesSection: React.FC = () => {
                   <div className={styles.seatsBlock}>
                     <div className={styles.seatsRow}>
                       <span className={styles.seatsLabel}>Total Seats</span>
-                      <span className={styles.seatsValue}>
-                        {course.totalSeats}
-                      </span>
+                      <span className={styles.seatsValue}>{course.totalSeats}</span>
                     </div>
                     <div className={styles.seatsRow}>
                       <span className={styles.seatsLabel}>Seats Left</span>
@@ -198,9 +190,20 @@ export const CoursesSection: React.FC = () => {
 
                   <div className={styles.ctaDivider} />
 
-                  <Link href={course.enrollHref} className={styles.btnEnroll}>
-                    Enroll Now
-                  </Link>
+                  {/* ✅ Enroll Now — courseId pass hoga, enrollHref ignore */}
+                  {isFull ? (
+                    <span className={`${styles.btnEnroll} ${styles.btnEnrollDisabled}`}>
+                      Fully Booked
+                    </span>
+                  ) : (
+                    <Link
+                      href={`/yoga-registration?courseId=${course._id}`}
+                      className={styles.btnEnroll}
+                    >
+                      Enroll Now
+                    </Link>
+                  )}
+
                   <Link href={course.exploreHref} className={styles.btnExplore}>
                     {course.exploreLabel}
                   </Link>
