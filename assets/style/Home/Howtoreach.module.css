@@ -157,8 +157,15 @@
 }
 
 @keyframes pulse {
-  0%, 100% { box-shadow: 0 0 0 2px rgba(224, 123, 0, 0.25); }
-  50%       { box-shadow: 0 0 0 8px rgba(224, 123, 0, 0.07); }
+
+  0%,
+  100% {
+    box-shadow: 0 0 0 2px rgba(224, 123, 0, 0.25);
+  }
+
+  50% {
+    box-shadow: 0 0 0 8px rgba(224, 123, 0, 0.07);
+  }
 }
 
 .mapIframe {
@@ -225,8 +232,18 @@
   border-color: rgba(224, 123, 0, 0.3);
   border-style: solid;
 }
-.travelCard::before { top: 9px; left: 9px; border-width: 2px 0 0 2px; }
-.travelCard::after  { bottom: 9px; right: 9px; border-width: 0 2px 2px 0; }
+
+.travelCard::before {
+  top: 9px;
+  left: 9px;
+  border-width: 2px 0 0 2px;
+}
+
+.travelCard::after {
+  bottom: 9px;
+  right: 9px;
+  border-width: 0 2px 2px 0;
+}
 
 .travelCard:hover {
   box-shadow: 0 16px 44px rgba(92, 45, 0, 0.16), 0 4px 10px rgba(0, 0, 0, 0.07);
@@ -336,6 +353,7 @@
   transition: box-shadow 0.2s, transform 0.2s;
   white-space: nowrap;
 }
+
 .waInlineBtn:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(37, 211, 102, 0.44);
@@ -375,9 +393,18 @@
   border-bottom: 1px solid rgba(224, 123, 0, 0.1);
   transition: background 0.18s;
 }
-.scheduleRow:last-child { border-bottom: none; }
-.scheduleRow:hover { background: rgba(224, 123, 0, 0.05); }
-.scheduleRowAlt { background: rgba(255, 248, 235, 0.7); }
+
+.scheduleRow:last-child {
+  border-bottom: none;
+}
+
+.scheduleRow:hover {
+  background: rgba(224, 123, 0, 0.05);
+}
+
+.scheduleRowAlt {
+  background: rgba(255, 248, 235, 0.7);
+}
 
 .scheduleCell {
   font-family: 'Cormorant Garamond', serif;
@@ -415,6 +442,7 @@
   border: none;
   cursor: pointer;
 }
+
 .btnPrimary:hover {
   transform: translateY(-2px);
   box-shadow: 0 7px 20px rgba(224, 123, 0, 0.44);
@@ -432,7 +460,11 @@
   transition: opacity 0.2s;
   display: inline-block;
 }
-.linkSecondary:hover { opacity: 0.7; color: #b85e00; }
+
+.linkSecondary:hover {
+  opacity: 0.7;
+  color: #b85e00;
+}
 
 /* ════════════════════════════════════════════════════════════════
    PICKUP FORM  —  embedded inside the 4th card
@@ -444,8 +476,15 @@
 }
 
 @keyframes panelReveal {
-  from { opacity: 0; transform: translateY(-10px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* ── Step indicator ── */
@@ -462,7 +501,10 @@
   gap: 0;
   flex: 1;
 }
-.stepItem:last-child { flex: 0; }
+
+.stepItem:last-child {
+  flex: 0;
+}
 
 .stepCircle {
   width: 28px;
@@ -479,9 +521,25 @@
   position: relative;
   z-index: 1;
 }
-.stepPending { background: #f5ede0; color: #c4a882; border: 2px solid rgba(224, 123, 0, 0.2); }
-.stepActive  { background: linear-gradient(135deg, #e07b00, #c46a00); color: #fff; border: 2px solid transparent; box-shadow: 0 4px 14px rgba(224, 123, 0, 0.4); }
-.stepDone    { background: #3d1d00; color: #f5b800; border: 2px solid transparent; }
+
+.stepPending {
+  background: #f5ede0;
+  color: #c4a882;
+  border: 2px solid rgba(224, 123, 0, 0.2);
+}
+
+.stepActive {
+  background: linear-gradient(135deg, #e07b00, #c46a00);
+  color: #fff;
+  border: 2px solid transparent;
+  box-shadow: 0 4px 14px rgba(224, 123, 0, 0.4);
+}
+
+.stepDone {
+  background: #3d1d00;
+  color: #f5b800;
+  border: 2px solid transparent;
+}
 
 .stepLabel {
   font-family: 'Cinzel', serif;
@@ -494,7 +552,10 @@
   white-space: nowrap;
   transition: color 0.3s;
 }
-.stepLabelActive { color: #3d1d00; }
+
+.stepLabelActive {
+  color: #3d1d00;
+}
 
 .stepConnector {
   flex: 1;
@@ -504,14 +565,26 @@
   border-radius: 2px;
   transition: background 0.4s;
 }
-.stepConnectorDone { background: linear-gradient(90deg, #e07b00, #c46a00); }
+
+.stepConnectorDone {
+  background: linear-gradient(90deg, #e07b00, #c46a00);
+}
 
 /* ── Step content ── */
-.formStep { animation: stepFade 0.3s ease; }
+.formStep {
+  animation: stepFade 0.3s ease;
+}
 
 @keyframes stepFade {
-  from { opacity: 0; transform: translateX(8px); }
-  to   { opacity: 1; transform: translateX(0); }
+  from {
+    opacity: 0;
+    transform: translateX(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 .formStepHeader {
@@ -576,7 +649,10 @@
   text-transform: uppercase;
 }
 
-.required { color: #c46a00; margin-left: 2px; }
+.required {
+  color: #c46a00;
+  margin-left: 2px;
+}
 
 .formInput,
 .formSelect,
@@ -593,6 +669,7 @@
   width: 100%;
   box-sizing: border-box;
 }
+
 .formInput:focus,
 .formSelect:focus,
 .formTextarea:focus {
@@ -600,13 +677,33 @@
   box-shadow: 0 0 0 3px rgba(224, 123, 0, 0.1);
   background: #fff;
 }
-.formInput::placeholder,
-.formTextarea::placeholder { color: #c4a882; font-style: italic; }
-.formSelect { cursor: pointer; appearance: auto; }
-.formTextarea { min-height: 80px; resize: vertical; }
 
-.formInputError { border-color: #dc2626 !important; }
-.errorMessage { color: #dc2626; font-size: 0.72rem; margin-top: 0.2rem; display: block; }
+.formInput::placeholder,
+.formTextarea::placeholder {
+  color: #c4a882;
+  font-style: italic;
+}
+
+.formSelect {
+  cursor: pointer;
+  appearance: auto;
+}
+
+.formTextarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.formInputError {
+  border-color: #dc2626 !important;
+}
+
+.errorMessage {
+  color: #dc2626;
+  font-size: 0.72rem;
+  margin-top: 0.2rem;
+  display: block;
+}
 
 /* ── Booking summary card ── */
 .summaryCard {
@@ -661,7 +758,9 @@
   gap: 10px;
 }
 
-.formNavRight { margin-left: auto; }
+.formNavRight {
+  margin-left: auto;
+}
 
 .navBtnBack {
   background: transparent;
@@ -676,7 +775,12 @@
   cursor: pointer;
   transition: all 0.2s;
 }
-.navBtnBack:hover { border-color: #e07b00; color: #c46a00; background: rgba(224, 123, 0, 0.04); }
+
+.navBtnBack:hover {
+  border-color: #e07b00;
+  color: #c46a00;
+  background: rgba(224, 123, 0, 0.04);
+}
 
 .navBtnNext {
   background: linear-gradient(135deg, #3d1d00, #5c2e00);
@@ -692,7 +796,11 @@
   box-shadow: 0 4px 14px rgba(61, 29, 0, 0.26);
   transition: box-shadow 0.22s, transform 0.22s;
 }
-.navBtnNext:hover { transform: translateY(-2px); box-shadow: 0 7px 20px rgba(61, 29, 0, 0.34); }
+
+.navBtnNext:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 7px 20px rgba(61, 29, 0, 0.34);
+}
 
 .navBtnSubmit {
   background: linear-gradient(135deg, #e07b00, #c46a00);
@@ -709,7 +817,11 @@
   box-shadow: 0 5px 16px rgba(224, 123, 0, 0.36);
   transition: box-shadow 0.22s, transform 0.22s;
 }
-.navBtnSubmit:hover { transform: translateY(-2px); box-shadow: 0 9px 24px rgba(224, 123, 0, 0.44); }
+
+.navBtnSubmit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 9px 24px rgba(224, 123, 0, 0.44);
+}
 
 /* ── WhatsApp strip ── */
 .waStrip {
@@ -754,6 +866,7 @@
   white-space: nowrap;
   flex-shrink: 0;
 }
+
 .waStripBtn:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 18px rgba(37, 211, 102, 0.42);
@@ -823,7 +936,13 @@
   box-shadow: 0 5px 14px rgba(37, 211, 102, 0.33);
   transition: transform 0.2s, box-shadow 0.2s;
 }
-.successWa:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(37, 211, 102, 0.43); color: #fff; text-decoration: none; }
+
+.successWa:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(37, 211, 102, 0.43);
+  color: #fff;
+  text-decoration: none;
+}
 
 .successReset {
   background: transparent;
@@ -838,7 +957,11 @@
   cursor: pointer;
   transition: all 0.2s;
 }
-.successReset:hover { border-color: #e07b00; color: #c46a00; }
+
+.successReset:hover {
+  border-color: #e07b00;
+  color: #c46a00;
+}
 
 /* ════════════════════════════════════════════════════════════════
    RESPONSIVE BREAKPOINTS
@@ -846,8 +969,13 @@
 
 /* ── 1400px ── */
 @media (max-width: 1400px) {
-  .container { max-width: 100%; }
-  .cardsGrid { gap: 18px; }
+  .container {
+    max-width: 100%;
+  }
+
+  .cardsGrid {
+    gap: 18px;
+  }
 }
 
 /* ── 1200px: 2+2 grid ── */
@@ -856,18 +984,28 @@
     grid-template-columns: repeat(2, 1fr);
     gap: 20px;
   }
-  .mapIframe { height: 380px; }
+
+  .mapIframe {
+    height: 380px;
+  }
 }
 
 /* ── 1024px ── */
 @media (max-width: 1024px) {
-  .mapIframe { height: 360px; }
-  .cardsGrid { gap: 18px; }
+  .mapIframe {
+    height: 360px;
+  }
+
+  .cardsGrid {
+    gap: 18px;
+  }
 }
 
 /* ── 900px ── */
 @media (max-width: 900px) {
-  .mapIframe { height: 340px; }
+  .mapIframe {
+    height: 340px;
+  }
 }
 
 /* ── 768px: single column ── */
@@ -877,57 +1015,163 @@
     gap: 18px;
   }
 
-  .travelCard { padding: 22px 18px; }
-  .mapIframe { height: 300px; }
+  .travelCard {
+    padding: 22px 18px;
+  }
 
-  .formRowCard { grid-template-columns: repeat(2, 1fr); }
-  .formFieldSpan2 { grid-column: span 2; }
+  .mapIframe {
+    height: 300px;
+  }
 
-  .formNav { flex-wrap: wrap; }
-  .navBtnSubmit, .navBtnNext { width: 100%; text-align: center; justify-content: center; }
+  .formRowCard {
+    grid-template-columns: repeat(2, 1fr);
+  }
 
-  .waStrip { flex-direction: column; align-items: flex-start; gap: 10px; }
-  .waStripBtn { width: 100%; justify-content: center; }
+  .formFieldSpan2 {
+    grid-column: span 2;
+  }
 
-  .cardActions { flex-direction: row; flex-wrap: wrap; }
-  .btnPrimary { flex: 1; min-width: 0; }
-  .waInlineBtn { flex: 0 0 auto; }
+  .formNav {
+    flex-wrap: wrap;
+  }
+
+  .navBtnSubmit,
+  .navBtnNext {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+  }
+
+  .waStrip {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .waStripBtn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .cardActions {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .btnPrimary {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .waInlineBtn {
+    flex: 0 0 auto;
+  }
 }
 
 /* ── 600px ── */
 @media (max-width: 600px) {
-  .mapIframe { height: 260px; }
-  .mainTitle { font-size: 1.55rem; }
-  .iconCircle { width: 46px; height: 46px; }
-  .stepLabel { display: none; }
-  .formRowCard { grid-template-columns: 1fr; }
-  .formFieldSpan2 { grid-column: span 1; }
+  .mapIframe {
+    height: 260px;
+  }
 
-  .cardActions { flex-direction: column; }
-  .waInlineBtn { width: 100%; justify-content: center; }
+  .mainTitle {
+    font-size: 1.55rem;
+  }
+
+  .iconCircle {
+    width: 46px;
+    height: 46px;
+  }
+
+  .stepLabel {
+    display: none;
+  }
+
+  .formRowCard {
+    grid-template-columns: 1fr;
+  }
+
+  .formFieldSpan2 {
+    grid-column: span 1;
+  }
+
+  .cardActions {
+    flex-direction: column;
+  }
+
+  .waInlineBtn {
+    width: 100%;
+    justify-content: center;
+  }
 }
 
 /* ── 480px ── */
 @media (max-width: 480px) {
-  .travelCard { padding: 18px 14px; }
-  .mapIframe { height: 230px; }
-  .mainTitle { font-size: 1.4rem; }
-  .omDivider .dividerLine { max-width: 80px; }
+  .travelCard {
+    padding: 18px 14px;
+  }
+
+  .mapIframe {
+    height: 230px;
+  }
+
+  .mainTitle {
+    font-size: 1.4rem;
+  }
+
+  .omDivider .dividerLine {
+    max-width: 80px;
+  }
 
   .scheduleHeaderCell,
-  .scheduleCell { font-size: 0.78rem; }
-  .scheduleHeader, .scheduleRow { padding: 7px 8px; }
+  .scheduleCell {
+    font-size: 0.78rem;
+  }
 
-  .successActions { flex-direction: column; align-items: stretch; }
-  .successWa, .successReset { text-align: center; justify-content: center; }
+  .scheduleHeader,
+  .scheduleRow {
+    padding: 7px 8px;
+  }
+
+  .successActions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .successWa,
+  .successReset {
+    text-align: center;
+    justify-content: center;
+  }
 }
 
 /* ── 375px ── */
 @media (max-width: 375px) {
-  .container { padding: 1.8rem 12px; }
-  .mainTitle { font-size: 1.25rem; }
-  .travelTitle { font-size: 0.95rem; }
-  .scheduleHeaderCell, .scheduleCell { font-size: 0.72rem; }
-  .mapIframe { height: 200px; }
-  .navBtnBack, .navBtnNext, .navBtnSubmit { padding: 9px 14px; font-size: 8px; }
+  .container {
+    padding: 1.8rem 12px;
+  }
+
+  .mainTitle {
+    font-size: 1.25rem;
+  }
+
+  .travelTitle {
+    font-size: 0.95rem;
+  }
+
+  .scheduleHeaderCell,
+  .scheduleCell {
+    font-size: 0.72rem;
+  }
+
+  .mapIframe {
+    height: 200px;
+  }
+
+  .navBtnBack,
+  .navBtnNext,
+  .navBtnSubmit {
+    padding: 9px 14px;
+    font-size: 8px;
+  }
 }
