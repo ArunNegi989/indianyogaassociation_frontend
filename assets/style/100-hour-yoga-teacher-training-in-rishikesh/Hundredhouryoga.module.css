@@ -31,7 +31,7 @@
   position: relative;
   overflow-x: hidden;
   background-color: var(--parchment);
-  background-image: url("../../images/1905x8000.png");
+  background-image: url("../../images/backgroundimage/56.png");
   color: var(--ink-sepia);
   font-family: var(--font-body);
 }
@@ -589,7 +589,7 @@
   position: relative;
   z-index: 1;
   padding: clamp(2rem, 4vw, 4rem) clamp(1rem, 5vw, 4rem);
-  max-width: 1360px;
+  max-width: 1480px;
   margin: 0 auto;
 }
 
@@ -932,7 +932,7 @@
 
 .psbLayout {
   display: grid;
-  grid-template-columns: 1fr 310px;
+  grid-template-columns: 1fr 340px;
   gap: 1.2rem;
   align-items: start;
   position: relative;
@@ -941,7 +941,7 @@
 
 /* LEFT PANEL */
 .psbLeftPanel {
-  background: linear-gradient(160deg, #fdf5e0, #f5e5c0);
+  background: linear-gradient(160deg, #fefaf0, #fff8e7);
   border: 1.5px solid rgba(184, 134, 11, 0.4);
   border-radius: 6px;
   padding: 1.2rem;
@@ -1128,7 +1128,7 @@
   border-radius: 6px;
   border: 1.5px solid rgba(184, 134, 11, 0.5);
   overflow: hidden;
-  background: linear-gradient(160deg, #fdf5e0, #f0ddb8);
+  background: linear-gradient(160deg, #fefaf0, #fff8e7);
   position: relative;
 }
 
@@ -1173,7 +1173,7 @@
 }
 
 .psbRpBody {
-  padding: 1rem 1.1rem 1.1rem;
+  padding: 0rem 1.1rem 1.1rem;
 }
 
 .psbPriceLbl {
@@ -1427,7 +1427,7 @@
 @media (min-width: 1400px) {
   .icWrap {
     width: 85%;
-    max-width: 1250px;
+    max-width: 1460px;
     margin-top: -85px;
   }
   .icCard {

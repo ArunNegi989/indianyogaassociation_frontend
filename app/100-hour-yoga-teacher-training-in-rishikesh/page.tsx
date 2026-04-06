@@ -401,7 +401,7 @@ function PremiumSeatBooking({ seats }: { seats: SeatBatch[] }) {
 
           <div className={styles.psbRpHead}>
             <div className={styles.psbRpEyebrow}>Course Overview</div>
-            <div className={styles.psbRpCourse}>100 Hour Yoga<br />Teacher Training</div>
+            <div className={styles.psbRpCourse}>100 Hour Yoga Teacher Training</div>
             <div className={styles.psbRpDur}>
               <svg width="11" height="11" viewBox="0 0 16 16" fill="none">
                 <circle cx="8" cy="8" r="7" stroke="rgba(255,243,210,0.8)" strokeWidth="1.2" />
