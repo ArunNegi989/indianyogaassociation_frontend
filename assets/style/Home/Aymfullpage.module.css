@@ -29,7 +29,6 @@
   max-width: 1460px;
   margin: 0 auto;
   padding: clamp(2.5rem, 5vw, 4.5rem) clamp(1.2rem, 5vw, 3rem);
-
 }
 
 /* ── Shared: Decorative Borders ── */
@@ -96,7 +95,7 @@
    SECTION — ALIGNMENT & ADJUSTMENT
 ════════════════════════════════════════════════ */
 .alignSection {
-  background: url("../../images/1905x1515.png");
+  background: url("../../images/backgroundimage/1905x1490.png");
   border-top: 1px solid var(--gold-border);
   border-bottom: 1px solid var(--gold-border);
 }
@@ -134,7 +133,6 @@
   background: linear-gradient(90deg, var(--saffron), var(--saffron-light), var(--saffron));
   border-radius: 10px 10px 0 0;
 }
-
 
 .planesImagePlaceholder {
   display: flex;
@@ -283,7 +281,6 @@
   min-height: 320px;
 }
 
-/* Real photo as <img> */
 .groupPhotoImg {
   width: 100%;
   height: 380px;
@@ -339,53 +336,91 @@
   pointer-events: none;
 }
 
-/* Facilities — always open, static list */
+/* ════════════════════════════════════════════════
+   CAMPUS FACILITIES — ALTERNATING LAYOUT
+════════════════════════════════════════════════ */
 .facilitiesList {
   display: flex;
   flex-direction: column;
-  gap: 0;
-  border: 1px solid var(--gold-border);
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 4px 20px var(--shadow-warm);
-  margin-bottom: 2.5rem;
+  gap: clamp(2rem, 4vw, 1.5rem);
+  margin-bottom: 3rem;
 }
 
+/* Each facility card — fixed 300px height keeps all cards identical */
 .facilityItem {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 420px;
   background: linear-gradient(135deg, var(--cream-white) 0%, #fdf6ec 100%);
-  border-bottom: 1px solid var(--gold-border);
-  padding: 1.3rem 1.6rem 1.4rem;
-  transition: background 0.2s;
+  border: 1px solid var(--gold-border);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 4px 24px var(--shadow-warm);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  position: relative;
 }
 
-.facilityItem:last-child {
-  border-bottom: none;
+.facilityItem::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--saffron), var(--saffron-light), transparent);
+  z-index: 2;
 }
 
 .facilityItem:hover {
-  background: linear-gradient(135deg, #fff7eb 0%, #ffefd8 100%);
+  box-shadow: 0 10px 40px rgba(92, 45, 0, 0.18);
+  transform: translateY(-2px);
+}
+
+/* Odd: content LEFT (order 1) → image RIGHT (order 2) */
+.facilityItem:nth-child(odd) .facilityContent  { order: 1; }
+.facilityItem:nth-child(odd) .facilityImageWrap { order: 2; }
+
+/* Even: image LEFT (order 1) → content RIGHT (order 2) */
+.facilityItem:nth-child(even) .facilityImageWrap { order: 1; }
+.facilityItem:nth-child(even) .facilityContent   { order: 2; }
+
+/* ── Content block ── */
+.facilityContent {
+  padding: clamp(1.8rem, 3vw, 2.8rem) clamp(1.5rem, 3vw, 2.5rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.75rem;
+  overflow: hidden;
 }
 
 .facilityHeader {
   display: flex;
   align-items: flex-start;
   gap: 0.65rem;
-  margin-bottom: 0.5rem;
 }
 
 .facilityDot {
   color: var(--saffron);
-  font-size: 0.72rem;
-  margin-top: 0.28rem;
+  font-size: 0.9rem;
+  margin-top: 0.15rem;
   flex-shrink: 0;
 }
 
 .facilityBold {
   font-family: var(--font-playfair), serif;
-  font-size: clamp(0.75rem, 1.3vw, 0.88rem);
+  font-size: clamp(1rem, 1.8vw, 1.25rem);
   color: var(--earth);
-  letter-spacing: 0.03em;
-  line-height: 1.5;
+  letter-spacing: 0.02em;
+  line-height: 1.45;
+  font-weight: 700;
+}
+
+.facilityUnderline {
+  width: 45px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--saffron), transparent);
+  border-radius: 2px;
 }
 
 .facilityText {
@@ -393,8 +428,42 @@
   font-size: clamp(0.92rem, 1.5vw, 1.02rem);
   line-height: 1.88;
   color: var(--earth-warm);
-  padding-left: 1.38rem;
   margin: 0;
+}
+
+/* ── Image block — fills full cell ── */
+.facilityImageWrap {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.facilityImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  transition: transform 0.5s ease;
+}
+
+.facilityItem:hover .facilityImage {
+  transform: scale(1.04);
+}
+
+/* Fallback placeholder when no image */
+.facilityImagePlaceholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #fdf0dc 0%, #f5e0b5 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.facilityPlaceholderIcon {
+  font-size: 3rem;
+  opacity: 0.35;
 }
 
 /* Promo cards */
@@ -465,7 +534,6 @@
   position: relative;
   background-image: url('../../images/1680x1260.webp');
 }
-
 
 .ctaContent {
   background: linear-gradient(135deg, #ffead1 0%, #efd1ad 40%, #e5b57c 70%, #ffbd6d 100%);
@@ -628,6 +696,22 @@
   .groupPhotoImg {
     height: 280px;
   }
+
+  /* Campus facility: stack vertically on tablet */
+  .facilityItem {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+  }
+
+  /* On mobile: image always on top for all cards */
+  .facilityItem:nth-child(odd) .facilityContent,
+  .facilityItem:nth-child(even) .facilityContent  { order: 2; }
+  .facilityItem:nth-child(odd) .facilityImageWrap,
+  .facilityItem:nth-child(even) .facilityImageWrap { order: 1; height: 220px; }
+
+  .facilityContent {
+    padding: 1.5rem 1.4rem;
+  }
 }
 
 /* ════════════════════════════════════════════════
@@ -667,12 +751,16 @@
   }
 
   .facilityItem {
-    padding: 1rem 1rem 1.1rem;
+    padding: 0;
+    border-radius: 10px;
   }
 
-  .facilityText {
-    padding-left: 1.1rem;
+  .facilityContent {
+    padding: 1.2rem 1rem;
   }
+
+  .facilityItem:nth-child(odd) .facilityImageWrap,
+  .facilityItem:nth-child(even) .facilityImageWrap { height: 180px; }
 }
 
 /* ════════════════════════════════════════════════
@@ -684,11 +772,6 @@
     padding: 0.75rem 1.4rem;
   }
 
-  .facilityItem {
-    padding: 0.85rem 0.85rem 1rem;
-  }
-
-  .groupPhotoImg {
-    height: 200px;
-  }
+  .facilityItem:nth-child(odd) .facilityImageWrap,
+  .facilityItem:nth-child(even) .facilityImageWrap { height: 150px; }
 }

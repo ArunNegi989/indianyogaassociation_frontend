@@ -16,11 +16,6 @@ interface CertItem {
   image?: File | string;
 }
 
-interface BadgeItem {
-  icon: string;
-  text: string;
-}
-
 interface FormData {
   sectionTitle: string;
   authPara1: string;
@@ -38,14 +33,13 @@ interface FormData {
   recognitionTitle: string;
   recognitionPara1: string;
   recognitionPara2: string;
-  certs: CertItem[];
-  badges: BadgeItem[];
+  courseCerts: CertItem[];
+  awardCerts: CertItem[];
   mainImage?: File | string;
   _mainImagePreview?: string;
 }
 
 const EMPTY_CERT: CertItem = { label: "", tag: "", alt: "", imagePreview: "" };
-const EMPTY_BADGE: BadgeItem = { icon: "", text: "" };
 
 const INITIAL: FormData = {
   sectionTitle: "",
@@ -56,8 +50,8 @@ const INITIAL: FormData = {
   immerseCtaText: "", immerseCtaLink: "",
   recognitionTitle: "",
   recognitionPara1: "", recognitionPara2: "",
-  certs: [{ ...EMPTY_CERT }],
-  badges: [{ ...EMPTY_BADGE }],
+  courseCerts: [{ ...EMPTY_CERT }],
+  awardCerts:  [{ ...EMPTY_CERT }],
 };
 
 /* ─────────────────────── Main ─────────────────────── */
@@ -67,8 +61,8 @@ export default function AddAccreditationSectionPage() {
   const [submitted, setSubmitted] = useState(false);
   const [mainImageFile, setMainImageFile] = useState<File | null>(null);
 
-  // certFiles[i] = File | null — parallel array to certFields
-  const [certFiles, setCertFiles] = useState<(File | null)[]>([null]);
+  const [courseCertFiles, setCourseCertFiles] = useState<(File | null)[]>([null]);
+  const [awardCertFiles,  setAwardCertFiles]  = useState<(File | null)[]>([null]);
 
   const [activeTab, setActiveTab] = useState<"auth" | "video" | "recognition" | "certs">("auth");
 
@@ -88,8 +82,8 @@ export default function AddAccreditationSectionPage() {
   const watchAllFields = watch();
 
   /* ─────────────────────── Field Arrays ─────────────────────── */
-  const { fields: certFields, append: appendCert, remove: removeCert } = useFieldArray({ control, name: "certs" });
-  const { fields: badgeFields, append: appendBadge, remove: removeBadge } = useFieldArray({ control, name: "badges" });
+  const { fields: courseCertFields, append: appendCourseCert, remove: removeCourseCert } = useFieldArray({ control, name: "courseCerts" });
+  const { fields: awardCertFields,  append: appendAwardCert,  remove: removeAwardCert  } = useFieldArray({ control, name: "awardCerts" });
 
   /* ─────────────────────── Image Handlers ─────────────────────── */
   const handleMainImage = (file: File | null) => {
@@ -100,38 +94,62 @@ export default function AddAccreditationSectionPage() {
     reader.readAsDataURL(file);
   };
 
-  const handleCertImage = (index: number, file: File | null) => {
+  const handleCourseCertImage = (index: number, file: File | null) => {
     if (!file) return;
-    setCertFiles((prev) => {
+    setCourseCertFiles((prev) => {
       const arr = [...prev];
       arr[index] = file;
       return arr;
     });
     const reader = new FileReader();
     reader.onload = (e) => {
-      const currentCerts = getValues("certs");
-      const updated = currentCerts.map((cert, i) =>
+      const current = getValues("courseCerts");
+      setValue("courseCerts", current.map((cert, i) =>
         i === index ? { ...cert, imagePreview: e.target?.result as string } : cert
-      );
-      setValue("certs", updated);
+      ));
     };
     reader.readAsDataURL(file);
   };
 
-  const addCert = () => {
-    if (certFields.length < 6) {
-      appendCert({ ...EMPTY_CERT });
-      setCertFiles((prev) => [...prev, null]);
+  const handleAwardCertImage = (index: number, file: File | null) => {
+    if (!file) return;
+    setAwardCertFiles((prev) => {
+      const arr = [...prev];
+      arr[index] = file;
+      return arr;
+    });
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const current = getValues("awardCerts");
+      setValue("awardCerts", current.map((cert, i) =>
+        i === index ? { ...cert, imagePreview: e.target?.result as string } : cert
+      ));
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const addCourseCert = () => {
+    if (courseCertFields.length < 4) {
+      appendCourseCert({ ...EMPTY_CERT });
+      setCourseCertFiles((prev) => [...prev, null]);
     }
   };
 
-  const removeCertHandler = (index: number) => {
-    removeCert(index);
-    setCertFiles((prev) => prev.filter((_, i) => i !== index));
+  const removeCourseCertHandler = (index: number) => {
+    removeCourseCert(index);
+    setCourseCertFiles((prev) => prev.filter((_, i) => i !== index));
   };
 
-  const addBadge = () => {
-    if (badgeFields.length < 6) appendBadge({ ...EMPTY_BADGE });
+  const addAwardCert = () => {
+    if (awardCertFields.length < 4) {
+      appendAwardCert({ ...EMPTY_CERT });
+      setAwardCertFiles((prev) => [...prev, null]);
+    }
+  };
+
+  const removeAwardCertHandler = (index: number) => {
+    removeAwardCert(index);
+    setAwardCertFiles((prev) => prev.filter((_, i) => i !== index));
   };
 
   /* ─────────────────────── Submit ─────────────────────── */
@@ -142,38 +160,49 @@ export default function AddAccreditationSectionPage() {
 
       // Text fields
       Object.entries(data).forEach(([key, value]) => {
-        if (!["certs", "badges", "_mainImagePreview", "mainImage"].includes(key)) {
+        if (!["courseCerts", "awardCerts", "_mainImagePreview", "mainImage"].includes(key)) {
           formData.append(key, value as string);
         }
       });
 
-      // Certs & badges as JSON (strip imagePreview, keep only DB fields)
+      // Certs as JSON (strip imagePreview)
       formData.append(
-        "certs",
-        JSON.stringify(data.certs.map(({ label, tag, alt }) => ({ label, tag, alt })))
+        "courseCerts",
+        JSON.stringify(data.courseCerts.map(({ label, tag, alt }) => ({ label, tag, alt })))
       );
-      formData.append("badges", JSON.stringify(data.badges));
+      formData.append(
+        "awardCerts",
+        JSON.stringify(data.awardCerts.map(({ label, tag, alt }) => ({ label, tag, alt })))
+      );
 
       // Main image
       if (mainImageFile) formData.append("mainImage", mainImageFile);
 
-      // ✅ KEY FIX: only append files that exist, and record their cert indexes
-      const certImageIndexList: number[] = [];
-      certFiles.forEach((file, idx) => {
+      // Course cert images
+      const courseCertIndexList: number[] = [];
+      courseCertFiles.forEach((file, idx) => {
         if (file) {
-          formData.append("certImages", file);
-          certImageIndexList.push(idx);
+          formData.append("courseCertImages", file);
+          courseCertIndexList.push(idx);
         }
       });
-
-      // Tell the controller which cert slot each uploaded image belongs to
-      if (certImageIndexList.length > 0) {
-        formData.append("certImageIndexes", certImageIndexList.join(","));
+      if (courseCertIndexList.length > 0) {
+        formData.append("courseCertImageIndexes", courseCertIndexList.join(","));
       }
 
-      await api.post("/accreditation", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
+      // Award cert images
+      const awardCertIndexList: number[] = [];
+      awardCertFiles.forEach((file, idx) => {
+        if (file) {
+          formData.append("awardCertImages", file);
+          awardCertIndexList.push(idx);
+        }
       });
+      if (awardCertIndexList.length > 0) {
+        formData.append("awardCertImageIndexes", awardCertIndexList.join(","));
+      }
+
+    await api.post("/accreditation", formData);
 
       setSubmitted(true);
       setTimeout(() => router.push("/admin/dashboard/accreditationsection"), 1500);
@@ -202,8 +231,140 @@ export default function AddAccreditationSectionPage() {
     auth: !!(errors.sectionTitle || errors.authPara1 || errors.authPara2 || errors.authPara3 || errors.authPara4 || errors.pullQuote),
     video: !!(errors.videoSrc || errors.immerseTitle || errors.immersePara1 || errors.immerseCtaText || errors.immerseCtaLink),
     recognition: !!(errors.recognitionTitle || errors.recognitionPara1),
-    certs: !!(errors.certs || errors.badges),
+    certs: !!(errors.courseCerts || errors.awardCerts),
   };
+
+  /* ─────────────────────── Reusable Cert Cards Block ─────────────────────── */
+  const renderCertCards = (
+    type: "course" | "award",
+    fields: typeof courseCertFields,
+    fieldName: "courseCerts" | "awardCerts",
+    onAdd: () => void,
+    onRemove: (i: number) => void,
+    onImageChange: (i: number, file: File | null) => void,
+    heading: string,
+    subheading: string,
+  ) => (
+    <div className={styles.sectionBlock}>
+      <div className={styles.sectionHeader}>
+        <span className={styles.sectionIcon}>✦</span>
+        <h3 className={styles.sectionTitle}>{heading}</h3>
+        <span className={styles.sectionBadge}>{fields.length}/4</span>
+      </div>
+      <p className={styles.fieldHint} style={{ marginBottom: "1rem" }}>{subheading}</p>
+
+      <div className={styles.certsList}>
+        {fields.map((field, index) => (
+          <div key={field.id} className={styles.certCard}>
+            <div className={styles.certCardHeader}>
+              <span className={styles.certCardNum}>{index + 1}</span>
+              <span className={styles.certCardTitle}>
+                {type === "course" ? "Course Certificate" : "Award"} #{index + 1}
+              </span>
+              <button
+                type="button"
+                className={styles.removeBtn}
+                onClick={() => onRemove(index)}
+                disabled={fields.length <= 1}
+              >
+                ✕ Remove
+              </button>
+            </div>
+
+            <div className={styles.certCardBody}>
+              <div className={styles.certImageUpload}>
+                <label className={`${styles.uploadArea} ${styles.uploadAreaSm}`}>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    className={styles.fileInput}
+                    onChange={(e) => onImageChange(index, e.target.files?.[0] || null)}
+                  />
+                  {watchAllFields[fieldName]?.[index]?.imagePreview ? (
+                    <img
+                      src={watchAllFields[fieldName][index].imagePreview}
+                      alt="preview"
+                      className={styles.certImgPreview}
+                    />
+                  ) : (
+                    <>
+                      <span className={styles.uploadIcon}>🏅</span>
+                      <span className={styles.uploadText}>Upload Image</span>
+                      <span className={styles.uploadSubtext}>JPG, PNG, WEBP</span>
+                    </>
+                  )}
+                </label>
+              </div>
+
+              <div className={styles.certFields}>
+                <div className={styles.twoCol}>
+                  <div className={styles.fieldGroup}>
+                    <label className={styles.label}>
+                      <span className={styles.labelIcon}>✦</span>Label
+                      <span className={styles.required}>*</span>
+                    </label>
+                    <p className={styles.fieldHint}>Card footer name</p>
+                    <div className={styles.inputWrap}>
+                      <input
+                        type="text"
+                        className={styles.input}
+                        placeholder="e.g. Yoga Alliance USA — RYS 500"
+                        maxLength={60}
+                        {...register(`${fieldName}.${index}.label`, {
+                          required: "Label is required",
+                          maxLength: { value: 60, message: "Maximum 60 characters" },
+                        })}
+                      />
+                    </div>
+                  </div>
+
+                  <div className={styles.fieldGroup}>
+                    <label className={styles.label}>
+                      <span className={styles.labelIcon}>✦</span>Tag
+                      <span className={styles.required}>*</span>
+                    </label>
+                    <p className={styles.fieldHint}>Small tag chip above label</p>
+                    <div className={styles.inputWrap}>
+                      <input
+                        type="text"
+                        className={styles.input}
+                        placeholder="e.g. International Recognition"
+                        maxLength={40}
+                        {...register(`${fieldName}.${index}.tag`, {
+                          required: "Tag is required",
+                          maxLength: { value: 40, message: "Maximum 40 characters" },
+                        })}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className={styles.fieldGroup} style={{ marginBottom: 0 }}>
+                  <label className={styles.label}><span className={styles.labelIcon}>✦</span>Alt Text</label>
+                  <p className={styles.fieldHint}>Accessibility description for screen readers & SEO</p>
+                  <div className={styles.inputWrap}>
+                    <input
+                      type="text"
+                      className={styles.input}
+                      placeholder="e.g. Yoga Alliance USA — Certificate of Registration RYS 500"
+                      maxLength={150}
+                      {...register(`${fieldName}.${index}.alt`)}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {fields.length < 4 && (
+        <button type="button" className={styles.addBtn} onClick={onAdd}>
+          + Add {type === "course" ? "Course Certificate" : "Award"}
+        </button>
+      )}
+    </div>
+  );
 
   return (
     <div className={styles.page}>
@@ -229,7 +390,7 @@ export default function AddAccreditationSectionPage() {
             auth: "① Auth Section",
             video: "② Video & Immerse",
             recognition: "③ Recognition",
-            certs: "④ Certs & Badges",
+            certs: "④ Certs & Awards",
           };
           return (
             <button
@@ -596,196 +757,32 @@ export default function AddAccreditationSectionPage() {
             </div>
           )}
 
-          {/* ══════════ TAB 4 — CERTS & BADGES ══════════ */}
+          {/* ══════════ TAB 4 — CERTS & AWARDS ══════════ */}
           {activeTab === "certs" && (
             <>
-              <div className={styles.sectionBlock}>
-                <div className={styles.sectionHeader}>
-                  <span className={styles.sectionIcon}>✦</span>
-                  <h3 className={styles.sectionTitle}>Certificate Cards</h3>
-                  <span className={styles.sectionBadge}>{certFields.length}/6</span>
-                </div>
-                <p className={styles.fieldHint} style={{ marginBottom: "1rem" }}>
-                  Clickable certificate cards shown in the recognition grid (max 6)
-                </p>
-
-                <div className={styles.certsList}>
-                  {certFields.map((field, index) => (
-                    <div key={field.id} className={styles.certCard}>
-                      <div className={styles.certCardHeader}>
-                        <span className={styles.certCardNum}>{index + 1}</span>
-                        <span className={styles.certCardTitle}>Certificate #{index + 1}</span>
-                        <button
-                          type="button"
-                          className={styles.removeBtn}
-                          onClick={() => removeCertHandler(index)}
-                          disabled={certFields.length <= 1}
-                        >
-                          ✕ Remove
-                        </button>
-                      </div>
-
-                      <div className={styles.certCardBody}>
-                        <div className={styles.certImageUpload}>
-                          <label className={`${styles.uploadArea} ${styles.uploadAreaSm}`}>
-                            <input
-                              type="file"
-                              accept="image/*"
-                              className={styles.fileInput}
-                              onChange={(e) => handleCertImage(index, e.target.files?.[0] || null)}
-                            />
-                            {watchAllFields.certs?.[index]?.imagePreview ? (
-                              <img src={watchAllFields.certs[index].imagePreview} alt="preview" className={styles.certImgPreview} />
-                            ) : (
-                              <>
-                                <span className={styles.uploadIcon}>🏅</span>
-                                <span className={styles.uploadText}>Upload Certificate Image</span>
-                                <span className={styles.uploadSubtext}>JPG, PNG, WEBP</span>
-                              </>
-                            )}
-                          </label>
-                        </div>
-
-                        <div className={styles.certFields}>
-                          <div className={styles.twoCol}>
-                            <div className={styles.fieldGroup}>
-                              <label className={styles.label}>
-                                <span className={styles.labelIcon}>✦</span>Label
-                                <span className={styles.required}>*</span>
-                              </label>
-                              <p className={styles.fieldHint}>Card footer name</p>
-                              <div className={styles.inputWrap}>
-                                <input
-                                  type="text"
-                                  className={styles.input}
-                                  placeholder="e.g. Yoga Alliance USA — RYS 500"
-                                  maxLength={60}
-                                  {...register(`certs.${index}.label`, {
-                                    required: "Label is required",
-                                    maxLength: { value: 60, message: "Maximum 60 characters" },
-                                  })}
-                                />
-                              </div>
-                            </div>
-
-                            <div className={styles.fieldGroup}>
-                              <label className={styles.label}>
-                                <span className={styles.labelIcon}>✦</span>Tag
-                                <span className={styles.required}>*</span>
-                              </label>
-                              <p className={styles.fieldHint}>Small tag chip above label</p>
-                              <div className={styles.inputWrap}>
-                                <input
-                                  type="text"
-                                  className={styles.input}
-                                  placeholder="e.g. International Recognition"
-                                  maxLength={40}
-                                  {...register(`certs.${index}.tag`, {
-                                    required: "Tag is required",
-                                    maxLength: { value: 40, message: "Maximum 40 characters" },
-                                  })}
-                                />
-                              </div>
-                            </div>
-                          </div>
-
-                          <div className={styles.fieldGroup} style={{ marginBottom: 0 }}>
-                            <label className={styles.label}><span className={styles.labelIcon}>✦</span>Alt Text</label>
-                            <p className={styles.fieldHint}>Accessibility description for screen readers & SEO</p>
-                            <div className={styles.inputWrap}>
-                              <input
-                                type="text"
-                                className={styles.input}
-                                placeholder="e.g. Yoga Alliance USA — Certificate of Registration RYS 500"
-                                maxLength={150}
-                                {...register(`certs.${index}.alt`)}
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-                {certFields.length < 6 && (
-                  <button type="button" className={styles.addBtn} onClick={addCert}>
-                    + Add Certificate Card
-                  </button>
-                )}
-              </div>
+              {renderCertCards(
+                "course",
+                courseCertFields,
+                "courseCerts",
+                addCourseCert,
+                removeCourseCertHandler,
+                handleCourseCertImage,
+                "Course Certificates",
+                "Clickable course certificate cards shown in the recognition grid (max 4)",
+              )}
 
               <div className={styles.formDivider} />
 
-              <div className={styles.sectionBlock}>
-                <div className={styles.sectionHeader}>
-                  <span className={styles.sectionIcon}>✦</span>
-                  <h3 className={styles.sectionTitle}>Bottom Badges Row</h3>
-                  <span className={styles.sectionBadge}>{badgeFields.length}/6</span>
-                </div>
-                <p className={styles.fieldHint} style={{ marginBottom: "1rem" }}>
-                  Accreditation badges shown in the row at the bottom of the recognition section (max 6)
-                </p>
-
-                <div className={styles.badgesList}>
-                  {badgeFields.map((field, index) => (
-                    <div key={field.id} className={styles.badgeRow}>
-                      <div className={styles.badgeIndex}>{index + 1}</div>
-                      <div className={styles.badgeFields}>
-                        <div className={`${styles.inputWrap} ${styles.badgeIconInput}`}>
-                          <input
-                            type="text"
-                            className={styles.input}
-                            placeholder="Icon (e.g. 🏅)"
-                            maxLength={4}
-                            {...register(`badges.${index}.icon`, {
-                              required: "Icon is required",
-                              maxLength: { value: 4, message: "Maximum 4 characters" },
-                            })}
-                          />
-                        </div>
-                        <div className={styles.inputWrap} style={{ flex: 1 }}>
-                          <input
-                            type="text"
-                            className={styles.input}
-                            placeholder="Badge text (e.g. Yoga Alliance USA — RYS 200 & 300 & 500)"
-                            maxLength={80}
-                            {...register(`badges.${index}.text`, {
-                              required: "Badge text is required",
-                              maxLength: { value: 80, message: "Maximum 80 characters" },
-                            })}
-                          />
-                        </div>
-                      </div>
-                      <button
-                        type="button"
-                        className={styles.removeBadgeBtn}
-                        onClick={() => removeBadge(index)}
-                        disabled={badgeFields.length <= 1}
-                      >
-                        ✕
-                      </button>
-                    </div>
-                  ))}
-                </div>
-
-                {badgeFields.length > 0 && (
-                  <div className={styles.badgePreview}>
-                    {badgeFields.map((field, i) => (
-                      <div key={field.id} className={styles.badgeChip}>
-                        <span className={styles.badgeChipIcon}>{watchAllFields.badges?.[i]?.icon}</span>
-                        <span>{watchAllFields.badges?.[i]?.text}</span>
-                      </div>
-                    ))}
-                  </div>
-                )}
-
-                {badgeFields.length < 6 && (
-                  <button type="button" className={styles.addBtn} onClick={addBadge}>
-                    + Add Badge
-                  </button>
-                )}
-              </div>
+              {renderCertCards(
+                "award",
+                awardCertFields,
+                "awardCerts",
+                addAwardCert,
+                removeAwardCertHandler,
+                handleAwardCertImage,
+                "Awards",
+                "Clickable award cards shown in the recognition grid (max 4)",
+              )}
             </>
           )}
 

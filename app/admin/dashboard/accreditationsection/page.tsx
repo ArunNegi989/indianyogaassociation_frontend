@@ -19,8 +19,8 @@ interface AccreditationRecord {
   videoSrc: string;
   immerseTitle: string;
   recognitionTitle: string;
-  certs?: any[];
-  badges?: any[];
+  courseCerts?: any[];
+  awardCerts?: any[];
 
   certsCount: number;     // ✅ ADD THIS
   badgesCount: number;    // ✅ ADD THIS
@@ -47,12 +47,11 @@ export default function AccreditationSectionListPage() {
     const fetchRecords = async () => {
       try {
         const res = await api.get("/accreditation");
-        const formatted = res.data.data.map((item: any) => ({
+   const formatted = res.data.data.map((item: any) => ({
   ...item,
-  certsCount: item.certs?.length || 0,
-  badgesCount: item.badges?.length || 0,
-}));
-       setRecords(formatted);
+  certsCount: item.courseCerts?.length || 0,
+  badgesCount: item.awardCerts?.length || 0,
+}));    setRecords(formatted);
       } catch (err) {
         console.error(err);
       } finally {
@@ -270,15 +269,15 @@ const handleAddClick = () => {
                   </td>
                   <td className={`${styles.td} ${styles.tdDate}`}>{formatDate(rec.updatedAt)}</td>
                   <td className={styles.td}>
-  {rec.certs?.[0]?.image ? (
-    <img
-      src={getImageUrl(rec.certs[0].image)}
-      alt="cert"
-      style={{ width: "50px", height: "50px", objectFit: "cover" }}
-    />
-  ) : (
-    "—"
-  )}
+  {rec.courseCerts?.[0]?.image ? (
+  <img
+    src={getImageUrl(rec.courseCerts[0].image)}
+    alt="cert"
+    style={{ width: "50px", height: "50px", objectFit: "cover" }}
+  />
+) : (
+  "—"
+)}
 </td>
                   <td className={styles.td}>
                     <div className={styles.actionBtns}>

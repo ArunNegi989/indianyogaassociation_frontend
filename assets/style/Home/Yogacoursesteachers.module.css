@@ -138,7 +138,7 @@
 .coursesSection {
   position: relative;
   background: var(--parchment);
-  background-image: url("../../images/1905x886.png");
+  background-image: url("../../images/backgroundimage/1905x908.png");
   overflow: hidden;
 }
 
@@ -402,7 +402,7 @@
 
 .whoSection {
   position: relative;
-  background: url("../../images/1905x865.png");
+  background: url("../../images/backgroundimage/1905x869.png");
   overflow: hidden;
   border-top: 1px solid var(--gold-border);
   border-bottom: 1px solid var(--gold-border);
@@ -523,7 +523,7 @@
 .teachersSection {
   position: relative;
   background: var(--parchment);
-  background-image: url("../../images/yogateacherbackground.png");
+  background-image: url("../../images/backgroundimage/1905x1740.png");
   overflow: hidden;
 }
 
@@ -550,7 +550,7 @@
 /* ── Founder Feature ── */
 .founderBlock {
   display: grid;
-  grid-template-columns: 1fr 1.5fr;
+  grid-template-columns: 1fr 2.5fr;
   gap: clamp(2rem, 4vw, 4rem);
   align-items: center;
   margin-bottom: 3.5rem;
@@ -703,7 +703,7 @@
 .sliderWrapper {
   position: relative;
   margin-bottom: 2.5rem;
-  padding: 0 54px;
+ 
 }
 
 /* Each slide needs padding so cards don't touch each other */

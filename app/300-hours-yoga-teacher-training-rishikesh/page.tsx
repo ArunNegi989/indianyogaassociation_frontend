@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import styles from "@/assets/style/300-hours-yoga-teacher-training-rishikesh/Yogattc300.module.css";
 import HowToReach from "@/components/home/Howtoreach";
+import StickySectionNav from "@/components/common/StickySectionNav";
 import api from "@/lib/api";
 
 /* ─────────────────────────────────────────
@@ -145,6 +146,14 @@ interface Content2 {
   youtubeVideos: YouTubeVideo[];
 }
 
+
+const NAV_ITEMS = [
+  { label: "DATES & FEES", id: "dates-fees" },
+  { label: "CURRICULUM", id: "curriculum" },
+  { label: "INCLUSIONS", id: "inclusions" },
+  { label: "FACILITY", id: "facility" },
+  { label: "LOCATION", id: "location" },
+];
 /* ─────────────────────────────────────────
    HELPERS
 ───────────────────────────────────────── */
@@ -427,7 +436,7 @@ export default function YogaTTC300() {
           SECTION 1 — HERO
       ══════════════════════════════════════ */}
       {content1?.heroImage && (
-        <section className={styles.heroSection}>
+        <section id="hero" className={styles.heroSection}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={imgUrl(content1.heroImage)}
@@ -438,6 +447,8 @@ export default function YogaTTC300() {
           />
         </section>
       )}
+
+      <StickySectionNav items={NAV_ITEMS} triggerId="hero" />
 
       <section className={styles.heroSection2}>
         <div className="container">
@@ -485,7 +496,7 @@ export default function YogaTTC300() {
       {/* ══════════════════════════════════════
           SECTION 2 — OVERVIEW + COURSE DATES
       ══════════════════════════════════════ */}
-      <section className={`${styles.section} ${styles.sectionLight}`}>
+      <section id="dates-fees" className={`${styles.section} ${styles.sectionLight}`}>
         <div className="container">
           {content1?.overviewH2 && (
             <h2 className={styles.sectionTitleOrange}>{content1.overviewH2}</h2>
@@ -631,7 +642,7 @@ export default function YogaTTC300() {
           SECTION 3 — INCLUDED / NOT INCLUDED
       ══════════════════════════════════════ */}
       {(content1?.includedFee?.length || content1?.notIncludedFee?.length) && (
-        <section className={styles.section}>
+        <section id="inclusions" className={styles.section}>
           <div className="container">
             <div className="row g-4">
               {/* Included */}
@@ -677,7 +688,7 @@ export default function YogaTTC300() {
           SECTION 4 — SYLLABUS TABS
       ══════════════════════════════════════ */}
       {modules.length > 0 && (
-        <section className={`${styles.section} ${styles.sectionLight}`}>
+        <section id="curriculum" className={`${styles.section} ${styles.sectionLight}`}>
           <div className="container">
             {content1?.syllabusH2 && (
               <h2 className={styles.sectionTitleOrange}>
@@ -878,7 +889,7 @@ export default function YogaTTC300() {
           SECTION 6 — FAQ + ACCOMMODATION + FOOD
       ══════════════════════════════════════ */}
       {content2 && (
-        <section className={`${styles.section} ${styles.sectionLight}`}>
+        <section id="facility" className={`${styles.section} ${styles.sectionLight}`}>
           <div className="container">
             {content2.faqH2 && (
               <h2 className={styles.sectionTitleOrange}>{content2.faqH2}</h2>
@@ -1284,7 +1295,9 @@ export default function YogaTTC300() {
         <span className={styles.divLine} />
       </div>
 
-      <HowToReach />
+      <div id="location">
+  <HowToReach />
+</div>
     </div>
   );
 }

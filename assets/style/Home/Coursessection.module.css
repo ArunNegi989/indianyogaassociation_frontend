@@ -3,7 +3,7 @@
 .section {
   position: relative;
   overflow: hidden;
-  background-image: url("../../../assets//images/coursebackgorund.png");
+  background-image: url("../../../assets//images/backgroundimage/1905x2581.png");
   background-repeat: no-repeat;
   background-size: cover;
 }
@@ -237,12 +237,12 @@
 
 .description {
   font-family: var(--font-lato), sans-serif;
-  /* Cormorant → Lato */
   font-size: clamp(0.88rem, 1.4vw, 0.97rem);
   font-weight: 300;
   line-height: 1.8;
   color: #3d2b10;
   margin: 0 0 0.9rem;
+ 
 }
 
 .inlineLink {

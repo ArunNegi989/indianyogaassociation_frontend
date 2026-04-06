@@ -217,10 +217,39 @@ function SmartVideo({ src, poster }: { src: string; poster?: string }) {
   );
 }
 
+/* ── Reusable Cert Card ── */
+function CertCard({
+  cert,
+  onClick,
+}: {
+  cert: any;
+  onClick: (cert: any) => void;
+}) {
+  return (
+    <div className={styles.certCard} onClick={() => onClick(cert)}>
+      <div className={styles.certImageWrap}>
+        <Image
+          src={getImageUrl(cert.image)}
+          alt={cert.alt || cert.label}
+          fill
+          style={{ objectFit: "cover" }}
+        />
+      </div>
+      <div className={styles.certCardFooter}>
+        <span className={styles.certTag}>{cert.tag}</span>
+        <span className={styles.certCardLabel}>{cert.label}</span>
+      </div>
+    </div>
+  );
+}
+
 export const AccreditationSection: React.FC = () => {
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+
+  // modal can come from courseCerts or awardCerts
   const [modalImg, setModalImg] = useState<any>(null);
+  const [modalList, setModalList] = useState<any[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -251,8 +280,16 @@ export const AccreditationSection: React.FC = () => {
     };
   }, [modalImg]);
 
+  const openModal = (cert: any, list: any[]) => {
+    setModalImg(cert);
+    setModalList(list);
+  };
+
   if (loading) return <p>Loading...</p>;
   if (!data) return <p>No data found</p>;
+
+  const courseCerts: any[] = data.courseCerts || [];
+  const awardCerts: any[] = data.awardCerts || [];
 
   return (
     <>
@@ -342,95 +379,49 @@ export const AccreditationSection: React.FC = () => {
             <p className={styles.para}>{data.recognitionPara2}</p>
           </div>
 
-          {/* ── 3-2-1 Pyramid Grid ── */}
-          <div className={styles.certsGrid}>
-            {/* Row 1 — 3 cards */}
-            <div className={styles.certsRow}>
-              {data.certs.slice(0, 3).map((cert: any, index: number) => (
-                <div
-                  key={index}
-                  className={styles.certCard}
-                  onClick={() => setModalImg(cert)}
-                >
-                  <div className={styles.certImageWrap}>
-                    <Image
-                      src={getImageUrl(cert.image)}
-                      alt={cert.alt}
-                      fill
-                      style={{ objectFit: "cover" }}
-                    />
-                  </div>
-                  <div className={styles.certCardFooter}>
-                    <span className={styles.certTag}>{cert.tag}</span>
-                    <span className={styles.certCardLabel}>{cert.label}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
+          {/* ══ COURSE CERTIFICATES ══ */}
+          {courseCerts.length > 0 && (
+            <div className={styles.certsBlock}>
+              <div className={styles.certsBlockHeader}>
+                <span className={styles.certsBlockDecor}>✦</span>
+                <h3 className={styles.certsBlockTitle}>Popular Courses</h3>
+                <span className={styles.certsBlockDecor}>✦</span>
+              </div>
+              <div className={styles.certsBlockLine} />
 
-            {/* Row 2 — 2 cards */}
-            <div className={styles.certsRow}>
-              {data.certs.slice(3, 5).map((cert: any, index: number) => (
-                <div
-                  key={index + 3}
-                  className={styles.certCard}
-                  onClick={() => setModalImg(cert)}
-                >
-                  <div className={styles.certImageWrap}>
-                    <Image
-                      src={getImageUrl(cert.image)}
-                      alt={cert.alt}
-                      fill
-                      style={{ objectFit: "cover" }}
-                    />
-                  </div>
-                  <div className={styles.certCardFooter}>
-                    <span className={styles.certTag}>{cert.tag}</span>
-                    <span className={styles.certCardLabel}>{cert.label}</span>
-                  </div>
-                </div>
-              ))}
+              <div className={styles.certsGrid4}>
+                {courseCerts.map((cert: any, index: number) => (
+                  <CertCard
+                    key={index}
+                    cert={cert}
+                    onClick={(c) => openModal(c, courseCerts)}
+                  />
+                ))}
+              </div>
             </div>
+          )}
 
-            {/* Row 3 — 1 card (centered) */}
-            <div className={styles.certsRow}>
-              {data.certs.slice(5, 6).map((cert: any, index: number) => (
-                <div
-                  key={index + 5}
-                  className={styles.certCard}
-                  onClick={() => setModalImg(cert)}
-                >
-                  <div className={styles.certImageWrap}>
-                    <Image
-                      src={getImageUrl(cert.image)}
-                      alt={cert.alt}
-                      fill
-                      style={{ objectFit: "cover" }}
-                    />
-                  </div>
-                  <div className={styles.certCardFooter}>
-                    <span className={styles.certTag}>{cert.tag}</span>
-                    <span className={styles.certCardLabel}>{cert.label}</span>
-                  </div>
-                </div>
-              ))}
+          {/* ══ AWARDS ══ */}
+          {awardCerts.length > 0 && (
+            <div className={styles.certsBlock}>
+              <div className={styles.certsBlockHeader}>
+                <span className={styles.certsBlockDecor}>✦</span>
+                <h3 className={styles.certsBlockTitle}>Awards</h3>
+                <span className={styles.certsBlockDecor}>✦</span>
+              </div>
+              <div className={styles.certsBlockLine} />
+
+              <div className={styles.awardsGrid}>
+                {awardCerts.map((cert: any, index: number) => (
+                  <CertCard
+                    key={index}
+                    cert={cert}
+                    onClick={(c) => openModal(c, awardCerts)}
+                  />
+                ))}
+              </div>
             </div>
-          </div>
-          {/* ── End Pyramid Grid ── */}
-
-          <div className={styles.badgesRow}>
-            {data.badges.map((b: any, i: number) => (
-              <React.Fragment key={i}>
-                <div className={styles.badge}>
-                  <span className={styles.badgeIcon}>{b.icon}</span>
-                  <span className={styles.badgeText}>{b.text}</span>
-                </div>
-                {i < data.badges.length - 1 && (
-                  <div className={styles.badgeSep}>✦</div>
-                )}
-              </React.Fragment>
-            ))}
-          </div>
+          )}
         </div>
       </section>
 
@@ -478,25 +469,23 @@ export const AccreditationSection: React.FC = () => {
               <button
                 className={styles.modalNavBtn}
                 onClick={() => {
-                  const idx = data.certs.findIndex((c: any) => c === modalImg);
+                  const idx = modalList.findIndex((c: any) => c === modalImg);
                   setModalImg(
-                    data.certs[
-                      (idx - 1 + data.certs.length) % data.certs.length
-                    ],
+                    modalList[(idx - 1 + modalList.length) % modalList.length],
                   );
                 }}
               >
                 ← Prev
               </button>
               <span className={styles.modalNavCount}>
-                {data.certs.findIndex((c: any) => c === modalImg) + 1} /{" "}
-                {data.certs.length}
+                {modalList.findIndex((c: any) => c === modalImg) + 1} /{" "}
+                {modalList.length}
               </span>
               <button
                 className={styles.modalNavBtn}
                 onClick={() => {
-                  const idx = data.certs.findIndex((c: any) => c === modalImg);
-                  setModalImg(data.certs[(idx + 1) % data.certs.length]);
+                  const idx = modalList.findIndex((c: any) => c === modalImg);
+                  setModalImg(modalList[(idx + 1) % modalList.length]);
                 }}
               >
                 Next →

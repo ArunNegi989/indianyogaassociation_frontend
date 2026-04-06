@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import styles from "@/assets/style/200-hour-yoga-teacher-training-rishikesh/Twohundredhouryoga.module.css";
 import HowToReach from "@/components/home/Howtoreach";
+import StickySectionNav from "@/components/common/StickySectionNav";
 import Image from "next/image";
 import api from "@/lib/api";
 
@@ -139,6 +140,16 @@ interface Batch {
   bookedSeats: number;
   note?: string;
 }
+
+
+const NAV_ITEMS = [
+  { label: "DATES & FEES", id: "dates-fees" },
+  { label: "CURRICULUM", id: "curriculum" },
+  { label: "INCLUSIONS", id: "inclusions" },
+  { label: "FACILITY", id: "facility" },
+  { label: "LOCATION", id: "location" },
+];
+
 
 /* ══════════════════════════════════════════════════
    HELPERS
@@ -385,7 +396,7 @@ export default function TwoHundredHourYoga() {
       <div className={styles.grainOverlay} aria-hidden="true" />
 
       {/* ════ HERO IMAGE ════ */}
-      <section className={styles.heroSection}>
+      <section id="hero" className={styles.heroSection}>
         {content1?.heroImage && (
           <Image
             src={imgUrl(content1.heroImage)}
@@ -397,7 +408,7 @@ export default function TwoHundredHourYoga() {
           />
         )}
       </section>
-
+<StickySectionNav items={NAV_ITEMS} triggerId="hero" />
       {/* ════ HERO TEXT + STATS ════ */}
       <section className={styles.heroSection2}>
         <div className={styles.heroTextWrap}>
@@ -441,7 +452,7 @@ export default function TwoHundredHourYoga() {
       <BorderStrip />
 
       {/* ════ AIMS + OVERVIEW + DATES ════ */}
-      <section className={styles.contentSection}>
+      <section  id="dates-fees"  className={styles.contentSection}>
         {/* Aims */}
         {content1?.aimsH3 && (
           <>
@@ -627,7 +638,7 @@ export default function TwoHundredHourYoga() {
       <BorderStrip />
 
       {/* ════ FEE INCLUDED / NOT INCLUDED + SYLLABUS ════ */}
-      <section className={styles.contentSection2}>
+      <section id="curriculum"  className={styles.contentSection2}>
         <div className={styles.feeInclGrid}>
           <div className={styles.feeInclCard}>
             <CornerOrnament pos="tl" />
@@ -697,7 +708,7 @@ export default function TwoHundredHourYoga() {
       <BorderStrip />
 
       {/* ════ MODULES 5–8 + ASHTANGA ════ */}
-      <section className={styles.contentSection}>
+      <section id="inclusions" className={styles.contentSection}>
         <div className={styles.moduleGrid}>
           {modules.slice(4, 8).map((mod, i) => (
             <ModuleCard
@@ -922,7 +933,7 @@ export default function TwoHundredHourYoga() {
       <BorderStrip />
 
       {/* ════ EVALUATION + ACCOMMODATION + FOOD ════ */}
-      <section className={styles.contentSection4}>
+      <section id="facility" className={styles.contentSection4}>
         {content2?.evalH2 && (
           <>
             <VintageHeading center={false}>
@@ -1343,7 +1354,9 @@ export default function TwoHundredHourYoga() {
       </section>
 
       <BorderStrip />
-      <HowToReach />
+     <div id="location">
+  <HowToReach />
+</div>
     </div>
   );
 }

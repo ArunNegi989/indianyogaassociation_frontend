@@ -6,7 +6,6 @@ import HomeaboutSection from "@/components/home/Homeaboutsection";
 import HomepageSlider from "@/components/home/Homepageslider";
 import HomeTestimonialsSection from "@/components/home/Hometestimonialssection";
 import HowToReach from "@/components/home/Howtoreach";
-import OtherCourses from "@/components/home/Othercourses";
 import OurMission from "@/components/home/Ourmission";
 import WhyAYMSection from "@/components/home/Whyaymsection";
 import YogaCoursesTeachers from "@/components/home/Yogacoursesteachers";
@@ -21,7 +20,6 @@ export default function Home() {
       <AccreditationSection />
       <YogaCoursesTeachers />
       <ClassCampusAmenities />
-      <OtherCourses />
       <WhyAYMSection />
       <OurMission />
       <AYMFullPage />

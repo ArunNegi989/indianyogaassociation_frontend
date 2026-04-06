@@ -65,6 +65,19 @@ const toAbsUrl = (path: string | undefined | null): string => {
 };
 
 /* ══════════════════════════════════════════════
+   FALLBACK IMAGES (Google/Unsplash) for campus
+   — used only when no imageUrl from API
+══════════════════════════════════════════════ */
+const FALLBACK_CAMPUS_IMAGES = [
+  "https://images.unsplash.com/photo-1545389336-cf090694435e?w=800&q=80", // yoga hall
+  "https://images.unsplash.com/photo-1588286840104-8957b019727f?w=800&q=80", // rishikesh ganges
+  "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=800&q=80", // meditation room
+  "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&q=80", // yoga class outdoor
+  "https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?w=800&q=80", // ashram nature
+  "https://images.unsplash.com/photo-1562088287-bde35a1ea917?w=800&q=80", // yoga pose
+];
+
+/* ══════════════════════════════════════════════
    COMPONENT
 ══════════════════════════════════════════════ */
 const AYMFullPage: React.FC = () => {
@@ -227,12 +240,9 @@ const AYMFullPage: React.FC = () => {
                   <div className={styles.diagramBox}>
                     <img
                       src={data.bodyPlanesImage}
-                      alt={
-                        data.bodyPlanesImageAlt || "Yoga body planes diagram"
-                      }
+                      alt={data.bodyPlanesImageAlt || "Yoga body planes diagram"}
                       className={styles.diagramImage}
                     />
-                    {/* Diagram labels from bodyPlanes array */}
                     {data.bodyPlanes.length > 0 && (
                       <div className={styles.diagramLabelsRow}>
                         {data.bodyPlanes.map((plane, i) => (
@@ -265,7 +275,7 @@ const AYMFullPage: React.FC = () => {
             </div>
           </div>
 
-          {/* Highlight paragraph — plain text injected into rich context */}
+          {/* Highlight paragraph */}
           <p className={styles.para}>
             According to Yogi Chetan Mahesh, every Yoga student or Yoga teacher
             trainer should master all exercises, such as flexion, extension,
@@ -311,34 +321,49 @@ const AYMFullPage: React.FC = () => {
             <div className={styles.titleUnderline} />
           </div>
 
-          {/* Facilities list */}
+          {/* ── Facilities — Alternating layout ── */}
           <div className={styles.facilitiesList}>
-            {data.campusFacilities.map((f, i) => (
-              <div key={i} className={styles.facilityItem}>
-                <div className={styles.facilityHeader}>
-                  <span className={styles.facilityDot}>✦</span>
-                  <strong className={styles.facilityBold}>{f.bold}</strong>
+            {data.campusFacilities.map((f, i) => {
+              /* Use API image if available, else fallback */
+              const imgSrc =
+                f.imageUrl ||
+                FALLBACK_CAMPUS_IMAGES[i % FALLBACK_CAMPUS_IMAGES.length];
+              const imgAlt = f.imageAlt || f.bold || "Campus facility";
+
+              return (
+                <div key={i} className={styles.facilityItem}>
+                  {/* Content: title + text */}
+                  <div className={styles.facilityContent}>
+                    <div className={styles.facilityHeader}>
+                      <span className={styles.facilityDot}>✦</span>
+                      <strong className={styles.facilityBold}>{f.bold}</strong>
+                    </div>
+                    <div className={styles.facilityUnderline} />
+                    {/* facility text — rich text */}
+                    <div
+                      className={styles.facilityText}
+                      dangerouslySetInnerHTML={{ __html: f.text }}
+                    />
+                  </div>
+
+                  {/* Image */}
+                  <div className={styles.facilityImageWrap}>
+                    {imgSrc ? (
+                      <img
+                        src={imgSrc}
+                        alt={imgAlt}
+                        className={styles.facilityImage}
+                        loading="lazy"
+                      />
+                    ) : (
+                      <div className={styles.facilityImagePlaceholder}>
+                        <span className={styles.facilityPlaceholderIcon}>🕉</span>
+                      </div>
+                    )}
+                  </div>
                 </div>
-                {/* facility text — rich text */}
-                <div
-                  className={styles.facilityText}
-                  dangerouslySetInnerHTML={{ __html: f.text }}
-                />
-                {/* optional facility photo */}
-                {f.imageUrl && (
-                  <img
-                    src={f.imageUrl}
-                    alt={f.imageAlt || f.bold}
-                    className={styles.facilityImage}
-                    style={{
-                      marginTop: "0.75rem",
-                      maxWidth: "100%",
-                      borderRadius: "8px",
-                    }}
-                  />
-                )}
-              </div>
-            ))}
+              );
+            })}
           </div>
 
           {/* Promo cards */}
@@ -400,7 +425,7 @@ const AYMFullPage: React.FC = () => {
           </a>
         </div>
 
-        {/* Master quote block — rich text */}
+        {/* Master quote block */}
         <div className={styles.masterQuoteBlock}>
           <div
             className={styles.masterQuote}
@@ -409,7 +434,7 @@ const AYMFullPage: React.FC = () => {
           <div className={styles.masterAttrib}>{data.masterAttrib}</div>
         </div>
 
-        {/* Journey paragraphs — rich text */}
+        {/* Journey paragraphs */}
         <div className={styles.container}>
           <div className={styles.journeyText}>
             {data.journeyParas.map((para, i) => {
@@ -425,7 +450,6 @@ const AYMFullPage: React.FC = () => {
               );
             })}
 
-            {/* Closing namaste line */}
             {data.namesteText && (
               <p className={`${styles.para} ${styles.namaste}`}>
                 {data.namesteText} <strong>Namaste!</strong>

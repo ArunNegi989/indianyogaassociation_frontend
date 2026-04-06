@@ -1,7 +1,7 @@
 /* ── Section shell ── */
 .section {
   position: relative;
-  background-image: url("../../images/SVG.svg");
+  background-image: url("../../images/backgroundimage/1905x1150.png");
   background-size: cover;
   background-position: center bottom;
   background-repeat: no-repeat;

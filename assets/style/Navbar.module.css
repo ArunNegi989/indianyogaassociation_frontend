@@ -12,6 +12,10 @@
   z-index: 1000;
 }
 
+.navbar a:hover {
+  color: #4a3101;
+}
+
 .navbar {
   max-width: 1440px;
   margin: 0 auto;
@@ -121,7 +125,7 @@
   position: absolute;
   top: 100%;
   left: 0;
-  min-width: 230px;
+  min-width: 260px;
   background: #fff;
   border-top: 3px solid #e07b00;
   border-radius: 0 0 8px 8px;

@@ -1,0 +1,288 @@
+/* ================================================================
+   STICKY SECTION NAV — Full Responsive, No Scroll, Wrap + Center
+   Fixed: uniform 20px top padding across ALL breakpoints
+   ================================================================ */
+
+.wrap {
+  position: fixed;
+  top: 68px;
+  left: 0;
+  width: 100%;
+  z-index: 999;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 20px 40px;
+
+  background: rgba(255, 255, 255, 0.97);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+
+  transform: translateY(-120%);
+  opacity: 0;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+
+  /* prevent any overflow clipping */
+  overflow: visible;
+  box-sizing: border-box;
+}
+
+/* show after hero scroll */
+.show {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* ── Button ── */
+.btn {
+  flex-shrink: 0;
+  border: 2px solid #e07b00;
+  padding: 6px 18px;
+  border-radius: 20px;
+  background: transparent;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  color: #e07b00;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  transition: background 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
+  line-height: 1.4;
+  box-sizing: border-box;
+}
+
+.btn:hover {
+  background: #e07b00;
+  color: #fff;
+}
+
+/* active */
+.active {
+  background: #e07b00;
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(224, 123, 0, 0.35);
+}
+
+/* ================================================================
+   BREAKPOINTS — padding-top & padding-bottom always 20px
+   ================================================================ */
+
+/* ── ≥ 1400px  (2xl / wide desktop) ── */
+@media (min-width: 1400px) {
+  .wrap {
+    top: 68px;
+    gap: 12px;
+    padding: 20px 48px;
+  }
+  .btn {
+    font-size: 15px;
+    padding: 7px 24px;
+    border-radius: 20px;
+  }
+}
+
+/* ── 1200px – 1399px  (xl desktop) ── */
+@media (min-width: 1200px) and (max-width: 1399px) {
+  .wrap {
+    top: 68px;
+    gap: 10px;
+    padding: 20px 40px;
+  }
+  .btn {
+    font-size: 14px;
+    padding: 6px 20px;
+    border-radius: 20px;
+  }
+}
+
+@media (max-width: 1360px) {
+  .wrap {
+    top: 100px;
+    gap: 10px;
+    padding: 20px 40px;
+  }
+  
+}
+
+/* ── 1024px – 1199px  (lg / small desktop) ── */
+@media (min-width: 1024px) and (max-width: 1199px) {
+  .wrap {
+    top: 68px;
+    gap: 10px;
+    padding: 20px 32px;
+  }
+  .btn {
+    font-size: 14px;
+    padding: 6px 18px;
+    border-radius: 20px;
+  }
+}
+@media (max-width: 1199px) {
+  .wrap {
+    top: 100px;
+    gap: 10px;
+    padding: 20px 40px;
+  }
+  
+}
+/* ── 900px – 1023px  (tablet landscape) ── */
+@media (min-width: 900px) and (max-width: 1023px) {
+  .wrap {
+    top: 64px;
+    gap: 9px;
+    padding: 20px 28px;
+  }
+  .btn {
+    font-size: 13px;
+    padding: 6px 16px;
+    border-radius: 20px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .wrap {
+    top: 100px;
+    gap: 10px;
+    padding: 20px 40px;
+  }
+  
+}
+
+/* ── 768px – 899px  (tablet portrait) ── */
+@media (min-width: 768px) and (max-width: 899px) {
+  .wrap {
+    top: 60px;
+    gap: 8px;
+    padding: 20px 24px;
+    justify-content: center;
+  }
+  .btn {
+    font-size: 13px;
+    padding: 6px 15px;
+    border-width: 1.5px;
+    border-radius: 18px;
+  }
+}
+
+/* ── 640px – 767px  (large mobile) ── */
+@media (min-width: 640px) and (max-width: 767px) {
+  .wrap {
+    top: 58px;
+    gap: 8px;
+    padding: 20px 20px;
+    justify-content: center;
+  }
+  .btn {
+    font-size: 12.5px;
+    padding: 6px 14px;
+    border-width: 1.5px;
+    border-radius: 18px;
+  }
+}
+
+/* ── 540px – 639px  (medium mobile) ── */
+@media (min-width: 540px) and (max-width: 639px) {
+  .wrap {
+    top: 56px;
+    gap: 7px;
+    padding: 20px 16px;
+    justify-content: center;
+  }
+  .btn {
+    font-size: 12px;
+    padding: 5px 13px;
+    border-width: 1.5px;
+    border-radius: 16px;
+    letter-spacing: 0.03em;
+  }
+}
+
+/* ── 480px – 539px  (small-medium mobile) ── */
+@media (min-width: 480px) and (max-width: 539px) {
+  .wrap {
+    top: 54px;
+    gap: 7px;
+    padding: 20px 14px;
+    justify-content: center;
+  }
+  .btn {
+    font-size: 11.5px;
+    padding: 5px 12px;
+    border-width: 1.5px;
+    border-radius: 16px;
+    letter-spacing: 0.025em;
+  }
+}
+
+/* ── 430px – 479px  (iPhone Pro Max) ── */
+@media (min-width: 430px) and (max-width: 479px) {
+  .wrap {
+    top: 52px;
+    gap: 6px;
+    padding: 20px 12px;
+    justify-content: center;
+  }
+  .btn {
+    font-size: 11px;
+    padding: 5px 11px;
+    border-width: 1.5px;
+    border-radius: 15px;
+    letter-spacing: 0.02em;
+  }
+}
+
+/* ── 390px – 429px  (iPhone 14 / standard) ── */
+@media (min-width: 390px) and (max-width: 429px) {
+  .wrap {
+    top: 50px;
+    gap: 6px;
+    padding: 20px 10px;
+    justify-content: center;
+  }
+  .btn {
+    font-size: 10.5px;
+    padding: 5px 10px;
+    border-width: 1.5px;
+    border-radius: 14px;
+    letter-spacing: 0.015em;
+  }
+}
+
+/* ── 360px – 389px  (Android standard / iPhone SE) ── */
+@media (min-width: 360px) and (max-width: 389px) {
+  .wrap {
+    top: 48px;
+    gap: 5px;
+    padding: 20px 8px;
+    justify-content: center;
+  }
+  .btn {
+    font-size: 10px;
+    padding: 5px 9px;
+    border-width: 1.5px;
+    border-radius: 13px;
+    letter-spacing: 0.01em;
+  }
+}
+
+/* ── ≤ 359px  (very small phones) ── */
+@media (max-width: 359px) {
+  .wrap {
+    top: 46px;
+    gap: 5px;
+    padding: 20px 6px;
+    justify-content: center;
+  }
+  .btn {
+    font-size: 9.5px;
+    padding: 4px 8px;
+    border-width: 1px;
+    border-radius: 12px;
+    letter-spacing: 0;
+  }
+}
