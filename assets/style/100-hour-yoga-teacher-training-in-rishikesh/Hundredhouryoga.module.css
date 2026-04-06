@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=IM+Fell+English:ital@0;1&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,600&family=Dancing+Script:wght@600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Lato:ital,wght@0,300;0,400;0,700;1,400&family=Montserrat:wght@500;600;700&display=swap');
 
 /* ================================================================
    ROOT & CSS VARIABLES
@@ -21,10 +21,14 @@
   --border-sepia: rgba(139, 90, 19, 0.3);
   --border-gold: rgba(184, 134, 11, 0.4);
   --shadow-warm: rgba(80, 40, 5, 0.15);
-  --font-display: 'Cinzel', serif;
-  --font-body: 'Cormorant Garamond', serif;
-  --font-fell: 'IM Fell English', serif;
-  --font-script: 'Dancing Script', cursive;
+
+  /* ── UPDATED FONT VARIABLES ── */
+  --font-display: 'Playfair Display', Georgia, serif;   /* was: Cinzel */
+  --font-body:    'Lato', Arial, sans-serif;             /* was: Cormorant Garamond */
+  --font-fell:    'Playfair Display', Georgia, serif;    /* was: IM Fell English */
+  --font-script:  'Poppins', Arial, sans-serif;          /* was: Dancing Script */
+  --font-menu:    'Montserrat', Arial, sans-serif;       /* NEW: for nav/menu items */
+
   --teal-dark: #1a4a4a;
   --teal-mid: #2a6060;
 
@@ -105,8 +109,7 @@
 }
 
 .heroTitle {
-  font-family: var(--font-fell);
-  font-style: italic;
+  font-family: var(--font-display);        /* Playfair Display */
   font-size: clamp(1.05rem, 2.2vw, 1.5rem);
   color: var(--saffron);
   text-align: center;
@@ -157,7 +160,7 @@
 }
 
 .icHdrTxt {
-  font-family: var(--font-display);
+  font-family: var(--font-menu);           /* Montserrat */
   font-size: 0.85rem;
   font-weight: 700;
   letter-spacing: 0.18em;
@@ -215,7 +218,7 @@
 }
 
 .icLbl {
-  font-family: var(--font-display);
+  font-family: var(--font-menu);           /* Montserrat */
   font-size: 0.98rem;
   font-weight: 700;
   letter-spacing: 0.12em;
@@ -225,7 +228,7 @@
 }
 
 .icVal {
-  font-family: var(--font-body);
+  font-family: var(--font-body);           /* Lato */
   font-size: clamp(0.88rem, 1.3vw, 1.5rem);
   font-weight: 600;
   color: var(--teal-dark);
@@ -233,7 +236,7 @@
 }
 
 .icSub {
-  font-family: var(--font-body);
+  font-family: var(--font-body);           /* Lato */
   font-style: italic;
   font-size: 0.85rem;
   color: var(--ink-soft);
@@ -272,7 +275,7 @@
 }
 
 .icFeeLbl {
-  font-family: var(--font-display);
+  font-family: var(--font-menu);           /* Montserrat */
   font-size: 1rem;
   font-weight: 700;
   letter-spacing: 0.14em;
@@ -281,7 +284,7 @@
 }
 
 .icFeeFrom {
-  font-family: var(--font-body);
+  font-family: var(--font-body);           /* Lato */
   font-style: italic;
   font-size: 1.1rem;
   color: var(--ink-soft);
@@ -295,7 +298,7 @@
 }
 
 .icPriceOld {
-  font-family: var(--font-display);
+  font-family: var(--font-display);        /* Playfair Display */
   font-size: 1.3rem;
   color: #a09080;
   text-decoration: line-through;
@@ -304,7 +307,7 @@
 }
 
 .icPriceNew {
-  font-family: var(--font-display);
+  font-family: var(--font-display);        /* Playfair Display */
   font-size: clamp(1.8rem, 3.5vw, 2.4rem);
   font-weight: 700;
   color: var(--teal-dark);
@@ -313,7 +316,7 @@
 }
 
 .icPriceCur {
-  font-family: var(--font-display);
+  font-family: var(--font-menu);           /* Montserrat */
   font-size: 0.82rem;
   font-weight: 700;
   color: var(--ink-soft);
@@ -328,7 +331,7 @@
   width: 100%;
   background: linear-gradient(135deg, var(--saffron-bright) 0%, #a85800 100%);
   color: #ffffff;
-  font-family: var(--font-display);
+  font-family: var(--font-menu);           /* Montserrat */
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.16em;
@@ -389,7 +392,7 @@
 }
 
 .snavBtn {
-  font-family: var(--font-display);
+  font-family: var(--font-menu);           /* Montserrat */
   font-size: 0.65rem;
   font-weight: 700;
   letter-spacing: 0.13em;
@@ -449,7 +452,7 @@
 }
 
 .bodyText {
-  font-family: var(--font-body);
+  font-family: var(--font-body);           /* Lato */
   font-size: clamp(0.97rem, 1.55vw, 1.08rem);
   line-height: 1.95;
   color: var(--ink-mid);
@@ -469,7 +472,7 @@
 .vintageList {
   position: relative;
   z-index: 1;
-  font-family: var(--font-body);
+  font-family: var(--font-body);           /* Lato */
   font-size: clamp(0.97rem, 1.5vw, 1.06rem);
   line-height: 1.9;
   color: var(--ink-mid);
@@ -491,7 +494,7 @@
 
 .vintageList li::before {
   content: counter(vintageCounter) ".";
-  font-family: var(--font-display);
+  font-family: var(--font-menu);           /* Montserrat */
   font-size: 0.78rem;
   font-weight: 700;
   color: var(--saffron);
@@ -513,11 +516,11 @@
 }
 
 .vintageHeading {
-  font-family: var(--font-fell);
+  font-family: var(--font-display);        /* Playfair Display */
   font-style: italic;
   font-size: clamp(1rem, 2.2vw, 1.45rem);
   color: var(--saffron);
-  font-weight: 400;
+  font-weight: 500;
   letter-spacing: 0.02em;
   line-height: 1.4;
   margin: 0 auto 0.5rem;
@@ -566,7 +569,7 @@
 }
 
 .omDividerLabel {
-  font-family: var(--font-display);
+  font-family: var(--font-menu);           /* Montserrat */
   font-size: 0.6rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -623,8 +626,10 @@
 }
 
 .letYourSoul {
-  font-family: var(--font-script);
+  font-family: var(--font-display);        /* Playfair Display italic */
+  font-style: italic;
   font-size: clamp(1.4rem, 4vw, 2.6rem);
+  font-weight: 500;
   color: rgba(255, 240, 210, 0.95);
   text-shadow:
     0 2px 16px rgba(0, 0, 0, 0.7),
@@ -675,16 +680,16 @@
 }
 
 .syllabusModuleTitle {
-  font-family: var(--font-fell);
+  font-family: var(--font-display);        /* Playfair Display */
   font-style: italic;
   font-size: clamp(0.95rem, 1.5vw, 1.1rem);
   color: var(--saffron);
   margin: 0 0 0.3rem;
-  font-weight: 400;
+  font-weight: 500;
 }
 
 .syllabusModuleDesc {
-  font-family: var(--font-body);
+  font-family: var(--font-body);           /* Lato */
   font-size: clamp(0.88rem, 1.3vw, 0.97rem);
   color: var(--ink-mid);
   line-height: 1.75;
@@ -746,7 +751,7 @@
 .schedHeader {
   background: linear-gradient(135deg, var(--saffron-bright) 0%, var(--saffron) 100%);
   color: var(--cream);
-  font-family: var(--font-display);
+  font-family: var(--font-menu);           /* Montserrat */
   font-size: 0.78rem;
   font-weight: 700;
   letter-spacing: 0.14em;
@@ -768,7 +773,7 @@
   display: flex;
   align-items: flex-start;
   gap: 0.6rem;
-  font-family: var(--font-body);
+  font-family: var(--font-body);           /* Lato */
   font-size: clamp(0.88rem, 1.4vw, 1rem);
   color: var(--ink-mid);
   line-height: 1.55;
@@ -830,7 +835,7 @@
 .feeCardHeaderGreen {
   background: linear-gradient(135deg, #5a8a00 0%, #3d6000 100%);
   color: var(--cream);
-  font-family: var(--font-display);
+  font-family: var(--font-menu);           /* Montserrat */
   font-size: 0.72rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -842,7 +847,7 @@
 .feeCardHeaderRed {
   background: linear-gradient(135deg, #b84000 0%, #8a2c00 100%);
   color: var(--cream);
-  font-family: var(--font-display);
+  font-family: var(--font-menu);           /* Montserrat */
   font-size: 0.72rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -864,7 +869,7 @@
   display: flex;
   align-items: center;
   gap: 0.6rem;
-  font-family: var(--font-body);
+  font-family: var(--font-body);           /* Lato */
   font-size: clamp(0.9rem, 1.4vw, 1rem);
   color: var(--ink-mid);
   line-height: 1.5;
@@ -881,7 +886,7 @@
    ================================================================ */
 .psbSecTag {
   text-align: center;
-  font-family: var(--font-display);
+  font-family: var(--font-menu);           /* Montserrat */
   font-size: 0.58rem;
   letter-spacing: 0.25em;
   color: var(--saffron-gold);
@@ -893,7 +898,7 @@
 
 .psbSecSub {
   text-align: center;
-  font-family: var(--font-body);
+  font-family: var(--font-body);           /* Lato */
   font-style: italic;
   font-size: 0.9rem;
   color: var(--ink-soft);
@@ -958,7 +963,7 @@
 }
 
 .psbLphTitle {
-  font-family: var(--font-display);
+  font-family: var(--font-menu);           /* Montserrat */
   font-size: 0.75rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -974,7 +979,7 @@
   display: flex;
   align-items: center;
   gap: 5px;
-  font-family: var(--font-display);
+  font-family: var(--font-menu);           /* Montserrat */
   font-size: 0.75rem;
   letter-spacing: 0.06em;
   color: var(--ink-soft);
@@ -1003,7 +1008,7 @@
 .psbNoBatches {
   padding: 2rem;
   text-align: center;
-  font-family: var(--font-body);
+  font-family: var(--font-body);           /* Lato */
   color: var(--saffron);
   font-style: italic;
 }
@@ -1059,7 +1064,7 @@
 }
 
 .psbBcMonth {
-  font-family: var(--font-display);
+  font-family: var(--font-menu);           /* Montserrat */
   font-size: 0.82rem;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -1068,7 +1073,7 @@
 }
 
 .psbBcDates {
-  font-family: var(--font-body);
+  font-family: var(--font-body);           /* Lato */
   font-size: 0.88rem;
   font-weight: 600;
   color: var(--ink-sepia);
@@ -1090,7 +1095,7 @@
 }
 
 .psbBcStxt {
-  font-family: var(--font-display);
+  font-family: var(--font-menu);           /* Montserrat */
   font-size: 0.76rem;
   font-weight: 700;
   letter-spacing: 0.05em;
@@ -1113,7 +1118,7 @@
 .psbBcSeatsBadge {
   display: inline-block;
   margin-top: 0.35rem;
-  font-family: var(--font-display);
+  font-family: var(--font-menu);           /* Montserrat */
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.05em;
@@ -1138,7 +1143,7 @@
 }
 
 .psbRpEyebrow {
-  font-family: var(--font-display);
+  font-family: var(--font-menu);           /* Montserrat */
   font-size: 0.85rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -1147,7 +1152,7 @@
 }
 
 .psbRpCourse {
-  font-family: var(--font-body);
+  font-family: var(--font-display);        /* Playfair Display */
   font-style: italic;
   font-size: 1.15rem;
   color: #fff3d2;
@@ -1165,7 +1170,7 @@
 }
 
 .psbRpDurTxt {
-  font-family: var(--font-display);
+  font-family: var(--font-menu);           /* Montserrat */
   font-size: 0.8rem;
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -1177,7 +1182,7 @@
 }
 
 .psbPriceLbl {
-  font-family: var(--font-display);
+  font-family: var(--font-menu);           /* Montserrat */
   font-size: 0.75rem;
   letter-spacing: 0.13em;
   text-transform: uppercase;
@@ -1200,7 +1205,7 @@
 }
 
 .psbPcAmt {
-  font-family: var(--font-display);
+  font-family: var(--font-display);        /* Playfair Display */
   font-size: 1.08rem;
   font-weight: 700;
   color: var(--ink-sepia);
@@ -1213,7 +1218,7 @@
 }
 
 .psbPcLbl {
-  font-family: var(--font-body);
+  font-family: var(--font-body);           /* Lato */
   font-size: 0.75rem;
   font-style: italic;
   color: var(--ink-soft);
@@ -1237,7 +1242,7 @@
 }
 
 .psbFoodBadge {
-  font-family: var(--font-display);
+  font-family: var(--font-menu);           /* Montserrat */
   font-size: 0.55rem;
   letter-spacing: 0.06em;
   background: rgba(184, 134, 11, 0.12);
@@ -1259,7 +1264,7 @@
 }
 
 .psbInrLbl {
-  font-family: var(--font-display);
+  font-family: var(--font-menu);           /* Montserrat */
   font-size: 0.75rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -1267,7 +1272,7 @@
 }
 
 .psbInrAmt {
-  font-family: var(--font-display);
+  font-family: var(--font-display);        /* Playfair Display */
   font-size: 0.92rem;
   font-weight: 700;
   color: var(--maroon);
@@ -1285,7 +1290,7 @@
 }
 
 .psbRpSeatsLbl {
-  font-family: var(--font-display);
+  font-family: var(--font-menu);           /* Montserrat */
   font-size: 0.8rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -1293,7 +1298,7 @@
 }
 
 .psbRpSeatsBadge {
-  font-family: var(--font-display);
+  font-family: var(--font-menu);           /* Montserrat */
   font-size: 0.8rem;
   font-weight: 700;
   letter-spacing: 0.05em;
@@ -1338,14 +1343,14 @@
 }
 
 .psbSelHint {
-  font-family: var(--font-body);
+  font-family: var(--font-body);           /* Lato */
   font-style: italic;
   font-size: 0.82rem;
   color: #a08050;
 }
 
 .psbSelLabel {
-  font-family: var(--font-display);
+  font-family: var(--font-menu);           /* Montserrat */
   font-size: 0.58rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -1354,7 +1359,7 @@
 }
 
 .psbSelDate {
-  font-family: var(--font-body);
+  font-family: var(--font-body);           /* Lato */
   font-size: 0.95rem;
   font-weight: 600;
   color: var(--ink-sepia);
@@ -1368,7 +1373,7 @@
   width: 100%;
   background: linear-gradient(135deg, var(--saffron-bright) 0%, #a85800 100%);
   color: #fff3d2;
-  font-family: var(--font-display);
+  font-family: var(--font-menu);           /* Montserrat */
   font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.13em;
@@ -1400,7 +1405,7 @@
 }
 
 .psbNote {
-  font-family: var(--font-body);
+  font-family: var(--font-body);           /* Lato */
   font-size: 0.82rem;
   color: var(--ink-soft);
   font-style: italic;
@@ -1535,7 +1540,6 @@
 
 /* ── 5) 768px – 899px  (md / tablet portrait) ── */
 @media (max-width: 899px) {
-  /* Info card: stack vertically */
   .icCard {
     grid-template-columns: 1fr;
     grid-template-rows: auto auto auto;
@@ -1572,7 +1576,6 @@
     align-items: baseline;
   }
 
-  /* Layout resets */
   .syllabusGrid    { grid-template-columns: 1fr; }
   .feeGrid         { grid-template-columns: 1fr; }
   .scheduleLayout  { grid-template-columns: 1fr; gap: 2rem; }
@@ -1607,7 +1610,6 @@
     grid-template-columns: repeat(2, 1fr);
   }
 
-  /* Fix border logic for 2-col grid */
   .icItem:nth-child(3n)         { border-right: 1px solid rgba(200,112,10,0.12); }
   .icItem:nth-child(2n)         { border-right: none; }
   .icItem:nth-last-child(-n+3)  { border-bottom: 1px solid rgba(200,112,10,0.12); }
@@ -1625,7 +1627,7 @@
   .psbBatchGrid    { grid-template-columns: repeat(2, 1fr); }
 }
 
-/* ── 7) 600px – 639px  (sm / small-large mobile) ── */
+/* ── 7) 600px – 639px ── */
 @media (min-width: 600px) and (max-width: 639px) {
   .icWrap {
     width: 97%;
@@ -1641,7 +1643,7 @@
   .icBookBtn { font-size: 0.66rem; padding: 0.75rem 1.2rem; }
 }
 
-/* ── 8) 540px – 599px  (xs+ / medium mobile) ── */
+/* ── 8) ≤ 599px ── */
 @media (max-width: 599px) {
   .icWrap {
     width: 96%;
@@ -1652,12 +1654,11 @@
   .icBookBtn      { font-size: 0.66rem; padding: 0.75rem 1rem; }
   .psbBatchGrid   { grid-template-columns: repeat(2, 1fr); }
 
-  /* Sticky nav: compact pills */
   .snavInner      { padding: 0.55rem 1rem; gap: 0.45rem; }
   .snavBtn        { font-size: 0.6rem; padding: 0.42rem 0.9rem; letter-spacing: 0.09em; }
 }
 
-/* ── 9) ≤ 540px  (xs / compact mobile) ── */
+/* ── 9) ≤ 540px ── */
 @media (max-width: 540px) {
   .icWrap {
     width: 95%;
@@ -1677,7 +1678,7 @@
   .heroSection   { padding-bottom: 35px; }
 }
 
-/* ── 10) ≤ 480px  (xs / small mobile) ── */
+/* ── 10) ≤ 480px ── */
 @media (max-width: 480px) {
   .icWrap {
     margin-top: -35px;
@@ -1699,7 +1700,7 @@
   .heroSection    { padding-bottom: 28px; }
 }
 
-/* ── 11) ≤ 400px  (xxs / very small mobile) ── */
+/* ── 11) ≤ 400px ── */
 @media (max-width: 400px) {
   .icWrap {
     margin-top: -30px;
@@ -1724,7 +1725,7 @@
   .snavInner      { gap: 0.35rem; padding: 0.5rem 0.75rem; }
 }
 
-/* ── 12) ≤ 360px  (xxs / smallest phones) ── */
+/* ── 12) ≤ 360px ── */
 @media (max-width: 360px) {
   .icWrap         { margin-top: -8px; }
   .icGrid         { grid-template-columns: 1fr 1fr; }

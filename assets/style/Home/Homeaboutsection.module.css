@@ -278,6 +278,10 @@
   border-radius: 2px;
 }
 
+.description [style*="background-color"] {
+  background-color: transparent !important;
+}
+
 .highlight {
   color: #b85e00;
   font-weight: 700;
