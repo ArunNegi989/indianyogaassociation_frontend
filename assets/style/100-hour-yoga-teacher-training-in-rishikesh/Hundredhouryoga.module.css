@@ -149,7 +149,7 @@
 }
 
 .icHdr {
-  background: linear-gradient(135deg, var(--teal-dark) 0%, var(--teal-mid) 100%);
+  background: linear-gradient(135deg, #da7800 0%, #b15e00 100%);
   padding: 0.85rem 1.6rem;
   display: inline-flex;
   align-items: center;
@@ -158,7 +158,7 @@
 
 .icHdrTxt {
   font-family: var(--font-display);
-  font-size: 0.75rem;
+  font-size: 0.85rem;
   font-weight: 700;
   letter-spacing: 0.18em;
   color: #ffffff;
@@ -216,7 +216,7 @@
 
 .icLbl {
   font-family: var(--font-display);
-  font-size: 0.58rem;
+  font-size: 0.98rem;
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -226,7 +226,7 @@
 
 .icVal {
   font-family: var(--font-body);
-  font-size: clamp(0.88rem, 1.3vw, 0.98rem);
+  font-size: clamp(0.88rem, 1.3vw, 1.5rem);
   font-weight: 600;
   color: var(--teal-dark);
   line-height: 1.3;
@@ -235,7 +235,7 @@
 .icSub {
   font-family: var(--font-body);
   font-style: italic;
-  font-size: 0.75rem;
+  font-size: 0.85rem;
   color: var(--ink-soft);
   line-height: 1.3;
 }
@@ -273,7 +273,7 @@
 
 .icFeeLbl {
   font-family: var(--font-display);
-  font-size: 0.65rem;
+  font-size: 1rem;
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -283,7 +283,7 @@
 .icFeeFrom {
   font-family: var(--font-body);
   font-style: italic;
-  font-size: 0.78rem;
+  font-size: 1.1rem;
   color: var(--ink-soft);
 }
 
@@ -296,7 +296,7 @@
 
 .icPriceOld {
   font-family: var(--font-display);
-  font-size: 1.1rem;
+  font-size: 1.3rem;
   color: #a09080;
   text-decoration: line-through;
   text-decoration-color: rgba(139, 58, 0, 0.6);
@@ -314,7 +314,7 @@
 
 .icPriceCur {
   font-family: var(--font-display);
-  font-size: 0.72rem;
+  font-size: 0.82rem;
   font-weight: 700;
   color: var(--ink-soft);
   letter-spacing: 0.08em;
@@ -959,7 +959,7 @@
 
 .psbLphTitle {
   font-family: var(--font-display);
-  font-size: 0.65rem;
+  font-size: 0.75rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--ink-mid);
@@ -975,7 +975,7 @@
   align-items: center;
   gap: 5px;
   font-family: var(--font-display);
-  font-size: 0.55rem;
+  font-size: 0.75rem;
   letter-spacing: 0.06em;
   color: var(--ink-soft);
   text-transform: uppercase;
@@ -1060,7 +1060,7 @@
 
 .psbBcMonth {
   font-family: var(--font-display);
-  font-size: 0.62rem;
+  font-size: 0.82rem;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -1091,7 +1091,7 @@
 
 .psbBcStxt {
   font-family: var(--font-display);
-  font-size: 0.56rem;
+  font-size: 0.76rem;
   font-weight: 700;
   letter-spacing: 0.05em;
 }
@@ -1114,7 +1114,7 @@
   display: inline-block;
   margin-top: 0.35rem;
   font-family: var(--font-display);
-  font-size: 0.55rem;
+  font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.05em;
   padding: 2px 7px;
@@ -1139,7 +1139,7 @@
 
 .psbRpEyebrow {
   font-family: var(--font-display);
-  font-size: 0.55rem;
+  font-size: 0.85rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: rgba(255, 243, 210, 0.75);
@@ -1166,7 +1166,7 @@
 
 .psbRpDurTxt {
   font-family: var(--font-display);
-  font-size: 0.6rem;
+  font-size: 0.8rem;
   font-weight: 700;
   letter-spacing: 0.1em;
   color: #fff3d2;
@@ -1178,7 +1178,7 @@
 
 .psbPriceLbl {
   font-family: var(--font-display);
-  font-size: 0.55rem;
+  font-size: 0.75rem;
   letter-spacing: 0.13em;
   text-transform: uppercase;
   color: var(--saffron-gold);
@@ -1260,7 +1260,7 @@
 
 .psbInrLbl {
   font-family: var(--font-display);
-  font-size: 0.55rem;
+  font-size: 0.75rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--ink-soft);
@@ -1268,7 +1268,7 @@
 
 .psbInrAmt {
   font-family: var(--font-display);
-  font-size: 0.82rem;
+  font-size: 0.92rem;
   font-weight: 700;
   color: var(--maroon);
 }
@@ -1286,7 +1286,7 @@
 
 .psbRpSeatsLbl {
   font-family: var(--font-display);
-  font-size: 0.55rem;
+  font-size: 0.8rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--ink-soft);
@@ -1294,7 +1294,7 @@
 
 .psbRpSeatsBadge {
   font-family: var(--font-display);
-  font-size: 0.6rem;
+  font-size: 0.8rem;
   font-weight: 700;
   letter-spacing: 0.05em;
   padding: 2px 8px;
