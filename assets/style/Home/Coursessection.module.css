@@ -245,6 +245,10 @@
  
 }
 
+.description * {
+  background-color: transparent !important;
+}
+
 .inlineLink {
   color: #e07b00;
   font-weight: 400;

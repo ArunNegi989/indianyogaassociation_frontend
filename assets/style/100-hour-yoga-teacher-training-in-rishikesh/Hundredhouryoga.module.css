@@ -517,17 +517,15 @@
 
 .vintageHeading {
   font-family: var(--font-display);        /* Playfair Display */
-  font-style: italic;
+ 
   font-size: clamp(1rem, 2.2vw, 1.45rem);
   color: var(--saffron);
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: 0.02em;
   line-height: 1.4;
   margin: 0 auto 0.5rem;
   max-width: 820px;
-  text-shadow:
-    1px 1px 0 rgba(255, 220, 160, 0.6),
-    -1px -1px 0 rgba(80, 40, 5, 0.15);
+ 
 }
 
 .vintageHeadingUnderline {
