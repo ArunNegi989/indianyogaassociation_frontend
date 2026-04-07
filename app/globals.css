@@ -1,5 +1,4 @@
 @import "tailwindcss";
-
 @import "slick-carousel/slick/slick.css";
 @import "slick-carousel/slick/slick-theme.css";
 
@@ -37,7 +36,7 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 500;
 }
 
-h1 { font-size: clamp(42px, 5vw, 56px);  font-weight: 600; }
+h1 { font-size: clamp(42px, 5vw, 56px); font-weight: 600; }
 h2 { font-size: clamp(30px, 3.5vw, 36px); font-weight: 500; }
 h3 { font-size: clamp(22px, 2.5vw, 26px); font-weight: 500; }
 h4 { font-size: 20px; font-weight: 500; }
