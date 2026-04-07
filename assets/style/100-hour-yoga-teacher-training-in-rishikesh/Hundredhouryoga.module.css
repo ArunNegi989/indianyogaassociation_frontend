@@ -842,9 +842,16 @@
 /* List */
 .incList {
   display: grid;
-  gap: 12px 30px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px 40px;
   list-style: none;
   padding: 0;
+}
+
+@media (max-width: 768px) {
+  .incList {
+    grid-template-columns: 1fr;
+  }
 }
 
 .incList li {
@@ -857,7 +864,7 @@
 /* Icon */
 .incList li::before {
   content: "✺";
-  color: #9e020f;
+  color: #c85509;
 }
 
 /* ================================================================
