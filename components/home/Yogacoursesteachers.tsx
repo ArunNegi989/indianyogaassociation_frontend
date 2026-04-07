@@ -237,40 +237,57 @@ function TeacherSlider({
   onSelect: (t: TeacherItem) => void;
 }) {
  const slickSettings = {
-  infinite: true,
+ infinite: true,
   autoplay: true,
   autoplaySpeed: 4000,
   speed: 600,
-  slidesToShow: 4, // default desktop
+  slidesToShow: 4,
   slidesToScroll: 1,
   swipeToSlide: true,
   pauseOnHover: true,
   dots: false,
   arrows: true,
+  initialSlide: 0,        
   prevArrow: <PrevArrow />,
   nextArrow: <NextArrow />,
 
   responsive: [
-    {
-      breakpoint: 1200,
-      settings: {
-        slidesToShow: 3,
-      },
+  {
+    breakpoint: 1200,
+    settings: {
+      slidesToShow: 3,
     },
-    {
-      breakpoint: 992,
-      settings: {
-        slidesToShow: 2,
-      },
+  },
+  {
+    breakpoint: 992,
+    settings: {
+      slidesToShow: 2,
     },
-    {
-      breakpoint: 768,
-      settings: {
-        slidesToShow: 1, // ✅ mobile fix
-        arrows: false,
-      },
+  },
+  {
+    breakpoint: 768,
+    settings: {
+      slidesToShow: 1,
+      arrows: false,
     },
-  ],
+  },
+  {
+    breakpoint: 600,   // ✅ Add karo
+    settings: {
+      slidesToShow: 1,
+      arrows: false,
+      centerMode: false,
+    },
+  },
+  {
+    breakpoint: 480,   // ✅ Add karo
+    settings: {
+      slidesToShow: 1,
+      arrows: false,
+      centerMode: false,
+    },
+  },
+],
 };
 
   return (

@@ -1254,6 +1254,13 @@
   .modalImgFrame {
     width: clamp(110px, 42%, 150px);
   }
+   .sliderWrapper :global(.slick-slide) {
+    width: 100% !important;
+  }
+
+  .sliderWrapper :global(.slick-track) {
+    display: flex !important;
+  }
 }
 
 /* ════════════════════════════════════════════════
