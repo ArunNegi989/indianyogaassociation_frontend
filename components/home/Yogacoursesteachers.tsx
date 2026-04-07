@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styles from "../../assets/style/Home/Yogacoursesteachers.module.css";
 import api from "@/lib/api";
 
@@ -239,7 +239,10 @@ function TeacherSlider({
   const [slidesToShow, setSlidesToShow] = useState(4);
   const [mounted, setMounted] = useState(false);
 
-  // ✅ Window size se directly slidesToShow calculate karo
+  // ✅ Touch swipe ke liye
+  const touchStartX = useRef<number>(0);
+  const touchEndX = useRef<number>(0);
+
   useEffect(() => {
     setMounted(true);
 
@@ -251,7 +254,7 @@ function TeacherSlider({
       else setSlidesToShow(4);
     }
 
-    updateSlides(); // pehli baar chalao
+    updateSlides();
     window.addEventListener("resize", updateSlides);
     return () => window.removeEventListener("resize", updateSlides);
   }, []);
@@ -259,8 +262,8 @@ function TeacherSlider({
   const total = teachers.length;
   const maxIndex = Math.max(0, total - slidesToShow);
 
-  const prev = () => setCurrentIndex((i) => Math.max(0, i - 1));
-  const next = () => setCurrentIndex((i) => Math.min(maxIndex, i + 1));
+  const prev = () => setCurrentIndex((i) => (i === 0 ? maxIndex : i - 1));
+  const next = () => setCurrentIndex((i) => (i >= maxIndex ? 0 : i + 1));
 
   // Auto-play
   useEffect(() => {
@@ -271,90 +274,120 @@ function TeacherSlider({
     return () => clearInterval(timer);
   }, [mounted, maxIndex]);
 
+  // ✅ Touch handlers
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    touchEndX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = () => {
+    const diff = touchStartX.current - touchEndX.current;
+    if (Math.abs(diff) > 40) {
+      // 40px threshold
+      if (diff > 0) next(); // left swipe → next
+      else prev();          // right swipe → prev
+    }
+  };
+
   if (!mounted) return null;
 
   const slideWidthPercent = 100 / slidesToShow;
 
   return (
-    <div className={styles.sliderWrapper} style={{ overflow: "hidden" }}>
-      {/* Prev Arrow */}
+    <div className={styles.sliderWrapper}>
+      {/* Prev Arrow — desktop only */}
       {slidesToShow > 1 && (
         <button
           className={`${styles.sliderArrow} ${styles.sliderArrowPrev}`}
           onClick={prev}
           aria-label="Previous"
-          style={{ opacity: currentIndex === 0 ? 0.4 : 1 }}
         >
           ‹
         </button>
       )}
 
-      {/* Track */}
+      {/* ✅ Track — touch events lagao yahan */}
       <div
-        style={{
-          display: "flex",
-          transition: "transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)",
-          transform: `translateX(-${currentIndex * slideWidthPercent}%)`,
-          willChange: "transform",
-        }}
+        style={{ overflow: "hidden" }}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
       >
-        {teachers.map((t, i) => (
-          <div
-            key={t._id}
-            style={{
-              minWidth: `${slideWidthPercent}%`,
-              maxWidth: `${slideWidthPercent}%`,
-              padding: "0 8px",
-              boxSizing: "border-box",
-            }}
-          >
+        <div
+          style={{
+            display: "flex",
+            transition: "transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)",
+            transform: `translateX(-${currentIndex * slideWidthPercent}%)`,
+            willChange: "transform",
+          }}
+        >
+          {teachers.map((t, i) => (
             <div
-              className={styles.teacherCard}
-              style={{ "--delay": `${i * 0.08}s` } as React.CSSProperties}
-              onClick={() => onSelect(t)}
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => e.key === "Enter" && onSelect(t)}
+              key={t._id}
+              style={{
+                minWidth: `${slideWidthPercent}%`,
+                maxWidth: `${slideWidthPercent}%`,
+                padding: "0 8px",
+                boxSizing: "border-box",
+              }}
             >
-              <div className={styles.teacherImgWrap}>
-                {getImageUrl(t.imgUrl) ? (
-                  <img
-                    src={getImageUrl(t.imgUrl)}
-                    alt={`${t.name} ${t.surname}`}
-                    className={styles.teacherImg}
-                  />
-                ) : (
-                  <div className={styles.teacherImgPlaceholder}>🧘</div>
-                )}
-                <div className={styles.teacherImgOverlay}>
-                  <span className={styles.teacherOm}>ॐ</span>
+              <div
+                className={styles.teacherCard}
+                style={{ "--delay": `${i * 0.08}s` } as React.CSSProperties}
+                onClick={() => onSelect(t)}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => e.key === "Enter" && onSelect(t)}
+              >
+                <div className={styles.teacherImgWrap}>
+                  {getImageUrl(t.imgUrl) ? (
+                    <img
+                      src={getImageUrl(t.imgUrl)}
+                      alt={`${t.name} ${t.surname}`}
+                      className={styles.teacherImg}
+                    />
+                  ) : (
+                    <div className={styles.teacherImgPlaceholder}>🧘</div>
+                  )}
+                  <div className={styles.teacherImgOverlay}>
+                    <span className={styles.teacherOm}>ॐ</span>
+                  </div>
+                  <div className={styles.teacherClickHint}>View Profile</div>
                 </div>
-                <div className={styles.teacherClickHint}>View Profile</div>
-              </div>
-              <div className={styles.teacherInfo}>
-                <strong className={styles.teacherName}>{t.name}</strong>
-                <span className={styles.teacherSurname}>{t.surname}</span>
+                <div className={styles.teacherInfo}>
+                  <strong className={styles.teacherName}>{t.name}</strong>
+                  <span className={styles.teacherSurname}>{t.surname}</span>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
 
-      {/* Next Arrow */}
+      {/* Next Arrow — desktop only */}
       {slidesToShow > 1 && (
         <button
           className={`${styles.sliderArrow} ${styles.sliderArrowNext}`}
           onClick={next}
           aria-label="Next"
-          style={{ opacity: currentIndex >= maxIndex ? 0.4 : 1 }}
         >
           ›
         </button>
       )}
 
-      {/* Dots — mobile pe swipe indicator */}
+      {/* Dots — mobile pe */}
       {slidesToShow === 1 && (
-        <div style={{ display: "flex", justifyContent: "center", gap: "6px", marginTop: "12px" }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            gap: "6px",
+            marginTop: "12px",
+          }}
+        >
           {teachers.map((_, i) => (
             <button
               key={i}
@@ -363,7 +396,10 @@ function TeacherSlider({
                 width: i === currentIndex ? "20px" : "8px",
                 height: "8px",
                 borderRadius: "4px",
-                background: i === currentIndex ? "var(--saffron)" : "var(--gold-border)",
+                background:
+                  i === currentIndex
+                    ? "var(--saffron)"
+                    : "var(--gold-border)",
                 border: "none",
                 cursor: "pointer",
                 padding: 0,
