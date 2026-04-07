@@ -4,7 +4,7 @@ import Image from "next/image";
 import styles from "@/assets/style/inner-awakening/Innertransformation.module.css";
 import gurujiimage from "@/assets/images/inner-awakening.jpg";
 import HowToReach from "@/components/home/Howtoreach";
-
+import heroImg from "@/assets/images/40.png";
 // ---- Om Symbol SVG ----
 const OmSVG: React.FC = () => (
   <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -44,8 +44,19 @@ const Divider: React.FC = () => (
 const InnerTransformation: React.FC = () => {
   return (
     <div className={styles.pageWrapper}>
-      {/* ===== HERO TITLE ===== */}
+
       <section className={styles.heroSection}>
+        <Image
+          src={heroImg}
+          alt="Yoga Students Group"
+          width={1180}
+          height={540}
+          className={styles.heroImage}
+          priority
+        />
+      </section>
+      {/* ===== HERO TITLE ===== */}
+      <section className={styles.heroSection1}>
         <h1 className={styles.mainTitle}>Inner Transformation Retreat</h1>
         <Divider />
         <h2 className={styles.subTitle}>

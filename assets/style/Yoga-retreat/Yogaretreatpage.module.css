@@ -256,8 +256,7 @@
 .scheduleSection {
   background: url("../../images/1905x810.png");
   padding: clamp(2.4rem, 5vw, 4rem) 0;
-  border-top: 4px solid;
-  border-bottom: 4px solid;
+ 
 
 }
 

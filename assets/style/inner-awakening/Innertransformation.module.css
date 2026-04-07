@@ -60,7 +60,24 @@
 /* ====================================================
    HERO SECTION
 ==================================================== */
+
 .heroSection {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  line-height: 0;
+}
+
+.heroImage {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+}
+
+.heroSection1 {
   padding: 44px 32px 8px;
   max-width: 1100px;
   margin: 0 auto;
@@ -379,7 +396,7 @@
 /* XS: < 576px */
 @media (max-width: 575.98px) {
 
-  .heroSection,
+  .heroSection1,
   .section,
   .triImageSection,
   .feeSection {
@@ -387,7 +404,7 @@
     padding-right: 14px;
   }
 
-  .heroSection {
+  .heroSection1 {
     padding-top: 28px;
   }
 
@@ -418,7 +435,7 @@
 /* SM: 576px – 767px */
 @media (min-width: 576px) and (max-width: 767.98px) {
 
-  .heroSection,
+  .heroSection1,
   .section,
   .triImageSection,
   .feeSection {
@@ -453,7 +470,7 @@
 /* MD: 768px – 991px */
 @media (min-width: 768px) and (max-width: 991.98px) {
 
-  .heroSection,
+  .heroSection1,
   .section,
   .triImageSection,
   .feeSection {
@@ -488,7 +505,7 @@
 
 /* XL: ≥ 1200px */
 @media (min-width: 1200px) {
-  .heroSection {
+  .heroSection1 {
     padding-top: 56px;
     padding-left: 48px;
     padding-right: 48px;

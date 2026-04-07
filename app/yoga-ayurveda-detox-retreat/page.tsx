@@ -5,11 +5,21 @@ import styles from "@/assets/style/yoga-ayurveda-detox-retreat/Detoxretreat.modu
 import detoxHero from "@/assets/images/Ayurvea-and-detox.jpg";
 import faceMassage from "@/assets/images/Massage.jpg";
 import HowToReach from "@/components/home/Howtoreach";
-
+import heroImg from "@/assets/images/39.png";
 // ===================== MAIN COMPONENT =====================
 const DetoxRetreat: React.FC = () => {
   return (
     <div className={styles.pageWrapper}>
+      <section className={styles.heroSection}>
+        <Image
+          src={heroImg}
+          alt="Yoga Students Group"
+          width={1180}
+          height={540}
+          className={styles.heroImage}
+          priority
+        />
+      </section>
       <section className={styles.section}>
         <h1 className={styles.mainTitle}>
           DETOXIFICATION RETREAT THROUGH HERBS, YOGA, AYURVEDA, AND NUTRITION
