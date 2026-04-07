@@ -252,7 +252,7 @@ export default function EditAccreditationSectionPage() {
         formData.append("awardCertImageIndexes", awardCertIndexList.join(","));
       }
 
-    await api.post("/accreditation", formData);
+    await api.put(`/accreditation/${id}`, formData);
       setSubmitted(true);
       setTimeout(() => router.push("/admin/dashboard/accreditationsection"), 1500);
     } catch (error: any) {
