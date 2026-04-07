@@ -95,13 +95,10 @@
 }
 
 @keyframes omPulse {
-
-  0%,
-  100% {
+  0%, 100% {
     transform: scale(1);
     filter: drop-shadow(0 1px 4px rgba(224, 123, 0, 0.4));
   }
-
   50% {
     transform: scale(1.12);
     filter: drop-shadow(0 2px 10px rgba(224, 123, 0, 0.7));
@@ -159,13 +156,10 @@
 }
 
 @keyframes bgOmBreath {
-
-  0%,
-  100% {
+  0%, 100% {
     transform: translate(-50%, -50%) scale(1);
     opacity: 0.028;
   }
-
   50% {
     transform: translate(-50%, -50%) scale(1.06);
     opacity: 0.048;
@@ -190,15 +184,8 @@
 }
 
 @keyframes cardReveal {
-  from {
-    opacity: 0;
-    transform: translateY(24px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 .courseCard:hover {
@@ -476,15 +463,8 @@
 }
 
 @keyframes chipReveal {
-  from {
-    opacity: 0;
-    transform: translateX(16px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
+  from { opacity: 0; transform: translateX(16px); }
+  to   { opacity: 1; transform: translateX(0); }
 }
 
 .chipDot {
@@ -611,10 +591,7 @@
   color: rgba(253, 246, 236, 0.95);
 }
 
-.fCornerTL,
-.fCornerTR,
-.fCornerBL,
-.fCornerBR {
+.fCornerTL, .fCornerTR, .fCornerBL, .fCornerBR {
   position: absolute;
   width: 20px;
   height: 20px;
@@ -623,30 +600,10 @@
   opacity: 0.7;
   z-index: 2;
 }
-
-.fCornerTL {
-  top: 7px;
-  left: 7px;
-  border-width: 2px 0 0 2px;
-}
-
-.fCornerTR {
-  top: 7px;
-  right: 7px;
-  border-width: 2px 2px 0 0;
-}
-
-.fCornerBL {
-  bottom: 7px;
-  left: 7px;
-  border-width: 0 0 2px 2px;
-}
-
-.fCornerBR {
-  bottom: 7px;
-  right: 7px;
-  border-width: 0 2px 2px 0;
-}
+.fCornerTL { top: 7px; left: 7px; border-width: 2px 0 0 2px; }
+.fCornerTR { top: 7px; right: 7px; border-width: 2px 2px 0 0; }
+.fCornerBL { bottom: 7px; left: 7px; border-width: 0 0 2px 2px; }
+.fCornerBR { bottom: 7px; right: 7px; border-width: 0 2px 2px 0; }
 
 .founderEyebrow {
   font-family: var(--font-lato), sans-serif;
@@ -699,14 +656,14 @@
    TEACHER SLIDER — react-slick overrides
 ════════════════════════════════════════════════ */
 
-/* Outer wrapper — gives room for side arrows */
 .sliderWrapper {
   position: relative;
   margin-bottom: 2.5rem;
- 
+  /* ✅ Padding gives space for side arrows on desktop */
+  padding: 0 50px;
 }
 
-/* Each slide needs padding so cards don't touch each other */
+/* Each slide padding so cards don't touch */
 .sliderSlide {
   padding: 0 8px;
 }
@@ -747,7 +704,6 @@
   transform: scale(1.08);
 }
 
-/* Fallback placeholder */
 .teacherImgPlaceholder {
   width: 100%;
   height: 100%;
@@ -873,7 +829,7 @@
   right: 0;
 }
 
-/* Override slick's default arrow positioning (in case any leak through) */
+/* Override slick's default arrow positioning */
 .sliderWrapper :global(.slick-prev),
 .sliderWrapper :global(.slick-next) {
   display: none !important;
@@ -936,13 +892,8 @@
 }
 
 @keyframes backdropIn {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
 .modalCard {
@@ -959,15 +910,8 @@
 }
 
 @keyframes modalIn {
-  from {
-    opacity: 0;
-    transform: scale(0.85) translateY(24px);
-  }
-
-  to {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-  }
+  from { opacity: 0; transform: scale(0.85) translateY(24px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
 }
 
 .modalOmBg {
@@ -984,10 +928,7 @@
   animation: bgOmBreath 5s ease-in-out infinite;
 }
 
-.mCornerTL,
-.mCornerTR,
-.mCornerBL,
-.mCornerBR {
+.mCornerTL, .mCornerTR, .mCornerBL, .mCornerBR {
   position: absolute;
   width: 22px;
   height: 22px;
@@ -995,30 +936,10 @@
   border-style: solid;
   z-index: 2;
 }
-
-.mCornerTL {
-  top: 10px;
-  left: 10px;
-  border-width: 2px 0 0 2px;
-}
-
-.mCornerTR {
-  top: 10px;
-  right: 10px;
-  border-width: 2px 2px 0 0;
-}
-
-.mCornerBL {
-  bottom: 10px;
-  left: 10px;
-  border-width: 0 0 2px 2px;
-}
-
-.mCornerBR {
-  bottom: 10px;
-  right: 10px;
-  border-width: 0 2px 2px 0;
-}
+.mCornerTL { top: 10px; left: 10px; border-width: 2px 0 0 2px; }
+.mCornerTR { top: 10px; right: 10px; border-width: 2px 2px 0 0; }
+.mCornerBL { bottom: 10px; left: 10px; border-width: 0 0 2px 2px; }
+.mCornerBR { bottom: 10px; right: 10px; border-width: 0 2px 2px 0; }
 
 .modalClose {
   position: absolute;
@@ -1178,6 +1099,15 @@
 }
 
 /* ════════════════════════════════════════════════
+   RESPONSIVE — ≤1024px  (tablet landscape)
+════════════════════════════════════════════════ */
+@media (max-width: 1024px) {
+  .sliderWrapper {
+    padding: 0 46px;
+  }
+}
+
+/* ════════════════════════════════════════════════
    RESPONSIVE — ≤860px
 ════════════════════════════════════════════════ */
 @media (max-width: 860px) {
@@ -1248,7 +1178,8 @@
 }
 
 /* ════════════════════════════════════════════════
-   RESPONSIVE — ≤600px
+   RESPONSIVE — ≤600px  (large mobile)
+   ✅ 2 cards, no arrows
 ════════════════════════════════════════════════ */
 @media (max-width: 600px) {
   .coursesGrid {
@@ -1287,9 +1218,13 @@
     font-size: 5rem;
   }
 
-  /* No arrows on mobile — touch swipe works */
+  /* 2 cards on large mobile — no arrows, use swipe */
   .sliderWrapper {
     padding: 0 6px;
+  }
+
+  .sliderArrow {
+    display: none;
   }
 
   /* Modal stacked on mobile */
@@ -1322,7 +1257,32 @@
 }
 
 /* ════════════════════════════════════════════════
-   RESPONSIVE — ≤380px
+   RESPONSIVE — ≤480px  (small mobile)
+   ✅ 1 card with center peek
+════════════════════════════════════════════════ */
+@media (max-width: 480px) {
+  .sliderWrapper {
+    /* centerPadding handles side peek — remove side padding */
+    padding: 0;
+  }
+
+  /* Give slides a tighter gap in center mode */
+  .sliderSlide {
+    padding: 0 6px;
+  }
+
+  .teacherName {
+    font-size: 0.82rem;
+  }
+
+  .teacherSurname {
+    font-size: 0.78rem;
+  }
+}
+
+/* ════════════════════════════════════════════════
+   RESPONSIVE — ≤380px  (very small mobile)
+   ✅ 1 card, full width, no peek
 ════════════════════════════════════════════════ */
 @media (max-width: 380px) {
   .coursesGrid {
@@ -1330,6 +1290,10 @@
   }
 
   .sliderWrapper {
+    padding: 0 4px;
+  }
+
+  .sliderSlide {
     padding: 0 4px;
   }
 

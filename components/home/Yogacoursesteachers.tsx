@@ -1,8 +1,9 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+// ✅ REMOVE slick CSS imports from here — add them to _app.tsx or layout.tsx instead:
+// import "slick-carousel/slick/slick.css";
+// import "slick-carousel/slick/slick-theme.css";
 import styles from "../../assets/style/Home/Yogacoursesteachers.module.css";
 import api from "@/lib/api";
 
@@ -228,7 +229,8 @@ function NextArrow(props: any) {
 }
 
 /* ══════════════════════════════════════════════════════
-   TEACHER SLIDER — react-slick (infinite + autoplay)
+   TEACHER SLIDER — react-slick
+   ✅ FIXED: Proper breakpoints — 1 card on mobile
 ══════════════════════════════════════════════════════ */
 function TeacherSlider({
   teachers,
@@ -242,7 +244,7 @@ function TeacherSlider({
     autoplay: true,
     autoplaySpeed: 4000,
     speed: 600,
-    slidesToShow: 5,
+    slidesToShow: 5,       // default: desktop large
     slidesToScroll: 1,
     swipeToSlide: true,
     pauseOnHover: true,
@@ -251,40 +253,69 @@ function TeacherSlider({
     nextArrow: <NextArrow />,
     responsive: [
       {
-        breakpoint: 1360,
+        // Large desktop → 5 cards
+        breakpoint: 1500,
         settings: {
           slidesToShow: 4,
           slidesToScroll: 1,
+          arrows: true,
         },
       },
       {
-        breakpoint: 1100,
+        // Laptop / small desktop → 4 cards
+        breakpoint: 1200,
         settings: {
           slidesToShow: 3,
           slidesToScroll: 1,
+          arrows: true,
         },
       },
       {
-        breakpoint: 860,
+        // Tablet landscape → 3 cards
+        breakpoint: 1024,
         settings: {
           slidesToShow: 3,
           slidesToScroll: 1,
+          arrows: true,
         },
       },
       {
+        // Tablet portrait → 2 cards
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+          arrows: true,
+        },
+      },
+      {
+        // Large mobile → 2 cards
         breakpoint: 600,
         settings: {
           slidesToShow: 2,
           slidesToScroll: 1,
-          arrows: false,
+          arrows: false,   // no arrows on small screens — use swipe
         },
       },
       {
-        breakpoint: 380,
+        // ✅ Small mobile → 1 card only
+        breakpoint: 480,
         settings: {
-          slidesToShow: 2,
+          slidesToShow: 1,
           slidesToScroll: 1,
           arrows: false,
+          centerMode: true,
+          centerPadding: "40px",  // peek next card slightly
+        },
+      },
+      {
+        // ✅ Very small mobile → 1 card, no peek
+        breakpoint: 380,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          arrows: false,
+          centerMode: false,
         },
       },
     ],
@@ -338,7 +369,7 @@ export const YogaCoursesTeachers: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
   const [selectedTeacher, setSelectedTeacher] = useState<TeacherItem | null>(
-    null,
+    null
   );
 
   useEffect(() => {
@@ -500,7 +531,7 @@ export const YogaCoursesTeachers: React.FC = () => {
                   <p key={i} className={styles.para}>
                     {para}
                   </p>
-                ),
+                )
               )}
             </div>
             <div className={styles.whoDecor}>
