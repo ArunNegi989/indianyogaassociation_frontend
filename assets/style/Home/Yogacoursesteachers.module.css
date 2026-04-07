@@ -659,11 +659,11 @@
 .sliderWrapper {
   position: relative;
   margin-bottom: 2.5rem;
-  /* ✅ Padding gives space for side arrows on desktop */
-  padding: 0 50px;
+  
+  
 }
 
-/* Each slide padding so cards don't touch */
+
 .sliderSlide {
   padding: 0 8px;
 }

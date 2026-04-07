@@ -525,6 +525,7 @@ export default function HundredHourYoga() {
   const [content, setContent] = useState<ContentData | null>(null);
   const [seats, setSeats] = useState<SeatBatch[]>([]);
   const [loading, setLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState("include");
 
   useEffect(() => {
     Promise.all([
@@ -728,28 +729,38 @@ export default function HundredHourYoga() {
         {content.registrationParagraphs.map((p, i) => (
           <p key={i} className={styles.bodyText} dangerouslySetInnerHTML={{ __html: p }} />
         ))}
-        <div className={styles.feeGrid}>
-          <div className={styles.feeCard}>
-            <CornerOrnament pos="tl" />
-            <CornerOrnament pos="tr" />
-            <CornerOrnament pos="bl" />
-            <CornerOrnament pos="br" />
-            <div className={styles.feeCardHeaderGreen}>Included in Fee</div>
-            <ul className={styles.feeList}>
-              {content.includedItems.map((it, i) => <li key={i}>{it}</li>)}
-            </ul>
-          </div>
-          <div className={styles.feeCard}>
-            <CornerOrnament pos="tl" />
-            <CornerOrnament pos="tr" />
-            <CornerOrnament pos="bl" />
-            <CornerOrnament pos="br" />
-            <div className={styles.feeCardHeaderRed}>Not Included</div>
-            <ul className={styles.feeList}>
-              {content.notIncludedItems.map((it, i) => <li key={i}>{it}</li>)}
-            </ul>
-          </div>
-        </div>
+        <div className={styles.incWrap}>
+  
+  {/* Tabs */}
+  <div className={styles.incTabs}>
+    <button
+      className={`${styles.incTab} ${activeTab === "include" ? styles.active : ""}`}
+      onClick={() => setActiveTab("include")}
+    >
+      ✓ What Is Included?
+    </button>
+
+    <button
+      className={`${styles.incTab} ${activeTab === "exclude" ? styles.active : ""}`}
+      onClick={() => setActiveTab("exclude")}
+    >
+      ✕ What Is Not Included?
+    </button>
+  </div>
+
+  {/* Content */}
+  <div className={styles.incContent}>
+    <ul className={styles.incList}>
+      {(activeTab === "include"
+        ? content.includedItems
+        : content.notIncludedItems
+      )?.map((it, i) => (
+        <li key={i}>{it}</li>
+      ))}
+    </ul>
+  </div>
+
+</div>
       </section>
 
       {/* ══ LOCATION ══ */}
