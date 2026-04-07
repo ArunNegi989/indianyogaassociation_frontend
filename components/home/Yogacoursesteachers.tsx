@@ -238,6 +238,7 @@ function TeacherSlider({
   const [currentIndex, setCurrentIndex] = useState(0);
   const [slidesToShow, setSlidesToShow] = useState(4);
   const [mounted, setMounted] = useState(false);
+  const [isTransitioning, setIsTransitioning] = useState(true);
 
   // ✅ Touch swipe ke liye
   const touchStartX = useRef<number>(0);
@@ -258,21 +259,43 @@ function TeacherSlider({
     window.addEventListener("resize", updateSlides);
     return () => window.removeEventListener("resize", updateSlides);
   }, []);
+const loopTeachers = [...teachers, ...teachers];
+  const total = loopTeachers.length;
 
-  const total = teachers.length;
-  const maxIndex = Math.max(0, total - slidesToShow);
+ const prev = () => {
+  setCurrentIndex((i) =>
+    i === 0 ? teachers.length - 1 : i - 1
+  );
+};
 
-  const prev = () => setCurrentIndex((i) => (i === 0 ? maxIndex : i - 1));
-  const next = () => setCurrentIndex((i) => (i >= maxIndex ? 0 : i + 1));
+const next = () => {
+  setCurrentIndex((i) => i + 1);
+};
 
   // Auto-play
-  useEffect(() => {
-    if (!mounted) return;
-    const timer = setInterval(() => {
-      setCurrentIndex((i) => (i >= maxIndex ? 0 : i + 1));
-    }, 4000);
-    return () => clearInterval(timer);
-  }, [mounted, maxIndex]);
+useEffect(() => {
+  if (!mounted) return;
+
+  const timer = setInterval(() => {
+    setCurrentIndex((i) => i + 1);
+  }, 4000);
+
+  return () => clearInterval(timer);
+}, [mounted]);
+
+
+useEffect(() => {
+  if (currentIndex >= teachers.length) {
+    setTimeout(() => {
+      setIsTransitioning(false);   // animation off
+      setCurrentIndex(0);          // jump silently
+
+      setTimeout(() => {
+        setIsTransitioning(true);  // animation on again
+      }, 50);
+    }, 500);
+  }
+}, [currentIndex, teachers.length]);
 
   // ✅ Touch handlers
   const handleTouchStart = (e: React.TouchEvent) => {
@@ -319,12 +342,14 @@ function TeacherSlider({
         <div
           style={{
             display: "flex",
-            transition: "transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)",
+            transition: isTransitioning
+  ? "transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)"
+  : "none",
             transform: `translateX(-${currentIndex * slideWidthPercent}%)`,
             willChange: "transform",
           }}
         >
-          {teachers.map((t, i) => (
+          {loopTeachers.map((t, i) => (
             <div
               key={t._id}
               style={{
