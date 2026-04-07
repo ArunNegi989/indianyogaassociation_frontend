@@ -1,6 +1,5 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import Slider from "react-slick";
 import styles from "../../assets/style/Home/Yogacoursesteachers.module.css";
 import api from "@/lib/api";
 
@@ -236,78 +235,79 @@ function TeacherSlider({
   teachers: TeacherItem[];
   onSelect: (t: TeacherItem) => void;
 }) {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [slidesToShow, setSlidesToShow] = useState(4);
   const [mounted, setMounted] = useState(false);
 
+  // ✅ Window size se directly slidesToShow calculate karo
   useEffect(() => {
     setMounted(true);
+
+    function updateSlides() {
+      const w = window.innerWidth;
+      if (w <= 768) setSlidesToShow(1);
+      else if (w <= 992) setSlidesToShow(2);
+      else if (w <= 1200) setSlidesToShow(3);
+      else setSlidesToShow(4);
+    }
+
+    updateSlides(); // pehli baar chalao
+    window.addEventListener("resize", updateSlides);
+    return () => window.removeEventListener("resize", updateSlides);
   }, []);
 
-  const slickSettings = {
-    infinite: true,
-    autoplay: true,
-    autoplaySpeed: 4000,
-    speed: 600,
-    slidesToShow: 4,
-    slidesToScroll: 1,
-    swipeToSlide: true,
-    pauseOnHover: true,
-    dots: false,
-    arrows: true,
-    initialSlide: 0,
-    prevArrow: <PrevArrow />,
-    nextArrow: <NextArrow />,
-    responsive: [
-      {
-        breakpoint: 1200,
-        settings: { slidesToShow: 3 },
-      },
-      {
-        breakpoint: 992,
-        settings: { slidesToShow: 2 },
-      },
-      {
-        breakpoint: 768,
-        settings: { slidesToShow: 1, arrows: false },
-      },
-    ],
-  };
+  const total = teachers.length;
+  const maxIndex = Math.max(0, total - slidesToShow);
 
-  // ✅ SSR pe placeholder dikhao, client mount hone ke baad slider
-  if (!mounted) {
-    return (
-      <div className={styles.sliderWrapper}>
-        <div style={{ display: "flex", gap: "16px", overflow: "hidden" }}>
-          {teachers.slice(0, 1).map((t) => (
-            <div key={t._id} style={{ minWidth: "100%" }}>
-              <div className={styles.teacherCard}>
-                <div className={styles.teacherImgWrap}>
-                  {getImageUrl(t.imgUrl) ? (
-                    <img
-                      src={getImageUrl(t.imgUrl)}
-                      alt={`${t.name} ${t.surname}`}
-                      className={styles.teacherImg}
-                    />
-                  ) : (
-                    <div className={styles.teacherImgPlaceholder}>🧘</div>
-                  )}
-                </div>
-                <div className={styles.teacherInfo}>
-                  <strong className={styles.teacherName}>{t.name}</strong>
-                  <span className={styles.teacherSurname}>{t.surname}</span>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  }
+  const prev = () => setCurrentIndex((i) => Math.max(0, i - 1));
+  const next = () => setCurrentIndex((i) => Math.min(maxIndex, i + 1));
+
+  // Auto-play
+  useEffect(() => {
+    if (!mounted) return;
+    const timer = setInterval(() => {
+      setCurrentIndex((i) => (i >= maxIndex ? 0 : i + 1));
+    }, 4000);
+    return () => clearInterval(timer);
+  }, [mounted, maxIndex]);
+
+  if (!mounted) return null;
+
+  const slideWidthPercent = 100 / slidesToShow;
 
   return (
-    <div className={styles.sliderWrapper}>
-      <Slider {...slickSettings}>
+    <div className={styles.sliderWrapper} style={{ overflow: "hidden" }}>
+      {/* Prev Arrow */}
+      {slidesToShow > 1 && (
+        <button
+          className={`${styles.sliderArrow} ${styles.sliderArrowPrev}`}
+          onClick={prev}
+          aria-label="Previous"
+          style={{ opacity: currentIndex === 0 ? 0.4 : 1 }}
+        >
+          ‹
+        </button>
+      )}
+
+      {/* Track */}
+      <div
+        style={{
+          display: "flex",
+          transition: "transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)",
+          transform: `translateX(-${currentIndex * slideWidthPercent}%)`,
+          willChange: "transform",
+        }}
+      >
         {teachers.map((t, i) => (
-          <div key={t._id} className={styles.sliderSlide}>
+          <div
+            key={t._id}
+            style={{
+              minWidth: `${slideWidthPercent}%`,
+              maxWidth: `${slideWidthPercent}%`,
+              padding: "0 8px",
+              boxSizing: "border-box",
+            }}
+          >
             <div
               className={styles.teacherCard}
               style={{ "--delay": `${i * 0.08}s` } as React.CSSProperties}
@@ -338,11 +338,45 @@ function TeacherSlider({
             </div>
           </div>
         ))}
-      </Slider>
+      </div>
+
+      {/* Next Arrow */}
+      {slidesToShow > 1 && (
+        <button
+          className={`${styles.sliderArrow} ${styles.sliderArrowNext}`}
+          onClick={next}
+          aria-label="Next"
+          style={{ opacity: currentIndex >= maxIndex ? 0.4 : 1 }}
+        >
+          ›
+        </button>
+      )}
+
+      {/* Dots — mobile pe swipe indicator */}
+      {slidesToShow === 1 && (
+        <div style={{ display: "flex", justifyContent: "center", gap: "6px", marginTop: "12px" }}>
+          {teachers.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setCurrentIndex(i)}
+              style={{
+                width: i === currentIndex ? "20px" : "8px",
+                height: "8px",
+                borderRadius: "4px",
+                background: i === currentIndex ? "var(--saffron)" : "var(--gold-border)",
+                border: "none",
+                cursor: "pointer",
+                padding: 0,
+                transition: "all 0.3s ease",
+              }}
+              aria-label={`Go to slide ${i + 1}`}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 }
-
 /* ══════════════════════════════════════════════════════
    MAIN COMPONENT
 ══════════════════════════════════════════════════════ */
