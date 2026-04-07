@@ -236,59 +236,72 @@ function TeacherSlider({
   teachers: TeacherItem[];
   onSelect: (t: TeacherItem) => void;
 }) {
- const slickSettings = {
- infinite: true,
-  autoplay: true,
-  autoplaySpeed: 4000,
-  speed: 600,
-  slidesToShow: 4,
-  slidesToScroll: 1,
-  swipeToSlide: true,
-  pauseOnHover: true,
-  dots: false,
-  arrows: true,
-  initialSlide: 0,        
-  prevArrow: <PrevArrow />,
-  nextArrow: <NextArrow />,
+  const [mounted, setMounted] = useState(false);
 
-  responsive: [
-  {
-    breakpoint: 1200,
-    settings: {
-      slidesToShow: 3,
-    },
-  },
-  {
-    breakpoint: 992,
-    settings: {
-      slidesToShow: 2,
-    },
-  },
-  {
-    breakpoint: 768,
-    settings: {
-      slidesToShow: 1,
-      arrows: false,
-    },
-  },
-  {
-    breakpoint: 600,   // ✅ Add karo
-    settings: {
-      slidesToShow: 1,
-      arrows: false,
-      centerMode: false,
-    },
-  },
-  {
-    breakpoint: 480,   // ✅ Add karo
-    settings: {
-      slidesToShow: 1,
-      arrows: false,
-      centerMode: false,
-    },
-  },
-],
-};
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const slickSettings = {
+    infinite: true,
+    autoplay: true,
+    autoplaySpeed: 4000,
+    speed: 600,
+    slidesToShow: 4,
+    slidesToScroll: 1,
+    swipeToSlide: true,
+    pauseOnHover: true,
+    dots: false,
+    arrows: true,
+    initialSlide: 0,
+    prevArrow: <PrevArrow />,
+    nextArrow: <NextArrow />,
+    responsive: [
+      {
+        breakpoint: 1200,
+        settings: { slidesToShow: 3 },
+      },
+      {
+        breakpoint: 992,
+        settings: { slidesToShow: 2 },
+      },
+      {
+        breakpoint: 768,
+        settings: { slidesToShow: 1, arrows: false },
+      },
+    ],
+  };
+
+  // ✅ SSR pe placeholder dikhao, client mount hone ke baad slider
+  if (!mounted) {
+    return (
+      <div className={styles.sliderWrapper}>
+        <div style={{ display: "flex", gap: "16px", overflow: "hidden" }}>
+          {teachers.slice(0, 1).map((t) => (
+            <div key={t._id} style={{ minWidth: "100%" }}>
+              <div className={styles.teacherCard}>
+                <div className={styles.teacherImgWrap}>
+                  {getImageUrl(t.imgUrl) ? (
+                    <img
+                      src={getImageUrl(t.imgUrl)}
+                      alt={`${t.name} ${t.surname}`}
+                      className={styles.teacherImg}
+                    />
+                  ) : (
+                    <div className={styles.teacherImgPlaceholder}>🧘</div>
+                  )}
+                </div>
+                <div className={styles.teacherInfo}>
+                  <strong className={styles.teacherName}>{t.name}</strong>
+                  <span className={styles.teacherSurname}>{t.surname}</span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.sliderWrapper}>
