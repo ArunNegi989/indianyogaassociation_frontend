@@ -1,9 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Slider from "react-slick";
-// ✅ REMOVE slick CSS imports from here — add them to _app.tsx or layout.tsx instead:
-// import "slick-carousel/slick/slick.css";
-// import "slick-carousel/slick/slick-theme.css";
 import styles from "../../assets/style/Home/Yogacoursesteachers.module.css";
 import api from "@/lib/api";
 
@@ -239,87 +236,42 @@ function TeacherSlider({
   teachers: TeacherItem[];
   onSelect: (t: TeacherItem) => void;
 }) {
-  const slickSettings = {
-    infinite: true,
-    autoplay: true,
-    autoplaySpeed: 4000,
-    speed: 600,
-    slidesToShow: 5,       // default: desktop large
-    slidesToScroll: 1,
-    swipeToSlide: true,
-    pauseOnHover: true,
-    dots: false,
-    prevArrow: <PrevArrow />,
-    nextArrow: <NextArrow />,
-    responsive: [
-      {
-        // Large desktop → 5 cards
-        breakpoint: 1500,
-        settings: {
-          slidesToShow: 4,
-          slidesToScroll: 1,
-          arrows: true,
-        },
+ const slickSettings = {
+  infinite: true,
+  autoplay: true,
+  autoplaySpeed: 4000,
+  speed: 600,
+  slidesToShow: 4, // default desktop
+  slidesToScroll: 1,
+  swipeToSlide: true,
+  pauseOnHover: true,
+  dots: false,
+  arrows: true,
+  prevArrow: <PrevArrow />,
+  nextArrow: <NextArrow />,
+
+  responsive: [
+    {
+      breakpoint: 1200,
+      settings: {
+        slidesToShow: 3,
       },
-      {
-        // Laptop / small desktop → 4 cards
-        breakpoint: 1200,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 1,
-          arrows: true,
-        },
+    },
+    {
+      breakpoint: 992,
+      settings: {
+        slidesToShow: 2,
       },
-      {
-        // Tablet landscape → 3 cards
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 1,
-          arrows: true,
-        },
+    },
+    {
+      breakpoint: 768,
+      settings: {
+        slidesToShow: 1, // ✅ mobile fix
+        arrows: false,
       },
-      {
-        // Tablet portrait → 2 cards
-        breakpoint: 768,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 1,
-          arrows: true,
-        },
-      },
-      {
-        // Large mobile → 2 cards
-        breakpoint: 600,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 1,
-          arrows: false,   // no arrows on small screens — use swipe
-        },
-      },
-      {
-        // ✅ Small mobile → 1 card only
-        breakpoint: 480,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-          arrows: false,
-          centerMode: true,
-          centerPadding: "40px",  // peek next card slightly
-        },
-      },
-      {
-        // ✅ Very small mobile → 1 card, no peek
-        breakpoint: 380,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-          arrows: false,
-          centerMode: false,
-        },
-      },
-    ],
-  };
+    },
+  ],
+};
 
   return (
     <div className={styles.sliderWrapper}>
