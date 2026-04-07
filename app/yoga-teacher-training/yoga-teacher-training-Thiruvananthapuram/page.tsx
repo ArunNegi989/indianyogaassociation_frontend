@@ -131,7 +131,7 @@ const cityLinks: { name: string; href: string }[] = [
 /* ─────────────────────────────────────────────
    MAIN COMPONENT
 ───────────────────────────────────────────── */
-const YogaTrainingVarkala: React.FC = () => {
+const YogaTrainingThiruvananthapuram: React.FC = () => {
   return (
     <div className={styles.page}>
       {/* Top border */}
@@ -143,7 +143,7 @@ const YogaTrainingVarkala: React.FC = () => {
         ══════════════════════════════════════ */}
         <div className={styles.pageHeader}>
           <h1 className={styles.pageTitle}>
-            Yoga Teacher Training Course in Varkala
+            Certified Yoga Teaching Training in Thiruvananthapuram
           </h1>
           <div className={styles.titleUnderline}>
             <div className={styles.underlineLine} />
@@ -152,20 +152,20 @@ const YogaTrainingVarkala: React.FC = () => {
 
         {/* ══════════════════════════════════════
             SECTION 1 — Image Left
-            "200 Hour Yoga Course in Varkala"
+            "Best Yoga School in Thiruvananthapuram"
         ══════════════════════════════════════ */}
         <div className={`${styles.section} ${styles.sectionImageLeft}`}>
           <div className={styles.imgWrap}>
             <img
-              src="https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?w=700&q=80&fit=crop"
-              alt="200 Hour Yoga Course in Varkala"
+              src="https://images.unsplash.com/photo-1588286840104-8957b019727f?w=700&q=80&fit=crop"
+              alt="Best Yoga School in Thiruvananthapuram"
               className={styles.sectionImg}
               loading="lazy"
             />
           </div>
           <div className={styles.textWrap}>
             <h2 className={styles.headingSerif} style={{ textAlign: "center" }}>
-              200 Hour Yoga Course in Varkala
+              Best Yoga School in Thiruvananthapuram
             </h2>
             <div
               className={styles.headingUnderline}
@@ -174,44 +174,33 @@ const YogaTrainingVarkala: React.FC = () => {
               <div className={styles.headingUnderlineLine} />
             </div>
             <p className={styles.bodyText}>
-              Rishikesh and Goa are home to AYM Yoga School campuses. We are a
-              charitable organization devoted to helping aspiring yoga teachers
-              get the best possible training as{" "}
-              <strong className={styles.boldLink}>YTT Varkala</strong>. At our
-              yoga and meditation institute in India, students have access to
-              some of the world's most revered yoga instructors and gurus to
-              avail the{" "}
+              Located in Thiruvananthapuram, the Association for Yoga and
+              Meditation is one of Thiruvananthapuram's best{" "}
               <strong className={styles.boldLink}>
-                yoga teacher training Varkala
+                yoga teacher training programs
               </strong>
-              . To help with emotional distress, the AYM Yoga School also
-              provides yoga therapy retreats and yoga therapy teacher training.
-              During your stay, the AYM Yoga School facilities in Varkala will
-              also be available if you wish to do a{" "}
-              <strong className={styles.boldLink}>
-                yoga teacher training program in Varkala
-              </strong>
-              .
+              . With immense knowledge about yoga, we aim to spread its benefit
+              to people worldwide.
             </p>
           </div>
         </div>
 
         {/* ══════════════════════════════════════
             SECTION 2 — Image Right
-            "Best Yoga School in Varkala"
+            "Advanced Yoga Classes with Experienced Teachers"
         ══════════════════════════════════════ */}
         <div className={`${styles.section} ${styles.sectionImageRight}`}>
           <div className={styles.imgWrap}>
             <img
-              src="https://images.unsplash.com/photo-1545389336-cf090694435e?w=700&q=80&fit=crop"
-              alt="Best Yoga School in Varkala"
+              src="https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?w=700&q=80&fit=crop"
+              alt="Advanced Yoga Classes with Experienced Teachers"
               className={styles.sectionImg}
               loading="lazy"
             />
           </div>
           <div className={styles.textWrap}>
             <h2 className={styles.headingSerif} style={{ textAlign: "center" }}>
-              Best Yoga School in Varkala
+              Advanced Yoga Classes with Experienced Teachers
             </h2>
             <div
               className={styles.headingUnderline}
@@ -220,32 +209,43 @@ const YogaTrainingVarkala: React.FC = () => {
               <div className={styles.headingUnderlineLine} />
             </div>
             <p className={styles.bodyText}>
-              Varkala is a lovely village in the southern Indian state of
-              Kerala. The place is ideal for yoga and meditation, with a serene
-              environment spreading the boundaries. Many tourists visit Kerala
-              each year, particularly the Goa-like region near
-              Thiruvananthapuram.
+              When you search for a{" "}
+              <strong className={styles.boldLink}>
+                yoga teacher training course near me
+              </strong>
+              , you'll find us on the top list, as our professionals conduct
+              best-in-class yoga sessions for everyone who wants to become a
+              certified yoga instructor. Along with developing your teaching
+              skills, we give you the chance to build a strong foundation in the
+              ancient yogic tradition. In addition, as a reputed yoga teacher
+              training in Thiruvananthapuram, we strengthen your spiritual bond
+              with yoga so that you can undergo an inner transformation before
+              instructing others. The teachers will support and mentor you
+              throughout your{" "}
+              <strong className={styles.boldLink}>
+                YTT certification in Thiruvananthapuram
+              </strong>{" "}
+              because they are highly qualified, committed, and experienced.
             </p>
           </div>
         </div>
 
         {/* ══════════════════════════════════════
             SECTION 3 — Image Left
-            "Looking for Yoga Teacher Training in Varkala, AYM is the Best Option"
+            "Become a Certified Yoga Teacher Today"
         ══════════════════════════════════════ */}
         <div className={`${styles.section} ${styles.sectionImageLeft}`}>
           <div className={styles.imgWrap}>
             <img
-              src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=700&q=80&fit=crop"
-              alt="Looking for Yoga Teacher Training in Varkala, AYM is the Best Option"
+              src="https://images.unsplash.com/photo-1545389336-cf090694435e?w=700&q=80&fit=crop"
+              alt="Become a Certified Yoga Teacher Today"
               className={styles.sectionImg}
               loading="lazy"
             />
           </div>
           <div className={styles.textWrap}>
             <h2 className={styles.headingSerif} style={{ textAlign: "center" }}>
-              Looking for Yoga Teacher Training in Varkala, AYM is the Best
-              Option
+              Become a Certified Yoga Teacher Today
             </h2>
             <div
               className={styles.headingUnderline}
@@ -254,33 +254,37 @@ const YogaTrainingVarkala: React.FC = () => {
               <div className={styles.headingUnderlineLine} />
             </div>
             <p className={styles.bodyText}>
-              Travellers will have a wonderful time experiencing all the Varkala
-              has to offer. Visit some of India's most famous historical sites,
-              such as the Sivagiri Mutt, Janadanswamy Temple, Achhuthengu Fort,
-              etc. From the Varkala Lighthouse, you can also see the waves of
-              the Arabian Sea as they crash against the shore. Yoga and
-              meditation can be performed at the best level in a serene
-              environment.
+              At the Association for Yoga and Meditation, we cater to a{" "}
+              <strong className={styles.boldLink}>
+                registered yoga teacher training course in Thiruvananthapuram
+              </strong>
+              . Once you learn the art of yoga and master all its concepts, you
+              receive a globally-acclaimed certificate from pursuing your own
+              goals. So acquire knowledge in yoga therapy teacher training
+              through our classes and earn yourself a professional certificate
+              to become a licensed yoga teacher today. You'll be highly
+              recognized all across the world and will also be able to pursue a
+              successful career ahead.
             </p>
           </div>
         </div>
 
         {/* ══════════════════════════════════════
             SECTION 4 — Image Right
-            "200 hour yoga course in varkala - Best place for Yoga"
+            "Gain Immense Knowledge to Teach Yoga"
         ══════════════════════════════════════ */}
         <div className={`${styles.section} ${styles.sectionImageRight}`}>
           <div className={styles.imgWrap}>
             <img
-              src="https://images.unsplash.com/photo-1588286840104-8957b019727f?w=700&q=80&fit=crop"
-              alt="200 hour yoga course in varkala - Best place for Yoga"
+              src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=700&q=80&fit=crop"
+              alt="Gain Immense Knowledge to Teach Yoga"
               className={styles.sectionImg}
               loading="lazy"
             />
           </div>
           <div className={styles.textWrap}>
             <h2 className={styles.headingSerif} style={{ textAlign: "center" }}>
-              200 hour yoga course in varkala - Best place for Yoga
+              Gain Immense Knowledge to Teach Yoga
             </h2>
             <div
               className={styles.headingUnderline}
@@ -289,36 +293,34 @@ const YogaTrainingVarkala: React.FC = () => {
               <div className={styles.headingUnderlineLine} />
             </div>
             <p className={styles.bodyText}>
-              The AYM Yoga School in both Rishikesh and Goa is the best choice
-              for anyone seeking a safe and welcoming environment to study yoga
-              and meditation and searching for a{" "}
+              Are we dreaming of becoming recognized yoga teachers? We at the
+              Association for Yoga and Meditation offer{" "}
               <strong className={styles.boldLink}>
-                yoga teacher training course near me
-              </strong>
-              . If you are a yoga practitioner or teacher, Varkala is
-              considering a yoga retreat in India. We are here to provide you
-              with the finest advice and assistance available. Our yoga
-              instructors offer a{" "}
-              <strong className={styles.boldLink}>
-                licensed yoga teacher training course, Varkala
-              </strong>
-              , to lead you meditatively utilizing mantras, breathing techniques
-              or Pranayama, and a yoga prayer. Experts in education around the
-              globe agree that what we've done is genuinely exceptional. Our
-              facilities and{" "}
-              <strong className={styles.boldLink}>
-                Varkala yoga training course
+                YTT certification in Thiruvananthapuram
               </strong>{" "}
-              are available to anyone, whether a local or a tourist. The Varkala
-              International Yoga certification is one of India's most
-              sought-after certifications in yoga and is globally acclaimed.
+              to help you with your yoga career as an instructor. We have gained
+              a global reputation and made a name in the industry as the best
+              yoga teaching center in Thiruvananthapuram. From focusing on
+              little details, sharing knowledge, and believing in our passion to
+              motivating you, we make sure every student of ours is showered
+              with in-depth knowledge in the field of yoga. Before starting your
+              journey with us, we ensure you've reached the heights of
+              professionalism and flexibility. On the successful completion of
+              your course, we offer yoga teacher certification so that you can
+              widen your boundaries and reach your goals anywhere in the world
+              because the certification carries global recognition. Put, with
+              our{" "}
+              <strong className={styles.boldLink}>
+                yoga training course in Thiruvananthapuram
+              </strong>
+              , you'll not only learn but also grow.
             </p>
           </div>
         </div>
 
         {/* ══════════════════════════════════════
             SECTION 5 — Image Left
-            "The Most Profound Yoga and Meditation Spot in Varkala"
+            "Enroll in the Top Yoga School at an Affordable Price"
         ══════════════════════════════════════ */}
         <div
           className={`${styles.section} ${styles.sectionImageLeft}`}
@@ -326,15 +328,15 @@ const YogaTrainingVarkala: React.FC = () => {
         >
           <div className={styles.imgWrap}>
             <img
-              src="https://images.unsplash.com/photo-1603988363607-e1e4a66962c6?w=700&q=80&fit=crop"
-              alt="The Most Profound Yoga and Meditation Spot in Varkala"
+              src="https://images.unsplash.com/photo-1545389336-cf090694435e?w=700&q=80&fit=crop"
+              alt="Enroll in the Top Yoga School at an Affordable Price"
               className={styles.sectionImg}
               loading="lazy"
             />
           </div>
           <div className={styles.textWrap}>
             <h2 className={styles.headingSerif} style={{ textAlign: "center" }}>
-              The Most Profound Yoga and Meditation Spot in Varkala
+              Enroll in the Top Yoga School at an Affordable Price
             </h2>
             <div
               className={styles.headingUnderline}
@@ -343,20 +345,21 @@ const YogaTrainingVarkala: React.FC = () => {
               <div className={styles.headingUnderlineLine} />
             </div>
             <p className={styles.bodyText}>
-              Being one of the best yoga and meditation centres in Varkala, AYM
-              Yoga School offers one of the best{" "}
+              Are you searching for the best{" "}
               <strong className={styles.boldLink}>
-                yoga teaching courses in Varkala
-              </strong>{" "}
-              that teaches students how to practice yoga in a way that
-              alleviates mental and emotional suffering. Whether you want to
-              learn yoga so that you may teach it or to unwind, we have yoga
-              teacher certification classes available in both Rishikesh and Goa,
-              offering{" "}
-              <strong className={styles.boldLink}>
-                registered yoga teacher training courses in Varkala
+                yoga instructor certification near me
               </strong>
-              .
+              ? We at the Association for Yoga and Meditation are the option as
+              we are the leading provider of licensed yoga teacher training
+              courses in Thiruvananthapuram. With us, you gain a deeper
+              dimension and in-depth knowledge of yoga. We believe yoga is an
+              art and should be embraced by all.
+            </p>
+            <p className={styles.bodyText} style={{ marginTop: "1rem" }}>
+              What makes us the best yoga teachers in Thiruvananthapuram is that
+              we focus not only on shaping you as students but also as qualified
+              yoga gurus. We want to support anyone who wants to develop their
+              passion into a successful profession.
             </p>
           </div>
         </div>
@@ -390,4 +393,4 @@ const YogaTrainingVarkala: React.FC = () => {
   );
 };
 
-export default YogaTrainingVarkala;
+export default YogaTrainingThiruvananthapuram;

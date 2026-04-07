@@ -131,7 +131,7 @@ const cityLinks: { name: string; href: string }[] = [
 /* ─────────────────────────────────────────────
    MAIN COMPONENT
 ───────────────────────────────────────────── */
-const YogaTrainingVarkala: React.FC = () => {
+const YogaTrainingArambol: React.FC = () => {
   return (
     <div className={styles.page}>
       {/* Top border */}
@@ -143,7 +143,7 @@ const YogaTrainingVarkala: React.FC = () => {
         ══════════════════════════════════════ */}
         <div className={styles.pageHeader}>
           <h1 className={styles.pageTitle}>
-            Yoga Teacher Training Course in Varkala
+            Yoga Teacher Training in Arambol
           </h1>
           <div className={styles.titleUnderline}>
             <div className={styles.underlineLine} />
@@ -152,20 +152,20 @@ const YogaTrainingVarkala: React.FC = () => {
 
         {/* ══════════════════════════════════════
             SECTION 1 — Image Left
-            "200 Hour Yoga Course in Varkala"
+            "Top yoga and meditation school in Arambol"
         ══════════════════════════════════════ */}
         <div className={`${styles.section} ${styles.sectionImageLeft}`}>
           <div className={styles.imgWrap}>
             <img
-              src="https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?w=700&q=80&fit=crop"
-              alt="200 Hour Yoga Course in Varkala"
+              src="https://images.unsplash.com/photo-1545389336-cf090694435e?w=700&q=80&fit=crop"
+              alt="Top yoga and meditation school in Arambol"
               className={styles.sectionImg}
               loading="lazy"
             />
           </div>
           <div className={styles.textWrap}>
             <h2 className={styles.headingSerif} style={{ textAlign: "center" }}>
-              200 Hour Yoga Course in Varkala
+              Top yoga and meditation school in Arambol
             </h2>
             <div
               className={styles.headingUnderline}
@@ -174,44 +174,34 @@ const YogaTrainingVarkala: React.FC = () => {
               <div className={styles.headingUnderlineLine} />
             </div>
             <p className={styles.bodyText}>
-              Rishikesh and Goa are home to AYM Yoga School campuses. We are a
-              charitable organization devoted to helping aspiring yoga teachers
-              get the best possible training as{" "}
-              <strong className={styles.boldLink}>YTT Varkala</strong>. At our
-              yoga and meditation institute in India, students have access to
-              some of the world's most revered yoga instructors and gurus to
-              avail the{" "}
+              As one of Arambol's best yoga and meditation centres, AYM Yoga
+              School aims to help you learn the correct{" "}
               <strong className={styles.boldLink}>
-                yoga teacher training Varkala
-              </strong>
-              . To help with emotional distress, the AYM Yoga School also
-              provides yoga therapy retreats and yoga therapy teacher training.
-              During your stay, the AYM Yoga School facilities in Varkala will
-              also be available if you wish to do a{" "}
-              <strong className={styles.boldLink}>
-                yoga teacher training program in Varkala
-              </strong>
-              .
+                yoga teacher training course
+              </strong>{" "}
+              to become a good yoga teacher and alignment. We help you to open
+              your seven chakras. Whether you want to become a yoga instructor
+              or relax, we also offer suitable courses in Rishikesh and Goa.
             </p>
           </div>
         </div>
 
         {/* ══════════════════════════════════════
             SECTION 2 — Image Right
-            "Best Yoga School in Varkala"
+            "Best yoga school in Arambol"
         ══════════════════════════════════════ */}
         <div className={`${styles.section} ${styles.sectionImageRight}`}>
           <div className={styles.imgWrap}>
             <img
-              src="https://images.unsplash.com/photo-1545389336-cf090694435e?w=700&q=80&fit=crop"
-              alt="Best Yoga School in Varkala"
+              src="https://images.unsplash.com/photo-1588286840104-8957b019727f?w=700&q=80&fit=crop"
+              alt="Best yoga school in Arambol"
               className={styles.sectionImg}
               loading="lazy"
             />
           </div>
           <div className={styles.textWrap}>
             <h2 className={styles.headingSerif} style={{ textAlign: "center" }}>
-              Best Yoga School in Varkala
+              Best yoga school in Arambol
             </h2>
             <div
               className={styles.headingUnderline}
@@ -220,32 +210,30 @@ const YogaTrainingVarkala: React.FC = () => {
               <div className={styles.headingUnderlineLine} />
             </div>
             <p className={styles.bodyText}>
-              Varkala is a lovely village in the southern Indian state of
-              Kerala. The place is ideal for yoga and meditation, with a serene
-              environment spreading the boundaries. Many tourists visit Kerala
-              each year, particularly the Goa-like region near
-              Thiruvananthapuram.
+              Arambol is a traditional fisherman's village in northern Goa,
+              about a 90-minute drive from Dabolim Airport. When it comes to
+              the beaches of Goa, Arambol is one of the most charming,
+              beautiful, and peaceful beaches.
             </p>
           </div>
         </div>
 
         {/* ══════════════════════════════════════
             SECTION 3 — Image Left
-            "Looking for Yoga Teacher Training in Varkala, AYM is the Best Option"
+            "Experience the art of yoga and meditation at AYM in Arambol" (first)
         ══════════════════════════════════════ */}
         <div className={`${styles.section} ${styles.sectionImageLeft}`}>
           <div className={styles.imgWrap}>
             <img
-              src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=700&q=80&fit=crop"
-              alt="Looking for Yoga Teacher Training in Varkala, AYM is the Best Option"
+              src="https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?w=700&q=80&fit=crop"
+              alt="Experience the art of yoga and meditation at AYM in Arambol"
               className={styles.sectionImg}
               loading="lazy"
             />
           </div>
           <div className={styles.textWrap}>
             <h2 className={styles.headingSerif} style={{ textAlign: "center" }}>
-              Looking for Yoga Teacher Training in Varkala, AYM is the Best
-              Option
+              Experience the art of yoga and meditation at AYM in Arambol
             </h2>
             <div
               className={styles.headingUnderline}
@@ -254,33 +242,30 @@ const YogaTrainingVarkala: React.FC = () => {
               <div className={styles.headingUnderlineLine} />
             </div>
             <p className={styles.bodyText}>
-              Travellers will have a wonderful time experiencing all the Varkala
-              has to offer. Visit some of India's most famous historical sites,
-              such as the Sivagiri Mutt, Janadanswamy Temple, Achhuthengu Fort,
-              etc. From the Varkala Lighthouse, you can also see the waves of
-              the Arabian Sea as they crash against the shore. Yoga and
-              meditation can be performed at the best level in a serene
-              environment.
+              With its bohemian atmosphere, Arambol attracts tourists from all
+              over the world. Arambol is connected to Mandrem Beach on one end
+              and Querim Beach on the other and is known for its vibrant
+              nightlife, live music performances, and other cultural events.
             </p>
           </div>
         </div>
 
         {/* ══════════════════════════════════════
             SECTION 4 — Image Right
-            "200 hour yoga course in varkala - Best place for Yoga"
+            "Experience the art of yoga and meditation at AYM in Arambol" (second)
         ══════════════════════════════════════ */}
         <div className={`${styles.section} ${styles.sectionImageRight}`}>
           <div className={styles.imgWrap}>
             <img
-              src="https://images.unsplash.com/photo-1588286840104-8957b019727f?w=700&q=80&fit=crop"
-              alt="200 hour yoga course in varkala - Best place for Yoga"
+              src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=700&q=80&fit=crop"
+              alt="AYM Yoga School in Arambol"
               className={styles.sectionImg}
               loading="lazy"
             />
           </div>
           <div className={styles.textWrap}>
             <h2 className={styles.headingSerif} style={{ textAlign: "center" }}>
-              200 hour yoga course in varkala - Best place for Yoga
+              Experience the art of yoga and meditation at AYM in Arambol
             </h2>
             <div
               className={styles.headingUnderline}
@@ -289,36 +274,22 @@ const YogaTrainingVarkala: React.FC = () => {
               <div className={styles.headingUnderlineLine} />
             </div>
             <p className={styles.bodyText}>
-              The AYM Yoga School in both Rishikesh and Goa is the best choice
-              for anyone seeking a safe and welcoming environment to study yoga
-              and meditation and searching for a{" "}
-              <strong className={styles.boldLink}>
-                yoga teacher training course near me
-              </strong>
-              . If you are a yoga practitioner or teacher, Varkala is
-              considering a yoga retreat in India. We are here to provide you
-              with the finest advice and assistance available. Our yoga
-              instructors offer a{" "}
-              <strong className={styles.boldLink}>
-                licensed yoga teacher training course, Varkala
-              </strong>
-              , to lead you meditatively utilizing mantras, breathing techniques
-              or Pranayama, and a yoga prayer. Experts in education around the
-              globe agree that what we've done is genuinely exceptional. Our
-              facilities and{" "}
-              <strong className={styles.boldLink}>
-                Varkala yoga training course
-              </strong>{" "}
-              are available to anyone, whether a local or a tourist. The Varkala
-              International Yoga certification is one of India's most
-              sought-after certifications in yoga and is globally acclaimed.
+              <strong className={styles.boldLink}>AYM Yoga School</strong> is a
+              professional yoga and meditation school in Rishikesh and Goa. Our
+              area of expertise is to provide high-quality yoga teacher training
+              and yoga retreat service to anyone willing to enjoy the benefits of
+              yoga in India. Enjoy Mantras, Pranayama, and yoga prayer with our
+              yoga teachers. Our outstanding achievements are widely recognized
+              by students and professors worldwide. And if you live in Arambol
+              or plan to visit, we also provide our facilities and training
+              courses there.
             </p>
           </div>
         </div>
 
         {/* ══════════════════════════════════════
             SECTION 5 — Image Left
-            "The Most Profound Yoga and Meditation Spot in Varkala"
+            "Qualified yoga training in India"
         ══════════════════════════════════════ */}
         <div
           className={`${styles.section} ${styles.sectionImageLeft}`}
@@ -326,15 +297,15 @@ const YogaTrainingVarkala: React.FC = () => {
         >
           <div className={styles.imgWrap}>
             <img
-              src="https://images.unsplash.com/photo-1603988363607-e1e4a66962c6?w=700&q=80&fit=crop"
-              alt="The Most Profound Yoga and Meditation Spot in Varkala"
+              src="https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?w=700&q=80&fit=crop"
+              alt="Qualified yoga training in India"
               className={styles.sectionImg}
               loading="lazy"
             />
           </div>
           <div className={styles.textWrap}>
             <h2 className={styles.headingSerif} style={{ textAlign: "center" }}>
-              The Most Profound Yoga and Meditation Spot in Varkala
+              Qualified yoga training in India
             </h2>
             <div
               className={styles.headingUnderline}
@@ -343,20 +314,14 @@ const YogaTrainingVarkala: React.FC = () => {
               <div className={styles.headingUnderlineLine} />
             </div>
             <p className={styles.bodyText}>
-              Being one of the best yoga and meditation centres in Varkala, AYM
-              Yoga School offers one of the best{" "}
-              <strong className={styles.boldLink}>
-                yoga teaching courses in Varkala
-              </strong>{" "}
-              that teaches students how to practice yoga in a way that
-              alleviates mental and emotional suffering. Whether you want to
-              learn yoga so that you may teach it or to unwind, we have yoga
-              teacher certification classes available in both Rishikesh and Goa,
-              offering{" "}
-              <strong className={styles.boldLink}>
-                registered yoga teacher training courses in Varkala
-              </strong>
-              .
+              AYM Yoga School is located in Rishikesh and Goa. We are a famous
+              yoga and meditation institution in India, specializing in teacher
+              training, yoga gurus. Our non-profit organization aims to teach
+              quality yoga classes to anyone who wants to become a qualified yoga
+              instructor. AYM Yoga School also helps you relieve emotional
+              problems through a yoga therapy retreat. In addition, if you are
+              in Arambol, AYM Yoga School will also fully operate our facilities
+              here.
             </p>
           </div>
         </div>
@@ -390,4 +355,4 @@ const YogaTrainingVarkala: React.FC = () => {
   );
 };
 
-export default YogaTrainingVarkala;
+export default YogaTrainingArambol;

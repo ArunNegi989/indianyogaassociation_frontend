@@ -97,7 +97,7 @@ const cityLinks: { name: string; href: string }[] = [
   },
   {
     name: "Thiruvananthapuram",
-    href: "/yoga-teacher-training/yoga-teacher-training_Thiruvananthapuram",
+    href: "/yoga-teacher-training/yoga-teacher-training-Thiruvananthapuram",
   },
   {
     name: "Kolkata",

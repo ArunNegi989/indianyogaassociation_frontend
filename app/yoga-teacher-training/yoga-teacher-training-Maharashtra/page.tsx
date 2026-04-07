@@ -131,7 +131,7 @@ const cityLinks: { name: string; href: string }[] = [
 /* ─────────────────────────────────────────────
    MAIN COMPONENT
 ───────────────────────────────────────────── */
-const YogaTrainingVarkala: React.FC = () => {
+const YogaTrainingMaharashtra: React.FC = () => {
   return (
     <div className={styles.page}>
       {/* Top border */}
@@ -143,7 +143,7 @@ const YogaTrainingVarkala: React.FC = () => {
         ══════════════════════════════════════ */}
         <div className={styles.pageHeader}>
           <h1 className={styles.pageTitle}>
-            Yoga Teacher Training Course in Varkala
+            Yoga Teacher Training Course in Maharashtra
           </h1>
           <div className={styles.titleUnderline}>
             <div className={styles.underlineLine} />
@@ -152,20 +152,20 @@ const YogaTrainingVarkala: React.FC = () => {
 
         {/* ══════════════════════════════════════
             SECTION 1 — Image Left
-            "200 Hour Yoga Course in Varkala"
+            "Yoga Teacher Training in Maharashtra"
         ══════════════════════════════════════ */}
         <div className={`${styles.section} ${styles.sectionImageLeft}`}>
           <div className={styles.imgWrap}>
             <img
-              src="https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?w=700&q=80&fit=crop"
-              alt="200 Hour Yoga Course in Varkala"
+              src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=700&q=80&fit=crop"
+              alt="Yoga Teacher Training in Maharashtra"
               className={styles.sectionImg}
               loading="lazy"
             />
           </div>
           <div className={styles.textWrap}>
             <h2 className={styles.headingSerif} style={{ textAlign: "center" }}>
-              200 Hour Yoga Course in Varkala
+              Yoga Teacher Training in Maharashtra
             </h2>
             <div
               className={styles.headingUnderline}
@@ -174,44 +174,40 @@ const YogaTrainingVarkala: React.FC = () => {
               <div className={styles.headingUnderlineLine} />
             </div>
             <p className={styles.bodyText}>
-              Rishikesh and Goa are home to AYM Yoga School campuses. We are a
-              charitable organization devoted to helping aspiring yoga teachers
-              get the best possible training as{" "}
-              <strong className={styles.boldLink}>YTT Varkala</strong>. At our
-              yoga and meditation institute in India, students have access to
-              some of the world's most revered yoga instructors and gurus to
-              avail the{" "}
               <strong className={styles.boldLink}>
-                yoga teacher training Varkala
-              </strong>
-              . To help with emotional distress, the AYM Yoga School also
-              provides yoga therapy retreats and yoga therapy teacher training.
-              During your stay, the AYM Yoga School facilities in Varkala will
-              also be available if you wish to do a{" "}
-              <strong className={styles.boldLink}>
-                yoga teacher training program in Varkala
-              </strong>
-              .
+                Yoga Teacher Training in Maharashtra
+              </strong>{" "}
+              offers a comprehensive learning experience for individuals seeking
+              to deepen their understanding of yoga and become certified
+              instructors. The training program, with its focus on both the
+              physical and spiritual aspects of yoga, covers a wide range of
+              topics including various yoga styles, meditation, pranayama,
+              anatomy, and teaching methodologies. Students will have the
+              opportunity to immerse themselves in the rich tradition of yoga
+              while exploring the beautiful landscapes of Maharashtra. Whether
+              you're a beginner or an experienced practitioner, this training
+              program provides a supportive and nurturing environment for
+              personal growth and learning.
             </p>
           </div>
         </div>
 
         {/* ══════════════════════════════════════
             SECTION 2 — Image Right
-            "Best Yoga School in Varkala"
+            "Benefits of Yoga Teacher Training in Maharashtra"
         ══════════════════════════════════════ */}
         <div className={`${styles.section} ${styles.sectionImageRight}`}>
           <div className={styles.imgWrap}>
             <img
               src="https://images.unsplash.com/photo-1545389336-cf090694435e?w=700&q=80&fit=crop"
-              alt="Best Yoga School in Varkala"
+              alt="Benefits of Yoga Teacher Training in Maharashtra"
               className={styles.sectionImg}
               loading="lazy"
             />
           </div>
           <div className={styles.textWrap}>
             <h2 className={styles.headingSerif} style={{ textAlign: "center" }}>
-              Best Yoga School in Varkala
+              Benefits of Yoga Teacher Training in Maharashtra
             </h2>
             <div
               className={styles.headingUnderline}
@@ -220,32 +216,42 @@ const YogaTrainingVarkala: React.FC = () => {
               <div className={styles.headingUnderlineLine} />
             </div>
             <p className={styles.bodyText}>
-              Varkala is a lovely village in the southern Indian state of
-              Kerala. The place is ideal for yoga and meditation, with a serene
-              environment spreading the boundaries. Many tourists visit Kerala
-              each year, particularly the Goa-like region near
-              Thiruvananthapuram.
+              The{" "}
+              <strong className={styles.boldLink}>
+                Yoga Teacher Training in Maharashtra
+              </strong>{" "}
+              offers numerous benefits for aspiring yoga instructors.
+              Participants can deepen their yoga practice, understand yoga
+              philosophy and anatomy comprehensively, and develop the skills
+              needed to teach others effectively. The training provides an
+              immersive experience that allows students to connect with
+              like-minded individuals and experienced instructors, fostering a
+              supportive and collaborative learning environment. Maharashtra's
+              serene and natural surroundings offer a peaceful backdrop for
+              self-reflection and growth, enhancing the overall training
+              experience. Upon completion, graduates are equipped with the
+              knowledge and confidence to lead yoga classes and positively
+              impact the lives of others through the practice of yoga.
             </p>
           </div>
         </div>
 
         {/* ══════════════════════════════════════
             SECTION 3 — Image Left
-            "Looking for Yoga Teacher Training in Varkala, AYM is the Best Option"
+            "Why should I choose Yoga Teacher Training in Maharashtra?"
         ══════════════════════════════════════ */}
         <div className={`${styles.section} ${styles.sectionImageLeft}`}>
           <div className={styles.imgWrap}>
             <img
-              src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=700&q=80&fit=crop"
-              alt="Looking for Yoga Teacher Training in Varkala, AYM is the Best Option"
+              src="https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?w=700&q=80&fit=crop"
+              alt="Why should I choose Yoga Teacher Training in Maharashtra"
               className={styles.sectionImg}
               loading="lazy"
             />
           </div>
           <div className={styles.textWrap}>
             <h2 className={styles.headingSerif} style={{ textAlign: "center" }}>
-              Looking for Yoga Teacher Training in Varkala, AYM is the Best
-              Option
+              Why should I choose Yoga Teacher Training in Maharashtra?
             </h2>
             <div
               className={styles.headingUnderline}
@@ -254,33 +260,39 @@ const YogaTrainingVarkala: React.FC = () => {
               <div className={styles.headingUnderlineLine} />
             </div>
             <p className={styles.bodyText}>
-              Travellers will have a wonderful time experiencing all the Varkala
-              has to offer. Visit some of India's most famous historical sites,
-              such as the Sivagiri Mutt, Janadanswamy Temple, Achhuthengu Fort,
-              etc. From the Varkala Lighthouse, you can also see the waves of
-              the Arabian Sea as they crash against the shore. Yoga and
-              meditation can be performed at the best level in a serene
-              environment.
+              <strong className={styles.boldLink}>
+                Yoga Teacher Training Maharashtra
+              </strong>{" "}
+              is an excellent choice for several reasons. Maharashtra offers a
+              rich and diverse cultural heritage, and studying yoga in this
+              region can provide a unique and authentic experience.
+              Additionally, the state has many experienced yoga teachers and
+              practitioners who can offer valuable insights and guidance.
+              Furthermore, Maharashtra's beautiful natural landscapes and serene
+              environment create an ideal setting for focused learning and
+              self-discovery. Lastly, completing your training in Maharashtra
+              may also open opportunities to immerse yourself in the local
+              culture and traditions, enhancing your overall yoga experience.
             </p>
           </div>
         </div>
 
         {/* ══════════════════════════════════════
             SECTION 4 — Image Right
-            "200 hour yoga course in varkala - Best place for Yoga"
+            "Enjoy the Perfect Mantra of Happiness in Maharashtra"
         ══════════════════════════════════════ */}
         <div className={`${styles.section} ${styles.sectionImageRight}`}>
           <div className={styles.imgWrap}>
             <img
               src="https://images.unsplash.com/photo-1588286840104-8957b019727f?w=700&q=80&fit=crop"
-              alt="200 hour yoga course in varkala - Best place for Yoga"
+              alt="Enjoy the Perfect Mantra of Happiness in Maharashtra"
               className={styles.sectionImg}
               loading="lazy"
             />
           </div>
           <div className={styles.textWrap}>
             <h2 className={styles.headingSerif} style={{ textAlign: "center" }}>
-              200 hour yoga course in varkala - Best place for Yoga
+              Enjoy the Perfect Mantra of Happiness in Maharashtra
             </h2>
             <div
               className={styles.headingUnderline}
@@ -289,36 +301,22 @@ const YogaTrainingVarkala: React.FC = () => {
               <div className={styles.headingUnderlineLine} />
             </div>
             <p className={styles.bodyText}>
-              The AYM Yoga School in both Rishikesh and Goa is the best choice
-              for anyone seeking a safe and welcoming environment to study yoga
-              and meditation and searching for a{" "}
-              <strong className={styles.boldLink}>
-                yoga teacher training course near me
-              </strong>
-              . If you are a yoga practitioner or teacher, Varkala is
-              considering a yoga retreat in India. We are here to provide you
-              with the finest advice and assistance available. Our yoga
-              instructors offer a{" "}
-              <strong className={styles.boldLink}>
-                licensed yoga teacher training course, Varkala
-              </strong>
-              , to lead you meditatively utilizing mantras, breathing techniques
-              or Pranayama, and a yoga prayer. Experts in education around the
-              globe agree that what we've done is genuinely exceptional. Our
-              facilities and{" "}
-              <strong className={styles.boldLink}>
-                Varkala yoga training course
-              </strong>{" "}
-              are available to anyone, whether a local or a tourist. The Varkala
-              International Yoga certification is one of India's most
-              sought-after certifications in yoga and is globally acclaimed.
+              Experience the serenity and tranquillity of Maharashtra as you
+              embark on a journey to discover inner bliss and contentment.
+              Maharashtra's rich cultural heritage and spiritual ambience create
+              the perfect backdrop for seekers of happiness and well-being.
+              Whether you immerse yourself in the practice of yoga or meditation
+              or simply bask in the natural beauty of the region, Maharashtra
+              offers a harmonious environment to rejuvenate your mind, body, and
+              soul. Embrace ancient wisdom and peaceful surroundings, and let
+              Maharashtra guide you to find the perfect mantra of happiness.
             </p>
           </div>
         </div>
 
         {/* ══════════════════════════════════════
             SECTION 5 — Image Left
-            "The Most Profound Yoga and Meditation Spot in Varkala"
+            "Yoga For All At Affordable Prices in India"
         ══════════════════════════════════════ */}
         <div
           className={`${styles.section} ${styles.sectionImageLeft}`}
@@ -326,15 +324,15 @@ const YogaTrainingVarkala: React.FC = () => {
         >
           <div className={styles.imgWrap}>
             <img
-              src="https://images.unsplash.com/photo-1603988363607-e1e4a66962c6?w=700&q=80&fit=crop"
-              alt="The Most Profound Yoga and Meditation Spot in Varkala"
+              src="https://images.unsplash.com/photo-1588286840104-8957b019727f?w=700&q=80&fit=crop"
+              alt="Yoga For All At Affordable Prices in India"
               className={styles.sectionImg}
               loading="lazy"
             />
           </div>
           <div className={styles.textWrap}>
             <h2 className={styles.headingSerif} style={{ textAlign: "center" }}>
-              The Most Profound Yoga and Meditation Spot in Varkala
+              Yoga For All At Affordable Prices in India
             </h2>
             <div
               className={styles.headingUnderline}
@@ -343,20 +341,15 @@ const YogaTrainingVarkala: React.FC = () => {
               <div className={styles.headingUnderlineLine} />
             </div>
             <p className={styles.bodyText}>
-              Being one of the best yoga and meditation centres in Varkala, AYM
-              Yoga School offers one of the best{" "}
-              <strong className={styles.boldLink}>
-                yoga teaching courses in Varkala
-              </strong>{" "}
-              that teaches students how to practice yoga in a way that
-              alleviates mental and emotional suffering. Whether you want to
-              learn yoga so that you may teach it or to unwind, we have yoga
-              teacher certification classes available in both Rishikesh and Goa,
-              offering{" "}
-              <strong className={styles.boldLink}>
-                registered yoga teacher training courses in Varkala
-              </strong>
-              .
+              Yoga is an ancient practice that offers numerous physical and
+              mental health benefits. At our studio, we are committed to making
+              yoga accessible to everyone, which is why we offer classes at
+              affordable prices. Our experienced instructors provide guidance
+              for all skill levels, from beginners to advanced practitioners.
+              Whether you're looking to improve flexibility, reduce stress, or
+              increase strength, our studio provides a welcoming and inclusive
+              environment for all. Join us for yoga that fits your budget and
+              your schedule.
             </p>
           </div>
         </div>
@@ -390,4 +383,4 @@ const YogaTrainingVarkala: React.FC = () => {
   );
 };
 
-export default YogaTrainingVarkala;
+export default YogaTrainingMaharashtra;
