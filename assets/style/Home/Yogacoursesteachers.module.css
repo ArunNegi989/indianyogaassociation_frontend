@@ -421,7 +421,7 @@
 }
 
 .whoDecorInner {
-  background: linear-gradient(145deg, #fff8f0 0%, #ffecd8 100%);
+  background: linear-gradient(145deg, #fffcf9 0%, #fff6ed 100%);
   border: 1px solid rgba(224, 123, 0, 0.22);
   border-radius: 14px;
   padding: 2rem 1.6rem;
@@ -523,7 +523,7 @@
 .teachersSection {
   position: relative;
   background: var(--parchment);
-  background-image: url("../../images/backgroundimage/1905x1740.png");
+  background-image: url("../../images/backgroundimage/1905x1576.png");
   overflow: hidden;
 }
 
@@ -555,7 +555,7 @@
   align-items: center;
   margin-bottom: 3.5rem;
   padding: 2.5rem;
-  background: linear-gradient(135deg, var(--cream-white) 0%, #fdf0dc 100%);
+  background: linear-gradient(135deg, #fffdfa 0%, #fffcf7 100%);
   border: 1px solid var(--gold-border);
   border-radius: 14px;
   box-shadow: 0 8px 40px var(--shadow-warm);
@@ -1162,7 +1162,7 @@
 ════════════════════════════════════════════════ */
 @media (max-width: 1850px) {
   .teachersSection {
-    background-image: url("../../images/1850x1715.svg");
+    background-image: url("../../images/backgroundimage/1850x1618.png");
     background-size: contain;
   }
 }
@@ -1243,7 +1243,7 @@
 ════════════════════════════════════════════════ */
 @media (max-width: 767px) {
   .teachersSection {
-    background-image: url('../../images/1850x1715.png') !important;
+    background-image: url('../../images/backgroundimage/767x2423.png') !important;
   }
 }
 

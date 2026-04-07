@@ -116,7 +116,7 @@
   align-items: center;
   margin: 2rem 0;
   padding: 2rem;
-  background: linear-gradient(135deg, #fff9f2 0%, #fdf0dc 100%);
+  background: linear-gradient(135deg, #fffdfa 0%, #fffcf6 100%);
   border: 1px solid rgba(224, 123, 0, 0.2);
   border-radius: 10px;
   box-shadow: 0 4px 20px var(--shadow-warm);
@@ -321,7 +321,7 @@
 ════════════════════════════════════════════════ */
 .campusSection {
   background: var(--parchment);
-  background-image: url("../../images/1905X2360.png");
+  background-image: url("../../images/backgroundimage/1905X6108.png");
   position: relative;
   background-size: contain;
 }
@@ -536,7 +536,7 @@
 }
 
 .ctaContent {
-  background: linear-gradient(135deg, #ffead1 0%, #efd1ad 40%, #e5b57c 70%, #ffbd6d 100%);
+  background: linear-gradient(135deg, #fff5ea 0%, #ffedd7 40%, #efdeca 70%, #e2d7c9 100%);
   position: relative;
   overflow: hidden;
   padding: clamp(3rem, 6vw, 5rem) clamp(1.5rem, 5vw, 4rem);
@@ -624,7 +624,6 @@
 .masterQuoteBlock {
   text-align: center;
   padding: clamp(2rem, 4vw, 3.5rem) clamp(1.5rem, 5vw, 4rem);
-  background-image: url("../../images/svgbanner-01.svg");
   position: relative;
   overflow: hidden;
   color: #000000;
