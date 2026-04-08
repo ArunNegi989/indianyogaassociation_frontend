@@ -387,7 +387,7 @@ function CourseSlider({
       {slidesToShow === 1 && (
         <div
           style={{
-            display: "flex",
+            display: "none",
             justifyContent: "center",
             gap: "6px",
             marginTop: "12px",
