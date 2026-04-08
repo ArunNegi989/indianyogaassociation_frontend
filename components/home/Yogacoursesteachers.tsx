@@ -350,15 +350,15 @@ useEffect(() => {
           }}
         >
           {loopTeachers.map((t, i) => (
-            <div
-              key={t._id}
-              style={{
-                minWidth: `${slideWidthPercent}%`,
-                maxWidth: `${slideWidthPercent}%`,
-                padding: "0 8px",
-                boxSizing: "border-box",
-              }}
-            >
+  <div
+    key={`${t._id}-${i}`}   
+    style={{
+      minWidth: `${slideWidthPercent}%`,
+      maxWidth: `${slideWidthPercent}%`,
+      padding: "0 8px",
+      boxSizing: "border-box",
+    }}
+  >
               <div
                 className={styles.teacherCard}
                 style={{ "--delay": `${i * 0.08}s` } as React.CSSProperties}

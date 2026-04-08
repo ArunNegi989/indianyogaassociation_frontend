@@ -141,7 +141,7 @@ export const Footer = () => {
               src={logo}
               alt="AYM Yoga School"
               width={330}
-              height={330}
+              height={100}
               className={styles.logo}
             />
           </div>

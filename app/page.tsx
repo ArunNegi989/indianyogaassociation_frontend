@@ -9,7 +9,7 @@ import HowToReach from "@/components/home/Howtoreach";
 import OurMission from "@/components/home/Ourmission";
 import WhyAYMSection from "@/components/home/Whyaymsection";
 import YogaCoursesTeachers from "@/components/home/Yogacoursesteachers";
-import Image from "next/image";
+
 
 export default function Home() {
   return (
