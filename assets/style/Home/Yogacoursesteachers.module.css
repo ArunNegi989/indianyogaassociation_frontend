@@ -131,8 +131,19 @@
 /* ════════════════════════════════════════════════
    SECTION 1 — COURSES
 ════════════════════════════════════════════════ */
+
 .courseSlider {
   margin-top: 2rem;
+}
+
+.courseSlider :global(.slick-dots) {
+  display: none !important;
+  bottom: -28px;
+}
+
+.courseSlider :global(.slick-dots li button:before) {
+  color: var(--saffron);
+  font-size: 8px;
 }
 
 .sliderSlide {
@@ -173,18 +184,11 @@
   }
 }
 
-.coursesGrid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: clamp(1rem, 2vw, 1.6rem);
-}
-
 .courseCard {
   background: var(--cream-white);
   border: 1px solid var(--gold-border);
   border-radius: 12px;
   overflow: hidden;
- 
   transition: transform 0.3s cubic-bezier(0.34, 1.4, 0.64, 1), box-shadow 0.3s ease;
   animation: cardReveal 0.6s ease both;
   animation-delay: var(--delay);
@@ -409,6 +413,10 @@
   align-items: start;
 }
 
+.whoText {
+  /* text column */
+}
+
 .whoDecor {
   position: sticky;
   top: 2rem;
@@ -561,6 +569,10 @@
   border-radius: 4px 0 0 4px;
 }
 
+.founderImgCol {
+  /* image column */
+}
+
 .founderImgFrame {
   position: relative;
   border-radius: 10px;
@@ -612,6 +624,10 @@
 .fCornerBL { bottom: 7px; left: 7px; border-width: 0 0 2px 2px; }
 .fCornerBR { bottom: 7px; right: 7px; border-width: 0 2px 2px 0; }
 
+.founderTextCol {
+  /* text column */
+}
+
 .founderEyebrow {
   font-family: var(--font-lato), sans-serif;
   font-size: clamp(1rem, 1.8vw, 1.25rem);
@@ -660,19 +676,12 @@
 }
 
 /* ════════════════════════════════════════════════
-   TEACHER SLIDER — react-slick overrides
+   TEACHER SLIDER
 ════════════════════════════════════════════════ */
 
 .sliderWrapper {
   position: relative;
   margin-bottom: 2.5rem;
-  
-  
-}
-
-
-.sliderSlide {
-  padding: 0 8px;
 }
 
 /* ── Teacher Card ── */
@@ -797,7 +806,7 @@
   font-weight: 600;
 }
 
-/* ── Custom Slick Arrow Buttons ── */
+/* ── Custom Arrow Buttons ── */
 .sliderArrow {
   position: absolute;
   top: 40%;
@@ -834,22 +843,6 @@
 
 .sliderArrowNext {
   right: 0;
-}
-
-/* Override slick's default arrow positioning */
-.sliderWrapper :global(.slick-prev),
-.sliderWrapper :global(.slick-next) {
-  display: none !important;
-}
-
-/* Remove slick's default dots */
-.sliderWrapper :global(.slick-dots) {
-  display: none !important;
-}
-
-/* Slick track overflow fix */
-.sliderWrapper :global(.slick-list) {
-  overflow: hidden;
 }
 
 /* CTA */
@@ -1096,17 +1089,7 @@
 }
 
 /* ════════════════════════════════════════════════
-   RESPONSIVE — ≤1100px
-════════════════════════════════════════════════ */
-@media (max-width: 1100px) {
-  .coursesGrid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.4rem;
-  }
-}
-
-/* ════════════════════════════════════════════════
-   RESPONSIVE — ≤1024px  (tablet landscape)
+   RESPONSIVE — ≤1024px
 ════════════════════════════════════════════════ */
 @media (max-width: 1024px) {
   .sliderWrapper {
@@ -1155,7 +1138,6 @@
     font-size: 1.4rem;
   }
 
-  /* Modal side-by-side on tablet */
   .modalInner {
     flex-direction: row;
     align-items: flex-start;
@@ -1185,16 +1167,9 @@
 }
 
 /* ════════════════════════════════════════════════
-   RESPONSIVE — ≤600px  (large mobile)
-   ✅ 2 cards, no arrows
+   RESPONSIVE — ≤600px
 ════════════════════════════════════════════════ */
 @media (max-width: 600px) {
-  .coursesGrid {
-    grid-template-columns: 1fr;
-    max-width: 380px;
-    margin: 0 auto;
-  }
-
   .cardImgWrap {
     aspect-ratio: 16 / 9;
   }
@@ -1225,7 +1200,6 @@
     font-size: 5rem;
   }
 
-  /* 2 cards on large mobile — no arrows, use swipe */
   .sliderWrapper {
     padding: 0 6px;
   }
@@ -1234,7 +1208,6 @@
     display: none;
   }
 
-  /* Modal stacked on mobile */
   .modalCard {
     padding: 1.6rem 1.2rem 1.8rem;
     max-width: 100%;
@@ -1261,7 +1234,8 @@
   .modalImgFrame {
     width: clamp(110px, 42%, 150px);
   }
-   .sliderWrapper :global(.slick-slide) {
+
+  .sliderWrapper :global(.slick-slide) {
     width: 100% !important;
   }
 
@@ -1271,16 +1245,13 @@
 }
 
 /* ════════════════════════════════════════════════
-   RESPONSIVE — ≤480px  (small mobile)
-   ✅ 1 card with center peek
+   RESPONSIVE — ≤480px
 ════════════════════════════════════════════════ */
 @media (max-width: 480px) {
   .sliderWrapper {
-    /* centerPadding handles side peek — remove side padding */
     padding: 0;
   }
 
-  /* Give slides a tighter gap in center mode */
   .sliderSlide {
     padding: 0 6px;
   }
@@ -1295,14 +1266,9 @@
 }
 
 /* ════════════════════════════════════════════════
-   RESPONSIVE — ≤380px  (very small mobile)
-   ✅ 1 card, full width, no peek
+   RESPONSIVE — ≤380px
 ════════════════════════════════════════════════ */
 @media (max-width: 380px) {
-  .coursesGrid {
-    max-width: 100%;
-  }
-
   .sliderWrapper {
     padding: 0 4px;
   }
