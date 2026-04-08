@@ -134,6 +134,8 @@
 
 .courseSlider {
   margin-top: 2rem;
+   overflow: hidden;  /* ← YE ADD KARO */
+  width: 100%;       /* ← YE BHI */
 }
 
 .courseSlider :global(.slick-dots) {
@@ -1163,6 +1165,24 @@
 @media (max-width: 767px) {
   .teachersSection {
     background-image: url('../../images/backgroundimage/767x2423.png') !important;
+  }
+  .courseSlider :global(.slick-list) {
+    overflow: hidden !important;
+  }
+
+  .courseSlider :global(.slick-track) {
+    display: flex !important;
+  }
+
+  .courseSlider :global(.slick-slide) {
+    float: none !important;
+    flex-shrink: 0;
+  }
+
+  /* Mobile pe dots dikhayega */
+  .courseSlider :global(.slick-dots) {
+    display: block !important;
+    bottom: -28px;
   }
 }
 
