@@ -6,7 +6,7 @@
 .sliderWrapper {
   position: relative;
   width: 100%;
-  height: 70vh; 
+  height: 74vh; 
   max-height: 750px; 
   min-height: 400px; 
   overflow: hidden; 
@@ -337,7 +337,7 @@
    ================================================================ */
 @media (max-width: 640px) {
   .sliderWrapper {
-    height: 100vh; /* ✅ Full mobile viewport */
+    height: 60vh; /* ✅ Full mobile viewport */
     max-height: 100vh;
     min-height: 500px; /* ✅ Minimum for mobile */
   }
@@ -396,9 +396,21 @@
 /* ================================================================
    RESPONSIVE - SMALL MOBILE
    ================================================================ */
+
+   @media (max-width: 767px) {
+ 
+
+  .sliderWrapper {
+    height: 50vh; 
+    max-height: 100vh;
+    min-height: 320px; 
+  }
+}
 @media (max-width: 480px) {
   .sliderWrapper {
-    min-height: 450px;
+    height: 36vh; 
+    max-height: 100vh;
+    min-height: 290px; 
   }
 
   .slideContent {
@@ -430,7 +442,9 @@
 
 @media (max-width: 380px) {
   .sliderWrapper {
-    min-height: 420px;
+     height: 36vh; 
+    max-height: 100vh;
+    min-height: 300px; 
   }
 
   .slideTitle {
@@ -440,7 +454,14 @@
   .slideContent {
     padding: 0 0.9rem 2.5rem;
   }
+
+  .sliderWrapper {
+    height: 40vh; 
+    max-height: 100vh;
+    min-height: 320px; 
+  }
 }
+
 
 /* ================================================================
    LANDSCAPE MODE (Mobile Horizontal)
