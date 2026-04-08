@@ -678,7 +678,7 @@ export default function EditYogaCoursesPage() {
               <div className={styles.sectionHeader}>
                 <span className={styles.sectionIcon}>✦</span>
                 <h3 className={styles.sectionTitle}>Course Cards</h3>
-                <span className={styles.sectionBadge}>{courseFields.length}/6</span>
+                <span className={styles.sectionBadge}>{courseFields.length}/20</span>
               </div>
 
               <div className={styles.certsList}>
@@ -834,7 +834,7 @@ export default function EditYogaCoursesPage() {
                 })}
               </div>
 
-              {courseFields.length < 6 && (
+              {courseFields.length < 20 && (
                 <button type="button" className={styles.addBtn} onClick={() =>
                   appendCourse({ name:"", hours:"", days:"", style:"", duration:"", certificate:"", feeShared:"", feePrivate:"", color:"#8B5E3C", imgUrl:"", imgPreview:"", imgFile:null, detailsLink:"#", bookLink:"#" })
                 }>+ Add Course Card</button>

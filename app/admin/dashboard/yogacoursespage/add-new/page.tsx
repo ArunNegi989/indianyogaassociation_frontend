@@ -535,7 +535,7 @@ export default function AddYogaCoursesPage() {
             <div className={styles.sectionHeader}>
               <span className={styles.sectionIcon}>✦</span>
               <h3 className={styles.sectionTitle}>Course Cards</h3>
-              <span className={styles.sectionBadge}>{courseFields.length}/6</span>
+              <span className={styles.sectionBadge}>{courseFields.length}/20</span>
             </div>
             <div className={styles.certsList}>
               {courseFields.map((field, i) => {
@@ -693,7 +693,7 @@ export default function AddYogaCoursesPage() {
                 );
               })}
             </div>
-            {courseFields.length < 6 && (
+            {courseFields.length < 20 && (
               <button type="button" className={styles.addBtn} onClick={() => appendCourse({ ...DEFAULT_COURSE })}>
                 + Add Course Card
               </button>

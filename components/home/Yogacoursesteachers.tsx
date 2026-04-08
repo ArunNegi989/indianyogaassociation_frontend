@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import styles from "../../assets/style/Home/Yogacoursesteachers.module.css";
 import api from "@/lib/api";
+import Slider from "react-slick";
 
 /* ══════════════════════════════════════════════════════
    IMAGE URL HELPER
@@ -259,43 +260,40 @@ function TeacherSlider({
     window.addEventListener("resize", updateSlides);
     return () => window.removeEventListener("resize", updateSlides);
   }, []);
-const loopTeachers = [...teachers, ...teachers];
+  const loopTeachers = [...teachers, ...teachers];
   const total = loopTeachers.length;
 
- const prev = () => {
-  setCurrentIndex((i) =>
-    i === 0 ? teachers.length - 1 : i - 1
-  );
-};
+  const prev = () => {
+    setCurrentIndex((i) => (i === 0 ? teachers.length - 1 : i - 1));
+  };
 
-const next = () => {
-  setCurrentIndex((i) => i + 1);
-};
+  const next = () => {
+    setCurrentIndex((i) => i + 1);
+  };
 
   // Auto-play
-useEffect(() => {
-  if (!mounted) return;
+  useEffect(() => {
+    if (!mounted) return;
 
-  const timer = setInterval(() => {
-    setCurrentIndex((i) => i + 1);
-  }, 4000);
+    const timer = setInterval(() => {
+      setCurrentIndex((i) => i + 1);
+    }, 4000);
 
-  return () => clearInterval(timer);
-}, [mounted]);
+    return () => clearInterval(timer);
+  }, [mounted]);
 
-
-useEffect(() => {
-  if (currentIndex >= teachers.length) {
-    setTimeout(() => {
-      setIsTransitioning(false);   // animation off
-      setCurrentIndex(0);          // jump silently
-
+  useEffect(() => {
+    if (currentIndex >= teachers.length) {
       setTimeout(() => {
-        setIsTransitioning(true);  // animation on again
-      }, 50);
-    }, 500);
-  }
-}, [currentIndex, teachers.length]);
+        setIsTransitioning(false); // animation off
+        setCurrentIndex(0); // jump silently
+
+        setTimeout(() => {
+          setIsTransitioning(true); // animation on again
+        }, 50);
+      }, 500);
+    }
+  }, [currentIndex, teachers.length]);
 
   // ✅ Touch handlers
   const handleTouchStart = (e: React.TouchEvent) => {
@@ -310,8 +308,9 @@ useEffect(() => {
     const diff = touchStartX.current - touchEndX.current;
     if (Math.abs(diff) > 40) {
       // 40px threshold
-      if (diff > 0) next(); // left swipe → next
-      else prev();          // right swipe → prev
+      if (diff > 0)
+        next(); // left swipe → next
+      else prev(); // right swipe → prev
     }
   };
 
@@ -343,22 +342,22 @@ useEffect(() => {
           style={{
             display: "flex",
             transition: isTransitioning
-  ? "transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)"
-  : "none",
+              ? "transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)"
+              : "none",
             transform: `translateX(-${currentIndex * slideWidthPercent}%)`,
             willChange: "transform",
           }}
         >
           {loopTeachers.map((t, i) => (
-  <div
-    key={`${t._id}-${i}`}   
-    style={{
-      minWidth: `${slideWidthPercent}%`,
-      maxWidth: `${slideWidthPercent}%`,
-      padding: "0 8px",
-      boxSizing: "border-box",
-    }}
-  >
+            <div
+              key={`${t._id}-${i}`}
+              style={{
+                minWidth: `${slideWidthPercent}%`,
+                maxWidth: `${slideWidthPercent}%`,
+                padding: "0 8px",
+                boxSizing: "border-box",
+              }}
+            >
               <div
                 className={styles.teacherCard}
                 style={{ "--delay": `${i * 0.08}s` } as React.CSSProperties}
@@ -422,9 +421,7 @@ useEffect(() => {
                 height: "8px",
                 borderRadius: "4px",
                 background:
-                  i === currentIndex
-                    ? "var(--saffron)"
-                    : "var(--gold-border)",
+                  i === currentIndex ? "var(--saffron)" : "var(--gold-border)",
                 border: "none",
                 cursor: "pointer",
                 padding: 0,
@@ -438,6 +435,22 @@ useEffect(() => {
     </div>
   );
 }
+
+const courseSettings = {
+  dots: false,
+  infinite: true,
+  speed: 800,
+  slidesToShow: 4,
+  slidesToScroll: 1,
+  arrows: true,
+  autoplay: true,
+  autoplaySpeed: 4000,
+  responsive: [
+    { breakpoint: 1200, settings: { slidesToShow: 3 } },
+    { breakpoint: 992, settings: { slidesToShow: 2 } },
+    { breakpoint: 600, settings: { slidesToShow: 1 } },
+  ],
+};
 /* ══════════════════════════════════════════════════════
    MAIN COMPONENT
 ══════════════════════════════════════════════════════ */
@@ -446,7 +459,7 @@ export const YogaCoursesTeachers: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
   const [selectedTeacher, setSelectedTeacher] = useState<TeacherItem | null>(
-    null
+    null,
   );
 
   useEffect(() => {
@@ -512,77 +525,93 @@ export const YogaCoursesTeachers: React.FC = () => {
             <p className={styles.sectionDesc}>{sectionHeader.sectionDesc}</p>
           </div>
 
-          <div className={styles.coursesGrid}>
-            {courses.map((course, i) => (
-              <div
-                key={course._id}
-                className={styles.courseCard}
-                style={
-                  {
-                    "--card-color": course.color,
-                    "--delay": `${i * 0.1}s`,
-                  } as React.CSSProperties
-                }
-                onMouseEnter={() => setHoveredCard(course._id)}
-                onMouseLeave={() => setHoveredCard(null)}
-              >
-                <div className={styles.cardImgWrap}>
-                  <img
-                    src={getImageUrl(course.imgUrl)}
-                    alt={course.name}
-                    className={styles.cardImg}
-                    loading="lazy"
-                  />
-                  <div
-                    className={styles.cardImgOverlay}
-                    style={{
-                      background: `linear-gradient(to top, ${course.color}ee 0%, ${course.color}88 40%, transparent 70%)`,
-                    }}
-                  />
-                  <span className={styles.cardDays}>{course.days}</span>
-                  <div className={styles.cardHours}>{course.hours}</div>
-                  <div className={styles.cardOmPulse}>ॐ</div>
-                </div>
-                <div className={styles.cardBody}>
-                  <h3 className={styles.cardName}>{course.name}</h3>
-                  <div className={styles.cardNameUnderline} />
-                  <div className={styles.cardMeta}>
-                    <div className={styles.metaRow}>
-                      <span className={styles.metaKey}>Course Style</span>
-                      <span className={styles.metaVal}>{course.style}</span>
-                    </div>
-                    <div className={styles.metaRow}>
-                      <span className={styles.metaKey}>Duration</span>
-                      <span className={styles.metaVal}>{course.duration}</span>
-                    </div>
-                    <div className={styles.metaRow}>
-                      <span className={styles.metaKey}>Certificate</span>
-                      <span className={styles.metaVal}>
-                        {course.certificate}
-                      </span>
-                    </div>
-                    <div className={styles.metaRow}>
-                      <span className={styles.metaKey}>Course Fee</span>
-                      <span className={styles.metaVal}>
-                        {course.feeShared} USD / {course.feePrivate} USD
-                      </span>
-                    </div>
-                  </div>
-                  <div className={styles.cardActions}>
-                    <a
-                      href={course.detailsLink || "#"}
-                      className={styles.detailsBtn}
-                    >
-                      More Details
-                    </a>
-                    <a href={course.bookLink || "#"} className={styles.bookBtn}>
-                      Book Now
-                    </a>
-                  </div>
-                </div>
-              </div>
-            ))}
+          <Slider {...courseSettings} className={styles.courseSlider}>
+  {courses.map((course, i) => (
+    <div key={course._id} className={styles.sliderSlide}>
+      
+      {/* ✅ SAME CARD — NO CHANGE */}
+      <div
+        className={styles.courseCard}
+        style={
+          {
+            "--card-color": course.color,
+            "--delay": `${i * 0.1}s`,
+          } as React.CSSProperties
+        }
+        onMouseEnter={() => setHoveredCard(course._id)}
+        onMouseLeave={() => setHoveredCard(null)}
+      >
+        <div className={styles.cardImgWrap}>
+          <img
+            src={getImageUrl(course.imgUrl)}
+            alt={course.name}
+            className={styles.cardImg}
+            loading="lazy"
+          />
+
+          {/* ✅ Overlay + ALL DETAILS */}
+          <div
+            className={styles.cardImgOverlay}
+            style={{
+              background: `linear-gradient(to top, ${course.color}ee 0%, ${course.color}88 40%, transparent 70%)`,
+            }}
+          />
+
+          <span className={styles.cardDays}>{course.days}</span>
+          <div className={styles.cardHours}>{course.hours}</div>
+          <div className={styles.cardOmPulse}>ॐ</div>
+        </div>
+
+        <div className={styles.cardBody}>
+          <h3 className={styles.cardName}>{course.name}</h3>
+          <div className={styles.cardNameUnderline} />
+
+          {/* ✅ FULL META */}
+          <div className={styles.cardMeta}>
+            <div className={styles.metaRow}>
+              <span className={styles.metaKey}>Course Style</span>
+              <span className={styles.metaVal}>{course.style}</span>
+            </div>
+
+            <div className={styles.metaRow}>
+              <span className={styles.metaKey}>Duration</span>
+              <span className={styles.metaVal}>{course.duration}</span>
+            </div>
+
+            <div className={styles.metaRow}>
+              <span className={styles.metaKey}>Certificate</span>
+              <span className={styles.metaVal}>{course.certificate}</span>
+            </div>
+
+            <div className={styles.metaRow}>
+              <span className={styles.metaKey}>Course Fee</span>
+              <span className={styles.metaVal}>
+                {course.feeShared} USD / {course.feePrivate} USD
+              </span>
+            </div>
           </div>
+
+          {/* ✅ BUTTONS */}
+          <div className={styles.cardActions}>
+            <a
+              href={course.detailsLink || "#"}
+              className={styles.detailsBtn}
+            >
+              More Details
+            </a>
+
+            <a
+              href={course.bookLink || "#"}
+              className={styles.bookBtn}
+            >
+              Book Now
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  ))}
+</Slider>
         </div>
         <div className={styles.bottomBorder} />
       </section>
@@ -608,7 +637,7 @@ export const YogaCoursesTeachers: React.FC = () => {
                   <p key={i} className={styles.para}>
                     {para}
                   </p>
-                )
+                ),
               )}
             </div>
             <div className={styles.whoDecor}>
