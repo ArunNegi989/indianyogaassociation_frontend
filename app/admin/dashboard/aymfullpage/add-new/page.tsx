@@ -23,7 +23,9 @@ const JoditEditor = dynamic(() => import("jodit-react"), { ssr: false });
 interface BodyPlaneItem  { label: string; listItem: string; }
 interface PromoCard      { title: string; text: string; link: string; }
 interface JourneyPara    { text: string; }
-interface CampusFacility { bold: string; text: string; }
+
+// ✅ Added imageAlt to match edit form
+interface CampusFacility { bold: string; text: string; imageAlt: string; }
 
 interface FormValues {
   alignTitle:         string;
@@ -258,6 +260,86 @@ function ImageUploadField({
 }
 
 /* ══════════════════════════════════════════════
+   ✅ FACILITY IMAGE UPLOAD (compact) — same as edit form
+══════════════════════════════════════════════ */
+interface FacilityImageProps {
+  file:         File | null;
+  altText:      string;
+  onFileChange: (f: File | null) => void;
+  onAltChange:  (v: string) => void;
+}
+
+function FacilityImageUpload({
+  file, altText, onFileChange, onAltChange,
+}: FacilityImageProps) {
+  const inputRef              = useRef<HTMLInputElement>(null);
+  const [preview, setPreview] = useState<string | null>(null);
+
+  const handleFile = (f: File | null) => {
+    if (!f) return;
+    const r = new FileReader();
+    r.onload = (e) => setPreview(e.target?.result as string);
+    r.readAsDataURL(f);
+    onFileChange(f);
+  };
+
+  const handleRemove = () => {
+    setPreview(null);
+    onFileChange(null);
+    if (inputRef.current) inputRef.current.value = "";
+  };
+
+  return (
+    <div style={{ marginTop: "0.75rem" }}>
+      <p className={styles.fieldHint} style={{ marginBottom: "0.5rem" }}>🖼 Optional facility photo</p>
+
+      {!preview ? (
+        <div
+          className={styles.imageDropZone}
+          style={{ padding: "1rem", marginBottom: "0.5rem" }}
+          onClick={() => inputRef.current?.click()}
+        >
+          <span style={{ fontSize: "1.2rem" }}>📷</span>
+          <p className={styles.dropText} style={{ fontSize: "0.8rem" }}>
+            Click to upload facility photo
+          </p>
+          <p className={styles.dropMeta}>PNG · JPG · WEBP · Max 5 MB</p>
+          <input
+            ref={inputRef} type="file" accept="image/*"
+            className={styles.fileInputHidden}
+            onChange={(e) => handleFile(e.target.files?.[0] ?? null)}
+          />
+        </div>
+      ) : (
+        <div className={styles.imagePreviewWrap} style={{ marginBottom: "0.5rem", maxHeight: "160px" }}>
+          <img src={preview} alt="Facility" className={styles.imagePreview} style={{ maxHeight: "140px" }} />
+          <div className={styles.imagePreviewOverlay}>
+            <button type="button" className={styles.imageRemoveBtn} onClick={handleRemove}>✕ Remove</button>
+            <button type="button" className={styles.imageChangeBtn} onClick={() => inputRef.current?.click()}>✎ Change</button>
+          </div>
+          {file && <div className={styles.imageFileName}>{file.name}</div>}
+          <input
+            ref={inputRef} type="file" accept="image/*"
+            className={styles.fileInputHidden}
+            onChange={(e) => handleFile(e.target.files?.[0] ?? null)}
+          />
+        </div>
+      )}
+
+      <div className={styles.inputWrap}>
+        <input
+          type="text" className={styles.input}
+          placeholder="Alt text for this facility photo"
+          value={altText} maxLength={120}
+          onChange={(e) => onAltChange(e.target.value)}
+        />
+        <span className={styles.charCount}>{altText.length}/120</span>
+      </div>
+    </div>
+  );
+}
+
+/* ══════════════════════════════════════════════
    MAIN PAGE COMPONENT
 ══════════════════════════════════════════════ */
 export default function AddAYMFullPagePage() {
@@ -266,6 +348,8 @@ export default function AddAYMFullPagePage() {
   /* ── File state (outside RHF — File objects can't be in defaultValues) ── */
   const [bodyPlanesImageFile, setBodyPlanesImageFile] = useState<File | null>(null);
   const [outdoorImageFile,    setOutdoorImageFile]    = useState<File | null>(null);
+  // ✅ Per-facility image files array
+  const [facilityImageFiles,  setFacilityImageFiles]  = useState<(File | null)[]>([]);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted,    setSubmitted]    = useState(false);
@@ -364,12 +448,17 @@ export default function AddAYMFullPagePage() {
   const addFacility = () => {
     if (facilityFields.length >= 20) return;
     const idx = facilityFields.length;
-    appendFacility({ bold: "", text: "" });
+    // ✅ imageAlt added to default values
+    appendFacility({ bold: "", text: "", imageAlt: "" });
+    // ✅ push null slot for the new facility's image file
+    setFacilityImageFiles((prev) => [...prev, null]);
     setExpandedFacilities((prev) => new Set(prev).add(idx));
   };
 
   const handleRemoveFacility = (i: number) => {
     removeFacility(i);
+    // ✅ also remove the corresponding image file slot
+    setFacilityImageFiles((prev) => prev.filter((_, idx) => idx !== i));
     setExpandedFacilities((prev) => {
       const next = new Set<number>();
       prev.forEach((v) => { if (v < i) next.add(v); else if (v > i) next.add(v - 1); });
@@ -425,9 +514,14 @@ export default function AddAYMFullPagePage() {
       fd.append("promoCard1",       JSON.stringify(data.promoCard1));
       fd.append("promoCard2",       JSON.stringify(data.promoCard2));
 
-      /* ── Images ── */
+      /* ── Main images ── */
       if (bodyPlanesImageFile) fd.append("bodyPlanesImage", bodyPlanesImageFile);
       if (outdoorImageFile)    fd.append("outdoorImage",    outdoorImageFile);
+
+      // ✅ Facility images (indexed) — same pattern as edit form
+      data.campusFacilities.forEach((_, i) => {
+        if (facilityImageFiles[i]) fd.append(`facilityImage_${i}`, facilityImageFiles[i]!);
+      });
 
       await api.post("/aym-full-page/create", fd, {
         headers: { "Content-Type": "multipart/form-data" },
@@ -472,7 +566,6 @@ export default function AddAYMFullPagePage() {
   ════════════════════════════════════════════ */
   return (
     <>
-      {/* ── Toast provider ── */}
       <Toaster
         position="bottom-right"
         toastOptions={{
@@ -522,10 +615,8 @@ export default function AddAYMFullPagePage() {
           ))}
         </div>
 
-        {/* ── Wrap entire content in <form> ── */}
         <form
           onSubmit={handleSubmit(onSubmit, () => {
-            // RHF validation failed — go to first tab with errors
             if (tabHasError("alignment"))   setActiveTab("alignment");
             else if (tabHasError("campus")) setActiveTab("campus");
             else                            setActiveTab("cta");
@@ -543,7 +634,6 @@ export default function AddAYMFullPagePage() {
                     <h3 className={styles.sectionTitle}>Section Header</h3>
                   </div>
 
-                  {/* alignTitle — Jodit */}
                   <Controller
                     name="alignTitle"
                     control={control}
@@ -561,7 +651,6 @@ export default function AddAYMFullPagePage() {
                     )}
                   />
 
-                  {/* salutation */}
                   <div className={styles.fieldGroup}>
                     <label className={styles.label}>
                       <span className={styles.labelIcon}>✦</span>Salutation
@@ -607,10 +696,10 @@ export default function AddAYMFullPagePage() {
                           label={label}
                           hint={
                             name === "alignPara1"
-                              ? `e.g. "There are numerous Yoga schools worldwide that offer certifications; however, how many incorporate alignment and adjustment into their curriculum? In Rishikesh, very few, except at our school."`
+                              ? `e.g. "There are numerous Yoga schools worldwide that offer certifications; however, how many incorporate alignment and adjustment into their curriculum?"`
                               : name === "alignPara2"
-                              ? `e.g. "There are three planes of the body that yoga experts use in teaching postures. When practicing triangle pose, students often move to the wrong plane because they lack anatomical knowledge."`
-                              : `e.g. "By knowing the different body planes correctly, you can use this in designing your yoga lesson planning to ensure you're moving your body in all the correct directions."`
+                              ? `e.g. "There are three planes of the body that yoga experts use in teaching postures."`
+                              : `e.g. "By knowing the different body planes correctly, you can use this in designing your yoga lesson planning."`
                           }
                           value={field.value || ""}
                           required
@@ -664,7 +753,7 @@ export default function AddAYMFullPagePage() {
                     render={({ field, fieldState }) => (
                       <JoditField
                         label="Intro Paragraph"
-                        hint='e.g. "The three planes of movement in different postures of Yoga, and a Yoga teacher should have deep knowledge of them: the names are:"'
+                        hint='e.g. "The three planes of movement in different postures of Yoga, and a Yoga teacher should have deep knowledge of them:"'
                         value={field.value || ""}
                         height={120}
                         required
@@ -825,6 +914,7 @@ export default function AddAYMFullPagePage() {
                   </div>
                   <p className={styles.fieldHint} style={{ marginBottom: "1rem" }}>
                     Each facility item appears as a <strong>bold label</strong> + description text on the frontend.
+                    You can also add an optional photo per facility.
                   </p>
 
                   <div className={styles.statsGrid}>
@@ -832,6 +922,8 @@ export default function AddAYMFullPagePage() {
                       const isOpen  = expandedFacilities.has(i);
                       const boldVal = watchedValues.campusFacilities?.[i]?.bold || "";
                       const textVal = watchedValues.campusFacilities?.[i]?.text || "";
+                      // ✅ show 📷 badge in header when a file is selected
+                      const hasImg  = !!facilityImageFiles[i];
                       return (
                         <div key={field.id} style={{ border: "1.5px solid #e8d5b5", borderRadius: "10px", overflow: "hidden", background: "#fffdf8" }}>
                           {/* Accordion Header */}
@@ -851,6 +943,10 @@ export default function AddAYMFullPagePage() {
                                 />
                               )}
                             </div>
+                            {/* ✅ photo badge — same as edit form */}
+                            {hasImg && (
+                              <span style={{ fontSize: "0.7rem", color: "#2a5e1e", background: "rgba(42,94,30,0.1)", border: "1px solid rgba(42,94,30,0.2)", borderRadius: "4px", padding: "0.1rem 0.4rem", fontFamily: "'Cinzel',serif", flexShrink: 0 }}>📷</span>
+                            )}
                             <span style={{ color: "#a07840", fontSize: "0.8rem", flexShrink: 0 }}>{isOpen ? "▲" : "▼"}</span>
                             <button
                               type="button" className={styles.removeStatBtn} style={{ margin: 0, flexShrink: 0 }}
@@ -878,7 +974,7 @@ export default function AddAYMFullPagePage() {
                                 </div>
                               </div>
 
-                              <div className={styles.fieldGroup}>
+                              <div className={styles.fieldGroup} style={{ marginBottom: "0.5rem" }}>
                                 <label className={styles.label} style={{ marginBottom: "0.3rem" }}>
                                   <span className={styles.labelIcon}>✦</span> Description Text
                                 </label>
@@ -895,6 +991,22 @@ export default function AddAYMFullPagePage() {
                                   )}
                                 />
                               </div>
+
+                              {/* ✅ Facility image upload — same component as edit form */}
+                              <FacilityImageUpload
+                                file={facilityImageFiles[i] ?? null}
+                                altText={watchedValues.campusFacilities?.[i]?.imageAlt || ""}
+                                onFileChange={(f) => {
+                                  setFacilityImageFiles((prev) => {
+                                    const updated = [...prev];
+                                    updated[i] = f;
+                                    return updated;
+                                  });
+                                }}
+                                onAltChange={(v) =>
+                                  setValue(`campusFacilities.${i}.imageAlt`, v)
+                                }
+                              />
                             </div>
                           )}
                         </div>
@@ -1013,7 +1125,7 @@ export default function AddAYMFullPagePage() {
                     render={({ field, fieldState }) => (
                       <JoditField
                         label="CTA Subtext"
-                        hint='e.g. "Transform your mind, body, and spirit with our expert-led yoga classes. Connect with us now to start your personalized yoga experience."'
+                        hint='e.g. "Transform your mind, body, and spirit with our expert-led yoga classes."'
                         value={field.value || ""}
                         required
                         errorMsg={fieldState.error?.message}
