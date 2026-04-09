@@ -4,7 +4,7 @@ import styles from "@/assets/style/yoga-meditation-workshop/Meditationpage.modul
 import Image from "next/image";
 import bannerImage from "@/assets/images/meditation.jpg";
 import HowToReach from "@/components/home/Howtoreach";
-
+import heroImg from "@/assets/images/41.png";
 /* ─── Types ─── */
 interface PricingRow {
   date: string;
@@ -160,10 +160,20 @@ function SeatsCell({ booked, total }: { booked: number; total: number }) {
 const MeditationPage: React.FC = () => {
   return (
     <div className={styles.page}>
+      <section className={styles.heroSection}>
+        <Image
+          src={heroImg}
+          alt="Yoga Students Group"
+          width={1180}
+          height={540}
+          className={styles.heroImage}
+          priority
+        />
+      </section>
       {/* ══════════════════════════════════════
           SECTION 1 — HERO TITLE + BANNER
       ══════════════════════════════════════ */}
-      <section className={styles.heroSection}>
+      <section className={styles.heroSection1}>
         <div className={styles.container}>
           <h1 className={styles.pageTitle}>
             Meditation Yoga Teacher Training Course in Rishikesh India

@@ -49,6 +49,21 @@
    SECTION BACKGROUNDS
 ════════════════════════════════════════ */
 .heroSection {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  line-height: 0;
+}
+
+.heroImage {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+}
+.heroSection1 {
   background: var(--white);
   padding: 3rem 0 2.5rem;
 }
@@ -433,7 +448,7 @@
 
 @media (max-width: 768px) {
 
-  .heroSection,
+  .heroSection1,
   .altSection,
   .methodSection,
   .scheduleSection,
@@ -463,7 +478,7 @@
 
 @media (max-width: 480px) {
 
-  .heroSection,
+  .heroSection1,
   .altSection,
   .methodSection,
   .scheduleSection,
