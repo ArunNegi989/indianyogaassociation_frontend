@@ -215,7 +215,7 @@ export const WhyAYMSection: React.FC = () => {
               {/* Badge Year */}
               {data.imgBadgeYear && (
                 <div className={styles.imgBadge}>
-                  <span className={styles.imgBadgeOm}>ॐ</span>
+                  <span className={styles.imgBadgeOm}>🔆</span>
                   <span className={styles.imgBadgeYear}>
                     {data.imgBadgeYear}
                   </span>
@@ -242,7 +242,7 @@ export const WhyAYMSection: React.FC = () => {
                 style={{ "--d": `${i * 0.08}s` } as React.CSSProperties}
               >
                 <span className={styles.featureOm} aria-hidden="true">
-                  ॐ
+                  🧘
                 </span>
                 <p className={styles.featureText}>
                   {/* title — Jodit HTML */}
@@ -274,7 +274,7 @@ export const WhyAYMSection: React.FC = () => {
               style={{ "--d": `${i * 0.1}s` } as React.CSSProperties}
             >
               <span className={styles.featureOm} aria-hidden="true">
-                卐
+                🔆
               </span>
               <p className={styles.featureText}>
                 {/* title — Jodit HTML */}

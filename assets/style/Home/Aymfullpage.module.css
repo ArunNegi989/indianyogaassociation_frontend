@@ -347,10 +347,11 @@
 }
 
 /* Each facility card — fixed 300px height keeps all cards identical */
+/* Base: content (2fr) LEFT, image (1fr) RIGHT */
 .facilityItem {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 420px;
+  grid-template-columns: 2fr 1fr;
+  grid-template-rows: 322px;
   background: linear-gradient(135deg, var(--cream-white) 0%, #fdf6ec 100%);
   border: 1px solid var(--gold-border);
   border-radius: 14px;
@@ -358,6 +359,11 @@
   box-shadow: 0 4px 24px var(--shadow-warm);
   transition: box-shadow 0.3s ease, transform 0.3s ease;
   position: relative;
+}
+
+/* Even: image (1fr) LEFT, content (2fr) RIGHT — flip both columns AND order */
+.facilityItem:nth-child(even) {
+  grid-template-columns: 1fr 2fr;
 }
 
 .facilityItem::before {

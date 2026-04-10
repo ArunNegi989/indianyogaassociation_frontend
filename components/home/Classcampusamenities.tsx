@@ -187,7 +187,7 @@ export const ClassCampusAmenities: React.FC = () => {
                   style={{ "--d": `${i * 0.08}s` } as React.CSSProperties}
                 >
                   <span className={styles.bullet} aria-hidden="true">
-                    ॐ
+                    🔆
                   </span>
                   <span>{item}</span>
                 </li>

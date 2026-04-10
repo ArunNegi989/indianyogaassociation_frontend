@@ -981,7 +981,7 @@
 
 .modalImgFrame {
   position: relative;
-  width: clamp(130px, 40%, 170px);
+  /* width: clamp(130px, 40%, 170px); */
   aspect-ratio: 3 / 4;
   border-radius: 10px;
   overflow: hidden;

@@ -263,7 +263,7 @@ function PickupCard(): React.ReactElement {
 
   return (
     <article className={`${styles.travelCard} ${styles.pickupCard}`}>
-      {/* Card header — always visible */}
+      {/* Card header */}
       <div className={styles.travelHeader}>
         <div className={`${styles.iconCircle} ${styles.iconCirclePickup}`} aria-hidden="true">
           <CarIcon />
@@ -275,41 +275,24 @@ function PickupCard(): React.ReactElement {
       </div>
 
       <p className={styles.travelDesc}>
-  Book a <strong>hassle-free pickup or drop</strong> from Jolly Grant Airport,
-  Haridwar / Rishikesh Railway Station or Bus Stand directly to Indian Yoga Association.
-  Enjoy a smooth, comfortable, and stress-free journey with our reliable transport
-  service, <strong>available 24/7 on request</strong>. Our professional drivers ensure
-  timely pickups and safe drop-offs so you can begin your yoga journey with ease.
-</p>
+        Book a <strong>hassle-free pickup or drop</strong> from Jolly Grant Airport,
+        Haridwar / Rishikesh Railway Station or Bus Stand directly to Indian Yoga Association.
+        Enjoy a smooth, comfortable, and stress-free journey with our reliable transport
+        service, <strong>available 24/7 on request</strong>. Our professional drivers ensure
+        timely pickups and safe drop-offs so you can begin your yoga journey with ease.
+      </p>
 
-{/* Highlights */}
-<ul className={styles.pickupHighlights}>
-  <li>
-    <span className={styles.highlightDot} />
-    Airport · Railway · Bus Stand Transfers
-  </li>
-  <li>
-    <span className={styles.highlightDot} />
-    Comfortable AC vehicles for a relaxing ride
-  </li>
-  <li>
-    <span className={styles.highlightDot} />
-    Group bookings available for batches & retreats
-  </li>
-  <li>
-    <span className={styles.highlightDot} />
-    Instant WhatsApp confirmation & coordination
-  </li>
-  <li>
-    <span className={styles.highlightDot} />
-    Safe and reliable door-to-door service
-  </li>
-  <li>
-    <span className={styles.highlightDot} />
-    Experienced and professional drivers
-  </li>
-</ul>
-      {/* Toggle button to expand form */}
+      {/* Highlights */}
+      <ul className={styles.pickupHighlights}>
+        <li><span className={styles.highlightDot} />Airport · Railway · Bus Stand Transfers</li>
+        <li><span className={styles.highlightDot} />Comfortable AC vehicles for a relaxing ride</li>
+        <li><span className={styles.highlightDot} />Group bookings available for batches &amp; retreats</li>
+        <li><span className={styles.highlightDot} />Instant WhatsApp confirmation &amp; coordination</li>
+        <li><span className={styles.highlightDot} />Safe and reliable door-to-door service</li>
+        <li><span className={styles.highlightDot} />Experienced and professional drivers</li>
+      </ul>
+
+      {/* Toggle to expand form */}
       {!expanded && !submitted && (
         <div className={styles.cardActions}>
           <button
@@ -564,6 +547,7 @@ export default function HowToReach(): React.ReactElement {
       <div className={styles.topBorder} />
 
       <div className={styles.container}>
+
         {/* ── Header ── */}
         <div className={styles.headerWrap}>
           <span className={styles.badge}>✦ Travel Guide</span>
@@ -580,8 +564,53 @@ export default function HowToReach(): React.ReactElement {
           </p>
         </div>
 
-        {/* ── MAP — full width, below subtitle ── */}
-        <div className={styles.mapSection}>
+        {/* ── ROW 1: 3 travel cards ── */}
+        <div className={styles.cardsGrid}>
+          <TravelCard
+            icon={<PlaneIcon />}
+            title="By Airways"
+            subtitle="Fastest Way to Reach Rishikesh"
+            desc="Fly from Delhi (Indira Gandhi International Airport) to <strong>Jolly Grant Airport, Dehradun</strong> — approximately 20 km from Rishikesh. Taxis and private transfers are easily available. Indian Yoga Association provides pickup &amp; drop facility on request. Smooth and comfortable journey assured. Advance booking recommended for convenience. 24/7 service available on request."
+            headers={["Airline", "Departs", "Arrives", "Duration"]}
+            rows={flights}
+            btnText="Check Flights on MakeMyTrip"
+            btnHref="https://www.makemytrip.com/flights/"
+            linkText="More Air Travel Details"
+            linkHref="#air-details"
+          />
+          <TravelCard
+            icon={<TrainIcon />}
+            title="By Train"
+            subtitle="Affordable & Comfortable"
+            desc="Travel from New Delhi Railway Station to Rishikesh or <strong>Haridwar Junction</strong> (25 km from Rishikesh). Taxis and auto-rickshaws are always available for the onward journey to Indian Yoga Association, Rishikesh. Comfortable travel options available anytime.You can also opt for buses and private cabs for a smooth and affordable journey."
+            headers={["Train", "Departs", "Arrives", "Via"]}
+            rows={trains}
+            btnText="Book Train on IRCTC"
+            btnHref="https://www.irctc.co.in/"
+            linkText="More Train Travel Details"
+            linkHref="#train-details"
+          />
+          <TravelCard
+            icon={<BusIcon />}
+            title="By Bus"
+            subtitle="Budget Friendly Option"
+            desc="Regular <strong>Volvo, AC and sleeper buses</strong> operate daily from Delhi to Rishikesh. Travel time is approximately 5–6 hours via scenic NH58, passing through the beautiful Shivalik foothills. Comfortable and budget-friendly travel option. Multiple departures available throughout the day. Easy booking options available online."
+            headers={["Bus", "Departs", "Arrives", "Type"]}
+            rows={buses}
+            btnText="Book Bus on RedBus"
+            btnHref="https://www.redbus.in/"
+            linkText="More Bus Travel Details"
+            linkHref="#bus-details"
+          />
+        </div>
+
+        {/* ── ROW 2: Pickup card (left) + Map (right) ── */}
+        <div className={styles.bottomRow}>
+
+          {/* Pickup & Drop card with embedded booking form */}
+          <PickupCard />
+
+          {/* Map */}
           <div className={styles.mapCard}>
             <div className={styles.mapLabel}>
               <span className={styles.mapLabelDot} />
@@ -606,48 +635,7 @@ export default function HowToReach(): React.ReactElement {
               </a>
             </div>
           </div>
-        </div>
 
-        {/* ── 4-column grid: 3 travel cards + pickup card ── */}
-        <div className={styles.cardsGrid}>
-          <TravelCard
-            icon={<PlaneIcon />}
-            title="By Airways"
-            subtitle="Fastest Way to Reach Rishikesh"
-           desc="Fly from Delhi (Indira Gandhi International Airport) to <strong>Jolly Grant Airport, Dehradun</strong> — approximately 20 km from Rishikesh. Taxis and private transfers are easily available. Indian Yoga Association provides pickup &amp; drop facility on request. Smooth and comfortable journey assured. Advance booking recommended for convenience. 24/7 service available on request."
-            headers={["Airline", "Departs", "Arrives", "Duration"]}
-            rows={flights}
-            btnText="Check Flights on MakeMyTrip"
-            btnHref="https://www.makemytrip.com/flights/"
-            linkText="More Air Travel Details"
-            linkHref="#air-details"
-          />
-          <TravelCard
-            icon={<TrainIcon />}
-            title="By Train"
-            subtitle="Affordable & Comfortable"
-            desc="Travel from New Delhi Railway Station to Rishikesh or <strong>Haridwar Junction</strong> (25 km from Rishikesh). Taxis and auto-rickshaws are always available for the onward journey to Indian Yoga Association, Rishikesh. Comfortable travel options available anytime."
-            headers={["Train", "Departs", "Arrives", "Via"]}
-            rows={trains}
-            btnText="Book Train on IRCTC"
-            btnHref="https://www.irctc.co.in/"
-            linkText="More Train Travel Details"
-            linkHref="#train-details"
-          />
-          <TravelCard
-            icon={<BusIcon />}
-            title="By Bus"
-            subtitle="Budget Friendly Option"
-          desc="Regular <strong>Volvo, AC and sleeper buses</strong> operate daily from Delhi to Rishikesh. Travel time is approximately 5–6 hours via scenic NH58, passing through the beautiful Shivalik foothills. Comfortable and budget-friendly travel option. Multiple departures available throughout the day. Easy booking options available online."
-            headers={["Bus", "Departs", "Arrives", "Type"]}
-            rows={buses}
-            btnText="Book Bus on RedBus"
-            btnHref="https://www.redbus.in/"
-            linkText="More Bus Travel Details"
-            linkHref="#bus-details"
-          />
-          {/* 4th card — Pickup & Drop with embedded form */}
-          <PickupCard />
         </div>
       </div>
 

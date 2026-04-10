@@ -118,93 +118,24 @@
 }
 
 /* ════════════════════════════════════════════════════════════════
-   FULL-WIDTH MAP  —  directly below subtitle
-   ════════════════════════════════════════════════════════════════ */
-
-.mapSection {
-  margin-bottom: 2.8rem;
-}
-
-.mapCard {
-  border-radius: 16px;
-  overflow: hidden;
-  border: 1.5px solid rgba(224, 123, 0, 0.2);
-  box-shadow: 0 16px 44px rgba(92, 45, 0, 0.13);
-}
-
-.mapLabel {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 11px 16px;
-  background: linear-gradient(135deg, #fff9f0, #ffecd8);
-  border-bottom: 1px solid rgba(224, 123, 0, 0.15);
-  font-family: 'Cinzel', serif;
-  font-size: 9px;
-  font-weight: 600;
-  letter-spacing: 1px;
-  color: #7a3f00;
-  text-transform: uppercase;
-}
-
-.mapLabelDot {
-  width: 8px;
-  height: 8px;
-  background: #e07b00;
-  border-radius: 50%;
-  flex-shrink: 0;
-  animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-
-  0%,
-  100% {
-    box-shadow: 0 0 0 2px rgba(224, 123, 0, 0.25);
-  }
-
-  50% {
-    box-shadow: 0 0 0 8px rgba(224, 123, 0, 0.07);
-  }
-}
-
-.mapIframe {
-  width: 100%;
-  height: 420px;
-  border: none;
-  display: block;
-}
-
-.mapFooter {
-  padding: 12px 16px;
-  background: linear-gradient(135deg, #fff9f0, #ffecd8);
-  border-top: 1px solid rgba(224, 123, 0, 0.15);
-  text-align: center;
-}
-
-.mapDirectionsBtn {
-  font-family: 'Cinzel', serif;
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.8px;
-  text-transform: uppercase;
-  color: #e07b00;
-  text-decoration: none;
-  transition: opacity 0.2s;
-}
-
-.mapDirectionsBtn:hover {
-  opacity: 0.7;
-  color: #e07b00;
-}
-
-/* ════════════════════════════════════════════════════════════════
-   4-COLUMN CARDS GRID  (3 travel + 1 pickup)
+   ROW 1 — 3-COLUMN TRAVEL CARDS GRID
    ════════════════════════════════════════════════════════════════ */
 
 .cardsGrid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+  align-items: start;
+  margin-bottom: 22px;
+}
+
+/* ════════════════════════════════════════════════════════════════
+   ROW 2 — PICKUP CARD (left) + MAP (right)
+   ════════════════════════════════════════════════════════════════ */
+
+.bottomRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 22px;
   align-items: start;
 }
@@ -466,7 +397,85 @@
 }
 
 /* ════════════════════════════════════════════════════════════════
-   PICKUP FORM  —  embedded inside the 4th card
+   MAP CARD  — inside .bottomRow alongside PickupCard
+   ════════════════════════════════════════════════════════════════ */
+
+.mapCard {
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1.5px solid rgba(224, 123, 0, 0.2);
+  box-shadow: 0 6px 28px rgba(92, 45, 0, 0.09), 0 2px 6px rgba(0, 0, 0, 0.04);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  position: relative;
+}
+
+.mapCard:hover {
+  box-shadow: 0 16px 44px rgba(92, 45, 0, 0.16), 0 4px 10px rgba(0, 0, 0, 0.07);
+  transform: translateY(-6px);
+}
+
+.mapLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 16px;
+  background: linear-gradient(135deg, #fff9f0, #ffecd8);
+  border-bottom: 1px solid rgba(224, 123, 0, 0.15);
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: #7a3f00;
+  text-transform: uppercase;
+}
+
+.mapLabelDot {
+  width: 8px;
+  height: 8px;
+  background: #e07b00;
+  border-radius: 50%;
+  flex-shrink: 0;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 2px rgba(224, 123, 0, 0.25); }
+  50%       { box-shadow: 0 0 0 8px rgba(224, 123, 0, 0.07); }
+}
+
+.mapIframe {
+  width: 100%;
+  height: 100%;
+  min-height: 420px;
+  border: none;
+  display: block;
+}
+
+.mapFooter {
+  padding: 12px 16px;
+  background: linear-gradient(135deg, #fff9f0, #ffecd8);
+  border-top: 1px solid rgba(224, 123, 0, 0.15);
+  text-align: center;
+}
+
+.mapDirectionsBtn {
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: #e07b00;
+  text-decoration: none;
+  transition: opacity 0.2s;
+}
+
+.mapDirectionsBtn:hover {
+  opacity: 0.7;
+  color: #e07b00;
+}
+
+/* ════════════════════════════════════════════════════════════════
+   PICKUP FORM  —  embedded inside the pickup card
    ════════════════════════════════════════════════════════════════ */
 
 .pickupFormInCard {
@@ -475,15 +484,8 @@
 }
 
 @keyframes panelReveal {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(-10px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 /* ── Step indicator ── */
@@ -575,15 +577,8 @@
 }
 
 @keyframes stepFade {
-  from {
-    opacity: 0;
-    transform: translateX(8px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
+  from { opacity: 0; transform: translateX(8px); }
+  to   { opacity: 1; transform: translateX(0); }
 }
 
 .formStepHeader {
@@ -971,97 +966,89 @@
   .container {
     max-width: 100%;
   }
-
   .cardsGrid {
+    gap: 18px;
+  }
+  .bottomRow {
     gap: 18px;
   }
 }
 
-/* ── 1200px: 2+2 grid ── */
-@media (max-width: 1200px) {
+/* ── 1100px: travel cards go 2-col, bottom row stays side-by-side ── */
+@media (max-width: 1100px) {
   .cardsGrid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-  }
-
-  .mapIframe {
-    height: 380px;
-  }
-}
-
-/* ── 1024px ── */
-@media (max-width: 1024px) {
-  .mapIframe {
-    height: 360px;
-  }
-
-  .cardsGrid {
     gap: 18px;
   }
-}
-
-/* ── 900px ── */
-@media (max-width: 900px) {
+  .bottomRow {
+    grid-template-columns: 1fr 1fr;
+  }
   .mapIframe {
-    height: 340px;
+    min-height: 360px;
   }
 }
 
-/* ── 768px: single column ── */
+/* ── 900px: bottom row stacks ── */
+@media (max-width: 900px) {
+  .cardsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .bottomRow {
+    grid-template-columns: 1fr;
+  }
+  .mapIframe {
+    min-height: 340px;
+  }
+}
+
+/* ── 768px: everything single column ── */
 @media (max-width: 768px) {
   .cardsGrid {
     grid-template-columns: 1fr;
     gap: 18px;
   }
-
+  .bottomRow {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
   .travelCard {
     padding: 22px 18px;
   }
-
   .mapIframe {
-    height: 300px;
+    min-height: 300px;
   }
-
   .formRowCard {
     grid-template-columns: repeat(2, 1fr);
   }
-
   .formFieldSpan2 {
     grid-column: span 2;
   }
-
   .formNav {
     flex-wrap: wrap;
   }
-
   .navBtnSubmit,
   .navBtnNext {
     width: 100%;
     text-align: center;
     justify-content: center;
   }
-
   .waStrip {
     flex-direction: column;
     align-items: flex-start;
     gap: 10px;
   }
-
   .waStripBtn {
     width: 100%;
     justify-content: center;
   }
-
   .cardActions {
     flex-direction: row;
     flex-wrap: wrap;
   }
-
   .btnPrimary {
     flex: 1;
     min-width: 0;
   }
-
   .waInlineBtn {
     flex: 0 0 auto;
   }
@@ -1070,34 +1057,27 @@
 /* ── 600px ── */
 @media (max-width: 600px) {
   .mapIframe {
-    height: 260px;
+    min-height: 260px;
   }
-
   .mainTitle {
     font-size: 1.55rem;
   }
-
   .iconCircle {
     width: 46px;
     height: 46px;
   }
-
   .stepLabel {
     display: none;
   }
-
   .formRowCard {
     grid-template-columns: 1fr;
   }
-
   .formFieldSpan2 {
     grid-column: span 1;
   }
-
   .cardActions {
     flex-direction: column;
   }
-
   .waInlineBtn {
     width: 100%;
     justify-content: center;
@@ -1109,34 +1089,27 @@
   .travelCard {
     padding: 18px 14px;
   }
-
   .mapIframe {
-    height: 230px;
+    min-height: 230px;
   }
-
   .mainTitle {
     font-size: 1.4rem;
   }
-
   .omDivider .dividerLine {
     max-width: 80px;
   }
-
   .scheduleHeaderCell,
   .scheduleCell {
     font-size: 0.78rem;
   }
-
   .scheduleHeader,
   .scheduleRow {
     padding: 7px 8px;
   }
-
   .successActions {
     flex-direction: column;
     align-items: stretch;
   }
-
   .successWa,
   .successReset {
     text-align: center;
@@ -1149,24 +1122,19 @@
   .container {
     padding: 1.8rem 12px;
   }
-
   .mainTitle {
     font-size: 1.25rem;
   }
-
   .travelTitle {
     font-size: 0.95rem;
   }
-
   .scheduleHeaderCell,
   .scheduleCell {
     font-size: 0.72rem;
   }
-
   .mapIframe {
-    height: 200px;
+    min-height: 200px;
   }
-
   .navBtnBack,
   .navBtnNext,
   .navBtnSubmit {

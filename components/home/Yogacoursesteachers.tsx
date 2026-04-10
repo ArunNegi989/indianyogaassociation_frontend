@@ -179,7 +179,7 @@ function TeacherModal({
             <div className={styles.modalNameUnderline} />
             <div className={styles.modalDivider}>
               <span className={styles.divLine} />
-              <span className={styles.divOm}>ॐ</span>
+              <span className={styles.divOm}>🧘</span>
               <span className={styles.divLine} />
             </div>
           </div>
@@ -332,7 +332,7 @@ function CourseSlider({
                   />
                   <span className={styles.cardDays}>{course.days}</span>
                   <div className={styles.cardHours}>{course.hours}</div>
-                  <div className={styles.cardOmPulse}>ॐ</div>
+                  <div className={styles.cardOmPulse}>🧘</div>
                 </div>
 
                 <div className={styles.cardBody}>
@@ -553,7 +553,7 @@ function TeacherSlider({
                     <div className={styles.teacherImgPlaceholder}>🧘</div>
                   )}
                   <div className={styles.teacherImgOverlay}>
-                    <span className={styles.teacherOm}>ॐ</span>
+                    <span className={styles.teacherOm}>🔆</span>
                   </div>
                   <div className={styles.teacherClickHint}>View Profile</div>
                 </div>
@@ -647,7 +647,7 @@ export const YogaCoursesTeachers: React.FC = () => {
                 opacity: 0.4,
               }}
             >
-              <span style={{ fontFamily: "serif", fontSize: "2rem" }}>ॐ</span>
+              <span style={{ fontFamily: "serif", fontSize: "2rem" }}>🧘</span>
             </div>
           </div>
           <div className={styles.bottomBorder} />
@@ -673,7 +673,7 @@ export const YogaCoursesTeachers: React.FC = () => {
             <h2 className={styles.sectionTitle}>{sectionHeader.sectionTitle}</h2>
             <div className={styles.omDivider}>
               <span className={styles.divLine} />
-              <span className={styles.divOm}>ॐ</span>
+              <span className={styles.divOm}>🧘</span>
               <span className={styles.divLine} />
             </div>
             <p className={styles.sectionDesc}>{sectionHeader.sectionDesc}</p>
@@ -698,7 +698,7 @@ export const YogaCoursesTeachers: React.FC = () => {
             <h2 className={styles.sectionTitle}>{who.sectionTitle}</h2>
             <div className={styles.omDivider}>
               <span className={styles.divLine} />
-              <span className={styles.divOm}>ॐ</span>
+              <span className={styles.divOm}>🧘</span>
               <span className={styles.divLine} />
             </div>
           </div>
@@ -714,7 +714,7 @@ export const YogaCoursesTeachers: React.FC = () => {
             </div>
             <div className={styles.whoDecor}>
               <div className={styles.whoDecorInner}>
-                <div className={styles.bigOm}>ॐ</div>
+                <div className={styles.bigOm}>🧘</div>
                 <div className={styles.whoDecorItems}>
                   {who.chips.map((item, i) => (
                     <div
@@ -748,7 +748,7 @@ export const YogaCoursesTeachers: React.FC = () => {
             <h2 className={styles.sectionTitle}>{teachersHeader.sectionTitle}</h2>
             <div className={styles.omDivider}>
               <span className={styles.divLine} />
-              <span className={styles.divOm}>ॐ</span>
+              <span className={styles.divOm}>🧘</span>
               <span className={styles.divLine} />
             </div>
           </div>
