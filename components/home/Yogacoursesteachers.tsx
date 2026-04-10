@@ -688,52 +688,76 @@ export const YogaCoursesTeachers: React.FC = () => {
         <div className={styles.bottomBorder} />
       </section>
 
-      {/* ══════════════════════════════════════════════════
-          WHO SECTION
+     {/* ══════════════════════════════════════════════════
+          WHO CAN JOIN — v4  (only backend data, no hardcoded stats)
+          Purane whoSection block ko is se replace karo.
       ══════════════════════════════════════════════════ */}
       <section className={styles.whoSection}>
-        <div className={styles.container}>
-          <div className={styles.sectionHead}>
-            <p className={styles.eyebrow}>{who.eyebrow}</p>
-            <h2 className={styles.sectionTitle}>{who.sectionTitle}</h2>
-            <div className={styles.omDivider}>
-              <span className={styles.divLine} />
-              <span className={styles.divOm}>🧘</span>
-              <span className={styles.divLine} />
+        <div className={styles.whoHero}>
+
+          {/* ── LEFT — cream panel ── */}
+          <div className={styles.whoLeft}>
+            <div className={styles.whoEyebrow}>
+              <span className={styles.whoEyeHr} />
+              <span className={styles.whoEyeTxt}>{who.eyebrow}</span>
             </div>
+
+            <h2 className={styles.whoH2}>{who.sectionTitle}</h2>
+
+            {[who.para1, who.para2, who.para3, who.para4, who.para5].map(
+              (para, i) => {
+                if (!para) return null;
+                return (
+                  <React.Fragment key={i}>
+                    {/* pull quote insert karo para3 ke baad */}
+                    {i === 2 && (
+                      <div className={styles.whoPull}>
+                        <p>
+                          "The mat holds space for the curious, the exhausted,
+                          the broken, and the whole."
+                        </p>
+                        <span>Ancient Yoga Teaching</span>
+                      </div>
+                    )}
+                    <p className={i === 0 ? styles.whoParaFirst : styles.whoPara}>
+                      {para}
+                    </p>
+                  </React.Fragment>
+                );
+              }
+            )}
           </div>
-          <div className={styles.whoGrid}>
-            <div className={styles.whoText}>
-              {[who.para1, who.para2, who.para3, who.para4, who.para5].map(
-                (para, i) => (
-                  <p key={i} className={styles.para}>
-                    {para}
-                  </p>
-                )
-              )}
+
+          {/* ── RIGHT — dark ink panel ── */}
+          <div className={styles.whoRight}>
+            <p className={styles.whoPanelLbl}>
+              You belong here if you are —
+            </p>
+
+            <div className={styles.whoChipList}>
+              {who.chips.map((item, i) => (
+                <div
+                  key={i}
+                  className={styles.whoChip}
+                  style={{ animationDelay: `${i * 0.06}s` }}
+                >
+                  <span className={styles.whoChipN}>
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <span className={styles.whoChipT}>{item}</span>
+                </div>
+              ))}
             </div>
-            <div className={styles.whoDecor}>
-              <div className={styles.whoDecorInner}>
-                <div className={styles.bigOm}>🧘</div>
-                <div className={styles.whoDecorItems}>
-                  {who.chips.map((item, i) => (
-                    <div
-                      key={i}
-                      className={styles.whoDecorChip}
-                      style={{ animationDelay: `${i * 0.15}s` }}
-                    >
-                      <span className={styles.chipDot}>✦</span>
-                      {item}
-                    </div>
-                  ))}
-                </div>
-                <div className={styles.whoDecorQuote}>
-                  "{who.quoteText}"
-                  <span className={styles.whoDecorAttrib}>{who.quoteAttrib}</span>
-                </div>
+
+            <div className={styles.whoQWrap}>
+              <p className={styles.whoQText}>"{who.quoteText}"</p>
+              <div className={styles.whoQBar}>
+                <span className={styles.whoQLine} />
+                <span className={styles.whoQAttrib}>{who.quoteAttrib}</span>
               </div>
             </div>
           </div>
+
         </div>
       </section>
 

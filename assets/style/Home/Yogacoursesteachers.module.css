@@ -9,7 +9,7 @@
   --earth-mid: #5c2d00;
   --earth-light: #7a5c2e;
   --earth-warm: #3d2b10;
-  --gold-border: #e8d5b5;
+  --gold-border: #eedbb9;
   --shadow-warm: rgba(92, 45, 0, 0.14);
   --shadow-saffron: rgba(224, 123, 0, 0.28);
   --forest: #2D5A27;
@@ -48,6 +48,10 @@
 .sectionHead {
   text-align: center;
   margin-bottom: 3rem;
+}
+.whoEyeTxt{
+  font-size: 1.2rem!important;
+  font-weight: 600!important;
 }
 
 .eyebrow {
@@ -188,7 +192,7 @@
 
 .courseCard {
   background: var(--cream-white);
-  border: 1px solid var(--gold-border);
+  border: 1.8px solid var(--gold-border);
   border-radius: 12px;
   overflow: hidden;
   transition: transform 0.3s cubic-bezier(0.34, 1.4, 0.64, 1), box-shadow 0.3s ease;
@@ -397,122 +401,338 @@
 }
 
 /* ════════════════════════════════════════════════
-   SECTION 2 — WHO CAN JOIN
-════════════════════════════════════════════════ */
+   SECTION 2 — WHO CAN JOIN  (v4)
+   Purane /* SECTION 2 */
 
 .whoSection {
-  position: relative;
-  background: url("../../images/backgroundimage/1905x869.png");
+  background: #ffffff;
   overflow: hidden;
-  border-top: 1px solid var(--gold-border);
-  border-bottom: 1px solid var(--gold-border);
 }
 
-.whoGrid {
+/* ═══ DIAGONAL SPLIT HERO ═══ */
+
+.whoHero {
   display: grid;
-  grid-template-columns: 3fr 2fr;
-  gap: clamp(2rem, 4vw, 4rem);
-  align-items: start;
-}
-
-.whoText {
-  /* text column */
-}
-
-.whoDecor {
-  position: sticky;
-  top: 2rem;
-}
-
-.whoDecorInner {
-  background: linear-gradient(145deg, #fffcf9 0%, #fff6ed 100%);
-  border: 1px solid rgba(224, 123, 0, 0.22);
-  border-radius: 14px;
-  padding: 2rem 1.6rem;
-  box-shadow: 0 8px 36px var(--shadow-warm);
-  position: relative;
+  grid-template-columns: 1fr 400px;
+  min-height: 560px;
   overflow: hidden;
+  position: relative;
 }
 
-.bigOm {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-family: var(--font-playfair), serif;
-  font-size: 8rem;
-  color: rgba(224, 123, 0, 0.06);
-  line-height: 1;
-  user-select: none;
-  pointer-events: none;
-  animation: bgOmBreath 6s ease-in-out infinite;
-}
+/* ── LEFT — cream panel ── */
 
-.whoDecorItems {
+.whoLeft {
+  background: var(--cream-white);
+  padding: clamp(2rem, 1vw, 5.5rem) clamp(2rem, 4vw, 4.5rem);
   display: flex;
   flex-direction: column;
-  gap: 0.6rem;
-  margin-bottom: 1.5rem;
+  justify-content: center;
   position: relative;
-  z-index: 1;
+  z-index: 2;
 }
 
-.whoDecorChip {
+/* diagonal wedge — cream bleeds into dark side */
+.whoLeft::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: -76px;
+  bottom: 0;
+  width: 120px;
+  background: var(--cream-white);
+  clip-path: polygon(0 0, 36px 0, 100% 100%, 0 100%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.whoEyebrow {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
+  gap: 10px;
   font-family: var(--font-lato), sans-serif;
-  font-size: clamp(0.88rem, 1.4vw, 0.97rem);
+  font-size: 0.68rem;
   font-weight: 600;
-  color: var(--earth-mid);
-  padding: 0.55rem 0.85rem;
-  background: rgba(255, 255, 255, 0.7);
-  border: 1px solid rgba(224, 123, 0, 0.2);
-  border-radius: 6px;
-  animation: chipReveal 0.5s ease both;
-  animation-delay: var(--delay, 0s);
-  transition: background 0.2s, transform 0.2s;
-}
-
-.whoDecorChip:hover {
-  background: rgba(255, 255, 255, 0.95);
-  transform: translateX(4px);
-}
-
-@keyframes chipReveal {
-  from { opacity: 0; transform: translateX(16px); }
-  to   { opacity: 1; transform: translateX(0); }
-}
-
-.chipDot {
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
   color: var(--saffron);
-  font-size: 0.65rem;
+  margin-bottom: 1.1rem;
+}
+
+.whoEyeHr {
+  display: block;
+  width: 32px;
+  height: 1.5px;
+  background: var(--saffron);
   flex-shrink: 0;
 }
 
-.whoDecorQuote {
-  font-family: var(--font-lato), sans-serif;
-  font-size: clamp(0.95rem, 1.6vw, 1.1rem);
-  font-weight: 600;
+.whoH2 {
+  font-family: var(--font-playfair), serif;
+  font-size: clamp(1.9rem, 3.6vw, 2.3rem);
+  font-weight: 500;
+  line-height: 1.1;
   color: var(--earth);
-  text-align: center;
-  line-height: 1.6;
-  padding-top: 1.2rem;
-  border-top: 1px solid rgba(224, 123, 0, 0.2);
+  margin-bottom: 1rem;
+}
+
+/* backend se <em> bhejo italic saffron accent ke liye */
+.whoH2 em {
+  font-style: italic;
+  color: var(--saffron);
+}
+
+.whoPara,
+.whoParaFirst {
+  font-family: var(--font-lato), sans-serif;
+  font-size: clamp(0.9rem, 1.35vw, 1.2rem);
+  font-weight: 500;
+  line-height: 1.9;
+  color: var(--earth-light);
+  margin-bottom: 0.95rem;
+ 
+}
+
+.whoParaFirst::first-letter {
+  font-family: var(--font-playfair), serif;
+  font-size: 3rem;
+  font-weight: 700;
+  float: left;
+  line-height: 0.78;
+  margin-right: 0.1em;
+  margin-top: 0.1em;
+  color: var(--saffron);
+}
+
+/* pull quote */
+.whoPull {
+  margin: 1.4rem 0;
+  padding: 1.2rem 1.5rem;
+  border-left: 3px solid var(--saffron);
+  background: rgba(224, 123, 0, 0.05);
+  border-radius: 0 6px 6px 0;
+}
+
+.whoPull p {
+  font-family: var(--font-playfair), serif;
+  font-size: clamp(1rem, 1.7vw, 1.25rem);
+  font-style: italic;
+  color: var(--earth);
+  line-height: 1.5;
+  margin-bottom: 0.5rem;
+  max-width: 100%;
+}
+
+.whoPull span {
+  font-family: var(--font-lato), sans-serif;
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--saffron-deep);
+}
+
+/* ── RIGHT — dark ink panel ── */
+
+.whoRight {
+  background: var(--earth);
+  padding: clamp(3rem, 5vw, 5.5rem) clamp(2rem, 4vw, 3rem)
+    clamp(3rem, 5vw, 5.5rem) clamp(3.5rem, 6vw, 5rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+/* concentric decorative rings */
+.whoRight::before {
+  content: "";
+  position: absolute;
+  width: 380px;
+  height: 380px;
+  border-radius: 50%;
+  border: 1px solid rgba(224, 123, 0, 0.1);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.whoRight::after {
+  content: "";
+  position: absolute;
+  width: 240px;
+  height: 240px;
+  border-radius: 50%;
+  border: 1px solid rgba(224, 123, 0, 0.07);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.whoPanelLbl {
+  font-family: var(--font-lato), sans-serif;
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(253, 246, 236, 0.35);
+  margin: 0;
   position: relative;
   z-index: 1;
 }
 
-.whoDecorAttrib {
-  display: block;
-  font-family: var(--font-playfair), serif;
-  font-size: 0.6rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--saffron-deep);
-  margin-top: 0.5rem;
+/* chips */
+.whoChipList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.42rem;
+  position: relative;
+  z-index: 1;
 }
 
+.whoChip {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.65rem 0.85rem;
+  border-radius: 6px;
+  border: 1px solid rgba(224, 123, 0, 0.14);
+  background: rgba(255, 255, 255, 0.04);
+  cursor: default;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+  animation: whoChipIn 0.4s ease both;
+}
+
+.whoChip:hover {
+  background: rgba(224, 123, 0, 0.1);
+  border-color: rgba(224, 123, 0, 0.36);
+  transform: translateX(5px);
+}
+
+@keyframes whoChipIn {
+  from {
+    opacity: 0;
+    transform: translateX(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.whoChipN {
+  font-family: var(--font-lato), sans-serif;
+  font-size: 0.62rem;
+  font-weight: 600;
+  color: var(--saffron);
+  min-width: 18px;
+  flex-shrink: 0;
+}
+
+.whoChipT {
+  font-family: var(--font-lato), sans-serif;
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: rgba(253, 246, 236, 0.82);
+  line-height: 1.35;
+}
+
+/* quote at bottom of dark panel */
+.whoQWrap {
+  border-top: 1px solid rgba(224, 123, 0, 0.15);
+  padding-top: 1.2rem;
+  position: relative;
+  z-index: 1;
+}
+
+.whoQText {
+  font-family: var(--font-playfair), serif;
+  font-size: clamp(0.88rem, 1.3vw, 1.3rem);
+  font-style: italic;
+  color: rgba(253, 246, 236, 0.8);
+  line-height: 1.65;
+  margin-bottom: 0.75rem;
+}
+
+.whoQBar {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.whoQLine {
+  display: block;
+  width: 20px;
+  height: 1px;
+  background: var(--saffron);
+  flex-shrink: 0;
+}
+
+.whoQAttrib {
+  font-family: var(--font-lato), sans-serif;
+  font-size: 0.88rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgb(255, 255, 255);
+}
+
+/* ════════════════════════════════════════════════
+   WHO v4 — RESPONSIVE
+════════════════════════════════════════════════ */
+
+@media (max-width: 1024px) {
+  .whoHero {
+    grid-template-columns: 1fr 360px;
+  }
+}
+
+@media (max-width: 860px) {
+  .whoHero {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+
+  .whoLeft::after {
+    display: none;
+  }
+
+  .whoRight {
+    padding: 2.8rem 1.5rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .whoLeft {
+    padding: 2.8rem 1.25rem;
+  }
+
+  .whoH2 {
+    font-size: 2rem;
+    margin-bottom: 1.4rem;
+  }
+
+  .whoParaFirst::first-letter {
+    font-size: 2.5rem;
+  }
+
+  .whoPull {
+    padding: 1rem 1.1rem;
+  }
+}
+
+@media (max-width: 420px) {
+  .whoChipT {
+    font-size: 0.78rem;
+  }
+
+  .whoQText {
+    font-size: 0.88rem;
+  }
+}
 /* ════════════════════════════════════════════════
    SECTION 3 — TEACHERS
 ════════════════════════════════════════════════ */

@@ -183,12 +183,12 @@ const HomepageSlider = () => {
 
       {/* COUNTER */}
 
-      <p className={styles.slideCounter}>
+      {/* <p className={styles.slideCounter}>
         <span className={styles.slideCounterCurrent}>
           {String(current + 1).padStart(2, "0")}
         </span>{" "}
         / {String(slides.length).padStart(2, "0")}
-      </p>
+      </p> */}
 
       {/* PROGRESS BAR */}
 

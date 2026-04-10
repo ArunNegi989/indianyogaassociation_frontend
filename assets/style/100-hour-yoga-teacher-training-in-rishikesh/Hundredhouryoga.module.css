@@ -931,7 +931,7 @@
 
 /* LEFT PANEL */
 .psbLeftPanel {
-  background: linear-gradient(160deg, #fefaf0, #fff8e7);
+  background: linear-gradient(160deg, #fffdf9, #fffdf8);
   border: 1.5px solid rgba(184, 134, 11, 0.4);
   border-radius: 6px;
   padding: 1.2rem;
@@ -1016,7 +1016,7 @@
 
 .psbBcSel {
   border: 2px solid var(--saffron-bright) !important;
-  background: linear-gradient(145deg, #fff8e6, #fde8b4) !important;
+  background: linear-gradient(145deg, #fff8e6, #fff6de) !important;
   box-shadow: 0 4px 18px rgba(200, 112, 10, 0.22) !important;
 }
 

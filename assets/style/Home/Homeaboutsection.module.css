@@ -302,9 +302,9 @@
 
 .accBadge {
   font-family: var(--font-lato), sans-serif;
-  font-size: 0.88rem;
+  font-size: 1.3rem;
   color: #5c2d00;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.02em;
 }
 
