@@ -374,6 +374,7 @@
 .detailsBtn:hover {
   transform: translateY(-2px);
   box-shadow: 0 5px 16px rgba(45, 90, 39, 0.5);
+  color: #fff;
 }
 
 .bookBtn {
@@ -883,14 +884,14 @@
 }
 
 .founderActions .detailsBtn {
-  font-size: 0.62rem;
+  font-size: 0.82rem;
   padding: 0.7rem 1.2rem;
   border-radius: 4px;
   flex: none;
 }
 
 .founderActions .bookBtn {
-  font-size: 0.62rem;
+  font-size: 0.82rem;
   padding: 0.7rem 1.4rem;
   border-radius: 4px;
   flex: none;
