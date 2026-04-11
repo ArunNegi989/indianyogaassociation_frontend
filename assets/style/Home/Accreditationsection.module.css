@@ -15,7 +15,7 @@
   --shadow-warm: rgba(92, 45, 0, 0.12);
   --shadow-saffron: rgba(224, 123, 0, 0.25);
    --font-display: 'Montserrat', Arial, sans-serif;
-  --font-body:    'Lato', Arial, sans-serif;
+  --font-body:    'Montserrat', Arial, sans-serif;
   --font-fell:    'Playfair Display', Georgia, serif;
   --font-script:  'Poppins', Arial, sans-serif;
   --font-menu:    'Montserrat', Arial, sans-serif;
@@ -361,7 +361,6 @@
 }
 
 .certsBlockTitle {
-  font-family: var(--font-playfair), serif;
   font-size: clamp(1rem, 2vw, 1.35rem);
   font-weight: 700;
   color: var(--earth);
@@ -557,7 +556,6 @@
   display: inline-block;
   background: linear-gradient(135deg, var(--saffron), var(--saffron-deep));
   color: #fff;
-  font-family: var(--font-playfair), serif;
   font-size: 0.9rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -575,7 +573,6 @@
 }
 
 .awardName {
-  font-family: var(--font-playfair), serif;
   font-size: clamp(1rem, 1.8vw, 1.25rem);
   font-weight: 700;
   color: var(--saffron-deep);
@@ -649,7 +646,6 @@
   display: inline-block;
   background: linear-gradient(135deg, var(--saffron), var(--saffron-deep));
   color: #fff;
-  font-family: var(--font-playfair), serif;
   font-size: 0.8rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -660,7 +656,6 @@
 }
 
 .ayushSubtitle {
-  font-family: var(--font-playfair), serif;
   font-size: 0.95rem;
   font-weight: 700;
   color: var(--earth);

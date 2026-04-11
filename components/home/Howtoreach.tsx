@@ -570,7 +570,7 @@ export default function HowToReach(): React.ReactElement {
             icon={<PlaneIcon />}
             title="By Airways"
             subtitle="Fastest Way to Reach Rishikesh"
-            desc="Fly from Delhi (Indira Gandhi International Airport) to <strong>Jolly Grant Airport, Dehradun</strong> — approximately 20 km from Rishikesh. Taxis and private transfers are easily available. Indian Yoga Association provides pickup &amp; drop facility on request. Smooth and comfortable journey assured. Advance booking recommended for convenience. 24/7 service available on request."
+            desc="Fly from Delhi (Indira Gandhi International Airport) to <strong>Jolly Grant Airport, Dehradun</strong> — approximately 20 km from Rishikesh. Taxis and private transfers are easily available. Indian Yoga Association provides pickup &amp; drop facility on request. Smooth and comfortable journey assured. Advance booking recommended for convenience."
             headers={["Airline", "Departs", "Arrives", "Duration"]}
             rows={flights}
             btnText="Check Flights on MakeMyTrip"
