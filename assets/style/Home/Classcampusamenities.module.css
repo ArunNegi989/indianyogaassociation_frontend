@@ -1,6 +1,5 @@
 .section {
   position: relative;
-
   overflow: hidden;
   background-image: url("../../images/backgroundimage/1905x1636.png");
 }
@@ -9,97 +8,60 @@
   content: '';
   position: absolute;
   inset: 0;
-
   pointer-events: none;
   z-index: 0;
 }
 
-
-
-
-
-
-
 @keyframes swSpin {
-  from {
-    transform: rotate(0deg) scale(1);
-    opacity: .038;
-  }
-
-  50% {
-    transform: rotate(180deg) scale(1.08);
-    opacity: .065;
-  }
-
-  to {
-    transform: rotate(360deg) scale(1);
-    opacity: .038;
-  }
+  from { transform: rotate(0deg) scale(1);    opacity: .038; }
+  50%  { transform: rotate(180deg) scale(1.08); opacity: .065; }
+  to   { transform: rotate(360deg) scale(1);  opacity: .038; }
 }
 
 @keyframes omDrift {
-
-  0%,
-  100% {
-    transform: translate(0, 0) rotate(0deg);
-    opacity: .038;
-  }
-
-  33% {
-    transform: translate(15px, -11px) rotate(5deg);
-    opacity: .066;
-  }
-
-  66% {
-    transform: translate(-9px, 13px) rotate(-4deg);
-    opacity: .05;
-  }
+  0%, 100% { transform: translate(0, 0) rotate(0deg);    opacity: .038; }
+  33%       { transform: translate(15px, -11px) rotate(5deg);  opacity: .066; }
+  66%       { transform: translate(-9px, 13px) rotate(-4deg); opacity: .05;  }
 }
 
 .bg1 {
   font-size: clamp(8rem, 13vw, 15rem);
-  top: 0%;
-  left: 0%;
+  top: 0%; left: 0%;
   color: #e07b00;
   animation: omFloat 9s ease-in-out infinite;
 }
 
 .bg2 {
   font-size: clamp(6rem, 10vw, 11rem);
-  top: 1%;
-  right: 1%;
+  top: 1%; right: 1%;
   color: #c46a00;
   animation: swSpin 25s linear infinite;
 }
 
 .bg3 {
   font-size: clamp(9rem, 15vw, 17rem);
-  top: 38%;
-  left: -2%;
+  top: 38%; left: -2%;
   color: #e07b00;
   animation: omDrift 18s 2s ease-in-out infinite;
 }
 
 .bg4 {
   font-size: clamp(6rem, 9vw, 10rem);
-  top: 34%;
-  right: 0%;
+  top: 34%; right: 0%;
   color: #b85e00;
   animation: swSpin 21s 1s linear infinite;
 }
 
 .bg5 {
   font-size: clamp(10rem, 17vw, 19rem);
-  top: 67%;
-  right: 2%;
+  top: 67%; right: 2%;
   color: #e07b00;
   animation: omFloat 12s 1.5s ease-in-out infinite;
 }
 
 .bg6 {
   font-size: clamp(6rem, 9vw, 10rem);
-  top: 71%;
-  left: 8%;
+  top: 71%; left: 8%;
   color: #c46a00;
   animation: swSpin 28s 4s linear infinite;
 }
@@ -140,7 +102,7 @@
 }
 
 .superLabel {
-  font-family: var(--font-lato), sans-serif;
+  font-family: var(--font-alt), sans-serif;         /* ✅ Poppins — italic label */
   font-size: clamp(0.78rem, 1.3vw, 0.92rem);
   font-style: italic;
   color: #9a7040;
@@ -149,7 +111,7 @@
 }
 
 .blockTitle {
-  font-family: var(--font-playfair), serif;
+  font-family: var(--font-display), serif;          /* ✅ Playfair Display */
   font-size: clamp(1.05rem, 2.3vw, 1.55rem);
   font-weight: 700;
   color: #3d1d00;
@@ -166,7 +128,7 @@
 }
 
 .blockPara {
-  font-family: var(--font-lato), sans-serif;
+  font-family: var(--font-body), sans-serif;        /* ✅ Lato */
   font-size: clamp(0.95rem, 1.6vw, 1.05rem);
   line-height: 1.9;
   color: #3d2b10;
@@ -204,7 +166,7 @@
 }
 
 .vertOm {
-  font-family: var(--font-playfair), serif;
+  font-family: var(--font-display), serif;          /* ✅ Playfair Display */
   font-size: 1.4rem;
   color: #e07b00;
   filter: drop-shadow(0 1px 4px rgba(224, 123, 0, 0.4));
@@ -222,7 +184,6 @@
   overflow: hidden;
 }
 
-/* Vintage double frame */
 .classImgFrame::before {
   content: '';
   position: absolute;
@@ -255,14 +216,12 @@
 }
 
 .cornerTL {
-  top: 10px;
-  left: 10px;
+  top: 10px; left: 10px;
   border-width: 2px 0 0 2px;
 }
 
 .cornerBR {
-  bottom: 10px;
-  right: 10px;
+  bottom: 10px; right: 10px;
   border-width: 0 2px 2px 0;
 }
 
@@ -282,16 +241,14 @@
 
 .classImgOverlay {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
+  top: 0; left: 0; right: 0;
   padding: 1rem 1.2rem 3rem;
   background: linear-gradient(to bottom, rgba(0, 0, 0, 0.58) 0%, transparent 100%);
   z-index: 1;
 }
 
 .welcomeScript {
-  font-family: var(--font-lato), sans-serif;
+  font-family: var(--font-alt), sans-serif;         /* ✅ Poppins — overlay label */
   font-size: clamp(1.1rem, 2.2vw, 1.55rem);
   font-weight: 700;
   color: #fff;
@@ -300,7 +257,7 @@
 }
 
 /* ================================================================
-   CAMPUS MOSAIC GRID — 3×3 with center card
+   CAMPUS MOSAIC GRID
    ================================================================ */
 .campusGrid {
   display: grid;
@@ -328,7 +285,7 @@
 }
 
 .celebrating {
-  font-family: var(--font-playfair), serif;
+  font-family: var(--font-display), serif;          /* ✅ Playfair Display */
   font-size: clamp(0.4rem, 0.7vw, 0.55rem);
   letter-spacing: 0.2em;
   color: #7a5c2e;
@@ -338,7 +295,7 @@
 }
 
 .theLife {
-  font-family: var(--font-lato), sans-serif;
+  font-family: var(--font-body), sans-serif;        /* ✅ Lato */
   font-size: clamp(0.9rem, 1.6vw, 1.2rem);
   font-weight: 700;
   color: #3d1d00;
@@ -347,7 +304,7 @@
 }
 
 .withText {
-  font-family: var(--font-lato), sans-serif;
+  font-family: var(--font-body), sans-serif;        /* ✅ Lato */
   font-size: clamp(0.38rem, 0.6vw, 0.5rem);
   letter-spacing: 0.14em;
   color: #9a7040;
@@ -356,7 +313,7 @@
 }
 
 .schoolName {
-  font-family: var(--font-playfair), serif;
+  font-family: var(--font-display), serif;          /* ✅ Playfair Display */
   font-size: clamp(0.34rem, 0.55vw, 0.44rem);
   letter-spacing: 0.1em;
   color: #7a5c2e;
@@ -369,35 +326,12 @@
   overflow: hidden;
 }
 
-.campusThumb:nth-child(2) {
-  grid-column: 1;
-  grid-row: 1;
-}
-
-.campusThumb:nth-child(3) {
-  grid-column: 2;
-  grid-row: 1;
-}
-
-.campusThumb:nth-child(4) {
-  grid-column: 3;
-  grid-row: 1;
-}
-
-.campusThumb:nth-child(5) {
-  grid-column: 1;
-  grid-row: 2;
-}
-
-.campusThumb:nth-child(6) {
-  grid-column: 3;
-  grid-row: 2;
-}
-
-.campusThumb:nth-child(7) {
-  grid-column: 1;
-  grid-row: 3;
-}
+.campusThumb:nth-child(2) { grid-column: 1; grid-row: 1; }
+.campusThumb:nth-child(3) { grid-column: 2; grid-row: 1; }
+.campusThumb:nth-child(4) { grid-column: 3; grid-row: 1; }
+.campusThumb:nth-child(5) { grid-column: 1; grid-row: 2; }
+.campusThumb:nth-child(6) { grid-column: 3; grid-row: 2; }
+.campusThumb:nth-child(7) { grid-column: 1; grid-row: 3; }
 
 .campusThumbImg {
   width: 100%;
@@ -428,7 +362,7 @@
 }
 
 .ornPattern {
-  font-family: var(--font-playfair), serif;
+  font-family: var(--font-display), serif;          /* ✅ Playfair Display */
   color: #e07b00;
   font-size: clamp(0.58rem, 1.1vw, 0.72rem);
   letter-spacing: 0.28em;
@@ -444,7 +378,7 @@
 }
 
 .amenitiesTitle {
-  font-family: var(--font-playfair), serif;
+  font-family: var(--font-display), serif;          /* ✅ Playfair Display */
   font-size: clamp(1.1rem, 2.5vw, 1.65rem);
   font-weight: 700;
   color: #3d1d00;
@@ -453,7 +387,7 @@
 }
 
 .amenPara {
-  font-family: var(--font-lato), sans-serif;
+  font-family: var(--font-body), sans-serif;        /* ✅ Lato */
   font-size: clamp(0.95rem, 1.6vw, 1.05rem);
   line-height: 1.9;
   color: #3d2b10;
@@ -461,7 +395,7 @@
 }
 
 .blockParaSm {
-  font-family: var(--font-lato), sans-serif;
+  font-family: var(--font-alt), sans-serif;         /* ✅ Poppins — small italic */
   font-size: clamp(0.9rem, 1.4vw, 0.98rem);
   color: #5a3e22;
   line-height: 1.7;
@@ -483,7 +417,7 @@
   gap: 0.75rem;
   padding: 0.7rem 0.4rem 0.7rem 0;
   border-bottom: 1px solid rgba(232, 213, 181, 0.65);
-  font-family: var(--font-lato), sans-serif;
+  font-family: var(--font-body), sans-serif;        /* ✅ Lato */
   font-size: clamp(0.93rem, 1.55vw, 1.03rem);
   color: #3d2b10;
   line-height: 1.65;
@@ -501,7 +435,7 @@
 }
 
 .bullet {
-  font-family: var(--font-playfair), serif;
+  font-family: var(--font-display), serif;          /* ✅ Playfair Display */
   font-size: 0.78rem;
   color: #e07b00;
   opacity: 0.82;
@@ -527,16 +461,14 @@
 
 .mosaicMainOverlay {
   position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  bottom: 0; left: 0; right: 0;
   padding: 2rem 1.2rem 0.8rem;
   background: linear-gradient(to top, rgba(0, 0, 0, 0.55) 0%, transparent 100%);
   pointer-events: none;
 }
 
 .mosaicTag {
-  font-family: var(--font-lato), sans-serif;
+  font-family: var(--font-menu), sans-serif;        /* ✅ Montserrat — mosaic tag */
   font-size: clamp(0.9rem, 1.6vw, 1.15rem);
   font-weight: 700;
   color: #fff;
@@ -554,13 +486,8 @@
   overflow: hidden;
 }
 
-.mosaicSmall:first-child {
-  border-radius: 0 0 0 6px;
-}
-
-.mosaicSmall:last-child {
-  border-radius: 0 0 6px 0;
-}
+.mosaicSmall:first-child { border-radius: 0 0 0 6px; }
+.mosaicSmall:last-child  { border-radius: 0 0 6px 0; }
 
 .mosaicImg {
   width: 100%;
@@ -570,13 +497,8 @@
   transition: transform 0.45s ease, filter 0.4s ease;
 }
 
-.mosaicMain .mosaicImg {
-  aspect-ratio: 16 / 9;
-}
-
-.mosaicSmall .mosaicImg {
-  aspect-ratio: 16 / 9;
-}
+.mosaicMain .mosaicImg  { aspect-ratio: 16 / 9; }
+.mosaicSmall .mosaicImg { aspect-ratio: 16 / 9; }
 
 .mosaicMain:hover .mosaicImg,
 .mosaicSmall:hover .mosaicImg {
@@ -584,6 +506,9 @@
   filter: sepia(0%) saturate(118%) brightness(1.04);
 }
 
+/* ================================================================
+   RESPONSIVE
+   ================================================================ */
 @media (max-width: 1280px) {
   .campusGrid {
     grid-template-rows: repeat(3, clamp(75px, 9vw, 105px));
@@ -646,10 +571,7 @@
     width: 100%;
   }
 
-  .bg3,
-  .bg4 {
-    display: none;
-  }
+  .bg3, .bg4 { display: none; }
 }
 
 @media (max-width: 680px) {
@@ -662,13 +584,8 @@
     font-size: clamp(0.8rem, 3vw, 1rem);
   }
 
-  .bg5 {
-    font-size: 5rem;
-  }
-
-  .bg6 {
-    font-size: 4.5rem;
-  }
+  .bg5 { font-size: 5rem; }
+  .bg6 { font-size: 4.5rem; }
 }
 
 @media (max-width: 540px) {
@@ -690,14 +607,9 @@
   }
 
   .classImgFrame::before,
-  .classImgFrame::after {
-    display: none;
-  }
+  .classImgFrame::after { display: none; }
 
-  .bg5,
-  .bg6 {
-    font-size: 3.5rem;
-  }
+  .bg5, .bg6 { font-size: 3.5rem; }
 }
 
 @media (max-width: 420px) {
@@ -709,31 +621,16 @@
     grid-template-rows: repeat(3, clamp(52px, 14vw, 70px));
   }
 
-  .celebrating {
-    font-size: 0.34rem;
-  }
-
-  .theLife {
-    font-size: 0.72rem;
-  }
+  .celebrating { font-size: 0.34rem; }
+  .theLife     { font-size: 0.72rem; }
 
   .withText,
-  .schoolName {
-    font-size: 0.28rem;
-  }
+  .schoolName  { font-size: 0.28rem; }
 
-  .mosaicMain .mosaicImg {
-    aspect-ratio: 4 / 3;
-  }
+  .mosaicMain .mosaicImg  { aspect-ratio: 4 / 3; }
+  .mosaicSmall .mosaicImg { aspect-ratio: 4 / 3; }
 
-  .mosaicSmall .mosaicImg {
-    aspect-ratio: 4 / 3;
-  }
-
-  .bg1,
-  .bg2 {
-    font-size: 4rem;
-  }
+  .bg1, .bg2 { font-size: 4rem; }
 }
 
 @media (max-width: 360px) {

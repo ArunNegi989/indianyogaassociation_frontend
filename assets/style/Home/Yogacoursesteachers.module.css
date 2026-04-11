@@ -21,7 +21,7 @@
 ════════════════════════════════════════════════ */
 
 .wrapper {
-  font-family: var(--font-lato), sans-serif;
+  font-family: var(--font-body), sans-serif;
   background: var(--parchment);
   color: var(--earth-warm);
   background-image: url("../../images/background3.png");
@@ -55,7 +55,7 @@
 }
 
 .eyebrow {
-  font-family: var(--font-lato), sans-serif;
+  font-family: var(--font-body), sans-serif;
   font-size: clamp(0.95rem, 2vw, 1.25rem);
   color: var(--saffron-deep);
   font-weight: 600;
@@ -64,7 +64,7 @@
 }
 
 .sectionTitle {
-  font-family: var(--font-playfair), serif;
+  font-family: var(--font-display), serif;
   font-size: clamp(1.1rem, 2.6vw, 1.75rem);
   font-weight: 700;
   color: var(--earth);
@@ -90,7 +90,7 @@
 }
 
 .divOm {
-  font-family: var(--font-playfair), serif;
+  font-family: var(--font-display), serif;
   font-size: 1.6rem;
   color: var(--saffron);
   line-height: 1;
@@ -110,7 +110,7 @@
 }
 
 .sectionDesc {
-  font-family: var(--font-lato), sans-serif;
+  font-family: var(--font-body), sans-serif;
   font-size: clamp(0.95rem, 1.6vw, 1.07rem);
   color: var(--earth-light);
   line-height: 1.85;
@@ -120,7 +120,7 @@
 }
 
 .para {
-  font-family: var(--font-lato), sans-serif;
+  font-family: var(--font-body), sans-serif;
   font-size: clamp(0.97rem, 1.6vw, 1.07rem);
   line-height: 1.9;
   color: var(--earth-warm);
@@ -138,8 +138,8 @@
 
 .courseSlider {
   margin-top: 2rem;
-   overflow: hidden;  /* ← YE ADD KARO */
-  width: 100%;       /* ← YE BHI */
+   overflow: hidden;
+  width: 100%;
 }
 
 .courseSlider :global(.slick-dots) {
@@ -171,7 +171,7 @@
   transform: translate(-50%, -50%);
   font-size: clamp(18rem, 35vw, 32rem);
   color: rgba(224, 123, 0, 0.028);
-  font-family: var(--font-playfair), serif;
+  font-family: var(--font-display), serif;
   pointer-events: none;
   z-index: 0;
   line-height: 1;
@@ -238,7 +238,7 @@
   position: absolute;
   top: 10px;
   right: 10px;
-  font-family: var(--font-lato), sans-serif;
+  font-family: var(--font-body), sans-serif;
   font-size: 0.72rem;
   font-weight: 600;
   color: rgba(255, 255, 255, 0.92);
@@ -255,7 +255,7 @@
   left: 0;
   right: 0;
   text-align: center;
-  font-family: var(--font-playfair), serif;
+  font-family: var(--font-display), serif;
   font-size: clamp(0.9rem, 1.5vw, 1.15rem);
   font-weight: 900;
   color: #fff;
@@ -269,7 +269,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%) scale(0);
-  font-family: var(--font-playfair), serif;
+  font-family: var(--font-display), serif;
   font-size: 3rem;
   color: rgba(255, 255, 255, 0.7);
   z-index: 3;
@@ -289,7 +289,7 @@
 }
 
 .cardName {
-  font-family: var(--font-playfair), serif;
+  font-family: var(--font-display), serif;
   font-size: clamp(0.88rem, 1.4vw, 1rem);
   font-style: italic;
   font-weight: 700;
@@ -329,7 +329,7 @@
 }
 
 .metaKey {
-  font-family: var(--font-playfair), serif;
+  font-family: var(--font-display), serif;
   font-size: 0.6rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -340,7 +340,7 @@
 }
 
 .metaVal {
-  font-family: var(--font-lato), sans-serif;
+  font-family: var(--font-body), sans-serif;
   font-size: 0.85rem;
   color: var(--earth-warm);
   font-weight: 600;
@@ -357,7 +357,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-family: var(--font-playfair), serif;
+  font-family: var(--font-display), serif;
   font-size: 0.6rem;
   font-weight: 600;
   letter-spacing: 0.06em;
@@ -381,7 +381,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-family: var(--font-playfair), serif;
+  font-family: var(--font-display), serif;
   font-size: 0.6rem;
   font-weight: 600;
   letter-spacing: 0.06em;
@@ -402,7 +402,7 @@
 
 /* ════════════════════════════════════════════════
    SECTION 2 — WHO CAN JOIN  (v4)
-   Purane /* SECTION 2 */
+════════════════════════════════════════════════ */
 
 .whoSection {
   background: #ffffff;
@@ -449,7 +449,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  font-family: var(--font-lato), sans-serif;
+  font-family: var(--font-body), sans-serif;
   font-size: 0.68rem;
   font-weight: 600;
   letter-spacing: 0.22em;
@@ -467,7 +467,7 @@
 }
 
 .whoH2 {
-  font-family: var(--font-playfair), serif;
+  font-family: var(--font-display), serif;
   font-size: clamp(1.9rem, 3.6vw, 2.3rem);
   font-weight: 500;
   line-height: 1.1;
@@ -483,17 +483,16 @@
 
 .whoPara,
 .whoParaFirst {
-  font-family: var(--font-lato), sans-serif;
+  font-family: var(--font-body), sans-serif;
   font-size: clamp(0.9rem, 1.35vw, 1.2rem);
   font-weight: 500;
   line-height: 1.9;
   color: var(--earth-light);
   margin-bottom: 0.95rem;
- 
 }
 
 .whoParaFirst::first-letter {
-  font-family: var(--font-playfair), serif;
+  font-family: var(--font-display), serif;
   font-size: 3rem;
   font-weight: 700;
   float: left;
@@ -513,7 +512,7 @@
 }
 
 .whoPull p {
-  font-family: var(--font-playfair), serif;
+  font-family: var(--font-display), serif;
   font-size: clamp(1rem, 1.7vw, 1.25rem);
   font-style: italic;
   color: var(--earth);
@@ -523,7 +522,7 @@
 }
 
 .whoPull span {
-  font-family: var(--font-lato), sans-serif;
+  font-family: var(--font-body), sans-serif;
   font-size: 0.62rem;
   font-weight: 600;
   letter-spacing: 0.16em;
@@ -573,7 +572,7 @@
 }
 
 .whoPanelLbl {
-  font-family: var(--font-lato), sans-serif;
+  font-family: var(--font-body), sans-serif;
   font-size: 0.62rem;
   font-weight: 600;
   letter-spacing: 0.2em;
@@ -624,7 +623,7 @@
 }
 
 .whoChipN {
-  font-family: var(--font-lato), sans-serif;
+  font-family: var(--font-body), sans-serif;
   font-size: 0.62rem;
   font-weight: 600;
   color: var(--saffron);
@@ -633,7 +632,7 @@
 }
 
 .whoChipT {
-  font-family: var(--font-lato), sans-serif;
+  font-family: var(--font-body), sans-serif;
   font-size: 1rem;
   font-weight: 400;
   color: rgba(253, 246, 236, 0.82);
@@ -649,7 +648,7 @@
 }
 
 .whoQText {
-  font-family: var(--font-playfair), serif;
+  font-family: var(--font-display), serif;
   font-size: clamp(0.88rem, 1.3vw, 1.3rem);
   font-style: italic;
   color: rgba(253, 246, 236, 0.8);
@@ -672,7 +671,7 @@
 }
 
 .whoQAttrib {
-  font-family: var(--font-lato), sans-serif;
+  font-family: var(--font-body), sans-serif;
   font-size: 0.88rem;
   font-weight: 600;
   letter-spacing: 0.16em;
@@ -752,7 +751,7 @@
   transform: translate(-50%, -50%);
   font-size: clamp(18rem, 35vw, 32rem);
   color: rgba(224, 123, 0, 0.025);
-  font-family: var(--font-playfair), serif;
+  font-family: var(--font-display), serif;
   pointer-events: none;
   z-index: 0;
   line-height: 1;
@@ -826,7 +825,7 @@
 }
 
 .founderImgName {
-  font-family: var(--font-lato), sans-serif;
+  font-family: var(--font-body), sans-serif;
   font-size: clamp(1rem, 2vw, 1.4rem);
   font-weight: 700;
   color: rgba(253, 246, 236, 0.95);
@@ -851,7 +850,7 @@
 }
 
 .founderEyebrow {
-  font-family: var(--font-lato), sans-serif;
+  font-family: var(--font-body), sans-serif;
   font-size: clamp(1rem, 1.8vw, 1.25rem);
   font-weight: 600;
   color: var(--earth-light);
@@ -859,7 +858,7 @@
 }
 
 .founderName {
-  font-family: var(--font-playfair), serif;
+  font-family: var(--font-display), serif;
   font-size: clamp(1.2rem, 2.4vw, 1.7rem);
   font-weight: 700;
   color: var(--saffron-deep);
@@ -971,7 +970,7 @@
 }
 
 .teacherOm {
-  font-family: var(--font-playfair), serif;
+  font-family: var(--font-display), serif;
   font-size: 1.5rem;
   color: rgba(245, 184, 0, 0.9);
   text-shadow: 0 0 12px rgba(224, 123, 0, 0.8);
@@ -983,7 +982,7 @@
   top: 10px;
   left: 50%;
   transform: translateX(-50%) translateY(-6px);
-  font-family: var(--font-playfair), serif;
+  font-family: var(--font-display), serif;
   font-size: 0.56rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -1012,7 +1011,7 @@
 
 .teacherName {
   display: block;
-  font-family: var(--font-playfair), serif;
+  font-family: var(--font-display), serif;
   font-size: clamp(0.7rem, 1.1vw, 0.8rem);
   font-weight: 700;
   color: var(--earth);
@@ -1022,7 +1021,7 @@
 
 .teacherSurname {
   display: block;
-  font-family: var(--font-lato), sans-serif;
+  font-family: var(--font-body), sans-serif;
   font-size: clamp(0.75rem, 1.1vw, 0.86rem);
   color: var(--earth-light);
   font-weight: 600;
@@ -1049,7 +1048,7 @@
   box-shadow: 0 4px 16px var(--shadow-warm);
   transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
   padding: 0;
-  font-family: var(--font-playfair), serif;
+  font-family: var(--font-display), serif;
 }
 
 .sliderArrow:hover {
@@ -1077,7 +1076,7 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-family: var(--font-playfair), serif;
+  font-family: var(--font-display), serif;
   font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: 0.1em;
@@ -1141,7 +1140,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-family: var(--font-playfair), serif;
+  font-family: var(--font-display), serif;
   font-size: 12rem;
   color: rgba(224, 123, 0, 0.05);
   line-height: 1;
@@ -1201,7 +1200,6 @@
 
 .modalImgFrame {
   position: relative;
-  /* width: clamp(130px, 40%, 170px); */
   aspect-ratio: 3 / 4;
   border-radius: 10px;
   overflow: hidden;
@@ -1244,7 +1242,7 @@
 }
 
 .modalOmIcon {
-  font-family: var(--font-playfair), serif;
+  font-family: var(--font-display), serif;
   font-size: 1.6rem;
   color: rgba(245, 184, 0, 0.9);
   text-shadow: 0 0 14px rgba(224, 123, 0, 0.9);
@@ -1257,7 +1255,7 @@
 }
 
 .modalEyebrow {
-  font-family: var(--font-lato), sans-serif;
+  font-family: var(--font-body), sans-serif;
   font-size: clamp(0.9rem, 2vw, 1.05rem);
   font-weight: 600;
   color: var(--earth-light);
@@ -1265,7 +1263,7 @@
 }
 
 .modalName {
-  font-family: var(--font-playfair), serif;
+  font-family: var(--font-display), serif;
   font-size: clamp(1.1rem, 2.4vw, 1.45rem);
   font-weight: 700;
   color: var(--saffron-deep);
@@ -1276,7 +1274,7 @@
 
 .modalSurname {
   display: block;
-  font-family: var(--font-lato), sans-serif;
+  font-family: var(--font-body), sans-serif;
   font-size: clamp(0.95rem, 1.8vw, 1.1rem);
   font-weight: 400;
   font-style: italic;

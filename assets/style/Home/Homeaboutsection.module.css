@@ -29,7 +29,7 @@
   transform: translate(-50%, -50%);
   font-size: clamp(16rem, 30vw, 28rem);
   color: rgba(224, 123, 0, 0.04);
-  font-family: var(--font-playfair), serif;
+  font-family: var(--font-display), serif;  /* ✅ Playfair Display */
   pointer-events: none;
   z-index: 0;
   line-height: 1;
@@ -66,7 +66,7 @@
 }
 
 .superTitle {
-  font-family: var(--font-lato), sans-serif;
+  font-family: var(--font-body), sans-serif;   /* ✅ Lato */
   font-size: clamp(1rem, 2.4vw, 1.4rem);
   font-style: italic;
   color: #7a5c2e;
@@ -75,7 +75,7 @@
 }
 
 .mainTitle {
-  font-family: var(--font-playfair), serif;
+  font-family: var(--font-display), serif;     /* ✅ Playfair Display */
   font-size: clamp(1.15rem, 2.6vw, 1.75rem);
   font-weight: 700;
   color: #3d1d00;
@@ -101,7 +101,7 @@
 }
 
 .omSymbol {
-  font-family: var(--font-playfair), serif;
+  font-family: var(--font-display), serif;     /* ✅ Playfair Display */
   font-size: 1.6rem;
   color: #e07b00;
   line-height: 1;
@@ -139,7 +139,7 @@
 }
 
 .statValue {
-  font-family: var(--font-playfair), serif;
+  font-family: var(--font-display), serif;     /* ✅ Playfair Display */
   font-size: clamp(1.4rem, 2.8vw, 1.9rem);
   font-weight: 700;
   color: #e07b00;
@@ -147,7 +147,7 @@
 }
 
 .statLabel {
-  font-family: var(--font-lato), sans-serif;
+  font-family: var(--font-body), sans-serif;   /* ✅ Lato */
   font-size: clamp(0.7rem, 1.3vw, 0.82rem);
   color: #7a5c2e;
   letter-spacing: 0.08em;
@@ -167,7 +167,7 @@
 
 /* ── Paragraphs with HTML content support ── */
 .para {
-  font-family: var(--font-lato), sans-serif;
+  font-family: var(--font-body), sans-serif;   /* ✅ Lato */
   font-size: clamp(0.95rem, 1.6vw, 1.05rem);
   line-height: 1.85;
   color: #3d2b10;
@@ -182,27 +182,16 @@
 .para h2,
 .para h3,
 .para h4 {
-  font-family: var(--font-playfair), serif;
+  font-family: var(--font-display), serif;     /* ✅ Playfair Display */
   font-weight: 600;
   color: #3d1d00;
   margin: 1.2rem 0 0.8rem;
 }
 
-.para h1 {
-  font-size: 2rem;
-}
-
-.para h2 {
-  font-size: 1.75rem;
-}
-
-.para h3 {
-  font-size: 1.5rem;
-}
-
-.para h4 {
-  font-size: 1.25rem;
-}
+.para h1 { font-size: 2rem; }
+.para h2 { font-size: 1.75rem; }
+.para h3 { font-size: 1.5rem; }
+.para h4 { font-size: 1.25rem; }
 
 .para strong,
 .para b {
@@ -252,7 +241,7 @@
 }
 
 .paraSmall {
-  font-family: var(--font-lato), sans-serif;
+  font-family: var(--font-body), sans-serif;   /* ✅ Lato */
   font-size: clamp(0.88rem, 1.4vw, 0.97rem);
   line-height: 1.8;
   color: #5a3e22;
@@ -301,7 +290,7 @@
 }
 
 .accBadge {
-  font-family: var(--font-lato), sans-serif;
+  font-family: var(--font-body), sans-serif;   /* ✅ Lato */
   font-size: 1.3rem;
   color: #5c2d00;
   font-weight: 700;
@@ -310,7 +299,7 @@
 
 /* ── Pull quote ── */
 .quote {
-  font-family: var(--font-lato), sans-serif;
+  font-family: var(--font-alt), sans-serif;    /* ✅ Poppins — pull quote ke liye */
   font-size: clamp(1.2rem, 2.4vw, 1.6rem);
   font-weight: 600;
   color: #3d1d00;
@@ -367,7 +356,7 @@
 }
 
 .stylesTitle {
-  font-family: var(--font-playfair), serif;
+  font-family: var(--font-display), serif;     /* ✅ Playfair Display */
   font-size: 0.75rem;
   font-weight: 600;
   color: #7a5c2e;
@@ -385,7 +374,7 @@
 }
 
 .styleChip {
-  font-family: var(--font-lato), sans-serif;
+  font-family: var(--font-body), sans-serif;   /* ✅ Lato */
   font-size: 0.82rem;
   font-weight: 600;
   color: #7a3f00;
@@ -418,7 +407,7 @@
 }
 
 .ctaText {
-  font-family: var(--font-lato), sans-serif;
+  font-family: var(--font-body), sans-serif;   /* ✅ Lato */
   font-size: clamp(0.9rem, 1.6vw, 1.05rem);
   color: #5c2d00;
   font-style: italic;
@@ -440,7 +429,7 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-family: var(--font-playfair), serif;
+  font-family: var(--font-menu), sans-serif;   /* ✅ Montserrat — CTA button */
   font-size: 0.78rem;
   font-weight: 600;
   letter-spacing: 0.1em;
@@ -490,14 +479,12 @@
   }
 }
 
-/* Tablet landscape */
 @media (max-width: 1024px) {
   .statsRow {
     grid-template-columns: repeat(4, 1fr);
   }
 }
 
-/* Tablet portrait */
 @media (max-width: 860px) {
   .body {
     grid-template-columns: 1fr;
@@ -537,7 +524,6 @@
   }
 }
 
-/* Mobile */
 @media (max-width: 660px) {
   .section {
     background-image: url("../../images/backgroundimage/660x1596.png");
@@ -567,7 +553,6 @@
   }
 }
 
-/* Small mobile */
 @media (max-width: 380px) {
   .statsRow {
     grid-template-columns: 1fr 1fr;

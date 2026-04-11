@@ -27,8 +27,7 @@
   transform: translate(-50%, -50%);
   font-size: clamp(16rem, 30vw, 28rem);
   color: rgba(224, 123, 0, 0.03);
-  font-family: var(--font-playfair), serif;
-  /* Cinzel → Playfair */
+  font-family: var(--font-display), serif;
   pointer-events: none;
   z-index: 0;
   line-height: 1;
@@ -60,8 +59,7 @@
 }
 
 .superTitle {
-  font-family: var(--font-lato), sans-serif;
-  /* Cormorant → Lato */
+  font-family: var(--font-body), sans-serif;
   font-size: clamp(0.95rem, 2.2vw, 1.35rem);
   font-style: italic;
   font-weight: 300;
@@ -71,8 +69,7 @@
 }
 
 .mainTitle {
-  font-family: var(--font-playfair), serif;
-  /* Cinzel → Playfair */
+  font-family: var(--font-display), serif;
   font-size: clamp(1.1rem, 2.4vw, 1.7rem);
   font-weight: 600;
   color: #3d1d00;
@@ -97,8 +94,7 @@
 }
 
 .omSymbol {
-  font-family: var(--font-playfair), serif;
-  /* Cinzel → Playfair */
+  font-family: var(--font-display), serif;
   font-size: 1.6rem;
   color: #e07b00;
   line-height: 1;
@@ -188,8 +184,7 @@
 }
 
 .courseTitle {
-  font-family: var(--font-playfair), serif;
-  /* Cinzel → Playfair */
+  font-family: var(--font-display), serif;
   font-size: clamp(1rem, 1.8vw, 1.3rem);
   font-weight: 600;
   color: #3d1d00;
@@ -207,8 +202,7 @@
 }
 
 .courseMeta {
-  font-family: var(--font-lato), sans-serif;
-  /* Cormorant → Lato */
+  font-family: var(--font-body), sans-serif;
   font-size: clamp(0.8rem, 1.3vw, 0.88rem);
   font-weight: 300;
   color: #5a3e22;
@@ -236,13 +230,12 @@
 }
 
 .description {
-  font-family: var(--font-lato), sans-serif;
+  font-family: var(--font-body), sans-serif;
   font-size: clamp(0.88rem, 1.4vw, 0.97rem);
   font-weight: 300;
   line-height: 1.8;
   color: #3d2b10;
   margin: 0 0 0.9rem;
- 
 }
 
 .description * {
@@ -287,8 +280,7 @@
 }
 
 .courseLink {
-  font-family: var(--font-lato), sans-serif;
-  /* Cormorant → Lato */
+  font-family: var(--font-body), sans-serif;
   font-size: clamp(0.82rem, 1.3vw, 0.9rem);
   font-weight: 400;
   color: #c46a00;
@@ -329,8 +321,7 @@
 }
 
 .priceINR {
-  font-family: var(--font-playfair), serif;
-  /* Cinzel → Playfair */
+  font-family: var(--font-display), serif;
   font-size: clamp(1.25rem, 2vw, 1.55rem);
   font-weight: 600;
   color: #c46a00;
@@ -339,8 +330,7 @@
 }
 
 .priceUSD {
-  font-family: var(--font-lato), sans-serif;
-  /* Cormorant → Lato */
+  font-family: var(--font-body), sans-serif;
   font-size: clamp(0.82rem, 1.2vw, 0.92rem);
   font-weight: 300;
   color: #9a7040;
@@ -363,8 +353,7 @@
 }
 
 .seatsLabel {
-  font-family: var(--font-lato), sans-serif;
-  /* Cormorant → Lato */
+  font-family: var(--font-body), sans-serif;
   font-size: 0.78rem;
   font-weight: 400;
   color: #7a5c2e;
@@ -373,8 +362,7 @@
 }
 
 .seatsValue {
-  font-family: var(--font-playfair), serif;
-  /* Cinzel → Playfair */
+  font-family: var(--font-display), serif;
   font-size: 0.82rem;
   font-weight: 500;
   color: #3d1d00;
@@ -409,8 +397,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-family: var(--font-playfair), serif;
-  /* Cinzel → Playfair */
+  font-family: var(--font-display), serif;
   font-size: 0.74rem;
   font-weight: 600;
   letter-spacing: 0.08em;
@@ -435,8 +422,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-family: var(--font-lato), sans-serif;
-  /* Cormorant → Lato */
+  font-family: var(--font-body), sans-serif;
   font-size: 0.82rem;
   font-weight: 400;
   letter-spacing: 0.04em;

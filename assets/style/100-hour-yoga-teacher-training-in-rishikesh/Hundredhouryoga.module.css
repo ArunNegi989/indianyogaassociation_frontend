@@ -873,7 +873,8 @@
 .psbSecTag {
   text-align: center;
   font-family: var(--font-menu);           /* Montserrat */
-  font-size: 0.58rem;
+  font-size: 0.78rem;
+  font-weight: 500;
   letter-spacing: 0.25em;
   color: var(--saffron-gold);
   text-transform: uppercase;

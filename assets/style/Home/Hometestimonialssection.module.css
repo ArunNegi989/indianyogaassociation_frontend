@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Dancing+Script:wght@600;700&display=swap');
-
 /* ================================================================
    SECTION SHELL
    ================================================================ */
@@ -27,7 +25,7 @@
   transform: translate(-50%, -50%);
   font-size: clamp(18rem, 35vw, 32rem);
   color: rgba(224, 123, 0, 0.035);
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-display), serif;
   pointer-events: none;
   z-index: 0;
   line-height: 1;
@@ -108,7 +106,7 @@
 }
 
 .omSymbol {
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-display), serif;
   font-size: 1.6rem;
   color: #e07b00;
   line-height: 1;
@@ -121,7 +119,7 @@
 }
 
 .superTitle {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-body), sans-serif;
   font-size: clamp(0.9rem, 2vw, 1.2rem);
   font-style: italic;
   color: #7a5c2e;
@@ -130,7 +128,7 @@
 }
 
 .mainTitle {
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-display), serif;
   font-size: clamp(1.4rem, 3.5vw, 2.4rem);
   font-weight: 700;
   color: #e07b00;
@@ -140,7 +138,7 @@
 }
 
 .subtitle {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-body), sans-serif;
   font-size: clamp(0.95rem, 1.8vw, 1.1rem);
   color: #7a5c2e;
   line-height: 1.75;
@@ -163,7 +161,7 @@
 }
 
 .reviewSliderTitle {
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-display), serif;
   font-size: clamp(1.3rem, 3vw, 2rem);
   font-weight: 700;
   color: #3d1d00;
@@ -172,7 +170,7 @@
 }
 
 .reviewSliderSub {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-body), sans-serif;
   font-size: clamp(0.9rem, 1.8vw, 1.05rem);
   color: #7a5c2e;
   font-style: italic;
@@ -249,7 +247,7 @@
   inset: 0;
   background: linear-gradient(135deg, #e07b00, #f59500);
   color: #fff;
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-display), serif;
   font-size: 1.3rem;
   font-weight: 700;
   display: none;
@@ -264,14 +262,14 @@
 }
 
 .reviewCardName {
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-display), serif;
   font-size: 0.9rem;
   font-weight: 700;
   color: #3d1d00;
 }
 
 .reviewCardRole {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-body), sans-serif;
   font-size: 0.82rem;
   color: #7a5c2e;
   font-style: italic;
@@ -288,7 +286,7 @@
 }
 
 .reviewCardQuoteMark {
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-display), serif;
   font-size: 2.2rem;
   color: rgba(224, 123, 0, 0.22);
   line-height: 0.6;
@@ -297,7 +295,7 @@
 }
 
 .reviewCardQuote {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-body), sans-serif;
   font-size: clamp(0.88rem, 1.4vw, 0.98rem);
   font-style: italic;
   color: #4a3520;
@@ -362,7 +360,6 @@
   min-height: 380px;
 }
 
-/* Decorative arc shape (like screenshot) */
 .overallCardBg {
   position: absolute;
   top: -40px;
@@ -385,13 +382,12 @@
   border-radius: 50%;
 }
 
-/* Om watermark inside card */
 .overallCard::after {
   content: 'ॐ';
   position: absolute;
   bottom: -20px;
   left: -10px;
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-display), serif;
   font-size: 9rem;
   color: rgba(255, 255, 255, 0.04);
   pointer-events: none;
@@ -432,7 +428,7 @@
 }
 
 .overallScore {
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-display), serif;
   font-size: clamp(2.2rem, 4vw, 2.8rem);
   font-weight: 700;
   color: #e07b00;
@@ -441,7 +437,7 @@
 }
 
 .overallScoreLabel {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-body), sans-serif;
   font-size: 0.7rem;
   color: #7a5c2e;
   letter-spacing: 0.05em;
@@ -466,7 +462,7 @@
 }
 
 .overallTotal {
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-display), serif;
   font-size: clamp(0.78rem, 1.2vw, 0.88rem);
   font-weight: 700;
   color: #fff;
@@ -477,7 +473,7 @@
 }
 
 .overallDesc {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-body), sans-serif;
   font-size: clamp(0.82rem, 1.3vw, 0.95rem);
   color: rgba(255, 245, 220, 0.8);
   line-height: 1.7;
@@ -493,7 +489,7 @@
   border: 1.5px solid rgba(245, 184, 0, 0.7);
   border-radius: 4px;
   color: #f5b800;
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-display), serif;
   font-size: 0.72rem;
   font-weight: 600;
   letter-spacing: 0.08em;
@@ -519,7 +515,7 @@
 }
 
 .platformsTitle {
-  font-family: 'Dancing Script', cursive;
+  font-family: var(--font-alt), sans-serif;
   font-size: clamp(1.4rem, 2.8vw, 2rem);
   font-weight: 700;
   color: #3d1d00;
@@ -528,7 +524,7 @@
 }
 
 .platformsSub {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-body), sans-serif;
   font-size: clamp(0.82rem, 1.4vw, 0.95rem);
   color: #7a5c2e;
   font-style: italic;
@@ -586,14 +582,14 @@
 }
 
 .platformRating {
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-display), serif;
   font-size: 0.82rem;
   font-weight: 700;
   color: #3d1d00;
 }
 
 .platformName {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-body), sans-serif;
   font-size: 0.8rem;
   color: #7a5c2e;
   font-style: italic;
@@ -692,7 +688,7 @@
 }
 
 .videoOmLarge {
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-display), serif;
   font-size: clamp(4rem, 10vw, 6rem);
   color: rgba(245, 184, 0, 0.25);
   line-height: 1;
@@ -700,7 +696,7 @@
 }
 
 .videoHint {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-body), sans-serif;
   font-size: 0.8rem;
   color: rgba(255, 255, 255, 0.4);
   letter-spacing: 0.1em;
@@ -750,7 +746,7 @@
   left: 12px;
   background: linear-gradient(135deg, #e07b00, #c46a00);
   color: #fff;
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-display), serif;
   font-size: 0.68rem;
   font-weight: 600;
   letter-spacing: 0.1em;
@@ -807,7 +803,7 @@
   border-radius: 50%;
   background: linear-gradient(135deg, #e07b00, #f59500);
   color: #fff;
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-display), serif;
   font-size: 1.2rem;
   font-weight: 700;
   display: flex;
@@ -818,7 +814,7 @@
 }
 
 .studentName {
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-display), serif;
   font-size: 0.88rem;
   font-weight: 700;
   color: #3d1d00;
@@ -826,7 +822,7 @@
 }
 
 .studentCountry {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-body), sans-serif;
   font-size: 0.82rem;
   color: #7a5c2e;
   font-style: italic;
@@ -845,7 +841,7 @@
 }
 
 .quoteMark {
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-display), serif;
   font-size: clamp(4rem, 8vw, 6rem);
   color: rgba(224, 123, 0, 0.18);
   line-height: 0.6;
@@ -855,7 +851,7 @@
 }
 
 .quoteText {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-body), sans-serif;
   font-size: clamp(0.95rem, 1.6vw, 1.08rem);
   font-style: italic;
   color: #3d2b10;
@@ -891,7 +887,7 @@
 }
 
 .quoteAuthorName {
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-display), serif;
   font-size: 0.88rem;
   font-weight: 700;
   color: #3d1d00;
@@ -903,7 +899,7 @@
 }
 
 .quoteAuthorDetail {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-body), sans-serif;
   font-size: 0.88rem;
   color: #7a5c2e;
   font-style: italic;
@@ -991,7 +987,7 @@
 }
 
 .videoFallbackOm {
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-display), serif;
   font-size: 2.5rem;
   color: rgba(245, 184, 0, 0.25);
   user-select: none;
@@ -1038,7 +1034,7 @@
   transform: translateX(-50%);
   background: rgba(0, 0, 0, 0.55);
   color: #f5b800;
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-display), serif;
   font-size: 0.6rem;
   font-weight: 600;
   letter-spacing: 0.08em;
@@ -1056,7 +1052,7 @@
 }
 
 .videoCardName {
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-display), serif;
   font-size: 0.72rem;
   font-weight: 700;
   color: #3d1d00;
@@ -1064,7 +1060,7 @@
 }
 
 .videoCardCountry {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-body), sans-serif;
   font-size: 0.72rem;
   color: #7a5c2e;
   font-style: italic;
@@ -1125,7 +1121,7 @@
 }
 
 .trustLabel {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-body), sans-serif;
   font-size: clamp(0.82rem, 1.4vw, 0.95rem);
   color: #5c2d00;
   font-weight: 600;

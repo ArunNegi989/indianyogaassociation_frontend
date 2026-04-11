@@ -1,20 +1,39 @@
 import type { Metadata } from "next";
-import { Playfair_Display, Lato } from "next/font/google";
+import { Playfair_Display, Lato, Poppins, Montserrat } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import ConditionalLayout from "@/components/layout/ConditionalLayout";
 import { AuthProvider } from "@/context/AuthContext";
 
+// ✅ Headings font
 const playfairDisplay = Playfair_Display({
   variable: "--font-playfair",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
+  style: ["normal"],
 });
 
+// ✅ Body font
 const lato = Lato({
   variable: "--font-lato",
   subsets: ["latin"],
   weight: ["300", "400", "700"],
+  style: ["normal"],
+});
+
+// ✅ Alt body font (Poppins) — variable name fix kiya
+const poppins = Poppins({
+  variable: "--font-poppins",
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  style: ["normal"],
+});
+
+// ✅ Menu font
+const montserrat = Montserrat({
+  variable: "--font-montserrat",
+  subsets: ["latin"],
+  weight: ["500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -43,7 +62,7 @@ export default function RootLayout({
       </head>
 
       <body
-        className={`${playfairDisplay.variable} ${lato.variable} antialiased`}
+        className={`${playfairDisplay.variable} ${lato.variable} ${poppins.variable} ${montserrat.variable} antialiased`}
       >
         <AuthProvider>
           <ConditionalLayout>{children}</ConditionalLayout>

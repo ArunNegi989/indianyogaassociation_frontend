@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Dancing+Script:wght@600;700&display=swap');
-
 /* ================================================================
    SECTION SHELL
    ================================================================ */
@@ -7,7 +5,6 @@
   position: relative;
   background-image: url("../../images/backgroundimage/1905x1826.png");
   overflow: hidden;
-
 }
 
 /* Aged-paper texture */
@@ -139,7 +136,7 @@
 }
 
 .superTitle {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-body), sans-serif;
   font-size: clamp(1rem, 2.2vw, 1.35rem);
   font-style: italic;
   color: #7a5c2e;
@@ -148,7 +145,7 @@
 }
 
 .mainTitle {
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-display), serif;
   font-size: clamp(1.1rem, 2.5vw, 1.7rem);
   font-weight: 700;
   color: #3d1d00;
@@ -175,7 +172,7 @@
 }
 
 .omSymbol {
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-display), serif;
   font-size: 1.65rem;
   color: #e07b00;
   line-height: 1;
@@ -184,7 +181,7 @@
 }
 
 .introPara {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-body), sans-serif;
   font-size: clamp(0.97rem, 1.7vw, 1.08rem);
   line-height: 1.88;
   color: #3d2b10;
@@ -215,7 +212,7 @@
   gap: 0;
 }
 
-/* Double vintage frame — same philosophy as HomeaboutSection quote corners */
+/* Double vintage frame */
 .imageFrame {
   position: relative;
   border-radius: 4px;
@@ -275,14 +272,14 @@
 }
 
 .imgBadgeOm {
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-display), serif;
   font-size: 1rem;
   color: rgba(255, 255, 255, 0.9);
   line-height: 1;
 }
 
 .imgBadgeYear {
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-display), serif;
   font-size: 0.6rem;
   font-weight: 700;
   color: #fff;
@@ -290,9 +287,9 @@
   line-height: 1;
 }
 
-/* Quote below image — matches HomeaboutSection blockquote style */
+/* Quote below image */
 .imgQuote {
-  font-family: 'Dancing Script', cursive;
+  font-family: var(--font-alt), sans-serif;
   font-size: clamp(1.05rem, 1.8vw, 1.3rem);
   font-weight: 700;
   color: #3d1d00;
@@ -307,7 +304,6 @@
   box-shadow: 0 3px 16px rgba(224, 123, 0, 0.08);
 }
 
-/* Corner flourishes — identical to HomeaboutSection .quote::before/after */
 .imgQuote::before,
 .imgQuote::after {
   content: '';
@@ -365,7 +361,7 @@
 }
 
 .featureOm {
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-display), serif;
   font-size: 0.82rem;
   color: #e07b00;
   opacity: 0.75;
@@ -375,7 +371,7 @@
 }
 
 .featureText {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-body), sans-serif;
   font-size: clamp(0.93rem, 1.55vw, 1.03rem);
   line-height: 1.84;
   color: #3d2b10;
@@ -400,7 +396,7 @@
 }
 
 .midPattern {
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-display), serif;
   color: #e07b00;
   font-size: clamp(0.58rem, 1.1vw, 0.72rem);
   letter-spacing: 0.26em;

@@ -1,11 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&display=swap');
-
 /* ─── Section ──────────────────────────────────────────────────── */
 
 .reachSection {
   position: relative;
   overflow: hidden;
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-body), sans-serif;
   background-image: url("../../images/backgroundimage/1905x1662.png");
   background-size: contain;
 }
@@ -28,7 +26,7 @@
   transform: translate(-50%, -50%);
   font-size: clamp(10rem, 22vw, 20rem);
   color: rgba(224, 123, 0, 0.04);
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-display), serif;
   pointer-events: none;
   z-index: 0;
   line-height: 1;
@@ -61,7 +59,7 @@
 
 .badge {
   display: inline-block;
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-display), serif;
   font-size: 10px;
   font-weight: 700;
   letter-spacing: 3px;
@@ -75,7 +73,7 @@
 }
 
 .mainTitle {
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-display), serif;
   font-size: clamp(1.6rem, 3.5vw, 2.8rem);
   font-weight: 700;
   color: #3d1d00;
@@ -100,7 +98,7 @@
 }
 
 .omSymbol {
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-display), serif;
   font-size: 1.5rem;
   color: #e07b00;
   line-height: 1;
@@ -108,7 +106,7 @@
 }
 
 .subTitle {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-body), sans-serif;
   font-size: clamp(1rem, 1.6vw, 1.12rem);
   font-style: italic;
   color: #7a5c2e;
@@ -212,7 +210,7 @@
 }
 
 .travelTitle {
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-display), serif;
   font-size: 1.12rem;
   font-weight: 700;
   color: #3d1d00;
@@ -220,7 +218,7 @@
 }
 
 .travelSubtitle {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-body), sans-serif;
   font-size: 0.88rem;
   color: #a07a50;
   margin: 0;
@@ -228,7 +226,7 @@
 }
 
 .travelDesc {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-body), sans-serif;
   font-size: 1.05rem;
   line-height: 1.75;
   color: #5c3d1e;
@@ -247,7 +245,7 @@
 }
 
 .pickupHighlights li {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-body), sans-serif;
   font-size: 0.92rem;
   color: #5c3d1e;
   display: flex;
@@ -273,7 +271,7 @@
   background: linear-gradient(135deg, #25d366, #1da852);
   color: #fff;
   border-radius: 4px;
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-display), serif;
   font-size: 9px;
   font-weight: 700;
   letter-spacing: 0.6px;
@@ -308,7 +306,7 @@
 }
 
 .scheduleHeaderCell {
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-display), serif;
   font-size: 9px;
   font-weight: 700;
   color: #fff3e0;
@@ -337,7 +335,7 @@
 }
 
 .scheduleCell {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-body), sans-serif;
   font-size: 0.75rem;
   color: #3d2b10;
   font-weight: 600;
@@ -360,7 +358,7 @@
   color: #fff;
   padding: 10px 16px;
   border-radius: 4px;
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-display), serif;
   font-size: 9px;
   font-weight: 600;
   letter-spacing: 0.7px;
@@ -381,7 +379,7 @@
 }
 
 .linkSecondary {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-body), sans-serif;
   font-size: 0.86rem;
   color: #b85e00;
   text-decoration: underline;
@@ -421,7 +419,7 @@
   padding: 11px 16px;
   background: linear-gradient(135deg, #fff9f0, #ffecd8);
   border-bottom: 1px solid rgba(224, 123, 0, 0.15);
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-display), serif;
   font-size: 9px;
   font-weight: 600;
   letter-spacing: 1px;
@@ -459,7 +457,7 @@
 }
 
 .mapDirectionsBtn {
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-display), serif;
   font-size: 10px;
   font-weight: 600;
   letter-spacing: 0.8px;
@@ -514,7 +512,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-display), serif;
   font-size: 11px;
   font-weight: 700;
   flex-shrink: 0;
@@ -543,7 +541,7 @@
 }
 
 .stepLabel {
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-display), serif;
   font-size: 8px;
   font-weight: 600;
   letter-spacing: 1px;
@@ -591,7 +589,7 @@
 }
 
 .formStepNum {
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-display), serif;
   font-size: 1.7rem;
   font-weight: 700;
   color: rgba(224, 123, 0, 0.16);
@@ -602,7 +600,7 @@
 }
 
 .formStepTitle {
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-display), serif;
   font-size: 0.9rem;
   font-weight: 700;
   color: #3d1d00;
@@ -610,7 +608,7 @@
 }
 
 .formStepDesc {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-body), sans-serif;
   font-size: 0.88rem;
   font-style: italic;
   color: #9a6c35;
@@ -635,7 +633,7 @@
 }
 
 .formLabel {
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-display), serif;
   font-size: 7.5px;
   font-weight: 700;
   color: #9a7250;
@@ -654,7 +652,7 @@
   padding: 9px 12px;
   border-radius: 7px;
   border: 1.5px solid rgba(224, 123, 0, 0.2);
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-body), sans-serif;
   font-size: 0.95rem;
   color: #3d2b10;
   background: rgba(255, 253, 248, 0.9);
@@ -709,7 +707,7 @@
 }
 
 .summaryTitle {
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-display), serif;
   font-size: 8px;
   font-weight: 700;
   letter-spacing: 1.2px;
@@ -726,7 +724,7 @@
 }
 
 .summaryKey {
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-display), serif;
   font-size: 7.5px;
   font-weight: 700;
   letter-spacing: 0.8px;
@@ -735,7 +733,7 @@
 }
 
 .summaryVal {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-body), sans-serif;
   font-size: 0.9rem;
   font-weight: 600;
   color: #3d2b10;
@@ -762,7 +760,7 @@
   color: #9a6c35;
   padding: 9px 18px;
   border-radius: 6px;
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-display), serif;
   font-size: 9px;
   font-weight: 600;
   letter-spacing: 0.5px;
@@ -782,7 +780,7 @@
   border: none;
   padding: 10px 22px;
   border-radius: 6px;
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-display), serif;
   font-size: 9px;
   font-weight: 600;
   letter-spacing: 0.7px;
@@ -802,7 +800,7 @@
   border: none;
   padding: 11px 24px;
   border-radius: 6px;
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-display), serif;
   font-size: 9px;
   font-weight: 600;
   letter-spacing: 0.7px;
@@ -836,7 +834,7 @@
   align-items: center;
   gap: 8px;
   color: #1a8a44;
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-body), sans-serif;
   font-size: 0.88rem;
   font-style: italic;
 }
@@ -849,7 +847,7 @@
   background: linear-gradient(135deg, #25d366, #1da852);
   color: #fff;
   border-radius: 6px;
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-display), serif;
   font-size: 8.5px;
   font-weight: 700;
   letter-spacing: 0.7px;
@@ -889,7 +887,7 @@
 }
 
 .successTitle {
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-display), serif;
   font-size: 1.1rem;
   font-weight: 700;
   color: #3d1d00;
@@ -897,7 +895,7 @@
 }
 
 .successMsg {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-body), sans-serif;
   font-size: 0.97rem;
   color: #7a5c2e;
   font-style: italic;
@@ -921,7 +919,7 @@
   background: linear-gradient(135deg, #25d366, #1da852);
   color: #fff;
   border-radius: 6px;
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-display), serif;
   font-size: 9px;
   font-weight: 700;
   letter-spacing: 0.6px;
@@ -944,7 +942,7 @@
   color: #9a6c35;
   padding: 10px 20px;
   border-radius: 6px;
-  font-family: 'Cinzel', serif;
+  font-family: var(--font-display), serif;
   font-size: 9px;
   font-weight: 600;
   letter-spacing: 0.4px;

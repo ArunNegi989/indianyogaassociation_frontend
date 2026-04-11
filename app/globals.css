@@ -2,49 +2,74 @@
 @import "slick-carousel/slick/slick.css";
 @import "slick-carousel/slick/slick-theme.css";
 
+/* ============================================
+   ROOT VARIABLES
+   ============================================ */
 :root {
   --background: #ffffff;
   --foreground: #171717;
+
+  /* Font system — Next.js inject karta hai ye variables body className se */
+  --font-display:     var(--font-playfair);    /* Playfair Display → Headings */
+  --font-body:        var(--font-lato);        /* Lato            → Body text */
+  --font-alt:         var(--font-poppins);     /* Poppins         → Alt/secondary */
+  --font-menu:        var(--font-montserrat);  /* Montserrat      → Nav/Menu */
 }
 
+/* ============================================
+   TAILWIND THEME
+   ============================================ */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-lato);
-  --font-heading: var(--font-playfair);
+  --font-sans:        var(--font-lato);
+  --font-heading:     var(--font-playfair);
 }
 
+/* ============================================
+   DARK MODE OVERRIDE (force white bg)
+   ============================================ */
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #ffffff !important;
-    --foreground: #ededed;
+    --foreground: #171717;
   }
 }
 
+/* ============================================
+   BASE BODY STYLES
+   ============================================ */
 body {
   background: #ffffff;
   color: var(--foreground);
-  font-family: var(--font-lato), Arial, sans-serif;
+  font-family: var(--font-body), Arial, sans-serif;
   font-size: 17px;
   font-weight: 300;
   line-height: 1.7;
 }
 
+/* ============================================
+   HEADINGS — Playfair Display
+   ============================================ */
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-playfair), Georgia, serif;
+  font-family: var(--font-display), Georgia, serif;
   line-height: 1.6;
   font-weight: 500;
 }
 
-h1 { font-size: clamp(42px, 5vw, 56px); font-weight: 600; }
+h1 { font-size: clamp(42px, 5vw, 56px);   font-weight: 600; }
 h2 { font-size: clamp(30px, 3.5vw, 36px); font-weight: 500; }
 h3 { font-size: clamp(22px, 2.5vw, 26px); font-weight: 500; }
 h4 { font-size: 20px; font-weight: 500; }
 h5 { font-size: 18px; font-weight: 500; }
 h6 { font-size: 16px; font-weight: 500; }
 
-p, li, span, a, td, th, label, input, textarea, select {
-  font-family: var(--font-lato), Arial, sans-serif;
+/* ============================================
+   BODY TEXT — Lato
+   ============================================ */
+p, li, span, a, td, th, label,
+input, textarea, select {
+  font-family: var(--font-body), Arial, sans-serif;
   font-size: 17px;
   font-weight: 500;
   line-height: 1.7;
@@ -53,4 +78,40 @@ p, li, span, a, td, th, label, input, textarea, select {
 small, .text-small {
   font-size: 14px;
   line-height: 1.6;
+}
+
+/* ============================================
+   MENU / NAV — Montserrat
+   ============================================ */
+nav,
+.navbar,
+.nav-link,
+.menu,
+.menu-item,
+header a {
+  font-family: var(--font-menu), sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+/* ============================================
+   POPPINS UTILITY CLASS (optional use)
+   ============================================ */
+.font-poppins {
+  font-family: var(--font-alt), sans-serif;
+}
+
+/* ============================================
+   TAILWIND UTILITY OVERRIDES
+   ============================================ */
+.font-heading {
+  font-family: var(--font-display), Georgia, serif;
+}
+
+.font-body {
+  font-family: var(--font-body), Arial, sans-serif;
+}
+
+.font-menu {
+  font-family: var(--font-menu), sans-serif;
 }

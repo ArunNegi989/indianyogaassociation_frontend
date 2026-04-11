@@ -6,10 +6,10 @@
 .sliderWrapper {
   position: relative;
   width: 100%;
-  height: 74vh; 
-  max-height: 750px; 
-  min-height: 400px; 
-  overflow: hidden; 
+  height: 74vh;
+  max-height: 750px;
+  min-height: 400px;
+  overflow: hidden;
   background: #1a0e00;
   user-select: none;
 }
@@ -46,7 +46,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center center; /* ✅ Better centering */
+  object-position: center center;
 }
 
 /* ── Gradient overlay ── */
@@ -78,7 +78,7 @@
   display: inline-block;
   background: #e07b00;
   color: #fff;
-  font-family: var(--font-playfair), serif;
+  font-family: var(--font-menu), sans-serif;   /* ✅ Montserrat — tag/label */
   font-size: clamp(0.52rem, 1.1vw, 0.68rem);
   font-weight: 600;
   letter-spacing: 0.18em;
@@ -98,7 +98,7 @@
 
 /* Subtitle */
 .slideSubtitle {
-  font-family: var(--font-playfair), serif;
+  font-family: var(--font-display), serif;     /* ✅ Playfair Display — subtitle */
   font-size: clamp(0.72rem, 1.6vw, 0.95rem);
   font-weight: 400;
   color: #ffe9b8;
@@ -117,7 +117,7 @@
 
 /* Main title */
 .slideTitle {
-  font-family: var(--font-lato), sans-serif;
+  font-family: var(--font-body), sans-serif;   /* ✅ Lato — main title */
   font-size: clamp(1.75rem, 5.2vw, 3.8rem);
   font-weight: 700;
   color: #fff;
@@ -142,7 +142,7 @@
   background: #e07b00;
   color: #fff;
   text-decoration: none;
-  font-family: var(--font-playfair), serif;
+  font-family: var(--font-menu), sans-serif;   /* ✅ Montserrat — CTA button */
   font-size: clamp(0.6rem, 1.3vw, 0.78rem);
   font-weight: 600;
   letter-spacing: 0.12em;
@@ -185,7 +185,7 @@
   right: 1.8rem;
   z-index: 3;
   color: rgba(255, 233, 170, 0.6);
-  font-family: var(--font-lato), sans-serif;
+  font-family: var(--font-alt), sans-serif;    /* ✅ Poppins — italic watermark */
   font-size: clamp(0.7rem, 1.4vw, 0.88rem);
   font-style: italic;
   letter-spacing: 0.06em;
@@ -274,13 +274,8 @@
 }
 
 @keyframes progressFill {
-  from {
-    width: 0%;
-  }
-
-  to {
-    width: 100%;
-  }
+  from { width: 0%; }
+  to   { width: 100%; }
 }
 
 /* ── Slide counter (bottom right) ── */
@@ -289,7 +284,7 @@
   bottom: 1.5rem;
   right: 1.5rem;
   z-index: 10;
-  font-family: var(--font-playfair), serif;
+  font-family: var(--font-display), serif;     /* ✅ Playfair Display — counter */
   font-size: 0.7rem;
   letter-spacing: 0.12em;
   color: rgba(255, 255, 255, 0.5);
@@ -337,12 +332,11 @@
    ================================================================ */
 @media (max-width: 640px) {
   .sliderWrapper {
-    height: 60vh; /* ✅ Full mobile viewport */
+    height: 60vh;
     max-height: 100vh;
-    min-height: 500px; /* ✅ Minimum for mobile */
+    min-height: 500px;
   }
 
-  /* ✅ Better mobile gradient (from bottom) */
   .slideOverlay {
     background: linear-gradient(to top,
         rgba(0, 0, 0, 0.85) 0%,
@@ -356,7 +350,6 @@
     max-width: 100%;
   }
 
-  /* ✅ Adjust text sizes for mobile */
   .slideTag {
     font-size: 0.55rem;
     padding: 0.25rem 0.7rem;
@@ -377,7 +370,6 @@
     padding: 0.6rem 1.3rem;
   }
 
-  /* ✅ Hide side arrows on mobile */
   .navBtn {
     display: none;
   }
@@ -396,21 +388,19 @@
 /* ================================================================
    RESPONSIVE - SMALL MOBILE
    ================================================================ */
-
-   @media (max-width: 767px) {
- 
-
+@media (max-width: 767px) {
   .sliderWrapper {
-    height: 50vh; 
+    height: 50vh;
     max-height: 100vh;
-    min-height: 320px; 
+    min-height: 320px;
   }
 }
+
 @media (max-width: 480px) {
   .sliderWrapper {
-    height: 36vh; 
+    height: 36vh;
     max-height: 100vh;
-    min-height: 290px; 
+    min-height: 290px;
   }
 
   .slideContent {
@@ -442,9 +432,9 @@
 
 @media (max-width: 380px) {
   .sliderWrapper {
-     height: 36vh; 
+    height: 40vh;
     max-height: 100vh;
-    min-height: 300px; 
+    min-height: 320px;
   }
 
   .slideTitle {
@@ -454,14 +444,7 @@
   .slideContent {
     padding: 0 0.9rem 2.5rem;
   }
-
-  .sliderWrapper {
-    height: 40vh; 
-    max-height: 100vh;
-    min-height: 320px; 
-  }
 }
-
 
 /* ================================================================
    LANDSCAPE MODE (Mobile Horizontal)

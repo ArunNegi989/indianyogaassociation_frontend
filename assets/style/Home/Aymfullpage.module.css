@@ -16,7 +16,7 @@
 
 /* ── Page Wrapper ── */
 .pageWrapper {
-  font-family: var(--font-lato), sans-serif;
+  font-family: var(--font-body), sans-serif;        /* ✅ Lato */
   background: var(--parchment);
   color: var(--earth-warm);
   overflow-x: hidden;
@@ -50,7 +50,7 @@
 }
 
 .sectionTitle {
-  font-family: var(--font-playfair), serif;
+  font-family: var(--font-display), serif;          /* ✅ Playfair Display */
   font-size: clamp(1.1rem, 2.5vw, 1.65rem);
   font-weight: 700;
   color: var(--earth);
@@ -70,7 +70,7 @@
 
 /* ── Shared: Para ── */
 .para {
-  font-family: var(--font-lato), sans-serif;
+  font-family: var(--font-body), sans-serif;        /* ✅ Lato */
   font-size: clamp(0.97rem, 1.6vw, 1.07rem);
   line-height: 1.9;
   color: var(--earth-warm);
@@ -78,7 +78,7 @@
 }
 
 .paraSmall {
-  font-family: var(--font-lato), sans-serif;
+  font-family: var(--font-body), sans-serif;        /* ✅ Lato */
   font-size: clamp(0.88rem, 1.4vw, 0.97rem);
   line-height: 1.8;
   color: var(--earth-light);
@@ -90,7 +90,6 @@
   font-weight: 700;
 }
 
-
 /* ════════════════════════════════════════════════
    SECTION — ALIGNMENT & ADJUSTMENT
 ════════════════════════════════════════════════ */
@@ -101,7 +100,7 @@
 }
 
 .salutation {
-  font-family: var(--font-lato), sans-serif;
+  font-family: var(--font-body), sans-serif;        /* ✅ Lato */
   font-size: clamp(1.1rem, 2vw, 1.35rem);
   color: var(--saffron-deep);
   font-weight: 600;
@@ -140,7 +139,7 @@
   gap: 1rem;
 }
 
-/* ── Diagram Box with real image ── */
+/* ── Diagram Box ── */
 .diagramBox {
   background: linear-gradient(135deg, #fff 0%, #fdf6ec 100%);
   border: 1px solid rgba(224, 123, 0, 0.25);
@@ -172,7 +171,7 @@
 }
 
 .diagramLabel {
-  font-family: var(--font-playfair), serif;
+  font-family: var(--font-display), serif;          /* ✅ Playfair Display */
   font-size: 0.6rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -183,7 +182,7 @@
   border: 1px solid rgba(224, 123, 0, 0.2);
 }
 
-/* ── Alignment Compare with real images ── */
+/* ── Alignment Compare ── */
 .alignCompare {
   display: grid;
   grid-template-columns: 1fr auto 1fr;
@@ -204,7 +203,7 @@
 }
 
 .compareLabel {
-  font-family: var(--font-playfair), serif;
+  font-family: var(--font-display), serif;          /* ✅ Playfair Display */
   font-size: 0.58rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -248,7 +247,7 @@
 }
 
 .planesListItem {
-  font-family: var(--font-lato), sans-serif;
+  font-family: var(--font-body), sans-serif;        /* ✅ Lato */
   font-size: 1.02rem;
   color: var(--earth-warm);
   padding: 0.5rem 0 0.5rem 1.5rem;
@@ -263,12 +262,12 @@
   position: absolute;
   left: 0;
   color: var(--saffron);
-  font-family: var(--font-playfair), serif;
+  font-family: var(--font-display), serif;          /* ✅ Playfair Display */
   font-weight: 700;
   font-size: 0.85rem;
 }
 
-/* ── Group yoga photo — REAL IMAGE ── */
+/* ── Group yoga photo ── */
 .groupPhotoBlock {
   margin-top: 2rem;
 }
@@ -308,13 +307,12 @@
 }
 
 .groupPhotoText {
-  font-family: var(--font-lato), sans-serif;
+  font-family: var(--font-body), sans-serif;        /* ✅ Lato */
   font-size: clamp(1rem, 2.5vw, 1.4rem);
   color: rgba(253, 246, 236, 0.95);
   font-weight: 600;
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
 }
-
 
 /* ════════════════════════════════════════════════
    SECTION — CAMPUS
@@ -346,8 +344,6 @@
   margin-bottom: 3rem;
 }
 
-/* Each facility card — fixed 300px height keeps all cards identical */
-/* Base: content (2fr) LEFT, image (1fr) RIGHT */
 .facilityItem {
   display: grid;
   grid-template-columns: 2fr 1fr;
@@ -361,7 +357,6 @@
   position: relative;
 }
 
-/* Even: image (1fr) LEFT, content (2fr) RIGHT — flip both columns AND order */
 .facilityItem:nth-child(even) {
   grid-template-columns: 1fr 2fr;
 }
@@ -382,11 +377,8 @@
   transform: translateY(-2px);
 }
 
-/* Odd: content LEFT (order 1) → image RIGHT (order 2) */
-.facilityItem:nth-child(odd) .facilityContent  { order: 1; }
-.facilityItem:nth-child(odd) .facilityImageWrap { order: 2; }
-
-/* Even: image LEFT (order 1) → content RIGHT (order 2) */
+.facilityItem:nth-child(odd) .facilityContent   { order: 1; }
+.facilityItem:nth-child(odd) .facilityImageWrap  { order: 2; }
 .facilityItem:nth-child(even) .facilityImageWrap { order: 1; }
 .facilityItem:nth-child(even) .facilityContent   { order: 2; }
 
@@ -414,7 +406,7 @@
 }
 
 .facilityBold {
-  font-family: var(--font-playfair), serif;
+  font-family: var(--font-display), serif;          /* ✅ Playfair Display */
   font-size: clamp(1rem, 1.8vw, 1.25rem);
   color: var(--earth);
   letter-spacing: 0.02em;
@@ -430,14 +422,14 @@
 }
 
 .facilityText {
-  font-family: var(--font-lato), sans-serif;
+  font-family: var(--font-body), sans-serif;        /* ✅ Lato */
   font-size: clamp(0.92rem, 1.5vw, 1.02rem);
   line-height: 1.88;
   color: var(--earth-warm);
   margin: 0;
 }
 
-/* ── Image block — fills full cell ── */
+/* ── Image block ── */
 .facilityImageWrap {
   width: 100%;
   height: 100%;
@@ -457,7 +449,6 @@
   transform: scale(1.04);
 }
 
-/* Fallback placeholder when no image */
 .facilityImagePlaceholder {
   width: 100%;
   height: 100%;
@@ -494,7 +485,7 @@
 }
 
 .promoTitle {
-  font-family: var(--font-lato), sans-serif;
+  font-family: var(--font-body), sans-serif;        /* ✅ Lato */
   font-size: clamp(1.15rem, 2vw, 1.45rem);
   font-weight: 700;
   color: var(--saffron-deep);
@@ -510,7 +501,7 @@
 }
 
 .promoText {
-  font-family: var(--font-lato), sans-serif;
+  font-family: var(--font-body), sans-serif;        /* ✅ Lato */
   font-size: clamp(0.88rem, 1.4vw, 0.97rem);
   line-height: 1.8;
   color: var(--earth-warm);
@@ -518,7 +509,7 @@
 }
 
 .promoLink {
-  font-family: var(--font-playfair), serif;
+  font-family: var(--font-display), serif;          /* ✅ Playfair Display */
   font-size: 0.72rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -531,7 +522,6 @@
 .promoLink:hover {
   color: var(--earth);
 }
-
 
 /* ════════════════════════════════════════════════
    SECTION — CTA JOURNEY BANNER
@@ -557,7 +547,7 @@
   transform: translate(-50%, -50%);
   font-size: clamp(10rem, 20vw, 18rem);
   color: rgba(255, 255, 255, 0.06);
-  font-family: var(--font-playfair), serif;
+  font-family: var(--font-display), serif;          /* ✅ Playfair Display */
   pointer-events: none;
   user-select: none;
   line-height: 1;
@@ -574,7 +564,7 @@
 }
 
 .ctaHeading {
-  font-family: var(--font-playfair), serif;
+  font-family: var(--font-display), serif;          /* ✅ Playfair Display */
   font-size: clamp(1.4rem, 3.5vw, 2.4rem);
   font-weight: 700;
   color: #000000;
@@ -587,7 +577,7 @@
 }
 
 .ctaSubtext {
-  font-family: var(--font-lato), sans-serif;
+  font-family: var(--font-body), sans-serif;        /* ✅ Lato */
   font-size: clamp(1rem, 1.8vw, 1.2rem);
   color: rgba(0, 0, 0, 0.92);
   max-width: 600px;
@@ -603,7 +593,7 @@
   gap: 10px;
   background: #25D366;
   color: #fff;
-  font-family: var(--font-playfair), serif;
+  font-family: var(--font-menu), sans-serif;        /* ✅ Montserrat — CTA button */
   font-size: clamp(0.78rem, 1.3vw, 0.88rem);
   font-weight: 600;
   letter-spacing: 0.08em;
@@ -642,7 +632,7 @@
   top: -1rem;
   left: 50%;
   transform: translateX(-50%);
-  font-family: var(--font-lato), sans-serif;
+  font-family: var(--font-body), sans-serif;        /* ✅ Lato */
   font-size: clamp(8rem, 15vw, 14rem);
   color: rgba(224, 123, 0, 0.08);
   line-height: 1;
@@ -651,7 +641,7 @@
 }
 
 .masterQuote {
-  font-family: var(--font-playfair), serif;
+  font-family: var(--font-display), serif;          /* ✅ Playfair Display */
   font-size: clamp(1.1rem, 2.5vw, 1.55rem);
   font-style: italic;
   color: #000000;
@@ -663,7 +653,7 @@
 }
 
 .masterAttrib {
-  font-family: var(--font-playfair), serif;
+  font-family: var(--font-menu), sans-serif;        /* ✅ Montserrat — attribution */
   font-size: clamp(0.75rem, 1.2vw, 0.88rem);
   letter-spacing: 0.15em;
   text-transform: uppercase;
@@ -684,7 +674,6 @@
   font-size: clamp(1rem, 1.7vw, 1.1rem);
 }
 
-
 /* ════════════════════════════════════════════════
    RESPONSIVE — Tablet portrait (≤860px)
 ════════════════════════════════════════════════ */
@@ -702,13 +691,11 @@
     height: 280px;
   }
 
-  /* Campus facility: stack vertically on tablet */
   .facilityItem {
     grid-template-columns: 1fr;
     grid-template-rows: auto auto;
   }
 
-  /* On mobile: image always on top for all cards */
   .facilityItem:nth-child(odd) .facilityContent,
   .facilityItem:nth-child(even) .facilityContent  { order: 2; }
   .facilityItem:nth-child(odd) .facilityImageWrap,

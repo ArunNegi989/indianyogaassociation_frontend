@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Lato:ital,wght@0,300;0,400;0,700;1,400&family=Montserrat:wght@500;600;700&display=swap');
+
 :root {
   --saffron: #e07b00;
   --saffron-deep: #c46a00;
@@ -12,6 +14,15 @@
   --gold-border: #e8d5b5;
   --shadow-warm: rgba(92, 45, 0, 0.12);
   --shadow-saffron: rgba(224, 123, 0, 0.25);
+   --font-display: 'Montserrat', Arial, sans-serif;
+  --font-body:    'Lato', Arial, sans-serif;
+  --font-fell:    'Playfair Display', Georgia, serif;
+  --font-script:  'Poppins', Arial, sans-serif;
+  --font-menu:    'Montserrat', Arial, sans-serif;
+
+  /* Dusri file ke variables */
+  --font-playfair: 'Playfair Display', Georgia, serif;
+  --font-lato:     'Lato', Arial, sans-serif;
 }
 
 .container {
