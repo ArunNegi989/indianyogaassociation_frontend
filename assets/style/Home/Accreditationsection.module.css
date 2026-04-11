@@ -25,12 +25,14 @@
 .topBorder,
 .bottomBorder {
   height: 5px;
-  background: linear-gradient(90deg,
-      transparent 0%,
-      var(--saffron) 20%,
-      var(--saffron-light) 50%,
-      var(--saffron) 80%,
-      transparent 100%);
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--saffron) 20%,
+    var(--saffron-light) 50%,
+    var(--saffron) 80%,
+    transparent 100%
+  );
 }
 
 .sectionHeaderCenter {
@@ -65,23 +67,18 @@
   margin-bottom: 1.2rem;
 }
 
-.highlight {
-  color: #b85e00;
-  font-weight: 700;
-}
-
 /* ════════════════════════════════════════════════
    AUTHENTIC SECTION
 ════════════════════════════════════════════════ */
 
 .authenticSection {
   position: relative;
-  background-image: url('../../images/backgroundimage/1905x1493.png');
+  background-image: url("../../images/backgroundimage/1905x1493.png");
   overflow: hidden;
 }
 
 .authenticSection::before {
-  content: 'ॐ';
+  content: "ॐ";
   position: absolute;
   top: 50%;
   left: 50%;
@@ -139,19 +136,16 @@
   left: 8px;
   border-width: 2px 0 0 2px;
 }
-
 .frameCornerTR {
   top: 8px;
   right: 8px;
   border-width: 2px 2px 0 0;
 }
-
 .frameCornerBL {
   bottom: 8px;
   left: 8px;
   border-width: 0 0 2px 2px;
 }
-
 .frameCornerBR {
   bottom: 8px;
   right: 8px;
@@ -191,7 +185,7 @@
 
 .pullQuote::before,
 .pullQuote::after {
-  content: '';
+  content: "";
   position: absolute;
   width: 14px;
   height: 14px;
@@ -237,12 +231,19 @@
 }
 
 .videoPlaceholder::before {
-  content: '';
+  content: "";
   position: absolute;
   inset: 0;
-  background-image:
-    radial-gradient(ellipse at 30% 50%, rgba(224, 123, 0, 0.15) 0%, transparent 60%),
-    radial-gradient(ellipse at 80% 20%, rgba(245, 184, 0, 0.08) 0%, transparent 50%);
+  background-image: radial-gradient(
+      ellipse at 30% 50%,
+      rgba(224, 123, 0, 0.15) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse at 80% 20%,
+      rgba(245, 184, 0, 0.08) 0%,
+      transparent 50%
+    );
 }
 
 .immerseTitle {
@@ -273,7 +274,11 @@
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: #fff;
-  background: linear-gradient(135deg, var(--saffron) 0%, var(--saffron-deep) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--saffron) 0%,
+    var(--saffron-deep) 100%
+  );
   padding: 0.8rem 1.8rem;
   border-radius: 4px;
   text-decoration: none;
@@ -308,12 +313,19 @@
 }
 
 .recognitionSection::before {
-  content: '';
+  content: "";
   position: absolute;
   inset: 0;
-  background-image:
-    radial-gradient(ellipse at 15% 20%, rgba(224, 123, 0, 0.04) 0%, transparent 55%),
-    radial-gradient(ellipse at 85% 80%, rgba(92, 45, 0, 0.04) 0%, transparent 55%);
+  background-image: radial-gradient(
+      ellipse at 15% 20%,
+      rgba(224, 123, 0, 0.04) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      ellipse at 85% 80%,
+      rgba(92, 45, 0, 0.04) 0%,
+      transparent 55%
+    );
   pointer-events: none;
 }
 
@@ -322,14 +334,13 @@
 }
 
 /* ════════════════════════════════════════════════
-   CERTS BLOCK — shared wrapper for both sections
+   CERTS BLOCK
 ════════════════════════════════════════════════ */
 
 .certsBlock {
-  margin-bottom: 3rem;
+  margin-bottom: 3.5rem;
 }
 
-/* ── Section heading inside certs block ── */
 .certsBlockHeader {
   display: flex;
   align-items: center;
@@ -363,7 +374,7 @@
 }
 
 /* ════════════════════════════════════════════════
-   COURSE CERTS — 4-column grid (always 4 per row)
+   COURSE CERTS GRID
 ════════════════════════════════════════════════ */
 
 .certsGrid4 {
@@ -372,38 +383,18 @@
   gap: clamp(1rem, 2vw, 1.8rem);
 }
 
-/* ════════════════════════════════════════════════
-   AWARDS — flex row, centered, up to 4
-   If 2 awards → they sit centered (not full width)
-════════════════════════════════════════════════ */
-
-.awardsGrid {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: clamp(1rem, 2vw, 1.8rem);
-}
-
-.awardsGrid .certCard {
-  flex: 0 0 calc(25% - 1.5rem);
-  max-width: 300px;
-  min-width: 200px;
-}
-
-/* ── Cert Card ── */
 .certCard {
   background: linear-gradient(135deg, var(--cream-white) 0%, #fdf0dc 100%);
   border: 1px solid var(--gold-border);
   border-radius: 10px;
   overflow: hidden;
-  cursor: pointer;
+  cursor: default;
   box-shadow: 0 4px 18px var(--shadow-warm);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
   outline: none;
 }
 
-.certCard:hover,
-.certCard:focus-visible {
+.certCard:hover {
   transform: translateY(-5px) scale(1.02);
   box-shadow: 0 12px 36px rgba(224, 123, 0, 0.28);
   border-color: rgba(224, 123, 0, 0.5);
@@ -417,13 +408,6 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
-}
-
-.certImageWrap img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
 }
 
 .certCardFooter {
@@ -453,187 +437,301 @@
 }
 
 /* ════════════════════════════════════════════════
-   IMAGE MODAL
+   AWARDS — NEW 3-COLUMN LAYOUT
 ════════════════════════════════════════════════ */
 
-.modalBackdrop {
-  position: fixed;
-  inset: 0;
-  background: rgba(25, 10, 0, 0.88);
-  z-index: 1000;
+.awardsStack {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1.5rem;
-  backdrop-filter: blur(6px);
-  animation: fadeInBackdrop 0.25s ease;
+  flex-direction: column;
+  gap: 3rem;
 }
 
-@keyframes fadeInBackdrop {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-
-.modalBox {
+.awardRow {
+  display: grid;
+  grid-template-columns: 370px 1.6fr 1fr;
+  gap: clamp(1.5rem, 3vw, 3rem);
+  align-items: start;
+  background: linear-gradient(135deg, #fffdf8 0%, #fdf6ec 100%);
+  border: 1px solid rgba(224, 123, 0, 0.18);
+  border-radius: 16px;
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+  box-shadow: 0 8px 36px var(--shadow-warm);
   position: relative;
-  background: linear-gradient(145deg, #fffdf8 0%, #fdf6ec 100%);
-  border: 1px solid rgba(224, 123, 0, 0.3);
-  border-radius: 12px;
-  max-width: 720px;
-  width: 100%;
-  max-height: 90vh;
-  overflow-y: auto;
-  box-shadow:
-    0 30px 80px rgba(0, 0, 0, 0.5),
-    0 0 0 1px rgba(224, 123, 0, 0.15),
-    inset 0 1px 0 rgba(255, 255, 255, 0.8);
-  animation: slideUpModal 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  overflow: hidden;
 }
 
-@keyframes slideUpModal {
-  from {
-    opacity: 0;
-    transform: translateY(30px) scale(0.96);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-.modalBox::before {
-  content: '';
-  display: block;
+.awardRow::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
   height: 4px;
-  background: linear-gradient(90deg,
-      transparent,
-      var(--saffron),
-      var(--saffron-light),
-      var(--saffron),
-      transparent);
-  border-radius: 12px 12px 0 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--saffron),
+    var(--saffron-light),
+    var(--saffron),
+    transparent
+  );
+  border-radius: 16px 16px 0 0;
 }
 
-.modalBox::after {
-  content: 'ॐ';
+.awardRow::after {
+  content: "ॐ";
   position: absolute;
   top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  right: -2rem;
+  transform: translateY(-50%);
   font-family: var(--font-playfair), serif;
   font-size: 12rem;
-  color: rgba(224, 123, 0, 0.04);
+  color: rgba(224, 123, 0, 0.035);
   pointer-events: none;
   user-select: none;
   line-height: 1;
 }
 
-.modalClose {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--saffron) 0%, var(--saffron-deep) 100%);
-  border: none;
-  color: #fff;
-  font-size: 0.95rem;
-  cursor: pointer;
+/* LEFT: Award image */
+.awardImageCol {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  box-shadow: 0 3px 12px var(--shadow-saffron);
-  transition: transform 0.2s, box-shadow 0.2s;
-  z-index: 10;
-  font-family: var(--font-playfair), serif;
-  font-weight: 700;
+  gap: 1rem;
 }
 
-.modalClose:hover {
-  transform: scale(1.1) rotate(90deg);
-  box-shadow: 0 5px 18px rgba(224, 123, 0, 0.5);
-}
-
-.modalImageWrap {
-  padding: 1.5rem 1.5rem 0;
+.awardImgFrame {
   position: relative;
-  z-index: 1;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  background: linear-gradient(135deg, #fff8f0, #ffecd8);
+  border: 1px solid rgba(224, 123, 0, 0.25);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 6px 28px rgba(92, 45, 0, 0.13);
 }
 
-.modalCaption {
-  padding: 1.2rem 1.5rem;
-  position: relative;
-  z-index: 1;
-  border-top: 1px solid var(--gold-border);
-  margin-top: 1rem;
+.corner {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-color: var(--saffron);
+  border-style: solid;
+  opacity: 0.5;
+  z-index: 2;
 }
 
-.modalTag {
+.tl {
+  top: 8px;
+  left: 8px;
+  border-width: 2px 0 0 2px;
+}
+.tr {
+  top: 8px;
+  right: 8px;
+  border-width: 2px 2px 0 0;
+}
+.bl {
+  bottom: 8px;
+  left: 8px;
+  border-width: 0 0 2px 2px;
+}
+.br {
+  bottom: 8px;
+  right: 8px;
+  border-width: 0 2px 2px 0;
+}
+
+.awardBadge {
   display: inline-block;
-  font-family: var(--font-playfair), serif;
-  font-size: 0.6rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: #fff;
   background: linear-gradient(135deg, var(--saffron), var(--saffron-deep));
-  padding: 0.2rem 0.7rem;
+  color: #fff;
+  font-family: var(--font-playfair), serif;
+  font-size: 0.9rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.3rem 1.1rem;
   border-radius: 20px;
-  margin-bottom: 0.5rem;
+  font-weight: 600;
+  text-align: center;
 }
 
-.modalLabel {
+/* MIDDLE: Description */
+.awardDescCol {
+  padding: 0.25rem 0;
+  position: relative;
+  z-index: 1;
+}
+
+.awardName {
   font-family: var(--font-playfair), serif;
-  font-size: clamp(0.9rem, 1.8vw, 1.15rem);
+  font-size: clamp(1rem, 1.8vw, 1.25rem);
+  font-weight: 700;
+  color: var(--saffron-deep);
+  margin-bottom: 0.6rem;
+  line-height: 1.4;
+}
+
+.descDivider {
+  width: 50px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--saffron), transparent);
+  margin-bottom: 1rem;
+  border-radius: 2px;
+}
+
+.awardMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.metaItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  font-family: var(--font-lato), sans-serif;
+  font-size: 0.88rem;
+  color: var(--earth-mid);
+  line-height: 1.55;
+}
+
+.metaDot {
+  width: 6px;
+  height: 6px;
+  min-width: 6px;
+  background: var(--saffron);
+  border-radius: 50%;
+  margin-top: 7px;
+}
+
+.awardPullQuote {
+  margin-top: 1.2rem;
+  padding: 0.9rem 1.1rem;
+  background: linear-gradient(135deg, #fff8f0, #ffecd8);
+  border-left: 3px solid var(--saffron);
+  border-radius: 0 8px 8px 0;
+  font-family: var(--font-lato), sans-serif;
+  font-size: 0.98rem;
+  font-style: italic;
+  color: var(--earth);
+  line-height: 1.7;
+  font-weight: 600;
+}
+
+/* RIGHT: AYUSH Courses */
+.ayushCol {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  position: relative;
+  z-index: 1;
+}
+
+.ayushHeader {
+  text-align: center;
+}
+
+.ayushLabel {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--saffron), var(--saffron-deep));
+  color: #fff;
+  font-family: var(--font-playfair), serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.28rem 1rem;
+  border-radius: 20px;
+  font-weight: 600;
+  margin-bottom: 0.6rem;
+}
+
+.ayushSubtitle {
+  font-family: var(--font-playfair), serif;
+  font-size: 0.95rem;
   font-weight: 700;
   color: var(--earth);
-  letter-spacing: 0.03em;
-  margin: 0 0 0.4rem;
-}
-
-.modalAlt {
-  font-family: var(--font-lato), sans-serif;
-  font-size: 0.9rem;
-  color: var(--earth-light);
-  line-height: 1.6;
+  line-height: 1.4;
   margin: 0;
 }
 
-.modalNav {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1rem 1.5rem 1.4rem;
+.coursesGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.65rem;
+}
+
+.courseBox {
+  background: linear-gradient(135deg, #ffffff, #fdf6ec);
+  border: 1px solid rgba(224, 123, 0, 0.22);
+  border-radius: 10px;
+  padding: 0.85rem 0.75rem;
+  text-align: center;
+  transition: transform 0.22s, box-shadow 0.22s, border-color 0.22s;
   position: relative;
-  z-index: 1;
+  overflow: hidden;
+  cursor: default;
 }
 
-.modalNavBtn {
+.courseBox::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--saffron), var(--saffron-light));
+  border-radius: 10px 10px 0 0;
+}
+
+.courseBox:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 28px rgba(224, 123, 0, 0.2);
+  border-color: rgba(224, 123, 0, 0.45);
+}
+
+.courseIcon {
+  display: block;
+  font-size: 1.4rem;
+  margin-bottom: 0.4rem;
+  opacity: 0.8;
+}
+
+.courseLevel {
   font-family: var(--font-playfair), serif;
-  font-size: 0.7rem;
+  font-size: 0.9rem;
+  letter-spacing: 0.12em;
+  color: var(--saffron);
+  font-weight: 700;
+  margin-bottom: 0.35rem;
+}
+
+.courseName {
+  font-family: var(--font-lato), sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--earth);
+  line-height: 1.4;
+}
+
+.ayushFooter {
+  background: linear-gradient(135deg, #fff8f0, #ffecd8);
+  border: 1px solid rgba(224, 123, 0, 0.18);
+  border-radius: 8px;
+  padding: 0.7rem 1rem;
+  text-align: center;
+  font-family: var(--font-lato), sans-serif;
+  font-size: 0.88rem;
+  color: var(--earth-mid);
+  line-height: 1.6;
   font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+}
+
+.ayushFooter strong {
   color: var(--saffron-deep);
-  background: transparent;
-  border: 1px solid rgba(224, 123, 0, 0.3);
-  padding: 0.5rem 1.1rem;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background 0.2s, color 0.2s, border-color 0.2s;
-}
-
-.modalNavBtn:hover {
-  background: var(--saffron);
-  color: #fff;
-  border-color: var(--saffron);
-}
-
-.modalNavCount {
-  font-family: var(--font-playfair), serif;
-  font-size: 0.72rem;
-  letter-spacing: 0.1em;
-  color: var(--earth-light);
+  font-weight: 700;
 }
 
 /* ════════════════════════════════════════════════
@@ -645,8 +743,8 @@
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .awardsGrid .certCard {
-    flex: 0 0 calc(50% - 1rem);
+  .awardRow {
+    grid-template-columns: 220px 1fr 1fr;
   }
 }
 
@@ -680,8 +778,29 @@
     gap: 2rem;
   }
 
-  .modalBox {
-    max-width: 95vw;
+  /* Award row stacks on tablet */
+  .awardRow {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+  }
+
+  .awardImageCol {
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+  }
+
+  .awardDescCol {
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
+  }
+
+  .ayushCol {
+    grid-column: 1 / 3;
+    grid-row: 2 / 3;
+  }
+
+  .coursesGrid {
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
@@ -702,26 +821,30 @@
     grid-template-columns: 1fr;
   }
 
-  .awardsGrid .certCard {
-    flex: 0 0 100%;
-    max-width: 360px;
+  /* Award row fully stacked on mobile */
+  .awardRow {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    padding: 1.5rem 1rem;
   }
 
-  .modalBox {
-    max-width: 100%;
-    border-radius: 10px 10px 0 0;
-    position: fixed;
-    bottom: 0;
-    max-height: 92vh;
+  .awardImageCol {
+    grid-column: 1;
+    grid-row: auto;
   }
 
-  .modalBackdrop {
-    align-items: flex-end;
-    padding: 0;
+  .awardDescCol {
+    grid-column: 1;
+    grid-row: auto;
   }
 
-  .modalBox::after {
-    font-size: 7rem;
+  .ayushCol {
+    grid-column: 1;
+    grid-row: auto;
+  }
+
+  .coursesGrid {
+    grid-template-columns: 1fr 1fr;
   }
 }
 
@@ -733,5 +856,9 @@
   .knowMoreBtn {
     font-size: 0.7rem;
     padding: 0.7rem 1.3rem;
+  }
+
+  .coursesGrid {
+    grid-template-columns: 1fr;
   }
 }

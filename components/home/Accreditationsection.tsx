@@ -39,7 +39,7 @@ function SmartVideo({ src, poster }: { src: string; poster?: string }) {
         if (entry.isIntersecting) video.play().catch(() => {});
         else video.pause();
       },
-      { threshold: 0.4 },
+      { threshold: 0.4 }
     );
     observer.observe(video);
     return () => observer.disconnect();
@@ -217,27 +217,120 @@ function SmartVideo({ src, poster }: { src: string; poster?: string }) {
   );
 }
 
-/* ── Reusable Cert Card ── */
-function CertCard({
-  cert,
-  onClick,
-}: {
-  cert: any;
-  onClick: (cert: any) => void;
-}) {
+/* ── Types ── */
+interface AyushCourse {
+  _id?: string;
+  icon: string;
+  level: string;
+  name: string;
+}
+
+interface AwardCert {
+  _id?: string;
+  label: string;
+  tag: string;
+  alt?: string;
+  image: string;
+  descPara1?: string;
+  descPara2?: string;
+  metaPoint1?: string;
+  metaPoint2?: string;
+  metaPoint3?: string;
+  metaPoint4?: string;
+  pullQuote?: string;
+  ayushSubtitle?: string;
+  ayushCourses?: AyushCourse[];
+  ayushFooter?: string;
+}
+
+/* ── Award Row — fully dynamic from API ── */
+function AwardRow({ cert }: { cert: AwardCert }) {
+  // Build meta points array from individual fields, filter out empty ones
+  const metaPoints = [
+    cert.metaPoint1,
+    cert.metaPoint2,
+    cert.metaPoint3,
+    cert.metaPoint4,
+  ].filter(Boolean) as string[];
+
+  // Use ayushCourses from API
+  const ayushCourses: AyushCourse[] = cert.ayushCourses || [];
+
   return (
-    <div className={styles.certCard} onClick={() => onClick(cert)}>
-      <div className={styles.certImageWrap}>
-        <Image
-          src={getImageUrl(cert.image)}
-          alt={cert.alt || cert.label}
-          fill
-          style={{ objectFit: "cover" }}
-        />
+    <div className={styles.awardRow}>
+      {/* LEFT: Image */}
+      <div className={styles.awardImageCol}>
+        <div className={styles.awardImgFrame}>
+          <Image
+            src={getImageUrl(cert.image)}
+            alt={cert.alt || cert.label}
+            fill
+            style={{ objectFit: "cover" }}
+          />
+          <div className={`${styles.corner} ${styles.tl}`} />
+          <div className={`${styles.corner} ${styles.tr}`} />
+          <div className={`${styles.corner} ${styles.bl}`} />
+          <div className={`${styles.corner} ${styles.br}`} />
+        </div>
+        <span className={styles.awardBadge}>✦ {cert.tag} ✦</span>
       </div>
-      <div className={styles.certCardFooter}>
-        <span className={styles.certTag}>{cert.tag}</span>
-        <span className={styles.certCardLabel}>{cert.label}</span>
+
+      {/* MIDDLE: Description — fully from API */}
+      <div className={styles.awardDescCol}>
+        <h3 className={styles.awardName}>{cert.label}</h3>
+        <div className={styles.descDivider} />
+
+        {cert.descPara1 && (
+          <p className={styles.para}>{cert.descPara1}</p>
+        )}
+        {cert.descPara2 && (
+          <p className={styles.para}>{cert.descPara2}</p>
+        )}
+
+        {metaPoints.length > 0 && (
+          <div className={styles.awardMeta}>
+            {metaPoints.map((point, i) => (
+              <div className={styles.metaItem} key={i}>
+                <span className={styles.metaDot} />
+                <span>{point}</span>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {cert.pullQuote && (
+          <div className={styles.awardPullQuote}>
+            "{cert.pullQuote}"
+          </div>
+        )}
+      </div>
+
+      {/* RIGHT: AYUSH Courses — fully from API */}
+      <div className={styles.ayushCol}>
+        <div className={styles.ayushHeader}>
+          <span className={styles.ayushLabel}>✦ AYUSH Certified Courses ✦</span>
+          {cert.ayushSubtitle && (
+            <p className={styles.ayushSubtitle}>{cert.ayushSubtitle}</p>
+          )}
+        </div>
+
+        {ayushCourses.length > 0 && (
+          <div className={styles.coursesGrid}>
+            {ayushCourses.map((course, i) => (
+              <div className={styles.courseBox} key={course._id || i}>
+                <span className={styles.courseIcon}>{course.icon}</span>
+                <div className={styles.courseLevel}>{course.level}</div>
+                <div className={styles.courseName}>{course.name}</div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {cert.ayushFooter && (
+          <div className={styles.ayushFooter}>
+            {cert.ayushFooter}
+          </div>
+        )}
       </div>
     </div>
   );
@@ -246,10 +339,6 @@ function CertCard({
 export const AccreditationSection: React.FC = () => {
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-
-  // modal can come from courseCerts or awardCerts
-  const [modalImg, setModalImg] = useState<any>(null);
-  const [modalList, setModalList] = useState<any[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -265,31 +354,11 @@ export const AccreditationSection: React.FC = () => {
     fetchData();
   }, []);
 
-  useEffect(() => {
-    const handleKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setModalImg(null);
-    };
-    if (modalImg) window.addEventListener("keydown", handleKey);
-    return () => window.removeEventListener("keydown", handleKey);
-  }, [modalImg]);
-
-  useEffect(() => {
-    document.body.style.overflow = modalImg ? "hidden" : "";
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [modalImg]);
-
-  const openModal = (cert: any, list: any[]) => {
-    setModalImg(cert);
-    setModalList(list);
-  };
-
   if (loading) return <p>Loading...</p>;
   if (!data) return <p>No data found</p>;
 
   const courseCerts: any[] = data.courseCerts || [];
-  const awardCerts: any[] = data.awardCerts || [];
+  const awardCerts: AwardCert[] = data.awardCerts || [];
 
   return (
     <>
@@ -358,7 +427,8 @@ export const AccreditationSection: React.FC = () => {
               <p className={styles.para}>{data.immersePara1}</p>
               <p className={styles.para}>{data.immersePara2}</p>
               <a href={data.immerseCtaLink} className={styles.knowMoreBtn}>
-                {data.immerseCtaText} <span className={styles.btnArrow}>→</span>
+                {data.immerseCtaText}{" "}
+                <span className={styles.btnArrow}>→</span>
               </a>
             </div>
           </div>
@@ -388,20 +458,28 @@ export const AccreditationSection: React.FC = () => {
                 <span className={styles.certsBlockDecor}>✦</span>
               </div>
               <div className={styles.certsBlockLine} />
-
               <div className={styles.certsGrid4}>
                 {courseCerts.map((cert: any, index: number) => (
-                  <CertCard
-                    key={index}
-                    cert={cert}
-                    onClick={(c) => openModal(c, courseCerts)}
-                  />
+                  <div className={styles.certCard} key={index}>
+                    <div className={styles.certImageWrap}>
+                      <Image
+                        src={getImageUrl(cert.image)}
+                        alt={cert.alt || cert.label}
+                        fill
+                        style={{ objectFit: "cover" }}
+                      />
+                    </div>
+                    <div className={styles.certCardFooter}>
+                      <span className={styles.certTag}>{cert.tag}</span>
+                      <span className={styles.certCardLabel}>{cert.label}</span>
+                    </div>
+                  </div>
                 ))}
               </div>
             </div>
           )}
 
-          {/* ══ AWARDS ══ */}
+          {/* ══ AWARDS — Dynamic 3-column layout ══ */}
           {awardCerts.length > 0 && (
             <div className={styles.certsBlock}>
               <div className={styles.certsBlockHeader}>
@@ -411,89 +489,15 @@ export const AccreditationSection: React.FC = () => {
               </div>
               <div className={styles.certsBlockLine} />
 
-              <div className={styles.awardsGrid}>
-                {awardCerts.map((cert: any, index: number) => (
-                  <CertCard
-                    key={index}
-                    cert={cert}
-                    onClick={(c) => openModal(c, awardCerts)}
-                  />
+              <div className={styles.awardsStack}>
+                {awardCerts.map((cert: AwardCert, index: number) => (
+                  <AwardRow key={cert._id || index} cert={cert} />
                 ))}
               </div>
             </div>
           )}
         </div>
       </section>
-
-      {/* ══════════════ MODAL ══════════════ */}
-      {modalImg && (
-        <div
-          className={styles.modalBackdrop}
-          onClick={() => setModalImg(null)}
-          role="dialog"
-          aria-modal="true"
-          aria-label="Certificate preview"
-        >
-          <div className={styles.modalBox} onClick={(e) => e.stopPropagation()}>
-            <button
-              className={styles.modalClose}
-              onClick={() => setModalImg(null)}
-              aria-label="Close"
-            >
-              ✕
-            </button>
-
-            <div className={styles.modalImageWrap}>
-              <Image
-                src={getImageUrl(modalImg.image)}
-                alt={modalImg.alt}
-                width={800}
-                height={560}
-                style={{
-                  width: "100%",
-                  height: "auto",
-                  objectFit: "contain",
-                  borderRadius: "6px",
-                }}
-                priority
-              />
-            </div>
-
-            <div className={styles.modalCaption}>
-              <span className={styles.modalTag}>{modalImg.tag}</span>
-              <h3 className={styles.modalLabel}>{modalImg.label}</h3>
-              <p className={styles.modalAlt}>{modalImg.alt}</p>
-            </div>
-
-            <div className={styles.modalNav}>
-              <button
-                className={styles.modalNavBtn}
-                onClick={() => {
-                  const idx = modalList.findIndex((c: any) => c === modalImg);
-                  setModalImg(
-                    modalList[(idx - 1 + modalList.length) % modalList.length],
-                  );
-                }}
-              >
-                ← Prev
-              </button>
-              <span className={styles.modalNavCount}>
-                {modalList.findIndex((c: any) => c === modalImg) + 1} /{" "}
-                {modalList.length}
-              </span>
-              <button
-                className={styles.modalNavBtn}
-                onClick={() => {
-                  const idx = modalList.findIndex((c: any) => c === modalImg);
-                  setModalImg(modalList[(idx + 1) % modalList.length]);
-                }}
-              >
-                Next →
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </>
   );
 };
