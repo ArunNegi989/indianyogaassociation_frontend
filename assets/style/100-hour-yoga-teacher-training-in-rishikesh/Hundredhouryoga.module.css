@@ -23,7 +23,7 @@
   --shadow-warm: rgba(80, 40, 5, 0.15);
 
   /* ── UPDATED FONT VARIABLES ── */
-  --font-display: 'Playfair Display', Georgia, serif;   /* was: Cinzel */
+  --font-display: 'Montserrat', Arial, sans-serif;     /* was: Cinzel */
   --font-body:    'Lato', Arial, sans-serif;             /* was: Cormorant Garamond */
   --font-fell:    'Playfair Display', Georgia, serif;    /* was: IM Fell English */
   --font-script:  'Poppins', Arial, sans-serif;          /* was: Dancing Script */
@@ -1016,7 +1016,7 @@
 
 .psbBcSel {
   border: 2px solid var(--saffron-bright) !important;
-  background: linear-gradient(145deg, #fff8e6, #fff6de) !important;
+  background: linear-gradient(145deg, #fffaed, #fff4d7) !important;
   box-shadow: 0 4px 18px rgba(200, 112, 10, 0.22) !important;
 }
 
@@ -1707,7 +1707,7 @@
 
 /* ── 12) ≤ 360px ── */
 @media (max-width: 360px) {
-  .icWrap         { margin-top: -8px; }
+  .icWrap         { margin-top: -22px; }
   .icGrid         { grid-template-columns: 1fr 1fr; }
   .icItem         { padding: 0.38rem; gap: 0.28rem; }
   .icIcon         { width: 24px; height: 24px; padding: 4px; }
