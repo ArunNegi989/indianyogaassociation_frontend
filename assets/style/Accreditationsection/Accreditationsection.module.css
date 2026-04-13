@@ -15,11 +15,11 @@
 }
 
 .section {
-  background: #f5f8f6;
+  
   /* Softer calm spiritual tone */
   color: #3d2b10;
   animation: fadeIn 0.8s ease-in-out;
-  background-image: url("../../images/1905x3020.png");
+  background-image: url("../../images/backgroundimage/1905x3544.png");
   background-size: contain;
 }
 

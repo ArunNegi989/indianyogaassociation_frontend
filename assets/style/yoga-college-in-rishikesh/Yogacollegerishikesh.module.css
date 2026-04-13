@@ -7,7 +7,7 @@
   --saffron-pale: #fff3e0;
   --maroon: #3d1d00;
   --maroon-mid: #7a3f00;
-  --parchment: #fdf6ec;
+  --parchment: #ffffff;
   --parchment-2: #f5e9d4;
   --cream: #fffaf3;
   --border: #e8d5b5;
@@ -109,7 +109,7 @@
    TAB SECTION — Screenshots 2–5
    ================================================================ */
 .tabsectionmain {
-  background-image: url("../../images/1905x1705.webp") !important;
+  background-image: url("../../images/backgroundimage/71.png") !important;
   background-size: contain;
 }
 

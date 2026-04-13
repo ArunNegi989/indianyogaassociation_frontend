@@ -459,7 +459,7 @@
   grid-template-columns: 370px 1.6fr 1fr;
   gap: clamp(1.5rem, 3vw, 3rem);
   align-items: start;
-  background: linear-gradient(135deg, #fffdf8 0%, #fdf6ec 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #ffffff 100%);
   border: 1px solid rgba(224, 123, 0, 0.18);
   border-radius: 16px;
   padding: clamp(1.5rem, 3vw, 2.5rem);
