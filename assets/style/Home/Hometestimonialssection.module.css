@@ -3,14 +3,13 @@
    ================================================================ */
 .section {
   position: relative;
-  background: #f7f2eb;
+  background: #ffffff;
   overflow: hidden;
 }
 
 .section::before {
   content: '';
   position: absolute;
-  inset: 0;
   background-image:
     radial-gradient(ellipse at 15% 10%, rgba(224, 123, 0, 0.06) 0%, transparent 50%),
     radial-gradient(ellipse at 85% 90%, rgba(92, 45, 0, 0.06) 0%, transparent 50%);
@@ -244,7 +243,6 @@
 
 .reviewAvatarFallback {
   position: absolute;
-  inset: 0;
   background: linear-gradient(135deg, #e07b00, #f59500);
   color: #fff;
   font-family: var(--font-display), serif;
@@ -657,7 +655,6 @@
 
 .youtubeIframe {
   position: absolute;
-  inset: 0;
   width: 100%;
   height: 100%;
   border: none;
@@ -667,7 +664,6 @@
 
 .videoThumbBg {
   position: absolute;
-  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -677,7 +673,6 @@
 
 .videoThumbFallbackLarge {
   position: absolute;
-  inset: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -706,7 +701,6 @@
 
 .videoPlayLarge {
   position: absolute;
-  inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -969,7 +963,6 @@
 
 .videoThumbImg {
   position: absolute;
-  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -978,7 +971,6 @@
 
 .videoThumbFallback {
   position: absolute;
-  inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -995,7 +987,6 @@
 
 .videoPlayOverlay {
   position: absolute;
-  inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;

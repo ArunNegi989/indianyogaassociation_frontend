@@ -230,7 +230,6 @@
 
 .cardImgOverlay {
   position: absolute;
-  inset: 0;
   z-index: 1;
 }
 
@@ -956,7 +955,6 @@
 
 .teacherImgOverlay {
   position: absolute;
-  inset: 0;
   background: linear-gradient(to top, rgba(61, 29, 0, 0.7) 0%, transparent 60%);
   display: flex;
   align-items: flex-end;
@@ -1102,7 +1100,6 @@
 
 .modalBackdrop {
   position: fixed;
-  inset: 0;
   z-index: 1000;
   background: rgba(30, 12, 0, 0.72);
   backdrop-filter: blur(6px);
@@ -1234,7 +1231,6 @@
 
 .modalImgOverlay {
   position: absolute;
-  inset: 0;
   background: linear-gradient(to top, rgba(61, 29, 0, 0.75) 0%, transparent 55%);
   display: flex;
   align-items: flex-end;
