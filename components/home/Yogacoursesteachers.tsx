@@ -692,8 +692,9 @@ export const YogaCoursesTeachers: React.FC = () => {
           WHO CAN JOIN — v4  (only backend data, no hardcoded stats)
           Purane whoSection block ko is se replace karo.
       ══════════════════════════════════════════════════ */}
-      <section className={styles.whoSection}>
-        <div className={styles.whoHero}>
+     <section className={styles.whoSection}>
+  <div className={styles.container}>
+    <div className={styles.whoHero}>
 
           {/* ── LEFT — cream panel ── */}
           <div className={styles.whoLeft}>
@@ -757,7 +758,7 @@ export const YogaCoursesTeachers: React.FC = () => {
               </div>
             </div>
           </div>
-
+</div>
         </div>
       </section>
 

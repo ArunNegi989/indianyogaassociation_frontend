@@ -922,10 +922,10 @@
 }
 
 .psbLayout {
-  display: grid;
-  grid-template-columns: 1fr 340px;
+   display: grid;
+  grid-template-columns: 2fr 1fr; 
   gap: 1.2rem;
-  align-items: start;
+  align-items: stretch;
   position: relative;
   z-index: 1;
 }
@@ -937,6 +937,8 @@
   border-radius: 6px;
   padding: 1.2rem;
   position: relative;
+  display: flex;
+  flex-direction: column;
 }
 
 .psbLph {
@@ -987,7 +989,7 @@
 
 .psbBatchGrid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 0.65rem;
 }
 
@@ -1120,6 +1122,9 @@
   overflow: hidden;
   background: linear-gradient(160deg, #fefaf0, #fff8e7);
   position: relative;
+  height: 100%;
+   display: flex;
+  flex-direction: column;
 }
 
 .psbRpHead {
@@ -1163,6 +1168,10 @@
 
 .psbRpBody {
   padding: 0rem 1.1rem 1.1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* 👈 IMPORTANT */
+  flex: 1; /* 👈 MOST IMPORTANT */
 }
 
 .psbPriceLbl {
@@ -1423,7 +1432,7 @@
     grid-template-columns: repeat(3, 1fr);
   }
   .psbBatchGrid {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
@@ -1442,7 +1451,7 @@
     padding: 1.3rem 1.4rem;
   }
   .psbBatchGrid {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
