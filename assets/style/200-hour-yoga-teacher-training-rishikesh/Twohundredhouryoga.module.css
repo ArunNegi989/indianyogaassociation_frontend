@@ -9,8 +9,8 @@
   --parchment-3: #e8d5a8;
   --parchment-dark: #d4bc88;
   --ink-sepia: #2c1a08;
-  --ink-mid: #4a2e10;
-  --ink-soft: #7a5c30;
+  --ink-mid: #000000;
+  --ink-soft: #000000;
   --saffron: #c8700a;
   --saffron-bright: #e07b00;
   --saffron-gold: #b8860b;
@@ -33,7 +33,6 @@
 
   position: relative;
   overflow-x: hidden;
-  background-color: var(--parchment);
   color: var(--ink-sepia);
   font-family: var(--font-body);
 }
@@ -456,6 +455,7 @@
   padding: clamp(2rem, 4vw, 4rem) clamp(1rem, 5vw, 4rem);
   margin: 0 auto;
   overflow: hidden;
+  max-width: 1480px;
 }
 
 .contentSection3 {
@@ -515,7 +515,7 @@
 
 .statCard {
   position: relative;
-  background: linear-gradient(160deg, #fdf5e0 0%, #f5e5c0 100%);
+  background: linear-gradient(160deg, #fdf5e0 0%, #ffd2b8 100%);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -526,7 +526,7 @@
 }
 
 .statCard:hover {
-  background: linear-gradient(160deg, #fff0cc 0%, #eed8a0 100%);
+  background: linear-gradient(160deg, #fff0cc 0%, #f3e2b6 100%);
 }
 
 .statCard .cornerOrn:nth-child(1) {
@@ -572,7 +572,7 @@
 
 .statDesc {
   font-family: var(--font-body);
-  font-size: 0.82rem;
+  font-size: 0.92rem;
   color: var(--ink-soft);
   line-height: 1.5;
 }
@@ -586,7 +586,7 @@
   border-radius: 2px;
   padding: 1.6rem 2rem;
   margin: 1.2rem 0;
-  background: linear-gradient(160deg, #fdf5e0 0%, #fff9eb 100%);
+ background: linear-gradient(160deg, #fffcf4 0%, #fffdfa 100%);
   box-shadow: inset 0 0 0 4px rgba(184, 134, 11, 0.08), 0 4px 18px var(--shadow-warm);
 }
 
@@ -889,7 +889,7 @@
   border: 2px solid var(--saffron-gold);
   border-radius: 2px;
   padding: 1.8rem 2rem;
-  background: linear-gradient(160deg, #fdf5e0, #f5e5c0);
+  background: linear-gradient(160deg, #fff9ea, #fffcf5);
   box-shadow: inset 0 0 0 5px rgba(184, 134, 11, 0.08), 0 6px 30px var(--shadow-warm);
   margin-bottom: 2rem;
   max-width: 1100px;
@@ -921,7 +921,7 @@
   border-radius: 2px;
   padding: 1.2rem 1.4rem;
   margin: 1rem 0;
-  background: rgba(245, 230, 200, 0.5);
+  background: rgba(245, 234, 214, 0.5);
 }
 
 .foundationHeader {
@@ -2315,7 +2315,7 @@
 
 .bookingStepTitle {
   font-family: var(--font-menu);
-  font-size: 0.75rem;
+  font-size: 1.2rem;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -2325,10 +2325,11 @@
 
 .bookingStepText {
   font-family: var(--font-body);
-  font-size: 0.9rem;
+  font-size: 1rem;
   color: var(--ink-mid);
   line-height: 1.65;
   margin: 0;
+  font-weight: 500;
 }
 
 .faqList {

@@ -1281,7 +1281,7 @@ export default function TwoHundredHourYoga() {
         ) : null}
       </section>
 
-      <BorderStrip />
+    
 
       <div id="location">
         <HowToReach />
