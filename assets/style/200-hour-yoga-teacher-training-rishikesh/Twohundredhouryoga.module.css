@@ -966,6 +966,8 @@
   border: 1px solid var(--saffron-gold);
   border-radius: 2px;
   overflow: hidden;
+  height: 100%;
+  width: 100%;
 }
 
 .weekHeader {
@@ -1737,7 +1739,7 @@
   align-items: center;
   gap: 0.65rem;
   font-family: var(--font-body);
-  font-size: clamp(0.9rem, 1.4vw, 1rem);
+  font-size: clamp(0.9rem, 1.4vw, 1.2rem);
   color: var(--ink-mid);
   padding: 0.4rem 0;
   border-bottom: 1px dashed rgba(184, 134, 11, 0.18);
@@ -1782,7 +1784,7 @@
   border-radius: 2px;
   padding: 0.9rem 0.6rem;
   text-align: center;
-  background: linear-gradient(160deg, #fdf5e0, #f5e5c0);
+  background: linear-gradient(160deg, #fffdf9, #f5e5c0);
   box-shadow: 0 3px 12px var(--shadow-warm);
 }
 
@@ -1873,12 +1875,13 @@
 
 .schedTable thead th {
   font-family: var(--font-menu);
-  font-size: 0.72rem;
+  font-size: 1rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--cream);
   padding: 0.75rem 1rem;
   text-align: left;
+  font-weight: 500;
 }
 
 .schedTable tbody tr {
@@ -2359,7 +2362,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 1rem 1.4rem;
-  background: linear-gradient(135deg, #fdf5e0, #f9f1e0);
+  background: linear-gradient(135deg, #fffdf8, #fefbf3);
   border: none;
   cursor: pointer;
   text-align: left;
@@ -2371,7 +2374,7 @@
 }
 
 .faqBtn:hover {
-  background: linear-gradient(135deg, #fff0cc, #eed8a0);
+  background: linear-gradient(135deg, #fff9ec, #fbf3e0);
 }
 
 .faqIcon {

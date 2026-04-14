@@ -75,6 +75,7 @@ interface Content1 {
       week: string;
       icon: string;
       items: Array<{ t: string; d: string }>;
+       [key: string]: any;
     }>;
   };
   hatha: {
@@ -112,6 +113,7 @@ interface Content2 {
   moreInfoH2: string;
   instrLangs: Array<{ lang: string } | string>;
   visaPassportDesc: string;
+
   programs: Array<{
     title: string;
     desc: string;
@@ -120,11 +122,38 @@ interface Content2 {
     oldPrice: string;
     price: string;
   }>;
-  reviews: Array<{ name: string; role: string; text: string }>;
+
+  reviews: Array<{
+    name: string;
+    role: string;
+    reviewText: string;
+    rating?: number;
+  }>;
+
   requirementsH2: string;
   reqImage: string;
+
   faqItems: Array<{ q: string; a: string }>;
   knowQA?: Array<{ q: string; a: string }>;
+
+  bookingH2: string;
+
+  // ✅ YAHI IMPORTANT HAI
+  step1Icon?: string;
+  step1Title?: string;
+  bookingStep1Desc?: string;
+
+  step2Icon?: string;
+  step2Title?: string;
+  bookingStep2Desc?: string;
+
+  step3Icon?: string;
+  step3Title?: string;
+  bookingStep3Desc?: string;
+
+  step4Icon?: string;
+  step4Title?: string;
+  bookingStep4Desc?: string;
 }
 
 interface Batch {
@@ -647,6 +676,13 @@ export default function TwoHundredHourYoga() {
   const [error, setError] = useState<string | null>(null);
   const [asanaFilter, setAsanaFilter] = useState<AsanaFilter>("All Poses");
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const [visibleReviews, setVisibleReviews] = useState(6);
+
+
+  const handleLoadMore = () => {
+  setVisibleReviews((prev) => prev + 6);
+
+};
 
   useEffect(() => {
     const fetchAll = async () => {
@@ -686,6 +722,29 @@ export default function TwoHundredHourYoga() {
     asanaFilter === "All Poses"
       ? allAsanas
       : allAsanas.filter((a) => (a.filter || "All Poses") === asanaFilter);
+
+      const bookingSteps = [
+  {
+    icon: content2?.step1Icon,
+    title: content2?.step1Title,
+    text: content2?.bookingStep1Desc,
+  },
+  {
+    icon: content2?.step2Icon,
+    title: content2?.step2Title,
+    text: content2?.bookingStep2Desc,
+  },
+  {
+    icon: content2?.step3Icon,
+    title: content2?.step3Title,
+    text: content2?.bookingStep3Desc,
+  },
+  {
+    icon: content2?.step4Icon,
+    title: content2?.step4Title,
+    text: content2?.bookingStep4Desc,
+  },
+].filter(step => step.title || step.text);
 
   return (
     <div className={styles.root}>
@@ -883,25 +942,45 @@ export default function TwoHundredHourYoga() {
                 </ul>
               </div>
             ) : null}
-            {content1.primary.weekGrid?.length ? (
-              <div className={styles.weekGrid}>
-                {content1.primary.weekGrid.map((w, i) => (
-                  <div key={i} className={styles.weekCard}>
-                    <div className={styles.weekHeader}>{stripHtml(w.week)} <span>{w.icon}</span></div>
-                    {w.items?.map((it, j) => (
-                      <div key={j} className={styles.weekItem}>
-                        <span className={styles.weekDot}>●</span>
-                        <div>
-                          <strong>{stripHtml(it.t)}</strong>
-                          <br />
-                          <span className={styles.weekDesc}>{stripHtml(it.d)}</span>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                ))}
+          {content1.primary.weekGrid?.length ? (
+  <div className={styles.weekGrid}>
+    {content1.primary.weekGrid.map((w, i) => {
+
+      const items = Object.keys(w)
+        .filter(key => key.startsWith("t"))
+        .sort((a, b) => Number(a.replace("t", "")) - Number(b.replace("t", "")))
+        .map((key) => {
+          const index = key.replace("t", "");
+          return {
+            t: w[key],
+            d: w[`d${index}`],
+          };
+        })
+        .filter(item => item.t && item.d);
+
+      return (
+        <div key={i} className={styles.weekCard}>
+          <div className={styles.weekHeader}>
+            {stripHtml(w.week)} <span>{w.icon}</span>
+          </div>
+
+          {items.map((it, j) => (
+            <div key={j} className={styles.weekItem}>
+              <span className={styles.weekDot}>●</span>
+              <div>
+                <strong>{stripHtml(it.t)}</strong>
+                <br />
+                <span className={styles.weekDesc}>
+                  {stripHtml(it.d)}
+                </span>
               </div>
-            ) : null}
+            </div>
+          ))}
+        </div>
+      );
+    })}
+  </div>
+) : null}
           </div>
         )}
 
@@ -1207,81 +1286,126 @@ export default function TwoHundredHourYoga() {
       <BorderStrip />
 
       {/* ════ REVIEWS ════ */}
-      {content2?.reviews?.length ? (
-        <section className={styles.contentSection}>
-          <VintageHeading>Student Reviews &amp; Success Stories</VintageHeading>
-          <p className={styles.centerSubtext}>Authentic stories of transformation from students who began just like you.</p>
-          <div className={styles.reviewsGrid}>
-            {content2.reviews.map((r, i) => (
-              <div key={i} className={styles.reviewCard}>
-                <CornerOrnament pos="tl" />
-                <CornerOrnament pos="tr" />
-                <CornerOrnament pos="bl" />
-                <CornerOrnament pos="br" />
-                <div className={styles.reviewHeader}>
-                  <div>
-                    <div className={styles.reviewName}>{stripHtml(r.name)}</div>
-                    <div className={styles.reviewRole}>{stripHtml(r.role)}</div>
-                  </div>
-                </div>
-                <Stars />
-                <p className={styles.reviewText}>"{stripHtml(r.text)}"</p>
-              </div>
-            ))}
-          </div>
-          <div style={{ textAlign: "center", marginTop: "1.5rem" }}>
-            <a href="#" className={styles.readMoreBtn}>Read More Reviews</a>
-          </div>
-        </section>
-      ) : null}
+    {content2?.reviews?.length ? (
+  <section className={styles.contentSection}>
+    <VintageHeading>Student Reviews & Success Stories</VintageHeading>
+    <p className={styles.centerSubtext}>
+      Authentic stories of transformation from students who began just like you.
+    </p>
 
+    <div className={styles.reviewsGrid}>
+      {content2.reviews
+        .slice(0, visibleReviews)
+        .map((r, i) => (
+          <div key={i} className={styles.reviewCard}>
+            <CornerOrnament pos="tl" />
+            <CornerOrnament pos="tr" />
+            <CornerOrnament pos="bl" />
+            <CornerOrnament pos="br" />
+
+            <div className={styles.reviewHeader}>
+              <div>
+                <div className={styles.reviewName}>
+                  {stripHtml(r.name)}
+                </div>
+                <div className={styles.reviewRole}>
+                  {stripHtml(r.role)}
+                </div>
+              </div>
+            </div>
+
+            <Stars n={r.rating || 5} />
+
+            {r.reviewText && (
+              <p className={styles.reviewText}>
+                "{stripHtml(r.reviewText)}"
+              </p>
+            )}
+          </div>
+        ))}
+    </div>
+
+    {/* ✅ Load More Button */}
+    {visibleReviews < content2.reviews.length && (
+      <div style={{ textAlign: "center", marginTop: "1.5rem" }}>
+        <button
+          onClick={handleLoadMore}
+          className={styles.readMoreBtn}
+        >
+          View More Reviews
+        </button>
+      </div>
+    )}
+  </section>
+) : null}
       <BorderStrip />
 
       {/* ════ HOW TO BOOK + FAQ ════ */}
       <section className={styles.contentSection}>
-        <VintageHeading>How to book your spot?</VintageHeading>
-        <div className={styles.bookingSteps}>
-          {[
-            { icon: "💻", title: "Apply Now", text: "Click on Apply Now, and you'll be redirected to the application page where you'll enter necessary details about yourself." },
-            { icon: "👍", title: "Confirmation", text: "Once we receive your application, we'll review it within 24 hours and send confirmation to your email." },
-            { icon: "🏛", title: "Advance-Deposit", text: "After confirmation, you need to deposit an advance fee. Once you deposit you will get a confirmation email." },
-            { icon: "📝", title: "Refund Rules", text: "The advance deposit will not be refundable however, you can join us on other schedules in the span of one year." },
-          ].map((s, i) => (
-            <div key={i} className={styles.bookingStep}>
-              <CornerOrnament pos="tl" />
-              <CornerOrnament pos="tr" />
-              <CornerOrnament pos="bl" />
-              <CornerOrnament pos="br" />
-              <div className={styles.bookingStepIcon}>{s.icon}</div>
-              <div className={styles.bookingStepTitle}>{s.title}</div>
-              <p className={styles.bookingStepText}>{s.text}</p>
+ {(content2?.bookingH2 || bookingSteps.length) ? (
+  <>
+    <VintageHeading>
+      {stripHtml(content2?.bookingH2 || "How to book your spot?")}
+    </VintageHeading>
+
+    {bookingSteps.length > 0 && (
+      <div className={styles.bookingSteps}>
+        {bookingSteps.map((s, i) => (
+          <div key={i} className={styles.bookingStep}>
+            <CornerOrnament pos="tl" />
+            <CornerOrnament pos="tr" />
+            <CornerOrnament pos="bl" />
+            <CornerOrnament pos="br" />
+
+            <div className={styles.bookingStepIcon}>
+              {s.icon || "🧘"}
             </div>
-          ))}
+
+            <div className={styles.bookingStepTitle}>
+  {stripHtml(s.title || "")}
+</div>
+
+<p className={styles.bookingStepText}>
+  {stripHtml(s.text || "")}
+</p>
+          </div>
+        ))}
+      </div>
+    )}
+  </>
+) : null}
+
+  {content2?.faqItems?.length ? (
+  <>
+    <VintageHeading>Frequently Asked Questions</VintageHeading>
+
+    <div className={styles.faqList}>
+      {content2.faqItems.map((faq, i) => (
+        <div key={i} className={styles.faqItem}>
+          <button
+            className={styles.faqBtn}
+            onClick={() => setOpenFaq(openFaq === i ? null : i)}
+          >
+            <span>{stripHtml(faq.q)}</span>
+            <span className={styles.faqIcon}>
+              {openFaq === i ? "−" : "+"}
+            </span>
+          </button>
+
+          {openFaq === i && (
+            <div className={styles.faqAnswer}>
+              <p className={styles.bodyText}>
+                {stripHtml(faq.a)}
+              </p>
+            </div>
+          )}
         </div>
+      ))}
+    </div>
+  </>
+) : null}
 
-        {content2?.faqItems?.length ? (
-          <>
-            <VintageHeading>Frequently Asked Questions</VintageHeading>
-            <div className={styles.faqList}>
-              {content2.faqItems.map((faq, i) => (
-                <div key={i} className={styles.faqItem}>
-                  <button className={styles.faqBtn} onClick={() => setOpenFaq(openFaq === i ? null : i)}>
-                    <span>{stripHtml(faq.q)}</span>
-                    <span className={styles.faqIcon}>{openFaq === i ? "−" : "+"}</span>
-                  </button>
-                  {openFaq === i && (
-                    <div className={styles.faqAnswer}>
-                      <p className={styles.bodyText}>{stripHtml(faq.a)}</p>
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          </>
-        ) : null}
-      </section>
-
-    
+    </section>
 
       <div id="location">
         <HowToReach />
