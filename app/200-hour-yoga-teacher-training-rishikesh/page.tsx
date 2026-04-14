@@ -107,7 +107,7 @@ interface Content2 {
   indianFees: Array<{ label: string; price: string }>;
   scheduleH2: string;
   schedDesc: string;
-  schedRows: Array<{ time: string; schedule: string }>;
+  schedRows: Array<{ time: string; activity: string }>;
   schedImages: string[];
   moreInfoH2: string;
   instrLangs: Array<{ lang: string } | string>;
@@ -1088,7 +1088,7 @@ export default function TwoHundredHourYoga() {
                     {(content2.schedRows || []).map((r, i) => (
                       <tr key={i}>
                         <td>{stripHtml(r.time)}</td>
-                        <td>{stripHtml(r.schedule)}</td>
+                        <td>{stripHtml(r.activity)}</td>
                       </tr>
                     ))}
                   </tbody>
