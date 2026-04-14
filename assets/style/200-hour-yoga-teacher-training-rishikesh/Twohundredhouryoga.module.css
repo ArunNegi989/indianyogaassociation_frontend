@@ -371,8 +371,9 @@
   position: relative;
   z-index: 1;
   text-align: center;
-  margin: 1.8rem auto 1.2rem;
+  display: contents;
   max-width: 1100px;
+  text-align: center;
 }
 
 .vintageHeading {
@@ -464,6 +465,7 @@
   padding: clamp(2rem, 4vw, 4rem) clamp(1rem, 5vw, 4rem);
   margin: 0 auto;
   overflow: hidden;
+  max-width: 1480px;
 }
 
 .contentSection4 {
@@ -472,6 +474,7 @@
   padding: clamp(2rem, 4vw, 4rem) clamp(1rem, 5vw, 4rem);
   margin: 0 auto;
   overflow: hidden;
+  max-width: 1480px;
 }
 
 .datesSection {
@@ -921,7 +924,7 @@
   border-radius: 2px;
   padding: 1.2rem 1.4rem;
   margin: 1rem 0;
-  background: rgba(245, 234, 214, 0.5);
+  background: rgba(253, 244, 227, 0.5);
 }
 
 .foundationHeader {
@@ -1635,12 +1638,12 @@
   border: 1px solid rgba(184, 134, 11, 0.25);
   border-radius: 2px;
   padding: 0.65rem 0.9rem;
-  background: linear-gradient(135deg, #fdf5e0, #f5e5c0);
+  background: linear-gradient(135deg, #fdf5e0, #fefaf0);
   transition: background 0.18s, box-shadow 0.18s;
 }
 
 .asanaCard:hover {
-  background: linear-gradient(135deg, #fff0cc, #eed8a0);
+  background: linear-gradient(135deg, #fff0cc, #f6e5ba);
   box-shadow: 0 3px 12px var(--shadow-warm);
 }
 
