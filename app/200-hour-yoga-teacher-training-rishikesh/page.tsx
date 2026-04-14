@@ -154,6 +154,20 @@ interface Content2 {
   step4Icon?: string;
   step4Title?: string;
   bookingStep4Desc?: string;
+
+  videosH2?: string;
+
+video1Url?: string;
+video1Label?: string;
+video1Thumb?: string;
+
+video2Url?: string;
+video2Label?: string;
+video2Thumb?: string;
+
+video3Url?: string;
+video3Label?: string;
+video3Thumb?: string;
 }
 
 interface Batch {
@@ -204,7 +218,27 @@ const monthYear = (start: string) => {
   const s = new Date(start);
   return s.toLocaleDateString("en-IN", { month: "short", year: "numeric" });
 };
+const getEmbedUrl = (url: string) => {
+  if (!url) return "";
 
+  if (url.includes("youtu.be")) {
+    const id = url.split("/").pop()?.split("?")[0];
+    return `https://www.youtube.com/embed/${id}`;
+  }
+
+  if (url.includes("watch?v=")) {
+    const id = url.split("watch?v=")[1].split("&")[0];
+    return `https://www.youtube.com/embed/${id}`;
+  }
+
+  return url;
+};
+
+const getYoutubeThumb = (url: string) => {
+  if (!url) return "";
+  const id = url.split("/").pop()?.split("?")[0];
+  return `https://img.youtube.com/vi/${id}/hqdefault.jpg`;
+};
 /* ══════════════════════════════
    SVG ICONS FOR COURSE INFO CARD
 ══════════════════════════════ */
@@ -677,6 +711,8 @@ export default function TwoHundredHourYoga() {
   const [asanaFilter, setAsanaFilter] = useState<AsanaFilter>("All Poses");
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [visibleReviews, setVisibleReviews] = useState(6);
+  const [playingVideo, setPlayingVideo] = useState<number | null>(null);
+  
 
 
   const handleLoadMore = () => {
@@ -1339,7 +1375,57 @@ export default function TwoHundredHourYoga() {
   </section>
 ) : null}
       <BorderStrip />
+{(content2?.video1Url || content2?.video2Url || content2?.video3Url) && (
+  <section className={styles.contentSection}>
+    <VintageHeading>
+  {stripHtml(content2?.videosH2 || "Video Testimonials")}
+</VintageHeading>
 
+    <div className={styles.videoGrid}>
+  {[1, 2, 3].map((num) => {
+    const url = (content2 as any)[`video${num}Url`];
+const label = (content2 as any)[`video${num}Label`];
+
+    if (!url) return null;
+
+    return (
+      <div key={num} className={styles.videoCard}>
+        <CornerOrnament pos="tl" />
+        <CornerOrnament pos="tr" />
+        <CornerOrnament pos="bl" />
+        <CornerOrnament pos="br" />
+
+        {playingVideo === num ? (
+          <iframe
+            src={getEmbedUrl(url)}
+            className={styles.videoFrame}
+            allowFullScreen
+          />
+        ) : (
+          <div
+            className={styles.videoThumbWrap}
+            onClick={() => setPlayingVideo(num)}
+          >
+            <img
+              src={getYoutubeThumb(url)}
+              alt={label || "Video testimonial"}
+              className={styles.videoThumb}
+            />
+            <div className={styles.playBtn}>▶</div>
+          </div>
+        )}
+
+        {label && (
+          <p className={styles.videoLabel}>
+            {stripHtml(label)}
+          </p>
+        )}
+      </div>
+    );
+  })}
+</div>
+  </section>
+)}
       {/* ════ HOW TO BOOK + FAQ ════ */}
       <section className={styles.contentSection}>
  {(content2?.bookingH2 || bookingSteps.length) ? (
