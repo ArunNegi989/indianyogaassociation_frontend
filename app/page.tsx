@@ -1,5 +1,6 @@
 import AccreditationSection from "@/components/home/Accreditationsection";
 import AYMFullPage from "@/components/home/Aymfullpage";
+import BlogSection from "@/components/home/BlogSection";
 import ClassCampusAmenities from "@/components/home/Classcampusamenities";
 import CoursesSection from "@/components/home/Coursessection";
 import HomeaboutSection from "@/components/home/Homeaboutsection";
@@ -23,6 +24,7 @@ export default function Home() {
       <WhyAYMSection />
       <OurMission />
       <AYMFullPage />
+      <BlogSection />
       <HomeTestimonialsSection />
       <HowToReach />
     </>

@@ -231,7 +231,7 @@
   flex-shrink: 0;
   border: 2px solid rgba(224, 123, 0, 0.25);
   position: relative;
-  background: linear-gradient(135deg, #e07b00, #f59500);
+  background: #f15505;
 }
 
 .reviewAvatarImg {
@@ -321,7 +321,7 @@
 }
 
 .reviewDotActive {
-  background: #e07b00;
+  background: #f15505;
   width: 22px;
   border-radius: 4px;
 }
@@ -350,7 +350,7 @@
 /* ── Left Card — Overall Rating ── */
 .overallCard {
   position: relative;
-  background: linear-gradient(160deg, #3d1d00 0%, #5c2d00 40%, #7a3f10 70%, #4a2200 100%);
+  background: #f15505;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -569,7 +569,7 @@
 }
 
 .platformStar {
-  color: #e07b00;
+  color: #f15505;
   font-size: 0.92rem;
 }
 
@@ -648,7 +648,7 @@
   aspect-ratio: 9/16;
   max-height: 450px;
   width: 100%;
-  background: linear-gradient(145deg, #2d1a08 0%, #5c2d00 40%, #3d1d00 100%);
+  background: #f15505;
   cursor: pointer;
   box-shadow: 0 4px 20px rgba(92, 45, 0, 0.22), 0 0 0 3px #e07b00, 0 0 0 6px rgba(224, 123, 0, 0.15);
 }
@@ -677,8 +677,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: radial-gradient(ellipse at center, rgba(224, 123, 0, 0.12) 0%, transparent 70%),
-    linear-gradient(145deg, #2d1a08 0%, #5c2d00 50%, #3d1d00 100%);
+  background: #f15505;
   z-index: 0;
 }
 
@@ -717,7 +716,7 @@
 .videoPlayIconLarge {
   width: 64px;
   height: 64px;
-  background: linear-gradient(135deg, #e07b00, #f59500);
+  background: #f15505;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -1086,41 +1085,199 @@
 }
 
 /* ================================================================
-   TRUST STRIP
+   TRUST STRIP — PREMIUM CARD REDESIGN
    ================================================================ */
+
+@keyframes trustCardFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes trustOrbitSpin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes trustGlowPulse {
+  0%, 100% { opacity: 0.45; transform: scale(1); }
+  50%       { opacity: 0.7;  transform: scale(1.12); }
+}
+
+@keyframes trustIconFloat {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-4px); }
+}
+
 .trustStrip {
+  position: relative;
+  margin-top: clamp(2rem, 4vw, 3rem);
+  padding: clamp(2rem, 4vw, 2.8rem) clamp(1rem, 3vw, 2rem);
+  background:#f15505;
+  border-radius: 20px;
+  border: 1px solid rgba(224, 123, 0, 0.22);
+  box-shadow:
+    0 0 0 1px rgba(245, 184, 0, 0.08) inset,
+    0 20px 60px rgba(0, 0, 0, 0.28),
+    0 4px 16px rgba(224, 123, 0, 0.14);
+  overflow: hidden;
+}
+
+/* Faint ॐ watermark centred behind everything */
+.trustStripOm {
+  position: absolute;
+  inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-wrap: wrap;
-  gap: clamp(0.75rem, 2vw, 1.5rem);
-  padding: 1.4rem 1.5rem;
-  background: linear-gradient(135deg, #fff8f0 0%, #ffecd8 100%);
-  border: 1px solid rgba(224, 123, 0, 0.2);
-  border-radius: 8px;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  font-family: var(--font-display), serif;
+  font-size: clamp(10rem, 22vw, 18rem);
+  color: rgba(224, 123, 0, 0.04);
+  pointer-events: none;
+  user-select: none;
+  line-height: 1;
+  z-index: 0;
 }
 
-.trustItem {
+.trustStripInner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  gap: clamp(1rem, 2.5vw, 1.8rem);
+  flex-wrap: wrap;
+}
+
+/* ── Individual trust card ── */
+.trustCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+  flex: 1 1 180px;
+  max-width: 220px;
+  padding: 1.6rem 1.2rem 1.4rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(224, 123, 0, 0.18);
+  border-radius: 14px;
+  cursor: default;
+  animation: trustCardFadeUp 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+  transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+  overflow: hidden;
+}
+
+.trustCard::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(160deg, rgba(245, 184, 0, 0.06) 0%, transparent 60%);
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.trustCard:hover {
+  transform: translateY(-6px);
+  border-color: rgba(224, 123, 0, 0.42);
+  background: rgba(255, 255, 255, 0.07);
+}
+
+/* Ambient glow behind icon */
+.trustCardGlow {
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(224, 123, 0, 0.28) 0%, transparent 70%);
+  pointer-events: none;
+  animation: trustGlowPulse 3.5s ease-in-out infinite;
+}
+
+/* Spinning orbit ring */
+.trustCardOrbit {
+  position: absolute;
+  top: 18px;
+  left: 34%;
+  transform: translateX(-50%);
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  border: 1px dashed rgba(224, 123, 0, 0.25);
+  animation: trustOrbitSpin 14s linear infinite;
+  pointer-events: none;
+}
+
+.trustCardOrbitDot {
+  position: absolute;
+  top: -3px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #e07b00;
+  box-shadow: 0 0 6px 2px rgba(224, 123, 0, 0.55);
+}
+
+/* Icon container */
+.trustCardIconWrap {
+  position: relative;
+  width: 52px;
+  height: 52px;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  justify-content: center;
+  flex-shrink: 0;
+  z-index: 1;
 }
 
-.trustIcon {
-  font-size: 1.1rem;
+.trustCardIconRing {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(224, 123, 0, 0.22) 0%, rgba(245, 184, 0, 0.14) 100%);
+  border: 1px solid rgba(224, 123, 0, 0.3);
 }
 
-.trustLabel {
+.trustCardIcon {
+  position: relative;
+  font-size: 1.55rem;
+  line-height: 1;
+  z-index: 1;
+  animation: trustIconFloat 4s ease-in-out infinite;
+  display: block;
+}
+
+/* Label */
+.trustCardLabel {
   font-family: var(--font-body), sans-serif;
-  font-size: clamp(0.82rem, 1.4vw, 0.95rem);
-  color: #5c2d00;
-  font-weight: 600;
+  font-size: clamp(0.8rem, 1.3vw, 0.92rem);
+  font-weight: 700;
+  color: #f15505;
+  text-align: center;
+  letter-spacing: 0.03em;
+  line-height: 1.4;
+  z-index: 1;
 }
 
-.trustDivider {
-  color: rgba(224, 123, 0, 0.45);
-  font-size: 0.5rem;
+/* Decorative bottom line */
+.trustCardLine {
+  display: block;
+  width: 32px;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, transparent, #e07b00, transparent);
+  margin-top: 0.2rem;
+  z-index: 1;
 }
 
 /* ================================================================
@@ -1170,14 +1327,13 @@
     min-height: auto;
   }
 
-  .trustDivider {
-    display: none;
+  .trustStripInner {
+    gap: 0.85rem;
   }
 
-  .trustStrip {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.75rem;
+  .trustCard {
+    flex: 1 1 140px;
+    padding: 1.2rem 0.9rem;
   }
 
   .reviewCardInner {
@@ -1350,7 +1506,40 @@
   }
 
   .trustStrip {
-    padding: 1rem;
+    padding: 1.2rem 0.75rem;
+  }
+
+  .trustCard {
+    flex: 1 1 100%;
+    max-width: 100%;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 1rem;
+    padding: 0.85rem 1rem;
+  }
+
+  .trustCardOrbit,
+  .trustCardGlow {
+    display: none;
+  }
+
+  .trustCardIconWrap {
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+  }
+
+  .trustCardIcon {
+    font-size: 1.25rem;
+    animation: none;
+  }
+
+  .trustCardLabel {
+    text-align: left;
+  }
+
+  .trustCardLine {
+    display: none;
   }
 
   .videoCard {

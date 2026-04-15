@@ -216,7 +216,7 @@
 .authFormBox button[type="submit"] {
   border-radius: 4px;
   border: none;
-  background: linear-gradient(135deg, #e07b00 0%, #c46a00 100%);
+  background: #f15505;
   color: #ffffff;
   font-family: 'Cinzel', serif;
   font-size: 0.72rem;

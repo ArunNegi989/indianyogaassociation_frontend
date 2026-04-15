@@ -400,7 +400,7 @@
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: #fff;
-  background: linear-gradient(135deg, #e07b00 0%, #c46a00 100%);
+  background: #f15505;
   padding: 0.7rem 1.2rem;
   border-radius: 6px;
   text-decoration: none;
@@ -413,6 +413,7 @@
 .btnEnroll:hover {
   transform: translateY(-2px);
   box-shadow: 0 7px 22px rgba(224, 123, 0, 0.48);
+  color:#fff;
 }
 
 .btnExplore {
