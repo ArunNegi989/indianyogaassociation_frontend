@@ -52,6 +52,7 @@ interface ContentData {
   registrationParagraphs: string[];
   includedItems: string[];
   notIncludedItems: string[];
+  videoUrl?: string;
 }
 
 interface SeatBatch {
@@ -158,6 +159,93 @@ const DateIcon = () => (
     <circle cx="16" cy="15" r="1" fill="currentColor" />
   </svg>
 );
+
+const getVideoType = (url: string) => {
+  if (!url) return "none";
+
+  if (url.includes("youtube.com") || url.includes("youtu.be"))
+    return "youtube";
+
+  if (url.includes("instagram.com"))
+    return "instagram";
+
+  if (url.endsWith(".mp4"))
+    return "mp4";
+
+  return "unknown";
+};
+
+const getYouTubeEmbed = (url: string) => {
+  let videoId = "";
+
+  if (url.includes("youtu.be")) {
+    videoId = url.split("youtu.be/")[1]?.split("?")[0];
+  } else if (url.includes("shorts")) {
+    videoId = url.split("shorts/")[1]?.split("?")[0];
+  } else if (url.includes("watch?v=")) {
+    videoId = url.split("watch?v=")[1]?.split("&")[0];
+  }
+
+  return videoId
+  ? `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}&controls=0&modestbranding=1&showinfo=0&rel=0&iv_load_policy=3&disablekb=1&playsinline=1`
+  : "";
+};
+const getInstagramEmbed = (url: string) => {
+  const match = url.match(/instagram\.com\/reel\/([^/?]+)/);
+  return match
+    ? `https://www.instagram.com/reel/${match[1]}/embed`
+    : "";
+};
+
+function DynamicVideo({ url }: { url: string }) {
+  const type = getVideoType(url);
+
+  if (type === "youtube") {
+  const embedUrl = getYouTubeEmbed(url);
+
+  if (!embedUrl) return <p>Invalid video URL</p>;
+
+  return (
+    <iframe
+      className={styles.video}
+      src={embedUrl}
+      title="YouTube Video"
+      frameBorder="0"
+      allow="autoplay; encrypted-media"
+      allowFullScreen
+    />
+  );
+}
+
+  if (type === "instagram") {
+    return (
+      <iframe
+        className={styles.video}
+        src={getInstagramEmbed(url)}
+        title="Instagram Reel"
+        frameBorder="0"
+        allowFullScreen
+      />
+    );
+  }
+
+  if (type === "mp4") {
+    return (
+<video
+  autoPlay
+  loop
+  muted
+  playsInline
+  controls={false}
+  className={styles.video}
+>
+  <source src="/uploads/yoga-video.mp4" type="video/mp4" />
+</video>
+    );
+  }
+
+  return <p>No video available</p>;
+}
 
 /* ══════════════════════════════════════════════════
    COURSE INFO CARD
@@ -658,35 +746,67 @@ export default function HundredHourYoga() {
       </section>
 
       {/* ══ DAILY SCHEDULE ══ */}
-      <section id="facility" className={styles.scheduleSection}>
-        <div className={styles.scheduleLayout}>
-          <div className={styles.schedImgCol}>
-            <div className={styles.schedImgOrnament}>
-              {content.scheduleImage ? (
-                <img src={imgUrl(content.scheduleImage)} alt="Yoga Schedule" className={styles.schedImgReal} />
-              ) : (
-                <img src="https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?w=700&q=80" alt="Yoga meditation practice" className={styles.schedImgReal} />
-              )}
+ <section id="facility" className={styles.scheduleSection}>
+
+  {/* background blobs */}
+  <div className={styles.blob1} />
+  <div className={styles.blob2} />
+
+  <div className={styles.container}>
+
+    {/* ── LEFT VIDEO ── */}
+  <div className={styles.videoSide}>
+  <div className={styles.videoWrapper}>
+    <DynamicVideo url={content.videoUrl || "https://youtube.com/shorts/lYeh7tUMLHQ?si=03G0hoIXn8S7neyp"} />
+  </div>
+
+  <div className={styles.videoOverlay} />
+
+  <div className={styles.videoBadge}>
+    <span className={styles.pulseDot} />
+    Live Classes Daily
+  </div>
+</div>
+
+    {/* ── CENTER IMAGE (BACKEND) ── */}
+    {content.scheduleImage && (
+      <div className={styles.centerImage}>
+        <img src={imgUrl(content.scheduleImage)} alt="Yoga" />
+        <div className={styles.centerBadge}>Since 2010</div>
+      </div>
+    )}
+
+    {/* ── RIGHT CARDS ── */}
+    <div className={styles.cardsSide}>
+      <span className={styles.eyebrow}>Our Routine</span>
+      <h2 className={styles.heading}>Daily Schedule</h2>
+
+      <div className={styles.scheduleGrid}>
+        {content.scheduleItems.map((item, i) => (
+          <div
+            key={i}
+            className={styles.chip}
+            style={{ "--i": i } as React.CSSProperties}
+          >
+            <div className={styles.iconBox}>
+              <span className={styles.num}>
+                {String(i + 1).padStart(2, "0")}
+              </span>
             </div>
-          </div>
-          <div className={styles.schedBoxCol}>
-            <div className={styles.schedBox}>
-              <CornerOrnament pos="tl" />
-              <CornerOrnament pos="tr" />
-              <CornerOrnament pos="bl" />
-              <CornerOrnament pos="br" />
-              <div className={styles.schedHeader}>Daily Schedule</div>
-              <ul className={styles.schedList}>
-                {content.scheduleItems.map((item, i) => (
-                  <li key={i} className={styles.schedItem}>
-                    <span>{item.time} – {item.label}</span>
-                  </li>
-                ))}
-              </ul>
+
+            <div className={styles.chipText}>
+              <span className={styles.time}>{item.time}</span>
+              <p>{item.label}</p>
             </div>
+
+            <div className={styles.glow} />
           </div>
-        </div>
-      </section>
+        ))}
+      </div>
+    </div>
+
+  </div>
+</section>
 
       {/* ══ SOUL SHINE + ENROLL + FEE ══ */}
       <section id="inclusions" className={styles.contentSection}>

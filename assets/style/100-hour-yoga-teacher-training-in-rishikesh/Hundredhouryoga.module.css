@@ -689,96 +689,1189 @@
   line-height: 1.75;
   margin: 0;
 }
+/* ================================================================
+   DAILY SCHEDULE — Full Responsive CSS Module
+   Breakpoints:
+     xs   : < 360px   (very small phones)
+     sm   : 360–479px (small phones)
+     md   : 480–599px (large phones / landscape small)
+     lg   : 600–767px (large phone landscape / small tablet)
+     xl   : 768–899px (tablet portrait)
+     2xl  : 900–1023px (tablet landscape)
+     3xl  : 1024–1199px (small laptop)
+     4xl  : 1200–1359px (laptop / desktop)
+     5xl  : 1360–1599px (large desktop — base/default)
+     6xl  : 1600–1919px (full HD)
+     7xl  : ≥ 1920px   (2K / 4K / TV)
+   ================================================================ */
 
 /* ================================================================
-   DAILY SCHEDULE
+   BASE STYLES  (applies to all sizes, overridden per breakpoint)
    ================================================================ */
+
 .scheduleSection {
   position: relative;
-  z-index: 1;
-  padding: clamp(2rem, 4vw, 4rem) clamp(1rem, 5vw, 4rem);
-  max-width: 1180px;
-  margin: 0 auto;
+  padding: 5rem 1.5rem;
+  overflow: hidden;
 }
 
-.scheduleLayout {
+/* ── BACKGROUND BLOBS ── */
+.blob1,
+.blob2 {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+  animation: blobFloat 8s ease-in-out infinite alternate;
+}
+
+.blob1 {
+  width: 480px;
+  height: 480px;
+  top: -140px;
+  left: -140px;
+  background: radial-gradient(circle, rgba(224, 123, 0, 0.10), transparent 70%);
+  animation-delay: 0s;
+}
+
+.blob2 {
+  width: 360px;
+  height: 360px;
+  bottom: -80px;
+  right: -80px;
+  background: radial-gradient(circle, rgba(201, 104, 0, 0.09), transparent 70%);
+  animation-delay: -4s;
+}
+
+@keyframes blobFloat {
+  from { transform: translate(0, 0) scale(1); }
+  to   { transform: translate(30px, 20px) scale(1.08); }
+}
+
+/* ── CONTAINER ── */
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: 1360px;
+  margin: 0 auto;
   display: grid;
-  grid-template-columns: 1fr 1.45fr;
-  gap: clamp(1.5rem, 4vw, 3.5rem);
+  grid-template-columns: 1fr 1fr 1.2fr;
+  gap: 2rem;
   align-items: center;
 }
 
-.schedImgCol {
+/* ================================================================
+   VIDEO SIDE
+   ================================================================ */
+.videoSide {
+  position: relative;
+  max-width: 338px;
+  width: 100%;
+  height: 500px;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.2);
+  animation: fadeSlideLeft 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes fadeSlideLeft {
+  from { opacity: 0; transform: translateX(-40px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+.videoWrapper {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.video {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+  pointer-events: none;
+}
+
+.videoSide iframe {
+  transform: scale(1.2);
+  pointer-events: none;
+}
+
+.videoOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 50%, rgba(20, 12, 0, 0.6) 100%);
+}
+
+.videoBadge {
+  position: absolute;
+  bottom: 18px;
+  left: 18px;
   display: flex;
-  justify-content: center;
-}
-
-.schedImgOrnament {
-  position: relative;
-  width: clamp(200px, 32vw, 340px);
-  height: clamp(200px, 32vw, 340px);
-  border-radius: 63% 37% 54% 46% / 55% 48% 52% 45%;
-  border: 4px solid var(--saffron-gold);
-  overflow: hidden;
-  box-shadow:
-    0 0 0 8px rgba(184, 134, 11, 0.13),
-    0 0 0 16px rgba(184, 134, 11, 0.07),
-    0 12px 40px var(--shadow-warm);
-}
-
-.schedBox {
-  position: relative;
-  border: 2px solid var(--saffron-gold);
-  border-radius: 2px;
-  overflow: hidden;
-  box-shadow:
-    inset 0 0 0 5px rgba(184, 134, 11, 0.09),
-    0 5px 24px var(--shadow-warm);
-  background: linear-gradient(160deg, #fffcf4 0%, #fffcf4 100%);
-}
-
-.schedBox .cornerOrn:nth-child(1) { top: 5px; left: 5px; }
-.schedBox .cornerOrn:nth-child(2) { top: 5px; right: 5px; }
-.schedBox .cornerOrn:nth-child(3) { bottom: 5px; left: 5px; }
-.schedBox .cornerOrn:nth-child(4) { bottom: 5px; right: 5px; }
-
-.schedHeader {
-  background: linear-gradient(135deg, var(--saffron-bright) 0%, var(--saffron) 100%);
-  color: var(--cream);
-  font-family: var(--font-menu);           /* Montserrat */
-  font-size: 0.78rem;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
   font-weight: 700;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  padding: 0.75rem 1.4rem;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+  color: #fff;
+  background: rgba(224, 123, 0, 0.88);
+  backdrop-filter: blur(8px);
+  padding: 8px 16px;
+  border-radius: 100px;
+  animation: badgePop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.8s both;
 }
 
-.schedList {
-  list-style: none;
-  padding: 1rem 1.4rem;
-  margin: 0;
+@keyframes badgePop {
+  from { opacity: 0; transform: scale(0.7) translateY(10px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.pulseDot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #fff;
+  animation: pulse 1.5s ease infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.5; transform: scale(0.7); }
+}
+
+/* ================================================================
+   CENTER IMAGE
+   ================================================================ */
+.centerImage {
+  position: relative;
+  z-index: 2;
+  transform: scale(1.06);
+  animation: fadeUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: scale(1.06) translateY(30px); }
+  to   { opacity: 1; transform: scale(1.06) translateY(0); }
+}
+
+.centerImage img {
+  width: 100%;
+  height: 500px;
+  object-fit: cover;
+  border-radius: 24px;
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.28);
+  display: block;
+  transition: transform 0.6s ease;
+}
+
+.centerImage:hover img {
+  transform: scale(1.04);
+}
+
+.centerBadge {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #1a1208;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(8px);
+  padding: 6px 14px;
+  border-radius: 100px;
+  border: 1px solid rgba(224, 123, 0, 0.25);
+}
+
+/* ================================================================
+   CARDS SIDE
+   ================================================================ */
+.cardsSide {
   display: flex;
   flex-direction: column;
-  gap: 0;
+  gap: 1rem;
+  animation: fadeSlideRight 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.25s both;
 }
 
-.schedItem {
+@keyframes fadeSlideRight {
+  from { opacity: 0; transform: translateX(40px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+.eyebrow {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #e07b00;
+  background: rgba(224, 123, 0, 0.10);
+  padding: 5px 14px;
+  border-radius: 100px;
+  width: fit-content;
+}
+
+.heading {
+  font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+  font-family: var(--font-playfair, "Playfair Display", serif);
+  color: #1a1208;
+  margin: 0;
+  line-height: 1.2;
+}
+
+/* ================================================================
+   SCHEDULE GRID
+   ================================================================ */
+.scheduleGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+/* ── CHIP ── */
+.chip {
+  position: relative;
   display: flex;
-  align-items: flex-start;
-  gap: 0.6rem;
-  font-family: var(--font-body);           /* Lato */
-  font-size: clamp(0.88rem, 1.4vw, 1rem);
-  color: var(--ink-mid);
-  line-height: 1.55;
-  padding: 0.45rem 0;
-  border-bottom: 1px dashed rgba(184, 134, 11, 0.2);
+  align-items: center;
+  gap: 12px;
+  background: #fff;
+  border-radius: 16px;
+  border: 1px solid rgba(224, 123, 0, 0.14);
+  padding: 12px 14px;
+  overflow: hidden;
+  cursor: default;
+  animation: popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  animation-delay: calc(0.35s + var(--i, 0) * 0.07s);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
 }
 
-.schedItem:last-child {
-  border-bottom: none;
+.chip:hover {
+  transform: translateY(-4px) scale(1.03);
+  box-shadow: 0 16px 36px rgba(224, 123, 0, 0.18);
+  border-color: rgba(224, 123, 0, 0.40);
 }
 
+@keyframes popIn {
+  from { opacity: 0; transform: scale(0.75) translateY(16px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.iconBox {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 11px;
+  background: linear-gradient(135deg, #e07b00, #c96800);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 14px rgba(224, 123, 0, 0.30);
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.chip:hover .iconBox {
+  transform: rotate(-8deg) scale(1.15);
+}
+
+.num {
+  font-size: 12px;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: 0.02em;
+}
+
+.chipText {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.time {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #e07b00;
+}
+
+.chipText p {
+  margin: 0;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: #2d2010;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 15% 50%, rgba(224, 123, 0, 0.08), transparent 65%);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+}
+
+.chip:hover .glow {
+  opacity: 1;
+}
+
+
+/* ================================================================
+   7xl — 2K / 4K / TV  (≥ 1920px)
+   ================================================================ */
+@media (min-width: 1920px) {
+  .scheduleSection {
+    padding: 7rem 3rem;
+  }
+
+  .container {
+    max-width: 1360px;
+    gap: 3rem;
+    grid-template-columns: 1fr 1fr 2fr;
+  }
+
+  .videoSide {
+    max-width: 480px;
+    height: 520px;
+    border-radius: 32px;
+  }
+
+  .centerImage img {
+    height: 540px;
+    border-radius: 32px;
+  }
+
+  .heading {
+    font-size: 2.8rem;
+  }
+
+  .eyebrow {
+    font-size: 13px;
+    padding: 7px 18px;
+  }
+
+  .iconBox {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+  }
+
+  .num {
+    font-size: 14px;
+  }
+
+  .time {
+    font-size: 11px;
+  }
+
+  .chipText p {
+    font-size: 0.95rem;
+  }
+
+  .chip {
+    padding: 16px 18px;
+    border-radius: 20px;
+    gap: 16px;
+  }
+
+  .scheduleGrid {
+    gap: 14px;
+  }
+
+  .blob1 {
+    width: 700px;
+    height: 700px;
+    top: -200px;
+    left: -200px;
+  }
+
+  .blob2 {
+    width: 520px;
+    height: 520px;
+    bottom: -120px;
+    right: -120px;
+  }
+}
+
+/* ================================================================
+   6xl — Full HD  (1600px – 1919px)
+   ================================================================ */
+@media (min-width: 1600px) and (max-width: 1919px) {
+  .scheduleSection {
+    padding: 6rem 2.5rem;
+  }
+
+  .container {
+    max-width: 1360px;
+    gap: 2.5rem;
+    grid-template-columns: 1fr 1fr 2fr;
+  }
+
+  .videoSide {
+    max-width: 320px;
+    height: 480px;
+  }
+
+  .centerImage img {
+    height: 480px;
+  }
+
+  .heading {
+    font-size: 2.4rem;
+  }
+
+  .iconBox {
+    width: 46px;
+    height: 46px;
+  }
+
+  .chipText p {
+    font-size: 0.88rem;
+  }
+
+  .chip {
+    padding: 14px 16px;
+  }
+
+  .scheduleGrid {
+    gap: 12px;
+  }
+}
+
+/* ================================================================
+   5xl — Large Desktop  (1360px – 1599px)  ← PRIMARY DESIGN TARGET
+   ================================================================ */
+@media (min-width: 1360px) and (max-width: 1599px) {
+  .container {
+    max-width: 1300px;
+    gap: 2.5rem;
+    grid-template-columns: 1fr 1fr 2fr;
+  }
+}
+
+/* ================================================================
+   4xl — Laptop / Desktop  (1200px – 1359px)
+   ================================================================ */
+@media (min-width: 1200px) and (max-width: 1359px) {
+  .scheduleSection {
+    padding: 4.5rem 1.5rem;
+  }
+
+  .container {
+    max-width: 1260px;
+    gap: 1.75rem;
+    grid-template-columns: 1fr 1fr 2fr;
+  }
+
+  .videoSide {
+    max-width: 300px;
+    height: 460px;
+  }
+
+  .centerImage img {
+    height: 460px;
+  }
+
+  .heading {
+    font-size: clamp(1.5rem, 2.2vw, 2rem);
+  }
+
+  .scheduleGrid {
+    gap: 9px;
+  }
+
+  .chip {
+    padding: 10px 12px;
+    gap: 10px;
+  }
+
+  .iconBox {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+  }
+
+  .chipText p {
+    font-size: 0.8rem;
+  }
+}
+
+/* ================================================================
+   3xl — Small Laptop  (1024px – 1199px)
+   ================================================================ */
+@media (min-width: 1024px) and (max-width: 1199px) {
+  .scheduleSection {
+    padding: 4rem 1.5rem;
+  }
+
+  .container {
+    max-width: 1100px;
+    gap: 1.5rem;
+    grid-template-columns: 1fr 1fr 2fr;
+  }
+
+  .videoSide {
+    max-width: 280px;
+    height: 420px;
+    border-radius: 20px;
+  }
+
+  .centerImage img {
+    height: 420px;
+    border-radius: 20px;
+  }
+
+  .heading {
+    font-size: clamp(1.4rem, 2vw, 1.8rem);
+  }
+
+  .scheduleGrid {
+    gap: 8px;
+  }
+
+  .chip {
+    padding: 10px 12px;
+    gap: 10px;
+    border-radius: 14px;
+  }
+
+  .iconBox {
+    width: 36px;
+    height: 36px;
+    border-radius: 9px;
+  }
+
+  .num {
+    font-size: 11px;
+  }
+
+  .time {
+    font-size: 9.5px;
+  }
+
+  .chipText p {
+    font-size: 0.78rem;
+  }
+}
+
+/* ================================================================
+   2xl — Tablet Landscape  (900px – 1023px)
+   ================================================================ */
+
+  
+@media (min-width: 900px) and (max-width: 1023px) {
+  .scheduleSection {
+    padding: 3.5rem 2.5rem;
+  }
+
+  .container {
+    grid-template-columns: 1fr 1.2fr;
+    grid-template-rows: auto auto;
+    gap: 4.5rem;
+  }
+
+  /* Video on left, image on right top row */
+  .videoSide {
+    border-radius: 20px;
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .centerImage {
+    transform: none;
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .centerImage img {
+    border-radius: 20px;
+  }
+
+  /* Cards span full width below */
+  .cardsSide {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+
+  .scheduleGrid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+  }
+
+  .heading {
+    font-size: 1.7rem;
+  }
+
+  .chip {
+    border-radius: 14px;
+    padding: 10px 12px;
+    gap: 10px;
+  }
+
+  .iconBox {
+    width: 36px;
+    height: 36px;
+    border-radius: 9px;
+  }
+
+  .chipText p {
+    font-size: 0.78rem;
+  }
+}
+
+/* ================================================================
+   xl — Tablet Portrait  (768px – 899px)
+   ================================================================ */
+@media (min-width: 768px) and (max-width: 899px) {
+  .scheduleSection {
+    padding: 3rem 3.5rem;
+  }
+
+  .container {
+     grid-template-columns: 1fr 1.2fr;
+    grid-template-rows: auto auto;
+    gap: 4.5rem;
+  }
+
+  /* Horizontal pair: video + image side-by-side */
+  .videoSide,
+  .centerImage {
+    display: inline-block;
+  }
+
+  /* Override to a 2-col sub-layout for video + image */
+  .container {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+  }
+
+  .videoSide {
+    border-radius: 20px;
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .centerImage {
+    transform: none;
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .centerImage img {
+    border-radius: 20px;
+  }
+
+  .cardsSide {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+
+  .scheduleGrid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 9px;
+  }
+
+  .heading {
+    font-size: 1.6rem;
+  }
+
+  .chip {
+    border-radius: 13px;
+    padding: 10px 11px;
+    gap: 9px;
+  }
+
+  .iconBox {
+    width: 34px;
+    height: 34px;
+    border-radius: 9px;
+  }
+
+  .num {
+    font-size: 11px;
+  }
+
+  .time {
+    font-size: 9px;
+  }
+
+  .chipText p {
+    font-size: 0.76rem;
+  }
+
+  .blob1 {
+    width: 300px;
+    height: 300px;
+    top: -80px;
+    left: -80px;
+  }
+
+  .blob2 {
+    width: 220px;
+    height: 220px;
+    bottom: -50px;
+    right: -50px;
+  }
+}
+
+/* ================================================================
+   lg — Large Phone Landscape / Small Tablet  (600px – 767px)
+   ================================================================ */
+@media (min-width: 600px) and (max-width: 767px) {
+  .scheduleSection {
+    padding: 2.5rem 2.25rem !important;
+  }
+
+  .container {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .videoSide {
+    border-radius: 18px;
+  }
+
+  .centerImage {
+    transform: none;
+    display: none;
+  }
+
+  .centerImage img {
+    height: 280px;
+    border-radius: 18px;
+
+  }
+
+  .scheduleGrid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+
+  .heading {
+    font-size: 1.5rem;
+  }
+
+  .chip {
+    padding: 10px 11px;
+    gap: 9px;
+    border-radius: 13px;
+  }
+
+  .iconBox {
+    width: 34px;
+    height: 34px;
+    border-radius: 9px;
+  }
+
+  .chipText p {
+    font-size: 0.75rem;
+  }
+
+  .blob1 {
+    width: 260px;
+    height: 260px;
+    top: -70px;
+    left: -70px;
+  }
+
+  .blob2 {
+    width: 200px;
+    height: 200px;
+    bottom: -40px;
+    right: -40px;
+  }
+}
+
+/* ================================================================
+   md — Large Phones  (480px – 599px)
+   ================================================================ */
+@media (min-width: 480px) and (max-width: 599px) {
+  .scheduleSection {
+    padding: 2.25rem 2rem !important;
+  }
+
+  .container {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .videoSide {
+   
+    border-radius: 16px;
+  }
+
+  .centerImage {
+    transform: none;
+    display: none;
+  }
+
+  .centerImage img {
+    height: 240px;
+    border-radius: 16px;
+  }
+
+  .scheduleGrid {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .heading {
+    font-size: 1.45rem;
+  }
+
+  .eyebrow {
+    font-size: 10px;
+    padding: 4px 12px;
+  }
+
+  .chip {
+    padding: 10px 11px;
+    gap: 9px;
+    border-radius: 12px;
+  }
+
+  .iconBox {
+    width: 33px;
+    height: 33px;
+    border-radius: 9px;
+  }
+
+  .num {
+    font-size: 11px;
+  }
+
+  .time {
+    font-size: 9px;
+  }
+
+  .chipText p {
+    font-size: 0.75rem;
+  }
+
+  .videoBadge {
+    font-size: 10px;
+    padding: 6px 12px;
+    bottom: 14px;
+    left: 14px;
+  }
+
+  .centerBadge {
+    font-size: 10px;
+    padding: 5px 11px;
+    top: 12px;
+    right: 12px;
+  }
+
+  .blob1 {
+    width: 220px;
+    height: 220px;
+    top: -60px;
+    left: -60px;
+  }
+
+  .blob2 {
+    width: 160px;
+    height: 160px;
+  }
+}
+
+/* ================================================================
+   sm — Small Phones  (360px – 479px)
+   ================================================================ */
+@media (min-width: 360px) and (max-width: 479px) {
+  .scheduleSection {
+    padding: 2rem 0.875rem;
+  }
+
+  .container {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .videoSide {
+    border-radius: 14px;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.18);
+  }
+
+  .centerImage {
+    transform: none;
+    display: none;
+  }
+
+  .centerImage img {
+    height: 220px;
+    border-radius: 14px;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.22);
+  }
+
+  .scheduleGrid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .heading {
+    font-size: 1.35rem;
+  }
+
+  .eyebrow {
+    font-size: 10px;
+    padding: 4px 11px;
+  }
+
+  .chip {
+    padding: 11px 13px;
+    gap: 11px;
+    border-radius: 13px;
+  }
+
+  .iconBox {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+  }
+
+  .num {
+    font-size: 12px;
+  }
+
+  .time {
+    font-size: 9.5px;
+  }
+
+  .chipText p {
+    font-size: 0.82rem;
+    white-space: normal; /* allow wrap on single-col */
+  }
+
+  .videoBadge {
+    font-size: 10px;
+    padding: 6px 11px;
+    bottom: 12px;
+    left: 12px;
+    gap: 6px;
+  }
+
+  .pulseDot {
+    width: 6px;
+    height: 6px;
+  }
+
+  .centerBadge {
+    font-size: 10px;
+    padding: 5px 10px;
+    top: 10px;
+    right: 10px;
+  }
+
+  .blob1 {
+    width: 180px;
+    height: 180px;
+    top: -50px;
+    left: -50px;
+  }
+
+  .blob2 {
+    width: 130px;
+    height: 130px;
+    bottom: -30px;
+    right: -30px;
+  }
+}
+
+/* ================================================================
+   xs — Very Small Phones  (< 360px)
+   ================================================================ */
+@media (max-width: 359px) {
+  .scheduleSection {
+    padding: 1.75rem 0.75rem;
+  }
+
+  .container {
+    grid-template-columns: 1fr;
+    gap: 0.875rem;
+  }
+
+  .videoSide {
+    border-radius: 12px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.16);
+  }
+
+  .centerImage {
+    transform: none;
+    display: none;
+  }
+
+  .centerImage img {
+    height: 190px;
+    border-radius: 12px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.20);
+  }
+
+  .scheduleGrid {
+    grid-template-columns: 1fr;
+    gap: 7px;
+  }
+
+  .heading {
+    font-size: 1.25rem;
+  }
+
+  .eyebrow {
+    font-size: 9.5px;
+    padding: 4px 10px;
+    letter-spacing: 0.12em;
+  }
+
+  .cardsSide {
+    gap: 0.75rem;
+  }
+
+  .chip {
+    padding: 10px 12px;
+    gap: 10px;
+    border-radius: 12px;
+  }
+
+  .iconBox {
+    width: 34px;
+    height: 34px;
+    border-radius: 9px;
+  }
+
+  .num {
+    font-size: 11px;
+  }
+
+  .time {
+    font-size: 9px;
+  }
+
+  .chipText p {
+    font-size: 0.79rem;
+    white-space: normal;
+  }
+
+  .videoBadge {
+    font-size: 9.5px;
+    padding: 5px 10px;
+    bottom: 10px;
+    left: 10px;
+    gap: 5px;
+  }
+
+  .pulseDot {
+    width: 6px;
+    height: 6px;
+  }
+
+  .centerBadge {
+    font-size: 9.5px;
+    padding: 4px 9px;
+    top: 8px;
+    right: 8px;
+  }
+
+  .blob1,
+  .blob2 {
+    display: none; /* too heavy on tiny screens */
+  }
+}
+
+/* ================================================================
+   REDUCED MOTION — respect user preference
+   ================================================================ */
+@media (prefers-reduced-motion: reduce) {
+  .blob1,
+  .blob2 {
+    animation: none;
+  }
+
+  .videoSide,
+  .centerImage,
+  .cardsSide,
+  .chip,
+  .videoBadge {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  .chip:hover {
+    transform: none;
+    box-shadow: 0 4px 12px rgba(224, 123, 0, 0.14);
+  }
+
+  .chip:hover .iconBox {
+    transform: none;
+  }
+
+  .pulseDot {
+    animation: none;
+  }
+
+  .centerImage img,
+  .chip,
+  .iconBox {
+    transition: none;
+  }
+}
+
+/* ================================================================
+   PRINT
+   ================================================================ */
+@media print {
+  .scheduleSection {
+    background: #fff;
+    padding: 1rem 0;
+  }
+
+  .blob1,
+  .blob2,
+  .videoSide,
+  .videoOverlay,
+  .videoBadge {
+    display: none;
+  }
+
+  .container {
+    grid-template-columns: 1fr 1.4fr;
+    gap: 1rem;
+  }
+
+  .centerImage {
+    transform: none;
+  }
+
+  .centerImage img {
+    box-shadow: none;
+    border: 1px solid #e0d6c8;
+  }
+
+  .scheduleGrid {
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+  }
+
+  .chip {
+    box-shadow: none;
+    border: 1px solid rgba(224, 123, 0, 0.25);
+    break-inside: avoid;
+  }
+
+  .chip:hover {
+    transform: none;
+    box-shadow: none;
+  }
+
+ 
+}
 /* ================================================================
    CLASS BANNER
    ================================================================ */
