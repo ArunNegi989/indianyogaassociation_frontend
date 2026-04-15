@@ -677,18 +677,24 @@ const HomeTestimonialsSection: React.FC = () => {
         )}
 
         {/* ── Trust Strip ── */}
-        <div className={styles.trustStrip}>
-          {meta.trustItems.map((item, i) => (
-            <React.Fragment key={i}>
-              <div className={styles.trustItem}>
-                <span className={styles.trustIcon}>{item.icon}</span>
-                <span className={styles.trustLabel}>{item.label}</span>
+  
+          <div className={styles.trustStripInner}>
+            {meta.trustItems.map((item, i) => (
+              <div className={styles.trustCard} key={i} style={{ animationDelay: `${i * 0.15}s` }}>
+                <div className={styles.trustCardGlow} aria-hidden="true" />
+                <div className={styles.trustCardOrbit} aria-hidden="true">
+                  <span className={styles.trustCardOrbitDot} />
+                </div>
+                <div className={styles.trustCardIconWrap}>
+                  <span className={styles.trustCardIconRing} aria-hidden="true" />
+                  <span className={styles.trustCardIcon}>{item.icon}</span>
+                </div>
+                <span className={styles.trustCardLabel}>{item.label}</span>
+                <span className={styles.trustCardLine} aria-hidden="true" />
               </div>
-              {i < meta.trustItems.length - 1 && (
-                <span className={styles.trustDivider}>◆</span>
-              )}
-            </React.Fragment>
-          ))}
+            ))}
+          
+          <div className={styles.trustStripOm} aria-hidden="true">ॐ</div>
         </div>
       </div>
       <div className={styles.bottomBorder} />

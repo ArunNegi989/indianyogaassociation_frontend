@@ -690,7 +690,7 @@
   }
 
   .facilityItem {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr !important;
     grid-template-rows: auto auto;
   }
 

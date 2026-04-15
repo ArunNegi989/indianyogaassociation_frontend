@@ -284,11 +284,7 @@
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: #fff;
-  background: linear-gradient(
-    135deg,
-    var(--saffron) 0%,
-    var(--saffron-deep) 100%
-  );
+  background: #F15505;
   padding: 0.8rem 1.8rem;
   border-radius: 4px;
   text-decoration: none;
@@ -299,6 +295,7 @@
 .knowMoreBtn:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 28px rgba(224, 123, 0, 0.45);
+  color:#fff;
 }
 
 .btnArrow {
@@ -552,7 +549,7 @@
 
 .awardBadge {
   display: inline-block;
-  background: linear-gradient(135deg, var(--saffron), var(--saffron-deep));
+  background: #F15505;
   color: #fff;
   font-size: 0.9rem;
   letter-spacing: 0.12em;
@@ -642,7 +639,7 @@
 
 .ayushLabel {
   display: inline-block;
-  background: linear-gradient(135deg, var(--saffron), var(--saffron-deep));
+  background: #F15505;
   color: #fff;
   font-size: 0.8rem;
   letter-spacing: 0.12em;

@@ -387,7 +387,7 @@
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: #fff;
-  background: linear-gradient(135deg, var(--saffron-deep) 0%, #a05500 100%);
+  background: #f15505;
   padding: 0.6rem 0.5rem;
   border-radius: 20px;
   text-decoration: none;
@@ -1081,7 +1081,7 @@
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: #fff;
-  background: linear-gradient(135deg, var(--saffron-deep) 0%, #a05500 100%);
+  background: #f15505;
   padding: 0.85rem 2rem;
   border-radius: 4px;
   text-decoration: none;

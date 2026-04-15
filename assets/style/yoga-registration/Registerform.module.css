@@ -531,7 +531,7 @@
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: #fff;
-  background: linear-gradient(135deg, #e07b00 0%, #c46a00 100%);
+  background: #f15505;
   border: none;
   border-radius: 5px;
   padding: clamp(0.9rem, 1.5vw, 1.15rem) 2rem;

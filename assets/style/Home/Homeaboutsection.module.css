@@ -434,12 +434,12 @@
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: #fff;
-  background: linear-gradient(135deg, #e07b00 0%, #c46a00 100%);
+  background: #f15505;
   padding: 0.75rem 1.6rem;
   border-radius: 4px;
   text-decoration: none;
   white-space: nowrap;
-  box-shadow: 0 4px 18px rgba(224, 123, 0, 0.35);
+  /* box-shadow: 0 4px 18px rgba(224, 123, 0, 0.35); */
   transition: box-shadow 0.22s ease, transform 0.22s ease;
   flex-shrink: 0;
 }
@@ -447,6 +447,7 @@
 .ctaBtn:hover {
   transform: translateY(-2px);
   box-shadow: 0 7px 26px rgba(224, 123, 0, 0.45);
+  color: #fff;
 }
 
 .ctaArrow {

@@ -194,7 +194,7 @@
 .iconCircle {
   width: 52px;
   height: 52px;
-  background: linear-gradient(135deg, #e07b00, #c46a00);
+  background: #f15505;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -300,7 +300,7 @@
 .scheduleHeader {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  background: linear-gradient(135deg, #e07b00, #c46a00);
+  background: #f15505;
   padding: 9px 12px;
 }
 
@@ -353,7 +353,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #e07b00, #c46a00);
+  background: #f15505;
   color: #fff;
   padding: 10px 16px;
   border-radius: 4px;
