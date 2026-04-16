@@ -468,15 +468,13 @@
 }
 
 .promoCard {
-  display: grid;
-  grid-template-columns: 1.5fr 1fr; /* left content, right image */
-  align-items: center;
-  gap: 1.5rem;
+  display: flex;
+  flex-direction: column; 
+  overflow: hidden;
+  background:  #ffffff;
   border: 1px solid var(--gold-border);
   border-radius: 12px;
-  padding: 1.5rem;
 }
-
 .promoCard:hover {
   transform: translateY(-3px);
   box-shadow: 0 8px 28px rgba(222, 161, 105, 0.15);
@@ -521,6 +519,33 @@
   color: var(--earth);
 }
 
+/* Image top */
+.promoImageWrap {
+  width: 100%;
+  height: 300px; /* control height */
+  overflow: hidden;
+}
+
+.promoImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+/* Hover zoom effect */
+.promoCard:hover .promoImage {
+  transform: scale(1.05);
+}
+
+/* Content bottom spacing */
+.promoContent {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
 /* ════════════════════════════════════════════════
    SECTION — CTA JOURNEY BANNER
 ════════════════════════════════════════════════ */

@@ -364,7 +364,7 @@ export const AccreditationSection: React.FC = () => {
     <>
       {/* ══════════════ AUTHENTIC SECTION ══════════════ */}
       <section className={styles.authenticSection}>
-        <div className={styles.a} />
+        
         <div className={styles.container}>
           <div className={styles.sectionHeaderCenter}>
             <h2 className={styles.sectionTitle}>{data.sectionTitle}</h2>

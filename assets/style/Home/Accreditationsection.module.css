@@ -14,15 +14,15 @@
   --gold-border: #e8d5b5;
   --shadow-warm: rgba(92, 45, 0, 0.12);
   --shadow-saffron: rgba(224, 123, 0, 0.25);
-   --font-display: 'Montserrat', Arial, sans-serif;
-  --font-body:    'Montserrat', Arial, sans-serif;
-  --font-fell:    'Playfair Display', Georgia, serif;
-  --font-script:  'Poppins', Arial, sans-serif;
-  --font-menu:    'Montserrat', Arial, sans-serif;
+  --font-display: 'Montserrat', Arial, sans-serif;
+  --font-body: 'Montserrat', Arial, sans-serif;
+  --font-fell: 'Playfair Display', Georgia, serif;
+  --font-script: 'Poppins', Arial, sans-serif;
+  --font-menu: 'Montserrat', Arial, sans-serif;
 
   /* Dusri file ke variables */
   --font-playfair: 'Playfair Display', Georgia, serif;
-  --font-lato:     'Lato', Arial, sans-serif;
+  --font-lato: 'Lato', Arial, sans-serif;
 }
 
 .container {
@@ -36,14 +36,12 @@
 .a,
 .bottomBorder {
   height: 5px;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    var(--saffron) 20%,
-    var(--saffron-light) 50%,
-    var(--saffron) 80%,
-    transparent 100%
-  );
+  background: linear-gradient(90deg,
+      transparent 0%,
+      var(--saffron) 20%,
+      var(--saffron-light) 50%,
+      var(--saffron) 80%,
+      transparent 100%);
 }
 
 .sectionHeaderCenter {
@@ -147,16 +145,19 @@
   left: 8px;
   border-width: 2px 0 0 2px;
 }
+
 .frameCornerTR {
   top: 8px;
   right: 8px;
   border-width: 2px 2px 0 0;
 }
+
 .frameCornerBL {
   bottom: 8px;
   left: 8px;
   border-width: 0 0 2px 2px;
 }
+
 .frameCornerBR {
   bottom: 8px;
   right: 8px;
@@ -243,16 +244,12 @@
 .videoPlaceholder::before {
   content: "";
   position: absolute;
-  background-image: radial-gradient(
-      ellipse at 30% 50%,
+  background-image: radial-gradient(ellipse at 30% 50%,
       rgba(224, 123, 0, 0.15) 0%,
-      transparent 60%
-    ),
-    radial-gradient(
-      ellipse at 80% 20%,
+      transparent 60%),
+    radial-gradient(ellipse at 80% 20%,
       rgba(245, 184, 0, 0.08) 0%,
-      transparent 50%
-    );
+      transparent 50%);
 }
 
 .immerseTitle {
@@ -294,7 +291,7 @@
 .knowMoreBtn:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 28px rgba(224, 123, 0, 0.45);
-  color:#fff;
+  color: #fff;
 }
 
 .btnArrow {
@@ -321,16 +318,6 @@
 .recognitionSection::before {
   content: "";
   position: absolute;
-  background-image: radial-gradient(
-      ellipse at 15% 20%,
-      rgba(224, 123, 0, 0.04) 0%,
-      transparent 55%
-    ),
-    radial-gradient(
-      ellipse at 85% 80%,
-      rgba(92, 45, 0, 0.04) 0%,
-      transparent 55%
-    );
   pointer-events: none;
 }
 
@@ -471,14 +458,12 @@
   left: 0;
   right: 0;
   height: 4px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    var(--saffron),
-    var(--saffron-light),
-    var(--saffron),
-    transparent
-  );
+  background: linear-gradient(90deg,
+      transparent,
+      var(--saffron),
+      var(--saffron-light),
+      var(--saffron),
+      transparent);
   border-radius: 16px 16px 0 0;
 }
 
@@ -530,16 +515,19 @@
   left: 8px;
   border-width: 2px 0 0 2px;
 }
+
 .tr {
   top: 8px;
   right: 8px;
   border-width: 2px 2px 0 0;
 }
+
 .bl {
   bottom: 8px;
   left: 8px;
   border-width: 0 0 2px 2px;
 }
+
 .br {
   bottom: 8px;
   right: 8px;

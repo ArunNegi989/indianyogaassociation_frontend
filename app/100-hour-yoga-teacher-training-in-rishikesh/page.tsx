@@ -9,6 +9,7 @@ import api from "@/lib/api";
 import image1 from "@/assets/images/yoga.png";
 import image2 from "@/assets/images/_DSC9732.JPG.jpeg"
 import image3 from "@/assets/images/_DSC5018.JPG.jpeg"
+import RatingsSummarySection from "@/components/home/RatingsSummarySection";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "";
 
@@ -1426,6 +1427,7 @@ function ReviewsSection({ videoUrl }: { videoUrl: string }) {
           </div>
         </div>
       </div>
+      
       <div className={styles.textReviewsGrid}>
         {textReviews.map((r, i) => (
           <div
@@ -1478,6 +1480,8 @@ function ReviewsSection({ videoUrl }: { videoUrl: string }) {
           </div>
         ))}
       </div>
+      <div className={styles.container}><RatingsSummarySection/></div>
+      
       <OmDivider label="Video Testimonials" />
       <div className={styles.videoReviewsWrap}>
         <div className={styles.videoReviewsGrid}>

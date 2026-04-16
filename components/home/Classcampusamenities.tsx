@@ -80,7 +80,7 @@ export const ClassCampusAmenities: React.FC = () => {
 
   return (
     <section className={styles.section} ref={sectionRef}>
-      <div className={styles.a} />
+    
 
       <div className={styles.container}>
         {/* ══ TOP ROW — Class Size + Campus ══ */}
@@ -219,7 +219,7 @@ export const ClassCampusAmenities: React.FC = () => {
         </div>
       </div>
 
-      <div className={styles.bottomBorder} />
+     
     </section>
   );
 };

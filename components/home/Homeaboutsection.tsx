@@ -52,7 +52,7 @@ export const HomeaboutSection = () => {
 
   return (
     <section className={styles.section}>
-      <div className={styles.a} />
+     
 
       <div className={styles.container}>
         {/* HEADER */}
@@ -150,7 +150,7 @@ export const HomeaboutSection = () => {
         </div>
       </div>
 
-      <div className={styles.bottomBorder} />
+     
     </section>
   );
 };

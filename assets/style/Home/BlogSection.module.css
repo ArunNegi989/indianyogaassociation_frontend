@@ -9,9 +9,6 @@
 .section::before {
   content: '';
   position: absolute;
-  background-image:
-    radial-gradient(ellipse at 10% 20%, rgba(224, 123, 0, 0.04) 0%, transparent 55%),
-    radial-gradient(ellipse at 90% 80%, rgba(92, 45, 0, 0.05) 0%, transparent 55%);
   pointer-events: none;
   z-index: 0;
 }

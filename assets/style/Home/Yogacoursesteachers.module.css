@@ -158,7 +158,6 @@
 
 .coursesSection {
   position: relative;
-  background: var(--parchment);
   background-image: url("../../images/backgroundimage/1905x908.png");
   overflow: hidden;
 }

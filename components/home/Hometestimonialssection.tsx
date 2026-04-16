@@ -513,7 +513,7 @@ const HomeTestimonialsSection: React.FC = () => {
               </div>
             ))}
           
-          <div className={styles.trustStripOm} aria-hidden="true">ॐ</div>
+        
         </div>
       </div>
       <div className={styles.bottomBorder} />
