@@ -41,7 +41,7 @@
 /* ── Button ── */
 .btn {
   flex-shrink: 0;
-  border: 2px solid #e07b00;
+  border: 2px solid #f15505;
   padding: 6px 18px;
   border-radius: 20px;
   background: transparent;
@@ -57,13 +57,13 @@
 }
 
 .btn:hover {
-  background: #e07b00;
+  background: #f15505;
   color: #fff;
 }
 
 /* active */
 .active {
-  background: #e07b00;
+  background: #f15505;
   color: #fff;
   box-shadow: 0 2px 8px rgba(224, 123, 0, 0.35);
 }
