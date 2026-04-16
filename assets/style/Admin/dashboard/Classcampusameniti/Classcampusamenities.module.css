@@ -35,7 +35,7 @@
 }
 
 .breadcrumbLink:hover {
-  color: #e07b00;
+  color: #F15505;
 }
 
 .breadcrumbSep {
@@ -318,7 +318,7 @@
 }
 
 .arrowBtn:hover:not(:disabled) {
-  color: #e07b00;
+  color: #F15505;
 }
 
 .arrowBtn:disabled {
@@ -337,7 +337,7 @@
 
 .dragHandle:active {
   cursor: grabbing;
-  color: #e07b00;
+  color: #F15505;
 }
 
 .dragGroup {
@@ -418,7 +418,7 @@
 
 .editBtn:hover {
   background: rgba(224, 123, 0, 0.18);
-  border-color: #e07b00;
+  border-color: #F15505;
   color: #3d1d00;
 }
 
@@ -614,7 +614,7 @@
 
 .modalCancel:hover {
   background: rgba(224, 123, 0, 0.06);
-  border-color: #e07b00;
+  border-color: #F15505;
 }
 
 .modalConfirm {
@@ -663,7 +663,7 @@
 
 .sectionIcon {
   font-size: 0.55rem;
-  color: #e07b00;
+  color: #F15505;
   flex-shrink: 0;
 }
 
@@ -709,7 +709,7 @@
 
 .labelIcon {
   font-size: 0.5rem;
-  color: #e07b00;
+  color: #F15505;
 }
 
 .required {
@@ -736,7 +736,7 @@
 }
 
 .inputWrap:focus-within {
-  border-color: #e07b00;
+  border-color: #F15505;
   box-shadow: 0 0 0 3px rgba(224, 123, 0, 0.1);
 }
 
@@ -887,7 +887,7 @@
   border-radius: 8px;
   font-family: 'Cormorant Garamond', serif;
   font-size: 0.9rem;
-  color: #e07b00;
+  color: #F15505;
   cursor: pointer;
   font-style: italic;
   transition: all 0.2s ease;
@@ -895,7 +895,7 @@
 
 .addAmenityBtn:hover {
   background: rgba(224, 123, 0, 0.06);
-  border-color: #e07b00;
+  border-color: #F15505;
 }
 
 /* ── Amenity preview chips ── */
@@ -964,7 +964,7 @@
 
 .cancelBtn:hover {
   background: rgba(224, 123, 0, 0.06);
-  border-color: #e07b00;
+  border-color: #F15505;
   color: #5c2d00;
 }
 
@@ -1692,7 +1692,7 @@
 }
 
 .imageUploadZone:hover {
-  border-color: #e07b00;
+  border-color: #F15505;
   background: rgba(224, 123, 0, 0.04);
 }
 
@@ -1869,7 +1869,7 @@
 }
 
 .campusImageSlot:hover {
-  border-color: #e07b00;
+  border-color: #F15505;
 }
 
 .campusImageSlot.hasImg {
@@ -1956,7 +1956,7 @@
 }
 
 .addCampusImgBtn:hover {
-  border-color: #e07b00;
+  border-color: #F15505;
   background: rgba(224, 123, 0, 0.04);
 }
 

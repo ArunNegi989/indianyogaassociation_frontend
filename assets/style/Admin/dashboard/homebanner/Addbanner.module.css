@@ -28,7 +28,7 @@
 }
 
 .breadcrumbLink:hover {
-  color: #e07b00;
+  color: #F15505;
 }
 
 .breadcrumbSep {
@@ -110,7 +110,7 @@
 
 .labelIcon {
   font-size: 0.55rem;
-  color: #e07b00;
+  color: #F15505;
 }
 
 .required {
@@ -137,7 +137,7 @@
 }
 
 .inputWrap:focus-within {
-  border-color: #e07b00;
+  border-color: #F15505;
   box-shadow: 0 0 0 3px rgba(224, 123, 0, 0.1);
 }
 
@@ -228,13 +228,13 @@
 }
 
 .dropZone:hover {
-  border-color: #e07b00;
+  border-color: #F15505;
   background: linear-gradient(135deg, rgba(224, 123, 0, 0.05), rgba(255, 250, 242, 0.95));
   box-shadow: 0 4px 20px rgba(224, 123, 0, 0.1);
 }
 
 .dropZoneDragging {
-  border-color: #e07b00;
+  border-color: #F15505;
   background: linear-gradient(135deg, rgba(224, 123, 0, 0.08), rgba(255, 250, 242, 1));
   box-shadow: 0 6px 28px rgba(224, 123, 0, 0.18);
   transform: scale(1.01);
@@ -260,13 +260,13 @@
 .dropZone:hover .dropIcon,
 .dropZoneDragging .dropIcon {
   background: linear-gradient(135deg, rgba(224, 123, 0, 0.2), rgba(224, 123, 0, 0.1));
-  border-color: #e07b00;
+  border-color: #F15505;
   transform: translateY(-2px);
 }
 
 .dropIconInner {
   font-size: 1.3rem;
-  color: #e07b00;
+  color: #F15505;
 }
 
 .dropTitle {
@@ -287,7 +287,7 @@
 }
 
 .dropBrowse {
-  color: #e07b00;
+  color: #F15505;
   text-decoration: underline;
   text-underline-offset: 2px;
   cursor: pointer;
@@ -422,7 +422,7 @@
 
 .cancelBtn:hover:not(:disabled) {
   background: rgba(224, 123, 0, 0.06);
-  border-color: #e07b00;
+  border-color: #F15505;
   color: #5c2d00;
 }
 

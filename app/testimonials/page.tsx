@@ -68,7 +68,7 @@ const YouTubeEmbed = ({
                 width="68"
                 height="48"
                 rx="10"
-                fill="#e07b00"
+                fill="#F15505"
                 opacity="0.93"
               />
               <polygon points="26,13 53,24 26,35" fill="#fff" />
@@ -177,7 +177,7 @@ export default function TestimonialsSection() {
       <div className={styles.mandalaBottomRight} aria-hidden="true" />
       <div className={styles.chakraGlow} aria-hidden="true" />
 
-      <div className={styles.topBorder} />
+      <div className={styles.a} />
 
       <div className={styles.container}>
         {/* ══════════════════════════════════════
@@ -398,7 +398,7 @@ Studying at AYM was a life-changing experience – the support of the students, 
               <div
                 key={i}
                 className={styles.successCard}
-                style={{ borderColor: i % 2 === 0 ? "#e07b00" : "#4caf50" }}
+                style={{ borderColor: i % 2 === 0 ? "#F15505" : "#4caf50" }}
               >
                 <div className={styles.avatarRing}>
                   <img

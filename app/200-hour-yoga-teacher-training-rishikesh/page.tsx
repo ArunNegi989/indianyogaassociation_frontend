@@ -411,7 +411,7 @@ function BorderStrip() {
             </g>
           );
         })}
-        <line x1="0" y1="7" x2="800" y2="7" stroke="#e07b00" strokeWidth="0.3" />
+        <line x1="0" y1="7" x2="800" y2="7" stroke="#F15505" strokeWidth="0.3" />
       </svg>
     </div>
   );

@@ -20,7 +20,7 @@ const liveCourses = [
     sessions: "15 Days | 2 Classes Daily",
     cert: "Yoga Alliance, USA",
     fee: "399 USD / 20,000 INR",
-    chakraColor: "#e07b00",
+    chakraColor: "#F15505",
     benefits: [
       "Expert-Led Live Training - Learn from experienced yoga masters.",
       "Flexible & Interactive - Attend classes from anywhere in the world.",
@@ -38,7 +38,7 @@ const liveCourses = [
     sessions: "15 Days | 2 Classes Daily",
     cert: "Yoga Alliance, USA",
     fee: "399 USD / 25,000 INR",
-    chakraColor: "#e07b00",
+    chakraColor: "#F15505",
     benefits: [
       "Advanced & Multi-Style Training - Expand your practice with diverse yoga styles.",
       "Expert Guidance - Learn from seasoned yoga masters in real-time.",
@@ -117,7 +117,7 @@ const curriculumAreas = [
     title: "Introduction to Yogic Anatomy",
     lines: ["20 hour Anatomy live lectures", "5 hours e-books self-study"],
     symbol: "ॐ",
-    color: "#e07b00",
+    color: "#F15505",
     image: chakra2,
   },
   {
@@ -263,7 +263,7 @@ function CourseBlock({ course }: { course: (typeof liveCourses)[0] }) {
                   width="14"
                   height="13"
                   rx="2"
-                  stroke="#e07b00"
+                  stroke="#F15505"
                   strokeWidth="1.4"
                 />
                 <line
@@ -271,7 +271,7 @@ function CourseBlock({ course }: { course: (typeof liveCourses)[0] }) {
                   y1="1"
                   x2="5"
                   y2="4"
-                  stroke="#e07b00"
+                  stroke="#F15505"
                   strokeWidth="1.4"
                   strokeLinecap="round"
                 />
@@ -280,7 +280,7 @@ function CourseBlock({ course }: { course: (typeof liveCourses)[0] }) {
                   y1="1"
                   x2="11"
                   y2="4"
-                  stroke="#e07b00"
+                  stroke="#F15505"
                   strokeWidth="1.4"
                   strokeLinecap="round"
                 />
@@ -289,7 +289,7 @@ function CourseBlock({ course }: { course: (typeof liveCourses)[0] }) {
                   y1="6"
                   x2="15"
                   y2="6"
-                  stroke="#e07b00"
+                  stroke="#F15505"
                   strokeWidth="1.4"
                 />
               </svg>
@@ -303,12 +303,12 @@ function CourseBlock({ course }: { course: (typeof liveCourses)[0] }) {
                   cx="8"
                   cy="5"
                   r="3"
-                  stroke="#e07b00"
+                  stroke="#F15505"
                   strokeWidth="1.4"
                 />
                 <path
                   d="M2 14c0-3.314 2.686-6 6-6s6 2.686 6 6"
-                  stroke="#e07b00"
+                  stroke="#F15505"
                   strokeWidth="1.4"
                   strokeLinecap="round"
                 />
@@ -325,10 +325,10 @@ function CourseBlock({ course }: { course: (typeof liveCourses)[0] }) {
                   width="14"
                   height="10"
                   rx="1.5"
-                  stroke="#e07b00"
+                  stroke="#F15505"
                   strokeWidth="1.4"
                 />
-                <circle cx="8" cy="8" r="2" fill="#e07b00" opacity="0.6" />
+                <circle cx="8" cy="8" r="2" fill="#F15505" opacity="0.6" />
               </svg>
             </span>
             <strong>Live Interactive Sessions:</strong>&nbsp;{course.sessions}
@@ -338,7 +338,7 @@ function CourseBlock({ course }: { course: (typeof liveCourses)[0] }) {
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                 <path
                   d="M8 1l2 4 4.5.7-3.2 3.1.7 4.5L8 11.2 4 13.3l.7-4.5L1.5 5.7 6 5z"
-                  stroke="#e07b00"
+                  stroke="#F15505"
                   strokeWidth="1.2"
                   strokeLinejoin="round"
                 />
@@ -353,7 +353,7 @@ function CourseBlock({ course }: { course: (typeof liveCourses)[0] }) {
                   cx="8"
                   cy="8"
                   r="7"
-                  stroke="#e07b00"
+                  stroke="#F15505"
                   strokeWidth="1.4"
                 />
                 <text
@@ -361,7 +361,7 @@ function CourseBlock({ course }: { course: (typeof liveCourses)[0] }) {
                   y="12"
                   textAnchor="middle"
                   fontSize="9"
-                  fill="#e07b00"
+                  fill="#F15505"
                   fontFamily="serif"
                 >
                   $
@@ -408,7 +408,7 @@ export default function OnlineYogaCourse() {
       {/* ── Mandala background watermark ── */}
       <div className={styles.mandalaWatermark} aria-hidden="true">
         <svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
-          <g fill="none" stroke="#e07b00" strokeWidth="0.5" opacity="0.07">
+          <g fill="none" stroke="#F15505" strokeWidth="0.5" opacity="0.07">
             {[30, 60, 90, 120, 150, 180, 210, 240].map((r, i) => (
               <circle key={i} cx="250" cy="250" r={r} />
             ))}
@@ -546,7 +546,7 @@ export default function OnlineYogaCourse() {
                         width="14"
                         height="13"
                         rx="2"
-                        stroke="#e07b00"
+                        stroke="#F15505"
                         strokeWidth="1.4"
                       />
                       <line
@@ -554,7 +554,7 @@ export default function OnlineYogaCourse() {
                         y1="1"
                         x2="5"
                         y2="4"
-                        stroke="#e07b00"
+                        stroke="#F15505"
                         strokeWidth="1.4"
                         strokeLinecap="round"
                       />
@@ -563,7 +563,7 @@ export default function OnlineYogaCourse() {
                         y1="1"
                         x2="11"
                         y2="4"
-                        stroke="#e07b00"
+                        stroke="#F15505"
                         strokeWidth="1.4"
                         strokeLinecap="round"
                       />
@@ -572,7 +572,7 @@ export default function OnlineYogaCourse() {
                         y1="6"
                         x2="15"
                         y2="6"
-                        stroke="#e07b00"
+                        stroke="#F15505"
                         strokeWidth="1.4"
                       />
                     </svg>
@@ -586,12 +586,12 @@ export default function OnlineYogaCourse() {
                         cx="8"
                         cy="5"
                         r="3"
-                        stroke="#e07b00"
+                        stroke="#F15505"
                         strokeWidth="1.4"
                       />
                       <path
                         d="M2 14c0-3.314 2.686-6 6-6s6 2.686 6 6"
-                        stroke="#e07b00"
+                        stroke="#F15505"
                         strokeWidth="1.4"
                         strokeLinecap="round"
                       />
@@ -608,14 +608,14 @@ export default function OnlineYogaCourse() {
                         width="14"
                         height="10"
                         rx="1.5"
-                        stroke="#e07b00"
+                        stroke="#F15505"
                         strokeWidth="1.4"
                       />
                       <circle
                         cx="8"
                         cy="8"
                         r="2"
-                        fill="#e07b00"
+                        fill="#F15505"
                         opacity="0.6"
                       />
                     </svg>
@@ -628,7 +628,7 @@ export default function OnlineYogaCourse() {
                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                       <path
                         d="M8 1l2 4 4.5.7-3.2 3.1.7 4.5L8 11.2 4 13.3l.7-4.5L1.5 5.7 6 5z"
-                        stroke="#e07b00"
+                        stroke="#F15505"
                         strokeWidth="1.2"
                         strokeLinejoin="round"
                       />
@@ -643,7 +643,7 @@ export default function OnlineYogaCourse() {
                         cx="8"
                         cy="8"
                         r="7"
-                        stroke="#e07b00"
+                        stroke="#F15505"
                         strokeWidth="1.4"
                       />
                       <text
@@ -651,7 +651,7 @@ export default function OnlineYogaCourse() {
                         y="12"
                         textAnchor="middle"
                         fontSize="9"
-                        fill="#e07b00"
+                        fill="#F15505"
                         fontFamily="serif"
                       >
                         $

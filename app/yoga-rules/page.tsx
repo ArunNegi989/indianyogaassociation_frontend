@@ -140,7 +140,7 @@ const Mandala: React.FC<{ size?: number; className?: string }> = ({
         cx={cx}
         cy={cy}
         r={size * 0.46}
-        stroke="#e07b00"
+        stroke="#F15505"
         strokeWidth="0.7"
         strokeDasharray="5 3"
         fill="none"
@@ -150,7 +150,7 @@ const Mandala: React.FC<{ size?: number; className?: string }> = ({
         cx={cx}
         cy={cy}
         r={size * 0.36}
-        stroke="#e07b00"
+        stroke="#F15505"
         strokeWidth="0.4"
         fill="none"
         opacity="0.4"
@@ -168,7 +168,7 @@ const Mandala: React.FC<{ size?: number; className?: string }> = ({
             ry={13 * s}
             transform={`rotate(${(i * 360) / 16 + 90},${ex},${ey})`}
             fill="rgba(224,123,0,0.1)"
-            stroke="#e07b00"
+            stroke="#F15505"
             strokeWidth="0.5"
             opacity="0.65"
           />
@@ -187,7 +187,7 @@ const Mandala: React.FC<{ size?: number; className?: string }> = ({
             ry={10 * s}
             transform={`rotate(${(i * 360) / 8 + 22.5 + 90},${ex},${ey})`}
             fill="rgba(224,123,0,0.15)"
-            stroke="#e07b00"
+            stroke="#F15505"
             strokeWidth="0.6"
             opacity="0.7"
           />
@@ -198,7 +198,7 @@ const Mandala: React.FC<{ size?: number; className?: string }> = ({
         cy={cy}
         r={size * 0.09}
         fill="rgba(224,123,0,0.12)"
-        stroke="#e07b00"
+        stroke="#F15505"
         strokeWidth="0.9"
         opacity="0.6"
       />
@@ -207,7 +207,7 @@ const Mandala: React.FC<{ size?: number; className?: string }> = ({
         y={cy + 5 * s}
         textAnchor="middle"
         fontSize={16 * s}
-        fill="#e07b00"
+        fill="#F15505"
         fontFamily="serif"
         opacity="0.85"
       >
@@ -337,7 +337,7 @@ const RulesPage: React.FC = () => {
         </div>
 
         {/* ════ TOP BORDER ════ */}
-        <div className={styles.topBorder} />
+        <div className={styles.a} />
 
         {/* ════ PAGE TITLE & OM DIVIDER ════ */}
         <div className={styles.headerWrap}>

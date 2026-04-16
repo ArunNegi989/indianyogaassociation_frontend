@@ -107,7 +107,7 @@
 }
 
 .breadcrumbLink:hover {
-   color: #e07b00;
+   color: #F15505;
 }
 
 .breadcrumbSep {
@@ -614,7 +614,7 @@
 
 .modalCancel:hover {
    background: rgba(224, 123, 0, 0.06);
-   border-color: #e07b00;
+   border-color: #F15505;
 }
 
 .modalConfirm {
@@ -660,7 +660,7 @@
 
 .sectionIcon {
    font-size: 0.55rem;
-   color: #e07b00;
+   color: #F15505;
    flex-shrink: 0;
 }
 
@@ -712,7 +712,7 @@
 
 .labelIcon {
    font-size: 0.5rem;
-   color: #e07b00;
+   color: #F15505;
 }
 
 .required {
@@ -738,7 +738,7 @@
 }
 
 .inputWrap:focus-within {
-   border-color: #e07b00;
+   border-color: #F15505;
    box-shadow: 0 0 0 3px rgba(224, 123, 0, 0.1);
 }
 
@@ -839,7 +839,7 @@
 }
 
 .tagsRow:focus-within {
-   border-color: #e07b00;
+   border-color: #F15505;
    box-shadow: 0 0 0 3px rgba(224, 123, 0, 0.1);
 }
 
@@ -986,7 +986,7 @@
 
 .uploadZone:hover,
 .uploadZoneDragOver {
-   border-color: #e07b00;
+   border-color: #F15505;
    background: rgba(224, 123, 0, 0.04);
 }
 
@@ -1076,7 +1076,7 @@
 .blockCardDragging {
    opacity: 0.55;
    box-shadow: 0 8px 24px rgba(92, 45, 0, 0.15);
-   border-color: #e07b00;
+   border-color: #F15505;
 }
 
 .blockCardHeader {
@@ -1102,7 +1102,7 @@
 }
 
 .blockDragHandle:hover {
-   color: #e07b00;
+   color: #F15505;
 }
 
 .blockNum {
@@ -1314,7 +1314,7 @@
    border-radius: 7px;
    font-family: 'Cormorant Garamond', serif;
    font-size: 0.85rem;
-   color: #e07b00;
+   color: #F15505;
    cursor: pointer;
    font-style: italic;
    transition: all 0.2s;
@@ -1322,7 +1322,7 @@
 
 .addImageBtn:hover {
    background: rgba(224, 123, 0, 0.05);
-   border-color: #e07b00;
+   border-color: #F15505;
 }
 
 /* Add block menu */
@@ -1363,7 +1363,7 @@
 
 .addBlockBtn:hover {
    background: rgba(224, 123, 0, 0.06);
-   border-color: #e07b00;
+   border-color: #F15505;
    color: #5c2d00;
    border-style: solid;
 }
@@ -1397,7 +1397,7 @@
 
 .cancelBtn:hover {
    background: rgba(224, 123, 0, 0.06);
-   border-color: #e07b00;
+   border-color: #F15505;
    color: #5c2d00;
 }
 

@@ -77,7 +77,7 @@ const PaymentSection = () => {
 
         <div className={styles.chakraCenter} />
 
-        <div className={styles.topBorder} />
+        <div className={styles.a} />
 
         <div className={styles.container}>
           {/* ── HEADER ── */}

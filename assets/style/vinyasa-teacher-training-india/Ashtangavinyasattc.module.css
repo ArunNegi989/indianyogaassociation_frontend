@@ -2,7 +2,7 @@
 
 /* ── VARIABLES ── */
 :root {
-  --saffron: #e07b00;
+  --saffron: #F15505;
   --saffron-lt: #f5a623;
   --saffron-dk: #b85f00;
   --gold: #d4a017;
@@ -23,7 +23,7 @@
   --glow: rgba(224, 123, 0, .22);
   --glow-gold: rgba(212, 160, 23, .28);
   /* 100hr palette aliases */
-  --saffron-bright: #e07b00;
+  --saffron-bright: #F15505;
   --saffron-gold: #b8860b;
   --maroon: #6b1a00;
   --cream: #fdf8ee;

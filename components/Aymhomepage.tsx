@@ -33,7 +33,7 @@ const Mandala: React.FC<{ className?: string; size?: number }> = ({
         cx={cx}
         cy={cy}
         r={r * 0.88}
-        stroke="#e07b00"
+        stroke="#F15505"
         strokeWidth="0.4"
         opacity="0.25"
       />
@@ -49,7 +49,7 @@ const Mandala: React.FC<{ className?: string; size?: number }> = ({
           <path
             key={i}
             d={`M${cx},${cy} Q${x2},${y2} ${x1},${y1} Q${x3},${y3} ${cx},${cy}`}
-            stroke="#e07b00"
+            stroke="#F15505"
             strokeWidth="0.6"
             fill="rgba(224,123,0,0.02)"
             opacity="0.45"
@@ -68,7 +68,7 @@ const Mandala: React.FC<{ className?: string; size?: number }> = ({
           <path
             key={i}
             d={`M${cx},${cy} Q${x2},${y2} ${x1},${y1} Q${x3},${y3} ${cx},${cy}`}
-            stroke="#c46a00"
+            stroke="#f15505"
             strokeWidth="0.9"
             fill="rgba(196,106,0,0.04)"
             opacity="0.6"
@@ -79,7 +79,7 @@ const Mandala: React.FC<{ className?: string; size?: number }> = ({
         cx={cx}
         cy={cy}
         r={r * 0.55}
-        stroke="#e07b00"
+        stroke="#F15505"
         strokeWidth="0.7"
         opacity="0.3"
       />
@@ -87,7 +87,7 @@ const Mandala: React.FC<{ className?: string; size?: number }> = ({
         cx={cx}
         cy={cy}
         r={r * 0.42}
-        stroke="#e07b00"
+        stroke="#F15505"
         strokeWidth="0.4"
         strokeDasharray="3 5"
         opacity="0.25"
@@ -100,7 +100,7 @@ const Mandala: React.FC<{ className?: string; size?: number }> = ({
             cx={cx + r * 0.36 * Math.cos(a)}
             cy={cy + r * 0.36 * Math.sin(a)}
             r="3"
-            fill="#e07b00"
+            fill="#F15505"
             opacity="0.35"
           />
         );
@@ -117,15 +117,15 @@ const Mandala: React.FC<{ className?: string; size?: number }> = ({
           <path
             key={i}
             d={`M${cx},${cy} Q${x2},${y2} ${x1},${y1} Q${x3},${y3} ${cx},${cy}`}
-            stroke="#e07b00"
+            stroke="#F15505"
             strokeWidth="1"
             fill="rgba(224,123,0,0.08)"
             opacity="0.7"
           />
         );
       })}
-      <circle cx={cx} cy={cy} r={r * 0.07} fill="#e07b00" opacity="0.3" />
-      <circle cx={cx} cy={cy} r={r * 0.03} fill="#e07b00" opacity="0.5" />
+      <circle cx={cx} cy={cy} r={r * 0.07} fill="#F15505" opacity="0.3" />
+      <circle cx={cx} cy={cy} r={r * 0.03} fill="#F15505" opacity="0.5" />
     </svg>
   );
 };
@@ -134,7 +134,7 @@ const ChakraWheel: React.FC<{
   className?: string;
   color?: string;
   petals?: number;
-}> = ({ className, color = "#e07b00", petals = 8 }) => (
+}> = ({ className, color = "#F15505", petals = 8 }) => (
   <svg
     className={className}
     viewBox="0 0 120 120"
@@ -397,7 +397,7 @@ const AymHomePage: React.FC = () => {
             <div key={c.id} className={styles.courseCard}>
               <ChakraWheel
                 className={styles.cardChakraBg}
-                color="#e07b00"
+                color="#F15505"
                 petals={8}
               />
               {c.badge ? (
@@ -408,7 +408,7 @@ const AymHomePage: React.FC = () => {
                 <div className={styles.noBadgeSpacer}>
                   <ChakraWheel
                     className={styles.noBadgeChakra}
-                    color="#e07b00"
+                    color="#F15505"
                     petals={12}
                   />
                 </div>
@@ -506,7 +506,7 @@ const AymHomePage: React.FC = () => {
             >
               <ChakraWheel
                 className={styles.feeChakraBg}
-                color={i === 1 ? "#e07b00" : "#c45e00"}
+                color={i === 1 ? "#F15505" : "#c45e00"}
                 petals={i === 1 ? 12 : 8}
               />
               <div className={styles.feeCardInner}>
@@ -576,7 +576,7 @@ const AymHomePage: React.FC = () => {
           <div className={styles.contactCard}>
             <ChakraWheel
               className={styles.contactChakraTop}
-              color="#e07b00"
+              color="#F15505"
               petals={8}
             />
             <h3 className={styles.contactCardTitle}>Get In Touch</h3>

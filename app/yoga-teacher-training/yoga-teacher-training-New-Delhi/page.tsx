@@ -135,7 +135,7 @@ const YogaTrainingNewDelhi: React.FC = () => {
   return (
     <div className={styles.page}>
       {/* Top border */}
-      <div className={styles.topBorder} />
+      <div className={styles.a} />
 
       <div className={styles.container}>
         {/* ══════════════════════════════════════
@@ -372,7 +372,7 @@ const YogaTrainingNewDelhi: React.FC = () => {
       </div>
 
       {/* Bottom border */}
-      <div className={styles.topBorder} />
+      <div className={styles.a} />
     </div>
   );
 };

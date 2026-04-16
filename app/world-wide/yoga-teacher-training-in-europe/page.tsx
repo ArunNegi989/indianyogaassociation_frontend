@@ -16,7 +16,7 @@ const Mandala: React.FC<{ className?: string }> = ({ className }) => (
       cx="200"
       cy="200"
       r="195"
-      stroke="#e07b00"
+      stroke="#F15505"
       strokeWidth="0.8"
       strokeDasharray="4 6"
       opacity="0.4"
@@ -25,7 +25,7 @@ const Mandala: React.FC<{ className?: string }> = ({ className }) => (
       cx="200"
       cy="200"
       r="185"
-      stroke="#e07b00"
+      stroke="#F15505"
       strokeWidth="0.4"
       opacity="0.3"
     />
@@ -41,7 +41,7 @@ const Mandala: React.FC<{ className?: string }> = ({ className }) => (
         <path
           key={i}
           d={`M200,200 Q${x2},${y2} ${x1},${y1} Q${x3},${y3} 200,200`}
-          stroke="#e07b00"
+          stroke="#F15505"
           strokeWidth="0.7"
           fill="rgba(224,123,0,0.03)"
           opacity="0.5"
@@ -60,7 +60,7 @@ const Mandala: React.FC<{ className?: string }> = ({ className }) => (
         <path
           key={i}
           d={`M200,200 Q${x2},${y2} ${x1},${y1} Q${x3},${y3} 200,200`}
-          stroke="#c46a00"
+          stroke="#f15505"
           strokeWidth="1"
           fill="rgba(224,123,0,0.05)"
           opacity="0.6"
@@ -71,7 +71,7 @@ const Mandala: React.FC<{ className?: string }> = ({ className }) => (
       cx="200"
       cy="200"
       r="110"
-      stroke="#e07b00"
+      stroke="#F15505"
       strokeWidth="0.8"
       opacity="0.35"
     />
@@ -79,7 +79,7 @@ const Mandala: React.FC<{ className?: string }> = ({ className }) => (
       cx="200"
       cy="200"
       r="90"
-      stroke="#e07b00"
+      stroke="#F15505"
       strokeWidth="0.4"
       strokeDasharray="3 5"
       opacity="0.3"
@@ -96,7 +96,7 @@ const Mandala: React.FC<{ className?: string }> = ({ className }) => (
         <path
           key={i}
           d={`M200,200 Q${x2},${y2} ${x1},${y1} Q${x3},${y3} 200,200`}
-          stroke="#e07b00"
+          stroke="#F15505"
           strokeWidth="0.8"
           fill="rgba(224,123,0,0.06)"
           opacity="0.55"
@@ -111,7 +111,7 @@ const Mandala: React.FC<{ className?: string }> = ({ className }) => (
           cx={200 + 70 * Math.cos(a)}
           cy={200 + 70 * Math.sin(a)}
           r="3"
-          fill="#e07b00"
+          fill="#F15505"
           opacity="0.4"
         />
       );
@@ -120,7 +120,7 @@ const Mandala: React.FC<{ className?: string }> = ({ className }) => (
       cx="200"
       cy="200"
       r="50"
-      stroke="#e07b00"
+      stroke="#F15505"
       strokeWidth="1"
       opacity="0.4"
     />
@@ -128,7 +128,7 @@ const Mandala: React.FC<{ className?: string }> = ({ className }) => (
       cx="200"
       cy="200"
       r="36"
-      stroke="#c46a00"
+      stroke="#f15505"
       strokeWidth="0.6"
       opacity="0.35"
     />
@@ -144,21 +144,21 @@ const Mandala: React.FC<{ className?: string }> = ({ className }) => (
         <path
           key={i}
           d={`M200,200 Q${x2},${y2} ${x1},${y1} Q${x3},${y3} 200,200`}
-          stroke="#e07b00"
+          stroke="#F15505"
           strokeWidth="1"
           fill="rgba(224,123,0,0.1)"
           opacity="0.7"
         />
       );
     })}
-    <circle cx="200" cy="200" r="8" fill="#e07b00" opacity="0.35" />
-    <circle cx="200" cy="200" r="4" fill="#e07b00" opacity="0.5" />
+    <circle cx="200" cy="200" r="8" fill="#F15505" opacity="0.35" />
+    <circle cx="200" cy="200" r="4" fill="#F15505" opacity="0.5" />
   </svg>
 );
 
 const Chakra: React.FC<{ className?: string; color?: string }> = ({
   className,
-  color = "#e07b00",
+  color = "#F15505",
 }) => (
   <svg
     className={className}
@@ -275,7 +275,7 @@ const EuropePage: React.FC = () => {
           <div className={styles.cardList}>
             <div className={styles.card}>
               <div className={styles.cardHeader}>
-                <Chakra className={styles.cardChakra} color="#e07b00" />
+                <Chakra className={styles.cardChakra} color="#F15505" />
                 <h4 className={styles.cardTitle}>
                   Yoga Teacher Training In Europe
                 </h4>

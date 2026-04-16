@@ -12,7 +12,7 @@
   --ink-mid: #4a2e10;
   --ink-soft: #7a5c30;
   --saffron: #c8700a;
-  --saffron-bright: #e07b00;
+  --saffron-bright: #F15505;
   --saffron-gold: #b8860b;
   --saffron-light: #f0a030;
   --maroon: #6b1a00;
@@ -734,7 +734,7 @@
 /* TEXT */
 .card h3 {
   font-family: var(--font-display);
-  color: #e07b00;
+  color: #F15505;
   margin-bottom: 0.4rem;
 }
 
@@ -1045,7 +1045,7 @@
   font-weight: 700;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: #e07b00;
+  color: #F15505;
   background: rgba(224, 123, 0, 0.10);
   padding: 5px 14px;
   border-radius: 100px;
@@ -1102,7 +1102,7 @@
   width: 40px;
   height: 40px;
   border-radius: 11px;
-  background: linear-gradient(135deg, #e07b00, #c96800);
+  background: linear-gradient(135deg, #F15505, #c96800);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1133,7 +1133,7 @@
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #e07b00;
+  color: #F15505;
 }
 
 .chipText p {

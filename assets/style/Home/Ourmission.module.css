@@ -1,7 +1,7 @@
 /* ─── CSS Variables ─────────────────────────────────────────────── */
 .missionSection {
-  --saffron: #c46a00;
-  --saffron-light: #e07b00;
+  --saffron: #f15505;
+  --saffron-light: #F15505;
   --saffron-pale: #f5b800;
   --ink: #2e1800;
   --ink-soft: #4a2e0e;
@@ -78,10 +78,10 @@
   border: 1.5px solid var(--border-color);
   border-radius: 16px;
   background: linear-gradient(145deg, #fffdf9 0%, #fffbf4 50%, #fff9f2 100%);
-  box-shadow:
+  /* box-shadow:
     0 2px 0 rgba(196, 106, 0, 0.12),
     0 20px 60px rgba(92, 45, 0, 0.12),
-    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    inset 0 1px 0 rgba(255, 255, 255, 0.8); */
   padding: clamp(2rem, 4vw, 3.5rem) clamp(1.5rem, 5vw, 4rem);
 }
 
@@ -91,6 +91,7 @@
   border-radius: 10px;
   padding: clamp(1.5rem, 3vw, 2.8rem) clamp(1rem, 3vw, 2.5rem);
   position: relative;
+  background: #fff;
 }
 
 /* Four inner corner flourishes via pseudo-elements on innerFrame */

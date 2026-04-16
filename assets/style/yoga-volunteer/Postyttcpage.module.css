@@ -2,9 +2,9 @@
 
 /* ── CSS Variables ── */
 :root {
-  --gold: #e07b00;
+  --gold: #F15505;
   --gold-light: #f5b800;
-  --gold-dark: #c46a00;
+  --gold-dark: #f15505;
   --brown-deep: #3d1d00;
   --brown-mid: #7a5c2e;
   --brown-light: #5a3e22;
@@ -191,7 +191,7 @@
 
 /* ── Highlight ── */
 .highlight {
-  color: #b85e00;
+  color: #f15505;
   font-weight: 700;
 }
 
@@ -419,7 +419,7 @@
   font-family: 'Cormorant Garamond', serif;
   font-size: 0.82rem;
   font-weight: 600;
-  color: #b85e00;
+  color: #f15505;
   background: rgba(224, 123, 0, 0.1);
   border: 1px solid rgba(224, 123, 0, 0.3);
   padding: 0.25rem 0.75rem;
@@ -477,7 +477,7 @@
   border-radius: 4px;
   padding: 0.1rem 0.6rem;
   font-weight: 600;
-  color: #b85e00;
+  color: #f15505;
   font-family: 'Cinzel', serif;
   font-size: 0.85em;
   letter-spacing: 0.02em;

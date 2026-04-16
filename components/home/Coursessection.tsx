@@ -55,7 +55,7 @@ export const CoursesSection: React.FC = () => {
   if (loading) {
     return (
       <section className={styles.section}>
-        <div className={styles.topBorder} />
+        <div className={styles.a} />
         <div className={styles.container}>
           <div className={styles.courseList}>
             {[...Array(3)].map((_, i) => (
@@ -82,7 +82,7 @@ export const CoursesSection: React.FC = () => {
 
   return (
     <section className={styles.section}>
-      <div className={styles.topBorder} />
+      <div className={styles.a} />
       <div className={styles.container}>
         {/* Header */}
         <div className={styles.header}>

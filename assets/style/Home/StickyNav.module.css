@@ -41,14 +41,14 @@
 /* ── Button ── */
 .btn {
   flex-shrink: 0;
-  border: 2px solid #e07b00;
+  border: 2px solid #F15505;
   padding: 6px 18px;
   border-radius: 20px;
   background: transparent;
   cursor: pointer;
   font-size: 14px;
   font-weight: 500;
-  color: #e07b00;
+  color: #F15505;
   letter-spacing: 0.04em;
   white-space: nowrap;
   transition: background 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
@@ -57,13 +57,13 @@
 }
 
 .btn:hover {
-  background: #e07b00;
+  background: #F15505;
   color: #fff;
 }
 
 /* active */
 .active {
-  background: #e07b00;
+  background: #F15505;
   color: #fff;
   box-shadow: 0 2px 8px rgba(224, 123, 0, 0.35);
 }

@@ -76,7 +76,7 @@
 /* Tag pill */
 .slideTag {
   display: inline-block;
-  background: #e07b00;
+  background: #F15505;
   color: #fff;
   font-family: var(--font-menu), sans-serif;   /* ✅ Montserrat — tag/label */
   font-size: clamp(0.52rem, 1.1vw, 0.68rem);
@@ -139,7 +139,7 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: #e07b00;
+  background: #F15505;
   color: #fff;
   text-decoration: none;
   font-family: var(--font-menu), sans-serif;   /* ✅ Montserrat — CTA button */
@@ -149,7 +149,7 @@
   text-transform: uppercase;
   padding: 0.68rem 1.55rem;
   border-radius: 3px;
-  border: 2px solid #e07b00;
+  border: 2px solid #F15505;
   box-shadow: 0 4px 20px rgba(224, 123, 0, 0.4);
   opacity: 0;
   transform: translateY(14px);
@@ -216,8 +216,8 @@
 }
 
 .navBtn:hover {
-  background: #e07b00;
-  border-color: #e07b00;
+  background: #F15505;
+  border-color: #F15505;
   transform: translateY(-50%) scale(1.1);
 }
 
@@ -253,7 +253,7 @@
 }
 
 .dot.activeDot {
-  background: #e07b00;
+  background: #F15505;
   width: 26px;
   border-radius: 4px;
 }
@@ -265,7 +265,7 @@
   left: 0;
   height: 3px;
   width: 0%;
-  background: linear-gradient(90deg, #e07b00, #f5b800);
+  background: linear-gradient(90deg, #F15505, #f5b800);
   z-index: 10;
 }
 

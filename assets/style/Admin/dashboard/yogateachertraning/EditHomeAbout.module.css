@@ -28,7 +28,7 @@
 }
 
 .breadcrumbLink:hover {
-  color: #e07b00;
+  color: #F15505;
 }
 
 .breadcrumbSep {
@@ -104,7 +104,7 @@
 
 .sectionIcon {
   font-size: 0.55rem;
-  color: #e07b00;
+  color: #F15505;
   flex-shrink: 0;
 }
 
@@ -150,7 +150,7 @@
 
 .labelIcon {
   font-size: 0.5rem;
-  color: #e07b00;
+  color: #F15505;
 }
 
 .required {
@@ -177,7 +177,7 @@
 }
 
 .inputWrap:focus-within {
-  border-color: #e07b00;
+  border-color: #F15505;
   box-shadow: 0 0 0 3px rgba(224, 123, 0, 0.1);
 }
 
@@ -332,7 +332,7 @@
   border-radius: 8px;
   font-family: 'Cormorant Garamond', serif;
   font-size: 0.9rem;
-  color: #e07b00;
+  color: #F15505;
   cursor: pointer;
   font-style: italic;
   transition: all 0.2s;
@@ -340,7 +340,7 @@
 
 .addStatBtn:hover {
   background: rgba(224, 123, 0, 0.06);
-  border-color: #e07b00;
+  border-color: #F15505;
 }
 
 /* ── Badge / Chip Previews ── */
@@ -408,7 +408,7 @@
 
 .cancelBtn:hover {
   background: rgba(224, 123, 0, 0.06);
-  border-color: #e07b00;
+  border-color: #F15505;
   color: #5c2d00;
 }
 

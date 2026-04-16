@@ -127,7 +127,7 @@ const fmtDate = (iso: string) => {
 ───────────────────────────────────────── */
 const MandalaSVG = ({
   size = 300,
-  color1 = "#e07b00",
+  color1 = "#F15505",
   color2 = "#d4a017",
   strokeW = 0.5,
 }: {
@@ -188,7 +188,7 @@ const MandalaSVG = ({
 ───────────────────────────────────────── */
 const ChakraSVG = ({
   size = 48,
-  color = "#e07b00",
+  color = "#F15505",
 }: {
   size?: number;
   color?: string;
@@ -434,7 +434,7 @@ export default function KundaliniYogaTTC() {
           onClick={() => window.location.reload()}
           style={{
             padding: "0.5rem 1.5rem",
-            background: "#e07b00",
+            background: "#F15505",
             color: "#fff",
             border: "none",
             borderRadius: 4,
@@ -455,7 +455,7 @@ export default function KundaliniYogaTTC() {
       <div className={styles.mandalaTL} aria-hidden="true">
         <MandalaSVG
           size={380}
-          color1="#e07b00"
+          color1="#F15505"
           color2="#d4a017"
           strokeW={0.45}
         />
@@ -464,14 +464,14 @@ export default function KundaliniYogaTTC() {
         <MandalaSVG
           size={340}
           color1="#d4a017"
-          color2="#e07b00"
+          color2="#F15505"
           strokeW={0.45}
         />
       </div>
       <div className={styles.mandalaTR} aria-hidden="true">
         <MandalaSVG
           size={200}
-          color1="#e07b00"
+          color1="#F15505"
           color2="#d4a017"
           strokeW={0.6}
         />
@@ -480,7 +480,7 @@ export default function KundaliniYogaTTC() {
         <MandalaSVG
           size={200}
           color1="#d4a017"
-          color2="#e07b00"
+          color2="#F15505"
           strokeW={0.6}
         />
       </div>

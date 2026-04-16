@@ -2,8 +2,8 @@
 
 /* ── Variables ── */
 .page {
-  --saffron: #e07b00;
-  --saffron-deep: #c46a00;
+  --saffron: #F15505;
+  --saffron-deep: #f15505;
   --saffron-light: #f5b800;
   --parchment: #fff8eb;
   --parchment-alt: #f7ead0;
@@ -24,7 +24,7 @@
 /* ──────────────────────────────────────────
    DECORATIVE BORDERS
 ────────────────────────────────────────── */
-.topBorder,
+.a,
 .bottomBorder {
   height: 5px;
   background: linear-gradient(90deg,
@@ -101,13 +101,13 @@
   flex: 1;
   max-width: 180px;
   height: 1.5px;
-  background: linear-gradient(90deg, transparent, #e07b00, transparent);
+  background: linear-gradient(90deg, transparent, #F15505, transparent);
 }
 
 .omSymbol {
   font-family: 'Cinzel', serif;
   font-size: 1.6rem;
-  color: #e07b00;
+  color: #F15505;
   line-height: 1;
   filter: drop-shadow(0 1px 3px rgba(224, 123, 0, 0.3));
 }
@@ -188,7 +188,7 @@
   height: clamp(200px, 34vw, 360px);
   object-fit: cover;
   object-position: center;
-  background: linear-gradient(135deg, #5c2d00 0%, #b85e00 50%, #3d1d00 100%);
+  background: linear-gradient(135deg, #5c2d00 0%, #f15505 50%, #3d1d00 100%);
   vertical-align: bottom;
 }
 
@@ -410,7 +410,7 @@
 
 .photoCell {
   overflow: hidden;
-  background: linear-gradient(135deg, #b85e00, #3d1d00);
+  background: linear-gradient(135deg, #f15505, #3d1d00);
 }
 
 .stripImg {
@@ -470,7 +470,7 @@
 }
 
 .accomThumb {
-  background: linear-gradient(135deg, #e07b00, #7a3f00);
+  background: linear-gradient(135deg, #F15505, #7a3f00);
   overflow: hidden;
 }
 

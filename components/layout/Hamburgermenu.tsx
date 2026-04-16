@@ -27,12 +27,14 @@ const HamburgerMenu = ({ navLinks }: HamburgerMenuProps) => {
   }, []);
 
   const toggleAccordion = useCallback((href: string) => {
+    
     setOpenAccordion((prev) => (prev === href ? null : href));
   }, []);
 
   return (
     <>
       {/* Hamburger Toggle Button */}
+
       <button
         className={`${styles.hamburgerBtn} ${isOpen ? styles.open : ""}`}
         onClick={isOpen ? closeMenu : openMenu}

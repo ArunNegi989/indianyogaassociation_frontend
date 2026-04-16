@@ -2,8 +2,8 @@
 
 /* ── CSS Variables ── */
 :root {
-  --saffron: #e07b00;
-  --saffron-dark: #c46a00;
+  --saffron: #F15505;
+  --saffron-dark: #f15505;
   --saffron-light: #f5b800;
   --brown-dark: #3d1d00;
   --brown-mid: #7a5c2e;
@@ -39,13 +39,13 @@
 }
 
 /* ── Decorative border ── */
-.topBorder {
+.a {
   height: 5px;
   background: linear-gradient(90deg,
       transparent 0%,
-      #e07b00 20%,
+      #F15505 20%,
       #f5b800 50%,
-      #e07b00 80%,
+      #F15505 80%,
       transparent 100%);
   position: relative;
   z-index: 1;

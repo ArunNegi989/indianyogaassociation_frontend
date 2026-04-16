@@ -141,7 +141,7 @@ function DummyCaptcha({
               ) : (
                 <div style={{
                   width: "24px", height: "24px",
-                  border: `2px solid ${isExpired ? "#e07b00" : "#c1c1c1"}`,
+                  border: `2px solid ${isExpired ? "#F15505" : "#c1c1c1"}`,
                   borderRadius: "3px", background: "white",
                   transition: "border-color 0.2s",
                   boxShadow: "inset 0 1px 2px rgba(0,0,0,0.08)",
@@ -150,7 +150,7 @@ function DummyCaptcha({
                 </div>
               )}
             </div>
-            <span style={{ fontSize: "14px", color: isExpired ? "#e07b00" : "#333", fontFamily: "Roboto, Arial, sans-serif", fontWeight: 400 }}>
+            <span style={{ fontSize: "14px", color: isExpired ? "#F15505" : "#333", fontFamily: "Roboto, Arial, sans-serif", fontWeight: 400 }}>
               {isExpired ? "Verification expired. Check again." : "I'm not a robot"}
             </span>
           </label>
@@ -323,7 +323,7 @@ export default function RegisterForm() {
         {/* Background mandala */}
         <div className={styles.bgMandala} aria-hidden="true">
           <svg viewBox="0 0 600 600">
-            <g fill="none" stroke="#e07b00" strokeWidth="0.6" opacity="0.06">
+            <g fill="none" stroke="#F15505" strokeWidth="0.6" opacity="0.06">
               {[40, 80, 120, 160, 200, 240, 280].map((r, i) => (
                 <circle key={i} cx="300" cy="300" r={r} />
               ))}
@@ -423,7 +423,7 @@ export default function RegisterForm() {
             <div className={styles.formHeader}>
               <div className={styles.cornerMandala} aria-hidden="true">
                 <svg viewBox="0 0 80 80">
-                  <g fill="none" stroke="#e07b00" strokeWidth="0.8" opacity="0.4">
+                  <g fill="none" stroke="#F15505" strokeWidth="0.8" opacity="0.4">
                     {[15, 25, 35].map((r, i) => <circle key={i} cx="0" cy="0" r={r} />)}
                     {Array.from({ length: 12 }, (_, i) => {
                       const a = (((i * 360) / 12) * Math.PI) / 180;
@@ -434,7 +434,7 @@ export default function RegisterForm() {
               </div>
               <div className={`${styles.cornerMandala} ${styles.cornerMandalaRight}`} aria-hidden="true">
                 <svg viewBox="0 0 80 80">
-                  <g fill="none" stroke="#e07b00" strokeWidth="0.8" opacity="0.4">
+                  <g fill="none" stroke="#F15505" strokeWidth="0.8" opacity="0.4">
                     {[15, 25, 35].map((r, i) => <circle key={i} cx="80" cy="0" r={r} />)}
                     {Array.from({ length: 12 }, (_, i) => {
                       const a = (((i * 360) / 12) * Math.PI) / 180;
@@ -617,11 +617,11 @@ export default function RegisterForm() {
             {/* Bottom ornament */}
             <div className={styles.bottomOrnament} aria-hidden="true">
               <svg viewBox="0 0 200 30" preserveAspectRatio="none">
-                <g fill="none" stroke="#e07b00" strokeWidth="0.8" opacity="0.25">
+                <g fill="none" stroke="#F15505" strokeWidth="0.8" opacity="0.25">
                   <line x1="0" y1="15" x2="80" y2="15" />
                   <circle cx="100" cy="15" r="10" />
                   <circle cx="100" cy="15" r="6" />
-                  <text x="100" y="20" textAnchor="middle" fontSize="10" fill="#e07b00" fontFamily="serif" opacity="0.6">ॐ</text>
+                  <text x="100" y="20" textAnchor="middle" fontSize="10" fill="#F15505" fontFamily="serif" opacity="0.6">ॐ</text>
                   <line x1="120" y1="15" x2="200" y2="15" />
                 </g>
               </svg>

@@ -53,13 +53,13 @@ const OrnamentsTop = () => (
     xmlns="http://www.w3.org/2000/svg"
     preserveAspectRatio="none"
   >
-    <line x1="0" y1="20" x2="155" y2="20" stroke="#e07b00" strokeWidth="0.8" />
+    <line x1="0" y1="20" x2="155" y2="20" stroke="#F15505" strokeWidth="0.8" />
     <circle
       cx="165"
       cy="20"
       r="4"
       fill="none"
-      stroke="#e07b00"
+      stroke="#F15505"
       strokeWidth="0.8"
     />
     <text
@@ -67,7 +67,7 @@ const OrnamentsTop = () => (
       y="26"
       textAnchor="middle"
       fontSize="18"
-      fill="#e07b00"
+      fill="#F15505"
       fontFamily="serif"
     >
       ॐ
@@ -77,7 +77,7 @@ const OrnamentsTop = () => (
       cy="20"
       r="4"
       fill="none"
-      stroke="#e07b00"
+      stroke="#F15505"
       strokeWidth="0.8"
     />
     <line
@@ -85,7 +85,7 @@ const OrnamentsTop = () => (
       y1="20"
       x2="400"
       y2="20"
-      stroke="#e07b00"
+      stroke="#F15505"
       strokeWidth="0.8"
     />
     <circle
@@ -93,7 +93,7 @@ const OrnamentsTop = () => (
       cy="20"
       r="8"
       fill="none"
-      stroke="#e07b00"
+      stroke="#F15505"
       strokeWidth="0.4"
       opacity="0.4"
     />
@@ -102,7 +102,7 @@ const OrnamentsTop = () => (
       cy="20"
       r="8"
       fill="none"
-      stroke="#e07b00"
+      stroke="#F15505"
       strokeWidth="0.4"
       opacity="0.4"
     />

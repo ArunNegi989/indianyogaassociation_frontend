@@ -1,7 +1,7 @@
 /* ── Variables ── */
 :root {
-  --saffron: #e07b00;
-  --saffron-deep: #c46a00;
+  --saffron: #F15505;
+  --saffron-deep: #f15505;
   --saffron-light: #f5b800;
   --parchment: #fdf6ec;
   --cream-white: #fffef8;
@@ -36,7 +36,7 @@
   padding: clamp(2.5rem, 5vw, 4.5rem) clamp(1.2rem, 5vw, 3rem);
 }
 
-.topBorder,
+.a,
 .bottomBorder {
   height: 5px;
   background: linear-gradient(90deg,
@@ -128,7 +128,7 @@
 }
 
 .hl {
-  color: #b85e00;
+  color: #f15505;
   font-weight: 700;
 }
 
@@ -986,7 +986,7 @@
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: #fff;
-  background: rgba(196, 106, 0, 0.85);
+  background:#f15505;
   padding: 0.25rem 0.6rem;
   border-radius: 3px;
   opacity: 0;

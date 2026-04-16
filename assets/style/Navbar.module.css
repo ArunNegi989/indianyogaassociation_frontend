@@ -127,7 +127,7 @@
   left: 0;
   min-width: 260px;
   background: #fff;
-  border-top: 3px solid #e07b00;
+  border-top: 3px solid #F15505;
   border-radius: 0 0 8px 8px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18), 0 2px 8px rgba(0, 0, 0, 0.1);
   list-style: none;
@@ -156,7 +156,7 @@
 
 /* Dropdown header label — kept for desktop (not used in mobile now) */
 .dropdownHeader {
-  background: linear-gradient(135deg, #e07b00 0%, #f59500 100%);
+  background: linear-gradient(135deg, #F15505 0%, #f59500 100%);
   color: #fff;
   font-family: 'Georgia', serif;
   font-size: 0.78rem;
@@ -190,7 +190,7 @@
 
 .dropdownLink:hover {
   background: #fff7ee;
-  color: #c46a00;
+  color: #f15505;
   padding-left: 1.25rem;
 }
 
@@ -201,7 +201,7 @@
 }
 
 .dropdownDot {
-  color: #e07b00;
+  color: #F15505;
   font-size: 1rem;
   font-weight: 700;
   line-height: 1;
@@ -298,7 +298,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 0.75rem 1.1rem;
-  background: linear-gradient(135deg, #e07b00 0%, #f59500 100%);
+  background: linear-gradient(135deg, #F15505 0%, #f59500 100%);
   flex-shrink: 0;
 }
 
@@ -343,7 +343,7 @@
 /* ── Category header — now a full-width clickable button ── */
 .mobileCategoryHeader {
   width: 100%;
-  background: linear-gradient(90deg, #e07b00 0%, #5e3e0dca 100%);
+  background: linear-gradient(90deg, #F15505 0%, #5e3e0dca 100%);
   border: none;
   border-bottom: 1px solid rgba(255, 255, 255, 0.15);
   cursor: pointer;
@@ -413,12 +413,12 @@
 }
 
 .mobileSubLink:hover {
-  color: #c46a00;
+  color: #f15505;
   background: #fff3e0;
 }
 
 .mobileSubDot {
-  color: #e07b00;
+  color: #F15505;
   font-weight: 700;
   font-size: 0.9rem;
 }
@@ -436,26 +436,74 @@
 }
 
 .mobilePlainLink:hover {
-  color: #c46a00;
+  color: #f15505;
   background: #fff7ee;
 }
 
 /* ================================================================
-   BREAKPOINTS
+   RESPONSIVE BREAKPOINTS: 1920px to 340px
    ================================================================ */
 
-/* ── Large desktop: generous padding ── */
-@media (min-width: 1361px) {
+/* ── ULTRA WIDE: 1920px and above ── */
+@media (min-width: 1920px) {
+  .navbar {
+    max-width: 1600px;
+    padding: 0 2rem;
+    min-height: 72px;
+  }
+
+  .navLink {
+    padding: 0 1.2rem;
+    font-size: 0.88rem;
+  }
+
+  .logo {
+    height: 60px;
+  }
+
+  .dropdown {
+    min-width: 280px;
+  }
+}
+
+/* ── LARGE DESKTOP: 1600px – 1919px ── */
+@media (min-width: 1600px) and (max-width: 1919px) {
+  .navbar {
+    max-width: 1500px;
+    padding: 0 1.75rem;
+    min-height: 70px;
+  }
+
+  .navLink {
+    padding: 0 1.1rem;
+    font-size: 0.86rem;
+  }
+
+  .logo {
+    height: 58px;
+  }
+}
+
+/* ── DESKTOP: 1361px – 1599px ── */
+@media (min-width: 1361px) and (max-width: 1599px) {
+  .navbar {
+    max-width: 1400px;
+    padding: 0 1.5rem;
+    min-height: 68px;
+  }
+
   .navLink {
     padding: 0 1rem;
     font-size: 0.84rem;
   }
+
+  .logo {
+    height: 56px;
+  }
 }
 
-/* ── 2-ROW LAYOUT: 901px – 1360px ──
-   Logo centers on top row, nav fills bottom row fully
-   ================================================================ */
-@media (min-width: 901px) and (max-width: 1360px) {
+/* ── MEDIUM DESKTOP: 1101px – 1360px ── */
+@media (min-width: 1101px) and (max-width: 1360px) {
   .navbar {
     flex-direction: column;
     align-items: center;
@@ -465,20 +513,18 @@
     gap: 0;
   }
 
-  /* Top row: logo centered */
   .logoWrapper {
     width: 100%;
     display: flex;
-    justify-content: start;
+    justify-content: flex-start;
     padding: 8px 1.25rem 4px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.12);
   }
 
   .logo {
-    height: 50px;
+    height: 52px;
   }
 
-  /* Bottom row: nav links spread full width */
   .navList {
     width: 100%;
     display: flex;
@@ -494,27 +540,66 @@
 
   .navLink {
     justify-content: center;
-    padding: 0 0.5rem;
-    font-size: 0.75rem;
-    min-height: 40px;
+    padding: 0 0.6rem;
+    font-size: 0.78rem;
+    min-height: 42px;
   }
 
-  /* Hamburger hidden in this range — desktop nav is shown */
   .hamburgerBtn {
     display: none;
   }
 }
 
-/* Fine-tune for slightly smaller screens in the 2-row range */
+/* ── TABLET LANDSCAPE: 901px – 1100px ── */
 @media (min-width: 901px) and (max-width: 1100px) {
+  .navbar {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    min-height: unset;
+    gap: 0;
+  }
+
+  .logoWrapper {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    padding: 6px 1rem 3px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  }
+
+  .logo {
+    height: 48px;
+  }
+
+  .navList {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 0 0.5rem;
+  }
+
+  .navItem {
+    flex: 0 1 auto;
+    justify-content: center;
+  }
+
   .navLink {
+    justify-content: center;
+    padding: 0 0.4rem;
     font-size: 0.7rem;
-    padding: 0 0.35rem;
+    min-height: 38px;
+  }
+
+  .hamburgerBtn {
+    display: none;
   }
 }
 
-/* ── MOBILE: hamburger takes over ── */
-@media (max-width: 900px) {
+/* ── TABLET PORTRAIT: 768px – 900px ── */
+@media (min-width: 768px) and (max-width: 900px) {
   .navList {
     display: none;
   }
@@ -536,7 +621,7 @@
     align-items: stretch;
     justify-content: space-between;
     padding: 0 1.25rem;
-    min-height: 62px;
+    min-height: 64px;
   }
 
   .logoWrapper {
@@ -547,17 +632,269 @@
   }
 
   .logo {
-    height: 48px;
+    height: 50px;
+  }
+
+  .mobileDrawer {
+    width: min(340px, 85vw);
   }
 }
 
-@media (max-width: 480px) {
+/* ── MOBILE LARGE: 600px – 767px ── */
+@media (min-width: 600px) and (max-width: 767px) {
+  .navList {
+    display: none;
+  }
+
+  .hamburgerBtn {
+    display: flex;
+    padding: 8px 9px;
+  }
+
+  .mobileOverlay {
+    display: block;
+  }
+
+  .mobileDrawer {
+    display: flex;
+    width: min(300px, 80vw);
+  }
+
+  .navbar {
+    flex-direction: row;
+    align-items: stretch;
+    justify-content: space-between;
+    padding: 0 1rem;
+    min-height: 62px;
+  }
+
+  .logoWrapper {
+    width: auto;
+    padding: 5px 0;
+  }
+
+  .logo {
+    height: 46px;
+  }
+
+  .bar {
+    width: 20px;
+    height: 2px;
+  }
+}
+
+/* ── MOBILE MEDIUM: 480px – 599px ── */
+@media (min-width: 480px) and (max-width: 599px) {
+  .navList {
+    display: none;
+  }
+
+  .hamburgerBtn {
+    display: flex;
+    padding: 7px 8px;
+  }
+
+  .mobileOverlay {
+    display: block;
+  }
+
+  .mobileDrawer {
+    display: flex;
+    width: min(280px, 75vw);
+  }
+
+  .navbar {
+    flex-direction: row;
+    align-items: stretch;
+    justify-content: space-between;
+    padding: 0 0.9rem;
+    min-height: 60px;
+  }
+
+  .logoWrapper {
+    width: auto;
+    padding: 4px 0;
+  }
+
   .logo {
     height: 44px;
   }
 
+  .bar {
+    width: 18px;
+    height: 1.5px;
+  }
+
+  .hamburgerBtn {
+    gap: 4px;
+    padding: 6px 7px;
+  }
+
+  .drawerLogo {
+    height: 40px;
+  }
+
+  .mobilePlainLink {
+    font-size: 0.85rem;
+    padding: 0.65rem 1rem;
+  }
+
+  .mobileSubLink {
+    font-size: 0.8rem;
+    padding: 0.55rem 1.2rem;
+  }
+}
+
+/* ── MOBILE SMALL: 400px – 479px ── */
+@media (min-width: 400px) and (max-width: 479px) {
+  .navList {
+    display: none;
+  }
+
+  .hamburgerBtn {
+    display: flex;
+    padding: 6px 7px;
+  }
+
+  .mobileOverlay {
+    display: block;
+  }
+
+  .mobileDrawer {
+    display: flex;
+    width: min(260px, 70vw);
+  }
+
   .navbar {
-    padding: 0 0.85rem;
+    flex-direction: row;
+    align-items: stretch;
+    justify-content: space-between;
+    padding: 0 0.8rem;
     min-height: 58px;
+  }
+
+  .logoWrapper {
+    width: auto;
+    padding: 3px 0;
+  }
+
+  .logo {
+    height: 42px;
+  }
+
+  .bar {
+    width: 16px;
+    height: 1.5px;
+  }
+
+  .drawerLogo {
+    height: 38px;
+  }
+
+  .drawerHeader {
+    padding: 0.65rem 0.9rem;
+  }
+
+  .drawerClose {
+    width: 30px;
+    height: 30px;
+    font-size: 1rem;
+  }
+
+  .mobileCategoryHeader {
+    font-size: 0.75rem;
+    padding: 0.5rem 0.9rem;
+  }
+
+  .mobilePlainLink {
+    font-size: 0.82rem;
+    padding: 0.6rem 0.9rem;
+  }
+
+  .mobileSubLink {
+    font-size: 0.78rem;
+    padding: 0.5rem 1.1rem;
+  }
+}
+
+/* ── MOBILE EXTRA SMALL: 340px – 399px ── */
+@media (min-width: 340px) and (max-width: 399px) {
+  .navList {
+    display: none;
+  }
+
+  .hamburgerBtn {
+    display: flex;
+    padding: 5px 6px;
+    gap: 4px;
+  }
+
+  .mobileOverlay {
+    display: block;
+  }
+
+  .mobileDrawer {
+    display: flex;
+    width: min(240px, 65vw);
+  }
+
+  .navbar {
+    flex-direction: row;
+    align-items: stretch;
+    justify-content: space-between;
+    padding: 0 0.7rem;
+    min-height: 56px;
+  }
+
+  .logoWrapper {
+    width: auto;
+    padding: 2px 0;
+  }
+
+  .logo {
+    height: 40px;
+  }
+
+  .bar {
+    width: 14px;
+    height: 1.5px;
+  }
+
+  .drawerLogo {
+    height: 36px;
+  }
+
+  .drawerHeader {
+    padding: 0.6rem 0.8rem;
+  }
+
+  .drawerClose {
+    width: 28px;
+    height: 28px;
+    font-size: 0.9rem;
+  }
+
+  .mobileCategoryHeader {
+    font-size: 0.7rem;
+    padding: 0.45rem 0.8rem;
+  }
+
+  .mobilePlainLink {
+    font-size: 0.8rem;
+    padding: 0.55rem 0.8rem;
+  }
+
+  .mobileSubLink {
+    font-size: 0.76rem;
+    padding: 0.45rem 1rem;
+    gap: 6px;
+  }
+
+  .mobileSubDot {
+    font-size: 0.85rem;
+  }
+
+  .dropdown {
+    min-width: 240px;
   }
 }

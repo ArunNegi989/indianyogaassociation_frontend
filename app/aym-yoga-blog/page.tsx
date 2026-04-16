@@ -70,7 +70,7 @@ const MandalaDecor = () => (
       cx="100"
       cy="100"
       r="95"
-      stroke="#e07b00"
+      stroke="#F15505"
       strokeWidth="0.6"
       strokeDasharray="4 3"
       opacity="0.35"
@@ -79,7 +79,7 @@ const MandalaDecor = () => (
       cx="100"
       cy="100"
       r="78"
-      stroke="#e07b00"
+      stroke="#F15505"
       strokeWidth="0.4"
       opacity="0.25"
     />
@@ -87,7 +87,7 @@ const MandalaDecor = () => (
       cx="100"
       cy="100"
       r="60"
-      stroke="#e07b00"
+      stroke="#F15505"
       strokeWidth="0.6"
       strokeDasharray="2 4"
       opacity="0.3"
@@ -96,7 +96,7 @@ const MandalaDecor = () => (
       cx="100"
       cy="100"
       r="42"
-      stroke="#c46a00"
+      stroke="#f15505"
       strokeWidth="0.5"
       opacity="0.35"
     />
@@ -104,7 +104,7 @@ const MandalaDecor = () => (
       cx="100"
       cy="100"
       r="24"
-      stroke="#e07b00"
+      stroke="#F15505"
       strokeWidth="0.8"
       opacity="0.4"
     />
@@ -121,7 +121,7 @@ const MandalaDecor = () => (
           y1={y1}
           x2={x2}
           y2={y2}
-          stroke="#e07b00"
+          stroke="#F15505"
           strokeWidth="0.4"
           opacity="0.2"
         />
@@ -137,7 +137,7 @@ const MandalaDecor = () => (
           cx={cx2}
           cy={cy2}
           r="3.5"
-          fill="#e07b00"
+          fill="#F15505"
           opacity="0.25"
         />
       );
@@ -147,7 +147,7 @@ const MandalaDecor = () => (
       y="107"
       textAnchor="middle"
       fontSize="18"
-      fill="#e07b00"
+      fill="#F15505"
       opacity="0.5"
       fontFamily="serif"
     >

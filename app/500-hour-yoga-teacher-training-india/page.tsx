@@ -308,7 +308,7 @@ const YouTubeEmbed = ({
                 width="68"
                 height="48"
                 rx="10"
-                fill="#e07b00"
+                fill="#F15505"
                 opacity="0.93"
               />
               <polygon points="26,13 53,24 26,35" fill="#fff" />

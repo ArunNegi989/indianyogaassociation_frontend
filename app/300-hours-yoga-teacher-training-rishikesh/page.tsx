@@ -227,7 +227,7 @@ const YouTubeEmbed = ({ video }: { video: YouTubeVideo }) => {
                 width="68"
                 height="48"
                 rx="10"
-                fill="#e07b00"
+                fill="#F15505"
                 opacity="0.93"
               />
               <polygon points="26,13 53,24 26,35" fill="#fff" />
@@ -333,7 +333,7 @@ function StarRating({ rating }: { rating: number }) {
   return (
     <div className={styles.reviewStars}>
       {Array.from({ length: 5 }, (_, i) => (
-        <span key={i} style={{ color: i < rating ? "#e07b00" : "#ddd" }}>
+        <span key={i} style={{ color: i < rating ? "#F15505" : "#ddd" }}>
           ★
         </span>
       ))}
@@ -452,7 +452,7 @@ export default function YogaTTC300() {
 
       <section className={styles.heroSection2}>
         <div className="container">
-          <div className={styles.topBorderLine} />
+          <div className={styles.aLine} />
 
           {/* H1 */}
           {content1?.pageMainH1 && (

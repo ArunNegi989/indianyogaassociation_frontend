@@ -479,7 +479,7 @@ function MultiImg({
             marginBottom: "0.75rem",
           }}
           onMouseEnter={(e) =>
-            (e.currentTarget.style.borderColor = "#e07b00")
+            (e.currentTarget.style.borderColor = "#F15505")
           }
           onMouseLeave={(e) =>
             (e.currentTarget.style.borderColor = "rgba(224,123,0,0.35)")
@@ -621,7 +621,7 @@ function MultiImg({
                 aspectRatio: "4/3",
               }}
               onMouseEnter={(e) =>
-                (e.currentTarget.style.borderColor = "#e07b00")
+                (e.currentTarget.style.borderColor = "#F15505")
               }
               onMouseLeave={(e) =>
                 (e.currentTarget.style.borderColor = "rgba(224,123,0,0.35)")
@@ -691,7 +691,7 @@ function StarRating({
             fontSize: "1.5rem",
             lineHeight: 1,
             color:
-              (hover || value) >= star ? "#e07b00" : "rgba(160,120,64,0.22)",
+              (hover || value) >= star ? "#F15505" : "rgba(160,120,64,0.22)",
             transition: "color 0.15s, transform 0.12s",
             transform: hover === star ? "scale(1.2)" : "scale(1)",
           }}

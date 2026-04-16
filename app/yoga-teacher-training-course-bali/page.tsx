@@ -175,7 +175,7 @@ export default function BaliYogaPage() {
           justifyContent: "center",
         }}
       >
-        <p style={{ fontSize: "1.2rem", color: "#c46a00", opacity: 0.7 }}>
+        <p style={{ fontSize: "1.2rem", color: "#f15505", opacity: 0.7 }}>
           Loading...
         </p>
       </div>
@@ -622,7 +622,7 @@ function MandalaRing({
       style={{ opacity }}
       aria-hidden
     >
-      <g stroke="#c46a00" strokeWidth="0.7" fill="none">
+      <g stroke="#f15505" strokeWidth="0.7" fill="none">
         {rings.map((r, i) => (
           <circle key={i} cx={c} cy={c} r={r} />
         ))}
@@ -667,12 +667,12 @@ function MandalaFull({
   const c = size / 2;
   const radii = [0.47, 0.39, 0.31, 0.23, 0.15, 0.08].map((r) => r * size);
   const colors = [
-    "#c46a00",
-    "#e07b00",
-    "#b85e00",
-    "#c46a00",
-    "#e07b00",
-    "#c46a00",
+    "#f15505",
+    "#F15505",
+    "#f15505",
+    "#f15505",
+    "#F15505",
+    "#f15505",
   ];
   return (
     <svg
@@ -699,7 +699,7 @@ function MandalaFull({
           return (
             <line
               key={i}
-              stroke="#c46a00"
+              stroke="#f15505"
               strokeWidth="0.5"
               x1={radii[4] * Math.cos(a)}
               y1={radii[4] * Math.sin(a)}
@@ -718,7 +718,7 @@ function MandalaFull({
             return (
               <ellipse
                 key={`${gi}-${i}`}
-                stroke="#c46a00"
+                stroke="#f15505"
                 strokeWidth="0.55"
                 fill="none"
                 cx={R * Math.cos(a)}
@@ -737,7 +737,7 @@ function MandalaFull({
           return (
             <line
               key={`star-${i}`}
-              stroke="#e07b00"
+              stroke="#F15505"
               strokeWidth="0.6"
               x1={r0 * Math.cos(a)}
               y1={r0 * Math.sin(a)}

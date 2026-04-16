@@ -410,7 +410,7 @@ const DEFAULT_AYURVEDA_COURSES: AyurvedaCourseItem[] = [
     fee: "405 USD",
     days: "7 Days",
     cert: "Ayurveda Experience Certificate",
-    color: "#e07b00",
+    color: "#F15505",
     imgUrl: "",
     imgPreview: "",
   },
@@ -420,7 +420,7 @@ const DEFAULT_AYURVEDA_COURSES: AyurvedaCourseItem[] = [
     fee: "800 USD",
     days: "15 Days",
     cert: "Ayurveda Experience Certificate",
-    color: "#b85e00",
+    color: "#f15505",
     imgUrl: "",
     imgPreview: "",
   },
@@ -467,7 +467,7 @@ function AyurvedaCoursesManager({
         fee: "",
         days: "",
         cert: "Ayurveda Experience Certificate",
-        color: "#e07b00",
+        color: "#F15505",
         imgUrl: "",
         imgPreview: "",
       },
@@ -576,7 +576,7 @@ function AyurvedaCoursesManager({
                   <input
                     className={styles.input}
                     value={item.color}
-                    placeholder="#e07b00"
+                    placeholder="#F15505"
                     onChange={(e) => update(item.id, "color", e.target.value)}
                   />
                 </div>
@@ -642,7 +642,7 @@ const DEFAULT_PANCHAKARMA_COURSES: PanchaKarmaCourseItem[] = [
     fee: "330 USD",
     days: "7 Days",
     cert: "Ayurveda Experience Certificate",
-    color: "#e07b00",
+    color: "#F15505",
     imgUrl: "",
     imgPreview: "",
   },
@@ -662,7 +662,7 @@ const DEFAULT_PANCHAKARMA_COURSES: PanchaKarmaCourseItem[] = [
     fee: "653 USD",
     days: "14 Days",
     cert: "Ayurveda Experience Certificate",
-    color: "#e07b00",
+    color: "#F15505",
     imgUrl: "",
     imgPreview: "",
   },
@@ -698,7 +698,7 @@ function PanchaKarmaCoursesManager({
         fee: "",
         days: "",
         cert: "Ayurveda Experience Certificate",
-        color: "#e07b00",
+        color: "#F15505",
         imgUrl: "",
         imgPreview: "",
       },
@@ -807,7 +807,7 @@ function PanchaKarmaCoursesManager({
                   <input
                     className={styles.input}
                     value={item.color}
-                    placeholder="#e07b00"
+                    placeholder="#F15505"
                     onChange={(e) => update(item.id, "color", e.target.value)}
                   />
                 </div>
@@ -1038,7 +1038,7 @@ const DEFAULT_DOSHAS: DoshaItem[] = [
     id: "d2",
     name: "Pitta",
     elements: "Fire & Water",
-    color: "#e07b00",
+    color: "#F15505",
     symbol: "🔥",
     desc: "Governs digestion, metabolism and energy production.",
   },
@@ -1067,7 +1067,7 @@ function DoshasManager({
         id: `d-${Date.now()}`,
         name: "",
         elements: "",
-        color: "#e07b00",
+        color: "#F15505",
         symbol: "🌿",
         desc: "",
       },

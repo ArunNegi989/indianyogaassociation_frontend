@@ -23,7 +23,7 @@
   font-size: clamp(7rem, 13vw, 14rem);
   top: 0%;
   left: 0%;
-  color: #e07b00;
+  color: #F15505;
   animation: omFloat 9s ease-in-out infinite;
 }
 
@@ -31,7 +31,7 @@
   font-size: clamp(5rem, 9vw, 10rem);
   top: 2%;
   right: 1%;
-  color: #c46a00;
+  color: #f15505;
   animation: swastikSpin 26s linear infinite;
 }
 
@@ -39,7 +39,7 @@
   font-size: clamp(8rem, 14vw, 16rem);
   top: 32%;
   left: -2%;
-  color: #e07b00;
+  color: #F15505;
   animation: omDrift 18s 2s ease-in-out infinite;
 }
 
@@ -47,7 +47,7 @@
   font-size: clamp(5rem, 8vw, 9rem);
   top: 25%;
   right: 0%;
-  color: #b85e00;
+  color: #f15505;
   animation: swastikPulse 20s 1s linear infinite;
 }
 
@@ -55,7 +55,7 @@
   font-size: clamp(4rem, 7vw, 8rem);
   top: 60%;
   left: 6%;
-  color: #c46a00;
+  color: #f15505;
   animation: swastikSpin 32s 4s linear infinite;
 }
 
@@ -63,7 +63,7 @@
   font-size: clamp(9rem, 16vw, 18rem);
   top: 55%;
   right: 2%;
-  color: #e07b00;
+  color: #F15505;
   animation: omFloat 12s 1.5s ease-in-out infinite;
 }
 
@@ -71,7 +71,7 @@
   font-size: clamp(5rem, 8vw, 9rem);
   top: 83%;
   left: 26%;
-  color: #b85e00;
+  color: #f15505;
   animation: omDrift 22s 3s ease-in-out infinite;
 }
 
@@ -79,23 +79,23 @@
   font-size: clamp(4rem, 6vw, 7rem);
   top: 78%;
   right: 16%;
-  color: #c46a00;
+  color: #f15505;
   animation: swastikPulse 17s 2s linear infinite;
 }
 
 /* ================================================================
    DECORATIVE BORDERS — identical to HomeaboutSection
    ================================================================ */
-.topBorder,
+.a,
 .bottomBorder {
   position: relative;
   z-index: 2;
   height: 5px;
   background: linear-gradient(90deg,
       transparent 0%,
-      #e07b00 20%,
+      #F15505 20%,
       #f5b800 50%,
-      #e07b00 80%,
+      #F15505 80%,
       transparent 100%);
 }
 
@@ -167,13 +167,13 @@
   flex: 1;
   max-width: 200px;
   height: 1.5px;
-  background: linear-gradient(90deg, transparent, #e07b00, transparent);
+  background: linear-gradient(90deg, transparent, #F15505, transparent);
 }
 
 .omSymbol {
   font-family: var(--font-display), serif;
   font-size: 1.65rem;
-  color: #e07b00;
+  color: #F15505;
   line-height: 1;
   filter: drop-shadow(0 1px 4px rgba(224, 123, 0, 0.35));
   animation: omFloat 4s ease-in-out infinite;
@@ -309,7 +309,7 @@
   position: absolute;
   width: 16px;
   height: 16px;
-  border-color: #e07b00;
+  border-color: #F15505;
   border-style: solid;
   opacity: 0.5;
 }
@@ -327,7 +327,7 @@
 }
 
 .qMark {
-  color: #e07b00;
+  color: #F15505;
   font-size: 1.4em;
   line-height: 0;
   vertical-align: middle;
@@ -362,7 +362,7 @@
 .featureOm {
   font-family: var(--font-display), serif;
   font-size: 0.82rem;
-  color: #e07b00;
+  color: #F15505;
   opacity: 0.75;
   flex-shrink: 0;
   margin-top: 4px;
@@ -396,7 +396,7 @@
 
 .midPattern {
   font-family: var(--font-display), serif;
-  color: #e07b00;
+  color: #F15505;
   font-size: clamp(0.58rem, 1.1vw, 0.72rem);
   letter-spacing: 0.26em;
   white-space: nowrap;

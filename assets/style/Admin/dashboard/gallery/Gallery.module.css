@@ -101,7 +101,7 @@
 }
 
 .breadcrumbLink:hover {
-  color: #e07b00;
+  color: #F15505;
 }
 
 .breadcrumbSep {
@@ -288,7 +288,7 @@
 
 .arrowBtn:hover:not(:disabled) {
   background: rgba(224, 123, 0, 0.1);
-  border-color: #e07b00;
+  border-color: #F15505;
   color: #5c2d00;
 }
 
@@ -313,7 +313,7 @@
 }
 
 .dragHandle:hover {
-  color: #e07b00;
+  color: #F15505;
 }
 
 /* ================================================================
@@ -711,7 +711,7 @@
 
 .modalCancel:hover {
   background: rgba(224, 123, 0, 0.06);
-  border-color: #e07b00;
+  border-color: #F15505;
 }
 
 .modalConfirm {
@@ -758,7 +758,7 @@
 
 .sectionIcon {
   font-size: 0.55rem;
-  color: #e07b00;
+  color: #F15505;
   flex-shrink: 0;
 }
 
@@ -810,7 +810,7 @@
 
 .labelIcon {
   font-size: 0.5rem;
-  color: #e07b00;
+  color: #F15505;
 }
 
 .required {
@@ -837,7 +837,7 @@
 }
 
 .inputWrap:focus-within {
-  border-color: #e07b00;
+  border-color: #F15505;
   box-shadow: 0 0 0 3px rgba(224, 123, 0, 0.1);
 }
 
@@ -1063,7 +1063,7 @@
 
 .uploadZone:hover,
 .uploadZone.dragOver {
-  border-color: #e07b00;
+  border-color: #F15505;
   background: rgba(224, 123, 0, 0.04);
 }
 
@@ -1144,7 +1144,7 @@
 }
 
 .inlineLabelInput:focus {
-  border-color: #e07b00;
+  border-color: #F15505;
 }
 
 /* ================================================================
@@ -1176,7 +1176,7 @@
 
 .cancelBtn:hover {
   background: rgba(224, 123, 0, 0.06);
-  border-color: #e07b00;
+  border-color: #F15505;
   color: #5c2d00;
 }
 

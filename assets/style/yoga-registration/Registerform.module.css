@@ -2,8 +2,8 @@
 
 /* ── CSS Variables ── */
 .page {
-  --saffron: #e07b00;
-  --saffron-dark: #c46a00;
+  --saffron: #F15505;
+  --saffron-dark: #f15505;
   --saffron-light: #f5b800;
   --maroon: #3d1d00;
   --parchment: #fdf6ec;
@@ -691,7 +691,7 @@
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #e07b00, #f5b800);
+  background: linear-gradient(135deg, #F15505, #f5b800);
   color: #fff;
   font-size: 1.8rem;
   display: flex;
@@ -976,7 +976,7 @@
 }
 
 .captchaLoadingText {
-  color: #e07b00;
+  color: #F15505;
   font-size: 0.85rem;
   text-align: center;
   padding: 0.5rem;

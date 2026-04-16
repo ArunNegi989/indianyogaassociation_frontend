@@ -101,7 +101,7 @@ function Html({ html, className }: { html: string; className?: string }) {
 ───────────────────────────────────────── */
 function MandalaSVG({
   size = 300,
-  c1 = "#e07b00",
+  c1 = "#F15505",
   c2 = "#d4a017",
   sw = 0.5,
 }: {
@@ -190,7 +190,7 @@ function MandalaSVG({
 ───────────────────────────────────────── */
 function LotusChakra({
   size = 60,
-  color = "#e07b00",
+  color = "#F15505",
 }: {
   size?: number;
   color?: string;
@@ -262,7 +262,7 @@ function OmDivider() {
   return (
     <div className={styles.omDiv}>
       <span className={styles.omLine} />
-      <LotusChakra size={28} color="#e07b00" />
+      <LotusChakra size={28} color="#F15505" />
       <span className={styles.omLine} />
     </div>
   );
@@ -351,7 +351,7 @@ function BorderStrip() {
           y1="7"
           x2="800"
           y2="7"
-          stroke="#e07b00"
+          stroke="#F15505"
           strokeWidth="0.3"
         />
       </svg>
@@ -429,16 +429,16 @@ export default function AshtangaVinyasaTTC() {
     <div className={styles.page}>
       {/* Mandala Decorations */}
       <div className={styles.mandalaTL} aria-hidden="true">
-        <MandalaSVG size={420} c1="#e07b00" c2="#d4a017" sw={0.42} />
+        <MandalaSVG size={420} c1="#F15505" c2="#d4a017" sw={0.42} />
       </div>
       <div className={styles.mandalaBR} aria-hidden="true">
-        <MandalaSVG size={380} c1="#d4a017" c2="#e07b00" sw={0.42} />
+        <MandalaSVG size={380} c1="#d4a017" c2="#F15505" sw={0.42} />
       </div>
       <div className={styles.mandalaTR} aria-hidden="true">
-        <MandalaSVG size={220} c1="#e07b00" c2="#d4a017" sw={0.56} />
+        <MandalaSVG size={220} c1="#F15505" c2="#d4a017" sw={0.56} />
       </div>
       <div className={styles.mandalaBL} aria-hidden="true">
-        <MandalaSVG size={220} c1="#d4a017" c2="#e07b00" sw={0.56} />
+        <MandalaSVG size={220} c1="#d4a017" c2="#F15505" sw={0.56} />
       </div>
       <div className={styles.chakraGlow} aria-hidden="true" />
 
@@ -603,7 +603,7 @@ export default function AshtangaVinyasaTTC() {
             <div className={styles.omDivider}>
               <div className={styles.divLineLeft} />
               <div className={styles.omDividerCenter}>
-                <MandalaSVG size={52} c1="#e07b00" c2="#d4a017" sw={0.5} />
+                <MandalaSVG size={52} c1="#F15505" c2="#d4a017" sw={0.5} />
                 <span className={styles.omDividerLabel}>Upcoming Batches</span>
               </div>
               <div className={styles.divLineRight} />
@@ -621,11 +621,11 @@ export default function AshtangaVinyasaTTC() {
                 >
                   <path
                     d="M0,4 Q50,0 100,4 Q150,8 200,4"
-                    stroke="#e07b00"
+                    stroke="#F15505"
                     strokeWidth="1.2"
                     fill="none"
                   />
-                  <circle cx="100" cy="4" r="3" fill="#e07b00" opacity="0.7" />
+                  <circle cx="100" cy="4" r="3" fill="#F15505" opacity="0.7" />
                   <circle cx="10" cy="4" r="1.5" fill="#b8860b" opacity="0.5" />
                   <circle
                     cx="190"

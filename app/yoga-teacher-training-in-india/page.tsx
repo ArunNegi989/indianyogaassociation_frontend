@@ -96,7 +96,7 @@ const getImageSrc = (
 /* ─── MANDALA SVG ─── */
 const MandalaSVG = ({
   size = 300,
-  c1 = "#e07b00",
+  c1 = "#F15505",
   c2 = "#d4a017",
   sw = 0.5,
 }: {
@@ -178,7 +178,7 @@ const MandalaSVG = ({
 /* ─── CHAKRA SVG ─── */
 const ChakraSVG = ({
   size = 32,
-  color = "#e07b00",
+  color = "#F15505",
 }: {
   size?: number;
   color?: string;
@@ -244,7 +244,7 @@ const ChakraSVG = ({
 const OmDivider = ({ slim = false }: { slim?: boolean }) => (
   <div className={`${styles.omDiv} ${slim ? styles.omSlim : ""}`}>
     <span className={styles.omLine} />
-    <ChakraSVG size={slim ? 22 : 30} color="#e07b00" />
+    <ChakraSVG size={slim ? 22 : 30} color="#F15505" />
     <span className={styles.omLine} />
   </div>
 );
@@ -348,12 +348,12 @@ const LoadingSkeleton = () => (
     <div
       style={{
         textAlign: "center",
-        color: "#e07b00",
+        color: "#F15505",
         fontSize: "1.2rem",
         opacity: 0.7,
       }}
     >
-      <ChakraSVG size={48} color="#e07b00" />
+      <ChakraSVG size={48} color="#F15505" />
       <p style={{ marginTop: "1rem", fontFamily: "serif" }}>Loading...</p>
     </div>
   </div>
@@ -390,7 +390,7 @@ export default function YogaTTCIndia() {
     return (
       <div
         className={styles.page}
-        style={{ padding: "4rem", textAlign: "center", color: "#e07b00" }}
+        style={{ padding: "4rem", textAlign: "center", color: "#F15505" }}
       >
         <p>{error || "Something went wrong."}</p>
       </div>
@@ -414,16 +414,16 @@ export default function YogaTTCIndia() {
     <div className={styles.page}>
       {/* Fixed Mandalas */}
       <div className={styles.mandalaTL} aria-hidden="true">
-        <MandalaSVG size={430} c1="#e07b00" c2="#d4a017" sw={0.42} />
+        <MandalaSVG size={430} c1="#F15505" c2="#d4a017" sw={0.42} />
       </div>
       <div className={styles.mandalaBR} aria-hidden="true">
-        <MandalaSVG size={390} c1="#d4a017" c2="#e07b00" sw={0.42} />
+        <MandalaSVG size={390} c1="#d4a017" c2="#F15505" sw={0.42} />
       </div>
       <div className={styles.mandalaTR} aria-hidden="true">
-        <MandalaSVG size={230} c1="#e07b00" c2="#d4a017" sw={0.55} />
+        <MandalaSVG size={230} c1="#F15505" c2="#d4a017" sw={0.55} />
       </div>
       <div className={styles.mandalaBL} aria-hidden="true">
-        <MandalaSVG size={230} c1="#d4a017" c2="#e07b00" sw={0.55} />
+        <MandalaSVG size={230} c1="#d4a017" c2="#F15505" sw={0.55} />
       </div>
       <div className={styles.chakraGlow} aria-hidden="true" />
 
@@ -516,7 +516,7 @@ export default function YogaTTCIndia() {
                         <div className={styles.locationIcon}>
                           <ChakraSVG
                             size={36}
-                            color={i === 0 ? "#e07b00" : "#d4a017"}
+                            color={i === 0 ? "#F15505" : "#d4a017"}
                           />
                         </div>
                         <div>

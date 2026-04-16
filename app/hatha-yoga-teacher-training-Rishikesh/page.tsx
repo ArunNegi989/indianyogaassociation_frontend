@@ -175,7 +175,7 @@ function MandalaRingSVG({
       viewBox={`0 0 ${size} ${size}`}
       style={{ opacity }}
     >
-      <g stroke="#c46a00" strokeWidth="0.8" fill="none">
+      <g stroke="#f15505" strokeWidth="0.8" fill="none">
         <circle cx={cx} cy={cx} r={r1} />
         <circle cx={cx} cy={cx} r={r2} />
         <circle cx={cx} cy={cx} r={r3} />
@@ -226,7 +226,7 @@ function MandalaSVG({
       aria-hidden
     >
       <g
-        stroke="#c46a00"
+        stroke="#f15505"
         strokeWidth="0.6"
         fill="none"
         transform={`translate(${size / 2},${size / 2})`}
@@ -282,7 +282,7 @@ function LoadingSpinner() {
       <div
         style={{
           textAlign: "center",
-          color: "#e07b00",
+          color: "#F15505",
           fontSize: "1.1rem",
           opacity: 0.75,
         }}
@@ -353,7 +353,7 @@ export default function HathaYogaPage() {
     return (
       <div
         className={styles.page}
-        style={{ padding: "4rem", textAlign: "center", color: "#e07b00" }}
+        style={{ padding: "4rem", textAlign: "center", color: "#F15505" }}
       >
         <p>{error || "Something went wrong."}</p>
       </div>

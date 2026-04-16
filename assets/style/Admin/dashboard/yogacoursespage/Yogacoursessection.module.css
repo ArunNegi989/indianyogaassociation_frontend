@@ -27,7 +27,7 @@
 }
 
 .breadcrumbLink:hover {
-  color: #e07b00;
+  color: #F15505;
 }
 
 .breadcrumbSep {
@@ -248,7 +248,7 @@
 }
 
 .searchInput:focus {
-  border-color: #e07b00;
+  border-color: #F15505;
   box-shadow: 0 0 0 3px rgba(224, 123, 0, 0.1);
 }
 
@@ -305,11 +305,11 @@
 }
 
 .thSortable:hover {
-  color: #e07b00;
+  color: #F15505;
 }
 
 .sortActive {
-  color: #e07b00;
+  color: #F15505;
 }
 
 .sortInactive {
@@ -463,7 +463,7 @@
 
 .editBtn:hover {
   background: rgba(224, 123, 0, 0.18);
-  border-color: #e07b00;
+  border-color: #F15505;
 }
 
 .deleteBtn {
@@ -620,7 +620,7 @@
 
 .sectionIcon {
   font-size: 0.55rem;
-  color: #e07b00;
+  color: #F15505;
   flex-shrink: 0;
 }
 
@@ -666,7 +666,7 @@
 
 .labelIcon {
   font-size: 0.5rem;
-  color: #e07b00;
+  color: #F15505;
 }
 
 .required {
@@ -693,7 +693,7 @@
 }
 
 .inputWrap:focus-within {
-  border-color: #e07b00;
+  border-color: #F15505;
   box-shadow: 0 0 0 3px rgba(224, 123, 0, 0.1);
 }
 
@@ -795,7 +795,7 @@
 }
 
 .select:focus {
-  border-color: #e07b00;
+  border-color: #F15505;
   box-shadow: 0 0 0 3px rgba(224, 123, 0, 0.1);
 }
 
@@ -844,7 +844,7 @@
 }
 
 .colorHexInput:focus {
-  border-color: #e07b00;
+  border-color: #F15505;
 }
 
 /* ── Image URL Row ── */
@@ -899,7 +899,7 @@
 }
 
 .uploadArea:hover {
-  border-color: #e07b00;
+  border-color: #F15505;
   background: rgba(224, 123, 0, 0.04);
 }
 
@@ -1116,7 +1116,7 @@
   border-radius: 8px;
   font-family: 'Cormorant Garamond', serif;
   font-size: 0.9rem;
-  color: #e07b00;
+  color: #F15505;
   cursor: pointer;
   font-style: italic;
   transition: all 0.2s;
@@ -1124,7 +1124,7 @@
 
 .addBtn:hover {
   background: rgba(224, 123, 0, 0.06);
-  border-color: #e07b00;
+  border-color: #F15505;
 }
 
 /* ── Form Divider ── */
@@ -1167,7 +1167,7 @@
 
 .cancelBtn:hover {
   background: rgba(224, 123, 0, 0.06);
-  border-color: #e07b00;
+  border-color: #F15505;
   color: #5c2d00;
 }
 
@@ -1397,7 +1397,7 @@
 }
 
 .modalCancelBtn:hover:not(:disabled) {
-  border-color: #e07b00;
+  border-color: #F15505;
   color: #5c2d00;
 }
 
@@ -1637,7 +1637,7 @@
 }
 
 .joditWrap:focus-within {
-  border-color: #e07b00;
+  border-color: #F15505;
   box-shadow: 0 0 0 3px rgba(224, 123, 0, 0.1);
 }
 

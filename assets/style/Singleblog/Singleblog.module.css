@@ -109,7 +109,7 @@
   letter-spacing: 0.15em;
   text-transform: uppercase;
   color: #3d1d00;
-  background: linear-gradient(135deg, #f5b800, #e07b00);
+  background: linear-gradient(135deg, #f5b800, #F15505);
   padding: 0.25rem 0.8rem;
   border-radius: 2px;
   margin-bottom: 0.8rem;
@@ -217,7 +217,7 @@
   color: #3d1d00;
   font-style: italic;
   font-weight: 500;
-  border-left: 3px solid #e07b00;
+  border-left: 3px solid #F15505;
   padding-left: 1.2rem;
   margin-bottom: 1.5rem;
 }
@@ -234,13 +234,13 @@
 .innerLine {
   flex: 1;
   height: 1px;
-  background: linear-gradient(90deg, transparent, #e07b00, transparent);
+  background: linear-gradient(90deg, transparent, #F15505, transparent);
 }
 
 .innerOm {
   font-family: 'Cinzel', serif;
   font-size: 1.2rem;
-  color: #e07b00;
+  color: #F15505;
 }
 
 /* ================================================================
@@ -396,7 +396,7 @@
 }
 
 .articleTag:hover {
-  background: #e07b00;
+  background: #F15505;
   color: #fff;
 }
 
@@ -416,7 +416,7 @@
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #e07b00;
+  color: #F15505;
   text-decoration: none;
   border: 1px solid rgba(224, 123, 0, 0.4);
   padding: 0.5rem 1rem;
@@ -425,7 +425,7 @@
 }
 
 .backBtn:hover {
-  background: #e07b00;
+  background: #F15505;
   color: #fff;
 }
 
@@ -543,7 +543,7 @@
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #e07b00;
+  color: #F15505;
 }
 
 .recentTitle {
@@ -561,7 +561,7 @@
 }
 
 .recentLink:hover .recentTitle {
-  color: #c46a00;
+  color: #f15505;
 }
 
 .recentDate {
@@ -585,13 +585,13 @@
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #e07b00;
+  color: #F15505;
   text-decoration: none;
   transition: color 0.15s;
 }
 
 .recentViewAllLink:hover {
-  color: #c46a00;
+  color: #f15505;
 }
 
 /* ================================================================
@@ -662,7 +662,7 @@
 }
 
 .relatedLink:hover .relatedTitle {
-  color: #c46a00;
+  color: #f15505;
 }
 
 .relatedDate {
@@ -720,7 +720,7 @@
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: #3d1d00;
-  background: linear-gradient(135deg, #f5b800, #e07b00);
+  background: linear-gradient(135deg, #f5b800, #F15505);
   padding: 0.6rem 1.5rem;
   text-decoration: none;
   border-radius: 2px;
@@ -778,7 +778,7 @@
   font-family: 'Cormorant Garamond', serif;
   font-size: 0.78rem;
   font-weight: 600;
-  color: #e07b00;
+  color: #F15505;
   white-space: nowrap;
   flex-shrink: 0;
 }
@@ -792,7 +792,7 @@
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: #fff;
-  background: linear-gradient(135deg, #e07b00, #c46a00);
+  background: linear-gradient(135deg, #F15505, #f15505);
   padding: 0.55rem;
   text-decoration: none;
   transition: filter 0.2s ease;

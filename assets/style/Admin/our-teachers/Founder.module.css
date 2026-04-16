@@ -154,7 +154,7 @@
 }
 
 .breadcrumbBtn:hover {
-  color: #e07b00;
+  color: #F15505;
 }
 
 .breadcrumbSep {
@@ -280,7 +280,7 @@
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: #e07b00;
+  color: #F15505;
   border: 1px solid rgba(224, 123, 0, 0.35);
   border-radius: 20px;
   padding: 0.22rem 0.8rem;
@@ -411,7 +411,7 @@
 
 .sectionIcon {
   font-size: 0.55rem;
-  color: #e07b00;
+  color: #F15505;
   flex-shrink: 0;
 }
 
@@ -477,7 +477,7 @@
 
 .labelIcon {
   font-size: 0.5rem;
-  color: #e07b00;
+  color: #F15505;
 }
 
 .required {
@@ -506,7 +506,7 @@
 }
 
 .inputWrap:focus-within {
-  border-color: #e07b00;
+  border-color: #F15505;
   box-shadow: 0 0 0 3px rgba(224, 123, 0, 0.1);
 }
 
@@ -594,13 +594,13 @@
 }
 
 .dropZone:hover {
-  border-color: #e07b00;
+  border-color: #F15505;
   background: rgba(255, 248, 235, 0.95);
   box-shadow: 0 0 0 4px rgba(224, 123, 0, 0.08);
 }
 
 .dropZoneDragging {
-  border-color: #e07b00;
+  border-color: #F15505;
   background: rgba(224, 123, 0, 0.07);
   box-shadow: 0 0 0 5px rgba(224, 123, 0, 0.12);
   transform: scale(1.01);
@@ -781,7 +781,7 @@
   border-radius: 8px;
   font-family: 'Cormorant Garamond', serif;
   font-size: 0.92rem;
-  color: #e07b00;
+  color: #F15505;
   cursor: pointer;
   font-style: italic;
   transition: all 0.2s ease;
@@ -790,7 +790,7 @@
 
 .addListBtn:hover {
   background: rgba(224, 123, 0, 0.06);
-  border-color: #e07b00;
+  border-color: #F15505;
 }
 
 /* ────────────────────────────────────────
@@ -831,7 +831,7 @@
 
 .cancelBtn:hover {
   background: rgba(224, 123, 0, 0.06);
-  border-color: #e07b00;
+  border-color: #F15505;
   color: #5c2d00;
 }
 
@@ -1043,7 +1043,7 @@
 
 .modalCancel:hover {
   background: rgba(224, 123, 0, 0.06);
-  border-color: #e07b00;
+  border-color: #F15505;
 }
 
 .modalConfirm {

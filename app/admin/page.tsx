@@ -7,7 +7,7 @@ const stats = [
     value: "1,284",
     icon: "✉",
     change: "+12 this week",
-    accent: "#e07b00",
+    accent: "#F15505",
   },
   {
     label: "Active Courses",
@@ -28,7 +28,7 @@ const stats = [
     value: "486",
     icon: "✦",
     change: "+8 pending review",
-    accent: "#b85e00",
+    accent: "#f15505",
   },
 ];
 

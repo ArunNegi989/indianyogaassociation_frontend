@@ -33,14 +33,14 @@
   user-select: none;
 }
 
-.topBorder,
+.a,
 .bottomBorder {
   height: 5px;
   background: linear-gradient(90deg,
       transparent 0%,
-      #e07b00 20%,
+      #F15505 20%,
       #f5b800 50%,
-      #e07b00 80%,
+      #F15505 80%,
       transparent 100%);
 }
 
@@ -89,13 +89,13 @@
   flex: 1;
   max-width: 180px;
   height: 1.5px;
-  background: linear-gradient(90deg, transparent, #e07b00, transparent);
+  background: linear-gradient(90deg, transparent, #F15505, transparent);
 }
 
 .omSymbol {
   font-family: var(--font-display), serif;
   font-size: 1.6rem;
-  color: #e07b00;
+  color: #F15505;
   line-height: 1;
   filter: drop-shadow(0 1px 3px rgba(224, 123, 0, 0.3));
 }
@@ -193,7 +193,7 @@
 .titleUnderline {
   width: 42px;
   height: 2.5px;
-  background: linear-gradient(90deg, #e07b00, #f5b800);
+  background: linear-gradient(90deg, #F15505, #f5b800);
   border-radius: 2px;
   margin-bottom: 0.65rem;
 }
@@ -240,7 +240,7 @@
 }
 
 .inlineLink {
-  color: #e07b00;
+  color: #F15505;
   font-weight: 400;
   text-decoration: underline;
   text-decoration-color: rgba(224, 123, 0, 0.4);
@@ -249,7 +249,7 @@
 }
 
 .inlineLink:hover {
-  color: #b85e00;
+  color: #f15505;
 }
 
 .linkList {
@@ -268,7 +268,7 @@
 }
 
 .checkIcon {
-  color: #e07b00;
+  color: #F15505;
   font-size: 0.78rem;
   font-weight: 700;
   flex-shrink: 0;
@@ -280,7 +280,7 @@
   font-family: var(--font-body), sans-serif;
   font-size: clamp(0.82rem, 1.3vw, 0.9rem);
   font-weight: 400;
-  color: #c46a00;
+  color: #f15505;
   text-decoration: underline;
   text-decoration-color: rgba(196, 106, 0, 0.35);
   text-underline-offset: 2px;
@@ -321,7 +321,7 @@
   font-family: var(--font-display), serif;
   font-size: clamp(1.25rem, 2vw, 1.55rem);
   font-weight: 600;
-  color: #c46a00;
+  color: #f15505;
   line-height: 1;
   letter-spacing: 0.01em;
 }
@@ -379,7 +379,7 @@
 
 .seatsBarFill {
   height: 100%;
-  background: linear-gradient(90deg, #e07b00, #f5b800);
+  background: linear-gradient(90deg, #F15505, #f5b800);
   border-radius: 10px;
   transition: width 0.4s ease;
 }
@@ -424,7 +424,7 @@
   font-size: 0.82rem;
   font-weight: 400;
   letter-spacing: 0.04em;
-  color: #c46a00;
+  color: #f15505;
   background: transparent;
   border: 1.5px solid rgba(224, 123, 0, 0.45);
   padding: 0.65rem 1rem;
@@ -437,7 +437,7 @@
 .btnExplore:hover {
   background: rgba(224, 123, 0, 0.08);
   color: #8a3e00;
-  border-color: #e07b00;
+  border-color: #F15505;
 }
 
 /* ── 1200px ── */

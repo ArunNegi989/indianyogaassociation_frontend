@@ -41,7 +41,7 @@ const getImageUrl = (src: string): string => {
 ══════════════════════════════════════════════ */
 const Skeleton = () => (
   <section className={styles.section}>
-    <div className={styles.topBorder} />
+    <div className={styles.a} />
     <div className={styles.container}>
       <div className={`${styles.header}`}>
         <div
@@ -153,7 +153,7 @@ export const WhyAYMSection: React.FC = () => {
   return (
     <section className={styles.section} ref={sectionRef}>
       {/* ── Top decorative border ── */}
-      <div className={styles.topBorder} />
+      <div className={styles.a} />
 
       <div className={styles.container}>
         {/* ══ HEADER ══ */}

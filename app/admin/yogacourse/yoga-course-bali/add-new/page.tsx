@@ -537,7 +537,7 @@ const DEFAULT_COURSES: CourseItem[] = [
     id: "c1", 
     hrs: "200", 
     tag: "Foundation", 
-    color: "#e07b00", 
+    color: "#F15505", 
     title: "200-Hour Yoga Teacher Training in Bali",
     url: "/contact",
     desc: "The internationally recognized standard certification to begin your journey as a yoga teacher. Ideal for beginners and those looking to deepen their personal practice." 
@@ -546,7 +546,7 @@ const DEFAULT_COURSES: CourseItem[] = [
     id: "c2", 
     hrs: "300", 
     tag: "Advanced", 
-    color: "#b85e00", 
+    color: "#f15505", 
     title: "300-Hour Yoga Teacher Training in Bali",
     url: "/contact",
     desc: "An advanced course for 200-hour certified teachers to expand their knowledge, skills and deepen their personal practice significantly." 
@@ -579,7 +579,7 @@ function CoursesManager({
   const add = () =>
     onChange([
       ...items,
-      { id: `c-${Date.now()}`, hrs: "", tag: "", color: "#e07b00", title: "", url: "", desc: "" },
+      { id: `c-${Date.now()}`, hrs: "", tag: "", color: "#F15505", title: "", url: "", desc: "" },
     ]);
   const remove = (id: string) => {
     if (items.length <= 1) return;
@@ -685,7 +685,7 @@ function CoursesManager({
                   <input
                     className={styles.input}
                     value={item.color}
-                    placeholder="#e07b00"
+                    placeholder="#F15505"
                     onChange={(e) => update(item.id, "color", e.target.value)}
                   />
                 </div>
@@ -963,7 +963,7 @@ function ChakrasManager({
   const add = () =>
     onChange([
       ...items,
-      { id: `ch-${Date.now()}`, name: "", color: "#e07b00", symbol: "●", meaning: "", mantra: "" },
+      { id: `ch-${Date.now()}`, name: "", color: "#F15505", symbol: "●", meaning: "", mantra: "" },
     ]);
   const remove = (id: string) => {
     if (items.length <= 1) return;

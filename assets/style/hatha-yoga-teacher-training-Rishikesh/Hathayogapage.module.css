@@ -4,13 +4,13 @@
 :root {
   --clr-parchment: #fdf6e8;
   --clr-parchment2: #f5e9cf;
-  --clr-saffron: #e07b00;
+  --clr-saffron: #F15505;
   --clr-saffron-lt: #f5b800;
   --clr-mahogany: #3d1d00;
   --clr-brown: #7a5c2e;
   --clr-brown-lt: #b8956a;
   --clr-ink: #2e1a06;
-  --clr-rust: #b85e00;
+  --clr-rust: #f15505;
   --ff-display: 'Cinzel', serif;
   --ff-body: 'Cormorant Garamond', serif;
   --ff-script: 'Dancing Script', cursive;
@@ -339,7 +339,7 @@
   background: linear-gradient(160deg, #fffbf4 0%, #fffcf5 100%);
   border-top: 3px solid;
   border-bottom: 3px solid;
-  border-image: linear-gradient(90deg, transparent 0%, #e07b00 30%, #f5b800 50%, #e07b00 70%, transparent 100%) 1;
+  border-image: linear-gradient(90deg, transparent 0%, #F15505 30%, #f5b800 50%, #F15505 70%, transparent 100%) 1;
   position: relative;
   overflow: hidden;
 }

@@ -36,14 +36,14 @@
 }
 
 /* ── Decorative border strips ── */
-.topBorder,
+.a,
 .bottomBorder {
   height: 5px;
   background: linear-gradient(90deg,
       transparent 0%,
-      #e07b00 20%,
+      #F15505 20%,
       #f5b800 50%,
-      #e07b00 80%,
+      #F15505 80%,
       transparent 100%);
 }
 
@@ -96,13 +96,13 @@
   flex: 1;
   max-width: 180px;
   height: 1.5px;
-  background: linear-gradient(90deg, transparent, #e07b00, transparent);
+  background: linear-gradient(90deg, transparent, #F15505, transparent);
 }
 
 .omSymbol {
   font-family: var(--font-display), serif;     /* ✅ Playfair Display */
   font-size: 1.6rem;
-  color: #e07b00;
+  color: #F15505;
   line-height: 1;
   filter: drop-shadow(0 1px 3px rgba(224, 123, 0, 0.3));
 }
@@ -141,7 +141,7 @@
   font-family: var(--font-display), serif;     /* ✅ Playfair Display */
   font-size: clamp(1.4rem, 2.8vw, 1.9rem);
   font-weight: 700;
-  color: #e07b00;
+  color: #F15505;
   line-height: 1;
 }
 
@@ -195,7 +195,7 @@
 .para strong,
 .para b {
   font-weight: 700;
-  color: #b85e00;
+  color: #f15505;
 }
 
 .para em,
@@ -205,7 +205,7 @@
 
 .para u {
   text-decoration: underline;
-  text-decoration-color: #e07b00;
+  text-decoration-color: #F15505;
   text-underline-offset: 2px;
 }
 
@@ -220,20 +220,20 @@
 }
 
 .para a {
-  color: #e07b00;
+  color: #F15505;
   text-decoration: none;
   border-bottom: 1px solid transparent;
   transition: border-color 0.2s ease;
 }
 
 .para a:hover {
-  border-bottom-color: #e07b00;
+  border-bottom-color: #F15505;
 }
 
 .para blockquote {
   margin: 1rem 0;
   padding: 0.75rem 1.25rem;
-  border-left: 3px solid #e07b00;
+  border-left: 3px solid #F15505;
   background: #fff5e6;
   font-style: italic;
   border-radius: 0 4px 4px 0;
@@ -271,7 +271,7 @@
 }
 
 .highlight {
-  color: #b85e00;
+  color: #f15505;
   font-weight: 700;
   font-style: normal;
 }
@@ -284,7 +284,7 @@
   margin-top: 1.4rem;
   padding: 1.1rem 1.2rem;
   background: linear-gradient(135deg, #fff7eb 0%, #ffefd4 100%);
-  border-left: 3px solid #e07b00;
+  border-left: 3px solid #F15505;
   border-radius: 0 6px 6px 0;
 }
 
@@ -324,7 +324,7 @@
   position: absolute;
   width: 18px;
   height: 18px;
-  border-color: #e07b00;
+  border-color: #F15505;
   border-style: solid;
   opacity: 0.5;
 }
@@ -342,7 +342,7 @@
 }
 
 .quoteMarks {
-  color: #e07b00;
+  color: #F15505;
   font-size: 1.4em;
   line-height: 0;
   vertical-align: middle;
@@ -386,9 +386,9 @@
 }
 
 .styleChip:hover {
-  background: #e07b00;
+  background: #F15505;
   color: #fff;
-  border-color: #e07b00;
+  border-color: #F15505;
 }
 
 /* ================================================================
@@ -419,7 +419,7 @@
 }
 
 .ctaText a {
-  color: #e07b00;
+  color: #F15505;
   text-decoration: underline;
   text-underline-offset: 2px;
 }

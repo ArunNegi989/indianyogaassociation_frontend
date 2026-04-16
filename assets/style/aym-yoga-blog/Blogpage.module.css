@@ -44,7 +44,7 @@
   left: 0;
   right: 0;
   height: 4px;
-  background: linear-gradient(90deg, transparent, #e07b00, #f5b800, #e07b00, transparent);
+  background: linear-gradient(90deg, transparent, #F15505, #f5b800, #F15505, transparent);
 }
 
 .mandala {
@@ -190,7 +190,7 @@
   position: absolute;
   width: 14px;
   height: 14px;
-  border-color: #e07b00;
+  border-color: #F15505;
   border-style: solid;
   z-index: 2;
   opacity: 0;
@@ -277,7 +277,7 @@
   display: flex;
   flex-direction: column;
   flex: 1;
-  border-top: 2px solid #e07b00;
+  border-top: 2px solid #F15505;
 }
 
 .cardMeta {
@@ -301,7 +301,7 @@
 .cardAuthor {
   font-family: 'Cormorant Garamond', serif;
   font-size: 0.72rem;
-  color: #c46a00;
+  color: #f15505;
   font-style: italic;
 }
 
@@ -320,7 +320,7 @@
 }
 
 .card:hover .cardTitle {
-  color: #c46a00;
+  color: #f15505;
 }
 
 .cardExcerpt {
@@ -348,7 +348,7 @@
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #e07b00;
+  color: #F15505;
   display: flex;
   align-items: center;
   gap: 5px;
@@ -379,13 +379,13 @@
   flex: 1;
   max-width: 140px;
   height: 1px;
-  background: linear-gradient(90deg, transparent, #e07b00, transparent);
+  background: linear-gradient(90deg, transparent, #F15505, transparent);
 }
 
 .loadMoreOm {
   font-family: 'Cinzel', serif;
   font-size: 1.2rem;
-  color: #e07b00;
+  color: #F15505;
 }
 
 .loadMoreBtn {
@@ -456,7 +456,7 @@
 .endOm {
   font-family: 'Cinzel', serif;
   font-size: 1.4rem;
-  color: #e07b00;
+  color: #F15505;
 }
 
 /* ================================================================
@@ -531,7 +531,7 @@
 }
 
 .sidePostDot {
-  color: #e07b00;
+  color: #F15505;
   font-weight: 700;
   font-size: 1rem;
   line-height: 1.3;
@@ -547,7 +547,7 @@
 }
 
 .sidePostLink:hover .sidePostTitle {
-  color: #c46a00;
+  color: #f15505;
 }
 
 /* CTA Widget */
@@ -636,7 +636,7 @@
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: #3d1d00;
-  background: linear-gradient(135deg, #f5b800 0%, #e07b00 100%);
+  background: linear-gradient(135deg, #f5b800 0%, #F15505 100%);
   padding: 0.55rem 1.4rem;
   text-decoration: none;
   border-radius: 2px;
@@ -673,9 +673,9 @@
 }
 
 .tag:hover {
-  background: #e07b00;
+  background: #F15505;
   color: #fff;
-  border-color: #e07b00;
+  border-color: #F15505;
 }
 
 /* ================================================================

@@ -12,7 +12,7 @@
   --ink-mid: #000000;
   --ink-soft: #000000;
   --saffron: #c8700a;
-  --saffron-bright: #e07b00;
+  --saffron-bright: #F15505;
   --saffron-gold: #b8860b;
   --saffron-light: #f0a030;
   --maroon: #6b1a00;
@@ -353,13 +353,13 @@
   flex: 1;
   max-width: 180px;
   height: 1.5px;
-  background: linear-gradient(90deg, transparent, #e07b00, transparent);
+  background: linear-gradient(90deg, transparent, #F15505, transparent);
 }
 
 .omSymbol {
   font-family: var(--font-fell);
   font-size: 1.6rem;
-  color: #e07b00;
+  color: #F15505;
   line-height: 1;
   filter: drop-shadow(0 1px 3px rgba(224, 123, 0, 0.3));
 }

@@ -806,28 +806,51 @@ export default function EditAYMFullPagePage() {
 
                 <div className={styles.formDivider} />
 
-                {/* ── Body Planes Diagram Image ── */}
+                {/* ── Body Planes Diagram Image — Two Column Layout ── */}
                 <div className={styles.sectionBlock}>
                   <div className={styles.sectionHeader}>
                     <span className={styles.sectionIcon}>✦</span>
                     <h3 className={styles.sectionTitle}>Body Planes Diagram Image</h3>
                     <span className={styles.sectionBadge}>yogaBodyPlanes</span>
                   </div>
-                  <ImageUploadField
-                    label="Alignment Diagram Image"
-                    hint="Leave unchanged to keep the current image — upload a new file to replace it"
-                    file={bodyPlanesImageFile}
-                    existingUrl={watchedValues.bodyPlanesImageUrl}
-                    altText={watchedValues.bodyPlanesImageAlt || ""}
-                    altPlaceholder="e.g. Yoga body planes diagram - Sagittal, Coronal and Transverse planes"
-                    errorMsg={errors.bodyPlanesImageUrl?.message}
-                    required
-                    onFileChange={(f) => {
-                      setBodyPlanesImageFile(f);
-                      if (f) clearErrors("bodyPlanesImageUrl");
-                    }}
-                    onAltChange={(v) => setValue("bodyPlanesImageAlt", v, { shouldDirty: true })}
-                  />
+                  
+                  <div className={styles.twoColumnSection}>
+                    {/* Left: Upload Form */}
+                    <div className={styles.twoColumnContent}>
+                      <ImageUploadField
+                        label="Alignment Diagram Image"
+                        hint="Leave unchanged to keep the current image — upload a new file to replace it"
+                        file={bodyPlanesImageFile}
+                        existingUrl={watchedValues.bodyPlanesImageUrl}
+                        altText={watchedValues.bodyPlanesImageAlt || ""}
+                        altPlaceholder="e.g. Yoga body planes diagram - Sagittal, Coronal and Transverse planes"
+                        errorMsg={errors.bodyPlanesImageUrl?.message}
+                        required
+                        onFileChange={(f) => {
+                          setBodyPlanesImageFile(f);
+                          if (f) clearErrors("bodyPlanesImageUrl");
+                        }}
+                        onAltChange={(v) => setValue("bodyPlanesImageAlt", v, { shouldDirty: true })}
+                      />
+                    </div>
+                    
+                    {/* Right: Image Preview */}
+                    <div className={styles.twoColumnImage}>
+                      {(bodyPlanesImageFile || watchedValues.bodyPlanesImageUrl) && (
+                        <>
+                          <div className={styles.twoColumnImagePreview}>
+                            <img 
+                              src={bodyPlanesImageFile ? URL.createObjectURL(bodyPlanesImageFile) : watchedValues.bodyPlanesImageUrl} 
+                              alt={watchedValues.bodyPlanesImageAlt || "Body planes diagram preview"}
+                            />
+                          </div>
+                          <p className={styles.twoColumnImageLabel}>
+                            {watchedValues.bodyPlanesImageAlt || "Body Planes Diagram"}
+                          </p>
+                        </>
+                      )}
+                    </div>
+                  </div>
                 </div>
 
                 <div className={styles.formDivider} />
@@ -937,42 +960,65 @@ export default function EditAYMFullPagePage() {
 
                 <div className={styles.formDivider} />
 
-                {/* ── Outdoor Photo ── */}
+                {/* ── Outdoor Photo — Two Column Layout ── */}
                 <div className={styles.sectionBlock}>
                   <div className={styles.sectionHeader}>
                     <span className={styles.sectionIcon}>✦</span>
                     <h3 className={styles.sectionTitle}>Outdoor Group Yoga Photo</h3>
                     <span className={styles.sectionBadge}>yogaoutdoor image</span>
                   </div>
-                  <ImageUploadField
-                    label="Outdoor Yoga Practice Photo"
-                    hint="Leave unchanged to keep the current image — upload a new file to replace it"
-                    file={outdoorImageFile}
-                    existingUrl={watchedValues.outdoorImageUrl}
-                    altText={watchedValues.outdoorImageAlt || ""}
-                    altPlaceholder="e.g. Outdoor Yoga Practice by the Ganges, Rishikesh"
-                    errorMsg={errors.outdoorImageUrl?.message}
-                    required
-                    onFileChange={(f) => {
-                      setOutdoorImageFile(f);
-                      if (f) clearErrors("outdoorImageUrl");
-                    }}
-                    onAltChange={(v) => setValue("outdoorImageAlt", v, { shouldDirty: true })}
-                  />
-                  <div className={styles.fieldGroup}>
-                    <label className={styles.label}>
-                      <span className={styles.labelIcon}>✦</span>Photo Overlay Caption
-                    </label>
-                    <p className={styles.fieldHint}>Text shown on the dark overlay strip at the bottom of the photo</p>
-                    <div className={styles.inputWrap}>
-                      <input
-                        type="text"
-                        className={styles.input}
-                        placeholder="e.g. 🌊 Outdoor Yoga Practice by the Ganges, Rishikesh"
-                        maxLength={120}
-                        {...register("outdoorCaption")}
+                  
+                  <div className={styles.twoColumnSection}>
+                    {/* Left: Upload Form */}
+                    <div className={styles.twoColumnContent}>
+                      <ImageUploadField
+                        label="Outdoor Yoga Practice Photo"
+                        hint="Leave unchanged to keep the current image — upload a new file to replace it"
+                        file={outdoorImageFile}
+                        existingUrl={watchedValues.outdoorImageUrl}
+                        altText={watchedValues.outdoorImageAlt || ""}
+                        altPlaceholder="e.g. Outdoor Yoga Practice by the Ganges, Rishikesh"
+                        errorMsg={errors.outdoorImageUrl?.message}
+                        required
+                        onFileChange={(f) => {
+                          setOutdoorImageFile(f);
+                          if (f) clearErrors("outdoorImageUrl");
+                        }}
+                        onAltChange={(v) => setValue("outdoorImageAlt", v, { shouldDirty: true })}
                       />
-                      <span className={styles.charCount}>{(watchedValues.outdoorCaption || "").length}/120</span>
+                      <div className={styles.fieldGroup}>
+                        <label className={styles.label}>
+                          <span className={styles.labelIcon}>✦</span>Photo Overlay Caption
+                        </label>
+                        <p className={styles.fieldHint}>Text shown on the dark overlay strip at the bottom of the photo</p>
+                        <div className={styles.inputWrap}>
+                          <input
+                            type="text"
+                            className={styles.input}
+                            placeholder="e.g. 🌊 Outdoor Yoga Practice by the Ganges, Rishikesh"
+                            maxLength={120}
+                            {...register("outdoorCaption")}
+                          />
+                          <span className={styles.charCount}>{(watchedValues.outdoorCaption || "").length}/120</span>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    {/* Right: Image Preview */}
+                    <div className={styles.twoColumnImage}>
+                      {(outdoorImageFile || watchedValues.outdoorImageUrl) && (
+                        <>
+                          <div className={styles.twoColumnImagePreview}>
+                            <img 
+                              src={outdoorImageFile ? URL.createObjectURL(outdoorImageFile) : watchedValues.outdoorImageUrl} 
+                              alt={watchedValues.outdoorImageAlt || "Outdoor yoga practice preview"}
+                            />
+                          </div>
+                          <p className={styles.twoColumnImageLabel}>
+                            {watchedValues.outdoorImageAlt || "Outdoor Yoga Practice"}
+                          </p>
+                        </>
+                      )}
                     </div>
                   </div>
                 </div>

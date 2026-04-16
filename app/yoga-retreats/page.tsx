@@ -84,7 +84,7 @@ export default function YogaRetreatPage() {
         />
       </section>
       {/* TOP BORDER */}
-      <div className={styles.topBorder} />
+      <div className={styles.a} />
       <section className={styles.heroSection1}>
         <div className={styles.container}>
           <h1 className={styles.pageTitle}>

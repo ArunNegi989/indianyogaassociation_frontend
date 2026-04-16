@@ -2,9 +2,9 @@
 
 /* ── Variables ── */
 :root {
-  --s: #e07b00;
+  --s: #F15505;
   --sl: #f5b800;
-  --sd: #c46a00;
+  --sd: #f15505;
   --bd: #3d1d00;
   --bm: #5c2d00;
   --bw: #7a5c2e;
@@ -101,7 +101,7 @@
 }
 
 /* ── Typography ── */
-.topBorderLine {
+.aLine {
   height: 3px;
   background: linear-gradient(90deg, transparent, var(--s), var(--sl), var(--s), transparent);
   margin-bottom: 1.4rem;

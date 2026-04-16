@@ -206,7 +206,7 @@ export default function AyurvedaPage() {
           justifyContent: "center",
         }}
       >
-        <p style={{ fontSize: "1.2rem", color: "#c46a00", opacity: 0.7 }}>
+        <p style={{ fontSize: "1.2rem", color: "#f15505", opacity: 0.7 }}>
           Loading...
         </p>
       </div>
@@ -918,7 +918,7 @@ function MandalaRing({
       style={{ opacity }}
       aria-hidden
     >
-      <g stroke="#c46a00" strokeWidth="0.75" fill="none">
+      <g stroke="#f15505" strokeWidth="0.75" fill="none">
         {rings.map((r, i) => (
           <circle key={i} cx={c} cy={c} r={r} />
         ))}
@@ -971,7 +971,7 @@ function MandalaFull({
       style={{ opacity }}
       aria-hidden
     >
-      <g transform={`translate(${c},${c})`} stroke="#c46a00" fill="none">
+      <g transform={`translate(${c},${c})`} stroke="#f15505" fill="none">
         {[0.47, 0.39, 0.31, 0.23, 0.15, 0.08].map((r, i) => (
           <circle key={i} cx={0} cy={0} r={r * size} strokeWidth="0.65" />
         ))}

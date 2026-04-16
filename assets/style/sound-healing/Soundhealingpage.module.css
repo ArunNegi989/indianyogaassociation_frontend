@@ -2,10 +2,10 @@
 
 /* ── CSS Variables ── */
 .page {
-  --saffron: #e07b00;
-  --saffron-deep: #c46a00;
+  --saffron: #F15505;
+  --saffron-deep: #f15505;
   --saffron-light: #f5b800;
-  --saffron-bright: #e07b00;
+  --saffron-bright: #F15505;
   --saffron-gold: #b8860b;
   --parchment: #fdf4e3;
   --parchment-2: #fdf5e0;
@@ -122,7 +122,7 @@
   height: clamp(220px, 36vw, 420px);
   object-fit: cover;
   object-position: center 40%;
-  background: linear-gradient(135deg, #3d1d00, #b85e00);
+  background: linear-gradient(135deg, #3d1d00, #f15505);
 }
 
 .heroTextOverlay {
@@ -161,7 +161,7 @@
 
 .collageCell {
   overflow: hidden;
-  background: #b85e00;
+  background: #f15505;
 }
 
 .collageCell:nth-child(even) {
@@ -379,7 +379,7 @@
   height: clamp(280px, 48vw, 560px);
   object-fit: cover;
   object-position: center top;
-  background: linear-gradient(135deg, #5c2d00, #b85e00);
+  background: linear-gradient(135deg, #5c2d00, #f15505);
   transition: transform 0.4s ease;
 }
 

@@ -128,7 +128,7 @@ const cityLinks: { name: string; href: string }[] = [
 const YogaTrainingPuducherry: React.FC = () => {
   return (
     <div className={styles.page}>
-      <div className={styles.topBorder} />
+      <div className={styles.a} />
       <div className={styles.container}>
         {/* PAGE TITLE */}
         <div className={styles.pageHeader}>
@@ -349,7 +349,7 @@ const YogaTrainingPuducherry: React.FC = () => {
           </div>
         </div>
       </div>
-      <div className={styles.topBorder} />
+      <div className={styles.a} />
     </div>
   );
 };

@@ -5,12 +5,12 @@
   --parch: #fdf6e8;
   --parch2: #f5e9cf;
   --parch3: #eedfc0;
-  --saff: #e07b00;
+  --saff: #F15505;
   --saff-lt: #f5b800;
   --saff-glow: rgba(224, 123, 0, 0.3);
   --maho: #3d1d00;
   --brown: #7a5c2e;
-  --rust: #b85e00;
+  --rust: #f15505;
   --ink: #2e1a06;
   --cream: #fff9f0;
   --ff-d: 'Cinzel', serif;
@@ -1484,7 +1484,7 @@
 }
 
 .tabActive {
-  background: linear-gradient(135deg, #e07b00 0%, #b85e00 100%);
+  background: linear-gradient(135deg, #F15505 0%, #f15505 100%);
   color: #fff !important;
 }
 
@@ -1525,7 +1525,7 @@
 }
 
 .table thead tr {
-  background: linear-gradient(135deg, #e07b00 0%, #b85e00 100%);
+  background: linear-gradient(135deg, #F15505 0%, #f15505 100%);
 }
 
 .table thead th {
@@ -1690,7 +1690,7 @@
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: #fff9f0;
-  background: linear-gradient(135deg, #e07b00 0%, #b85e00 100%);
+  background: linear-gradient(135deg, #F15505 0%, #f15505 100%);
   padding: 0.75rem 2.2rem;
   border-radius: 4px;
   text-decoration: none;
@@ -1710,7 +1710,7 @@
   padding: 1rem 1.2rem;
   background: rgba(245, 232, 195, 0.4);
   border: 1px solid rgba(184, 134, 11, 0.2);
-  border-left: 4px solid #e07b00;
+  border-left: 4px solid #F15505;
   border-radius: 0 4px 4px 0;
   font-family: 'Cormorant Garamond', serif;
   font-size: clamp(0.88rem, 1.4vw, 0.97rem);

@@ -1,8 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Noto+Serif+Devanagari:wght@400;600&display=swap');
 
 :root {
-  --saffron: #e07b00;
-  --saffronDk: #c46a00;
+  --saffron: #F15505;
+  --saffronDk: #f15505;
   --gold: #f5b800;
   --goldDk: #c8900a;
   --goldLt: #fdf0b0;
@@ -35,7 +35,7 @@
   padding-right: clamp(1.25rem, 5vw, 5rem);
 }
 
-.topBorder {
+.a {
   height: 6px;
   background: linear-gradient(90deg, transparent 0%, var(--saffronDk) 10%, var(--saffron) 30%, var(--gold) 50%, var(--saffron) 70%, var(--saffronDk) 90%, transparent 100%);
 }
@@ -840,7 +840,7 @@
 
 .guestShowLessBtn:hover {
   background: rgba(224, 123, 0, 0.07);
-  border-color: #e07b00;
+  border-color: #F15505;
   color: #5c2d00;
 }
 
@@ -947,7 +947,7 @@
 
 .modalClose:hover {
   background: rgba(224, 123, 0, 0.18);
-  border-color: #e07b00;
+  border-color: #F15505;
 }
 
 .modalBody {
@@ -976,17 +976,17 @@
 }
 
 .modalDividerLineLeft {
-  background: linear-gradient(90deg, transparent, #e07b00);
+  background: linear-gradient(90deg, transparent, #F15505);
 }
 
 .modalDividerLineRight {
-  background: linear-gradient(90deg, #e07b00, transparent);
+  background: linear-gradient(90deg, #F15505, transparent);
 }
 
 .modalDividerOm {
   font-family: 'Noto Serif Devanagari', serif;
   font-size: 1.1rem;
-  color: #e07b00;
+  color: #F15505;
 }
 
 .modalName {

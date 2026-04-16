@@ -636,7 +636,7 @@ export const YogaCoursesTeachers: React.FC = () => {
     return (
       <div className={styles.wrapper}>
         <section className={styles.coursesSection}>
-          <div className={styles.topBorder} />
+          <div className={styles.a} />
           <div className={styles.container}>
             <div
               style={{
@@ -666,7 +666,7 @@ export const YogaCoursesTeachers: React.FC = () => {
           COURSES SECTION
       ══════════════════════════════════════════════════ */}
       <section className={styles.coursesSection}>
-        <div className={styles.topBorder} />
+        <div className={styles.a} />
         <div className={styles.container}>
           <div className={styles.sectionHead}>
             <p className={styles.eyebrow}>{sectionHeader.eyebrow}</p>
@@ -766,7 +766,7 @@ export const YogaCoursesTeachers: React.FC = () => {
           TEACHERS SECTION
       ══════════════════════════════════════════════════ */}
       <section className={styles.teachersSection}>
-        <div className={styles.topBorder} />
+        <div className={styles.a} />
         <div className={styles.container}>
           <div className={styles.sectionHead}>
             <p className={styles.eyebrow}>{teachersHeader.eyebrow}</p>

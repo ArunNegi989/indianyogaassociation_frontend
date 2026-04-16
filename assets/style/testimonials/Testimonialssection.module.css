@@ -2,9 +2,9 @@
 
 /* ── Variables ── */
 :root {
-  --saffron: #e07b00;
+  --saffron: #F15505;
   --saffron-light: #f5b800;
-  --saffron-dark: #c46a00;
+  --saffron-dark: #f15505;
   --brown-deep: #3d1d00;
   --brown-mid: #5c2d00;
   --brown-warm: #7a5c2e;
@@ -78,7 +78,7 @@
 }
 
 /* ── Borders ── */
-.topBorder,
+.a,
 .bottomBorder {
   height: 5px;
   background: linear-gradient(90deg,

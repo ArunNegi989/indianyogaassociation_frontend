@@ -32,11 +32,11 @@
   user-select: none;
 }
 
-.topBorder,
+.a,
 .bottomBorder {
   height: 5px;
   background: linear-gradient(90deg,
-      transparent 0%, #e07b00 20%, #f5b800 50%, #e07b00 80%, transparent 100%);
+      transparent 0%, #F15505 20%, #f5b800 50%, #F15505 80%, transparent 100%);
 }
 
 /* ─── Container ────────────────────────────────────────────────── */
@@ -92,14 +92,14 @@
   flex: 1;
   max-width: 160px;
   height: 1.5px;
-  background: linear-gradient(90deg, transparent, #e07b00, transparent);
+  background: linear-gradient(90deg, transparent, #F15505, transparent);
   display: block;
 }
 
 .omSymbol {
   font-family: var(--font-display), serif;
   font-size: 1.5rem;
-  color: #e07b00;
+  color: #F15505;
   line-height: 1;
   filter: drop-shadow(0 1px 3px rgba(224, 123, 0, 0.3));
 }
@@ -149,6 +149,7 @@
   display: flex;
   flex-direction: column;
   position: relative;
+  height:100vh;
 }
 
 .travelCard::before,
@@ -181,7 +182,7 @@
 /* Pickup card — slightly different accent */
 .pickupCard {
   border-color: rgba(224, 123, 0, 0.32);
-  background: linear-gradient(160deg, #fff9f0 0%, #fff3e0 60%, #fde8c8 100%);
+  background: linear-gradient(135deg, #fff9f066, #ffecd852);
 }
 
 .travelHeader {
@@ -256,7 +257,7 @@
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: #e07b00;
+  background: #F15505;
   flex-shrink: 0;
 }
 
@@ -380,7 +381,7 @@
 .linkSecondary {
   font-family: var(--font-body), sans-serif;
   font-size: 0.86rem;
-  color: #b85e00;
+  color: #f15505;
   text-decoration: underline;
   cursor: pointer;
   font-style: italic;
@@ -390,7 +391,7 @@
 
 .linkSecondary:hover {
   opacity: 0.7;
-  color: #b85e00;
+  color: #f15505;
 }
 
 /* ════════════════════════════════════════════════════════════════
@@ -416,7 +417,7 @@
   align-items: center;
   gap: 8px;
   padding: 11px 16px;
-  background: linear-gradient(135deg, #fff9f0, #ffecd8);
+  background: linear-gradient(135deg, #fff9f066, #ffecd852);
   border-bottom: 1px solid rgba(224, 123, 0, 0.15);
   font-family: var(--font-display), serif;
   font-size: 9px;
@@ -429,7 +430,7 @@
 .mapLabelDot {
   width: 8px;
   height: 8px;
-  background: #e07b00;
+  background: #F15505;
   border-radius: 50%;
   flex-shrink: 0;
   animation: pulse 2s infinite;
@@ -461,14 +462,14 @@
   font-weight: 600;
   letter-spacing: 0.8px;
   text-transform: uppercase;
-  color: #e07b00;
+  color: #F15505;
   text-decoration: none;
   transition: opacity 0.2s;
 }
 
 .mapDirectionsBtn:hover {
   opacity: 0.7;
-  color: #e07b00;
+  color: #F15505;
 }
 
 /* ════════════════════════════════════════════════════════════════
@@ -527,7 +528,7 @@
 }
 
 .stepActive {
-  background: linear-gradient(135deg, #e07b00, #c46a00);
+  background: linear-gradient(135deg, #F15505, #f15505);
   color: #fff;
   border: 2px solid transparent;
   box-shadow: 0 4px 14px rgba(224, 123, 0, 0.4);
@@ -565,7 +566,7 @@
 }
 
 .stepConnectorDone {
-  background: linear-gradient(90deg, #e07b00, #c46a00);
+  background: linear-gradient(90deg, #F15505, #f15505);
 }
 
 /* ── Step content ── */
@@ -641,7 +642,7 @@
 }
 
 .required {
-  color: #c46a00;
+  color: #f15505;
   margin-left: 2px;
 }
 
@@ -664,7 +665,7 @@
 .formInput:focus,
 .formSelect:focus,
 .formTextarea:focus {
-  border-color: #e07b00;
+  border-color: #F15505;
   box-shadow: 0 0 0 3px rgba(224, 123, 0, 0.1);
   background: #fff;
 }
@@ -768,8 +769,8 @@
 }
 
 .navBtnBack:hover {
-  border-color: #e07b00;
-  color: #c46a00;
+  border-color: #F15505;
+  color: #f15505;
   background: rgba(224, 123, 0, 0.04);
 }
 
@@ -794,7 +795,7 @@
 }
 
 .navBtnSubmit {
-  background: linear-gradient(135deg, #e07b00, #c46a00);
+  background: linear-gradient(135deg, #F15505, #f15505);
   color: #fff;
   border: none;
   padding: 11px 24px;
@@ -876,7 +877,7 @@
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #e07b00, #c46a00);
+  background: linear-gradient(135deg, #F15505, #f15505);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -950,8 +951,8 @@
 }
 
 .successReset:hover {
-  border-color: #e07b00;
-  color: #c46a00;
+  border-color: #F15505;
+  color: #f15505;
 }
 
 /* ════════════════════════════════════════════════════════════════

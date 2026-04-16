@@ -66,7 +66,7 @@ function imgSrc(path: string): string {
 ───────────────────────────────────────── */
 const MandalaSVG = ({
   size = 300,
-  c1 = "#e07b00",
+  c1 = "#F15505",
   c2 = "#d4a017",
   sw = 0.5,
 }: {
@@ -270,16 +270,16 @@ export default function BestYogaSchool() {
     <div className={styles.page}>
       {/* ── Mandala Decorations ── */}
       <div className={styles.mandalaTL} aria-hidden="true">
-        <MandalaSVG size={400} c1="#e07b00" c2="#d4a017" sw={0.44} />
+        <MandalaSVG size={400} c1="#F15505" c2="#d4a017" sw={0.44} />
       </div>
       <div className={styles.mandalaBR} aria-hidden="true">
-        <MandalaSVG size={360} c1="#d4a017" c2="#e07b00" sw={0.44} />
+        <MandalaSVG size={360} c1="#d4a017" c2="#F15505" sw={0.44} />
       </div>
       <div className={styles.mandalaTR} aria-hidden="true">
-        <MandalaSVG size={210} c1="#e07b00" c2="#d4a017" sw={0.58} />
+        <MandalaSVG size={210} c1="#F15505" c2="#d4a017" sw={0.58} />
       </div>
       <div className={styles.mandalaBL} aria-hidden="true">
-        <MandalaSVG size={210} c1="#d4a017" c2="#e07b00" sw={0.58} />
+        <MandalaSVG size={210} c1="#d4a017" c2="#F15505" sw={0.58} />
       </div>
       <div className={styles.chakraGlow} aria-hidden="true" />
 

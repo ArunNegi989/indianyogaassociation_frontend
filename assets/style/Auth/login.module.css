@@ -56,7 +56,7 @@
   left: 0;
   right: 0;
   height: 5px;
-  background: linear-gradient(90deg, transparent 0%, #e07b00 20%, #f5b800 50%, #e07b00 80%, transparent 100%);
+  background: linear-gradient(90deg, transparent 0%, #F15505 20%, #f5b800 50%, #F15505 80%, transparent 100%);
   z-index: 10;
 }
 
@@ -67,7 +67,7 @@
   left: 0;
   right: 0;
   height: 5px;
-  background: linear-gradient(90deg, transparent 0%, #e07b00 20%, #f5b800 50%, #e07b00 80%, transparent 100%);
+  background: linear-gradient(90deg, transparent 0%, #F15505 20%, #f5b800 50%, #F15505 80%, transparent 100%);
   z-index: 10;
 }
 
@@ -149,7 +149,7 @@
 
 .authFormBox a {
   font-family: 'Cormorant Garamond', serif;
-  color: #b85e00;
+  color: #f15505;
   font-size: 0.9rem;
   text-decoration: none;
   margin: 10px 0;
@@ -158,7 +158,7 @@
 }
 
 .authFormBox a:hover {
-  color: #e07b00;
+  color: #F15505;
   text-decoration: underline;
 }
 
@@ -176,13 +176,13 @@
   flex: 1;
   max-width: 55px;
   height: 1px;
-  background: linear-gradient(90deg, transparent, #e07b00, transparent);
+  background: linear-gradient(90deg, transparent, #F15505, transparent);
 }
 
 .omDividerSmall .omChar {
   font-family: 'Cinzel', serif;
   font-size: 0.9rem;
-  color: #e07b00;
+  color: #F15505;
   line-height: 1;
 }
 
@@ -207,7 +207,7 @@
 
 .authFormBox input:focus {
   outline: none;
-  border-color: #e07b00;
+  border-color: #F15505;
   background: #fffaf3;
   box-shadow: 0 0 0 3px rgba(224, 123, 0, 0.12);
 }
@@ -251,7 +251,7 @@
   align-items: center;
   height: 42px;
   width: 42px;
-  color: #b85e00;
+  color: #f15505;
   text-decoration: none;
   background: #fff7eb;
   transition: all 0.3s ease;
@@ -259,8 +259,8 @@
 }
 
 .socialLinks a:hover {
-  border-color: #e07b00;
-  background: #e07b00;
+  border-color: #F15505;
+  background: #F15505;
   color: #fff;
   transform: translateY(-3px);
   box-shadow: 0 5px 15px rgba(224, 123, 0, 0.35);
@@ -285,7 +285,7 @@
 }
 
 .slidePanel {
-  background: linear-gradient(160deg, #e07b00 0%, #c46a00 45%, #8b3e00 100%);
+  background: linear-gradient(160deg, #F15505 0%, #f15505 45%, #8b3e00 100%);
   color: #ffffff;
   position: relative;
   left: -100%;
@@ -498,8 +498,8 @@
 
   .mobileSwitch button {
     background: transparent;
-    color: #e07b00;
-    border: 1.5px solid #e07b00;
+    color: #F15505;
+    border: 1.5px solid #F15505;
     border-radius: 4px;
     padding: 10px 32px;
     font-family: 'Cinzel', serif;
@@ -513,7 +513,7 @@
   }
 
   .mobileSwitch button:hover {
-    background: #e07b00;
+    background: #F15505;
     color: #fff;
   }
 }

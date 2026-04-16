@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "../../assets/style/Home/Aymfullpage.module.css";
 import api from "@/lib/api";
+import Image1 from "../../assets/images/34.webp";
 
 /* ══════════════════════════════════════════════
    TYPES
@@ -310,7 +311,7 @@ const AYMFullPage: React.FC = () => {
 
       {/* ══════════ CAMPUS SECTION ══════════ */}
       <section className={styles.campusSection}>
-        <div className={styles.topBorder} />
+        <div className={styles.a} />
         <div className={styles.container}>
           {/* Campus heading — rich text */}
           <div className={styles.sectionHeaderCenter}>
@@ -382,6 +383,7 @@ const AYMFullPage: React.FC = () => {
               <a href={data.promoCard1.link} className={styles.promoLink}>
                 More information →
               </a>
+              <img src={Image1} alt="image" className={styles.facilityImages} loading="lazy"/>
             </div>
 
             {/* Promo Card 2 */}

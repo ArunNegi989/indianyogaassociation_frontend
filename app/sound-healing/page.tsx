@@ -453,11 +453,11 @@ export default function SoundHealingPage() {
               >
                 <path
                   d="M0,4 Q50,0 100,4 Q150,8 200,4"
-                  stroke="#e07b00"
+                  stroke="#F15505"
                   strokeWidth="1.2"
                   fill="none"
                 />
-                <circle cx="100" cy="4" r="3" fill="#e07b00" opacity="0.7" />
+                <circle cx="100" cy="4" r="3" fill="#F15505" opacity="0.7" />
                 <circle cx="10" cy="4" r="1.5" fill="#b8860b" opacity="0.5" />
                 <circle cx="190" cy="4" r="1.5" fill="#b8860b" opacity="0.5" />
               </svg>

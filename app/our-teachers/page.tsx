@@ -467,7 +467,7 @@ const Teachers: React.FC = () => {
   return (
     <>
       <div className={styles.page}>
-        <div className={styles.topBorder} />
+        <div className={styles.a} />
 
         {/* HERO */}
         <section className={styles.heroSection}>
@@ -568,7 +568,7 @@ const Teachers: React.FC = () => {
           onSelect={(t) => setSelectedGuest(t)}
         />
 
-        <div className={styles.topBorder} />
+        <div className={styles.a} />
       </div>
 
       <HowToReach />

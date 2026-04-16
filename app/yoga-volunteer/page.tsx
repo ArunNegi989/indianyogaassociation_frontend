@@ -18,15 +18,15 @@ const MandalaIcon = ({
     fill="none"
     style={{ opacity }}
   >
-    <circle cx="100" cy="100" r="95" stroke="#e07b00" strokeWidth="1.5" />
-    <circle cx="100" cy="100" r="75" stroke="#e07b00" strokeWidth="1" />
-    <circle cx="100" cy="100" r="55" stroke="#e07b00" strokeWidth="1.5" />
-    <circle cx="100" cy="100" r="35" stroke="#e07b00" strokeWidth="1" />
+    <circle cx="100" cy="100" r="95" stroke="#F15505" strokeWidth="1.5" />
+    <circle cx="100" cy="100" r="75" stroke="#F15505" strokeWidth="1" />
+    <circle cx="100" cy="100" r="55" stroke="#F15505" strokeWidth="1.5" />
+    <circle cx="100" cy="100" r="35" stroke="#F15505" strokeWidth="1" />
     <circle
       cx="100"
       cy="100"
       r="15"
-      stroke="#e07b00"
+      stroke="#F15505"
       strokeWidth="2"
       fill="rgba(224,123,0,0.15)"
     />
@@ -43,7 +43,7 @@ const MandalaIcon = ({
           y1={y1}
           x2={x2}
           y2={y2}
-          stroke="#e07b00"
+          stroke="#F15505"
           strokeWidth="0.8"
         />
       );
@@ -58,7 +58,7 @@ const MandalaIcon = ({
           cx={cx}
           cy={cy}
           r="5"
-          stroke="#e07b00"
+          stroke="#F15505"
           strokeWidth="1"
           fill="rgba(224,123,0,0.2)"
         />
@@ -73,7 +73,7 @@ const MandalaIcon = ({
           key={i}
           points={`${cx},${cy - 7} ${cx + 6},${cy + 4} ${cx - 6},${cy + 4}`}
           fill="rgba(224,123,0,0.25)"
-          stroke="#e07b00"
+          stroke="#F15505"
           strokeWidth="0.8"
         />
       );
@@ -178,7 +178,7 @@ export default function PostYTTCPage() {
       </div>
 
       {/* ── TOP BORDER ── */}
-      <div className={styles.topBorder} />
+      <div className={styles.a} />
 
       {/* ══════════════════════════════════════
           HERO / HEADER

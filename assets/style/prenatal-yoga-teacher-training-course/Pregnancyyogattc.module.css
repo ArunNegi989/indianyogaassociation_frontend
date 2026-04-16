@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Dancing+Script:wght@500;600;700&display=swap');
 
 :root {
-  --saffron: #e07b00;
+  --saffron: #F15505;
   --saffron-lt: #f5a623;
   --saffron-dk: #b85f00;
   --gold: #d4a017;
@@ -21,7 +21,7 @@
   --glow-gold: rgba(212, 160, 23, .28);
   --cream: #fdf8ee;
   --maroon: #6b1a00;
-  --saffron-bright: #e07b00;
+  --saffron-bright: #F15505;
   --saffron-gold: #b8860b;
   --font-display: 'Cinzel', serif;
   --font-body: 'Cormorant Garamond', serif;

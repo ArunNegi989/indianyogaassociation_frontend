@@ -228,7 +228,7 @@
 
 .arrowBtn:hover:not(:disabled) {
   background: rgba(224, 123, 0, 0.1);
-  border-color: #e07b00;
+  border-color: #F15505;
   color: #5c2d00;
 }
 
@@ -254,7 +254,7 @@
 }
 
 .dragHandle:hover {
-  color: #e07b00;
+  color: #F15505;
 }
 
 /* ── Preview box ── */
@@ -519,7 +519,7 @@
 }
 
 .dragHandle:hover {
-  color: #e07b00;
+  color: #F15505;
 }
 
 /* ── Empty state ── */
@@ -625,7 +625,7 @@
 
 .modalCancel:hover {
   background: rgba(224, 123, 0, 0.06);
-  border-color: #e07b00;
+  border-color: #F15505;
 }
 
 .modalConfirm {

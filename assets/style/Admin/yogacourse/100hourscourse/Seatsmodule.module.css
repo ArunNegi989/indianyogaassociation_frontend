@@ -106,7 +106,7 @@
 }
 
 .breadcrumbLink:hover {
-  color: #e07b00;
+  color: #F15505;
   text-decoration: none;
 }
 
@@ -411,7 +411,7 @@
   top: 0;
   bottom: 0;
   width: 4px;
-  background: linear-gradient(180deg, #e07b00 0%, #5c2d00 100%);
+  background: linear-gradient(180deg, #F15505 0%, #5c2d00 100%);
 }
 
 /* Top row: index badge + date + status */
@@ -605,7 +605,7 @@
 
 .sectionIcon {
   font-size: 0.55rem;
-  color: #e07b00;
+  color: #F15505;
   flex-shrink: 0;
 }
 
@@ -650,7 +650,7 @@
 
 .labelIcon {
   font-size: 0.5rem;
-  color: #e07b00;
+  color: #F15505;
 }
 
 .required {
@@ -676,7 +676,7 @@
 }
 
 .inputWrap:focus-within {
-  border-color: #e07b00;
+  border-color: #F15505;
   box-shadow: 0 0 0 3px rgba(224, 123, 0, 0.1);
 }
 
@@ -692,7 +692,7 @@
 }
 
 .inputWrapPrefix:focus-within {
-  border-color: #e07b00;
+  border-color: #F15505;
   box-shadow: 0 0 0 3px rgba(224, 123, 0, 0.1);
 }
 
@@ -842,7 +842,7 @@
 
 .cancelBtn:hover {
   background: rgba(224, 123, 0, 0.06);
-  border-color: #e07b00;
+  border-color: #F15505;
   color: #5c2d00;
   text-decoration: none;
 }
@@ -982,7 +982,7 @@
 
 .modalCancel:hover {
   background: rgba(224, 123, 0, 0.06);
-  border-color: #e07b00;
+  border-color: #F15505;
 }
 
 .modalConfirm {
@@ -1193,7 +1193,7 @@
 }
 
 .noteInputWrap:focus-within {
-  border-color: #e07b00;
+  border-color: #F15505;
   box-shadow: 0 0 0 3px rgba(224, 123, 0, 0.1);
 }
 

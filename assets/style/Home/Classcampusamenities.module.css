@@ -26,52 +26,52 @@
 .bg1 {
   font-size: clamp(8rem, 13vw, 15rem);
   top: 0%; left: 0%;
-  color: #e07b00;
+  color: #F15505;
   animation: omFloat 9s ease-in-out infinite;
 }
 
 .bg2 {
   font-size: clamp(6rem, 10vw, 11rem);
   top: 1%; right: 1%;
-  color: #c46a00;
+  color: #f15505;
   animation: swSpin 25s linear infinite;
 }
 
 .bg3 {
   font-size: clamp(9rem, 15vw, 17rem);
   top: 38%; left: -2%;
-  color: #e07b00;
+  color: #F15505;
   animation: omDrift 18s 2s ease-in-out infinite;
 }
 
 .bg4 {
   font-size: clamp(6rem, 9vw, 10rem);
   top: 34%; right: 0%;
-  color: #b85e00;
+  color: #f15505;
   animation: swSpin 21s 1s linear infinite;
 }
 
 .bg5 {
   font-size: clamp(10rem, 17vw, 19rem);
   top: 67%; right: 2%;
-  color: #e07b00;
+  color: #F15505;
   animation: omFloat 12s 1.5s ease-in-out infinite;
 }
 
 .bg6 {
   font-size: clamp(6rem, 9vw, 10rem);
   top: 71%; left: 8%;
-  color: #c46a00;
+  color: #f15505;
   animation: swSpin 28s 4s linear infinite;
 }
 
-.topBorder,
+.a,
 .bottomBorder {
   position: relative;
   z-index: 2;
   height: 5px;
   background: linear-gradient(90deg,
-      transparent 0%, #e07b00 20%, #f5b800 50%, #e07b00 80%, transparent 100%);
+      transparent 0%, #F15505 20%, #f5b800 50%, #F15505 80%, transparent 100%);
 }
 
 .container {
@@ -121,7 +121,7 @@
 .titleBar {
   width: 60px;
   height: 3px;
-  background: linear-gradient(90deg, #e07b00, #f5b800, #e07b00);
+  background: linear-gradient(90deg, #F15505, #f5b800, #F15505);
   margin: 0 auto;
   border-radius: 2px;
 }
@@ -136,7 +136,7 @@
 }
 
 .highlight {
-  color: #b85e00;
+  color: #f15505;
   font-weight: 700;
   font-style: normal;
 }
@@ -161,13 +161,13 @@
   flex: 1;
   width: 1.5px;
   min-height: 80px;
-  background: linear-gradient(180deg, transparent, #e07b00 40%, #e07b00 60%, transparent);
+  background: linear-gradient(180deg, transparent, #F15505 40%, #F15505 60%, transparent);
 }
 
 .vertOm {
   font-family: var(--font-display), serif;          /* ✅ Playfair Display */
   font-size: 1.4rem;
-  color: #e07b00;
+  color: #F15505;
   filter: drop-shadow(0 1px 4px rgba(224, 123, 0, 0.4));
   animation: omFloat 4.5s ease-in-out infinite;
   line-height: 1;
@@ -357,12 +357,12 @@
   flex: 1;
   height: 1.5px;
   background: linear-gradient(90deg,
-      transparent, #e07b00 25%, #f5b800 50%, #e07b00 75%, transparent);
+      transparent, #F15505 25%, #f5b800 50%, #F15505 75%, transparent);
 }
 
 .ornPattern {
   font-family: var(--font-display), serif;          /* ✅ Playfair Display */
-  color: #e07b00;
+  color: #F15505;
   font-size: clamp(0.58rem, 1.1vw, 0.72rem);
   letter-spacing: 0.28em;
   white-space: nowrap;
@@ -436,7 +436,7 @@
 .bullet {
   font-family: var(--font-display), serif;          /* ✅ Playfair Display */
   font-size: 0.78rem;
-  color: #e07b00;
+  color: #F15505;
   opacity: 0.82;
   flex-shrink: 0;
   margin-top: 3px;
@@ -548,7 +548,7 @@
     width: auto;
     height: 1.5px;
     min-height: unset;
-    background: linear-gradient(90deg, transparent, #e07b00, transparent);
+    background: linear-gradient(90deg, transparent, #F15505, transparent);
   }
 
   .classImg {

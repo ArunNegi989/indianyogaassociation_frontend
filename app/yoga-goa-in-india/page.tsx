@@ -991,7 +991,7 @@ function MandalaRing({
       style={{ opacity }}
       aria-hidden
     >
-      <g stroke="#c46a00" strokeWidth="0.7" fill="none">
+      <g stroke="#f15505" strokeWidth="0.7" fill="none">
         {rings.map((r, i) => (
           <circle key={i} cx={c} cy={c} r={r} />
         ))}
@@ -1043,7 +1043,7 @@ function MandalaFull({
       aria-hidden
     >
       <g
-        stroke="#c46a00"
+        stroke="#f15505"
         strokeWidth="0.6"
         fill="none"
         transform={`translate(${c},${c})`}

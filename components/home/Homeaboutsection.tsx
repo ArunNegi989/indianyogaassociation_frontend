@@ -52,7 +52,7 @@ export const HomeaboutSection = () => {
 
   return (
     <section className={styles.section}>
-      <div className={styles.topBorder} />
+      <div className={styles.a} />
 
       <div className={styles.container}>
         {/* HEADER */}

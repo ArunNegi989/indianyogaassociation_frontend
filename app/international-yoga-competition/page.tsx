@@ -156,7 +156,7 @@ const YogaCompetition: React.FC = () => {
 
   return (
     <div className={styles.section}>
-      <div className={styles.topBorder} />
+      <div className={styles.a} />
 
       <div className={styles.container}>
         {/* ── PAGE HEADER ── */}

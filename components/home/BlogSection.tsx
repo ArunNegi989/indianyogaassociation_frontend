@@ -48,7 +48,7 @@ export const BlogSection: React.FC = () => {
   if (loading) {
     return (
       <section className={styles.section}>
-        <div className={styles.topBorder} />
+        <div className={styles.a} />
         <div className={styles.container}>
           <div className={styles.blogGrid}>
             {[...Array(4)].map((_, i) => (
@@ -82,7 +82,7 @@ export const BlogSection: React.FC = () => {
 
   return (
     <section className={styles.section}>
-      <div className={styles.topBorder} />
+      <div className={styles.a} />
       <div className={styles.container}>
         {/* Header */}
         <div className={styles.header}>
