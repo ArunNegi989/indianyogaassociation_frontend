@@ -187,10 +187,9 @@
   color: var(--earth);
   text-align: center;
   padding: 1.2rem 1.5rem;
-  background: linear-gradient(135deg, #fff8f0 0%, #ffecd8 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #ffffff 100%);
   border: 1px solid rgba(224, 123, 0, 0.22);
   border-radius: 8px;
-  box-shadow: 0 4px 16px var(--shadow-saffron);
   position: relative;
 }
 
@@ -613,7 +612,7 @@
 .awardPullQuote {
   margin-top: 1.2rem;
   padding: 0.9rem 1.1rem;
-  background: linear-gradient(135deg, #fff8f0, #ffecd8);
+  background: linear-gradient(135deg, #fffbf6, #ffecd8);
   border-left: 3px solid var(--saffron);
   border-radius: 0 8px 8px 0;
   font-family: var(--font-lato), sans-serif;

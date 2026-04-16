@@ -123,7 +123,7 @@
 }
 
 .statCard {
-  background: linear-gradient(135deg, #fff9f0 0%, #fdf0dc 100%);
+  background: linear-gradient(135deg, #faf6f2 0%, #f9f4ed 100%);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -283,7 +283,7 @@
   gap: 0.5rem;
   margin-top: 1.4rem;
   padding: 1.1rem 1.2rem;
-  background: linear-gradient(135deg, #fff7eb 0%, #ffefd4 100%);
+  background: linear-gradient(135deg, #fffbf4 0%, #fffbf1 100%);
   border-left: 3px solid #F15505;
   border-radius: 0 6px 6px 0;
 }
@@ -306,7 +306,7 @@
   text-align: center;
   padding: 1.4rem 1.6rem;
   margin: 0 0 1.4rem;
-  background: linear-gradient(135deg, #fff8f0 0%, #ffecd8 100%);
+  background: linear-gradient(135deg, #fcf8f3 0%, #fcf6f0 100%);
   border: 1px solid rgba(224, 123, 0, 0.25);
   border-radius: 8px;
   position: relative;

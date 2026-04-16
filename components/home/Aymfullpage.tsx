@@ -369,7 +369,8 @@ const AYMFullPage: React.FC = () => {
           </div>
 
           {/* Promo cards */}
-         <div className={styles.promoCards}>
+        <div className={styles.promoCards}>
+  
   {/* Promo Card 1 */}
   <div className={styles.promoCard}>
     
@@ -401,6 +402,39 @@ const AYMFullPage: React.FC = () => {
     </div>
 
   </div>
+
+  {/* Promo Card 2 */}
+  <div className={styles.promoCard}>
+    
+    <div className={styles.promoContent}>
+      <h3
+        className={styles.promoTitle}
+        dangerouslySetInnerHTML={{ __html: data.promoCard2.title }}
+      />
+      <div className={styles.promoUnderline} />
+
+      <div
+        className={styles.promoText}
+        dangerouslySetInnerHTML={{ __html: data.promoCard2.text }}
+      />
+
+      <a href={data.promoCard2.link} className={styles.promoLink}>
+        More information →
+      </a>
+    </div>
+
+    <div className={styles.promoImageWrap}>
+      <Image
+        src={Image1}
+        alt="image"
+        className={styles.promoImage}
+        width={300}
+        height={250}
+      />
+    </div>
+
+  </div>
+
 </div>
         </div>
         <div className={styles.bottomBorder} />

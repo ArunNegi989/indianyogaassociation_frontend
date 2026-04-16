@@ -772,7 +772,7 @@
   align-items: center;
   margin-bottom: 3.5rem;
   padding: 2.5rem;
-  background: linear-gradient(135deg, #fffdfa 0%, #fffcf7 100%);
+  background: linear-gradient(135deg, #fffdfb 0%, #fffefc 100%);
   border: 1px solid var(--gold-border);
   border-radius: 14px;
   box-shadow: 0 8px 40px var(--shadow-warm);

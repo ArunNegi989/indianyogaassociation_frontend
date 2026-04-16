@@ -115,7 +115,6 @@
   align-items: center;
   margin: 2rem 0;
   padding: 2rem;
-  background: linear-gradient(135deg, #fffdfa 0%, #fffcf6 100%);
   border: 1px solid rgba(224, 123, 0, 0.2);
   border-radius: 10px;
   box-shadow: 0 4px 20px var(--shadow-warm);
@@ -347,7 +346,6 @@
   display: grid;
   grid-template-columns: 2fr 1fr;
   grid-template-rows: 322px;
-  background: linear-gradient(135deg, var(--cream-white) 0%, #fdf6ec 100%);
   border: 1px solid var(--gold-border);
   border-radius: 14px;
   overflow: hidden;
@@ -474,7 +472,6 @@
   grid-template-columns: 1.5fr 1fr; /* left content, right image */
   align-items: center;
   gap: 1.5rem;
-  background: linear-gradient(135deg, var(--cream-white) 0%, #fdf0dc 100%);
   border: 1px solid var(--gold-border);
   border-radius: 12px;
   padding: 1.5rem;
@@ -482,7 +479,7 @@
 
 .promoCard:hover {
   transform: translateY(-3px);
-  box-shadow: 0 8px 28px rgba(92, 45, 0, 0.15);
+  box-shadow: 0 8px 28px rgba(222, 161, 105, 0.15);
 }
 
 .promoTitle {
