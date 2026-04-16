@@ -582,7 +582,7 @@ export default function HowToReach(): React.ReactElement {
             icon={<TrainIcon />}
             title="By Train"
             subtitle="Affordable & Comfortable"
-            desc="Travel from New Delhi Railway Station to Rishikesh or <strong>Haridwar Junction</strong> (25 km from Rishikesh). Taxis and auto-rickshaws are always available for the onward journey to Indian Yoga Association, Rishikesh. Comfortable travel options available anytime.You can also opt for buses and private cabs for a smooth and affordable journey."
+            desc="Travel from New Delhi Railway Station to Rishikesh or <strong>Haridwar Junction</strong> (25 km from Rishikesh). Taxis and auto-rickshaws are always available for the onward journey to Indian Yoga Association, Rishikesh."
             headers={["Train", "Departs", "Arrives", "Via"]}
             rows={trains}
             btnText="Book Train on IRCTC"
