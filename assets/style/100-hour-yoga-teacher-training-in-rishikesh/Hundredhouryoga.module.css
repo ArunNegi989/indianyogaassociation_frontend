@@ -138,8 +138,8 @@
   border-top: 3px solid var(--saffron-bright);
   border-radius: 10px;
   box-shadow:
-    0 8px 40px rgba(245, 190, 136, 0.22),
-    0 2px 12px rgba(223, 181, 133, 0.14);
+    0 8px 40px rgba(247, 216, 186, 0.22),
+    0 2px 12px rgba(244, 220, 193, 0.14);
   overflow: hidden;
 }
 
@@ -1248,7 +1248,7 @@
 
 .card:hover {
   transform: translateY(-10px) scale(1.03);
-  box-shadow: 0 20px 40px rgba(224, 123, 0, 0.18);
+ 
 }
 
 .card::before {
