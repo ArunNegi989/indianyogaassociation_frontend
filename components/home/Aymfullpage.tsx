@@ -439,23 +439,44 @@ const AYMFullPage: React.FC = () => {
         {/* Journey paragraphs */}
         <div className={styles.container}>
           <div className={styles.journeyText}>
-            {data.journeyParas.map((para, i) => {
-              const isLast = i === data.journeyParas.length - 1;
-              return (
-                <div
-                  key={i}
-                  className={
-                    isLast ? `${styles.para} ${styles.namaste}` : styles.para
-                  }
-                  dangerouslySetInnerHTML={{ __html: para.text }}
-                />
-              );
-            })}
+            {/* Left: Journey Content */}
+            <div className={styles.journeyContent}>
+              {data.journeyParas.map((para, i) => {
+                const isLast = i === data.journeyParas.length - 1;
+                return (
+                  <div
+                    key={i}
+                    className={
+                      isLast ? `${styles.para} ${styles.namaste}` : styles.para
+                    }
+                    dangerouslySetInnerHTML={{ __html: para.text }}
+                  />
+                );
+              })}
 
-            {data.namesteText && (
-              <p className={`${styles.para} ${styles.namaste}`}>
-                {data.namesteText} <strong>Namaste!</strong>
-              </p>
+              {data.namesteText && (
+                <p className={`${styles.para} ${styles.namaste}`}>
+                  {data.namesteText} <strong>Namaste!</strong>
+                </p>
+              )}
+            </div>
+
+            {/* Right: Journey Image */}
+            {data.outdoorImage && (
+              <div className={styles.journeyImage}>
+                <div className={styles.journeyImageWrapper}>
+                  <img
+                    src={data.outdoorImage}
+                    alt={data.outdoorImageAlt || "Yoga Journey"}
+                    loading="lazy"
+                  />
+                </div>
+                {data.outdoorCaption && (
+                  <p className={styles.journeyImageCaption}>
+                    {data.outdoorCaption}
+                  </p>
+                )}
+              </div>
             )}
           </div>
         </div>
