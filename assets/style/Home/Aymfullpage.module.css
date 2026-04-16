@@ -530,7 +530,7 @@
 }
 
 .ctaContent {
-  background: linear-gradient(135deg, #fff5ea 0%, #ffedd7 40%, #efdeca 70%, #e2d7c9 100%);
+  background: linear-gradient(135deg, #fffbf6 0%, #fff6eb 40%, #fdf1e3 70%, #fff7ed 100%);
   position: relative;
   overflow: hidden;
   padding: clamp(3rem, 6vw, 5rem) clamp(1.5rem, 5vw, 4rem);

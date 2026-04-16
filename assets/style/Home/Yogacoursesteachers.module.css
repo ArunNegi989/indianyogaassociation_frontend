@@ -191,7 +191,6 @@
 }
 
 .courseCard {
-  background: var(--cream-white);
   border: 2.8px solid var(--gold-border);
   border-radius: 12px;
   overflow: hidden;
@@ -908,7 +907,6 @@
 
 /* ── Teacher Card ── */
 .teacherCard {
-  background: var(--cream-white);
   border: 1px solid var(--gold-border);
   border-radius: 10px;
   overflow: hidden;
@@ -1006,7 +1004,7 @@
   padding: 0.85rem 0.85rem 1rem;
   text-align: center;
   border-top: 1px solid var(--gold-border);
-  background: linear-gradient(135deg, var(--cream-white), #fdf6ec);
+ 
 }
 
 .teacherName {
