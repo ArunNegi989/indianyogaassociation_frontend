@@ -3,7 +3,8 @@
 import React, { useEffect, useState } from "react";
 import styles from "../../assets/style/Home/Aymfullpage.module.css";
 import api from "@/lib/api";
-import Image1 from "../../assets/images/34.webp";
+import Image1 from "../../assets/images/_DSC5018.JPG.jpeg";
+import Image from "next/image";
 
 /* ══════════════════════════════════════════════
    TYPES
@@ -368,40 +369,39 @@ const AYMFullPage: React.FC = () => {
           </div>
 
           {/* Promo cards */}
-          <div className={styles.promoCards}>
-            {/* Promo Card 1 */}
-            <div className={styles.promoCard}>
-              <h3
-                className={styles.promoTitle}
-                dangerouslySetInnerHTML={{ __html: data.promoCard1.title }}
-              />
-              <div className={styles.promoUnderline} />
-              <div
-                className={styles.promoText}
-                dangerouslySetInnerHTML={{ __html: data.promoCard1.text }}
-              />
-              <a href={data.promoCard1.link} className={styles.promoLink}>
-                More information →
-              </a>
-              <img src={Image1} alt="image" className={styles.facilityImages} loading="lazy"/>
-            </div>
+         <div className={styles.promoCards}>
+  {/* Promo Card 1 */}
+  <div className={styles.promoCard}>
+    
+    <div className={styles.promoContent}>
+      <h3
+        className={styles.promoTitle}
+        dangerouslySetInnerHTML={{ __html: data.promoCard1.title }}
+      />
+      <div className={styles.promoUnderline} />
 
-            {/* Promo Card 2 */}
-            <div className={styles.promoCard}>
-              <h3
-                className={styles.promoTitle}
-                dangerouslySetInnerHTML={{ __html: data.promoCard2.title }}
-              />
-              <div className={styles.promoUnderline} />
-              <div
-                className={styles.promoText}
-                dangerouslySetInnerHTML={{ __html: data.promoCard2.text }}
-              />
-              <a href={data.promoCard2.link} className={styles.promoLink}>
-                More information →
-              </a>
-            </div>
-          </div>
+      <div
+        className={styles.promoText}
+        dangerouslySetInnerHTML={{ __html: data.promoCard1.text }}
+      />
+
+      <a href={data.promoCard1.link} className={styles.promoLink}>
+        More information →
+      </a>
+    </div>
+
+    <div className={styles.promoImageWrap}>
+      <Image
+        src={Image1}
+        alt="image"
+        className={styles.promoImage}
+        width={300}
+        height={250}
+      />
+    </div>
+
+  </div>
+</div>
         </div>
         <div className={styles.bottomBorder} />
       </section>

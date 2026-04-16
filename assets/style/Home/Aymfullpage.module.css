@@ -470,12 +470,14 @@
 }
 
 .promoCard {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr; /* left content, right image */
+  align-items: center;
+  gap: 1.5rem;
   background: linear-gradient(135deg, var(--cream-white) 0%, #fdf0dc 100%);
   border: 1px solid var(--gold-border);
-  border-radius: 10px;
-  padding: 1.8rem 1.6rem;
-  box-shadow: 0 4px 18px var(--shadow-warm);
-  transition: transform 0.22s, box-shadow 0.22s;
+  border-radius: 12px;
+  padding: 1.5rem;
 }
 
 .promoCard:hover {
