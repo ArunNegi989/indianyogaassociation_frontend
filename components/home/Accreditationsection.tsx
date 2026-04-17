@@ -454,7 +454,7 @@ export const AccreditationSection: React.FC = () => {
             <div className={styles.certsBlock}>
               <div className={styles.certsBlockHeader}>
                 <span className={styles.certsBlockDecor}>✦</span>
-                <h3 className={styles.certsBlockTitle}>Popular Courses</h3>
+                <h3 className={styles.certsBlockTitle}>Our Best Courses</h3>
                 <span className={styles.certsBlockDecor}>✦</span>
               </div>
               <div className={styles.certsBlockLine} />

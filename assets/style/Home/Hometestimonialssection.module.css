@@ -81,7 +81,14 @@
   padding: clamp(2.5rem, 5vw, 5rem) clamp(1.2rem, 5vw, 3rem);
   box-sizing: border-box;
 }
+.ratingsectionWrapper{
+   position: relative;
+  z-index: 1;
+  max-width: 950px;
+  margin: 0 auto;
 
+  box-sizing: border-box;
+}
 /* ================================================================
    SHARED DIVIDERS / HEADER
    ================================================================ */
@@ -91,7 +98,7 @@
   align-items: center;
   justify-content: center;
   gap: 1rem;
-  margin: clamp(2rem, 4vw, 3.5rem) 0 clamp(1.5rem, 3vw, 2.5rem);
+  margin: clamp(2rem, 4vw, 1.5rem) 0 clamp(1.5rem, 3vw, 1.5rem);
 }
 
 .dividerLine {

@@ -614,7 +614,7 @@ export default function HowToReach(): React.ReactElement {
           <div className={styles.mapCard}>
             <div className={styles.mapLabel}>
               <span className={styles.mapLabelDot} />
-              <span>Indian Yoga Association, Rishikesh</span>
+              <span>AYM Yoga School, Rishikesh</span>
             </div>
             <iframe
               src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7440.500180811323!2d78.320039!3d30.132348!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3909165c44bab785%3A0x4119a3fa1806f00c!2sAYM%20YOGA%20SCHOOL!5e1!3m2!1sen!2sin!4v1771998100416!5m2!1sen!2sin"
@@ -622,7 +622,7 @@ export default function HowToReach(): React.ReactElement {
               loading="lazy"
               allowFullScreen
               referrerPolicy="no-referrer-when-downgrade"
-              title="Indian Yoga Association Location Rishikesh"
+              title="AYM Yoga School Location Rishikesh"
             />
             <div className={styles.mapFooter}>
               <a

@@ -619,12 +619,12 @@ export default function AddAccreditationSectionPage() {
                         type="text"
                         className={styles.input}
                         placeholder="e.g. Govt. Accredited"
-                        maxLength={40}
+                        maxLength={60}
                         {...register(`awardCerts.${index}.tag`, {
                           required: "Tag is required",
                           maxLength: {
-                            value: 40,
-                            message: "Maximum 40 characters",
+                            value: 60,
+                            message: "Maximum 60 characters",
                           },
                         })}
                       />

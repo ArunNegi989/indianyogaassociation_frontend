@@ -113,7 +113,6 @@
   flex: 4;
   line-height: 1.4;
   letter-spacing: 0.01em;
-  border-bottom: 1px solid var(--saffron-gold);
   padding-bottom: 0.5rem;
   white-space: normal;
 }
@@ -521,6 +520,7 @@
 .headingUndSvg {
   width: clamp(120px, 28vw, 200px);
   height: 8px;
+  display: none;
 }
 
 /* ── Om Divider ── */
@@ -1392,6 +1392,16 @@
   align-items: center;
 }
 
+.container1 {
+  position: relative;
+  z-index: 1;
+  max-width: 1140px;
+  margin: 0 auto;
+  display: grid;
+  gap: 2rem;
+  align-items: center;
+}
+
 .videoSide {
   position: relative;
   max-width: 338px;
@@ -1401,6 +1411,7 @@
   overflow: hidden;
   box-shadow: 0 30px 70px rgba(0, 0, 0, 0.2);
   animation: fadeSlideLeft 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  top:56px
 }
 
 @keyframes fadeSlideLeft {
@@ -1499,6 +1510,7 @@
   z-index: 2;
   transform: scale(1.06);
   animation: centerFadeUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both;
+  top:56px;
 }
 
 @keyframes centerFadeUp {
@@ -1959,7 +1971,7 @@
 }
 
 .psbBcSel {
-  border: 2px solid var(--saffron-bright) !important;
+  border: 1.5px solid var(--saffron-bright) !important;
  background: linear-gradient(145deg, #f9f8f5, #fff9e8) !important;
   box-shadow: 0 4px 18px rgba(200, 112, 10, 0.22) !important;
 }

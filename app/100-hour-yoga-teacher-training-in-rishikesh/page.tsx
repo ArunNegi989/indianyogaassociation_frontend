@@ -752,7 +752,7 @@ function TextVideoRow({
         <div className={styles.tiVideoFrame}>
           <DynamicVideo url={videoUrl} />
           <div className={styles.tiVideoBadge}>
-            <span className={styles.pulseDot} /> Live Classes Daily
+            <span className={styles.pulseDot} /> Daily 
           </div>
         </div>
         <div className={styles.tiVideoAccent} aria-hidden="true" />
@@ -1480,7 +1480,7 @@ function ReviewsSection({ videoUrl }: { videoUrl: string }) {
           </div>
         ))}
       </div>
-      <div className={styles.container}><RatingsSummarySection/></div>
+      <div className={styles.container1}><RatingsSummarySection/></div>
       
       <OmDivider label="Video Testimonials" />
       <div className={styles.videoReviewsWrap}>
@@ -1663,9 +1663,9 @@ export default function HundredHourYoga() {
         <div className={styles.heroMandalaBg} aria-hidden="true" />
         <div className={styles.heroTextWrap}>
           <div className={styles.heroTitleRow}>
-            <div className={styles.heroTitleLine} />
+           
             <h1 className={styles.heroTitle}>{content.heroTitle}</h1>
-            <div className={styles.heroTitleLine} />
+           
           </div>
           {content.heroParagraphs.map((para, i) => (
             <p
@@ -1785,7 +1785,7 @@ export default function HundredHourYoga() {
             <div className={styles.videoOverlay} />
             <div className={styles.videoBadge}>
               <span className={styles.pulseDot} />
-              Live Classes Daily
+              Daily Classes
             </div>
           </div>
           {content.scheduleImage && (

@@ -355,8 +355,9 @@ const HomeTestimonialsSection: React.FC = () => {
         {textReviews.length > 0 && <TextReviewSlider reviews={textReviews} />}
 
         {/* ── NEW: Ratings Summary Section ── */}
+         <div className={styles.ratingsectionWrapper}>
         <RatingsSummarySection />
-
+</div>
         {/* ── Video Section ── */}
         {videos.length > 0 && active && (
           <>
