@@ -129,13 +129,20 @@ const HamburgerMenu = ({ navLinks }: HamburgerMenuProps) => {
 
               return (
                 <li key={link.href}>
-                  <Link
+                  {/* <Link
                     href={link.href}
                     className={styles.mobilePlainLink}
                     onClick={closeMenu}
                   >
                     {link.label}
-                  </Link>
+                  </Link> */}
+                  <Link
+  href={link.href}
+  className={`${styles.mobilePlainLink} ${link.className ? styles[link.className] : ""}`}
+  onClick={closeMenu}
+>
+  {link.label}
+</Link>
                 </li>
               );
             })}
