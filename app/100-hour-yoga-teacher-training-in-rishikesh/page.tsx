@@ -1762,16 +1762,33 @@ export default function HundredHourYoga() {
               </div>
             ))}
           </div>
-          <div className={styles.rightImage}>
-        <Image
-  src={image3}   // ya koi specific image
-  alt="Yoga"
-  width={800}
-  height={500}
-  className={styles.image}
-/>
-            <div className={styles.imageShimmer}></div>
-          </div>
+         <div className={styles.rightImage}>
+  
+  {/* Top Image (same as before) */}
+  <div className={styles.imageBox}>
+    <Image
+      src={image3}
+      alt="Yoga"
+      width={800}
+      height={500}
+      className={styles.image}
+    />
+    <div className={styles.imageShimmer}></div>
+  </div>
+
+  {/* 👇 NEW VIDEO (same width, below image) */}
+  <div className={styles.videoBox}>
+  <iframe
+    src="https://www.youtube.com/embed/EJ6K-rhqevE?autoplay=1&mute=1&loop=1&playlist=EJ6K-rhqevE&controls=0&modestbranding=1&showinfo=0&rel=0&iv_load_policy=3&disablekb=1&playsinline=1"
+    className={styles.video}
+    frameBorder="0"
+    allow="autoplay; encrypted-media"
+    allowFullScreen
+  />
+</div>
+
+</div>
+          
         </div>
       </section>
 
