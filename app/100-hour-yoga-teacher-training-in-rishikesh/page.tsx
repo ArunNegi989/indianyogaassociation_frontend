@@ -752,7 +752,7 @@ function TextVideoRow({
         <div className={styles.tiVideoFrame}>
           <DynamicVideo url={videoUrl} />
           <div className={styles.tiVideoBadge}>
-            <span className={styles.pulseDot} /> Daily 
+            <span className={styles.pulseDot} /> Daily Classes
           </div>
         </div>
         <div className={styles.tiVideoAccent} aria-hidden="true" />
