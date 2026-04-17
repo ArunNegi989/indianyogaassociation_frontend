@@ -375,7 +375,6 @@
 }
 
 .certCard {
-  background: linear-gradient(135deg, var(--cream-white) 0%, #fdf0dc 100%);
   border: 1px solid var(--gold-border);
   border-radius: 10px;
   overflow: hidden;
@@ -410,12 +409,12 @@
 }
 
 .certTag {
-  font-family: var(--font-playfair), serif;
-  font-size: 0.58rem;
+  
+  font-size: 0.80rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--saffron-deep);
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .certCardLabel {
