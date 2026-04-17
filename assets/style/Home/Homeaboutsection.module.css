@@ -288,14 +288,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-
   background: #fff;
   border: 1px solid rgba(241, 85, 5, 0.2);
   border-radius: 6px;
-
   padding: 10px;
-  font-size: 0.9rem;
-  font-weight: 600;
+  font-size: 1rem;
+  font-weight: 700;
   color: #5c2d00;
 
   text-align: center;
