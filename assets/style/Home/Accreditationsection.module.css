@@ -181,7 +181,9 @@
   text-align: center;
 }
 
+/*------------------------------------- display none right now -------------------------------------*/
 .pullQuote {
+  display: none;
   font-family: var(--font-lato), sans-serif;
   font-size: clamp(1.3rem, 2.5vw, 1.75rem);
   font-weight: 700;
@@ -595,9 +597,8 @@
   border-radius: 50%;
   margin-top: 7px;
 }
-/*------------------------------------- display none right now -------------------------------------*/
+
 .awardPullQuote {
-  display: none;
   margin-top: 1.2rem;
   padding: 0.9rem 1.1rem;
   background: linear-gradient(135deg, #fffdfa, #fffaf5);
