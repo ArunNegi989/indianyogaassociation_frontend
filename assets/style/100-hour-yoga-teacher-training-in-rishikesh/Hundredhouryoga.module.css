@@ -492,7 +492,110 @@
 .vintageList strong {
   color: var(--maroon);
 }
+/* ===============================
+   GRID
+================================ */
+.enrollCards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
 
+/* ===============================
+   CARD
+================================ */
+.enrollCard {
+  position: relative;
+  padding: 1.4rem 1.3rem;
+  border-radius: 14px;
+  border: 1.5px solid #f15505;
+  overflow: hidden;
+  transition: all 0.35s ease;
+}
+
+.enrollCard:hover {
+  transform: translateY(-8px) scale(1.02);
+}
+
+/* ===============================
+   ROW ALIGN (MAIN FIX)
+================================ */
+.cardRow {
+  display: flex;
+  align-items: flex-start; /* 👈 correct */
+  gap: 0.8rem;
+}
+
+/* ===============================
+   NUMBER (LEFT)
+================================ */
+.topNumber {
+  background: linear-gradient(135deg, #f15505, #a85800);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 6px 12px;
+  border-radius: 20px;
+  letter-spacing: 0.1em;
+  box-shadow: 0 4px 12px rgba(224, 123, 0, 0.3);
+  flex-shrink: 0;
+
+  /* 🔥 FINAL PERFECT ALIGNMENT */
+  margin-top: 4px;
+}
+
+/* ===============================
+   CONTENT
+================================ */
+.cardContent {
+  flex: 1;
+  margin-top: 0;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--ink-mid);
+}
+
+/* ===============================
+   BIG BACKGROUND NUMBER
+================================ */
+.bgNumber {
+  position: absolute;
+  right: 10px;
+  bottom: -10px;
+  font-size: 4.5rem;
+  font-weight: 700;
+  font-family: var(--font-display);
+  color: rgba(224, 123, 0, 0.08);
+  pointer-events: none;
+}
+
+/* ===============================
+   ACCENT LINE
+================================ */
+.enrollCard::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0%;
+  height: 3px;
+  background: linear-gradient(90deg, #f15505, #ff9a3c);
+  transition: width 0.4s ease;
+}
+
+.enrollCard:hover::after {
+  width: 100%;
+}
+
+/* ===============================
+   MOBILE
+================================ */
+@media (max-width: 768px) {
+  .enrollCards {
+    grid-template-columns: 1fr;
+  }
+}
 /* ── Vintage heading ── */
 .vintageHeadingWrap {
   position: relative;

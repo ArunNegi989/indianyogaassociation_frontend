@@ -6,6 +6,16 @@
   font-family: var(--font-body), sans-serif;
   background-image: url("../../images/backgroundimage/1905x1662.png");
   background-size: contain;
+  font-size: 18px;
+  --font-body: 'Lato', Arial, sans-serif;
+  --font-display: 'Montserrat', Arial, sans-serif;
+  --parchment: #fff9ed;
+  --saffron: #f15505;
+  --saffron-bright: #f15505;
+  --ink-sepia: #2c1a08;
+  --ink-mid: #4a2e10;
+  --ink-soft: #7a5c30;
+  --teal-dark: #1a4a4a;
 }
 
 .reachSection::before {
@@ -305,7 +315,7 @@
 
 .scheduleHeaderCell {
   font-family: var(--font-display), serif;
-  font-size: 9px;
+  font-size: 12px;
   font-weight: 700;
   color: #fff3e0;
   letter-spacing: 0.9px;
@@ -334,7 +344,7 @@
 
 .scheduleCell {
   font-family: var(--font-body), sans-serif;
-  font-size: 0.75rem;
+  font-size: 0.85rem;
   color: #3d2b10;
   font-weight: 600;
 }
@@ -357,7 +367,7 @@
   padding: 10px 16px;
   border-radius: 4px;
   font-family: var(--font-display), serif;
-  font-size: 9px;
+  font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.7px;
   text-transform: uppercase;

@@ -1851,11 +1851,33 @@ export default function HundredHourYoga() {
           imageAlt="Yoga enrollment Rishikesh"
           badge="Enroll Today"
         />
-        <ol className={styles.vintageList}>
-          {content.enrollItems.map((item, i) => (
-            <li key={i} dangerouslySetInnerHTML={{ __html: item }} />
-          ))}
-        </ol>
+      <div className={styles.enrollCards}>
+  {content.enrollItems.map((item, i) => (
+    <div key={i} className={styles.enrollCard}>
+      
+      {/* Big Background Number (same) */}
+      <span className={styles.bgNumber}>
+        {String(i + 1).padStart(2, "0")}
+      </span>
+
+      {/* Row wrapper */}
+      <div className={styles.cardRow}>
+        
+        {/* Number */}
+        <div className={styles.topNumber}>
+          {i + 1}
+        </div>
+
+        {/* Content */}
+        <div
+          className={styles.cardContent}
+          dangerouslySetInnerHTML={{ __html: item }}
+        />
+      </div>
+
+    </div>
+  ))}
+</div>
 
         <TextVideoRow
           title={content.comprehensiveTitle}
