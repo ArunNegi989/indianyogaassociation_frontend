@@ -275,22 +275,43 @@
 
 /* ── Accreditation badges ── */
 .accreditations {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* ✅ 2 cards side by side */
+  gap: 12px;
   margin-top: 1.4rem;
   padding: 1.1rem 1.2rem;
   background: linear-gradient(135deg, #fffbf4 0%, #fffbf1 100%);
   border-left: 3px solid #F15505;
   border-radius: 0 6px 6px 0;
 }
-
 .accBadge {
-  font-family: var(--font-body), sans-serif;   /* ✅ Lato */
-  font-size: 1.3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #fff;
+  border: 1px solid rgba(241, 85, 5, 0.2);
+  border-radius: 6px;
+
+  padding: 10px;
+  font-size: 0.9rem;
+  font-weight: 600;
   color: #5c2d00;
-  font-weight: 700;
-  letter-spacing: 0.02em;
+
+  text-align: center;
+
+  transition: all 0.2s ease;
+}
+
+.accBadge:hover {
+  background: #fff4e6;
+  transform: translateY(-2px);
+}
+
+@media (max-width: 600px) {
+  .accreditations {
+    grid-template-columns: 1fr; /* mobile pe 1 column */
+  }
 }
 
 /* ── Pull quote ── */
