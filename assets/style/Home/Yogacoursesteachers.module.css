@@ -906,7 +906,7 @@
 
 /* ── Teacher Card ── */
 .teacherCard {
-  border: 1px solid var(--gold-border);
+  border: 2px solid var(--gold-border);
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 4px 16px var(--shadow-warm);
@@ -953,6 +953,7 @@
 
 .teacherImgOverlay {
   position: absolute;
+  inset: 0;                    /* ← YEH ADD KARO */
   background: linear-gradient(to top, rgba(61, 29, 0, 0.7) 0%, transparent 60%);
   display: flex;
   align-items: flex-end;
@@ -961,7 +962,6 @@
   opacity: 0;
   transition: opacity 0.3s ease;
 }
-
 .teacherCard:hover .teacherImgOverlay {
   opacity: 1;
 }
@@ -980,7 +980,7 @@
   left: 50%;
   transform: translateX(-50%) translateY(-6px);
   font-family: var(--font-display), serif;
-  font-size: 0.56rem;
+  font-size: 0.76rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: #fff;
@@ -1098,6 +1098,7 @@
 
 .modalBackdrop {
   position: fixed;
+  inset: 0;                    /* ← YEH ADD KARO */
   z-index: 1000;
   background: rgba(30, 12, 0, 0.72);
   backdrop-filter: blur(6px);
@@ -1107,6 +1108,7 @@
   padding: 1.5rem;
   animation: backdropIn 0.25s ease both;
 }
+
 
 @keyframes backdropIn {
   from { opacity: 0; }
@@ -1229,6 +1231,7 @@
 
 .modalImgOverlay {
   position: absolute;
+  inset: 0;                    /* ← YEH ADD KARO */
   background: linear-gradient(to top, rgba(61, 29, 0, 0.75) 0%, transparent 55%);
   display: flex;
   align-items: flex-end;
