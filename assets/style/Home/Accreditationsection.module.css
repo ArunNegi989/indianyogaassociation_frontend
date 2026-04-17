@@ -407,7 +407,6 @@
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
-  background: linear-gradient(135deg, var(--cream-white) 0%, #fdf6ec 100%);
 }
 
 .certTag {

@@ -76,7 +76,7 @@
 .container {
   position: relative;
   z-index: 1;
-  max-width: 1180px;
+  max-width: 1460px;
   margin: 0 auto;
   padding: clamp(2.5rem, 5vw, 5rem) clamp(1.2rem, 5vw, 3rem);
   box-sizing: border-box;
@@ -345,13 +345,13 @@
 
 /* ── Left Card — Overall Rating ── */
 .overallCard {
-  position: relative;
-  background: #f15505;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  min-height: 380px;
+ justify-content: center;
+    align-items: center;
+    min-height: 380px;
+    display: flex;
+    position: relative;
+    background: linear-gradient(160deg, rgb(61, 29, 0) 0%, rgb(92, 45, 0) 40%, rgb(122, 63, 16) 70%, rgb(74, 34, 0) 100%);
+    overflow: hidden;
 }
 
 .overallCardBg {
