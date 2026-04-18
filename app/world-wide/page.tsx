@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import styles from "@/assets/style/world-wide/Worldwidepage.module.css";
@@ -75,6 +75,8 @@ interface WorldwideData {
   footerMetaText: string;
 }
 
+
+
 /* ─── Base URL for uploaded images ─── */
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "";
 
@@ -82,13 +84,45 @@ const resolveImg = (path?: string) => {
   if (!path) return null;
   return path.startsWith("http") ? path : `${BASE_URL}${path}`;
 };
-
+const images = [
+  "https://images.unsplash.com/photo-1545389336-cf090694435e?w=1600",
+  "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=1600",
+  "https://images.unsplash.com/photo-1518611012118-696072aa579a?w=1600",
+  "https://images.unsplash.com/photo-1593811167562-9cef47bfc4d7?w=1600",
+];
 /* ═══════════════════════ MAIN ═══════════════════════ */
 export default function WorldwidePage() {
   const [data, setData] = useState<WorldwideData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const sliderRef = useRef<HTMLDivElement | null>(null);
 
+
+   
+useEffect(() => {
+  let index = 0;
+  const slider = sliderRef.current;
+  if (!slider) return;
+
+  const slides = slider.children.length;
+
+  const interval = setInterval(() => {
+    index++;
+
+    slider.style.transition = "transform 0.8s ease";
+    slider.style.transform = `translateX(-${index * 100}%)`;
+
+    if (index === slides - 1) {
+      setTimeout(() => {
+        slider.style.transition = "none";
+        slider.style.transform = "translateX(0)";
+        index = 0;
+      }, 800);
+    }
+  }, 4000);
+
+  return () => clearInterval(interval);
+}, []);
   /* ── Fetch from backend using axios ── */
   useEffect(() => {
     api
@@ -212,74 +246,85 @@ export default function WorldwidePage() {
       )}
 
       {/* ════════ CURRICULUM ════════ */}
-      <section id="curriculum" className={styles.section}>
-        <div className={styles.mandalaBg} aria-hidden="true">
-          <MandalaRing size={580} opacity={0.04} />
-        </div>
-        <div className="container">
-          <div className={`row ${styles.reveal}`}>
-            <div className="col-12 col-lg-6">
-              <span className={styles.superLabel}>
-                {data.curriculumSubHeading || "What You'll Study"}
-              </span>
-              <h2 className={styles.sectionTitle}>
-                {data.curriculumTitle || "Course Curriculum"}
-              </h2>
-              <OmBar align="left" />
+     <section id="curriculum" className={styles.section}>
+  <div className={styles.mandalaBg} aria-hidden="true">
+    <MandalaRing size={580} opacity={0.04} />
+  </div>
 
-              {data.topParagraphs?.map((para, i) => (
-                <p
-                  key={i}
-                  className={styles.para}
-                  dangerouslySetInnerHTML={{ __html: para }}
-                />
-              ))}
+  <div className="container">
 
-              {data.curriculumIntro && (
-                <p
-                  className={styles.para}
-                  dangerouslySetInnerHTML={{ __html: data.curriculumIntro }}
-                />
-              )}
+    {/* TOP ROW */}
+    <div className={`row ${styles.reveal}`}>
+      
+      {/* LEFT CONTENT */}
+      <div className="col-12 col-lg-6">
+        <span className={styles.superLabel}>
+          {data.curriculumSubHeading || "What You'll Study"}
+        </span>
 
-              {data.curriculumParagraphs?.map((para, i) => (
-                <p
-                  key={i}
-                  className={styles.para}
-                  dangerouslySetInnerHTML={{ __html: para }}
-                />
-              ))}
+        <h2 className={styles.sectionTitle}>
+          {data.curriculumTitle || "Course Curriculum"}
+        </h2>
 
-              {data.curriculumItems?.length > 0 && (
-                <ol className={styles.curriculumList}>
-                  {data.curriculumItems.map((c, i) => (
-                    <li key={i} className={styles.curriculumItem}>
-                      <span className={styles.currNum}>{String(i + 1)}.</span>
-                      <span>{c}</span>
-                    </li>
-                  ))}
-                </ol>
-              )}
-            </div>
+        <OmBar align="left" />
 
-            <div className="col-12 col-lg-6 mt-4 mt-lg-0">
-              <div className={styles.curriculumImgWrap}>
-                <img
-                  src={
-                    resolveImg(data.curriculumRightImage) ||
-                    "https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?w=900&q=80"
-                  }
-                  alt={data.curriculumRightImageAlt || "Yoga curriculum"}
-                  className={styles.curriculumImg}
-                />
-                <div className={styles.imgMandalaCorner} aria-hidden="true">
-                  <MandalaRing size={180} opacity={0.18} />
-                </div>
-              </div>
-            </div>
+        {data.topParagraphs?.map((para, i) => (
+          <p key={i} className={styles.para}
+            dangerouslySetInnerHTML={{ __html: para }}
+          />
+        ))}
+
+        {data.curriculumIntro && (
+          <p className={styles.para}
+            dangerouslySetInnerHTML={{ __html: data.curriculumIntro }}
+          />
+        )}
+
+        {data.curriculumParagraphs?.map((para, i) => (
+          <p key={i} className={styles.para}
+            dangerouslySetInnerHTML={{ __html: para }}
+          />
+        ))}
+      </div>
+
+      {/* RIGHT IMAGE */}
+      <div className="col-12 col-lg-6 mt-4 mt-lg-0">
+        <div className={styles.curriculumImgWrap}>
+          <img
+            src={
+              resolveImg(data.curriculumRightImage) ||
+              "https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?w=900&q=80"
+            }
+            alt={data.curriculumRightImageAlt || "Yoga curriculum"}
+            className={styles.curriculumImg}
+          />
+          <div className={styles.imgMandalaCorner} aria-hidden="true">
+            <MandalaRing size={180} opacity={0.18} />
           </div>
         </div>
-      </section>
+      </div>
+
+    </div>
+
+    {/* 🔥 FULL WIDTH CARDS */}
+    {data.curriculumItems?.length > 0 && (
+      <div className={`${styles.curriculumGrid} ${styles.fullWidthGrid}`}>
+        {data.curriculumItems.map((c, i) => (
+          <div key={i} className={styles.curriculumCard}>
+            
+            <div className={styles.cardNumber}>
+              {String(i + 1).padStart(2, "0")}
+            </div>
+
+            <p className={styles.cardText}>{c}</p>
+
+          </div>
+        ))}
+      </div>
+    )}
+
+  </div>
+</section>
 
       {/* ════════ TEACHER TEAM ════════ */}
       <section className={`${styles.section} ${styles.sectionTinted}`}>
@@ -403,20 +448,37 @@ export default function WorldwidePage() {
           </div>
           <div className="container">
             <div className={styles.reveal}>
-              <span className={styles.superLabel}>
+              <span className={styles.superLabel}  style={{textAlign:"center"}}>
                 {data.communitySubtext || "Worldwide Network"}
               </span>
-              <h2 className={styles.sectionTitle}>{data.communityTitle}</h2>
-              <OmBar align="left" />
+              <h2 className={styles.sectionTitle} style={{textAlign:"center"}}>{data.communityTitle}</h2>
+              <OmBar align="center" />
               {data.communityDescription && (
                 <p
                   className={styles.para}
-                  style={{ maxWidth: 880 }}
+                 
                   dangerouslySetInnerHTML={{
                     __html: data.communityDescription,
                   }}
                 />
               )}
+
+              <div className={styles.fullSlider}>
+  <div className={styles.sliderWrapper} ref={sliderRef}>
+  
+  {images.map((img, i) => (
+    <div key={i} className={styles.fullSlide}>
+      <img src={img} alt="Yoga Slide" />
+    </div>
+  ))}
+
+  {/* 🔥 duplicate first image */}
+  <div className={styles.fullSlide}>
+    <img src={images[0]} alt="Yoga Slide" />
+  </div>
+
+</div>
+</div>
             </div>
           </div>
         </section>

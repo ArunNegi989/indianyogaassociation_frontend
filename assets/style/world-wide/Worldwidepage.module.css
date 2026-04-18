@@ -2,9 +2,9 @@
 
 /* ── Tokens ── */
 :root {
-  --parch: #fdf6e8;
-  --parch2: #f4e8cb;
-  --cream: #fff9f0;
+  --parch: #ffffff;
+  --parch2: #ffffff;
+  --cream: #ffffff;
   --saff: #F15505;
   --saff-lt: #f5b800;
   --copper: #f15505;
@@ -120,6 +120,8 @@
 
 .sectionTinted {
   background: linear-gradient(160deg, var(--parch2) 0%, var(--parch) 100%);
+  padding-bottom: 50px;
+  
 }
 
 /* Mandala bg decorations */
@@ -145,13 +147,13 @@
 .section> :global(.container),
 .sectionTinted> :global(.container) {
   padding-top: clamp(3rem, 6vw, 5rem);
-  padding-bottom: clamp(3rem, 6vw, 5rem);
+ 
 }
 
 .superLabel {
   display: block;
   font-family: var(--ff-d);
-  font-size: .68rem;
+  font-size: .98rem;
   font-weight: 700;
   letter-spacing: .22em;
   text-transform: uppercase;
@@ -166,6 +168,7 @@
   color: var(--maho);
   line-height: 1.35;
   margin-bottom: .8rem;
+  
 }
 
 .para {
@@ -209,46 +212,94 @@
 }
 
 /* ════════ CURRICULUM ════════ */
-.curriculumList {
-  list-style: none;
-  padding: 0;
-  margin: 1rem 0 0;
-  display: flex;
-  flex-direction: column;
-  gap: .4rem;
+/* GRID */
+.curriculumGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.2rem;
+  margin-top: 1.5rem;
 }
 
-.curriculumItem {
-  display: flex;
-  gap: .8rem;
-  align-items: flex-start;
+/* CARD */
+.curriculumCard {
+   position: relative;
+  background: #fefbf7;
+  border: 1px solid rgba(224, 123, 0, 0.18);
+  border-radius: 10px;
+  padding: 0.9rem 0.9rem;
+  box-shadow: 0 4px 14px rgba(224, 123, 0, 0.1);
+  transition: all 0.25s ease;
+  min-height: 80px; /* 👈 chota height */
+}
+
+/* Hover effect 🔥 */
+.curriculumCard:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(224, 123, 0, 0.18);
+}
+
+/* BIG BG NUMBER */
+.cardNumber {
+ position: absolute;
+  top: 6px;
+  right: 8px;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #f15505;
+  background: rgba(241, 85, 5, 0.08);
+  padding: 2px 6px;
+  border-radius: 20px;
+}
+
+/* TEXT */
+.cardText {
   font-family: var(--ff-b);
-  font-size: clamp(.95rem, 1.5vw, 1.05rem);
+  font-size: 0.98rem;
   line-height: 1.7;
   color: #3d2b10;
-  padding: .5rem 0;
-  border-bottom: 1px solid rgba(224, 123, 0, .1);
+  margin: 0;
+  position: relative;
+  z-index: 2;
 }
 
-.curriculumItem:last-child {
-  border-bottom: none;
+/* Left Accent Line */
+.curriculumCard::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 4px;
+  background: linear-gradient(180deg, #f15505, transparent);
 }
 
-.currNum {
-  font-family: var(--ff-d);
-  font-size: .78rem;
-  font-weight: 700;
-  color: var(--saff);
-  min-width: 22px;
-  flex-shrink: 0;
-  padding-top: .2rem;
+/* Responsive */
+
+
+@media (max-width: 1200px) {
+  .curriculumGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
+@media (max-width: 768px) {
+  .curriculumGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .curriculumGrid {
+    grid-template-columns: 1fr;
+  }
+}
 .curriculumImgWrap {
   position: relative;
   border-radius: var(--r);
   overflow: hidden;
   box-shadow: var(--shadow-lg);
+  top: 70px;
+  
 }
 
 .curriculumImgWrap::before {
@@ -294,7 +345,6 @@
 
 .teamImg {
   width: 100%;
-  aspect-ratio: 4/3;
   object-fit: cover;
   display: block;
   filter: saturate(.75) sepia(.12);
@@ -371,11 +421,31 @@
   padding-top: .25rem;
 }
 
+.fullSlider {
+  width: 100%;
+  overflow: hidden;
+  margin-top: 2rem;
+}
+
+.sliderWrapper {
+  display: flex;
+}
+
+.fullSlide {
+  min-width: 100%;
+  height: 420px;
+}
+
+.fullSlide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 /* ── Wellness Box ── */
 .wellnessBox {
   position: relative;
   overflow: hidden;
-  background: linear-gradient(135deg, #fff8f0 0%, #ffecd8 100%);
   border: var(--border);
   border-left: 4px solid var(--saff);
   border-radius: 0 var(--r) var(--r) 0;
@@ -486,6 +556,7 @@
   background: var(--parch);
   border-top: 3px solid;
   border-image: linear-gradient(90deg, transparent, var(--saff), transparent) 1;
+  padding-bottom: 50px;
 }
 
 .locationCard {
