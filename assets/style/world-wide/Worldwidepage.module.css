@@ -116,10 +116,10 @@
   position: relative;
   z-index: 1;
   overflow: hidden;
+  background-color: #ffffff;
 }
 
 .sectionTinted {
-  background: linear-gradient(160deg, var(--parch2) 0%, var(--parch) 100%);
   padding-bottom: 50px;
   
 }
