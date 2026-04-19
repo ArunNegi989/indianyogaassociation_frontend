@@ -1,0 +1,120 @@
+/* ================================================================
+   GALLERY SKELETON LOADING
+   ================================================================ */
+
+   .gallerySkeleton {
+    padding: 5rem 0;
+    background: white;
+  }
+  
+  .gallerySkeletonHeader {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+  
+  .gallerySkeletonBadge {
+    width: 120px;
+    height: 28px;
+    background: linear-gradient(90deg, #f0e8d8 25%, #e8dcc8 50%, #f0e8d8 75%);
+    background-size: 400% 100%;
+    animation: shimmer 1.4s ease infinite;
+    border-radius: 30px;
+    margin: 0 auto 1rem;
+  }
+  
+  .gallerySkeletonTitle {
+    width: 200px;
+    height: 32px;
+    background: linear-gradient(90deg, #f0e8d8 25%, #e8dcc8 50%, #f0e8d8 75%);
+    background-size: 400% 100%;
+    animation: shimmer 1.4s ease infinite;
+    border-radius: 4px;
+    margin: 0 auto 0.5rem;
+  }
+  
+  .gallerySkeletonUnderline {
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(90deg, #f0e8d8 25%, #e8dcc8 50%, #f0e8d8 75%);
+    background-size: 400% 100%;
+    animation: shimmer 1.4s ease infinite;
+    border-radius: 2px;
+    margin: 0 auto 1rem;
+  }
+  
+  .gallerySkeletonSubtitle {
+    width: 300px;
+    height: 20px;
+    background: linear-gradient(90deg, #f0e8d8 25%, #e8dcc8 50%, #f0e8d8 75%);
+    background-size: 400% 100%;
+    animation: shimmer 1.4s ease infinite;
+    border-radius: 4px;
+    margin: 0 auto;
+  }
+  
+  .gallerySkeletonGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+  }
+  
+  .gallerySkeletonItem {
+    aspect-ratio: 4/3;
+    background: linear-gradient(90deg, #f0e8d8 25%, #e8dcc8 50%, #f0e8d8 75%);
+    background-size: 400% 100%;
+    animation: shimmer 1.4s ease infinite;
+    border-radius: 16px;
+  }
+  
+  @media (max-width: 992px) {
+    .gallerySkeletonGrid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .gallerySkeletonGrid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .gallerySkeletonGrid {
+      grid-template-columns: 1fr;
+    }
+  }
+  
+  @keyframes shimmer {
+    0% {
+      background-position: 100% 0;
+    }
+    100% {
+      background-position: -100% 0;
+    }
+  }
+  
+  /* Gallery Background Variations */
+  .galleryBgWhite {
+    background: white;
+  }
+  
+  .galleryBgLight {
+    background: #fefaf5;
+  }
+  
+  .galleryBgWarm {
+    background: linear-gradient(160deg, #fff9f0 0%, #fff5e6 100%);
+    position: relative;
+  }
+  
+  .galleryBgWarm::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: radial-gradient(circle at 20% 40%, rgba(241, 85, 5, 0.02) 2%, transparent 2.5%);
+    background-size: 30px 30px;
+    pointer-events: none;
+  }
