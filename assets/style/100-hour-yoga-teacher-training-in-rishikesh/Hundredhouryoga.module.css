@@ -113,7 +113,6 @@
   flex: 4;
   line-height: 1.4;
   letter-spacing: 0.01em;
-  border-bottom: 1px solid var(--saffron-gold);
   padding-bottom: 0.5rem;
   white-space: normal;
 }
@@ -493,7 +492,110 @@
 .vintageList strong {
   color: var(--maroon);
 }
+/* ===============================
+   GRID
+================================ */
+.enrollCards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
 
+/* ===============================
+   CARD
+================================ */
+.enrollCard {
+  position: relative;
+  padding: 1.4rem 1.3rem;
+  border-radius: 14px;
+  border: 1.5px solid #f15505;
+  overflow: hidden;
+  transition: all 0.35s ease;
+}
+
+.enrollCard:hover {
+  transform: translateY(-8px) scale(1.02);
+}
+
+/* ===============================
+   ROW ALIGN (MAIN FIX)
+================================ */
+.cardRow {
+  display: flex;
+  align-items: flex-start; /* 👈 correct */
+  gap: 0.8rem;
+}
+
+/* ===============================
+   NUMBER (LEFT)
+================================ */
+.topNumber {
+  background: linear-gradient(135deg, #f15505, #a85800);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 6px 12px;
+  border-radius: 20px;
+  letter-spacing: 0.1em;
+  box-shadow: 0 4px 12px rgba(224, 123, 0, 0.3);
+  flex-shrink: 0;
+
+  /* 🔥 FINAL PERFECT ALIGNMENT */
+  margin-top: 4px;
+}
+
+/* ===============================
+   CONTENT
+================================ */
+.cardContent {
+  flex: 1;
+  margin-top: 0;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--ink-mid);
+}
+
+/* ===============================
+   BIG BACKGROUND NUMBER
+================================ */
+.bgNumber {
+  position: absolute;
+  right: 10px;
+  bottom: -10px;
+  font-size: 4.5rem;
+  font-weight: 700;
+  font-family: var(--font-display);
+  color: rgba(224, 123, 0, 0.08);
+  pointer-events: none;
+}
+
+/* ===============================
+   ACCENT LINE
+================================ */
+.enrollCard::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0%;
+  height: 3px;
+  background: linear-gradient(90deg, #f15505, #ff9a3c);
+  transition: width 0.4s ease;
+}
+
+.enrollCard:hover::after {
+  width: 100%;
+}
+
+/* ===============================
+   MOBILE
+================================ */
+@media (max-width: 768px) {
+  .enrollCards {
+    grid-template-columns: 1fr;
+  }
+}
 /* ── Vintage heading ── */
 .vintageHeadingWrap {
   position: relative;
@@ -521,6 +623,7 @@
 .headingUndSvg {
   width: clamp(120px, 28vw, 200px);
   height: 8px;
+  display: none;
 }
 
 /* ── Om Divider ── */
@@ -1330,7 +1433,7 @@
 
 .rightImage img {
   width: 100%;
-  height: 460px;
+  height: 552px;
   object-fit: cover;
   transition: transform 0.6s ease;
 }
@@ -1355,7 +1458,35 @@
     transform: translateX(100%);
   }
 }
+.rightImage {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
 
+/* image wrapper */
+.imageBox {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 14px;
+}
+
+/* video wrapper */
+.videoBox {
+  width: 100%;
+  height: 290px;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+/* video */
+.video {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
 /* ================================================================
    DAILY SCHEDULE
    ================================================================ */
@@ -1392,6 +1523,16 @@
   align-items: center;
 }
 
+.container1 {
+  position: relative;
+  z-index: 1;
+  max-width: 1140px;
+  margin: 0 auto;
+  display: grid;
+  gap: 2rem;
+  align-items: center;
+}
+
 .videoSide {
   position: relative;
   max-width: 338px;
@@ -1401,6 +1542,7 @@
   overflow: hidden;
   box-shadow: 0 30px 70px rgba(0, 0, 0, 0.2);
   animation: fadeSlideLeft 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  top:56px
 }
 
 @keyframes fadeSlideLeft {
@@ -1499,6 +1641,7 @@
   z-index: 2;
   transform: scale(1.06);
   animation: centerFadeUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both;
+  top:56px;
 }
 
 @keyframes centerFadeUp {
@@ -1959,7 +2102,7 @@
 }
 
 .psbBcSel {
-  border: 2px solid var(--saffron-bright) !important;
+  border: 1.5px solid var(--saffron-bright) !important;
  background: linear-gradient(145deg, #f9f8f5, #fff9e8) !important;
   box-shadow: 0 4px 18px rgba(200, 112, 10, 0.22) !important;
 }

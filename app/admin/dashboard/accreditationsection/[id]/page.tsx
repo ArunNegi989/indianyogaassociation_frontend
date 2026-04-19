@@ -723,7 +723,7 @@ export default function EditAccreditationSectionPage() {
                         type="text"
                         className={styles.input}
                         placeholder="e.g. Ministry of AYUSH"
-                        maxLength={60}
+                        maxLength={100}
                         {...register(`awardCerts.${index}.label`, {
                           required: "Label is required",
                         })}
@@ -744,7 +744,7 @@ export default function EditAccreditationSectionPage() {
                         type="text"
                         className={styles.input}
                         placeholder="e.g. Govt. Accredited"
-                        maxLength={40}
+                        maxLength={100}
                         {...register(`awardCerts.${index}.tag`, {
                           required: "Tag is required",
                         })}

@@ -752,7 +752,7 @@ function TextVideoRow({
         <div className={styles.tiVideoFrame}>
           <DynamicVideo url={videoUrl} />
           <div className={styles.tiVideoBadge}>
-            <span className={styles.pulseDot} /> Live Classes Daily
+            <span className={styles.pulseDot} /> Daily Classes
           </div>
         </div>
         <div className={styles.tiVideoAccent} aria-hidden="true" />
@@ -1480,7 +1480,7 @@ function ReviewsSection({ videoUrl }: { videoUrl: string }) {
           </div>
         ))}
       </div>
-      <div className={styles.container}><RatingsSummarySection/></div>
+      <div className={styles.container1}><RatingsSummarySection/></div>
       
       <OmDivider label="Video Testimonials" />
       <div className={styles.videoReviewsWrap}>
@@ -1663,9 +1663,9 @@ export default function HundredHourYoga() {
         <div className={styles.heroMandalaBg} aria-hidden="true" />
         <div className={styles.heroTextWrap}>
           <div className={styles.heroTitleRow}>
-            <div className={styles.heroTitleLine} />
+           
             <h1 className={styles.heroTitle}>{content.heroTitle}</h1>
-            <div className={styles.heroTitleLine} />
+           
           </div>
           {content.heroParagraphs.map((para, i) => (
             <p
@@ -1762,16 +1762,33 @@ export default function HundredHourYoga() {
               </div>
             ))}
           </div>
-          <div className={styles.rightImage}>
-        <Image
-  src={image3}   // ya koi specific image
-  alt="Yoga"
-  width={800}
-  height={500}
-  className={styles.image}
-/>
-            <div className={styles.imageShimmer}></div>
-          </div>
+         <div className={styles.rightImage}>
+  
+  {/* Top Image (same as before) */}
+  <div className={styles.imageBox}>
+    <Image
+      src={image3}
+      alt="Yoga"
+      width={800}
+      height={500}
+      className={styles.image}
+    />
+    <div className={styles.imageShimmer}></div>
+  </div>
+
+  {/* 👇 NEW VIDEO (same width, below image) */}
+  <div className={styles.videoBox}>
+  <iframe
+    src="https://www.youtube.com/embed/EJ6K-rhqevE?autoplay=1&mute=1&loop=1&playlist=EJ6K-rhqevE&controls=0&modestbranding=1&showinfo=0&rel=0&iv_load_policy=3&disablekb=1&playsinline=1"
+    className={styles.video}
+    frameBorder="0"
+    allow="autoplay; encrypted-media"
+    allowFullScreen
+  />
+</div>
+
+</div>
+          
         </div>
       </section>
 
@@ -1785,7 +1802,7 @@ export default function HundredHourYoga() {
             <div className={styles.videoOverlay} />
             <div className={styles.videoBadge}>
               <span className={styles.pulseDot} />
-              Live Classes Daily
+              Daily Classes
             </div>
           </div>
           {content.scheduleImage && (
@@ -1851,11 +1868,33 @@ export default function HundredHourYoga() {
           imageAlt="Yoga enrollment Rishikesh"
           badge="Enroll Today"
         />
-        <ol className={styles.vintageList}>
-          {content.enrollItems.map((item, i) => (
-            <li key={i} dangerouslySetInnerHTML={{ __html: item }} />
-          ))}
-        </ol>
+      <div className={styles.enrollCards}>
+  {content.enrollItems.map((item, i) => (
+    <div key={i} className={styles.enrollCard}>
+      
+      {/* Big Background Number (same) */}
+      <span className={styles.bgNumber}>
+        {String(i + 1).padStart(2, "0")}
+      </span>
+
+      {/* Row wrapper */}
+      <div className={styles.cardRow}>
+        
+        {/* Number */}
+        <div className={styles.topNumber}>
+          {i + 1}
+        </div>
+
+        {/* Content */}
+        <div
+          className={styles.cardContent}
+          dangerouslySetInnerHTML={{ __html: item }}
+        />
+      </div>
+
+    </div>
+  ))}
+</div>
 
         <TextVideoRow
           title={content.comprehensiveTitle}

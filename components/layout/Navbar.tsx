@@ -12,10 +12,18 @@ export interface SubLink {
   href: string;
 }
 
+// export interface NavLink {
+//   label: string;
+//   href: string;
+//   clickable?: boolean;
+//   children?: SubLink[];
+//   dropdownAlign?: "left" | "right";
+// }
 export interface NavLink {
   label: string;
   href: string;
   clickable?: boolean;
+  className?: string; // add this
   children?: SubLink[];
   dropdownAlign?: "left" | "right";
 }
@@ -117,8 +125,8 @@ export const navLinks: NavLink[] = [
     label: "AYUSH Courses",
     href: "/yoga-college-in-rishikesh",
   },
-  { label: "Register", href: "/yoga-registration" },
-  { label: "Payment", href: "/ttc-payment" },
+ { label: "Register", href: "/yoga-registration", className: "navRegister" },
+{ label: "Payment", href: "/ttc-payment", className: "navPayment" },
   {
     label: "Resource",
     href: "/resource",
