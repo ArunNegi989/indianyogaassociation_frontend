@@ -286,59 +286,68 @@ export default function BaliYogaPage() {
       {/* ════════════ DESTINATION ════════════ */}
       <section id="destination" className={styles.section}>
         <div className={styles.container}>
-          <div className={`${styles.reveal} ${styles.destGrid}`}>
-            <div className={styles.destText}>
-              <span className={styles.superLabel}>
-                {data?.destSuperLabel || "Our Location"}
-              </span>
-              <h2 className={styles.sectionTitle}>
-                {data?.destTitle || "Our Destination"}
-              </h2>
-              <OmBar align="left" />
+         <div className={`${styles.reveal} ${styles.destWrap}`}>
+  
+  {/* LEFT CONTENT */}
+  <div className={styles.destContentCard}>
+    <span className={styles.superLabel}>
+      {data?.destSuperLabel || "Our Location"}
+    </span>
 
-              {hasText(data?.destPara1) && (
-                <Html html={data!.destPara1!} className={styles.para} />
-              )}
-              {hasText(data?.destPara2) && (
-                <Html html={data!.destPara2!} className={styles.para} />
-              )}
+    <h2 className={styles.sectionTitle}>
+      {data?.destTitle || "Our Destination"}
+    </h2>
 
-              {destHighlights.length > 0 && (
-                <div className={styles.destHighlights}>
-                  {destHighlights.map((p) => (
-                    <span key={p} className={styles.destChip}>
-                      ✦ {p}
-                    </span>
-                  ))}
-                </div>
-              )}
-            </div>
+    <OmBar align="left" />
 
-            <div className={styles.destImages}>
-              {imgUrl(data?.groupImage) && (
-                <div className={styles.destImgMain}>
-                  <img src={imgUrl(data?.groupImage)} alt="Yoga group Bali" />
-                </div>
-              )}
-              {(imgUrl(data?.templeImage) || imgUrl(data?.riceImage)) && (
-                <div className={styles.destImgStack}>
-                  {imgUrl(data?.templeImage) && (
-                    <div className={styles.destImgSmall}>
-                      <img src={imgUrl(data?.templeImage)} alt="Bali temple" />
-                    </div>
-                  )}
-                  {imgUrl(data?.riceImage) && (
-                    <div className={styles.destImgSmall}>
-                      <img
-                        src={imgUrl(data?.riceImage)}
-                        alt="Rice terraces Ubud"
-                      />
-                    </div>
-                  )}
-                </div>
-              )}
-            </div>
-          </div>
+    {hasText(data?.destPara1) && (
+      <Html html={data!.destPara1!} className={styles.para} />
+    )}
+
+    {hasText(data?.destPara2) && (
+      <Html html={data!.destPara2!} className={styles.para} />
+    )}
+
+    {destHighlights.length > 0 && (
+      <div className={styles.destPills}>
+        {destHighlights.map((p) => (
+          <span key={p} className={styles.destPill}>
+            ✦ {p}
+          </span>
+        ))}
+      </div>
+    )}
+  </div>
+
+  {/* RIGHT VISUAL */}
+  <div className={styles.destVisual}>
+
+  {/* TOP 2 IMAGES */}
+  <div className={styles.destTopRow}>
+    
+    {imgUrl(data?.templeImage) && (
+      <div className={styles.destTopImg}>
+        <img src={imgUrl(data?.templeImage)} alt="Bali temple" />
+      </div>
+    )}
+
+    {imgUrl(data?.riceImage) && (
+      <div className={styles.destTopImg}>
+        <img src={imgUrl(data?.riceImage)} alt="Rice terraces Ubud" />
+      </div>
+    )}
+
+  </div>
+
+  {/* BOTTOM FULL IMAGE */}
+  {imgUrl(data?.groupImage) && (
+    <div className={styles.destBottomImg}>
+      <img src={imgUrl(data?.groupImage)} alt="Yoga group Bali" />
+    </div>
+  )}
+
+</div>
+</div>
         </div>
       </section>
 
@@ -531,7 +540,7 @@ export default function BaliYogaPage() {
           <div className={styles.teacherStripMandala} aria-hidden="true">
             <MandalaRing size={300} opacity={0.1} />
           </div>
-          <OmBar dark />
+         
           <div className={styles.teacherImgWrap}>
             <img
               src={imgUrl(data?.ubudImage)}
