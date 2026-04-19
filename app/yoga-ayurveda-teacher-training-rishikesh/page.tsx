@@ -5,6 +5,7 @@ import HowToReach from "@/components/home/Howtoreach";
 import Image from "next/image";
 import heroImgFallback from "@/assets/images/19.webp";
 import api from "@/lib/api";
+import Link from "next/link";
 
 /* ─── Types ─── */
 interface DailyScheduleItem {
@@ -215,6 +216,17 @@ export default function AyurvedaPage() {
 
   const heroImage = imgUrl(data?.heroImage);
 
+  const getListItems = (html = "") => {
+  if (typeof window === "undefined") return [];
+
+  const div = document.createElement("div");
+  div.innerHTML = html;
+
+  return Array.from(div.querySelectorAll("li")).map(
+    (li) => li.textContent || ""
+  );
+};
+
   return (
     <div className={styles.page}>
       <div className={styles.pageWm} aria-hidden="true">
@@ -272,9 +284,16 @@ export default function AyurvedaPage() {
               {hasContent(data?.introText2) && (
                 <Html html={data!.introText2!} className={styles.para} />
               )}
-              {hasContent(data?.introList) && (
-                <Html html={data!.introList!} className={styles.introList} />
-              )}
+             {hasContent(data?.introList) && (
+  <div className={styles.introCardGrid}>
+    {getListItems(data?.introList).map((item, i) => (
+      <div key={i} className={styles.introCard} style={{ animationDelay: `${i * 0.1}s` }}>
+  <span className={styles.cardNumber}>{i + 1}</span>
+  <p className={styles.cardText}>{item}</p>
+</div>
+    ))}
+  </div>
+)}
             </div>
 
             <div className={styles.introImage}>
@@ -305,7 +324,7 @@ export default function AyurvedaPage() {
           <div className={styles.mandalaBg} aria-hidden="true">
             <MandalaRing size={550} opacity={0.05} />
           </div>
-          <div className={styles.container}>
+          <div className={` ${styles.container} ${styles.doshaSection}`}>
             <div className={`${styles.reveal} ${styles.centered}`}>
               <span className={styles.superLabel}>
                 {data?.doshasSuperLabel || "The Three Bio-Energies"}
@@ -351,7 +370,7 @@ export default function AyurvedaPage() {
 
       {/* ════ COURSES (tabs) ════ */}
       <section id="courses" className={styles.section}>
-        <div className={styles.container}>
+        <div className={` ${styles.container} ${styles.coursesContainer}`}>
           <div className={`${styles.reveal} ${styles.centered}`}>
             <span className={styles.superLabel}>
               {data?.coursesSuperLabel || "Programmes"}
@@ -481,20 +500,34 @@ export default function AyurvedaPage() {
             </h2>
             <OmBar />
           </div>
-          <div className={`${styles.reveal} ${styles.panchBox}`}>
-            <h3 className={styles.panchHeading}>
-              {data?.panchakarmaHeading || "About Panchakarma"}
-            </h3>
-            {hasContent(data?.pkPara1) && (
-              <Html html={data!.pkPara1!} className={styles.para} />
-            )}
-            {hasContent(data?.pkPara2) && (
-              <Html html={data!.pkPara2!} className={styles.para} />
-            )}
-            {hasContent(data?.pkPara3) && (
-              <Html html={data!.pkPara3!} className={styles.para} />
-            )}
-          </div>
+         <div className={`${styles.reveal} ${styles.panchBoxRow}`}>
+  
+  {/* LEFT TEXT */}
+  <div className={styles.panchBoxText}>
+    <h3 className={styles.panchHeading}>
+      {data?.panchakarmaHeading || "About Panchakarma"}
+    </h3>
+
+    {hasContent(data?.pkPara1) && (
+      <Html html={data!.pkPara1!} className={styles.para} />
+    )}
+    {hasContent(data?.pkPara2) && (
+      <Html html={data!.pkPara2!} className={styles.para} />
+    )}
+    {hasContent(data?.pkPara3) && (
+      <Html html={data!.pkPara3!} className={styles.para} />
+    )}
+  </div>
+
+  {/* RIGHT IMAGE */}
+  <div className={styles.panchBoxImage}>
+    <img
+      src="https://images.unsplash.com/photo-1593811167562-9cef47bfc4d7?w=800&q=80"
+      alt="Panchakarma Therapy"
+    />
+  </div>
+
+</div>
 
           {therapies.length > 0 && (
             <div className={`${styles.reveal} ${styles.therapiesGrid}`}>
@@ -538,37 +571,49 @@ export default function AyurvedaPage() {
       <section className={styles.section}>
         <div className={styles.container}>
           {panchaKarmaCourses.length > 0 && (
-            <div className={`${styles.reveal} ${styles.pkCardsFull}`}>
-              {panchaKarmaCourses.map((c, i) => (
-                <div
-                  key={c.level}
-                  className={styles.pkCardFull}
-                  style={
-                    {
-                      "--pc": i === 1 ? "#888" : c.color,
-                    } as React.CSSProperties
-                  }
-                >
-                  <h3 className={styles.pkCardFullTitle}>
-                    Panchkarma {c.level} Course
-                  </h3>
-                  <div className={styles.pkCardFullRow}>
-                    <span>
-                      {c.level} Fee: <strong>{c.fee}</strong>
-                    </span>
-                    <span>
-                      Duration: <strong>{c.days}</strong>
-                    </span>
-                  </div>
-                  <p className={styles.pkCardFullCert}>
-                    Certification: {c.cert}
-                  </p>
-                  <a href="#apply" className={styles.pkCardFullBtn}>
-                    Book Now
-                  </a>
-                </div>
-              ))}
-            </div>
+           <div className={`${styles.reveal} ${styles.pkCardsFull}`}>
+  {panchaKarmaCourses.map((c, i) => (
+    <div
+      key={c.level}
+      className={styles.pkCardNew}
+      style={{
+       
+        animationDelay: `${i * 0.15}s`,
+      }}
+    >
+      {/* Glow line */}
+      <div className={styles.cardTopGlow} />
+
+      {/* Title */}
+      <h3 className={styles.pkTitle}>
+        Panchkarma {c.level} Course
+      </h3>
+
+      {/* Info */}
+      <div className={styles.pkInfo}>
+        <div className={styles.pkItem}>
+          <span>💰 Fee</span>
+          <strong>{c.fee}</strong>
+        </div>
+
+        <div className={styles.pkItem}>
+          <span>📅 Duration</span>
+          <strong>{c.days}</strong>
+        </div>
+      </div>
+
+      {/* Certificate */}
+      <p className={styles.pkCert}>
+        {c.cert}
+      </p>
+
+      {/* Button */}
+      <Link href="#apply" className={styles.pkBtnNew}>
+        Book Now →
+      </Link>
+    </div>
+  ))}
+</div>
           )}
 
           {/* Massage */}
@@ -603,99 +648,105 @@ export default function AyurvedaPage() {
 
       {/* ════ TRAINING ════ */}
       <section className={`${styles.section} ${styles.sectionTinted}`}>
-        <div className={styles.container}>
-          <div className={`${styles.reveal} ${styles.centered}`}>
-            <h2 className={styles.sectionTitle} style={{ fontStyle: "italic" }}>
-              {data?.yogaMassageTrainingHeading ||
-                "Yoga and Ayurvedic Massage Training in India"}
-            </h2>
-            <OmBar />
+  <div className={styles.container}>
+
+    {/* HEADER */}
+    <div className={`${styles.reveal} ${styles.centered}`}>
+      <h2 className={styles.sectionTitle}>
+        {data?.yogaMassageTrainingHeading || "Yoga & Ayurvedic Massage Training"}
+      </h2>
+      <OmBar />
+    </div>
+
+    {/* 🔥 HERO BLOCK */}
+    <div className={styles.trainingHero}>
+
+      {/* LEFT CONTENT */}
+      <div className={styles.trainingContent}>
+
+        <div className={styles.metaRow}>
+          <div className={styles.metaCard}>
+            <span>🧘 Duration</span>
+            <strong>{data?.yogaMassageDuration}</strong>
           </div>
 
-          <div className={`${styles.reveal} ${styles.trainingMeta}`}>
-            <span>
-              <strong>Duration:</strong> {data?.yogaMassageDuration || "—"}
-            </span>
-            <span>
-              <strong>Cost:</strong> {data?.yogaMassageCost || "—"}
-            </span>
-            <span>
-              <strong>Dates:</strong> {data?.yogaMassageDates || "—"}
-            </span>
+          <div className={styles.metaCard}>
+            <span>💰 Cost</span>
+            <strong>{data?.yogaMassageCost}</strong>
           </div>
 
-          <div className={`${styles.reveal} ${styles.trainingGrid}`}>
-            {dailySchedule.length > 0 && (
-              <div className={styles.trainingCol}>
-                <h3 className={styles.trainingColTitle}>Daily Schedule:</h3>
-                <div className={styles.scheduleList}>
-                  {dailySchedule.map((s, i) => (
-                    <div key={i} className={styles.scheduleRow}>
-                      <span className={styles.scheduleTime}>{s.time}</span>
-                      <span className={styles.scheduleAct}>{s.activity}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {syllabus.length > 0 && (
-              <div className={styles.trainingCol}>
-                <h3 className={styles.trainingColTitle}>Syllabus:</h3>
-                <ol className={styles.syllabusList}>
-                  {syllabus.map((s, i) => (
-                    <li key={i} className={styles.syllabusItem}>
-                      {s}
-                    </li>
-                  ))}
-                </ol>
-              </div>
-            )}
-
-            {included.length > 0 && (
-              <div className={styles.trainingCol}>
-                <h3 className={styles.trainingColTitle}>
-                  What&apos;s included in Fees:
-                </h3>
-                <ol className={styles.syllabusListNum}>
-                  {included.map((item, i) => (
-                    <li key={i} className={styles.syllabusItem}>
-                      {item}
-                    </li>
-                  ))}
-                </ol>
-              </div>
-            )}
-          </div>
-
-          <div className={`${styles.reveal} ${styles.registrationBox}`}>
-            {hasContent(data?.registrationBoxText) ? (
-              <Html
-                html={data!.registrationBoxText!}
-                className={styles.inlineBlock}
-              />
-            ) : (
-              <span>
-                <strong>Registration:</strong> Deposit{" "}
-                <strong>
-                  {data?.registrationAdvanceFee || "210 US Dollars"}
-                </strong>{" "}
-                advance fee to book your place.
-              </span>
-            )}{" "}
-            <a
-              href={data?.registrationPaymentLink || "#apply"}
-              className={styles.inlineLink}
-            >
-              See payment options →
-            </a>
+          <div className={styles.metaCard}>
+            <span>📅 Dates</span>
+            <strong>{data?.yogaMassageDates}</strong>
           </div>
         </div>
-      </section>
+
+      </div>
+
+      {/* RIGHT VIDEO */}
+      <div className={styles.videoWrap}>
+        <iframe
+          src="https://www.youtube.com/embed/ABJE9bY7O6E?autoplay=1&mute=1&loop=1&playlist=ABJE9bY7O6E&controls=0&modestbranding=1"
+          allow="autoplay"
+          className={styles.video}
+        />
+      </div>
+
+    </div>
+
+    {/* 🔥 CARDS */}
+    <div className={styles.trainingGridNew}>
+
+      {dailySchedule.length > 0 && (
+        <div className={styles.glassCard}>
+          <h3>Daily Schedule</h3>
+          {dailySchedule.map((s, i) => (
+            <div key={i} className={styles.row}>
+              <span className={styles.metaSpan}>{s.time}</span>
+              <span>{s.activity}</span>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {syllabus.length > 0 && (
+        <div className={styles.glassCard}>
+          <h3>Syllabus</h3>
+          {syllabus.map((s, i) => (
+            <div key={i} className={styles.bullet}>{s}</div>
+          ))}
+        </div>
+      )}
+
+      {included.length > 0 && (
+        <div className={styles.glassCard}>
+          <h3>Included</h3>
+          {included.map((i, idx) => (
+            <div key={idx} className={styles.bullet}>{i}</div>
+          ))}
+        </div>
+      )}
+
+    </div>
+
+    {/* CTA */}
+    <div className={styles.ctaPremium}>
+      <p>
+        Secure your seat with{" "}
+        <strong>{data?.registrationAdvanceFee}</strong>
+      </p>
+
+      <Link href="#apply" className={styles.ctaBtn}>
+        Book Now →
+      </Link>
+    </div>
+
+  </div>
+</section>
 
       {/* ════ SPIRITUAL ENVIRONMENT ════ */}
       <section className={styles.section}>
-        <div className={styles.container}>
+        <div className={`${styles.container} ${styles.spiritualEnvContainer}`}>
           <div className={`${styles.reveal} ${styles.centered}`}>
             <span className={styles.superLabel}>
               {data?.spiritualEnvironmentSuperLabel || "Sacred Setting"}
