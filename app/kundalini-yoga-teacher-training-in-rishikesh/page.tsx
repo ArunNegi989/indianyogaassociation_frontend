@@ -1503,6 +1503,8 @@ export default function KundaliniYogaTTC() {
           className={styles.wrBannerImg}
           loading="lazy"
         />
+
+        
         <div className={styles.wrBannerOverlay} />
         <div className={styles.wrBannerContent}>
           <span className={styles.wrBannerTag}>Sacred City · Yoga Capital of the World</span>
