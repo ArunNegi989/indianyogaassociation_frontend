@@ -5813,7 +5813,9 @@
 .sec9Wrap {
   background: white;
 }
-
+.maxx{
+  max-width:1460px !important;
+}
 /* ────────────────────────────────────────
    WHY RISHIKESH BLOCK
 ──────────────────────────────────────── */
