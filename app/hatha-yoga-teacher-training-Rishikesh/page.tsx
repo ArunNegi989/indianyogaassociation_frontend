@@ -64,6 +64,18 @@ interface HathaYogaData {
   courseDetailsList?: string[];
   benefitsIntroPara?: string;
   certCards?: CertCard[];
+  /* Banner fields (optional — falls back to sensible defaults) */
+  bannerDuration?: string;
+  bannerLevel?: string;
+  bannerCertification?: string;
+  bannerYogaStyle?: string;
+  bannerYogaStyleSub?: string;
+  bannerLanguage?: string;
+  bannerDate?: string;
+  bannerDateSub?: string;
+  bannerFeeStrike?: string;
+  bannerFeeMain?: string;
+  bannerBookHref?: string;
 }
 
 interface Batch {
@@ -99,6 +111,19 @@ const formatDate = (iso: string): string => {
     month: "long",
     year: "numeric",
   });
+};
+
+const shortDateRange = (start: string, end: string) => {
+  const s = new Date(start);
+  const e = new Date(end);
+  const d = (dt: Date) =>
+    dt.toLocaleDateString("en-IN", { day: "2-digit", month: "short" });
+  return `${d(s)} – ${d(e)}`;
+};
+
+const monthYear = (start: string) => {
+  const s = new Date(start);
+  return s.toLocaleDateString("en-IN", { month: "short", year: "numeric" });
 };
 
 /* ══════════════════════════════════════
@@ -265,6 +290,167 @@ function MandalaSVG({
   );
 }
 
+/* ── Inline SVG icons for banner ── */
+function IconClock() {
+  return (
+    <svg viewBox="0 0 24 24" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="9" /><polyline points="12 7 12 12 15 15" />
+    </svg>
+  );
+}
+function IconLevel() {
+  return (
+    <svg viewBox="0 0 24 24" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+      <line x1="18" y1="20" x2="18" y2="10" /><line x1="12" y1="20" x2="12" y2="4" /><line x1="6" y1="20" x2="6" y2="14" />
+    </svg>
+  );
+}
+function IconCert() {
+  return (
+    <svg viewBox="0 0 24 24" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+      <rect x="3" y="3" width="18" height="18" rx="2" /><polyline points="9 11 12 14 22 4" />
+    </svg>
+  );
+}
+function IconPerson() {
+  return (
+    <svg viewBox="0 0 24 24" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="8" r="4" /><path d="M6 20v-2a6 6 0 0 1 12 0v2" />
+    </svg>
+  );
+}
+function IconGlobe() {
+  return (
+    <svg viewBox="0 0 24 24" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="9" /><path d="M12 3a14 14 0 0 1 0 18M3 12h18" />
+    </svg>
+  );
+}
+function IconCalendar() {
+  return (
+    <svg viewBox="0 0 24 24" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+      <rect x="3" y="4" width="18" height="18" rx="2" />
+      <line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" />
+    </svg>
+  );
+}
+
+/* ══════════════════════════════════════
+   COURSE DETAILS BANNER  (NEW)
+══════════════════════════════════════ */
+function CourseDetailsBanner({
+  d,
+  batches,
+}: {
+  d: HathaYogaData;
+  batches: Batch[];
+}) {
+  /* Derive fee from first available batch, or fall back to page-level fields */
+  const firstBatch = batches[0];
+  const feeStrike = d.bannerFeeStrike ?? "";
+  const feeMain = d.bannerFeeMain ?? firstBatch?.usdFee ?? "";
+  const bookHref = d.bannerBookHref ?? "/yoga-registration?type=hatha";
+
+  /* Derive date label */
+  const dateLabel =
+    d.bannerDate ??
+    (firstBatch
+      ? `${formatDate(firstBatch.startDate)}`
+      : "Every Month");
+  const dateSub =
+    d.bannerDateSub ??
+    (firstBatch ? "Flexible batch dates" : "Flexible batch dates");
+
+  /* Certification from first certCard hours, or fallback */
+  const certLabel =
+    d.bannerCertification ??
+    (d.certCards && d.certCards.length > 0 ? d.certCards[0].hours : "200 Hour");
+
+  const items = [
+    {
+      icon: <IconClock />,
+      label: "Duration",
+      value: d.bannerDuration ?? "28 Days",
+      sub: "",
+    },
+    {
+      icon: <IconLevel />,
+      label: "Level",
+      value: d.bannerLevel ?? "All Levels",
+      sub: "",
+    },
+    {
+      icon: <IconCert />,
+      label: "Certification",
+      value: certLabel,
+      sub: "",
+    },
+    {
+      icon: <IconPerson />,
+      label: "Yoga Style",
+      value: d.bannerYogaStyle ?? "Hatha Yoga",
+      sub: d.bannerYogaStyleSub ?? "Traditional & Classical",
+    },
+    {
+      icon: <IconGlobe />,
+      label: "Language",
+      value: d.bannerLanguage ?? "English",
+      sub: "",
+    },
+    {
+      icon: <IconCalendar />,
+      label: "Date",
+      value: dateLabel,
+      sub: dateSub,
+    },
+  ];
+
+  return (
+    <section className={styles.courseDetailsBannerSection}>
+      <div className={styles.container}>
+        <div className={styles.bannerWrap}>
+          {/* Tab label */}
+          <span className={styles.bannerLabelTab}>Course Details</span>
+
+          {/* 3×2 detail grid */}
+          <div className={styles.bannerDetailsGrid}>
+            {items.map((item, i) => (
+              <div key={i} className={styles.bannerDetailItem}>
+                <div className={styles.bannerDetailHeader}>
+                  <span className={styles.bannerDetailIcon}>{item.icon}</span>
+                  <span className={styles.bannerDetailLabel}>{item.label}</span>
+                </div>
+                <div className={styles.bannerDetailValue}>{item.value}</div>
+                {item.sub && (
+                  <div className={styles.bannerDetailSub}>{item.sub}</div>
+                )}
+              </div>
+            ))}
+          </div>
+
+          {/* Fee + CTA sidebar */}
+          <div className={styles.bannerFeeBox}>
+            <div className={styles.bannerFeeLabel}>
+              Course Fee
+              <span className={styles.bannerFeeFrom}>starting from</span>
+            </div>
+            <div className={styles.bannerFeeAmount}>
+              {feeStrike && (
+                <span className={styles.bannerFeeStrike}>{feeStrike}</span>
+              )}
+              <span className={styles.bannerFeeMain}>{feeMain}</span>
+              <span className={styles.bannerFeeCurr}>USD</span>
+            </div>
+            <a href={bookHref} className={styles.bannerBookBtn}>
+              Book Now →
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 /* ══════════════════════════════════════
    LOADING STATE
 ══════════════════════════════════════ */
@@ -310,6 +496,7 @@ export default function HathaYogaPage() {
   const [batches, setBatches] = useState<Batch[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [selectedBatchId, setSelectedBatchId] = useState<string | null>(null);
 
   /* Intersection observer for scroll-reveal */
   useEffect(() => {
@@ -338,7 +525,14 @@ export default function HathaYogaPage() {
         if (pageRes.data?.success) setPageData(pageRes.data.data);
         else setError("Page data not found.");
 
-        if (batchRes.data?.success) setBatches(batchRes.data.data || []);
+        if (batchRes.data?.success) {
+          const batchData = batchRes.data.data || [];
+          setBatches(batchData);
+          // Set first batch as selected
+          if (batchData.length > 0) {
+            setSelectedBatchId(batchData[0]._id);
+          }
+        }
       } catch (err: any) {
         setError(err?.message || "Failed to load page.");
       } finally {
@@ -394,141 +588,190 @@ export default function HathaYogaPage() {
             src={heroSrc}
             alt={d.heroImgAlt || "Hatha Yoga Teacher Training"}
             className={styles.heroImage}
-            style={{ width: "100%", height: "auto", display: "block" }}
             loading="eager"
           />
+          <div className={styles.heroFade} aria-hidden="true" />
         </section>
       )}
 
+      {/* ══ COURSE DETAILS BANNER (NEW) ══ */}
+      <CourseDetailsBanner d={d} batches={batches} />
+
       {/* ══════════════════════ INTRO ══════════════════════ */}
-      <section className={`${styles.section} ${styles.introSection}`}>
-        <div className={styles.container}>
-          <div className={`${styles.reveal} ${styles.introGrid}`}>
-            <div className={styles.introText}>
-              {d.introSectionTitle && (
-                <h2 className={styles.sectionTitle}>{d.introSectionTitle}</h2>
-              )}
-              <OrnamentDivider />
-
-              {/* Intro paragraphs (HTML from rich text editor) */}
-              {d.introParagraphs && d.introParagraphs.length > 0
-                ? d.introParagraphs.map((p, i) => (
-                    <div
-                      key={i}
-                      className={styles.para}
-                      dangerouslySetInnerHTML={{ __html: p }}
-                    />
-                  ))
-                : null}
-            </div>
-
-            <div className={styles.introImage}>
-              <div className={styles.imageFrame}>
-                <img
-                  src={introSrc}
-                  alt={d.introSideImgAlt || "Yoga class in Rishikesh"}
-                />
-                <div className={styles.imageCaption}>
-                  Morning Satsang · AYM Ashram
-                </div>
-              </div>
-
-              {/* Accreditations */}
-              {d.accreditations && d.accreditations.length > 0 && (
-                <div className={styles.accredBox}>
-                  <p className={styles.accredTitle}>Accreditations</p>
-                  {d.accreditations.map((a, i) => (
-                    <span key={i} className={styles.accredBadge}>
-                      {a}
-                    </span>
-                  ))}
-                </div>
-              )}
-            </div>
+     <section className={`${styles.sections} ${styles.introSection}`}>
+  <div className={styles.container}>
+    <div className={`${styles.reveal} ${styles.introGrid}`}>
+ 
+      {/* ── LEFT: Text + accreditations ── */}
+      <div className={styles.introText}>
+        {d.introSectionTitle && (
+          <h2 className={styles.sectionsTitleAccent}>{d.introSectionTitle}</h2>
+        )}
+        <OrnamentDivider />
+        {d.introParagraphs && d.introParagraphs.length > 0
+          ? d.introParagraphs.map((p, i) => (
+              <div key={i} className={styles.para} dangerouslySetInnerHTML={{ __html: p }} />
+            ))
+          : null}
+ 
+        {d.accreditations && d.accreditations.length > 0 && (
+          <div className={styles.accredBox}>
+            <p className={styles.accredTitle}>Accreditations</p>
+            {d.accreditations.map((a, i) => (
+              <span key={i} className={styles.accredBadge}>{a}</span>
+            ))}
+          </div>
+        )}
+      </div>
+ 
+      {/* ── RIGHT: Media stack ── */}
+      <div className={styles.introMediaStack}>
+ 
+        {/* Primary large image */}
+        <div className={styles.introMainImg}>
+          <img
+            src={introSrc}
+            alt={d.introSideImgAlt || "Yoga class in Rishikesh"}
+          />
+          <div className={styles.introImgOverlay} />
+          <div className={styles.introImgCaption}>Morning Satsang · AYM Ashram</div>
+        </div>
+ 
+        {/* Two floating thumbnail cards below */}
+        <div className={styles.introThumbRow}>
+          <div className={styles.introThumb}>
+            <img
+              src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=600&q=80"
+              alt="Pranayama practice"
+            />
+            <div className={styles.introThumbLabel}>Pranayama</div>
+          </div>
+          <div className={styles.introThumb}>
+            <img
+              src="https://images.unsplash.com/photo-1545205597-3d9d02c29597?w=600&q=80"
+              alt="Meditation session"
+            />
+            <div className={styles.introThumbLabel}>Meditation</div>
           </div>
         </div>
-      </section>
+ 
+        {/* Floating stat badge */}
+        <div className={styles.introStatBadge}>
+          <span className={styles.introStatNum}>500+</span>
+          <span className={styles.introStatText}>Students Certified Annually</span>
+        </div>
+ 
+      </div>
+    </div>
+  </div>
+</section>
 
       {/* ══════════════════════ WHAT IS HATHA ══════════════════════ */}
       <section className={`${styles.section} ${styles.whatSection}`}>
-        <div className={styles.mandalaBg} aria-hidden="true">
-          <MandalaRingSVG size={500} opacity={0.06} />
+        <div className={styles.whatOverlay}  />
+        <div className={styles.whatBorderTop}  />
+        <div className={styles.whatBorderBottom}  />
+        <div className={styles.whatMandalaBg} >
+          {/* <MandalaRingSVG size={500} opacity={1} /> */}
         </div>
-        <div className={styles.container}>
+        <div className={`${styles.container} ${styles.whatContainer}`}>
           <div className={`${styles.reveal} ${styles.centered}`}>
             {d.whatSuperLabel && (
-              <p className={styles.superLabel}>{d.whatSuperLabel}</p>
+              <p className={styles.whatSuperLabel}>{d.whatSuperLabel}</p>
             )}
             {d.whatTitle && (
-              <h2 className={styles.sectionTitle}>{d.whatTitle}</h2>
+              <h2 className={styles.whatTitle}>{d.whatTitle}</h2>
             )}
-            <OrnamentDivider />
-
-            {d.whatParagraphs && d.whatParagraphs.length > 0
-              ? d.whatParagraphs.map((p, i) => (
+            <div className={styles.whatOrnamentDivider}>
+              <span className={styles.whatOrnLine} />
+              <span className={styles.whatOrnGlyph}>❧</span>
+              <span className={styles.whatOrnLine} />
+            </div>
+            {d.whatParagraphs && d.whatParagraphs.length > 0 ? (
+              <div className={styles.whatParagraphsBox}>
+                {d.whatParagraphs.map((p, i) => (
                   <div
                     key={i}
-                    className={styles.paraCenter}
+                    className={styles.whatPara}
                     dangerouslySetInnerHTML={{ __html: p }}
                   />
-                ))
-              : null}
+                ))}
+              </div>
+            ) : null}
           </div>
         </div>
       </section>
 
       {/* ══════════════════════ BENEFITS ══════════════════════ */}
-      <section className={`${styles.section} ${styles.benefitsSection}`}>
-        <div className={styles.container}>
-          <div className={`${styles.reveal} ${styles.benefitsGrid}`}>
-            <div className={styles.benefitsLeft}>
-              {d.benefitsSuperLabel && (
-                <p className={styles.superLabel}>{d.benefitsSuperLabel}</p>
-              )}
-              {d.benefitsTitle && (
-                <h2 className={styles.sectionTitle}>{d.benefitsTitle}</h2>
-              )}
-              <OrnamentDivider />
-
-              {d.benefitsIntroPara && (
-                <div
-                  className={styles.para}
-                  dangerouslySetInnerHTML={{ __html: d.benefitsIntroPara }}
-                />
-              )}
-
-              {d.benefitsList && d.benefitsList.length > 0 && (
-                <ol className={styles.benefitsList}>
-                  {d.benefitsList.map((b, i) => (
-                    <li key={i} className={styles.benefitItem}>
-                      <span className={styles.benefitNum}>
-                        {String(i + 1).padStart(2, "0")}
-                      </span>
-                      <span>{b}</span>
-                    </li>
-                  ))}
-                </ol>
-              )}
-            </div>
-
-            <div className={styles.benefitsRight}>
-              <div className={styles.imageFrameTall}>
-                <img
-                  src={benefitSrc}
-                  alt={d.benefitsSideImgAlt || "Yoga Ashram Rishikesh"}
-                />
-              </div>
-              {d.pullQuote && (
-                <div className={styles.pullQuote}>
-                  <span className={styles.quoteGlyph}>"</span>
-                  {d.pullQuote}
-                  <span className={styles.quoteGlyph}>"</span>
-                </div>
-              )}
-            </div>
-          </div>
+    <section className={`${styles.section} ${styles.benefitsSection}`}>
+ 
+  {/* Full-bleed video backdrop */}
+  <div className={styles.benefitsVideoBg} aria-hidden="true">
+    <video
+      autoPlay
+      muted
+      loop
+      playsInline
+      className={styles.benefitsVideo}
+      // poster="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=1200&q=80"
+    >
+      {/* Free stock yoga video from Pexels CDN */}
+      <source
+        src="https://videos.pexels.com/video-files/3576382/3576382-uhd_2560_1440_25fps.mp4"
+        type="video/mp4"
+      />
+    </video>
+    <div className={styles.benefitsVideoOverlay} />
+  </div>
+ 
+  <div className={styles.container}>
+    <div className={`${styles.reveal} ${styles.benefitsContentWrap}`}>
+ 
+      {/* Header */}
+      <div className={styles.benefitsHeader}>
+        {d.benefitsSuperLabel && (
+          <p className={styles.benefitsSuperLabelDark}>{d.benefitsSuperLabel}</p>
+        )}
+        {d.benefitsTitle && (
+          <h2 className={styles.benefitsTitleDark}>{d.benefitsTitle}</h2>
+        )}
+        <div className={styles.whatOrnamentDivider}>
+          <span className={styles.whatOrnLine} />
+          <span className={styles.whatOrnGlyph}>❧</span>
+          <span className={styles.whatOrnLine} />
         </div>
-      </section>
+        {d.benefitsIntroPara && (
+          <div
+            className={styles.benefitsIntroParaDark}
+            dangerouslySetInnerHTML={{ __html: d.benefitsIntroPara }}
+          />
+        )}
+      </div>
+ 
+      {/* Pill grid */}
+      {d.benefitsList && d.benefitsList.length > 0 && (
+        <div className={styles.benefitsPillGrid}>
+          {d.benefitsList.map((b, i) => (
+            <div key={i} className={styles.benefitPill}>
+              <span className={styles.benefitPillNum}>{String(i + 1).padStart(2, "0")}</span>
+              <span className={styles.benefitPillText}>{b}</span>
+            </div>
+          ))}
+        </div>
+      )}
+ 
+      {/* Pull quote at bottom */}
+      {d.pullQuote && (
+        <div className={styles.pullQuoteDark}>
+          <span className={styles.quoteGlyphDark}>"</span>
+          {d.pullQuote}
+          <span className={styles.quoteGlyphDark}>"</span>
+        </div>
+      )}
+ 
+    </div>
+  </div>
+</section>
 
       {/* ══════════════════════ CERTIFICATION ══════════════════════ */}
       <section className={`${styles.section} ${styles.certSection}`}>
@@ -538,15 +781,19 @@ export default function HathaYogaPage() {
         <div className={styles.container}>
           <div className={`${styles.reveal} ${styles.centered}`}>
             {d.certSuperLabel && (
-              <p className={styles.superLabel}>{d.certSuperLabel}</p>
+              <p className={styles.certSuperLabel}>{d.certSuperLabel}</p>
             )}
             {d.certTitle && (
-              <h2 className={styles.sectionTitle}>{d.certTitle}</h2>
+              <h2 className={styles.certSectionTitle}>{d.certTitle}</h2>
             )}
-            <OrnamentDivider />
+            <div className={styles.certOrnamentDivider}>
+              <span className={styles.certOrnLine} />
+              <span className={styles.certOrnGlyph}>❧</span>
+              <span className={styles.certOrnLine} />
+            </div>
             {d.certPara && (
               <div
-                className={styles.paraCenter}
+                className={styles.certParaCenter}
                 dangerouslySetInnerHTML={{ __html: d.certPara }}
               />
             )}
@@ -589,45 +836,66 @@ export default function HathaYogaPage() {
       </section>
 
       {/* ══════════════════════ ASHRAM ══════════════════════ */}
-      <section className={`${styles.section} ${styles.ashramSection}`}>
-        <div className={styles.container}>
-          <div className={`${styles.reveal} ${styles.ashramGrid}`}>
-            <div className={styles.ashramText}>
-              {d.ashramSuperLabel && (
-                <p className={styles.superLabel}>{d.ashramSuperLabel}</p>
-              )}
-              {d.ashramTitle && (
-                <h2
-                  className={styles.sectionTitle}
-                  dangerouslySetInnerHTML={{
-                    __html: d.ashramTitle.replace(/,\s*/g, ",<br/>"),
-                  }}
-                />
-              )}
-              <OrnamentDivider />
-
-              {d.ashramParagraphs && d.ashramParagraphs.length > 0
-                ? d.ashramParagraphs.map((p, i) => (
-                    <div
-                      key={i}
-                      className={styles.para}
-                      dangerouslySetInnerHTML={{ __html: p }}
-                    />
-                  ))
-                : null}
-            </div>
-
-            <div className={styles.ashramImage}>
-              <div className={styles.imageFrame}>
-                <img
-                  src={ashramSrc}
-                  alt={d.ashramImgAlt || "AYM Yoga Ashram"}
-                />
-              </div>
-            </div>
+    <section className={`${styles.section} ${styles.ashramSection}`}>
+  <div className={styles.container}>
+    <div className={`${styles.reveal} ${styles.ashramLayout}`}>
+ 
+      {/* LEFT: Text column */}
+      <div className={styles.ashramText}>
+        {d.ashramSuperLabel && (
+          <p className={styles.superLabel}>{d.ashramSuperLabel}</p>
+        )}
+        {d.ashramTitle && (
+          <h2
+            className={styles.sectionTitleAccent}
+            dangerouslySetInnerHTML={{
+              __html: d.ashramTitle.replace(/,\s*/g, ",<br/>"),
+            }}
+          />
+        )}
+        <OrnamentDivider />
+        {d.ashramParagraphs && d.ashramParagraphs.length > 0
+          ? d.ashramParagraphs.map((p, i) => (
+              <div key={i} className={styles.para} dangerouslySetInnerHTML={{ __html: p }} />
+            ))
+          : null}
+      </div>
+ 
+      {/* RIGHT: Mosaic image gallery */}
+      <div className={styles.ashramMosaic}>
+ 
+        {/* Large primary image */}
+        <div className={styles.ashramMosaicMain}>
+          <img
+            src={ashramSrc}
+            alt={d.ashramImgAlt || "AYM Yoga Ashram Rishikesh"}
+          />
+          <div className={styles.ashramMosaicOverlay} />
+          <div className={styles.ashramMosaicLabel}>AYM Ashram · Rishikesh</div>
+        </div>
+ 
+        {/* Two smaller images stacked */}
+        <div className={styles.ashramMosaicSide}>
+          <div className={styles.ashramMosaicSmall}>
+            <img
+              src="https://images.unsplash.com/photo-1588286840104-8957b019727f?w=600&q=80"
+              alt="Yoga hall interior"
+            />
+            <span className={styles.ashramMosaicSmallLabel}>Yoga Hall</span>
+          </div>
+          <div className={styles.ashramMosaicSmall}>
+            <img
+              src="https://images.unsplash.com/photo-1571902943202-507ec2618e8f?w=600&q=80"
+              alt="Ganga riverside practice"
+            />
+            <span className={styles.ashramMosaicSmallLabel}>Riverside Practice</span>
           </div>
         </div>
-      </section>
+ 
+      </div>
+    </div>
+  </div>
+</section>
 
       {/* ══════════════════════ CURRICULUM ══════════════════════ */}
       {d.courseDetailsList && d.courseDetailsList.length > 0 && (
@@ -700,102 +968,255 @@ export default function HathaYogaPage() {
             )}
           </div>
 
-          {/* Batches Table */}
+          {/* Premium Seat Booking - Batch Selection */}
           {batches.length > 0 ? (
-            <div className={`${styles.reveal} ${styles.tableContainer}`}>
+            <div className={`${styles.reveal} ${styles.premiumSeatBooking}`}>
               <CornerOrnament pos="tl" />
               <CornerOrnament pos="tr" />
               <CornerOrnament pos="bl" />
               <CornerOrnament pos="br" />
 
-              <div className={styles.tableScroll}>
-                <table className={styles.datesTable}>
-                  <thead>
-                    <tr>
-                      <th>Date</th>
-                      <th>FEE (USD)</th>
-                      <th>FEE (INR)</th>
-                      <th>Room Price</th>
-                      <th>Seats</th>
-                      <th>Apply</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {batches.map((row) => {
-                      const isFull = row.bookedSeats >= row.totalSeats;
-                      const dateLabel = `${formatDate(row.startDate)} – ${formatDate(row.endDate)}`;
-                      return (
-                        <tr key={row._id}>
-                          <td className={styles.dateCell}>
-                            <span className={styles.dateCal}>📅</span>{" "}
-                            {dateLabel}
-                          </td>
-                          <td>{row.usdFee}</td>
-                          <td>{row.inrFee}</td>
-                          <td className={styles.roomPriceCell}>
-                            Dorm{" "}
-                            <strong className={styles.priceAmt}>
-                              ${row.dormPrice}
-                            </strong>{" "}
-                            | Twin{" "}
-                            <strong className={styles.priceAmt}>
-                              ${row.twinPrice}
-                            </strong>{" "}
-                            | Private{" "}
-                            <strong className={styles.priceAmt}>
-                              ${row.privatePrice}
-                            </strong>
-                          </td>
-                          <td>
-                            <SeatsCell
-                              booked={row.bookedSeats}
-                              total={row.totalSeats}
-                            />
-                          </td>
-                          <td>
-                            {isFull ? (
-                              <span className={styles.applyDisabled}>
-                                Apply Now
-                              </span>
-                            ) : (
-                              <a
-                                href="/yoga-registration?type=hatha"
-                                className={styles.applyLink}
-                              >
-                                Apply Now
-                              </a>
-                            )}
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
+              {/* LEFT PANEL: Batch Selection Grid */}
+              <div className={styles.psbLeftPanel}>
+                <div className={styles.psbLph}>
+                  <span className={styles.psbLphTitle}>SELECT YOUR BATCH</span>
+                  <div className={styles.psbLphRight}>
+                    <div className={styles.psbLegend}>
+                      <div className={styles.psbLegItem}>
+                        <div className={`${styles.psbLegDot} ${styles.psbDGreen}`} />
+                        AVAILABLE
+                      </div>
+                      <div className={styles.psbLegItem}>
+                        <div className={`${styles.psbLegDot} ${styles.psbDOrange}`} />
+                        LIMITED
+                      </div>
+                      <div className={styles.psbLegItem}>
+                        <div className={`${styles.psbLegDot} ${styles.psbDRed}`} />
+                        FULL
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className={styles.psbBatchGrid}>
+                  {batches.map((batch) => {
+                    const rem = batch.totalSeats - batch.bookedSeats;
+                    const full = rem <= 0;
+                    const low = !full && rem <= 5;
+                    const dotCls = full
+                      ? styles.psbDRed
+                      : low
+                        ? styles.psbDOrange
+                        : styles.psbDGreen;
+                    const statusTxt = full
+                      ? "FULLY BOOKED"
+                      : low
+                        ? "LIMITED"
+                        : "AVAILABLE";
+                    const isSelected = selectedBatchId === batch._id;
+
+                    return (
+                      <div
+                        key={batch._id}
+                        className={`${styles.psbBatchCard} ${isSelected ? styles.psbBatchCardSelected : ""}`}
+                        onClick={() => setSelectedBatchId(batch._id)}
+                        role="button"
+                        tabIndex={0}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter" || e.key === " ") {
+                            setSelectedBatchId(batch._id);
+                          }
+                        }}
+                      >
+                        <div className={styles.psbBcTop}>
+                          <div className={styles.psbBcMonth}>
+                            {monthYear(batch.startDate).toUpperCase()}
+                          </div>
+                          <div className={styles.psbBcDates}>
+                            {shortDateRange(batch.startDate, batch.endDate)}
+                          </div>
+                        </div>
+
+                        <div className={styles.psbBcPrice}>
+                          <span className={styles.psbBcPriceAmt}>
+                            ${batch.dormPrice}
+                          </span>
+                          <span className={styles.psbBcPriceLbl}>USD</span>
+                        </div>
+
+                        <div className={styles.psbBcStatusBadge}>
+                          <span className={`${styles.psbBcStatusDot} ${dotCls}`} />
+                          <span className={styles.psbBcStatusText}>{statusTxt}</span>
+                        </div>
+
+                        <div className={styles.psbBcSeats}>
+                          {full ? (
+                            <span className={styles.psbBcSeatsText}>
+                              0 / {batch.totalSeats} seats left
+                            </span>
+                          ) : (
+                            <span className={styles.psbBcSeatsText}>
+                              {rem} / {batch.totalSeats} seats left
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
 
-              {/* Per-batch notes (show first non-empty note as general note) */}
-              {(d.tableNote || batches.find((b) => b.note)) && (
-                <p className={styles.tableNote}>
-                  <strong>Note:</strong>{" "}
-                  {d.tableNote || batches.find((b) => b.note)?.note}
-                </p>
-              )}
+              {/* RIGHT PANEL: Pricing Details */}
+              <div className={styles.psbRightPanel}>
+                {selectedBatchId && batches.find((b) => b._id === selectedBatchId) ? (
+                  (() => {
+                    const selected = batches.find((b) => b._id === selectedBatchId)!;
+                    const rem = selected.totalSeats - selected.bookedSeats;
+                    const full = rem <= 0;
+                    const low = !full && rem <= 5;
+                    const pct = full
+                      ? 100
+                      : Math.round((selected.bookedSeats / selected.totalSeats) * 100);
 
-              {(d.joinBtnLabel || d.joinBtnHref) && (
-                <div style={{ textAlign: "center", padding: "1rem 0 0.5rem" }}>
-                  <a href={d.joinBtnHref || "#"} className={styles.joinBtn}>
-                    {d.joinBtnLabel || "Join Your Yoga Journey"}
-                  </a>
-                </div>
-              )}
+                    return (
+                      <>
+                        <div className={styles.psbRpHeader}>
+                          <div className={styles.psbRpHeaderTop}>
+                            <span className={styles.psbRpTitle}>COURSE OVERVIEW</span>
+                            <span className={styles.psbRpSubtitle}>Hatha Yoga Teacher Training</span>
+                          </div>
+                          <div className={styles.psbRpDur}>
+                            <svg
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                            >
+                              <circle cx="12" cy="12" r="9" />
+                              <polyline points="12 7 12 12 15 15" />
+                            </svg>
+                            <span className={styles.psbRpDurTxt}>
+                              28 Days · Rishikesh, India
+                            </span>
+                          </div>
+                        </div>
+
+                        <div className={styles.psbRpBody}>
+                          <div className={styles.psbAccommodationSection}>
+                            <div className={styles.psbSectionLabel}>WITH ACCOMMODATION</div>
+                            <div className={styles.psbPriceRow}>
+                              <div className={styles.psbPriceCard}>
+                                <div className={styles.psbPcAmt}>
+                                  ${selected.privatePrice}
+                                  <span className={styles.psbPcCur}>USD</span>
+                                </div>
+                                <div className={styles.psbPcLbl}>Private Room</div>
+                              </div>
+                              <div className={styles.psbPriceCard}>
+                                <div className={styles.psbPcAmt}>
+                                  ${selected.twinPrice}
+                                  <span className={styles.psbPcCur}>USD</span>
+                                </div>
+                                <div className={styles.psbPcLbl}>Twin / Shared</div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className={styles.psbAccommodationSection}>
+                            <div className={styles.psbSectionLabel}>WITHOUT ACCOMMODATION</div>
+                            <div className={styles.psbPriceWide}>
+                              <div className={styles.psbPwLeft}>
+                                <span className={styles.psbPcAmt}>
+                                  ${selected.dormPrice}
+                                </span>
+                                <span className={styles.psbPcCur}>USD</span>
+                              </div>
+                              <span className={styles.psbFoodBadge}>
+                                Food Included
+                              </span>
+                            </div>
+                          </div>
+
+                          <div className={styles.psbSeatsSection}>
+                            <div className={styles.psbSeatsLabel}>SEATS AVAILABILITY</div>
+                            <div className={styles.psbSeatsInfo}>
+                              <span
+                                className={styles.psbSeatsBadge}
+                                style={{
+                                  color: full
+                                    ? "#8a2c00"
+                                    : low
+                                      ? "#c8700a"
+                                      : "#3d6000",
+                                  borderColor: full
+                                    ? "#8a2c00"
+                                    : low
+                                      ? "#c8700a"
+                                      : "#3d6000",
+                                }}
+                              >
+                                {full
+                                  ? "Fully Booked"
+                                  : `${rem} of ${selected.totalSeats} left`}
+                              </span>
+                            </div>
+                          </div>
+
+                          <div className={styles.psbSelDisplay}>
+                            <div className={styles.psbSelLabel}>SELECTED BATCH</div>
+                            <div className={styles.psbSelDate}>
+                              {shortDateRange(
+                                selected.startDate,
+                                selected.endDate
+                              )}
+                              , {monthYear(selected.startDate)}
+                            </div>
+                          </div>
+
+                          <a
+                            href={`/yoga-registration?batchId=${selected._id}&type=hatha`}
+                            className={styles.psbBookBtn}
+                          >
+                            BOOK NOW — ${selected.dormPrice} USD
+                            <svg
+                              className={styles.psbArrowIcon}
+                              viewBox="0 0 16 16"
+                              fill="none"
+                            >
+                              <path
+                                d="M3 8h10M9 4l4 4-4 4"
+                                stroke="#fff3d2"
+                                strokeWidth="1.5"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              />
+                            </svg>
+                          </a>
+
+                          {selected.note && (
+                            <p className={styles.psbNote}>
+                              <strong>Note:</strong> {selected.note}
+                            </p>
+                          )}
+                        </div>
+                      </>
+                    );
+                  })()
+                ) : (
+                  <div className={styles.psbRpEmpty}>
+                    <p className={styles.psbRpEmptyText}>
+                      ← Select a batch to view pricing details
+                    </p>
+                  </div>
+                )}
+              </div>
             </div>
           ) : (
-            <p className={styles.paraCenter} style={{ opacity: 0.6 }}>
+            <p className={`${styles.paraCenter} ${styles.paraMuted}`}>
               No upcoming batches at the moment. Please check back soon.
             </p>
           )}
 
-          {/* Programme overview */}
           {((d.programmeParagraphs && d.programmeParagraphs.length > 0) ||
             d.pricingProgrammePara) && (
             <div className={`${styles.reveal} ${styles.programmeBox}`}>
