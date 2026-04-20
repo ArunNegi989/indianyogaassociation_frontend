@@ -113,6 +113,19 @@ const formatDate = (iso: string): string => {
   });
 };
 
+const shortDateRange = (start: string, end: string) => {
+  const s = new Date(start);
+  const e = new Date(end);
+  const d = (dt: Date) =>
+    dt.toLocaleDateString("en-IN", { day: "2-digit", month: "short" });
+  return `${d(s)} – ${d(e)}`;
+};
+
+const monthYear = (start: string) => {
+  const s = new Date(start);
+  return s.toLocaleDateString("en-IN", { month: "short", year: "numeric" });
+};
+
 /* ══════════════════════════════════════
    SUB-COMPONENTS
 ══════════════════════════════════════ */
@@ -483,6 +496,7 @@ export default function HathaYogaPage() {
   const [batches, setBatches] = useState<Batch[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [selectedBatchId, setSelectedBatchId] = useState<string | null>(null);
 
   /* Intersection observer for scroll-reveal */
   useEffect(() => {
@@ -511,7 +525,14 @@ export default function HathaYogaPage() {
         if (pageRes.data?.success) setPageData(pageRes.data.data);
         else setError("Page data not found.");
 
-        if (batchRes.data?.success) setBatches(batchRes.data.data || []);
+        if (batchRes.data?.success) {
+          const batchData = batchRes.data.data || [];
+          setBatches(batchData);
+          // Set first batch as selected
+          if (batchData.length > 0) {
+            setSelectedBatchId(batchData[0]._id);
+          }
+        }
       } catch (err: any) {
         setError(err?.message || "Failed to load page.");
       } finally {
@@ -692,7 +713,7 @@ export default function HathaYogaPage() {
       loop
       playsInline
       className={styles.benefitsVideo}
-      poster="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=1200&q=80"
+      // poster="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=1200&q=80"
     >
       {/* Free stock yoga video from Pexels CDN */}
       <source
@@ -947,93 +968,248 @@ export default function HathaYogaPage() {
             )}
           </div>
 
-          {/* Batches Table */}
+          {/* Premium Seat Booking - Batch Selection */}
           {batches.length > 0 ? (
-            <div className={`${styles.reveal} ${styles.tableContainer}`}>
+            <div className={`${styles.reveal} ${styles.premiumSeatBooking}`}>
               <CornerOrnament pos="tl" />
               <CornerOrnament pos="tr" />
               <CornerOrnament pos="bl" />
               <CornerOrnament pos="br" />
 
-              <div className={styles.tableScroll}>
-                <table className={styles.datesTable}>
-                  <thead>
-                    <tr>
-                      <th>Date</th>
-                      <th>FEE (USD)</th>
-                      <th>FEE (INR)</th>
-                      <th>Room Price</th>
-                      <th>Seats</th>
-                      <th>Apply</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {batches.map((row) => {
-                      const isFull = row.bookedSeats >= row.totalSeats;
-                      const dateLabel = `${formatDate(row.startDate)} – ${formatDate(row.endDate)}`;
-                      return (
-                        <tr key={row._id}>
-                          <td className={styles.dateCell}>
-                            <span className={styles.dateCal}>📅</span>{" "}
-                            {dateLabel}
-                          </td>
-                          <td>{row.usdFee}</td>
-                          <td>{row.inrFee}</td>
-                          <td className={styles.roomPriceCell}>
-                            Dorm{" "}
-                            <strong className={styles.priceAmt}>
-                              ${row.dormPrice}
-                            </strong>{" "}
-                            | Twin{" "}
-                            <strong className={styles.priceAmt}>
-                              ${row.twinPrice}
-                            </strong>{" "}
-                            | Private{" "}
-                            <strong className={styles.priceAmt}>
-                              ${row.privatePrice}
-                            </strong>
-                          </td>
-                          <td>
-                            <SeatsCell
-                              booked={row.bookedSeats}
-                              total={row.totalSeats}
-                            />
-                          </td>
-                          <td>
-                            {isFull ? (
-                              <span className={styles.applyDisabled}>
-                                Apply Now
-                              </span>
-                            ) : (
-                              <a
-                                href="/yoga-registration?type=hatha"
-                                className={styles.applyLink}
-                              >
-                                Apply Now
-                              </a>
-                            )}
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
+              {/* LEFT PANEL: Batch Selection Grid */}
+              <div className={styles.psbLeftPanel}>
+                <div className={styles.psbLph}>
+                  <span className={styles.psbLphTitle}>SELECT YOUR BATCH</span>
+                  <div className={styles.psbLphRight}>
+                    <div className={styles.psbLegend}>
+                      <div className={styles.psbLegItem}>
+                        <div className={`${styles.psbLegDot} ${styles.psbDGreen}`} />
+                        AVAILABLE
+                      </div>
+                      <div className={styles.psbLegItem}>
+                        <div className={`${styles.psbLegDot} ${styles.psbDOrange}`} />
+                        LIMITED
+                      </div>
+                      <div className={styles.psbLegItem}>
+                        <div className={`${styles.psbLegDot} ${styles.psbDRed}`} />
+                        FULL
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className={styles.psbBatchGrid}>
+                  {batches.map((batch) => {
+                    const rem = batch.totalSeats - batch.bookedSeats;
+                    const full = rem <= 0;
+                    const low = !full && rem <= 5;
+                    const dotCls = full
+                      ? styles.psbDRed
+                      : low
+                        ? styles.psbDOrange
+                        : styles.psbDGreen;
+                    const statusTxt = full
+                      ? "FULLY BOOKED"
+                      : low
+                        ? "LIMITED"
+                        : "AVAILABLE";
+                    const isSelected = selectedBatchId === batch._id;
+
+                    return (
+                      <div
+                        key={batch._id}
+                        className={`${styles.psbBatchCard} ${isSelected ? styles.psbBatchCardSelected : ""}`}
+                        onClick={() => setSelectedBatchId(batch._id)}
+                        role="button"
+                        tabIndex={0}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter" || e.key === " ") {
+                            setSelectedBatchId(batch._id);
+                          }
+                        }}
+                      >
+                        <div className={styles.psbBcTop}>
+                          <div className={styles.psbBcMonth}>
+                            {monthYear(batch.startDate).toUpperCase()}
+                          </div>
+                          <div className={styles.psbBcDates}>
+                            {shortDateRange(batch.startDate, batch.endDate)}
+                          </div>
+                        </div>
+
+                        <div className={styles.psbBcPrice}>
+                          <span className={styles.psbBcPriceAmt}>
+                            ${batch.dormPrice}
+                          </span>
+                          <span className={styles.psbBcPriceLbl}>USD</span>
+                        </div>
+
+                        <div className={styles.psbBcStatusBadge}>
+                          <span className={`${styles.psbBcStatusDot} ${dotCls}`} />
+                          <span className={styles.psbBcStatusText}>{statusTxt}</span>
+                        </div>
+
+                        <div className={styles.psbBcSeats}>
+                          {full ? (
+                            <span className={styles.psbBcSeatsText}>
+                              0 / {batch.totalSeats} seats left
+                            </span>
+                          ) : (
+                            <span className={styles.psbBcSeatsText}>
+                              {rem} / {batch.totalSeats} seats left
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
 
-              {(d.tableNote || batches.find((b) => b.note)) && (
-                <p className={styles.tableNote}>
-                  <strong>Note:</strong>{" "}
-                  {d.tableNote || batches.find((b) => b.note)?.note}
-                </p>
-              )}
+              {/* RIGHT PANEL: Pricing Details */}
+              <div className={styles.psbRightPanel}>
+                {selectedBatchId && batches.find((b) => b._id === selectedBatchId) ? (
+                  (() => {
+                    const selected = batches.find((b) => b._id === selectedBatchId)!;
+                    const rem = selected.totalSeats - selected.bookedSeats;
+                    const full = rem <= 0;
+                    const low = !full && rem <= 5;
+                    const pct = full
+                      ? 100
+                      : Math.round((selected.bookedSeats / selected.totalSeats) * 100);
 
-              {(d.joinBtnLabel || d.joinBtnHref) && (
-                <div className={styles.joinBtnWrapper}>
-                  <a href={d.joinBtnHref || "#"} className={styles.joinBtn}>
-                    {d.joinBtnLabel || "Join Your Yoga Journey"}
-                  </a>
-                </div>
-              )}
+                    return (
+                      <>
+                        <div className={styles.psbRpHeader}>
+                          <div className={styles.psbRpHeaderTop}>
+                            <span className={styles.psbRpTitle}>COURSE OVERVIEW</span>
+                            <span className={styles.psbRpSubtitle}>Hatha Yoga Teacher Training</span>
+                          </div>
+                          <div className={styles.psbRpDur}>
+                            <svg
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                            >
+                              <circle cx="12" cy="12" r="9" />
+                              <polyline points="12 7 12 12 15 15" />
+                            </svg>
+                            <span className={styles.psbRpDurTxt}>
+                              28 Days · Rishikesh, India
+                            </span>
+                          </div>
+                        </div>
+
+                        <div className={styles.psbRpBody}>
+                          <div className={styles.psbAccommodationSection}>
+                            <div className={styles.psbSectionLabel}>WITH ACCOMMODATION</div>
+                            <div className={styles.psbPriceRow}>
+                              <div className={styles.psbPriceCard}>
+                                <div className={styles.psbPcAmt}>
+                                  ${selected.privatePrice}
+                                  <span className={styles.psbPcCur}>USD</span>
+                                </div>
+                                <div className={styles.psbPcLbl}>Private Room</div>
+                              </div>
+                              <div className={styles.psbPriceCard}>
+                                <div className={styles.psbPcAmt}>
+                                  ${selected.twinPrice}
+                                  <span className={styles.psbPcCur}>USD</span>
+                                </div>
+                                <div className={styles.psbPcLbl}>Twin / Shared</div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className={styles.psbAccommodationSection}>
+                            <div className={styles.psbSectionLabel}>WITHOUT ACCOMMODATION</div>
+                            <div className={styles.psbPriceWide}>
+                              <div className={styles.psbPwLeft}>
+                                <span className={styles.psbPcAmt}>
+                                  ${selected.dormPrice}
+                                </span>
+                                <span className={styles.psbPcCur}>USD</span>
+                              </div>
+                              <span className={styles.psbFoodBadge}>
+                                Food Included
+                              </span>
+                            </div>
+                          </div>
+
+                          <div className={styles.psbSeatsSection}>
+                            <div className={styles.psbSeatsLabel}>SEATS AVAILABILITY</div>
+                            <div className={styles.psbSeatsInfo}>
+                              <span
+                                className={styles.psbSeatsBadge}
+                                style={{
+                                  color: full
+                                    ? "#8a2c00"
+                                    : low
+                                      ? "#c8700a"
+                                      : "#3d6000",
+                                  borderColor: full
+                                    ? "#8a2c00"
+                                    : low
+                                      ? "#c8700a"
+                                      : "#3d6000",
+                                }}
+                              >
+                                {full
+                                  ? "Fully Booked"
+                                  : `${rem} of ${selected.totalSeats} left`}
+                              </span>
+                            </div>
+                          </div>
+
+                          <div className={styles.psbSelDisplay}>
+                            <div className={styles.psbSelLabel}>SELECTED BATCH</div>
+                            <div className={styles.psbSelDate}>
+                              {shortDateRange(
+                                selected.startDate,
+                                selected.endDate
+                              )}
+                              , {monthYear(selected.startDate)}
+                            </div>
+                          </div>
+
+                          <a
+                            href={`/yoga-registration?batchId=${selected._id}&type=hatha`}
+                            className={styles.psbBookBtn}
+                          >
+                            BOOK NOW — ${selected.dormPrice} USD
+                            <svg
+                              className={styles.psbArrowIcon}
+                              viewBox="0 0 16 16"
+                              fill="none"
+                            >
+                              <path
+                                d="M3 8h10M9 4l4 4-4 4"
+                                stroke="#fff3d2"
+                                strokeWidth="1.5"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              />
+                            </svg>
+                          </a>
+
+                          {selected.note && (
+                            <p className={styles.psbNote}>
+                              <strong>Note:</strong> {selected.note}
+                            </p>
+                          )}
+                        </div>
+                      </>
+                    );
+                  })()
+                ) : (
+                  <div className={styles.psbRpEmpty}>
+                    <p className={styles.psbRpEmptyText}>
+                      ← Select a batch to view pricing details
+                    </p>
+                  </div>
+                )}
+              </div>
             </div>
           ) : (
             <p className={`${styles.paraCenter} ${styles.paraMuted}`}>
