@@ -615,7 +615,7 @@ function EnhancedIntroSection({ items }: { items: IntroItem[] }) {
 
   return (
     <section className={styles.enhancedIntroSection}>
-      <div className="container px-3 px-md-4">
+      <div className={`container px-3 px-md-4 ${styles.maxx}`}>
         <h1 className={styles.heroTitle}>500 Hour Yoga Teacher Training Course in Rishikesh</h1>
         <div className={styles.omDiv}>
           <span className={styles.divLine} />
@@ -701,7 +701,7 @@ function StandApartSection({ content }: { content: PageContent }) {
 
   return (
     <section className={`${styles.section} ${styles.sectionLight}`}>
-      <div className="container px-3 px-md-4">
+      <div className={`container px-3 px-md-4 ${styles.maxx}`}>
         <div className={styles.block}>
           {content.standApartH2 && (
             <h2
@@ -794,7 +794,7 @@ function VideoSection() {
 
   return (
     <section className={styles.videoSection}>
-      <div className="container px-3 px-md-4">
+      <div className={`container px-3 px-md-4 ${styles.maxx}`}>
         <div className={styles.videoWrapper}>
           <div className={styles.videoContainerShort}>
             <video
@@ -1176,7 +1176,7 @@ export default function YogaTTC500() {
         <EnhancedIntroSection items={content.introItems} />
       ) : (
         <section className={styles.heroSection2}>
-          <div className="container px-3 px-md-4">
+          <div className={`container px-3 px-md-4 ${styles.maxx}`}>
             {content.pageMainH1 && (
               <h1
                 className={styles.heroTitle}
@@ -1212,7 +1212,7 @@ export default function YogaTTC500() {
       {/* ACCOMMODATION SECTION */}
       {content.accomImages?.length > 0 && (
         <section className={styles.premiumGallerySection}>
-          <div className="container px-3 px-md-4">
+          <div className={`container px-3 px-md-4 ${styles.maxx}`}>
             <div className={styles.premiumGalleryHeader}>
               <span className={styles.premiumGalleryBadge}>Peaceful Stay</span>
               <h2 className={styles.premiumGalleryTitle}>Accommodation</h2>
@@ -1233,7 +1233,7 @@ export default function YogaTTC500() {
       {/* FOOD SECTION */}
       {content.foodImages?.length > 0 && (
         <section className={styles.premiumGallerySection}>
-          <div className="container px-3 px-md-4">
+          <div className={`container px-3 px-md-4 ${styles.maxx}`}>
             <div className={styles.premiumGalleryHeader}>
               <span className={styles.premiumGalleryBadge}>Nourishing Meals</span>
               <h2 className={styles.premiumGalleryTitle}>Sattvic Food</h2>
@@ -1253,7 +1253,7 @@ export default function YogaTTC500() {
 
       {/* INDIAN FEE + CREDIBILITY + DURATION */}
       <section className={`${styles.section} ${styles.sectionLight}`}>
-        <div className="container px-3 px-md-4">
+        <div className={`container px-3 px-md-4 ${styles.maxx}`}>
 
           {content.indianFees?.length > 0 && (
             <div className={styles.indianFeeBlock}>
@@ -1369,7 +1369,7 @@ export default function YogaTTC500() {
 
       {/* SYLLABUS + ELIGIBILITY + EVALUATION */}
       <section className={styles.section}>
-        <div className="container px-3 px-md-4">
+        <div className={`container px-3 px-md-4 ${styles.maxx}`}>
           <div className={styles.syllabusSection}>
             {content.syllabusH2 && (
               <div className={styles.syllabusTitleWrap}>
@@ -1488,7 +1488,7 @@ export default function YogaTTC500() {
          INCLUDE/EXCLUDE TABS SECTION - EXACTLY COPIED FROM 100hr PAGE
          ================================================================ */}
       <section className={`${styles.section} ${styles.sectionLight}`}>
-        <div className="container px-3 px-md-4">
+        <div className={`container px-3 px-md-4 ${styles.maxx}`}>
           <IncludeExcludeTabs
             includedItems={content.includedItems || []}
             notIncludedItems={content.notIncludedItems || []}
@@ -1513,7 +1513,7 @@ export default function YogaTTC500() {
 
       {/* STUDENT REVIEWS + REFUND + HOW TO APPLY */}
       {/* <section className={styles.section}>
-        <div className="container px-3 px-md-4">
+        <div className={`container px-3 px-md-4 ${styles.maxx}`}>
           {content.reviewsSectionH2 && (
             <>
               <h2

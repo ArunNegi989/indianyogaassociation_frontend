@@ -552,7 +552,7 @@ export default function BestYogaSchool() {
     SECTION 1 — INTRO + ACCREDITATIONS (ENHANCED WITH MULTIPLE MEDIA)
 ═════════════════════════════════════════ */}
 <section className={`${styles.section} ${styles.sectionLight}`}>
-  <div className="container px-3 px-md-4">
+  <div className={`container px-3 px-md-4 ${styles.maxx}`}>
     {data.heroTitle && (
       <h1 className={styles.heroTitle}>{data.heroTitle}</h1>
     )}
@@ -735,7 +735,7 @@ export default function BestYogaSchool() {
       ══════════════════════════════════════ */}
       {data.courseCards?.length > 0 && (
         <section className={`${styles.sectionEnhanced} ${styles.sectionWarmEnhanced}`}>
-          <div className="container px-3 px-md-4">
+          <div className={`container px-3 px-md-4 ${styles.maxx}`}>
             <div className={styles.sectionHeaderEnhanced}>
               <div className={styles.sectionHeaderOrnament}>
                 <span className={styles.ornamentLine} />
@@ -774,7 +774,7 @@ export default function BestYogaSchool() {
       ══════════════════════════════════════ */}
      {data.specialtyCourses?.length > 0 && (
   <section className={`${styles.section} ${styles.sectionDeep}`}>
-    <div className="container px-3 px-md-4">
+    <div className={`container px-3 px-md-4 ${styles.maxx}`}>
       {data.specialtySectionTitle && (
         <>
           {/* <p className={styles.secEyebrow}>Beyond the Mat</p> */}

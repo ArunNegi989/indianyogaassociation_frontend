@@ -373,7 +373,7 @@ function EnhancedIntroSection({ items, paragraphs }: { items?: IntroItem[]; para
 
   return (
     <div className={styles.enhancedIntroSection}>
-      <div className="container px-3 px-md-4">
+      <div className={`container px-3 px-md-4 ${styles.maxx}`}>
         {hasItems ? (
           <div className={styles.introItemsWrapper}>
             {displayItems.map((item, index) => {
@@ -1054,7 +1054,7 @@ export default function KundaliniYogaTTC() {
       <CourseInfoCard seats={seats} currency={currency} rate={rate} />
       {/* SECTION 2 — WHAT IS KUNDALINI YOGA */}
       <section className={`${styles.section} ${styles.sectionWarm}`}>
-        <div className="container px-3 px-md-4">
+        <div className={`container px-3 px-md-4 ${styles.maxx}`}>
           <div className={styles.vintageCard}>
             <span className={styles.cardCorner}>✦</span>
             <h2 className={styles.sectionTitleCenter}>{content.whatIsTitle}</h2>
@@ -1069,7 +1069,7 @@ export default function KundaliniYogaTTC() {
 
       {/* SECTION 3 — ACTIVATE KUNDALINI */}
       <section className={`${styles.section} ${styles.sectionLight}`}>
-        <div className="container px-3 px-md-4">
+        <div className={`container px-3 px-md-4 ${styles.maxx}`}>
           <div className={styles.sectionChakra} aria-hidden="true">
             <ChakraSVG size={120} color="rgba(224,123,0,0.08)" />
           </div>
@@ -1165,7 +1165,7 @@ export default function KundaliniYogaTTC() {
 
       {/* SECTION 4 — SYLLABUS ACCORDION */}
       <section className={`${styles.section} ${styles.sectionWarm}`}>
-        <div className="container px-3 px-md-4">
+        <div className={`container px-3 px-md-4 ${styles.maxx}`}>
           <div className={styles.syllabusWrap}>
             <div className={styles.syllabusHeader}>
               <div className={styles.sylHeaderBg} aria-hidden="true" />
@@ -1218,7 +1218,7 @@ export default function KundaliniYogaTTC() {
 
       {/* SECTION 5 — ELIGIBILITY + LOCATION + FACILITIES */}
       <section className={`${styles.section} ${styles.sectionLight}`}>
-        <div className="container px-3 px-md-4">
+        <div className={`container px-3 px-md-4 ${styles.maxx}`}>
           {/* Eligibility Block */}
           <div className={styles.eligibilityBlock}>
             <div className={styles.eligImgPanel}>
@@ -1330,7 +1330,7 @@ export default function KundaliniYogaTTC() {
            
            <section className={`${styles.section} ${styles.schedSection}`}>
         <div className={styles.schedBgTexture} aria-hidden="true" />
-        <div className="container px-3 px-md-4">
+        <div className={`container px-3 px-md-4 ${styles.maxx}`}>
           <div className={styles.schedHeaderWrap}>
             <div className={styles.secTagline}>24-DAY RESIDENTIAL PROGRAM</div>
             <h2 className={styles.sectionTitleCenter}>{content.scheduleSectionTitle}</h2>
@@ -1413,7 +1413,7 @@ export default function KundaliniYogaTTC() {
 
       {/* SECTION 7 — WHY CHOOSE AYM */}
       <section className={`${styles.section} ${styles.whySection}`}>
-        <div className="container px-3 px-md-4">
+        <div className={`container px-3 px-md-4 ${styles.maxx}`}>
           <div className={styles.whyHeroBanner}>
             <img src="https://images.pexels.com/photos/1371360/pexels-photo-1371360.jpeg?auto=compress&cs=tinysrgb&w=1400" alt="AYM Yoga School" className={styles.whyHeroBannerImg} loading="lazy" />
             <div className={styles.whyHeroBannerOverlay} />
@@ -1490,7 +1490,7 @@ export default function KundaliniYogaTTC() {
       {/* SECTION 9 — WHY CHOOSE RISHIKESH + REFUND */}
      {/* SECTION 9 — WHY CHOOSE RISHIKESH + REFUND */}
 <section className={`${styles.section} ${styles.sectionLight} ${styles.sec9Wrap}`}>
-  <div className="container px-3 px-md-4">
+  <div className={`container px-3 px-md-4 ${styles.maxx}`}>
 
     {/* ── WHY RISHIKESH ── */}
     <div className={styles.whyRishikeshBlock}>

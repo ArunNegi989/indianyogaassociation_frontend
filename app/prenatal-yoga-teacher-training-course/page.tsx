@@ -837,7 +837,7 @@ export default function PregnancyYogaTTC() {
           SECTION 1 — INTRO + HERO GRID IMAGES
       ══════════════════════════════════════ */}
       <section className={`${styles.section} ${styles.sectionLight}`}>
-        <div className="container px-3 px-md-4">
+        <div className={`container px-3 px-md-4 ${styles.maxx}`}>
           {/* Page Title */}
           {pageData.pageTitleH1 && (
             <div className={styles.s1TitleRow}>
@@ -912,7 +912,7 @@ export default function PregnancyYogaTTC() {
           SECTION 2 — FEATURES + LOCATION + SCHEDULE
       ══════════════════════════════════════ */}
       <section className={`${styles.section} ${styles.sectionWarm}`}>
-        <div className="container px-3 px-md-4">
+        <div className={`container px-3 px-md-4 ${styles.maxx}`}>
           {/* ── Features Header ── */}
           {pageData.featuresSectionTitle && (
             <h2 className={styles.sectionTitle}>{pageData.featuresSectionTitle}</h2>
