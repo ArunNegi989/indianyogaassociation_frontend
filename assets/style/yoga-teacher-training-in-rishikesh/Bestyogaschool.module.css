@@ -134,6 +134,9 @@
     transform: translateX(-50%) scale(1.07);
   }
 }
+.maxx{
+  max-width: 1460px !important;
+}
 
 /* ────────────────────────────────────────
    SECTIONS

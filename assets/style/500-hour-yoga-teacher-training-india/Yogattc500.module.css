@@ -2841,6 +2841,10 @@
    PREMIUM MASONRY GRID
    ================================================================ */
 
+.maxx{
+  max-width:1460px !important;
+}
+
 .premiumGallerySection {
   position: relative;
   padding: 7px 0;

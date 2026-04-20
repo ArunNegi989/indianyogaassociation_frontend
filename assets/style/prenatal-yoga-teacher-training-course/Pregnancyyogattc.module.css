@@ -53,6 +53,10 @@
   color: var(--ink);
 }
 
+.maxx{
+  max-width: 1460px !important;
+}
+
 .page::before {
   content: '';
   position: fixed;
