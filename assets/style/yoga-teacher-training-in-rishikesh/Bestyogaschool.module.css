@@ -135,40 +135,6 @@
   }
 }
 
-@keyframes floatUp {
-
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-
-  50% {
-    transform: translateY(-9px);
-  }
-}
-
-@keyframes shimmer {
-  0% {
-    background-position: -200% center;
-  }
-
-  100% {
-    background-position: 200% center;
-  }
-}
-
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(26px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 /* ────────────────────────────────────────
    SECTIONS
 ──────────────────────────────────────── */
@@ -176,6 +142,7 @@
   padding: clamp(2.5rem, 6vw, 5rem) 0;
   position: relative;
   z-index: 1;
+  background: white;
 }
 
 .section::before {
@@ -189,15 +156,7 @@
 }
 
 .sectionLight {
-  background: var(--parch-lt);
-}
-
-.sectionWarm {
-  background: linear-gradient(135deg, #f8f4e8 0%, var(--parch) 50%, #fffbf4 100%);
-}
-
-.sectionDeep {
-  background: linear-gradient(135deg, #f8f4e8 0%, var(--parch) 50%, #fffbf4 100%);
+  background: white;
 }
 
 /* ────────────────────────────────────────
@@ -242,32 +201,11 @@
   margin-bottom: .4rem;
 }
 
-.sectionTitleCenter {
-  font-family: 'Cinzel', serif;
-  font-size: clamp(.92rem, 2vw, 1.3rem);
-  font-weight: 700;
-  color: var(--saffron);
-  text-align: center;
-  letter-spacing: .05em;
-  margin-bottom: .35rem;
-  line-height: 1.3;
-}
-
 .bodyPara {
   font-size: clamp(.9rem, 1.48vw, 1.04rem);
   line-height: 1.94;
   color: var(--ink);
   margin-bottom: 1rem;
-}
-
-.inlineLink {
-  color: var(--saffron);
-  text-decoration: underline;
-  font-weight: 600;
-}
-
-.inlineLink:hover {
-  color: var(--saffron-dk);
 }
 
 /* ────────────────────────────────────────
@@ -277,24 +215,58 @@
   margin: 2.5rem 0 2rem;
 }
 
+.accrHead {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.accrHeadLine {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, var(--saffron), var(--gold), transparent);
+}
+
+.accrHeadLineRev {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(270deg, var(--saffron), var(--gold), transparent);
+}
+
+.accrHeadInner {
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.accrEyebrow {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(.52rem, .85vw, .62rem);
+  font-weight: 700;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: .28rem;
+}
+
 .accrTitle {
   font-family: 'Cinzel', serif;
   font-size: clamp(.9rem, 1.9vw, 1.2rem);
   font-weight: 700;
   color: var(--saffron);
   letter-spacing: .04em;
-  margin-bottom: .4rem;
+  line-height: 1.2;
+  margin: 0;
 }
 
-.accrUnderline {
-  width: 55px;
-  height: 2.5px;
-  background: linear-gradient(90deg, var(--saffron), var(--gold));
-  border-radius: 2px;
-  margin-bottom: 1.6rem;
+.accrTagline {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: clamp(.8rem, 1.2vw, .9rem);
+  color: var(--ink-lt);
+  margin-top: .25rem;
 }
 
-/* 4-column certificate grid */
 .certGrid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -305,13 +277,11 @@
 .certCard {
   background: rgba(255, 253, 248, .92);
   border: 1px solid var(--border);
-  border-top: 3px solid var(--saffron);
   border-radius: 6px;
   padding: .85rem .75rem 1rem;
   text-align: center;
   box-shadow: 0 4px 18px var(--shadow);
   transition: transform .22s, box-shadow .22s;
-  position: relative;
 }
 
 .certCard:hover {
@@ -334,16 +304,13 @@
   height: 100%;
   object-fit: cover;
   display: block;
-  filter: sepia(.25) saturate(.9);
-  transition: transform .4s, filter .3s;
+  transition: transform .4s;
 }
 
 .certCard:hover .certImg {
   transform: scale(1.06);
-  filter: sepia(.1) saturate(1.1);
 }
 
-/* Ribbon badge overlay */
 .certBadge {
   position: absolute;
   top: 10px;
@@ -359,397 +326,2012 @@
   box-shadow: 0 2px 8px var(--glow);
 }
 
-.certLabel {
+.certOrg {
+  position: absolute;
+  bottom: 8px;
+  left: 0;
+  right: 0;
+  text-align: center;
   font-family: 'Cinzel', serif;
-  font-size: clamp(.65rem, 1vw, .76rem);
+  font-size: clamp(.48rem, .8vw, .58rem);
   font-weight: 600;
-  color: var(--ink-md);
-  line-height: 1.35;
-  margin: 0;
-  letter-spacing: .03em;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.82);
 }
 
-/* ────────────────────────────────────────
-   COURSE CARDS  (alternating image/text)
-──────────────────────────────────────── */
-.courseCard {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: clamp(1.2rem, 3vw, 2.5rem);
+.certBody {
+  padding: .75rem .8rem .9rem;
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  margin-bottom: clamp(2rem, 5vw, 4rem);
-  background: rgba(255, 253, 248, .88);
-  border: 1px solid var(--border);
-  border-radius: 8px;
+  gap: .38rem;
+  border-top: 2px solid var(--border-lt);
+}
+
+.certIconRing {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(212,160,23,.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(212,160,23,.08);
+  color: var(--gold);
+}
+
+.certIconRing svg {
+  width: 18px;
+  height: 18px;
+}
+
+.certLabel {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(.6rem, .9vw, .7rem);
+  font-weight: 600;
+  color: var(--ink-md);
+  line-height: 1.4;
+  text-align: center;
+  letter-spacing: .03em;
+  margin: 0;
+}
+
+.certDots {
+  display: flex;
+  gap: 3px;
+}
+
+.certDot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--gold);
+  opacity: .5;
+}
+
+.certDot:nth-child(2) { opacity: .85; }
+
+/* ════════════════════════════════════════
+   COURSE INFO CARD
+════════════════════════════════════════ */
+.icWrap {
+  position: relative;
+  z-index: 10;
+  width: 90%;
+  max-width: 1100px;
+  margin: -60px auto 0;
+  padding: 0;
+}
+
+.icCard {
+  display: grid;
+  grid-template-columns: 1fr auto 300px;
+  align-items: stretch;
+  background: #ffffff;
+  border-top: 3px solid var(--saffron);
+  border-radius: 10px;
+  box-shadow: 0 8px 40px rgba(247, 216, 186, 0.22), 0 2px 12px rgba(244, 220, 193, 0.14);
   overflow: hidden;
-  box-shadow: 0 6px 28px var(--shadow);
-  transition: box-shadow .25s;
+}
+
+.icLeft {
+  padding: 0;
+}
+
+.icHdr {
+  background: linear-gradient(135deg, #f15505 0%, #f15505 100%);
+  padding: 0.85rem 1.6rem;
+  display: inline-flex;
+  align-items: center;
+  border-bottom-right-radius: 30px;
+}
+
+.icHdrTxt {
+  font-family: 'Cinzel', serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: #ffffff;
+  text-transform: uppercase;
+}
+
+.icGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  padding: 1rem 1.2rem 1.1rem;
+}
+
+.icItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  padding: 0.7rem 0.8rem;
+  border-right: 1px solid rgba(200, 112, 10, 0.12);
+  border-bottom: 1px solid rgba(200, 112, 10, 0.12);
+}
+
+.icItem:nth-child(3n) {
+  border-right: none;
+}
+
+.icItem:nth-last-child(-n+3) {
+  border-bottom: none;
+}
+
+.icIcon {
+  width: 38px;
+  height: 38px;
+  border: 1.5px solid rgba(200, 112, 10, 0.35);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--saffron);
+  padding: 8px;
+  background: rgba(200, 112, 10, 0.05);
+}
+
+.icIcon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.icBody {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.icLbl {
+  font-family: 'Cinzel', serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--saffron);
+  line-height: 1.3;
+}
+
+.icVal {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(0.88rem, 1.3vw, 1rem);
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.3;
+}
+
+.icSub {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.75rem;
+  color: var(--ink-lt);
+  line-height: 1.3;
+}
+
+.icVDiv {
+  width: 1px;
+  background: linear-gradient(to bottom, transparent 5%, rgba(200, 112, 10, 0.25) 25%, rgba(200, 112, 10, 0.25) 75%, transparent 95%);
+  margin: 0;
+  flex-shrink: 0;
+}
+
+.icRight {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 1.4rem 1.6rem;
+  background: linear-gradient(150deg, #fff8f0 0%, #fef0e0 100%);
+  gap: 0.55rem;
+  min-width: 240px;
+}
+
+.icFeeTop {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.icFeeLbl {
+  font-family: 'Cinzel', serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--saffron);
+}
+
+.icFeeFrom {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.85rem;
+  color: var(--ink-lt);
+}
+
+.icPriceRow {
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  line-height: 1;
+}
+
+.icPriceOld {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem;
+  color: #a09080;
+  text-decoration: line-through;
+  text-decoration-color: rgba(139, 58, 0, 0.6);
+  text-decoration-thickness: 1.5px;
+}
+
+.icPriceNew {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.5rem, 3.5vw, 2rem);
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+  line-height: 1;
+}
+
+.icPriceCur {
+  font-family: 'Cinzel', serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--ink-lt);
+  letter-spacing: 0.08em;
+  margin-bottom: 2px;
+}
+
+.icBookBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  background: linear-gradient(135deg, var(--saffron) 0%, #a85800 100%);
+  color: #ffffff;
+  font-family: 'Cinzel', serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 0.75rem 1.2rem;
+  border-radius: 3px;
+  text-decoration: none;
+  transition: opacity 0.18s, transform 0.15s, box-shadow 0.18s;
+  box-shadow: 0 4px 16px rgba(200, 112, 10, 0.35);
+  justify-content: center;
+  margin-top: 0.2rem;
+}
+
+.icBookBtn:hover {
+  opacity: 0.92;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 22px rgba(200, 112, 10, 0.45);
+}
+
+.icBtnArrow {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+/* ════════════════════════════════════════
+   ENHANCED SECTION STYLES
+════════════════════════════════════════ */
+
+.sectionEnhanced {
+  padding: clamp(3rem, 8vw, 6rem) 0;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.sectionWarmEnhanced {
+  background: white;
   position: relative;
 }
 
-.courseCard::before {
+.sectionWarmEnhanced::before {
   content: '';
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, var(--saffron), var(--gold), var(--saffron));
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--saffron), var(--gold), var(--saffron), transparent);
 }
 
-.courseCard:hover {
-  box-shadow: 0 12px 38px var(--shadow-md);
+/* Section Header */
+.sectionHeaderEnhanced {
+  text-align: center;
+  margin-bottom: 3rem;
 }
 
-/* Reversed: text first (grid order) */
-.courseCardRev {}
-
-.courseCardRev .courseImgWrap {
-  order: 2;
+.sectionHeaderOrnament {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  margin-bottom: 1rem;
 }
 
-.courseCardRev .courseBody {
-  order: 1;
+.ornamentLine {
+  width: 60px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--saffron), transparent);
 }
 
-/* Image side */
-.courseImgWrap {
+.ornamentDot {
+  width: 6px;
+  height: 6px;
+  background: var(--saffron);
+  border-radius: 50%;
+}
+
+.sectionEyebrowEnhanced {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(0.6rem, 1vw, 0.7rem);
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.5rem;
+}
+
+.sectionTitleEnhanced {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+  font-weight: 700;
+  color: var(--saffron);
+  letter-spacing: 0.03em;
+  margin-bottom: 0.5rem;
+  line-height: 1.3;
+}
+
+.sectionUnderlineEnhanced {
+  display: flex;
+  justify-content: center;
+  margin: 0.8rem 0 1rem;
+}
+
+.sectionUnderlineEnhanced svg {
+  width: clamp(120px, 20vw, 180px);
+  height: 8px;
+}
+
+.sectionSubtitleEnhanced {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(0.9rem, 1.3vw, 1rem);
+  color: var(--ink-lt);
+  max-width: 600px;
+  margin: 0 auto;
+  font-style: italic;
+}
+
+/* Enhanced Course Card */
+.courseCardEnhanced {
+  background: #ffffff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 30px rgba(42, 21, 5, 0.08);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  margin-bottom: 2rem;
+}
+
+.courseCardEnhanced:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(241, 85, 5, 0.12);
+}
+
+.courseCardInner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+}
+
+.courseCardRevEnhanced .courseCardInner {
+  direction: rtl;
+}
+
+.courseCardRevEnhanced .courseCardInner > * {
+  direction: ltr;
+}
+
+.courseMedia {
   position: relative;
-  height: clamp(240px, 32vw, 480px);
+  overflow: hidden;
+  min-height: 380px;
+}
+
+.courseImgWrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
   overflow: hidden;
 }
 
-.courseImg {
+.courseImgEnhanced {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  display: block;
-  transition: transform .55s ease;
+  transition: transform 0.6s ease;
 }
 
-.courseCard:hover .courseImg {
-  transform: scale(1.05);
+.courseCardEnhanced:hover .courseImgEnhanced {
+  transform: scale(1.08);
 }
 
-.courseImgOverlay {
+.courseImgOverlayEnhanced {
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(42, 21, 5, .2) 0%, transparent 60%);
+  background: linear-gradient(135deg, rgba(42, 21, 5, 0.3) 0%, transparent 60%);
   pointer-events: none;
 }
 
-/* Text side */
-.courseBody {
-  padding: clamp(1.4rem, 3vw, 2.2rem);
+.courseImgNumber {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  font-family: 'Cinzel', serif;
+  font-size: 4rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.12);
+  line-height: 1;
+  pointer-events: none;
 }
 
-.courseTitle {
+.courseDurationBadge {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(8px);
+  padding: 6px 12px;
+  border-radius: 30px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: #fff;
+}
+
+.courseDurationBadge svg {
+  width: 14px;
+  height: 14px;
+}
+
+.courseContent {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  background: linear-gradient(135deg, #fffdf8, #ffffff);
+}
+
+.courseTagEnhanced {
+  display: inline-block;
+  width: fit-content;
+  background: linear-gradient(135deg, var(--saffron), var(--gold));
+  color: #fff;
+  font-family: 'Cinzel', serif;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 20px;
+}
+
+.courseTitleEnhanced {
   font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(1rem, 2vw, 1.4rem);
-  font-weight: 600;
-  font-style: italic;
+  font-size: clamp(1.1rem, 2vw, 1.5rem);
+  font-weight: 700;
   color: var(--saffron);
-  margin-bottom: .3rem;
-  line-height: 1.25;
+  margin-bottom: 0;
+  line-height: 1.3;
 }
 
-.courseTitleLine {
+.courseTitleLineEnhanced {
   width: 50px;
   height: 2px;
   background: linear-gradient(90deg, var(--saffron), var(--gold));
   border-radius: 2px;
-  margin-bottom: 1rem;
 }
 
-.courseMeta {
-  margin: .8rem 0 1.1rem;
-  padding: .75rem .95rem;
-  background: rgba(245, 232, 195, .45);
-  border-left: 3px solid var(--gold);
-  border-radius: 0 4px 4px 0;
+.courseDescriptionEnhanced {
+  font-family: 'Lato', Arial, sans-serif;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--ink);
+  margin: 0.5rem 0;
 }
 
-.metaRow {
-  font-size: clamp(.85rem, 1.35vw, .96rem);
-  line-height: 1.6;
+.courseSpecsGrid {
+  display: flex;
+  gap: 1rem;
+  margin: 0.5rem 0;
+}
+
+.courseSpecItem {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.6rem 1rem;
+  background: rgba(241, 85, 5, 0.05);
+  border-radius: 10px;
+  border-left: 3px solid var(--saffron);
+}
+
+.courseSpecIcon {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(241, 85, 5, 0.1);
+  border-radius: 50%;
+  color: var(--saffron);
+}
+
+.courseSpecIcon svg {
+  width: 16px;
+  height: 16px;
+}
+
+.courseSpecLabel {
+  font-family: 'Cinzel', serif;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold);
+  display: block;
+}
+
+.courseSpecValue {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.9rem;
+  font-weight: 600;
   color: var(--ink);
   margin: 0;
 }
 
-.metaRow+.metaRow {
-  margin-top: .25rem;
-}
-
-.metaLabel {
-  font-weight: 700;
-  color: var(--ink-md);
-}
-
-/* Action buttons */
-.courseBtns {
+.courseActions {
   display: flex;
-  flex-wrap: wrap;
-  gap: .65rem;
-  margin-top: 1rem;
+  gap: 1rem;
+  margin-top: 0.5rem;
 }
 
-.btnOrange {
-  display: inline-block;
-  font-family: 'Cinzel', serif;
-  font-size: clamp(.62rem, 1.05vw, .78rem);
-  font-weight: 700;
-  letter-spacing: .1em;
-  text-transform: uppercase;
-  text-decoration: none;
-  color: #fff;
+.btnPrimaryEnhanced {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   background: linear-gradient(135deg, var(--saffron), var(--saffron-dk));
-  padding: .48rem 1.2rem;
-  border-radius: 3px;
-  box-shadow: 0 3px 14px var(--glow);
-  transition: transform .2s, box-shadow .2s, background-position .3s;
-  background-size: 200% auto;
-}
-
-.btnOrange:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 7px 20px var(--glow);
   color: #fff;
-  background-position: right center;
+  font-family: 'Cinzel', serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.7rem 1.5rem;
+  border-radius: 40px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(241, 85, 5, 0.3);
 }
 
-.btnOutline {
-  display: inline-block;
-  font-family: 'Cinzel', serif;
-  font-size: clamp(.62rem, 1.05vw, .78rem);
-  font-weight: 700;
-  letter-spacing: .1em;
-  text-transform: uppercase;
-  text-decoration: none;
-  color: var(--saffron);
+.btnPrimaryEnhanced:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(241, 85, 5, 0.4);
+  color: #fff;
+}
+
+.btnPrimaryEnhanced svg {
+  width: 14px;
+  height: 14px;
+}
+
+.btnSecondaryEnhanced {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   background: transparent;
   border: 1.5px solid var(--saffron);
-  padding: .46rem 1.2rem;
-  border-radius: 3px;
-  transition: background .2s, color .2s, transform .2s, box-shadow .2s;
+  color: var(--saffron);
+  font-family: 'Cinzel', serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.68rem 1.5rem;
+  border-radius: 40px;
+  text-decoration: none;
+  transition: all 0.3s ease;
 }
 
-.btnOutline:hover {
+.btnSecondaryEnhanced:hover {
   background: var(--saffron);
   color: #fff;
   transform: translateY(-2px);
-  box-shadow: 0 7px 20px var(--glow);
+}
+
+.btnSecondaryEnhanced svg {
+  width: 14px;
+  height: 14px;
+}
+
+.coursesGridEnhanced {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* ════════════════════════════════════════
+   SPECIALTY COURSES SECTION - REDESIGNED
+════════════════════════════════════════ */
+
+.specialtySection {
+  padding: clamp(3rem, 8vw, 5rem) 0;
+  background: linear-gradient(135deg, #1a0e05 0%, #2a1a0a 50%, #1a0e05 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.specialtySection::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), var(--saffron), var(--gold), transparent);
+}
+
+.specialtySection::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), var(--saffron), var(--gold), transparent);
+}
+
+.specialtySectionHeader {
+  text-align: center;
+  margin-bottom: 3rem;
+  position: relative;
+}
+
+.specialtyHeaderOrnament {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.specialtyHeaderOrnament svg {
+  width: 60px;
+  height: 60px;
+  animation: specialtyOrnamentRotate 20s linear infinite;
+}
+
+@keyframes specialtyOrnamentRotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.specialtyEyebrow {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(0.6rem, 1vw, 0.7rem);
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.5rem;
+}
+
+.specialtyTitle {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+  font-weight: 700;
+  color: #fff3d2;
+  letter-spacing: 0.03em;
+  margin-bottom: 0.8rem;
+  line-height: 1.3;
+}
+
+.specialtyUnderline {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  margin: 0.8rem auto 1rem;
+  max-width: 300px;
+}
+
+.specialtyUnderlineLeft,
+.specialtyUnderlineRight {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), var(--saffron));
+}
+
+.specialtyUnderlineRight {
+  background: linear-gradient(270deg, transparent, var(--gold), var(--saffron));
+}
+
+.specialtyUnderlineCenter {
+  color: var(--gold);
+  font-size: 0.7rem;
+}
+
+.specialtySubtitle {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(0.9rem, 1.3vw, 1rem);
+  color: rgba(255, 243, 210, 0.7);
+  max-width: 600px;
+  margin: 0 auto;
+  font-style: italic;
+}
+
+.specialtyGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.specialtyCard {
+  perspective: 1000px;
+  cursor: default;
+}
+
+.specialtyCardInner {
+  background: linear-gradient(135deg, #fffdf5, #fff8e8);
+  border-radius: 20px;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(212, 160, 23, 0.2);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+}
+
+.specialtyCard:hover .specialtyCardInner {
+  transform: translateY(-8px);
+  border-color: rgba(212, 160, 23, 0.5);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.specialtyCardMedia {
+  position: relative;
+  height: 220px;
+  overflow: hidden;
+}
+
+.specialtyCardImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.specialtyCard:hover .specialtyCardImg {
+  transform: scale(1.08);
+}
+
+.specialtyCardOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(241, 85, 5, 0.3) 0%, rgba(0, 0, 0, 0.5) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.specialtyCard:hover .specialtyCardOverlay {
+  opacity: 1;
+}
+
+.specialtyCardIcon {
+  width: 60px;
+  height: 60px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: scale(0.8);
+  transition: transform 0.3s ease;
+}
+
+.specialtyCard:hover .specialtyCardIcon {
+  transform: scale(1);
+}
+
+.specialtyCardIcon svg {
+  width: 30px;
+  height: 30px;
+  color: var(--saffron);
+}
+
+.specialtyCardContent {
+  padding: 1.5rem;
+}
+
+.specialtyCardBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: linear-gradient(135deg, rgba(241, 85, 5, 0.1), rgba(212, 160, 23, 0.1));
+  border: 1px solid rgba(212, 160, 23, 0.3);
+  border-radius: 30px;
+  padding: 0.25rem 0.9rem;
+  margin-bottom: 1rem;
+  font-family: 'Cinzel', serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--saffron);
+}
+
+.specialtyBadgeIcon {
+  font-size: 0.7rem;
+  animation: specialtyBadgePulse 2s ease-in-out infinite;
+}
+
+@keyframes specialtyBadgePulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+.specialtyCardTitle {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 0.5rem;
+  line-height: 1.3;
+}
+
+.specialtyCardDivider {
+  width: 40px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--saffron), var(--gold));
+  margin-bottom: 0.8rem;
+}
+
+.specialtyCardDesc {
+  font-family: 'Lato', Arial, sans-serif;
+  font-size: 0.85rem;
+  line-height: 1.65;
+  color: var(--ink-md);
+  margin-bottom: 1rem;
+}
+
+.specialtyCardMeta {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.2rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid rgba(212, 160, 23, 0.15);
+}
+
+.specialtyMetaItem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--ink-lt);
+}
+
+.specialtyMetaItem svg {
+  width: 14px;
+  height: 14px;
+  color: var(--gold);
+}
+
+.specialtyCardActions {
+  display: flex;
+  gap: 0.8rem;
+  align-items: center;
+}
+
+.specialtyBtnOutline {
+  display: inline-flex;
+  align-items: center;
+  font-family: 'Cinzel', serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--saffron);
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border: 1.5px solid var(--saffron);
+  border-radius: 30px;
+  transition: all 0.3s ease;
+}
+
+.specialtyBtnOutline:hover {
+  background: var(--saffron);
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+.specialtyBtnPrimary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--saffron), var(--saffron-dk));
+  color: #fff;
+  font-family: 'Cinzel', serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 0.55rem 1.2rem;
+  border-radius: 30px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(241, 85, 5, 0.3);
+}
+
+.specialtyBtnPrimary svg {
+  width: 12px;
+  height: 12px;
+}
+
+.specialtyBtnPrimary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(241, 85, 5, 0.4);
+  gap: 10px;
+}
+
+/* ════════════════════════════════════════
+   SPLIT LAYOUT & MEDIA PANEL
+════════════════════════════════════════ */
+.splitLayout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(1.5rem, 3vw, 2.5rem);
+  align-items: start;
+  margin-bottom: 2.5rem;
+}
+
+.mediaPanel {
+  position: sticky;
+  top: 1.5rem;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  box-shadow: 0 8px 32px var(--shadow-md);
+}
+
+.mediaPanel::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--saffron), var(--gold), var(--saffron));
+  z-index: 2;
+}
+
+.mediaToggle {
+  display: flex;
+  position: absolute;
+  top: 14px; left: 14px;
+  z-index: 3;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,.28);
+  background: rgba(42, 21, 5, .48);
+}
+
+.mediaToggleBtn {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(.54rem, .9vw, .64rem);
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.72);
+  padding: .32rem .75rem;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  transition: background .2s, color .2s;
+}
+
+.mediaToggleBtn.active {
+  background: var(--saffron);
+  color: #fff;
+}
+
+.mediaImg {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  display: block;
+}
+
+.mediaVideo {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border: 0;
+}
+
+.mediaOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(42,21,5,.22) 0%, transparent 55%);
+  pointer-events: none;
+}
+
+.mediaCaption {
+  padding: .55rem 1rem;
+  background: linear-gradient(135deg, var(--saffron-dk), var(--ink-md));
+  font-family: 'Cinzel', serif;
+  font-size: clamp(.56rem, .9vw, .64rem);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.9);
+  text-align: center;
+}
+
+.linkGroup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .4rem;
+  margin: .75rem 0 0;
+}
+
+.linkPill {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(.56rem, .9vw, .66rem);
+  font-weight: 700;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  color: var(--saffron);
+  border: 1px solid var(--border);
+  padding: .3rem .8rem;
+  border-radius: 3px;
+  text-decoration: none;
+  background: rgba(255,253,248,.9);
+  transition: background .2s, color .2s, border-color .2s;
+}
+
+.linkPill:hover {
+  background: var(--saffron);
+  color: #fff;
+  border-color: var(--saffron);
 }
 
 /* ════════════════════════════════════════
    RESPONSIVE BREAKPOINTS
 ════════════════════════════════════════ */
 
-/* ≤ 1399px */
-@media (max-width: 1399.98px) {
-
-  .mandalaTL,
-  .mandalaBR {
-    opacity: .12;
-  }
-}
-
-/* ≤ 1199px */
 @media (max-width: 1199.98px) {
-
-  .mandalaTR,
-  .mandalaBL {
-    opacity: .06;
-  }
+  .mandalaTR, .mandalaBL { opacity: .06; }
 }
 
-/* ≤ 991px — stack course cards to single col */
 @media (max-width: 991.98px) {
-  .mandalaTL {
-    width: 200px;
-    height: 200px;
-    opacity: .1;
-  }
-
-  .mandalaBR {
-    width: 180px;
-    height: 180px;
-    opacity: .1;
-  }
-
-  .mandalaTR,
-  .mandalaBL {
-    display: none;
-  }
-
-  .certGrid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .courseCard {
-    grid-template-columns: 1fr;
-  }
-
-  /* Reset reverse on tablet */
-  .courseCardRev .courseImgWrap {
-    order: 0;
-  }
-
-  .courseCardRev .courseBody {
-    order: 0;
-  }
-
-  .courseImgWrap {
-    height: clamp(220px, 45vw, 380px);
-  }
+  .mandalaTL { width: 200px; height: 200px; opacity: .1; }
+  .mandalaBR { width: 180px; height: 180px; opacity: .1; }
+  .mandalaTR, .mandalaBL { display: none; }
+  
+  .certGrid { grid-template-columns: repeat(2, 1fr); }
+  .accrHeadLine, .accrHeadLineRev { display: none; }
+  
+  .icCard { grid-template-columns: 1fr; grid-template-rows: auto auto auto; }
+  .icVDiv { width: 100%; height: 1px; background: linear-gradient(to right, transparent 5%, rgba(200, 112, 10, 0.25) 25%, rgba(200, 112, 10, 0.25) 75%, transparent 95%); }
+  .icRight { flex-direction: row; flex-wrap: wrap; align-items: center; gap: 1rem; padding: 1.1rem 1.4rem; min-width: unset; }
+  .icBookBtn { width: auto; padding: 0.7rem 2rem; margin-top: 0; }
+  
+  .courseCardInner { grid-template-columns: 1fr; }
+  .courseCardRevEnhanced .courseCardInner { direction: ltr; }
+  .courseMedia { min-height: 300px; }
+  
+  .specialtyGrid { grid-template-columns: repeat(2, 1fr); gap: 1.2rem; }
 }
 
-/* ≤ 767px */
 @media (max-width: 767.98px) {
-
-  .mandalaTL,
-  .mandalaBR {
-    display: none;
-  }
-
-  .chakraGlow {
-    display: none;
-  }
-
-  .heroTitle {
-    font-size: clamp(.95rem, 4.5vw, 1.25rem);
-  }
-
-  .sectionTitleCenter {
-    font-size: clamp(.9rem, 4vw, 1.1rem);
-  }
-
-  .courseTitle {
-    font-size: clamp(.95rem, 4vw, 1.2rem);
-  }
-
-  .courseBody {
-    padding: 1.2rem 1rem;
-  }
-
-  .courseImgWrap {
-    height: clamp(200px, 48vw, 340px);
-  }
-
-  .certGrid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: .7rem;
-  }
+  .mandalaTL, .mandalaBR, .chakraGlow { display: none; }
+  
+  .heroTitle { font-size: clamp(.95rem, 4.5vw, 1.25rem); }
+  
+  .icWrap { width: 96%; margin-top: -60px; }
+  .icGrid { grid-template-columns: repeat(2, 1fr); }
+  .icItem:nth-child(3n) { border-right: 1px solid rgba(200, 112, 10, 0.12); }
+  .icItem:nth-child(2n) { border-right: none; }
+  .icItem:nth-last-child(-n+3) { border-bottom: 1px solid rgba(200, 112, 10, 0.12); }
+  .icItem:nth-last-child(-n+2) { border-bottom: none; }
+  
+  .courseMedia { min-height: 280px; }
+  .courseContent { padding: 1.5rem; }
+  .courseActions { flex-direction: column; }
+  .btnPrimaryEnhanced, .btnSecondaryEnhanced { justify-content: center; }
+  
+  .specialtyGrid { grid-template-columns: 1fr; max-width: 450px; margin: 0 auto; }
+  .specialtyCardMedia { height: 200px; }
+  .specialtyCardContent { padding: 1.2rem; }
+  .specialtyCardActions { flex-direction: column; }
+  .specialtyBtnOutline, .specialtyBtnPrimary { width: 100%; justify-content: center; }
+  
+  .splitLayout { grid-template-columns: 1fr; }
+  .mediaPanel { position: relative; top: 0; }
 }
 
-/* ≤ 575px */
 @media (max-width: 575.98px) {
-  .heroTitle {
-    font-size: clamp(.9rem, 5vw, 1.15rem);
-  }
+  .heroTitle { font-size: clamp(.9rem, 5vw, 1.15rem); }
+  .omGlyph { font-size: 1.3rem; }
+  .bodyPara { font-size: .88rem; line-height: 1.85; }
+  
+  .certGrid { grid-template-columns: repeat(2, 1fr); gap: .55rem; }
+  .certLabel { font-size: .62rem; }
+  .certBadge { font-size: .55rem; padding: .22rem .42rem; }
+  
+  .icWrap { margin-top: -44px; }
+  .icCard { border-radius: 6px; }
+  .icGrid { grid-template-columns: repeat(2, 1fr); }
+  
+  .courseMedia { min-height: 240px; }
+  .courseTitleEnhanced { font-size: 1rem; }
+  .courseDescriptionEnhanced { font-size: 0.85rem; }
+  .courseImgNumber { font-size: 2.5rem; bottom: 12px; left: 12px; }
+  .courseDurationBadge { top: 12px; right: 12px; padding: 4px 10px; font-size: 0.6rem; }
+  .courseTagEnhanced { font-size: 0.55rem; }
+  
+  .specialtySection { padding: 2rem 0; }
+  .specialtyCardMedia { height: 180px; }
+  .specialtyCardMeta { flex-wrap: wrap; gap: 0.5rem; }
+  .specialtyBtnOutline, .specialtyBtnPrimary { font-size: 0.6rem; padding: 0.45rem 0.8rem; }
+}
 
-  .omGlyph {
-    font-size: 1.3rem;
-  }
+@media (max-width: 480px) {
+  .icWrap { margin-top: -35px; }
+  .icGrid { grid-template-columns: 1fr 1fr; }
+  .icItem { padding: 0.55rem; gap: 0.45rem; }
+  .icLbl { font-size: 0.52rem; }
+  .icVal { font-size: 0.82rem; }
+  .icSub { font-size: 0.68rem; }
+  .icPriceNew { font-size: 1.5rem; }
+  .icPriceOld { font-size: 0.9rem; }
+  .icRight { padding: 1rem; gap: 0.7rem; }
+}
 
-  .bodyPara {
-    font-size: .88rem;
-    line-height: 1.85;
-  }
+@media (max-width: 399.98px) {
+  .icWrap { margin-top: -30px; }
+  .icItem { padding: 0.45rem; gap: 0.35rem; }
+  .icIcon { width: 28px; height: 28px; padding: 5px; }
+  .icLbl { font-size: 0.48rem; }
+  .icVal { font-size: 0.78rem; }
+  .icPriceNew { font-size: 1.3rem; }
+}
 
-  .certGrid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: .55rem;
-  }
+@media (max-width: 360px) {
+  .icWrap { margin-top: -22px; }
+  .icItem { padding: 0.38rem; gap: 0.28rem; }
+  .icIcon { width: 24px; height: 24px; padding: 4px; }
+  .icLbl { font-size: 0.44rem; }
+  .icVal { font-size: 0.72rem; }
+  .icPriceNew { font-size: 1.2rem; }
+  .icHdr { padding: 0.65rem 1rem; }
+  .icHdrTxt { font-size: 0.58rem; }
+}
 
-  .certLabel {
-    font-size: .62rem;
+@media (prefers-reduced-motion: reduce) {
+  .mandalaTL, .mandalaBR, .mandalaTR, .mandalaBL, .chakraGlow,
+  .specialtyHeaderOrnament svg,
+  .courseCardEnhanced, .courseImgEnhanced,
+  .btnPrimaryEnhanced, .btnSecondaryEnhanced,
+  .specialtyCardInner, .specialtyCardImg, .specialtyCardOverlay, .specialtyCardIcon,
+  .specialtyBtnOutline, .specialtyBtnPrimary {
+    animation: none;
+    transition: none;
   }
-
-  .certBadge {
-    font-size: .55rem;
-    padding: .22rem .42rem;
-  }
-
-  .courseCard {
-    border-radius: 6px;
-  }
-
-  .courseCard::before {
-    height: 2.5px;
-  }
-
-  .courseImgWrap {
-    height: clamp(185px, 52vw, 290px);
-  }
-
-  .courseBody {
-    padding: 1rem .85rem;
-  }
-
-  .courseTitle {
-    font-size: .95rem;
-  }
-
-  .metaRow {
-    font-size: .83rem;
-  }
-
-  .courseMeta {
-    padding: .6rem .75rem;
-  }
-
-  .btnOrange,
-  .btnOutline {
-    font-size: .6rem;
-    padding: .42rem .95rem;
-  }
-
-  .courseBtns {
-    gap: .5rem;
-  }
-
-  .accrTitle {
-    font-size: .9rem;
+  .courseCardEnhanced:hover, .specialtyCard:hover .specialtyCardInner,
+  .specialtyCard:hover .specialtyCardImg, .specialtyCard:hover .specialtyCardOverlay {
+    transform: none;
   }
 }
 
-/* ≤ 399px */
-@media (max-width: 399.98px) {
-  .heroTitle {
-    font-size: .88rem;
-  }
+/* ════════════════════════════════════════
+   SPECIALTY COURSE CARDS — ENHANCED
+════════════════════════════════════════ */
 
-  .certGrid {
+.scList {
+  display: flex;
+  flex-direction: column;
+}
+
+.scCard {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  border-radius: 14px;
+  overflow: hidden;
+  background: rgba(255, 253, 245, 0.06);
+  border: 1px solid rgba(212, 160, 23, 0.22);
+  margin-bottom: 0;
+  position: relative;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.scCard::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--saffron), var(--gold), var(--saffron));
+}
+
+.scCard:hover {
+  border-color: rgba(212, 160, 23, 0.45);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+}
+
+.scCardRev .scImgSide { order: 2; }
+.scCardRev .scBody    { order: 1; }
+
+.scImgSide {
+  position: relative;
+  overflow: hidden;
+  min-height: 360px;
+}
+
+.scImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: brightness(0.88) sepia(0.1);
+  transition: transform 0.6s ease, filter 0.4s ease;
+}
+
+.scCard:hover .scImg {
+  transform: scale(1.06);
+  filter: brightness(0.95) sepia(0.05);
+}
+
+.scImgPh {
+  width: 100%;
+  height: 100%;
+  min-height: 360px;
+  background: linear-gradient(145deg, #2a1a0a, #1a0e05);
+}
+
+.scImgOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(145deg, rgba(241, 85, 5, 0.22) 0%, rgba(0,0,0,0.35) 100%);
+  pointer-events: none;
+}
+
+.scCardRev .scImgOverlay {
+  background: linear-gradient(215deg, rgba(241, 85, 5, 0.22) 0%, rgba(0,0,0,0.35) 100%);
+}
+
+.scChip {
+  position: absolute;
+  bottom: 18px;
+  left: 18px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(0, 0, 0, 0.55);
+  border: 1px solid rgba(212, 160, 23, 0.4);
+  color: rgba(255, 243, 210, 0.92);
+  font-family: 'Cinzel', serif;
+  font-size: clamp(0.44rem, 0.75vw, 0.54rem);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 0.32rem 0.75rem;
+  border-radius: 30px;
+}
+
+.scCardRev .scChip { left: auto; right: 18px; }
+
+.scBody {
+  padding: clamp(1.8rem, 3.5vw, 2.6rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0;
+  background: linear-gradient(145deg, rgba(255,253,245,0.05), rgba(255,248,225,0.08));
+}
+
+.scEyebrow {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(0.44rem, 0.75vw, 0.54rem);
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.55rem;
+}
+
+.scTitle {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.15rem, 2.2vw, 1.6rem);
+  font-weight: 600;
+  font-style: italic;
+  color: black;
+  line-height: 1.2;
+  margin-bottom: 0.2rem;
+}
+
+.scTitleLine {
+  width: 46px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--saffron), var(--gold));
+  border-radius: 2px;
+  margin-bottom: 1.1rem;
+}
+
+.scDesc {
+  font-size: clamp(0.88rem, 1.35vw, 0.97rem);
+  line-height: 1.88;
+  color: black;
+  margin-bottom: 1.4rem;
+}
+
+.scMeta {
+  display: flex;
+  border: 1px solid rgba(212, 160, 23, 0.18);
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.scMetaItem {
+  flex: 1;
+  padding: 0.65rem 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.scMetaItem + .scMetaItem {
+  border-left: 1px solid rgba(212, 160, 23, 0.18);
+}
+
+.scMetaIcon {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1px solid rgba(212, 160, 23, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--gold);
+  background: rgba(212, 160, 23, 0.08);
+}
+
+.scMetaIcon svg { width: 13px; height: 13px; }
+
+.scMetaLbl {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(0.42rem, 0.7vw, 0.5rem);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--saffron);
+  display: block;
+  line-height: 1.3;
+}
+
+.scMetaVal {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(0.84rem, 1.3vw, 0.94rem);
+  font-weight: 600;
+  color: black;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.scBtns {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.scBtnPrimary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Cinzel', serif;
+  font-size: clamp(0.56rem, 0.9vw, 0.66rem);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #fff;
+  background: linear-gradient(135deg, var(--saffron), var(--saffron-dk));
+  padding: 0.55rem 1.3rem;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 14px rgba(241, 85, 5, 0.35);
+}
+
+.scBtnPrimary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(241, 85, 5, 0.45);
+  color: #fff;
+}
+
+.scBtnOutline {
+  display: inline-flex;
+  align-items: center;
+  font-family: 'Cinzel', serif;
+  font-size: clamp(0.56rem, 0.9vw, 0.66rem);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: black;
+  background: transparent;
+  border: 1.5px solid rgba(212, 160, 23, 0.5);
+  padding: 0.53rem 1.3rem;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.2s;
+}
+
+.scBtnOutline:hover {
+  background: rgba(212, 160, 23, 0.15);
+  border-color: var(--gold);
+  color: var(--gold-lt);
+  transform: translateY(-2px);
+}
+
+/* Divider between cards */
+.scDivider {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 1.8rem 0;
+}
+
+.scDivLine {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(212, 160, 23, 0.35), transparent);
+  display: block;
+}
+
+.scDivDot {
+  font-size: 0.75rem;
+  color: var(--gold);
+  opacity: 0.6;
+  flex-shrink: 0;
+}
+
+/* Responsive */
+@media (max-width: 991.98px) {
+  .scCard { grid-template-columns: 1fr; }
+  .scCardRev .scImgSide { order: 0; }
+  .scCardRev .scBody    { order: 0; }
+  .scCardRev .scChip    { left: 18px; right: auto; }
+  .scImgSide { min-height: clamp(220px, 45vw, 340px); }
+}
+
+@media (max-width: 767.98px) {
+  .scImgSide { min-height: clamp(200px, 48vw, 280px); }
+  .scBody    { padding: 1.5rem 1.2rem; }
+  .scTitle   { font-size: clamp(1rem, 4vw, 1.3rem); }
+}
+
+@media (max-width: 575.98px) {
+  .scCard    { border-radius: 10px; }
+  .scBody    { padding: 1.2rem 1rem; }
+  .scMeta    { flex-direction: column; }
+  .scMetaItem + .scMetaItem { border-left: none; border-top: 1px solid rgba(212, 160, 23, 0.18); }
+  .scBtnPrimary, .scBtnOutline { font-size: 0.58rem; padding: 0.46rem 1rem; }
+}
+
+/* ════════════════════════════════════════
+   SPECIALTY COURSE CARDS
+════════════════════════════════════════ */
+.sectionTitleCenter {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(.92rem, 2vw, 1.3rem);
+  font-weight: 700;
+  color: var(--saffron);
+  text-align: center;
+  letter-spacing: .05em;
+  margin-bottom: .35rem;
+  line-height: 1.3;
+}
+
+/* ════════════════════════════════════════
+   ENHANCED FIRST SECTION STYLES
+════════════════════════════════════════ */
+
+/* Content First Layout */
+.contentFirstLayout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(2rem, 4vw, 3rem);
+  margin-bottom: 3rem;
+}
+
+/* Text Content Block */
+.textContentBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.contentIntroEnhanced {
+  margin-bottom: 0.25rem;
+}
+
+.contentBadgeEnhanced {
+  display: inline-block;
+  font-family: 'Cinzel', serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  background: rgba(212, 160, 23, 0.1);
+  padding: 4px 12px;
+  border-radius: 30px;
+  margin-bottom: 0.8rem;
+}
+
+.contentTitleEnhanced {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(1.2rem, 2.2vw, 1.6rem);
+  font-weight: 700;
+  color: var(--saffron);
+  letter-spacing: 0.03em;
+  margin-bottom: 0.5rem;
+  line-height: 1.35;
+}
+
+.highlightText {
+  color: var(--gold);
+  position: relative;
+  display: inline-block;
+}
+
+.highlightText::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--gold), transparent);
+}
+
+.contentUnderlineEnhanced {
+  width: 50px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--saffron), var(--gold));
+  border-radius: 2px;
+}
+
+.contentTextEnhanced {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.bodyParaEnhanced {
+  font-size: clamp(0.88rem, 1.4vw, 0.98rem);
+  line-height: 1.85;
+  color: var(--ink);
+  margin-bottom: 0;
+}
+
+/* Training Tags */
+.trainingTagsEnhanced {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin: 0.5rem 0;
+}
+
+.trainingTag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #fffdf5, #fff8e8);
+  border: 1px solid rgba(212, 160, 23, 0.25);
+  border-radius: 40px;
+  padding: 6px 16px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--saffron);
+  transition: all 0.3s ease;
+}
+
+.trainingTag:hover {
+  transform: translateY(-2px);
+  border-color: var(--saffron);
+  box-shadow: 0 4px 12px rgba(241, 85, 5, 0.15);
+}
+
+.trainingTagIcon {
+  font-size: 1rem;
+}
+
+/* Link Group */
+.linkGroupEnhanced {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin-top: 0.5rem;
+}
+
+.linkPillEnhanced {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--saffron);
+  border: 1.5px solid rgba(241, 85, 5, 0.3);
+  padding: 8px 18px;
+  border-radius: 40px;
+  text-decoration: none;
+  background: rgba(255, 253, 248, 0.9);
+  transition: all 0.3s ease;
+}
+
+.linkPillEnhanced:hover {
+  background: var(--saffron);
+  color: white;
+  border-color: var(--saffron);
+  transform: translateY(-2px);
+}
+
+.linkPillEnhanced svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* Media Gallery Block */
+.mediaGalleryBlock {
+  position: relative;
+}
+
+.mediaGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Main Media Item */
+.mediaMainItem {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  background: linear-gradient(135deg, #2a1a0a, #1a0e05);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.mediaMainImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.mediaMainItem:hover .mediaMainImg {
+  transform: scale(1.05);
+}
+
+.mediaMainVideo {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.mediaVideoToggle {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 40px;
+  padding: 8px 16px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.mediaVideoToggle svg {
+  width: 16px;
+  height: 16px;
+}
+
+.mediaVideoToggle:hover {
+  background: var(--saffron);
+  transform: translateY(-2px);
+}
+
+.mediaMainOverlay {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  z-index: 10;
+}
+
+.mediaMainBadge {
+  background: linear-gradient(135deg, var(--saffron), var(--gold));
+  color: white;
+  font-family: 'Cinzel', serif;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 20px;
+}
+
+/* Small Images Grid */
+.mediaSmallGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.8rem;
+}
+
+.mediaSmallItem {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  aspect-ratio: 1 / 1;
+  cursor: pointer;
+  background: #f0e8d8;
+}
+
+.mediaSmallImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.mediaSmallItem:hover .mediaSmallImg {
+  transform: scale(1.08);
+}
+
+.mediaSmallOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(241, 85, 5, 0.7), rgba(0, 0, 0, 0.5));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.mediaSmallItem:hover .mediaSmallOverlay {
+  opacity: 1;
+}
+
+.mediaSmallOverlay span {
+  color: white;
+  font-family: 'Cinzel', serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-align: center;
+  padding: 0 8px;
+}
+
+/* Placeholder images - you can replace these with actual images */
+.mediaSmallItem:nth-child(1) .mediaSmallImg {
+  object-position: center;
+}
+.mediaSmallItem:nth-child(2) .mediaSmallImg {
+  object-position: center;
+}
+.mediaSmallItem:nth-child(3) .mediaSmallImg {
+  object-position: center;
+}
+.mediaSmallItem:nth-child(4) .mediaSmallImg {
+  object-position: center;
+}
+
+/* Accreditations Section Enhanced */
+.accrSectionEnhanced {
+  margin: 2rem 0 1rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(212, 160, 23, 0.2);
+}
+
+.accrHeadEnhanced {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.accrHeadLineEnhanced {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, var(--saffron), var(--gold), transparent);
+}
+
+.accrHeadLineRevEnhanced {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(270deg, var(--saffron), var(--gold), transparent);
+}
+
+.accrHeadInnerEnhanced {
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.accrEyebrowEnhanced {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(0.55rem, 0.9vw, 0.65rem);
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.3rem;
+}
+
+.accrTitleEnhanced {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(0.95rem, 2vw, 1.25rem);
+  font-weight: 700;
+  color: var(--saffron);
+  letter-spacing: 0.04em;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.accrTaglineEnhanced {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: clamp(0.8rem, 1.2vw, 0.9rem);
+  color: var(--ink-lt);
+  margin-top: 0.25rem;
+}
+
+.certGridEnhanced {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(0.8rem, 2vw, 1.4rem);
+  margin-bottom: 1rem;
+}
+
+/* Responsive */
+@media (max-width: 991.98px) {
+  .contentFirstLayout {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  .mediaSmallGrid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  
+  .certGridEnhanced {
     grid-template-columns: repeat(2, 1fr);
-    gap: .45rem;
   }
-
-  .certLabel {
-    font-size: .58rem;
+  
+  .accrHeadLineEnhanced,
+  .accrHeadLineRevEnhanced {
+    display: none;
   }
+}
 
-  .certBadge {
-    font-size: .5rem;
-    padding: .18rem .38rem;
-    top: 6px;
-    right: 6px;
+@media (max-width: 767.98px) {
+  .mediaSmallGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.6rem;
   }
-
-  .courseBody {
-    padding: .85rem .75rem;
+  
+  .trainingTagsEnhanced {
+    gap: 0.6rem;
   }
-
-  .courseTitle {
-    font-size: .88rem;
+  
+  .trainingTag {
+    font-size: 0.7rem;
+    padding: 5px 12px;
   }
-
-  .bodyPara {
-    font-size: .84rem;
+  
+  .mediaVideoToggle {
+    padding: 6px 12px;
+    font-size: 0.6rem;
   }
+  
+  .mediaVideoToggle svg {
+    width: 14px;
+    height: 14px;
+  }
+}
 
-  .btnOrange,
-  .btnOutline {
-    font-size: .58rem;
-    padding: .38rem .8rem;
+@media (max-width: 575.98px) {
+  .contentTitleEnhanced {
+    font-size: 1.1rem;
+  }
+  
+  .contentBadgeEnhanced {
+    font-size: 0.55rem;
+  }
+  
+  .bodyParaEnhanced {
+    font-size: 0.85rem;
+    line-height: 1.75;
+  }
+  
+  .mediaSmallOverlay span {
+    font-size: 0.55rem;
+  }
+  
+  .linkPillEnhanced {
+    font-size: 0.6rem;
+    padding: 6px 14px;
+  }
+  
+  .certGridEnhanced {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.7rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .mediaSmallGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .trainingTagsEnhanced {
+    flex-wrap: wrap;
+  }
+  
+  .trainingTag {
+    width: calc(50% - 0.3rem);
+    justify-content: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mediaMainImg,
+  .mediaSmallImg,
+  .mediaVideoToggle,
+  .trainingTag,
+  .linkPillEnhanced {
+    transition: none;
+  }
+  
+  .mediaMainItem:hover .mediaMainImg,
+  .mediaSmallItem:hover .mediaSmallImg {
+    transform: none;
   }
 }
