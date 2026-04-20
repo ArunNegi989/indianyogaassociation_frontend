@@ -584,13 +584,13 @@ function PremiumSeatBooking() {
 
 /* ─── REEL VIDEO GRID ─── */
 const DEFAULT_REELS = [
-  { id: "1", videoUrl: "https://www.youtube.com/embed/X-4RQYlTRtk?autoplay=1&mute=1&loop=1&playlist=X-4RQYlTRtk&controls=0&playsinline=1&modestbranding=1", label: "Morning Practice" },
-  { id: "2", videoUrl: "https://www.youtube.com/embed/lYeh7tUMLHQ?autoplay=1&mute=1&loop=1&playlist=lYeh7tUMLHQ&controls=0&playsinline=1&modestbranding=1", label: "Pranayama Session" },
-  { id: "3", videoUrl: "https://www.youtube.com/embed/EJ6K-rhqevE?autoplay=1&mute=1&loop=1&playlist=EJ6K-rhqevE&controls=0&playsinline=1&modestbranding=1", label: "Beach Meditation" },
-  { id: "4", videoUrl: "https://www.youtube.com/embed/v7AYKMP6rOE?autoplay=1&mute=1&loop=1&playlist=v7AYKMP6rOE&controls=0&playsinline=1&modestbranding=1", label: "Yoga Flow" },
+  { _id: "1", videoUrl: "https://www.youtube.com/embed/X-4RQYlTRtk?autoplay=1&mute=1&loop=1&playlist=X-4RQYlTRtk&controls=0&playsinline=1&modestbranding=1", label: "Morning Practice" },
+  { _id: "2", videoUrl: "https://www.youtube.com/embed/lYeh7tUMLHQ?autoplay=1&mute=1&loop=1&playlist=lYeh7tUMLHQ&controls=0&playsinline=1&modestbranding=1", label: "Pranayama Session" },
+  { _id: "3", videoUrl: "https://www.youtube.com/embed/EJ6K-rhqevE?autoplay=1&mute=1&loop=1&playlist=EJ6K-rhqevE&controls=0&playsinline=1&modestbranding=1", label: "Beach Meditation" },
+  { _id: "4", videoUrl: "https://www.youtube.com/embed/v7AYKMP6rOE?autoplay=1&mute=1&loop=1&playlist=v7AYKMP6rOE&controls=0&playsinline=1&modestbranding=1", label: "Yoga Flow" },
 ];
 
-function ReelVideoGrid({ reels }: { reels?: Array<{ id: string; videoUrl: string; label?: string }> }) {
+function ReelVideoGrid({ reels }: { reels?: Array<{ _id: string; videoUrl: string; label?: string }> }) {
   const items = reels && reels.length > 0 ? reels : DEFAULT_REELS;
   return (
     <section className={styles.reelSection}>
@@ -601,7 +601,7 @@ function ReelVideoGrid({ reels }: { reels?: Array<{ id: string; videoUrl: string
       </div>
       <div className={styles.reelGrid}>
         {items.slice(0, 4).map((reel, i) => (
-          <div key={reel.id || i} className={styles.reelCard} style={{ "--ri": i } as React.CSSProperties}>
+          <div key={reel._id || i} className={styles.reelCard} style={{ "--ri": i } as React.CSSProperties}>
             <div className={styles.reelVideoWrap}>
               <iframe
                 src={reel.videoUrl}
