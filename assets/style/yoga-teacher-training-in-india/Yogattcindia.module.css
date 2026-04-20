@@ -1,45 +1,43 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Dancing+Script:wght@500;700&family=IM+Fell+English:ital@0;1&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Lato:ital,wght@0,300;0,400;0,700;1,400&family=Montserrat:wght@500;600;700&display=swap');
 
+/* ══════════════════════════════════════
+   CSS VARIABLES — same as 100hr
+══════════════════════════════════════ */
 :root {
   --saffron: #F15505;
-  --saffron-lt: #f5a623;
+  --saffron-bright: #F15505;
   --saffron-dk: #b85f00;
+  --saffron-gold: #b8860b;
   --gold: #d4a017;
   --gold-lt: #f0c040;
-  --parch: #fdf6e8;
-  --parch-lt: #fffdf5;
-  --parch-dk: #f5e8c8;
-  --parch-deep: #ede0b8;
+  --maroon: #6b1a00;
+  --cream: #fdf8ee;
+  --parch: #fffdf5;
+  --parch-lt: #ffffff;
+  --parch-dk: #fdf6e8;
   --ink: #2a1505;
-  --ink-md: #4a2c0a;
-  --ink-lt: #7a5228;
+  --ink-md: #4a2e10;
+  --ink-soft: #7a5c30;
+  --ink-sepia: #2c1a08;
+  --teal-dark: #1a4a4a;
   --border: #d4b483;
   --border-lt: #e8d4a8;
-  --shadow: rgba(42, 21, 5, .1);
-  --shadow-md: rgba(42, 21, 5, .18);
-  --glow: rgba(224, 123, 0, .22);
-  --glow-gold: rgba(212, 160, 23, .28);
+  --border-gold: rgba(184,134,11,0.4);
+  --shadow: rgba(42,21,5,.1);
+  --shadow-md: rgba(42,21,5,.18);
+  --shadow-warm: rgba(80,40,5,.15);
+  --glow: rgba(224,123,0,.22);
+  --font-display: 'Montserrat', Arial, sans-serif;
+  --font-body: 'Lato', Arial, sans-serif;
+  --font-fell: 'Playfair Display', Georgia, serif;
+  --font-menu: 'Montserrat', Arial, sans-serif;
 }
 
-.heroSection {
-  position: relative;
-  z-index: 1;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  line-height: 0;
-}
-
-.heroImage {
-  width: 100%;
-  height: auto;
-  display: block;
-  object-fit: contain;
-}
-
-/* ── PAGE ── */
+/* ══════════════════════════════════════
+   PAGE
+══════════════════════════════════════ */
 .page {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-body);
   background: linear-gradient(160deg, var(--parch-lt) 0%, var(--parch) 55%, var(--parch-dk) 100%);
   min-height: 100vh;
   position: relative;
@@ -57,827 +55,677 @@
   opacity: .55;
 }
 
-/* ── MANDALAS ── */
-.mandalaTL,
-.mandalaBR,
-.mandalaTR,
-.mandalaBL {
-  position: fixed;
-  pointer-events: none;
-  z-index: 0;
+/* ══════════════════════════════════════
+   HERO
+══════════════════════════════════════ */
+.heroSection {
+  position: relative; z-index: 1;
+  width: 100%; margin: 0; padding: 0; line-height: 0;
 }
+.heroImage { width: 100%; height: auto; display: block; object-fit: contain; }
 
-.mandalaTL {
-  top: -8vw;
-  left: -8vw;
-  opacity: .17;
-  animation: mSpin 108s linear infinite;
+/* ══════════════════════════════════════
+   MANDALAS
+══════════════════════════════════════ */
+.mandalaTL, .mandalaBR, .mandalaTR, .mandalaBL {
+  position: fixed; pointer-events: none; z-index: 0;
 }
-
-.mandalaBR {
-  bottom: -8vw;
-  right: -8vw;
-  opacity: .14;
-  animation: mSpin 124s linear infinite reverse;
-}
-
-.mandalaTR {
-  top: 20%;
-  right: -5vw;
-  opacity: .08;
-  animation: mSpin 85s linear infinite;
-}
-
-.mandalaBL {
-  bottom: 18%;
-  left: -5vw;
-  opacity: .08;
-  animation: mSpin 97s linear infinite reverse;
-}
-
+.mandalaTL { top: -8vw; left: -8vw; opacity: .17; animation: mSpin 108s linear infinite; }
+.mandalaBR { bottom: -8vw; right: -8vw; opacity: .14; animation: mSpin 124s linear infinite reverse; }
+.mandalaTR { top: 20%; right: -5vw; opacity: .08; animation: mSpin 85s linear infinite; }
+.mandalaBL { bottom: 18%; left: -5vw; opacity: .08; animation: mSpin 97s linear infinite reverse; }
 .chakraGlow {
-  position: fixed;
-  top: 32%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: clamp(280px, 55vw, 800px);
-  height: clamp(280px, 55vw, 800px);
-  background: radial-gradient(ellipse, rgba(245, 166, 35, .055) 0%, rgba(212, 160, 23, .03) 40%, transparent 70%);
-  pointer-events: none;
-  z-index: 0;
-  animation: cPulse 7s ease-in-out infinite;
+  position: fixed; top: 32%; left: 50%; transform: translateX(-50%);
+  width: clamp(280px,55vw,800px); height: clamp(280px,55vw,800px);
+  background: radial-gradient(ellipse,rgba(245,166,35,.055) 0%,rgba(212,160,23,.03) 40%,transparent 70%);
+  pointer-events: none; z-index: 0; animation: cPulse 7s ease-in-out infinite;
 }
-
-@keyframes mSpin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
+@keyframes mSpin { to { transform: rotate(360deg); } }
 @keyframes cPulse {
-
-  0%,
-  100% {
-    opacity: .7;
-    transform: translateX(-50%) scale(1);
-  }
-
-  50% {
-    opacity: 1;
-    transform: translateX(-50%) scale(1.07);
-  }
+  0%,100% { opacity:.7; transform: translateX(-50%) scale(1); }
+  50% { opacity:1; transform: translateX(-50%) scale(1.07); }
 }
+@keyframes fadeInUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(.7)} }
+@keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+@keyframes stripFadeIn { from{opacity:0;transform:scale(.94)} to{opacity:1;transform:scale(1)} }
 
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(24px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* ── SECTIONS ── */
+/* ══════════════════════════════════════
+   SECTIONS
+══════════════════════════════════════ */
 .section {
-  padding: clamp(2.5rem, 6vw, 5rem) 0;
-  position: relative;
-  z-index: 1;
+  padding: clamp(2.5rem,6vw,5rem) 0;
+  position: relative; z-index: 1;
+  background-color: #ffffff;
 }
-
 .section::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1.5px;
-  background: linear-gradient(90deg, transparent, var(--gold), var(--saffron), var(--gold), transparent);
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1.5px;
+  background: linear-gradient(90deg,transparent,var(--gold),var(--saffron),var(--gold),transparent);
 }
+.sectionLight { background: var(--parch-lt); }
 
-.sectionLight {
-  background: var(--parch-lt);
-}
+.sectionSpacer { margin-top: clamp(2rem,4vw,3.5rem); }
+.locationDetailSpacer { margin-top: clamp(2rem,4vw,3rem); }
+.yytSection { margin-top: clamp(2rem,4vw,3rem); }
 
-.sectionWarm {
-  background: linear-gradient(135deg, #f8f4e8 0%, var(--parch) 50%, #fffbf4 100%);
-}
-
-.sectionDeep {
-  background: linear-gradient(135deg, #f8f4e8 0%, var(--parch) 50%, #fffbf4 100%);
-}
-
-/* ── OM DIVIDER ── */
-.omDiv {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
-  margin: .5rem 0 2rem;
-}
-
-.omSlim {
-  margin: .35rem 0 1.5rem;
-}
-
-.omLine {
-  flex: 1;
-  max-width: 200px;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--saffron), var(--gold), var(--saffron), transparent);
-  display: block;
-}
-
-/* ── HERO ── */
-.heroWrap {
-  text-align: center;
-  margin-bottom: 1.8rem;
-}
-
+/* ══════════════════════════════════════
+   HERO WRAP
+══════════════════════════════════════ */
+.heroWrap { text-align: center; margin-bottom: clamp(1.5rem,3vw,2.5rem); }
 .heroTitle {
-  font-family: 'Dancing Script', cursive;
-  font-size: clamp(1.3rem, 3.5vw, 2.6rem);
+  font-family: var(--font-display);
+  font-size: clamp(1.1rem,2.5vw,1.7rem);
   font-weight: 700;
   color: var(--saffron);
   letter-spacing: .02em;
-  line-height: 1.15;
-  margin-bottom: .3rem;
-  text-shadow: 0 2px 14px var(--glow);
+  line-height: 1.3;
+  margin-bottom: .4rem;
 }
-
 .heroSub {
-  font-family: 'Cinzel', serif;
-  font-size: clamp(.6rem, 1.1vw, .8rem);
+  font-family: var(--font-menu);
+  font-size: clamp(.6rem,1.1vw,.78rem);
   font-weight: 600;
   letter-spacing: .28em;
   color: var(--ink-md);
   text-transform: uppercase;
   margin-bottom: .5rem;
 }
-
 .heroUnderline {
-  width: 80px;
-  height: 2.5px;
-  background: linear-gradient(90deg, var(--saffron), var(--gold));
-  border-radius: 2px;
-  margin: 0 auto;
+  width: 80px; height: 2.5px;
+  background: linear-gradient(90deg,var(--saffron),var(--gold));
+  border-radius: 2px; margin: 0 auto;
 }
 
-/* ── BODY TEXT ── */
+/* ══════════════════════════════════════
+   BODY PARA
+══════════════════════════════════════ */
 .bodyPara {
-  font-size: clamp(.9rem, 1.48vw, 1.04rem);
-  line-height: 1.94;
-  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: clamp(.95rem,1.55vw,1.06rem);
+  line-height: 1.95;
+  color: var(--ink-md);
   margin-bottom: 1rem;
 }
 
-.link {
-  color: var(--saffron);
-  text-decoration: underline;
-  font-weight: 600;
+/* ══════════════════════════════════════
+   VINTAGE HEADING
+══════════════════════════════════════ */
+.vintageHeadingWrap { text-align: center; margin: 1.4rem 0 1.2rem; }
+.vintageHeading {
+  font-family: var(--font-display);
+  font-size: clamp(1rem,2.2vw,1.45rem);
+  color: var(--saffron); font-weight: 600;
+  letter-spacing: .02em; line-height: 1.4;
+  margin: 0 auto .3rem; max-width: 820px;
+}
+.vintageHeadingSub {
+  font-family: var(--font-body);
+  font-size: clamp(.85rem,1.3vw,.95rem);
+  color: var(--ink-soft);
+  margin: 0 auto .5rem; max-width: 600px;
+}
+.vintageHeadingUnderline { display: flex; justify-content: center; margin-top: .4rem; }
+.headingUndSvg { width: clamp(120px,28vw,200px); height: 8px; }
+
+/* ══════════════════════════════════════
+   OM DIVIDER
+══════════════════════════════════════ */
+.omDividerWrap {
+  display: flex; align-items: center; gap: 1rem;
+  margin: clamp(1.5rem,3vw,2.5rem) 0;
+}
+.omDivLine { flex: 1; height: 1px; background: linear-gradient(90deg,transparent,var(--saffron-gold),transparent); }
+.omDivCenter { display: flex; flex-direction: column; align-items: center; gap: .2rem; }
+.omDivLabel { font-family: var(--font-menu); font-size: .62rem; letter-spacing: .18em; text-transform: uppercase; color: var(--saffron-gold); }
+
+/* ══════════════════════════════════════
+   TEXT + IMAGE ROW (same 100hr)
+══════════════════════════════════════ */
+.tiRow {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 3rem;
+  align-items: center;
+  margin: 1.5rem 0;
+  animation: fadeInUp .6s ease both;
+}
+.tiRowReverse { direction: rtl; }
+.tiRowReverse > * { direction: ltr; }
+.tiText { display: flex; flex-direction: column; }
+.tiImageWrap { position: relative; }
+.tiImageFrame {
+  position: relative; border-radius: 4px; overflow: hidden;
+  box-shadow: 0 20px 60px rgba(80,40,5,.2), 0 4px 16px rgba(184,134,11,.15);
+  aspect-ratio: 4/3;
+}
+.tiImage { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .6s ease; }
+.tiImageFrame:hover .tiImage { transform: scale(1.05); }
+.tiImageOverlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg,rgba(184,134,11,.08) 0%,transparent 50%,rgba(80,40,5,.15) 100%);
+  pointer-events: none;
+}
+.tiImageBadge {
+  position: absolute; bottom: 16px; left: 16px;
+  font-family: var(--font-menu); font-size: .68rem; font-weight: 700;
+  letter-spacing: .14em; text-transform: uppercase;
+  color: #fff3d2; background: #f15505;
+  padding: 6px 14px; border-radius: 20px;
+  border: 1px solid rgba(255,243,210,.3);
+}
+.tiImageCornerTl { position: absolute; top: -2px; left: -2px; width: 28px; height: 28px; border-top: 3px solid var(--saffron-bright); border-left: 3px solid var(--saffron-bright); border-radius: 4px 0 0 0; }
+.tiImageCornerBr { position: absolute; bottom: -2px; right: -2px; width: 28px; height: 28px; border-bottom: 3px solid var(--saffron-bright); border-right: 3px solid var(--saffron-bright); border-radius: 0 0 4px 0; }
+.tiDotGrid { position: absolute; bottom: -18px; right: -18px; display: grid; grid-template-columns: repeat(4,1fr); gap: 6px; z-index: -1; pointer-events: none; }
+.tiDot { width: 5px; height: 5px; border-radius: 50%; background: var(--saffron-gold); opacity: .35; }
+
+/* ══════════════════════════════════════
+   TEXT + VIDEO ROW
+══════════════════════════════════════ */
+.tiVideoWrap { position: relative; }
+.tiVideoFrame {
+  position: relative; border-radius: 20px; overflow: hidden;
+  aspect-ratio: 9/16; max-width: 320px; margin: 0 auto;
+  box-shadow: 0 30px 70px rgba(0,0,0,.2), 0 4px 20px rgba(200,112,10,.15);
+  border: 2px solid #f15505;
+}
+.videoIframe { width: 100%; height: 100%; border: none; display: block; pointer-events: none; }
+.tiVideoBadge {
+  position: absolute; bottom: 18px; left: 18px;
+  display: flex; align-items: center; gap: 8px;
+  font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+  color: #fff; background: #f15505; padding: 8px 16px; border-radius: 100px;
+  font-family: var(--font-menu);
+}
+.pulseDot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #fff; animation: pulse 1.5s ease infinite; }
+
+/* ══════════════════════════════════════
+   ACCREDITATION BADGES — shape-aware
+══════════════════════════════════════ */
+.badgesSection {
+  text-align: center;
+  margin: clamp(2rem,4vw,3rem) 0;
+  padding: clamp(1.2rem,3vw,2rem) clamp(1rem,4vw,2.5rem);
+  background: rgb(255, 255, 255);
+  border: 1px solid var(--border-lt);
+  border-top: 3px solid var(--saffron);
+  border-radius: 12px;
+  box-shadow: 0 4px 24px var(--shadow);
 }
 
-.link:hover {
-  color: var(--saffron-dk);
+.badgesSectionLabel {
+  font-family: var(--font-menu);
+  font-size: clamp(.58rem,.95vw,.72rem);
+  font-weight: 700;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-bottom: clamp(1rem,2vw,1.6rem);
+  position: relative;
+  display: inline-block;
+}
+.badgesSectionLabel::after {
+  content: '';
+  display: block;
+  width: 40px; height: 2px;
+  background: linear-gradient(90deg,var(--saffron),var(--gold));
+  border-radius: 2px;
+  margin: .35rem auto 0;
 }
 
-/* ── ACCREDITATION BADGES ── */
 .badgesRow {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: clamp(.5rem, 1.5vw, 1rem);
-  margin: 1.8rem 0 2rem;
+  align-items: flex-end;
+  gap: clamp(.8rem,2vw,2rem);
 }
 
-/* ── BADGE IMAGE VERSION ── */
+/* single badge wrapper */
 .badge {
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: .5rem;
+  transition: transform .22s ease;
+}
+.badge:hover { transform: translateY(-5px); }
+
+/* BASE frame */
+.badgeFrame {
+  background: #fff;
+  display: flex;
+  align-items: center;
   justify-content: center;
-  width: clamp(85px, 10vw, 115px);
-  height: clamp(85px, 10vw, 115px);
-  border-radius: 50%;
-  background: rgba(255, 253, 248, 0.95);
-  border: 2px solid var(--saffron);
-  box-shadow: 0 4px 16px var(--glow), 0 0 0 4px rgba(224, 123, 0, 0.08);
-  transition: transform 0.22s, box-shadow 0.22s;
-  padding: 0.5rem;
-  position: relative;
   overflow: hidden;
-  gap: 0.2rem;
+  position: relative;
+  transition: box-shadow .22s ease, border-color .22s ease;
 }
 
+/* CIRCLE frame — roughly-square logos */
+.badgeFrameCircle {
+  width: clamp(80px, 9vw, 120px);
+  height: clamp(80px, 9vw, 120px);
+  border-radius: 50%;
+  padding: clamp(.45rem,.8vw,.7rem);
+}
+.badge:hover .badgeFrameCircle {
+ 
+  border-color: var(--gold);
+}
+
+/* SQUARE frame — portrait / tall logos */
+.badgeFrameSquare {
+  width: clamp(70px, 8vw, 110px);
+  height: clamp(80px, 9.5vw, 125px);
+  border-radius: 10px;
+  border: 2.5px solid var(--saffron);
+  box-shadow: 0 0 0 4px rgba(241,85,5,.07), 0 6px 22px rgba(224,123,0,.16);
+  padding: clamp(.4rem,.7vw,.65rem);
+}
+.badge:hover .badgeFrameSquare {
+  box-shadow: 0 0 0 4px rgba(241,85,5,.13), 0 10px 28px rgba(224,123,0,.26);
+  border-color: var(--gold);
+}
+
+/* WIDE frame — landscape / horizontal logos */
+.badgeFrameWide {
+  width: clamp(100px, 12vw, 160px);
+  height: clamp(52px, 6vw, 80px);
+  border-radius: 8px;
+
+ 
+  padding: clamp(.35rem,.6vw,.55rem) clamp(.5rem,.9vw,.8rem);
+}
+.badge:hover .badgeFrameWide {
+ 
+  border-color: var(--gold);
+}
+
+/* image inside any frame */
 .badgeImg {
-  width: 55%;
-  height: auto;
+  width: 100%;
+  height: 100%;
   object-fit: contain;
   display: block;
 }
 
-.badgeLabel {
-  font-family: 'Cinzel', serif;
-  font-size: clamp(0.38rem, 0.7vw, 0.52rem);
+/* label below badge */
+.badgeLabelText {
+  font-family: var(--font-menu);
+  font-size: clamp(.48rem,.8vw,.62rem);
   font-weight: 700;
   color: var(--ink-md);
   text-align: center;
-  letter-spacing: 0.04em;
-  line-height: 1.2;
-}
-
-/* ── VINTAGE CARD ── */
-.vintageCard {
-  background: rgba(255, 253, 248, .92);
-  border: 1px solid var(--border);
-  border-top: 3px solid var(--saffron);
-  border-radius: 7px;
-  padding: clamp(1.4rem, 3.5vw, 2.5rem);
-  box-shadow: 0 6px 30px var(--shadow), inset 0 1px 0 rgba(255, 255, 255, .7);
-  position: relative;
-}
-
-.vintageCard::before {
-  content: '';
-  position: absolute;
-  inset: 7px;
-  border: 1px dashed rgba(212, 160, 23, .14);
-  border-radius: 4px;
-  pointer-events: none;
-}
-
-.cardCorner {
-  position: absolute;
-  top: 9px;
-  right: 13px;
-  font-size: .72rem;
-  color: var(--gold);
-  opacity: .5;
-}
-
-.cardTitle {
-  font-family: 'Cinzel', serif;
-  font-size: clamp(.9rem, 1.85vw, 1.25rem);
-  font-weight: 700;
-  color: var(--saffron);
-  text-align: center;
   letter-spacing: .05em;
-  margin-bottom: .35rem;
   line-height: 1.3;
+  max-width: clamp(80px, 10vw, 140px);
 }
 
-.cardUnderline {
-  width: 60px;
-  height: 2.5px;
-  background: linear-gradient(90deg, var(--saffron), var(--gold));
-  border-radius: 2px;
-  margin: 0 auto 1.4rem;
+/* ══════════════════════════════════════
+   LOCATION CARDS (YTT through AYM)
+══════════════════════════════════════ */
+.locationCardsGrid {
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  gap: 1.5rem;
+  margin-top: 1.5rem;
 }
-
-/* ── LOCATION CARDS ── */
 .locationCard {
-  display: flex;
-  gap: .85rem;
-  align-items: flex-start;
-  padding: 1.1rem;
-  background: rgba(245, 232, 195, .35);
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px var(--shadow-md);
   border: 1px solid var(--border-lt);
-  border-left: 4px solid var(--saffron);
-  border-radius: 0 6px 6px 0;
-  height: 100%;
-  box-shadow: 0 3px 12px var(--shadow);
-  transition: transform .2s, box-shadow .2s;
+  border-top: 3px solid var(--saffron);
+  transition: transform .25s, box-shadow .25s;
 }
-
-.locationCard:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 7px 20px var(--glow);
+.locationCard:hover { transform: translateY(-6px); box-shadow: 0 16px 40px rgba(200,112,10,.16); }
+.locationCardImg {
+  position: relative; aspect-ratio: 16/8; overflow: hidden;
 }
-
-.locationIcon {
-  flex-shrink: 0;
-  animation: cPulse 4s ease-in-out infinite;
+.locationCardImg img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .6s ease; }
+.locationCard:hover .locationCardImg img { transform: scale(1.07); }
+.locationCardImgOverlay { position: absolute; inset: 0; background: linear-gradient(to bottom,transparent 40%,rgba(42,21,5,.55) 100%); pointer-events: none; }
+.locationCardBadge {
+  position: absolute; bottom: 12px; left: 14px;
+  font-family: var(--font-menu); font-size: .65rem; font-weight: 700;
+  letter-spacing: .14em; text-transform: uppercase;
+  color: #fff3d2; background: var(--saffron);
+  padding: 5px 14px; border-radius: 20px;
 }
+.locationCardBody { padding: 1.2rem 1.3rem 1.3rem; }
+.locationCardIcon { margin-bottom: .5rem; }
+.locationName { font-family: var(--font-display); font-weight: 700; font-size: clamp(.9rem,1.5vw,1.1rem); color: var(--saffron); margin: 0 0 .4rem; }
+.locationDesc { font-family: var(--font-body); font-size: clamp(.85rem,1.35vw,.97rem); line-height: 1.8; color: var(--ink-md); margin: 0; }
+.locationCardLine { width: 40px; height: 2px; background: linear-gradient(90deg,var(--saffron),var(--gold)); border-radius: 2px; margin-top: .85rem; }
 
-.locationName {
-  font-family: 'Cinzel', serif;
-  font-weight: 700;
-  font-size: clamp(.88rem, 1.5vw, 1.05rem);
-  color: var(--saffron);
-  margin: 0 0 .35rem;
+/* ══════════════════════════════════════
+   LOCATION DETAIL (Rishikesh / Goa)
+══════════════════════════════════════ */
+.locationDetailWrap { }
+
+/* ══════════════════════════════════════
+   COURSE CARDS — improved design
+══════════════════════════════════════ */
+.courseCardsGrid {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 1.5rem;
+  margin-top: 1rem;
 }
-
-.locationDesc {
-  font-size: clamp(.86rem, 1.38vw, .97rem);
-  line-height: 1.8;
-  color: var(--ink);
-  margin: 0;
-}
-
-/* ── LOCATION DETAIL (Rishikesh / Goa sections) ── */
-.locationDetail {
-  margin-bottom: 1.8rem;
-}
-
-.locationDetailTitle {
-  font-family: 'IM Fell English', serif;
-  font-size: clamp(.95rem, 2vw, 1.35rem);
-  font-style: italic;
-  color: var(--saffron);
-  text-align: center;
-  margin-bottom: .3rem;
-}
-
-.locationDetailLine {
-  width: 55px;
-  height: 2px;
-  background: linear-gradient(90deg, var(--saffron), var(--gold));
-  border-radius: 2px;
-  margin: 0 auto 1.1rem;
-}
-
-/* ── 3 COURSE CARDS ── */
 .courseCard {
-  background: rgba(255, 253, 248, .93);
-  border: 1px solid var(--border);
-  border-radius: 7px;
-  overflow: hidden;
-  box-shadow: 0 5px 22px var(--shadow);
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  transition: transform .22s, box-shadow .22s;
-}
-
-.courseCard:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 32px var(--shadow-md);
-}
-
-.courseImgWrap {
+  background: #fff;
+  border-radius: 12px; overflow: hidden;
+  box-shadow: 0 6px 28px var(--shadow);
+  border: 1px solid var(--border-lt);
+  display: flex; flex-direction: column; height: 100%;
+  transition: transform .25s, box-shadow .25s;
   position: relative;
-  aspect-ratio: 16/9;
-  overflow: hidden;
 }
-
-.courseImg {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  transition: transform .5s ease;
-}
-
-.courseCard:hover .courseImg {
-  transform: scale(1.06);
-}
-
-.courseImgOverlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to bottom, transparent 40%, rgba(42, 21, 5, .35) 100%);
+.courseCard:hover { transform: translateY(-6px); box-shadow: 0 16px 36px rgba(200,112,10,.16); }
+.courseImgWrap { position: relative; aspect-ratio: 4/3; overflow: hidden; }
+.courseImg { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .55s ease; }
+.courseCard:hover .courseImg { transform: scale(1.07); }
+.courseImgOverlay { position: absolute; inset: 0; background: linear-gradient(to bottom,transparent 40%,rgba(42,21,5,.4) 100%); pointer-events: none; }
+.courseCardGlow {
+  position: absolute; top: -40px; right: -40px;
+  width: 120px; height: 120px;
+  background: radial-gradient(circle,rgba(241,85,5,.35),transparent);
+  opacity: 0; transition: opacity .35s;
   pointer-events: none;
 }
-
+.courseCard:hover .courseCardGlow { opacity: 1; }
 .courseHourBadge {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  font-family: 'Cinzel', serif;
-  font-weight: 900;
-  font-size: clamp(.65rem, 1.1vw, .82rem);
+  position: absolute; top: 12px; left: 12px;
+  font-family: var(--font-menu); font-weight: 700;
+  font-size: clamp(.6rem,1vw,.75rem);
   color: #fff;
-  background: linear-gradient(135deg, var(--saffron), var(--saffron-dk));
-  padding: .3rem .65rem;
-  border-radius: 3px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, .25);
-  letter-spacing: .06em;
+  background: linear-gradient(135deg,var(--saffron),var(--saffron-dk));
+  padding: .3rem .75rem; border-radius: 20px;
+  box-shadow: 0 3px 10px rgba(0,0,0,.25); letter-spacing: .08em;
 }
-
-.courseBody {
-  padding: 1.1rem 1.2rem .8rem;
-  flex: 1;
-}
-
+.courseBody { padding: 1.1rem 1.2rem .8rem; flex: 1; }
 .courseTitle {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(.92rem, 1.65vw, 1.1rem);
-  font-weight: 600;
-  font-style: italic;
-  color: var(--saffron);
-  margin-bottom: .3rem;
-  line-height: 1.3;
+  font-family: var(--font-fell); font-size: clamp(.92rem,1.65vw,1.1rem);
+  font-weight: 600; font-style: italic;
+  color: var(--saffron); margin-bottom: .3rem; line-height: 1.3;
 }
-
-.courseLine {
-  width: 40px;
-  height: 2px;
-  background: linear-gradient(90deg, var(--saffron), var(--gold));
-  border-radius: 2px;
-  margin-bottom: .8rem;
-}
-
-.courseDesc {
-  font-size: clamp(.85rem, 1.38vw, .97rem);
-  line-height: 1.82;
-  color: var(--ink);
-  margin: 0;
-}
-
+.courseLine { width: 40px; height: 2px; background: linear-gradient(90deg,var(--saffron),var(--gold)); border-radius: 2px; margin-bottom: .8rem; }
+.courseDesc { font-family: var(--font-body); font-size: clamp(.84rem,1.35vw,.96rem); line-height: 1.82; color: var(--ink-md); margin: 0; }
 .courseBtn {
-  display: block;
+  display: flex; align-items: center; justify-content: center; gap: 6px;
   text-align: center;
-  font-family: 'Cinzel', serif;
-  font-size: clamp(.62rem, 1vw, .76rem);
-  font-weight: 700;
-  letter-spacing: .1em;
-  text-transform: uppercase;
+  font-family: var(--font-menu); font-size: clamp(.6rem,.95vw,.72rem);
+  font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
   text-decoration: none;
-  color: var(--saffron);
-  border: 1.5px solid var(--saffron);
-  padding: .55rem 1rem;
-  margin: 0 1.2rem 1.2rem;
-  border-radius: 3px;
-  transition: background .2s, color .2s, transform .2s;
+  color: #fff; background: linear-gradient(135deg,var(--saffron),var(--saffron-dk));
+  padding: .62rem 1rem; margin: 0 1.2rem 1.2rem;
+  border-radius: 30px;
+  box-shadow: 0 4px 14px rgba(200,112,10,.3);
+  transition: opacity .2s, transform .2s, box-shadow .2s;
 }
+.courseBtn:hover { opacity: .9; transform: translateY(-2px); box-shadow: 0 7px 20px rgba(200,112,10,.4); color: #fff; }
 
-.courseBtn:hover {
-  background: var(--saffron);
-  color: #fff;
-  transform: translateY(-2px);
-  box-shadow: 0 5px 16px var(--glow);
+/* ══════════════════════════════════════
+   QUOTE IMAGE CARDS
+══════════════════════════════════════ */
+.quoteCardsGrid {
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  gap: 1.5rem;
+  margin: 2rem 0;
 }
-
-/* ── WHY AYM ── */
-.whyTitle {
-  font-family: 'Cinzel', serif;
-  font-size: clamp(.95rem, 2.2vw, 1.45rem);
-  font-weight: 700;
-  color: var(--saffron);
-  text-align: center;
-  letter-spacing: .04em;
-  margin-bottom: .35rem;
-  line-height: 1.3;
-}
-
-.whyUnderline {
-  width: 70px;
-  height: 2.5px;
-  background: linear-gradient(90deg, var(--saffron), var(--gold));
-  border-radius: 2px;
-  margin: 0 auto 1.8rem;
-}
-
-/* ── QUOTE IMAGE CARDS ── */
 .quoteImgCard {
-  position: relative;
-  border-radius: 7px;
-  overflow: hidden;
-  border: 2px solid var(--border);
-  box-shadow: 0 6px 24px var(--shadow-md);
+  position: relative; border-radius: 10px; overflow: hidden;
+  border: 2px solid var(--border); box-shadow: 0 8px 28px var(--shadow-md);
   aspect-ratio: 16/10;
+  cursor: default;
 }
-
-.quoteImg {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  transition: transform .5s ease;
-}
-
-.quoteImgCard:hover .quoteImg {
-  transform: scale(1.05);
-}
-
+.quoteImg { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .55s ease; }
+.quoteImgCard:hover .quoteImg { transform: scale(1.06); }
 .quoteOverlay {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: .65rem 1rem .8rem;
-  background: linear-gradient(to top, rgba(180, 65, 0, .92) 0%, rgba(180, 65, 0, .65) 70%, transparent 100%);
+  position: absolute; bottom: 0; left: 0; right: 0;
+  padding: 1.2rem 1.4rem;
+  background: linear-gradient(to top,rgba(140,50,0,.92) 0%,rgba(140,50,0,.6) 65%,transparent 100%);
 }
-
-.quoteBar {
+.quoteMarkIcon {
   display: block;
-  width: 35px;
-  height: 2px;
-  background: rgba(255, 255, 255, .55);
-  margin-bottom: .35rem;
-  border-radius: 2px;
+  font-family: var(--font-fell); font-size: 3.5rem; line-height: .7;
+  color: rgba(255,243,210,.4); font-style: italic;
+  margin-bottom: .2rem;
 }
-
 .quoteCaption {
-  font-family: 'Dancing Script', cursive;
-  font-size: clamp(.88rem, 1.8vw, 1.2rem);
-  color: #fff;
-  margin: 0;
-  line-height: 1.3;
-  text-shadow: 0 1px 6px rgba(0, 0, 0, .4);
+  font-family: var(--font-fell); font-size: clamp(.9rem,1.8vw,1.2rem);
+  font-style: italic;
+  color: #fff3d2; margin: 0 0 .5rem; line-height: 1.4;
+  text-shadow: 0 1px 6px rgba(0,0,0,.4);
 }
+.quoteBar { display: block; width: 35px; height: 2px; background: rgba(255,255,255,.45); border-radius: 2px; }
 
-/* ── ARRIVAL / INCLUDES PANELS ── */
+/* ══════════════════════════════════════
+   INFO PANELS — improved design
+══════════════════════════════════════ */
+.infoPanelsGrid {
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
 .infoPanel {
-  background: rgba(255, 253, 248, .92);
-  border: 1px solid var(--saffron);
-  border-radius: 6px;
-  padding: clamp(1.2rem, 3vw, 1.8rem) clamp(1.3rem, 3.5vw, 2rem);
-  height: 100%;
-  box-shadow: 0 4px 18px var(--shadow);
+  border: 1.5px solid var(--border-gold);
+  border-radius: 12px;
+  padding: clamp(1.4rem,3vw,2rem) clamp(1.4rem,3.5vw,2.2rem);
+  box-shadow: 0 6px 28px var(--shadow);
   position: relative;
+  overflow: hidden;
 }
-
 .infoPanel::before {
   content: '';
-  position: absolute;
-  inset: 6px;
-  border: 1px dashed rgba(212, 160, 23, .16);
-  border-radius: 3px;
-  pointer-events: none;
+  position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg,var(--saffron),var(--gold),var(--saffron));
 }
-
+.infoPanel::after {
+  content: '';
+  position: absolute; inset: 8px;
+  border: 1px dashed rgba(212,160,23,.16); border-radius: 8px; pointer-events: none;
+}
+.infoPanelHeader {
+  display: flex; align-items: center; gap: .75rem;
+  margin-bottom: .6rem;
+}
 .panelTitle {
-  font-family: 'IM Fell English', serif;
-  font-size: clamp(.92rem, 1.8vw, 1.2rem);
-  font-style: italic;
-  color: var(--saffron);
-  text-align: center;
-  margin-bottom: .35rem;
+  font-family: var(--font-fell);
+  font-size: clamp(.95rem,1.8vw,1.2rem); font-style: italic;
+  color: var(--saffron); margin: 0; line-height: 1.3;
 }
-
 .panelUnderline {
-  width: 50px;
-  height: 2px;
-  background: linear-gradient(90deg, var(--saffron), var(--gold));
-  border-radius: 2px;
-  margin: 0 auto 1.1rem;
+  width: 50px; height: 2px;
+  background: linear-gradient(90deg,var(--saffron),var(--gold));
+  border-radius: 2px; margin: 0 0 1.2rem;
+}
+.panelList { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: .65rem; }
+.panelListItem {
+  display: flex; align-items: flex-start; gap: .9rem;
+  padding: .6rem .75rem;
+  background: rgba(255,255,255,.55);
+  border: 1px solid rgba(184,134,11,.12);
+  border-radius: 6px;
+  border-left: 3px solid var(--saffron);
+  transition: background .18s, border-color .18s, transform .18s;
+}
+.panelListItem:hover { background: rgba(255,248,230,.8); border-left-color: var(--gold); transform: translateX(4px); }
+.panelListNum {
+  font-family: var(--font-menu); font-size: .72rem; font-weight: 700;
+  color: var(--saffron); letter-spacing: .05em; flex-shrink: 0; min-width: 24px;
+  margin-top: 2px;
+}
+.panelListText {
+  font-family: var(--font-body);
+  font-size: clamp(.86rem,1.38vw,.97rem); line-height: 1.7; color: var(--ink-md);
 }
 
-.panelList {
-  padding-left: 1.2rem;
-  margin: 0;
-  list-style: decimal;
+/* ══════════════════════════════════════
+   RESPONSIVE — every breakpoint
+══════════════════════════════════════ */
+
+/* ≥1400 */
+@media (min-width:1400px) {
+  .locationCardsGrid { gap: 2rem; }
+  .courseCardsGrid { gap: 2rem; }
+  .quoteCardsGrid { gap: 2rem; }
+  .infoPanelsGrid { gap: 2rem; }
 }
 
-.panelList li {
-  font-size: clamp(.86rem, 1.38vw, .98rem);
-  line-height: 1.85;
-  color: var(--ink);
-  margin-bottom: .3rem;
+/* 1200–1399 */
+@media (min-width:1200px) and (max-width:1399px) {
+  .tiRow { gap: 2.5rem; }
 }
 
-.panelList li::marker {
-  color: var(--saffron);
-  font-weight: 700;
+/* 1024–1199 */
+@media (min-width:1024px) and (max-width:1199px) {
+  .tiRow { gap: 2rem; }
+  .courseCardsGrid { grid-template-columns: repeat(3,1fr); gap: 1.2rem; }
+  .locationCardsGrid { gap: 1.2rem; }
 }
 
-/* ════════════════════════════════════════
-   RESPONSIVE BREAKPOINTS
-════════════════════════════════════════ */
-/* ≤1399 */
-@media (max-width:1399.98px) {
-
-  .mandalaTL,
-  .mandalaBR {
-    opacity: .13;
-  }
+/* 900–1023 */
+@media (min-width:900px) and (max-width:1023px) {
+  .tiRow { gap: 1.8rem; }
+  .courseCardsGrid { grid-template-columns: repeat(3,1fr); gap: 1rem; }
+  .locationCardsGrid { gap: 1rem; }
+  .quoteCardsGrid { gap: 1.2rem; }
+  .infoPanelsGrid { gap: 1.2rem; }
 }
 
-/* ≤1199 */
-@media (max-width:1199.98px) {
-
-  .mandalaTR,
-  .mandalaBL {
-    opacity: .06;
-  }
+/* ≤899 */
+@media (max-width:899px) {
+  .tiRow { grid-template-columns: 1fr; gap: 1.5rem; }
+  .tiRowReverse { direction: ltr; }
+  .tiVideoFrame { max-width: 280px; }
+  .tiDotGrid { display: none; }
+  .locationCardsGrid { grid-template-columns: 1fr; gap: 1.2rem; }
+  .courseCardsGrid { grid-template-columns: repeat(2,1fr); gap: 1.2rem; }
+  .quoteCardsGrid { gap: 1.2rem; }
+  .infoPanelsGrid { gap: 1.2rem; }
+  .badgesRow { gap: 1rem; }
+  .mandalaTR, .mandalaBL { display: none; }
 }
 
-/* ≤991 */
-@media (max-width:991.98px) {
-  .mandalaTL {
-    width: 200px;
-    height: 200px;
-    opacity: .1;
-  }
-
-  .mandalaBR {
-    width: 180px;
-    height: 180px;
-    opacity: .1;
-  }
-
-  .mandalaTR,
-  .mandalaBL {
-    display: none;
-  }
-
-  .badge {
-    width: clamp(60px, 11vw, 88px);
-    height: clamp(60px, 11vw, 88px);
-  }
+/* 768–899 */
+@media (min-width:768px) and (max-width:899px) {
+  .courseCardsGrid { grid-template-columns: repeat(2,1fr); }
+  .locationCardsGrid { grid-template-columns: repeat(2,1fr); }
 }
 
 /* ≤767 */
-@media (max-width:767.98px) {
-
-  .mandalaTL,
-  .mandalaBR {
-    display: none;
-  }
-
-  .chakraGlow {
-    display: none;
-  }
-
-  .heroTitle {
-    font-size: clamp(1.2rem, 6vw, 2rem);
-  }
-
-  .cardTitle {
-    font-size: clamp(.88rem, 4vw, 1.1rem);
-  }
-
-  .vintageCard {
-    padding: 1.2rem 1rem;
-  }
-
-  .vintageCard::before {
-    display: none;
-  }
-
-  .badgesRow {
-    gap: .45rem;
-  }
-
-  .badge {
-    width: clamp(58px, 13vw, 82px);
-    height: clamp(58px, 13vw, 82px);
-  }
-
-  .quoteImgCard {
-    aspect-ratio: 4/3;
-  }
-
-  .courseBody {
-    padding: .95rem 1rem .7rem;
-  }
-
-  .courseBtn {
-    margin: 0 1rem 1rem;
-  }
+@media (max-width:767px) {
+  .mandalaTL, .mandalaBR { display: none; }
+  .chakraGlow { display: none; }
+  .heroTitle { font-size: 1.1rem; }
+  .tiRow { grid-template-columns: 1fr; gap: 1.2rem; }
+  .tiRowReverse { direction: ltr; }
+  .tiVideoFrame { max-width: 240px; }
+  .tiImageFrame { aspect-ratio: 16/10; }
+  .tiDotGrid { display: none; }
+  .locationCardsGrid { grid-template-columns: 1fr; }
+  .courseCardsGrid { grid-template-columns: 1fr; gap: 1.2rem; }
+  .quoteCardsGrid { grid-template-columns: 1fr; gap: 1rem; }
+  .infoPanelsGrid { grid-template-columns: 1fr; }
+  .badgeFrameCircle { width: 70px; height: 70px; }
+  .badgeFrameSquare { width: 65px; height: 75px; }
+  .badgeFrameWide { width: 100px; height: 52px; }
+  .badgesRow { gap: .75rem; }
+  .vintageHeading { font-size: 1rem; }
+  .bodyPara { font-size: .92rem; }
 }
 
-/* ≤575 */
-@media (max-width:575.98px) {
-  .heroTitle {
-    font-size: clamp(1.1rem, 7vw, 1.7rem);
-  }
-
-  .heroSub {
-    font-size: .55rem;
-    letter-spacing: .18em;
-  }
-
-  .bodyPara {
-    font-size: .88rem;
-    line-height: 1.85;
-  }
-
-  .badge {
-    width: clamp(52px, 14vw, 74px);
-    height: clamp(52px, 14vw, 74px);
-  }
-
-  .badgeTop {
-    font-size: .5rem;
-  }
-
-  .badgeSub {
-    font-size: .62rem;
-  }
-
-  .vintageCard {
-    padding: 1rem .85rem;
-  }
-
-  .cardTitle {
-    font-size: .88rem;
-  }
-
-  .locationCard {
-    padding: .85rem .9rem;
-  }
-
-  .locationName {
-    font-size: .88rem;
-  }
-
-  .courseTitle {
-    font-size: .9rem;
-  }
-
-  .courseDesc {
-    font-size: .83rem;
-  }
-
-  .courseBtn {
-    font-size: .6rem;
-    padding: .48rem .85rem;
-  }
-
-  .whyTitle {
-    font-size: clamp(.9rem, 4.5vw, 1.1rem);
-  }
-
-  .quoteCaption {
-    font-size: .85rem;
-  }
-
-  .panelTitle {
-    font-size: .92rem;
-  }
-
-  .panelList li {
-    font-size: .83rem;
-  }
-
-  .infoPanel {
-    padding: 1rem .9rem;
-  }
+/* ≤599 */
+@media (max-width:599px) {
+  .heroTitle { font-size: 1rem; }
+  .badgeFrameCircle { width: 62px; height: 62px; }
+  .badgeFrameSquare { width: 58px; height: 70px; }
+  .badgeFrameWide { width: 90px; height: 46px; }
+  .badgesRow { gap: .6rem; }
+  .courseCardsGrid { grid-template-columns: 1fr; }
+  .courseBtn { margin: 0 1rem 1rem; font-size: .6rem; }
+  .tiVideoFrame { max-width: 220px; }
+  .quoteCardsGrid { grid-template-columns: 1fr; }
+  .infoPanelsGrid { grid-template-columns: 1fr; }
+  .infoPanel { padding: 1.1rem 1rem; }
+  .bodyPara { font-size: .9rem; }
+  .vintageHeading { font-size: .95rem; }
 }
 
-/* ≤399 */
-@media (max-width:399.98px) {
-  .heroTitle {
-    font-size: 1.05rem;
-  }
+/* ≤480 */
+@media (max-width:480px) {
+  .heroTitle { font-size: .95rem; }
+  .heroSub { font-size: .55rem; letter-spacing: .18em; }
+  .badgeFrameCircle { width: 56px; height: 56px; }
+  .badgeFrameSquare { width: 52px; height: 64px; }
+  .badgeFrameWide { width: 82px; height: 42px; }
+  .badgeLabelText { font-size: .48rem; }
+  .badgesRow { gap: .5rem; }
+  .vintageHeading { font-size: .9rem; }
+  .bodyPara { font-size: .87rem; }
+  .courseTitle { font-size: .9rem; }
+  .courseDesc { font-size: .82rem; }
+  .panelListText { font-size: .83rem; }
+  .panelTitle { font-size: .9rem; }
+  .quoteCaption { font-size: .88rem; }
+  .locationName { font-size: .9rem; }
+  .locationDesc { font-size: .82rem; }
+  .locationCardBody { padding: 1rem; }
+  .tiVideoFrame { max-width: 200px; }
+}
 
-  .heroSub {
-    font-size: .5rem;
-  }
+/* ≤400 */
+@media (max-width:400px) {
+  .heroTitle { font-size: .9rem; }
+  .badgeFrameCircle { width: 50px; height: 50px; }
+  .badgeFrameSquare { width: 46px; height: 58px; }
+  .badgeFrameWide { width: 74px; height: 38px; }
+  .badgeLabelText { font-size: .44rem; }
+  .badgesRow { gap: .4rem; }
+  .vintageHeading { font-size: .85rem; }
+  .bodyPara { font-size: .83rem; }
+  .courseTitle { font-size: .84rem; }
+  .courseDesc { font-size: .78rem; }
+  .panelListText { font-size: .78rem; }
+  .panelTitle { font-size: .85rem; }
+  .quoteCaption { font-size: .82rem; }
+  .infoPanel { padding: .9rem .85rem; }
+  .tiVideoFrame { max-width: 180px; }
+  .locationName { font-size: .84rem; }
+  .locationDesc { font-size: .78rem; }
+}
 
-  .badge {
-    width: 50px;
-    height: 50px;
-  }
+/* ≤360 */
+@media (max-width:360px) {
+  .heroTitle { font-size: .85rem; }
+  .badgeFrameCircle { width: 46px; height: 46px; }
+  .badgeFrameSquare { width: 42px; height: 52px; }
+  .badgeFrameWide { width: 68px; height: 34px; }
+  .badgesRow { gap: .35rem; }
+  .vintageHeading { font-size: .82rem; }
+  .bodyPara { font-size: .8rem; }
+  .courseTitle { font-size: .8rem; }
+  .infoPanel { padding: .85rem .75rem; }
+  .tiVideoFrame { max-width: 160px; }
+  .locationCardBody { padding: .85rem; }
+}
 
-  .badgeTop {
-    font-size: .46rem;
-  }
-
-  .badgeSub {
-    font-size: .58rem;
-  }
-
-  .vintageCard {
-    padding: .85rem .75rem;
-  }
-
-  .cardTitle {
-    font-size: .84rem;
-  }
-
-  .locationCard {
-    padding: .75rem .8rem;
-    gap: .6rem;
-  }
-
-  .locationName {
-    font-size: .82rem;
-  }
-
-  .locationDesc {
-    font-size: .8rem;
-  }
-
-  .courseTitle {
-    font-size: .84rem;
-  }
-
-  .courseDesc {
-    font-size: .78rem;
-  }
-
-  .whyTitle {
-    font-size: .88rem;
-  }
-
-  .bodyPara {
-    font-size: .83rem;
-  }
-
-  .panelList li {
-    font-size: .78rem;
-  }
-
-  .panelTitle {
-    font-size: .85rem;
-  }
-
-  .infoPanel {
-    padding: .85rem .75rem;
-  }
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .mandalaTL, .mandalaBR, .mandalaTR, .mandalaBL { animation: none; }
+  .chakraGlow { animation: none; }
+  .tiRow { animation: none; }
+  .pulseDot { animation: none; }
+  .tiImage { transition: none; }
+  .courseImg { transition: none; }
+  .quoteImg { transition: none; }
+  .locationCardImg img { transition: none; }
+  .badge:hover { transform: none; }
+  .courseCard:hover { transform: none; }
+  .locationCard:hover { transform: none; }
+  .panelListItem:hover { transform: none; }
 }
