@@ -525,7 +525,7 @@ export default function OnlineYogaCourse() {
               <strong>Yoga Capital of the World</strong>.
             </p>
           </div>
-          <OmDivider />
+      
         </div>
       </section>
 
@@ -565,12 +565,12 @@ export default function OnlineYogaCourse() {
                 <div className={styles.whyImageBadge}>Since 2010 · Rishikesh</div>
               </div>
               <div className={styles.whyVideoBox}>
-                <iframe
-                  src={HERO_VIDEO_URL}
-                  title="AYM Yoga School"
-                  allow="autoplay; encrypted-media"
-                  allowFullScreen
-                />
+               <iframe
+  src="https://www.youtube.com/embed/EJ6K-rhqevE?autoplay=1&mute=1&controls=0&modestbranding=1&rel=0&loop=1&playlist=EJ6K-rhqevE"
+  title="AYM Yoga School"
+  allow="autoplay"
+  allowFullScreen
+/>
                 <div className={styles.whyVideoBadge}>
                   <span className={styles.pulseDot} /> Live Classes
                 </div>
