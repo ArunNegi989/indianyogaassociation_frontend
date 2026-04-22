@@ -6,6 +6,8 @@ import HowToReach from "@/components/home/Howtoreach";
 import StickySectionNav from "@/components/common/StickySectionNav";
 import api from "@/lib/api";
 import PremiumGallerySection from "@/components/PremiumGallerySection";
+import ReviewSection from "@/components/common/Reviewsection";
+import RatingsSummarySection from "@/components/home/RatingsSummarySection";
 
 /* ─────────────────────────────────────────
    TYPES
@@ -443,7 +445,9 @@ function CurrencyDropdown({
         <span className={styles.currDropFlag}>
           {currency === "USD" ? "🇺🇸" : "🇮🇳"}
         </span>
-        <span className={styles.currDropLabel}>{currency}</span>
+       <span className={styles.currDropLabel}>
+  {currency === "USD" ? "English" : "हिन्दी"}
+</span>
         <svg
           className={`${styles.currDropArrow} ${open ? styles.currDropArrowOpen : ""}`}
           viewBox="0 0 12 8"
@@ -476,10 +480,12 @@ function CurrencyDropdown({
                 {c === "USD" ? "🇺🇸" : "🇮🇳"}
               </span>
               <div className={styles.currDropItemText}>
-                <span className={styles.currDropItemCode}>{c}</span>
-                <span className={styles.currDropItemName}>
-                  {c === "USD" ? "US Dollar" : "Indian Rupee"}
-                </span>
+               <span className={styles.currDropItemCode}>
+  {c === "USD" ? "English" : "हिन्दी"}
+</span>
+<span className={styles.currDropItemName}>
+  {c === "USD" ? "US Dollar" : "Indian Rupee"}
+</span>
               </div>
               {currency === c && (
                 <svg
@@ -2178,7 +2184,8 @@ export default function YogaTTC300() {
         <span className={styles.omGlyph}>ॐ</span>
         <span className={styles.divLine} />
       </div>
-
+{/* ✅ REVIEWS — now a reusable separate component */}
+      <ReviewSection RatingsSummaryComponent={<RatingsSummarySection />} />
       <div id="location">
   <HowToReach />
 </div>
