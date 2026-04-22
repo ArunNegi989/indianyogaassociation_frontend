@@ -473,3 +473,547 @@
     height: 360px;
   }
 }
+
+/* ====================================================
+   SPLIT GRID — text + media
+==================================================== */
+.splitGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: start;
+  margin-bottom: 40px;
+}
+
+.splitText {
+  /* inherits bodyText styles */
+}
+
+.mediaStack {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* imageBox already defined — keep as-is */
+
+/* ====================================================
+   VIDEO BLOCK
+==================================================== */
+.videoBlock {
+  border-radius: 8px;
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  background: #1a1a1a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.videoBlock iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+
+.videoPlaceholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.playBtn {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: rgba(232, 96, 10, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.videoLabel {
+  color: #fff;
+  font-size: 0.78rem;
+  font-family: 'Lora', serif;
+  font-style: italic;
+  opacity: 0.85;
+}
+
+/* ====================================================
+   AYURVEDA CALLOUT
+==================================================== */
+.ayurvedaCallout {
+  background: #fff9f4;
+  border-left: 3px solid var(--orange);
+  border-radius: 0 8px 8px 0;
+  padding: 16px 20px;
+  margin-bottom: 28px;
+}
+
+.ayurvedaCallout .bodyText {
+  margin-bottom: 0;
+}
+
+/* ====================================================
+   BENEFITS PILLS  (replaces benefitsList)
+==================================================== */
+.benefitsWrap {
+  margin-bottom: 32px;
+}
+
+.pillsRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: #f5f0e8;
+  border: 0.5px solid #d4b87a;
+  border-radius: 100px;
+  padding: 7px 14px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #5a3e1b;
+}
+
+.pillDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--orange);
+  flex-shrink: 0;
+}
+
+/* ====================================================
+   CTA BAR  (replaces ctaRow)
+==================================================== */
+.ctaBar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  background: #fafafa;
+  border: 0.5px solid #e5e5e5;
+  border-radius: 10px;
+  padding: 20px 24px;
+}
+
+/* ====================================================
+   RESPONSIVE ADDITIONS
+==================================================== */
+@media (max-width: 767.98px) {
+  .splitGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .mediaStack {
+    gap: 12px;
+  }
+
+  .videoBlock {
+    border-radius: 6px;
+  }
+
+  .ctaBar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* ====================================================
+   ENHANCED BEIGE SECTION STYLES - SIMPLE & CLEAN
+==================================================== */
+
+/* Inner container */
+.beigeInner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Shivir Header */
+.shivirHeader {
+  text-align: center;
+  margin-bottom: 40px;
+  position: relative;
+}
+
+.headerAccent {
+  width: 60px;
+  height: 2px;
+  background: var(--orange);
+  margin: 0 auto 20px auto;
+}
+
+.shivirTitle {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(1.3rem, 3vw, 1.8rem);
+  font-weight: 700;
+  color: #2c1a08;
+  margin-bottom: 10px;
+}
+
+.shivirSubtitle {
+  font-family: 'Lora', serif;
+  font-size: clamp(1rem, 2vw, 1.2rem);
+  font-weight: 500;
+  color: var(--orange);
+  margin-bottom: 0;
+}
+
+/* Description Card */
+.descriptionCard {
+  background: #fff;
+  border-radius: 8px;
+  padding: 28px 32px;
+  margin-bottom: 40px;
+  border: 1px solid rgba(232, 96, 10, 0.1);
+}
+
+/* Camp Image Caption */
+.campImageBox {
+  position: relative;
+  width: 100%;
+  max-width: 700px;
+  height: 340px;
+  overflow: hidden;
+  border-radius: 8px;
+  margin: 0 auto;
+}
+
+.campImageCaption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.7);
+  padding: 8px 16px;
+  color: white;
+  font-size: 0.8rem;
+}
+
+/* Info Card */
+.infoCard {
+  background: #fff9f0;
+  border-radius: 8px;
+  padding: 32px;
+  margin: 40px 0;
+  text-align: center;
+  border: 1px solid rgba(232, 96, 10, 0.1);
+}
+
+.datesGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  margin-top: 20px;
+  text-align: left;
+}
+
+.dateBlock {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.dateHighlight {
+  font-weight: 700;
+  color: var(--orange);
+  margin-bottom: 8px;
+}
+
+.durationRange {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #2c1a08;
+  margin: 10px 0;
+}
+
+.dateNote {
+  color: #666;
+  font-size: 0.85rem;
+}
+
+.datePeriod {
+  padding: 8px 0;
+  font-weight: 500;
+  color: #444;
+  border-bottom: 1px solid #eee;
+}
+
+.datePeriod:last-child {
+  border-bottom: none;
+}
+
+/* Timetable Card */
+.timetableCard {
+  background: #1a472a;
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 40px 0;
+}
+
+.timetableHeader {
+  padding: 20px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.timetableTitle {
+  font-family: 'Cinzel', serif;
+  font-size: 1.3rem;
+  color: white;
+  margin-bottom: 6px;
+}
+
+.timetableSubtitle {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.85rem;
+}
+
+.timetableBody {
+  padding: 24px;
+}
+
+.timetableColumns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+}
+
+.timetableRow {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.timeSlot {
+  font-weight: 700;
+  color: #ffd700;
+  font-size: 0.85rem;
+}
+
+.activity {
+  color: white;
+  font-size: 0.85rem;
+}
+
+/* Pricing Grid */
+.pricingGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin: 40px 0;
+}
+
+.pricingCard {
+  background: white;
+  border-radius: 8px;
+  padding: 24px;
+  text-align: center;
+  border: 1px solid rgba(232, 96, 10, 0.1);
+  transition: all 0.3s ease;
+}
+
+.pricingCard:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.pricingTitle {
+  font-family: 'Cinzel', serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #2c1a08;
+  margin-bottom: 12px;
+}
+
+.pricingAmount {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--orange);
+  margin-bottom: 4px;
+}
+
+.pricingDetail {
+  color: #666;
+  font-size: 0.8rem;
+  margin-bottom: 16px;
+}
+
+.pricingIncludes {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.75rem;
+  color: #555;
+}
+
+/* Enrollment Section */
+.enrollSection {
+  background: #e8f0f8;
+  border-radius: 8px;
+  padding: 32px;
+  margin: 40px 0;
+  text-align: center;
+}
+
+.enrollSteps {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin: 24px 0;
+  flex-wrap: wrap;
+}
+
+.step {
+  text-align: center;
+}
+
+.stepNumber {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: var(--orange);
+  color: white;
+  border-radius: 50%;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.step p {
+  margin: 0;
+  font-size: 0.85rem;
+}
+
+.seatsNote {
+  background: #fff3cd;
+  border: 1px solid #ffeaa7;
+  border-radius: 20px;
+  padding: 8px 20px;
+  display: inline-block;
+  font-size: 0.85rem;
+  color: #856404;
+}
+
+/* Eligibility Card */
+.eligibilityCard {
+  background: #fff5eb;
+  border-radius: 8px;
+  padding: 32px;
+  margin: 40px 0;
+  text-align: center;
+  border: 1px solid rgba(232, 96, 10, 0.1);
+}
+
+.eligibilityText {
+  font-size: 1rem;
+  margin-top: 12px;
+}
+
+.eligibilityText strong {
+  color: var(--orange);
+}
+
+/* Guidelines Section */
+.guidelinesSection {
+  background: white;
+  border-radius: 8px;
+  padding: 32px;
+  margin: 40px 0;
+  border: 1px solid #eee;
+}
+
+.guidelinesGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.guidelineItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: #fafaf9;
+  border-radius: 6px;
+}
+
+.guidelineDot {
+  width: 6px;
+  height: 6px;
+  background: var(--orange);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.guidelineItem p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #444;
+}
+
+/* Reach Section */
+.reachSection {
+  background: #2c1a08;
+  border-radius: 8px;
+  padding: 32px;
+  margin: 40px 0 0;
+  text-align: center;
+  color: white;
+}
+
+.reachSection .sectionHeading {
+  color: white;
+  margin-top: 0;
+}
+
+.reachSection .beigeBodyText {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .datesGrid,
+  .pricingGrid,
+  .guidelinesGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .timetableColumns {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  
+  .enrollSteps {
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .descriptionCard {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 576px) {
+  .pricingAmount {
+    font-size: 1.3rem;
+  }
+  
+  .stepNumber {
+    width: 32px;
+    height: 32px;
+  }
+}

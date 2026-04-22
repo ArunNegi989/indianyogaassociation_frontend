@@ -526,3 +526,1610 @@
     height: 420px;
   }
 }
+
+/* ====================================================
+   ENHANCED "WHAT IS" SECTION
+==================================================== */
+
+.section {
+  padding: 8px 32px 28px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* Section Header */
+.sectionHeader {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.sectionBadge {
+  display: inline-block;
+  background: rgba(232, 96, 10, 0.1);
+  color: var(--orange);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  padding: 4px 14px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.sectionTitle {
+  font-family: 'Lora', serif;
+  font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+  font-weight: 600;
+  color: var(--text-dark);
+  text-align: center;
+  margin-bottom: 16px;
+  line-height: 1.3;
+}
+
+.sectionUnderline {
+  width: 60px;
+  height: 2px;
+  background: var(--orange);
+  margin: 0 auto;
+}
+
+/* Retreat Content */
+.retreatContent {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* Quote Box */
+.retreatQuote {
+  background: linear-gradient(135deg, #fff9f0, #fff5e8);
+  border-left: 3px solid var(--orange);
+  border-radius: 8px;
+  padding: 28px 32px;
+  margin-bottom: 32px;
+  text-align: center;
+  position: relative;
+}
+
+.quoteIcon {
+  margin-bottom: 16px;
+  display: inline-block;
+}
+
+.quoteText {
+  font-family: 'Lora', serif;
+  font-size: clamp(1rem, 1.8vw, 1.2rem);
+  font-style: italic;
+  color: var(--text-dark);
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+.quoteLine {
+  width: 40px;
+  height: 1px;
+  background: var(--orange);
+  margin: 0 auto;
+  opacity: 0.5;
+}
+
+/* Text Block */
+.textBlock {
+  margin-bottom: 32px;
+}
+
+.bodyText {
+  font-size: clamp(0.82rem, 1.4vw, 0.92rem);
+  line-height: 1.85;
+  color: var(--text-body);
+  margin-bottom: 1rem;
+  text-align: left;
+}
+
+.bodyText strong {
+  font-weight: 700;
+  color: var(--text-dark);
+}
+
+.highlight {
+  font-weight: 600;
+  color: var(--orange);
+}
+
+/* Two Column Layout */
+.twoColumnLayout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin: 32px 0;
+}
+
+.insightCard {
+  background: white;
+  border: 1px solid rgba(232, 96, 10, 0.1);
+  border-radius: 12px;
+  padding: 24px;
+  transition: all 0.3s ease;
+}
+
+.insightCard:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(232, 96, 10, 0.08);
+  border-color: rgba(232, 96, 10, 0.3);
+}
+
+.insightNumber {
+  font-family: 'Cinzel', serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--orange);
+  opacity: 0.5;
+  margin-bottom: 12px;
+  line-height: 1;
+}
+
+.insightTitle {
+  font-family: 'Lora', serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin-bottom: 12px;
+}
+
+.insightText {
+  font-size: 0.85rem;
+  line-height: 1.7;
+  color: var(--text-body);
+  margin: 0;
+}
+
+/* Program Note */
+.programNote {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #f8f8f8;
+  border-radius: 10px;
+  padding: 16px 24px;
+  margin-top: 24px;
+  border: 1px solid #eee;
+}
+
+.noteDot {
+  width: 8px;
+  height: 8px;
+  background: var(--orange);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.noteText {
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--text-dark);
+  margin: 0;
+}
+
+/* ====================================================
+   RESPONSIVE
+==================================================== */
+
+/* XS: < 576px */
+@media (max-width: 575.98px) {
+  .section {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  
+  .twoColumnLayout {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .retreatQuote {
+    padding: 20px;
+  }
+  
+  .quoteText {
+    font-size: 0.9rem;
+  }
+  
+  .insightCard {
+    padding: 18px;
+  }
+  
+  .insightNumber {
+    font-size: 1.5rem;
+  }
+  
+  .programNote {
+    padding: 12px 16px;
+  }
+}
+
+/* SM: 576px – 767px */
+@media (min-width: 576px) and (max-width: 767.98px) {
+  .section {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  
+  .twoColumnLayout {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .retreatQuote {
+    padding: 24px;
+  }
+}
+
+/* MD: 768px – 991px */
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .section {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+  
+  .twoColumnLayout {
+    gap: 20px;
+  }
+  
+  .insightCard {
+    padding: 20px;
+  }
+}
+
+/* LG: 992px – 1199px */
+@media (min-width: 992px) and (max-width: 1199.98px) {
+  .section {
+    max-width: 1000px;
+  }
+}
+
+/* XL: ≥ 1200px */
+@media (min-width: 1200px) {
+  .section {
+    padding-left: 48px;
+    padding-right: 48px;
+  }
+  
+  .insightCard {
+    padding: 28px;
+  }
+}
+
+/* ====================================================
+   ENHANCED HERO SECTION
+==================================================== */
+
+.heroSection1 {
+  padding: 44px 32px 8px;
+  max-width: 1100px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.heroContent {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* Hero Badge */
+.heroBadge {
+  display: inline-block;
+  margin-bottom: 20px;
+}
+
+.heroBadge span {
+  background: rgba(232, 96, 10, 0.1);
+  color: var(--orange);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  padding: 4px 12px;
+  border-radius: 20px;
+  text-transform: uppercase;
+}
+
+/* Main Title */
+.mainTitle {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(1.5rem, 4vw, 2.2rem);
+  font-weight: 700;
+  font-style: italic;
+  color: var(--text-dark);
+  margin-bottom: 16px;
+  letter-spacing: 0.02em;
+  line-height: 1.3;
+}
+
+/* Subtitle Wrapper */
+.subTitleWrapper {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 20px 0 30px;
+}
+
+.subTitleAccent {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--orange), transparent);
+}
+
+.subTitle {
+  font-family: 'Lora', serif;
+  font-size: clamp(1rem, 2.2vw, 1.35rem);
+  font-weight: 500;
+  color: var(--text-dark);
+  text-align: center;
+  margin: 0;
+  line-height: 1.4;
+  flex-shrink: 0;
+}
+
+/* Who Section */
+.whoSection {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 30px 0 16px;
+}
+
+.whoIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.whoTitle {
+  font-family: 'Lora', serif;
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  font-weight: 600;
+  color: var(--orange);
+  text-align: center;
+  margin: 0;
+}
+
+/* Maharishi Intro with Drop Cap */
+.maharishiIntro {
+  margin: 16px 0 28px;
+}
+
+.dropCap {
+  font-family: 'Lora', serif;
+  font-size: 3rem;
+  font-weight: 600;
+  color: var(--orange);
+  float: left;
+  line-height: 0.8;
+  margin-right: 8px;
+  margin-top: 4px;
+}
+
+/* Body Text */
+.bodyText {
+  font-size: clamp(0.82rem, 1.4vw, 0.92rem);
+  line-height: 1.85;
+  color: var(--text-body);
+  margin-bottom: 1rem;
+  text-align: left;
+}
+
+.bodyText strong {
+  font-weight: 700;
+  color: var(--text-dark);
+}
+
+/* Image Wrapper */
+.imageWrapper {
+  display: flex;
+  justify-content: center;
+  margin: 28px 0 8px;
+}
+
+.maharishiImageBox {
+  position: relative;
+  width: 100%;
+  max-width: 920px;
+  height: 480px;
+  overflow: hidden;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.imageCaption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+  padding: 20px 20px 12px;
+  text-align: center;
+}
+
+.imageCaption span {
+  color: white;
+  font-size: 0.85rem;
+  font-family: 'Lora', serif;
+  font-style: italic;
+  letter-spacing: 0.5px;
+}
+
+/* Hero Stats */
+.heroStats {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin: 32px 0 16px;
+  padding: 20px 0;
+  border-top: 1px solid rgba(232, 96, 10, 0.15);
+  border-bottom: 1px solid rgba(232, 96, 10, 0.15);
+}
+
+.statBox {
+  text-align: center;
+}
+
+.statValue {
+  display: block;
+  font-family: 'Cinzel', serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--orange);
+  margin-bottom: 4px;
+}
+
+.statLabel {
+  font-size: 0.7rem;
+  color: #666;
+  letter-spacing: 0.5px;
+}
+
+/* Divider Styles (keep existing) */
+.divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin: 24px auto;
+  max-width: 600px;
+  padding: 0 16px;
+}
+
+.dividerLine {
+  flex: 1;
+  height: 2px;
+  background: var(--orange);
+  border-radius: 2px;
+}
+
+.omSymbol {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.omSymbol svg {
+  width: 38px;
+  height: 38px;
+}
+
+/* ====================================================
+   RESPONSIVE - ENHANCED
+==================================================== */
+
+/* XS: < 576px */
+@media (max-width: 575.98px) {
+  .heroSection1 {
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-top: 28px;
+  }
+  
+  .subTitleWrapper {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .subTitleAccent {
+    width: 60px;
+    height: 2px;
+    flex: none;
+  }
+  
+  .heroStats {
+    flex-direction: column;
+    gap: 16px;
+    align-items: center;
+  }
+  
+  .maharishiImageBox {
+    height: 280px;
+  }
+  
+  .statValue {
+    font-size: 1.1rem;
+  }
+  
+  .whoSection {
+    margin-top: 20px;
+  }
+}
+
+/* SM: 576px – 767px */
+@media (min-width: 576px) and (max-width: 767.98px) {
+  .heroSection1 {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  
+  .subTitleWrapper {
+    gap: 12px;
+  }
+  
+  .maharishiImageBox {
+    height: 340px;
+  }
+  
+  .heroStats {
+    gap: 30px;
+  }
+}
+
+/* MD: 768px – 991px */
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .heroSection1 {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+  
+  .maharishiImageBox {
+    height: 400px;
+  }
+  
+  .heroStats {
+    gap: 35px;
+  }
+}
+
+/* LG: 992px – 1199px */
+@media (min-width: 992px) and (max-width: 1199.98px) {
+  .maharishiImageBox {
+    height: 440px;
+  }
+}
+
+/* XL: ≥ 1200px */
+@media (min-width: 1200px) {
+  .heroSection1 {
+    padding-top: 56px;
+    padding-left: 48px;
+    padding-right: 48px;
+  }
+  
+  .maharishiImageBox {
+    height: 520px;
+  }
+  
+  .statValue {
+    font-size: 1.5rem;
+  }
+}
+
+/* ====================================================
+   SECTION 1 - WHAT IS (FULL WIDTH)
+==================================================== */
+
+.whatSection {
+  width: 100%;
+  padding: 40px 0 60px;
+  margin: 0;
+  background: linear-gradient(135deg, #ffffff, #fefaf5);
+}
+
+.whatContainer {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+/* Section Header (shared) */
+.sectionHeader {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.sectionBadge {
+  display: inline-block;
+  background: rgba(232, 96, 10, 0.1);
+  color: var(--orange);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  padding: 4px 14px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.sectionTitle {
+  font-family: 'Lora', serif;
+  font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+  font-weight: 600;
+  color: var(--text-dark);
+  text-align: center;
+  margin-bottom: 16px;
+  line-height: 1.3;
+}
+
+.sectionUnderline {
+  width: 60px;
+  height: 2px;
+  background: var(--orange);
+  margin: 0 auto;
+}
+
+/* Retreat Content */
+.retreatContent {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* Quote Box */
+.retreatQuote {
+  background: linear-gradient(135deg, #fff9f0, #fff5e8);
+  border-left: 4px solid var(--orange);
+  border-radius: 12px;
+  padding: 32px 40px;
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.quoteIcon {
+  margin-bottom: 16px;
+  display: inline-block;
+}
+
+.quoteText {
+  font-family: 'Lora', serif;
+  font-size: clamp(1rem, 1.8vw, 1.25rem);
+  font-style: italic;
+  color: var(--text-dark);
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+.quoteLine {
+  width: 50px;
+  height: 2px;
+  background: var(--orange);
+  margin: 0 auto;
+  opacity: 0.4;
+}
+
+/* Text Block */
+.textBlock {
+  margin-bottom: 40px;
+}
+
+.bodyText {
+  font-size: clamp(0.82rem, 1.4vw, 0.95rem);
+  line-height: 1.85;
+  color: var(--text-body);
+  margin-bottom: 1rem;
+}
+
+.highlight {
+  font-weight: 600;
+  color: var(--orange);
+}
+
+/* Two Column Layout */
+.twoColumnLayout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  margin: 40px 0;
+}
+
+.insightCard {
+  background: white;
+  border: 1px solid rgba(232, 96, 10, 0.12);
+  border-radius: 16px;
+  padding: 28px;
+  transition: all 0.3s ease;
+}
+
+.insightCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(232, 96, 10, 0.08);
+  border-color: rgba(232, 96, 10, 0.3);
+}
+
+.insightNumber {
+  font-family: 'Cinzel', serif;
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--orange);
+  opacity: 0.4;
+  margin-bottom: 12px;
+  line-height: 1;
+}
+
+.insightTitle {
+  font-family: 'Lora', serif;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin-bottom: 12px;
+}
+
+.insightText {
+  font-size: 0.88rem;
+  line-height: 1.7;
+  color: var(--text-body);
+  margin: 0;
+}
+
+/* Program Note */
+.programNote {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: #f8f8f8;
+  border-radius: 12px;
+  padding: 18px 28px;
+  margin-top: 32px;
+  border-left: 3px solid var(--orange);
+}
+
+.noteDot {
+  width: 8px;
+  height: 8px;
+  background: var(--orange);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.noteText {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-dark);
+  margin: 0;
+}
+
+/* ====================================================
+   SECTION 2 - SCHEDULE (FULL WIDTH)
+==================================================== */
+
+.scheduleSection {
+  width: 100%;
+  padding: 40px 0 60px;
+  margin: 0;
+  background: #fafaf8;
+}
+
+.scheduleContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+.scheduleHeader {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.scheduleBadge {
+  display: inline-block;
+  background: rgba(232, 96, 10, 0.1);
+  color: var(--orange);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  padding: 4px 14px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.scheduleTitle {
+  font-family: 'Lora', serif;
+  font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+  font-weight: 600;
+  color: var(--text-dark);
+  text-align: center;
+  margin-bottom: 16px;
+  line-height: 1.3;
+}
+
+.scheduleUnderline {
+  width: 60px;
+  height: 2px;
+  background: var(--orange);
+  margin: 0 auto 24px auto;
+}
+
+.weeksLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #fff;
+  padding: 6px 16px;
+  border-radius: 40px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.weeksBadge {
+  background: var(--orange);
+  color: white;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 2px 10px;
+  border-radius: 20px;
+}
+
+.weeksText {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+/* Cards Row */
+.cardsRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}
+
+.scheduleCard {
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s ease;
+}
+
+.scheduleCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
+}
+
+/* Card 1 Header - Orange */
+.cardHeaderOrange {
+  background: linear-gradient(135deg, #e8600a, #c04800);
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.cardHeaderGreen {
+  background: linear-gradient(135deg, #1a472a, #0d2818);
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.cardIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cardTitleOrange {
+  font-family: 'Cinzel', serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+  margin: 0;
+  letter-spacing: 0.5px;
+}
+
+.cardTitleGreen {
+  font-family: 'Cinzel', serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+  margin: 0;
+  letter-spacing: 0.5px;
+}
+
+/* Card Body */
+.cardBodyWhite {
+  padding: 24px;
+}
+
+/* Points List */
+.pointsList {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 20px 0;
+}
+
+.pointsList li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 0.9rem;
+  color: var(--text-body);
+}
+
+.listDot {
+  width: 6px;
+  height: 6px;
+  background: var(--orange);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.cardFootnote {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: #fff9f0;
+  padding: 14px;
+  border-radius: 10px;
+  font-size: 0.75rem;
+  color: #666;
+  line-height: 1.5;
+  margin-top: 16px;
+}
+
+/* Schedule Block */
+.scheduleBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.schedulePeriod {
+  margin: 8px 0 4px 0;
+  padding: 6px 0;
+}
+
+.periodLabel {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--orange);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  background: rgba(232, 96, 10, 0.1);
+  padding: 2px 10px;
+  border-radius: 12px;
+}
+
+.scheduleItem {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px dashed #eee;
+}
+
+.scheduleTime {
+  font-weight: 600;
+  color: var(--text-dark);
+  font-size: 0.85rem;
+}
+
+.scheduleActivity {
+  color: #555;
+  font-size: 0.85rem;
+}
+
+.breakBlock {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #fef5e8;
+  padding: 12px 14px;
+  border-radius: 10px;
+  margin: 16px 0;
+  border-left: 3px solid var(--orange);
+}
+
+.breakText {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #555;
+}
+
+/* ====================================================
+   RESPONSIVE
+==================================================== */
+
+@media (max-width: 768px) {
+  .whatContainer,
+  .scheduleContainer {
+    padding: 0 20px;
+  }
+  
+  .cardsRow {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  
+  .twoColumnLayout {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .retreatQuote {
+    padding: 24px;
+  }
+  
+  .quoteText {
+    font-size: 0.95rem;
+  }
+  
+  .insightCard {
+    padding: 20px;
+  }
+  
+  .insightNumber {
+    font-size: 1.8rem;
+  }
+  
+  .insightTitle {
+    font-size: 1rem;
+  }
+  
+  .cardHeaderOrange,
+  .cardHeaderGreen {
+    padding: 16px 20px;
+  }
+  
+  .cardBodyWhite {
+    padding: 20px;
+  }
+  
+  .scheduleItem {
+    flex-direction: column;
+    gap: 4px;
+  }
+  
+  .breakBlock {
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 576px) {
+  .whatContainer,
+  .scheduleContainer {
+    padding: 0 16px;
+  }
+  
+  .whatSection,
+  .scheduleSection {
+    padding: 30px 0 40px;
+  }
+  
+  .retreatQuote {
+    padding: 20px;
+  }
+  
+  .programNote {
+    padding: 14px 20px;
+  }
+  
+  .noteText {
+    font-size: 0.82rem;
+  }
+  
+  .pointsList li {
+    font-size: 0.85rem;
+  }
+  
+  .cardFootnote {
+    font-size: 0.7rem;
+  }
+  
+  .scheduleTime,
+  .scheduleActivity {
+    font-size: 0.8rem;
+  }
+  
+  .weeksLabel {
+    padding: 4px 12px;
+  }
+}
+
+/* ====================================================
+   GALLERY SECTION - THREE IMAGES
+==================================================== */
+
+.gallerySection {
+  width: 100%;
+  padding: 60px 0;
+  margin: 0;
+  background: linear-gradient(135deg, #fefaf5, #fff5eb);
+}
+
+.galleryContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+.galleryHeader {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.galleryBadge {
+  display: inline-block;
+  background: rgba(232, 96, 10, 0.1);
+  color: var(--orange);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  padding: 4px 14px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.galleryTitle {
+  font-family: 'Lora', serif;
+  font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+  font-weight: 600;
+  color: var(--text-dark);
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.galleryUnderline {
+  width: 60px;
+  height: 2px;
+  background: var(--orange);
+  margin: 0 auto 16px auto;
+}
+
+.gallerySubtitle {
+  font-size: 0.9rem;
+  color: #666;
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.triImageGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.triImageItem {
+  position: relative;
+  height: 400px;
+  overflow: hidden;
+  border-radius: 16px;
+  cursor: pointer;
+}
+
+.triImageItem img {
+  transition: transform 0.5s ease;
+}
+
+.triImageItem:hover img {
+  transform: scale(1.05);
+}
+
+.imageOverlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+  padding: 30px 20px 20px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.triImageItem:hover .imageOverlay {
+  opacity: 1;
+}
+
+.imageOverlayContent {
+  text-align: center;
+}
+
+.imageCaption {
+  color: white;
+  font-size: 1rem;
+  font-weight: 600;
+  font-family: 'Cinzel', serif;
+  margin-bottom: 6px;
+}
+
+.imageSubcaption {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.75rem;
+}
+
+/* ====================================================
+   INFO SECTION - TWO BOXES
+==================================================== */
+
+.infoSection {
+  width: 100%;
+  padding: 60px 0;
+  margin: 0;
+  background: #ffffff;
+}
+
+.infoContainer {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+.infoCardsRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}
+
+/* Definition Card */
+.definitionCard {
+  background: white;
+  border: 1px solid rgba(232, 96, 10, 0.15);
+  border-radius: 20px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.definitionCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(232, 96, 10, 0.08);
+}
+
+.definitionHeader {
+  background: linear-gradient(135deg, #fff9f0, #fff5e8);
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid rgba(232, 96, 10, 0.1);
+}
+
+.definitionTitle {
+  font-family: 'Cinzel', serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--orange);
+  margin: 0;
+}
+
+.definitionBody {
+  padding: 24px;
+}
+
+.termBlock {
+  margin-bottom: 24px;
+}
+
+.termBlock:last-child {
+  margin-bottom: 0;
+}
+
+.term {
+  display: inline-block;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--text-dark);
+  margin-bottom: 8px;
+  padding-bottom: 4px;
+  border-bottom: 2px solid var(--orange);
+}
+
+.termDesc {
+  font-size: 0.85rem;
+  line-height: 1.7;
+  color: var(--text-body);
+  margin: 0;
+}
+
+/* Participant Card */
+.participantCard {
+  background: linear-gradient(135deg, #2c1a08, #3d2510);
+  border-radius: 20px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.participantCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
+}
+
+.participantHeader {
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.participantTitle {
+  font-family: 'Cinzel', serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: white;
+  margin: 0;
+}
+
+.participantBody {
+  padding: 24px;
+}
+
+.participantList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.participantList li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 20px;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.participantList li:last-child {
+  margin-bottom: 0;
+}
+
+.listCheck {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* ====================================================
+   FEE SECTION
+==================================================== */
+
+.feeSection {
+  width: 100%;
+  padding: 60px 0;
+  margin: 0;
+  background: linear-gradient(135deg, #f8f8f8, #f0f0f0);
+}
+
+.feeContainer {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+.feeHeader {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.feeBadge {
+  display: inline-block;
+  background: rgba(232, 96, 10, 0.1);
+  color: var(--orange);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  padding: 4px 14px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.feeTitle {
+  font-family: 'Lora', serif;
+  font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+  font-weight: 600;
+  color: var(--text-dark);
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.feeUnderline {
+  width: 60px;
+  height: 2px;
+  background: var(--orange);
+  margin: 0 auto;
+}
+
+.feeContent {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.includedGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  margin-bottom: 48px;
+}
+
+.includedItem {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: white;
+  padding: 16px 20px;
+  border-radius: 12px;
+  border: 1px solid rgba(232, 96, 10, 0.1);
+  transition: all 0.3s ease;
+}
+
+.includedItem:hover {
+  transform: translateX(5px);
+  border-color: var(--orange);
+  box-shadow: 0 4px 12px rgba(232, 96, 10, 0.08);
+}
+
+.includedIcon {
+  flex-shrink: 0;
+}
+
+.includedText {
+  font-size: 0.85rem;
+  color: var(--text-body);
+  line-height: 1.4;
+}
+
+/* Pricing Card */
+.pricingCard {
+  background: white;
+  border-radius: 20px;
+  padding: 32px;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(232, 96, 10, 0.15);
+}
+
+.pricingBadge {
+  display: inline-block;
+  background: var(--orange);
+  color: white;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 4px 16px;
+  border-radius: 20px;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+}
+
+.pricingAmount {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-bottom: 20px;
+}
+
+.currency {
+  font-size: 1.5rem;
+  vertical-align: super;
+  color: var(--orange);
+}
+
+.or {
+  font-size: 1.2rem;
+  color: #999;
+  margin: 0 8px;
+}
+
+.inr {
+  font-size: 1.8rem;
+  color: var(--orange);
+}
+
+.pricingDesc {
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: var(--text-body);
+  margin-bottom: 24px;
+}
+
+.pricingNote {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #fff9f0;
+  padding: 10px 20px;
+  border-radius: 40px;
+  font-size: 0.8rem;
+  color: #666;
+}
+
+/* ====================================================
+   RESPONSIVE
+==================================================== */
+
+@media (max-width: 768px) {
+  .galleryContainer,
+  .infoContainer,
+  .feeContainer {
+    padding: 0 20px;
+  }
+  
+  .triImageGrid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .triImageItem {
+    height: 320px;
+  }
+  
+  .infoCardsRow {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  
+  .includedGrid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .pricingAmount {
+    font-size: 1.8rem;
+  }
+  
+  .currency {
+    font-size: 1.2rem;
+  }
+  
+  .inr {
+    font-size: 1.3rem;
+  }
+  
+  .gallerySection,
+  .infoSection,
+  .feeSection {
+    padding: 40px 0;
+  }
+}
+
+@media (max-width: 576px) {
+  .galleryContainer,
+  .infoContainer,
+  .feeContainer {
+    padding: 0 16px;
+  }
+  
+  .triImageItem {
+    height: 260px;
+  }
+  
+  .definitionHeader,
+  .participantHeader {
+    padding: 16px 20px;
+  }
+  
+  .definitionBody,
+  .participantBody {
+    padding: 20px;
+  }
+  
+  .includedItem {
+    padding: 12px 16px;
+  }
+  
+  .pricingCard {
+    padding: 24px;
+  }
+  
+  .pricingAmount {
+    font-size: 1.5rem;
+  }
+  
+  .pricingNote {
+    font-size: 0.7rem;
+    padding: 8px 16px;
+  }
+}
