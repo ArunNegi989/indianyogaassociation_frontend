@@ -6,6 +6,9 @@ import styles from "@/assets/style/world-wide/Worldwidepage.module.css";
 import HowToReach from "@/components/home/Howtoreach";
 import heroImgFallback from "@/assets/images/18.webp";
 import api from "@/lib/api"; // ← your axios instance
+import ReviewSection from "@/components/common/Reviewsection";
+import RatingsSummarySection from "@/components/home/RatingsSummarySection";
+import PremiumGallerySection from "@/components/PremiumGallerySection";
 
 /* ─── Types ─── */
 interface Stat {
@@ -75,8 +78,6 @@ interface WorldwideData {
   footerMetaText: string;
 }
 
-
-
 /* ─── Base URL for uploaded images ─── */
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "";
 
@@ -97,32 +98,30 @@ export default function WorldwidePage() {
   const [error, setError] = useState<string | null>(null);
   const sliderRef = useRef<HTMLDivElement | null>(null);
 
+  useEffect(() => {
+    let index = 0;
+    const slider = sliderRef.current;
+    if (!slider) return;
 
-   
-useEffect(() => {
-  let index = 0;
-  const slider = sliderRef.current;
-  if (!slider) return;
+    const slides = slider.children.length;
 
-  const slides = slider.children.length;
+    const interval = setInterval(() => {
+      index++;
 
-  const interval = setInterval(() => {
-    index++;
+      slider.style.transition = "transform 0.8s ease";
+      slider.style.transform = `translateX(-${index * 100}%)`;
 
-    slider.style.transition = "transform 0.8s ease";
-    slider.style.transform = `translateX(-${index * 100}%)`;
+      if (index === slides - 1) {
+        setTimeout(() => {
+          slider.style.transition = "none";
+          slider.style.transform = "translateX(0)";
+          index = 0;
+        }, 800);
+      }
+    }, 4000);
 
-    if (index === slides - 1) {
-      setTimeout(() => {
-        slider.style.transition = "none";
-        slider.style.transform = "translateX(0)";
-        index = 0;
-      }, 800);
-    }
-  }, 4000);
-
-  return () => clearInterval(interval);
-}, []);
+    return () => clearInterval(interval);
+  }, []);
   /* ── Fetch from backend using axios ── */
   useEffect(() => {
     api
@@ -246,85 +245,84 @@ useEffect(() => {
       )}
 
       {/* ════════ CURRICULUM ════════ */}
-     <section id="curriculum" className={styles.section}>
-  <div className={styles.mandalaBg} aria-hidden="true">
-    <MandalaRing size={580} opacity={0.04} />
-  </div>
-
-  <div className="container">
-
-    {/* TOP ROW */}
-    <div className={`row ${styles.reveal}`}>
-      
-      {/* LEFT CONTENT */}
-      <div className="col-12 col-lg-6">
-        <span className={styles.superLabel}>
-          {data.curriculumSubHeading || "What You'll Study"}
-        </span>
-
-        <h2 className={styles.sectionTitle}>
-          {data.curriculumTitle || "Course Curriculum"}
-        </h2>
-
-        <OmBar align="left" />
-
-        {data.topParagraphs?.map((para, i) => (
-          <p key={i} className={styles.para}
-            dangerouslySetInnerHTML={{ __html: para }}
-          />
-        ))}
-
-        {data.curriculumIntro && (
-          <p className={styles.para}
-            dangerouslySetInnerHTML={{ __html: data.curriculumIntro }}
-          />
-        )}
-
-        {data.curriculumParagraphs?.map((para, i) => (
-          <p key={i} className={styles.para}
-            dangerouslySetInnerHTML={{ __html: para }}
-          />
-        ))}
-      </div>
-
-      {/* RIGHT IMAGE */}
-      <div className="col-12 col-lg-6 mt-4 mt-lg-0">
-        <div className={styles.curriculumImgWrap}>
-          <img
-            src={
-              resolveImg(data.curriculumRightImage) ||
-              "https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?w=900&q=80"
-            }
-            alt={data.curriculumRightImageAlt || "Yoga curriculum"}
-            className={styles.curriculumImg}
-          />
-          <div className={styles.imgMandalaCorner} aria-hidden="true">
-            <MandalaRing size={180} opacity={0.18} />
-          </div>
+      <section id="curriculum" className={styles.section}>
+        <div className={styles.mandalaBg} aria-hidden="true">
+          <MandalaRing size={580} opacity={0.04} />
         </div>
-      </div>
 
-    </div>
+        <div className="container">
+          {/* TOP ROW */}
+          <div className={`row ${styles.reveal}`}>
+            {/* LEFT CONTENT */}
+            <div className="col-12 col-lg-6">
+              <span className={styles.superLabel}>
+                {data.curriculumSubHeading || "What You'll Study"}
+              </span>
 
-    {/* 🔥 FULL WIDTH CARDS */}
-    {data.curriculumItems?.length > 0 && (
-      <div className={`${styles.curriculumGrid} ${styles.fullWidthGrid}`}>
-        {data.curriculumItems.map((c, i) => (
-          <div key={i} className={styles.curriculumCard}>
-            
-            <div className={styles.cardNumber}>
-              {String(i + 1).padStart(2, "0")}
+              <h2 className={styles.sectionTitle}>
+                {data.curriculumTitle || "Course Curriculum"}
+              </h2>
+
+              <OmBar align="left" />
+
+              {data.topParagraphs?.map((para, i) => (
+                <p
+                  key={i}
+                  className={styles.para}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+
+              {data.curriculumIntro && (
+                <p
+                  className={styles.para}
+                  dangerouslySetInnerHTML={{ __html: data.curriculumIntro }}
+                />
+              )}
+
+              {data.curriculumParagraphs?.map((para, i) => (
+                <p
+                  key={i}
+                  className={styles.para}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
             </div>
 
-            <p className={styles.cardText}>{c}</p>
-
+            {/* RIGHT IMAGE */}
+            <div className="col-12 col-lg-6 mt-4 mt-lg-0">
+              <div className={styles.curriculumImgWrap}>
+                <img
+                  src={
+                    resolveImg(data.curriculumRightImage) ||
+                    "https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?w=900&q=80"
+                  }
+                  alt={data.curriculumRightImageAlt || "Yoga curriculum"}
+                  className={styles.curriculumImg}
+                />
+                <div className={styles.imgMandalaCorner} aria-hidden="true">
+                  <MandalaRing size={180} opacity={0.18} />
+                </div>
+              </div>
+            </div>
           </div>
-        ))}
-      </div>
-    )}
 
-  </div>
-</section>
+          {/* 🔥 FULL WIDTH CARDS */}
+          {data.curriculumItems?.length > 0 && (
+            <div className={`${styles.curriculumGrid} ${styles.fullWidthGrid}`}>
+              {data.curriculumItems.map((c, i) => (
+                <div key={i} className={styles.curriculumCard}>
+                  <div className={styles.cardNumber}>
+                    {String(i + 1).padStart(2, "0")}
+                  </div>
+
+                  <p className={styles.cardText}>{c}</p>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
 
       {/* ════════ TEACHER TEAM ════════ */}
       <section className={`${styles.section} ${styles.sectionTinted}`}>
@@ -448,15 +446,22 @@ useEffect(() => {
           </div>
           <div className="container">
             <div className={styles.reveal}>
-              <span className={styles.superLabel}  style={{textAlign:"center"}}>
+              <span
+                className={styles.superLabel}
+                style={{ textAlign: "center" }}
+              >
                 {data.communitySubtext || "Worldwide Network"}
               </span>
-              <h2 className={styles.sectionTitle} style={{textAlign:"center"}}>{data.communityTitle}</h2>
+              <h2
+                className={styles.sectionTitle}
+                style={{ textAlign: "center" }}
+              >
+                {data.communityTitle}
+              </h2>
               <OmBar align="center" />
               {data.communityDescription && (
                 <p
                   className={styles.para}
-                 
                   dangerouslySetInnerHTML={{
                     __html: data.communityDescription,
                   }}
@@ -464,21 +469,19 @@ useEffect(() => {
               )}
 
               <div className={styles.fullSlider}>
-  <div className={styles.sliderWrapper} ref={sliderRef}>
-  
-  {images.map((img, i) => (
-    <div key={i} className={styles.fullSlide}>
-      <img src={img} alt="Yoga Slide" />
-    </div>
-  ))}
+                <div className={styles.sliderWrapper} ref={sliderRef}>
+                  {images.map((img, i) => (
+                    <div key={i} className={styles.fullSlide}>
+                      <img src={img} alt="Yoga Slide" />
+                    </div>
+                  ))}
 
-  {/* 🔥 duplicate first image */}
-  <div className={styles.fullSlide}>
-    <img src={images[0]} alt="Yoga Slide" />
-  </div>
-
-</div>
-</div>
+                  {/* 🔥 duplicate first image */}
+                  <div className={styles.fullSlide}>
+                    <img src={images[0]} alt="Yoga Slide" />
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </section>
@@ -580,7 +583,9 @@ useEffect(() => {
           </div>
         </div>
       </section>
-
+      <PremiumGallerySection type="both" backgroundColor="warm" />
+      {/* ✅ REVIEWS — now a reusable separate component */}
+      <ReviewSection RatingsSummaryComponent={<RatingsSummarySection />} />
       <HowToReach />
     </div>
   );

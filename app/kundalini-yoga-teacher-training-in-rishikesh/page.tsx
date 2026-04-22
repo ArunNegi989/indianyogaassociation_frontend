@@ -5,6 +5,8 @@ import styles from "@/assets/style/kundalini-yoga-teacher-training-in-rishikesh/
 import HowToReach from "@/components/home/Howtoreach";
 import api from "@/lib/api";
 import PremiumGallerySection from "@/components/PremiumGallerySection";
+import ReviewSection from "@/components/common/Reviewsection";
+import RatingsSummarySection from "@/components/home/RatingsSummarySection";
 
 /* ─────────────────────────────────────────
    TYPES
@@ -117,22 +119,24 @@ type Currency = "USD" | "INR";
 const DEMO_INTRO_ITEMS: IntroItem[] = [
   {
     paragraph: `<strong>Kundalini Yoga</strong> is the yoga of awareness. It is a powerful and transformative practice that awakens the dormant spiritual energy within each of us. Unlike other forms of yoga that focus primarily on physical postures, Kundalini Yoga combines dynamic breathing techniques <strong>(pranayama)</strong>, meditation, mantra chanting, and specific sets of exercises called <strong>kriyas</strong> to elevate consciousness and unlock your full potential.`,
-    media: "https://images.pexels.com/photos/3822725/pexels-photo-3822725.jpeg?auto=compress&cs=tinysrgb&w=800",
+    media:
+      "https://images.pexels.com/photos/3822725/pexels-photo-3822725.jpeg?auto=compress&cs=tinysrgb&w=800",
     mediaAlt: "Kundalini Yoga meditation practice",
-    mediaType: "image"
+    mediaType: "image",
   },
   {
     paragraph: `The practice works directly on the <strong>nervous system and endocrine system</strong>, balancing the chakras and clearing energetic blockages. As the kundalini energy — often described as a coiled serpent at the base of the spine — rises through the seven chakras, practitioners experience heightened awareness, emotional release, and spiritual awakening.`,
-    media: "https://images.pexels.com/photos/8436560/pexels-photo-8436560.jpeg?auto=compress&cs=tinysrgb&w=800",
+    media:
+      "https://images.pexels.com/photos/8436560/pexels-photo-8436560.jpeg?auto=compress&cs=tinysrgb&w=800",
     mediaAlt: "Kundalini Yoga kriya practice",
-    mediaType: "image"
+    mediaType: "image",
   },
   {
     paragraph: `<strong>Regular practice of Kundalini Yoga</strong> offers numerous benefits: reduced stress and anxiety, improved mental clarity, increased vitality, emotional balance, and a deep sense of inner peace. The technology of Kundalini Yoga works quickly and effectively, making it accessible for both beginners and experienced practitioners seeking profound transformation.`,
     media: "https://cdn.pixabay.com/video/2021/02/04/63734-507693979_large.mp4",
     mediaAlt: "Kundalini Yoga breathwork demonstration",
-    mediaType: "video"
-  }
+    mediaType: "video",
+  },
 ];
 
 /* ─────────────────────────────────────────
@@ -363,7 +367,13 @@ const AccordionItem = ({
 /* ─────────────────────────────────────────
    ENHANCED INTRO SECTION (What is Kundalini Yoga)
 ───────────────────────────────────────── */
-function EnhancedIntroSection({ items, paragraphs }: { items?: IntroItem[]; paragraphs?: string[] }) {
+function EnhancedIntroSection({
+  items,
+  paragraphs,
+}: {
+  items?: IntroItem[];
+  paragraphs?: string[];
+}) {
   const displayItems = items && items.length > 0 ? items : DEMO_INTRO_ITEMS;
   const hasItems = displayItems.length > 0;
 
@@ -379,14 +389,14 @@ function EnhancedIntroSection({ items, paragraphs }: { items?: IntroItem[]; para
             {displayItems.map((item, index) => {
               const mediaUrl = item.media;
               const isVideo = item.mediaType === "video";
-              
+
               return (
-                <div 
-                  key={index} 
+                <div
+                  key={index}
                   className={`${styles.introItem} ${index % 2 === 1 ? styles.introItemReverse : ""}`}
                 >
                   <div className={styles.introItemContent}>
-                    <div 
+                    <div
                       className={styles.introItemText}
                       dangerouslySetInnerHTML={{ __html: item.paragraph }}
                     />
@@ -394,8 +404,8 @@ function EnhancedIntroSection({ items, paragraphs }: { items?: IntroItem[]; para
                   <div className={styles.introItemMedia}>
                     {mediaUrl ? (
                       isVideo ? (
-                        <video 
-                          src={mediaUrl} 
+                        <video
+                          src={mediaUrl}
                           className={styles.introItemVideo}
                           controls
                           playsInline
@@ -406,8 +416,8 @@ function EnhancedIntroSection({ items, paragraphs }: { items?: IntroItem[]; para
                           Your browser does not support the video tag.
                         </video>
                       ) : (
-                        <img 
-                          src={mediaUrl} 
+                        <img
+                          src={mediaUrl}
                           alt={item.mediaAlt || `Kundalini Yoga ${index + 1}`}
                           loading="lazy"
                         />
@@ -476,7 +486,9 @@ function CurrencyDropdown({
         <span className={styles.currDropFlag}>
           {currency === "USD" ? "🇺🇸" : "🇮🇳"}
         </span>
-        <span className={styles.currDropLabel}>{currency}</span>
+        <span className={styles.currDropLabel}>
+          {currency === "USD" ? "English" : "हिन्दी"}
+        </span>
         <svg
           className={`${styles.currDropArrow} ${open ? styles.currDropArrowOpen : ""}`}
           viewBox="0 0 12 8"
@@ -509,7 +521,9 @@ function CurrencyDropdown({
                 {c === "USD" ? "🇺🇸" : "🇮🇳"}
               </span>
               <div className={styles.currDropItemText}>
-                <span className={styles.currDropItemCode}>{c}</span>
+                <span className={styles.currDropItemCode}>
+                  {c === "USD" ? "English" : "हिन्दी"}
+                </span>
                 <span className={styles.currDropItemName}>
                   {c === "USD" ? "US Dollar" : "Indian Rupee"}
                 </span>
@@ -555,27 +569,55 @@ function CourseInfoCard({
   const originalPrice = Math.round((startingPrice * 1.8) / 50) * 50;
 
   const DurationIcon = () => (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
       <circle cx="12" cy="12" r="9" />
       <path d="M12 7v5l3 3" />
     </svg>
   );
   const LevelIcon = () => (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
       <rect x="2" y="14" width="5" height="7" rx="1" />
       <rect x="9.5" y="9" width="5" height="12" rx="1" />
       <rect x="17" y="4" width="5" height="17" rx="1" />
     </svg>
   );
   const CertIcon = () => (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
       <rect x="2" y="3" width="20" height="14" rx="2" />
       <path d="M8 17v4M16 17v4M8 21h8" />
       <path d="M9 10l2 2 4-4" />
     </svg>
   );
   const StyleIcon = () => (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
       <circle cx="12" cy="4" r="1.5" />
       <path d="M12 6v5.5" />
       <path d="M8.5 13c0 2 1.5 4 3.5 4.5 2-0.5 3.5-2.5 3.5-4.5" />
@@ -584,14 +626,28 @@ function CourseInfoCard({
     </svg>
   );
   const LangIcon = () => (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
       <circle cx="12" cy="12" r="9" />
       <path d="M2 12h20" />
       <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
     </svg>
   );
   const DateIcon = () => (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
       <rect x="3" y="4" width="18" height="18" rx="2" />
       <path d="M16 2v4M8 2v4M3 10h18" />
       <circle cx="8" cy="15" r="1" fill="currentColor" />
@@ -652,7 +708,13 @@ function CourseInfoCard({
           <a href="#dates-fees" className={styles.icBookBtn}>
             BOOK NOW
             <svg viewBox="0 0 20 20" fill="none" className={styles.icBtnArrow}>
-              <path d="M4 10h12M11 5l5 5-5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              <path
+                d="M4 10h12M11 5l5 5-5 5"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
             </svg>
           </a>
         </div>
@@ -699,10 +761,21 @@ function PremiumSeatBooking({
     <section className={styles.datesSection} id="dates-fees">
       <div className={styles.psbSecTag}>Upcoming Batches · 2026–2027</div>
       <div className={styles.vintageHeadingWrap}>
-        <h2 className={styles.vintageHeading}>200 Hour Kundalini Yoga Teacher Training India</h2>
+        <h2 className={styles.vintageHeading}>
+          200 Hour Kundalini Yoga Teacher Training India
+        </h2>
         <div className={styles.vintageHeadingUnderline}>
-          <svg viewBox="0 0 200 8" xmlns="http://www.w3.org/2000/svg" className={styles.headingUndSvg}>
-            <path d="M0,4 Q50,0 100,4 Q150,8 200,4" stroke="#F15505" strokeWidth="1.2" fill="none" />
+          <svg
+            viewBox="0 0 200 8"
+            xmlns="http://www.w3.org/2000/svg"
+            className={styles.headingUndSvg}
+          >
+            <path
+              d="M0,4 Q50,0 100,4 Q150,8 200,4"
+              stroke="#F15505"
+              strokeWidth="1.2"
+              fill="none"
+            />
             <circle cx="100" cy="4" r="3" fill="#F15505" opacity="0.7" />
             <circle cx="10" cy="4" r="1.5" fill="#b8860b" opacity="0.5" />
             <circle cx="190" cy="4" r="1.5" fill="#b8860b" opacity="0.5" />
@@ -729,7 +802,10 @@ function PremiumSeatBooking({
           <div className={styles.psbLph}>
             <span className={styles.psbLphTitle}>Select Your Batch</span>
             <div className={styles.psbLphRight}>
-              <CurrencyDropdown currency={currency} onChange={onCurrencyChange} />
+              <CurrencyDropdown
+                currency={currency}
+                onChange={onCurrencyChange}
+              />
               <div className={styles.psbLegend}>
                 <div className={styles.psbLegItem}>
                   <div className={`${styles.psbLegDot} ${styles.psbDGreen}`} />
@@ -755,43 +831,95 @@ function PremiumSeatBooking({
           )}
 
           {seats.length === 0 ? (
-            <p className={styles.psbNoBatches}>No upcoming batches available at the moment.</p>
+            <p className={styles.psbNoBatches}>
+              No upcoming batches available at the moment.
+            </p>
           ) : (
             <div className={styles.psbBatchGrid}>
               {seats.map((batch) => {
                 const rem = batch.totalSeats - batch.bookedSeats;
                 const full = rem <= 0;
                 const low = !full && rem <= 5;
-                const dotCls = full ? styles.psbDRed : low ? styles.psbDOrange : styles.psbDGreen;
-                const txtCls = full ? styles.psbSRed : low ? styles.psbSOrange : styles.psbSGreen;
-                const statusTxt = full ? "Fully Booked" : low ? "Limited" : "Available";
-                const seatsPercent = Math.max(5, (rem / batch.totalSeats) * 100);
+                const dotCls = full
+                  ? styles.psbDRed
+                  : low
+                    ? styles.psbDOrange
+                    : styles.psbDGreen;
+                const txtCls = full
+                  ? styles.psbSRed
+                  : low
+                    ? styles.psbSOrange
+                    : styles.psbSGreen;
+                const statusTxt = full
+                  ? "Fully Booked"
+                  : low
+                    ? "Limited"
+                    : "Available";
+                const seatsPercent = Math.max(
+                  5,
+                  (rem / batch.totalSeats) * 100,
+                );
                 const isSelected = selectedId === batch._id;
                 const dormFmt = fmtPrice(batch.dormPrice);
                 return (
                   <div
                     key={batch._id}
-                    className={[styles.psbBc, full ? styles.psbBcFull : "", isSelected ? styles.psbBcSel : ""].filter(Boolean).join(" ")}
-                    onClick={() => { if (!full) setSelectedId(batch._id); }}
+                    className={[
+                      styles.psbBc,
+                      full ? styles.psbBcFull : "",
+                      isSelected ? styles.psbBcSel : "",
+                    ]
+                      .filter(Boolean)
+                      .join(" ")}
+                    onClick={() => {
+                      if (!full) setSelectedId(batch._id);
+                    }}
                   >
                     <div className={styles.psbBcTick}>
                       <svg viewBox="0 0 10 10" fill="none">
-                        <polyline points="1.5,5 4,7.5 8.5,2.5" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                        <polyline
+                          points="1.5,5 4,7.5 8.5,2.5"
+                          stroke="white"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
                       </svg>
                     </div>
-                    <div className={styles.psbBcMonth}>{monthYear(batch.startDate)}</div>
-                    <div className={styles.psbBcDates}>{shortDateRange(batch.startDate, batch.endDate)}</div>
-                    <div className={styles.psbBcPrice}>{dormFmt.amount} <span>{dormFmt.cur}</span></div>
+                    <div className={styles.psbBcMonth}>
+                      {monthYear(batch.startDate)}
+                    </div>
+                    <div className={styles.psbBcDates}>
+                      {shortDateRange(batch.startDate, batch.endDate)}
+                    </div>
+                    <div className={styles.psbBcPrice}>
+                      {dormFmt.amount} <span>{dormFmt.cur}</span>
+                    </div>
                     <div className={styles.psbBcStatus}>
                       <div className={`${styles.psbBcDot} ${dotCls}`} />
-                      <span className={`${styles.psbBcStxt} ${txtCls}`}>{statusTxt}</span>
+                      <span className={`${styles.psbBcStxt} ${txtCls}`}>
+                        {statusTxt}
+                      </span>
                     </div>
                     {!full && (
                       <>
                         <div className={styles.psbBcSeatsBar}>
-                          <div className={styles.psbBcSeatsBarFill} style={{ width: `${seatsPercent}%`, background: low ? "linear-gradient(90deg,#c8700a,#e09030)" : "linear-gradient(90deg,#3d6000,#6aa000)" }} />
+                          <div
+                            className={styles.psbBcSeatsBarFill}
+                            style={{
+                              width: `${seatsPercent}%`,
+                              background: low
+                                ? "linear-gradient(90deg,#c8700a,#e09030)"
+                                : "linear-gradient(90deg,#3d6000,#6aa000)",
+                            }}
+                          />
                         </div>
-                        <span className={styles.psbBcSeatsBadge} style={{ color: low ? "#c8700a" : "#3d6000" }}>{rem} / {batch.totalSeats} seats left</span>
+                        <span
+                          className={styles.psbBcSeatsBadge}
+                          style={{ color: low ? "#c8700a" : "#3d6000" }}
+                        >
+                          {rem} / {batch.totalSeats} seats left
+                        </span>
                       </>
                     )}
                   </div>
@@ -809,13 +937,28 @@ function PremiumSeatBooking({
           <div className={`${styles.psbCn} ${styles.psbCnBr}`} />
           <div className={styles.psbRpHead}>
             <div className={styles.psbRpEyebrow}>Course Overview</div>
-            <div className={styles.psbRpCourse}>200 Hour Kundalini Yoga Teacher Training</div>
+            <div className={styles.psbRpCourse}>
+              200 Hour Kundalini Yoga Teacher Training
+            </div>
             <div className={styles.psbRpDur}>
               <svg width="11" height="11" viewBox="0 0 16 16" fill="none">
-                <circle cx="8" cy="8" r="7" stroke="rgba(255,243,210,0.8)" strokeWidth="1.2" />
-                <path d="M8 4.5V8.5L10.5 10" stroke="rgba(255,243,210,0.8)" strokeWidth="1.2" strokeLinecap="round" />
+                <circle
+                  cx="8"
+                  cy="8"
+                  r="7"
+                  stroke="rgba(255,243,210,0.8)"
+                  strokeWidth="1.2"
+                />
+                <path
+                  d="M8 4.5V8.5L10.5 10"
+                  stroke="rgba(255,243,210,0.8)"
+                  strokeWidth="1.2"
+                  strokeLinecap="round"
+                />
               </svg>
-              <span className={styles.psbRpDurTxt}>24 Days · Rishikesh, India</span>
+              <span className={styles.psbRpDurTxt}>
+                24 Days · Rishikesh, India
+              </span>
             </div>
             <div className={styles.psbCurrBadge}>
               {currency === "USD" ? "🇺🇸 Prices in USD" : "🇮🇳 Prices in INR"}
@@ -825,18 +968,26 @@ function PremiumSeatBooking({
             <div className={styles.psbPriceLbl}>With Accommodation</div>
             <div className={styles.psbPriceRow}>
               <div className={styles.psbPriceCard}>
-                <div className={styles.psbPcAmt}>{selected ? fmtPrice(selected.privatePrice).amount : "—"}<span className={styles.psbPcCur}>{currency}</span></div>
+                <div className={styles.psbPcAmt}>
+                  {selected ? fmtPrice(selected.privatePrice).amount : "—"}
+                  <span className={styles.psbPcCur}>{currency}</span>
+                </div>
                 <div className={styles.psbPcLbl}>Private Room</div>
               </div>
               <div className={styles.psbPriceCard}>
-                <div className={styles.psbPcAmt}>{selected ? fmtPrice(selected.twinPrice).amount : "—"}<span className={styles.psbPcCur}>{currency}</span></div>
+                <div className={styles.psbPcAmt}>
+                  {selected ? fmtPrice(selected.twinPrice).amount : "—"}
+                  <span className={styles.psbPcCur}>{currency}</span>
+                </div>
                 <div className={styles.psbPcLbl}>Twin / Shared</div>
               </div>
             </div>
             <div className={styles.psbPriceLbl}>Without Accommodation</div>
             <div className={styles.psbPriceWide}>
               <div className={styles.psbPwLeft}>
-                <span className={styles.psbPcAmt} style={{ fontSize: "1rem" }}>{selected ? fmtPrice(selected.dormPrice).amount : "—"}</span>
+                <span className={styles.psbPcAmt} style={{ fontSize: "1rem" }}>
+                  {selected ? fmtPrice(selected.dormPrice).amount : "—"}
+                </span>
                 <span className={styles.psbPcCur}>{currency}</span>
               </div>
               <span className={styles.psbFoodBadge}>Food Included</span>
@@ -851,7 +1002,9 @@ function PremiumSeatBooking({
             {selected && currency === "INR" && (
               <div className={styles.psbInrRow}>
                 <span className={styles.psbInrLbl}>USD Price</span>
-                <span className={styles.psbInrAmt}>${selected.dormPrice} USD</span>
+                <span className={styles.psbInrAmt}>
+                  ${selected.dormPrice} USD
+                </span>
               </div>
             )}
 
@@ -862,17 +1015,49 @@ function PremiumSeatBooking({
                   const rem = selected.totalSeats - selected.bookedSeats;
                   const full = rem <= 0;
                   const low = !full && rem <= 5;
-                  const pct = full ? 100 : Math.round((selected.bookedSeats / selected.totalSeats) * 100);
+                  const pct = full
+                    ? 100
+                    : Math.round(
+                        (selected.bookedSeats / selected.totalSeats) * 100,
+                      );
                   return (
                     <>
                       <div className={styles.psbRpSeatsRow}>
-                        <span className={styles.psbRpSeatsLbl}>Seats Availability</span>
-                        <span className={styles.psbRpSeatsBadge} style={{ color: full ? "#8a2c00" : low ? "#c8700a" : "#3d6000", borderColor: full ? "#8a2c00" : low ? "#c8700a" : "#3d6000" }}>
-                          {full ? "Fully Booked" : `${rem} of ${selected.totalSeats} left`}
+                        <span className={styles.psbRpSeatsLbl}>
+                          Seats Availability
+                        </span>
+                        <span
+                          className={styles.psbRpSeatsBadge}
+                          style={{
+                            color: full
+                              ? "#8a2c00"
+                              : low
+                                ? "#c8700a"
+                                : "#3d6000",
+                            borderColor: full
+                              ? "#8a2c00"
+                              : low
+                                ? "#c8700a"
+                                : "#3d6000",
+                          }}
+                        >
+                          {full
+                            ? "Fully Booked"
+                            : `${rem} of ${selected.totalSeats} left`}
                         </span>
                       </div>
                       <div className={styles.psbRpSeatsBar}>
-                        <div className={styles.psbRpSeatsBarFill} style={{ width: `${pct}%`, background: full ? "#8a2c00" : low ? "linear-gradient(90deg,#c8700a,#e09030)" : "linear-gradient(90deg,#3d6000,#6aa000)" }} />
+                        <div
+                          className={styles.psbRpSeatsBarFill}
+                          style={{
+                            width: `${pct}%`,
+                            background: full
+                              ? "#8a2c00"
+                              : low
+                                ? "linear-gradient(90deg,#c8700a,#e09030)"
+                                : "linear-gradient(90deg,#3d6000,#6aa000)",
+                          }}
+                        />
                       </div>
                     </>
                   );
@@ -883,23 +1068,47 @@ function PremiumSeatBooking({
               {selected ? (
                 <>
                   <div className={styles.psbSelLabel}>Selected Batch</div>
-                  <div className={styles.psbSelDate}>{shortDateRange(selected.startDate, selected.endDate)}, {monthYear(selected.startDate)}</div>
+                  <div className={styles.psbSelDate}>
+                    {shortDateRange(selected.startDate, selected.endDate)},{" "}
+                    {monthYear(selected.startDate)}
+                  </div>
                 </>
               ) : (
-                <span className={styles.psbSelHint}>← Select a batch to continue</span>
+                <span className={styles.psbSelHint}>
+                  ← Select a batch to continue
+                </span>
               )}
             </div>
             {selected ? (
-              <a href={`/yoga-registration?type=kundalini-200hr&batchId=${selected._id}`} className={styles.psbBookBtn}>
+              <a
+                href={`/yoga-registration?type=kundalini-200hr&batchId=${selected._id}`}
+                className={styles.psbBookBtn}
+              >
                 Book Now — {fmtPrice(selected.dormPrice).amount} {currency}
-                <svg className={styles.psbArrowIcon} viewBox="0 0 16 16" fill="none">
-                  <path d="M3 8h10M9 4l4 4-4 4" stroke="#fff3d2" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                <svg
+                  className={styles.psbArrowIcon}
+                  viewBox="0 0 16 16"
+                  fill="none"
+                >
+                  <path
+                    d="M3 8h10M9 4l4 4-4 4"
+                    stroke="#fff3d2"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
                 </svg>
               </a>
             ) : (
-              <span className={`${styles.psbBookBtn} ${styles.psbBookBtnDis}`}>Book Now</span>
+              <span className={`${styles.psbBookBtn} ${styles.psbBookBtnDis}`}>
+                Book Now
+              </span>
             )}
-            {selected?.note && <p className={styles.psbNote}><strong>Note:</strong> {selected.note}</p>}
+            {selected?.note && (
+              <p className={styles.psbNote}>
+                <strong>Note:</strong> {selected.note}
+              </p>
+            )}
           </div>
         </div>
       </div>
@@ -915,7 +1124,9 @@ function useCurrencyRate() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.json")
+    fetch(
+      "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.json",
+    )
       .then((r) => r.json())
       .then((data) => {
         const inr = data?.usd?.inr;
@@ -1035,8 +1246,7 @@ export default function KundaliniYogaTTC() {
   return (
     <div className={styles.page}>
       {/* ── Fixed Mandala Decorations ── */}
-      
-     
+
       <div className={styles.chakraGlow} aria-hidden="true" />
 
       {/* SECTION 1 — HERO */}
@@ -1059,9 +1269,11 @@ export default function KundaliniYogaTTC() {
             <span className={styles.cardCorner}>✦</span>
             <h2 className={styles.sectionTitleCenter}>{content.whatIsTitle}</h2>
             <OmDivider />
-            <EnhancedIntroSection 
+            <EnhancedIntroSection
               items={content.whatIsIntroItems}
-              paragraphs={content.whatIsParagraphs || content.whatIsParagraphsLegacy}
+              paragraphs={
+                content.whatIsParagraphs || content.whatIsParagraphsLegacy
+              }
             />
           </div>
         </div>
@@ -1083,27 +1295,52 @@ export default function KundaliniYogaTTC() {
                     <div dangerouslySetInnerHTML={{ __html: para }} />
                   </div>
                 ) : (
-                  <div key={i} className={styles.bodyPara} dangerouslySetInnerHTML={{ __html: para }} />
-                )
+                  <div
+                    key={i}
+                    className={styles.bodyPara}
+                    dangerouslySetInnerHTML={{ __html: para }}
+                  />
+                ),
               )}
             </div>
             <div className={styles.activateIntroImageWrap}>
-              <img src="https://images.pexels.com/photos/3822725/pexels-photo-3822725.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Kundalini Yoga practice" className={styles.activateIntroImage} loading="lazy" />
+              <img
+                src="https://images.pexels.com/photos/3822725/pexels-photo-3822725.jpeg?auto=compress&cs=tinysrgb&w=800"
+                alt="Kundalini Yoga practice"
+                className={styles.activateIntroImage}
+                loading="lazy"
+              />
             </div>
           </div>
 
           <div className={`${styles.vintageCard} mt-4`}>
             <span className={styles.cardCorner}>✦</span>
-            <h2 className={styles.sectionTitleCenter}>{content.benefitsTitle}</h2>
+            <h2 className={styles.sectionTitleCenter}>
+              {content.benefitsTitle}
+            </h2>
             <OmDivider />
-            {content.benefitsIntro1 && <p className={`${styles.bodyPara} ${styles.textCenter} ${styles.textItalic}`}>{content.benefitsIntro1}</p>}
-            {content.benefitsIntro2 && <p className={`${styles.bodyPara} ${styles.textCenter} ${styles.textItalic}`}>{content.benefitsIntro2}</p>}
+            {content.benefitsIntro1 && (
+              <p
+                className={`${styles.bodyPara} ${styles.textCenter} ${styles.textItalic}`}
+              >
+                {content.benefitsIntro1}
+              </p>
+            )}
+            {content.benefitsIntro2 && (
+              <p
+                className={`${styles.bodyPara} ${styles.textCenter} ${styles.textItalic}`}
+              >
+                {content.benefitsIntro2}
+              </p>
+            )}
             {content.benefitItems && content.benefitItems.length > 0 && (
               <div className={styles.activateBenefitList}>
                 {content.benefitItems.map((benefit, i) => (
                   <div key={i} className={styles.activateBenefitRow}>
                     <span className={styles.activateBenefitNum}>{i + 1}</span>
-                    <span className={styles.activateBenefitText}>{benefit}</span>
+                    <span className={styles.activateBenefitText}>
+                      {benefit}
+                    </span>
                   </div>
                 ))}
               </div>
@@ -1113,9 +1350,13 @@ export default function KundaliniYogaTTC() {
           {content.highlightCards && content.highlightCards.length > 0 && (
             <div className={`${styles.vintageCard} mt-4`}>
               <span className={styles.cardCorner}>✦</span>
-              <h2 className={styles.sectionTitleCenter}>{content.highlightsTitle}</h2>
+              <h2 className={styles.sectionTitleCenter}>
+                {content.highlightsTitle}
+              </h2>
               <OmDivider />
-              {content.highlightsIntro && <p className={styles.hlIntro}>{content.highlightsIntro}</p>}
+              {content.highlightsIntro && (
+                <p className={styles.hlIntro}>{content.highlightsIntro}</p>
+              )}
               <div className={styles.hlStrip}>
                 {[
                   { icon: "🧘", num: "200", label: "Hours Training" },
@@ -1134,25 +1375,88 @@ export default function KundaliniYogaTTC() {
               <div className={styles.activateHlGrid}>
                 {content.highlightCards.map((h, i) => {
                   const palette = [
-                    { color: "#F15505", bg: "rgba(241,85,5,.08)", tagColor: "#b85f00", tag: "Core Practice", icon: "🌅" },
-                    { color: "#1a6fa8", bg: "rgba(26,111,168,.08)", tagColor: "#0c447c", tag: "Pranayama", icon: "🌬" },
-                    { color: "#603ca0", bg: "rgba(96,60,160,.08)", tagColor: "#3c2870", tag: "Naad Yoga", icon: "🎵" },
-                    { color: "#2d7a2d", bg: "rgba(45,122,45,.08)", tagColor: "#1a4a1a", tag: "Student-Centred", icon: "🤝" },
-                    { color: "#c8890a", bg: "rgba(200,137,10,.08)", tagColor: "#7a5228", tag: "Community", icon: "🌐" },
-                    { color: "#8b0000", bg: "rgba(139,0,0,.08)", tagColor: "#5a0000", tag: "Advanced", icon: "🔥" },
+                    {
+                      color: "#F15505",
+                      bg: "rgba(241,85,5,.08)",
+                      tagColor: "#b85f00",
+                      tag: "Core Practice",
+                      icon: "🌅",
+                    },
+                    {
+                      color: "#1a6fa8",
+                      bg: "rgba(26,111,168,.08)",
+                      tagColor: "#0c447c",
+                      tag: "Pranayama",
+                      icon: "🌬",
+                    },
+                    {
+                      color: "#603ca0",
+                      bg: "rgba(96,60,160,.08)",
+                      tagColor: "#3c2870",
+                      tag: "Naad Yoga",
+                      icon: "🎵",
+                    },
+                    {
+                      color: "#2d7a2d",
+                      bg: "rgba(45,122,45,.08)",
+                      tagColor: "#1a4a1a",
+                      tag: "Student-Centred",
+                      icon: "🤝",
+                    },
+                    {
+                      color: "#c8890a",
+                      bg: "rgba(200,137,10,.08)",
+                      tagColor: "#7a5228",
+                      tag: "Community",
+                      icon: "🌐",
+                    },
+                    {
+                      color: "#8b0000",
+                      bg: "rgba(139,0,0,.08)",
+                      tagColor: "#5a0000",
+                      tag: "Advanced",
+                      icon: "🔥",
+                    },
                   ];
                   const p = palette[i % palette.length];
-                  const isWide = content.highlightCards.length % 2 !== 0 && i === content.highlightCards.length - 1;
+                  const isWide =
+                    content.highlightCards.length % 2 !== 0 &&
+                    i === content.highlightCards.length - 1;
                   return (
-                    <div key={h.id} className={`${styles.activateHlCard} ${isWide ? styles.activateHlCardWide : ""}`}>
-                      <div className={styles.activateHlAccent} style={{ background: p.color }} />
+                    <div
+                      key={h.id}
+                      className={`${styles.activateHlCard} ${isWide ? styles.activateHlCardWide : ""}`}
+                    >
+                      <div
+                        className={styles.activateHlAccent}
+                        style={{ background: p.color }}
+                      />
                       <div className={styles.activateHlCardBody}>
                         <div className={styles.activateHlCardHead}>
-                          <div className={styles.activateHlIconWrap} style={{ background: p.bg, border: `1.5px solid ${p.color}33` }}>{p.icon}</div>
-                          <div className={styles.activateHlTitle}>{h.title}</div>
+                          <div
+                            className={styles.activateHlIconWrap}
+                            style={{
+                              background: p.bg,
+                              border: `1.5px solid ${p.color}33`,
+                            }}
+                          >
+                            {p.icon}
+                          </div>
+                          <div className={styles.activateHlTitle}>
+                            {h.title}
+                          </div>
                         </div>
                         <div className={styles.activateHlDesc}>{h.desc}</div>
-                        <span className={styles.activateHlTag} style={{ background: p.bg, color: p.tagColor, border: `1px solid ${p.color}33` }}>{p.tag}</span>
+                        <span
+                          className={styles.activateHlTag}
+                          style={{
+                            background: p.bg,
+                            color: p.tagColor,
+                            border: `1px solid ${p.color}33`,
+                          }}
+                        >
+                          {p.tag}
+                        </span>
                       </div>
                     </div>
                   );
@@ -1171,8 +1475,12 @@ export default function KundaliniYogaTTC() {
               <div className={styles.sylHeaderBg} aria-hidden="true" />
               <div className={styles.sylHeaderOverlay} aria-hidden="true" />
               <div className={styles.sylHeaderContent}>
-                <h2 className={styles.syllabusBigTitle}>{content.syllabusBigTitle}</h2>
-                <p className={styles.syllabusSchool}>{content.syllabusSchool}</p>
+                <h2 className={styles.syllabusBigTitle}>
+                  {content.syllabusBigTitle}
+                </h2>
+                <p className={styles.syllabusSchool}>
+                  {content.syllabusSchool}
+                </p>
                 <div className={styles.sylOmRow}>
                   <span className={styles.sylOmLine} />
                   <span className={styles.sylOmGlyph}>ॐ</span>
@@ -1181,35 +1489,69 @@ export default function KundaliniYogaTTC() {
                 <div className={styles.sylBadgeRow}>
                   <span className={styles.sylBadge}>200 Hours</span>
                   <span className={styles.sylBadge}>Rishikesh, India</span>
-                  <span className={styles.sylBadge}>Yoga Alliance Certified</span>
+                  <span className={styles.sylBadge}>
+                    Yoga Alliance Certified
+                  </span>
                   <span className={styles.sylBadge}>24 Days</span>
                 </div>
               </div>
             </div>
             <div className={styles.courseOverviewRow}>
               <div className={styles.courseOverviewLeft}>
-                <h3 className={styles.overviewTitle}>{content.courseOverviewTitle}</h3>
-                <div className={styles.bodyPara} style={{ marginBottom: 0 }} dangerouslySetInnerHTML={{ __html: content.courseOverviewPara ?? "" }} />
+                <h3 className={styles.overviewTitle}>
+                  {content.courseOverviewTitle}
+                </h3>
+                <div
+                  className={styles.bodyPara}
+                  style={{ marginBottom: 0 }}
+                  dangerouslySetInnerHTML={{
+                    __html: content.courseOverviewPara ?? "",
+                  }}
+                />
               </div>
               <div className={styles.courseOverviewImgWrap}>
-                <img src="https://images.pexels.com/photos/3822725/pexels-photo-3822725.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Kundalini Yoga teacher training" className={styles.courseOverviewImg} loading="lazy" />
-                <div className={styles.courseOverviewImgBadge}><span>Learn · Practice · Teach</span></div>
+                <img
+                  src="https://images.pexels.com/photos/3822725/pexels-photo-3822725.jpeg?auto=compress&cs=tinysrgb&w=600"
+                  alt="Kundalini Yoga teacher training"
+                  className={styles.courseOverviewImg}
+                  loading="lazy"
+                />
+                <div className={styles.courseOverviewImgBadge}>
+                  <span>Learn · Practice · Teach</span>
+                </div>
               </div>
             </div>
             <div className={styles.accordionWrap}>
               {content.syllabusModules?.map((item, i) => (
-                <AccordionItem key={item.id} num={i + 1} title={item.title} items={item.items} />
+                <AccordionItem
+                  key={item.id}
+                  num={i + 1}
+                  title={item.title}
+                  items={item.items}
+                />
               ))}
             </div>
             <div className={styles.sylBottomRow}>
               <div className={styles.readingBox}>
-                <h3 className={styles.readingTitle}>{content.readingBoxTitle}</h3>
-                <ul className={styles.readingList}>{content.readingItems?.map((r, i) => <li key={i}>{r}</li>)}</ul>
-                {content.readingBoxNote && <p className={styles.bodyPara} style={{ marginTop: ".5rem" }}>{content.readingBoxNote}</p>}
+                <h3 className={styles.readingTitle}>
+                  {content.readingBoxTitle}
+                </h3>
+                <ul className={styles.readingList}>
+                  {content.readingItems?.map((r, i) => (
+                    <li key={i}>{r}</li>
+                  ))}
+                </ul>
+                {content.readingBoxNote && (
+                  <p className={styles.bodyPara} style={{ marginTop: ".5rem" }}>
+                    {content.readingBoxNote}
+                  </p>
+                )}
               </div>
               <div className={styles.noteBox}>
                 <h3 className={styles.noteTitle}>{content.noteBoxTitle}</h3>
-                <p className={styles.bodyPara} style={{ marginBottom: 0 }}>{content.noteBoxPara}</p>
+                <p className={styles.bodyPara} style={{ marginBottom: 0 }}>
+                  {content.noteBoxPara}
+                </p>
               </div>
             </div>
           </div>
@@ -1222,21 +1564,45 @@ export default function KundaliniYogaTTC() {
           {/* Eligibility Block */}
           <div className={styles.eligibilityBlock}>
             <div className={styles.eligImgPanel}>
-              <img src="https://images.pexels.com/photos/8436490/pexels-photo-8436490.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Yoga students" className={styles.eligImg} loading="lazy" />
+              <img
+                src="https://images.pexels.com/photos/8436490/pexels-photo-8436490.jpeg?auto=compress&cs=tinysrgb&w=800"
+                alt="Yoga students"
+                className={styles.eligImg}
+                loading="lazy"
+              />
               <div className={styles.eligImgOverlay} />
               <div className={styles.eligImgBadge}>
                 <span className={styles.eligBadgeIcon}>🌍</span>
-                <div><div className={styles.eligBadgeTitle}>Open to All</div><div className={styles.eligBadgeSub}>No prerequisites required</div></div>
+                <div>
+                  <div className={styles.eligBadgeTitle}>Open to All</div>
+                  <div className={styles.eligBadgeSub}>
+                    No prerequisites required
+                  </div>
+                </div>
               </div>
-              <div className={`${styles.eligChip} ${styles.eligChip1}`}><span className={styles.eligChipNum}>0</span><span className={styles.eligChipLabel}>Age Limit</span></div>
-              <div className={`${styles.eligChip} ${styles.eligChip2}`}><span className={styles.eligChipNum}>All</span><span className={styles.eligChipLabel}>Backgrounds</span></div>
+              <div className={`${styles.eligChip} ${styles.eligChip1}`}>
+                <span className={styles.eligChipNum}>0</span>
+                <span className={styles.eligChipLabel}>Age Limit</span>
+              </div>
+              <div className={`${styles.eligChip} ${styles.eligChip2}`}>
+                <span className={styles.eligChipNum}>All</span>
+                <span className={styles.eligChipLabel}>Backgrounds</span>
+              </div>
             </div>
             <div className={styles.eligContent}>
               <div className={styles.eligContentInner}>
                 <div className={styles.secTagline}>WHO CAN JOIN</div>
-                <h2 className={styles.sectionTitleLeft}>{content.eligibilityTitle}</h2>
+                <h2 className={styles.sectionTitleLeft}>
+                  {content.eligibilityTitle}
+                </h2>
                 <div className={styles.underlineLeft} />
-                {content.eligibilityParagraphs?.map((para, i) => <div key={i} className={styles.bodyPara} dangerouslySetInnerHTML={{ __html: para }} />)}
+                {content.eligibilityParagraphs?.map((para, i) => (
+                  <div
+                    key={i}
+                    className={styles.bodyPara}
+                    dangerouslySetInnerHTML={{ __html: para }}
+                  />
+                ))}
                 <div className={styles.eligPills}>
                   {[
                     { icon: "✓", text: "No prior yoga experience needed" },
@@ -1244,7 +1610,10 @@ export default function KundaliniYogaTTC() {
                     { icon: "✓", text: "All nationalities welcome" },
                     { icon: "✓", text: "Open to all fitness levels" },
                   ].map((pill, i) => (
-                    <div key={i} className={styles.eligPill}><span className={styles.eligPillIcon}>{pill.icon}</span><span>{pill.text}</span></div>
+                    <div key={i} className={styles.eligPill}>
+                      <span className={styles.eligPillIcon}>{pill.icon}</span>
+                      <span>{pill.text}</span>
+                    </div>
                   ))}
                 </div>
               </div>
@@ -1254,11 +1623,18 @@ export default function KundaliniYogaTTC() {
           {/* Location Block */}
           <div className={styles.locationBlock}>
             <div className={styles.locationBanner}>
-              <img src="https://images.pexels.com/photos/1371360/pexels-photo-1371360.jpeg?auto=compress&cs=tinysrgb&w=1400" alt="Rishikesh mountains" className={styles.locationBannerImg} loading="lazy" />
+              <img
+                src="https://images.pexels.com/photos/1371360/pexels-photo-1371360.jpeg?auto=compress&cs=tinysrgb&w=1400"
+                alt="Rishikesh mountains"
+                className={styles.locationBannerImg}
+                loading="lazy"
+              />
               <div className={styles.locationBannerOverlay} />
               <div className={styles.locationBannerContent}>
                 <div className={styles.secTaglineLight}>OUR SACRED HOME</div>
-                <h2 className={styles.locationBannerTitle}>{content.locationTitle}</h2>
+                <h2 className={styles.locationBannerTitle}>
+                  {content.locationTitle}
+                </h2>
                 <div className={styles.locationBannerDivider} />
                 <div className={styles.locationStatRow}>
                   {[
@@ -1267,16 +1643,45 @@ export default function KundaliniYogaTTC() {
                     { num: "100+", label: "Years of yoga legacy" },
                     { num: "∞", label: "Himalayan energy" },
                   ].map((stat, i) => (
-                    <div key={i} className={styles.locationStat}><span className={styles.locationStatNum}>{stat.num}</span><span className={styles.locationStatLabel}>{stat.label}</span></div>
+                    <div key={i} className={styles.locationStat}>
+                      <span className={styles.locationStatNum}>{stat.num}</span>
+                      <span className={styles.locationStatLabel}>
+                        {stat.label}
+                      </span>
+                    </div>
                   ))}
                 </div>
               </div>
             </div>
             <div className={styles.locationBody}>
-              <div className={styles.locationText}>{content.locationParagraphs?.map((para, i) => <div key={i} className={styles.bodyPara} dangerouslySetInnerHTML={{ __html: para }} />)}</div>
+              <div className={styles.locationText}>
+                {content.locationParagraphs?.map((para, i) => (
+                  <div
+                    key={i}
+                    className={styles.bodyPara}
+                    dangerouslySetInnerHTML={{ __html: para }}
+                  />
+                ))}
+              </div>
               <div className={styles.locationImgStack}>
-                <div className={styles.locationStackTop}><img src="https://images.pexels.com/photos/3822725/pexels-photo-3822725.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Yoga class" loading="lazy" /><div className={styles.locationStackLabel}>Practice Hall</div></div>
-                <div className={styles.locationStackBottom}><img src="https://images.pexels.com/photos/8436560/pexels-photo-8436560.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Ashram view" loading="lazy" /><div className={styles.locationStackLabel}>Himalayan Setting</div></div>
+                <div className={styles.locationStackTop}>
+                  <img
+                    src="https://images.pexels.com/photos/3822725/pexels-photo-3822725.jpeg?auto=compress&cs=tinysrgb&w=600"
+                    alt="Yoga class"
+                    loading="lazy"
+                  />
+                  <div className={styles.locationStackLabel}>Practice Hall</div>
+                </div>
+                <div className={styles.locationStackBottom}>
+                  <img
+                    src="https://images.pexels.com/photos/8436560/pexels-photo-8436560.jpeg?auto=compress&cs=tinysrgb&w=600"
+                    alt="Ashram view"
+                    loading="lazy"
+                  />
+                  <div className={styles.locationStackLabel}>
+                    Himalayan Setting
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -1286,37 +1691,122 @@ export default function KundaliniYogaTTC() {
             <div className={styles.facilitiesHeader}>
               <span className={styles.cardCorner}>✦</span>
               <div className={styles.secTagline}>WHAT'S INCLUDED</div>
-              <h2 className={styles.sectionTitleCenter}>{content.facilitiesTitle}</h2>
+              <h2 className={styles.sectionTitleCenter}>
+                {content.facilitiesTitle}
+              </h2>
               <OmDivider />
               {content.facilitiesIntroRich ? (
-                <div className={`${styles.bodyPara} ${styles.textCenter}`} style={{ maxWidth: 740, margin: "0 auto 1.5rem" }} dangerouslySetInnerHTML={{ __html: content.facilitiesIntroRich }} />
-              ) : (content.facilitiesIntro && <p className={`${styles.bodyPara} ${styles.textCenter}`} style={{ maxWidth: 740, margin: "0 auto 1.5rem" }}>{content.facilitiesIntro}</p>)}
+                <div
+                  className={`${styles.bodyPara} ${styles.textCenter}`}
+                  style={{ maxWidth: 740, margin: "0 auto 1.5rem" }}
+                  dangerouslySetInnerHTML={{
+                    __html: content.facilitiesIntroRich,
+                  }}
+                />
+              ) : (
+                content.facilitiesIntro && (
+                  <p
+                    className={`${styles.bodyPara} ${styles.textCenter}`}
+                    style={{ maxWidth: 740, margin: "0 auto 1.5rem" }}
+                  >
+                    {content.facilitiesIntro}
+                  </p>
+                )
+              )}
             </div>
             <div className={styles.facilitiesVideoBanner}>
-              <video className={styles.facilitiesVideo} autoPlay muted loop playsInline poster="https://images.pexels.com/photos/3822725/pexels-photo-3822725.jpeg?auto=compress&cs=tinysrgb&w=1200">
-                <source src="https://cdn.pixabay.com/video/2021/02/04/63734-507693979_large.mp4" type="video/mp4" />
+              <video
+                className={styles.facilitiesVideo}
+                autoPlay
+                muted
+                loop
+                playsInline
+                poster="https://images.pexels.com/photos/3822725/pexels-photo-3822725.jpeg?auto=compress&cs=tinysrgb&w=1200"
+              >
+                <source
+                  src="https://cdn.pixabay.com/video/2021/02/04/63734-507693979_large.mp4"
+                  type="video/mp4"
+                />
               </video>
               <div className={styles.facilitiesVideoOverlay}>
-                <div className={styles.facilitiesVideoText}><span className={styles.facilitiesVideoTag}>LIVE · BREATHE · GROW</span><p>Everything you need for a transformative 24-day residential experience</p></div>
+                <div className={styles.facilitiesVideoText}>
+                  <span className={styles.facilitiesVideoTag}>
+                    LIVE · BREATHE · GROW
+                  </span>
+                  <p>
+                    Everything you need for a transformative 24-day residential
+                    experience
+                  </p>
+                </div>
               </div>
             </div>
             <div className={styles.facilitiesIconGrid}>
               {[
-                { icon: "🏠", label: "Accommodation", desc: "Spacious furnished rooms with attached bathrooms" },
-                { icon: "👨‍🏫", label: "Expert Guidance", desc: "Access to highly skilled yoga professionals" },
-                { icon: "📚", label: "Study Materials", desc: "Online resources, yoga mats, books, and more" },
-                { icon: "📹", label: "CCTV Security", desc: "24/7 surveillance for your safety & peace of mind" },
-                { icon: "🕐", label: "24/7 Support", desc: "Around-the-clock management assistance" },
-                { icon: "🎓", label: "Workshops", desc: "Seminars, workshops, and yoga-related events" },
-                { icon: "🥤", label: "Detox Drinks", desc: "Fresh detox drinks and juices daily" },
-                { icon: "🥗", label: "3 Meals Daily", desc: "Vegetarian and healthy meals three times a day" },
-                { icon: "📶", label: "Free Wifi", desc: "Free wifi and 24/7 hot water service" },
-                { icon: "📿", label: "Mala Provided", desc: "A piece of Mala gifted to every student" },
-                { icon: "🌿", label: "Nature Excursions", desc: "Guided trips to elevate your experience" },
-                { icon: "📜", label: "Certification", desc: "Yoga Alliance TTC certificate upon completion" },
+                {
+                  icon: "🏠",
+                  label: "Accommodation",
+                  desc: "Spacious furnished rooms with attached bathrooms",
+                },
+                {
+                  icon: "👨‍🏫",
+                  label: "Expert Guidance",
+                  desc: "Access to highly skilled yoga professionals",
+                },
+                {
+                  icon: "📚",
+                  label: "Study Materials",
+                  desc: "Online resources, yoga mats, books, and more",
+                },
+                {
+                  icon: "📹",
+                  label: "CCTV Security",
+                  desc: "24/7 surveillance for your safety & peace of mind",
+                },
+                {
+                  icon: "🕐",
+                  label: "24/7 Support",
+                  desc: "Around-the-clock management assistance",
+                },
+                {
+                  icon: "🎓",
+                  label: "Workshops",
+                  desc: "Seminars, workshops, and yoga-related events",
+                },
+                {
+                  icon: "🥤",
+                  label: "Detox Drinks",
+                  desc: "Fresh detox drinks and juices daily",
+                },
+                {
+                  icon: "🥗",
+                  label: "3 Meals Daily",
+                  desc: "Vegetarian and healthy meals three times a day",
+                },
+                {
+                  icon: "📶",
+                  label: "Free Wifi",
+                  desc: "Free wifi and 24/7 hot water service",
+                },
+                {
+                  icon: "📿",
+                  label: "Mala Provided",
+                  desc: "A piece of Mala gifted to every student",
+                },
+                {
+                  icon: "🌿",
+                  label: "Nature Excursions",
+                  desc: "Guided trips to elevate your experience",
+                },
+                {
+                  icon: "📜",
+                  label: "Certification",
+                  desc: "Yoga Alliance TTC certificate upon completion",
+                },
               ].map((fac, i) => (
                 <div key={i} className={styles.facilityIconCard}>
-                  <div className={styles.facilityIconCircle}><span className={styles.facilityIconEmoji}>{fac.icon}</span></div>
+                  <div className={styles.facilityIconCircle}>
+                    <span className={styles.facilityIconEmoji}>{fac.icon}</span>
+                  </div>
                   <div className={styles.facilityIconLabel}>{fac.label}</div>
                   <div className={styles.facilityIconDesc}>{fac.desc}</div>
                 </div>
@@ -1327,15 +1817,20 @@ export default function KundaliniYogaTTC() {
       </section>
 
       {/* SECTION 6 — DAILY SCHEDULE */}
-           
-           <section className={`${styles.section} ${styles.schedSection}`}>
+
+      <section className={`${styles.section} ${styles.schedSection}`}>
         <div className={styles.schedBgTexture} aria-hidden="true" />
         <div className={`container px-3 px-md-4 ${styles.maxx}`}>
           <div className={styles.schedHeaderWrap}>
             <div className={styles.secTagline}>24-DAY RESIDENTIAL PROGRAM</div>
-            <h2 className={styles.sectionTitleCenter}>{content.scheduleSectionTitle}</h2>
+            <h2 className={styles.sectionTitleCenter}>
+              {content.scheduleSectionTitle}
+            </h2>
             <OmDivider />
-            <p className={styles.schedHeaderSub}>A carefully structured day balancing intense practice with rest, study &amp; spiritual integration.</p>
+            <p className={styles.schedHeaderSub}>
+              A carefully structured day balancing intense practice with rest,
+              study &amp; spiritual integration.
+            </p>
           </div>
           <div className={styles.schedLayout}>
             <div className={styles.schedTimelineCol}>
@@ -1343,23 +1838,65 @@ export default function KundaliniYogaTTC() {
                 const schedItems = content.scheduleItems ?? [];
                 const third = Math.ceil(schedItems.length / 3);
                 const phases = [
-                  { label: "🌅 Morning Practice", color: "#e8720c", bg: "rgba(232,114,12,0.08)", items: schedItems.slice(0, third) },
-                  { label: "☀️ Midday Session", color: "#c8890a", bg: "rgba(200,137,10,0.08)", items: schedItems.slice(third, third * 2) },
-                  { label: "🌙 Evening Practice", color: "#7a3a9a", bg: "rgba(122,58,154,0.08)", items: schedItems.slice(third * 2) },
+                  {
+                    label: "🌅 Morning Practice",
+                    color: "#e8720c",
+                    bg: "rgba(232,114,12,0.08)",
+                    items: schedItems.slice(0, third),
+                  },
+                  {
+                    label: "☀️ Midday Session",
+                    color: "#c8890a",
+                    bg: "rgba(200,137,10,0.08)",
+                    items: schedItems.slice(third, third * 2),
+                  },
+                  {
+                    label: "🌙 Evening Practice",
+                    color: "#7a3a9a",
+                    bg: "rgba(122,58,154,0.08)",
+                    items: schedItems.slice(third * 2),
+                  },
                 ];
                 return phases.map((phase, pi) => (
                   <div key={pi} className={styles.schedPhaseBlock}>
-                    <div className={styles.schedPhaseLabel} style={{ color: phase.color, borderColor: phase.color, background: phase.bg }}>{phase.label}</div>
+                    <div
+                      className={styles.schedPhaseLabel}
+                      style={{
+                        color: phase.color,
+                        borderColor: phase.color,
+                        background: phase.bg,
+                      }}
+                    >
+                      {phase.label}
+                    </div>
                     <div className={styles.schedTimeline}>
                       {phase.items.map((s, i) => (
                         <div key={s.id} className={styles.schedTimelineRow}>
                           <div className={styles.schedDotCol}>
-                            <div className={styles.schedDot} style={{ borderColor: phase.color, background: i === 0 ? phase.color : "#fff" }} />
-                            {i < phase.items.length - 1 && <div className={styles.schedLine} style={{ background: `${phase.color}33` }} />}
+                            <div
+                              className={styles.schedDot}
+                              style={{
+                                borderColor: phase.color,
+                                background: i === 0 ? phase.color : "#fff",
+                              }}
+                            />
+                            {i < phase.items.length - 1 && (
+                              <div
+                                className={styles.schedLine}
+                                style={{ background: `${phase.color}33` }}
+                              />
+                            )}
                           </div>
                           <div className={styles.schedRowContent}>
-                            <span className={styles.schedTimeBadge} style={{ color: phase.color }}>{s.time}</span>
-                            <span className={styles.schedActivity}>{s.activity}</span>
+                            <span
+                              className={styles.schedTimeBadge}
+                              style={{ color: phase.color }}
+                            >
+                              {s.time}
+                            </span>
+                            <span className={styles.schedActivity}>
+                              {s.activity}
+                            </span>
                           </div>
                         </div>
                       ))}
@@ -1369,21 +1906,42 @@ export default function KundaliniYogaTTC() {
               })()}
               <div className={styles.schedNoteStrip}>
                 <span className={styles.schedNoteIcon}>📌</span>
-                <span className={styles.schedNoteText}>Schedule may vary slightly by week. Self-study &amp; personal practice time is built into each day.</span>
+                <span className={styles.schedNoteText}>
+                  Schedule may vary slightly by week. Self-study &amp; personal
+                  practice time is built into each day.
+                </span>
               </div>
             </div>
             <div className={styles.schedRightCol}>
               <div className={styles.schedImgGrid}>
                 {content.schedImg1 && (
                   <div className={styles.schedImgCard}>
-                    <img src={imgSrc(content.schedImg1)} alt="Daily schedule" className={styles.schedImg} loading="lazy" />
-                    <div className={styles.schedImgOverlay}><span className={styles.schedImgTag}>Morning Practice</span></div>
+                    <img
+                      src={imgSrc(content.schedImg1)}
+                      alt="Daily schedule"
+                      className={styles.schedImg}
+                      loading="lazy"
+                    />
+                    <div className={styles.schedImgOverlay}>
+                      <span className={styles.schedImgTag}>
+                        Morning Practice
+                      </span>
+                    </div>
                   </div>
                 )}
                 {content.schedImg2 && (
                   <div className={styles.schedImgCard}>
-                    <img src={imgSrc(content.schedImg2)} alt="Daily practice" className={styles.schedImg} loading="lazy" />
-                    <div className={styles.schedImgOverlay}><span className={styles.schedImgTag}>Evening Sadhana</span></div>
+                    <img
+                      src={imgSrc(content.schedImg2)}
+                      alt="Daily practice"
+                      className={styles.schedImg}
+                      loading="lazy"
+                    />
+                    <div className={styles.schedImgOverlay}>
+                      <span className={styles.schedImgTag}>
+                        Evening Sadhana
+                      </span>
+                    </div>
                   </div>
                 )}
               </div>
@@ -1403,7 +1961,10 @@ export default function KundaliniYogaTTC() {
               </div>
               <div className={styles.schedQuoteCard}>
                 <span className={styles.schedQuoteMark}>"</span>
-                <p className={styles.schedQuoteText}>Sadhana is the foundation. When you practice every day with discipline and devotion, transformation becomes inevitable.</p>
+                <p className={styles.schedQuoteText}>
+                  Sadhana is the foundation. When you practice every day with
+                  discipline and devotion, transformation becomes inevitable.
+                </p>
                 <span className={styles.schedQuoteAuthor}>— Yogi Bhajan</span>
               </div>
             </div>
@@ -1415,11 +1976,18 @@ export default function KundaliniYogaTTC() {
       <section className={`${styles.section} ${styles.whySection}`}>
         <div className={`container px-3 px-md-4 ${styles.maxx}`}>
           <div className={styles.whyHeroBanner}>
-            <img src="https://images.pexels.com/photos/1371360/pexels-photo-1371360.jpeg?auto=compress&cs=tinysrgb&w=1400" alt="AYM Yoga School" className={styles.whyHeroBannerImg} loading="lazy" />
+            <img
+              src="https://images.pexels.com/photos/1371360/pexels-photo-1371360.jpeg?auto=compress&cs=tinysrgb&w=1400"
+              alt="AYM Yoga School"
+              className={styles.whyHeroBannerImg}
+              loading="lazy"
+            />
             <div className={styles.whyHeroBannerOverlay} />
             <div className={styles.whyHeroBannerContent}>
               <div className={styles.secTaglineLight}>THE AYM DIFFERENCE</div>
-              <h2 className={styles.whyHeroBannerTitle}>{content.whyAYMTitle}</h2>
+              <h2 className={styles.whyHeroBannerTitle}>
+                {content.whyAYMTitle}
+              </h2>
               <div className={styles.whyHeroBannerDivider} />
               <div className={styles.whyTrustBadgeRow}>
                 {[
@@ -1427,7 +1995,12 @@ export default function KundaliniYogaTTC() {
                   { icon: "🌍", text: "6000+ Graduates" },
                   { icon: "⭐", text: "Top Rated School" },
                   { icon: "📅", text: "Est. 2009" },
-                ].map((b, i) => (<div key={i} className={styles.whyTrustBadge}><span>{b.icon}</span><span>{b.text}</span></div>))}
+                ].map((b, i) => (
+                  <div key={i} className={styles.whyTrustBadge}>
+                    <span>{b.icon}</span>
+                    <span>{b.text}</span>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
@@ -1443,12 +2016,37 @@ export default function KundaliniYogaTTC() {
               ];
               const p = palette[i % palette.length];
               return (
-                <div key={card.id} className={styles.whyEnhCard} style={{ "--why-accent": p.accent, "--why-bg": p.bg } as React.CSSProperties}>
-                  <div className={styles.whyEnhCardAccent} style={{ background: p.accent }} />
+                <div
+                  key={card.id}
+                  className={styles.whyEnhCard}
+                  style={
+                    {
+                      "--why-accent": p.accent,
+                      "--why-bg": p.bg,
+                    } as React.CSSProperties
+                  }
+                >
+                  <div
+                    className={styles.whyEnhCardAccent}
+                    style={{ background: p.accent }}
+                  />
                   <div className={styles.whyEnhCardBody}>
                     <div className={styles.whyEnhCardHead}>
-                      <div className={styles.whyEnhIconWrap} style={{ background: p.bg, borderColor: `${p.accent}44` }}><span className={styles.whyEnhIcon}>{p.icon}</span></div>
-                      <div className={styles.whyEnhNum} style={{ color: p.accent }}>{i + 1}</div>
+                      <div
+                        className={styles.whyEnhIconWrap}
+                        style={{
+                          background: p.bg,
+                          borderColor: `${p.accent}44`,
+                        }}
+                      >
+                        <span className={styles.whyEnhIcon}>{p.icon}</span>
+                      </div>
+                      <div
+                        className={styles.whyEnhNum}
+                        style={{ color: p.accent }}
+                      >
+                        {i + 1}
+                      </div>
                     </div>
                     <div className={styles.whyEnhLabel}>{card.label}</div>
                     <div className={styles.whyEnhDesc}>{card.desc}</div>
@@ -1458,17 +2056,44 @@ export default function KundaliniYogaTTC() {
             })}
           </div>
           <div className={styles.whyTestimonialStrip}>
-            <div className={styles.whyTestimonialLeft}><div className={styles.whyTestBigNum}>6,000<span>+</span></div><div className={styles.whyTestBigLabel}>Yoga teachers trained worldwide</div></div>
+            <div className={styles.whyTestimonialLeft}>
+              <div className={styles.whyTestBigNum}>
+                6,000<span>+</span>
+              </div>
+              <div className={styles.whyTestBigLabel}>
+                Yoga teachers trained worldwide
+              </div>
+            </div>
             <div className={styles.whyTestimonialDivider} />
             <div className={styles.whyTestimonialRight}>
-              <div className={styles.whyTestQuote}>"AYM completely transformed my understanding of Kundalini energy. The teachers are deeply knowledgeable and the setting in Rishikesh is magical."</div>
-              <div className={styles.whyTestAuthor}>— Sarah M., United Kingdom</div>
+              <div className={styles.whyTestQuote}>
+                "AYM completely transformed my understanding of Kundalini
+                energy. The teachers are deeply knowledgeable and the setting in
+                Rishikesh is magical."
+              </div>
+              <div className={styles.whyTestAuthor}>
+                — Sarah M., United Kingdom
+              </div>
             </div>
           </div>
           {content.classImage && (
             <div className={styles.whyClassImgWrap}>
-              <img src={imgSrc(content.classImage)} alt="AYM Yoga School Kundalini class" className={styles.whyClassImg} loading="lazy" />
-              <div className={styles.whyClassImgOverlay}><div className={styles.whyClassImgCaption}><span className={styles.whyClassImgCaptionTag}>OUR COMMUNITY</span><span className={styles.whyClassImgCaptionText}>Join a global family of conscious practitioners</span></div></div>
+              <img
+                src={imgSrc(content.classImage)}
+                alt="AYM Yoga School Kundalini class"
+                className={styles.whyClassImg}
+                loading="lazy"
+              />
+              <div className={styles.whyClassImgOverlay}>
+                <div className={styles.whyClassImgCaption}>
+                  <span className={styles.whyClassImgCaptionTag}>
+                    OUR COMMUNITY
+                  </span>
+                  <span className={styles.whyClassImgCaptionText}>
+                    Join a global family of conscious practitioners
+                  </span>
+                </div>
+              </div>
             </div>
           )}
         </div>
@@ -1485,189 +2110,257 @@ export default function KundaliniYogaTTC() {
         rate={rate}
         rateLoading={rateLoading}
       />
-      <PremiumGallerySection type="both" backgroundColor="warm" />
 
       {/* SECTION 9 — WHY CHOOSE RISHIKESH + REFUND */}
-     {/* SECTION 9 — WHY CHOOSE RISHIKESH + REFUND */}
-<section className={`${styles.section} ${styles.sectionLight} ${styles.sec9Wrap}`}>
-  <div className={`container px-3 px-md-4 ${styles.maxx}`}>
+      <section
+        className={`${styles.section} ${styles.sectionLight} ${styles.sec9Wrap}`}
+      >
+        <div className={`container px-3 px-md-4 ${styles.maxx}`}>
+          {/* ── WHY RISHIKESH ── */}
+          <div className={styles.whyRishikeshBlock}>
+            {/* Full-width panorama banner */}
+            <div className={styles.wrBanner}>
+              <img
+                src="https://images.pexels.com/photos/1371360/pexels-photo-1371360.jpeg?auto=compress&cs=tinysrgb&w=1400"
+                alt="Rishikesh Himalayan landscape"
+                className={styles.wrBannerImg}
+                loading="lazy"
+              />
 
-    {/* ── WHY RISHIKESH ── */}
-    <div className={styles.whyRishikeshBlock}>
-
-      {/* Full-width panorama banner */}
-      <div className={styles.wrBanner}>
-        <img
-          src="https://images.pexels.com/photos/1371360/pexels-photo-1371360.jpeg?auto=compress&cs=tinysrgb&w=1400"
-          alt="Rishikesh Himalayan landscape"
-          className={styles.wrBannerImg}
-          loading="lazy"
-        />
-
-        
-        <div className={styles.wrBannerOverlay} />
-        <div className={styles.wrBannerContent}>
-          <span className={styles.wrBannerTag}>Sacred City · Yoga Capital of the World</span>
-          <h2 className={styles.wrBannerTitle}>{content.whyRishikeshTitle}</h2>
-          <div className={styles.wrBannerDivider} />
-          <div className={styles.wrBannerStats}>
-            {[
-              { num: "5000+", label: "Years of yoga heritage" },
-              { num: "200+", label: "Ashrams & schools" },
-              { num: "3", label: "Sacred rivers" },
-              { num: "∞", label: "Himalayan serenity" },
-            ].map((s, i) => (
-              <div key={i} className={styles.wrBannerStat}>
-                <span className={styles.wrBannerStatNum}>{s.num}</span>
-                <span className={styles.wrBannerStatLabel}>{s.label}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Two-column content area */}
-      <div className={styles.wrBody}>
-
-        {/* LEFT — Spiritual + Natural columns */}
-        <div className={styles.wrLeft}>
-          {content.spiritualTitle && (
-            <div className={styles.wrPillar}>
-              <div className={styles.wrPillarIcon}>🕉️</div>
-              <div className={styles.wrPillarContent}>
-                <h3 className={styles.wrPillarTitle}>{content.spiritualTitle}</h3>
-                {content.spiritualPara && (
-                  <div
-                    className={styles.wrPillarPara}
-                    dangerouslySetInnerHTML={{ __html: content.spiritualPara }}
-                  />
-                )}
-              </div>
-            </div>
-          )}
-          {content.naturalTitle && (
-            <div className={styles.wrPillar}>
-              <div className={styles.wrPillarIcon}>🌿</div>
-              <div className={styles.wrPillarContent}>
-                <h3 className={styles.wrPillarTitle}>{content.naturalTitle}</h3>
-                {content.naturalPara && (
-                  <div
-                    className={styles.wrPillarPara}
-                    dangerouslySetInnerHTML={{ __html: content.naturalPara }}
-                  />
-                )}
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* RIGHT — Types + Top Schools */}
-        <div className={styles.wrRight}>
-          {content.typesTitle && (
-            <div className={styles.wrRightCard}>
-              <div className={styles.wrRightCardHeader}>
-                <span className={styles.wrRightCardIcon}>📋</span>
-                <h3 className={styles.wrRightCardTitle}>{content.typesTitle}</h3>
-              </div>
-              {content.typesItems && content.typesItems.length > 0 && (
-                <ul className={styles.wrTypesList}>
-                  {content.typesItems.map((item, i) => (
-                    <li key={i} className={styles.wrTypesItem}>
-                      <span className={styles.wrTypesArrow}>→</span>
-                      <span>{item}</span>
-                    </li>
+              <div className={styles.wrBannerOverlay} />
+              <div className={styles.wrBannerContent}>
+                <span className={styles.wrBannerTag}>
+                  Sacred City · Yoga Capital of the World
+                </span>
+                <h2 className={styles.wrBannerTitle}>
+                  {content.whyRishikeshTitle}
+                </h2>
+                <div className={styles.wrBannerDivider} />
+                <div className={styles.wrBannerStats}>
+                  {[
+                    { num: "5000+", label: "Years of yoga heritage" },
+                    { num: "200+", label: "Ashrams & schools" },
+                    { num: "3", label: "Sacred rivers" },
+                    { num: "∞", label: "Himalayan serenity" },
+                  ].map((s, i) => (
+                    <div key={i} className={styles.wrBannerStat}>
+                      <span className={styles.wrBannerStatNum}>{s.num}</span>
+                      <span className={styles.wrBannerStatLabel}>
+                        {s.label}
+                      </span>
+                    </div>
                   ))}
-                </ul>
-              )}
-            </div>
-          )}
-
-          {content.topSchoolsTitle && (
-            <div className={`${styles.wrRightCard} ${styles.wrRightCardAccent}`}>
-              <div className={styles.wrRightCardHeader}>
-                <span className={styles.wrRightCardIcon}>🏆</span>
-                <h3 className={styles.wrRightCardTitle}>{content.topSchoolsTitle}</h3>
-              </div>
-              {content.topSchoolsPara && (
-                <p className={styles.wrRightCardPara}>{content.topSchoolsPara}</p>
-              )}
-              {/* AYM highlight pill */}
-              <div className={styles.wrAymPill}>
-                <span className={styles.wrAymPillDot} />
-                <span>AYM Yoga School — Ranked among Rishikesh's finest</span>
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
-    </div>
-
-    {/* ── OM DIVIDER ── */}
-    <OmDivider />
-
-    {/* ── REFUND POLICY ── */}
-    <div className={styles.refundBlock}>
-      {/* Header */}
-      <div className={styles.refundHeader}>
-        <span className={styles.cardCorner}>✦</span>
-        <div className={styles.secTagline}>TRANSPARENCY & TRUST</div>
-        <h2 className={styles.sectionTitleCenter}>{content.refundTitle}</h2>
-        <OmDivider />
-        <p className={styles.refundHeaderSub}>
-          We believe in clear, fair policies. Here's everything you need to know about our cancellation terms.
-        </p>
-      </div>
-
-      {/* Policy grid */}
-      <div className={styles.refundGrid}>
-        {content.refundItems?.map((policy, i) => {
-          const icons = ["💰", "❌", "📧", "⚠️"];
-          const accents = [
-            { color: "#3d6000", bg: "rgba(61,96,0,0.07)", border: "rgba(61,96,0,0.2)" },
-            { color: "#8a2c00", bg: "rgba(138,44,0,0.07)", border: "rgba(138,44,0,0.2)" },
-            { color: "#1a6fa8", bg: "rgba(26,111,168,0.07)", border: "rgba(26,111,168,0.2)" },
-            { color: "#c8890a", bg: "rgba(200,137,10,0.07)", border: "rgba(200,137,10,0.2)" },
-          ];
-          const a = accents[i % accents.length];
-          return (
-            <div key={i} className={styles.refundCard} style={{ "--rc-color": a.color, "--rc-bg": a.bg, "--rc-border": a.border } as React.CSSProperties}>
-              <div className={styles.refundCardAccentBar} style={{ background: a.color }} />
-              <div className={styles.refundCardBody}>
-                <div className={styles.refundCardHead}>
-                  <div className={styles.refundCardIconWrap} style={{ background: a.bg, border: `1.5px solid ${a.border}` }}>
-                    <span className={styles.refundCardIcon}>{icons[i % icons.length]}</span>
-                  </div>
-                  <span className={styles.refundCardNum} style={{ color: a.color }}>0{i + 1}</span>
                 </div>
-                <p className={styles.refundCardText}>{policy}</p>
               </div>
             </div>
-          );
-        })}
-      </div>
 
-      {/* Bottom trust note */}
-      <div className={styles.refundTrustStrip}>
-        <div className={styles.refundTrustItem}>
-          <span className={styles.refundTrustIcon}>📩</span>
-          <span>All cancellations must be made via email</span>
-        </div>
-        <div className={styles.refundTrustDivider} />
-        <div className={styles.refundTrustItem}>
-          <span className={styles.refundTrustIcon}>🔒</span>
-          <span>Your deposit secures your seat</span>
-        </div>
-        <div className={styles.refundTrustDivider} />
-        <div className={styles.refundTrustItem}>
-          <span className={styles.refundTrustIcon}>🔄</span>
-          <span>Flexible rebooking to future batches</span>
-        </div>
-      </div>
-    </div>
+            {/* Two-column content area */}
+            <div className={styles.wrBody}>
+              {/* LEFT — Spiritual + Natural columns */}
+              <div className={styles.wrLeft}>
+                {content.spiritualTitle && (
+                  <div className={styles.wrPillar}>
+                    <div className={styles.wrPillarIcon}>🕉️</div>
+                    <div className={styles.wrPillarContent}>
+                      <h3 className={styles.wrPillarTitle}>
+                        {content.spiritualTitle}
+                      </h3>
+                      {content.spiritualPara && (
+                        <div
+                          className={styles.wrPillarPara}
+                          dangerouslySetInnerHTML={{
+                            __html: content.spiritualPara,
+                          }}
+                        />
+                      )}
+                    </div>
+                  </div>
+                )}
+                {content.naturalTitle && (
+                  <div className={styles.wrPillar}>
+                    <div className={styles.wrPillarIcon}>🌿</div>
+                    <div className={styles.wrPillarContent}>
+                      <h3 className={styles.wrPillarTitle}>
+                        {content.naturalTitle}
+                      </h3>
+                      {content.naturalPara && (
+                        <div
+                          className={styles.wrPillarPara}
+                          dangerouslySetInnerHTML={{
+                            __html: content.naturalPara,
+                          }}
+                        />
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
 
-    <OmDivider />
-  </div>
-</section>
+              {/* RIGHT — Types + Top Schools */}
+              <div className={styles.wrRight}>
+                {content.typesTitle && (
+                  <div className={styles.wrRightCard}>
+                    <div className={styles.wrRightCardHeader}>
+                      <span className={styles.wrRightCardIcon}>📋</span>
+                      <h3 className={styles.wrRightCardTitle}>
+                        {content.typesTitle}
+                      </h3>
+                    </div>
+                    {content.typesItems && content.typesItems.length > 0 && (
+                      <ul className={styles.wrTypesList}>
+                        {content.typesItems.map((item, i) => (
+                          <li key={i} className={styles.wrTypesItem}>
+                            <span className={styles.wrTypesArrow}>→</span>
+                            <span>{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
+                )}
+
+                {content.topSchoolsTitle && (
+                  <div
+                    className={`${styles.wrRightCard} ${styles.wrRightCardAccent}`}
+                  >
+                    <div className={styles.wrRightCardHeader}>
+                      <span className={styles.wrRightCardIcon}>🏆</span>
+                      <h3 className={styles.wrRightCardTitle}>
+                        {content.topSchoolsTitle}
+                      </h3>
+                    </div>
+                    {content.topSchoolsPara && (
+                      <p className={styles.wrRightCardPara}>
+                        {content.topSchoolsPara}
+                      </p>
+                    )}
+                    {/* AYM highlight pill */}
+                    <div className={styles.wrAymPill}>
+                      <span className={styles.wrAymPillDot} />
+                      <span>
+                        AYM Yoga School — Ranked among Rishikesh's finest
+                      </span>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* ── OM DIVIDER ── */}
+          <OmDivider />
+
+          {/* ── REFUND POLICY ── */}
+          <div className={styles.refundBlock}>
+            {/* Header */}
+            <div className={styles.refundHeader}>
+              <span className={styles.cardCorner}>✦</span>
+              <div className={styles.secTagline}>TRANSPARENCY & TRUST</div>
+              <h2 className={styles.sectionTitleCenter}>
+                {content.refundTitle}
+              </h2>
+              <OmDivider />
+              <p className={styles.refundHeaderSub}>
+                We believe in clear, fair policies. Here's everything you need
+                to know about our cancellation terms.
+              </p>
+            </div>
+
+            {/* Policy grid */}
+            <div className={styles.refundGrid}>
+              {content.refundItems?.map((policy, i) => {
+                const icons = ["💰", "❌", "📧", "⚠️"];
+                const accents = [
+                  {
+                    color: "#3d6000",
+                    bg: "rgba(61,96,0,0.07)",
+                    border: "rgba(61,96,0,0.2)",
+                  },
+                  {
+                    color: "#8a2c00",
+                    bg: "rgba(138,44,0,0.07)",
+                    border: "rgba(138,44,0,0.2)",
+                  },
+                  {
+                    color: "#1a6fa8",
+                    bg: "rgba(26,111,168,0.07)",
+                    border: "rgba(26,111,168,0.2)",
+                  },
+                  {
+                    color: "#c8890a",
+                    bg: "rgba(200,137,10,0.07)",
+                    border: "rgba(200,137,10,0.2)",
+                  },
+                ];
+                const a = accents[i % accents.length];
+                return (
+                  <div
+                    key={i}
+                    className={styles.refundCard}
+                    style={
+                      {
+                        "--rc-color": a.color,
+                        "--rc-bg": a.bg,
+                        "--rc-border": a.border,
+                      } as React.CSSProperties
+                    }
+                  >
+                    <div
+                      className={styles.refundCardAccentBar}
+                      style={{ background: a.color }}
+                    />
+                    <div className={styles.refundCardBody}>
+                      <div className={styles.refundCardHead}>
+                        <div
+                          className={styles.refundCardIconWrap}
+                          style={{
+                            background: a.bg,
+                            border: `1.5px solid ${a.border}`,
+                          }}
+                        >
+                          <span className={styles.refundCardIcon}>
+                            {icons[i % icons.length]}
+                          </span>
+                        </div>
+                        <span
+                          className={styles.refundCardNum}
+                          style={{ color: a.color }}
+                        >
+                          0{i + 1}
+                        </span>
+                      </div>
+                      <p className={styles.refundCardText}>{policy}</p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Bottom trust note */}
+            <div className={styles.refundTrustStrip}>
+              <div className={styles.refundTrustItem}>
+                <span className={styles.refundTrustIcon}>📩</span>
+                <span>All cancellations must be made via email</span>
+              </div>
+              <div className={styles.refundTrustDivider} />
+              <div className={styles.refundTrustItem}>
+                <span className={styles.refundTrustIcon}>🔒</span>
+                <span>Your deposit secures your seat</span>
+              </div>
+              <div className={styles.refundTrustDivider} />
+              <div className={styles.refundTrustItem}>
+                <span className={styles.refundTrustIcon}>🔄</span>
+                <span>Flexible rebooking to future batches</span>
+              </div>
+            </div>
+          </div>
+
+          <OmDivider />
+        </div>
+      </section>
+      <PremiumGallerySection type="both" backgroundColor="warm" />
+      {/* ✅ REVIEWS — now a reusable separate component */}
+      <ReviewSection RatingsSummaryComponent={<RatingsSummarySection />} />
 
       <HowToReach />
     </div>
