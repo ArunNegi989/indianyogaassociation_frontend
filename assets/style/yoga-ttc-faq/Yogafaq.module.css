@@ -9,7 +9,7 @@
   --saffron-light: #f5a623;
   --saffron-pale:  #fff3e0;
   --maroon:        #3d1d00;
-  --parchment:     #fdf6ec;
+  --parchment:     #ffffff;
   --parchment-2:   #f5e9d4;
   --parchment-3:   #ede0c0;
   --cream:         #fffaf3;
@@ -222,13 +222,22 @@
   display: grid;
   grid-template-columns: 260px 1fr;
   gap: clamp(2rem,4vw,3.5rem);
-  align-items: start;
+  align-items: start;  /* ✅ yeh rehna chahiye */
 }
+
 
 /* ── Sidebar ── */
 .sidebar {
   position: sticky;
-  top: calc(68px + 48px + 1.5rem);
+  top: 130px;
+  max-height: calc(100vh - 150px);
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  align-self: start;
+}
+.sidebar::-webkit-scrollbar {
+  display: none;
 }
 .sidebarCard {
   background: linear-gradient(160deg, #fff, var(--parchment));
@@ -671,6 +680,7 @@
 
 @media (min-width: 992px) and (max-width: 1199px) {
   .mainLayout { grid-template-columns: 240px 1fr; gap: 2rem; }
+  .sidebar { top: 120px; max-height: calc(100vh - 140px); }
 }
 
 @media (min-width: 768px) and (max-width: 991px) {
