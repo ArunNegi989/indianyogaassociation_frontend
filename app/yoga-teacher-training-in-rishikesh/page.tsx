@@ -5,6 +5,8 @@ import styles from "@/assets/style/yoga-teacher-training-in-rishikesh/Bestyogasc
 import HowToReach from "@/components/home/Howtoreach";
 import api from "@/lib/api";
 import PremiumGallerySection from "@/components/PremiumGallerySection";
+import ReviewSection from "@/components/common/Reviewsection";
+import RatingsSummarySection from "@/components/home/RatingsSummarySection";
 
 /* ─────────────────────────────────────────
    TYPES
@@ -801,6 +803,12 @@ export default function BestYogaSchool() {
 )}
 
 <PremiumGallerySection type="both" backgroundColor="warm" />
+
+ {/* ✅ REVIEWS — now a reusable separate component */}
+            <ReviewSection
+            
+              RatingsSummaryComponent={<RatingsSummarySection />}
+            />
 
       <HowToReach />
     </div>

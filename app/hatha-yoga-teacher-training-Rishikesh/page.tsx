@@ -3,6 +3,9 @@ import React, { useEffect, useRef, useState } from "react";
 import styles from "@/assets/style/hatha-yoga-teacher-training-Rishikesh/Hathayogapage.module.css";
 import HowToReach from "@/components/home/Howtoreach";
 import api from "@/lib/api";
+import ReviewSection from "@/components/common/Reviewsection";
+import RatingsSummarySection from "@/components/home/RatingsSummarySection";
+import PremiumGallerySection from "@/components/PremiumGallerySection";
 
 /* ══════════════════════════════════════
    TYPES
@@ -293,44 +296,82 @@ function MandalaSVG({
 /* ── Inline SVG icons for banner ── */
 function IconClock() {
   return (
-    <svg viewBox="0 0 24 24" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="12" cy="12" r="9" /><polyline points="12 7 12 12 15 15" />
+    <svg
+      viewBox="0 0 24 24"
+      strokeWidth={2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <circle cx="12" cy="12" r="9" />
+      <polyline points="12 7 12 12 15 15" />
     </svg>
   );
 }
 function IconLevel() {
   return (
-    <svg viewBox="0 0 24 24" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-      <line x1="18" y1="20" x2="18" y2="10" /><line x1="12" y1="20" x2="12" y2="4" /><line x1="6" y1="20" x2="6" y2="14" />
+    <svg
+      viewBox="0 0 24 24"
+      strokeWidth={2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <line x1="18" y1="20" x2="18" y2="10" />
+      <line x1="12" y1="20" x2="12" y2="4" />
+      <line x1="6" y1="20" x2="6" y2="14" />
     </svg>
   );
 }
 function IconCert() {
   return (
-    <svg viewBox="0 0 24 24" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-      <rect x="3" y="3" width="18" height="18" rx="2" /><polyline points="9 11 12 14 22 4" />
+    <svg
+      viewBox="0 0 24 24"
+      strokeWidth={2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <rect x="3" y="3" width="18" height="18" rx="2" />
+      <polyline points="9 11 12 14 22 4" />
     </svg>
   );
 }
 function IconPerson() {
   return (
-    <svg viewBox="0 0 24 24" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="12" cy="8" r="4" /><path d="M6 20v-2a6 6 0 0 1 12 0v2" />
+    <svg
+      viewBox="0 0 24 24"
+      strokeWidth={2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <circle cx="12" cy="8" r="4" />
+      <path d="M6 20v-2a6 6 0 0 1 12 0v2" />
     </svg>
   );
 }
 function IconGlobe() {
   return (
-    <svg viewBox="0 0 24 24" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="12" cy="12" r="9" /><path d="M12 3a14 14 0 0 1 0 18M3 12h18" />
+    <svg
+      viewBox="0 0 24 24"
+      strokeWidth={2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <circle cx="12" cy="12" r="9" />
+      <path d="M12 3a14 14 0 0 1 0 18M3 12h18" />
     </svg>
   );
 }
 function IconCalendar() {
   return (
-    <svg viewBox="0 0 24 24" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+    <svg
+      viewBox="0 0 24 24"
+      strokeWidth={2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
       <rect x="3" y="4" width="18" height="18" rx="2" />
-      <line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" />
+      <line x1="16" y1="2" x2="16" y2="6" />
+      <line x1="8" y1="2" x2="8" y2="6" />
+      <line x1="3" y1="10" x2="21" y2="10" />
     </svg>
   );
 }
@@ -354,9 +395,7 @@ function CourseDetailsBanner({
   /* Derive date label */
   const dateLabel =
     d.bannerDate ??
-    (firstBatch
-      ? `${formatDate(firstBatch.startDate)}`
-      : "Every Month");
+    (firstBatch ? `${formatDate(firstBatch.startDate)}` : "Every Month");
   const dateSub =
     d.bannerDateSub ??
     (firstBatch ? "Flexible batch dates" : "Flexible batch dates");
@@ -598,80 +637,89 @@ export default function HathaYogaPage() {
       <CourseDetailsBanner d={d} batches={batches} />
 
       {/* ══════════════════════ INTRO ══════════════════════ */}
-     <section className={`${styles.sections} ${styles.introSection}`}>
-  <div className={styles.container}>
-    <div className={`${styles.reveal} ${styles.introGrid}`}>
- 
-      {/* ── LEFT: Text + accreditations ── */}
-      <div className={styles.introText}>
-        {d.introSectionTitle && (
-          <h2 className={styles.sectionsTitleAccent}>{d.introSectionTitle}</h2>
-        )}
-        <OrnamentDivider />
-        {d.introParagraphs && d.introParagraphs.length > 0
-          ? d.introParagraphs.map((p, i) => (
-              <div key={i} className={styles.para} dangerouslySetInnerHTML={{ __html: p }} />
-            ))
-          : null}
- 
-        {d.accreditations && d.accreditations.length > 0 && (
-          <div className={styles.accredBox}>
-            <p className={styles.accredTitle}>Accreditations</p>
-            {d.accreditations.map((a, i) => (
-              <span key={i} className={styles.accredBadge}>{a}</span>
-            ))}
+      <section className={`${styles.sections} ${styles.introSection}`}>
+        <div className={styles.container}>
+          <div className={`${styles.reveal} ${styles.introGrid}`}>
+            {/* ── LEFT: Text + accreditations ── */}
+            <div className={styles.introText}>
+              {d.introSectionTitle && (
+                <h2 className={styles.sectionsTitleAccent}>
+                  {d.introSectionTitle}
+                </h2>
+              )}
+              <OrnamentDivider />
+              {d.introParagraphs && d.introParagraphs.length > 0
+                ? d.introParagraphs.map((p, i) => (
+                    <div
+                      key={i}
+                      className={styles.para}
+                      dangerouslySetInnerHTML={{ __html: p }}
+                    />
+                  ))
+                : null}
+
+              {d.accreditations && d.accreditations.length > 0 && (
+                <div className={styles.accredBox}>
+                  <p className={styles.accredTitle}>Accreditations</p>
+                  {d.accreditations.map((a, i) => (
+                    <span key={i} className={styles.accredBadge}>
+                      {a}
+                    </span>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* ── RIGHT: Media stack ── */}
+            <div className={styles.introMediaStack}>
+              {/* Primary large image */}
+              <div className={styles.introMainImg}>
+                <img
+                  src={introSrc}
+                  alt={d.introSideImgAlt || "Yoga class in Rishikesh"}
+                />
+                <div className={styles.introImgOverlay} />
+                <div className={styles.introImgCaption}>
+                  Morning Satsang · AYM Ashram
+                </div>
+              </div>
+
+              {/* Two floating thumbnail cards below */}
+              <div className={styles.introThumbRow}>
+                <div className={styles.introThumb}>
+                  <img
+                    src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=600&q=80"
+                    alt="Pranayama practice"
+                  />
+                  <div className={styles.introThumbLabel}>Pranayama</div>
+                </div>
+                <div className={styles.introThumb}>
+                  <img
+                    src="https://images.unsplash.com/photo-1545205597-3d9d02c29597?w=600&q=80"
+                    alt="Meditation session"
+                  />
+                  <div className={styles.introThumbLabel}>Meditation</div>
+                </div>
+              </div>
+
+              {/* Floating stat badge */}
+              <div className={styles.introStatBadge}>
+                <span className={styles.introStatNum}>500+</span>
+                <span className={styles.introStatText}>
+                  Students Certified Annually
+                </span>
+              </div>
+            </div>
           </div>
-        )}
-      </div>
- 
-      {/* ── RIGHT: Media stack ── */}
-      <div className={styles.introMediaStack}>
- 
-        {/* Primary large image */}
-        <div className={styles.introMainImg}>
-          <img
-            src={introSrc}
-            alt={d.introSideImgAlt || "Yoga class in Rishikesh"}
-          />
-          <div className={styles.introImgOverlay} />
-          <div className={styles.introImgCaption}>Morning Satsang · AYM Ashram</div>
         </div>
- 
-        {/* Two floating thumbnail cards below */}
-        <div className={styles.introThumbRow}>
-          <div className={styles.introThumb}>
-            <img
-              src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=600&q=80"
-              alt="Pranayama practice"
-            />
-            <div className={styles.introThumbLabel}>Pranayama</div>
-          </div>
-          <div className={styles.introThumb}>
-            <img
-              src="https://images.unsplash.com/photo-1545205597-3d9d02c29597?w=600&q=80"
-              alt="Meditation session"
-            />
-            <div className={styles.introThumbLabel}>Meditation</div>
-          </div>
-        </div>
- 
-        {/* Floating stat badge */}
-        <div className={styles.introStatBadge}>
-          <span className={styles.introStatNum}>500+</span>
-          <span className={styles.introStatText}>Students Certified Annually</span>
-        </div>
- 
-      </div>
-    </div>
-  </div>
-</section>
+      </section>
 
       {/* ══════════════════════ WHAT IS HATHA ══════════════════════ */}
       <section className={`${styles.section} ${styles.whatSection}`}>
-        <div className={styles.whatOverlay}  />
-        <div className={styles.whatBorderTop}  />
-        <div className={styles.whatBorderBottom}  />
-        <div className={styles.whatMandalaBg} >
+        <div className={styles.whatOverlay} />
+        <div className={styles.whatBorderTop} />
+        <div className={styles.whatBorderBottom} />
+        <div className={styles.whatMandalaBg}>
           {/* <MandalaRingSVG size={500} opacity={1} /> */}
         </div>
         <div className={`${styles.container} ${styles.whatContainer}`}>
@@ -679,9 +727,7 @@ export default function HathaYogaPage() {
             {d.whatSuperLabel && (
               <p className={styles.whatSuperLabel}>{d.whatSuperLabel}</p>
             )}
-            {d.whatTitle && (
-              <h2 className={styles.whatTitle}>{d.whatTitle}</h2>
-            )}
+            {d.whatTitle && <h2 className={styles.whatTitle}>{d.whatTitle}</h2>}
             <div className={styles.whatOrnamentDivider}>
               <span className={styles.whatOrnLine} />
               <span className={styles.whatOrnGlyph}>❧</span>
@@ -703,75 +749,76 @@ export default function HathaYogaPage() {
       </section>
 
       {/* ══════════════════════ BENEFITS ══════════════════════ */}
-    <section className={`${styles.section} ${styles.benefitsSection}`}>
- 
-  {/* Full-bleed video backdrop */}
-  <div className={styles.benefitsVideoBg} aria-hidden="true">
-    <video
-      autoPlay
-      muted
-      loop
-      playsInline
-      className={styles.benefitsVideo}
-      // poster="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=1200&q=80"
-    >
-      {/* Free stock yoga video from Pexels CDN */}
-      <source
-        src="https://videos.pexels.com/video-files/3576382/3576382-uhd_2560_1440_25fps.mp4"
-        type="video/mp4"
-      />
-    </video>
-    <div className={styles.benefitsVideoOverlay} />
-  </div>
- 
-  <div className={styles.container}>
-    <div className={`${styles.reveal} ${styles.benefitsContentWrap}`}>
- 
-      {/* Header */}
-      <div className={styles.benefitsHeader}>
-        {d.benefitsSuperLabel && (
-          <p className={styles.benefitsSuperLabelDark}>{d.benefitsSuperLabel}</p>
-        )}
-        {d.benefitsTitle && (
-          <h2 className={styles.benefitsTitleDark}>{d.benefitsTitle}</h2>
-        )}
-        <div className={styles.whatOrnamentDivider}>
-          <span className={styles.whatOrnLine} />
-          <span className={styles.whatOrnGlyph}>❧</span>
-          <span className={styles.whatOrnLine} />
+      <section className={`${styles.section} ${styles.benefitsSection}`}>
+        {/* Full-bleed video backdrop */}
+        <div className={styles.benefitsVideoBg} aria-hidden="true">
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            className={styles.benefitsVideo}
+            // poster="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=1200&q=80"
+          >
+            {/* Free stock yoga video from Pexels CDN */}
+            <source
+              src="https://videos.pexels.com/video-files/3576382/3576382-uhd_2560_1440_25fps.mp4"
+              type="video/mp4"
+            />
+          </video>
+          <div className={styles.benefitsVideoOverlay} />
         </div>
-        {d.benefitsIntroPara && (
-          <div
-            className={styles.benefitsIntroParaDark}
-            dangerouslySetInnerHTML={{ __html: d.benefitsIntroPara }}
-          />
-        )}
-      </div>
- 
-      {/* Pill grid */}
-      {d.benefitsList && d.benefitsList.length > 0 && (
-        <div className={styles.benefitsPillGrid}>
-          {d.benefitsList.map((b, i) => (
-            <div key={i} className={styles.benefitPill}>
-              <span className={styles.benefitPillNum}>{String(i + 1).padStart(2, "0")}</span>
-              <span className={styles.benefitPillText}>{b}</span>
+
+        <div className={styles.container}>
+          <div className={`${styles.reveal} ${styles.benefitsContentWrap}`}>
+            {/* Header */}
+            <div className={styles.benefitsHeader}>
+              {d.benefitsSuperLabel && (
+                <p className={styles.benefitsSuperLabelDark}>
+                  {d.benefitsSuperLabel}
+                </p>
+              )}
+              {d.benefitsTitle && (
+                <h2 className={styles.benefitsTitleDark}>{d.benefitsTitle}</h2>
+              )}
+              <div className={styles.whatOrnamentDivider}>
+                <span className={styles.whatOrnLine} />
+                <span className={styles.whatOrnGlyph}>❧</span>
+                <span className={styles.whatOrnLine} />
+              </div>
+              {d.benefitsIntroPara && (
+                <div
+                  className={styles.benefitsIntroParaDark}
+                  dangerouslySetInnerHTML={{ __html: d.benefitsIntroPara }}
+                />
+              )}
             </div>
-          ))}
+
+            {/* Pill grid */}
+            {d.benefitsList && d.benefitsList.length > 0 && (
+              <div className={styles.benefitsPillGrid}>
+                {d.benefitsList.map((b, i) => (
+                  <div key={i} className={styles.benefitPill}>
+                    <span className={styles.benefitPillNum}>
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <span className={styles.benefitPillText}>{b}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* Pull quote at bottom */}
+            {d.pullQuote && (
+              <div className={styles.pullQuoteDark}>
+                <span className={styles.quoteGlyphDark}>"</span>
+                {d.pullQuote}
+                <span className={styles.quoteGlyphDark}>"</span>
+              </div>
+            )}
+          </div>
         </div>
-      )}
- 
-      {/* Pull quote at bottom */}
-      {d.pullQuote && (
-        <div className={styles.pullQuoteDark}>
-          <span className={styles.quoteGlyphDark}>"</span>
-          {d.pullQuote}
-          <span className={styles.quoteGlyphDark}>"</span>
-        </div>
-      )}
- 
-    </div>
-  </div>
-</section>
+      </section>
 
       {/* ══════════════════════ CERTIFICATION ══════════════════════ */}
       <section className={`${styles.section} ${styles.certSection}`}>
@@ -836,66 +883,73 @@ export default function HathaYogaPage() {
       </section>
 
       {/* ══════════════════════ ASHRAM ══════════════════════ */}
-    <section className={`${styles.section} ${styles.ashramSection}`}>
-  <div className={styles.container}>
-    <div className={`${styles.reveal} ${styles.ashramLayout}`}>
- 
-      {/* LEFT: Text column */}
-      <div className={styles.ashramText}>
-        {d.ashramSuperLabel && (
-          <p className={styles.superLabel}>{d.ashramSuperLabel}</p>
-        )}
-        {d.ashramTitle && (
-          <h2
-            className={styles.sectionTitleAccent}
-            dangerouslySetInnerHTML={{
-              __html: d.ashramTitle.replace(/,\s*/g, ",<br/>"),
-            }}
-          />
-        )}
-        <OrnamentDivider />
-        {d.ashramParagraphs && d.ashramParagraphs.length > 0
-          ? d.ashramParagraphs.map((p, i) => (
-              <div key={i} className={styles.para} dangerouslySetInnerHTML={{ __html: p }} />
-            ))
-          : null}
-      </div>
- 
-      {/* RIGHT: Mosaic image gallery */}
-      <div className={styles.ashramMosaic}>
- 
-        {/* Large primary image */}
-        <div className={styles.ashramMosaicMain}>
-          <img
-            src={ashramSrc}
-            alt={d.ashramImgAlt || "AYM Yoga Ashram Rishikesh"}
-          />
-          <div className={styles.ashramMosaicOverlay} />
-          <div className={styles.ashramMosaicLabel}>AYM Ashram · Rishikesh</div>
-        </div>
- 
-        {/* Two smaller images stacked */}
-        <div className={styles.ashramMosaicSide}>
-          <div className={styles.ashramMosaicSmall}>
-            <img
-              src="https://images.unsplash.com/photo-1588286840104-8957b019727f?w=600&q=80"
-              alt="Yoga hall interior"
-            />
-            <span className={styles.ashramMosaicSmallLabel}>Yoga Hall</span>
+      <section className={`${styles.section} ${styles.ashramSection}`}>
+        <div className={styles.container}>
+          <div className={`${styles.reveal} ${styles.ashramLayout}`}>
+            {/* LEFT: Text column */}
+            <div className={styles.ashramText}>
+              {d.ashramSuperLabel && (
+                <p className={styles.superLabel}>{d.ashramSuperLabel}</p>
+              )}
+              {d.ashramTitle && (
+                <h2
+                  className={styles.sectionTitleAccent}
+                  dangerouslySetInnerHTML={{
+                    __html: d.ashramTitle.replace(/,\s*/g, ",<br/>"),
+                  }}
+                />
+              )}
+              <OrnamentDivider />
+              {d.ashramParagraphs && d.ashramParagraphs.length > 0
+                ? d.ashramParagraphs.map((p, i) => (
+                    <div
+                      key={i}
+                      className={styles.para}
+                      dangerouslySetInnerHTML={{ __html: p }}
+                    />
+                  ))
+                : null}
+            </div>
+
+            {/* RIGHT: Mosaic image gallery */}
+            <div className={styles.ashramMosaic}>
+              {/* Large primary image */}
+              <div className={styles.ashramMosaicMain}>
+                <img
+                  src={ashramSrc}
+                  alt={d.ashramImgAlt || "AYM Yoga Ashram Rishikesh"}
+                />
+                <div className={styles.ashramMosaicOverlay} />
+                <div className={styles.ashramMosaicLabel}>
+                  AYM Ashram · Rishikesh
+                </div>
+              </div>
+
+              {/* Two smaller images stacked */}
+              <div className={styles.ashramMosaicSide}>
+                <div className={styles.ashramMosaicSmall}>
+                  <img
+                    src="https://images.unsplash.com/photo-1588286840104-8957b019727f?w=600&q=80"
+                    alt="Yoga hall interior"
+                  />
+                  <span className={styles.ashramMosaicSmallLabel}>
+                    Yoga Hall
+                  </span>
+                </div>
+                <div className={styles.ashramMosaicSmall}>
+                  <img
+                    src="https://images.unsplash.com/photo-1571902943202-507ec2618e8f?w=600&q=80"
+                    alt="Ganga riverside practice"
+                  />
+                  <span className={styles.ashramMosaicSmallLabel}>
+                    Riverside Practice
+                  </span>
+                </div>
+              </div>
+            </div>
           </div>
-          <div className={styles.ashramMosaicSmall}>
-            <img
-              src="https://images.unsplash.com/photo-1571902943202-507ec2618e8f?w=600&q=80"
-              alt="Ganga riverside practice"
-            />
-            <span className={styles.ashramMosaicSmallLabel}>Riverside Practice</span>
-          </div>
         </div>
- 
-      </div>
-    </div>
-  </div>
-</section>
+      </section>
 
       {/* ══════════════════════ CURRICULUM ══════════════════════ */}
       {d.courseDetailsList && d.courseDetailsList.length > 0 && (
@@ -983,15 +1037,21 @@ export default function HathaYogaPage() {
                   <div className={styles.psbLphRight}>
                     <div className={styles.psbLegend}>
                       <div className={styles.psbLegItem}>
-                        <div className={`${styles.psbLegDot} ${styles.psbDGreen}`} />
+                        <div
+                          className={`${styles.psbLegDot} ${styles.psbDGreen}`}
+                        />
                         AVAILABLE
                       </div>
                       <div className={styles.psbLegItem}>
-                        <div className={`${styles.psbLegDot} ${styles.psbDOrange}`} />
+                        <div
+                          className={`${styles.psbLegDot} ${styles.psbDOrange}`}
+                        />
                         LIMITED
                       </div>
                       <div className={styles.psbLegItem}>
-                        <div className={`${styles.psbLegDot} ${styles.psbDRed}`} />
+                        <div
+                          className={`${styles.psbLegDot} ${styles.psbDRed}`}
+                        />
                         FULL
                       </div>
                     </div>
@@ -1045,8 +1105,12 @@ export default function HathaYogaPage() {
                         </div>
 
                         <div className={styles.psbBcStatusBadge}>
-                          <span className={`${styles.psbBcStatusDot} ${dotCls}`} />
-                          <span className={styles.psbBcStatusText}>{statusTxt}</span>
+                          <span
+                            className={`${styles.psbBcStatusDot} ${dotCls}`}
+                          />
+                          <span className={styles.psbBcStatusText}>
+                            {statusTxt}
+                          </span>
                         </div>
 
                         <div className={styles.psbBcSeats}>
@@ -1068,22 +1132,31 @@ export default function HathaYogaPage() {
 
               {/* RIGHT PANEL: Pricing Details */}
               <div className={styles.psbRightPanel}>
-                {selectedBatchId && batches.find((b) => b._id === selectedBatchId) ? (
+                {selectedBatchId &&
+                batches.find((b) => b._id === selectedBatchId) ? (
                   (() => {
-                    const selected = batches.find((b) => b._id === selectedBatchId)!;
+                    const selected = batches.find(
+                      (b) => b._id === selectedBatchId,
+                    )!;
                     const rem = selected.totalSeats - selected.bookedSeats;
                     const full = rem <= 0;
                     const low = !full && rem <= 5;
                     const pct = full
                       ? 100
-                      : Math.round((selected.bookedSeats / selected.totalSeats) * 100);
+                      : Math.round(
+                          (selected.bookedSeats / selected.totalSeats) * 100,
+                        );
 
                     return (
                       <>
                         <div className={styles.psbRpHeader}>
                           <div className={styles.psbRpHeaderTop}>
-                            <span className={styles.psbRpTitle}>COURSE OVERVIEW</span>
-                            <span className={styles.psbRpSubtitle}>Hatha Yoga Teacher Training</span>
+                            <span className={styles.psbRpTitle}>
+                              COURSE OVERVIEW
+                            </span>
+                            <span className={styles.psbRpSubtitle}>
+                              Hatha Yoga Teacher Training
+                            </span>
                           </div>
                           <div className={styles.psbRpDur}>
                             <svg
@@ -1103,27 +1176,35 @@ export default function HathaYogaPage() {
 
                         <div className={styles.psbRpBody}>
                           <div className={styles.psbAccommodationSection}>
-                            <div className={styles.psbSectionLabel}>WITH ACCOMMODATION</div>
+                            <div className={styles.psbSectionLabel}>
+                              WITH ACCOMMODATION
+                            </div>
                             <div className={styles.psbPriceRow}>
                               <div className={styles.psbPriceCard}>
                                 <div className={styles.psbPcAmt}>
                                   ${selected.privatePrice}
                                   <span className={styles.psbPcCur}>USD</span>
                                 </div>
-                                <div className={styles.psbPcLbl}>Private Room</div>
+                                <div className={styles.psbPcLbl}>
+                                  Private Room
+                                </div>
                               </div>
                               <div className={styles.psbPriceCard}>
                                 <div className={styles.psbPcAmt}>
                                   ${selected.twinPrice}
                                   <span className={styles.psbPcCur}>USD</span>
                                 </div>
-                                <div className={styles.psbPcLbl}>Twin / Shared</div>
+                                <div className={styles.psbPcLbl}>
+                                  Twin / Shared
+                                </div>
                               </div>
                             </div>
                           </div>
 
                           <div className={styles.psbAccommodationSection}>
-                            <div className={styles.psbSectionLabel}>WITHOUT ACCOMMODATION</div>
+                            <div className={styles.psbSectionLabel}>
+                              WITHOUT ACCOMMODATION
+                            </div>
                             <div className={styles.psbPriceWide}>
                               <div className={styles.psbPwLeft}>
                                 <span className={styles.psbPcAmt}>
@@ -1138,7 +1219,9 @@ export default function HathaYogaPage() {
                           </div>
 
                           <div className={styles.psbSeatsSection}>
-                            <div className={styles.psbSeatsLabel}>SEATS AVAILABILITY</div>
+                            <div className={styles.psbSeatsLabel}>
+                              SEATS AVAILABILITY
+                            </div>
                             <div className={styles.psbSeatsInfo}>
                               <span
                                 className={styles.psbSeatsBadge}
@@ -1163,11 +1246,13 @@ export default function HathaYogaPage() {
                           </div>
 
                           <div className={styles.psbSelDisplay}>
-                            <div className={styles.psbSelLabel}>SELECTED BATCH</div>
+                            <div className={styles.psbSelLabel}>
+                              SELECTED BATCH
+                            </div>
                             <div className={styles.psbSelDate}>
                               {shortDateRange(
                                 selected.startDate,
-                                selected.endDate
+                                selected.endDate,
                               )}
                               , {monthYear(selected.startDate)}
                             </div>
@@ -1274,7 +1359,9 @@ export default function HathaYogaPage() {
           </div>
         </div>
       </section>
-
+      <PremiumGallerySection type="both" backgroundColor="warm" />
+      {/* ✅ REVIEWS — now a reusable separate component */}
+      <ReviewSection RatingsSummaryComponent={<RatingsSummarySection />} />
       <HowToReach />
     </div>
   );
