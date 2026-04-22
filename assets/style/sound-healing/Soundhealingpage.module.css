@@ -1,3 +1,4 @@
+/* Soundhealingpage.module.css */
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Dancing+Script:wght@600;700&display=swap');
 
 /* ── CSS Variables ── */
@@ -29,6 +30,20 @@
   padding: 0;
 }
 
+/* Global max-width container for all sections */
+.container,
+.aimInner,
+.s4Inner,
+.psbLayout,
+.datesSection,
+.introSection .container,
+.benefitsSection .container,
+.expectSection .container,
+.aimSection .aimInner {
+  max-width: 1460px;
+  margin: 0 auto;
+}
+
 /* ──────────────────────────────────────────
    BOTTOM BORDER
 ────────────────────────────────────────── */
@@ -46,8 +61,6 @@
    CONTAINER
 ────────────────────────────────────────── */
 .container {
-  max-width: 1460px;
-  margin: 0 auto;
   padding: 0 clamp(1.2rem, 5vw, 3rem);
 }
 
@@ -114,6 +127,7 @@
   width: 100%;
   overflow: hidden;
   border-top: 4px solid var(--saffron);
+  background: #fff;
 }
 
 .heroImg {
@@ -151,7 +165,7 @@
    INTRO SECTION WITH SIDE IMAGE
 ────────────────────────────────────────── */
 .introSection {
-  background: linear-gradient(135deg, #fffaf2 0%, #fdf4e3 50%, #fffaf2 100%);
+  background: #fff;
   padding: clamp(2rem, 5vw, 4rem) 0;
   position: relative;
   border-top: 1px solid rgba(241, 85, 5, 0.15);
@@ -342,15 +356,13 @@
    AIM SECTION
 ────────────────────────────────────────── */
 .aimSection {
-  background: linear-gradient(180deg, #fffaf2 0%, #fdf4e3 100%);
+  background: #fff;
   padding: 4rem 0;
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
 }
 
 .aimInner {
-  max-width: 1300px;
-  margin: 0 auto;
   padding: 0 2rem;
 }
 
@@ -514,7 +526,7 @@
    BENEFITS SECTION
 ────────────────────────────────────────── */
 .benefitsSection {
-  background: linear-gradient(180deg, #fdf4e3 0%, #fffaf2 100%);
+  background: #fff;
   padding: clamp(2.4rem, 5vw, 4rem) 0;
   border-top: 1px solid var(--border);
 }
@@ -603,7 +615,7 @@
    EXPECT SECTION
 ────────────────────────────────────────── */
 .expectSection {
-  background: linear-gradient(180deg, #fdf4e3 0%, #fffaf2 50%, #fdf4e3 100%);
+  background: #fff;
   padding: clamp(2.4rem, 5vw, 4rem) 0 clamp(2.4rem, 5vw, 3.5rem);
   border-top: 1px solid var(--border);
 }
@@ -738,7 +750,7 @@
   display: flex;
   align-items: center;
   gap: 1rem;
-  background: linear-gradient(135deg, rgba(241, 85, 5, 0.08), rgba(245, 184, 0, 0.08));
+  background: rgba(241, 85, 5, 0.04);
   border: 1px solid rgba(241, 85, 5, 0.2);
   border-radius: 16px;
   padding: 1.2rem 1.5rem;
@@ -769,8 +781,6 @@
   position: relative;
   z-index: 1;
   padding: clamp(2rem, 4vw, 2rem) clamp(1rem, 5vw, 4rem);
-  max-width: 1480px;
-  margin: 0 auto;
 }
 
 .psbSecTag {

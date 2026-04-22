@@ -1,17 +1,19 @@
-/* YogaHolidays.module.css */
+/* Yogaholidays.module.css */
 
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Open+Sans:wght@300;400;500;600&display=swap');
 
 :root {
-  --orange: #e8600a;
+  --orange: #f15505;
+  --orange-dark: #d44a04;
   --text-dark: #1a1a1a;
   --text-body: #2c2c2c;
   --link-blue: #1a5276;
   --white: #ffffff;
   --beige-bg: #fff9e6;
   --beige-dark: #f0d080;
-  --green-table: #1db954;
-  --green-dark: #169a45;
+  --table-bg: #ffffff;
+  --table-text: #1a1a1a;
+  --time-slot-color: #f15505;
   --btn-blue: #2563eb;
   --btn-blue-hov: #1d4ed8;
 }
@@ -23,7 +25,25 @@
   font-family: 'Open Sans', sans-serif;
   color: var(--text-body);
   overflow-x: hidden;
-  background-image: url("../../images/1905x4702.png");
+  background: #fff;
+  max-width: 1460px;
+  margin: 0 auto;
+}
+
+/* All sections white background */
+.whiteSection,
+.beigeSection,
+.heroSection,
+.titleSection,
+.featureSection,
+.welcomeSection,
+.experienceSection,
+.bestSection,
+.photoSection,
+.whatSection,
+.whySection,
+.actSection {
+  background: #fff;
 }
 
 .heroSection {
@@ -46,7 +66,6 @@
    WHITE SECTION (top part)
 ==================================================== */
 .whiteSection {
-
   padding: 40px 32px 48px;
   max-width: 1460px;
   margin: 0 auto;
@@ -162,7 +181,7 @@
 
 .ctaButton {
   display: inline-block;
-  background: var(--btn-blue);
+  background: #f15505;
   color: var(--white);
   font-size: clamp(0.78rem, 1.3vw, 0.88rem);
   font-weight: 600;
@@ -174,21 +193,23 @@
 }
 
 .ctaButton:hover {
-  background: var(--btn-blue-hov);
+  background: #d44a04;
   transform: translateY(-1px);
+  color: white;
 }
 
 /* ====================================================
-   BEIGE SECTION (lower part)
+   BEIGE SECTION (lower part) - now white background
 ==================================================== */
 .beigeSection {
-
   padding: 40px 32px 60px;
-  max-width: 100%;
+  max-width: 1460px;
+  margin: 0 auto;
+  background: #fff;
 }
 
 .beigeInner {
-  max-width: 1000px;
+  max-width: 1200px;
   margin: 0 auto;
 }
 
@@ -255,10 +276,11 @@
   height: 340px;
   overflow: hidden;
   border-radius: 4px;
+  margin: 0 auto;
 }
 
 /* ====================================================
-   TIMETABLE
+   TIMETABLE - WHITE COLOR
 ==================================================== */
 .timetableContainer {
   max-width: 760px;
@@ -266,25 +288,27 @@
   border-radius: 6px;
   overflow: hidden;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+  border: 1px solid #eee;
 }
 
 .timetableHeader {
-  background: var(--green-table);
+  background: var(--table-bg);
   padding: 14px 20px 10px;
   text-align: center;
+  border-bottom: 1px solid #eee;
 }
 
 .timetableTitle {
   font-family: 'Cinzel', serif;
   font-size: clamp(1rem, 2.2vw, 1.3rem);
   font-weight: 700;
-  color: var(--white);
+  color: var(--orange);
   margin: 0;
   letter-spacing: 0.02em;
 }
 
 .timetableBody {
-  background: var(--green-table);
+  background: var(--table-bg);
   display: flex;
   align-items: flex-start;
   gap: 12px;
@@ -324,7 +348,7 @@
   gap: 6px;
   font-size: clamp(0.72rem, 1.2vw, 0.85rem);
   font-weight: 600;
-  color: var(--white);
+  color: var(--table-text);
   line-height: 1.6;
   font-family: 'Open Sans', sans-serif;
 }
@@ -333,6 +357,7 @@
   flex-shrink: 0;
   min-width: 80px;
   font-weight: 700;
+  color: var(--time-slot-color);
 }
 
 /* ====================================================
@@ -529,7 +554,7 @@
   width: 52px;
   height: 52px;
   border-radius: 50%;
-  background: rgba(232, 96, 10, 0.9);
+  background: rgba(241, 85, 5, 0.9);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -633,12 +658,6 @@
    ENHANCED BEIGE SECTION STYLES - SIMPLE & CLEAN
 ==================================================== */
 
-/* Inner container */
-.beigeInner {
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
 /* Shivir Header */
 .shivirHeader {
   text-align: center;
@@ -675,20 +694,10 @@
   border-radius: 8px;
   padding: 28px 32px;
   margin-bottom: 40px;
-  border: 1px solid rgba(232, 96, 10, 0.1);
+  border: 1px solid rgba(241, 85, 5, 0.1);
 }
 
 /* Camp Image Caption */
-.campImageBox {
-  position: relative;
-  width: 100%;
-  max-width: 700px;
-  height: 340px;
-  overflow: hidden;
-  border-radius: 8px;
-  margin: 0 auto;
-}
-
 .campImageCaption {
   position: absolute;
   bottom: 0;
@@ -707,7 +716,7 @@
   padding: 32px;
   margin: 40px 0;
   text-align: center;
-  border: 1px solid rgba(232, 96, 10, 0.1);
+  border: 1px solid rgba(241, 85, 5, 0.1);
 }
 
 .datesGrid {
@@ -753,29 +762,32 @@
   border-bottom: none;
 }
 
-/* Timetable Card */
+/* Timetable Card - White */
 .timetableCard {
-  background: #1a472a;
+  background: var(--table-bg);
   border-radius: 8px;
   overflow: hidden;
   margin: 40px 0;
+  border: 1px solid #eee;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .timetableHeader {
   padding: 20px;
   text-align: center;
-  background: rgba(255, 255, 255, 0.05);
+  background: #fafafa;
+  border-bottom: 1px solid #eee;
 }
 
 .timetableTitle {
   font-family: 'Cinzel', serif;
   font-size: 1.3rem;
-  color: white;
+  color: var(--orange);
   margin-bottom: 6px;
 }
 
 .timetableSubtitle {
-  color: rgba(255, 255, 255, 0.7);
+  color: #666;
   font-size: 0.85rem;
 }
 
@@ -793,17 +805,17 @@
   display: flex;
   justify-content: space-between;
   padding: 10px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid #f0f0f0;
 }
 
 .timeSlot {
   font-weight: 700;
-  color: #ffd700;
+  color: var(--orange);
   font-size: 0.85rem;
 }
 
 .activity {
-  color: white;
+  color: #333;
   font-size: 0.85rem;
 }
 
@@ -820,7 +832,7 @@
   border-radius: 8px;
   padding: 24px;
   text-align: center;
-  border: 1px solid rgba(232, 96, 10, 0.1);
+  border: 1px solid rgba(241, 85, 5, 0.1);
   transition: all 0.3s ease;
 }
 
@@ -914,7 +926,7 @@
   padding: 32px;
   margin: 40px 0;
   text-align: center;
-  border: 1px solid rgba(232, 96, 10, 0.1);
+  border: 1px solid rgba(241, 85, 5, 0.1);
 }
 
 .eligibilityText {
@@ -967,7 +979,7 @@
 
 /* Reach Section */
 .reachSection {
-  background: #2c1a08;
+  background: #f15505;
   border-radius: 8px;
   padding: 32px;
   margin: 40px 0 0;

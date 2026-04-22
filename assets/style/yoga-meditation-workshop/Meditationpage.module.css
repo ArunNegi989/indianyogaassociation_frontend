@@ -69,7 +69,7 @@
 }
 
 .altSection {
-  background: var(--off-white);
+  background: white;
   padding: 3rem 0;
 }
 
@@ -79,12 +79,12 @@
 }
 
 .scheduleSection {
-  background: var(--off-white);
+  background: white;
   padding: 3rem 0;
 }
 
 .ctaSection {
-  background: var(--warm-tint);
+  background: white;
   padding: 3rem 0;
   border-top: 1px solid var(--border);
 }
@@ -1284,7 +1284,7 @@
    ================================================================ */
 
 .whatIsSection {
-  background: var(--off-white);
+  background: white;
   padding: 3rem 0;
 }
 
@@ -1706,12 +1706,12 @@
    ================================================================ */
 
    .ctaSection {
-    background: linear-gradient(135deg, #fdf8f0 0%, #fff5e8 100%);
+    background: white;
     padding: 4rem 0;
     position: relative;
     overflow: hidden;
   }
-  
+  ctaSection
   .ctaSection::before {
     content: 'ॐ';
     position: absolute;
@@ -1805,7 +1805,7 @@
     display: inline-flex;
     align-items: center;
     gap: 0.8rem;
-    background: linear-gradient(135deg, #c8700a, #a85800);
+    background: #f15505;
     color: white;
     font-family: 'Cinzel', serif;
     font-size: 0.8rem;
@@ -1820,9 +1820,10 @@
   }
   
   .ctaButton:hover {
+    color: white;
     transform: translateY(-2px);
     box-shadow: 0 8px 25px rgba(200, 112, 10, 0.4);
-    background: linear-gradient(135deg, #a85800, #c8700a);
+    background: #f15505;
   }
   
   .ctaButtonIcon {
@@ -1834,7 +1835,7 @@
     display: inline-flex;
     align-items: center;
     background: transparent;
-    border: 2px solid #c8700a;
+    border: 2px solid #f15505;
     color: #c8700a;
     font-family: 'Cinzel', serif;
     font-size: 0.8rem;
@@ -1848,7 +1849,7 @@
   }
   
   .ctaButtonOutline:hover {
-    background: #c8700a;
+    background: #f15505;
     color: white;
     transform: translateY(-2px);
   }

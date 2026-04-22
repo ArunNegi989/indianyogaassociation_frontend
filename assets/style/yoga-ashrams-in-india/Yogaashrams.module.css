@@ -15,9 +15,25 @@
 ==================================================== */
 .pageWrapper {
   font-family: 'Open Sans', sans-serif;
-  background-image: url("../../images/1905x4874.png");
+  background: #fff;
   color: var(--text-body);
   overflow-x: hidden;
+  max-width: 1460px;
+  margin: 0 auto;
+}
+
+/* All sections inherit white background */
+.heroSection,
+.titleSection,
+.featureSection,
+.welcomeSection,
+.experienceSection,
+.bestSection,
+.photoSection,
+.whatSection,
+.whySection,
+.actSection {
+  background: #fff;
 }
 
 /* ====================================================
@@ -43,6 +59,7 @@
 .heroSection1 {
   padding: 48px 16px 20px;
   text-align: center;
+  background: #fff;
 }
 
 .mainTitle {
@@ -91,6 +108,7 @@
 ==================================================== */
 .collageWrapper {
   padding: 0 16px 20px;
+  background: #fff;
 }
 
 .collageContainer {
@@ -134,6 +152,7 @@
   padding: 10px 16px 30px;
   max-width: 1460px;
   margin: 0 auto;
+  background: #fff;
 }
 
 .introText {
@@ -157,6 +176,7 @@
   padding: 20px 16px 30px;
   max-width: 1460px;
   margin: 0 auto;
+  background: #fff;
 }
 
 .sectionTitle {
@@ -214,6 +234,7 @@
   border: 3px solid #c8a84b;
   border-radius: 4px;
   overflow: hidden;
+  background: #fff;
 }
 
 /* Single image box */
@@ -255,6 +276,7 @@
 
 .coursesBlock {
   padding: 10px 0 20px;
+  background: #fff;
 }
 
 .coursesHeading {
@@ -401,7 +423,7 @@
 .titleSection {
   padding: 2rem 1rem;
   text-align: center;
-  background: linear-gradient(135deg, #fff9f0, #fff5e8);
+  background: #fff;
 }
 
 .titleContainer {
@@ -443,6 +465,7 @@
 ==================================================== */
 .featureSection {
   padding: 1rem 1rem 2rem;
+  background: #fff;
 }
 
 .featureContainer {
@@ -497,6 +520,7 @@
   padding: 2rem 1rem;
   max-width: 1200px;
   margin: 0 auto;
+  background: #fff;
 }
 
 .welcomeGrid {
@@ -564,7 +588,7 @@
 ==================================================== */
 .experienceSection {
   padding: 3rem 1rem;
-  background: linear-gradient(135deg, #fdf8f0, #fff9f0);
+  background: #fff;
 }
 
 .experienceHeader {
@@ -719,6 +743,7 @@
   padding: 3rem 2rem;
   max-width: 1100px;
   margin: 0 auto;
+  background: #fff;
 }
 
 .bestGrid {
@@ -802,6 +827,7 @@
   padding: 0 2rem 0.5rem;
   max-width: 900px;
   margin: 0 auto;
+  background: #fff;
 }
 
 .photoFrame {
@@ -844,6 +870,7 @@
   padding: 3rem 2rem;
   max-width: 1100px;
   margin: 0 auto;
+  background: #fff;
 }
 
 .whatInner {
@@ -908,7 +935,7 @@
 /* ── WHY AYM ── */
 .whySection {
   padding: 3rem 2rem;
-  background: #ffffff;  /* Changed from gradient to white */
+  background: #fff;
 }
 
 .whyInner {
@@ -917,15 +944,15 @@
 }
 
 .whySection .sectionTitle {
-  color: #1a1a1a;  /* Dark text for visibility on white */
+  color: #1a1a1a;
 }
 
 .whySection .sectionLabel {
-  color: #e8600a;  /* Keep orange for accent */
+  color: #e8600a;
 }
 
 .whySection .sectionTitle a {
-  color: #1a5276;  /* Darker blue for better contrast */
+  color: #1a5276;
   text-decoration: underline;
   text-decoration-color: rgba(232, 96, 10, 0.4);
 }
@@ -942,7 +969,7 @@
 }
 
 .whyCard {
-  background: #f9f9f9;  /* Light gray background for cards */
+  background: #f9f9f9;
   border: 1px solid rgba(232, 96, 10, 0.2);
   border-radius: 14px;
   padding: 1.2rem 1.4rem;
@@ -950,7 +977,7 @@
 }
 
 .whyCard:hover {
-  background: #fef5ed;  /* Slightly warmer on hover */
+  background: #fef5ed;
   transform: translateY(-2px);
   border-color: #e8600a;
 }
@@ -958,7 +985,7 @@
 .whyCardNum {
   font-family: 'Cinzel', serif;
   font-size: 0.65rem;
-  color: #e8600a;  /* Orange for numbers */
+  color: #e8600a;
   letter-spacing: 0.2em;
   margin-bottom: 0.5rem;
 }
@@ -966,27 +993,29 @@
 .whyCardTitle {
   font-family: 'Lora', serif;
   font-size: 0.95rem;
-  color: #1a1a1a;  /* Dark text */
+  color: #1a1a1a;
   margin-bottom: 0.4rem;
 }
 
 .whyCardDesc {
   font-size: 0.82rem;
   line-height: 1.7;
-  color: #444444;  /* Dark gray for readability */
+  color: #444444;
 }
 
 .whyBody {
   margin-top: 1.5rem;
   font-size: 0.88rem;
   line-height: 1.9;
-  color: #333333;  /* Dark text for readability */
+  color: #333333;
 }
+
 /* ── ACTIVITIES ── */
 .actSection {
   padding: 3rem 2rem;
   max-width: 1100px;
   margin: 0 auto;
+  background: #fff;
 }
 
 .actGrid {

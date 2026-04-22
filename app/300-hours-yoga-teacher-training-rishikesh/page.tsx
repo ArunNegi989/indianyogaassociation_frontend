@@ -1001,77 +1001,78 @@ export default function YogaTTC300() {
     {/* ── SPLIT: pills + intro on left, image on right ── */}
     <div className={styles.hs2Split}>
 
-      <div className={styles.hs2Left}>
-      
-
-        {content1?.introParagraphs && content1.introParagraphs.length > 0 && (
-          <div className={styles.bodyText}>
-            {content1.introParagraphs.map((para, i) => (
-              <SafeHtml key={i} html={para} />
-            ))}
-          </div>
-        )}
-      </div>
-
-      {/* ── RIGHT — image panel ── */}
-      <div className={styles.hs2Right}>
-        <div className={styles.hs2VidWrap}>
-          <video
-            className={styles.hs2Video}
-            autoPlay
-            muted
-            loop
-            playsInline
-            poster="/images/ttc-300-hero-poster.jpg"
-          >
-            <source src="/videos/ttc-300-highlight.mp4" type="video/mp4" />
-          </video>
-          <img
-            src="/images/ttc-300-hero-poster.jpg"
-            alt="Yoga in Rishikesh"
-            className={styles.hs2VidFallback}
-          />
-          <div className={styles.hs2VidOverlay} />
-          <div className={styles.hs2FloatCard}>
-            <div className={styles.hs2FloatCardLbl}>Next Batch</div>
-            <div className={styles.hs2FloatCardVal}>
-              Check dates below for upcoming batches
-            </div>
-          </div>
-          <span className={styles.hs2VidBadge}>Live in Rishikesh</span>
-        </div>
-
-        <div className={styles.hs2Stats}>
-          <div className={styles.hs2Stat}>
-            <span className={styles.hs2StatNum}>25+</span>
-            <span className={styles.hs2StatLbl}>Years Experience</span>
-          </div>
-          <div className={styles.hs2StatDiv} />
-          <div className={styles.hs2Stat}>
-            <span className={styles.hs2StatNum}>5000</span>
-            <span className={styles.hs2StatLbl}>Sq Ft Campus</span>
-          </div>
-          <div className={styles.hs2StatDiv} />
-          <div className={styles.hs2Stat}>
-            <span className={styles.hs2StatNum}>500+</span>
-            <span className={styles.hs2StatLbl}>Graduates</span>
-          </div>
-        </div>
-      </div>
-      <div className={styles.hs2Pills}>
-          {[
-            "Yoga Alliance RYT 500",
-            "Internationally Recognised",
-            "Experienced Teachers",
-            "Holistic Curriculum",
-          ].map((h, i) => (
-            <div key={i} className={styles.hs2Pill}>
-              <span className={styles.hs2PillDot} />
-              <span className={styles.hs2PillTxt}>{h}</span>
-            </div>
-          ))}
-        </div>
+<div className={styles.hs2Left}>
+  {content1?.introParagraphs && content1.introParagraphs.length > 0 && (
+    <div className={styles.bodyText}>
+      {content1.introParagraphs.map((para, i) => (
+        <SafeHtml key={i} html={para} />
+      ))}
     </div>
+  )}
+</div>
+
+{/* ── RIGHT — image panel ── */}
+<div className={styles.hs2Right}>
+  <div className={styles.hs2VidWrap}>
+    <video
+      className={styles.hs2Video}
+      autoPlay
+      muted
+      loop
+      playsInline
+      poster="/images/ttc-300-hero-poster.jpg"
+    >
+      <source src="/videos/ttc-300-highlight.mp4" type="video/mp4" />
+    </video>
+    <img
+      src="/images/ttc-300-hero-poster.jpg"
+      alt="Yoga in Rishikesh"
+      className={styles.hs2VidFallback}
+    />
+    <div className={styles.hs2VidOverlay} />
+    <div className={styles.hs2FloatCard}>
+      <div className={styles.hs2FloatCardLbl}>Next Batch</div>
+      <div className={styles.hs2FloatCardVal}>
+        Check dates below for upcoming batches
+      </div>
+    </div>
+    <span className={styles.hs2VidBadge}>Live in Rishikesh</span>
+  </div>
+
+  <div className={styles.hs2Stats}>
+    <div className={styles.hs2Stat}>
+      <span className={styles.hs2StatNum}>25+</span>
+      <span className={styles.hs2StatLbl}>Years Experience</span>
+    </div>
+    <div className={styles.hs2StatDiv} />
+    <div className={styles.hs2Stat}>
+      <span className={styles.hs2StatNum}>5000</span>
+      <span className={styles.hs2StatLbl}>Sq Ft Campus</span>
+    </div>
+    <div className={styles.hs2StatDiv} />
+    <div className={styles.hs2Stat}>
+      <span className={styles.hs2StatNum}>500+</span>
+      <span className={styles.hs2StatLbl}>Graduates</span>
+    </div>
+  </div>
+</div>
+
+</div>
+
+{/* ── PILLS — full width below both columns ── */}
+<div className={styles.hs2Pills}>
+{[
+  "Yoga Alliance RYT 500",
+  "Internationally Recognised",
+  "Experienced Teachers",
+  "Holistic Curriculum",
+].map((h, i) => (
+  <div key={i} className={styles.hs2Pill}>
+    <span className={styles.hs2PillDot} />
+    <span className={styles.hs2PillTxt}>{h}</span>
+  </div>
+))}
+</div>
 
     {/* ── FULL WIDTH: H2 + top paragraphs + thumbs ── */}
     {content1?.topSectionH2 && (
@@ -1134,26 +1135,21 @@ export default function YogaTTC300() {
 
     {/* Overview Fields - Simple elegant list */}
     {content1?.overviewFields && content1.overviewFields.length > 0 && (
-      <div className={styles.overviewFieldsList}>
-        {content1.overviewFields.map((field) => (
-          <div key={field._id} className={styles.overviewFieldItem}>
-            <div className={styles.overviewFieldBullet}>
-              <svg viewBox="0 0 12 12" fill="none">
-                <circle cx="6" cy="6" r="5" stroke="#F15505" strokeWidth="1.2" fill="white" />
-                <circle cx="6" cy="6" r="2.5" fill="#F15505" />
-              </svg>
-            </div>
-            <div className={styles.overviewFieldContent}>
-              <span className={styles.overviewFieldLabel}>{field.label}:</span>
-              <span 
-                className={styles.overviewFieldValue}
-                dangerouslySetInnerHTML={{ __html: field.value }}
-              />
-            </div>
-          </div>
-        ))}
+  <div className={styles.ovBoxGrid}>
+    {content1.overviewFields.map((field, i) => (
+      <div key={field._id} className={styles.ovBox}>
+        <div className={styles.ovBoxTop}>
+          <span className={styles.ovBoxNum}>{String(i + 1).padStart(2, "0")}</span>
+          <span className={styles.ovBoxLabel}>{field.label}</span>
+        </div>
+        <div
+          className={styles.ovBoxValue}
+          dangerouslySetInnerHTML={{ __html: field.value }}
+        />
       </div>
-    )}
+    ))}
+  </div>
+)}
     
     {/* Premium Seat Booking */}
     <PremiumSeatBooking
@@ -1353,7 +1349,7 @@ export default function YogaTTC300() {
         <div className={styles.sectionUnderline} />
       </div>
 
-      {/* ── Intro Split: text left, yoga image right ── */}
+      {/* ── Intro Split ── */}
       <div className={styles.evoIntroSplit}>
         <div className={styles.evoIntroLeft}>
           {content2.evolutionParas?.map((para, i) => (
@@ -1364,61 +1360,11 @@ export default function YogaTTC300() {
         </div>
         <div className={styles.evoIntroRight}>
           <div className={styles.evoImgFrame}>
-            {/* Static decorative yoga SVG illustration */}
-            <svg viewBox="0 0 320 380" xmlns="http://www.w3.org/2000/svg" className={styles.evoYogaSvg}>
-              {/* Background mandala circle */}
-              <circle cx="160" cy="190" r="155" fill="rgba(241,85,5,0.04)" stroke="rgba(241,85,5,0.12)" strokeWidth="1"/>
-              <circle cx="160" cy="190" r="120" fill="none" stroke="rgba(241,85,5,0.07)" strokeWidth="0.8"/>
-              <circle cx="160" cy="190" r="85" fill="none" stroke="rgba(245,184,0,0.1)" strokeWidth="0.6"/>
-              {/* Lotus petals */}
-              {[0,45,90,135,180,225,270,315].map((deg, i) => (
-                <ellipse key={i} cx="160" cy="190" rx="14" ry="28"
-                  fill="rgba(241,85,5,0.06)" stroke="rgba(241,85,5,0.15)" strokeWidth="0.7"
-                  transform={`rotate(${deg} 160 190)`}/>
-              ))}
-              {/* Lotus center */}
-              <circle cx="160" cy="190" r="18" fill="rgba(245,184,0,0.12)" stroke="rgba(241,85,5,0.2)" strokeWidth="1"/>
-
-              {/* Yoga figure — seated meditation pose */}
-              {/* Body torso */}
-              <ellipse cx="160" cy="210" rx="28" ry="32" fill="rgba(241,85,5,0.13)" stroke="#F15505" strokeWidth="1.5"/>
-              {/* Head */}
-              <circle cx="160" cy="162" r="22" fill="rgba(241,85,5,0.1)" stroke="#F15505" strokeWidth="1.5"/>
-              {/* Hair bun */}
-              <ellipse cx="160" cy="143" rx="10" ry="8" fill="rgba(92,45,0,0.18)" stroke="#a85800" strokeWidth="1"/>
-              <circle cx="160" cy="138" r="5" fill="rgba(92,45,0,0.2)" stroke="#a85800" strokeWidth="0.8"/>
-              {/* Face — serene closed eyes */}
-              <path d="M152 163 Q156 161 160 163" stroke="#a85800" strokeWidth="1.2" fill="none" strokeLinecap="round"/>
-              <path d="M160 163 Q164 161 168 163" stroke="#a85800" strokeWidth="1.2" fill="none" strokeLinecap="round"/>
-              {/* Smile */}
-              <path d="M155 170 Q160 174 165 170" stroke="#a85800" strokeWidth="1" fill="none" strokeLinecap="round"/>
-              {/* Third eye bindi */}
-              <circle cx="160" cy="157" r="2" fill="#F15505" opacity="0.7"/>
-              {/* Left arm */}
-              <path d="M133 205 Q115 215 108 228" stroke="#F15505" strokeWidth="2" fill="none" strokeLinecap="round"/>
-              <ellipse cx="107" cy="232" rx="7" ry="5" fill="rgba(241,85,5,0.15)" stroke="#F15505" strokeWidth="1.2"/>
-              {/* Right arm */}
-              <path d="M187 205 Q205 215 212 228" stroke="#F15505" strokeWidth="2" fill="none" strokeLinecap="round"/>
-              <ellipse cx="213" cy="232" rx="7" ry="5" fill="rgba(241,85,5,0.15)" stroke="#F15505" strokeWidth="1.2"/>
-              {/* Crossed legs */}
-              <path d="M135 238 Q120 255 105 258 Q125 268 155 262" stroke="#F15505" strokeWidth="2" fill="rgba(241,85,5,0.08)" strokeLinecap="round"/>
-              <path d="M185 238 Q200 255 215 258 Q195 268 165 262" stroke="#F15505" strokeWidth="2" fill="rgba(241,85,5,0.08)" strokeLinecap="round"/>
-              {/* Mudra hands — chin mudra circle */}
-              <circle cx="107" cy="232" r="4" fill="none" stroke="#a85800" strokeWidth="1"/>
-              <circle cx="213" cy="232" r="4" fill="none" stroke="#a85800" strokeWidth="1"/>
-              {/* Aura glow lines */}
-              {[-30,-15,0,15,30].map((offset, i) => (
-                <path key={i} d={`M${155+offset} 135 Q${160+offset} 115 ${165+offset} 135`}
-                  stroke="rgba(245,184,0,0.25)" strokeWidth="1" fill="none"/>
-              ))}
-              {/* OM symbol below figure */}
-              <text x="160" y="310" textAnchor="middle" fontFamily="serif" fontSize="28" fill="rgba(241,85,5,0.2)">ॐ</text>
-              {/* Decorative dots around mandala */}
-              {[0,30,60,90,120,150,180,210,240,270,300,330].map((deg, i) => {
-                const rad = (deg * Math.PI) / 180;
-                return <circle key={i} cx={160 + 148 * Math.cos(rad)} cy={190 + 148 * Math.sin(rad)} r="2.5" fill="rgba(241,85,5,0.2)"/>;
-              })}
-            </svg>
+            <img
+              src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=600&q=80"
+              alt="Yoga meditation in Rishikesh"
+              className={styles.evoRealImg}
+            />
             <div className={styles.evoImgBadge}>
               <span>Yoga Alliance</span>
               <strong>RYT 500 Certified</strong>
@@ -1427,7 +1373,7 @@ export default function YogaTTC300() {
         </div>
       </div>
 
-      {/* ── Mark Distribution — styled card ── */}
+      {/* ── Mark Distribution ── */}
       {content2.markDistH3 && (
         <div className={styles.evoMarkCard}>
           <div className={styles.evoMarkCardHeader}>
@@ -1458,7 +1404,8 @@ export default function YogaTTC300() {
                 <div className={styles.evoMarkItem}>
                   <div className={styles.evoMarkIcon}>
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round">
-                      <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+                      <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+                      <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
                     </svg>
                   </div>
                   <div>
@@ -1471,7 +1418,10 @@ export default function YogaTTC300() {
                 <div className={styles.evoMarkItem}>
                   <div className={styles.evoMarkIcon}>
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round">
-                      <circle cx="12" cy="4" r="1.5"/><path d="M12 6v5.5"/><path d="M8.5 13c0 2 1.5 4 3.5 4.5 2-.5 3.5-2.5 3.5-4.5"/><path d="M7 11l5 2.5 5-2.5"/>
+                      <circle cx="12" cy="4" r="1.5"/>
+                      <path d="M12 6v5.5"/>
+                      <path d="M8.5 13c0 2 1.5 4 3.5 4.5 2-.5 3.5-2.5 3.5-4.5"/>
+                      <path d="M7 11l5 2.5 5-2.5"/>
                     </svg>
                   </div>
                   <div>
@@ -1517,7 +1467,9 @@ export default function YogaTTC300() {
             <div className={styles.evoFeeCardLight}>
               <div className={styles.evoFeeCardIcon}>
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F15505" strokeWidth="1.6" strokeLinecap="round">
-                  <rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 17v4M16 17v4M8 21h8"/><path d="M9 10l2 2 4-4"/>
+                  <rect x="2" y="3" width="20" height="14" rx="2"/>
+                  <path d="M8 17v4M16 17v4M8 21h8"/>
+                  <path d="M9 10l2 2 4-4"/>
                 </svg>
               </div>
               <h4 className={styles.evoFeeCardTitle}>{content2.feeCard1Title}</h4>
@@ -1612,135 +1564,178 @@ export default function YogaTTC300() {
       {/* ══════════════════════════════════════
           SECTION 7 — LUXURY ROOM & FEATURES
       ══════════════════════════════════════ */}
-      {content2 && (
-        <section className={styles.section}>
-          <div className="container">
-            {content2.luxuryH2 && (
-              <h2 className={styles.sectionTitleCentered}>
-                {content2.luxuryH2}
-              </h2>
-            )}
-            <div className={styles.sectionUnderlineCentered} />
+     {content2 && (
+  <section className={styles.section}>
+    <div className="container">
 
-            <div className="row align-items-start g-4">
-              {/* Luxury Features */}
-              {content2.luxuryFeatures &&
-                content2.luxuryFeatures.length > 0 && (
-                  <div className="col-md-6">
-                    <ul className={styles.luxuryList}>
-                      {content2.luxuryFeatures.map((f, i) => (
-                        <li key={i}>
-                          <span className={styles.luxuryBullet}>●</span> {f}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
+      {/* Header */}
+      {content2.luxuryH2 && (
+        <div className={styles.luxHdrWrap}>
+          <div className={styles.luxHdrOmRow}>
+            <span className={styles.luxHdrLine} />
+            <span className={styles.luxHdrOm}>ॐ</span>
+            <span className={styles.luxHdrLine} />
+          </div>
+          <h2 className={styles.luxHdrTitle}>{content2.luxuryH2}</h2>
+          <div className={styles.luxHdrUnderline} />
+        </div>
+      )}
 
-              {/* Luxury Images */}
-              {content2.luxuryImages && content2.luxuryImages.length > 0 && (
-                <div className="col-md-6">
-                  <div className="row g-2">
-                    {content2.luxuryImages.map((src, i) => (
-                      <div key={i} className={i === 2 ? "col-12" : "col-6"}>
-                        <img
-                          src={imgUrl(src)}
-                          alt={`Luxury room ${i + 1}`}
-                          className={styles.luxuryImg}
-                          loading="lazy"
-                        />
-                      </div>
-                    ))}
-                  </div>
+      {/* Main layout */}
+      <div className={styles.luxLayout}>
+
+        {/* LEFT — feature chips */}
+        {content2.luxuryFeatures && content2.luxuryFeatures.length > 0 && (
+          <div className={styles.luxFeatures}>
+            {content2.luxuryFeatures.map((f, i) => (
+              <div key={i} className={styles.luxFeatureItem}>
+                <div className={styles.luxFeatureIcon}>
+                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                    <circle cx="8" cy="8" r="7" stroke="#F15505" strokeWidth="1.2"/>
+                    <path d="M5 8l2 2 4-4" stroke="#F15505" strokeWidth="1.4"
+                      strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
                 </div>
-              )}
-            </div>
+                <span className={styles.luxFeatureTxt}>{f}</span>
+              </div>
+            ))}
+          </div>
+        )}
 
-            {/* Yoga Garden Image */}
-            {content2.yogaGardenImage && (
-              <div className="mt-4">
+        {/* RIGHT — image mosaic */}
+        {content2.luxuryImages && content2.luxuryImages.length > 0 && (
+          <div className={styles.luxImgMosaic}>
+            {content2.luxuryImages.map((src, i) => (
+              <div
+                key={i}
+                className={`${styles.luxImgBlock} ${i === 0 ? styles.luxImgBlockWide : ""}`}
+              >
                 <img
-                  src={imgUrl(content2.yogaGardenImage)}
-                  alt="Yoga in garden"
-                  className={styles.fullWidthImg}
+                  src={imgUrl(src)}
+                  alt={`Luxury room ${i + 1}`}
+                  className={styles.luxImg}
                   loading="lazy"
                 />
+                <div className={styles.luxImgOverlay} />
               </div>
-            )}
+            ))}
           </div>
-        </section>
+        )}
+
+      </div>
+
+      {/* Yoga Garden Image */}
+      {content2.yogaGardenImage && (
+        <div className={styles.luxGardenWrap}>
+          <img
+            src={imgUrl(content2.yogaGardenImage)}
+            alt="Yoga in garden"
+            className={styles.luxGardenImg}
+            loading="lazy"
+          />
+          <div className={styles.luxGardenBadge}>
+            <span>AYM Yoga School</span>
+            <strong>Rishikesh, India</strong>
+          </div>
+        </div>
       )}
+
+    </div>
+  </section>
+)}
 
       {/* ══════════════════════════════════════
           SECTION 8 — FEATURES + DAILY SCHEDULE
       ══════════════════════════════════════ */}
       {content2 && (
-        <section className={`${styles.section} ${styles.sectionLight}`}>
-          <div className="container">
-            {content2.featuresH2 && (
-              <h2 className={styles.sectionTitleOrange}>
-                {content2.featuresH2}
-              </h2>
-            )}
-            <div className={styles.sectionUnderline} />
+  <section className={`${styles.section} ${styles.sectionLight}`}>
+    <div className="container">
 
-            {content2.featuresList && content2.featuresList.length > 0 && (
-              <ol className={styles.featuresList}>
-                {content2.featuresList.map((f, i) => (
-                  <li key={i}>
-                    <strong>{i + 1}:</strong> {f}
-                  </li>
-                ))}
-              </ol>
-            )}
-
-            <div className="row g-4 mt-3">
-              {/* Schedule */}
-              <div className="col-lg-6">
-                {content2.scheduleH3 && (
-                  <h3 className={styles.subHeadingOrange}>
-                    {content2.scheduleH3}
-                  </h3>
-                )}
-                {content2.scheduleItems &&
-                  content2.scheduleItems.length > 0 && (
-                    <div className={styles.scheduleTable}>
-                      {content2.scheduleItems.map((row) => (
-                        <div key={row._id} className={styles.scheduleRow}>
-                          <span className={styles.scheduleTime}>
-                            {row.time}
-                          </span>
-                          <span className={styles.scheduleActivity}>
-                            {row.activity}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-              </div>
-
-              {/* Schedule Images */}
-              {content2.scheduleImages &&
-                content2.scheduleImages.length > 0 && (
-                  <div className="col-lg-6">
-                    <div className="row g-2 h-100">
-                      {content2.scheduleImages.map((src, i) => (
-                        <div key={i} className={i === 0 ? "col-12" : "col-6"}>
-                          <img
-                            src={imgUrl(src)}
-                            alt={`Schedule ${i + 1}`}
-                            className={styles.scheduleImg}
-                            loading="lazy"
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-            </div>
+      {/* Header */}
+      {content2.featuresH2 && (
+        <div className={styles.s8HdrWrap}>
+          <div className={styles.s8OmRow}>
+            <span className={styles.s8OmLine} />
+            <span className={styles.s8OmGlyph}>ॐ</span>
+            <span className={styles.s8OmLine} />
           </div>
-        </section>
+          <h2 className={styles.sectionTitleOrange}>{content2.featuresH2}</h2>
+          <div className={styles.sectionUnderline} />
+        </div>
       )}
+
+      {/* Features list */}
+      {content2.featuresList && content2.featuresList.length > 0 && (
+        <div className={styles.s8FeatGrid}>
+          {content2.featuresList.map((f, i) => (
+            <div key={i} className={styles.s8FeatItem}>
+              <div className={styles.s8FeatNum}>{String(i + 1).padStart(2, "0")}</div>
+              <p className={styles.s8FeatTxt}>{f}</p>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Schedule + Images */}
+      <div className={styles.s8ScheduleLayout}>
+
+        {/* Left — schedule */}
+        <div className={styles.s8ScheduleLeft}>
+          {content2.scheduleH3 && (
+            <div className={styles.s8SchedHdr}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                stroke="#F15505" strokeWidth="1.6" strokeLinecap="round">
+                <rect x="3" y="4" width="18" height="18" rx="2"/>
+                <path d="M16 2v4M8 2v4M3 10h18"/>
+              </svg>
+              <h3 className={styles.s8SchedTitle}>{content2.scheduleH3}</h3>
+            </div>
+          )}
+
+          {content2.scheduleItems && content2.scheduleItems.length > 0 && (
+            <div className={styles.s8SchedList}>
+              {content2.scheduleItems.map((row, i) => (
+                <div key={row._id} className={styles.s8SchedRow}>
+                  <div className={styles.s8SchedTimeBadge}>
+                    <svg width="10" height="10" viewBox="0 0 16 16" fill="none">
+                      <circle cx="8" cy="8" r="7" stroke="rgba(255,243,210,0.7)" strokeWidth="1.2"/>
+                      <path d="M8 4.5V8.5L10.5 10" stroke="rgba(255,243,210,0.9)"
+                        strokeWidth="1.2" strokeLinecap="round"/>
+                    </svg>
+                    <span>{row.time}</span>
+                  </div>
+                  <div className={styles.s8SchedActivity}>{row.activity}</div>
+                  <div className={styles.s8SchedDot} />
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Right — images */}
+        {content2.scheduleImages && content2.scheduleImages.length > 0 && (
+          <div className={styles.s8ImgStack}>
+            {content2.scheduleImages.map((src, i) => (
+              <div
+                key={i}
+                className={`${styles.s8ImgBlock} ${i === 0 ? styles.s8ImgBlockTall : ""}`}
+              >
+                <img
+                  src={imgUrl(src)}
+                  alt={`Schedule ${i + 1}`}
+                  className={styles.s8Img}
+                  loading="lazy"
+                />
+                <div className={styles.s8ImgOverlay} />
+              </div>
+            ))}
+          </div>
+        )}
+
+      </div>
+    </div>
+  </section>
+)}
 
    {/* ══════════════════════════════════════
     SECTION 9 — LEARNING OUTCOMES + ELIGIBILITY + EVALUATION

@@ -1677,9 +1677,10 @@
 .hs2Split {
   display: grid;
   grid-template-columns: 1fr 340px;
-  align-items: center; /* vertically center both cols to each other */
+  align-items: start;
   gap: 0 2rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
+  min-height: 600px; /* increase this value as needed */
 }
 
 /* ── Left column ── */
@@ -1702,13 +1703,14 @@
   width: 100%;
   box-shadow: 0 8px 32px var(--shadow);
   background: var(--parchd);
+  min-height: 420px; /* ensures wrap itself is tall enough */
 }
 
 .hs2Video {
   position: relative;
   z-index: 2;
   width: 100%;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 3 / 4; /* taller ratio — was 4/3 */
   object-fit: cover;
   display: block;
 }
@@ -1828,9 +1830,10 @@
 /* ── Highlight pills ── */
 .hs2Pills {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.42rem;
-  margin-bottom: 1.3rem;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.55rem;
+  margin-top: 1.2rem;
+  margin-bottom: 1.6rem;
 }
 
 .hs2Pill {
@@ -1840,7 +1843,7 @@
   background: rgba(241, 85, 5, 0.06);
   border: 1px solid rgba(241, 85, 5, 0.2);
   border-radius: 5px;
-  padding: 0.45rem 0.7rem;
+  padding: 1rem 0.7rem;
 }
 
 .hs2PillDot {
@@ -1936,11 +1939,18 @@
 
 @media (max-width: 640px) {
   .hs2Pills {
-    gap: 0.35rem;
+    grid-template-columns: repeat(2, 1fr);
   }
+}
+
+@media (max-width: 380px) {
+  .hs2Pills {
+    grid-template-columns: 1fr;
+  }
+}
 
   .hs2PillTxt {
-    font-size: 0.63rem;
+    font-size: 1rem;
   }
 
   .hs2Thumbs {
@@ -1963,7 +1973,7 @@
   .hs2StatLbl {
     font-size: 0.46rem;
   }
-}
+
 
 @media (max-width: 420px) {
   .hs2Pills {
@@ -4821,3 +4831,552 @@
   background: #d44a00;
   color: #FFF8EE;
 }
+
+.ovBoxGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.85rem;
+  margin-bottom: 2.5rem;
+}
+
+.ovBox {
+  background: #fffdf8;
+  border: 1.5px solid rgba(184, 134, 11, 0.22);
+  border-top: 3px solid #F15505;
+  border-radius: 10px;
+  padding: 1.1rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  cursor: default;
+  transition: transform 0.22s cubic-bezier(0.34, 1.4, 0.64, 1),
+              box-shadow 0.22s ease,
+              background 0.2s ease;
+}
+
+.ovBox:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 8px 28px rgba(241, 85, 5, 0.12);
+  background: #fff9f0;
+}
+
+.ovBoxTop {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.ovBoxNum {
+  font-family: 'Cinzel', serif;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: #fff;
+  background: linear-gradient(135deg, #F15505, #a85800);
+  border-radius: 4px;
+  padding: 0.2rem 0.45rem;
+  line-height: 1.4;
+  flex-shrink: 0;
+}
+
+.ovBoxLabel {
+  font-family: 'Cinzel', serif;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #F15505;
+  line-height: 1.3;
+}
+
+.ovBoxValue {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem;
+  color: #3d1d00;
+  line-height: 1.55;
+  border-top: 1px solid rgba(184, 134, 11, 0.15);
+  padding-top: 0.5rem;
+}
+
+.ovBoxValue p { margin: 0; }
+
+@media (max-width: 860px) {
+  .ovBoxGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .ovBoxGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.evoRealImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 12px;
+}
+
+.evoImgFrame {
+  position: relative;
+  width: 260px;
+  height: 300px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1.5px solid var(--border);
+  box-shadow: 0 8px 32px var(--shadow);
+}
+
+/* ════════════════════════════════════
+   SECTION 7 — LUXURY ROOM & FEATURES
+════════════════════════════════════ */
+
+.luxHdrWrap {
+  text-align: center;
+  margin-bottom: 2.2rem;
+}
+
+.luxHdrOmRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 0.7rem;
+}
+
+.luxHdrLine {
+  width: 70px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #F15505, transparent);
+  display: block;
+}
+
+.luxHdrOm {
+  font-family: 'Cinzel', serif;
+  font-size: 1.2rem;
+  color: #F15505;
+  opacity: 0.7;
+  line-height: 1;
+}
+
+.luxHdrTitle {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(0.95rem, 2vw, 1.3rem);
+  font-weight: 700;
+  color: #3d1d00;
+  letter-spacing: 0.06em;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+}
+
+.luxHdrUnderline {
+  width: 55px;
+  height: 2px;
+  background: linear-gradient(90deg, #F15505, #f5b800);
+  border-radius: 2px;
+  margin: 0 auto;
+}
+
+/* ── Main layout ── */
+.luxLayout {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 3rem;
+  align-items: start;
+  margin-bottom: 2rem;
+}
+
+/* ── Features list ── */
+.luxFeatures {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border: 1.5px solid rgba(184, 134, 11, 0.2);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 16px rgba(92, 45, 0, 0.06);
+}
+
+.luxFeatureItem {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.85rem 1.2rem;
+  background: #fffdf8;
+  border-bottom: 1px solid rgba(184, 134, 11, 0.12);
+  transition: background 0.18s, padding-left 0.2s;
+  cursor: default;
+}
+
+.luxFeatureItem:last-child {
+  border-bottom: none;
+}
+
+.luxFeatureItem:hover {
+  background: #fff9f0;
+  padding-left: 1.5rem;
+}
+
+.luxFeatureIcon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(241, 85, 5, 0.07);
+  border: 1px solid rgba(241, 85, 5, 0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.18s;
+}
+
+.luxFeatureItem:hover .luxFeatureIcon {
+  background: rgba(241, 85, 5, 0.13);
+}
+
+.luxFeatureTxt {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem;
+  color: #3d1d00;
+  line-height: 1.4;
+}
+
+/* ── Image mosaic ── */
+.luxImgMosaic {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 8px;
+}
+
+.luxImgBlock {
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+  aspect-ratio: 4/3;
+}
+
+.luxImgBlockWide {
+  grid-column: 1 / -1;
+  aspect-ratio: 16/7;
+}
+
+.luxImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.luxImgBlock:hover .luxImg {
+  transform: scale(1.05);
+}
+
+.luxImgOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(61, 29, 0, 0.25), transparent 60%);
+  pointer-events: none;
+}
+
+/* ── Garden image ── */
+.luxGardenWrap {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1.5px solid rgba(184, 134, 11, 0.2);
+  box-shadow: 0 6px 28px rgba(92, 45, 0, 0.1);
+}
+
+.luxGardenImg {
+  width: 100%;
+  max-height: 400px;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.luxGardenWrap:hover .luxGardenImg {
+  transform: scale(1.02);
+}
+
+.luxGardenBadge {
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+  background: rgba(44, 26, 0, 0.82);
+  backdrop-filter: blur(4px);
+  border-radius: 8px;
+  padding: 0.55rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.luxGardenBadge span {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 243, 210, 0.7);
+}
+
+.luxGardenBadge strong {
+  font-family: 'Cinzel', serif;
+  font-size: 0.82rem;
+  color: #fff3d2;
+  font-weight: 700;
+}
+
+/* ── Responsive ── */
+@media (max-width: 860px) {
+  .luxLayout {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .luxImgMosaic {
+    grid-template-columns: 1fr;
+  }
+  .luxImgBlockWide {
+    grid-column: 1;
+  }
+}
+
+/* ════════════════════════════════════
+   SECTION 8 — FEATURES + SCHEDULE
+════════════════════════════════════ */
+
+.s8HdrWrap {
+  margin-bottom: 1.8rem;
+}
+
+.s8OmRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 0.6rem;
+}
+
+.s8OmLine {
+  flex: 1;
+  height: 1px;
+  background: rgba(241, 85, 5, 0.22);
+}
+
+.s8OmGlyph {
+  color: #F15505;
+  font-size: 1.2rem;
+  font-family: serif;
+}
+
+/* ── Features grid ── */
+.s8FeatGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 0.65rem;
+  margin-bottom: 2.5rem;
+}
+
+.s8FeatItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.9rem;
+  background: #fffdf8;
+  border: 1.5px solid rgba(184, 134, 11, 0.2);
+  border-left: 3px solid #F15505;
+  border-radius: 8px;
+  padding: 0.85rem 1.1rem;
+  transition: transform 0.2s cubic-bezier(0.34, 1.4, 0.64, 1),
+              box-shadow 0.2s ease,
+              background 0.18s;
+}
+
+.s8FeatItem:hover {
+  transform: translateX(4px);
+  box-shadow: 0 3px 14px rgba(241, 85, 5, 0.1);
+  background: #fff9f0;
+}
+
+.s8FeatNum {
+  font-family: 'Cinzel', serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #fff;
+  background: linear-gradient(135deg, #F15505, #a85800);
+  border-radius: 4px;
+  padding: 0.2rem 0.45rem;
+  flex-shrink: 0;
+  margin-top: 2px;
+  line-height: 1.5;
+}
+
+.s8FeatTxt {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem;
+  color: #3d1d00;
+  line-height: 1.55;
+  margin: 0;
+}
+
+/* ── Schedule layout ── */
+.s8ScheduleLayout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+/* ── Schedule left ── */
+.s8ScheduleLeft {
+  background: #fffdf8;
+  border: 1.5px solid rgba(184, 134, 11, 0.2);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 16px rgba(92, 45, 0, 0.06);
+}
+
+.s8SchedHdr {
+  background: linear-gradient(135deg, #F15505 0%, #a85800 100%);
+  padding: 1rem 1.3rem;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.s8SchedTitle {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(0.78rem, 1.5vw, 0.95rem);
+  font-weight: 700;
+  color: #fff3d2;
+  margin: 0;
+  letter-spacing: 0.04em;
+}
+
+.s8SchedList {
+  display: flex;
+  flex-direction: column;
+}
+
+.s8SchedRow {
+  display: grid;
+  grid-template-columns: 110px 1fr 8px;
+  align-items: center;
+  gap: 0;
+  border-bottom: 1px solid rgba(184, 134, 11, 0.1);
+  transition: background 0.15s;
+}
+
+.s8SchedRow:last-child {
+  border-bottom: none;
+}
+
+.s8SchedRow:hover {
+  background: rgba(241, 85, 5, 0.04);
+}
+
+.s8SchedTimeBadge {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: linear-gradient(135deg, #F15505, #a85800);
+  padding: 0.65rem 0.75rem;
+  align-self: stretch;
+  justify-content: center;
+}
+
+.s8SchedTimeBadge span {
+  font-family: 'Cinzel', serif;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #fff3d2;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+.s8SchedActivity {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.97rem;
+  color: #3d1d00;
+  padding: 0.65rem 1rem;
+  line-height: 1.4;
+}
+
+.s8SchedDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(241, 85, 5, 0.25);
+  margin-right: 6px;
+  justify-self: center;
+}
+
+/* ── Images right ── */
+.s8ImgStack {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.s8ImgBlock {
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+  aspect-ratio: 4/3;
+  border: 1px solid rgba(184, 134, 11, 0.15);
+}
+
+.s8ImgBlockTall {
+  grid-column: 1 / -1;
+  aspect-ratio: 16/8;
+}
+
+.s8Img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.s8ImgBlock:hover .s8Img {
+  transform: scale(1.05);
+}
+
+.s8ImgOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(61, 29, 0, 0.2), transparent 60%);
+  pointer-events: none;
+}
+
+/* ── Responsive ── */
+@media (max-width: 860px) {
+  .s8ScheduleLayout {
+    grid-template-columns: 1fr;
+  }
+  .s8FeatGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .s8ImgStack {
+    grid-template-columns: 1fr;
+  }
+  .s8ImgBlockTall {
+    grid-column: 1;
+  }
+  .s8SchedRow {
+    grid-template-columns: 95px 1fr 8px;
+  }
+}
+
+

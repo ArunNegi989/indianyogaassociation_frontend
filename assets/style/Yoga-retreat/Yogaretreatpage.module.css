@@ -1,3 +1,4 @@
+/* Yogaretreatpage.module.css */
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Dancing+Script:wght@600;700&display=swap');
 
 /* ── Variables ── */
@@ -19,6 +20,24 @@
   overflow-x: hidden;
   margin: 0;
   padding: 0;
+}
+
+/* ── Global Container (centered + max-width) ── */
+.container {
+  max-width: 1460px;
+  margin: 0 auto;
+  padding: 0 clamp(1.2rem, 5vw, 3rem);
+}
+
+/* Every section gets a white background */
+.heroSection,
+.heroSection1,
+.scheduleSection,
+.photoSection,
+.altSection,
+.reachSection,
+.accomSection {
+  background: #fff;
 }
 
 /* ──────────────────────────────────────────
@@ -52,15 +71,6 @@
 }
 
 /* ──────────────────────────────────────────
-   CONTAINER
-────────────────────────────────────────── */
-.container {
-  max-width: 1460px;
-  margin: 0 auto;
-  padding: 0 clamp(1.2rem, 5vw, 3rem);
-}
-
-/* ──────────────────────────────────────────
    SHARED TYPOGRAPHY
 ────────────────────────────────────────── */
 .pageTitle {
@@ -88,7 +98,6 @@
 }
 
 /* Orange underline rule beneath all titles */
-/* ── Om divider ── */
 .omDivider {
   display: flex;
   align-items: center;
@@ -142,7 +151,6 @@
    SECTION 1 — HERO / INTRO
 ────────────────────────────────────────── */
 .heroSection1 {
-  background: url("../../images/backgroundimage/29.png");
   padding: clamp(2.4rem, 5vw, 4rem) 0 clamp(2.4rem, 5vw, 3.5rem);
   position: relative;
 }
@@ -161,589 +169,6 @@
   z-index: 0;
   line-height: 1;
   user-select: none;
-}
-
-.heroSection1 .container {
-  position: relative;
-  z-index: 1;
-}
-
-
-
-/* Banner image wrapper */
-.bannerWrap {
-  position: relative;
-  width: 100%;
-  max-width: 950px;
-  margin: 0 auto 2rem;
-  border-radius: 4px;
-  overflow: hidden;
-  box-shadow: 0 6px 30px rgba(46, 26, 8, 0.18);
-  display: block;
-}
-
-.bannerImg {
-  display: block;
-  width: 100%;
-  height: clamp(200px, 34vw, 360px);
-  object-fit: cover;
-  object-position: center;
-  background: linear-gradient(135deg, #5c2d00 0%, #f15505 50%, #3d1d00 100%);
-  vertical-align: bottom;
-}
-
-/* Overlay sits ON TOP of the image — right side dark panel */
-.bannerOverlay {
-  position: absolute;
-  right: 0;
-  top: 0;
-  width: clamp(140px, 22vw, 210px);
-  height: 100%;
-  background: rgba(30, 18, 6, 0.75);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 0.2rem;
-  padding: 1rem 0.8rem;
-  /* bracket corners — matching screenshot */
-  border-left: 2px solid rgba(255, 255, 255, 0.25);
-}
-
-/* White bracket corners inside overlay */
-.bannerOverlay::before,
-.bannerOverlay::after {
-  content: '';
-  position: absolute;
-  width: 22px;
-  height: 22px;
-  border-color: rgba(255, 255, 255, 0.7);
-  border-style: solid;
-}
-
-.bannerOverlay::before {
-  top: 12px;
-  left: 12px;
-  border-width: 2px 0 0 2px;
-}
-
-.bannerOverlay::after {
-  bottom: 12px;
-  right: 12px;
-  border-width: 0 2px 2px 0;
-}
-
-.bannerTag {
-  font-family: 'Cinzel', serif;
-  font-size: clamp(0.95rem, 2vw, 1.45rem);
-  font-weight: 600;
-  color: #fff;
-  text-align: center;
-  line-height: 1.35;
-  margin: 0;
-  letter-spacing: 0.04em;
-  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.5);
-}
-
-
-
-/* ──────────────────────────────────────────
-   SECTION 2 — SCHEDULE TABLE
-────────────────────────────────────────── */
-.scheduleSection {
-  background: url("../../images/backgroundimage/30.png");
-  padding: clamp(2.4rem, 5vw, 4rem) 0;
- 
-
-}
-
-.scheduleIntro {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(0.92rem, 1.6vw, 1.05rem);
-  line-height: 1.9;
-  color: var(--ink-mid);
-  text-align: justify;
-  max-width: 900px;
-  margin: 0 auto 2.2rem;
-}
-
-.scheduleGrid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: clamp(1rem, 3vw, 2rem);
-  align-items: start;
-}
-
-.scheduleCard {
-  border: 1px solid var(--border);
-  border-left: 3px solid var(--saffron);
-  border-radius: 0 4px 4px 0;
-  padding: clamp(1.2rem, 3vw, 1.8rem);
-  background: #fff;
-  box-shadow: 0 4px 20px rgba(92, 45, 0, 0.06);
-}
-
-.cardHeading {
-  font-family: 'Cinzel', serif;
-  font-size: clamp(0.88rem, 1.7vw, 1.08rem);
-  font-weight: 600;
-  color: var(--ink);
-  text-align: center;
-  margin: 0 0 0.4rem;
-}
-
-.cardRule {
-  width: 50px;
-  height: 2px;
-  background: var(--saffron);
-  margin: 0 auto 1.1rem;
-  border-radius: 2px;
-}
-
-/* Package list */
-.pkgList {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.pkgRow {
-  padding: 0.72rem 0;
-  border-bottom: 1px solid var(--border);
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(0.85rem, 1.4vw, 0.98rem);
-  color: var(--ink-mid);
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.25rem 0.5rem;
-  align-items: baseline;
-}
-
-.pkgRow:last-child {
-  border-bottom: none;
-}
-
-
-.pkgPrice {
-  font-weight: 600;
-  color: var(--ink-mid);
-  white-space: nowrap;
-}
-
-/* Overview list */
-.ovList {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.ovRow {
-  padding: 0.72rem 0;
-  border-bottom: 1px solid var(--border);
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(0.85rem, 1.4vw, 0.98rem);
-  color: var(--ink-mid);
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.15rem 0.4rem;
-  align-items: baseline;
-}
-
-.ovRow:last-child {
-  border-bottom: none;
-}
-
-.ovLabel {
-  font-weight: 700;
-  color: var(--ink);
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-
-.ovValue {
-  flex: 1 1 160px;
-}
-
-/* Apply button */
-.applyWrap {
-  text-align: center;
-  margin-top: 2rem;
-}
-
-.applyBtn {
-  display: inline-block;
-  font-family: 'Cinzel', serif;
-  font-size: 0.82rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: #fff;
-  background: var(--saffron);
-  padding: 0.78rem 2.2rem;
-  border-radius: 3px;
-  text-decoration: none;
-  box-shadow: 0 4px 16px rgba(224, 123, 0, 0.35);
-  transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
-}
-
-.applyBtn:hover {
-  background: var(--saffron-deep);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(224, 123, 0, 0.45);
-}
-
-/* ──────────────────────────────────────────
-   SECTION 3 — PHOTO STRIP + 3–7 DAYS
-────────────────────────────────────────── */
-.photoSection {
-  background: var(--cream);
-  background-image: url("../../images/backgroundimage/31.png");
-  background-size: contain;
-}
-
-.photoStrip {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  height: clamp(150px, 22vw, 260px);
-  width: 100%;
-}
-
-.photoCell {
-  overflow: hidden;
-  background: linear-gradient(135deg, #f15505, #3d1d00);
-}
-
-.stripImg {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-  display: block;
-  transition: transform 0.4s ease;
-}
-
-.photoCell:hover .stripImg {
-  transform: scale(1.04);
-}
-
-.photoSection .container {
-  padding-top: clamp(2.4rem, 5vw, 3.5rem);
-  padding-bottom: clamp(2.4rem, 5vw, 3.5rem);
-}
-
-/* ──────────────────────────────────────────
-   SECTION 4 — 7–14 DAYS + AFFORDABLE
-────────────────────────────────────────── */
-.altSection {
-  background: url("../../images/backgroundimage/32.png");
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
-  padding: clamp(2.4rem, 5vw, 4rem) 0;
-}
-
-/* ──────────────────────────────────────────
-   SECTION 5 — ACCOMMODATION + SCHEDULE +
-               HOW TO BOOK + REFUND
-────────────────────────────────────────── */
-.accomSection {
-  background: url("../../images/backgroundimage/33.png");
-  padding-bottom: clamp(2.4rem, 5vw, 4rem);
-}
-
-/* Photo collage — main image + 4 thumbs */
-.accomGrid {
-  display: grid;
-  grid-template-columns: 1.65fr 1fr;
-  margin-bottom: clamp(2rem, 4vw, 3rem);
-}
-
-.accomMain {
-  background: linear-gradient(135deg, #7a3f00, #3d1d00);
-  overflow: hidden;
-}
-
-.accomThumbGrid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
-  gap: 2px;
-}
-
-.accomThumb {
-  background: linear-gradient(135deg, #F15505, #7a3f00);
-  overflow: hidden;
-}
-
-.accomImg {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-  display: block;
-  transition: transform 0.4s ease;
-}
-
-.accomMain:hover .accomImg,
-.accomThumb:hover .accomImg {
-  transform: scale(1.04);
-}
-
-.accomSection .container {
-  padding-top: 0;
-}
-
-/* ──────────────────────────────────────────
-   SECTION 6 — HOW TO REACH + BOOK
-────────────────────────────────────────── */
-.reachSection {
-  background: url("../../images/backgroundimage/34.png");
-  border-top: 4px solid;
-  border-image: linear-gradient(90deg,
-      transparent,
-      var(--saffron),
-      var(--saffron-light),
-      var(--saffron),
-      transparent) 1;
-  padding: clamp(2.4rem, 5vw, 4rem) 0;
-}
-
-.bookBtnGroup {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.1rem;
-  margin-top: 2rem;
-}
-
-/* "Yoga Retreats – Book Now" — teal/cyan button from screenshot 6 */
-.bookNowBtn {
-  display: inline-block;
-  font-family: 'Cinzel', serif;
-  font-size: 0.82rem;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  color: #fff;
-  background: #38aad4;
-  padding: 0.8rem 2.4rem;
-  border-radius: 2px;
-  text-decoration: none;
-  box-shadow: 0 4px 16px rgba(56, 170, 212, 0.3);
-  transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
-  min-width: 220px;
-  text-align: center;
-}
-
-.bookNowBtn:hover {
-  background: #2294be;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 22px rgba(56, 170, 212, 0.45);
-}
-
-/* PayPal button — gold border/bg from screenshot 6 */
-.paypalBtn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(135deg, #f7c949, #e8a800);
-  border: 2px solid rgba(200, 150, 0, 0.5);
-  border-radius: 3px;
-  padding: 0.55rem 2rem;
-  text-decoration: none;
-  box-shadow: 0 3px 12px rgba(224, 163, 0, 0.25);
-  transition: transform 0.2s, box-shadow 0.2s;
-  min-width: 295px;
-}
-
-.paypalBtn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 7px 20px rgba(224, 163, 0, 0.45);
-}
-
-.paypalText {
-  font-family: 'Cinzel', serif;
-  font-size: 1.05rem;
-  font-weight: 700;
-  color: #003087;
-  letter-spacing: 0.04em;
-}
-
-/* ================================================================
-   RESPONSIVE BREAKPOINTS
-================================================================ */
-
-/* ── 1024px — Tablet landscape ── */
-@media (max-width: 1024px) {
-  .scheduleGrid {
-    gap: 1.4rem;
-  }
-
-  .accomGrid {
-    grid-template-columns: 1.4fr 1fr;
-  }
-}
-
-/* ── 860px — Tablet portrait ── */
-@media (max-width: 860px) {
-  .scheduleGrid {
-    grid-template-columns: 1fr;
-    gap: 1.2rem;
-  }
-
-  .accomGrid {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto auto;
-    height: auto;
-  }
-
-  .accomMain {
-    height: clamp(160px, 40vw, 280px);
-  }
-
-  .accomThumbGrid {
-    height: clamp(120px, 28vw, 200px);
-  }
-
-  .bannerWrap {
-    max-width: 100%;
-  }
-
-  .bannerImg {
-    height: clamp(170px, 38vw, 280px);
-  }
-
-  .bannerOverlay {
-    width: clamp(120px, 26vw, 175px);
-  }
-
-  .bannerTag {
-    font-size: clamp(0.82rem, 2.5vw, 1.1rem);
-  }
-}
-
-/* ── 680px — Small tablet / large phone ── */
-@media (max-width: 680px) {
-  .photoStrip {
-    grid-template-columns: 1fr;
-    height: clamp(160px, 45vw, 240px);
-  }
-
-  .photoCell:nth-child(2),
-  .photoCell:nth-child(3) {
-    display: none;
-  }
-
-  .pkgRow {
-    flex-direction: column;
-    gap: 0.1rem;
-  }
-
-  .pkgPrice {
-    font-size: 0.9em;
-    color: var(--saffron-deep);
-  }
-
-  .bookBtnGroup {
-    align-items: stretch;
-  }
-
-  .bookNowBtn,
-  .paypalBtn {
-    width: 100%;
-    max-width: 360px;
-    margin: 0 auto;
-  }
-
-  .secTitle {
-    font-size: clamp(0.95rem, 3.5vw, 1.25rem);
-  }
-}
-
-/* ── 540px — Mobile ── */
-@media (max-width: 540px) {
-  .bodyPara {
-    text-align: left;
-    font-size: 0.98rem;
-  }
-
-  .scheduleCard {
-    padding: 1rem;
-  }
-
-  .bannerImg {
-    height: clamp(150px, 46vw, 230px);
-  }
-
-  .bannerOverlay {
-    width: 36%;
-    min-width: 110px;
-  }
-
-  .bannerTag {
-    font-size: 0.82rem;
-  }
-
-  .accomThumbGrid {
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
-  }
-
-  .applyBtn {
-    width: 100%;
-    max-width: 300px;
-    text-align: center;
-  }
-}
-
-/* ── 400px — Small mobile ── */
-@media (max-width: 400px) {
-  .pageTitle {
-    font-size: 1.05rem;
-  }
-
-  .secTitle {
-    font-size: 0.95rem;
-  }
-
-  .bannerTag {
-    font-size: 0.78rem;
-  }
-
-  .bannerOverlay {
-    width: 40%;
-    padding: 0.6rem 0.5rem;
-  }
-
-  .ovRow,
-  .pkgRow {
-    font-size: 0.83rem;
-  }
-
-  .cardHeading {
-    font-size: 0.85rem;
-  }
-}
-
-
-/* ── SECTION 1 ── */
-.heroSection1 {
-  background: #fff8eb url("../../images/backgroundimage/29.png");
-  padding: clamp(2.4rem, 5vw, 4rem) 0;
-  position: relative;
-  overflow: hidden;
-}
-
-.heroSection1::before {
-  content: 'ॐ';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: clamp(10rem, 20vw, 18rem);
-  color: rgba(241, 85, 5, 0.04);
-  font-family: 'Cinzel', serif;
-  pointer-events: none;
-  line-height: 1;
-  z-index: 0;
 }
 
 .heroSection1 .container {
@@ -951,7 +376,6 @@
 
 /* ── SECTION 2 — SCHEDULE ── */
 .scheduleSection {
-  background: url("../../images/backgroundimage/30.png") #fff8eb;
   padding: clamp(2.8rem, 5vw, 4.5rem) 0;
   position: relative;
   overflow: hidden;
@@ -985,7 +409,7 @@
 
 /* Dark header */
 .cardHead {
-  background: linear-gradient(135deg, #2e1a08 0%, #4a2e0f 100%);
+  background: #f15505;
   padding: 1.2rem 1.6rem;
   display: flex;
   align-items: center;
@@ -1173,8 +597,7 @@
 
 /* ── SECTION 3 ── */
 .photoSection {
-  background: #fffaf2 url("../../images/backgroundimage/31.png");
-  background-size: contain;
+  background: #fff;
 }
 
 .photoStrip {
@@ -1225,7 +648,7 @@
 }
 
 .s3Inner {
-  max-width: 1380px;
+  max-width: 1460px;
   margin: 0 auto;
   padding: clamp(2.8rem, 5vw, 4.5rem) clamp(1.2rem, 5vw, 3rem);
 }
@@ -1283,11 +706,11 @@
 
 /* ── SECTION 4 ── */
 .altSection {
-  background: #fff8eb url("../../images/backgroundimage/32.png");
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
   position: relative;
   overflow: hidden;
+  background: #fff;
 }
 
 .altSection::before {
@@ -1304,7 +727,7 @@
 }
 
 .s4Inner {
-  max-width: 1380px;
+  max-width: 1460px;
   margin: 0 auto;
   padding: clamp(2.8rem, 5vw, 4.5rem) clamp(1.2rem, 5vw, 3rem);
   position: relative;
@@ -1369,7 +792,7 @@
 }
 
 .affordableCardHead {
-  background: linear-gradient(135deg, #2e1a08, #4a2e0f);
+  background: #f15505;
   padding: 1rem 1.3rem;
 }
 
@@ -1470,7 +893,6 @@
 
 /* ── SECTION 6 — HOW TO REACH ── */
 .reachSection {
-  background: #fff8eb url("../../images/backgroundimage/34.png");
   border-top: 4px solid;
   border-image: linear-gradient(
     90deg,
@@ -1483,6 +905,7 @@
   padding: clamp(2.8rem, 5vw, 4.5rem) 0;
   position: relative;
   overflow: hidden;
+  background: #fff;
 }
 
 .reachSection::before {
@@ -1647,7 +1070,7 @@
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: #fff;
-  background: var(--saffron);
+  background: #f15505;
   border-radius: 2px;
   padding: 0.18rem 0.45rem;
   margin-left: auto;
@@ -1660,7 +1083,7 @@
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: #fff;
-  background: var(--ink-mid);
+  background: #f15505;
   border-radius: 2px;
   padding: 0.18rem 0.45rem;
   margin-left: auto;
@@ -1673,7 +1096,7 @@
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: #fff;
-  background: var(--ink-light);
+  background: #f15505;
   border-radius: 2px;
   padding: 0.18rem 0.45rem;
   margin-left: auto;
@@ -1713,4 +1136,47 @@
   .paypalBtn {
     width: 100%;
   }
+}
+
+/* Accommodation section styles (if needed) */
+.accomSection {
+  background: #fff;
+  padding-bottom: clamp(2.4rem, 5vw, 4rem);
+}
+
+.accomGrid {
+  display: grid;
+  grid-template-columns: 1.65fr 1fr;
+  margin-bottom: clamp(2rem, 4vw, 3rem);
+}
+
+.accomMain {
+  background: linear-gradient(135deg, #7a3f00, #3d1d00);
+  overflow: hidden;
+}
+
+.accomThumbGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 2px;
+}
+
+.accomThumb {
+  background: linear-gradient(135deg, #F15505, #7a3f00);
+  overflow: hidden;
+}
+
+.accomImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.accomMain:hover .accomImg,
+.accomThumb:hover .accomImg {
+  transform: scale(1.04);
 }
