@@ -28,7 +28,7 @@
   --glow: rgba(224, 123, 0, .22);
   --font-display: 'Montserrat', Arial, sans-serif;
   --font-body: 'Lato', Arial, sans-serif;
-  --font-fell: 'Playfair Display', Georgia, serif;
+  --font-fell: 'Montserrat', Arial, sans-serif;
   --font-menu: 'Montserrat', Arial, sans-serif;
 }
 
@@ -37,7 +37,7 @@
 ══════════════════════════════════════ */
 .page {
   font-family: var(--font-body);
-  background: linear-gradient(160deg, var(--parch-lt) 0%, var(--parch) 55%, var(--parch-dk) 100%);
+  background: #ffffff;
   min-height: 100vh;
   position: relative;
   overflow-x: hidden;
@@ -55,9 +55,9 @@
 }
 
 .container {
-  max-width: 1460px;
+  max-width: 1480px;
   margin: 0 auto;
-  padding: 0 clamp(1rem, 5vw, 3rem);
+  
 }
 
 /* ══════════════════════════════════════
@@ -200,7 +200,7 @@
 
 .heroSubtitle {
   font-family: var(--font-menu);
-  font-size: clamp(.6rem, 1.1vw, .78rem);
+  font-size: clamp(.6rem, 1.1vw, .88rem);
   font-weight: 600;
   letter-spacing: .2em;
   color: var(--ink-soft);
@@ -268,7 +268,7 @@
 
 .omDivLabel {
   font-family: var(--font-menu);
-  font-size: .6rem;
+  font-size: .9rem;
   letter-spacing: .18em;
   text-transform: uppercase;
   color: var(--saffron-gold);
@@ -530,7 +530,7 @@
 
 .tabBtnHours {
   font-family: var(--font-menu);
-  font-size: clamp(.5rem, .85vw, .65rem);
+  font-size: clamp(.5rem, .85vw, .85rem);
   font-weight: 700;
   letter-spacing: .12em;
   color: var(--saffron-gold);
@@ -542,7 +542,7 @@
 }
 
 .tabBtnLabel {
-  font-size: clamp(.6rem, 1vw, .78rem);
+  font-size: clamp(.6rem, 1vw, .98rem);
   font-weight: 600;
   letter-spacing: .06em;
   color: var(--ink-md);
@@ -664,8 +664,7 @@
 
 .tabSectionTitle {
   font-family: var(--font-fell);
-  font-size: clamp(.95rem, 1.8vw, 1.15rem);
-  font-style: italic;
+  font-size: clamp(.95rem, 1.8vw, 1.25rem);
   color: var(--saffron);
   margin: 0 0 .8rem;
 }
@@ -1518,9 +1517,10 @@
 
 .collegeCourseText {
   font-family: var(--font-body);
-  font-size: clamp(.86rem, 1.35vw, .96rem);
+  font-size: clamp(.86rem, 1.35vw, 1.1rem);
   line-height: 1.65;
   color: var(--ink-md);
+  font-weight: 500;
 }
 
 /* Objectives list */
@@ -1601,7 +1601,7 @@
 
 .maDetailLabel {
   font-family: var(--font-menu);
-  font-size: .58rem;
+  font-size: .88rem;
   font-weight: 700;
   letter-spacing: .1em;
   text-transform: uppercase;
@@ -1611,7 +1611,7 @@
 
 .maDetailVal {
   font-family: var(--font-body);
-  font-size: clamp(.84rem, 1.3vw, .94rem);
+  font-size: clamp(.84rem, 1.3vw, 1rem);
   color: var(--ink-md);
   font-weight: 600;
   line-height: 1.4;

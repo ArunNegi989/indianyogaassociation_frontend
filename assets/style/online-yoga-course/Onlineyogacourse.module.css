@@ -27,13 +27,13 @@
 
   --font-display: 'Montserrat', Arial, sans-serif;
   --font-body: 'Lato', Arial, sans-serif;
-  --font-fell: 'Playfair Display', Georgia, serif;
+  --font-fell: 'Montserrat', Arial, sans-serif;
   --font-script: 'Poppins', Arial, sans-serif;
   --font-menu: 'Montserrat', Arial, sans-serif;
 
   font-family: var(--font-body);
   background: var(--parchment);
-  background-image: url("../../images/1905x8000.png");
+  background-image: url("../../images/backgroundimage/1905x8000.png");
   color: var(--ink-mid);
   overflow-x: hidden;
   position: relative;
@@ -87,7 +87,7 @@
 .container {
   position: relative;
   z-index: 2;
-  max-width: 1460px;
+  max-width: 1600px;
   margin: 0 auto;
   padding: 0 clamp(1rem, 5vw, 3.5rem);
 }
@@ -793,103 +793,153 @@
 }
 
 /* ============================================================
-   SCHEDULE TABLE
+   PREMIUM SCHEDULE TABLE (UPGRADED)
    ============================================================ */
+
 .scheduleSection {
   position: relative;
   z-index: 2;
   padding: clamp(3rem, 6vw, 5rem) 0;
-  border-bottom: 1px solid var(--border);
+  background: linear-gradient(to bottom, #fff, var(--parchment));
 }
 
+/* Wrapper */
 .tableWrapper {
   overflow-x: auto;
-  border-radius: 12px;
-  border: 1.5px solid var(--border);
-  box-shadow: 0 6px 28px var(--shadow);
-  margin-top: 2rem;
+  border-radius: 16px;
+  border: 1px solid rgba(0,0,0,0.06);
+  box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+  margin-top: 2.5rem;
+  backdrop-filter: blur(6px);
 }
 
+/* Table */
 .scheduleTable {
   width: 100%;
-  border-collapse: collapse;
-  min-width: 540px;
+  border-collapse: separate;
+  border-spacing: 0;
+  min-width: 600px;
 }
 
+/* HEADER */
 .scheduleTable thead tr {
-  background: linear-gradient(135deg, var(--saffron) 0%, #a85800 100%);
+  background: linear-gradient(135deg, #F15505, #F15505);
 }
 
 .scheduleTable thead th {
   font-family: var(--font-menu);
-  font-size: 0.76rem;
+  font-size: 0.78rem;
   font-weight: 700;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: #fff3d2;
-  padding: 1rem 1.2rem;
+  color: #fff;
+  padding: 1.2rem;
   text-align: center;
+  position: sticky;
+  top: 0;
 }
 
+/* Rounded header corners */
+.scheduleTable thead th:first-child {
+  border-top-left-radius: 16px;
+}
+.scheduleTable thead th:last-child {
+  border-top-right-radius: 16px;
+}
+
+/* ROW */
 .scheduleTable tbody tr {
-  background: var(--cream);
-  transition: background 0.15s;
+  background: #fff;
+  transition: all 0.25s ease;
+  position: relative;
 }
 
+/* alternate */
 .scheduleTable tbody tr:nth-child(even) {
-  background: var(--parchment-2);
+  background: #fffaf3;
 }
 
+/* HOVER EFFECT (premium lift) */
 .scheduleTable tbody tr:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
   background: #fff3e0;
+  z-index: 2;
 }
 
+/* CELLS */
 .scheduleTable tbody td {
   font-family: var(--font-body);
-  font-size: clamp(0.8rem, 1.2vw, 0.9rem);
+  font-size: 0.9rem;
   color: var(--ink-mid);
-  padding: 0.88rem 1.2rem;
+  padding: 1rem;
   text-align: center;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid rgba(0,0,0,0.05);
 }
 
+/* LAST ROW FIX */
 .scheduleTable tbody tr:last-child td {
   border-bottom: none;
 }
 
+/* DATE */
 .tableDate {
   font-weight: 700;
-  color: var(--ink-sepia);
+  color: #5a3d2b;
+  background: #fff7ed;
+  padding: 6px 12px;
+  border-radius: 8px;
+  display: inline-block;
 }
 
+/* PRICE */
 .tablePrice {
   font-family: var(--font-menu);
-  font-size: 0.82rem;
+  font-size: 0.85rem;
   font-weight: 700;
-  color: var(--teal-dark);
+  color: #00695c;
 }
 
+/* BUTTON */
 .tableApplyBtn {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  justify-content: center;
   font-family: var(--font-menu);
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--saffron);
+  color: #fff;
   text-decoration: none;
-  background: rgba(241, 85, 5, 0.07);
-  border: 1.5px solid rgba(241, 85, 5, 0.3);
-  border-radius: 20px;
-  padding: 5px 14px;
-  transition: background 0.18s, color 0.18s;
+  background: linear-gradient(135deg, #e07b00, #ff9a1f);
+  border-radius: 30px;
+  padding: 6px 16px;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 12px rgba(224, 123, 0, 0.3);
 }
 
+/* BUTTON HOVER */
 .tableApplyBtn:hover {
-  background: var(--saffron);
-  color: #fff;
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 8px 18px rgba(224, 123, 0, 0.4);
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  .scheduleTable {
+    min-width: 520px;
+  }
+
+  .scheduleTable thead th {
+    font-size: 0.7rem;
+    padding: 0.9rem;
+  }
+
+  .scheduleTable tbody td {
+    font-size: 0.82rem;
+    padding: 0.8rem;
+  }
 }
 
 /* ============================================================
@@ -933,6 +983,7 @@
   animation-delay: calc(var(--fi, 0) * 0.08s);
   position: relative;
   overflow: hidden;
+  background-color: #ffffff;
 }
 
 .faqCard::before {

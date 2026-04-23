@@ -1,32 +1,74 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Dancing+Script:wght@600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Lato:ital,wght@0,300;0,400;0,700;1,400&family=Montserrat:wght@400;500;600;700&display=swap');
 
-/* ── CSS Variables ── */
+/* ================================================================
+   CSS VARIABLES  — matching 100-hours root tokens
+   ================================================================ */
 :root {
-  --gold: #F15505;
-  --gold-light: #f5b800;
-  --gold-dark: #f15505;
-  --brown-deep: #3d1d00;
-  --brown-mid: #7a5c2e;
-  --brown-light: #5a3e22;
-  --cream: #fff9f0;
-  --cream-mid: #fdf0dc;
-  --cream-dark: #ffecd8;
-  --parchment: #f5e8d0;
-  --border: #e8d5b5;
+  --parchment:    #fff9ed;
+  --parchment-2:  #ede0c0;
+  --parchment-3:  #e8d5a8;
+  --parchment-dark: #d4bc88;
+  --ink-sepia:    #2c1a08;
+  --ink-mid:      #4a2e10;
+  --ink-soft:     #7a5c30;
+  --saffron:      #f15505;
+  --saffron-bright: #f15505;
+  --saffron-gold: #f15505;
+  --saffron-light: #f15505;
+  --maroon:       #6b1a00;
+  --maroon-light: #8b3a00;
+  --cream:        #ffffff;
+  --border-sepia: rgba(139, 90, 19, 0.3);
+  --border-gold:  rgba(184, 134, 11, 0.4);
+  --shadow-warm:  rgba(80, 40, 5, 0.15);
+  --font-display: 'Montserrat', Arial, sans-serif;
+  --font-body:    'Lato', Arial, sans-serif;
+  --font-fell:    'Montserrat', Arial, sans-serif;
+  --font-script:  'Poppins', Arial, sans-serif;
+  --font-menu:    'Montserrat', Arial, sans-serif;
+  --teal-dark:    #1a4a4a;
+  --teal-mid:     #2a6060;
+
+  /* Local page tokens */
+  --gold:         #f15505;
+  --gold-dark:    #c84400;
+  --cream-mid:    #ffffff;
+  --cream-dark:   #ffffff;
+  --brown-deep:   #ffffff;
+  --brown-mid:    #ffffff;
+  --brown-light:  #ffffff;
+  --border:       #e8d5b5;
+  --trans-gold:   rgba(241, 85, 5, 0.1);
 }
 
-/* ── Page Shell ── */
+/* ================================================================
+   PAGE SHELL
+   ================================================================ */
 .page {
   position: relative;
-  background: var(--cream);
+  background-color: var(--parchment);
+  font-family: var(--font-body);
+  color: var(--ink-sepia);
   min-height: 100vh;
-  overflow: hidden;
+  overflow-x: hidden;
   opacity: 0;
-  transition: opacity 0.6s ease;
+  transition: opacity 0.55s ease;
 }
 
 .page.visible {
   opacity: 1;
+}
+
+/* ── Noise grain overlay ── */
+.page::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='250' height='250'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='250' height='250' filter='url(%23n)' opacity='0.045'/%3E%3C/svg%3E");
+  opacity: 1;
+  mix-blend-mode: multiply;
 }
 
 /* ── BG Mandalas ── */
@@ -38,7 +80,6 @@
   z-index: 0;
   animation: slowRotate 90s linear infinite;
 }
-
 .bgMandala2 {
   position: fixed;
   bottom: -100px;
@@ -47,7 +88,6 @@
   z-index: 0;
   animation: slowRotateReverse 70s linear infinite;
 }
-
 .bgMandala3 {
   position: fixed;
   top: 40%;
@@ -59,35 +99,26 @@
 }
 
 @keyframes slowRotate {
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(360deg);
-  }
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
 }
-
 @keyframes slowRotateReverse {
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(-360deg);
-  }
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(-360deg); }
 }
 
-/* ── Borders ── */
+/* ── Border strips ── */
 .topBorder,
 .bottomBorder {
-  height: 6px;
-  background: linear-gradient(90deg,
-      transparent 0%,
-      var(--gold) 20%,
-      var(--gold-light) 50%,
-      var(--gold) 80%,
-      transparent 100%);
+  height: 5px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--gold) 20%,
+    #f5b800 50%,
+    var(--gold) 80%,
+    transparent 100%
+  );
   position: relative;
   z-index: 2;
 }
@@ -98,101 +129,94 @@
   z-index: 2;
   max-width: 1460px;
   margin: 0 auto;
-  padding: clamp(2rem, 4vw, 4rem) clamp(1.2rem, 5vw, 3rem);
+  padding: clamp(2rem, 4vw, 4rem) clamp(1.2rem, 5vw, 3.5rem);
 }
 
-/* ── Om Divider ── */
+/* ================================================================
+   OM DIVIDER
+   ================================================================ */
 .omDivider {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 1rem;
+  gap: 1.2rem;
   padding: 1rem 0;
   position: relative;
   z-index: 2;
 }
-
 .dividerLine {
   flex: 1;
-  max-width: 200px;
-  height: 1.5px;
+  max-width: 240px;
+  height: 1px;
   background: linear-gradient(90deg, transparent, var(--gold), transparent);
 }
-
+.omCenter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .omSymbol {
-  font-size: 1.8rem;
+  font-size: 1.7rem;
   color: var(--gold);
   line-height: 1;
-  filter: drop-shadow(0 1px 4px rgba(224, 123, 0, 0.4));
-  animation: pulse 3s ease-in-out infinite;
+  filter: drop-shadow(0 1px 6px rgba(241, 85, 5, 0.45));
+  animation: pulseGlow 3s ease-in-out infinite;
+}
+@keyframes pulseGlow {
+  0%, 100% { opacity: 1; transform: scale(1); filter: drop-shadow(0 1px 6px rgba(241, 85, 5, 0.45)); }
+  50%       { opacity: 0.75; transform: scale(1.08); filter: drop-shadow(0 2px 12px rgba(241, 85, 5, 0.7)); }
 }
 
-@keyframes pulse {
-
-  0%,
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-
-  50% {
-    opacity: 0.7;
-    transform: scale(1.08);
-  }
-}
-
-/* ── Section Header ── */
+/* ================================================================
+   SHARED TYPOGRAPHY
+   ================================================================ */
 .sectionHeader {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 1.5rem;
-  margin-bottom: 2.5rem;
+  gap: 1.4rem;
+  margin-bottom: 2.8rem;
   text-align: center;
 }
-
 .mandalaMini {
   flex-shrink: 0;
-  animation: slowRotate 20s linear infinite;
+  animation: slowRotate 22s linear infinite;
 }
 
-/* ── Section Label ── */
 .sectionLabel {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(0.9rem, 1.6vw, 1.1rem);
+  font-family: var(--font-fell);
+  font-size: clamp(0.88rem, 1.5vw, 1.05rem);
   font-style: italic;
-  color: var(--brown-mid);
-  letter-spacing: 0.08em;
+  color: #f15505;
+  letter-spacing: 0.1em;
   text-align: center;
-  margin-bottom: 1.2rem;
+  margin-bottom: 1rem;
 }
 
-/* ── Section Title ── */
 .sectionTitle {
-  font-family: 'Cinzel', serif;
-  font-size: clamp(1.1rem, 2.4vw, 1.8rem);
+  font-family: var(--font-display);
+  font-size: clamp(1.05rem, 2.2vw, 1.65rem);
   font-weight: 700;
-  color: var(--brown-deep);
+  color:#f15505;
   line-height: 1.35;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.01em;
   margin: 0;
 }
 
-/* ── Super Title ── */
 .superTitle {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(0.9rem, 1.8vw, 1.2rem);
+  font-family: var(--font-fell);
+  font-size: clamp(0.88rem, 1.7vw, 1.1rem);
   font-style: italic;
-  color: var(--brown-mid);
-  letter-spacing: 0.1em;
+  color: #f15505;
+  letter-spacing: 0.12em;
   text-align: center;
   margin-bottom: 0.5rem;
 }
 
-/* ── Highlight ── */
-.highlight {
-  color: #f15505;
+.highlightText {
+  color: var(--saffron);
   font-weight: 700;
+  border-bottom: 1px dotted rgba(241, 85, 5, 0.45);
 }
 
 /* ================================================================
@@ -200,94 +224,83 @@
    ================================================================ */
 .heroSection {
   position: relative;
-  padding: clamp(3rem, 6vw, 6rem) 0 clamp(2rem, 4vw, 3rem);
+  padding: clamp(3.5rem, 7vw, 3rem) 0 clamp(2rem, 4vw, 3rem);
   text-align: center;
+  background-color: #ffffff;
 }
-
 .heroMandalaLeft {
   position: absolute;
-  left: -60px;
+  left: -50px;
   top: 50%;
   transform: translateY(-50%);
   animation: slowRotate 30s linear infinite;
   pointer-events: none;
   z-index: 1;
 }
-
 .heroMandalaRight {
   position: absolute;
-  right: -60px;
+  right: -50px;
   top: 50%;
   transform: translateY(-50%);
-  animation: slowRotateReverse 25s linear infinite;
+  animation: slowRotateReverse 26s linear infinite;
   pointer-events: none;
   z-index: 1;
 }
 
 .heroTitle {
-  font-family: 'Cinzel', serif;
-  font-size: clamp(1.3rem, 3.2vw, 2.6rem);
+  font-family: var(--font-display);
+  font-size: clamp(1.3rem, 3vw, 2.5rem);
   font-weight: 700;
-  color: var(--brown-deep);
-  line-height: 1.4;
+  color: #f15505;
+  line-height: 1.42;
   margin: 0 auto 1.8rem;
-  letter-spacing: 0.02em;
-  animation: fadeInUp 0.8s ease both;
+  letter-spacing: 0.01em;
+  animation: fadeInUp 0.75s ease both;
 }
-
 .heroTitle em {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-fell);
   font-style: italic;
-  color: var(--gold);
+  color: #000;
   font-weight: 600;
+  font-size: 1.05em;
 }
 
 .heroContent {
   margin: 1.8rem auto 0;
   text-align: left;
-  animation: fadeInUp 1s ease 0.2s both;
+  animation: fadeInUp 0.9s ease 0.18s both;
 }
-
 .heroPara {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(1rem, 1.7vw, 1.12rem);
-  line-height: 1.9;
-  color: #3d2b10;
-  margin-bottom: 1.2rem;
+  font-family: var(--font-fell);
+  font-size: clamp(1rem, 1.6vw, 1.1rem);
+  line-height: 1.95;
+  color: var(--ink-mid);
+  margin-bottom: 1.1rem;
 }
 
 @keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(24px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 /* ================================================================
    CHAKRA SECTION
    ================================================================ */
 .chakraSection {
-  background: linear-gradient(135deg, #fff4e6 0%, #ffecd8 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #ffffff 100%);
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
-  padding: clamp(1.5rem, 3vw, 2.5rem) 0;
+  padding: clamp(1.8rem, 3.5vw, 3rem) 0;
   position: relative;
   z-index: 2;
 }
-
 .chakraRow {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: clamp(0.8rem, 2vw, 2rem);
+  gap: clamp(0.8rem, 2.5vw, 2.5rem);
   align-items: flex-start;
 }
-
 .chakraItem {
   display: flex;
   flex-direction: column;
@@ -295,53 +308,49 @@
   gap: 0.35rem;
   cursor: default;
 }
-
 .chakraCircle {
-  width: clamp(44px, 6vw, 62px);
-  height: clamp(44px, 6vw, 62px);
+  width: clamp(46px, 6.5vw, 100px);
+  height: clamp(46px, 6.5vw, 100px);
   border-radius: 50%;
   border: 2.5px solid;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.65);
   backdrop-filter: blur(4px);
   transition: transform 0.28s ease, box-shadow 0.28s ease;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
 }
-
 .chakraItem:hover .chakraCircle {
-  transform: translateY(-4px) scale(1.1);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  transform: translateY(-5px) scale(1.12);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.14);
 }
-
-.chakraSymbol {
-  font-size: clamp(1rem, 1.8vw, 1.4rem);
-}
-
+.chakraSymbol { font-size: clamp(1rem, 1.8vw, 3.4rem); }
 .chakraName {
-  font-family: 'Cinzel', serif;
-  font-size: clamp(0.55rem, 0.9vw, 0.68rem);
-  color: var(--brown-deep);
-  letter-spacing: 0.04em;
+  font-family: var(--font-display);
+  font-size: clamp(0.54rem, 0.88vw, 0.66rem);
+  color: #000;
+  letter-spacing: 0.05em;
   text-align: center;
   font-weight: 600;
+  text-transform: uppercase;
 }
-
 .chakraLabel {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(0.6rem, 1vw, 0.72rem);
-  color: var(--brown-mid);
-  font-style: italic;
+  font-family: var(--font-fell);
+  font-size: clamp(0.6rem, 0.95vw, 0.92rem);
+  color: #f15505;
+  font-weight: 600;
+ 
 }
 
 /* ================================================================
    PROGRAM SECTION
    ================================================================ */
 .programSection {
-  padding: clamp(2.5rem, 5vw, 5rem) 0;
+  padding: clamp(2.5rem, vw, 2.5rem) 0;
   position: relative;
   z-index: 2;
+  background-color: #ffffff;
 }
 
 .programGrid {
@@ -352,226 +361,241 @@
 
 .programCard {
   position: relative;
-  background: linear-gradient(135deg, var(--cream) 0%, var(--cream-mid) 100%);
+  background: linear-gradient(140deg, var(--cream) 0%, var(--cream-mid) 100%);
   border: 1.5px solid var(--border);
-  border-radius: 6px;
-  padding: clamp(1.2rem, 2.5vw, 2rem);
+  border-radius: 8px;
+  padding: clamp(1.4rem, 2.5vw, 2.2rem);
   display: flex;
-  gap: 1.2rem;
+  gap: 1.4rem;
   align-items: flex-start;
-  transition: transform 0.22s ease, box-shadow 0.22s ease;
+  transition: transform 0.24s ease, box-shadow 0.24s ease;
   overflow: hidden;
+  animation: fadeInUp 0.6s ease calc(var(--card-index, 0) * 0.1s) both;
 }
-
 .programCard::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(224, 123, 0, 0.04) 0%, transparent 60%);
+  background: linear-gradient(135deg, rgba(241, 85, 5, 0.04) 0%, transparent 55%);
   pointer-events: none;
 }
-
 .programCard:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 32px rgba(92, 45, 0, 0.12);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 36px rgba(92, 45, 0, 0.13);
 }
 
 .programCardHighlight {
-  background: linear-gradient(135deg, #fff8ee 0%, #ffecd0 100%);
+  background: linear-gradient(140deg, #ffffff 0%, #ffffff 100%);
   border-color: var(--gold);
-  box-shadow: 0 4px 20px rgba(224, 123, 0, 0.15);
+  box-shadow: 0 4px 22px rgba(241, 85, 5, 0.15);
 }
 
-.programNum {
-  font-family: 'Cinzel', serif;
-  font-size: clamp(1.6rem, 3vw, 2.4rem);
-  font-weight: 700;
-  color: rgba(224, 123, 0, 0.25);
-  line-height: 1;
+.programNumWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
   flex-shrink: 0;
-  min-width: 2.5rem;
+  min-width: 3rem;
 }
-
-.programInner {
-  flex: 1;
+.programIcon {
+  font-size: clamp(1.4rem, 2.4vw, 1.8rem);
+  line-height: 1;
 }
-
-.programTitle {
-  font-family: 'Cinzel', serif;
-  font-size: clamp(0.85rem, 1.5vw, 1.05rem);
+.programNum {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 2.8vw, 2.2rem);
   font-weight: 700;
-  color: var(--brown-deep);
-  margin: 0 0 0.5rem;
-  letter-spacing: 0.02em;
+  color: rgba(241, 85, 5, 0.22);
+  line-height: 1;
 }
 
+.programInner { flex: 1; }
+.programTitle {
+  font-family: var(--font-display);
+  font-size: clamp(0.84rem, 1.4vw, 1rem);
+  font-weight: 700;
+  color: #f15505;
+  margin: 0 0 0.6rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
 .programDesc {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-fell);
   font-size: clamp(0.9rem, 1.4vw, 1rem);
-  line-height: 1.75;
-  color: var(--brown-light);
+  line-height: 1.78;
+  color: #000;
   margin: 0;
 }
-
 .innerBadge {
   display: inline-block;
-  margin-top: 0.75rem;
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 0.82rem;
-  font-weight: 600;
-  color: #f15505;
-  background: rgba(224, 123, 0, 0.1);
-  border: 1px solid rgba(224, 123, 0, 0.3);
-  padding: 0.25rem 0.75rem;
+  margin-top: 0.85rem;
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--saffron);
+  background: rgba(241, 85, 5, 0.09);
+  border: 1px solid rgba(241, 85, 5, 0.3);
+  padding: 0.28rem 0.8rem;
   border-radius: 20px;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
-
 .programCorner {
   position: absolute;
   bottom: 0;
   right: 0;
   width: 40px;
   height: 40px;
-  background: linear-gradient(135deg, transparent 50%, rgba(224, 123, 0, 0.12) 50%);
+  background: linear-gradient(135deg, transparent 50%, rgba(241, 85, 5, 0.1) 50%);
 }
 
 /* ================================================================
    APPLY SECTION
    ================================================================ */
 .applySection {
-  background: linear-gradient(135deg, #fff8f0 0%, var(--cream-dark) 100%);
+  background: linear-gradient(135deg, #ffffff 0%, var(--cream-dark) 100%);
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
-  padding: clamp(2.5rem, 5vw, 5rem) 0;
+  padding: clamp(2.5rem, 5vw, 5.5rem) 0;
   position: relative;
   z-index: 2;
 }
-
 .applyGrid {
   display: grid;
   grid-template-columns: 3fr 2fr;
-  gap: clamp(2rem, 4vw, 4rem);
+  gap: clamp(2rem, 4vw, 4.5rem);
   align-items: center;
 }
-
-.applyLeft {}
-
+.applySupra {
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--saffron);
+  margin-bottom: 0.5rem;
+}
 .applyLeft .sectionTitle {
-  margin-bottom: 1.6rem;
+  margin-bottom: 0.5rem;
   text-align: left;
 }
-
+.applyDivider {
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--gold), transparent);
+  margin-bottom: 1.6rem;
+  border-radius: 2px;
+}
 .applyPara {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(0.95rem, 1.6vw, 1.08rem);
-  line-height: 1.85;
-  color: #3d2b10;
+  font-family: var(--font-fell);
+  font-size: clamp(0.95rem, 1.55vw, 1.06rem);
+  line-height: 1.9;
+  color: var(--ink-mid);
   margin-bottom: 1.1rem;
 }
-
 .emailBadge {
   display: inline-block;
-  background: rgba(224, 123, 0, 0.12);
-  border: 1px solid rgba(224, 123, 0, 0.3);
+  background: rgba(241, 85, 5, 0.1);
+  border: 1px solid rgba(241, 85, 5, 0.3);
   border-radius: 4px;
-  padding: 0.1rem 0.6rem;
-  font-weight: 600;
-  color: #f15505;
-  font-family: 'Cinzel', serif;
-  font-size: 0.85em;
+  padding: 0.1rem 0.65rem;
+  font-weight: 700;
+  color: var(--saffron);
+  font-family: var(--font-display);
+  font-size: 0.82em;
   letter-spacing: 0.02em;
 }
-
 .applyRight {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
+  min-height: 220px;
 }
-
 .applyMandala {
   position: absolute;
-  animation: slowRotate 40s linear infinite;
-  opacity: 0.3;
+  animation: slowRotate 42s linear infinite;
+  opacity: 0.28;
 }
-
 .applyQuote {
-  font-family: 'Dancing Script', cursive;
-  font-size: clamp(1.1rem, 2.2vw, 1.5rem);
+  font-family: var(--font-fell);
+  font-size: clamp(1.05rem, 2vw, 1.4rem);
+  font-style: italic;
   font-weight: 600;
-  color: var(--brown-deep);
-  line-height: 1.6;
+  color: #000;
+  line-height: 1.65;
   text-align: center;
-  padding: 1.8rem;
-  background: linear-gradient(135deg, #fff8f0 0%, var(--cream-dark) 100%);
-  border: 1px solid rgba(224, 123, 0, 0.3);
+  padding: 2rem 2rem 1.8rem;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(255, 240, 220, 0.85) 100%);
+  border: 1.5px solid rgba(241, 85, 5, 0.2);
   border-radius: 8px;
-  box-shadow: 0 6px 24px rgba(224, 123, 0, 0.1);
+  box-shadow: 0 8px 30px rgba(241, 85, 5, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.8);
   position: relative;
   z-index: 1;
-  max-width: 320px;
+  max-width: 340px;
+  backdrop-filter: blur(6px);
 }
-
 .quoteMarks {
   color: var(--gold);
-  font-size: 1.3em;
+  font-size: 1.4em;
   line-height: 0;
-  vertical-align: -0.2em;
-  margin: 0 3px;
+  vertical-align: -0.25em;
+  margin: 0 4px;
+  font-style: normal;
 }
 
 /* ================================================================
    RULES SECTION
    ================================================================ */
 .rulesSection {
-  padding: clamp(2.5rem, 5vw, 5rem) 0;
+  padding: clamp(2.5rem, 5vw, 5.5rem) 0;
   position: relative;
   z-index: 2;
+  background-color: #ffffff;
 }
-
 .rulesGrid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: clamp(0.8rem, 1.5vw, 1.2rem);
 }
-
 .ruleItem {
   display: flex;
   gap: 1rem;
   align-items: flex-start;
-  background: linear-gradient(135deg, var(--cream) 0%, var(--cream-mid) 100%);
+  background: linear-gradient(135deg, #ffffff 0%, var(--cream-mid) 100%);
   border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: clamp(0.9rem, 1.5vw, 1.2rem) clamp(1rem, 1.8vw, 1.4rem);
-  transition: background 0.22s ease;
+  border-radius: 7px;
+  padding: clamp(0.95rem, 1.6vw, 1.3rem) clamp(1.1rem, 1.9vw, 1.5rem);
+  transition: background 0.22s ease, transform 0.22s ease, box-shadow 0.22s ease;
+  animation: fadeInUp 0.5s ease calc(var(--rule-index, 0) * 0.06s) both;
 }
-
 .ruleItem:hover {
-  background: linear-gradient(135deg, #fff4e6 0%, #ffe8c2 100%);
+  background: linear-gradient(135deg, #f8f4ee 0%, #f4e8d9 100%);
+  transform: translateX(4px);
+  box-shadow: 0 4px 18px rgba(241, 85, 5, 0.1);
 }
-
 .ruleDot {
-  width: 28px;
-  height: 28px;
-  min-width: 28px;
+  width: 30px;
+  height: 30px;
+  min-width: 30px;
   border-radius: 50%;
   background: linear-gradient(135deg, var(--gold), var(--gold-dark));
   color: white;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: 'Cinzel', serif;
-  font-size: 0.72rem;
+  font-family: var(--font-display);
+  font-size: 0.7rem;
   font-weight: 700;
-  box-shadow: 0 2px 8px rgba(224, 123, 0, 0.3);
+  box-shadow: 0 2px 10px rgba(241, 85, 5, 0.3);
+  flex-shrink: 0;
 }
-
 .ruleText {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(0.88rem, 1.4vw, 0.98rem);
-  line-height: 1.75;
-  color: #3d2b10;
+  font-family: var(--font-fell);
+  font-size: clamp(0.88rem, 1.35vw, 0.97rem);
+  line-height: 1.78;
+  color: var(--ink-mid);
   margin: 0;
 }
 
@@ -579,32 +603,28 @@
    POLICIES SECTION
    ================================================================ */
 .policiesSection {
-  background: linear-gradient(135deg, #fff8f0 0%, var(--cream-dark) 100%);
+  background: linear-gradient(135deg, #ffffff 0%, var(--cream-dark) 100%);
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
-  padding: clamp(2.5rem, 5vw, 5rem) 0;
+  padding: clamp(2.5rem, 5vw, 5.5rem) 0;
   position: relative;
   z-index: 2;
 }
-
 .policiesGrid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: clamp(1rem, 2vw, 1.8rem);
 }
-
 .policyCard {
-  background: linear-gradient(135deg, var(--cream) 0%, var(--cream-mid) 100%);
+  background: linear-gradient(140deg, #ffffff 0%, var(--cream-mid) 100%);
   border: 1.5px solid var(--border);
-  border-radius: 8px;
-  padding: clamp(1.4rem, 2.5vw, 2rem);
+  border-radius: 10px;
+  padding: clamp(1.4rem, 2.5vw, 2.2rem);
   position: relative;
   overflow: hidden;
-  transition: transform 0.22s ease, box-shadow 0.22s ease;
+  transition: transform 0.24s ease, box-shadow 0.24s ease;
 }
-
-.policyCard::after {
-  content: '';
+.policyTopBar {
   position: absolute;
   top: 0;
   left: 0;
@@ -612,64 +632,54 @@
   height: 3px;
   background: linear-gradient(90deg, transparent, var(--gold), transparent);
 }
-
 .policyCard:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 30px rgba(92, 45, 0, 0.1);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 34px rgba(92, 45, 0, 0.1);
 }
-
 .policyIcon {
-  font-size: 2rem;
-  margin-bottom: 0.8rem;
+  font-size: 2.2rem;
+  margin-bottom: 0.85rem;
   display: block;
+  line-height: 1;
 }
-
 .policyTitle {
-  font-family: 'Cinzel', serif;
-  font-size: clamp(0.85rem, 1.4vw, 1rem);
+  font-family: var(--font-display);
+  font-size: clamp(0.82rem, 1.3vw, 0.95rem);
   font-weight: 700;
-  color: var(--brown-deep);
-  margin: 0 0 0.9rem;
-  letter-spacing: 0.04em;
-  padding-bottom: 0.65rem;
+  color: #000;
+  margin: 0 0 1rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding-bottom: 0.7rem;
   border-bottom: 1px solid var(--border);
 }
-
 .policySubtitle {
-  font-family: 'Cinzel', serif;
-  font-size: 0.72rem;
-  font-weight: 600;
-  color: var(--brown-mid);
-  letter-spacing: 0.1em;
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #000;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   margin-bottom: 0.6rem;
   margin-top: 0.4rem;
 }
-
 .policyText {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(0.88rem, 1.4vw, 0.97rem);
-  line-height: 1.78;
-  color: var(--brown-light);
+  font-family: var(--font-fell);
+  font-size: clamp(0.88rem, 1.35vw, 0.97rem);
+  line-height: 1.8;
+ color: #000;
   margin: 0 0 0.6rem;
 }
-
 .policyList {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(0.85rem, 1.3vw, 0.94rem);
-  line-height: 1.75;
-  color: var(--brown-light);
+  font-family: var(--font-fell);
+  font-size: clamp(0.85rem, 1.3vw, 0.95rem);
+  line-height: 1.78;
+  color: #000;
   padding-left: 1.2rem;
   margin: 0;
 }
-
-.policyList li {
-  margin-bottom: 0.5rem;
-}
-
-.policyList li::marker {
-  color: var(--gold);
-}
+.policyList li { margin-bottom: 0.55rem; }
+.policyList li::marker { color: var(--gold); }
 
 /* ================================================================
    CTA SECTION
@@ -677,193 +687,284 @@
 .ctaSection {
   position: relative;
   text-align: center;
-  padding: clamp(3rem, 6vw, 6rem) 0;
+  padding: clamp(3.5rem, 6.5vw, 7rem) 0;
   overflow: hidden;
   z-index: 2;
+  background-color: #2c1a08;
 }
-
 .ctaMandala {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  animation: slowRotate 60s linear infinite;
+  animation: slowRotate 65s linear infinite;
   pointer-events: none;
 }
-
 .ctaSupra {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(0.9rem, 1.6vw, 1.1rem);
-  font-style: italic;
-  color: var(--brown-mid);
-  letter-spacing: 0.1em;
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--saffron);
   margin-bottom: 0.6rem;
+  position: relative;
+  z-index: 1;
 }
-
 .ctaTitle {
-  font-family: 'Cinzel', serif;
-  font-size: clamp(1.3rem, 3vw, 2.2rem);
+  font-family: var(--font-display);
+  font-size: clamp(1.3rem, 2.8vw, 2.1rem);
   font-weight: 700;
   color: var(--brown-deep);
   margin: 0 0 1.2rem;
   line-height: 1.35;
+  position: relative;
+  z-index: 1;
 }
-
 .ctaText {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(0.95rem, 1.6vw, 1.1rem);
+  font-family: var(--font-fell);
+  font-size: clamp(0.95rem, 1.55vw, 2.08rem);
   color: var(--brown-light);
-  max-width: 600px;
-  margin: 0 auto 2rem;
-  line-height: 1.8;
-  font-style: italic;
-}
+  margin: 0 auto 2.2rem;
+  line-height: 1.85;
 
+  position: relative;
+  z-index: 1;
+}
 .ctaActions {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 1.5rem;
+  gap: 1.6rem;
   flex-wrap: wrap;
+  position: relative;
+  z-index: 1;
 }
-
 .ctaBtn {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  font-family: 'Cinzel', serif;
-  font-size: 0.82rem;
+  gap: 9px;
+  font-family: var(--font-display);
+  font-size: 0.72rem;
   font-weight: 700;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: white;
   background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
-  padding: 0.85rem 2rem;
+  padding: 0.9rem 2.2rem;
   border-radius: 4px;
   text-decoration: none;
-  box-shadow: 0 6px 24px rgba(224, 123, 0, 0.4);
+  box-shadow: 0 6px 26px rgba(241, 85, 5, 0.4);
   transition: transform 0.22s ease, box-shadow 0.22s ease;
 }
-
 .ctaBtn:hover {
   transform: translateY(-3px);
-  box-shadow: 0 10px 32px rgba(224, 123, 0, 0.5);
+  box-shadow: 0 12px 36px rgba(241, 85, 5, 0.5);
 }
-
 .ctaArrow {
   display: inline-block;
   transition: transform 0.2s ease;
 }
-
-.ctaBtn:hover .ctaArrow {
-  transform: translateX(5px);
-}
-
+.ctaBtn:hover .ctaArrow { transform: translateX(5px); }
 .ctaEmail {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(0.9rem, 1.4vw, 1rem);
+  font-family: var(--font-fell);
+  font-size: clamp(0.9rem, 1.35vw, 1.3rem);
   color: var(--brown-mid);
-  font-style: italic;
   letter-spacing: 0.03em;
 }
 
 /* ================================================================
-   RESPONSIVE BREAKPOINTS
+   RESPONSIVE — every breakpoint
    ================================================================ */
 
-/* Large Tablet */
-@media (max-width: 1024px) {
-  .policiesGrid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+/* ── 2560 ── */
+@media (min-width: 2560px) {
+  .container { max-width: 1800px; padding: 5rem 4rem; }
+  .heroTitle { font-size: 3.4rem; }
+  .sectionTitle { font-size: 2.2rem; }
+  .heroPara { font-size: 1.25rem; }
+  .programGrid { grid-template-columns: repeat(2, 1fr); gap: 2.4rem; }
+  .policiesGrid { gap: 2.4rem; }
+  .rulesGrid { gap: 1.6rem; }
+}
 
+/* ── 1920 ── */
+@media (min-width: 1920px) and (max-width: 2559px) {
+  .container { max-width: 1600px; }
+  .heroTitle { font-size: 3rem; }
+  .programGrid { gap: 2.2rem; }
+}
+
+/* ── 1600 ── */
+@media (min-width: 1600px) and (max-width: 1919px) {
+  .container { max-width: 1500px; }
+}
+
+/* ── 1400 ── */
+@media (min-width: 1400px) and (max-width: 1599px) {
+  .container { max-width: 1380px; }
+  .applyGrid { grid-template-columns: 3fr 2fr; }
+}
+
+/* ── 1200 ── */
+@media (min-width: 1200px) and (max-width: 1399px) {
+  .heroTitle { font-size: 2.2rem; }
+  .applyGrid { grid-template-columns: 3fr 2fr; }
+  .programGrid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ── 1024 ── */
+@media (min-width: 1024px) and (max-width: 1199px) {
   .heroMandalaLeft,
-  .heroMandalaRight {
-    display: none;
-  }
+  .heroMandalaRight { display: none; }
+  .heroTitle { font-size: 2rem; }
+  .policiesGrid { grid-template-columns: repeat(3, 1fr); }
+  .applyGrid { grid-template-columns: 3fr 2fr; gap: 2.5rem; }
+  .programGrid { grid-template-columns: repeat(2, 1fr); }
 }
 
-/* Tablet Portrait */
-@media (max-width: 860px) {
-  .programGrid {
-    grid-template-columns: 1fr;
-  }
-
-  .applyGrid {
-    grid-template-columns: 1fr;
-    gap: 2rem;
-  }
-
-  .applyRight {
-    min-height: 220px;
-  }
-
-  .applyQuote {
-    max-width: 100%;
-  }
-
-  .rulesGrid {
-    grid-template-columns: 1fr;
-  }
-
-  .policiesGrid {
-    grid-template-columns: 1fr;
-  }
-
-  .sectionHeader {
-    flex-wrap: wrap;
-    gap: 0.8rem;
-  }
+/* ── 900 ── */
+@media (min-width: 900px) and (max-width: 1023px) {
+  .heroMandalaLeft,
+  .heroMandalaRight { display: none; }
+  .heroTitle { font-size: 1.8rem; }
+  .policiesGrid { grid-template-columns: repeat(2, 1fr); }
+  .applyGrid { grid-template-columns: 1fr; gap: 2rem; }
+  .applyRight { min-height: 200px; }
+  .applyQuote { max-width: 100%; }
+  .programGrid { grid-template-columns: repeat(2, 1fr); }
+  .rulesGrid { grid-template-columns: repeat(2, 1fr); }
+  .sectionHeader { flex-wrap: wrap; gap: 0.8rem; }
 }
 
-/* Mobile */
-@media (max-width: 600px) {
-  .chakraRow {
-    gap: 0.7rem;
-  }
+/* ── 768 ── */
+@media (min-width: 768px) and (max-width: 899px) {
+  .heroMandalaLeft,
+  .heroMandalaRight { display: none; }
+  .heroTitle { font-size: 1.65rem; }
+  .programGrid { grid-template-columns: 1fr; }
+  .applyGrid { grid-template-columns: 1fr; gap: 2rem; }
+  .applyRight { min-height: 180px; }
+  .applyQuote { max-width: 100%; }
+  .rulesGrid { grid-template-columns: repeat(2, 1fr); }
+  .policiesGrid { grid-template-columns: repeat(2, 1fr); }
+  .sectionHeader { flex-wrap: wrap; gap: 0.8rem; }
+}
 
-  .chakraCircle {
-    width: 40px;
-    height: 40px;
-  }
+/* ── 600 ── */
+@media (min-width: 600px) and (max-width: 767px) {
+  .heroMandalaLeft,
+  .heroMandalaRight { display: none; }
+  .heroTitle { font-size: 1.4rem; }
+  .programGrid { grid-template-columns: 1fr; }
+  .applyGrid { grid-template-columns: 1fr; gap: 1.8rem; }
+  .applyRight { min-height: 160px; }
+  .applyQuote { max-width: 100%; font-size: 1.05rem; }
+  .rulesGrid { grid-template-columns: 1fr; }
+  .policiesGrid { grid-template-columns: 1fr; }
+  .sectionHeader { flex-wrap: wrap; gap: 0.7rem; }
+  .chakraRow { gap: 0.8rem; }
+  .bgMandala1, .bgMandala2, .bgMandala3 { display: none; }
+}
 
-  .heroTitle {
-    font-size: 1.3rem;
-  }
+/* ── 480 ── */
+@media (min-width: 480px) and (max-width: 599px) {
+  .heroMandalaLeft,
+  .heroMandalaRight { display: none; }
+  .heroTitle { font-size: 1.2rem; }
+  .programGrid { grid-template-columns: 1fr; }
+  .applyGrid { grid-template-columns: 1fr; gap: 1.5rem; }
+  .applyRight { min-height: 150px; }
+  .applyQuote { max-width: 100%; font-size: 0.98rem; padding: 1.4rem 1.2rem; }
+  .rulesGrid { grid-template-columns: 1fr; }
+  .policiesGrid { grid-template-columns: 1fr; }
+  .sectionHeader { flex-wrap: wrap; gap: 0.6rem; }
+  .chakraRow { gap: 0.7rem; }
+  .chakraCircle { width: 42px; height: 42px; }
+  .bgMandala1, .bgMandala2, .bgMandala3 { display: none; }
+  .ctaActions { flex-direction: column; gap: 1rem; }
+  .ctaBtn { width: 100%; justify-content: center; }
+  .programCard { padding: 1.1rem 1rem; gap: 1rem; }
+}
 
-  .bgMandala1,
-  .bgMandala2,
-  .bgMandala3 {
-    display: none;
-  }
-
-  .ctaActions {
+/* ── 380 ── */
+@media (min-width: 380px) and (max-width: 479px) {
+  .container { padding: 1.6rem 1rem; }
+  .heroTitle { font-size: 1.08rem; line-height: 1.4; }
+  .heroMandalaLeft,
+  .heroMandalaRight { display: none; }
+  .programGrid { grid-template-columns: 1fr; gap: 0.85rem; }
+  .programCard {
     flex-direction: column;
+    gap: 0.7rem;
+    padding: 1.1rem 1rem;
   }
-
-  .ctaBtn {
-    width: 100%;
-    justify-content: center;
-  }
+  .programNumWrap { flex-direction: row; gap: 0.5rem; align-items: center; }
+  .programNum { font-size: 1.3rem; }
+  .applyGrid { grid-template-columns: 1fr; gap: 1.5rem; }
+  .applyRight { display: none; }
+  .rulesGrid { grid-template-columns: 1fr; }
+  .ruleItem { flex-direction: column; gap: 0.6rem; }
+  .policiesGrid { grid-template-columns: 1fr; }
+  .sectionHeader { flex-wrap: wrap; gap: 0.5rem; }
+  .sectionTitle { font-size: 1rem; }
+  .chakraRow { gap: 0.5rem; }
+  .chakraCircle { width: 38px; height: 38px; }
+  .chakraName { display: none; }
+  .bgMandala1, .bgMandala2, .bgMandala3 { display: none; }
+  .ctaActions { flex-direction: column; gap: 0.9rem; }
+  .ctaBtn { width: 100%; justify-content: center; font-size: 0.68rem; }
+  .ctaTitle { font-size: 1.2rem; }
+  .mandalaMini { display: none; }
 }
 
-/* Small Mobile */
-@media (max-width: 380px) {
+/* ── 320 ── */
+@media (max-width: 379px) {
+  .container { padding: 1.2rem 0.85rem; }
+  .heroTitle { font-size: 0.95rem; line-height: 1.38; }
+  .heroMandalaLeft,
+  .heroMandalaRight { display: none; }
+  .programGrid { grid-template-columns: 1fr; gap: 0.75rem; }
   .programCard {
     flex-direction: column;
     gap: 0.6rem;
+    padding: 1rem 0.9rem;
   }
+  .programNumWrap { flex-direction: row; gap: 0.4rem; align-items: center; }
+  .programNum { font-size: 1.15rem; }
+  .applyGrid { grid-template-columns: 1fr; }
+  .applyRight { display: none; }
+  .rulesGrid { grid-template-columns: 1fr; gap: 0.6rem; }
+  .ruleItem { flex-direction: column; gap: 0.5rem; padding: 0.85rem 0.9rem; }
+  .policiesGrid { grid-template-columns: 1fr; }
+  .sectionHeader { flex-wrap: wrap; gap: 0.4rem; }
+  .sectionTitle { font-size: 0.9rem; }
+  .heroPara { font-size: 0.9rem; }
+  .chakraRow { gap: 0.4rem; }
+  .chakraCircle { width: 34px; height: 34px; }
+  .chakraName,
+  .chakraLabel { display: none; }
+  .bgMandala1, .bgMandala2, .bgMandala3 { display: none; }
+  .ctaActions { flex-direction: column; gap: 0.8rem; }
+  .ctaBtn { width: 100%; justify-content: center; font-size: 0.65rem; padding: 0.8rem 1.2rem; }
+  .ctaTitle { font-size: 1.05rem; }
+  .mandalaMini { display: none; }
+  .omDivider { gap: 0.7rem; }
+  .dividerLine { max-width: 80px; }
+  .policyCard { padding: 1rem 0.9rem; }
+  .ruleText { font-size: 0.85rem; }
+}
 
-  .programNum {
-    font-size: 1.4rem;
-  }
-
-  .ruleItem {
-    flex-direction: column;
-    gap: 0.6rem;
-  }
-
-  .chakraName {
-    display: none;
-  }
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .page { transition: none; }
+  .bgMandala1, .bgMandala2, .bgMandala3,
+  .heroMandalaLeft, .heroMandalaRight,
+  .mandalaMini, .applyMandala, .ctaMandala { animation: none; }
+  .heroTitle, .heroContent, .programCard, .ruleItem { animation: none; opacity: 1; transform: none; }
+  .omSymbol { animation: none; }
+  .ruleItem:hover { transform: none; }
+  .programCard:hover { transform: none; }
+  .policyCard:hover { transform: none; }
+  .ctaBtn:hover { transform: none; }
 }

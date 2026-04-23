@@ -6,15 +6,15 @@
   --saffron-dark: #f15505;
   --saffron-light: #f5b800;
   --maroon: #3d1d00;
-  --parchment: #fdf6ec;
-  --cream: #fffaf3;
+  --parchment: #ffffff;
+  --cream: #ffffff;
   --border: #e8d5b5;
   --text: #3d2b10;
   --text-muted: #7a5c2e;
 
   width: 100%;
   min-height: 100vh;
-  background: linear-gradient(160deg, #fdf0dc 0%, #fff8f0 100%);
+  background: linear-gradient(160deg, #ffffff 0%, #ffffff 100%);
   font-family: 'Cormorant Garamond', Georgia, serif;
   color: var(--text);
   display: flex;
@@ -312,9 +312,6 @@
   content: '';
   position: absolute;
   inset: 0;
-  background:
-    radial-gradient(ellipse at 92% 4%, rgba(224, 123, 0, 0.05) 0%, transparent 42%),
-    radial-gradient(ellipse at 6% 96%, rgba(92, 45, 0, 0.04) 0%, transparent 40%);
   pointer-events: none;
   z-index: 0;
 }
