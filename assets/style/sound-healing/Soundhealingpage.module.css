@@ -1,5 +1,5 @@
 /* Soundhealingpage.module.css */
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Dancing+Script:wght@600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Lato:wght@300;400;700;900&family=Poppins:wght@400;500;600;700&display=swap');
 
 /* ── CSS Variables ── */
 .page {
@@ -22,7 +22,7 @@
   --border-gold: rgba(184, 134, 11, 0.4);
   --shadow-warm: rgba(80, 40, 5, 0.15);
 
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', Arial, sans-serif;
   color: var(--ink);
   background: #fff;
   overflow-x: hidden;
@@ -68,7 +68,7 @@
    SHARED TYPOGRAPHY
 ────────────────────────────────────────── */
 .secTitleOrange {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(1rem, 2.4vw, 1.55rem);
   font-weight: 700;
   color: var(--saffron);
@@ -80,7 +80,7 @@
 }
 
 .bodyPara {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: clamp(0.92rem, 1.6vw, 1.05rem);
   line-height: 1.9;
   color: var(--ink-mid);
@@ -112,7 +112,7 @@
 }
 
 .omGlyph {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 1.8rem;
   color: var(--saffron);
   line-height: 1;
@@ -149,7 +149,7 @@
 }
 
 .heroTitle {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(1.8rem, 6vw, 4.2rem);
   font-weight: 700;
   color: #fff;
@@ -266,7 +266,7 @@
 }
 
 .signatureText {
-  font-family: 'Dancing Script', cursive;
+  font-family: 'Poppins', cursive;
   font-size: 1rem;
   color: var(--saffron);
   font-style: italic;
@@ -320,7 +320,7 @@
   background: rgba(241, 85, 5, 0.9);
   padding: 0.4rem 1rem;
   border-radius: 30px;
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.7rem;
   font-weight: 600;
   letter-spacing: 0.05em;
@@ -372,7 +372,7 @@
 }
 
 .aimEyebrow {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.7rem;
   font-weight: 600;
   letter-spacing: 0.15em;
@@ -397,7 +397,7 @@
 }
 
 .pillsLabel {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: 0.1em;
@@ -421,7 +421,7 @@
   padding: 0.3rem 0.8rem;
   border: 1.5px solid var(--border);
   border-radius: 30px;
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.65rem;
   font-weight: 600;
   letter-spacing: 0.05em;
@@ -476,7 +476,7 @@
   background: rgba(241, 85, 5, 0.9);
   padding: 0.3rem 0.8rem;
   border-radius: 30px;
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.6rem;
   font-weight: 600;
   letter-spacing: 0.05em;
@@ -495,7 +495,7 @@
 }
 
 .aimQuoteMark {
-  font-family: 'Dancing Script', cursive;
+  font-family: 'Poppins', cursive;
   font-size: 3rem;
   color: var(--saffron);
   opacity: 0.5;
@@ -505,7 +505,7 @@
 }
 
 .aimQuoteText {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: 1rem;
   font-style: italic;
   line-height: 1.7;
@@ -514,7 +514,7 @@
 }
 
 .aimQuoteAttr {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.65rem;
   font-weight: 600;
   letter-spacing: 0.05em;
@@ -572,7 +572,7 @@
 }
 
 .benCardTitle {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.9rem;
   font-weight: 700;
   color: var(--ink);
@@ -580,7 +580,7 @@
 }
 
 .benCardTxt {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: 0.85rem;
   line-height: 1.6;
   color: var(--ink-mid);
@@ -650,7 +650,7 @@
 }
 
 .expectCardLabel {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.8rem;
   font-weight: 700;
   color: var(--ink);
@@ -658,15 +658,15 @@
 }
 
 .expectCardTxt {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 0.8rem;
+  font-family: 'Lato', serif;
+  font-size: 1rem;
   line-height: 1.5;
   color: var(--ink-mid);
   margin: 0;
 }
 
 .instrLabel {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.9rem;
   font-weight: 700;
   color: var(--ink);
@@ -687,7 +687,7 @@
   background: white;
   border: 1px solid var(--border);
   border-radius: 30px;
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: 0.8rem;
   font-weight: 600;
   color: var(--ink-mid);
@@ -723,7 +723,7 @@
 }
 
 .whyNum {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 1.2rem;
   font-weight: 700;
   color: var(--saffron);
@@ -732,7 +732,7 @@
 }
 
 .whyTitle {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.85rem;
   font-weight: 700;
   color: var(--ink);
@@ -740,7 +740,7 @@
 }
 
 .whyTxt {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: 0.8rem;
   line-height: 1.5;
   color: var(--ink-mid);
@@ -763,7 +763,7 @@
 }
 
 .certTxt {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: 0.9rem;
   line-height: 1.6;
   color: var(--ink-mid);

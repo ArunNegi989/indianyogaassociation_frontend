@@ -67,7 +67,7 @@ const YogaAshrams: React.FC = () => {
   </div>
 </section>
 
-<Divider />
+{/* <Divider /> */}
 
 {/* ===== FEATURE IMAGE ===== */}
 <section className={styles.featureSection}>
@@ -132,7 +132,7 @@ const YogaAshrams: React.FC = () => {
   </div>
 </section>
 
-<Divider />
+{/* <Divider /> */}
 
 {/* ===== EXPERIENCE SECTION - TIMELINE STYLE ===== */}
 <section className={styles.experienceSection}>
@@ -234,7 +234,7 @@ const YogaAshrams: React.FC = () => {
   </div>
 </section>
 
-<Divider />
+{/* <Divider /> */}
 
 {/* ===== WHAT IS AN ASHRAM ===== */}
 <section className={styles.whatSection}>
@@ -272,7 +272,7 @@ const YogaAshrams: React.FC = () => {
   </div>
 </section>
 
-<Divider />
+{/* <Divider /> */}
 
 {/* ===== WHY IS AYM BEST ===== */}
 <section className={styles.whySection}>

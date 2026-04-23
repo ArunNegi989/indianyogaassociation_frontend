@@ -1,6 +1,6 @@
 /* Yogaholidays.module.css */
 
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Open+Sans:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Lato:wght@300;400;700;900&family=Poppins:wght@400;500;600;700&display=swap');
 
 :root {
   --orange: #f15505;
@@ -22,7 +22,7 @@
    GLOBAL WRAPPER
 ==================================================== */
 .pageWrapper {
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Lato', sans-serif;
   color: var(--text-body);
   overflow-x: hidden;
   background: #fff;
@@ -73,11 +73,11 @@
 
 /* Main h1 */
 .mainTitle {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(1.1rem, 2.8vw, 1.6rem);
   font-weight: 600;
   font-style: italic;
-  color: var(--text-dark);
+  color: #f15505;
   text-align: center;
   margin-bottom: 28px;
   line-height: 1.45;
@@ -135,7 +135,7 @@
   color: var(--white);
   font-size: clamp(0.7rem, 1.3vw, 0.82rem);
   padding: 5px 12px;
-  font-family: 'Lora', serif;
+  font-family: 'Montserrat', serif;
   font-style: italic;
   border-top-left-radius: 4px;
 }
@@ -216,7 +216,7 @@
 
 /* Shivir titles */
 .shivirTitle {
-  font-family: 'Lora', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(1rem, 2.2vw, 1.35rem);
   font-weight: 500;
   color: var(--text-dark);
@@ -225,7 +225,7 @@
 }
 
 .shivirSubtitle {
-  font-family: 'Lora', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(0.95rem, 2vw, 1.2rem);
   font-weight: 500;
   color: var(--text-dark);
@@ -251,16 +251,16 @@
 
 /* Section headings inside beige */
 .sectionHeading {
-  font-family: 'Lora', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(1rem, 2vw, 1.25rem);
   font-weight: 500;
-  color: var(--text-dark);
+  color: #f15505;
   text-align: center;
   margin: 28px 0 14px;
 }
 
 .sectionHeadingItalic {
-  font-family: 'Lora', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(1rem, 2vw, 1.2rem);
   font-weight: 500;
   font-style: italic;
@@ -300,7 +300,7 @@
 }
 
 .timetableTitle {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(1rem, 2.2vw, 1.3rem);
   font-weight: 700;
   color: var(--orange);
@@ -351,7 +351,7 @@
   font-weight: 600;
   color: var(--table-text);
   line-height: 1.6;
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Lato', sans-serif;
 }
 
 .timetableRow span:first-child {
@@ -565,7 +565,7 @@
 .videoLabel {
   color: #fff;
   font-size: 0.78rem;
-  font-family: 'Lora', serif;
+  font-family: 'Montserrat', serif;
   font-style: italic;
   opacity: 0.85;
 }
@@ -676,15 +676,15 @@
 }
 
 .shivirTitle {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(1.3rem, 3vw, 1.8rem);
   font-weight: 700;
-  color: #2c1a08;
+  color: #f15505;
   margin-bottom: 10px;
 }
 
 .shivirSubtitle {
-  font-family: 'Lora', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(1rem, 2vw, 1.2rem);
   font-weight: 500;
   color: var(--orange);
@@ -714,7 +714,7 @@
 
 /* Info Card */
 .infoCard {
-  background: #fff9f0;
+  background: #fafafa;
   border-radius: 8px;
   padding: 32px;
   margin: 40px 0;
@@ -783,7 +783,7 @@
 }
 
 .timetableTitle {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 1.3rem;
   color: var(--orange);
   margin-bottom: 6px;
@@ -845,7 +845,7 @@
 }
 
 .pricingTitle {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 1rem;
   font-weight: 600;
   color: #2c1a08;
@@ -875,7 +875,7 @@
 
 /* Enrollment Section */
 .enrollSection {
-  background: #e8f0f8;
+  background: #fafafa;
   border-radius: 8px;
   padding: 32px;
   margin: 40px 0;
@@ -924,7 +924,7 @@
 
 /* Eligibility Card */
 .eligibilityCard {
-  background: #fff5eb;
+  background: #fafafa;
   border-radius: 8px;
   padding: 32px;
   margin: 40px 0;

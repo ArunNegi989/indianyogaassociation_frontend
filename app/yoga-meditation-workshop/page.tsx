@@ -811,7 +811,7 @@ const MeditationPage: React.FC = () => {
         <div className={styles.highlightCardIcon}>🧘‍♀️</div>
         <h4 className={styles.highlightCardTitle}>Daily Meditation & Yoga</h4>
         <p className={styles.highlightCardText}>
-          Daily meditation and yoga practices designed to ignite your confidence and deepen your personal practice.
+        Daily meditation and yoga practices designed to ignite your confidence and deepen your personal practice, helping you build a stronger connection between mind and body. 
         </p>
       </div>
       
@@ -819,7 +819,7 @@ const MeditationPage: React.FC = () => {
         <div className={styles.highlightCardIcon}>🎯</div>
         <h4 className={styles.highlightCardTitle}>Engaging Workshops</h4>
         <p className={styles.highlightCardText}>
-          Engaging workshops on cutting-edge meditation techniques, breathwork, and mindfulness practices.
+        Engaging workshops on cutting-edge meditation techniques, breathwork, and mindfulness practices, designed to help you explore new dimensions of awareness and inner balance. 
         </p>
       </div>
       
@@ -827,7 +827,7 @@ const MeditationPage: React.FC = () => {
         <div className={styles.highlightCardIcon}>📖</div>
         <h4 className={styles.highlightCardTitle}>Anatomy & Physiology</h4>
         <p className={styles.highlightCardText}>
-          In-depth exploration of the anatomy and physiology related to meditation and its effects on the body.
+        A clear look at how meditation affects the body, including basic anatomy and physiological responses. You’ll learn how practices like breathwork and mindfulness influence the nervous system and support relaxation.
         </p>
       </div>
       
@@ -835,7 +835,7 @@ const MeditationPage: React.FC = () => {
         <div className={styles.highlightCardIcon}>🕉️</div>
         <h4 className={styles.highlightCardTitle}>Eight Limbs of Yoga</h4>
         <p className={styles.highlightCardText}>
-          Thought-provoking discussions on the Eight Limbs of Yoga and various meditation traditions.
+        Thought-provoking discussions on the Eight Limbs of Yoga and a range of meditation traditions, offering practical insights into how these teachings can be applied in everyday life. Explore core principles, reflect on their meaning, and gain a deeper understanding of how they support balance, awareness, and personal growth.
         </p>
       </div>
       
@@ -843,7 +843,8 @@ const MeditationPage: React.FC = () => {
         <div className={styles.highlightCardIcon}>💻</div>
         <h4 className={styles.highlightCardTitle}>Flexible Training</h4>
         <p className={styles.highlightCardText}>
-          Flexible training options, available both online and in-person, to accommodate your lifestyle and schedule.
+        Flexible training options, available both online and in-person, designed to fit seamlessly into your lifestyle and schedule. Whether you prefer learning from home or engaging in a guided, in-person setting, these options make it easier to stay consistent and committed to your practice.
+
         </p>
       </div>
     </div>
