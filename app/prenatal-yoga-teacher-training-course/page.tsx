@@ -7,6 +7,7 @@ import api from "@/lib/api";
 import ReviewSection from "@/components/common/Reviewsection";
 import RatingsSummarySection from "@/components/home/RatingsSummarySection";
 import PremiumGallerySection from "@/components/PremiumGallerySection";
+import StickySectionNav from "@/components/common/StickySectionNav";
 
 /* ─────────────────────────────────────────
    TYPES
@@ -85,6 +86,17 @@ interface PageData {
 }
 
 type Currency = "USD" | "INR";
+
+const NAV_ITEMS = [
+  { label: "INTRO", id: "intro" },
+  { label: "FEATURES", id: "features" },
+  { label: "DATES & FEES", id: "dates-fees" },
+  { label: "COSTS", id: "costs" },
+  { label: "ONLINE", id: "online" },
+  { label: "GALLERY", id: "gallery" },
+  { label: "REVIEWS", id: "reviews" },
+  { label: "LOCATION", id: "location" },
+];
 
 function formatPrice(
   usdAmount: number,
@@ -1034,9 +1046,9 @@ export default function PregnancyYogaTTC() {
       </div> */}
       <div className={styles.chakraGlow} aria-hidden="true" />
 
-      {/* ══ HERO IMAGE ══ */}
+      {/* ══ HERO IMAGE with id="hero" for StickySectionNav ══ */}
       {pageData.heroImage && (
-        <section className={styles.heroSection}>
+        <section id="hero" className={styles.heroSection}>
           <img
             src={imgSrc(pageData.heroImage)}
             alt={pageData.heroImgAlt || "Prenatal Yoga"}
@@ -1050,10 +1062,13 @@ export default function PregnancyYogaTTC() {
       {/* ══ COURSE INFO CARD ══ */}
       <CourseInfoCard seats={batches} currency={currency} rate={rate} />
 
+      {/* ══ STICKY SECTION NAV — exactly like 300hr page ══ */}
+      <StickySectionNav items={NAV_ITEMS} triggerId="hero" />
+
       {/* ══════════════════════════════════════
           SECTION 1 — INTRO + HERO GRID IMAGES
       ══════════════════════════════════════ */}
-      <section className={`${styles.section} ${styles.sectionLight}`}>
+      <section id="intro" className={`${styles.section} ${styles.sectionLight}`}>
         <div className={`container px-3 px-md-4 ${styles.maxx}`}>
           {/* Page Title */}
           {pageData.pageTitleH1 && (
@@ -1140,7 +1155,7 @@ export default function PregnancyYogaTTC() {
       {/* ══════════════════════════════════════
           SECTION 2 — FEATURES + LOCATION + SCHEDULE
       ══════════════════════════════════════ */}
-      <section className={`${styles.section} ${styles.sectionWarm}`}>
+      <section id="features" className={`${styles.section} ${styles.sectionWarm}`}>
         <div className={`container px-3 px-md-4 ${styles.maxx}`}>
           {/* ── Features Header ── */}
           {pageData.featuresSectionTitle && (
@@ -1345,7 +1360,7 @@ export default function PregnancyYogaTTC() {
 
       {/* ── Costs Section ── */}
       {pageData.costsSectionTitle && (
-        <div className={styles.costsBlock}>
+        <section id="costs" className={styles.costsBlock}>
           <h2 className={styles.sectionTitle}>{pageData.costsSectionTitle}</h2>
           <div className={styles.titleUnderline} />
 
@@ -1362,215 +1377,223 @@ export default function PregnancyYogaTTC() {
               dangerouslySetInnerHTML={{ __html: para }}
             />
           ))}
-        </div>
+        </section>
       )}
 
       {/* ── Online Section ── */}
-    {/* ── Online Section ── */}
-{pageData.onlineSectionTitle && (
-  <div className={styles.s3Card}>
-    <div className={styles.s3CardAccent} />
-    <span className={styles.s3CardCorner}>✦</span>
+      {pageData.onlineSectionTitle && (
+        <section id="online" className={styles.s3Card}>
+          <div className={styles.s3CardAccent} />
+          <span className={styles.s3CardCorner}>✦</span>
 
-    <div className={styles.s3Header}>
-      <div className={styles.s3HeaderOrnament}>
-        <span className={styles.s3HeaderLine} />
-        <span className={styles.s3HeaderDot} />
-        <span className={styles.s3HeaderLine} />
-      </div>
-      <h2 className={styles.subSectionTitle}>
-        {pageData.onlineSectionTitle}
-      </h2>
-      <div className={styles.subUnderline} />
-      <p className={styles.s3HeaderSubtitle}>
-        Comprehensive Online Training for Aspiring Prenatal Yoga Teachers
-      </p>
-    </div>
-
-    {(pageData.onlinePara || pageData.onlineExtraParagraphs?.length > 0) && (
-      <div className={styles.s3Intro}>
-        {pageData.onlinePara && (
-          <div
-            className={styles.bodyPara}
-            dangerouslySetInnerHTML={{ __html: pageData.onlinePara }}
-          />
-        )}
-        {pageData.onlineExtraParagraphs?.map((para, i) => (
-          <div
-            key={i}
-            className={styles.bodyPara}
-            dangerouslySetInnerHTML={{ __html: para }}
-          />
-        ))}
-      </div>
-    )}
-
-    {/* Curriculum and Hours Summary - Side by Side */}
-    <div className={styles.s3TablesRow}>
-      {/* Curriculum Table */}
-      {pageData.curriculum?.length > 0 && (
-        <div className={styles.s3CurrWrap}>
-          <div className={styles.s3CurrHeader}>
-            <div className={styles.s3CurrHeaderIcon}>
-              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.6">
-                <path d="M4 6h12M4 10h12M4 14h7" />
-              </svg>
+          <div className={styles.s3Header}>
+            <div className={styles.s3HeaderOrnament}>
+              <span className={styles.s3HeaderLine} />
+              <span className={styles.s3HeaderDot} />
+              <span className={styles.s3HeaderLine} />
             </div>
-            <span>Curriculum Breakdown</span>
-            <div className={styles.s3CurrHeaderBadge}>
-              {pageData.curriculum.length} Modules
-            </div>
+            <h2 className={styles.subSectionTitle}>
+              {pageData.onlineSectionTitle}
+            </h2>
+            <div className={styles.subUnderline} />
+            <p className={styles.s3HeaderSubtitle}>
+              Comprehensive Online Training for Aspiring Prenatal Yoga Teachers
+            </p>
           </div>
-          <div className={styles.s3CurrList}>
-            {pageData.curriculum.map((item, idx) => (
-              <div key={item._id} className={styles.s3CurrItem}>
-                <div className={styles.s3CurrNum}>
-                  {String(idx + 1).padStart(2, "0")}
-                </div>
-                <div className={styles.s3CurrBody}>
-                  <span className={styles.s3CurrTitle}>{item.title}</span>
-                  <div className={styles.s3CurrBar}>
-                    <div
-                      className={styles.s3CurrBarFill}
-                      style={{
-                        width: `${Math.min(100, (parseInt(item.hours) / 50) * 100)}%`,
-                      }}
-                    />
+
+          {(pageData.onlinePara || pageData.onlineExtraParagraphs?.length > 0) && (
+            <div className={styles.s3Intro}>
+              {pageData.onlinePara && (
+                <div
+                  className={styles.bodyPara}
+                  dangerouslySetInnerHTML={{ __html: pageData.onlinePara }}
+                />
+              )}
+              {pageData.onlineExtraParagraphs?.map((para, i) => (
+                <div
+                  key={i}
+                  className={styles.bodyPara}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          )}
+
+          {/* Curriculum and Hours Summary - Side by Side */}
+          <div className={styles.s3TablesRow}>
+            {/* Curriculum Table */}
+            {pageData.curriculum?.length > 0 && (
+              <div className={styles.s3CurrWrap}>
+                <div className={styles.s3CurrHeader}>
+                  <div className={styles.s3CurrHeaderIcon}>
+                    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.6">
+                      <path d="M4 6h12M4 10h12M4 14h7" />
+                    </svg>
+                  </div>
+                  <span>Curriculum Breakdown</span>
+                  <div className={styles.s3CurrHeaderBadge}>
+                    {pageData.curriculum.length} Modules
                   </div>
                 </div>
-                <div className={styles.s3CurrHrs}>
-                  {item.hours}
-                  <span>hrs</span>
+                <div className={styles.s3CurrList}>
+                  {pageData.curriculum.map((item, idx) => (
+                    <div key={item._id} className={styles.s3CurrItem}>
+                      <div className={styles.s3CurrNum}>
+                        {String(idx + 1).padStart(2, "0")}
+                      </div>
+                      <div className={styles.s3CurrBody}>
+                        <span className={styles.s3CurrTitle}>{item.title}</span>
+                        <div className={styles.s3CurrBar}>
+                          <div
+                            className={styles.s3CurrBarFill}
+                            style={{
+                              width: `${Math.min(100, (parseInt(item.hours) / 50) * 100)}%`,
+                            }}
+                          />
+                        </div>
+                      </div>
+                      <div className={styles.s3CurrHrs}>
+                        {item.hours}
+                        <span>hrs</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <div className={styles.s3CurrFooter}>
+                  <span className={styles.s3CurrFooterIcon}>📖</span>
+                  <span>Total: {pageData.curriculum.reduce((sum, item) => sum + parseInt(item.hours), 0)} Hours</span>
                 </div>
               </div>
-            ))}
-          </div>
-          <div className={styles.s3CurrFooter}>
-            <span className={styles.s3CurrFooterIcon}>📖</span>
-            <span>Total: {pageData.curriculum.reduce((sum, item) => sum + parseInt(item.hours), 0)} Hours</span>
-          </div>
-        </div>
-      )}
+            )}
 
-      {/* Hours Summary Table */}
-      {pageData.hoursSummary?.length > 0 && (
-        <div className={styles.s3HoursWrap}>
-          <div className={styles.s3HoursHeader}>
-            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.6" className={styles.s3HoursHeaderIcon}>
-              <circle cx="10" cy="10" r="8" />
-              <path d="M10 6v4l2.5 2.5" />
-            </svg>
-            <span>Hours Summary</span>
-            <div className={styles.s3HoursHeaderBadge}>
-              {pageData.hoursSummary.reduce((sum, row) => sum + parseInt(row.value), 0)} hrs
-            </div>
-          </div>
-          <div className={styles.s3HoursTable}>
-            {pageData.hoursSummary.map((row, idx) => (
-              <div key={row._id} className={styles.s3HoursRow}>
-                <div className={styles.s3HoursLabelCell}>
-                  <span className={styles.s3HoursBullet} />
-                  <span className={styles.s3HoursLabel}>{row.label}</span>
+            {/* Hours Summary Table */}
+            {pageData.hoursSummary?.length > 0 && (
+              <div className={styles.s3HoursWrap}>
+                <div className={styles.s3HoursHeader}>
+                  <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.6" className={styles.s3HoursHeaderIcon}>
+                    <circle cx="10" cy="10" r="8" />
+                    <path d="M10 6v4l2.5 2.5" />
+                  </svg>
+                  <span>Hours Summary</span>
+                  <div className={styles.s3HoursHeaderBadge}>
+                    {pageData.hoursSummary.reduce((sum, row) => sum + parseInt(row.value), 0)} hrs
+                  </div>
                 </div>
-                <div className={styles.s3HoursProgress}>
-                  <div 
-                    className={styles.s3HoursProgressFill} 
-                    style={{ width: `${(parseInt(row.value) / 200) * 100}%` }}
-                  />
-                </div>
-                <div className={styles.s3HoursValue}>
-                  {row.value}
-                  <span>hrs</span>
+                <div className={styles.s3HoursTable}>
+                  {pageData.hoursSummary.map((row, idx) => (
+                    <div key={row._id} className={styles.s3HoursRow}>
+                      <div className={styles.s3HoursLabelCell}>
+                        <span className={styles.s3HoursBullet} />
+                        <span className={styles.s3HoursLabel}>{row.label}</span>
+                      </div>
+                      <div className={styles.s3HoursProgress}>
+                        <div 
+                          className={styles.s3HoursProgressFill} 
+                          style={{ width: `${(parseInt(row.value) / 200) * 100}%` }}
+                        />
+                      </div>
+                      <div className={styles.s3HoursValue}>
+                        {row.value}
+                        <span>hrs</span>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
-            ))}
+            )}
           </div>
-        </div>
+
+          {/* Highlights and Video Section */}
+          <div className={styles.s3BottomRow}>
+            {/* Highlights Card */}
+            <div className={styles.s3HighlightsWrap}>
+              <div className={styles.s3HighlightsHeader}>
+                <span className={styles.s3HighlightsHeaderIcon}>✨</span>
+                <span>What You Get Online</span>
+                <span className={styles.s3HighlightsHeaderIcon}>✨</span>
+              </div>
+              <div className={styles.s3HighlightsList}>
+                {[
+                  { icon: "🎥", text: "Recorded video lectures, lifetime access" },
+                  { icon: "📄", text: "Downloadable course materials & PDFs" },
+                  { icon: "🧘", text: "Live Q&A sessions with instructors" },
+                  { icon: "🏆", text: "Internationally recognised certificate" },
+                  { icon: "💬", text: "Private student community access" },
+                  { icon: "🔄", text: "Flexible, self-paced learning schedule" },
+                ].map((h, i) => (
+                  <div key={i} className={styles.s3HighlightItem}>
+                    <span className={styles.s3HighlightIcon}>{h.icon}</span>
+                    <span className={styles.s3HighlightText}>{h.text}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Video and Bonus */}
+            <div className={styles.s3RightCol}>
+              <div className={styles.s3VideoWrap}>
+                <iframe
+                  className={styles.s3Video}
+                  src="https://www.youtube.com/embed/videoseries?list=PLwwRib57Ak3D0GRQv3p01nHDpFMFVsMRd&mute=1"
+                  title="Online Prenatal Yoga Training"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+                <div className={styles.s3VideoOverlay}>
+                  <div className={styles.s3VideoPlayBtn}>
+                    <span>▶</span>
+                  </div>
+                  <span className={styles.s3VideoTag}>Course Preview</span>
+                </div>
+              </div>
+
+              <div className={styles.s3BonusCard}>
+                <div className={styles.s3BonusIcon}>🎁</div>
+                <div className={styles.s3BonusContent}>
+                  <div className={styles.s3BonusTitle}>Bonus Included</div>
+                  <div className={styles.s3BonusText}>Free access to prenatal yoga community & monthly workshops</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className={styles.s3Cta}>
+            <div className={styles.s3CtaLeft}>
+              <span className={styles.s3CtaLabel}>
+                Ready to begin your journey?
+              </span>
+              <span className={styles.s3CtaSub}>
+                Join our next online batch · Flexible schedule · Globally certified
+              </span>
+            </div>
+            <a href="#batch-section" className={styles.s3CtaBtn}>
+              Enrol Now
+              <svg viewBox="0 0 20 20" fill="none" className={styles.s3CtaBtnArrow}>
+                <path
+                  d="M4 10h12M11 5l5 5-5 5"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </a>
+          </div>
+        </section>
       )}
-    </div>
-
-    {/* Highlights and Video Section */}
-    <div className={styles.s3BottomRow}>
-      {/* Highlights Card */}
-      <div className={styles.s3HighlightsWrap}>
-        <div className={styles.s3HighlightsHeader}>
-          <span className={styles.s3HighlightsHeaderIcon}>✨</span>
-          <span>What You Get Online</span>
-          <span className={styles.s3HighlightsHeaderIcon}>✨</span>
-        </div>
-        <div className={styles.s3HighlightsList}>
-          {[
-            { icon: "🎥", text: "Recorded video lectures, lifetime access" },
-            { icon: "📄", text: "Downloadable course materials & PDFs" },
-            { icon: "🧘", text: "Live Q&A sessions with instructors" },
-            { icon: "🏆", text: "Internationally recognised certificate" },
-            { icon: "💬", text: "Private student community access" },
-            { icon: "🔄", text: "Flexible, self-paced learning schedule" },
-          ].map((h, i) => (
-            <div key={i} className={styles.s3HighlightItem}>
-              <span className={styles.s3HighlightIcon}>{h.icon}</span>
-              <span className={styles.s3HighlightText}>{h.text}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Video and Bonus */}
-      <div className={styles.s3RightCol}>
-        <div className={styles.s3VideoWrap}>
-          <iframe
-            className={styles.s3Video}
-            src="https://www.youtube.com/embed/videoseries?list=PLwwRib57Ak3D0GRQv3p01nHDpFMFVsMRd&mute=1"
-            title="Online Prenatal Yoga Training"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          />
-          <div className={styles.s3VideoOverlay}>
-            <div className={styles.s3VideoPlayBtn}>
-              <span>▶</span>
-            </div>
-            <span className={styles.s3VideoTag}>Course Preview</span>
-          </div>
-        </div>
-
-        <div className={styles.s3BonusCard}>
-          <div className={styles.s3BonusIcon}>🎁</div>
-          <div className={styles.s3BonusContent}>
-            <div className={styles.s3BonusTitle}>Bonus Included</div>
-            <div className={styles.s3BonusText}>Free access to prenatal yoga community & monthly workshops</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div className={styles.s3Cta}>
-      <div className={styles.s3CtaLeft}>
-        <span className={styles.s3CtaLabel}>
-          Ready to begin your journey?
-        </span>
-        <span className={styles.s3CtaSub}>
-          Join our next online batch · Flexible schedule · Globally certified
-        </span>
-      </div>
-      <a href="#batch-section" className={styles.s3CtaBtn}>
-        Enrol Now
-        <svg viewBox="0 0 20 20" fill="none" className={styles.s3CtaBtnArrow}>
-          <path
-            d="M4 10h12M11 5l5 5-5 5"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-      </a>
-    </div>
-  </div>
-)}
-      <PremiumGallerySection type="both" backgroundColor="warm" />
+      
+      <section id="gallery">
+        <PremiumGallerySection type="both" backgroundColor="warm" />
+      </section>
+      
       {/* ✅ REVIEWS — now a reusable separate component */}
-      <ReviewSection RatingsSummaryComponent={<RatingsSummarySection />} />
-      <HowToReach />
+      <section id="reviews">
+        <ReviewSection RatingsSummaryComponent={<RatingsSummarySection />} />
+      </section>
+      
+      <section id="location">
+        <HowToReach />
+      </section>
     </div>
   );
 }

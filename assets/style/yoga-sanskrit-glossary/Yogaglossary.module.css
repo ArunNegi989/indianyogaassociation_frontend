@@ -24,7 +24,7 @@
 
   --font-display:  'Montserrat', Arial, sans-serif;
   --font-body:     'Lato', Arial, sans-serif;
-  --font-fell:     'Playfair Display', Georgia, serif;
+  --font-fell:     'Montserrat', Arial, sans-serif;
   --font-script:   'Poppins', Arial, sans-serif;
 
   font-family:   var(--font-body);
@@ -332,7 +332,7 @@
 .glossarySection {
   position: relative;
   z-index: 1;
-  max-width: 1460px;
+  max-width: 1600px;
   margin: 0 auto;
   padding: clamp(2rem,4vw,3.5rem) clamp(1rem,5vw,3.5rem);
 }

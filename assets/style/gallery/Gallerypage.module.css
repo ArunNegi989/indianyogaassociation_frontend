@@ -42,7 +42,7 @@
    CONTAINER
 ────────────────────────────────────────── */
 .container {
-  max-width: 1460px;
+  max-width: 1580px;
   margin: 0 auto;
   padding: 0 clamp(1.2rem, 5vw, 3rem);
 }

@@ -1,5 +1,5 @@
 /* Yogaretreatpage.module.css */
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Dancing+Script:wght@600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Lato:wght@300;400;700;900&family=Poppins:wght@400;500;600;700&display=swap');
 
 /* ── Variables ── */
 .page {
@@ -14,7 +14,7 @@
   --ink-light: #7a5c2e;
   --border: #e8d5b5;
 
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', Arial, sans-serif;
   color: var(--ink);
   background: #fff;
   overflow-x: hidden;
@@ -22,9 +22,11 @@
   padding: 0;
 }
 
+
+
 /* ── Global Container (centered + max-width) ── */
 .container {
-  max-width: 1460px;
+  max-width: 1600px;
   margin: 0 auto;
   padding: 0 clamp(1.2rem, 5vw, 3rem);
 }
@@ -74,7 +76,7 @@
    SHARED TYPOGRAPHY
 ────────────────────────────────────────── */
 .pageTitle {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(1.1rem, 2.8vw, 1.75rem);
   font-weight: 700;
   color: var(--saffron);
@@ -86,7 +88,7 @@
 }
 
 .secTitle {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(1rem, 2.4vw, 1.55rem);
   font-weight: 700;
   color: var(--saffron);
@@ -114,7 +116,7 @@
 }
 
 .omSymbol {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 1.6rem;
   color: #F15505;
   line-height: 1;
@@ -122,7 +124,7 @@
 }
 
 .bodyPara {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: clamp(0.93rem, 1.65vw, 1.06rem);
   line-height: 1.9;
   color: var(--ink-mid);
@@ -164,7 +166,7 @@
   transform: translate(-50%, -50%);
   font-size: clamp(14rem, 28vw, 26rem);
   color: rgba(224, 123, 0, 0.035);
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   pointer-events: none;
   z-index: 0;
   line-height: 1;
@@ -213,7 +215,7 @@
 }
 
 .s1StatNum {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(1.1rem, 1.8vw, 1.45rem);
   font-weight: 700;
   color: var(--saffron);
@@ -221,7 +223,7 @@
 }
 
 .s1StatLbl {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: clamp(0.64rem, 0.95vw, 0.74rem);
   color: var(--ink-light);
   letter-spacing: 0.04em;
@@ -294,7 +296,7 @@
 }
 
 .s1PanelOm {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(1.3rem, 2.2vw, 1.8rem);
   color: var(--saffron);
   line-height: 1;
@@ -310,7 +312,7 @@
 }
 
 .s1PanelTag {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(0.7rem, 1.2vw, 0.92rem);
   font-weight: 600;
   color: #fff;
@@ -332,7 +334,7 @@
 }
 
 .s1ImgCaption span {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(0.54rem, 0.78vw, 0.62rem);
   letter-spacing: 0.14em;
   color: rgba(255, 255, 255, 0.7);
@@ -382,7 +384,7 @@
 }
 
 .scheduleIntro {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: clamp(0.92rem, 1.55vw, 1.05rem);
   line-height: 1.9;
   color: var(--ink-mid);
@@ -423,7 +425,7 @@
 }
 
 .cardHeadTitle {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(0.82rem, 1.4vw, 1rem);
   font-weight: 600;
   color: #fff;
@@ -433,7 +435,7 @@
 }
 
 .cardHeadSub {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: 0.72rem;
   color: rgba(255, 255, 255, 0.55);
   letter-spacing: 0.08em;
@@ -481,14 +483,14 @@
 }
 
 .pkgName {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: clamp(0.82rem, 1.3vw, 0.97rem);
   color: var(--ink-mid);
   line-height: 1.35;
 }
 
 .pkgPrice {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(0.72rem, 1.1vw, 0.84rem);
   font-weight: 600;
   color: var(--saffron);
@@ -520,7 +522,7 @@
 }
 
 .ovLabel {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(0.68rem, 1vw, 0.78rem);
   font-weight: 600;
   color: var(--ink);
@@ -530,7 +532,7 @@
 }
 
 .ovValue {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: clamp(0.84rem, 1.3vw, 0.97rem);
   color: var(--ink-mid);
   line-height: 1.45;
@@ -546,7 +548,7 @@
 
 .applyBtn {
   display: inline-block;
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.8rem;
   font-weight: 600;
   letter-spacing: 0.1em;
@@ -603,7 +605,7 @@
 .photoStrip {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  height: clamp(180px, 24vw, 300px);
+  height: clamp(180px, 24vw, 450px);
   width: 100%;
 }
 
@@ -639,7 +641,7 @@
   left: 0;
   right: 0;
   text-align: center;
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(0.6rem, 1vw, 0.72rem);
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -648,7 +650,7 @@
 }
 
 .s3Inner {
-  max-width: 1460px;
+  max-width: 1600px;
   margin: 0 auto;
   padding: clamp(2.8rem, 5vw, 4.5rem) clamp(1.2rem, 5vw, 3rem);
 }
@@ -685,20 +687,20 @@
 }
 
 .priceLabel {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: 0.85rem;
   color: var(--ink-light);
 }
 
 .priceVal {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(0.8rem, 1.3vw, 0.95rem);
   font-weight: 700;
   color: var(--saffron);
 }
 
 .priceNote {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: 0.82rem;
   color: var(--ink-light);
   margin: 0;
@@ -707,7 +709,7 @@
 /* ── SECTION 4 ── */
 .altSection {
   border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
+ 
   position: relative;
   overflow: hidden;
   background: #fff;
@@ -721,13 +723,13 @@
   transform: translate(-50%, -50%);
   font-size: clamp(10rem, 20vw, 18rem);
   color: rgba(241, 85, 5, 0.04);
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   pointer-events: none;
   line-height: 1;
 }
 
 .s4Inner {
-  max-width: 1460px;
+  max-width: 1600px;
   margin: 0 auto;
   padding: clamp(2.8rem, 5vw, 4.5rem) clamp(1.2rem, 5vw, 3rem);
   position: relative;
@@ -761,7 +763,7 @@
 }
 
 .s4DivText {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.65rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -797,7 +799,7 @@
 }
 
 .affordableCardHeadTitle {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(0.78rem, 1.3vw, 0.92rem);
   font-weight: 600;
   color: #fff;
@@ -806,7 +808,7 @@
 }
 
 .affordableCardHeadSub {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: 0.68rem;
   color: rgba(255, 255, 255, 0.5);
   letter-spacing: 0.08em;
@@ -844,7 +846,7 @@
 }
 
 .featText {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: clamp(0.82rem, 1.25vw, 0.95rem);
   color: var(--ink-mid);
   line-height: 1.4;
@@ -916,7 +918,7 @@
   transform: translate(-50%, -50%);
   font-size: clamp(10rem, 20vw, 18rem);
   color: rgba(241, 85, 5, 0.04);
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   pointer-events: none;
   line-height: 1;
   z-index: 0;
@@ -954,7 +956,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.8rem;
   font-weight: 600;
   letter-spacing: 0.1em;
@@ -983,7 +985,7 @@
   padding: 0.75rem 2rem;
   text-decoration: none;
   transition: transform 0.2s;
-  max-width: 160px;
+  
 }
 
 .paypalBtn:hover {
@@ -991,7 +993,7 @@
 }
 
 .paypalText {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 1rem;
   font-weight: 700;
   color: #003087;
@@ -1057,7 +1059,7 @@
 }
 
 .routeTitle {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(0.74rem, 1.2vw, 0.88rem);
   font-weight: 600;
   color: var(--ink);
@@ -1065,7 +1067,7 @@
 }
 
 .routeBadge {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.58rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -1078,7 +1080,7 @@
 }
 
 .routeBadgeDark {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.58rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -1091,7 +1093,7 @@
 }
 
 .routeBadgeMid {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.58rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -1104,7 +1106,7 @@
 }
 
 .routeDesc {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: clamp(0.82rem, 1.25vw, 0.94rem);
   color: var(--ink-mid);
   line-height: 1.65;
@@ -1179,4 +1181,212 @@
 .accomMain:hover .accomImg,
 .accomThumb:hover .accomImg {
   transform: scale(1.04);
+}
+
+/* ── CONTENT BOX STYLES (for section 3 and 4) ── */
+.contentBox {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 30px rgba(92, 45, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  height: 100%;
+}
+
+.contentBox:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(92, 45, 0, 0.12);
+}
+
+.contentBoxInner {
+  padding: clamp(1.5rem, 3vw, 2rem);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Optional: Add a subtle top accent bar to the box */
+.contentBox::before {
+  content: '';
+  display: block;
+  height: 3px;
+  background: linear-gradient(90deg, var(--saffron), var(--saffron-light), var(--saffron));
+  width: 100%;
+}
+
+/* Adjust the existing s3Grid for better box alignment */
+.s3Grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(1.5rem, 3vw, 2rem);
+  align-items: stretch;
+}
+
+/* Remove the previous border-right from contentBlock since we're using boxes now */
+.s3Grid .contentBlock:first-child {
+  border-right: none;
+  padding-right: 0;
+}
+
+/* For the altSection (section 4) to maintain consistency */
+.s4TopGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(1.5rem, 4vw, 3rem);
+  align-items: stretch;
+}
+
+/* Remove previous border styling */
+.s4TopGrid .contentBlock:first-child {
+  border-right: none;
+  padding-right: 0;
+}
+
+/* If you want to apply the same box style to section 4 content blocks */
+.altSection .contentBox {
+  /* Same styles as above - they'll inherit */
+}
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+  .s3Grid,
+  .s4TopGrid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .contentBoxInner {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 560px) {
+  .contentBoxInner {
+    padding: 1.2rem;
+  }
+}
+
+/* ── CONTENT BOX STYLES (for section 3 and 4) ── */
+.contentBox {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 30px rgba(92, 45, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  height: 100%;
+}
+
+.contentBox:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(92, 45, 0, 0.12);
+}
+
+.contentBoxInner {
+  padding: clamp(1.5rem, 3vw, 2rem);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Optional: Add a subtle top accent bar to the box */
+.contentBox::before {
+  content: '';
+  display: block;
+  height: 3px;
+  background: linear-gradient(90deg, var(--saffron), var(--saffron-light), var(--saffron));
+  width: 100%;
+}
+
+/* Adjust grid for better box alignment */
+.s3Grid,
+.s4TopGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(1.5rem, 3vw, 2rem);
+  align-items: stretch;
+}
+
+/* Remove previous border-right from contentBlock */
+.s3Grid .contentBlock:first-child,
+.s4TopGrid .contentBlock:first-child {
+  border-right: none;
+  padding-right: 0;
+}
+
+/* Style for the affordable card to match the box aesthetic */
+.affordableCard {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 30px rgba(92, 45, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.affordableCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(92, 45, 0, 0.12);
+}
+
+/* Update affordable card head to match box styling */
+.affordableCardHead {
+  background: #f15505;
+  padding: 1rem 1.3rem;
+  position: relative;
+}
+
+/* Add accent bar to affordable card */
+.affordableCard::before {
+  content: '';
+  display: block;
+  height: 3px;
+  background: linear-gradient(90deg, var(--saffron), var(--saffron-light), var(--saffron));
+  width: 100%;
+}
+
+/* Update affordable card body */
+.affordableCardBody {
+  padding: 0.3rem 0;
+}
+
+.affordableFeature {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1.2rem;
+  border-bottom: 1px solid #f3e8d6;
+  transition: background 0.15s;
+}
+
+.affordableFeature:last-child {
+  border-bottom: none;
+}
+
+.affordableFeature:hover {
+  background: #fff8f0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+  .s3Grid,
+  .s4TopGrid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .contentBoxInner {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 560px) {
+  .contentBoxInner {
+    padding: 1.2rem;
+  }
+  
+  .affordableCard {
+    margin-top: 0;
+  }
 }

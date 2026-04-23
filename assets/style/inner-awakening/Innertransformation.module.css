@@ -1,6 +1,6 @@
 /* InnerTransformation.module.css */
 
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Open+Sans:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Lato:wght@300;400;700;900&family=Poppins:wght@400;500;600;700&display=swap');
 
 :root {
   --orange: #e8600a;
@@ -20,10 +20,11 @@
    GLOBAL
 ==================================================== */
 .pageWrapper {
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Lato', sans-serif;
   background-image: url("../../images/1905x4451.png");
   color: var(--text-body);
   overflow-x: hidden;
+  max-width: 1600px;
 }
 
 /* ====================================================
@@ -79,13 +80,13 @@
 
 .heroSection1 {
   padding: 44px 32px 8px;
-  max-width: 1100px;
+  max-width: 1600px;
   margin: 0 auto;
   text-align: center;
 }
 
 .mainTitle {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(1.3rem, 3vw, 1.9rem);
   font-weight: 600;
   font-style: italic;
@@ -95,7 +96,7 @@
 }
 
 .subTitle {
-  font-family: 'Lora', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(1rem, 2.2vw, 1.35rem);
   font-weight: 500;
   color: var(--text-dark);
@@ -104,7 +105,7 @@
 }
 
 .whoTitle {
-  font-family: 'Lora', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(1rem, 2vw, 1.25rem);
   font-weight: 500;
   color: var(--text-dark);
@@ -157,7 +158,7 @@
 }
 
 .sectionTitle {
-  font-family: 'Lora', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(1rem, 2.2vw, 1.35rem);
   font-weight: 500;
   color: var(--text-dark);
@@ -193,7 +194,7 @@
 }
 
 .cardTitle {
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Lato', sans-serif;
   font-size: clamp(0.82rem, 1.4vw, 0.92rem);
   font-weight: 700;
   color: var(--white);
@@ -315,7 +316,7 @@
 }
 
 .infoCardOrangeTitle {
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Lato', sans-serif;
   font-size: clamp(0.8rem, 1.3vw, 0.88rem);
   font-weight: 700;
   color: var(--white);
@@ -350,7 +351,7 @@
 }
 
 .feeSectionTitle {
-  font-family: 'Lora', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(1rem, 2vw, 1.2rem);
   font-weight: 500;
   font-style: italic;
@@ -374,7 +375,7 @@
 }
 
 .ticketTitle {
-  font-family: 'Lora', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(1rem, 2.2vw, 1.3rem);
   font-weight: 500;
   color: var(--text-dark);
@@ -557,7 +558,7 @@
 }
 
 .sectionTitle {
-  font-family: 'Lora', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(1.2rem, 2.5vw, 1.6rem);
   font-weight: 600;
   color: var(--text-dark);
@@ -596,7 +597,7 @@
 }
 
 .quoteText {
-  font-family: 'Lora', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(1rem, 1.8vw, 1.2rem);
   font-style: italic;
   color: var(--text-dark);
@@ -658,7 +659,7 @@
 }
 
 .insightNumber {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 2rem;
   font-weight: 700;
   color: var(--orange);
@@ -668,7 +669,7 @@
 }
 
 .insightTitle {
-  font-family: 'Lora', serif;
+  font-family: 'Montserrat', serif;
   font-size: 1.1rem;
   font-weight: 600;
   color: var(--text-dark);
@@ -810,7 +811,7 @@
 }
 
 .heroContent {
-  max-width: 900px;
+  max-width: 1600px;
   margin: 0 auto;
 }
 
@@ -833,11 +834,11 @@
 
 /* Main Title */
 .mainTitle {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(1.5rem, 4vw, 2.2rem);
   font-weight: 700;
   font-style: italic;
-  color: var(--text-dark);
+  color: #f15505;
   margin-bottom: 16px;
   letter-spacing: 0.02em;
   line-height: 1.3;
@@ -858,7 +859,7 @@
 }
 
 .subTitle {
-  font-family: 'Lora', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(1rem, 2.2vw, 1.35rem);
   font-weight: 500;
   color: var(--text-dark);
@@ -884,7 +885,7 @@
 }
 
 .whoTitle {
-  font-family: 'Lora', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(1rem, 2vw, 1.25rem);
   font-weight: 600;
   color: var(--orange);
@@ -898,7 +899,7 @@
 }
 
 .dropCap {
-  font-family: 'Lora', serif;
+  font-family: 'Montserrat', serif;
   font-size: 3rem;
   font-weight: 600;
   color: var(--orange);
@@ -952,7 +953,7 @@
 .imageCaption span {
   color: white;
   font-size: 0.85rem;
-  font-family: 'Lora', serif;
+  font-family: 'Montserrat', serif;
   font-style: italic;
   letter-spacing: 0.5px;
 }
@@ -974,7 +975,7 @@
 
 .statValue {
   display: block;
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 1.3rem;
   font-weight: 700;
   color: var(--orange);
@@ -1130,7 +1131,7 @@
 }
 
 .whatContainer {
-  max-width: 1100px;
+  max-width: 1600px;
   margin: 0 auto;
   padding: 0 32px;
 }
@@ -1155,10 +1156,10 @@
 }
 
 .sectionTitle {
-  font-family: 'Lora', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(1.2rem, 2.5vw, 1.8rem);
   font-weight: 600;
-  color: var(--text-dark);
+  color: #f15505;
   text-align: center;
   margin-bottom: 16px;
   line-height: 1.3;
@@ -1167,7 +1168,7 @@
 .sectionUnderline {
   width: 60px;
   height: 2px;
-  background: var(--orange);
+  background: white;
   margin: 0 auto;
 }
 
@@ -1193,7 +1194,7 @@
 }
 
 .quoteText {
-  font-family: 'Lora', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(1rem, 1.8vw, 1.25rem);
   font-style: italic;
   color: var(--text-dark);
@@ -1249,7 +1250,7 @@
 }
 
 .insightNumber {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 2.2rem;
   font-weight: 700;
   color: var(--orange);
@@ -1259,7 +1260,7 @@
 }
 
 .insightTitle {
-  font-family: 'Lora', serif;
+  font-family: 'Montserrat', serif;
   font-size: 1.2rem;
   font-weight: 600;
   color: var(--text-dark);
@@ -1308,11 +1309,12 @@
   width: 100%;
   padding: 40px 0 60px;
   margin: 0;
-  background: #fafaf8;
+  background: white;
+  max-width: 1600px;
 }
 
 .scheduleContainer {
-  max-width: 1200px;
+  max-width: 1600px;
   margin: 0 auto;
   padding: 0 32px;
 }
@@ -1336,7 +1338,7 @@
 }
 
 .scheduleTitle {
-  font-family: 'Lora', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(1.2rem, 2.5vw, 1.8rem);
   font-weight: 600;
   color: var(--text-dark);
@@ -1420,7 +1422,7 @@
 }
 
 .cardTitleOrange {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 1rem;
   font-weight: 600;
   color: white;
@@ -1429,7 +1431,7 @@
 }
 
 .cardTitleGreen {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 1rem;
   font-weight: 600;
   color: white;
@@ -1646,7 +1648,7 @@
   width: 100%;
   padding: 60px 0;
   margin: 0;
-  background: linear-gradient(135deg, #fefaf5, #fff5eb);
+  background: white;
 }
 
 .galleryContainer {
@@ -1674,7 +1676,7 @@
 }
 
 .galleryTitle {
-  font-family: 'Lora', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(1.2rem, 2.5vw, 1.8rem);
   font-weight: 600;
   color: var(--text-dark);
@@ -1701,6 +1703,7 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 24px;
+  max-width: 1600px;
 }
 
 .triImageItem {
@@ -1742,7 +1745,7 @@
   color: white;
   font-size: 1rem;
   font-weight: 600;
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   margin-bottom: 6px;
 }
 
@@ -1772,6 +1775,7 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 32px;
+  max-width: 1600px;
 }
 
 /* Definition Card */
@@ -1798,7 +1802,7 @@
 }
 
 .definitionTitle {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 1.1rem;
   font-weight: 600;
   color: var(--orange);
@@ -1836,7 +1840,7 @@
 
 /* Participant Card */
 .participantCard {
-  background: linear-gradient(135deg, #2c1a08, #3d2510);
+  background: #f15505;
   border-radius: 20px;
   overflow: hidden;
   transition: all 0.3s ease;
@@ -1856,7 +1860,7 @@
 }
 
 .participantTitle {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 1.1rem;
   font-weight: 600;
   color: white;
@@ -1900,7 +1904,7 @@
   width: 100%;
   padding: 60px 0;
   margin: 0;
-  background: linear-gradient(135deg, #f8f8f8, #f0f0f0);
+  background: white;
 }
 
 .feeContainer {
@@ -1928,7 +1932,7 @@
 }
 
 .feeTitle {
-  font-family: 'Lora', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(1.2rem, 2.5vw, 1.8rem);
   font-weight: 600;
   color: var(--text-dark);
@@ -1944,7 +1948,7 @@
 }
 
 .feeContent {
-  max-width: 900px;
+  max-width: 1600px;
   margin: 0 auto;
 }
 

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Lato:ital,wght@0,300;0,400;0,700;1,400&family=Montserrat:wght@500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Lato:wght@300;400;700;900&family=Poppins:wght@400;500;600;700&display=swap');
 
 /* ── CSS Variables ── */
 :root {
@@ -18,7 +18,7 @@
   --sglow: rgba(224, 123, 0, .18);
   --font-display: 'Montserrat', Arial, sans-serif;
   --font-body: 'Lato', Arial, sans-serif;
-  --font-fell: 'Playfair Display', Georgia, serif;
+  --font-fell: 'Montserrat', Georgia, serif;
   --font-script: 'Poppins', Arial, sans-serif;
   --font-menu: 'Montserrat', Arial, sans-serif;
 }
@@ -27,7 +27,7 @@
    PAGE WRAPPER
 ──────────────────────────────────────── */
 .page {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   background: white;
   min-height: 100vh;
   position: relative;
@@ -151,7 +151,7 @@
 }
 
 .omGlyph {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(1.2rem, 2.5vw, 1.9rem);
   color: var(--s);
   filter: drop-shadow(0 2px 6px var(--sglow));
@@ -162,11 +162,11 @@
    TYPOGRAPHY HELPERS
 ──────────────────────────────────────── */
 .heroTitle {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(1rem, 2.4vw, 1.65rem);
   font-weight: 600;
   font-style: italic;
-  color: var(--bd);
+  color: #f15505;
   text-align: center;
   letter-spacing: .02em;
   margin-bottom: .4rem;
@@ -174,7 +174,7 @@
 }
 
 .sectionTitleCentered {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(.9rem, 1.9vw, 1.25rem);
   font-weight: 700;
   color: var(--bd);
@@ -192,7 +192,7 @@
 }
 
 .subHeadingCentered {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(.85rem, 1.7vw, 1.1rem);
   font-weight: 700;
   color: var(--bd);
@@ -234,7 +234,7 @@
 }
 
 .blockTitle {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(.85rem, 1.7vw, 1.12rem);
   font-weight: 700;
   color: var(--bd);
@@ -243,7 +243,7 @@
 }
 
 .blockTitleCentered {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(.85rem, 1.7vw, 1.15rem);
   font-weight: 700;
   color: var(--bd);
@@ -277,7 +277,7 @@
 }
 
 .blockSmallTitle {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(.9rem, 1.6vw, 1.1rem);
   font-weight: 600;
   font-style: italic;
@@ -345,7 +345,7 @@
   left: 10px;
   background: rgba(241, 85, 5, 0.9);
   color: #fff3d2;
-  font-family: "Montserrat", "Cinzel", sans-serif;
+  font-family: "Montserrat", "Montserrat", sans-serif;
   font-size: 0.62rem;
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -373,7 +373,7 @@
 }
 
 .imgPlaceholder span {
-  font-family: "Cinzel", serif;
+  font-family: "Montserrat", serif;
   font-size: 0.62rem;
   font-weight: 600;
   letter-spacing: 0.1em;
@@ -404,7 +404,7 @@
 }
 
 .statNum {
-  font-family: "Playfair Display", "Cormorant Garamond", Georgia, serif;
+  font-family: "Montserrat", "Lato", Georgia, serif;
   font-size: clamp(1.1rem, 2.2vw, 1.45rem);
   font-weight: 600;
   color: var(--s);
@@ -412,7 +412,7 @@
 }
 
 .statLabel {
-  font-family: "Cinzel", serif;
+  font-family: "Montserrat", serif;
   font-size: 0.6rem;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -436,7 +436,7 @@
   padding: 0.3rem 0.75rem;
   border: 1.5px solid var(--border);
   border-radius: 20px;
-  font-family: "Cinzel", serif;
+  font-family: "Montserrat", serif;
   font-size: 0.63rem;
   font-weight: 700;
   letter-spacing: 0.06em;
@@ -571,7 +571,7 @@
 }
 
 .indianFeeTitle {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(.9rem, 1.8vw, 1.2rem);
   font-weight: 600;
   color: var(--bd);
@@ -582,7 +582,7 @@
   border: 1.5px solid var(--border);
   border-radius: 4px;
   padding: .65rem .9rem;
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(.68rem, 1.1vw, .82rem);
   font-weight: 700;
   color: var(--bd);
@@ -649,7 +649,7 @@
    INCLUDED / NOT INCLUDED
 ──────────────────────────────────────── */
 .inclTitle {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(.8rem, 1.5vw, .97rem);
   font-weight: 700;
   color: var(--bd);
@@ -707,7 +707,7 @@
 }
 
 .fictionTitle {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(.83rem, 1.6vw, 1.05rem);
   font-weight: 700;
   color: var(--bd);
@@ -765,11 +765,11 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
 }
 
 .reviewName {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: .75rem;
   font-weight: 700;
   color: var(--bd);
@@ -792,7 +792,7 @@
   position: absolute;
   top: 0;
   right: 0;
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 1rem;
   font-weight: 700;
   color: #4285F4;
@@ -835,7 +835,7 @@
 }
 
 .infoBlockTitle {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(.8rem, 1.5vw, 1rem);
   font-weight: 700;
   color: var(--bd);
@@ -856,7 +856,7 @@
 ──────────────────────────────────────── */
 .btnPrimary {
   display: inline-block;
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: .78rem;
   font-weight: 700;
   letter-spacing: .08em;
@@ -970,7 +970,7 @@
 }
 
 .tab {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(0.62rem, 1.1vw, 0.76rem);
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -1014,7 +1014,7 @@
 .stateBox {
   padding: 2.5rem;
   text-align: center;
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: 1rem;
   color: var(--ink-soft);
   font-style: italic;
@@ -1039,7 +1039,7 @@
 }
 
 .table thead th {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.78rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -1069,7 +1069,7 @@
 
 .table tbody td {
   padding: 0.7rem 1rem;
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: clamp(0.88rem, 1.3vw, 0.97rem);
   text-align: center;
   vertical-align: middle;
@@ -1098,7 +1098,7 @@
 }
 
 .seatsAvailable {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.05em;
@@ -1112,7 +1112,7 @@
 }
 
 .fullyBooked {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.68rem;
   font-weight: 700;
   letter-spacing: 0.05em;
@@ -1126,7 +1126,7 @@
 }
 
 .applyLink {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -1143,7 +1143,7 @@
 }
 
 .applyDisabled {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -1155,7 +1155,7 @@
 }
 
 .note {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: 0.88rem;
   color: var(--ink-soft);
   font-style: italic;
@@ -1170,7 +1170,7 @@
 
 .joinBtn {
   display: inline-block;
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -1226,7 +1226,7 @@
 }
 
 .icHdrTxt {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.85rem;
   font-weight: 700;
   letter-spacing: 0.18em;
@@ -1284,7 +1284,7 @@
 }
 
 .icLbl {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.12em;
@@ -1294,7 +1294,7 @@
 }
 
 .icVal {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: clamp(0.88rem, 1.3vw, 1rem);
   font-weight: 600;
   color: var(--bd);
@@ -1302,7 +1302,7 @@
 }
 
 .icSub {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: 0.75rem;
   color: var(--muted);
   line-height: 1.3;
@@ -1333,7 +1333,7 @@
 }
 
 .icFeeLbl {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.8rem;
   font-weight: 700;
   letter-spacing: 0.14em;
@@ -1342,7 +1342,7 @@
 }
 
 .icFeeFrom {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: 0.85rem;
   color: var(--muted);
 }
@@ -1355,7 +1355,7 @@
 }
 
 .icPriceOld {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: 1.1rem;
   color: #a09080;
   text-decoration: line-through;
@@ -1364,7 +1364,7 @@
 }
 
 .icPriceNew {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: clamp(1.5rem, 3.5vw, 2rem);
   font-weight: 700;
   color: var(--bd);
@@ -1373,7 +1373,7 @@
 }
 
 .icPriceCur {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.7rem;
   font-weight: 700;
   color: var(--muted);
@@ -1388,7 +1388,7 @@
   width: 100%;
   background: linear-gradient(135deg, var(--s) 0%, #a85800 100%);
   color: #ffffff;
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.16em;
@@ -3780,7 +3780,7 @@
   border: 1px solid rgba(224, 123, 0, 0.2);
   border-radius: 8px;
   margin-bottom: 1.2rem;
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: 0.88rem;
   color: #7a5c2e;
   line-height: 1.5;
@@ -3825,7 +3825,7 @@
 }
 
 .imageUploadText {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.72rem;
   font-weight: 600;
   letter-spacing: 0.07em;
@@ -3834,7 +3834,7 @@
 }
 
 .imageUploadSub {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: 0.8rem;
   color: rgba(160, 120, 64, 0.6);
   font-style: italic;
@@ -3928,10 +3928,10 @@
 }
 
 .saTitle {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(0.88rem, 1.8vw, 1.15rem);
   font-weight: 700;
-  color: var(--bd);
+  color: #f15505;
   letter-spacing: 0.03em;
   text-align: center;
   margin-bottom: 0.35rem;
@@ -4019,7 +4019,7 @@
   left: 10px;
   background: rgba(241, 85, 5, 0.9);
   color: #fff3d2;
-  font-family: 'Montserrat', 'Cinzel', sans-serif;
+  font-family: 'Montserrat', 'Montserrat', sans-serif;
   font-size: 0.62rem;
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -4048,7 +4048,7 @@
 }
  
 .imgPlaceholder span {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.62rem;
   font-weight: 600;
   letter-spacing: 0.1em;
@@ -4079,7 +4079,7 @@
 }
  
 .statNum {
-  font-family: 'Playfair Display', 'Cormorant Garamond', Georgia, serif;
+  font-family: 'Montserrat', 'Lato', Georgia, serif;
   font-size: clamp(1.1rem, 2.2vw, 1.45rem);
   font-weight: 600;
   color: var(--s);
@@ -4087,7 +4087,7 @@
 }
  
 .statLabel {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.6rem;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -4113,7 +4113,7 @@
   padding: 0.3rem 0.75rem;
   border: 1.5px solid var(--border);
   border-radius: 20px;
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.63rem;
   font-weight: 700;
   letter-spacing: 0.06em;
@@ -4223,11 +4223,11 @@
 }
 
 .indianFeeTitle {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(1rem, 2vw, 1.3rem);
   font-weight: 600;
   font-style: italic;
-  color: var(--bd);
+  color: #f15505;
   margin-bottom: 0.35rem;
 }
 
@@ -4288,7 +4288,7 @@
 }
 
 .feeChipType {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(0.62rem, 1vw, 0.75rem);
   font-weight: 700;
   letter-spacing: 0.06em;
@@ -4298,7 +4298,7 @@
 }
 
 .feeChipPrice {
-  font-family: 'Playfair Display', 'Cormorant Garamond', serif;
+  font-family: 'Montserrat', 'Lato', serif;
   font-size: clamp(0.88rem, 1.5vw, 1.05rem);
   font-weight: 600;
   color: var(--s);
@@ -4364,10 +4364,10 @@
 }
 
 .credDurTitle {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(0.82rem, 1.5vw, 1.05rem);
   font-weight: 700;
-  color: var(--bd);
+  color: #f15505;
   letter-spacing: 0.03em;
   margin-bottom: 0.3rem;
   line-height: 1.35;
@@ -4514,7 +4514,7 @@
   
   .videoBadge {
     display: inline-block;
-    font-family: 'Cinzel', serif;
+    font-family: 'Montserrat', serif;
     font-size: 0.6rem;
     font-weight: 700;
     letter-spacing: 0.15em;
@@ -4528,7 +4528,7 @@
   }
   
   .videoTitle {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: 'Montserrat', serif;
     font-size: clamp(0.9rem, 1.6vw, 1.1rem);
     font-weight: 600;
     font-style: italic;
@@ -4566,7 +4566,7 @@
   }
   
   .videoPlayIcon span {
-    font-family: 'Cinzel', serif;
+    font-family: 'Montserrat', serif;
     font-size: 0.65rem;
     font-weight: 700;
     letter-spacing: 0.08em;
@@ -4715,7 +4715,7 @@
     font-size: 7rem;
     color: var(--s);
     opacity: 0.04;
-    font-family: 'Cinzel', serif;
+    font-family: 'Montserrat', serif;
     pointer-events: none;
     line-height: 1;
     user-select: none;
@@ -4756,10 +4756,10 @@
   }
   
   .syllabusMH2 {
-    font-family: 'Cinzel', serif;
+    font-family: 'Montserrat', serif;
     font-size: clamp(0.9rem, 1.8vw, 1.2rem);
     font-weight: 700;
-    color: var(--bd);
+    color: #f15505;
     letter-spacing: 0.04em;
     margin-bottom: 0.3rem;
     line-height: 1.3;
@@ -4834,7 +4834,7 @@
   
   /* Number badge */
   .syllabusMCardNum {
-    font-family: 'Playfair Display', 'Cormorant Garamond', serif;
+    font-family: 'Montserrat', 'Lato', serif;
     font-size: 1.5rem;
     font-weight: 700;
     color: var(--s);
@@ -4856,12 +4856,12 @@
   }
   
   .syllabusMCardLabel {
-    font-family: 'Cinzel', serif;
+    font-family: 'Montserrat', serif;
     font-size: clamp(0.68rem, 1.1vw, 0.8rem);
     font-weight: 700;
     letter-spacing: 0.06em;
     text-transform: uppercase;
-    color: var(--bd);
+    color: #f15505;
     margin-bottom: 0.25rem;
     line-height: 1.3;
   }
@@ -4987,10 +4987,10 @@
 }
 
 .eligibilityCardTitle {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(0.8rem, 1.5vw, 1rem);
   font-weight: 700;
-  color: var(--bd);
+  color: #f15505;
   letter-spacing: 0.03em;
   margin-bottom: 0.3rem;
   line-height: 1.35;
@@ -5143,7 +5143,7 @@
 }
 
 .letYourSoul {
-  font-family: var(--font-display, 'Playfair Display', Georgia, serif);
+  font-family: var(--font-display, 'Montserrat', Georgia, serif);
   font-size: clamp(1.4rem, 4vw, 2.6rem);
   font-weight: 500;
   color: rgba(255, 240, 210, 0.95);
@@ -5538,7 +5538,7 @@
 .fictionTitle {
   font-family: var(--font-display, 'Montserrat', Arial, sans-serif);
   font-size: clamp(1.2rem, 2.2vw, 1.6rem);
-  color: #2c1a08;
+  color: #f15505;
   margin: 0 0 0.5rem 0;
   letter-spacing: 0.02em;
 }
@@ -5689,7 +5689,7 @@
 }
 
 .fictionDividerIcon {
-  font-family: var(--font-fell, 'Playfair Display', Georgia, serif);
+  font-family: var(--font-fell, 'Montserrat', Georgia, serif);
   font-size: 0.9rem;
   color: #b8860b;
 }
@@ -5883,7 +5883,7 @@
     pointer-events: none;
     line-height: 1;
     user-select: none;
-    font-family: 'Cinzel', serif;
+    font-family: 'Montserrat', serif;
   }
   
   /* ── Header ── */
@@ -5909,7 +5909,7 @@
   }
   
   .fictionV2OrnGlyph {
-    font-family: 'Cinzel', serif;
+    font-family: 'Montserrat', serif;
     font-size: 1.1rem;
     color: var(--s);
     opacity: 0.7;
@@ -5917,7 +5917,7 @@
   }
   
   .fictionV2Title {
-    font-family: 'Cinzel', serif;
+    font-family: 'Montserrat', serif;
     font-size: clamp(0.95rem, 2vw, 1.25rem);
     font-weight: 700;
     color: var(--bd);
@@ -5980,7 +5980,7 @@
     position: absolute;
     top: 0.6rem;
     right: 0.9rem;
-    font-family: 'Playfair Display', serif;
+    font-family: 'Montserrat', serif;
     font-size: 1.4rem;
     font-weight: 700;
     color: var(--s);
@@ -6003,7 +6003,7 @@
     border-radius: 20px;
     padding: 0.15rem 0.6rem;
     margin-bottom: 0.45rem;
-    font-family: 'Cinzel', serif;
+    font-family: 'Montserrat', serif;
     font-size: 0.62rem;
     font-weight: 700;
     letter-spacing: 0.1em;
@@ -6060,7 +6060,7 @@
     border-radius: 20px;
     padding: 0.15rem 0.6rem;
     margin-bottom: 0.45rem;
-    font-family: 'Cinzel', serif;
+    font-family: 'Montserrat', serif;
     font-size: 0.62rem;
     font-weight: 700;
     letter-spacing: 0.1em;
@@ -6125,4 +6125,3 @@
       transform: none;
     }
   }
-  

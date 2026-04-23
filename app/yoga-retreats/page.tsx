@@ -251,209 +251,216 @@ export default function YogaRetreatPage() {
 
       {/* section 3 */}
       <section className={styles.photoSection}>
-        <div className={styles.photoStrip}>
-          <div className={styles.stripCell}>
-            <img
-              src={IMAGES.strip1}
-              alt="Yoga by the river Rishikesh"
-              className={styles.stripImg}
-            />
-            <span className={styles.stripLabel}>Morning Practice</span>
-          </div>
-          <div className={styles.stripCell}>
-            <img
-              src={IMAGES.strip2}
-              alt="Meditation Rishikesh"
-              className={styles.stripImg}
-            />
-            <span className={styles.stripLabel}>Meditation</span>
-          </div>
-          <div className={styles.stripCell}>
-            <img
-              src={IMAGES.strip3}
-              alt="Yoga in nature Rishikesh"
-              className={styles.stripImg}
-            />
-            <span className={styles.stripLabel}>Nature &amp; Healing</span>
-          </div>
-        </div>
+  <div className={styles.photoStrip}>
+    <div className={styles.stripCell}>
+      <img
+        src={IMAGES.strip1}
+        alt="Yoga by the river Rishikesh"
+        className={styles.stripImg}
+      />
+      <span className={styles.stripLabel}>Morning Practice</span>
+    </div>
+    <div className={styles.stripCell}>
+      <img
+        src={IMAGES.strip2}
+        alt="Meditation Rishikesh"
+        className={styles.stripImg}
+      />
+      <span className={styles.stripLabel}>Meditation</span>
+    </div>
+    <div className={styles.stripCell}>
+      <img
+        src={IMAGES.strip3}
+        alt="Yoga in nature Rishikesh"
+        className={styles.stripImg}
+      />
+      <span className={styles.stripLabel}>Nature &amp; Healing</span>
+    </div>
+  </div>
 
-        <div className={styles.s3Inner}>
-          <div className={styles.s3Grid}>
-            {/* Block 1 */}
-            <div className={styles.contentBlock}>
-              <h2 className={styles.secTitle}>
-                3 to 7 Days Yoga Retreat in Rishikesh
-              </h2>
-              <OmDivider />
-              <p className={styles.bodyPara}>
-                One of our shortest <strong>yoga and meditation Rishikesh</strong>{" "}
-                programs. Take a small break from your busy work life and
-                rejuvenate your body, mind, and soul. Join us every month and
-                attend morning yoga classes focused on meditation,
-                detoxification, and Ashtanga yoga. Hatha yoga and mantra
-                chanting sessions for healing and peace continue in the evening.
-              </p>
-              <div className={styles.pricePill}>
-                <span className={styles.priceLabel}>From</span>
-                <span className={styles.priceVal}>25 USD / ₹2,000 per day</span>
-              </div>
-              <p className={styles.priceNote}>Food &amp; accommodation included.</p>
-            </div>
-
-            {/* Block 2 */}
-            <div className={styles.contentBlock}>
-              <h2 className={styles.secTitle}>
-                3 to 7 Days Yoga &amp; Ayurveda Retreat in Rishikesh
-              </h2>
-              <OmDivider />
-              <p className={styles.bodyPara}>
-                Integrate your yoga practice with the ancient science of
-                Ayurveda. AYM offers{" "}
-                <strong>Yoga and Ayurveda detox retreats in Rishikesh</strong>,
-                promising total well-being. We follow the panchakarma process —
-                a five-step detox routine — to eliminate bodily toxins. A
-                combination of yoga and Ayurveda gives profound relief to body,
-                mind, and soul.
-              </p>
-              <p className={styles.bodyPara}>
-                The schedule includes three yoga classes and one Ayurvedic
-                treatment daily.
-              </p>
-              <div className={styles.pricePill}>
-                <span className={styles.priceLabel}>From</span>
-                <span className={styles.priceVal}>35 USD / ₹3,000 per day</span>
-              </div>
-              <p className={styles.priceNote}>Food &amp; accommodation included.</p>
-            </div>
+  <div className={styles.s3Inner}>
+    <div className={styles.s3Grid}>
+      {/* Block 1 */}
+      <div className={styles.contentBox}>
+        <div className={styles.contentBoxInner}>
+          <h2 className={styles.secTitle}>
+            3 to 7 Days Yoga Retreat in Rishikesh
+          </h2>
+          <OmDivider />
+          <p className={styles.bodyPara}>
+            One of our shortest <strong>yoga and meditation Rishikesh</strong>{" "}
+            programs. Take a small break from your busy work life and
+            rejuvenate your body, mind, and soul. Join us every month and
+            attend morning yoga classes focused on meditation,
+            detoxification, and Ashtanga yoga. Hatha yoga and mantra
+            chanting sessions for healing and peace continue in the evening.
+          </p>
+          <div className={styles.pricePill}>
+            <span className={styles.priceLabel}>From</span>
+            <span className={styles.priceVal}>25 USD / ₹2,000 per day</span>
           </div>
+          <p className={styles.priceNote}>Food &amp; accommodation included.</p>
         </div>
-      </section>
+      </div>
+
+      {/* Block 2 */}
+      <div className={styles.contentBox}>
+        <div className={styles.contentBoxInner}>
+          <h2 className={styles.secTitle}>
+            3 to 7 Days Yoga &amp; Ayurveda Retreat in Rishikesh
+          </h2>
+          <OmDivider />
+          <p className={styles.bodyPara}>
+            Integrate your yoga practice with the ancient science of
+            Ayurveda. AYM offers{" "}
+            <strong>Yoga and Ayurveda detox retreats in Rishikesh</strong>,
+            promising total well-being. We follow the panchakarma process —
+            a five-step detox routine — to eliminate bodily toxins. A
+            combination of yoga and Ayurveda gives profound relief to body,
+            mind, and soul.
+          </p>
+          <p className={styles.bodyPara}>
+            The schedule includes three yoga classes and one Ayurvedic
+            treatment daily.
+          </p>
+          <div className={styles.pricePill}>
+            <span className={styles.priceLabel}>From</span>
+            <span className={styles.priceVal}>35 USD / ₹3,000 per day</span>
+          </div>
+          <p className={styles.priceNote}>Food &amp; accommodation included.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
       {/* SECTION 4 */}
       <section className={styles.altSection}>
-        <div className={styles.s4Inner}>
-          <div className={styles.s4TopGrid}>
-            {/* Block 1 */}
-            <div className={styles.contentBlock}>
-              <h2 className={styles.secTitle}>7 to 14 Days Yoga Retreats India</h2>
-              <OmDivider />
-              <p className={styles.bodyPara}>
-                Experience a transformative journey in the serene Tapovan area
-                of Rishikesh. At AYM, we offer 7 to 14-day immersive yoga
-                retreats that empower you to continue your personal practice
-                after you leave. Our experienced teachers guide you through each
-                technique with clarity and depth, ensuring a solid foundation.
-              </p>
-              <p className={styles.bodyPara}>
-                Three classes are held daily along with early morning
-                meditation. Ashtanga and Hatha yoga classes are scheduled in the
-                evenings.
-              </p>
-              <div className={styles.pricePill}>
-                <span className={styles.priceLabel}>From</span>
-                <span className={styles.priceVal}>
-                  175–350 USD / ₹14,000–28,000
-                </span>
-              </div>
-              <p className={styles.priceNote}>
-                Private accommodation &amp; meals included.
-              </p>
-            </div>
-
-            {/* Block 2 */}
-            <div className={styles.contentBlock}>
-              <h2 className={styles.secTitle}>
-                7 to 14 Day Yoga &amp; Ayurveda Retreats in Rishikesh
-              </h2>
-              <OmDivider />
-              <p className={styles.bodyPara}>
-                Dive into a holistic approach to healthy living with our{" "}
-                <strong>Rishikesh yoga courses</strong>, which also cover
-                Ayurvedic detoxification. Learn yoga, meditation, proper
-                nutrition, and a healthy lifestyle in two weeks. The{" "}
-                <strong>Ayurveda retreats in Rishikesh</strong> are ideal for
-                those with extended breaks who wish to devote time to deep
-                cleansing.
-              </p>
-              <p className={styles.bodyPara}>
-                The schedule begins early morning with three yoga classes and
-                two hours of Ayurveda treatment daily.
-              </p>
-              <div className={styles.pricePill}>
-                <span className={styles.priceLabel}>From</span>
-                <span className={styles.priceVal}>
-                  245–490 USD / ₹21,000–42,000
-                </span>
-              </div>
-              <p className={styles.priceNote}>
-                Private accommodation &amp; meals included.
-              </p>
-            </div>
+  <div className={styles.s4Inner}>
+    <div className={styles.s4TopGrid}>
+      {/* Block 1 */}
+      <div className={styles.contentBox}>
+        <div className={styles.contentBoxInner}>
+          <h2 className={styles.secTitle}>7 to 14 Days Yoga Retreats India</h2>
+          <OmDivider />
+          <p className={styles.bodyPara}>
+            Experience a transformative journey in the serene Tapovan area
+            of Rishikesh. At AYM, we offer 7 to 14-day immersive yoga
+            retreats that empower you to continue your personal practice
+            after you leave. Our experienced teachers guide you through each
+            technique with clarity and depth, ensuring a solid foundation.
+          </p>
+          <p className={styles.bodyPara}>
+            Three classes are held daily along with early morning
+            meditation. Ashtanga and Hatha yoga classes are scheduled in the
+            evenings.
+          </p>
+          <div className={styles.pricePill}>
+            <span className={styles.priceLabel}>From</span>
+            <span className={styles.priceVal}>
+              175–350 USD / ₹14,000–28,000
+            </span>
           </div>
-
-          <div className={styles.s4Divider}>
-            <span className={styles.s4DivLine} />
-            <span className={styles.s4DivText}>Why Choose AYM</span>
-            <span className={styles.s4DivLine} />
-          </div>
-
-          {/* Affordable block */}
-          <div className={styles.affordableWrap}>
-            <div className={styles.affordableText}>
-              <h2
-                className={styles.secTitle}
-                style={{ textAlign: "left" }}
-              >
-                Affordable Yoga Retreats in Rishikesh
-              </h2>
-              <OmDivider />
-              <p className={styles.bodyPara}>
-                AYM is among the best places to learn yoga. Whether you're
-                seeking a <strong>yoga retreat for beginners</strong> or
-                looking to pursue yoga professionally, our centre offers some of
-                the{" "}
-                <strong>most affordable yoga retreats in India.</strong>
-              </p>
-              <p className={styles.bodyPara}>
-                Apart from our qualified instructors and constant curriculum
-                updates, we offer nourishing vegan and vegetarian meals. Our
-                large grounds comprise beautiful gardens, a spacious yoga hall,
-                and excellent facilities for a serene stay.
-              </p>
-              <p className={styles.bodyPara}>
-                Located in the Tapovan area, you can also head out for quick
-                sightseeing and marvel at the stunning Himalayan surroundings.
-              </p>
-            </div>
-
-            <div className={styles.affordableCard}>
-              <div className={styles.affordableCardHead}>
-                <p className={styles.affordableCardHeadTitle}>
-                  What Makes AYM Special
-                </p>
-                <p className={styles.affordableCardHeadSub}>Our Highlights</p>
-              </div>
-              <div className={styles.affordableCardBody}>
-                {[
-                  "Highly qualified & experienced teachers",
-                  "Nourishing vegan & vegetarian meals",
-                  "Beautiful gardens & spacious yoga hall",
-                  "Private accommodation included",
-                  "Located in scenic Tapovan, Rishikesh",
-                  "Beginner to advanced levels welcome",
-                ].map((f) => (
-                  <div key={f} className={styles.affordableFeature}>
-                    <div className={styles.featDot} />
-                    <span className={styles.featText}>{f}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
+          <p className={styles.priceNote}>
+            Private accommodation &amp; meals included.
+          </p>
         </div>
-      </section>
+      </div>
 
+      {/* Block 2 */}
+      <div className={styles.contentBox}>
+        <div className={styles.contentBoxInner}>
+          <h2 className={styles.secTitle}>
+            7 to 14 Day Yoga &amp; Ayurveda Retreats in Rishikesh
+          </h2>
+          <OmDivider />
+          <p className={styles.bodyPara}>
+            Dive into a holistic approach to healthy living with our{" "}
+            <strong>Rishikesh yoga courses</strong>, which also cover
+            Ayurvedic detoxification. Learn yoga, meditation, proper
+            nutrition, and a healthy lifestyle in two weeks. The{" "}
+            <strong>Ayurveda retreats in Rishikesh</strong> are ideal for
+            those with extended breaks who wish to devote time to deep
+            cleansing.
+          </p>
+          <p className={styles.bodyPara}>
+            The schedule begins early morning with three yoga classes and
+            two hours of Ayurveda treatment daily.
+          </p>
+          <div className={styles.pricePill}>
+            <span className={styles.priceLabel}>From</span>
+            <span className={styles.priceVal}>
+              245–490 USD / ₹21,000–42,000
+            </span>
+          </div>
+          <p className={styles.priceNote}>
+            Private accommodation &amp; meals included.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div className={styles.s4Divider}>
+      <span className={styles.s4DivLine} />
+      <span className={styles.s4DivText}>Why Choose AYM</span>
+      <span className={styles.s4DivLine} />
+    </div>
+
+    {/* Affordable block */}
+    <div className={styles.affordableWrap}>
+      <div className={styles.affordableText}>
+        <h2
+          className={styles.secTitle}
+          style={{ textAlign: "left" }}
+        >
+          Affordable Yoga Retreats in Rishikesh
+        </h2>
+        <OmDivider />
+        <p className={styles.bodyPara}>
+          AYM is among the best places to learn yoga. Whether you're
+          seeking a <strong>yoga retreat for beginners</strong> or
+          looking to pursue yoga professionally, our centre offers some of
+          the{" "}
+          <strong>most affordable yoga retreats in India.</strong>
+        </p>
+        <p className={styles.bodyPara}>
+          Apart from our qualified instructors and constant curriculum
+          updates, we offer nourishing vegan and vegetarian meals. Our
+          large grounds comprise beautiful gardens, a spacious yoga hall,
+          and excellent facilities for a serene stay.
+        </p>
+        <p className={styles.bodyPara}>
+          Located in the Tapovan area, you can also head out for quick
+          sightseeing and marvel at the stunning Himalayan surroundings.
+        </p>
+      </div>
+
+      <div className={styles.affordableCard}>
+        <div className={styles.affordableCardHead}>
+          <p className={styles.affordableCardHeadTitle}>
+            What Makes AYM Special
+          </p>
+          <p className={styles.affordableCardHeadSub}>Our Highlights</p>
+        </div>
+        <div className={styles.affordableCardBody}>
+          {[
+            "Highly qualified & experienced teachers",
+            "Nourishing vegan & vegetarian meals",
+            "Beautiful gardens & spacious yoga hall",
+            "Private accommodation included",
+            "Located in scenic Tapovan, Rishikesh",
+            "Beginner to advanced levels welcome",
+          ].map((f) => (
+            <div key={f} className={styles.affordableFeature}>
+              <div className={styles.featDot} />
+              <span className={styles.featText}>{f}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
       <PremiumGallerySection type="both" backgroundColor="warm" />
 
       {/* section 6 */}

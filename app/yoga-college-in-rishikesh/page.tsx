@@ -8,6 +8,7 @@ import image2 from "@/assets/images/400-hour-yoga-program-ayush-ministry-28-days
 import image3 from "@/assets/images/800-hour-yoga.jpg";
 import HowToReach from "@/components/home/Howtoreach";
 import heroImg from "@/assets/images/31.webp";
+import Link from "next/link";
 
 /* ══════════════════════════════════════
    PLACEHOLDER IMAGES & VIDEOS
@@ -416,23 +417,6 @@ function VintageHeading({
       style={{ textAlign: center ? "center" : "left" }}
     >
       <h2 className={styles.vintageHeading}>{children}</h2>
-      <div className={styles.vintageHeadingUnderline}>
-        <svg
-          viewBox="0 0 200 8"
-          xmlns="http://www.w3.org/2000/svg"
-          className={styles.headingUndSvg}
-        >
-          <path
-            d="M0,4 Q50,0 100,4 Q150,8 200,4"
-            stroke="#F15505"
-            strokeWidth="1.2"
-            fill="none"
-          />
-          <circle cx="100" cy="4" r="3" fill="#F15505" opacity="0.7" />
-          <circle cx="10" cy="4" r="1.5" fill="#b8860b" opacity="0.5" />
-          <circle cx="190" cy="4" r="1.5" fill="#b8860b" opacity="0.5" />
-        </svg>
-      </div>
     </div>
   );
 }
@@ -775,15 +759,15 @@ function CourseCard({
             </div>
           ))}
         </div>
-        <a
-          href="#"
+        <Link
+          href="/yoga-registration"
           className={styles.bookSpotBtn}
           style={{
-            background: `linear-gradient(135deg, ${course.color}, #a85800)`,
+            background: `linear-gradient(135deg, ${course.color}, #f15505)`,
           }}
         >
           Book Your Spot →
-        </a>
+        </Link>
       </div>
     </div>
   );

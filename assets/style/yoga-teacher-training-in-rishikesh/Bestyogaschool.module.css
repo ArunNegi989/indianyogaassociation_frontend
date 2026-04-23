@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Dancing+Script:wght@500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Lato:wght@300;400;700;900&family=Poppins:wght@400;500;600;700;800&display=swap');
 
 /* ── CSS VARIABLES ── */
 :root {
@@ -43,7 +43,7 @@
 }
 
 .page {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   background: linear-gradient(160deg, var(--parch-lt) 0%, var(--parch) 55%, var(--parch-dk) 100%);
   min-height: 100vh;
   position: relative;
@@ -182,7 +182,7 @@
 }
 
 .omGlyph {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(1.3rem, 2.8vw, 2rem);
   color: var(--saffron);
   text-shadow: 0 0 18px var(--glow), 0 0 36px var(--glow-gold);
@@ -194,7 +194,7 @@
    TYPOGRAPHY
 ──────────────────────────────────────── */
 .heroTitle {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(1rem, 2.4vw, 1.6rem);
   font-weight: 700;
   color: var(--saffron);
@@ -243,7 +243,7 @@
 }
 
 .accrEyebrow {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(.52rem, .85vw, .62rem);
   font-weight: 700;
   letter-spacing: .22em;
@@ -253,7 +253,7 @@
 }
 
 .accrTitle {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(.9rem, 1.9vw, 1.2rem);
   font-weight: 700;
   color: var(--saffron);
@@ -263,7 +263,7 @@
 }
 
 .accrTagline {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-style: italic;
   font-size: clamp(.8rem, 1.2vw, .9rem);
   color: var(--ink-lt);
@@ -320,7 +320,7 @@
   right: 10px;
   background: linear-gradient(135deg, var(--saffron), var(--saffron-dk));
   color: #fff;
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(.58rem, .95vw, .72rem);
   font-weight: 700;
   letter-spacing: .06em;
@@ -335,7 +335,7 @@
   left: 0;
   right: 0;
   text-align: center;
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(.48rem, .8vw, .58rem);
   font-weight: 600;
   letter-spacing: .14em;
@@ -370,7 +370,7 @@
 }
 
 .certLabel {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(.6rem, .9vw, .7rem);
   font-weight: 600;
   color: var(--ink-md);
@@ -431,7 +431,7 @@
 }
 
 .icHdrTxt {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.85rem;
   font-weight: 700;
   letter-spacing: 0.18em;
@@ -489,7 +489,7 @@
 }
 
 .icLbl {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.12em;
@@ -499,7 +499,7 @@
 }
 
 .icVal {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: clamp(0.88rem, 1.3vw, 1rem);
   font-weight: 600;
   color: var(--ink);
@@ -507,7 +507,7 @@
 }
 
 .icSub {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: 0.75rem;
   color: var(--ink-lt);
   line-height: 1.3;
@@ -538,7 +538,7 @@
 }
 
 .icFeeLbl {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.8rem;
   font-weight: 700;
   letter-spacing: 0.14em;
@@ -547,7 +547,7 @@
 }
 
 .icFeeFrom {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: 0.85rem;
   color: var(--ink-lt);
 }
@@ -560,7 +560,7 @@
 }
 
 .icPriceOld {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: 1.1rem;
   color: #a09080;
   text-decoration: line-through;
@@ -569,7 +569,7 @@
 }
 
 .icPriceNew {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: clamp(1.5rem, 3.5vw, 2rem);
   font-weight: 700;
   color: var(--ink);
@@ -578,7 +578,7 @@
 }
 
 .icPriceCur {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.7rem;
   font-weight: 700;
   color: var(--ink-lt);
@@ -593,7 +593,7 @@
   width: 100%;
   background: linear-gradient(135deg, var(--saffron) 0%, #a85800 100%);
   color: #ffffff;
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.16em;
@@ -673,7 +673,7 @@
 }
 
 .sectionEyebrowEnhanced {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(0.6rem, 1vw, 0.7rem);
   font-weight: 700;
   letter-spacing: 0.25em;
@@ -683,7 +683,7 @@
 }
 
 .sectionTitleEnhanced {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(1.2rem, 2.5vw, 1.8rem);
   font-weight: 700;
   color: var(--saffron);
@@ -704,7 +704,7 @@
 }
 
 .sectionSubtitleEnhanced {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: clamp(0.9rem, 1.3vw, 1rem);
   color: var(--ink-lt);
   max-width: 600px;
@@ -776,7 +776,7 @@
   position: absolute;
   bottom: 20px;
   left: 20px;
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 4rem;
   font-weight: 700;
   color: rgba(255, 255, 255, 0.12);
@@ -795,7 +795,7 @@
   backdrop-filter: blur(8px);
   padding: 6px 12px;
   border-radius: 30px;
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.05em;
@@ -820,7 +820,7 @@
   width: fit-content;
   background: linear-gradient(135deg, var(--saffron), var(--gold));
   color: #fff;
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.6rem;
   font-weight: 700;
   letter-spacing: 0.15em;
@@ -830,7 +830,7 @@
 }
 
 .courseTitleEnhanced {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: clamp(1.1rem, 2vw, 1.5rem);
   font-weight: 700;
   color: var(--saffron);
@@ -886,7 +886,7 @@
 }
 
 .courseSpecLabel {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.6rem;
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -896,7 +896,7 @@
 }
 
 .courseSpecValue {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: 0.9rem;
   font-weight: 600;
   color: var(--ink);
@@ -915,7 +915,7 @@
   gap: 8px;
   background: linear-gradient(135deg, var(--saffron), var(--saffron-dk));
   color: #fff;
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -945,7 +945,7 @@
   background: transparent;
   border: 1.5px solid var(--saffron);
   color: var(--saffron);
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -1028,7 +1028,7 @@
 }
 
 .specialtyEyebrow {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(0.6rem, 1vw, 0.7rem);
   font-weight: 700;
   letter-spacing: 0.25em;
@@ -1038,7 +1038,7 @@
 }
 
 .specialtyTitle {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(1.2rem, 2.5vw, 1.8rem);
   font-weight: 700;
   color: #fff3d2;
@@ -1073,7 +1073,7 @@
 }
 
 .specialtySubtitle {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: clamp(0.9rem, 1.3vw, 1rem);
   color: rgba(255, 243, 210, 0.7);
   max-width: 600px;
@@ -1175,7 +1175,7 @@
   border-radius: 30px;
   padding: 0.25rem 0.9rem;
   margin-bottom: 1rem;
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.65rem;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -1194,7 +1194,7 @@
 }
 
 .specialtyCardTitle {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: 1.2rem;
   font-weight: 700;
   color: var(--ink);
@@ -1229,7 +1229,7 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.7rem;
   font-weight: 600;
   color: var(--ink-lt);
@@ -1250,7 +1250,7 @@
 .specialtyBtnOutline {
   display: inline-flex;
   align-items: center;
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.65rem;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -1277,7 +1277,7 @@
   justify-content: center;
   background: linear-gradient(135deg, var(--saffron), var(--saffron-dk));
   color: #fff;
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.65rem;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -1341,7 +1341,7 @@
 }
 
 .mediaToggleBtn {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(.54rem, .9vw, .64rem);
   font-weight: 700;
   letter-spacing: .1em;
@@ -1382,7 +1382,7 @@
 .mediaCaption {
   padding: .55rem 1rem;
   background: linear-gradient(135deg, var(--saffron-dk), var(--ink-md));
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(.56rem, .9vw, .64rem);
   letter-spacing: .12em;
   text-transform: uppercase;
@@ -1398,7 +1398,7 @@
 }
 
 .linkPill {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(.56rem, .9vw, .66rem);
   font-weight: 700;
   letter-spacing: .07em;
@@ -1633,7 +1633,7 @@
   background: rgba(0, 0, 0, 0.55);
   border: 1px solid rgba(212, 160, 23, 0.4);
   color: rgba(255, 243, 210, 0.92);
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(0.44rem, 0.75vw, 0.54rem);
   font-weight: 700;
   letter-spacing: 0.14em;
@@ -1654,7 +1654,7 @@
 }
 
 .scEyebrow {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(0.44rem, 0.75vw, 0.54rem);
   font-weight: 700;
   letter-spacing: 0.22em;
@@ -1664,11 +1664,11 @@
 }
 
 .scTitle {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: clamp(1.15rem, 2.2vw, 1.6rem);
   font-weight: 600;
   font-style: italic;
-  color: black;
+  color: #f15505;
   line-height: 1.2;
   margin-bottom: 0.2rem;
 }
@@ -1725,7 +1725,7 @@
 .scMetaIcon svg { width: 13px; height: 13px; }
 
 .scMetaLbl {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(0.42rem, 0.7vw, 0.5rem);
   font-weight: 700;
   letter-spacing: 0.14em;
@@ -1736,7 +1736,7 @@
 }
 
 .scMetaVal {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: clamp(0.84rem, 1.3vw, 0.94rem);
   font-weight: 600;
   color: black;
@@ -1755,7 +1755,7 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(0.56rem, 0.9vw, 0.66rem);
   font-weight: 700;
   letter-spacing: 0.12em;
@@ -1778,7 +1778,7 @@
 .scBtnOutline {
   display: inline-flex;
   align-items: center;
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(0.56rem, 0.9vw, 0.66rem);
   font-weight: 700;
   letter-spacing: 0.12em;
@@ -1848,7 +1848,7 @@
    SPECIALTY COURSE CARDS
 ════════════════════════════════════════ */
 .sectionTitleCenter {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(.92rem, 2vw, 1.3rem);
   font-weight: 700;
   color: var(--saffron);
@@ -1883,7 +1883,7 @@
 
 .contentBadgeEnhanced {
   display: inline-block;
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.65rem;
   font-weight: 700;
   letter-spacing: 0.2em;
@@ -1896,7 +1896,7 @@
 }
 
 .contentTitleEnhanced {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(1.2rem, 2.2vw, 1.6rem);
   font-weight: 700;
   color: var(--saffron);
@@ -1957,7 +1957,7 @@
   border: 1px solid rgba(212, 160, 23, 0.25);
   border-radius: 40px;
   padding: 6px 16px;
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.75rem;
   font-weight: 600;
   color: var(--saffron);
@@ -1986,7 +1986,7 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -2063,7 +2063,7 @@
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 40px;
   padding: 8px 16px;
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.7rem;
   font-weight: 600;
   letter-spacing: 0.08em;
@@ -2092,7 +2092,7 @@
 .mediaMainBadge {
   background: linear-gradient(135deg, var(--saffron), var(--gold));
   color: white;
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.6rem;
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -2102,7 +2102,6 @@
 }
 
 /* Small Images Grid */
-/* Small Images Grid - 3 items */
 .mediaSmallGrid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -2146,7 +2145,7 @@
 
 .mediaSmallOverlay span {
   color: white;
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.7rem;
   font-weight: 600;
   letter-spacing: 0.05em;
@@ -2231,7 +2230,7 @@
 }
 
 .accrEyebrowEnhanced {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(0.55rem, 0.9vw, 0.65rem);
   font-weight: 700;
   letter-spacing: 0.22em;
@@ -2241,7 +2240,7 @@
 }
 
 .accrTitleEnhanced {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(0.95rem, 2vw, 1.25rem);
   font-weight: 700;
   color: var(--saffron);
@@ -2251,7 +2250,7 @@
 }
 
 .accrTaglineEnhanced {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-style: italic;
   font-size: clamp(0.8rem, 1.2vw, 0.9rem);
   color: var(--ink-lt);
@@ -2398,7 +2397,7 @@
   border: 1px solid rgba(212, 160, 23, 0.25);
   border-radius: 40px;
   padding: 8px 20px;
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.8rem;
   font-weight: 600;
   color: var(--saffron);
@@ -2432,7 +2431,7 @@
   border: 1px solid rgba(241, 85, 5, 0.2);
   border-radius: 30px;
   padding: 5px 14px;
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: 0.8rem;
   font-weight: 500;
   color: var(--ink);

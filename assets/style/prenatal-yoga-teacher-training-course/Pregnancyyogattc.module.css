@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Dancing+Script:wght@500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Lato:wght@300;400;700;900&family=Poppins:wght@400;500;600;700;800&display=swap');
 
 :root {
   --saffron: #F15505;
@@ -23,8 +23,8 @@
   --maroon: #6b1a00;
   --saffron-bright: #F15505;
   --saffron-gold: #b8860b;
-  --font-display: 'Cinzel', serif;
-  --font-body: 'Cormorant Garamond', serif;
+  --font-display: 'Montserrat', serif;
+  --font-body: 'Lato', serif;
 }
 
 /* ── HERO ── */
@@ -46,7 +46,7 @@
 
 /* ── PAGE ── */
 .page {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   min-height: 100vh;
   position: relative;
   overflow-x: hidden;
@@ -145,7 +145,7 @@
   z-index: 1;
 }
 
-.section::before {
+/* .section::before {
   content: '';
   position: absolute;
   top: 0;
@@ -153,7 +153,7 @@
   right: 0;
   height: 1.5px;
   background: linear-gradient(90deg, transparent, var(--gold), var(--saffron), var(--gold), transparent);
-}
+} */
 
 .sectionLight {
   background: white;
@@ -164,7 +164,7 @@
 }
 
 .sectionDeep {
-  background: linear-gradient(135deg, #f8f4e8 0%, var(--parch) 50%, #fffbf4 100%);
+  background: white;
 }
 
 /* ── OM DIVIDER ── */
@@ -185,7 +185,7 @@
 }
 
 .omGlyph {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(1.3rem, 2.8vw, 2rem);
   color: var(--saffron);
   text-shadow: 0 0 18px var(--glow), 0 0 36px var(--glow-gold);
@@ -195,7 +195,7 @@
 
 /* ── TYPOGRAPHY ── */
 .heroTitle {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(1rem, 2.4vw, 1.65rem);
   font-weight: 700;
   color: var(--saffron);
@@ -206,7 +206,7 @@
 }
 
 .sectionTitle {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(.92rem, 2vw, 1.3rem);
   font-weight: 700;
   color: var(--saffron);
@@ -217,7 +217,7 @@
 }
 
 .subSectionTitle {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: clamp(.98rem, 1.9vw, 1.3rem);
   font-weight: 600;
   font-style: italic;
@@ -326,7 +326,7 @@
 }
 
 .scheduleHeader {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(.75rem, 1.3vw, .88rem);
   font-weight: 700;
   color: #fff;
@@ -360,7 +360,7 @@
 }
 
 .schedTime {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-weight: 700;
   color: var(--saffron);
   font-size: clamp(.72rem, 1.15vw, .84rem);
@@ -663,7 +663,7 @@
 }
 
 .hoursLabel {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-weight: 700;
   font-size: clamp(.8rem, 1.3vw, .92rem);
   color: var(--ink-md);
@@ -972,7 +972,7 @@
 }
 
 .icHdrTxt {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.85rem;
   font-weight: 700;
   letter-spacing: 0.18em;
@@ -1030,7 +1030,7 @@
 }
 
 .icLbl {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.12em;
@@ -1040,7 +1040,7 @@
 }
 
 .icVal {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: clamp(0.88rem, 1.3vw, 1rem);
   font-weight: 600;
   color: #2a1505;
@@ -1048,7 +1048,7 @@
 }
 
 .icSub {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: 0.75rem;
   color: #7a5228;
   line-height: 1.3;
@@ -1079,7 +1079,7 @@
 }
 
 .icFeeLbl {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.8rem;
   font-weight: 700;
   letter-spacing: 0.14em;
@@ -1088,7 +1088,7 @@
 }
 
 .icFeeFrom {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: 0.85rem;
   color: #7a5228;
 }
@@ -1101,7 +1101,7 @@
 }
 
 .icPriceOld {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: 1.1rem;
   color: #a09080;
   text-decoration: line-through;
@@ -1110,7 +1110,7 @@
 }
 
 .icPriceNew {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: clamp(1.5rem, 3.5vw, 2rem);
   font-weight: 700;
   color: #2a1505;
@@ -1119,7 +1119,7 @@
 }
 
 .icPriceCur {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.7rem;
   font-weight: 700;
   color: #7a5228;
@@ -1134,7 +1134,7 @@
   width: 100%;
   background: linear-gradient(135deg, #F15505 0%, #b85f00 100%);
   color: #ffffff;
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.16em;
@@ -1336,7 +1336,7 @@
 }
 
 .s1FirstPara::first-letter {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 3.2em;
   font-weight: 700;
   color: var(--saffron);
@@ -1414,7 +1414,7 @@
 }
 
 .s1Caption span {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.68rem;
   font-weight: 600;
   letter-spacing: 0.1em;
@@ -1549,7 +1549,7 @@
 }
 
 .s2Badge {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.18em;
@@ -1577,7 +1577,7 @@
 }
 
 .s2FirstPara::first-letter {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 3em;
   font-weight: 700;
   color: var(--saffron);
@@ -1596,7 +1596,7 @@
 }
 
 .s2Pill {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.64rem;
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -1653,7 +1653,7 @@
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.68rem;
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -1695,7 +1695,7 @@
 }
 
 .s2StatNum {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(1.1rem, 2.2vw, 1.4rem);
   font-weight: 700;
   color: var(--saffron);
@@ -1703,7 +1703,7 @@
 }
 
 .s2StatLbl {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: 0.75rem;
   color: var(--ink-lt);
   text-align: center;
@@ -1777,7 +1777,7 @@
 }
 
 .s2LocBadge {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: 0.88rem;
   font-weight: 600;
   color: var(--ink-md);
@@ -1847,7 +1847,7 @@
   position: absolute;
   bottom: 10px;
   left: 12px;
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.62rem;
   font-weight: 700;
   letter-spacing: 0.12em;
@@ -1876,7 +1876,7 @@
   background: rgba(253,246,232,0.95);
   border-top: 1px solid var(--border-lt);
   padding: 0.45rem 0.8rem;
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.62rem;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -2989,7 +2989,7 @@
   }
   
   .icHdrTxt {
-    font-family: 'Cinzel', serif;
+    font-family: 'Montserrat', serif;
     font-size: 0.85rem;
     font-weight: 700;
     letter-spacing: 0.18em;
@@ -3047,7 +3047,7 @@
   }
   
   .icLbl {
-    font-family: 'Cinzel', serif;
+    font-family: 'Montserrat', serif;
     font-size: 0.7rem;
     font-weight: 700;
     letter-spacing: 0.12em;
@@ -3057,7 +3057,7 @@
   }
   
   .icVal {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: 'Lato', serif;
     font-size: clamp(0.88rem, 1.3vw, 1rem);
     font-weight: 600;
     color: #2a1505;
@@ -3065,7 +3065,7 @@
   }
   
   .icSub {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: 'Lato', serif;
     font-size: 0.75rem;
     color: #7a5228;
     line-height: 1.3;
@@ -3096,7 +3096,7 @@
   }
   
   .icFeeLbl {
-    font-family: 'Cinzel', serif;
+    font-family: 'Montserrat', serif;
     font-size: 0.8rem;
     font-weight: 700;
     letter-spacing: 0.14em;
@@ -3105,7 +3105,7 @@
   }
   
   .icFeeFrom {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: 'Lato', serif;
     font-size: 0.85rem;
     color: #7a5228;
   }
@@ -3118,7 +3118,7 @@
   }
   
   .icPriceOld {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: 'Lato', serif;
     font-size: 1.1rem;
     color: #a09080;
     text-decoration: line-through;
@@ -3127,7 +3127,7 @@
   }
   
   .icPriceNew {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: 'Lato', serif;
     font-size: clamp(1.5rem, 3.5vw, 2rem);
     font-weight: 700;
     color: #2a1505;
@@ -3136,7 +3136,7 @@
   }
   
   .icPriceCur {
-    font-family: 'Cinzel', serif;
+    font-family: 'Montserrat', serif;
     font-size: 0.7rem;
     font-weight: 700;
     color: #7a5228;
@@ -3151,7 +3151,7 @@
     width: 100%;
     background: linear-gradient(135deg, #F15505 0%, #a85800 100%);
     color: #ffffff;
-    font-family: 'Cinzel', serif;
+    font-family: 'Montserrat', serif;
     font-size: 0.7rem;
     font-weight: 700;
     letter-spacing: 0.16em;
@@ -3392,7 +3392,7 @@
   display: flex;
   align-items: center;
   gap: 0.6rem;
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.78rem;
   font-weight: 700;
   letter-spacing: 0.14em;
@@ -3440,7 +3440,7 @@
 }
 
 .s3CurrNum {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.62rem;
   font-weight: 700;
   color: var(--saffron);
@@ -3458,7 +3458,7 @@
 }
 
 .s3CurrTitle {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: clamp(0.85rem, 1.3vw, 0.97rem);
   font-weight: 600;
   color: var(--ink);
@@ -3480,7 +3480,7 @@
 }
 
 .s3CurrHrs {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.88rem;
   font-weight: 700;
   color: var(--saffron-dk);
@@ -3515,7 +3515,7 @@
   display: flex;
   align-items: center;
   gap: 0.55rem;
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.14em;
@@ -3558,7 +3558,7 @@
 }
 
 .s3HoursLabel {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.7rem;
   font-weight: 700;
   color: var(--ink-md);
@@ -3573,7 +3573,7 @@
 }
 
 .s3HoursValue {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: 0.95rem;
   font-weight: 600;
   color: var(--saffron-dk);
@@ -3590,7 +3590,7 @@
 }
 
 .s3HighlightsHeader {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.14em;
@@ -3630,7 +3630,7 @@
 }
 
 .s3HighlightText {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: clamp(0.83rem, 1.2vw, 0.93rem);
   color: var(--ink);
   line-height: 1.4;
@@ -3664,7 +3664,7 @@
 }
 
 .s3VideoTag {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.62rem;
   font-weight: 700;
   letter-spacing: 0.12em;
@@ -3693,7 +3693,7 @@
 }
 
 .s3CtaLabel {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(0.82rem, 1.5vw, 1rem);
   font-weight: 700;
   color: var(--ink);
@@ -3701,7 +3701,7 @@
 }
 
 .s3CtaSub {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: clamp(0.85rem, 1.3vw, 0.95rem);
   color: var(--ink-lt);
   font-style: italic;
@@ -3711,7 +3711,7 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.14em;
@@ -3923,7 +3923,7 @@
 }
 
 .s3HeaderSubtitle {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: 0.95rem;
   font-style: italic;
   color: var(--ink-lt);
@@ -3967,7 +3967,7 @@
   display: flex;
   align-items: center;
   gap: 0.6rem;
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.8rem;
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -4038,7 +4038,7 @@
 }
 
 .s3CurrNum {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.7rem;
   font-weight: 700;
   color: var(--saffron);
@@ -4061,7 +4061,7 @@
 }
 
 .s3CurrTitle {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: 0.95rem;
   font-weight: 600;
   color: var(--ink);
@@ -4083,7 +4083,7 @@
 }
 
 .s3CurrHrs {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.9rem;
   font-weight: 700;
   color: var(--saffron-dk);
@@ -4107,7 +4107,7 @@
   align-items: center;
   justify-content: center;
   gap: 0.6rem;
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.7rem;
   font-weight: 700;
   color: var(--ink-md);
@@ -4138,7 +4138,7 @@
   display: flex;
   align-items: center;
   gap: 0.6rem;
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -4205,7 +4205,7 @@
 }
 
 .s3HoursLabel {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.72rem;
   font-weight: 700;
   color: var(--ink-md);
@@ -4228,7 +4228,7 @@
 }
 
 .s3HoursValue {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: 0.9rem;
   font-weight: 700;
   color: var(--saffron-dk);
@@ -4268,14 +4268,14 @@
   align-items: center;
   justify-content: center;
   gap: 0.8rem;
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: #fff;
   padding: 1rem;
-  background: linear-gradient(135deg, var(--saffron), var(--saffron-dk));
+  background: white;
 }
 
 .s3HighlightsHeaderIcon {
@@ -4312,7 +4312,7 @@
 }
 
 .s3HighlightText {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: 0.9rem;
   color: var(--ink);
   line-height: 1.4;
@@ -4386,7 +4386,7 @@
 }
 
 .s3VideoTag {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -4422,7 +4422,7 @@
 }
 
 .s3BonusTitle {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -4432,7 +4432,7 @@
 }
 
 .s3BonusText {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: 0.85rem;
   color: var(--ink-md);
   line-height: 1.3;
@@ -4459,7 +4459,7 @@
 }
 
 .s3CtaLabel {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.9rem;
   font-weight: 700;
   color: var(--ink);
@@ -4467,7 +4467,7 @@
 }
 
 .s3CtaSub {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: 0.85rem;
   color: var(--ink-lt);
   font-style: italic;
@@ -4477,7 +4477,7 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.12em;

@@ -1,6 +1,6 @@
 /* MeditationPage.module.css */
 
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700&family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Lato:wght@300;400;700;900&family=Poppins:wght@400;500;600;700&display=swap');
 
 /* ─── CSS Variables ─── */
 :root {
@@ -27,8 +27,8 @@
   --v-maroon: #6b1a00;
   --v-cream: #fdf8ee;
   --v-shadow-warm: rgba(80, 40, 5, 0.15);
-  --v-font-display: 'Cinzel', serif;
-  --v-font-body: 'Cormorant Garamond', serif;
+  --v-font-display: 'Montserrat', serif;
+  --v-font-body: 'Lato', serif;
 }
 
 /* ─── Page Wrapper ─── */
@@ -40,7 +40,7 @@
 
 /* ─── Shared Container ─── */
 .container {
-  max-width: 1460px;
+  max-width: 1600px;
   margin: 0 auto;
   padding: 0 2rem;
 }
@@ -76,6 +76,7 @@
 .methodSection {
   background: var(--white);
   padding: 3rem 0;
+  max-width: 1600px;
 }
 
 .scheduleSection {
@@ -117,21 +118,21 @@
    TYPOGRAPHY
 ════════════════════════════════════════ */
 .pageTitle {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Montserrat', serif;
   font-style: italic;
   font-size: clamp(1.4rem, 3.5vw, 2.2rem);
   font-weight: 400;
   text-align: center;
-  color: var(--text-dark);
+  color: #f15505;
   margin: 0 0 0.5rem;
   letter-spacing: 0.01em;
 }
 
 .secTitle {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(1.05rem, 2.4vw, 1.4rem);
   font-weight: 600;
-  color: var(--text-dark);
+  color: #f15505;
   margin: 0 0 0.3rem;
   line-height: 1.35;
   text-align: center;
@@ -141,7 +142,7 @@
   font-family: 'Lato', sans-serif;
   font-weight: 700;
   font-size: clamp(0.95rem, 2vw, 1.05rem);
-  color: var(--text-dark);
+  color: #f15505;
   margin: 0 0 0.8rem;
   padding-bottom: 0.35rem;
   border-bottom: 2px solid var(--gold);
@@ -1300,10 +1301,10 @@
 }
 
 .splitTitle {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(1.4rem, 2.5vw, 1.8rem);
   font-weight: 600;
-  color: var(--text-dark);
+  color: #f15505;
   margin-bottom: 0.5rem;
   text-align: left;
 }
@@ -1363,6 +1364,7 @@
    ================================================================ */
 
    .methodCard {
+    max-width: 1600px;
     display: grid;
     grid-template-columns: 1fr 0.8fr;
     gap: 2rem;
@@ -1382,10 +1384,12 @@
   
   .methodCardReverse {
     direction: rtl;
+    max-width: 1600px;
   }
   
   .methodCardReverse > * {
     direction: ltr;
+    max-width: 1600px;
   }
   
   .methodContent {
@@ -1393,10 +1397,10 @@
   }
   
   .methodTitle {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Montserrat', serif;
     font-size: 1.3rem;
     font-weight: 600;
-    color: #c8700a;
+    color: #f15505;
     margin-bottom: 0.8rem;
     position: relative;
     display: inline-block;
@@ -1422,7 +1426,7 @@
   
   .methodImg {
     width: 100%;
-    height: 220px;
+    height: 300px;
     object-fit: cover;
     display: block;
     transition: transform 0.4s ease;
@@ -1440,7 +1444,7 @@
     background: linear-gradient(0deg, rgba(0, 0, 0, 0.7), transparent);
     color: white;
     padding: 0.8rem;
-    font-family: 'Cinzel', serif;
+    font-family: 'Montserrat', serif;
     font-size: 0.75rem;
     text-align: center;
     letter-spacing: 0.05em;
@@ -1456,6 +1460,7 @@
     gap: 2rem;
     align-items: center;
     margin-bottom: 2rem;
+    max-width: 1600px;
   }
   
   .elevateContent {
@@ -1489,6 +1494,7 @@
     grid-template-columns: repeat(3, 1fr);
     gap: 1.5rem;
     margin-top: 2rem;
+    max-width: 1600px;
   }
   
   .whyCardModern {
@@ -1514,7 +1520,7 @@
   }
   
   .whyCardTitle {
-    font-family: 'Cinzel', serif;
+    font-family: 'Montserrat', serif;
     font-size: 1rem;
     font-weight: 700;
     color: #2c1a08;
@@ -1541,6 +1547,7 @@
     }
     
     .methodCardReverse {
+      max-width: 1600px;
       direction: ltr;
     }
     
@@ -1619,6 +1626,7 @@
   grid-template-columns: repeat(3, 1fr);
   gap: 1.5rem;
   margin: 1.5rem 0 2.5rem;
+  max-width: 1600px;
 }
 
 .highlightCard {
@@ -1644,7 +1652,7 @@
 }
 
 .highlightCardTitle {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.95rem;
   font-weight: 700;
   color: #2c1a08;
@@ -1711,7 +1719,7 @@
     position: relative;
     overflow: hidden;
   }
-  ctaSection
+  
   .ctaSection::before {
     content: 'ॐ';
     position: absolute;
@@ -1719,7 +1727,7 @@
     right: -50px;
     font-size: 15rem;
     color: rgba(200, 112, 10, 0.04);
-    font-family: 'Cinzel', serif;
+    font-family: 'Montserrat', serif;
     pointer-events: none;
   }
   
@@ -1730,6 +1738,7 @@
     align-items: center;
     position: relative;
     z-index: 1;
+    max-width: 1600px;
   }
   
   .ctaContent {
@@ -1741,7 +1750,7 @@
     background: rgba(200, 112, 10, 0.1);
     padding: 0.3rem 1rem;
     border-radius: 30px;
-    font-family: 'Cinzel', serif;
+    font-family: 'Montserrat', serif;
     font-size: 0.7rem;
     font-weight: 600;
     letter-spacing: 0.1em;
@@ -1750,10 +1759,10 @@
   }
   
   .ctaTitle {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Montserrat', serif;
     font-size: clamp(1.5rem, 3vw, 2rem);
     font-weight: 600;
-    color: #2c1a08;
+    color: #f15505;
     margin-bottom: 0.5rem;
   }
   
@@ -1773,7 +1782,7 @@
   }
   
   .ctaDividerIcon {
-    font-family: 'Cinzel', serif;
+    font-family: 'Montserrat', serif;
     font-size: 1rem;
     color: #c8700a;
   }
@@ -1787,10 +1796,10 @@
   }
   
   .ctaSubTitle {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Montserrat', serif;
     font-size: 1.3rem;
     font-weight: 600;
-    color: #c8700a;
+    color: #f15505;
     margin: 1.5rem 0 0.8rem;
   }
   
@@ -1807,7 +1816,7 @@
     gap: 0.8rem;
     background: #f15505;
     color: white;
-    font-family: 'Cinzel', serif;
+    font-family: 'Montserrat', serif;
     font-size: 0.8rem;
     font-weight: 700;
     letter-spacing: 0.08em;
@@ -1837,7 +1846,7 @@
     background: transparent;
     border: 2px solid #f15505;
     color: #c8700a;
-    font-family: 'Cinzel', serif;
+    font-family: 'Montserrat', serif;
     font-size: 0.8rem;
     font-weight: 700;
     letter-spacing: 0.08em;
@@ -1885,7 +1894,7 @@
   }
   
   .ctaImageOverlay span {
-    font-family: 'Cinzel', serif;
+    font-family: 'Montserrat', serif;
     font-size: 0.8rem;
     font-weight: 600;
     letter-spacing: 0.05em;
