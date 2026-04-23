@@ -112,7 +112,7 @@ const YogaBeginners: React.FC = () => {
       Yoga Teacher Training Course for Beginners in Rishikesh
     </h1>
     
-    <Divider />
+    {/* <Divider /> */}
     
     <div className={styles.contentBlock}>
       <p className={styles.questionText}>

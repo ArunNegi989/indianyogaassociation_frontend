@@ -244,6 +244,10 @@
   align-items: center;
   gap: 1.8rem;
   padding: 2rem 0;
+  background: linear-gradient(135deg, rgba(253, 248, 236, 0.5) 0%, rgba(255, 253, 245, 0.3) 100%);
+  border-radius: 16px;
+  padding: 2.5rem;
+  border: 1px solid rgba(232, 213, 170, 0.4);
 }
 
 .founderImgCol {
@@ -269,7 +273,7 @@
 .founderTextCol {
   padding-top: 0.5rem;
   width: 100%;
-
+  text-align: center;
 }
 
 .founderName {
@@ -380,7 +384,7 @@
 }
 
 /* ================================================================
-   TEACHER CARDS
+   TEACHER CARDS - MODERN GRID LAYOUT
 ================================================================ */
 .teachersSection {
   background-image: url("../../images/1905x4418.png");
@@ -389,24 +393,29 @@
 
 .tCard {
   display: grid;
-  grid-template-columns: 340px 1fr;
+  grid-template-columns: 1fr;
   gap: clamp(2rem, 4vw, 4.5rem);
   align-items: start;
   padding: clamp(2rem, 4vw, 3rem) 0;
   opacity: 0;
   animation: fadeUp 0.55s ease forwards;
+  background: linear-gradient(135deg, rgba(253, 248, 236, 0.5) 0%, rgba(255, 253, 245, 0.3) 100%);
+  border-radius: 16px;
+  padding: clamp(2rem, 4vw, 3rem);
+  border: 1px solid rgba(232, 213, 170, 0.4);
+  margin-bottom: 2rem;
 }
 
 .tCardReverse {
-  grid-template-columns: 1fr 340px;
+  grid-template-columns: 1fr;
 }
 
 .tCardReverse .tImgCol {
-  order: 2;
+  order: 1;
 }
 
 .tCardReverse .tContent {
-  order: 1;
+  order: 2;
 }
 
 @keyframes fadeUp {
@@ -422,15 +431,18 @@
 }
 
 .tImgCol {
-  position: sticky;
-  top: 100px;
+  position: static;
+  display: flex;
+  justify-content: center;
 }
 
 .tImgWrapper {
   position: relative;
   overflow: hidden;
-  border-radius: 0 0 0 80px;
-  box-shadow: 6px 10px 40px var(--shadowDk);
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(92, 45, 0, 0.2);
+  width: 100%;
+  max-width: 400px;
 }
 
 .tImg {
@@ -473,6 +485,7 @@
 
 .tContent {
   padding-top: 0.4rem;
+  text-align: center;
 }
 
 .tRoleTag {
@@ -499,7 +512,7 @@
   width: 50px;
   height: 2px;
   background: linear-gradient(90deg, var(--saffron), var(--gold));
-  margin-bottom: 1rem;
+  margin: 0 auto 1rem;
   border-radius: 2px;
 }
 
@@ -528,6 +541,7 @@
   padding: 1rem 1.2rem;
   background: var(--cream);
   border-left: 3px solid var(--gold);
+  text-align: left;
 }
 
 .tDetailTitle {
@@ -618,7 +632,7 @@
 }
 
 /* ================================================================
-   ORNATE FRAME
+   MODERN FRAME (No Circle SVG)
 ================================================================ */
 .frameWrap {
   position: relative;
@@ -626,6 +640,7 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  overflow: hidden;
 }
 
 .frameLG {
@@ -649,33 +664,43 @@
   width: 100%;
   height: 100%;
   pointer-events: none;
+  display: none;
 }
 
 .framePhoto {
   position: relative;
   z-index: 2;
-  border-radius: 50%;
+  border-radius: 12px;
   object-fit: cover;
   object-position: center top;
+  width: 100%;
+  height: 100%;
+  box-shadow: 0 8px 32px rgba(92, 45, 0, 0.2);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.frameWrap:hover .framePhoto {
+  transform: scale(1.05);
+  box-shadow: 0 12px 48px rgba(92, 45, 0, 0.3);
 }
 
 .frameLG .framePhoto {
-  width: 270px;
-  height: 270px;
+  width: 100%;
+  height: 100%;
 }
 
 .frameMD .framePhoto {
-  width: 142px;
-  height: 142px;
+  width: 100%;
+  height: 100%;
 }
 
 .frameSM .framePhoto {
-  width: 118px;
-  height: 118px;
+  width: 100%;
+  height: 100%;
 }
 
 /* ================================================================
-   GUEST FACULTY GRID
+   GUEST FACULTY GRID - MODERN CARD DESIGN
 ================================================================ */
 .guestSection {
   background: url("../../images/23.png");
@@ -698,8 +723,8 @@
 
 .guestGrid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: clamp(0.8rem, 2.5vw, 1.8rem);
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: clamp(1.2rem, 3vw, 2rem);
   padding: 1.8rem 0;
 }
 
@@ -708,16 +733,20 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.8rem;
   cursor: pointer;
-  padding: 0.8rem 0.4rem;
+  padding: 1.2rem;
   border-radius: 12px;
-  transition: background 0.22s ease, transform 0.22s ease;
+  transition: all 0.3s ease;
+  background: linear-gradient(135deg, rgba(253, 248, 236, 0.6) 0%, rgba(255, 253, 245, 0.4) 100%);
+  border: 1px solid rgba(232, 213, 170, 0.4);
 }
 
 .guestItem:hover {
-  background: rgba(224, 123, 0, 0.06);
-  transform: translateY(-3px);
+  background: linear-gradient(135deg, rgba(245, 184, 0, 0.12) 0%, rgba(224, 123, 0, 0.08) 100%);
+  transform: translateY(-6px);
+  box-shadow: 0 12px 32px rgba(92, 45, 0, 0.15);
+  border-color: rgba(224, 123, 0, 0.3);
 }
 
 .guestFrameWrap {
@@ -728,14 +757,14 @@
 .guestFrameOverlay {
   position: absolute;
   inset: 0;
-  border-radius: 50%;
+  border-radius: 12px;
   background: rgba(224, 123, 0, 0);
-  transition: background 0.22s ease;
+  transition: background 0.3s ease;
   z-index: 3;
 }
 
 .guestItem:hover .guestFrameOverlay {
-  background: rgba(224, 123, 0, 0.18);
+  background: rgba(224, 123, 0, 0.12);
 }
 
 .guestItemName {
@@ -751,7 +780,7 @@
 
 .guestItemHint {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-style: italic;
   color: #a07840;
   text-align: center;
@@ -1045,12 +1074,11 @@
 /* 1200px */
 @media (max-width: 1200px) {
   .tCard {
-    grid-template-columns: 300px 1fr;
-    gap: 2.5rem;
+    grid-template-columns: 1fr;
   }
 
   .tCardReverse {
-    grid-template-columns: 1fr 300px;
+    grid-template-columns: 1fr;
   }
 
   .founderTextCol {
@@ -1061,12 +1089,11 @@
 /* 1024px */
 @media (max-width: 1024px) {
   .tCard {
-    grid-template-columns: 270px 1fr;
-    gap: 2rem;
+    grid-template-columns: 1fr;
   }
 
   .tCardReverse {
-    grid-template-columns: 1fr 270px;
+    grid-template-columns: 1fr;
   }
 
   .frameLG {
@@ -1075,8 +1102,8 @@
   }
 
   .frameLG .framePhoto {
-    width: 163px;
-    height: 163px;
+    width: 100%;
+    height: 100%;
   }
 
   .founderTextCol {
@@ -1087,12 +1114,11 @@
 /* 900px */
 @media (max-width: 900px) {
   .tCard {
-    grid-template-columns: 240px 1fr;
-    gap: 2rem;
+    grid-template-columns: 1fr;
   }
 
   .tCardReverse {
-    grid-template-columns: 1fr 240px;
+    grid-template-columns: 1fr;
   }
 
   .frameLG {
@@ -1101,8 +1127,8 @@
   }
 
   .frameLG .framePhoto {
-    width: 149px;
-    height: 149px;
+    width: 100%;
+    height: 100%;
   }
 }
 
@@ -1134,7 +1160,7 @@
   }
 
   .tImgWrapper {
-    border-radius: 0 0 0 60px;
+    border-radius: 12px;
   }
 
   .frameLG {
@@ -1143,8 +1169,8 @@
   }
 
   .frameLG .framePhoto {
-    width: 150px;
-    height: 150px;
+    width: 100%;
+    height: 100%;
   }
 
   .guestGrid {
@@ -1182,8 +1208,8 @@
   }
 
   .frameMD .framePhoto {
-    width: 120px;
-    height: 120px;
+    width: 100%;
+    height: 100%;
   }
 
   .frameSM {
@@ -1192,8 +1218,8 @@
   }
 
   .frameSM .framePhoto {
-    width: 100px;
-    height: 100px;
+    width: 100%;
+    height: 100%;
   }
 
   .frameLG {
@@ -1202,8 +1228,8 @@
   }
 
   .frameLG .framePhoto {
-    width: 142px;
-    height: 142px;
+    width: 100%;
+    height: 100%;
   }
 
   .modalBox {
@@ -1236,8 +1262,8 @@
   }
 
   .frameLG .framePhoto {
-    width: 138px;
-    height: 138px;
+    width: 100%;
+    height: 100%;
   }
 
   .founderName {
@@ -1291,8 +1317,8 @@
   }
 
   .frameSM .framePhoto {
-    width: 106px;
-    height: 106px;
+    width: 100%;
+    height: 100%;
   }
 
   .tName {
@@ -1322,8 +1348,8 @@
   }
 
   .frameLG .framePhoto {
-    width: 131px;
-    height: 131px;
+    width: 100%;
+    height: 100%;
   }
 }
 
@@ -1353,8 +1379,8 @@
   }
 
   .frameLG .framePhoto {
-    width: 124px;
-    height: 124px;
+    width: 100%;
+    height: 100%;
   }
 
   .frameMD {
@@ -1363,8 +1389,8 @@
   }
 
   .frameMD .framePhoto {
-    width: 105px;
-    height: 105px;
+    width: 100%;
+    height: 100%;
   }
 
   .frameSM {
@@ -1373,8 +1399,8 @@
   }
 
   .frameSM .framePhoto {
-    width: 92px;
-    height: 92px;
+    width: 100%;
+    height: 100%;
   }
 
   .guestGrid {
@@ -1383,7 +1409,7 @@
   }
 
   .guestItem {
-    padding: 0.6rem 0.3rem;
+    padding: 0.8rem 0.4rem;
   }
 
   .guestItemName {
@@ -1467,8 +1493,8 @@
   }
 
   .frameLG .framePhoto {
-    width: 110px;
-    height: 110px;
+    width: 100%;
+    height: 100%;
   }
 
   .frameSM {
@@ -1477,8 +1503,8 @@
   }
 
   .frameSM .framePhoto {
-    width: 84px;
-    height: 84px;
+    width: 100%;
+    height: 100%;
   }
 
   .guestGrid {
@@ -1495,7 +1521,7 @@
   }
 
   .guestItem {
-    padding: 0.5rem 0.2rem;
+    padding: 0.6rem 0.2rem;
   }
 
   .founderName {
@@ -1533,8 +1559,8 @@
   }
 
   .frameLG .framePhoto {
-    width: 99px;
-    height: 99px;
+    width: 100%;
+    height: 100%;
   }
 
   .frameSM {
@@ -1543,8 +1569,8 @@
   }
 
   .frameSM .framePhoto {
-    width: 74px;
-    height: 74px;
+    width: 100%;
+    height: 100%;
   }
 
   .guestGrid {
@@ -1561,7 +1587,7 @@
   }
 
   .guestItem {
-    padding: 0.4rem 0.1rem;
+    padding: 0.5rem 0.2rem;
     border-radius: 8px;
   }
 

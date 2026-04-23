@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Image, { StaticImageData } from "next/image";
 import styles from "@/assets/style/Accreditationsection/Accreditationsection.module.css";
 import yogabanner from "@/assets/images/aym-yoga-school-200-300-and-500-RYS.jpg";
@@ -11,15 +11,69 @@ import yogalogo from "@/assets/images/logo.jpg";
 import HowToReach from "@/components/home/Howtoreach";
 import heroImg from "@/assets/images/26.webp";
 
+// Carousel images
+import carouselImg1 from "@/assets/images/yoga-ttc-classes-outdoor.webp";
+import carouselImg2 from "@/assets/images/aym-yoga-campus.webp";
+import carouselImg3 from "@/assets/images/meditation.jpg";
+import carouselImg4 from "@/assets/images/yoga-ashram-in-rishikesh.jpg";
+import carouselImg5 from "@/assets/images/yogi-chetan-mahesh-ji.webp";
+import carouselImg6 from "@/assets/images/front-yoga-school.jpg";
+
 /* ── Data ── */
 interface YogaCert {
   type: string;
   img: StaticImageData;
+  description: string;
+}
+
+interface AccreditationCard {
+  title: string;
+  icon: string;
+  description: string;
+  color: string;
 }
 
 const yogaAllianceCerts: YogaCert[] = [
-  { type: "RYS 200", img: RYS200 },
-  { type: "RYS 300", img: RYS300 },
+  { 
+    type: "RYS 200", 
+    img: RYS200,
+    description: "200-Hour Yoga Teacher Training Certification"
+  },
+  { 
+    type: "RYS 300", 
+    img: RYS300,
+    description: "300-Hour Advanced Yoga Teacher Training Certification"
+  },
+];
+
+const accreditationCards: AccreditationCard[] = [
+  {
+    title: "Yoga Alliance USA",
+    icon: "🏆",
+    description: "Internationally recognized certification for yoga teachers",
+    color: "#F15505"
+  },
+  {
+    title: "Ministry of AYUSH",
+    icon: "🇮🇳",
+    description: "Government of India official yoga certification",
+    color: "#1e40af"
+  },
+  {
+    title: "International Yoga Federation",
+    icon: "🌍",
+    description: "Global yoga standards and teacher recognition",
+    color: "#059669"
+  }
+];
+
+const carouselImages: StaticImageData[] = [
+  carouselImg1,
+  carouselImg2,
+  carouselImg3,
+  carouselImg4,
+  carouselImg5,
+  carouselImg6,
 ];
 
 /* ── Sub-components ── */
@@ -32,12 +86,106 @@ const OmDivider = () => (
   </div>
 );
 
-const SectionTitle = ({ children }: { children: React.ReactNode }) => (
+const SectionTitle = ({ children, subtitle }: { children: React.ReactNode; subtitle?: string }) => (
   <div className={styles.sectionTitleWrap}>
-    <OmDivider />
     <h2 className={styles.sectionTitle}>{children}</h2>
+    {subtitle && <p className={styles.sectionSubtitle}>{subtitle}</p>}
   </div>
 );
+
+const AccreditationCardComponent: React.FC<AccreditationCard> = ({ title, icon, description, color }) => (
+  <div className={styles.accreditationCard} style={{ borderTopColor: color }}>
+    <div className={styles.cardIcon}>{icon}</div>
+    <h3 className={styles.cardTitle}>{title}</h3>
+    <p className={styles.cardDescription}>{description}</p>
+  </div>
+);
+
+/* ── Carousel Component ── */
+const ImageCarousel: React.FC = () => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isAutoPlay, setIsAutoPlay] = useState(true);
+
+  useEffect(() => {
+    if (!isAutoPlay) return;
+    
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % carouselImages.length);
+    }, 4000);
+
+    return () => clearInterval(interval);
+  }, [isAutoPlay]);
+
+  const handlePrev = () => {
+    setIsAutoPlay(false);
+    setCurrentIndex((prev) =>
+      prev === 0 ? carouselImages.length - 1 : prev - 1
+    );
+  };
+
+  const handleNext = () => {
+    setIsAutoPlay(false);
+    setCurrentIndex((prev) => (prev + 1) % carouselImages.length);
+  };
+
+  return (
+    <div className={styles.carouselContainer}>
+      <div className={styles.carouselWrapper}>
+        <div className={styles.carouselTrack}>
+          {carouselImages.map((img, idx) => (
+            <div
+              key={idx}
+              className={`${styles.carouselSlide} ${
+                idx === currentIndex ? styles.active : ""
+              }`}
+            >
+              <Image
+                src={img}
+                alt={`Carousel image ${idx + 1}`}
+                fill
+                className={styles.carouselImage}
+                sizes="(max-width: 768px) 100vw, 900px"
+              />
+            </div>
+          ))}
+        </div>
+
+        {/* Navigation Buttons */}
+        <button
+          className={styles.carouselBtn}
+          onClick={handlePrev}
+          aria-label="Previous image"
+        >
+          ‹
+        </button>
+        <button
+          className={styles.carouselBtn}
+          onClick={handleNext}
+          aria-label="Next image"
+        >
+          ›
+        </button>
+
+        {/* Dots Indicator */}
+        <div className={styles.carouselDots}>
+          {carouselImages.map((_, idx) => (
+            <button
+              key={idx}
+              className={`${styles.dot} ${
+                idx === currentIndex ? styles.activeDot : ""
+              }`}
+              onClick={() => {
+                setIsAutoPlay(false);
+                setCurrentIndex(idx);
+              }}
+              aria-label={`Go to slide ${idx + 1}`}
+            />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
 
 /* ── Main Component ── */
 
@@ -53,33 +201,66 @@ const AccreditationSection: React.FC = () => {
           className={styles.heroImage}
           priority
         />
+        {/* <div className={styles.heroOverlay}>
+          <h1 className={styles.heroTitle}>Our Accreditations & Certifications</h1>
+          <p className={styles.heroSubtitle}>Recognized globally by leading yoga organizations</p>
+        </div> */}
       </section>
+
       <section className={styles.section}>
-        {/* PART 1 */}
+        {/* ACCREDITATION CARDS SECTION */}
+        <div className={styles.container}>
+          <SectionTitle>Why Choose AYM?</SectionTitle>
+          <div className={styles.accreditationCardsGrid}>
+            {accreditationCards.map((card) => (
+              <AccreditationCardComponent key={card.title} {...card} />
+            ))}
+          </div>
+        </div>
+
+        {/* CAROUSEL SECTION */}
+        <div className={styles.container}>
+          <SectionTitle>AYM Yoga School Gallery</SectionTitle>
+          <ImageCarousel />
+        </div>
+
+        {/* PART 1 - MAIN INTRO */}
         <div className={styles.container}>
           <h1 className={styles.mainTitle}>
-            Registered Yoga School in Rishikesh - Indian Yoga Association
+            Registered Yoga School in Rishikesh
           </h1>
 
-          <div className={styles.introParagraphs}>
-            <p>
-              The <strong>Indian Yoga Association</strong>, also known as the
-              Association for Yoga and Meditation, is a national non-profit
-              organisation registered under the Societies Registration Act with
-              the Government of India. The Association manages the AYM Yoga
-              School, which offers teacher training programs in Rishikesh, Goa,
-              and many other locations, coming soon. It is registered with the
-              Yoga Certification Board, under the Ministry of AYUSH, Government
-              of India and <strong> Yoga Alliance, USA.</strong>
-            </p>
+          <div className={styles.introCard}>
+            <div className={styles.introContent}>
+              <h3 className={styles.introCardTitle}>Indian Yoga Association</h3>
+              <div className={styles.introParagraphs}>
+                <p>
+                  The <strong>Indian Yoga Association</strong>, also known as the
+                  Association for Yoga and Meditation, is a national non-profit
+                  organisation registered under the Societies Registration Act with
+                  the Government of India. The Association manages the AYM Yoga
+                  School, which offers teacher training programs in Rishikesh, Goa,
+                  and many other locations, coming soon.
+                </p>
 
-            <p>
-              AYM is a Registered Yoga Alliance Yoga Teacher Training School
-              offers 200 hour, 300 hour and 500 hour yoga alliance certification
-              in rishikesh India and graduates can register them with Yoga
-              Alliance USA as RYT 200 and RYT 500 after graduation from AYM yoga
-              alliance yoga school. To register you need to login to yoga
-              alliance website –{" "}
+                <p>
+                  It is registered with the Yoga Certification Board, under the 
+                  <strong> Ministry of AYUSH, Government of India</strong> and 
+                  <strong> Yoga Alliance, USA.</strong>
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className={styles.highlightBox}>
+            <h4 className={styles.highlightTitle}>📋 Register with Yoga Alliance USA</h4>
+            <p className={styles.highlightText}>
+              AYM is a Registered Yoga Alliance Yoga Teacher Training School offering 200-hour, 
+              300-hour and 500-hour yoga alliance certification in Rishikesh, India. Graduates can 
+              register with Yoga Alliance USA as RYT 200 and RYT 500 after graduation.
+            </p>
+            <p className={styles.highlightText}>
+              To register, visit{" "}
               <a
                 href="https://www.yogaalliance.org"
                 target="_blank"
@@ -88,13 +269,9 @@ const AccreditationSection: React.FC = () => {
               >
                 www.yogaalliance.org
               </a>{" "}
-              and make your account and fill required information. After
-              verification of your graduation certification from AYM yoga
-              alliance ttc in rishikesh, you will get registered. .
+              and create your account with your graduation certification from AYM.
             </p>
           </div>
-
-          <OmDivider />
 
           <div className={styles.imgWrap}>
             <Image
@@ -109,92 +286,127 @@ const AccreditationSection: React.FC = () => {
           </div>
         </div>
 
-        {/* PART 2 */}
+        {/* PART 2 - YOGA ALLIANCE CERTS */}
         <div className={styles.container}>
-          <SectionTitle>YOGA ALLIANCE, USA - RYS 200 & 300</SectionTitle>
+          <SectionTitle 
+            subtitle="Internationally Recognized Certifications"
+          >
+            YOGA ALLIANCE, USA - RYS 200 & 300
+          </SectionTitle>
 
-          <div className={styles.certGrid}>
+          <div className={styles.certGridEnhanced}>
             {yogaAllianceCerts.map((cert) => (
-              <div key={cert.type} className={styles.imgWrap}>
-                <Image
-                  src={cert.img}
-                  alt={`Yoga Alliance ${cert.type} certification logo`}
-                  className={styles.responsiveImg}
-                />
+              <div key={cert.type} className={styles.certCard}>
+                <div className={styles.certImageWrapper}>
+                  <Image
+                    src={cert.img}
+                    alt={`Yoga Alliance ${cert.type} certification logo`}
+                    className={styles.responsiveImg}
+                  />
+                </div>
+                <div className={styles.certInfo}>
+                  <h4 className={styles.certType}>{cert.type}</h4>
+                  <p className={styles.certDescription}>{cert.description}</p>
+                </div>
               </div>
             ))}
           </div>
         </div>
 
-        {/* PART 3 */}
+        {/* PART 3 - YOGA CERTIFICATION BOARD */}
         <div className={styles.container}>
           <SectionTitle>Yoga Certification Board</SectionTitle>
+          <p className={styles.sectionDescription}>
+            Ministry of AYUSH, Government of India Official Recognition
+          </p>
 
-          <div className={styles.imgWrap}>
-            <Image
-              src={yogacetificate}
-              alt="Yoga Certification Board certificate under Ministry of AYUSH Government of India"
-              className={styles.responsiveImg}
-            />
+          <div className={styles.certBoardWrapper}>
+            <div className={styles.imgWrap}>
+              <Image
+                src={yogacetificate}
+                alt="Yoga Certification Board certificate under Ministry of AYUSH Government of India"
+                className={styles.responsiveImg}
+              />
+            </div>
+            <div className={styles.certBoardInfo}>
+              <h4>Government Recognition</h4>
+              <p>
+                AYM Yoga School is officially recognized by the Ministry of AYUSH 
+                (Ayurveda, Yoga & Naturopathy, Unani, Siddha and Homeopathy), 
+                Government of India, ensuring the highest standards of yoga education 
+                and teacher training.
+              </p>
+            </div>
           </div>
         </div>
 
-        {/* PART 4 */}
+        {/* PART 4 - INTERNATIONAL YOGA FEDERATION */}
         <div className={styles.container}>
           <SectionTitle>International Yoga Federation</SectionTitle>
+          
+          <div className={styles.iyfSection}>
+            <div className={styles.iyfContent}>
+              <h3 className={styles.iyfTitle}>Global Recognition & Standards</h3>
+              <div className={styles.introParagraphs}>
+                <p>
+                  Association for Yoga and Meditation school in Rishikesh is a member and 
+                  affiliated to the <strong>International Yoga Federation</strong>, the largest 
+                  yoga organization in the world. The IYF is open to all yogis and yoga 
+                  organizations and supports minimum international standards for yoga teachers 
+                  since 1987.
+                </p>
 
-          <div className={styles.introParagraphs}>
-            <p>
-              Association for Yoga and Meditation school in rishikesh is also
-              member and affiliated to International Yoga Federation is the
-              largest yoga organization in the world and is open to all yogis
-              and yoga organizations. IYF supports the minimum international
-              standards for yoga teachers from 1987. Graduates from AYM Yoga
-              School in rishikesh can also registered with International Yoga
-              Federation and can get International Yoga teacher Card. For
-              registration, graduated need to login to their website and has to
-              create their account after filling needed information, you will
-              get registered.
-            </p>
-          </div>
-          <div className={styles.imgWraplogo}>
-            <Image
-              src={yogalogo}
-              alt="International Yoga Federation official logo"
-              width={800}
-              height={500}
-              className={styles.responsiveImg}
-            />
-          </div>
+                <p>
+                  Graduates from AYM Yoga School in Rishikesh can register with the International 
+                  Yoga Federation and receive an <strong>International Yoga Teacher Card</strong>. 
+                  Registration is simple—just create an account on their website and submit your 
+                  graduation credentials.
+                </p>
+              </div>
 
-          <OmDivider />
+              <div className={styles.iyfFooterNotes}>
+                <div className={styles.noteItem}>
+                  <span className={styles.noteIcon}>✓</span>
+                  <p>200, 300 and 500 hour yoga certifications at AYM School are recognized by Indian Yoga Alliance.</p>
+                </div>
+                <div className={styles.noteItem}>
+                  <span className={styles.noteIcon}>✓</span>
+                  <p>
+                    Association for Yoga and Meditation is a lifetime member of Yoga Alliance International. 
+                    Visit{" "}
+                    <a
+                      href="http://www.yogaallianceinternational.net"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={styles.link}
+                    >
+                      yogaallianceinternational.net
+                    </a>
+                  </p>
+                </div>
+                <div className={styles.noteItem}>
+                  <span className={styles.noteIcon}>✓</span>
+                  <p>
+                    International Quality Management System has recognized Association for Yoga and Meditation 
+                    for its 200-hour, 300-hour and 500-hour yoga teacher training in Rishikesh, India.
+                  </p>
+                </div>
+              </div>
+            </div>
 
-          <div className={styles.iyfFooterNotes}>
-            <p>
-              200, 300 and 500 hour yoga certifications at AYM School are
-              recognized by Indian Yoga Alliance.
-            </p>
-            <p>
-              Association for yoga and meditation is also lifetime member of
-              Yoga Alliance International visit,
-              http://www.yogaallianceinternational.net Visit{" "}
-              <a
-                href="http://www.yogaallianceinternational.net"
-                target="_blank"
-                rel="noopener noreferrer"
-                className={styles.link}
-              >
-                yogaallianceinternational.net
-              </a>
-            </p>
-            <p>
-              International Quality Management System has recognized Association
-              for Yoga and Meditation for its 200-hour, 300-hour and 500-hour
-              yoga teacher training in rishikesh India.
-            </p>
+            <div className={styles.iyfImageWrapper}>
+              <Image
+                src={yogalogo}
+                alt="International Yoga Federation official logo"
+                width={400}
+                height={400}
+                className={styles.responsiveImg}
+              />
+            </div>
           </div>
         </div>
       </section>
+
       <HowToReach />
     </>
   );

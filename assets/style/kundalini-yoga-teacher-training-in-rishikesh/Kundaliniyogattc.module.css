@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Dancing+Script:wght@500;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Lato:wght@300;400;700;900&family=Poppins:wght@400;500;600;700;800&display=swap');
 
 /* ── CSS Variables ── */
 :root {
@@ -28,7 +28,7 @@
    PAGE WRAPPER
 ──────────────────────────────────────── */
 .page {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   background: white;
   min-height: 100vh;
   position: relative;
@@ -228,7 +228,7 @@
 }
 
 .heroSmall {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(.5rem, 1.1vw, .75rem);
   font-weight: 700;
   letter-spacing: .3em;
@@ -238,7 +238,7 @@
 }
 
 .heroScript {
-  font-family: 'Dancing Script', cursive;
+  font-family: 'Poppins', cursive;
   font-size: clamp(2.2rem, 9vw, 6rem);
   color: #fff;
   line-height: .92;
@@ -248,7 +248,7 @@
 }
 
 .heroSub {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(.72rem, 1.6vw, 1.1rem);
   font-weight: 600;
   color: rgba(255, 255, 255, .9);
@@ -259,7 +259,7 @@
 
 .heroBookBtn {
   display: inline-block;
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(.6rem, 1.1vw, .78rem);
   font-weight: 700;
   letter-spacing: .14em;
@@ -283,7 +283,7 @@
 }
 
 .heroUrl {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(.48rem, .85vw, .62rem);
   letter-spacing: .14em;
   color: rgba(255, 255, 255, .6);
@@ -365,7 +365,7 @@
 }
 
 .omGlyph {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(1.3rem, 2.8vw, 2.1rem);
   color: var(--saffron);
   text-shadow: 0 0 18px var(--glow), 0 0 36px var(--glow-gold);
@@ -377,7 +377,7 @@
    TYPOGRAPHY
 ──────────────────────────────────────── */
 .pageTitle {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: clamp(1.1rem, 2.8vw, 1.9rem);
   font-weight: 600;
   font-style: italic;
@@ -389,7 +389,7 @@
 }
 
 .sectionTitleCenter {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(.88rem, 1.9vw, 1.25rem);
   font-weight: 700;
   color: var(--saffron);
@@ -400,7 +400,7 @@
 }
 
 .sectionTitleLeft {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(.88rem, 1.8vw, 1.2rem);
   font-weight: 700;
   color: var(--saffron);
@@ -409,7 +409,7 @@
 }
 
 .subHeading {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: clamp(.92rem, 1.6vw, 1.12rem);
   font-weight: 600;
   color: var(--ink-md);
@@ -503,7 +503,7 @@
 }
 
 .benefitNum {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-weight: 700;
   color: var(--saffron);
   font-size: .92rem;
@@ -572,7 +572,7 @@
 }
 
 .syllabusBigTitle {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(.95rem, 2vw, 1.4rem);
   font-weight: 700;
   color: var(--ink);
@@ -581,7 +581,7 @@
 }
 
 .syllabusSchool {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: clamp(.92rem, 1.5vw, 1.1rem);
   font-style: italic;
   color: var(--saffron);
@@ -597,7 +597,7 @@
 }
 
 .overviewTitle {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(.85rem, 1.4vw, .98rem);
   font-weight: 700;
   color: var(--ink);
@@ -650,7 +650,7 @@
 }
 
 .accordNum {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-weight: 700;
   font-size: clamp(.8rem, 1.3vw, .92rem);
   color: var(--saffron);
@@ -663,7 +663,7 @@
 }
 
 .accordTitle {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-weight: 600;
   font-size: clamp(.78rem, 1.3vw, .92rem);
   color: var(--ink);
@@ -726,7 +726,7 @@
 }
 
 .readingTitle {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-weight: 700;
   font-size: clamp(.8rem, 1.3vw, .95rem);
   color: var(--ink);
@@ -758,7 +758,7 @@
 }
 
 .noteTitle {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-weight: 700;
   font-size: clamp(.8rem, 1.3vw, .95rem);
   color: var(--ink);
@@ -783,7 +783,7 @@
 }
 
 .facNum {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-weight: 700;
   color: var(--saffron);
   font-size: .88rem;
@@ -821,7 +821,7 @@
 }
 
 .schedTime {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-weight: 700;
   color: var(--saffron);
   font-size: clamp(.75rem, 1.2vw, .86rem);
@@ -885,7 +885,7 @@
 }
 
 .whyNum {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-weight: 900;
   font-size: 1.3rem;
   color: var(--saffron);
@@ -933,7 +933,7 @@
 /* Subtext under heading */
 .kCenterSubtext {
   text-align: center;
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-style: italic;
   font-size: clamp(.9rem, 1.4vw, 1rem);
   color: var(--ink-lt);
@@ -1000,7 +1000,7 @@
 }
 
 .kDatesTable thead th {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(.63rem, 1.05vw, .78rem);
   font-weight: 700;
   letter-spacing: .1em;
@@ -1037,7 +1037,7 @@
 }
 
 .kDatesTable td {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: clamp(.83rem, 1.28vw, .95rem);
   color: var(--ink-md);
   padding: .7rem 1rem;
@@ -1067,7 +1067,7 @@
 
 /* ── Seats badges ── */
 .kSeatsAvailable {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: .68rem;
   font-weight: 700;
   letter-spacing: .05em;
@@ -1081,7 +1081,7 @@
 }
 
 .kFullyBooked {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: .68rem;
   font-weight: 700;
   letter-spacing: .05em;
@@ -1096,7 +1096,7 @@
 
 /* ── Apply links ── */
 .kApplyLink {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: .72rem;
   font-weight: 700;
   letter-spacing: .08em;
@@ -1113,7 +1113,7 @@
 }
 
 .kApplyDisabled {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: .72rem;
   font-weight: 700;
   letter-spacing: .08em;
@@ -1126,7 +1126,7 @@
 
 /* ── Table note ── */
 .kTableNote {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: .9rem;
   font-style: italic;
   color: var(--ink-lt);
@@ -1140,7 +1140,7 @@
 /* ── Join button ── */
 .kJoinBtn {
   display: inline-block;
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(.66rem, 1vw, .78rem);
   font-weight: 700;
   letter-spacing: .12em;
@@ -1180,7 +1180,7 @@
 }
 
 .policyNum {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-weight: 700;
   color: var(--saffron);
   flex-shrink: 0;
@@ -1542,7 +1542,7 @@
   }
   
   .icHdrTxt {
-    font-family: 'Cinzel', serif;
+    font-family: 'Montserrat', serif;
     font-size: 0.85rem;
     font-weight: 700;
     letter-spacing: 0.18em;
@@ -1600,7 +1600,7 @@
   }
   
   .icLbl {
-    font-family: 'Cinzel', serif;
+    font-family: 'Montserrat', serif;
     font-size: 0.7rem;
     font-weight: 700;
     letter-spacing: 0.12em;
@@ -1610,7 +1610,7 @@
   }
   
   .icVal {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: 'Lato', serif;
     font-size: clamp(0.88rem, 1.3vw, 1rem);
     font-weight: 600;
     color: #3d1d00;
@@ -1618,7 +1618,7 @@
   }
   
   .icSub {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: 'Lato', serif;
     font-size: 0.75rem;
     color: #7a5c2e;
     line-height: 1.3;
@@ -1649,7 +1649,7 @@
   }
   
   .icFeeLbl {
-    font-family: 'Cinzel', serif;
+    font-family: 'Montserrat', serif;
     font-size: 0.8rem;
     font-weight: 700;
     letter-spacing: 0.14em;
@@ -1658,7 +1658,7 @@
   }
   
   .icFeeFrom {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: 'Lato', serif;
     font-size: 0.85rem;
     color: #7a5c2e;
   }
@@ -1671,7 +1671,7 @@
   }
   
   .icPriceOld {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: 'Lato', serif;
     font-size: 1.1rem;
     color: #a09080;
     text-decoration: line-through;
@@ -1680,7 +1680,7 @@
   }
   
   .icPriceNew {
-    font-family: 'Cormorant Garamond', serif;
+    font-family: 'Lato', serif;
     font-size: clamp(1.5rem, 3.5vw, 2rem);
     font-weight: 700;
     color: #3d1d00;
@@ -1689,7 +1689,7 @@
   }
   
   .icPriceCur {
-    font-family: 'Cinzel', serif;
+    font-family: 'Montserrat', serif;
     font-size: 0.7rem;
     font-weight: 700;
     color: #7a5c2e;
@@ -1704,7 +1704,7 @@
     width: 100%;
     background: linear-gradient(135deg, #F15505 0%, #a85800 100%);
     color: #ffffff;
-    font-family: 'Cinzel', serif;
+    font-family: 'Montserrat', serif;
     font-size: 0.7rem;
     font-weight: 700;
     letter-spacing: 0.16em;
@@ -2139,7 +2139,7 @@
 }
 
 .introItemMediaPlaceholder span {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.8rem;
   font-weight: 600;
   letter-spacing: 0.1em;
@@ -2288,7 +2288,7 @@
 }
 
 .icHdrTxt {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.85rem;
   font-weight: 700;
   letter-spacing: 0.18em;
@@ -2346,7 +2346,7 @@
 }
 
 .icLbl {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.12em;
@@ -2356,7 +2356,7 @@
 }
 
 .icVal {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: clamp(0.88rem, 1.3vw, 1rem);
   font-weight: 600;
   color: #3d1d00;
@@ -2364,7 +2364,7 @@
 }
 
 .icSub {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: 0.75rem;
   color: #7a5c2e;
   line-height: 1.3;
@@ -2395,7 +2395,7 @@
 }
 
 .icFeeLbl {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.8rem;
   font-weight: 700;
   letter-spacing: 0.14em;
@@ -2404,7 +2404,7 @@
 }
 
 .icFeeFrom {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: 0.85rem;
   color: #7a5c2e;
 }
@@ -2417,7 +2417,7 @@
 }
 
 .icPriceOld {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: 1.1rem;
   color: #a09080;
   text-decoration: line-through;
@@ -2426,7 +2426,7 @@
 }
 
 .icPriceNew {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: clamp(1.5rem, 3.5vw, 2rem);
   font-weight: 700;
   color: #3d1d00;
@@ -2435,7 +2435,7 @@
 }
 
 .icPriceCur {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.7rem;
   font-weight: 700;
   color: #7a5c2e;
@@ -2450,7 +2450,7 @@
   width: 100%;
   background: linear-gradient(135deg, #F15505 0%, #a85800 100%);
   color: #ffffff;
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.16em;
@@ -2784,7 +2784,7 @@
 }
 
 .activateIntroImageBadge span {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: .7rem;
   font-weight: 700;
   letter-spacing: .14em;
@@ -2832,7 +2832,7 @@
 }
 
 .activateBenefitNum {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: .68rem;
   font-weight: 700;
   color: #fff;
@@ -2888,7 +2888,7 @@
 }
 
 .activateHlTitle {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: .7rem;
   font-weight: 700;
   color: var(--ink);
@@ -2996,7 +2996,7 @@
 }
 
 .syllabusBigTitle {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(.95rem, 2vw, 1.35rem);
   font-weight: 700;
   color: #fff;
@@ -3007,7 +3007,7 @@
 }
 
 .syllabusSchool {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: clamp(.9rem, 1.5vw, 1.05rem);
   font-style: italic;
   color: #f5c87a;
@@ -3031,7 +3031,7 @@
 }
 
 .sylOmGlyph {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 1.4rem;
   color: #f5c87a;
   line-height: 1;
@@ -3045,7 +3045,7 @@
 }
 
 .sylBadge {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: .58rem;
   font-weight: 700;
   letter-spacing: .1em;
@@ -3073,7 +3073,7 @@
 }
 
 .overviewTitle {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(.8rem, 1.3vw, .95rem);
   font-weight: 700;
   color: var(--ink);
@@ -3116,7 +3116,7 @@
 }
 
 .courseOverviewImgBadge span {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: .55rem;
   font-weight: 700;
   letter-spacing: .14em;
@@ -3146,7 +3146,7 @@
 }
 
 .readingTitle {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-weight: 700;
   font-size: clamp(.78rem, 1.2vw, .92rem);
   color: var(--ink);
@@ -3187,7 +3187,7 @@
 }
 
 .noteTitle {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-weight: 700;
   font-size: clamp(.78rem, 1.2vw, .92rem);
   color: var(--ink);
@@ -3294,7 +3294,7 @@
 }
 
 .hlStripNum {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 1rem;
   font-weight: 700;
   color: var(--saffron);
@@ -3302,7 +3302,7 @@
 }
 
 .hlStripLabel {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: .54rem;
   font-weight: 700;
   letter-spacing: .06em;
@@ -3370,7 +3370,7 @@
 }
 
 .activateHlTitle {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: .72rem;
   font-weight: 700;
   letter-spacing: .05em;
@@ -3392,7 +3392,7 @@
 .activateHlTag {
   display: inline-flex;
   align-items: center;
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: .54rem;
   font-weight: 700;
   letter-spacing: .08em;
@@ -3450,7 +3450,7 @@
 
 /* ── Shared tag label ── */
 .secTagline {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.62rem;
   font-weight: 700;
   letter-spacing: 0.28em;
@@ -3460,7 +3460,7 @@
 }
 
 .secTaglineLight {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.62rem;
   font-weight: 700;
   letter-spacing: 0.28em;
@@ -3546,7 +3546,7 @@
 }
 
 .eligBadgeTitle {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.78rem;
   font-weight: 700;
   color: #fff;
@@ -3554,7 +3554,7 @@
 }
 
 .eligBadgeSub {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: 0.7rem;
   color: rgba(255, 220, 160, 0.85);
   font-style: italic;
@@ -3586,7 +3586,7 @@
 }
 
 .eligChipNum {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 1.1rem;
   font-weight: 900;
   color: #fff;
@@ -3594,7 +3594,7 @@
 }
 
 .eligChipLabel {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.5rem;
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -3641,7 +3641,7 @@
 }
 
 .eligPillIcon {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.7rem;
   font-weight: 900;
   color: #fff;
@@ -3734,7 +3734,7 @@
 }
 
 .locationBannerTitle {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(1rem, 2.5vw, 1.7rem);
   font-weight: 700;
   color: #fff;
@@ -3765,7 +3765,7 @@
 }
 
 .locationStatNum {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(1.1rem, 2.5vw, 1.8rem);
   font-weight: 900;
   color: var(--gold-lt);
@@ -3774,7 +3774,7 @@
 }
 
 .locationStatLabel {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: clamp(0.65rem, 1.1vw, 0.78rem);
   font-style: italic;
   color: rgba(255, 220, 160, 0.85);
@@ -3833,7 +3833,7 @@
   right: 0;
   background: linear-gradient(to top, rgba(150, 55, 0, 0.85), transparent);
   padding: 1rem 0.7rem 0.4rem;
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.55rem;
   font-weight: 700;
   letter-spacing: 0.14em;
@@ -3930,7 +3930,7 @@
 }
 
 .facilitiesVideoTag {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(0.55rem, 1vw, 0.7rem);
   font-weight: 700;
   letter-spacing: 0.3em;
@@ -3940,7 +3940,7 @@
 }
 
 .facilitiesVideoText p {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: clamp(0.9rem, 2vw, 1.25rem);
   font-style: italic;
   color: rgba(255, 240, 210, 0.95);
@@ -4006,7 +4006,7 @@
 }
 
 .facilityIconLabel {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.63rem;
   font-weight: 700;
   letter-spacing: 0.06em;
@@ -4016,7 +4016,7 @@
 }
 
 .facilityIconDesc {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: 0.82rem;
   line-height: 1.6;
   color: var(--ink-lt);
@@ -4112,7 +4112,7 @@
 
 /* ── Shared tag label (add once if not already present) ── */
 .secTagline {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.62rem;
   font-weight: 700;
   letter-spacing: 0.28em;
@@ -4155,7 +4155,7 @@
 }
 
 .schedHeaderSub {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: clamp(0.9rem, 1.45vw, 1.05rem);
   font-style: italic;
   color: var(--ink-lt);
@@ -4194,7 +4194,7 @@
   align-items: center;
   gap: 0.5rem;
   padding: 0.65rem 1.2rem;
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.68rem;
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -4267,7 +4267,7 @@
 }
 
 .schedTimeBadge {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(0.64rem, 1.1vw, 0.74rem);
   font-weight: 700;
   letter-spacing: 0.04em;
@@ -4277,7 +4277,7 @@
 }
 
 .schedActivity {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: clamp(0.92rem, 1.4vw, 1.04rem);
   color: var(--ink);
   line-height: 1.6;
@@ -4302,7 +4302,7 @@
 }
 
 .schedNoteText {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: 0.88rem;
   font-style: italic;
   color: var(--ink-lt);
@@ -4362,7 +4362,7 @@
 }
 
 .schedImgTag {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.52rem;
   font-weight: 700;
   letter-spacing: 0.16em;
@@ -4406,7 +4406,7 @@
 }
 
 .schedStatNum {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(0.9rem, 1.6vw, 1.1rem);
   font-weight: 900;
   color: var(--saffron);
@@ -4414,7 +4414,7 @@
 }
 
 .schedStatLabel {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.46rem;
   font-weight: 700;
   letter-spacing: 0.06em;
@@ -4438,7 +4438,7 @@
   position: absolute;
   top: -0.5rem;
   left: 0.9rem;
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: 4.5rem;
   color: var(--saffron);
   opacity: 0.15;
@@ -4447,7 +4447,7 @@
 }
 
 .schedQuoteText {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: clamp(0.88rem, 1.4vw, 1rem);
   font-style: italic;
   line-height: 1.82;
@@ -4456,7 +4456,7 @@
 }
 
 .schedQuoteAuthor {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.62rem;
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -4548,7 +4548,7 @@
 ════════════════════════════════════════ */
 
 .secTaglineLight {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.62rem;
   font-weight: 700;
   letter-spacing: 0.28em;
@@ -4602,7 +4602,7 @@
 }
 
 .whyHeroBannerTitle {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(1.1rem, 3vw, 2rem);
   font-weight: 700;
   color: #fff;
@@ -4635,7 +4635,7 @@
   border: 1px solid rgba(255, 210, 120, 0.28);
   border-radius: 20px;
   padding: 0.3rem 0.85rem;
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.58rem;
   font-weight: 700;
   letter-spacing: 0.07em;
@@ -4712,7 +4712,7 @@
 }
 
 .whyEnhNum {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 2.2rem;
   font-weight: 900;
   line-height: 1;
@@ -4721,7 +4721,7 @@
 }
 
 .whyEnhLabel {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(0.7rem, 1.2vw, 0.85rem);
   font-weight: 700;
   letter-spacing: 0.05em;
@@ -4730,7 +4730,7 @@
 }
 
 .whyEnhDesc {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: clamp(0.88rem, 1.4vw, 1rem);
   line-height: 1.75;
   color: var(--ink);
@@ -4760,7 +4760,7 @@
 }
 
 .whyTestBigNum {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(2rem, 4vw, 3rem);
   font-weight: 900;
   color: var(--saffron);
@@ -4774,7 +4774,7 @@
 }
 
 .whyTestBigLabel {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: clamp(0.82rem, 1.3vw, 0.95rem);
   font-style: italic;
   color: var(--ink-lt);
@@ -4796,7 +4796,7 @@
 }
 
 .whyTestQuote {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: clamp(0.92rem, 1.5vw, 1.1rem);
   font-style: italic;
   color: var(--ink);
@@ -4814,7 +4814,7 @@
 }
 
 .whyTestAuthor {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.65rem;
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -4865,7 +4865,7 @@
 }
 
 .whyClassImgCaptionTag {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.6rem;
   font-weight: 700;
   letter-spacing: 0.3em;
@@ -4874,7 +4874,7 @@
 }
 
 .whyClassImgCaptionText {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: clamp(1rem, 2.2vw, 1.5rem);
   font-style: italic;
   color: rgba(255, 245, 220, 0.95);
@@ -5867,7 +5867,7 @@
 }
 
 .wrBannerTag {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(.52rem, .9vw, .68rem);
   font-weight: 700;
   letter-spacing: .3em;
@@ -5878,7 +5878,7 @@
 }
 
 .wrBannerTitle {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(1rem, 2.8vw, 1.9rem);
   font-weight: 700;
   color: #fff;
@@ -5909,7 +5909,7 @@
 }
 
 .wrBannerStatNum {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(1.1rem, 2.5vw, 1.8rem);
   font-weight: 900;
   color: var(--gold-lt);
@@ -5918,7 +5918,7 @@
 }
 
 .wrBannerStatLabel {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: clamp(.62rem, 1vw, .75rem);
   font-style: italic;
   color: rgba(255, 220, 160, .82);
@@ -5969,7 +5969,7 @@
 }
 
 .wrPillarTitle {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(.82rem, 1.4vw, 1rem);
   font-weight: 700;
   color: var(--ink-md);
@@ -6037,7 +6037,7 @@
 }
 
 .wrRightCardTitle {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(.72rem, 1.2vw, .85rem);
   font-weight: 700;
   color: var(--ink);
@@ -6066,7 +6066,7 @@
 }
 
 .wrTypesArrow {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   color: var(--saffron);
   font-weight: 700;
   flex-shrink: 0;
@@ -6091,7 +6091,7 @@
   background: rgba(241, 85, 5, .07);
   border: 1px solid rgba(241, 85, 5, .2);
   border-radius: 20px;
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: .6rem;
   font-weight: 700;
   letter-spacing: .06em;
@@ -6180,7 +6180,7 @@
 }
 
 .refundHeaderSub {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: clamp(.9rem, 1.45vw, 1.05rem);
   font-style: italic;
   color: var(--ink-lt);
@@ -6256,7 +6256,7 @@
 }
 
 .refundCardNum {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 2.4rem;
   font-weight: 900;
   line-height: 1;
@@ -6265,7 +6265,7 @@
 }
 
 .refundCardText {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: clamp(.9rem, 1.45vw, 1.04rem);
   line-height: 1.82;
   color: var(--ink);
@@ -6288,7 +6288,7 @@
   gap: .55rem;
   flex: 1;
   justify-content: center;
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: clamp(.84rem, 1.3vw, .96rem);
   font-style: italic;
   color: var(--ink-md);
@@ -6430,7 +6430,7 @@
 }
 
 .whatIsPillText {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(.56rem, .95vw, .68rem);
   font-weight: 700;
   letter-spacing: .05em;
@@ -6521,7 +6521,7 @@
 }
 
 .whatIsImgBadgeTitle {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: .78rem;
   font-weight: 700;
   letter-spacing: .08em;
@@ -6529,7 +6529,7 @@
 }
 
 .whatIsImgBadgeSub {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: .68rem;
   font-style: italic;
   color: rgba(245, 200, 122, .85);
@@ -6554,7 +6554,7 @@
 }
 
 .whatIsFloatChipNum {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 1rem;
   font-weight: 900;
   color: #fff;
@@ -6562,7 +6562,7 @@
 }
 
 .whatIsFloatChipLabel {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: .48rem;
   font-weight: 700;
   letter-spacing: .1em;
@@ -6670,7 +6670,7 @@
   border-radius: 50%;
   background: var(--saffron);
   color: #fff;
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: .75rem;
   font-weight: 700;
   display: flex;
@@ -6682,7 +6682,7 @@
 }
 
 .benefitGridText {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: clamp(.9rem, 1.45vw, 1.02rem);
   line-height: 1.78;
   color: var(--ink);

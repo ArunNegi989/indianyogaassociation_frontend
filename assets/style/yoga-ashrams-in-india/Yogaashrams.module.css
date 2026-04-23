@@ -1,6 +1,6 @@
 /* Yogaashrams.module.css */
 
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Open+Sans:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Lato:wght@300;400;700;900&family=Poppins:wght@400;500;600;700&display=swap');
 
 :root {
   --orange-primary: #e8600a;
@@ -14,7 +14,7 @@
    GLOBAL
 ==================================================== */
 .pageWrapper {
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Lato', sans-serif;
   background: #fff;
   color: var(--text-body);
   overflow-x: hidden;
@@ -63,7 +63,7 @@
 }
 
 .mainTitle {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(1.6rem, 4vw, 2.4rem);
   font-weight: 700;
   font-style: italic;
@@ -141,7 +141,7 @@
   font-size: clamp(0.75rem, 2vw, 0.95rem);
   font-weight: 700;
   color: var(--text-dark);
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   border-top: 2px solid #a88030;
 }
 
@@ -180,17 +180,17 @@
 }
 
 .sectionTitle {
-  font-family: 'Lora', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(1.1rem, 2.5vw, 1.5rem);
   font-weight: 600;
-  color: var(--text-dark);
+  color: #f15505;
   text-align: center;
   margin-bottom: 20px;
   line-height: 1.4;
 }
 
 .sectionTitleLink {
-  font-family: 'Lora', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(1.1rem, 2.5vw, 1.5rem);
   font-weight: 600;
   text-align: center;
@@ -259,14 +259,14 @@
   font-size: clamp(0.75rem, 1.8vw, 0.9rem);
   font-weight: 700;
   color: var(--white);
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
 }
 
 /* ====================================================
    ACTIVITIES / COURSES
 ==================================================== */
 .activitiesTitle {
-  font-family: 'Lora', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(1.1rem, 2.5vw, 1.5rem);
   font-weight: 600;
   color: var(--text-dark);
@@ -432,11 +432,11 @@
 }
 
 .mainTitle {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(1.6rem, 4vw, 2.4rem);
   font-weight: 700;
   font-style: italic;
-  color: #2c1a08;
+  color: #f15505;
   margin-bottom: 0.5rem;
 }
 
@@ -501,7 +501,7 @@
 
 .featureQuote p {
   color: white;
-  font-family: 'Lora', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.85rem;
   font-style: italic;
   margin: 0;
@@ -552,7 +552,7 @@
 
 .statNumber {
   display: block;
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 1.8rem;
   font-weight: 700;
   color: #e8600a;
@@ -598,15 +598,15 @@
 }
 
 .experienceTitle {
-  font-family: 'Lora', serif;
+  font-family: 'Montserrat', serif;
   font-size: 1.8rem;
   font-weight: 600;
-  color: #2c1a08;
+  color: #f15505;
   margin-bottom: 0.3rem;
 }
 
 .experienceSubtitle {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.8rem;
   letter-spacing: 0.1em;
   color: #e8600a;
@@ -643,7 +643,7 @@
 }
 
 .timelineContent h3 {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 1rem;
   font-weight: 700;
   color: #2c1a08;
@@ -730,7 +730,7 @@
 
 /* ── SECTION LABEL ── */
 .sectionLabel {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.7rem;
   letter-spacing: 0.25em;
   color: var(--orange-primary);
@@ -763,7 +763,7 @@
 }
 
 .highlightCardTitle {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.8rem;
   letter-spacing: 0.12em;
   color: var(--orange-primary);
@@ -784,7 +784,7 @@
   border-radius: 20px;
   padding: 4px 12px;
   font-size: 0.72rem;
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   color: var(--text-dark);
   letter-spacing: 0.05em;
 }
@@ -853,7 +853,7 @@
 }
 
 .photoCaptionTitle {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.9rem;
   letter-spacing: 0.2em;
   color: rgba(200, 168, 75, 0.9);
@@ -903,7 +903,7 @@
 }
 
 .whatIconLabel {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.65rem;
   letter-spacing: 0.1em;
   color: var(--orange-primary);
@@ -911,7 +911,7 @@
 }
 
 .whatText .bodyText:first-child::first-letter {
-  font-family: 'Lora', serif;
+  font-family: 'Montserrat', serif;
   font-size: 2.8rem;
   font-weight: 600;
   color: var(--orange-primary);
@@ -927,7 +927,7 @@
   background: #fff9f0;
   border-radius: 0 10px 10px 0;
   margin: 1rem 0;
-  font-family: 'Lora', serif;
+  font-family: 'Montserrat', serif;
   font-style: italic;
   font-size: 0.9rem;
   color: var(--text-dark);
@@ -953,8 +953,9 @@
 }
 
 .whySection .sectionTitle a {
-  color: #1a5276;
-  text-decoration: underline;
+  color: #f15505;
+  /* text-decoration: underline; */
+  font-size: 30px;
   text-decoration-color: rgba(232, 96, 10, 0.4);
 }
 
@@ -984,7 +985,7 @@
 }
 
 .whyCardNum {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.65rem;
   color: #e8600a;
   letter-spacing: 0.2em;
@@ -992,7 +993,7 @@
 }
 
 .whyCardTitle {
-  font-family: 'Lora', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.95rem;
   color: #1a1a1a;
   margin-bottom: 0.4rem;
@@ -1076,7 +1077,7 @@
   align-items: center;
   gap: 0.5rem;
   font-size: 0.82rem;
-  color: var(--link-color);
+  color: #f15505;
   text-decoration: none;
   padding: 0.5rem 0.7rem;
   border-radius: 8px;

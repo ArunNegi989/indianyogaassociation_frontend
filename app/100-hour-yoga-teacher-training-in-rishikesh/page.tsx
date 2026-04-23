@@ -7,13 +7,9 @@ import Image from "next/image";
 import heroImg from "@/assets/images/6.webp";
 import api from "@/lib/api";
 import image1 from "@/assets/images/yoga.png";
-import image2 from "@/assets/images/_DSC9732.JPG.jpeg";
-import image3 from "@/assets/images/_DSC5018.JPG.jpeg";
+import image2 from "@/assets/images/_DSC9732.JPG.jpeg"
+import image3 from "@/assets/images/_DSC5018.JPG.jpeg"
 import RatingsSummarySection from "@/components/home/RatingsSummarySection";
-
-// ✅ Review section is now a separate reusable component
-import ReviewSection from "@/components/common/Reviewsection";
-import PremiumGallerySection from "@/components/PremiumGallerySection";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "";
 
@@ -97,7 +93,7 @@ const imgUrl = (path: string) => {
 };
 
 /* ══════════════════════════════
-   DATE FORMATTERS
+   DATE FORMATTER
 ══════════════════════════════ */
 const formatDateRange = (start: string, end: string) => {
   const s = new Date(start);
@@ -124,10 +120,10 @@ const monthYear = (start: string) => {
 };
 
 /* ══════════════════════════════
-   CURRENCY HOOK
+   CURRENCY HOOK — Live Rate
 ══════════════════════════════ */
 function useCurrencyRate() {
-  const [rate, setRate] = useState<number>(83);
+  const [rate, setRate] = useState<number>(83); // fallback INR per USD
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -139,7 +135,9 @@ function useCurrencyRate() {
         const inr = data?.usd?.inr;
         if (inr && typeof inr === "number") setRate(inr);
       })
-      .catch(() => {})
+      .catch(() => {
+        // Use fallback rate silently
+      })
       .finally(() => setLoading(false));
   }, []);
 
@@ -147,16 +145,30 @@ function useCurrencyRate() {
 }
 
 /* ══════════════════════════════
-   CURRENCY FORMATTERS
+   CURRENCY FORMATTER
 ══════════════════════════════ */
 function formatPrice(
   usdAmount: number,
   currency: Currency,
   rate: number,
 ): string {
-  if (currency === "USD") return `$${usdAmount}`;
+  if (currency === "USD") {
+    return `$${usdAmount}`;
+  }
   const inr = Math.round((usdAmount * rate) / 100) * 100;
   return `₹${inr.toLocaleString("en-IN")}`;
+}
+
+function formatPriceFull(
+  usdAmount: number,
+  currency: Currency,
+  rate: number,
+): string {
+  if (currency === "USD") {
+    return `$${usdAmount} USD`;
+  }
+  const inr = Math.round((usdAmount * rate) / 100) * 100;
+  return `₹${inr.toLocaleString("en-IN")} INR`;
 }
 
 /* ══════════════════════════════
@@ -193,9 +205,7 @@ function CurrencyDropdown({
         <span className={styles.currDropFlag}>
           {currency === "USD" ? "🇺🇸" : "🇮🇳"}
         </span>
-        <span className={styles.currDropLabel}>
-  {currency === "USD" ? "English" : "हिन्दी"}
-</span>
+        <span className={styles.currDropLabel}>{currency}</span>
         <svg
           className={`${styles.currDropArrow} ${open ? styles.currDropArrowOpen : ""}`}
           viewBox="0 0 12 8"
@@ -228,12 +238,10 @@ function CurrencyDropdown({
                 {c === "USD" ? "🇺🇸" : "🇮🇳"}
               </span>
               <div className={styles.currDropItemText}>
-               <span className={styles.currDropItemCode}>
-  {c === "USD" ? "English" : "हिन्दी"}
-</span>
-<span className={styles.currDropItemName}>
-  {c === "USD" ? "US Dollar" : "Indian Rupee"}
-</span>
+                <span className={styles.currDropItemCode}>{c}</span>
+                <span className={styles.currDropItemName}>
+                  {c === "USD" ? "US Dollar" : "Indian Rupee"}
+                </span>
               </div>
               {currency === c && (
                 <svg
@@ -429,9 +437,6 @@ const whyIcons = [
   </svg>,
 ];
 
-/* ══════════════════════════════
-   VIDEO HELPERS
-══════════════════════════════ */
 const getVideoType = (url: string) => {
   if (!url) return "none";
   if (url.includes("youtube.com") || url.includes("youtu.be")) return "youtube";
@@ -503,7 +508,7 @@ function DynamicVideo({ url }: { url: string }) {
 }
 
 /* ══════════════════════════════════════════════════
-   COURSE INFO CARD
+   COURSE INFO CARD — with currency
 ══════════════════════════════════════════════════ */
 function CourseInfoCard({
   seats,
@@ -642,6 +647,23 @@ function VintageHeading({ children }: { children: React.ReactNode }) {
   return (
     <div className={styles.vintageHeadingWrap}>
       <h2 className={styles.vintageHeading}>{children}</h2>
+      <div className={styles.vintageHeadingUnderline}>
+        <svg
+          viewBox="0 0 200 8"
+          xmlns="http://www.w3.org/2000/svg"
+          className={styles.headingUndSvg}
+        >
+          <path
+            d="M0,4 Q50,0 100,4 Q150,8 200,4"
+            stroke="#F15505"
+            strokeWidth="1.2"
+            fill="none"
+          />
+          <circle cx="100" cy="4" r="3" fill="#F15505" opacity="0.7" />
+          <circle cx="10" cy="4" r="1.5" fill="#b8860b" opacity="0.5" />
+          <circle cx="190" cy="4" r="1.5" fill="#b8860b" opacity="0.5" />
+        </svg>
+      </div>
     </div>
   );
 }
@@ -659,7 +681,7 @@ function TextImageRow({
 }: {
   title: string;
   paragraphs: string[];
-  imageUrl: any;
+ imageUrl: any;
   imageAlt: string;
   reverse?: boolean;
   badge?: string;
@@ -678,13 +700,13 @@ function TextImageRow({
       </div>
       <div className={styles.tiImageWrap}>
         <div className={styles.tiImageFrame}>
-          <Image
-            src={imageUrl}
-            alt={imageAlt || "Yoga Image"}
-            width={700}
-            height={500}
-            className={styles.tiImage}
-          />
+        <Image
+  src={imageUrl}   // ✅ correct
+  alt={imageAlt || "Yoga Image"}
+  width={700}
+  height={500}
+  className={styles.tiImage}
+/>
           <div className={styles.tiImageOverlay} />
           {badge && <div className={styles.tiImageBadge}>{badge}</div>}
           <div className={styles.tiImageCornerTl} />
@@ -824,6 +846,7 @@ function SuitableSection({ title, items }: { title: string; items: string[] }) {
     "https://images.unsplash.com/photo-1545389336-cf090694435e?w=400&q=80",
     "https://images.unsplash.com/photo-1552196563-55cd4e45efb3?w=400&q=80",
   ];
+
   return (
     <div className={styles.suitableSection}>
       <div className={styles.suitableImages}>
@@ -862,20 +885,22 @@ function SuitableSection({ title, items }: { title: string; items: string[] }) {
 }
 
 /* ══════════════════════════════════════════════════
-   PREMIUM SEAT BOOKING
+   PREMIUM SEAT BOOKING — with Currency Switcher
 ══════════════════════════════════════════════════ */
-function PremiumSeatBooking({
+export function PremiumSeatBooking({
   seats,
   currency,
   onCurrencyChange,
   rate,
   rateLoading,
+  seattitle,
 }: {
   seats: SeatBatch[];
   currency: Currency;
   onCurrencyChange: (c: Currency) => void;
   rate: number;
   rateLoading: boolean;
+  seattitle: string;
 }) {
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
@@ -887,6 +912,7 @@ function PremiumSeatBooking({
 
   const selected = seats.find((s) => s._id === selectedId) ?? null;
 
+  // Format price based on currency
   const fmtPrice = (usd: number) => {
     if (currency === "INR") {
       const inr = Math.round((usd * rate) / 100) * 100;
@@ -898,7 +924,7 @@ function PremiumSeatBooking({
   return (
     <section className={styles.datesSection} id="dates-fees">
       <div className={styles.psbSecTag}>Upcoming Batches · 2026–2027</div>
-      <VintageHeading>100 Hour Yoga Teacher Training India</VintageHeading>
+      <VintageHeading>{seattitle}</VintageHeading>
       <p className={styles.psbSecSub}>
         Choose your dates &amp; preferred accommodation — prices include tuition
         and meals
@@ -908,6 +934,7 @@ function PremiumSeatBooking({
         <div className={styles.psbOrnDiamond} />
         <div className={styles.psbOrnR} />
       </div>
+
       <div className={styles.psbLayout}>
         {/* LEFT PANEL */}
         <div className={styles.psbLeftPanel}>
@@ -918,6 +945,7 @@ function PremiumSeatBooking({
           <div className={styles.psbLph}>
             <span className={styles.psbLphTitle}>Select Your Batch</span>
             <div className={styles.psbLphRight}>
+              {/* Currency Dropdown */}
               <CurrencyDropdown
                 currency={currency}
                 onChange={onCurrencyChange}
@@ -938,12 +966,14 @@ function PremiumSeatBooking({
               </div>
             </div>
           </div>
+
           {rateLoading && (
             <div className={styles.rateLoader}>
               <div className={styles.rateLoaderDot} />
               <span>Loading live exchange rate...</span>
             </div>
           )}
+
           {seats.length === 0 ? (
             <p className={styles.psbNoBatches}>
               No upcoming batches available at the moment.
@@ -1006,6 +1036,7 @@ function PremiumSeatBooking({
                     <div className={styles.psbBcDates}>
                       {shortDateRange(batch.startDate, batch.endDate)}
                     </div>
+                    {/* Show price on batch card */}
                     <div className={styles.psbBcPrice}>
                       {dormFmt.amount} <span>{dormFmt.cur}</span>
                     </div>
@@ -1042,6 +1073,7 @@ function PremiumSeatBooking({
             </div>
           )}
         </div>
+
         {/* RIGHT PANEL */}
         <div className={styles.psbRightPanel}>
           <div className={`${styles.psbCn} ${styles.psbCnTl}`} />
@@ -1051,7 +1083,7 @@ function PremiumSeatBooking({
           <div className={styles.psbRpHead}>
             <div className={styles.psbRpEyebrow}>Course Overview</div>
             <div className={styles.psbRpCourse}>
-              100 Hour Yoga Teacher Training
+              {/* 100 Hour Yoga Teacher Training */}{seattitle}
             </div>
             <div className={styles.psbRpDur}>
               <svg width="11" height="11" viewBox="0 0 16 16" fill="none">
@@ -1073,6 +1105,7 @@ function PremiumSeatBooking({
                 13 Days · Rishikesh, India
               </span>
             </div>
+            {/* Currency indicator in header */}
             <div className={styles.psbCurrBadge}>
               {currency === "USD" ? "🇺🇸 Prices in USD" : "🇮🇳 Prices in INR"}
             </div>
@@ -1105,12 +1138,15 @@ function PremiumSeatBooking({
               </div>
               <span className={styles.psbFoodBadge}>Food Included</span>
             </div>
+
+            {/* Show INR price only when currency is USD (as extra info) */}
             {selected && currency === "USD" && (
               <div className={styles.psbInrRow}>
                 <span className={styles.psbInrLbl}>Indian Price</span>
                 <span className={styles.psbInrAmt}>{selected.inrFee}</span>
               </div>
             )}
+            {/* Show USD price as extra info when INR is selected */}
             {selected && currency === "INR" && (
               <div className={styles.psbInrRow}>
                 <span className={styles.psbInrLbl}>USD Price</span>
@@ -1119,55 +1155,63 @@ function PremiumSeatBooking({
                 </span>
               </div>
             )}
+
             <div className={styles.psbDivider} />
-            {selected &&
-              (() => {
-                const rem = selected.totalSeats - selected.bookedSeats;
-                const full = rem <= 0;
-                const low = !full && rem <= 5;
-                const pct = full
-                  ? 100
-                  : Math.round(
-                      (selected.bookedSeats / selected.totalSeats) * 100,
-                    );
-                return (
-                  <div className={styles.psbRpSeatsWrap}>
-                    <div className={styles.psbRpSeatsRow}>
-                      <span className={styles.psbRpSeatsLbl}>
-                        Seats Availability
-                      </span>
-                      <span
-                        className={styles.psbRpSeatsBadge}
-                        style={{
-                          color: full ? "#8a2c00" : low ? "#c8700a" : "#3d6000",
-                          borderColor: full
-                            ? "#8a2c00"
-                            : low
-                              ? "#c8700a"
-                              : "#3d6000",
-                        }}
-                      >
-                        {full
-                          ? "Fully Booked"
-                          : `${rem} of ${selected.totalSeats} left`}
-                      </span>
-                    </div>
-                    <div className={styles.psbRpSeatsBar}>
-                      <div
-                        className={styles.psbRpSeatsBarFill}
-                        style={{
-                          width: `${pct}%`,
-                          background: full
-                            ? "#8a2c00"
-                            : low
-                              ? "linear-gradient(90deg,#c8700a,#e09030)"
-                              : "linear-gradient(90deg,#3d6000,#6aa000)",
-                        }}
-                      />
-                    </div>
-                  </div>
-                );
-              })()}
+            {selected && (
+              <div className={styles.psbRpSeatsWrap}>
+                {(() => {
+                  const rem = selected.totalSeats - selected.bookedSeats;
+                  const full = rem <= 0;
+                  const low = !full && rem <= 5;
+                  const pct = full
+                    ? 100
+                    : Math.round(
+                        (selected.bookedSeats / selected.totalSeats) * 100,
+                      );
+                  return (
+                    <>
+                      <div className={styles.psbRpSeatsRow}>
+                        <span className={styles.psbRpSeatsLbl}>
+                          Seats Availability
+                        </span>
+                        <span
+                          className={styles.psbRpSeatsBadge}
+                          style={{
+                            color: full
+                              ? "#8a2c00"
+                              : low
+                                ? "#c8700a"
+                                : "#3d6000",
+                            borderColor: full
+                              ? "#8a2c00"
+                              : low
+                                ? "#c8700a"
+                                : "#3d6000",
+                          }}
+                        >
+                          {full
+                            ? "Fully Booked"
+                            : `${rem} of ${selected.totalSeats} left`}
+                        </span>
+                      </div>
+                      <div className={styles.psbRpSeatsBar}>
+                        <div
+                          className={styles.psbRpSeatsBarFill}
+                          style={{
+                            width: `${pct}%`,
+                            background: full
+                              ? "#8a2c00"
+                              : low
+                                ? "linear-gradient(90deg,#c8700a,#e09030)"
+                                : "linear-gradient(90deg,#3d6000,#6aa000)",
+                          }}
+                        />
+                      </div>
+                    </>
+                  );
+                })()}
+              </div>
+            )}
             <div className={styles.psbSelDisplay}>
               {selected ? (
                 <>
@@ -1237,6 +1281,301 @@ function SkeletonBlock({ h = 24, w = "100%" }: { h?: number; w?: string }) {
         animation: "shimmer 1.4s infinite",
       }}
     />
+  );
+}
+
+/* ══════════════════════════════════════════════════
+   REVIEWS SECTION
+══════════════════════════════════════════════════ */
+const textReviews = [
+  {
+    name: "Sarah Mitchell",
+    country: "United States",
+    image:
+      "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&q=80",
+    rating: 5,
+    review:
+      "This 100-hour training completely transformed my understanding of yoga. The teachers were incredibly knowledgeable and patient. Rishikesh itself is magical — waking up to the sound of the Ganges every morning made the whole experience deeply spiritual. I came as a practitioner and left as a teacher.",
+    course: "100 Hour YTTC",
+    date: "March 2025",
+  },
+  {
+    name: "Marco Rossi",
+    country: "Italy",
+    image:
+      "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=200&q=80",
+    rating: 5,
+    review:
+      "Excellent course structure and amazing teachers. The blend of Ashtanga, Vinyasa and Hatha gave me a well-rounded foundation. The accommodation was clean and comfortable, and the sattvic meals were delicious. I would highly recommend this school to anyone serious about yoga.",
+    course: "100 Hour YTTC",
+    date: "January 2025",
+  },
+  {
+    name: "Yuki Tanaka",
+    country: "Japan",
+    image:
+      "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&q=80",
+    rating: 5,
+    review:
+      "The morning meditation sessions by the Ganges were life-changing. Our instructor's depth of knowledge about yoga philosophy was remarkable. The small batch size meant I got personal attention throughout. This is not just a certification course — it is a journey within.",
+    course: "100 Hour YTTC",
+    date: "February 2025",
+  },
+  {
+    name: "Emma Clarke",
+    country: "United Kingdom",
+    image:
+      "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=200&q=80",
+    rating: 5,
+    review:
+      "I was nervous coming as a beginner but the instructors made me feel so welcome. By the end of 13 days I could teach a full class confidently. The Yoga Alliance certification is a huge bonus. Rishikesh is the perfect backdrop for this kind of inner work.",
+    course: "100 Hour YTTC",
+    date: "April 2025",
+  },
+  {
+    name: "David Chen",
+    country: "Australia",
+    image:
+      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&q=80",
+    rating: 5,
+    review:
+      "Best investment I have made in myself. The combination of asana practice, pranayama, and philosophy made this so much more than just a physical training. The team genuinely cares about your growth. I left with skills, friends, and a completely new perspective on life.",
+    course: "100 Hour YTTC",
+    date: "December 2024",
+  },
+  {
+    name: "Priya Sharma",
+    country: "Canada",
+    image:
+      "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=200&q=80",
+    rating: 5,
+    review:
+      "Coming to Rishikesh was a dream and this school made it even better. The curriculum is well-structured, the teachers are masters in their craft, and the energy of the place is unlike anywhere else. I came for the certificate but got so much more — peace, clarity, and purpose.",
+    course: "100 Hour YTTC",
+    date: "November 2024",
+  },
+];
+
+const videoReviews = [
+  {
+    name: "Jessica Williams",
+    country: "USA",
+    thumbnail:
+      "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=600&q=80",
+    videoUrl: "https://youtube.com/shorts/lYeh7tUMLHQ?si=03G0hoIXn8S7neyp",
+    label: "Watch Review",
+  },
+  {
+    name: "Thomas Müller",
+    country: "Germany",
+    thumbnail:
+      "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=600&q=80",
+    videoUrl: "https://youtube.com/shorts/lYeh7tUMLHQ?si=03G0hoIXn8S7neyp",
+    label: "Watch Review",
+  },
+  {
+    name: "Aiko Nakamura",
+    country: "Japan",
+    thumbnail:
+      "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=600&q=80",
+    videoUrl: "https://youtube.com/shorts/lYeh7tUMLHQ?si=03G0hoIXn8S7neyp",
+    label: "Watch Review",
+  },
+];
+
+function StarRating({ count }: { count: number }) {
+  return (
+    <div className={styles.starRow}>
+      {Array.from({ length: 5 }).map((_, i) => (
+        <svg
+          key={i}
+          className={`${styles.star} ${i < count ? styles.starFilled : styles.starEmpty}`}
+          viewBox="0 0 24 24"
+          fill="currentColor"
+        >
+          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+        </svg>
+      ))}
+    </div>
+  );
+}
+
+function ReviewsSection({ videoUrl }: { videoUrl: string }) {
+  const [activeVideo, setActiveVideo] = useState<number | null>(null);
+
+  return (
+    <section className={styles.reviewsSection}>
+      <div className={styles.reviewsHeader}>
+        <div className={styles.reviewsEyebrow}>Student Experiences</div>
+        <VintageHeading>What Our Students Say</VintageHeading>
+        <p className={styles.reviewsSubtitle}>
+          Real stories from real yogis who transformed their lives at our
+          Rishikesh ashram
+        </p>
+        <div className={styles.reviewsStatRow}>
+          <div className={styles.reviewsStat}>
+            <span className={styles.reviewsStatNum}>500+</span>
+            <span className={styles.reviewsStatLbl}>Students Trained</span>
+          </div>
+          <div className={styles.reviewsStatDiv} />
+          <div className={styles.reviewsStat}>
+            <span className={styles.reviewsStatNum}>4.9★</span>
+            <span className={styles.reviewsStatLbl}>Average Rating</span>
+          </div>
+          <div className={styles.reviewsStatDiv} />
+          <div className={styles.reviewsStat}>
+            <span className={styles.reviewsStatNum}>40+</span>
+            <span className={styles.reviewsStatLbl}>Countries</span>
+          </div>
+        </div>
+      </div>
+      
+      <div className={styles.textReviewsGrid}>
+        {textReviews.map((r, i) => (
+          <div
+            key={i}
+            className={styles.textReviewCard}
+            style={{ "--tri": i } as React.CSSProperties}
+          >
+            <div className={styles.trCardTop}>
+              <div className={styles.trAvatar}>
+                <img src={r.image} alt={r.name} />
+              </div>
+              <div className={styles.trInfo}>
+                <div className={styles.trName}>{r.name}</div>
+                <div className={styles.trCountry}>
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.8"
+                    className={styles.trFlagIcon}
+                  >
+                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" />
+                    <circle cx="12" cy="9" r="2" />
+                  </svg>
+                  {r.country}
+                </div>
+                <StarRating count={r.rating} />
+              </div>
+              <div className={styles.trCourseBadge}>{r.course}</div>
+            </div>
+            <div className={styles.trQuoteIcon}>"</div>
+            <p className={styles.trReviewText}>{r.review}</p>
+            <div className={styles.trFooter}>
+              <span className={styles.trDate}>{r.date}</span>
+              <div className={styles.trVerified}>
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  className={styles.trVerifiedIcon}
+                >
+                  <path d="M9 12l2 2 4-4" />
+                  <circle cx="12" cy="12" r="9" />
+                </svg>
+                Verified Student
+              </div>
+            </div>
+            <div className={styles.trGlowLine} />
+          </div>
+        ))}
+      </div>
+      <div className={styles.container1}><RatingsSummarySection/></div>
+      
+      <OmDivider label="Video Testimonials" />
+      <div className={styles.videoReviewsWrap}>
+        <div className={styles.videoReviewsGrid}>
+          {videoReviews.map((vr, i) => (
+            <div
+              key={i}
+              className={styles.videoReviewCard}
+              style={{ "--vri": i } as React.CSSProperties}
+            >
+              <div
+                className={styles.vrThumbnailWrap}
+                onClick={() => setActiveVideo(activeVideo === i ? null : i)}
+              >
+                {activeVideo === i ? (
+                  <div className={styles.vrVideoActive}>
+                    <DynamicVideo url={videoUrl} />
+                  </div>
+                ) : (
+                  <>
+                    <img
+                      src={vr.thumbnail}
+                      alt={vr.name}
+                      className={styles.vrThumbnail}
+                    />
+                    <div className={styles.vrOverlay} />
+                    <div className={styles.vrPlayBtn}>
+                      <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M8 5v14l11-7z" />
+                      </svg>
+                    </div>
+                    <div className={styles.vrLabel}>{vr.label}</div>
+                  </>
+                )}
+              </div>
+              <div className={styles.vrInfo}>
+                <div className={styles.vrName}>{vr.name}</div>
+                <div className={styles.vrCountry}>{vr.country}</div>
+                <StarRating count={5} />
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className={styles.videoReviewsSide}>
+          <div className={styles.vrSideInner}>
+            <div className={styles.vrSideIcon}>
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.4"
+              >
+                <path d="M15 10l4.553-2.277A1 1 0 0121 8.677V15.32a1 1 0 01-1.447.894L15 14M3 8a2 2 0 012-2h10a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z" />
+              </svg>
+            </div>
+            <h3 className={styles.vrSideTitle}>
+              Real Stories, Real Transformation
+            </h3>
+            <p className={styles.vrSideText}>
+              Watch our students share their firsthand experiences of the
+              100-hour yoga teacher training in Rishikesh — from the first day
+              to graduation.
+            </p>
+            <div className={styles.vrSideStats}>
+              <div className={styles.vrSideStat}>
+                <span className={styles.vrSideStatNum}>100+</span>
+                <span className={styles.vrSideStatLbl}>Video Reviews</span>
+              </div>
+              <div className={styles.vrSideStat}>
+                <span className={styles.vrSideStatNum}>98%</span>
+                <span className={styles.vrSideStatLbl}>Recommend Us</span>
+              </div>
+            </div>
+            <a href="#dates-fees" className={styles.vrSideBtn}>
+              Join Next Batch
+              <svg
+                viewBox="0 0 16 16"
+                fill="none"
+                className={styles.vrSideBtnArrow}
+              >
+                <path
+                  d="M3 8h10M9 4l4 4-4 4"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -1326,7 +1665,9 @@ export default function HundredHourYoga() {
         <div className={styles.heroMandalaBg} aria-hidden="true" />
         <div className={styles.heroTextWrap}>
           <div className={styles.heroTitleRow}>
+           
             <h1 className={styles.heroTitle}>{content.heroTitle}</h1>
+           
           </div>
           {content.heroParagraphs.map((para, i) => (
             <p
@@ -1343,7 +1684,7 @@ export default function HundredHourYoga() {
         <TextImageRow
           title={content.transformTitle}
           paragraphs={content.transformParagraphs}
-          imageUrl={image1}
+         imageUrl={image1}
           imageAlt="Transform your yoga practice in Rishikesh"
           badge="Rishikesh, India"
         />
@@ -1375,13 +1716,14 @@ export default function HundredHourYoga() {
         />
       </section>
 
-      {/* PREMIUM SEAT BOOKING */}
+      {/* PREMIUM SEAT BOOKING with currency switcher */}
       <PremiumSeatBooking
         seats={seats}
         currency={currency}
         onCurrencyChange={setCurrency}
         rate={rate}
         rateLoading={rateLoading}
+        seattitle="100 Hour Yoga Teacher Training India" 
       />
 
       {/* SYLLABUS */}
@@ -1423,27 +1765,33 @@ export default function HundredHourYoga() {
               </div>
             ))}
           </div>
-          <div className={styles.rightImage}>
-            <div className={styles.imageBox}>
-              <Image
-                src={image3}
-                alt="Yoga"
-                width={800}
-                height={500}
-                className={styles.image}
-              />
-              <div className={styles.imageShimmer}></div>
-            </div>
-            <div className={styles.videoBox}>
-              <iframe
-                src="https://www.youtube.com/embed/EJ6K-rhqevE?autoplay=1&mute=1&loop=1&playlist=EJ6K-rhqevE&controls=0&modestbranding=1&showinfo=0&rel=0&iv_load_policy=3&disablekb=1&playsinline=1"
-                className={styles.video}
-                frameBorder="0"
-                allow="autoplay; encrypted-media"
-                allowFullScreen
-              />
-            </div>
-          </div>
+         <div className={styles.rightImage}>
+  
+  {/* Top Image (same as before) */}
+  <div className={styles.imageBox}>
+    <Image
+      src={image3}
+      alt="Yoga"
+      width={800}
+      height={500}
+      className={styles.image}
+    />
+    <div className={styles.imageShimmer}></div>
+  </div>
+
+  {/* 👇 NEW VIDEO (same width, below image) */}
+  <div className={styles.videoBox}>
+  <iframe
+    src="https://www.youtube.com/embed/EJ6K-rhqevE?autoplay=1&mute=1&loop=1&playlist=EJ6K-rhqevE&controls=0&modestbranding=1&showinfo=0&rel=0&iv_load_policy=3&disablekb=1&playsinline=1"
+    className={styles.video}
+    frameBorder="0"
+    allow="autoplay; encrypted-media"
+    allowFullScreen
+  />
+</div>
+
+</div>
+          
         </div>
       </section>
 
@@ -1495,6 +1843,7 @@ export default function HundredHourYoga() {
 
       {/* INCLUSIONS */}
       <section id="inclusions" className={styles.contentSection}>
+       
         <div className={styles.classBanner}>
           <CornerOrnament pos="tl" />
           <CornerOrnament pos="tr" />
@@ -1522,23 +1871,33 @@ export default function HundredHourYoga() {
           imageAlt="Yoga enrollment Rishikesh"
           badge="Enroll Today"
         />
+      <div className={styles.enrollCards}>
+  {content.enrollItems.map((item, i) => (
+    <div key={i} className={styles.enrollCard}>
+      
+      {/* Big Background Number (same) */}
+      <span className={styles.bgNumber}>
+        {String(i + 1).padStart(2, "0")}
+      </span>
 
-        <div className={styles.enrollCards}>
-          {content.enrollItems.map((item, i) => (
-            <div key={i} className={styles.enrollCard}>
-              <span className={styles.bgNumber}>
-                {String(i + 1).padStart(2, "0")}
-              </span>
-              <div className={styles.cardRow}>
-                <div className={styles.topNumber}>{i + 1}</div>
-                <div
-                  className={styles.cardContent}
-                  dangerouslySetInnerHTML={{ __html: item }}
-                />
-              </div>
-            </div>
-          ))}
+      {/* Row wrapper */}
+      <div className={styles.cardRow}>
+        
+        {/* Number */}
+        <div className={styles.topNumber}>
+          {i + 1}
         </div>
+
+        {/* Content */}
+        <div
+          className={styles.cardContent}
+          dangerouslySetInnerHTML={{ __html: item }}
+        />
+      </div>
+
+    </div>
+  ))}
+</div>
 
         <TextVideoRow
           title={content.comprehensiveTitle}
@@ -1546,22 +1905,23 @@ export default function HundredHourYoga() {
           videoUrl={defaultVideoUrl}
           reverse={true}
         />
+
         <TextImageRow
           title={content.certTitle}
           paragraphs={content.certParagraphs}
-          imageUrl={image3}
+         imageUrl={image3}
           imageAlt="Yoga Alliance Certification"
           badge="Yoga Alliance Certified"
         />
+
         <TextImageRow
           title={content.registrationTitle}
           paragraphs={content.registrationParagraphs}
-          imageUrl={image2}
+           imageUrl={image2}
           imageAlt="Registration process"
           badge="Easy Registration"
           reverse={true}
         />
-
         <div className={styles.incWrap}>
           <div className={styles.incTabs}>
             <button
@@ -1589,9 +1949,9 @@ export default function HundredHourYoga() {
           </div>
         </div>
       </section>
-      <PremiumGallerySection type="both" backgroundColor="warm" />
-      {/* ✅ REVIEWS — now a reusable separate component */}
-      <ReviewSection RatingsSummaryComponent={<RatingsSummarySection />} />
+
+      {/* REVIEWS */}
+      <ReviewsSection videoUrl={defaultVideoUrl} />
 
       {/* LOCATION */}
       <div id="location">

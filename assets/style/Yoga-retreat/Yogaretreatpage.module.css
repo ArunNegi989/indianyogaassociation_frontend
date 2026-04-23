@@ -1,5 +1,5 @@
 /* Yogaretreatpage.module.css */
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Dancing+Script:wght@600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Lato:wght@300;400;700;900&family=Poppins:wght@400;500;600;700&display=swap');
 
 /* ── Variables ── */
 .page {
@@ -14,7 +14,7 @@
   --ink-light: #7a5c2e;
   --border: #e8d5b5;
 
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', Arial, sans-serif;
   color: var(--ink);
   background: #fff;
   overflow-x: hidden;
@@ -76,7 +76,7 @@
    SHARED TYPOGRAPHY
 ────────────────────────────────────────── */
 .pageTitle {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(1.1rem, 2.8vw, 1.75rem);
   font-weight: 700;
   color: var(--saffron);
@@ -88,7 +88,7 @@
 }
 
 .secTitle {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(1rem, 2.4vw, 1.55rem);
   font-weight: 700;
   color: var(--saffron);
@@ -116,7 +116,7 @@
 }
 
 .omSymbol {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 1.6rem;
   color: #F15505;
   line-height: 1;
@@ -124,7 +124,7 @@
 }
 
 .bodyPara {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: clamp(0.93rem, 1.65vw, 1.06rem);
   line-height: 1.9;
   color: var(--ink-mid);
@@ -166,7 +166,7 @@
   transform: translate(-50%, -50%);
   font-size: clamp(14rem, 28vw, 26rem);
   color: rgba(224, 123, 0, 0.035);
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   pointer-events: none;
   z-index: 0;
   line-height: 1;
@@ -215,7 +215,7 @@
 }
 
 .s1StatNum {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(1.1rem, 1.8vw, 1.45rem);
   font-weight: 700;
   color: var(--saffron);
@@ -223,7 +223,7 @@
 }
 
 .s1StatLbl {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: clamp(0.64rem, 0.95vw, 0.74rem);
   color: var(--ink-light);
   letter-spacing: 0.04em;
@@ -296,7 +296,7 @@
 }
 
 .s1PanelOm {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(1.3rem, 2.2vw, 1.8rem);
   color: var(--saffron);
   line-height: 1;
@@ -312,7 +312,7 @@
 }
 
 .s1PanelTag {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(0.7rem, 1.2vw, 0.92rem);
   font-weight: 600;
   color: #fff;
@@ -334,7 +334,7 @@
 }
 
 .s1ImgCaption span {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(0.54rem, 0.78vw, 0.62rem);
   letter-spacing: 0.14em;
   color: rgba(255, 255, 255, 0.7);
@@ -384,7 +384,7 @@
 }
 
 .scheduleIntro {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: clamp(0.92rem, 1.55vw, 1.05rem);
   line-height: 1.9;
   color: var(--ink-mid);
@@ -425,7 +425,7 @@
 }
 
 .cardHeadTitle {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(0.82rem, 1.4vw, 1rem);
   font-weight: 600;
   color: #fff;
@@ -435,7 +435,7 @@
 }
 
 .cardHeadSub {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: 0.72rem;
   color: rgba(255, 255, 255, 0.55);
   letter-spacing: 0.08em;
@@ -483,14 +483,14 @@
 }
 
 .pkgName {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: clamp(0.82rem, 1.3vw, 0.97rem);
   color: var(--ink-mid);
   line-height: 1.35;
 }
 
 .pkgPrice {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(0.72rem, 1.1vw, 0.84rem);
   font-weight: 600;
   color: var(--saffron);
@@ -522,7 +522,7 @@
 }
 
 .ovLabel {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(0.68rem, 1vw, 0.78rem);
   font-weight: 600;
   color: var(--ink);
@@ -532,7 +532,7 @@
 }
 
 .ovValue {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: clamp(0.84rem, 1.3vw, 0.97rem);
   color: var(--ink-mid);
   line-height: 1.45;
@@ -548,7 +548,7 @@
 
 .applyBtn {
   display: inline-block;
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.8rem;
   font-weight: 600;
   letter-spacing: 0.1em;
@@ -641,7 +641,7 @@
   left: 0;
   right: 0;
   text-align: center;
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(0.6rem, 1vw, 0.72rem);
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -687,20 +687,20 @@
 }
 
 .priceLabel {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: 0.85rem;
   color: var(--ink-light);
 }
 
 .priceVal {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(0.8rem, 1.3vw, 0.95rem);
   font-weight: 700;
   color: var(--saffron);
 }
 
 .priceNote {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: 0.82rem;
   color: var(--ink-light);
   margin: 0;
@@ -723,7 +723,7 @@
   transform: translate(-50%, -50%);
   font-size: clamp(10rem, 20vw, 18rem);
   color: rgba(241, 85, 5, 0.04);
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   pointer-events: none;
   line-height: 1;
 }
@@ -763,7 +763,7 @@
 }
 
 .s4DivText {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.65rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -799,7 +799,7 @@
 }
 
 .affordableCardHeadTitle {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(0.78rem, 1.3vw, 0.92rem);
   font-weight: 600;
   color: #fff;
@@ -808,7 +808,7 @@
 }
 
 .affordableCardHeadSub {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: 0.68rem;
   color: rgba(255, 255, 255, 0.5);
   letter-spacing: 0.08em;
@@ -846,7 +846,7 @@
 }
 
 .featText {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: clamp(0.82rem, 1.25vw, 0.95rem);
   color: var(--ink-mid);
   line-height: 1.4;
@@ -918,7 +918,7 @@
   transform: translate(-50%, -50%);
   font-size: clamp(10rem, 20vw, 18rem);
   color: rgba(241, 85, 5, 0.04);
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   pointer-events: none;
   line-height: 1;
   z-index: 0;
@@ -956,7 +956,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.8rem;
   font-weight: 600;
   letter-spacing: 0.1em;
@@ -993,7 +993,7 @@
 }
 
 .paypalText {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 1rem;
   font-weight: 700;
   color: #003087;
@@ -1059,7 +1059,7 @@
 }
 
 .routeTitle {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(0.74rem, 1.2vw, 0.88rem);
   font-weight: 600;
   color: var(--ink);
@@ -1067,7 +1067,7 @@
 }
 
 .routeBadge {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.58rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -1080,7 +1080,7 @@
 }
 
 .routeBadgeDark {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.58rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -1093,7 +1093,7 @@
 }
 
 .routeBadgeMid {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', serif;
   font-size: 0.58rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -1106,7 +1106,7 @@
 }
 
 .routeDesc {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Lato', serif;
   font-size: clamp(0.82rem, 1.25vw, 0.94rem);
   color: var(--ink-mid);
   line-height: 1.65;

@@ -63,7 +63,7 @@ const InnerTransformation: React.FC = () => {
       <span>Inner Awakening</span>
     </div>
     <h1 className={styles.mainTitle}>Inner Transformation Retreat</h1>
-    <Divider />
+    {/* <Divider /> */}
     
     <div className={styles.subTitleWrapper}>
       <div className={styles.subTitleAccent}></div>
@@ -125,7 +125,7 @@ const InnerTransformation: React.FC = () => {
   </div>
 </section>
 
-      <Divider />
+      {/* <Divider /> */}
 
       <section className={styles.whatSection}>
   <div className={styles.whatContainer}>
@@ -197,7 +197,7 @@ const InnerTransformation: React.FC = () => {
   </div>
 </section>
 
-<Divider />
+{/* <Divider /> */}
 
 {/* ===== SCHEDULE SECTION - ENHANCED ===== */}
 <section className={styles.scheduleSection}>
@@ -313,7 +313,7 @@ const InnerTransformation: React.FC = () => {
   </div>
 </section>
 
-      <Divider />
+      {/* <Divider /> */}
 
       {/* ===== THREE IMAGES GALLERY ===== */}
 <section className={styles.gallerySection}>
@@ -380,7 +380,7 @@ const InnerTransformation: React.FC = () => {
   </div>
 </section>
 
-<Divider />
+{/* <Divider /> */}
 
 {/* ===== TWO INFO BOXES ===== */}
 <section className={styles.infoSection}>
@@ -455,7 +455,7 @@ const InnerTransformation: React.FC = () => {
   </div>
 </section>
 
-<Divider />
+{/* <Divider /> */}
 
 {/* ===== INCLUDED IN FEE ===== */}
 <section className={styles.feeSection}>

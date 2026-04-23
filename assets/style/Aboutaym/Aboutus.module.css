@@ -16,6 +16,7 @@
   --rule-color: #c8a050;
   --border-soft: rgba(200, 134, 10, 0.22);
   --shadow-warm: rgba(80, 40, 0, 0.10);
+  --orange-accent: #F15505;
 
   font-family: 'Cormorant Garamond', 'Georgia', serif;
   background-color: var(--cream);
@@ -23,6 +24,9 @@
   min-height: 100vh;
 }
 
+/* ================================================================
+   HERO SECTION WITH OVERLAY
+   ================================================================ */
 .heroSection {
   position: relative;
   z-index: 1;
@@ -30,13 +34,60 @@
   margin: 0;
   padding: 0;
   line-height: 0;
+  overflow: hidden;
 }
 
 .heroImage {
   width: 100%;
   height: auto;
   display: block;
-  object-fit: contain;
+  object-fit: cover;
+}
+
+.heroOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(46, 26, 0, 0.5) 0%, rgba(200, 134, 10, 0.3) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+
+.heroContent {
+  text-align: center;
+  color: white;
+  animation: fadeInUp 0.8s ease-out;
+}
+
+.heroTitle {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  margin: 0 0 1rem;
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  line-height: 1.2;
+}
+
+.heroSubtitle {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1rem, 2.5vw, 1.5rem);
+  font-weight: 300;
+  letter-spacing: 0.05em;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  margin: 0;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* ── Container ─────────────────────────────────────────────── */
@@ -49,13 +100,14 @@
 /* ================================================================
    SECTIONS
    ================================================================ */
+   .schoolSections{
+     background: #ffffff;
+   }
 .schoolSection {
-  background: #ffffff;
-  /* Softer calm spiritual tone */
   color: #3d2b10;
   animation: fadeIn 0.8s ease-in-out;
-  background-image: url("../../images/1905x1064.png");
-  background-size: contain;
+  background-image: url("/assets/images/backgroundimage/1905x1662.png");
+  /* background-size: contain; */
 }
 
 .contentSection {
@@ -70,7 +122,6 @@
 
 .altBg {
   background: #ffffff;
-  /* Softer calm spiritual tone */
   color: #3d2b10;
   animation: fadeIn 0.8s ease-in-out;
   background-image: url("../../images/1905x478.webp");
@@ -79,13 +130,19 @@
 
 .altBg2 {
   background: #ffffff;
-  /* Softer calm spiritual tone */
+}
 
-
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 /* ================================================================
-   BLOCK HEADER — Title + gold rule (matches screenshots exactly)
+   BLOCK HEADER — Title + gold rule
    ================================================================ */
 .blockHeader {
   text-align: center;
@@ -100,12 +157,8 @@
   letter-spacing: 0.04em;
   line-height: 1.3;
   margin: 0 0 0.65rem;
-  /* Subtle italic shadow for depth */
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
 }
-
-/* The gold underline rule — exactly as in screenshots */
-
 
 .ruleLine {
   display: block;
@@ -121,7 +174,6 @@
   position: relative;
 }
 
-/* Decorative dot in center of rule */
 .ruleLine::after {
   content: '';
   position: absolute;
@@ -148,13 +200,13 @@
   flex: 1;
   max-width: 180px;
   height: 1.5px;
-  background: linear-gradient(90deg, transparent, #F15505, transparent);
+  background: linear-gradient(90deg, transparent, var(--orange-accent), transparent);
 }
 
 .omSymbol {
   font-family: 'Cinzel', serif;
   font-size: 1.6rem;
-  color: #F15505;
+  color: var(--orange-accent);
   line-height: 1;
   filter: drop-shadow(0 1px 3px rgba(224, 123, 0, 0.3));
 }
@@ -194,7 +246,6 @@
     0 10px 36px var(--shadow-warm);
 }
 
-/* Inner decorative ring */
 .logoBadge::before {
   content: '';
   position: absolute;
@@ -241,16 +292,110 @@
 }
 
 /* ================================================================
-   SCHOOL BODY — text block above gallery
+   SCHOOL BODY — text block
    ================================================================ */
 .schoolBody {
-
-  margin: 0 auto clamp(2rem, 4vw, 3rem);
+  margin: 0;
 }
 
 /* ================================================================
-   GALLERY — 2-image layout matching screenshots
+   SCHOOL CONTENT GRID — Logo top, Content left, Images right
    ================================================================ */
+.schoolContentGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(2.5rem, 5vw, 4rem);
+  align-items: stretch;
+  margin-top: clamp(2rem, 4vw, 3rem);
+}
+
+.schoolContentLeft {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.schoolContentLeft .blockHeader {
+  text-align: left;
+  margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
+}
+
+.schoolContentLeft .blockTitle {
+  text-align: left;
+}
+
+.schoolContentLeft .omDivider {
+  justify-content: flex-start;
+}
+
+.schoolImagesRight {
+  display: flex;
+  align-items: stretch;
+}
+
+.schoolGalleryGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(1.2rem, 2vw, 1.8rem);
+  width: 100%;
+}
+
+.schoolGalleryCard {
+  position: relative;
+  min-height: clamp(200px, 25vw, 280px);
+  overflow: hidden;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+  transition: all 0.3s ease;
+}
+
+.schoolGalleryCard:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+}
+
+.schoolGalleryFill {
+  width: 100%;
+  height: 100%;
+  min-height: inherit;
+  background: linear-gradient(135deg, #dba96a 0%, #c8791a 40%, #8c4a00 100%);
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  padding: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.schoolGalleryCard:hover .schoolGalleryFill {
+  transform: scale(1.05);
+}
+
+.schoolGalleryFill::before {
+  content: attr(data-label);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.9rem;
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.9);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
+  line-height: 1.4;
+  position: relative;
+  z-index: 1;
+}
+
+.schoolGalleryFill::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.35) 0%, transparent 55%);
+}
+
+/* ================================================================
+   GALLERY CONTAINER & CARDS
+   ================================================================ */
+.galleryContainer {
+  /* margin: clamp(2rem, 4vw, 3rem) 0; */
+}
+
 .gallery {
   display: grid;
   grid-template-columns: 1.42fr 1fr;
@@ -260,20 +405,24 @@
   box-shadow: 0 6px 28px var(--shadow-warm);
   margin: 0 auto;
   max-width: 760px;
-  /* centered like screenshot */
 }
 
 .galleryCard {
   position: relative;
   min-height: clamp(180px, 22vw, 280px);
   overflow: hidden;
+  border-radius: 4px;
+  transition: transform 0.3s ease;
+}
+
+.galleryCard:hover {
+  transform: scale(1.02);
 }
 
 .galleryCardMain {
   min-height: clamp(200px, 25vw, 310px);
 }
 
-/* Placeholder — remove when using <Image> */
 .galleryFill {
   width: 100%;
   height: 100%;
@@ -305,8 +454,332 @@
 }
 
 /* ================================================================
-   PROSE — shared body text wrapper
+   HIGHLIGHTS GRID — 4 cards with icons
    ================================================================ */
+.highlightsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: clamp(1.5rem, 3vw, 2.5rem);
+  /* margin: clamp(2.5rem, 5vw, 4rem) 0; */
+  padding: 35px 30px;
+}
+
+.highlightCard {
+  background: linear-gradient(135deg, rgba(200, 134, 10, 0.08) 0%, rgba(241, 85, 5, 0.05) 100%);
+  border: 1px solid rgba(200, 134, 10, 0.2);
+  border-radius: 12px;
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+  text-align: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.highlightCard:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 8px 24px rgba(200, 134, 10, 0.15);
+  border-color: rgba(200, 134, 10, 0.4);
+}
+
+.highlightIcon {
+  font-size: clamp(2rem, 4vw, 3rem);
+  color: var(--orange-accent);
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: center;
+}
+
+.highlightTitle {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  font-weight: 600;
+  color: var(--brown-ink);
+  margin: 0 0 0.75rem;
+  letter-spacing: 0.02em;
+}
+
+.highlightDesc {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(0.9rem, 1.5vw, 1rem);
+  color: var(--brown-sub);
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* ================================================================
+   VISION & MISSION GRID
+   ================================================================ */
+.visionMissionGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: clamp(2rem, 4vw, 3rem);
+  margin: clamp(2rem, 4vw, 3rem) 0;
+}
+
+.visionCard,
+.missionCard {
+  background: linear-gradient(135deg, rgba(241, 85, 5, 0.08) 0%, rgba(200, 134, 10, 0.05) 100%);
+  border-left: 4px solid var(--orange-accent);
+  border-radius: 8px;
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.visionCard:hover,
+.missionCard:hover {
+  transform: translateX(8px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  border-color: rgba(200, 134, 10, 0.4);
+}
+
+.vmImageWrapper {
+  width: 100%;
+  height: clamp(200px, 30vw, 280px);
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.vmImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.visionCard:hover .vmImage,
+.missionCard:hover .vmImage {
+  transform: scale(1.05);
+}
+
+.vmTitle {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(1.1rem, 2.2vw, 1.4rem);
+  font-weight: 600;
+  color: var(--brown-ink);
+  margin: 0 0 1rem;
+  letter-spacing: 0.03em;
+}
+
+/* ================================================================
+   OBJECTIVES GRID — Card-based layout
+   ================================================================ */
+.objectivesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: clamp(1.5rem, 3vw, 2.5rem);
+  margin: clamp(2rem, 4vw, 3rem) 0;
+}
+
+.objectiveCard {
+  background: linear-gradient(135deg, rgba(200, 134, 10, 0.1) 0%, rgba(241, 85, 5, 0.06) 100%);
+  border: 1px solid rgba(200, 134, 10, 0.25);
+  border-radius: 10px;
+  padding: clamp(1.5rem, 3vw, 2rem);
+  display: flex;
+  gap: 1rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.objectiveCard:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 20px rgba(200, 134, 10, 0.12);
+  border-color: rgba(200, 134, 10, 0.4);
+}
+
+.objectiveNumber {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--orange-accent), var(--gold));
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.objectiveText {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(0.95rem, 1.6vw, 1.05rem);
+  line-height: 1.7;
+  color: var(--brown-body);
+  margin: 0;
+}
+
+/* ================================================================
+   TIMELINE — History section
+   ================================================================ */
+.timelineContainer {
+  position: relative;
+  padding: clamp(2rem, 4vw, 3rem) 0;
+}
+
+.timelineContainer::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 3px;
+  height: 100%;
+  background: linear-gradient(180deg, var(--orange-accent), var(--gold), transparent);
+  top: 0;
+  z-index: 1;
+}
+
+.timelineItem {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 150px;
+  margin-bottom: clamp(3rem, 6vw, 5rem);
+  align-items: stretch;
+  position: relative;
+}
+
+.timelineItem:nth-child(even) {
+  direction: rtl;
+}
+
+.timelineItem:nth-child(even) > * {
+  direction: ltr;
+}
+
+.timelineMarker {
+  font-family: 'Cinzel', serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: white;
+  background: linear-gradient(135deg, var(--orange-accent), var(--gold));
+  width: clamp(70px, 10vw, 90px);
+  height: clamp(70px, 10vw, 90px);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 20px rgba(241, 85, 5, 0.35);
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  top: clamp(1.5rem, 3vw, 2.5rem);
+  border: 4px solid var(--cream);
+}
+
+.timelineContent {
+  background: linear-gradient(135deg, rgba(200, 134, 10, 0.08) 0%, rgba(241, 85, 5, 0.05) 100%);
+  border: 1px solid rgba(200, 134, 10, 0.2);
+  border-radius: 12px;
+  padding: clamp(2rem, 3vw, 2.5rem);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.timelineContent:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  border-color: rgba(200, 134, 10, 0.35);
+}
+
+.timelineTitle {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(1.15rem, 2.2vw, 1.5rem);
+  font-weight: 600;
+  color: var(--brown-ink);
+  margin: 0 0 1rem;
+  letter-spacing: 0.02em;
+}
+
+.timelineImageWrapper {
+  width: 100%;
+  height: clamp(250px, 35vw, 350px);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+}
+
+.timelineImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.timelineItem:hover .timelineImage {
+  transform: scale(1.06);
+}
+
+.timelineItem:hover .timelineImageWrapper {
+  box-shadow: 0 12px 32px rgba(241, 85, 5, 0.25);
+}
+
+/* ================================================================
+   ACTIVITIES GRID
+   ================================================================ */
+.activitiesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: clamp(1.5rem, 3vw, 2.5rem);
+  margin: clamp(2rem, 4vw, 3rem) 0;
+}
+
+.activityItem {
+  background: linear-gradient(135deg, rgba(241, 85, 5, 0.1) 0%, rgba(200, 134, 10, 0.06) 100%);
+  border: 1px solid rgba(200, 134, 10, 0.2);
+  border-radius: 10px;
+  padding: clamp(1.5rem, 3vw, 2rem);
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.activityItem:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 20px rgba(200, 134, 10, 0.12);
+  border-color: rgba(200, 134, 10, 0.4);
+}
+
+.activityIcon {
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  color: var(--orange-accent);
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: center;
+  transition: transform 0.3s ease;
+}
+
+.activityItem:hover .activityIcon {
+  transform: scale(1.15) rotate(5deg);
+}
+
+.activityTitle {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(1rem, 1.8vw, 1.2rem);
+  font-weight: 600;
+  color: var(--brown-ink);
+  margin: 0 0 0.75rem;
+  letter-spacing: 0.02em;
+}
+
+.activityDesc {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(0.9rem, 1.5vw, 1rem);
+  color: var(--brown-sub);
+  margin: 0;
+  line-height: 1.6;
+}
 
 /* ================================================================
    PARAGRAPH
@@ -331,50 +804,47 @@
   color: var(--brown-sub);
 }
 
-/* ================================================================
-   OBJECTIVES LIST — numbered, indented
-   ================================================================ */
-.objList {
-  list-style: none;
-  padding: 0;
-  margin: 0.4rem 0 0 clamp(1rem, 3vw, 2.5rem);
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-}
-
-.objItem {
-  display: flex;
-  gap: 0.55rem;
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(0.95rem, 1.6vw, 1.06rem);
-  line-height: 1.75;
-  color: var(--brown-body);
-}
-
-.objNum {
-  font-weight: 500;
-  color: var(--brown-ink);
-  flex-shrink: 0;
-  min-width: 1.2rem;
-}
-
-.objText {
-  font-weight: 400;
+.prose {
+  /* max-width: 900px; */
+  margin: 0 auto;
 }
 
 /* ================================================================
    RESPONSIVE BREAKPOINTS
    ================================================================ */
 
-/* Tablet landscape (≤1024px) */
 @media (max-width: 1024px) {
   .container {
     max-width: 900px;
   }
+
+  .timelineContainer::before {
+    display: none;
+  }
+
+  .timelineItem {
+    grid-template-columns: 1fr;
+    direction: ltr !important;
+    gap: clamp(1.5rem, 3vw, 2.5rem);
+  }
+
+  .timelineItem > * {
+    direction: ltr !important;
+  }
+
+  .timelineMarker {
+    position: static;
+    transform: none;
+    margin-bottom: 1.5rem;
+    margin-top: 0;
+    top: auto;
+  }
+
+  .timelineImageWrapper {
+    height: clamp(220px, 50vw, 300px);
+  }
 }
 
-/* Tablet portrait (≤860px) */
 @media (max-width: 860px) {
   .gallery {
     max-width: 600px;
@@ -388,9 +858,33 @@
   .blockTitle {
     font-size: clamp(1.15rem, 4vw, 1.55rem);
   }
+
+  .highlightsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .visionMissionGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .schoolContentGrid {
+    grid-template-columns: 1fr;
+    gap: clamp(2rem, 3vw, 2.5rem);
+  }
+
+  .schoolContentLeft .blockHeader {
+    text-align: center;
+  }
+
+  .schoolContentLeft .blockTitle {
+    text-align: center;
+  }
+
+  .schoolContentLeft .omDivider {
+    justify-content: center;
+  }
 }
 
-/* Mobile landscape (≤640px) */
 @media (max-width: 640px) {
   .container {
     padding-left: 1.25rem;
@@ -414,12 +908,27 @@
     width: 100px;
   }
 
-  .objList {
-    margin-left: 0.75rem;
+  .highlightsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .objectivesGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .activitiesGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .heroTitle {
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+  }
+
+  .heroSubtitle {
+    font-size: clamp(0.9rem, 2vw, 1.2rem);
   }
 }
 
-/* Mobile portrait (≤480px) */
 @media (max-width: 480px) {
   .blockTitle {
     font-size: clamp(1.05rem, 5.5vw, 1.3rem);
@@ -436,17 +945,24 @@
     height: 108px;
   }
 
-  .objItem {
-    font-size: 0.97rem;
-  }
-
   .galleryCard,
   .galleryCardMain {
     min-height: 180px;
   }
+
+  .highlightCard,
+  .objectiveCard,
+  .activityItem {
+    padding: 1.25rem;
+  }
+
+  .timelineMarker {
+    width: 80px;
+    height: 80px;
+    font-size: 1rem;
+  }
 }
 
-/* Small mobile (≤380px) */
 @media (max-width: 380px) {
   .container {
     padding-left: 1rem;
@@ -474,9 +990,14 @@
   .para {
     font-size: 0.96rem;
   }
+
+  .objectiveNumber {
+    width: 36px;
+    height: 36px;
+    font-size: 1rem;
+  }
 }
 
-/* Extra small (≤320px) */
 @media (max-width: 320px) {
   .container {
     padding: 1.5rem 0.75rem;
@@ -486,8 +1007,12 @@
     font-size: 1rem;
   }
 
-  .objList {
-    margin-left: 0.25rem;
+  .heroTitle {
+    font-size: 1.3rem;
+  }
+
+  .heroSubtitle {
+    font-size: 0.85rem;
   }
 }
 
@@ -506,5 +1031,12 @@
   .logoBadge {
     box-shadow: none;
     border: 1.5px solid #999;
+  }
+
+  .highlightCard,
+  .objectiveCard,
+  .activityItem {
+    box-shadow: none;
+    border: 1px solid #ccc;
   }
 }
