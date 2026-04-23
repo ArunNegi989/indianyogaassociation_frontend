@@ -1,13 +1,9 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import styles from "@/assets/style/hatha-yoga-teacher-training-Rishikesh/Hathayogapage.module.css";
+import { PremiumSeatBooking } from "@/app/100-hour-yoga-teacher-training-in-rishikesh/page";
 import HowToReach from "@/components/home/Howtoreach";
 import api from "@/lib/api";
-import PremiumGallerySection from "@/components/PremiumGallerySection";
-import ReviewSection from "@/components/common/Reviewsection";
-import RatingsSummarySection from "@/components/home/RatingsSummarySection";
-
-type Currency = "USD" | "INR";
 
 /* ══════════════════════════════════════
    TYPES
@@ -69,18 +65,6 @@ interface HathaYogaData {
   courseDetailsList?: string[];
   benefitsIntroPara?: string;
   certCards?: CertCard[];
-  /* Banner fields (optional — falls back to sensible defaults) */
-  bannerDuration?: string;
-  bannerLevel?: string;
-  bannerCertification?: string;
-  bannerYogaStyle?: string;
-  bannerYogaStyleSub?: string;
-  bannerLanguage?: string;
-  bannerDate?: string;
-  bannerDateSub?: string;
-  bannerFeeStrike?: string;
-  bannerFeeMain?: string;
-  bannerBookHref?: string;
 }
 
 interface Batch {
@@ -96,44 +80,118 @@ interface Batch {
   bookedSeats: number;
   note?: string;
 }
+interface SeatBatch {
+  _id: string;
+  startDate: string;
+  endDate: string;
+  usdFee: string;
+  inrFee: string;
+  dormPrice: number;
+  twinPrice: number;
+  privatePrice: number;
+  totalSeats: number;
+  bookedSeats: number;
+  note: string;
+}
 
-/* ══════════════════════════════════════
-   HELPERS
-══════════════════════════════════════ */
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "";
 
-const imgSrc = (image?: string, imgUrl?: string, fallback = ""): string => {
-  if (image && image.startsWith("/uploads/")) return `${BASE_URL}${image}`;
-  if (imgUrl && imgUrl.length > 0) return imgUrl;
-  return fallback;
-};
+type Currency = "USD" | "INR";
 
-const formatDate = (iso: string): string => {
-  if (!iso) return "";
-  const d = new Date(iso);
-  return d.toLocaleDateString("en-GB", {
-    day: "2-digit",
-    month: "long",
-    year: "numeric",
-  });
-};
+/* ══════════════════════════════
+   SVG ICONS FOR INFO CARD
+══════════════════════════════ */
+const DurationIcon = () => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.8"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <circle cx="12" cy="12" r="9" />
+    <path d="M12 7v5l3 3" />
+  </svg>
+);
+const LevelIcon = () => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.8"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <rect x="2" y="14" width="5" height="7" rx="1" />
+    <rect x="9.5" y="9" width="5" height="12" rx="1" />
+    <rect x="17" y="4" width="5" height="17" rx="1" />
+  </svg>
+);
+const CertIcon = () => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.8"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <rect x="2" y="3" width="20" height="14" rx="2" />
+    <path d="M8 17v4M16 17v4M8 21h8" />
+    <path d="M9 10l2 2 4-4" />
+  </svg>
+);
+const StyleIcon = () => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.8"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <circle cx="12" cy="4" r="1.5" />
+    <path d="M12 6v5.5" />
+    <path d="M8.5 13c0 2 1.5 4 3.5 4.5 2-0.5 3.5-2.5 3.5-4.5" />
+    <path d="M10 18l-1.5 3.5M14 18l1.5 3.5" />
+    <path d="M7 11l5 2.5 5-2.5" />
+  </svg>
+);
+const LangIcon = () => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.8"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <circle cx="12" cy="12" r="9" />
+    <path d="M2 12h20" />
+    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+  </svg>
+);
+const DateIcon = () => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.8"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <rect x="3" y="4" width="18" height="18" rx="2" />
+    <path d="M16 2v4M8 2v4M3 10h18" />
+    <circle cx="8" cy="15" r="1" fill="currentColor" />
+    <circle cx="12" cy="15" r="1" fill="currentColor" />
+    <circle cx="16" cy="15" r="1" fill="currentColor" />
+  </svg>
+);
 
-const shortDateRange = (start: string, end: string) => {
-  const s = new Date(start);
-  const e = new Date(end);
-  const d = (dt: Date) =>
-    dt.toLocaleDateString("en-IN", { day: "2-digit", month: "short" });
-  return `${d(s)} – ${d(e)}`;
-};
 
-const monthYear = (start: string) => {
-  const s = new Date(start);
-  return s.toLocaleDateString("en-IN", { month: "short", year: "numeric" });
-};
-
-/* ══════════════════════════════════════
+/* ══════════════════════════════
    CURRENCY HOOK — Live Rate
-══════════════════════════════════════ */
+══════════════════════════════ */
 function useCurrencyRate() {
   const [rate, setRate] = useState<number>(83); // fallback INR per USD
   const [loading, setLoading] = useState(true);
@@ -156,36 +214,39 @@ function useCurrencyRate() {
   return { rate, loading };
 }
 
-/* ══════════════════════════════════════
-   CURRENCY FORMATTER
-══════════════════════════════════════ */
-function formatPrice(
-  usdAmount: number,
-  currency: Currency,
-  rate: number,
-): string {
-  if (currency === "USD") {
-    return `$${usdAmount}`;
-  }
-  const inr = Math.round((usdAmount * rate) / 100) * 100;
-  return `₹${inr.toLocaleString("en-IN")}`;
+
+/* ══════════════════════════════
+   VINTAGE HEADING
+══════════════════════════════ */
+function VintageHeading({ children }: { children: React.ReactNode }) {
+  return (
+    <div className={styles.vintageHeadingWrap}>
+      <h2 className={styles.vintageHeading}>{children}</h2>
+      <div className={styles.vintageHeadingUnderline}>
+        <svg
+          viewBox="0 0 200 8"
+          xmlns="http://www.w3.org/2000/svg"
+          className={styles.headingUndSvg}
+        >
+          <path
+            d="M0,4 Q50,0 100,4 Q150,8 200,4"
+            stroke="#F15505"
+            strokeWidth="1.2"
+            fill="none"
+          />
+          <circle cx="100" cy="4" r="3" fill="#F15505" opacity="0.7" />
+          <circle cx="10" cy="4" r="1.5" fill="#b8860b" opacity="0.5" />
+          <circle cx="190" cy="4" r="1.5" fill="#b8860b" opacity="0.5" />
+        </svg>
+      </div>
+    </div>
+  );
 }
 
-function formatPriceFull(
-  usdAmount: number,
-  currency: Currency,
-  rate: number,
-): string {
-  if (currency === "USD") {
-    return `$${usdAmount} USD`;
-  }
-  const inr = Math.round((usdAmount * rate) / 100) * 100;
-  return `₹${inr.toLocaleString("en-IN")} INR`;
-}
 
-/* ══════════════════════════════════════
-   SUB-COMPONENTS
-══════════════════════════════════════ */
+/* ══════════════════════════════
+   CURRENCY DROPDOWN
+══════════════════════════════ */
 function CurrencyDropdown({
   currency,
   onChange,
@@ -274,6 +335,143 @@ function CurrencyDropdown({
           ))}
         </div>
       )}
+    </div>
+  );
+}
+
+
+/* ══════════════════════════════════════
+   HELPERS
+══════════════════════════════════════ */
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "";
+
+const imgSrc = (image?: string, imgUrl?: string, fallback = ""): string => {
+  if (image && image.startsWith("/uploads/")) return `${BASE_URL}${image}`;
+  if (imgUrl && imgUrl.length > 0) return imgUrl;
+  return fallback;
+};
+
+const formatDate = (iso: string): string => {
+  if (!iso) return "";
+  const d = new Date(iso);
+  return d.toLocaleDateString("en-GB", {
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+  });
+};
+
+function formatPrice(
+  usdAmount: number,
+  currency: Currency,
+  rate: number,
+): string {
+  if (currency === "USD") {
+    return `$${usdAmount}`;
+  }
+  const inr = Math.round((usdAmount * rate) / 100) * 100;
+  return `₹${inr.toLocaleString("en-IN")}`;
+}
+
+const shortDateRange = (start: string, end: string) => {
+  const s = new Date(start);
+  const e = new Date(end);
+  const d = (dt: Date) =>
+    dt.toLocaleDateString("en-IN", { day: "2-digit", month: "short" });
+  return `${d(s)} – ${d(e)}`;
+};
+
+const monthYear = (start: string) => {
+  const s = new Date(start);
+  return s.toLocaleDateString("en-IN", { month: "short", year: "numeric" });
+};
+
+
+
+/* ══════════════════════════════════════════════════
+   COURSE INFO CARD — with currency
+══════════════════════════════════════════════════ */
+function CourseInfoCard({
+  seats,
+  currency,
+  rate,
+  onCurrencyChange,
+}: {
+  seats: Batch[];
+  currency: Currency;
+  rate: number;
+  onCurrencyChange: (c: Currency) => void;
+}) {
+  const available = seats.filter((s) => s.totalSeats - s.bookedSeats > 0);
+  const startingPrice =
+    available.length > 0 ? Math.min(...available.map((s) => s.dormPrice)) : 499;
+  const originalPrice = Math.round((startingPrice * 1.8) / 50) * 50;
+
+  const details = [
+    { icon: <DurationIcon />, label: "DURATION", value: "13 Days" },
+    { icon: <LevelIcon />, label: "LEVEL", value: "Beginner" },
+    { icon: <CertIcon />, label: "CERTIFICATION", value: "100 Hour" },
+    {
+      icon: <StyleIcon />,
+      label: "YOGA STYLE",
+      value: "Multistyle",
+      sub: "Ashtanga, Vinyasa & Hatha",
+    },
+    { icon: <LangIcon />, label: "LANGUAGE", value: "English & Hindi" },
+    { icon: <DateIcon />, label: "DATE", value: "1st to 13th of every month" },
+  ];
+
+  return (
+    <div className={styles.icWrap}>
+      <div className={styles.icCard}>
+        <div className={styles.icLeft}>
+          <div className={styles.icHdr}>
+            <span className={styles.icHdrTxt}>COURSE DETAILS</span>
+          </div>
+          <div className={styles.icGrid}>
+            {details.map((d, i) => (
+              <div key={i} className={styles.icItem}>
+                <div className={styles.icIcon}>{d.icon}</div>
+                <div className={styles.icBody}>
+                  <div className={styles.icLbl}>{d.label}</div>
+                  <div className={styles.icVal}>{d.value}</div>
+                  {d.sub && <div className={styles.icSub}>{d.sub}</div>}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className={styles.icVDiv} />
+        <div className={styles.icRight}>
+          <div className={styles.icFeeTop}>
+            <span className={styles.icFeeLbl}>COURSE FEE</span>
+            <span className={styles.icFeeFrom}>starting from</span>
+            {/* FIX 3: Render the CurrencyDropdown that was silently dropped */}
+            {/* <CurrencyDropdown currency={currency} onChange={onCurrencyChange} /> */}
+          </div>
+          <div className={styles.icPriceRow}>
+            <span className={styles.icPriceOld}>
+              {formatPrice(originalPrice, currency, rate)}
+            </span>
+            <span className={styles.icPriceNew}>
+              {formatPrice(startingPrice, currency, rate)}
+            </span>
+            <span className={styles.icPriceCur}>{currency}</span>
+          </div>
+          <a href="#dates-fees" className={styles.icBookBtn}>
+            BOOK NOW
+            <svg viewBox="0 0 20 20" fill="none" className={styles.icBtnArrow}>
+              <path
+                d="M4 10h12M11 5l5 5-5 5"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </a>
+        </div>
+      </div>
     </div>
   );
 }
@@ -442,203 +640,6 @@ function MandalaSVG({
   );
 }
 
-/* ── Inline SVG icons for banner ── */
-function IconClock() {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      strokeWidth={2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <circle cx="12" cy="12" r="9" />
-      <polyline points="12 7 12 12 15 15" />
-    </svg>
-  );
-}
-function IconLevel() {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      strokeWidth={2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <line x1="18" y1="20" x2="18" y2="10" />
-      <line x1="12" y1="20" x2="12" y2="4" />
-      <line x1="6" y1="20" x2="6" y2="14" />
-    </svg>
-  );
-}
-function IconCert() {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      strokeWidth={2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <rect x="3" y="3" width="18" height="18" rx="2" />
-      <polyline points="9 11 12 14 22 4" />
-    </svg>
-  );
-}
-function IconPerson() {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      strokeWidth={2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <circle cx="12" cy="8" r="4" />
-      <path d="M6 20v-2a6 6 0 0 1 12 0v2" />
-    </svg>
-  );
-}
-function IconGlobe() {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      strokeWidth={2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <circle cx="12" cy="12" r="9" />
-      <path d="M12 3a14 14 0 0 1 0 18M3 12h18" />
-    </svg>
-  );
-}
-function IconCalendar() {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      strokeWidth={2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <rect x="3" y="4" width="18" height="18" rx="2" />
-      <line x1="16" y1="2" x2="16" y2="6" />
-      <line x1="8" y1="2" x2="8" y2="6" />
-      <line x1="3" y1="10" x2="21" y2="10" />
-    </svg>
-  );
-}
-
-/* ══════════════════════════════════════
-   COURSE DETAILS BANNER  (NEW)
-══════════════════════════════════════ */
-function CourseDetailsBanner({
-  d,
-  batches,
-}: {
-  d: HathaYogaData;
-  batches: Batch[];
-}) {
-  /* Derive fee from first available batch, or fall back to page-level fields */
-  const firstBatch = batches[0];
-  const feeStrike = d.bannerFeeStrike ?? "";
-  const feeMain = d.bannerFeeMain ?? firstBatch?.usdFee ?? "";
-  const bookHref = d.bannerBookHref ?? "/yoga-registration?type=hatha";
-
-  /* Derive date label */
-  const dateLabel =
-    d.bannerDate ??
-    (firstBatch ? `${formatDate(firstBatch.startDate)}` : "Every Month");
-  const dateSub =
-    d.bannerDateSub ??
-    (firstBatch ? "Flexible batch dates" : "Flexible batch dates");
-
-  /* Certification from first certCard hours, or fallback */
-  const certLabel =
-    d.bannerCertification ??
-    (d.certCards && d.certCards.length > 0 ? d.certCards[0].hours : "200 Hour");
-
-  const items = [
-    {
-      icon: <IconClock />,
-      label: "Duration",
-      value: d.bannerDuration ?? "28 Days",
-      sub: "",
-    },
-    {
-      icon: <IconLevel />,
-      label: "Level",
-      value: d.bannerLevel ?? "All Levels",
-      sub: "",
-    },
-    {
-      icon: <IconCert />,
-      label: "Certification",
-      value: certLabel,
-      sub: "",
-    },
-    {
-      icon: <IconPerson />,
-      label: "Yoga Style",
-      value: d.bannerYogaStyle ?? "Hatha Yoga",
-      sub: d.bannerYogaStyleSub ?? "Traditional & Classical",
-    },
-    {
-      icon: <IconGlobe />,
-      label: "Language",
-      value: d.bannerLanguage ?? "English",
-      sub: "",
-    },
-    {
-      icon: <IconCalendar />,
-      label: "Date",
-      value: dateLabel,
-      sub: dateSub,
-    },
-  ];
-
-  return (
-    <section className={styles.courseDetailsBannerSection}>
-      <div className={styles.container}>
-        <div className={styles.bannerWrap}>
-          {/* Tab label */}
-          <span className={styles.bannerLabelTab}>Course Details</span>
-
-          {/* 3×2 detail grid */}
-          <div className={styles.bannerDetailsGrid}>
-            {items.map((item, i) => (
-              <div key={i} className={styles.bannerDetailItem}>
-                <div className={styles.bannerDetailHeader}>
-                  <span className={styles.bannerDetailIcon}>{item.icon}</span>
-                  <span className={styles.bannerDetailLabel}>{item.label}</span>
-                </div>
-                <div className={styles.bannerDetailValue}>{item.value}</div>
-                {item.sub && (
-                  <div className={styles.bannerDetailSub}>{item.sub}</div>
-                )}
-              </div>
-            ))}
-          </div>
-
-          {/* Fee + CTA sidebar */}
-          <div className={styles.bannerFeeBox}>
-            <div className={styles.bannerFeeLabel}>
-              Course Fee
-              <span className={styles.bannerFeeFrom}>starting from</span>
-            </div>
-            <div className={styles.bannerFeeAmount}>
-              {feeStrike && (
-                <span className={styles.bannerFeeStrike}>{feeStrike}</span>
-              )}
-              <span className={styles.bannerFeeMain}>{feeMain}</span>
-              <span className={styles.bannerFeeCurr}>USD</span>
-            </div>
-            <a href={bookHref} className={styles.bannerBookBtn}>
-              Book Now →
-            </a>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
 /* ══════════════════════════════════════
    LOADING STATE
 ══════════════════════════════════════ */
@@ -676,17 +677,20 @@ function LoadingSpinner() {
   );
 }
 
+
+
 /* ════════════════════════════════════════════
    MAIN COMPONENT
 ════════════════════════════════════════════ */
 export default function HathaYogaPage() {
   const [pageData, setPageData] = useState<HathaYogaData | null>(null);
   const [batches, setBatches] = useState<Batch[]>([]);
+  const [seats, setSeats] = useState<SeatBatch[]>([]);
+  // FIX 1: Removed duplicate `const rate = 83` — useCurrencyRate already provides rate
+  const { rate, loading: rateLoading } = useCurrencyRate();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [selectedBatchId, setSelectedBatchId] = useState<string | null>(null);
   const [currency, setCurrency] = useState<Currency>("USD");
-  const { rate } = useCurrencyRate();
 
   /* Intersection observer for scroll-reveal */
   useEffect(() => {
@@ -716,12 +720,9 @@ export default function HathaYogaPage() {
         else setError("Page data not found.");
 
         if (batchRes.data?.success) {
-          const batchData = batchRes.data.data || [];
-          setBatches(batchData);
-          // Set first batch as selected
-          if (batchData.length > 0) {
-            setSelectedBatchId(batchData[0]._id);
-          }
+          setBatches(batchRes.data.data || []);
+          // FIX 2: Also populate `seats` so PremiumSeatBooking receives data
+          setSeats(batchRes.data.data || []);
         }
       } catch (err: any) {
         setError(err?.message || "Failed to load page.");
@@ -778,27 +779,31 @@ export default function HathaYogaPage() {
             src={heroSrc}
             alt={d.heroImgAlt || "Hatha Yoga Teacher Training"}
             className={styles.heroImage}
+            style={{ width: "100%", height: "auto", display: "block" }}
             loading="eager"
           />
-          <div className={styles.heroFade} aria-hidden="true" />
         </section>
       )}
 
-      {/* ══ COURSE DETAILS BANNER (NEW) ══ */}
-      <CourseDetailsBanner d={d} batches={batches} />
+      {/* ══ COURSE INFO CARD ══ */}
+      <CourseInfoCard
+        seats={batches}
+        currency={currency}
+        rate={rate}
+        onCurrencyChange={setCurrency}
+      />
 
       {/* ══════════════════════ INTRO ══════════════════════ */}
-      <section className={`${styles.sections} ${styles.introSection}`}>
+      <section className={`${styles.section} ${styles.introSection}`}>
         <div className={styles.container}>
           <div className={`${styles.reveal} ${styles.introGrid}`}>
-            {/* ── LEFT: Text + accreditations ── */}
             <div className={styles.introText}>
               {d.introSectionTitle && (
-                <h2 className={styles.sectionsTitleAccent}>
-                  {d.introSectionTitle}
-                </h2>
+                <h2 className={styles.sectionTitle}>{d.introSectionTitle}</h2>
               )}
               <OrnamentDivider />
+
+              {/* Intro paragraphs (HTML from rich text editor) */}
               {d.introParagraphs && d.introParagraphs.length > 0
                 ? d.introParagraphs.map((p, i) => (
                     <div
@@ -808,7 +813,20 @@ export default function HathaYogaPage() {
                     />
                   ))
                 : null}
+            </div>
 
+            <div className={styles.introImage}>
+              <div className={styles.imageFrame}>
+                <img
+                  src={introSrc}
+                  alt={d.introSideImgAlt || "Yoga class in Rishikesh"}
+                />
+                <div className={styles.imageCaption}>
+                  Morning Satsang · AYM Ashram
+                </div>
+              </div>
+
+              {/* Accreditations */}
               {d.accreditations && d.accreditations.length > 0 && (
                 <div className={styles.accredBox}>
                   <p className={styles.accredTitle}>Accreditations</p>
@@ -820,153 +838,87 @@ export default function HathaYogaPage() {
                 </div>
               )}
             </div>
-
-            {/* ── RIGHT: Media stack ── */}
-            <div className={styles.introMediaStack}>
-              {/* Primary large image */}
-              <div className={styles.introMainImg}>
-                <img
-                  src={introSrc}
-                  alt={d.introSideImgAlt || "Yoga class in Rishikesh"}
-                />
-                <div className={styles.introImgOverlay} />
-                <div className={styles.introImgCaption}>
-                  Morning Satsang · AYM Ashram
-                </div>
-              </div>
-
-              {/* Two floating thumbnail cards below */}
-              <div className={styles.introThumbRow}>
-                <div className={styles.introThumb}>
-                  <img
-                    src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=600&q=80"
-                    alt="Pranayama practice"
-                  />
-                  <div className={styles.introThumbLabel}>Pranayama</div>
-                </div>
-                <div className={styles.introThumb}>
-                  <img
-                    src="https://images.unsplash.com/photo-1545205597-3d9d02c29597?w=600&q=80"
-                    alt="Meditation session"
-                  />
-                  <div className={styles.introThumbLabel}>Meditation</div>
-                </div>
-              </div>
-
-              {/* Floating stat badge */}
-              <div className={styles.introStatBadge}>
-                <span className={styles.introStatNum}>500+</span>
-                <span className={styles.introStatText}>
-                  Students Certified Annually
-                </span>
-              </div>
-            </div>
           </div>
         </div>
       </section>
 
       {/* ══════════════════════ WHAT IS HATHA ══════════════════════ */}
       <section className={`${styles.section} ${styles.whatSection}`}>
-        <div className={styles.whatOverlay} />
-        <div className={styles.whatBorderTop} />
-        <div className={styles.whatBorderBottom} />
-        <div className={styles.whatMandalaBg}>
-          {/* <MandalaRingSVG size={500} opacity={1} /> */}
+        <div className={styles.mandalaBg} aria-hidden="true">
+          <MandalaRingSVG size={500} opacity={0.06} />
         </div>
-        <div className={`${styles.container} ${styles.whatContainer}`}>
+        <div className={styles.container}>
           <div className={`${styles.reveal} ${styles.centered}`}>
             {d.whatSuperLabel && (
-              <p className={styles.whatSuperLabel}>{d.whatSuperLabel}</p>
+              <p className={styles.superLabel}>{d.whatSuperLabel}</p>
             )}
-            {d.whatTitle && <h2 className={styles.whatTitle}>{d.whatTitle}</h2>}
-            <div className={styles.whatOrnamentDivider}>
-              <span className={styles.whatOrnLine} />
-              <span className={styles.whatOrnGlyph}>❧</span>
-              <span className={styles.whatOrnLine} />
-            </div>
-            {d.whatParagraphs && d.whatParagraphs.length > 0 ? (
-              <div className={styles.whatParagraphsBox}>
-                {d.whatParagraphs.map((p, i) => (
+            {d.whatTitle && (
+              <h2 className={styles.sectionTitle}>{d.whatTitle}</h2>
+            )}
+            <OrnamentDivider />
+
+            {d.whatParagraphs && d.whatParagraphs.length > 0
+              ? d.whatParagraphs.map((p, i) => (
                   <div
                     key={i}
-                    className={styles.whatPara}
+                    className={styles.paraCenter}
                     dangerouslySetInnerHTML={{ __html: p }}
                   />
-                ))}
-              </div>
-            ) : null}
+                ))
+              : null}
           </div>
         </div>
       </section>
 
       {/* ══════════════════════ BENEFITS ══════════════════════ */}
       <section className={`${styles.section} ${styles.benefitsSection}`}>
-        {/* Full-bleed video backdrop */}
-        <div className={styles.benefitsVideoBg} aria-hidden="true">
-          <video
-            autoPlay
-            muted
-            loop
-            playsInline
-            className={styles.benefitsVideo}
-            // poster="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=1200&q=80"
-          >
-            {/* Free stock yoga video from Pexels CDN */}
-            <source
-              src="https://videos.pexels.com/video-files/3576382/3576382-uhd_2560_1440_25fps.mp4"
-              type="video/mp4"
-            />
-          </video>
-          <div className={styles.benefitsVideoOverlay} />
-        </div>
-
         <div className={styles.container}>
-          <div className={`${styles.reveal} ${styles.benefitsContentWrap}`}>
-            {/* Header */}
-            <div className={styles.benefitsHeader}>
+          <div className={`${styles.reveal} ${styles.benefitsGrid}`}>
+            <div className={styles.benefitsLeft}>
               {d.benefitsSuperLabel && (
-                <p className={styles.benefitsSuperLabelDark}>
-                  {d.benefitsSuperLabel}
-                </p>
+                <p className={styles.superLabel}>{d.benefitsSuperLabel}</p>
               )}
               {d.benefitsTitle && (
-                <h2 className={styles.benefitsTitleDark}>{d.benefitsTitle}</h2>
+                <h2 className={styles.sectionTitle}>{d.benefitsTitle}</h2>
               )}
-              <div className={styles.whatOrnamentDivider}>
-                <span className={styles.whatOrnLine} />
-                <span className={styles.whatOrnGlyph}>❧</span>
-                <span className={styles.whatOrnLine} />
-              </div>
+              <OrnamentDivider />
+
               {d.benefitsIntroPara && (
                 <div
-                  className={styles.benefitsIntroParaDark}
+                  className={styles.para}
                   dangerouslySetInnerHTML={{ __html: d.benefitsIntroPara }}
                 />
               )}
+
+              {d.benefitsList && d.benefitsList.length > 0 && (
+                <ol className={styles.benefitsList}>
+                  {d.benefitsList.map((b, i) => (
+                    <li key={i} className={styles.benefitItem}>
+                      <span className={styles.benefitNum}>
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
+                      <span>{b}</span>
+                    </li>
+                  ))}
+                </ol>
+              )}
             </div>
 
-            {/* Pill grid */}
-            {d.benefitsList && d.benefitsList.length > 0 && (
-              <div className={styles.benefitsPillGrid}>
-                {d.benefitsList.map((b, i) => (
-                  <div key={i} className={styles.benefitPill}>
-                    <span className={styles.benefitPillNum}>
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
-                    <span className={styles.benefitPillText}>{b}</span>
-                  </div>
-                ))}
+            <div className={styles.benefitsRight}>
+              <div className={styles.imageFrameTall}>
+                <img
+                  src={benefitSrc}
+                  alt={d.benefitsSideImgAlt || "Yoga Ashram Rishikesh"}
+                />
               </div>
-            )}
-
-            {/* Pull quote at bottom */}
-            {d.pullQuote && (
-              <div className={styles.pullQuoteDark}>
-                <span className={styles.quoteGlyphDark}>"</span>
-                {d.pullQuote}
-                <span className={styles.quoteGlyphDark}>"</span>
-              </div>
-            )}
+              {d.pullQuote && (
+                <div className={styles.pullQuote}>
+                  <span className={styles.quoteGlyph}>"</span>
+                  {d.pullQuote}
+                  <span className={styles.quoteGlyph}>"</span>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </section>
@@ -979,19 +931,15 @@ export default function HathaYogaPage() {
         <div className={styles.container}>
           <div className={`${styles.reveal} ${styles.centered}`}>
             {d.certSuperLabel && (
-              <p className={styles.certSuperLabel}>{d.certSuperLabel}</p>
+              <p className={styles.superLabel}>{d.certSuperLabel}</p>
             )}
             {d.certTitle && (
-              <h2 className={styles.certSectionTitle}>{d.certTitle}</h2>
+              <h2 className={styles.sectionTitle}>{d.certTitle}</h2>
             )}
-            <div className={styles.certOrnamentDivider}>
-              <span className={styles.certOrnLine} />
-              <span className={styles.certOrnGlyph}>❧</span>
-              <span className={styles.certOrnLine} />
-            </div>
+            <OrnamentDivider />
             {d.certPara && (
               <div
-                className={styles.certParaCenter}
+                className={styles.paraCenter}
                 dangerouslySetInnerHTML={{ __html: d.certPara }}
               />
             )}
@@ -1036,21 +984,21 @@ export default function HathaYogaPage() {
       {/* ══════════════════════ ASHRAM ══════════════════════ */}
       <section className={`${styles.section} ${styles.ashramSection}`}>
         <div className={styles.container}>
-          <div className={`${styles.reveal} ${styles.ashramLayout}`}>
-            {/* LEFT: Text column */}
+          <div className={`${styles.reveal} ${styles.ashramGrid}`}>
             <div className={styles.ashramText}>
               {d.ashramSuperLabel && (
                 <p className={styles.superLabel}>{d.ashramSuperLabel}</p>
               )}
               {d.ashramTitle && (
                 <h2
-                  className={styles.sectionTitleAccent}
+                  className={styles.sectionTitle}
                   dangerouslySetInnerHTML={{
                     __html: d.ashramTitle.replace(/,\s*/g, ",<br/>"),
                   }}
                 />
               )}
               <OrnamentDivider />
+
               {d.ashramParagraphs && d.ashramParagraphs.length > 0
                 ? d.ashramParagraphs.map((p, i) => (
                     <div
@@ -1062,45 +1010,27 @@ export default function HathaYogaPage() {
                 : null}
             </div>
 
-            {/* RIGHT: Mosaic image gallery */}
-            <div className={styles.ashramMosaic}>
-              {/* Large primary image */}
-              <div className={styles.ashramMosaicMain}>
+            <div className={styles.ashramImage}>
+              <div className={styles.imageFrame}>
                 <img
                   src={ashramSrc}
-                  alt={d.ashramImgAlt || "AYM Yoga Ashram Rishikesh"}
+                  alt={d.ashramImgAlt || "AYM Yoga Ashram"}
                 />
-                <div className={styles.ashramMosaicOverlay} />
-                <div className={styles.ashramMosaicLabel}>
-                  AYM Ashram · Rishikesh
-                </div>
-              </div>
-
-              {/* Two smaller images stacked */}
-              <div className={styles.ashramMosaicSide}>
-                <div className={styles.ashramMosaicSmall}>
-                  <img
-                    src="https://images.unsplash.com/photo-1588286840104-8957b019727f?w=600&q=80"
-                    alt="Yoga hall interior"
-                  />
-                  <span className={styles.ashramMosaicSmallLabel}>
-                    Yoga Hall
-                  </span>
-                </div>
-                <div className={styles.ashramMosaicSmall}>
-                  <img
-                    src="https://images.unsplash.com/photo-1571902943202-507ec2618e8f?w=600&q=80"
-                    alt="Ganga riverside practice"
-                  />
-                  <span className={styles.ashramMosaicSmallLabel}>
-                    Riverside Practice
-                  </span>
-                </div>
               </div>
             </div>
           </div>
         </div>
       </section>
+
+      {/* PREMIUM SEAT BOOKING with currency switcher */}
+      <PremiumSeatBooking
+        seats={seats}
+        currency={currency}
+        onCurrencyChange={setCurrency}
+        rate={rate}
+        rateLoading={rateLoading}
+        seattitle="Hatha Yoga Training in Rishikesh"
+      />
 
       {/* ══════════════════════ CURRICULUM ══════════════════════ */}
       {d.courseDetailsList && d.courseDetailsList.length > 0 && (
@@ -1173,262 +1103,102 @@ export default function HathaYogaPage() {
             )}
           </div>
 
-          {/* Premium Seat Booking - Batch Selection */}
+          {/* Batches Table */}
           {batches.length > 0 ? (
-            <div className={`${styles.reveal} ${styles.psbLayout}`}>
-              {/* LEFT PANEL: Batch Selection Grid */}
-              <div className={styles.psbLeftPanel}>
-                {/* <CornerOrnament pos="tl" />
-                <CornerOrnament pos="tr" />
-                <CornerOrnament pos="bl" />
-                <CornerOrnament pos="br" /> */}
+            <div className={`${styles.reveal} ${styles.tableContainer}`}>
+              <CornerOrnament pos="tl" />
+              <CornerOrnament pos="tr" />
+              <CornerOrnament pos="bl" />
+              <CornerOrnament pos="br" />
 
-                <div className={styles.psbLph}>
-                  <span className={styles.psbLphTitle}>SELECT YOUR BATCH</span>
-                  <div className={styles.psbLphRight}>
-                    <CurrencyDropdown currency={currency} onChange={setCurrency} />
-                    <div className={styles.psbLegend}>
-                      <div className={styles.psbLegItem}>
-                        <div
-                          className={`${styles.psbLegDot} ${styles.psbDGreen}`}
-                        />
-                        AVAILABLE
-                      </div>
-                      <div className={styles.psbLegItem}>
-                        <div
-                          className={`${styles.psbLegDot} ${styles.psbDOrange}`}
-                        />
-                        LIMITED
-                      </div>
-                      <div className={styles.psbLegItem}>
-                        <div
-                          className={`${styles.psbLegDot} ${styles.psbDRed}`}
-                        />
-                        FULL
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className={styles.psbBatchGrid}>
-                  {batches.map((batch) => {
-                    const rem = batch.totalSeats - batch.bookedSeats;
-                    const full = rem <= 0;
-                    const low = !full && rem <= 5;
-                    const dotCls = full
-                      ? styles.psbDRed
-                      : low
-                        ? styles.psbDOrange
-                        : styles.psbDGreen;
-                    const statusTxt = full
-                      ? "FULLY BOOKED"
-                      : low
-                        ? "LIMITED"
-                        : "AVAILABLE";
-                    const isSelected = selectedBatchId === batch._id;
-
-                    return (
-                      <div
-                        key={batch._id}
-                        className={`${styles.psbBc} ${isSelected ? styles.psbBcSel : ""} ${full ? styles.psbBcFull : ""}`}
-                        onClick={() => !full && setSelectedBatchId(batch._id)}
-                        role="button"
-                        tabIndex={0}
-                        onKeyDown={(e) => {
-                          if ((e.key === "Enter" || e.key === " ") && !full) {
-                            setSelectedBatchId(batch._id);
-                          }
-                        }}
-                      >
-                        <div className={styles.psbBcTick}>
-                          <svg viewBox="0 0 12 12" fill="none">
-                            <path
-                              d="M2 6l3 3 5-5"
-                              stroke="currentColor"
-                              strokeWidth="1.8"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
+              <div className={styles.tableScroll}>
+                <table className={styles.datesTable}>
+                  <thead>
+                    <tr>
+                      <th>Date</th>
+                      <th>FEE (USD)</th>
+                      <th>FEE (INR)</th>
+                      <th>Room Price</th>
+                      <th>Seats</th>
+                      <th>Apply</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {batches.map((row) => {
+                      const isFull = row.bookedSeats >= row.totalSeats;
+                      const dateLabel = `${formatDate(row.startDate)} – ${formatDate(row.endDate)}`;
+                      return (
+                        <tr key={row._id}>
+                          <td className={styles.dateCell}>
+                            <span className={styles.dateCal}>📅</span>{" "}
+                            {dateLabel}
+                          </td>
+                          <td>{row.usdFee}</td>
+                          <td>{row.inrFee}</td>
+                          <td className={styles.roomPriceCell}>
+                            Dorm{" "}
+                            <strong className={styles.priceAmt}>
+                              ${row.dormPrice}
+                            </strong>{" "}
+                            | Twin{" "}
+                            <strong className={styles.priceAmt}>
+                              ${row.twinPrice}
+                            </strong>{" "}
+                            | Private{" "}
+                            <strong className={styles.priceAmt}>
+                              ${row.privatePrice}
+                            </strong>
+                          </td>
+                          <td>
+                            <SeatsCell
+                              booked={row.bookedSeats}
+                              total={row.totalSeats}
                             />
-                          </svg>
-                        </div>
-                        <div className={styles.psbBcMonth}>
-                          {monthYear(batch.startDate).toUpperCase()}
-                        </div>
-                        <div className={styles.psbBcDates}>
-                          {shortDateRange(batch.startDate, batch.endDate)}
-                        </div>
-                        <div className={styles.psbBcPrice}>
-                          <span>{formatPrice(batch.dormPrice, currency, rate)}</span>
-                          <span>{currency}</span>
-                        </div>
-                        <div className={styles.psbBcStatus}>
-                          <div className={`${styles.psbBcDot} ${dotCls}`} />
-                          <span className={styles.psbBcStxt}>{statusTxt}</span>
-                        </div>
-                        <div className={styles.psbBcSeatsBar}>
-                          <div
-                            className={styles.psbBcSeatsBarFill}
-                            style={{
-                              width: `${full ? 100 : Math.round((batch.bookedSeats / batch.totalSeats) * 100)}%`,
-                              background: full
-                                ? "#8a2c00"
-                                : low
-                                  ? "#f15505"
-                                  : "#3d6000",
-                              minWidth: full ? "100%" : "2px",
-                            }}
-                          />
-                        </div>
-                        <span
-                          className={`${styles.psbBcSeatsBadge} ${dotCls}`}
-                        >
-                          {full
-                            ? "0 / " + batch.totalSeats + " seats left"
-                            : rem + " / " + batch.totalSeats + " seats left"}
-                        </span>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-
-              {/* RIGHT PANEL: Pricing Details */}
-              <div className={styles.psbRightPanel}>
-                {selectedBatchId &&
-                batches.find((b) => b._id === selectedBatchId) ? (
-                  (() => {
-                    const selected = batches.find(
-                      (b) => b._id === selectedBatchId,
-                    )!;
-                    const rem = selected.totalSeats - selected.bookedSeats;
-                    const full = rem <= 0;
-                    const low = !full && rem <= 5;
-
-                    return (
-                      <>
-                        <div className={styles.psbRpHead}>
-                          <div className={styles.psbRpEyebrow}>COURSE OVERVIEW</div>
-                          <div className={styles.psbRpCourse}>Hatha Yoga Teacher Training</div>
-                          <div className={styles.psbRpDur}>
-                            <svg
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              strokeWidth="2"
-                              style={{ width: "14px", height: "14px" }}
-                            >
-                              <circle cx="12" cy="12" r="9" />
-                              <polyline points="12 7 12 12 15 15" />
-                            </svg>
-                            <span className={styles.psbRpDurTxt}>
-                              28 Days · Rishikesh, India
-                            </span>
-                          </div>
-                        </div>
-
-                        <div className={styles.psbRpBody}>
-                          <div>
-                            <div className={styles.psbPriceLbl}>WITH ACCOMMODATION</div>
-                            <div className={styles.psbPriceRow}>
-                              <div className={styles.psbPriceCard}>
-                                <div className={styles.psbPcAmt}>
-                                  {formatPrice(selected.privatePrice, currency, rate)}
-                                  <span className={styles.psbPcCur}>{currency}</span>
-                                </div>
-                                <div className={styles.psbPcLbl}>
-                                  Private Room
-                                </div>
-                              </div>
-                              <div className={styles.psbPriceCard}>
-                                <div className={styles.psbPcAmt}>
-                                  {formatPrice(selected.twinPrice, currency, rate)}
-                                  <span className={styles.psbPcCur}>{currency}</span>
-                                </div>
-                                <div className={styles.psbPcLbl}>Twin / Shared</div>
-                              </div>
-                            </div>
-
-                            <div className={styles.psbPriceLbl}>WITHOUT ACCOMMODATION</div>
-                            <div className={styles.psbPriceWide}>
-                              <div className={styles.psbPwLeft}>
-                                <span className={styles.psbPcAmt}>
-                                  {formatPrice(selected.dormPrice, currency, rate)}
-                                </span>
-                                <span className={styles.psbPcCur}>{currency}</span>
-                              </div>
-                              <span className={styles.psbFoodBadge}>
-                                Food Included
+                          </td>
+                          <td>
+                            {isFull ? (
+                              <span className={styles.applyDisabled}>
+                                Apply Now
                               </span>
-                            </div>
-
-                            <div className={styles.psbRpSeatsWrap}>
-                              <div className={styles.psbRpSeatsRow}>
-                                <span className={styles.psbPriceLbl}>SEATS AVAILABILITY</span>
-                                <span
-                                  className={styles.psbSeatsBadge}
-                                  style={{
-                                    color: full
-                                      ? "#8a2c00"
-                                      : low
-                                        ? "#c8700a"
-                                        : "#3d6000",
-                                    borderColor: full
-                                      ? "#8a2c00"
-                                      : low
-                                        ? "#c8700a"
-                                        : "#3d6000",
-                                  }}
-                                >
-                                  {full
-                                    ? "Fully Booked"
-                                    : `${rem} of ${selected.totalSeats} left`}
-                                </span>
-                              </div>
-                            </div>
-
-                            <div className={styles.psbRpSeatsWrap}>
-                              <div className={styles.psbRpSeatsRow}>
-                                <span className={styles.psbPriceLbl}>SELECTED BATCH</span>
-                              </div>
-                              <div style={{ fontSize: "0.9rem", color: "#3d2b10", marginTop: "0.3rem" }}>
-                                {shortDateRange(
-                                  selected.startDate,
-                                  selected.endDate
-                                )}
-                                , {monthYear(selected.startDate)}
-                              </div>
-                            </div>
-                          </div>
-
-                          <a
-                            href={`/yoga-registration?batchId=${selected._id}&type=hatha`}
-                            className={styles.joinBtn}
-                          >
-                            BOOK NOW — {formatPriceFull(selected.dormPrice, currency, rate)}
-                          </a>
-
-                          {selected.note && (
-                            <p className={styles.tableNote}>
-                              <strong>Note:</strong> {selected.note}
-                            </p>
-                          )}
-                        </div>
-                      </>
-                    );
-                  })()
-                ) : (
-                  <div style={{ padding: "2rem", textAlign: "center", color: "#F15505" }}>
-                    <p>← Select a batch to view pricing details</p>
-                  </div>
-                )}
+                            ) : (
+                              <a
+                                href="/yoga-registration?type=hatha"
+                                className={styles.applyLink}
+                              >
+                                Apply Now
+                              </a>
+                            )}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
               </div>
+
+              {/* Per-batch notes (show first non-empty note as general note) */}
+              {(d.tableNote || batches.find((b) => b.note)) && (
+                <p className={styles.tableNote}>
+                  <strong>Note:</strong>{" "}
+                  {d.tableNote || batches.find((b) => b.note)?.note}
+                </p>
+              )}
+
+              {(d.joinBtnLabel || d.joinBtnHref) && (
+                <div style={{ textAlign: "center", padding: "1rem 0 0.5rem" }}>
+                  <a href={d.joinBtnHref || "#"} className={styles.joinBtn}>
+                    {d.joinBtnLabel || "Join Your Yoga Journey"}
+                  </a>
+                </div>
+              )}
             </div>
           ) : (
-            <p className={`${styles.paraCenter} ${styles.paraMuted}`}>
+            <p className={styles.paraCenter} style={{ opacity: 0.6 }}>
               No upcoming batches at the moment. Please check back soon.
             </p>
           )}
 
+          {/* Programme overview */}
           {((d.programmeParagraphs && d.programmeParagraphs.length > 0) ||
             d.pricingProgrammePara) && (
             <div className={`${styles.reveal} ${styles.programmeBox}`}>
@@ -1486,9 +1256,7 @@ export default function HathaYogaPage() {
           </div>
         </div>
       </section>
-      <PremiumGallerySection type="both" backgroundColor="warm" />
-      {/* ✅ REVIEWS — now a reusable separate component */}
-      <ReviewSection RatingsSummaryComponent={<RatingsSummarySection />} />
+
       <HowToReach />
     </div>
   );
