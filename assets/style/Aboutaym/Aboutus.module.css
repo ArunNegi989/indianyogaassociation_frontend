@@ -106,7 +106,7 @@
 .schoolSection {
   color: #3d2b10;
   animation: fadeIn 0.8s ease-in-out;
-  background-image: url("../../images/1905x1064.png");
+  background-image: url("/assets/images/backgroundimage/1905x1662.png");
   /* background-size: contain; */
 }
 
