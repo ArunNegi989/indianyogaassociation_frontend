@@ -7,6 +7,7 @@ import api from "@/lib/api";
 import PremiumGallerySection from "@/components/PremiumGallerySection";
 import ReviewSection from "@/components/common/Reviewsection";
 import RatingsSummarySection from "@/components/home/RatingsSummarySection";
+import StickySectionNav from "@/components/common/StickySectionNav"; // ✅ Import sticky nav
 
 /* ─────────────────────────────────────────
    TYPES
@@ -1243,6 +1244,15 @@ export default function KundaliniYogaTTC() {
 
   if (!content) return null;
 
+  // ✅ Define navigation items for sticky nav
+  const NAV_ITEMS = [
+    { label: "DATES & FEES", id: "dates-fees" },
+    { label: "CURRICULUM", id: "curriculum" },
+    { label: "BENEFITS", id: "benefits" },
+    { label: "SCHEDULE", id: "schedule" },
+    { label: "LOCATION", id: "location" },
+  ];
+
   return (
     <div className={styles.page}>
       {/* ── Fixed Mandala Decorations ── */}
@@ -1250,7 +1260,7 @@ export default function KundaliniYogaTTC() {
       <div className={styles.chakraGlow} aria-hidden="true" />
 
       {/* SECTION 1 — HERO */}
-      <section className={styles.heroSection}>
+      <section id="hero" className={styles.heroSection}>
         {content.heroImage && (
           <img
             src={imgSrc(content.heroImage)}
@@ -1262,213 +1272,268 @@ export default function KundaliniYogaTTC() {
 
       {/* COURSE INFO CARD */}
       <CourseInfoCard seats={seats} currency={currency} rate={rate} />
-      {/* SECTION 2 — WHAT IS KUNDALINI YOGA */}
+
+      {/* ✅ STICKY NAVIGATION (from 100hr page) */}
+      <StickySectionNav items={NAV_ITEMS} triggerId="hero" />
+
+      {/* ══════════════════════════════════════
+        SECTION 2 — WHAT IS KUNDALINI YOGA (Enhanced)
+      ══════════════════════════════════════ */}
       <section className={`${styles.section} ${styles.sectionWarm}`}>
         <div className={`container px-3 px-md-4 ${styles.maxx}`}>
-          <div className={styles.vintageCard}>
-            <span className={styles.cardCorner}>✦</span>
-            <h2 className={styles.sectionTitleCenter}>{content.whatIsTitle}</h2>
-            <OmDivider />
-            <EnhancedIntroSection
-              items={content.whatIsIntroItems}
-              paragraphs={
-                content.whatIsParagraphs || content.whatIsParagraphsLegacy
-              }
-            />
-          </div>
-        </div>
-      </section>
-
-      {/* SECTION 3 — ACTIVATE KUNDALINI */}
-      <section className={`${styles.section} ${styles.sectionLight}`}>
-        <div className={`container px-3 px-md-4 ${styles.maxx}`}>
-          <div className={styles.sectionChakra} aria-hidden="true">
-            <ChakraSVG size={120} color="rgba(224,123,0,0.08)" />
-          </div>
-          <h2 className={styles.sectionTitleCenter}>{content.activateTitle}</h2>
-          <OmDivider />
-          <div className={styles.activateIntroRow}>
-            <div className={styles.activateIntroText}>
-              {content.activateParagraphs?.map((para, i) =>
-                i === 0 ? (
-                  <div key={i} className={styles.activatePullQuote}>
-                    <div dangerouslySetInnerHTML={{ __html: para }} />
-                  </div>
-                ) : (
-                  <div
-                    key={i}
-                    className={styles.bodyPara}
-                    dangerouslySetInnerHTML={{ __html: para }}
-                  />
-                ),
-              )}
-            </div>
-            <div className={styles.activateIntroImageWrap}>
-              <img
-                src="https://images.pexels.com/photos/3822725/pexels-photo-3822725.jpeg?auto=compress&cs=tinysrgb&w=800"
-                alt="Kundalini Yoga practice"
-                className={styles.activateIntroImage}
-                loading="lazy"
-              />
-            </div>
-          </div>
-
-          <div className={`${styles.vintageCard} mt-4`}>
-            <span className={styles.cardCorner}>✦</span>
-            <h2 className={styles.sectionTitleCenter}>
-              {content.benefitsTitle}
-            </h2>
-            <OmDivider />
-            {content.benefitsIntro1 && (
-              <p
-                className={`${styles.bodyPara} ${styles.textCenter} ${styles.textItalic}`}
-              >
-                {content.benefitsIntro1}
-              </p>
-            )}
-            {content.benefitsIntro2 && (
-              <p
-                className={`${styles.bodyPara} ${styles.textCenter} ${styles.textItalic}`}
-              >
-                {content.benefitsIntro2}
-              </p>
-            )}
-            {content.benefitItems && content.benefitItems.length > 0 && (
-              <div className={styles.activateBenefitList}>
-                {content.benefitItems.map((benefit, i) => (
-                  <div key={i} className={styles.activateBenefitRow}>
-                    <span className={styles.activateBenefitNum}>{i + 1}</span>
-                    <span className={styles.activateBenefitText}>
-                      {benefit}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-
-          {content.highlightCards && content.highlightCards.length > 0 && (
-            <div className={`${styles.vintageCard} mt-4`}>
-              <span className={styles.cardCorner}>✦</span>
-              <h2 className={styles.sectionTitleCenter}>
-                {content.highlightsTitle}
-              </h2>
-              <OmDivider />
-              {content.highlightsIntro && (
-                <p className={styles.hlIntro}>{content.highlightsIntro}</p>
-              )}
-              <div className={styles.hlStrip}>
-                {[
-                  { icon: "🧘", num: "200", label: "Hours Training" },
-                  { icon: "📅", num: "24", label: "Days Residential" },
-                  { icon: "👨‍🏫", num: "5+", label: "Expert Teachers" },
-                  { icon: "🌿", num: "3", label: "Meals Daily" },
-                  { icon: "📜", num: "RYT", label: "Certification" },
-                ].map((s, i) => (
-                  <div key={i} className={styles.hlStripItem}>
-                    <span className={styles.hlStripIcon}>{s.icon}</span>
-                    <span className={styles.hlStripNum}>{s.num}</span>
-                    <span className={styles.hlStripLabel}>{s.label}</span>
-                  </div>
-                ))}
-              </div>
-              <div className={styles.activateHlGrid}>
-                {content.highlightCards.map((h, i) => {
-                  const palette = [
-                    {
-                      color: "#F15505",
-                      bg: "rgba(241,85,5,.08)",
-                      tagColor: "#b85f00",
-                      tag: "Core Practice",
-                      icon: "🌅",
-                    },
-                    {
-                      color: "#1a6fa8",
-                      bg: "rgba(26,111,168,.08)",
-                      tagColor: "#0c447c",
-                      tag: "Pranayama",
-                      icon: "🌬",
-                    },
-                    {
-                      color: "#603ca0",
-                      bg: "rgba(96,60,160,.08)",
-                      tagColor: "#3c2870",
-                      tag: "Naad Yoga",
-                      icon: "🎵",
-                    },
-                    {
-                      color: "#2d7a2d",
-                      bg: "rgba(45,122,45,.08)",
-                      tagColor: "#1a4a1a",
-                      tag: "Student-Centred",
-                      icon: "🤝",
-                    },
-                    {
-                      color: "#c8890a",
-                      bg: "rgba(200,137,10,.08)",
-                      tagColor: "#7a5228",
-                      tag: "Community",
-                      icon: "🌐",
-                    },
-                    {
-                      color: "#8b0000",
-                      bg: "rgba(139,0,0,.08)",
-                      tagColor: "#5a0000",
-                      tag: "Advanced",
-                      icon: "🔥",
-                    },
-                  ];
-                  const p = palette[i % palette.length];
-                  const isWide =
-                    content.highlightCards.length % 2 !== 0 &&
-                    i === content.highlightCards.length - 1;
-                  return (
+          <div className={styles.whatIsBlock}>
+            {/* Left: text content */}
+            <div className={styles.whatIsLeft}>
+              <div className={styles.whatIsInner}>
+                <span className={styles.secTagline}>Ancient Wisdom · Modern Practice</span>
+                <h2 className={styles.sectionTitleLeft}>{content.whatIsTitle}</h2>
+                <div className={styles.underlineLeft} />
+                <OmDivider centered={false} />
+                <div className={styles.whatIsTextBody}>
+                  {content.whatIsParagraphs?.map((para, i) => (
                     <div
-                      key={h.id}
-                      className={`${styles.activateHlCard} ${isWide ? styles.activateHlCardWide : ""}`}
-                    >
-                      <div
-                        className={styles.activateHlAccent}
-                        style={{ background: p.color }}
-                      />
-                      <div className={styles.activateHlCardBody}>
-                        <div className={styles.activateHlCardHead}>
-                          <div
-                            className={styles.activateHlIconWrap}
-                            style={{
-                              background: p.bg,
-                              border: `1.5px solid ${p.color}33`,
-                            }}
-                          >
-                            {p.icon}
-                          </div>
-                          <div className={styles.activateHlTitle}>
-                            {h.title}
-                          </div>
-                        </div>
-                        <div className={styles.activateHlDesc}>{h.desc}</div>
-                        <span
-                          className={styles.activateHlTag}
-                          style={{
-                            background: p.bg,
-                            color: p.tagColor,
-                            border: `1px solid ${p.color}33`,
-                          }}
-                        >
-                          {p.tag}
-                        </span>
-                      </div>
+                      key={i}
+                      className={`${styles.bodyPara} ${i === 0 ? styles.whatIsFirstPara : ""}`}
+                      dangerouslySetInnerHTML={{ __html: para }}
+                    />
+                  ))}
+                </div>
+                <div className={styles.whatIsPills}>
+                  {[
+                    { icon: "🧘", text: "Awakens Kundalini Energy" },
+                    { icon: "🌬️", text: "Pranayama & Breathwork" },
+                    { icon: "🕉️", text: "Mantra & Meditation" },
+                    { icon: "⚡", text: "Chakra Activation" },
+                  ].map((pill, i) => (
+                    <div key={i} className={styles.whatIsPill}>
+                      <span className={styles.whatIsPillIcon}>{pill.icon}</span>
+                      <span className={styles.whatIsPillText}>{pill.text}</span>
                     </div>
-                  );
-                })}
+                  ))}
+                </div>
               </div>
             </div>
-          )}
+
+            {/* Right: image */}
+            <div className={styles.whatIsRight}>
+              <div className={styles.whatIsImgWrap}>
+                <div className={styles.whatIsImgFrame} aria-hidden="true" />
+                <img
+                  src="https://images.pexels.com/photos/3822725/pexels-photo-3822725.jpeg?auto=compress&cs=tinysrgb&w=800"
+                  alt="Kundalini Yoga meditation practice"
+                  className={styles.whatIsImg}
+                  loading="lazy"
+                />
+                <div className={styles.whatIsImgOverlay} />
+                <div className={styles.whatIsImgBadge}>
+                  <ChakraSVG size={28} color="#f5c87a" />
+                  <div>
+                    <div className={styles.whatIsImgBadgeTitle}>Yoga of Awareness</div>
+                    <div className={styles.whatIsImgBadgeSub}>Transform · Awaken · Elevate</div>
+                  </div>
+                </div>
+                <div className={styles.whatIsFloatChip}>
+                  <span className={styles.whatIsFloatChipNum}>5000+</span>
+                  <span className={styles.whatIsFloatChipLabel}>Years of Tradition</span>
+                </div>
+              </div>
+              {/* Decorative mandala behind image */}
+              <div className={styles.whatIsMandalaDecor} aria-hidden="true">
+                <MandalaSVG size={320} color1="rgba(241,85,5,0.12)" color2="rgba(212,160,23,0.09)" strokeW={0.6} />
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* SECTION 4 — SYLLABUS ACCORDION */}
-      <section className={`${styles.section} ${styles.sectionWarm}`}>
+     {/* SECTION 3 — ACTIVATE KUNDALINI (BENEFITS) */}
+<section id="benefits" className={`${styles.section} ${styles.sectionLight}`}>
+  <div className={`container px-3 px-md-4 ${styles.maxx}`}>
+    <div className={styles.sectionChakra} aria-hidden="true">
+      <ChakraSVG size={120} color="rgba(224,123,0,0.08)" />
+    </div>
+
+    {/* ── Activate Intro Row ── */}
+    <h2 className={styles.sectionTitleCenter}>{content.activateTitle}</h2>
+    <OmDivider />
+    <div className={styles.activateIntroRow}>
+      <div className={styles.activateIntroText}>
+        {content.activateParagraphs?.map((para, i) =>
+          i === 0 ? (
+            <div key={i} className={styles.activatePullQuote}>
+              <div dangerouslySetInnerHTML={{ __html: para }} />
+            </div>
+          ) : (
+            <div
+              key={i}
+              className={styles.bodyPara}
+              dangerouslySetInnerHTML={{ __html: para }}
+            />
+          ),
+        )}
+      </div>
+      <div className={styles.activateIntroImageWrap}>
+        <img
+          src="https://images.pexels.com/photos/3822725/pexels-photo-3822725.jpeg?auto=compress&cs=tinysrgb&w=800"
+          alt="Kundalini Yoga practice"
+          className={styles.activateIntroImage}
+          loading="lazy"
+        />
+        <div className={styles.activateIntroImageBadge}>
+          <ChakraSVG size={18} color="#f5c87a" />
+          <span>Transform · Awaken · Evolve</span>
+        </div>
+      </div>
+    </div>
+
+    {/* ── Benefits Card ── */}
+    <div className={styles.benefitsCardWrap}>
+      <span className={styles.cardCorner}>✦</span>
+      <h2 className={styles.sectionTitleCenter}>{content.benefitsTitle}</h2>
+      <OmDivider />
+      {content.benefitsIntro1 && (
+        <p className={`${styles.bodyPara} ${styles.textCenter} ${styles.textItalic}`}>
+          {content.benefitsIntro1}
+        </p>
+      )}
+      {content.benefitsIntro2 && (
+        <p className={`${styles.bodyPara} ${styles.textCenter} ${styles.textItalic}`}>
+          {content.benefitsIntro2}
+        </p>
+      )}
+      {content.benefitItems && content.benefitItems.length > 0 && (
+        <div className={styles.benefitsGrid}>
+          {content.benefitItems.map((benefit, i) => (
+            <div key={i} className={styles.benefitGridCard}>
+              <div className={styles.benefitGridNum}>{i + 1}</div>
+              <p className={styles.benefitGridText}>{benefit}</p>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+
+    {/* ── Highlights Card ── */}
+    {content.highlightCards && content.highlightCards.length > 0 && (
+      <div className={`${styles.vintageCard} mt-4`}>
+        <span className={styles.cardCorner}>✦</span>
+        <h2 className={styles.sectionTitleCenter}>
+          {content.highlightsTitle}
+        </h2>
+        <OmDivider />
+        {content.highlightsIntro && (
+          <p className={styles.hlIntro}>{content.highlightsIntro}</p>
+        )}
+        <div className={styles.hlStrip}>
+          {[
+            { icon: "🧘", num: "200", label: "Hours Training" },
+            { icon: "📅", num: "24", label: "Days Residential" },
+            { icon: "👨‍🏫", num: "5+", label: "Expert Teachers" },
+            { icon: "🌿", num: "3", label: "Meals Daily" },
+            { icon: "📜", num: "RYT", label: "Certification" },
+          ].map((s, i) => (
+            <div key={i} className={styles.hlStripItem}>
+              <span className={styles.hlStripIcon}>{s.icon}</span>
+              <span className={styles.hlStripNum}>{s.num}</span>
+              <span className={styles.hlStripLabel}>{s.label}</span>
+            </div>
+          ))}
+        </div>
+        <div className={styles.activateHlGrid}>
+          {content.highlightCards.map((h, i) => {
+            const palette = [
+              {
+                color: "#F15505",
+                bg: "rgba(241,85,5,.08)",
+                tagColor: "#b85f00",
+                tag: "Core Practice",
+                icon: "🌅",
+              },
+              {
+                color: "#1a6fa8",
+                bg: "rgba(26,111,168,.08)",
+                tagColor: "#0c447c",
+                tag: "Pranayama",
+                icon: "🌬",
+              },
+              {
+                color: "#603ca0",
+                bg: "rgba(96,60,160,.08)",
+                tagColor: "#3c2870",
+                tag: "Naad Yoga",
+                icon: "🎵",
+              },
+              {
+                color: "#2d7a2d",
+                bg: "rgba(45,122,45,.08)",
+                tagColor: "#1a4a1a",
+                tag: "Student-Centred",
+                icon: "🤝",
+              },
+              {
+                color: "#c8890a",
+                bg: "rgba(200,137,10,.08)",
+                tagColor: "#7a5228",
+                tag: "Community",
+                icon: "🌐",
+              },
+              {
+                color: "#8b0000",
+                bg: "rgba(139,0,0,.08)",
+                tagColor: "#5a0000",
+                tag: "Advanced",
+                icon: "🔥",
+              },
+            ];
+            const p = palette[i % palette.length];
+            const isWide =
+              content.highlightCards.length % 2 !== 0 &&
+              i === content.highlightCards.length - 1;
+            return (
+              <div
+                key={h.id}
+                className={`${styles.activateHlCard} ${isWide ? styles.activateHlCardWide : ""}`}
+              >
+                <div
+                  className={styles.activateHlAccent}
+                  style={{ background: p.color }}
+                />
+                <div className={styles.activateHlCardBody}>
+                  <div className={styles.activateHlCardHead}>
+                    <div
+                      className={styles.activateHlIconWrap}
+                      style={{
+                        background: p.bg,
+                        border: `1.5px solid ${p.color}33`,
+                      }}
+                    >
+                      {p.icon}
+                    </div>
+                    <div className={styles.activateHlTitle}>{h.title}</div>
+                  </div>
+                  <div className={styles.activateHlDesc}>{h.desc}</div>
+                  <span
+                    className={styles.activateHlTag}
+                    style={{
+                      background: p.bg,
+                      color: p.tagColor,
+                      border: `1px solid ${p.color}33`,
+                    }}
+                  >
+                    {p.tag}
+                  </span>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    )}
+  </div>
+</section>
+
+      {/* SECTION 4 — SYLLABUS (CURRICULUM) */}
+      <section id="curriculum" className={`${styles.section} ${styles.sectionWarm}`}>
         <div className={`container px-3 px-md-4 ${styles.maxx}`}>
           <div className={styles.syllabusWrap}>
             <div className={styles.syllabusHeader}>
@@ -1621,7 +1686,7 @@ export default function KundaliniYogaTTC() {
           </div>
 
           {/* Location Block */}
-          <div className={styles.locationBlock}>
+          <div id="location" className={styles.locationBlock}>
             <div className={styles.locationBanner}>
               <img
                 src="https://images.pexels.com/photos/1371360/pexels-photo-1371360.jpeg?auto=compress&cs=tinysrgb&w=1400"
@@ -1817,8 +1882,7 @@ export default function KundaliniYogaTTC() {
       </section>
 
       {/* SECTION 6 — DAILY SCHEDULE */}
-
-      <section className={`${styles.section} ${styles.schedSection}`}>
+      <section id="schedule" className={`${styles.section} ${styles.schedSection}`}>
         <div className={styles.schedBgTexture} aria-hidden="true" />
         <div className={`container px-3 px-md-4 ${styles.maxx}`}>
           <div className={styles.schedHeaderWrap}>
@@ -2100,8 +2164,7 @@ export default function KundaliniYogaTTC() {
       </section>
 
       {/* ══════════════════════════════════════
-          SECTION 8 — PREMIUM SEAT BOOKING (NEW! from 500hr page)
-          This replaces the old availability table completely
+          SECTION 8 — PREMIUM SEAT BOOKING
       ══════════════════════════════════════ */}
       <PremiumSeatBooking
         seats={seats}

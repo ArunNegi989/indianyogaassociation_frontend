@@ -3597,7 +3597,7 @@
   text-transform: uppercase;
   color: #fff;
   padding: 0.7rem 1rem;
-  background: linear-gradient(135deg, var(--gold), #a07010);
+  background: linear-gradient(135deg, var(--saffron), var(--saffron-dk));
 }
 
 .s3HighlightsList {
@@ -3849,4 +3849,813 @@
   display: flex;
   flex-direction: column;
   gap: 1.1rem;
+}
+
+/* ═══════════════════════════════════════════
+   SECTION 3 ONLINE — CLEAN & CONSISTENT
+   MAX-WIDTH: 700px FOR TABLES
+═══════════════════════════════════════════ */
+
+.s3Card {
+  position: relative;
+  background: rgba(255, 253, 248, 0.95);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: clamp(1.8rem, 4vw, 3rem);
+  box-shadow: 0 8px 40px var(--shadow), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  margin-top: 2rem;
+  overflow: hidden;
+}
+
+.s3Card::before {
+  content: '';
+  position: absolute;
+  inset: 12px;
+  border: 1px dashed rgba(212, 160, 23, 0.1);
+  border-radius: 12px;
+  pointer-events: none;
+}
+
+.s3CardAccent {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--saffron), var(--gold), var(--saffron));
+}
+
+.s3CardCorner {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  font-size: 0.8rem;
+  color: var(--gold);
+  opacity: 0.45;
+}
+
+/* Header Section */
+.s3Header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.s3HeaderOrnament {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  margin-bottom: 1rem;
+}
+
+.s3HeaderLine {
+  width: 60px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+.s3HeaderDot {
+  width: 6px;
+  height: 6px;
+  background: var(--saffron);
+  border-radius: 50%;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.s3HeaderSubtitle {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.95rem;
+  font-style: italic;
+  color: var(--ink-lt);
+  margin-top: 0.5rem;
+}
+
+/* Intro paragraphs */
+.s3Intro {
+  max-width: 800px;
+  margin: 0 auto 2rem;
+  text-align: center;
+}
+
+/* Tables Row - Side by Side */
+.s3TablesRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: center;
+  margin-bottom: 2.5rem;
+}
+
+/* ══ CURRICULUM TABLE - MAX WIDTH 700px ══ */
+.s3CurrWrap {
+  flex: 1;
+  min-width: 300px;
+  max-width: 700px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  background: white;
+  box-shadow: 0 4px 20px rgba(42, 21, 5, 0.06);
+  transition: box-shadow 0.3s ease;
+}
+
+.s3CurrWrap:hover {
+  box-shadow: 0 8px 30px rgba(42, 21, 5, 0.1);
+}
+
+.s3CurrHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: 'Cinzel', serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #fff;
+  padding: 1rem 1.2rem;
+  background: linear-gradient(135deg, var(--saffron), var(--saffron-dk));
+}
+
+.s3CurrHeaderIcon {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.s3CurrHeaderIcon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.s3CurrHeaderBadge {
+  margin-left: auto;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  padding: 0.2rem 0.8rem;
+  font-size: 0.65rem;
+  letter-spacing: 0.05em;
+}
+
+.s3CurrList {
+  display: flex;
+  flex-direction: column;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.s3CurrList::-webkit-scrollbar {
+  width: 4px;
+}
+
+.s3CurrList::-webkit-scrollbar-track {
+  background: var(--border-lt);
+}
+
+.s3CurrList::-webkit-scrollbar-thumb {
+  background: var(--saffron);
+  border-radius: 4px;
+}
+
+.s3CurrItem {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.9rem 1.2rem;
+  border-bottom: 1px solid var(--border-lt);
+  transition: background 0.2s ease;
+}
+
+.s3CurrItem:hover {
+  background: rgba(241, 85, 5, 0.03);
+}
+
+.s3CurrItem:last-child {
+  border-bottom: none;
+}
+
+.s3CurrNum {
+  font-family: 'Cinzel', serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--saffron);
+  background: rgba(241, 85, 5, 0.1);
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.s3CurrBody {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  min-width: 0;
+}
+
+.s3CurrTitle {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.35;
+}
+
+.s3CurrBar {
+  height: 3px;
+  background: rgba(212, 160, 23, 0.15);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.s3CurrBarFill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--saffron), var(--gold));
+  border-radius: 3px;
+  transition: width 0.5s ease;
+}
+
+.s3CurrHrs {
+  font-family: 'Cinzel', serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--saffron-dk);
+  flex-shrink: 0;
+  text-align: right;
+  min-width: 55px;
+}
+
+.s3CurrHrs span {
+  font-size: 0.55rem;
+  color: var(--ink-lt);
+  margin-left: 2px;
+  font-weight: 400;
+}
+
+.s3CurrFooter {
+  padding: 0.8rem 1.2rem;
+  background: rgba(241, 85, 5, 0.04);
+  border-top: 1px solid var(--border-lt);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  font-family: 'Cinzel', serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--ink-md);
+}
+
+.s3CurrFooterIcon {
+  font-size: 0.9rem;
+}
+
+/* ══ HOURS SUMMARY TABLE - MAX WIDTH 700px ══ */
+.s3HoursWrap {
+  flex: 1;
+  min-width: 280px;
+  max-width: 700px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  background: white;
+  box-shadow: 0 4px 20px rgba(42, 21, 5, 0.06);
+  transition: box-shadow 0.3s ease;
+}
+
+.s3HoursWrap:hover {
+  box-shadow: 0 8px 30px rgba(42, 21, 5, 0.1);
+}
+
+.s3HoursHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: 'Cinzel', serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-md);
+  background: linear-gradient(135deg, var(--parch-dk), var(--parch-deep));
+  padding: 1rem 1.2rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.s3HoursHeaderIcon {
+  width: 18px;
+  height: 18px;
+  color: var(--saffron);
+  flex-shrink: 0;
+}
+
+.s3HoursHeaderBadge {
+  margin-left: auto;
+  background: rgba(241, 85, 5, 0.1);
+  border-radius: 20px;
+  padding: 0.2rem 0.7rem;
+  font-size: 0.6rem;
+  color: var(--saffron);
+}
+
+.s3HoursTable {
+  display: flex;
+  flex-direction: column;
+}
+
+.s3HoursRow {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.8rem 1.2rem;
+  border-bottom: 1px solid var(--border-lt);
+  transition: background 0.2s ease;
+}
+
+.s3HoursRow:hover {
+  background: rgba(241, 85, 5, 0.03);
+}
+
+.s3HoursRow:last-child {
+  border-bottom: none;
+  background: rgba(241, 85, 5, 0.04);
+}
+
+.s3HoursLabelCell {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.s3HoursBullet {
+  width: 6px;
+  height: 6px;
+  background: var(--gold);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.s3HoursLabel {
+  font-family: 'Cinzel', serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--ink-md);
+  letter-spacing: 0.03em;
+}
+
+.s3HoursProgress {
+  width: 100px;
+  height: 5px;
+  background: rgba(212, 160, 23, 0.15);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.s3HoursProgressFill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--saffron), var(--gold));
+  border-radius: 3px;
+  transition: width 0.5s ease;
+}
+
+.s3HoursValue {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--saffron-dk);
+  flex-shrink: 0;
+  text-align: right;
+  min-width: 55px;
+}
+
+.s3HoursValue span {
+  font-size: 0.55rem;
+  color: var(--ink-lt);
+  margin-left: 2px;
+  font-weight: 400;
+}
+
+/* Bottom Row - Highlights and Video */
+.s3BottomRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+/* Highlights Card */
+.s3HighlightsWrap {
+  flex: 1;
+  min-width: 280px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  background: white;
+  box-shadow: 0 4px 20px rgba(42, 21, 5, 0.06);
+}
+
+.s3HighlightsHeader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  font-family: 'Cinzel', serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #fff;
+  padding: 1rem;
+  background: linear-gradient(135deg, var(--saffron), var(--saffron-dk));
+}
+
+.s3HighlightsHeaderIcon {
+  font-size: 0.9rem;
+}
+
+.s3HighlightsList {
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem 0;
+}
+
+.s3HighlightItem {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.7rem 1rem;
+  border-bottom: 1px solid var(--border-lt);
+  transition: background 0.2s ease;
+}
+
+.s3HighlightItem:hover {
+  background: rgba(212, 160, 23, 0.05);
+}
+
+.s3HighlightItem:last-child {
+  border-bottom: none;
+}
+
+.s3HighlightIcon {
+  font-size: 1.1rem;
+  flex-shrink: 0;
+  width: 28px;
+}
+
+.s3HighlightText {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.9rem;
+  color: var(--ink);
+  line-height: 1.4;
+  flex: 1;
+}
+
+/* Right Column */
+.s3RightCol {
+  flex: 1;
+  min-width: 280px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Video Wrap */
+.s3VideoWrap {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 2px solid var(--border);
+  box-shadow: 0 6px 24px var(--shadow-md);
+  aspect-ratio: 16/9;
+  cursor: pointer;
+}
+
+.s3Video {
+  width: 100%;
+  height: 100%;
+  display: block;
+  border: none;
+}
+
+.s3VideoOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(42, 21, 5, 0.3), rgba(0, 0, 0, 0.5));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.s3VideoWrap:hover .s3VideoOverlay {
+  opacity: 1;
+}
+
+.s3VideoPlayBtn {
+  width: 48px;
+  height: 48px;
+  background: rgba(241, 85, 5, 0.85);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease;
+}
+
+.s3VideoPlayBtn span {
+  font-size: 1.2rem;
+  color: white;
+  margin-left: 2px;
+}
+
+.s3VideoWrap:hover .s3VideoPlayBtn {
+  transform: scale(1.1);
+}
+
+.s3VideoTag {
+  font-family: 'Cinzel', serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 252, 235, 0.9);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+/* Bonus Card */
+.s3BonusCard {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.2rem;
+  background: linear-gradient(135deg, rgba(212, 160, 23, 0.08), rgba(241, 85, 5, 0.04));
+  border: 1px solid rgba(212, 160, 23, 0.25);
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.s3BonusCard:hover {
+  transform: translateY(-2px);
+  border-color: var(--gold);
+  box-shadow: 0 4px 15px rgba(212, 160, 23, 0.12);
+}
+
+.s3BonusIcon {
+  font-size: 2rem;
+}
+
+.s3BonusContent {
+  flex: 1;
+}
+
+.s3BonusTitle {
+  font-family: 'Cinzel', serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--saffron);
+  margin-bottom: 0.2rem;
+}
+
+.s3BonusText {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.85rem;
+  color: var(--ink-md);
+  line-height: 1.3;
+}
+
+/* CTA Section */
+.s3Cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-top: 1rem;
+  padding: 1.2rem 1.8rem;
+  background: linear-gradient(135deg, rgba(241, 85, 5, 0.05), rgba(212, 160, 23, 0.06));
+  border: 1px solid rgba(241, 85, 5, 0.15);
+  border-radius: 12px;
+  flex-wrap: wrap;
+}
+
+.s3CtaLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.s3CtaLabel {
+  font-family: 'Cinzel', serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: 0.02em;
+}
+
+.s3CtaSub {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.85rem;
+  color: var(--ink-lt);
+  font-style: italic;
+}
+
+.s3CtaBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Cinzel', serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--cream);
+  background: linear-gradient(135deg, var(--saffron), var(--saffron-dk));
+  padding: 0.8rem 2rem;
+  border-radius: 40px;
+  text-decoration: none;
+  box-shadow: 0 4px 15px rgba(200, 112, 10, 0.3);
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.s3CtaBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(200, 112, 10, 0.4);
+  gap: 10px;
+}
+
+.s3CtaBtnArrow {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+/* ══ RESPONSIVE ══ */
+@media (max-width: 900px) {
+  .s3TablesRow {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .s3CurrWrap,
+  .s3HoursWrap {
+    max-width: 100%;
+    width: 100%;
+  }
+  
+  .s3BottomRow {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 768px) {
+  .s3Card {
+    padding: 1.5rem;
+  }
+  
+  .s3Card::before {
+    display: none;
+  }
+  
+  .s3Intro {
+    text-align: left;
+  }
+  
+  .s3Cta {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .s3CtaBtn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 576px) {
+  .s3Card {
+    padding: 1rem;
+  }
+  
+  .s3HeaderLine {
+    width: 40px;
+  }
+  
+  .s3CurrItem {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  
+  .s3CurrBody {
+    width: 100%;
+    order: 2;
+  }
+  
+  .s3CurrHrs {
+    order: 3;
+    margin-left: auto;
+  }
+  
+  .s3CurrNum {
+    order: 1;
+  }
+  
+  .s3HoursRow {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  
+  .s3HoursLabelCell {
+    width: 100%;
+  }
+  
+  .s3HoursProgress {
+    flex: 1;
+  }
+  
+  .s3HoursValue {
+    margin-left: auto;
+  }
+  
+  .s3HighlightItem {
+    gap: 0.6rem;
+  }
+  
+  .s3HighlightIcon {
+    width: 24px;
+    font-size: 1rem;
+  }
+  
+  .s3HighlightText {
+    font-size: 0.85rem;
+  }
+  
+  .s3BonusCard {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .s3CtaLabel {
+    font-size: 0.85rem;
+  }
+  
+  .s3CtaSub {
+    font-size: 0.8rem;
+  }
+  
+  .s3CtaBtn {
+    font-size: 0.65rem;
+    padding: 0.7rem 1.5rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .s3CurrNum {
+    display: none;
+  }
+  
+  .s3CurrItem {
+    padding: 0.7rem;
+  }
+  
+  .s3HoursProgress {
+    width: 80px;
+  }
+  
+  .s3HoursLabel {
+    font-size: 0.65rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .s3CurrItem:hover,
+  .s3HoursRow:hover,
+  .s3HighlightItem:hover,
+  .s3BonusCard:hover,
+  .s3CtaBtn:hover {
+    transform: none;
+  }
+  
+  .s3CurrBarFill,
+  .s3HoursProgressFill {
+    transition: none;
+  }
+  
+  .s3VideoOverlay {
+    display: none;
+  }
 }

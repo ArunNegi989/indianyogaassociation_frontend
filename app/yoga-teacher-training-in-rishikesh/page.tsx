@@ -327,14 +327,14 @@ const SpecialtyCourseCard = ({
         )}
       </div>
       <div className={styles.scBtns}>
-  <a href={detailsHref} className={styles.scBtnPrimary}>
-    {detailsLabel}
-    <svg viewBox="0 0 20 20" fill="none" width="12" height="12">
-      <path d="M4 10h12M11 5l5 5-5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-    </svg>
-  </a>
-  <a href={bookHref} className={styles.scBtnOutline}>Book Now</a>
-</div>
+        <a href={detailsHref} className={styles.scBtnPrimary}>
+          {detailsLabel}
+          <svg viewBox="0 0 20 20" fill="none" width="12" height="12">
+            <path d="M4 10h12M11 5l5 5-5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+          </svg>
+        </a>
+        <a href={bookHref} className={styles.scBtnOutline}>Book Now</a>
+      </div>
     </div>
   </div>
 );
@@ -514,24 +514,11 @@ export default function BestYogaSchool() {
     : imgSrc(data.heroImage);
   const mediaAlt = data.heroMedia?.imageAlt ?? data.heroTitle ?? "";
   const videoUrl = data.heroMedia?.videoEmbedUrl ?? "";
-  const mediaCaption = data.heroMedia?.caption ?? "";
   const hasVideo = Boolean(videoUrl);
 
   return (
     <div className={styles.page}>
       {/* ── Mandala Decorations ── */}
-      {/* <div className={styles.mandalaTL} aria-hidden="true">
-        <MandalaSVG size={400} c1="#F15505" c2="#d4a017" sw={0.44} />
-      </div>
-      <div className={styles.mandalaBR} aria-hidden="true">
-        <MandalaSVG size={360} c1="#d4a017" c2="#F15505" sw={0.44} />
-      </div>
-      <div className={styles.mandalaTR} aria-hidden="true">
-        <MandalaSVG size={210} c1="#F15505" c2="#d4a017" sw={0.58} />
-      </div>
-      <div className={styles.mandalaBL} aria-hidden="true">
-        <MandalaSVG size={210} c1="#d4a017" c2="#F15505" sw={0.58} />
-      </div> */}
       <div className={styles.chakraGlow} aria-hidden="true" />
 
       {/* ══ HERO IMAGE ══ */}
@@ -550,187 +537,192 @@ export default function BestYogaSchool() {
       {/* ══ COURSE INFO CARD ══ */}
       <CourseInfoCard />
 
-     {/* ══════════════════════════════════════
-    SECTION 1 — INTRO + ACCREDITATIONS (ENHANCED WITH MULTIPLE MEDIA)
-═════════════════════════════════════════ */}
-<section className={`${styles.section} ${styles.sectionLight}`}>
-  <div className={`container px-3 px-md-4 ${styles.maxx}`}>
-    {data.heroTitle && (
-      <h1 className={styles.heroTitle}>{data.heroTitle}</h1>
-    )}
-    <OmDivider />
+      {/* ══════════════════════════════════════
+          SECTION 1 — INTRO + ACCREDITATIONS (ENHANCED WITH MULTIPLE MEDIA)
+      ═════════════════════════════════════════ */}
+      <section className={`${styles.section} ${styles.sectionLight}`}>
+        <div className={`container px-3 px-md-4 ${styles.maxx}`}>
+          {data.heroTitle && (
+            <h1 className={styles.heroTitle}>{data.heroTitle}</h1>
+          )}
+          <OmDivider />
 
-    {/* Content first, then media gallery */}
-    <div className={styles.contentFirstLayout}>
-      {/* Text Content */}
-      <div className={styles.textContentBlock}>
-        <div className={styles.contentIntroEnhanced}>
-          <span className={styles.contentBadgeEnhanced}>Welcome to AYM Yoga School</span>
-          <h2 className={styles.contentTitleEnhanced}>
-            Best Yoga Teacher Training in <span className={styles.highlightText}>Rishikesh</span>
-          </h2>
-          <div className={styles.contentUnderlineEnhanced} />
-        </div>
+          {/* Content first, then media gallery */}
+          <div className={styles.contentFirstLayout}>
+            {/* Text Content */}
+            <div className={styles.textContentBlock}>
+              <div className={styles.contentIntroEnhanced}>
+                <span className={styles.contentBadgeEnhanced}>Welcome to AYM Yoga School</span>
+                <h2 className={styles.contentTitleEnhanced}>
+                  Best Yoga Teacher Training in <span className={styles.highlightText}>Rishikesh</span>
+                </h2>
+                <div className={styles.contentUnderlineEnhanced} />
+              </div>
 
-        <div className={styles.contentTextEnhanced}>
-          <p className={styles.bodyParaEnhanced}>
-            Best Yoga Teacher Training in Rishikesh is written on every school website's wall. 
-            The world capital of yoga, lush green forests surround Rishikesh, the Holy River 
-            mother Ganga, and thousands of spiritual ashrams for learning the best yoga in the world. 
-            It is also a highly recommended and famous destination for the best yoga teacher training 
-            in Rishikesh. Rishikesh is known as a spiritual energy spot. It attracts millions of 
-            devotees worldwide, seeking an inner spiritual journey through yoga.
-          </p>
-          
-          <p className={styles.bodyParaEnhanced}>
-            The Association for Yoga and Meditation - the best yoga school in Rishikesh 
-            (AYM Yoga School in Rishikesh) is registered with the Yoga Alliance USA and situated 
-            in this beautiful lap of green mountains. Our primary objective is to train the best 
-            yoga teachers through the best yoga master, using the best modern technology to 
-            understand the ancient science of yoga. Our syllabus is designed to give the students 
-            complete exposure to yogic techniques in 200 hour residential yoga teacher training 
-            in Rishikesh, 300 hour residential yoga teacher training in Rishikesh and 500 hours 
-            residential yoga teacher teaching certifications in Rishikesh India.
-          </p>
-        </div>
+              <div className={styles.contentTextEnhanced}>
+                <p className={styles.bodyParaEnhanced}>
+                  Best Yoga Teacher Training in Rishikesh is written on every school website's wall. 
+                  The world capital of yoga, lush green forests surround Rishikesh, the Holy River 
+                  mother Ganga, and thousands of spiritual ashrams for learning the best yoga in the world. 
+                  It is also a highly recommended and famous destination for the best yoga teacher training 
+                  in Rishikesh. Rishikesh is known as a spiritual energy spot. It attracts millions of 
+                  devotees worldwide, seeking an inner spiritual journey through yoga.
+                </p>
+                
+                <p className={styles.bodyParaEnhanced}>
+                  The Association for Yoga and Meditation - the best yoga school in Rishikesh 
+                  (AYM Yoga School in Rishikesh) is registered with the Yoga Alliance USA and situated 
+                  in this beautiful lap of green mountains. Our primary objective is to train the best 
+                  yoga teachers through the best yoga master, using the best modern technology to 
+                  understand the ancient science of yoga. Our syllabus is designed to give the students 
+                  complete exposure to yogic techniques in 200 hour residential yoga teacher training 
+                  in Rishikesh, 300 hour residential yoga teacher training in Rishikesh and 500 hours 
+                  residential yoga teacher teaching certifications in Rishikesh India.
+                </p>
+              </div>
 
-        {/* Training Options Tags */}
-        <div className={styles.trainingTagsEnhanced}>
-          <div className={styles.trainingTag}>
-            <span className={styles.trainingTagIcon}>🧘</span>
-            <span>200 Hour TTC</span>
-          </div>
-          <div className={styles.trainingTag}>
-            <span className={styles.trainingTagIcon}>🕉️</span>
-            <span>300 Hour TTC</span>
-          </div>
-          <div className={styles.trainingTag}>
-            <span className={styles.trainingTagIcon}>✨</span>
-            <span>500 Hour TTC</span>
-          </div>
-        </div>
-
-        {data.inlineLinks?.length > 0 && (
-          <div className={styles.linkGroupEnhanced}>
-            {data.inlineLinks.map((link) => (
-              <a key={link.id} href={link.href} className={styles.linkPillEnhanced}>
-                {link.text}
-                <svg viewBox="0 0 20 20" fill="none">
-                  <path d="M4 10h12M11 5l5 5-5 5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-                </svg>
-              </a>
-            ))}
-          </div>
-        )}
-      </div>
-
-      {/* Media Gallery - Multiple images/videos in a grid/carousel */}
-      <div className={styles.mediaGalleryBlock}>
-        <div className={styles.mediaGrid}>
-          {/* Main Large Image */}
-          <div className={styles.mediaMainItem}>
-            {hasVideo && mediaMode === "vid" ? (
-              <iframe 
-                src={videoUrl} 
-                className={styles.mediaMainVideo} 
-                allow="autoplay; encrypted-media" 
-                allowFullScreen
-                title="Yoga Teacher Training Video"
-              />
-            ) : (
-              <img src={mediaSrc} alt={mediaAlt} className={styles.mediaMainImg} loading="lazy" />
-            )}
-            {hasVideo && (
-              <button 
-                className={styles.mediaVideoToggle}
-                onClick={() => setMediaMode(mediaMode === "img" ? "vid" : "img")}
-              >
-                {mediaMode === "img" ? (
-                  <>
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                      <rect x="2" y="4" width="20" height="16" rx="2" />
-                      <path d="M9 8l6 4-6 4V8z" />
-                    </svg>
-                    Watch Video
-                  </>
-                ) : (
-                  <>
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                      <rect x="2" y="2" width="20" height="20" rx="2" />
-                      <circle cx="8.5" cy="8.5" r="2.5" />
-                      <path d="M21 15l-5-4-3 3-4-4-6 6" />
-                    </svg>
-                    View Photo
-                  </>
-                )}
-              </button>
-            )}
-            <div className={styles.mediaMainOverlay}>
-              <span className={styles.mediaMainBadge}>Featured</span>
+              {data.inlineLinks?.length > 0 && (
+                <div className={styles.linkGroupEnhanced}>
+                  {data.inlineLinks.map((link) => (
+                    <a key={link.id} href={link.href} className={styles.linkPillEnhanced}>
+                      {link.text}
+                      <svg viewBox="0 0 20 20" fill="none">
+                        <path d="M4 10h12M11 5l5 5-5 5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+                      </svg>
+                    </a>
+                  ))}
+                </div>
+              )}
             </div>
-          </div>
 
-          {/* Small Images Grid */}
-          <div className={styles.mediaSmallGrid}>
-            <div className={styles.mediaSmallItem}>
-              <img src="/images/yoga-class-1.jpg" alt="Yoga Class" className={styles.mediaSmallImg} />
-              <div className={styles.mediaSmallOverlay}>
-                <span>Yoga Practice</span>
+            {/* Media Gallery Block */}
+            <div className={styles.mediaGalleryBlock}>
+              <div className={styles.mediaGrid}>
+                {/* Main Large Image */}
+                <div className={styles.mediaMainItem}>
+                  {hasVideo && mediaMode === "vid" ? (
+                    <iframe 
+                      src={videoUrl} 
+                      className={styles.mediaMainVideo} 
+                      allow="autoplay; encrypted-media" 
+                      allowFullScreen
+                      title="Yoga Teacher Training Video"
+                    />
+                  ) : (
+                    <img src={mediaSrc} alt={mediaAlt} className={styles.mediaMainImg} loading="lazy" />
+                  )}
+                  {hasVideo && (
+                    <button 
+                      className={styles.mediaVideoToggle}
+                      onClick={() => setMediaMode(mediaMode === "img" ? "vid" : "img")}
+                    >
+                      {mediaMode === "img" ? (
+                        <>
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <rect x="2" y="4" width="20" height="16" rx="2" />
+                            <path d="M9 8l6 4-6 4V8z" />
+                          </svg>
+                          Watch Video
+                        </>
+                      ) : (
+                        <>
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <rect x="2" y="2" width="20" height="20" rx="2" />
+                            <circle cx="8.5" cy="8.5" r="2.5" />
+                            <path d="M21 15l-5-4-3 3-4-4-6 6" />
+                          </svg>
+                          View Photo
+                        </>
+                      )}
+                    </button>
+                  )}
+                  <div className={styles.mediaMainOverlay}>
+                    <span className={styles.mediaMainBadge}>Featured</span>
+                  </div>
+                </div>
+
+                {/* Small Images Grid - Only 3 images */}
+                <div className={styles.mediaSmallGrid}>
+                  <div className={styles.mediaSmallItem}>
+                    <img src="/images/yoga-class-1.jpg" alt="Yoga Class" className={styles.mediaSmallImg} />
+                    <div className={styles.mediaSmallOverlay}>
+                      <span>Yoga Practice</span>
+                    </div>
+                  </div>
+                  <div className={styles.mediaSmallItem}>
+                    <img src="/images/meditation-1.jpg" alt="Meditation" className={styles.mediaSmallImg} />
+                    <div className={styles.mediaSmallOverlay}>
+                      <span>Meditation</span>
+                    </div>
+                  </div>
+                  <div className={styles.mediaSmallItem}>
+                    <img src="/images/ashram-1.jpg" alt="Ashram View" className={styles.mediaSmallImg} />
+                    <div className={styles.mediaSmallOverlay}>
+                      <span>Ashram Life</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Training Tags & Pills - Below Images */}
+              <div className={styles.mediaFooterEnhanced}>
+                {/* Training Options Tags */}
+                <div className={styles.trainingTagsEnhanced}>
+                  <div className={styles.trainingTag}>
+                    <span className={styles.trainingTagIcon}>🧘</span>
+                    <span>200 Hour TTC</span>
+                  </div>
+                  <div className={styles.trainingTag}>
+                    <span className={styles.trainingTagIcon}>🕉️</span>
+                    <span>300 Hour TTC</span>
+                  </div>
+                  <div className={styles.trainingTag}>
+                    <span className={styles.trainingTagIcon}>✨</span>
+                    <span>500 Hour TTC</span>
+                  </div>
+                </div>
+
+                {/* Additional Pills */}
+                <div className={styles.pillsGroupEnhanced}>
+                  <span className={styles.pillItem}>✓ Yoga Alliance Certified</span>
+                  <span className={styles.pillItem}>✓ 6000+ Graduates</span>
+                  <span className={styles.pillItem}>✓ Since 2009</span>
+                  <span className={styles.pillItem}>✓ Top Rated School</span>
+                </div>
               </div>
             </div>
-            <div className={styles.mediaSmallItem}>
-              <img src="/images/meditation-1.jpg" alt="Meditation" className={styles.mediaSmallImg} />
-              <div className={styles.mediaSmallOverlay}>
-                <span>Meditation</span>
-              </div>
-            </div>
-            <div className={styles.mediaSmallItem}>
-              <img src="/images/ashram-1.jpg" alt="Ashram View" className={styles.mediaSmallImg} />
-              <div className={styles.mediaSmallOverlay}>
-                <span>Ashram Life</span>
-              </div>
-            </div>
-            <div className={styles.mediaSmallItem}>
-              <img src="/images/ganga-arti.jpg" alt="Ganga Aarti" className={styles.mediaSmallImg} />
-              <div className={styles.mediaSmallOverlay}>
-                <span>Ganga Aarti</span>
-              </div>
-            </div>
           </div>
+
+          {/* Accreditations Section */}
+          {data.accrSectionTitle && (
+            <div className={styles.accrSectionEnhanced}>
+              <div className={styles.accrHeadEnhanced}>
+                <span className={styles.accrHeadLineEnhanced} />
+                <div className={styles.accrHeadInnerEnhanced}>
+                  <p className={styles.accrEyebrowEnhanced}>Certified &amp; Recognised</p>
+                  <h2 className={styles.accrTitleEnhanced}>{data.accrSectionTitle}</h2>
+                  <p className={styles.accrTaglineEnhanced}>
+                    Yoga Alliance USA &amp; Ministry of AYUSH, Government of India
+                  </p>
+                </div>
+                <span className={styles.accrHeadLineRevEnhanced} />
+              </div>
+
+              {data.accredBadges?.length > 0 && (
+                <div className={styles.certGridEnhanced}>
+                  {data.accredBadges.map((badge) => (
+                    <CertCard key={badge.id} {...badge} />
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
+          {data.bodyParagraphs2?.map((para, i) => (
+            <div key={i} className={styles.bodyParaEnhanced} dangerouslySetInnerHTML={{ __html: para }} />
+          ))}
         </div>
-      </div>
-    </div>
-
-    {/* Accreditations Section */}
-    {data.accrSectionTitle && (
-      <div className={styles.accrSectionEnhanced}>
-        <div className={styles.accrHeadEnhanced}>
-          <span className={styles.accrHeadLineEnhanced} />
-          <div className={styles.accrHeadInnerEnhanced}>
-            <p className={styles.accrEyebrowEnhanced}>Certified &amp; Recognised</p>
-            <h2 className={styles.accrTitleEnhanced}>{data.accrSectionTitle}</h2>
-            <p className={styles.accrTaglineEnhanced}>
-              Yoga Alliance USA &amp; Ministry of AYUSH, Government of India
-            </p>
-          </div>
-          <span className={styles.accrHeadLineRevEnhanced} />
-        </div>
-
-        {data.accredBadges?.length > 0 && (
-          <div className={styles.certGridEnhanced}>
-            {data.accredBadges.map((badge) => (
-              <CertCard key={badge.id} {...badge} />
-            ))}
-          </div>
-        )}
-      </div>
-    )}
-
-    {data.bodyParagraphs2?.map((para, i) => (
-      <div key={i} className={styles.bodyParaEnhanced} dangerouslySetInnerHTML={{ __html: para }} />
-    ))}
-  </div>
-</section>
+      </section>
 
       {/* ══════════════════════════════════════
           SECTION 2 — COURSE CARDS (ENHANCED)
@@ -774,41 +766,37 @@ export default function BestYogaSchool() {
       {/* ══════════════════════════════════════
           SECTION 3 — SPECIALTY COURSES (REDESIGNED)
       ══════════════════════════════════════ */}
-     {data.specialtyCourses?.length > 0 && (
-  <section className={`${styles.section} ${styles.sectionDeep}`}>
-    <div className={`container px-3 px-md-4 ${styles.maxx}`}>
-      {data.specialtySectionTitle && (
-        <>
-          {/* <p className={styles.secEyebrow}>Beyond the Mat</p> */}
-          <h2 className={styles.sectionTitleCenter}>
-            {data.specialtySectionTitle}
-          </h2>
-        </>
+      {data.specialtyCourses?.length > 0 && (
+        <section className={`${styles.section} ${styles.sectionDeep}`}>
+          <div className={`container px-3 px-md-4 ${styles.maxx}`}>
+            {data.specialtySectionTitle && (
+              <>
+                <h2 className={styles.sectionTitleCenter}>
+                  {data.specialtySectionTitle}
+                </h2>
+              </>
+            )}
+            <OmDivider />
+            {data.specialtyCourses.map((course, i) => (
+              <React.Fragment key={course.id}>
+                <SpecialtyCourseCard {...course} />
+                {i < data.specialtyCourses.length - 1 && (
+                  <div className={styles.scDivider}>
+                    <span className={styles.scDivLine} />
+                    <span className={styles.scDivDot}>◈</span>
+                    <span className={styles.scDivLine} />
+                  </div>
+                )}
+              </React.Fragment>
+            ))}
+          </div>
+        </section>
       )}
-      <OmDivider />
-      {data.specialtyCourses.map((course, i) => (
-        <React.Fragment key={course.id}>
-          <SpecialtyCourseCard {...course} />
-          {i < data.specialtyCourses.length - 1 && (
-            <div className={styles.scDivider}>
-              <span className={styles.scDivLine} />
-              <span className={styles.scDivDot}>◈</span>
-              <span className={styles.scDivLine} />
-            </div>
-          )}
-        </React.Fragment>
-      ))}
-    </div>
-  </section>
-)}
 
-<PremiumGallerySection type="both" backgroundColor="warm" />
+      <PremiumGallerySection type="both" backgroundColor="warm" />
 
- {/* ✅ REVIEWS — now a reusable separate component */}
-            <ReviewSection
-            
-              RatingsSummaryComponent={<RatingsSummarySection />}
-            />
+      {/* ✅ REVIEWS — now a reusable separate component */}
+      <ReviewSection RatingsSummaryComponent={<RatingsSummarySection />} />
 
       <HowToReach />
     </div>
