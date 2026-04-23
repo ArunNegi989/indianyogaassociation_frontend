@@ -49,7 +49,7 @@
   position: relative;
   overflow-x: hidden;
   background-color: var(--parchment);
-  background-image: url("../../images/backgroundimage/56.png");
+  /* background-image: url("../../images/backgroundimage/56.png"); */
   color: var(--ink-sepia);
   font-family: var(--font-body);
 }
@@ -80,7 +80,7 @@
 
 .reveal.visible {
   opacity: 1;
-  transform: none;
+  /* transform: none; */
 }
 
 /* ════════════════════════════════════════
@@ -89,6 +89,11 @@
 .page {
   font-family: var(--ff-body);
   background-color: var(--clr-parchment);
+  /* background-image: url("../../images/backgroundimage/56.png"); */
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   color: var(--clr-ink);
   overflow-x: hidden;
   position: relative;
@@ -211,7 +216,7 @@
 
 .icVal {
   font-family: var(--font-body);
-  font-size: clamp(0.88rem, 1.3vw, 1.5rem);
+  font-size: 16px;
   font-weight: 600;
   color: var(--teal-dark);
   line-height: 1.3;
@@ -369,8 +374,8 @@
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--clr-saffron-lt);
-  background: transparent;
+  color: #fff;
+  background: #2d5a27;
   padding: 0.85rem 2rem;
   border-radius: var(--radius);
   text-decoration: none;
@@ -491,7 +496,7 @@
    INTRO SECTION
 ════════════════════════════════════════ */
 .introSection {
-  background: linear-gradient(160deg, #fffbf4 0%, #fffcf5 100%);
+  background:#fff;
   border-top: 4px solid transparent;
   border-image: linear-gradient(90deg, transparent, var(--clr-saffron), transparent) 1;
 }
@@ -596,12 +601,25 @@
    WHAT IS HATHA SECTION
 ════════════════════════════════════════ */
 .whatSection {
-  background: linear-gradient(160deg, #fffbf4 0%, #fffcf5 100%);
+  background-image: url("../../images/homepageslider/Live-love-laugh-in-rishikesh.webp");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
   border-top: 3px solid;
   border-bottom: 3px solid;
   border-image: linear-gradient(90deg, transparent 0%, #F15505 30%, #f5b800 50%, #F15505 70%, transparent 100%) 1;
   position: relative;
   overflow: hidden;
+}
+
+.whatSection::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 248, 240, 0.5) 50%, rgba(255, 255, 255, 0.4) 100%);
+  pointer-events: none;
+  z-index: 0;
 }
 
 .mandalaBg {
@@ -683,7 +701,7 @@
    BENEFITS SECTION - CREATIVE REDESIGN
 ════════════════════════════════════════ */
 .benefitsSection {
-  background: linear-gradient(160deg, #fffbf4 0%, #fffcf5 100%);
+  background: #fff;
   position: relative;
   overflow: hidden;
 }
@@ -786,12 +804,12 @@
   font-family: var(--ff-script);
   font-size: clamp(1.1rem, 2.2vw, 1.45rem);
   font-weight: 600;
-  color: var(--clr-mahogany);
+  color: #fff;
   line-height: 1.6;
   text-align: center;
   padding: 1.4rem 1.6rem;
   margin-top: 1.4rem;
-  background: linear-gradient(135deg, #fff8f0 0%, #ffecd8 100%);
+  background: #f15505;
   border: var(--border-warm);
   border-radius: var(--radius);
   position: relative;
@@ -949,7 +967,7 @@
    ASHRAM SECTION - CREATIVE REDESIGN
 ════════════════════════════════════════ */
 .ashramSection {
-  background: linear-gradient(160deg, #fff3de 0%, var(--clr-parchment) 100%);
+  background: #fff;
   position: relative;
   overflow: hidden;
 }
@@ -1054,7 +1072,7 @@
    CURRICULUM (SYLLABUS) - CREATIVE REDESIGN
 ════════════════════════════════════════ */
 .curriculumSection {
-  background: linear-gradient(160deg, #fffbf4 0%, #fffcf5 100%);
+  background: #fff;
   border-top: 3px solid;
   border-image: linear-gradient(90deg, transparent, var(--clr-saffron), transparent) 1;
   position: relative;
@@ -1403,9 +1421,22 @@
 ════════════════════════════════════════ */
 .footerCta {
   position: relative;
-  background: linear-gradient(135deg, #2a1000 0%, #3d1d00 50%, #1e0a00 100%);
+  background-image: url("../../images/homepageslider/Yoga-Teacher-Training-in-rishikesh.webp");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
   overflow: hidden;
   padding: 4rem 1.5rem;
+}
+
+.footerCta::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(255, 248, 240, 0.5) 0%, rgba(255, 255, 255, 0.4) 50%, rgba(255, 248, 240, 0.5) 100%);
+  pointer-events: none;
+  z-index: 0;
 }
 
 .footerMandala {

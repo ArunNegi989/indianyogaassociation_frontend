@@ -225,7 +225,7 @@
 .founderSection {
   padding: clamp(2.5rem, 5vw, 4rem) 0;
   background-image: url("../../images/1905x1282.png");
-  background-size: contain;
+  /* background-size: contain; */
   position: relative;
 }
 
@@ -384,30 +384,70 @@
 }
 
 /* ================================================================
-   TEACHER CARDS - MODERN GRID LAYOUT
+   TEACHER CARDS - CREATIVE TIMELINE/FLOW LAYOUT
 ================================================================ */
 .teachersSection {
-  background-image: url("../../images/1905x4418.png");
-  background-size: contain;
+  /* background-image: url("../../images/1905x4418.png"); */
+  /* background-size: contain; */
+  position: relative;
 }
 
 .tCard {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: clamp(2rem, 4vw, 4.5rem);
-  align-items: start;
-  padding: clamp(2rem, 4vw, 3rem) 0;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  align-items: stretch;
+  padding: 0;
   opacity: 0;
   animation: fadeUp 0.55s ease forwards;
-  background: linear-gradient(135deg, rgba(253, 248, 236, 0.5) 0%, rgba(255, 253, 245, 0.3) 100%);
-  border-radius: 16px;
-  padding: clamp(2rem, 4vw, 3rem);
-  border: 1px solid rgba(232, 213, 170, 0.4);
-  margin-bottom: 2rem;
+  background: transparent;
+  border-radius: 0;
+  border: none;
+  margin-bottom: 0;
+  position: relative;
+  overflow: visible;
+  transition: all 0.4s ease;
+  box-shadow: none;
+  min-height: 420px;
+}
+
+.tCard:nth-child(odd) {
+  direction: rtl;
+}
+
+.tCard:nth-child(odd) > * {
+  direction: ltr;
+}
+
+.tCard::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(180deg, transparent 0%, var(--gold) 20%, var(--gold) 80%, transparent 100%);
+  transform: translateX(-50%);
+  z-index: 1;
+}
+
+.tCard::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 16px;
+  height: 16px;
+  background: var(--gold);
+  border: 4px solid var(--ivory);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  box-shadow: 0 0 0 3px var(--saffron);
 }
 
 .tCardReverse {
-  grid-template-columns: 1fr;
+  grid-template-columns: 1fr 1fr;
 }
 
 .tCardReverse .tImgCol {
@@ -421,7 +461,7 @@
 @keyframes fadeUp {
   from {
     opacity: 0;
-    transform: translateY(18px);
+    transform: translateY(24px);
   }
 
   to {
@@ -430,32 +470,60 @@
   }
 }
 
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
 .tImgCol {
-  position: static;
+  position: relative;
   display: flex;
   justify-content: center;
+  align-items: center;
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+  background: linear-gradient(135deg, rgba(253, 248, 236, 0.6) 0%, rgba(255, 253, 245, 0.3) 100%);
+}
+
+.tCard:nth-child(odd) .tImgCol {
+  background: linear-gradient(135deg, rgba(245, 184, 0, 0.08) 0%, rgba(224, 123, 0, 0.04) 100%);
 }
 
 .tImgWrapper {
   position: relative;
   overflow: hidden;
-  border-radius: 12px;
-  box-shadow: 0 8px 32px rgba(92, 45, 0, 0.2);
+  border-radius: 20px;
+  box-shadow: 0 16px 48px rgba(92, 45, 0, 0.2), 0 0 0 2px rgba(245, 184, 0, 0.3);
   width: 100%;
-  max-width: 400px;
+  max-width: 280px;
+  aspect-ratio: 3 / 4;
+  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.tImgWrapper::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(245, 184, 0, 0.15) 0%, transparent 50%, rgba(224, 123, 0, 0.08) 100%);
+  pointer-events: none;
+  z-index: 2;
+  border-radius: 20px;
 }
 
 .tImg {
   width: 100%;
-  aspect-ratio: 3 / 4;
+  height: 100%;
   object-fit: cover;
   object-position: center top;
   display: block;
-  transition: transform 0.5s ease;
+  transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .tImgWrapper:hover .tImg {
-  transform: scale(1.03);
+  transform: scale(1.1) rotate(1deg);
 }
 
 .tImgOverlay {
@@ -463,95 +531,159 @@
   bottom: 0;
   left: 0;
   right: 0;
-  height: 35%;
-  background: linear-gradient(to top, rgba(26, 12, 0, 0.45) 0%, transparent 100%);
+  height: 45%;
+  background: linear-gradient(to top, rgba(26, 12, 0, 0.6) 0%, rgba(26, 12, 0, 0.25) 50%, transparent 100%);
   pointer-events: none;
+  transition: all 0.4s ease;
+  z-index: 1;
+}
+
+.tImgWrapper:hover .tImgOverlay {
+  height: 55%;
+  background: linear-gradient(to top, rgba(26, 12, 0, 0.75) 0%, rgba(26, 12, 0, 0.3) 50%, transparent 100%);
 }
 
 .tYearsBadge {
   position: absolute;
-  bottom: 14px;
-  right: 14px;
+  bottom: 18px;
+  right: 18px;
   font-family: 'Cinzel', serif;
-  font-size: 0.72rem;
+  font-size: 0.78rem;
   font-weight: 700;
-  letter-spacing: 0.1em;
-  color: var(--textDark);
-  background: var(--gold);
-  padding: 0.32rem 0.75rem;
-  border-radius: 2px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  letter-spacing: 0.14em;
+  color: #fff;
+  background: linear-gradient(135deg, var(--saffron), #d63031);
+  padding: 0.5rem 1.1rem;
+  border-radius: 25px;
+  box-shadow: 0 6px 20px rgba(224, 123, 0, 0.4);
+  transition: all 0.3s ease;
+  z-index: 3;
+  text-transform: uppercase;
+}
+
+.tImgWrapper:hover .tYearsBadge {
+  transform: translateY(-6px) scale(1.05);
+  box-shadow: 0 10px 30px rgba(224, 123, 0, 0.5);
 }
 
 .tContent {
-  padding-top: 0.4rem;
-  text-align: center;
+  padding: clamp(2rem, 4vw, 3rem);
+  text-align: left;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: linear-gradient(135deg, rgba(253, 248, 236, 0.8) 0%, rgba(255, 253, 245, 0.5) 100%);
+  border: 1px solid rgba(232, 213, 170, 0.5);
+  border-radius: 0;
+}
+
+.tCard:nth-child(odd) .tContent {
+  background: linear-gradient(135deg, rgba(245, 184, 0, 0.08) 0%, rgba(224, 123, 0, 0.04) 100%);
+  border-color: rgba(224, 123, 0, 0.2);
 }
 
 .tRoleTag {
   font-family: 'Cinzel', serif;
   font-size: 0.65rem;
-  font-weight: 600;
-  letter-spacing: 0.18em;
+  font-weight: 700;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--saffron);
-  margin-bottom: 0.55rem;
+  margin-bottom: 0.8rem;
+  display: inline-block;
+  padding: 0.35rem 0.9rem;
+  background: linear-gradient(135deg, rgba(241, 85, 5, 0.1), rgba(245, 184, 0, 0.1));
+  border: 1px solid rgba(241, 85, 5, 0.25);
+  border-radius: 20px;
+  transition: all 0.3s ease;
+  width: fit-content;
+}
+
+.tCard:hover .tRoleTag {
+  background: linear-gradient(135deg, rgba(241, 85, 5, 0.18), rgba(245, 184, 0, 0.15));
+  border-color: rgba(241, 85, 5, 0.4);
 }
 
 .tName {
   font-family: 'Cinzel', serif;
-  font-size: clamp(1.15rem, 2.3vw, 1.6rem);
+  font-size:18px;
   font-weight: 700;
   color: var(--textDark);
   letter-spacing: 0.05em;
-  margin: 0 0 0.8rem;
+  margin: 0 0 0.6rem;
   line-height: 1.2;
+  transition: color 0.3s ease;
+}
+
+.tCard:hover .tName {
+  color: var(--saffron);
 }
 
 .tDivider {
   width: 50px;
-  height: 2px;
+  height: 3px;
   background: linear-gradient(90deg, var(--saffron), var(--gold));
-  margin: 0 auto 1rem;
+  margin: 0 0 1rem;
   border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+.tCard:hover .tDivider {
+  width: 70px;
 }
 
 .tBio {
   font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(0.88rem, 1.45vw, 1rem);
-  line-height: 1.9;
+  font-size: clamp(0.88rem, 1.4vw, 1rem);
+  line-height: 1.85;
   color: var(--textBody);
   margin-bottom: 1.2rem;
+  transition: color 0.3s ease;
+}
+
+.tCard:hover .tBio {
+  color: #3d2817;
 }
 
 .tDetails {
   overflow: hidden;
   max-height: 0;
   opacity: 0;
-  transition: max-height 0.45s ease, opacity 0.35s ease;
+  transition: max-height 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease;
 }
 
 .tDetailsOpen {
-  max-height: 800px;
+  max-height: 900px;
   opacity: 1;
 }
 
 .tDetailBlock {
-  margin-top: 1.2rem;
+  margin-top: 1rem;
   padding: 1rem 1.2rem;
-  background: var(--cream);
-  border-left: 3px solid var(--gold);
+  background: linear-gradient(135deg, rgba(253, 240, 176, 0.3) 0%, rgba(245, 184, 0, 0.1) 100%);
+  border-left: 4px solid var(--gold);
+  border-radius: 6px;
   text-align: left;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(232, 213, 170, 0.4);
+}
+
+.tDetailBlock:hover {
+  background: linear-gradient(135deg, rgba(253, 240, 176, 0.4) 0%, rgba(245, 184, 0, 0.15) 100%);
+  border-color: rgba(224, 123, 0, 0.4);
+  transform: translateX(4px);
 }
 
 .tDetailTitle {
   font-family: 'Cinzel', serif;
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--textDark);
-  margin: 0 0 0.65rem;
+  margin: 0 0 0.6rem;
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -559,6 +691,12 @@
 
 .tDetailIcon {
   font-style: normal;
+  font-size: 1em;
+  transition: transform 0.3s ease;
+}
+
+.tDetailBlock:hover .tDetailIcon {
+  transform: scale(1.2) rotate(10deg);
 }
 
 .tList {
@@ -569,11 +707,17 @@
 
 .tList li {
   font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(0.84rem, 1.3vw, 0.93rem);
+  font-size: clamp(0.82rem, 1.2vw, 0.92rem);
   color: var(--textBody);
   line-height: 1.7;
-  padding: 0.28rem 0 0.28rem 1.1rem;
+  padding: 0.25rem 0 0.25rem 1.1rem;
   position: relative;
+  transition: all 0.2s ease;
+}
+
+.tList li:hover {
+  color: var(--saffron);
+  transform: translateX(4px);
 }
 
 .tList li::before {
@@ -582,31 +726,41 @@
   left: 0;
   color: var(--saffron);
   font-size: 0.45rem;
-  top: 0.58rem;
+  top: 0.55rem;
+  transition: all 0.2s ease;
+}
+
+.tList li:hover::before {
+  transform: scale(1.3);
 }
 
 .tChips {
   display: flex;
   flex-wrap: wrap;
   gap: 0.4rem;
-  margin-top: 0.3rem;
+  margin-top: 0.4rem;
 }
 
 .tChip {
   font-family: 'Cinzel', serif;
-  font-size: 0.6rem;
+  font-size: 0.58rem;
   font-weight: 600;
   letter-spacing: 0.08em;
   color: var(--textDark);
   background: linear-gradient(135deg, var(--goldLt), #fff8d0);
-  border: 1px solid var(--gold);
-  padding: 0.3rem 0.7rem;
-  border-radius: 2px;
-  transition: background 0.2s;
+  border: 1.5px solid var(--gold);
+  padding: 0.35rem 0.75rem;
+  border-radius: 5px;
+  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  cursor: default;
+  text-transform: uppercase;
 }
 
 .tChip:hover {
   background: linear-gradient(135deg, var(--gold), #f5c830);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(224, 123, 0, 0.25);
+  border-color: #e6a800;
 }
 
 .tToggle {
@@ -614,21 +768,42 @@
   align-items: center;
   gap: 0.4rem;
   font-family: 'Cinzel', serif;
-  font-size: 0.68rem;
-  font-weight: 600;
+  font-size: 0.65rem;
+  font-weight: 700;
   letter-spacing: 0.1em;
-  color: var(--saffron);
-  background: transparent;
-  border: 1.5px solid var(--saffron);
-  padding: 0.55rem 1.2rem;
+  text-transform: uppercase;
+  color: #fff;
+  background: linear-gradient(135deg, var(--saffron), #d63031);
+  border: none;
+  padding: 0.6rem 1.4rem;
   cursor: pointer;
   margin-top: 1rem;
-  transition: all 0.22s ease;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  border-radius: 6px;
+  box-shadow: 0 4px 14px rgba(224, 123, 0, 0.25);
+  position: relative;
+  overflow: hidden;
+}
+
+.tToggle::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.5s ease;
+}
+
+.tToggle:hover::before {
+  left: 100%;
 }
 
 .tToggle:hover {
-  background: var(--saffron);
-  color: #fff;
+  background: linear-gradient(135deg, #d63031, var(--saffron));
+  transform: translateY(-3px);
+  box-shadow: 0 8px 22px rgba(224, 123, 0, 0.35);
 }
 
 /* ================================================================
@@ -704,7 +879,7 @@
 ================================================================ */
 .guestSection {
   background: url("../../images/23.png");
-  padding: clamp(2rem, 4vw, 3.5rem) 0;
+  padding-top: 87px;
 }
 
 .guestHeader {
@@ -1075,10 +1250,23 @@
 @media (max-width: 1200px) {
   .tCard {
     grid-template-columns: 1fr;
+    min-height: auto;
   }
 
-  .tCardReverse {
-    grid-template-columns: 1fr;
+  .tCard::before {
+    display: none;
+  }
+
+  .tCard::after {
+    display: none;
+  }
+
+  .tImgCol {
+    padding: clamp(1.5rem, 3vw, 2rem);
+  }
+
+  .tContent {
+    padding: clamp(1.5rem, 3vw, 2rem);
   }
 
   .founderTextCol {
@@ -1090,10 +1278,15 @@
 @media (max-width: 1024px) {
   .tCard {
     grid-template-columns: 1fr;
+    min-height: auto;
   }
 
-  .tCardReverse {
-    grid-template-columns: 1fr;
+  .tCard::before {
+    display: none;
+  }
+
+  .tCard::after {
+    display: none;
   }
 
   .frameLG {
@@ -1115,10 +1308,15 @@
 @media (max-width: 900px) {
   .tCard {
     grid-template-columns: 1fr;
+    min-height: auto;
   }
 
-  .tCardReverse {
-    grid-template-columns: 1fr;
+  .tCard::before {
+    display: none;
+  }
+
+  .tCard::after {
+    display: none;
   }
 
   .frameLG {
@@ -1138,7 +1336,16 @@
   .tCard,
   .tCardReverse {
     grid-template-columns: 1fr;
-    gap: 1.5rem;
+    gap: 0;
+    min-height: auto;
+  }
+
+  .tCard::before {
+    display: none;
+  }
+
+  .tCard::after {
+    display: none;
   }
 
   .tCardReverse .tImgCol {
@@ -1151,6 +1358,7 @@
 
   .tImgCol {
     position: static;
+    padding: 1.5rem;
   }
 
   .tImg {
@@ -1160,7 +1368,20 @@
   }
 
   .tImgWrapper {
-    border-radius: 12px;
+    border-radius: 14px;
+    max-width: 100%;
+  }
+
+  .tName {
+    font-size: 1.3rem;
+  }
+
+  .tRoleTag {
+    font-size: 0.65rem;
+  }
+
+  .tContent {
+    padding: 1.5rem;
   }
 
   .frameLG {
@@ -1276,11 +1497,20 @@
   }
 
   .tName {
-    font-size: 1.15rem;
+    font-size: 1.25rem;
   }
 
   .tBio {
-    font-size: 0.9rem;
+    font-size: 0.92rem;
+  }
+
+  .tRoleTag {
+    font-size: 0.62rem;
+  }
+
+  .tToggle {
+    font-size: 0.65rem;
+    padding: 0.6rem 1.4rem;
   }
 
   .introTitle {
@@ -1427,10 +1657,32 @@
     padding: 0.75rem 1rem;
   }
 
+  .tCard {
+    padding: 1.5rem;
+  }
+
+  .tName {
+    font-size: 1.15rem;
+  }
+
+  .tBio {
+    font-size: 0.88rem;
+  }
+
+  .tRoleTag {
+    font-size: 0.6rem;
+  }
+
   .tToggle {
     width: 100%;
     justify-content: center;
     font-size: 0.62rem;
+    padding: 0.6rem 1rem;
+  }
+
+  .tYearsBadge {
+    font-size: 0.68rem;
+    padding: 0.35rem 0.7rem;
   }
 
   .guestBtnRow {

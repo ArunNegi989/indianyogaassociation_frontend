@@ -4,6 +4,9 @@ import styles from "@/assets/style/hatha-yoga-teacher-training-Rishikesh/Hathayo
 import { PremiumSeatBooking } from "@/app/100-hour-yoga-teacher-training-in-rishikesh/page";
 import HowToReach from "@/components/home/Howtoreach";
 import api from "@/lib/api";
+import PremiumGallerySection from "@/components/PremiumGallerySection";
+import ReviewSection from "@/components/common/Reviewsection";
+import RatingsSummarySection from "@/components/home/RatingsSummarySection";
 
 /* ══════════════════════════════════════
    TYPES
@@ -662,7 +665,7 @@ function LoadingSpinner() {
           opacity: 0.75,
         }}
       >
-        <MandalaRingSVG size={80} opacity={0.6} />
+        {/* <MandalaRingSVG size={80} opacity={0.6} /> */}
         <p
           style={{
             marginTop: "1rem",
@@ -845,7 +848,7 @@ export default function HathaYogaPage() {
       {/* ══════════════════════ WHAT IS HATHA ══════════════════════ */}
       <section className={`${styles.section} ${styles.whatSection}`}>
         <div className={styles.mandalaBg} aria-hidden="true">
-          <MandalaRingSVG size={500} opacity={0.06} />
+          {/* <MandalaRingSVG size={500} opacity={0.06} /> */}
         </div>
         <div className={styles.container}>
           <div className={`${styles.reveal} ${styles.centered}`}>
@@ -855,7 +858,7 @@ export default function HathaYogaPage() {
             {d.whatTitle && (
               <h2 className={styles.sectionTitle}>{d.whatTitle}</h2>
             )}
-            <OrnamentDivider />
+            {/* <OrnamentDivider /> */}
 
             {d.whatParagraphs && d.whatParagraphs.length > 0
               ? d.whatParagraphs.map((p, i) => (
@@ -936,7 +939,7 @@ export default function HathaYogaPage() {
             {d.certTitle && (
               <h2 className={styles.sectionTitle}>{d.certTitle}</h2>
             )}
-            <OrnamentDivider />
+            {/* <OrnamentDivider /> */}
             {d.certPara && (
               <div
                 className={styles.paraCenter}
@@ -1049,7 +1052,7 @@ export default function HathaYogaPage() {
                   dangerouslySetInnerHTML={{ __html: d.curriculumTitle }}
                 />
               )}
-              <OrnamentDivider />
+              {/* <OrnamentDivider /> */}
             </div>
 
             <div className={`${styles.reveal} ${styles.curriculumGrid}`}>
@@ -1067,162 +1070,7 @@ export default function HathaYogaPage() {
       )}
 
       {/* ══════════════════════ PRICING / BATCHES ══════════════════════ */}
-      <section
-        id="apply"
-        className={`${styles.section} ${styles.pricingSection}`}
-      >
-        <div className={styles.pricingBg} aria-hidden="true">
-          <MandalaRingSVG size={800} opacity={0.04} />
-        </div>
-
-        <div className={styles.container}>
-          {/* Heading */}
-          <div className={`${styles.reveal} ${styles.centered}`}>
-            {d.pricingSuperLabel && (
-              <p className={styles.superLabel}>{d.pricingSuperLabel}</p>
-            )}
-            {d.pricingTitle && (
-              <h2
-                className={styles.sectionTitle}
-                dangerouslySetInnerHTML={{ __html: d.pricingTitle }}
-              />
-            )}
-            <OrnamentDivider />
-            {d.pricingIntroPara && (
-              <p className={styles.paraCenter}>
-                {d.pricingIntroPara}{" "}
-                {d.registrationFormLink && (
-                  <a
-                    href={d.registrationFormLink}
-                    className={styles.inlineLink}
-                  >
-                    Registration Form
-                  </a>
-                )}
-              </p>
-            )}
-          </div>
-
-          {/* Batches Table */}
-          {batches.length > 0 ? (
-            <div className={`${styles.reveal} ${styles.tableContainer}`}>
-              <CornerOrnament pos="tl" />
-              <CornerOrnament pos="tr" />
-              <CornerOrnament pos="bl" />
-              <CornerOrnament pos="br" />
-
-              <div className={styles.tableScroll}>
-                <table className={styles.datesTable}>
-                  <thead>
-                    <tr>
-                      <th>Date</th>
-                      <th>FEE (USD)</th>
-                      <th>FEE (INR)</th>
-                      <th>Room Price</th>
-                      <th>Seats</th>
-                      <th>Apply</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {batches.map((row) => {
-                      const isFull = row.bookedSeats >= row.totalSeats;
-                      const dateLabel = `${formatDate(row.startDate)} – ${formatDate(row.endDate)}`;
-                      return (
-                        <tr key={row._id}>
-                          <td className={styles.dateCell}>
-                            <span className={styles.dateCal}>📅</span>{" "}
-                            {dateLabel}
-                          </td>
-                          <td>{row.usdFee}</td>
-                          <td>{row.inrFee}</td>
-                          <td className={styles.roomPriceCell}>
-                            Dorm{" "}
-                            <strong className={styles.priceAmt}>
-                              ${row.dormPrice}
-                            </strong>{" "}
-                            | Twin{" "}
-                            <strong className={styles.priceAmt}>
-                              ${row.twinPrice}
-                            </strong>{" "}
-                            | Private{" "}
-                            <strong className={styles.priceAmt}>
-                              ${row.privatePrice}
-                            </strong>
-                          </td>
-                          <td>
-                            <SeatsCell
-                              booked={row.bookedSeats}
-                              total={row.totalSeats}
-                            />
-                          </td>
-                          <td>
-                            {isFull ? (
-                              <span className={styles.applyDisabled}>
-                                Apply Now
-                              </span>
-                            ) : (
-                              <a
-                                href="/yoga-registration?type=hatha"
-                                className={styles.applyLink}
-                              >
-                                Apply Now
-                              </a>
-                            )}
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-              </div>
-
-              {/* Per-batch notes (show first non-empty note as general note) */}
-              {(d.tableNote || batches.find((b) => b.note)) && (
-                <p className={styles.tableNote}>
-                  <strong>Note:</strong>{" "}
-                  {d.tableNote || batches.find((b) => b.note)?.note}
-                </p>
-              )}
-
-              {(d.joinBtnLabel || d.joinBtnHref) && (
-                <div style={{ textAlign: "center", padding: "1rem 0 0.5rem" }}>
-                  <a href={d.joinBtnHref || "#"} className={styles.joinBtn}>
-                    {d.joinBtnLabel || "Join Your Yoga Journey"}
-                  </a>
-                </div>
-              )}
-            </div>
-          ) : (
-            <p className={styles.paraCenter} style={{ opacity: 0.6 }}>
-              No upcoming batches at the moment. Please check back soon.
-            </p>
-          )}
-
-          {/* Programme overview */}
-          {((d.programmeParagraphs && d.programmeParagraphs.length > 0) ||
-            d.pricingProgrammePara) && (
-            <div className={`${styles.reveal} ${styles.programmeBox}`}>
-              {d.programmeParagraphs && d.programmeParagraphs.length > 0
-                ? d.programmeParagraphs.map((p, i) => (
-                    <div
-                      key={i}
-                      className={styles.para}
-                      dangerouslySetInnerHTML={{ __html: p }}
-                    />
-                  ))
-                : d.pricingProgrammePara && (
-                    <div
-                      className={styles.para}
-                      dangerouslySetInnerHTML={{
-                        __html: d.pricingProgrammePara,
-                      }}
-                    />
-                  )}
-            </div>
-          )}
-        </div>
-      </section>
-
+    
       {/* ══════════════════════ FOOTER CTA ══════════════════════ */}
       <section className={styles.footerCta}>
         <div className={styles.footerMandala} aria-hidden="true">
@@ -1230,7 +1078,7 @@ export default function HathaYogaPage() {
         </div>
         <div className={styles.container}>
           <div className={styles.footerCtaInner}>
-            <span className={styles.footerOm}>ॐ</span>
+            {/* <span className={styles.footerOm}>ॐ</span> */}
             {d.footerTitle && (
               <h2 className={styles.footerTitle}>{d.footerTitle}</h2>
             )}
@@ -1256,6 +1104,11 @@ export default function HathaYogaPage() {
           </div>
         </div>
       </section>
+      <PremiumGallerySection type="both" backgroundColor="warm" />
+            <ReviewSection RatingsSummaryComponent={<RatingsSummarySection/>} />
+            <div id="location">
+              <HowToReach />
+            </div>
 
       <HowToReach />
     </div>
