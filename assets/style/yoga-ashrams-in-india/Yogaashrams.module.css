@@ -18,7 +18,7 @@
   background: #fff;
   color: var(--text-body);
   overflow-x: hidden;
-  max-width: 1460px;
+  max-width: 1600px;
   margin: 0 auto;
 }
 
@@ -469,7 +469,7 @@
 }
 
 .featureContainer {
-  max-width: 1000px;
+  max-width: 1600px;
   margin: 0 auto;
   border-radius: 16px;
   overflow: hidden;
@@ -518,7 +518,7 @@
 ==================================================== */
 .welcomeSection {
   padding: 2rem 1rem;
-  max-width: 1200px;
+  max-width: 1600px;
   margin: 0 auto;
   background: #fff;
 }
@@ -587,6 +587,7 @@
    EXPERIENCE SECTION - TIMELINE STYLE
 ==================================================== */
 .experienceSection {
+  max-width: 1600px;
   padding: 3rem 1rem;
   background: #fff;
 }
@@ -741,7 +742,7 @@
 /* ── BEST HOME SECTION ── */
 .bestSection {
   padding: 3rem 2rem;
-  max-width: 1100px;
+  max-width: 1600px;
   margin: 0 auto;
   background: #fff;
 }
@@ -825,7 +826,7 @@
 /* ── PHOTO SECTION ── */
 .photoSection {
   padding: 0 2rem 0.5rem;
-  max-width: 900px;
+  max-width: 1600px;
   margin: 0 auto;
   background: #fff;
 }
@@ -868,7 +869,7 @@
 /* ── WHAT IS AN ASHRAM ── */
 .whatSection {
   padding: 3rem 2rem;
-  max-width: 1100px;
+  max-width: 1600px;
   margin: 0 auto;
   background: #fff;
 }
@@ -939,7 +940,7 @@
 }
 
 .whyInner {
-  max-width: 1100px;
+  max-width: 1600px;
   margin: 0 auto;
 }
 
@@ -1013,7 +1014,7 @@
 /* ── ACTIVITIES ── */
 .actSection {
   padding: 3rem 2rem;
-  max-width: 1100px;
+  max-width: 1600px;
   margin: 0 auto;
   background: #fff;
 }

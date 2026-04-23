@@ -40,7 +40,7 @@
 }
 .section {
   padding: 28px 32px 12px;
-  max-width: 1460px;
+  max-width: 1600px;
   margin: 0 auto;
 }
 
@@ -277,6 +277,10 @@
   }
 }
 
+.section{
+  background: white;
+}
+
 /* XL: ≥ 1200px */
 @media (min-width: 1200px) {
 
@@ -307,6 +311,7 @@
   letter-spacing: -0.01em;
   position: relative;
   padding-bottom: 16px;
+  padding-top: 20px;
 }
 
 .mainTitle::after {
@@ -487,7 +492,7 @@
    SHARED SECTION INNER
 ==================================================== */
 .sectionInner {
-  max-width: 1140px;
+  max-width: 1600px;
   margin: 0 auto;
   padding: 60px 32px;
 }
@@ -569,7 +574,7 @@
    SECTION 3 — STEPS
 ==================================================== */
 .methodSection {
-  background: #fafafa;
+  background: white;
 }
 
 .stepsGrid {
@@ -707,7 +712,7 @@
    SHARED HELPERS (add if not already present)
 ==================================================== */
 .sectionInner {
-  max-width: 1140px;
+  max-width: 1600px;
   margin: 0 auto;
   padding: 60px 32px;
 }
@@ -732,7 +737,7 @@
 /* ====================================================
    SECTION 5 — TWO SYSTEMS
 ==================================================== */
-.systemsSection { background: #fafafa; }
+.systemsSection { background: white; }
 
 .systemsGrid {
   display: grid;

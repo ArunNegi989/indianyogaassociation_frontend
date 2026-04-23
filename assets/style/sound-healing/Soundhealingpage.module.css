@@ -40,7 +40,7 @@
 .benefitsSection .container,
 .expectSection .container,
 .aimSection .aimInner {
-  max-width: 1460px;
+  max-width: 1600px;
   margin: 0 auto;
 }
 
@@ -615,6 +615,7 @@
    EXPECT SECTION
 ────────────────────────────────────────── */
 .expectSection {
+  max-width: 1600px;
   background: #fff;
   padding: clamp(2.4rem, 5vw, 4rem) 0 clamp(2.4rem, 5vw, 3.5rem);
   border-top: 1px solid var(--border);

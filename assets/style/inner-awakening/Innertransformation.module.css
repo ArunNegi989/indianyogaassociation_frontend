@@ -24,6 +24,7 @@
   background-image: url("../../images/1905x4451.png");
   color: var(--text-body);
   overflow-x: hidden;
+  max-width: 1600px;
 }
 
 /* ====================================================
@@ -79,7 +80,7 @@
 
 .heroSection1 {
   padding: 44px 32px 8px;
-  max-width: 1100px;
+  max-width: 1600px;
   margin: 0 auto;
   text-align: center;
 }
@@ -810,7 +811,7 @@
 }
 
 .heroContent {
-  max-width: 900px;
+  max-width: 1600px;
   margin: 0 auto;
 }
 
@@ -1130,7 +1131,7 @@
 }
 
 .whatContainer {
-  max-width: 1100px;
+  max-width: 1600px;
   margin: 0 auto;
   padding: 0 32px;
 }
@@ -1308,11 +1309,12 @@
   width: 100%;
   padding: 40px 0 60px;
   margin: 0;
-  background: #fafaf8;
+  background: white;
+  max-width: 1600px;
 }
 
 .scheduleContainer {
-  max-width: 1200px;
+  max-width: 1600px;
   margin: 0 auto;
   padding: 0 32px;
 }
@@ -1646,7 +1648,7 @@
   width: 100%;
   padding: 60px 0;
   margin: 0;
-  background: linear-gradient(135deg, #fefaf5, #fff5eb);
+  background: white;
 }
 
 .galleryContainer {
@@ -1701,6 +1703,7 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 24px;
+  max-width: 1600px;
 }
 
 .triImageItem {
@@ -1772,6 +1775,7 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 32px;
+  max-width: 1600px;
 }
 
 /* Definition Card */
@@ -1900,7 +1904,7 @@
   width: 100%;
   padding: 60px 0;
   margin: 0;
-  background: linear-gradient(135deg, #f8f8f8, #f0f0f0);
+  background: white;
 }
 
 .feeContainer {
@@ -1944,7 +1948,7 @@
 }
 
 .feeContent {
-  max-width: 900px;
+  max-width: 1600px;
   margin: 0 auto;
 }
 

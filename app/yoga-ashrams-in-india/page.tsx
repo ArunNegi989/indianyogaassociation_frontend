@@ -258,7 +258,7 @@ const YogaAshrams: React.FC = () => {
       <p className={styles.bodyText}>
         An ashram is a home which remains away from the hustle-bustle of city
         life. It is a place usually located amidst a calm and peaceful
-        environment ranging from hills to forests to riverside...
+        environment ranging from hills to forests to riverside. an ashram is a spiritual hermitage or a secluded community where students (sometimes called sadhakas or brahmacharins) live together under the direct guidance of a guru (spiritual teacher). The primary purpose of an ashram is to provide a disciplined, supportive environment for the intensive practice of yoga—not just physical postures (asana), but the full scope of yogic life.
       </p>
       <blockquote className={styles.pullquote}>
         The ashram is a home away from home — where students can stay, read,
