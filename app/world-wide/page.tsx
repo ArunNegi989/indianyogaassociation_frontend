@@ -118,7 +118,7 @@ export default function WorldwidePage() {
           index = 0;
         }, 800);
       }
-    }, 4000);
+    }, 3000);
 
     return () => clearInterval(interval);
   }, []);
