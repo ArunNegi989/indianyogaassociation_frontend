@@ -7,6 +7,7 @@ import Link from "next/link";
 import ReviewSection from "@/components/common/Reviewsection";
 import RatingsSummarySection from "@/components/home/RatingsSummarySection";
 import PremiumGallerySection from "@/components/PremiumGallerySection";
+import StickySectionNav from "@/components/common/StickySectionNav";
 
 /* ─────────────────────────────────────────
    TYPES
@@ -187,6 +188,13 @@ function resolveImg(path: string, base: string): string {
 /* ─── CURRENCY ─── */
 type Currency = "USD" | "INR";
 
+const NAV_ITEMS = [
+  { label: "DATES & FEES", id: "dates-fees" },
+  { label: "CURRICULUM", id: "curriculum" },
+  { label: "INCLUSIONS", id: "inclusions" },
+  { label: "FACILITY", id: "facility" },
+  { label: "LOCATION", id: "location" },
+];
 function useCurrencyRate() {
   const [rate, setRate] = useState<number>(83);
   const [loading, setLoading] = useState(true);
@@ -533,7 +541,7 @@ function PremiumSeatBooking() {
   const fmt = (usd: number) => fmtPrice(usd, currency, rate);
 
   return (
-    <section className={styles.datesSection} id="dates">
+    <section className={styles.datesSection} id="dates-fees">
       <div className={styles.psbSecTag}>Upcoming Batches · 2025–2026</div>
       <h2 className={styles.psbMainTitle}>
         Yoga Teacher Training — Goa, India
@@ -915,7 +923,7 @@ function ReelVideoGrid({
 }) {
   const items = reels && reels.length > 0 ? reels : DEFAULT_REELS;
   return (
-    <section className={styles.reelSection}>
+    <section id="facility" className={styles.reelSection}>
       <div className={styles.reelHeader}>
         <span className={styles.superLabel}>FEEL THE ENERGY</span>
         <h2 className={styles.sectionTitle}>Life at Our Goa Ashram</h2>
@@ -968,7 +976,7 @@ function DailyScheduleSection({
 }) {
   const scheduleSrc = resolveImg(scheduleImage, API_BASE);
   return (
-    <section className={styles.scheduleSection2}>
+    <section id="curriculum" className={styles.scheduleSection2}>
       <div className={styles.scheduleContainer}>
         {scheduleSrc && (
           <div className={styles.schedVideoSide}>
@@ -1308,7 +1316,7 @@ export default function GoaYogaPage() {
       </div>
 
       {/* ════════ HERO ════════ */}
-      <section className={styles.heroSection}>
+      <section id="hero" className={styles.heroSection}>
         {heroSrc && (
           <img
             src={heroSrc}
@@ -1320,7 +1328,7 @@ export default function GoaYogaPage() {
 
       {/* ════════ COURSE INFO CARD ════════ */}
       <CourseInfoCard seats={batchSeats} currency="USD" rate={83} />
-
+ <StickySectionNav items={NAV_ITEMS} triggerId="hero" />
       {/* ════════ INTRO ════════ */}
       <section className={styles.section}>
         <div className={` ${styles.container} ${styles.introContainer}`}>
@@ -1643,7 +1651,10 @@ export default function GoaYogaPage() {
       <PremiumGallerySection type="both" backgroundColor="warm" />
       {/* ✅ REVIEWS — now a reusable separate component */}
       <ReviewSection RatingsSummaryComponent={<RatingsSummarySection />} />
-      <HowToReach />
+      {/* LOCATION */}
+           <div id="location">
+             <HowToReach />
+           </div>
 
       {/* ════════ MODAL ════════ */}
       {modal && (
