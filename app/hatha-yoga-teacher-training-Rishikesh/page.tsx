@@ -4,6 +4,8 @@ import styles from "@/assets/style/hatha-yoga-teacher-training-Rishikesh/Hathayo
 import HowToReach from "@/components/home/Howtoreach";
 import api from "@/lib/api";
 
+type Currency = "USD" | "INR";
+
 /* ══════════════════════════════════════
    TYPES
 ══════════════════════════════════════ */
@@ -125,6 +127,153 @@ const monthYear = (start: string) => {
   const s = new Date(start);
   return s.toLocaleDateString("en-IN", { month: "short", year: "numeric" });
 };
+
+/* ══════════════════════════════════════
+   CURRENCY HOOK — Live Rate
+══════════════════════════════════════ */
+function useCurrencyRate() {
+  const [rate, setRate] = useState<number>(83); // fallback INR per USD
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch(
+      "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.json",
+    )
+      .then((r) => r.json())
+      .then((data) => {
+        const inr = data?.usd?.inr;
+        if (inr && typeof inr === "number") setRate(inr);
+      })
+      .catch(() => {
+        // Use fallback rate silently
+      })
+      .finally(() => setLoading(false));
+  }, []);
+
+  return { rate, loading };
+}
+
+/* ══════════════════════════════════════
+   CURRENCY FORMATTER
+══════════════════════════════════════ */
+function formatPrice(
+  usdAmount: number,
+  currency: Currency,
+  rate: number,
+): string {
+  if (currency === "USD") {
+    return `$${usdAmount}`;
+  }
+  const inr = Math.round((usdAmount * rate) / 100) * 100;
+  return `₹${inr.toLocaleString("en-IN")}`;
+}
+
+function formatPriceFull(
+  usdAmount: number,
+  currency: Currency,
+  rate: number,
+): string {
+  if (currency === "USD") {
+    return `$${usdAmount} USD`;
+  }
+  const inr = Math.round((usdAmount * rate) / 100) * 100;
+  return `₹${inr.toLocaleString("en-IN")} INR`;
+}
+
+/* ══════════════════════════════════════
+   SUB-COMPONENTS
+══════════════════════════════════════ */
+function CurrencyDropdown({
+  currency,
+  onChange,
+}: {
+  currency: Currency;
+  onChange: (c: Currency) => void;
+}) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node))
+        setOpen(false);
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, []);
+
+  return (
+    <div className={styles.currDrop} ref={ref}>
+      <button
+        className={styles.currDropBtn}
+        onClick={() => setOpen((p) => !p)}
+        aria-expanded={open}
+        aria-haspopup="listbox"
+        type="button"
+      >
+        <span className={styles.currDropFlag}>
+          {currency === "USD" ? "🇺🇸" : "🇮🇳"}
+        </span>
+        <span className={styles.currDropLabel}>{currency}</span>
+        <svg
+          className={`${styles.currDropArrow} ${open ? styles.currDropArrowOpen : ""}`}
+          viewBox="0 0 12 8"
+          fill="none"
+        >
+          <path
+            d="M1 1l5 5 5-5"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      </button>
+      {open && (
+        <div className={styles.currDropMenu} role="listbox">
+          {(["USD", "INR"] as Currency[]).map((c) => (
+            <button
+              key={c}
+              className={`${styles.currDropItem} ${currency === c ? styles.currDropItemActive : ""}`}
+              onClick={() => {
+                onChange(c);
+                setOpen(false);
+              }}
+              role="option"
+              aria-selected={currency === c}
+              type="button"
+            >
+              <span className={styles.currDropItemFlag}>
+                {c === "USD" ? "🇺🇸" : "🇮🇳"}
+              </span>
+              <div className={styles.currDropItemText}>
+                <span className={styles.currDropItemCode}>{c}</span>
+                <span className={styles.currDropItemName}>
+                  {c === "USD" ? "US Dollar" : "Indian Rupee"}
+                </span>
+              </div>
+              {currency === c && (
+                <svg
+                  className={styles.currDropCheck}
+                  viewBox="0 0 12 12"
+                  fill="none"
+                >
+                  <path
+                    d="M2 6l3 3 5-5"
+                    stroke="currentColor"
+                    strokeWidth="1.8"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              )}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
 
 /* ══════════════════════════════════════
    SUB-COMPONENTS
@@ -497,6 +646,8 @@ export default function HathaYogaPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedBatchId, setSelectedBatchId] = useState<string | null>(null);
+  const [currency, setCurrency] = useState<Currency>("USD");
+  const { rate } = useCurrencyRate();
 
   /* Intersection observer for scroll-reveal */
   useEffect(() => {
@@ -970,17 +1121,18 @@ export default function HathaYogaPage() {
 
           {/* Premium Seat Booking - Batch Selection */}
           {batches.length > 0 ? (
-            <div className={`${styles.reveal} ${styles.premiumSeatBooking}`}>
-              <CornerOrnament pos="tl" />
-              <CornerOrnament pos="tr" />
-              <CornerOrnament pos="bl" />
-              <CornerOrnament pos="br" />
-
+            <div className={`${styles.reveal} ${styles.psbLayout}`}>
               {/* LEFT PANEL: Batch Selection Grid */}
               <div className={styles.psbLeftPanel}>
+                {/* <CornerOrnament pos="tl" />
+                <CornerOrnament pos="tr" />
+                <CornerOrnament pos="bl" />
+                <CornerOrnament pos="br" /> */}
+
                 <div className={styles.psbLph}>
                   <span className={styles.psbLphTitle}>SELECT YOUR BATCH</span>
                   <div className={styles.psbLphRight}>
+                    <CurrencyDropdown currency={currency} onChange={setCurrency} />
                     <div className={styles.psbLegend}>
                       <div className={styles.psbLegItem}>
                         <div className={`${styles.psbLegDot} ${styles.psbDGreen}`} />
@@ -1018,48 +1170,62 @@ export default function HathaYogaPage() {
                     return (
                       <div
                         key={batch._id}
-                        className={`${styles.psbBatchCard} ${isSelected ? styles.psbBatchCardSelected : ""}`}
-                        onClick={() => setSelectedBatchId(batch._id)}
+                        className={`${styles.psbBc} ${isSelected ? styles.psbBcSel : ""} ${full ? styles.psbBcFull : ""}`}
+                        onClick={() => !full && setSelectedBatchId(batch._id)}
                         role="button"
                         tabIndex={0}
                         onKeyDown={(e) => {
-                          if (e.key === "Enter" || e.key === " ") {
+                          if ((e.key === "Enter" || e.key === " ") && !full) {
                             setSelectedBatchId(batch._id);
                           }
                         }}
                       >
-                        <div className={styles.psbBcTop}>
-                          <div className={styles.psbBcMonth}>
-                            {monthYear(batch.startDate).toUpperCase()}
-                          </div>
-                          <div className={styles.psbBcDates}>
-                            {shortDateRange(batch.startDate, batch.endDate)}
-                          </div>
+                        <div className={styles.psbBcTick}>
+                          <svg viewBox="0 0 12 12" fill="none">
+                            <path
+                              d="M2 6l3 3 5-5"
+                              stroke="currentColor"
+                              strokeWidth="1.8"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </svg>
                         </div>
-
+                        <div className={styles.psbBcMonth}>
+                          {monthYear(batch.startDate).toUpperCase()}
+                        </div>
+                        <div className={styles.psbBcDates}>
+                          {shortDateRange(batch.startDate, batch.endDate)}
+                        </div>
                         <div className={styles.psbBcPrice}>
-                          <span className={styles.psbBcPriceAmt}>
-                            ${batch.dormPrice}
-                          </span>
-                          <span className={styles.psbBcPriceLbl}>USD</span>
+                          <span>{formatPrice(batch.dormPrice, currency, rate)}</span>
+                          <span>{currency}</span>
                         </div>
-
-                        <div className={styles.psbBcStatusBadge}>
-                          <span className={`${styles.psbBcStatusDot} ${dotCls}`} />
-                          <span className={styles.psbBcStatusText}>{statusTxt}</span>
+                        <div className={styles.psbBcStatus}>
+                          <div className={`${styles.psbBcDot} ${dotCls}`} />
+                          <span className={styles.psbBcStxt}>{statusTxt}</span>
                         </div>
-
-                        <div className={styles.psbBcSeats}>
-                          {full ? (
-                            <span className={styles.psbBcSeatsText}>
-                              0 / {batch.totalSeats} seats left
-                            </span>
-                          ) : (
-                            <span className={styles.psbBcSeatsText}>
-                              {rem} / {batch.totalSeats} seats left
-                            </span>
-                          )}
+                        <div className={styles.psbBcSeatsBar}>
+                          <div
+                            className={styles.psbBcSeatsBarFill}
+                            style={{
+                              width: `${full ? 100 : Math.round((batch.bookedSeats / batch.totalSeats) * 100)}%`,
+                              background: full
+                                ? "#8a2c00"
+                                : low
+                                  ? "#f15505"
+                                  : "#3d6000",
+                              minWidth: full ? "100%" : "2px",
+                            }}
+                          />
                         </div>
+                        <span
+                          className={`${styles.psbBcSeatsBadge} ${dotCls}`}
+                        >
+                          {full
+                            ? "0 / " + batch.totalSeats + " seats left"
+                            : rem + " / " + batch.totalSeats + " seats left"}
+                        </span>
                       </div>
                     );
                   })}
@@ -1074,23 +1240,19 @@ export default function HathaYogaPage() {
                     const rem = selected.totalSeats - selected.bookedSeats;
                     const full = rem <= 0;
                     const low = !full && rem <= 5;
-                    const pct = full
-                      ? 100
-                      : Math.round((selected.bookedSeats / selected.totalSeats) * 100);
 
                     return (
                       <>
-                        <div className={styles.psbRpHeader}>
-                          <div className={styles.psbRpHeaderTop}>
-                            <span className={styles.psbRpTitle}>COURSE OVERVIEW</span>
-                            <span className={styles.psbRpSubtitle}>Hatha Yoga Teacher Training</span>
-                          </div>
+                        <div className={styles.psbRpHead}>
+                          <div className={styles.psbRpEyebrow}>COURSE OVERVIEW</div>
+                          <div className={styles.psbRpCourse}>Hatha Yoga Teacher Training</div>
                           <div className={styles.psbRpDur}>
                             <svg
                               viewBox="0 0 24 24"
                               fill="none"
                               stroke="currentColor"
                               strokeWidth="2"
+                              style={{ width: "14px", height: "14px" }}
                             >
                               <circle cx="12" cy="12" r="9" />
                               <polyline points="12 7 12 12 15 15" />
@@ -1102,99 +1264,86 @@ export default function HathaYogaPage() {
                         </div>
 
                         <div className={styles.psbRpBody}>
-                          <div className={styles.psbAccommodationSection}>
-                            <div className={styles.psbSectionLabel}>WITH ACCOMMODATION</div>
+                          <div>
+                            <div className={styles.psbPriceLbl}>WITH ACCOMMODATION</div>
                             <div className={styles.psbPriceRow}>
                               <div className={styles.psbPriceCard}>
                                 <div className={styles.psbPcAmt}>
-                                  ${selected.privatePrice}
-                                  <span className={styles.psbPcCur}>USD</span>
+                                  {formatPrice(selected.privatePrice, currency, rate)}
+                                  <span className={styles.psbPcCur}>{currency}</span>
                                 </div>
                                 <div className={styles.psbPcLbl}>Private Room</div>
                               </div>
                               <div className={styles.psbPriceCard}>
                                 <div className={styles.psbPcAmt}>
-                                  ${selected.twinPrice}
-                                  <span className={styles.psbPcCur}>USD</span>
+                                  {formatPrice(selected.twinPrice, currency, rate)}
+                                  <span className={styles.psbPcCur}>{currency}</span>
                                 </div>
                                 <div className={styles.psbPcLbl}>Twin / Shared</div>
                               </div>
                             </div>
-                          </div>
 
-                          <div className={styles.psbAccommodationSection}>
-                            <div className={styles.psbSectionLabel}>WITHOUT ACCOMMODATION</div>
+                            <div className={styles.psbPriceLbl}>WITHOUT ACCOMMODATION</div>
                             <div className={styles.psbPriceWide}>
                               <div className={styles.psbPwLeft}>
                                 <span className={styles.psbPcAmt}>
-                                  ${selected.dormPrice}
+                                  {formatPrice(selected.dormPrice, currency, rate)}
                                 </span>
-                                <span className={styles.psbPcCur}>USD</span>
+                                <span className={styles.psbPcCur}>{currency}</span>
                               </div>
                               <span className={styles.psbFoodBadge}>
                                 Food Included
                               </span>
                             </div>
-                          </div>
 
-                          <div className={styles.psbSeatsSection}>
-                            <div className={styles.psbSeatsLabel}>SEATS AVAILABILITY</div>
-                            <div className={styles.psbSeatsInfo}>
-                              <span
-                                className={styles.psbSeatsBadge}
-                                style={{
-                                  color: full
-                                    ? "#8a2c00"
-                                    : low
-                                      ? "#c8700a"
-                                      : "#3d6000",
-                                  borderColor: full
-                                    ? "#8a2c00"
-                                    : low
-                                      ? "#c8700a"
-                                      : "#3d6000",
-                                }}
-                              >
-                                {full
-                                  ? "Fully Booked"
-                                  : `${rem} of ${selected.totalSeats} left`}
-                              </span>
+                            <div className={styles.psbRpSeatsWrap}>
+                              <div className={styles.psbRpSeatsRow}>
+                                <span className={styles.psbPriceLbl}>SEATS AVAILABILITY</span>
+                                <span
+                                  className={styles.psbSeatsBadge}
+                                  style={{
+                                    color: full
+                                      ? "#8a2c00"
+                                      : low
+                                        ? "#c8700a"
+                                        : "#3d6000",
+                                    borderColor: full
+                                      ? "#8a2c00"
+                                      : low
+                                        ? "#c8700a"
+                                        : "#3d6000",
+                                  }}
+                                >
+                                  {full
+                                    ? "Fully Booked"
+                                    : `${rem} of ${selected.totalSeats} left`}
+                                </span>
+                              </div>
                             </div>
-                          </div>
 
-                          <div className={styles.psbSelDisplay}>
-                            <div className={styles.psbSelLabel}>SELECTED BATCH</div>
-                            <div className={styles.psbSelDate}>
-                              {shortDateRange(
-                                selected.startDate,
-                                selected.endDate
-                              )}
-                              , {monthYear(selected.startDate)}
+                            <div className={styles.psbRpSeatsWrap}>
+                              <div className={styles.psbRpSeatsRow}>
+                                <span className={styles.psbPriceLbl}>SELECTED BATCH</span>
+                              </div>
+                              <div style={{ fontSize: "0.9rem", color: "#3d2b10", marginTop: "0.3rem" }}>
+                                {shortDateRange(
+                                  selected.startDate,
+                                  selected.endDate
+                                )}
+                                , {monthYear(selected.startDate)}
+                              </div>
                             </div>
                           </div>
 
                           <a
                             href={`/yoga-registration?batchId=${selected._id}&type=hatha`}
-                            className={styles.psbBookBtn}
+                            className={styles.joinBtn}
                           >
-                            BOOK NOW — ${selected.dormPrice} USD
-                            <svg
-                              className={styles.psbArrowIcon}
-                              viewBox="0 0 16 16"
-                              fill="none"
-                            >
-                              <path
-                                d="M3 8h10M9 4l4 4-4 4"
-                                stroke="#fff3d2"
-                                strokeWidth="1.5"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                              />
-                            </svg>
+                            BOOK NOW — {formatPriceFull(selected.dormPrice, currency, rate)}
                           </a>
 
                           {selected.note && (
-                            <p className={styles.psbNote}>
+                            <p className={styles.tableNote}>
                               <strong>Note:</strong> {selected.note}
                             </p>
                           )}
@@ -1203,10 +1352,8 @@ export default function HathaYogaPage() {
                     );
                   })()
                 ) : (
-                  <div className={styles.psbRpEmpty}>
-                    <p className={styles.psbRpEmptyText}>
-                      ← Select a batch to view pricing details
-                    </p>
+                  <div style={{ padding: "2rem", textAlign: "center", color: "#F15505" }}>
+                    <p>← Select a batch to view pricing details</p>
                   </div>
                 )}
               </div>
