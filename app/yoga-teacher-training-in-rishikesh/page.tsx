@@ -7,6 +7,7 @@ import api from "@/lib/api";
 import PremiumGallerySection from "@/components/PremiumGallerySection";
 import ReviewSection from "@/components/common/Reviewsection";
 import RatingsSummarySection from "@/components/home/RatingsSummarySection";
+import StickySectionNav from "@/components/common/StickySectionNav";
 
 /* ─────────────────────────────────────────
    TYPES
@@ -62,6 +63,15 @@ interface PageData {
   inlineLinks2: InlineLink[];
   heroMedia?: HeroMedia;
 }
+
+const NAV_ITEMS = [
+  { label: "INTRO", id: "intro" },
+  { label: "COURSES", id: "courses" },
+  { label: "SPECIALTY", id: "specialty" },
+  { label: "GALLERY", id: "gallery" },
+  { label: "REVIEWS", id: "reviews" },
+  { label: "LOCATION", id: "location" },
+];
 
 /* ─────────────────────────────────────────
    HELPERS
@@ -521,9 +531,9 @@ export default function BestYogaSchool() {
       {/* ── Mandala Decorations ── */}
       <div className={styles.chakraGlow} aria-hidden="true" />
 
-      {/* ══ HERO IMAGE ══ */}
+      {/* ══ HERO IMAGE with id="hero" for StickySectionNav ══ */}
       {data.heroImage && (
-        <section className={styles.heroSection}>
+        <section id="hero" className={styles.heroSection}>
           <img
             src={imgSrc(data.heroImage)}
             alt={data.heroTitle || "Yoga Students Group"}
@@ -537,10 +547,13 @@ export default function BestYogaSchool() {
       {/* ══ COURSE INFO CARD ══ */}
       <CourseInfoCard />
 
+      {/* ══ STICKY SECTION NAV — exactly like 300hr page ══ */}
+      <StickySectionNav items={NAV_ITEMS} triggerId="hero" />
+
       {/* ══════════════════════════════════════
           SECTION 1 — INTRO + ACCREDITATIONS (ENHANCED WITH MULTIPLE MEDIA)
       ═════════════════════════════════════════ */}
-      <section className={`${styles.section} ${styles.sectionLight}`}>
+      <section id="intro" className={`${styles.section} ${styles.sectionLight}`}>
         <div className={`container px-3 px-md-4 ${styles.maxx}`}>
           {data.heroTitle && (
             <h1 className={styles.heroTitle}>{data.heroTitle}</h1>
@@ -728,7 +741,7 @@ export default function BestYogaSchool() {
           SECTION 2 — COURSE CARDS (ENHANCED)
       ══════════════════════════════════════ */}
       {data.courseCards?.length > 0 && (
-        <section className={`${styles.sectionEnhanced} ${styles.sectionWarmEnhanced}`}>
+        <section id="courses" className={`${styles.sectionEnhanced} ${styles.sectionWarmEnhanced}`}>
           <div className={`container px-3 px-md-4 ${styles.maxx}`}>
             <div className={styles.sectionHeaderEnhanced}>
               <div className={styles.sectionHeaderOrnament}>
@@ -767,7 +780,7 @@ export default function BestYogaSchool() {
           SECTION 3 — SPECIALTY COURSES (REDESIGNED)
       ══════════════════════════════════════ */}
       {data.specialtyCourses?.length > 0 && (
-        <section className={`${styles.section} ${styles.sectionDeep}`}>
+        <section id="specialty" className={`${styles.section} ${styles.sectionDeep}`}>
           <div className={`container px-3 px-md-4 ${styles.maxx}`}>
             {data.specialtySectionTitle && (
               <>
@@ -793,12 +806,18 @@ export default function BestYogaSchool() {
         </section>
       )}
 
-      <PremiumGallerySection type="both" backgroundColor="warm" />
+      <div id="gallery">
+        <PremiumGallerySection type="both" backgroundColor="warm" />
+      </div>
 
       {/* ✅ REVIEWS — now a reusable separate component */}
-      <ReviewSection RatingsSummaryComponent={<RatingsSummarySection />} />
+      <div id="reviews">
+        <ReviewSection RatingsSummaryComponent={<RatingsSummarySection />} />
+      </div>
 
-      <HowToReach />
+      <div id="location">
+        <HowToReach />
+      </div>
     </div>
   );
 }

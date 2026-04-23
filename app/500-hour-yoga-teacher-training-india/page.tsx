@@ -7,6 +7,7 @@ import api from "@/lib/api";
 import ReviewSection from "@/components/common/Reviewsection";
 import RatingsSummarySection from "@/components/home/RatingsSummarySection";
 import PremiumGallerySection from "@/components/PremiumGallerySection";
+import StickySectionNav from "@/components/common/StickySectionNav";
 
 /* ─────────────────────────────────────────
    TYPES
@@ -316,6 +317,14 @@ function CourseInfoCard({
     </div>
   );
 }
+
+const NAV_ITEMS = [
+  { label: "DATES & FEES", id: "dates-fees" },
+  { label: "CURRICULUM", id: "curriculum" },
+  { label: "INCLUSIONS", id: "inclusions" },
+  { label: "FACILITY", id: "facility" },
+  { label: "LOCATION", id: "location" },
+];
 
 /* ══════════════════════════════
    CURRENCY DROPDOWN
@@ -1444,9 +1453,9 @@ export default function YogaTTC500() {
     <div className={styles.page}>
       <div className={styles.chakraGlow} aria-hidden="true" />
 
-      {/* HERO */}
+      {/* HERO - with id="hero" for StickySectionNav */}
       {content.heroImage && (
-        <section className={styles.heroSection}>
+        <section id="hero" className={styles.heroSection}>
           <img
             src={imgSrc(content.heroImage)}
             alt={content.heroImgAlt || "Yoga Students Group"}
@@ -1457,6 +1466,9 @@ export default function YogaTTC500() {
 
       {/* COURSE INFO CARD */}
       <CourseInfoCard seats={seats} currency={currency} rate={rate} />
+
+      {/* STICKY SECTION NAV - appears when hero scrolls out of view */}
+      <StickySectionNav items={NAV_ITEMS} triggerId="hero" />
 
       {/* ENHANCED INTRO SECTION */}
       {content.introItems && content.introItems.length > 0 ? (
@@ -1495,10 +1507,6 @@ export default function YogaTTC500() {
         rate={rate}
         rateLoading={rateLoading}
       />
-
-    
-
-      
 
       {/* INDIAN FEE + CREDIBILITY + DURATION */}
       <section className={`${styles.section} ${styles.sectionLight}`}>
@@ -1798,9 +1806,7 @@ export default function YogaTTC500() {
         </div>
       </section>
 
-      {/* ================================================================
-         INCLUDE/EXCLUDE TABS SECTION - EXACTLY COPIED FROM 100hr PAGE
-         ================================================================ */}
+      {/* INCLUDE/EXCLUDE TABS SECTION */}
       <section className={`${styles.section} ${styles.sectionLight}`}>
         <div className="container px-3 px-md-4">
           <IncludeExcludeTabs
@@ -1824,7 +1830,8 @@ export default function YogaTTC500() {
           )}
         </div>
       </section>
-  {/* ACCOMMODATION SECTION */}
+      
+      {/* ACCOMMODATION SECTION */}
       {content.accomImages?.length > 0 && (
         <section className={styles.premiumGallerySection}>
           <div className="container px-3 px-md-4">
@@ -1848,7 +1855,8 @@ export default function YogaTTC500() {
           </div>
         </section>
       )}
-  {/* FOOD SECTION */}
+      
+      {/* FOOD SECTION */}
       {content.foodImages?.length > 0 && (
         <section className={styles.premiumGallerySection}>
           <div className="container px-3 px-md-4">
@@ -1871,97 +1879,9 @@ export default function YogaTTC500() {
           </div>
         </section>
       )}
-      {/* ✅ REVIEWS — now a reusable separate component */}
+      
+      {/* REVIEWS */}
       <ReviewSection RatingsSummaryComponent={<RatingsSummarySection />} />
-      {/* STUDENT REVIEWS + REFUND + HOW TO APPLY */}
-      {/* <section className={styles.section}>
-        <div className="container px-3 px-md-4">
-          {content.reviewsSectionH2 && (
-            <>
-              <h2
-                className={styles.sectionTitleCentered}
-                dangerouslySetInnerHTML={{ __html: content.reviewsSectionH2 }}
-              />
-              <div className={styles.sectionUnderlineCentered} />
-            </>
-          )}
-
-          {content.reviews?.length > 0 && (
-            <div className="row g-4 mt-1">
-              {content.reviews.map((r, i) => (
-                <div key={i} className="col-12 col-sm-6 col-lg-3">
-                  <div className={styles.reviewCard}>
-                    <div className={styles.reviewHeader}>
-                      {r.initial ? (
-                        <div className={styles.reviewInitial}>{r.initial}</div>
-                      ) : (
-                        <div className={styles.reviewInitial}>
-                          {r.name?.charAt(0) || "U"}
-                        </div>
-                      )}
-                      <div className="flex-grow-1 overflow-hidden">
-                        <div
-                          className={styles.reviewName}
-                          dangerouslySetInnerHTML={{ __html: r.name }}
-                        />
-                        <div
-                          className={styles.reviewPlatform}
-                          dangerouslySetInnerHTML={{ __html: r.platform }}
-                        />
-                      </div>
-                      <span className={styles.googleG}>G</span>
-                    </div>
-                    <Stars n={r.rating || 5} />
-                    <div
-                      className={styles.reviewText}
-                      dangerouslySetInnerHTML={{ __html: r.text }}
-                    />
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-
-          <div className="text-center mt-4">
-            <a href="#" className={styles.btnPrimary}>
-              Read More Reviews
-            </a>
-          </div>
-
-          <div className="row g-4 mt-4">
-            {content.refundH3 && (
-              <div className="col-12 col-md-6">
-                <div className={styles.infoBlock}>
-                  <h3
-                    className={styles.infoBlockTitle}
-                    dangerouslySetInnerHTML={{ __html: content.refundH3 }}
-                  />
-                  <div className={styles.infoBlockLine} />
-                  <Para html={content.refundPara} className={styles.bodyPara} />
-                </div>
-              </div>
-            )}
-            {content.applyH3 && (
-              <div className="col-12 col-md-6">
-                <div className={styles.infoBlock}>
-                  <h3
-                    className={styles.infoBlockTitle}
-                    dangerouslySetInnerHTML={{ __html: content.applyH3 }}
-                  />
-                  <div className={styles.infoBlockLine} />
-                  <Para html={content.applyPara} className={styles.bodyPara} />
-                </div>
-              </div>
-            )}
-          </div>
-
-          <div className={styles.omDiv}>
-            <span className={styles.divLine} />
-            <span className={styles.omGlyph}>ॐ</span>
-            <span className={styles.divLine} />
-          </div>
-        </div>
-      </section> */}
 
       <HowToReach />
     </div>
