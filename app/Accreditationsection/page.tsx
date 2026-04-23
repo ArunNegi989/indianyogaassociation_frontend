@@ -12,15 +12,15 @@ import HowToReach from "@/components/home/Howtoreach";
 import heroImg from "@/assets/images/26.webp";
 
 /* ── Data ── */
-interface YogaCert {
-  type: string;
-  img: StaticImageData;
-}
+// interface YogaCert {International Yoga Federation
+//   type: string;
+//   img: StaticImageData;
+// }
 
-const yogaAllianceCerts: YogaCert[] = [
-  { type: "RYS 200", img: RYS200 },
-  { type: "RYS 300", img: RYS300 },
-];
+// const yogaAllianceCerts: YogaCert[] = [
+//   { type: "RYS 200", img: RYS200 },
+//   { type: "RYS 300", img: RYS300 },
+// ];
 
 /* ── Sub-components ── */
 
@@ -142,8 +142,9 @@ const AccreditationSection: React.FC = () => {
         {/* PART 4 */}
         <div className={styles.container}>
           <SectionTitle>International Yoga Federation</SectionTitle>
-
-          <div className={styles.introParagraphs}>
+          <div className="row">
+            <div className="col-md-6">
+              <div className={styles.introParagraphs}>
             <p>
               Association for Yoga and Meditation school in rishikesh is also
               member and affiliated to International Yoga Federation is the
@@ -157,7 +158,9 @@ const AccreditationSection: React.FC = () => {
               get registered.
             </p>
           </div>
-          <div className={styles.imgWraplogo}>
+            </div>
+            <div className="col-md-6">
+              <div className={styles.imgWraplogo}>
             <Image
               src={yogalogo}
               alt="International Yoga Federation official logo"
@@ -165,6 +168,8 @@ const AccreditationSection: React.FC = () => {
               height={500}
               className={styles.responsiveImg}
             />
+          </div>
+            </div>
           </div>
 
           <OmDivider />

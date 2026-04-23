@@ -3,6 +3,9 @@ import React, { useEffect, useRef, useState } from "react";
 import styles from "@/assets/style/hatha-yoga-teacher-training-Rishikesh/Hathayogapage.module.css";
 import HowToReach from "@/components/home/Howtoreach";
 import api from "@/lib/api";
+import PremiumGallerySection from "@/components/PremiumGallerySection";
+import ReviewSection from "@/components/common/Reviewsection";
+import RatingsSummarySection from "@/components/home/RatingsSummarySection";
 
 type Currency = "USD" | "INR";
 
