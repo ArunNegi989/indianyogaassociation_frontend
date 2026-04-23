@@ -1,0 +1,649 @@
+/* ================================================================
+   REVIEW SECTION MODULE CSS
+   Prefix: rv  (to avoid collision with parent page styles)
+   ================================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Lato:ital,wght@0,300;0,400;0,700;1,400&family=Montserrat:wght@500;600;700&display=swap');
+
+/* ── CSS Variables (self-contained so component works on any page) ── */
+.rvSection {
+  --rv-parchment: #fff9ed;
+  --rv-ink-sepia: #2c1a08;
+  --rv-ink-mid: #4a2e10;
+  --rv-ink-soft: #7a5c30;
+  --rv-saffron: #f15505;
+  --rv-saffron-gold: #f15505;
+  --rv-maroon: #6b1a00;
+  --rv-teal-dark: #1a4a4a;
+  --rv-border-gold: rgba(184, 134, 11, 0.4);
+  --rv-font-display: 'Montserrat', Arial, sans-serif;
+  --rv-font-body: 'Lato', Arial, sans-serif;
+  --rv-font-fell: 'Playfair Display', Georgia, serif;
+  --rv-font-menu: 'Montserrat', Arial, sans-serif;
+
+  position: relative;
+  z-index: 1;
+  background: #ffffff;
+  padding: clamp(3rem, 6vw, 5rem) clamp(1rem, 5vw, 4rem);
+  border-top: 1px solid rgba(184, 134, 11, 0.15);
+  border-bottom: 1px solid rgba(184, 134, 11, 0.15);
+}
+
+/* ================================================================
+   HEADER
+   ================================================================ */
+.rvHeader {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto 3rem;
+}
+
+.rvEyebrow {
+  display: inline-block;
+  font-family: var(--rv-font-menu);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--rv-saffron);
+  background: rgba(224, 123, 0, 0.08);
+  border: 1px solid rgba(224, 123, 0, 0.2);
+  padding: 5px 16px;
+  border-radius: 20px;
+  margin-bottom: 1rem;
+}
+
+.rvVintageHeadingWrap {
+  position: relative;
+  text-align: center;
+  margin: 1.2rem 0 0.8rem;
+}
+
+.rvVintageHeading {
+  font-family: var(--rv-font-display);
+  font-size: clamp(1rem, 2.2vw, 1.45rem);
+  color: var(--rv-saffron);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  line-height: 1.4;
+  margin: 0 auto 0.5rem;
+  max-width: 820px;
+}
+
+.rvSubtitle {
+  font-family: var(--rv-font-body);
+  font-size: clamp(0.92rem, 1.4vw, 1rem);
+  color: var(--rv-ink-soft);
+  line-height: 1.7;
+  margin-top: 0.5rem;
+}
+
+/* ── Stats row ── */
+.rvStatRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 1.8rem;
+  padding: 1.2rem 2rem;
+  background: linear-gradient(135deg, #fffefc, #fffefc);
+  border-radius: 50px;
+  border: 1px solid rgba(184, 134, 11, 0.2);
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.rvStat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.rvStatNum {
+  font-family: var(--rv-font-display);
+  font-size: clamp(1.2rem, 2vw, 1.5rem);
+  font-weight: 700;
+  color: var(--rv-saffron);
+  line-height: 1;
+}
+
+.rvStatLbl {
+  font-family: var(--rv-font-menu);
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--rv-ink-soft);
+}
+
+.rvStatDiv {
+  width: 1px;
+  height: 32px;
+  background: rgba(184, 134, 11, 0.25);
+}
+
+/* ================================================================
+   TEXT REVIEWS GRID
+   ================================================================ */
+.rvTextGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.4rem;
+  max-width: 1300px;
+  margin: 0 auto 3rem;
+}
+
+.rvTextCard {
+  position: relative;
+  background: #ffffff;
+  border: 1px solid rgba(184, 134, 11, 0.15);
+  border-radius: 12px;
+  padding: 1.4rem;
+  box-shadow: 0 4px 20px rgba(80, 40, 5, 0.06);
+  overflow: hidden;
+  animation: rvReviewFadeUp 0.6s ease both;
+  animation-delay: calc(var(--tri, 0) * 0.08s);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+@keyframes rvReviewFadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.rvTextCard:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 40px rgba(200, 112, 10, 0.12);
+}
+
+.rvCardTop {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.rvAvatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+  border: 2px solid rgba(184, 134, 11, 0.3);
+  box-shadow: 0 4px 12px rgba(80, 40, 5, 0.12);
+}
+
+.rvAvatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.rvInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.rvName {
+  font-family: var(--rv-font-menu);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--rv-ink-sepia);
+  margin-bottom: 2px;
+}
+
+.rvCountry {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--rv-font-body);
+  font-size: 0.78rem;
+  color: var(--rv-ink-soft);
+  margin-bottom: 5px;
+}
+
+.rvFlagIcon {
+  width: 12px;
+  height: 12px;
+  color: var(--rv-saffron);
+  flex-shrink: 0;
+}
+
+.rvCourseBadge {
+  font-family: var(--rv-font-menu);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--rv-saffron);
+  background: rgba(224, 123, 0, 0.08);
+  border: 1px solid rgba(224, 123, 0, 0.2);
+  padding: 3px 10px;
+  border-radius: 12px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  height: fit-content;
+  margin-top: 4px;
+}
+
+.rvStarRow {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.rvStar {
+  width: 13px;
+  height: 13px;
+}
+
+.rvStarFilled { color: #e07b00; }
+.rvStarEmpty  { color: #e0c88a; }
+
+.rvQuoteIcon {
+  font-family: var(--rv-font-fell);
+  font-size: 3.5rem;
+  line-height: 0.7;
+  color: rgba(200, 112, 10, 0.12);
+  margin-bottom: 0.4rem;
+  font-style: italic;
+}
+
+.rvReviewText {
+  font-family: var(--rv-font-body);
+  font-size: 0.88rem;
+  line-height: 1.75;
+  color: var(--rv-ink-mid);
+  margin: 0 0 1rem;
+}
+
+.rvFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 0.8rem;
+  border-top: 1px solid rgba(184, 134, 11, 0.1);
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.rvDate {
+  font-family: var(--rv-font-menu);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--rv-ink-soft);
+}
+
+.rvVerified {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--rv-font-menu);
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  color: #3d6000;
+}
+
+.rvVerifiedIcon {
+  width: 12px;
+  height: 12px;
+  color: #3d6000;
+}
+
+.rvGlowLine {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  width: 0;
+  background: linear-gradient(90deg, var(--rv-saffron), #ff9a3c);
+  transition: width 0.4s ease;
+}
+
+.rvTextCard:hover .rvGlowLine {
+  width: 100%;
+}
+
+/* ================================================================
+   RATINGS SUMMARY SLOT
+   ================================================================ */
+.rvRatingsWrap {
+  max-width: 1140px;
+  margin: 0 auto 2rem;
+}
+
+/* ================================================================
+   OM DIVIDER
+   ================================================================ */
+.rvOmDivider {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 2rem 0;
+  max-width: 1300px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.rvDivLineLeft {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--rv-saffron-gold));
+}
+
+.rvDivLineRight {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, var(--rv-saffron-gold), transparent);
+}
+
+.rvOmDividerCenter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.rvOmDividerLabel {
+  font-family: var(--rv-font-menu);
+  font-size: 0.9rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--rv-saffron-gold);
+}
+
+/* ================================================================
+   VIDEO REVIEWS
+   ================================================================ */
+.rvVideoWrap {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 2rem;
+  max-width: 1300px;
+  margin: 0 auto;
+  align-items: start;
+}
+
+.rvVideoGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.2rem;
+}
+
+.rvVideoCard {
+  border-radius: 14px;
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid rgba(184, 134, 11, 0.15);
+  box-shadow: 0 4px 16px rgba(80, 40, 5, 0.07);
+  animation: rvReviewFadeUp 0.6s ease both;
+  animation-delay: calc(var(--vri, 0) * 0.1s);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.rvVideoCard:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 36px rgba(200, 112, 10, 0.13);
+}
+
+.rvThumbWrap {
+  position: relative;
+  aspect-ratio: 9/13;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.rvThumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s ease;
+}
+
+.rvVideoCard:hover .rvThumb {
+  transform: scale(1.06);
+}
+
+.rvOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 40%, rgba(30, 12, 0, 0.7) 100%);
+}
+
+.rvPlayBtn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background: rgba(224, 123, 0, 0.92);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  box-shadow: 0 6px 24px rgba(200, 112, 10, 0.45);
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.2s;
+}
+
+.rvPlayBtn svg {
+  width: 24px;
+  height: 24px;
+}
+
+.rvVideoCard:hover .rvPlayBtn {
+  transform: translate(-50%, -50%) scale(1.12);
+  background: var(--rv-saffron);
+}
+
+.rvLabel {
+  position: absolute;
+  bottom: 14px;
+  left: 14px;
+  font-family: var(--rv-font-menu);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #fff3d2;
+  background: #f15505;
+  padding: 5px 12px;
+  border-radius: 20px;
+  backdrop-filter: blur(8px);
+}
+
+.rvVideoActive {
+  width: 100%;
+  height: 100%;
+  background: #000;
+}
+
+.rvVideoActive iframe,
+.rvVideoActive video {
+  width: 100%;
+  height: 100%;
+  border: none;
+  pointer-events: auto;
+}
+
+.rvVideo {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+  pointer-events: none;
+}
+
+.rvVideoInfo {
+  padding: 1rem;
+  background: #fff;
+}
+
+.rvVideoName {
+  font-family: var(--rv-font-menu);
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--rv-ink-sepia);
+  margin-bottom: 2px;
+}
+
+.rvVideoCountry {
+  font-family: var(--rv-font-body);
+  font-size: 0.76rem;
+  color: var(--rv-ink-soft);
+  margin-bottom: 6px;
+}
+
+/* ── Side panel ── */
+.rvSidePanel {
+  position: sticky;
+  top: 100px;
+}
+
+.rvSideInner {
+  background: linear-gradient(155deg, #fffefd, #fffdfa);
+  border: 1.5px solid rgba(184, 134, 11, 0.25);
+  border-radius: 12px;
+  padding: 2rem 1.6rem;
+  box-shadow: 0 8px 30px rgba(80, 40, 5, 0.08);
+}
+
+.rvSideIcon {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: rgba(224, 123, 0, 0.1);
+  border: 1.5px solid rgba(224, 123, 0, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--rv-saffron);
+  padding: 12px;
+  margin-bottom: 1.2rem;
+}
+
+.rvSideIcon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.rvSideTitle {
+  font-family: var(--rv-font-fell);
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--rv-ink-sepia);
+  line-height: 1.35;
+  margin: 0 0 0.8rem;
+}
+
+.rvSideText {
+  font-family: var(--rv-font-body);
+  font-size: 0.88rem;
+  line-height: 1.75;
+  color: var(--rv-ink-soft);
+  margin: 0 0 1.5rem;
+}
+
+.rvSideStats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.8rem;
+  margin-bottom: 1.5rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid rgba(184, 134, 11, 0.15);
+}
+
+.rvSideStat {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.rvSideStatNum {
+  font-family: var(--rv-font-display);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--rv-saffron);
+  line-height: 1;
+}
+
+.rvSideStatLbl {
+  font-family: var(--rv-font-menu);
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--rv-ink-soft);
+  margin-top: 3px;
+}
+
+.rvSideBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--rv-saffron), #a85800);
+  color: #fff3d2;
+  font-family: var(--rv-font-menu);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  padding: 0.85rem 1.4rem;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: opacity 0.18s, transform 0.15s;
+  box-shadow: 0 4px 16px rgba(200, 112, 10, 0.3);
+}
+
+.rvSideBtn:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.rvSideBtnArrow {
+  width: 14px;
+  height: 14px;
+}
+
+/* ================================================================
+   RESPONSIVE
+   ================================================================ */
+@media (min-width: 1024px) and (max-width: 1199px) {
+  .rvTextGrid        { grid-template-columns: repeat(2, 1fr); }
+  .rvVideoWrap       { grid-template-columns: 1fr; }
+  .rvSidePanel       { position: static; }
+}
+
+@media (max-width: 1023px) {
+  .rvTextGrid        { grid-template-columns: repeat(2, 1fr); }
+  .rvVideoGrid       { grid-template-columns: repeat(2, 1fr); }
+  .rvVideoWrap       { grid-template-columns: 1fr; }
+  .rvSidePanel       { position: static; }
+  .rvStatRow         { flex-wrap: wrap; gap: 1rem; border-radius: 16px; }
+}
+
+@media (max-width: 767px) {
+  .rvSection         { padding-left: 1rem; padding-right: 1rem; }
+  .rvTextGrid        { grid-template-columns: 1fr; }
+  .rvVideoGrid       { grid-template-columns: 1fr 1fr; }
+  .rvVideoWrap       { grid-template-columns: 1fr; }
+  .rvSidePanel       { position: static; }
+}
+
+@media (max-width: 599px) {
+  .rvVideoGrid       { grid-template-columns: 1fr; }
+  .rvCardTop         { flex-wrap: wrap; }
+  .rvCourseBadge     { order: 3; flex-basis: 100%; text-align: left; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rvTextCard,
+  .rvVideoCard       { animation: none; opacity: 1; }
+  .rvTextCard:hover,
+  .rvVideoCard:hover { transform: none; }
+}

@@ -5,6 +5,9 @@ import HowToReach from "@/components/home/Howtoreach";
 import Image from "next/image";
 import heroImgFallback from "@/assets/images/17.webp";
 import api from "@/lib/api";
+import ReviewSection from "@/components/common/Reviewsection";
+import RatingsSummarySection from "@/components/home/RatingsSummarySection";
+import PremiumGallerySection from "@/components/PremiumGallerySection";
 
 /* ─── Types ─── */
 interface UniquePoint {
@@ -286,68 +289,66 @@ export default function BaliYogaPage() {
       {/* ════════════ DESTINATION ════════════ */}
       <section id="destination" className={styles.section}>
         <div className={styles.container}>
-         <div className={`${styles.reveal} ${styles.destWrap}`}>
-  
-  {/* LEFT CONTENT */}
-  <div className={styles.destContentCard}>
-    <span className={styles.superLabel}>
-      {data?.destSuperLabel || "Our Location"}
-    </span>
+          <div className={`${styles.reveal} ${styles.destWrap}`}>
+            {/* LEFT CONTENT */}
+            <div className={styles.destContentCard}>
+              <span className={styles.superLabel}>
+                {data?.destSuperLabel || "Our Location"}
+              </span>
 
-    <h2 className={styles.sectionTitle}>
-      {data?.destTitle || "Our Destination"}
-    </h2>
+              <h2 className={styles.sectionTitle}>
+                {data?.destTitle || "Our Destination"}
+              </h2>
 
-    <OmBar align="left" />
+              <OmBar align="left" />
 
-    {hasText(data?.destPara1) && (
-      <Html html={data!.destPara1!} className={styles.para} />
-    )}
+              {hasText(data?.destPara1) && (
+                <Html html={data!.destPara1!} className={styles.para} />
+              )}
 
-    {hasText(data?.destPara2) && (
-      <Html html={data!.destPara2!} className={styles.para} />
-    )}
+              {hasText(data?.destPara2) && (
+                <Html html={data!.destPara2!} className={styles.para} />
+              )}
 
-    {destHighlights.length > 0 && (
-      <div className={styles.destPills}>
-        {destHighlights.map((p) => (
-          <span key={p} className={styles.destPill}>
-            ✦ {p}
-          </span>
-        ))}
-      </div>
-    )}
-  </div>
+              {destHighlights.length > 0 && (
+                <div className={styles.destPills}>
+                  {destHighlights.map((p) => (
+                    <span key={p} className={styles.destPill}>
+                      ✦ {p}
+                    </span>
+                  ))}
+                </div>
+              )}
+            </div>
 
-  {/* RIGHT VISUAL */}
-  <div className={styles.destVisual}>
+            {/* RIGHT VISUAL */}
+            <div className={styles.destVisual}>
+              {/* TOP 2 IMAGES */}
+              <div className={styles.destTopRow}>
+                {imgUrl(data?.templeImage) && (
+                  <div className={styles.destTopImg}>
+                    <img src={imgUrl(data?.templeImage)} alt="Bali temple" />
+                  </div>
+                )}
 
-  {/* TOP 2 IMAGES */}
-  <div className={styles.destTopRow}>
-    
-    {imgUrl(data?.templeImage) && (
-      <div className={styles.destTopImg}>
-        <img src={imgUrl(data?.templeImage)} alt="Bali temple" />
-      </div>
-    )}
+                {imgUrl(data?.riceImage) && (
+                  <div className={styles.destTopImg}>
+                    <img
+                      src={imgUrl(data?.riceImage)}
+                      alt="Rice terraces Ubud"
+                    />
+                  </div>
+                )}
+              </div>
 
-    {imgUrl(data?.riceImage) && (
-      <div className={styles.destTopImg}>
-        <img src={imgUrl(data?.riceImage)} alt="Rice terraces Ubud" />
-      </div>
-    )}
-
-  </div>
-
-  {/* BOTTOM FULL IMAGE */}
-  {imgUrl(data?.groupImage) && (
-    <div className={styles.destBottomImg}>
-      <img src={imgUrl(data?.groupImage)} alt="Yoga group Bali" />
-    </div>
-  )}
-
-</div>
-</div>
+              {/* BOTTOM FULL IMAGE */}
+              {imgUrl(data?.groupImage) && (
+                <div className={styles.destBottomImg}>
+                  <img src={imgUrl(data?.groupImage)} alt="Yoga group Bali" />
+                </div>
+              )}
+            </div>
+          </div>
         </div>
       </section>
 
@@ -540,7 +541,7 @@ export default function BaliYogaPage() {
           <div className={styles.teacherStripMandala} aria-hidden="true">
             <MandalaRing size={300} opacity={0.1} />
           </div>
-         
+
           <div className={styles.teacherImgWrap}>
             <img
               src={imgUrl(data?.ubudImage)}
@@ -561,6 +562,9 @@ export default function BaliYogaPage() {
           </div>
         </section>
       )}
+      <PremiumGallerySection type="both" backgroundColor="warm" />
+      {/* ✅ REVIEWS — now a reusable separate component */}
+      <ReviewSection RatingsSummaryComponent={<RatingsSummarySection />} />
 
       <HowToReach />
     </div>

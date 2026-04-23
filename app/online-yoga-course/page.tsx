@@ -11,6 +11,24 @@ import chakra6 from "@/assets/images/throat-chakra.png";
 import HowToReach from "@/components/home/Howtoreach";
 import heroImg from "@/assets/images/30.webp";
 
+/* ── Video embed ── */
+const HERO_VIDEO_URL =
+  "https://www.youtube.com/embed/EJ6K-rhqevE?autoplay=1&mute=1&loop=1&playlist=EJ6K-rhqevE&controls=0&modestbranding=1&showinfo=0&rel=0&iv_load_policy=3&disablekb=1&playsinline=1";
+
+/* ── Other course images ── */
+const otherCourseImages = [
+  "https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?w=600&q=80",
+  "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=600&q=80",
+  "https://images.unsplash.com/photo-1558017487-06bf9f82613a?w=600&q=80",
+];
+
+/* ── Why Choose image ── */
+const WHY_IMAGE =
+  "https://images.unsplash.com/photo-1545389336-cf090694435e?w=800&q=80";
+
+/* ─────────────────────────────────────────────
+   DATA
+───────────────────────────────────────────── */
 const liveCourses = [
   {
     id: 1,
@@ -20,7 +38,6 @@ const liveCourses = [
     sessions: "15 Days | 2 Classes Daily",
     cert: "Yoga Alliance, USA",
     fee: "399 USD / 20,000 INR",
-    chakraColor: "#F15505",
     benefits: [
       "Expert-Led Live Training - Learn from experienced yoga masters.",
       "Flexible & Interactive - Attend classes from anywhere in the world.",
@@ -37,15 +54,14 @@ const liveCourses = [
     style: "Hatha Yoga and Multi-Style",
     sessions: "15 Days | 2 Classes Daily",
     cert: "Yoga Alliance, USA",
-    fee: "399 USD / 25,000 INR",
-    chakraColor: "#F15505",
+    fee: "499 USD / 25,000 INR",
     benefits: [
       "Advanced & Multi-Style Training - Expand your practice with diverse yoga styles.",
       "Expert Guidance - Learn from seasoned yoga masters in real-time.",
       "Interactive Learning - Engage in live sessions with personal mentorship.",
       "Flexible & Accessible - Train from anywhere with class recordings for future access.",
       "Globally Recognized Certification - Elevate your career as a certified yoga teacher.",
-      "Upgrade Your Yoga Journey Today! Enroll now and take your practice to the next level..",
+      "Upgrade Your Yoga Journey Today! Enroll now and take your practice to the next level.",
     ],
   },
 ];
@@ -62,47 +78,19 @@ const prenatalCourse = {
     "Expert Guidance - Led by experienced prenatal yoga instructors.",
     "Holistic Approach - Covers asanas, breathwork, meditation & relaxation techniques.",
     "Flexible & Convenient - Train from home with recorded sessions for future reference.",
-    "Globally Recognized Certification - Advance your career as a certified prenatal yoga teacher",
-    "Flexible & Convenient - Train from home with recorded sessions for future reference",
+    "Globally Recognized Certification - Advance your career as a certified prenatal yoga teacher.",
+    "Flexible & Convenient - Train from home with recorded sessions for future reference.",
   ],
 };
 
 const scheduleData = [
-  {
-    date: "01st Jun – 28th Jun 2025",
-    h200: "20000 INR / 399 USD",
-    h300: "25000 INR / 499 USD",
-  },
-  {
-    date: "01st Jul – 28th July 2025",
-    h200: "20000 INR / 399 USD",
-    h300: "25000 INR / 499 USD",
-  },
-  {
-    date: "01st Aug – 28th Aug 2025",
-    h200: "20000 INR / 399 USD",
-    h300: "25000 INR / 499 USD",
-  },
-  {
-    date: "01st Sep – 28th Sep 2025",
-    h200: "20000 INR / 399 USD",
-    h300: "25000 INR / 499 USD",
-  },
-  {
-    date: "01st Oct – 28th Oct 2025",
-    h200: "20000 INR / 399 USD",
-    h300: "25000 INR / 499 USD",
-  },
-  {
-    date: "01st Nov – 28th Nov 2025",
-    h200: "20000 INR / 399 USD",
-    h300: "25000 INR / 499 USD",
-  },
-  {
-    date: "01st Dec – 28th Dec 2025",
-    h200: "20000 INR / 399 USD",
-    h300: "25000 INR / 499 USD",
-  },
+  { date: "01st Jun – 28th Jun 2025", h200: "20000 INR / 399 USD", h300: "25000 INR / 499 USD" },
+  { date: "01st Jul – 28th July 2025", h200: "20000 INR / 399 USD", h300: "25000 INR / 499 USD" },
+  { date: "01st Aug – 28th Aug 2025", h200: "20000 INR / 399 USD", h300: "25000 INR / 499 USD" },
+  { date: "01st Sep – 28th Sep 2025", h200: "20000 INR / 399 USD", h300: "25000 INR / 499 USD" },
+  { date: "01st Oct – 28th Oct 2025", h200: "20000 INR / 399 USD", h300: "25000 INR / 499 USD" },
+  { date: "01st Nov – 28th Nov 2025", h200: "20000 INR / 399 USD", h300: "25000 INR / 499 USD" },
+  { date: "01st Dec – 28th Dec 2025", h200: "20000 INR / 399 USD", h300: "25000 INR / 499 USD" },
 ];
 
 const curriculumAreas = [
@@ -122,40 +110,28 @@ const curriculumAreas = [
   },
   {
     title: "Pranayama and Meditation",
-    lines: [
-      "30 hour live lecture and practice ons",
-      "Mudra, bendha, pranayama and meditaion",
-    ],
+    lines: ["30 hour live lecture and practice", "Mudra, bandha, pranayama and meditation"],
     symbol: "◉",
     color: "#f9a825",
     image: chakra3,
   },
   {
     title: "Adjusting and Assisting Tips",
-    lines: [
-      "10 hours with hatha yoga + alignment",
-      "Art of adjustment through mouth",
-    ],
+    lines: ["10 hours with hatha yoga + alignment", "Art of adjustment through guidance"],
     symbol: "✦",
     color: "#f9a825",
     image: chakra4,
   },
   {
     title: "Asana Practice",
-    lines: [
-      "35 hour Hatha yoga live classes",
-      "35 hour ashtanga yoga live classes",
-    ],
+    lines: ["35 hour Hatha yoga live classes", "35 hour Ashtanga yoga live classes"],
     symbol: "❋",
     color: "#43a047",
     image: chakra5,
   },
   {
     title: "Teaching Methodology",
-    lines: [
-      "10 hours Lecture on teaching practice",
-      "30 hours teaching practice and 10 feedback.",
-    ],
+    lines: ["10 hours Lecture on teaching practice", "30 hours teaching practice and 10 feedback"],
     symbol: "⬡",
     color: "#29b6f6",
     image: chakra6,
@@ -193,12 +169,8 @@ const recordedCourses = [
 
 const otherCourses = [
   { title: "Hatha Yoga Alignment", hours: "35 Hour", price: "299 USD" },
-  { title: "Pranayama and Mediation", hours: "20 Hour", price: "349 USD" },
-  {
-    title: "Ashtanga Vinyasa Primary Series",
-    hours: "35 Hour",
-    price: "299 USD",
-  },
+  { title: "Pranayama and Meditation", hours: "20 Hour", price: "349 USD" },
+  { title: "Ashtanga Vinyasa Primary Series", hours: "35 Hour", price: "299 USD" },
 ];
 
 const faqs = [
@@ -227,185 +199,274 @@ const faqs = [
 const whyReasons = [
   {
     title: "Learn from the Best",
-    desc: "Our highly experienced yoga teachers bring years of expertise to guide you through every aspect of yoga, ensuring a seamless online learning experience.",
+    desc: "Our highly experienced yoga teachers bring years of expertise to guide you through every aspect of yoga.",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M12 2l3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z" />
+      </svg>
+    ),
   },
   {
     title: "Comprehensive Curriculum",
-    desc: "Dive deep into Hatha Yoga, Ashtanga Yoga, Vinyasa Yoga, meditation, pranayama, and yoga philosophy from the comfort of your home.",
+    desc: "Dive deep into Hatha Yoga, Ashtanga Yoga, Vinyasa Yoga, meditation, pranayama, and yoga philosophy from home.",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="3" y="3" width="18" height="14" rx="2" />
+        <path d="M8 17v4M16 17v4M8 21h8M9 10l2 2 4-4" />
+      </svg>
+    ),
   },
   {
     title: "Globally Recognized Certification",
-    desc: "Earn an internationally accredited yoga certification recognized by Yoga Alliance, USA and the Government of India (Ministry of AYUSH & YCB).",
+    desc: "Earn an internationally accredited yoga certification recognized by Yoga Alliance, USA.",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="12" cy="8" r="5" />
+        <path d="M6 21v-1a6 6 0 0112 0v1" />
+      </svg>
+    ),
   },
   {
     title: "Interactive Live Sessions",
-    desc: "Engage in real-time classes, one-on-one mentoring, and guided practice to ensure personal attention and progress.",
+    desc: "Engage in real-time classes, one-on-one mentoring, and guided practice to ensure personal attention.",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M15 10l4.553-2.277A1 1 0 0121 8.677V15.32a1 1 0 01-1.447.894L15 14M3 8a2 2 0 012-2h10a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z" />
+      </svg>
+    ),
   },
   {
     title: "Flexible Learning",
-    desc: "Balance your yoga teacher training course with your daily life through a well-structured and accessible online format.",
+    desc: "Balance your yoga teacher training with your daily life through a well-structured and accessible online format.",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="12" cy="12" r="9" />
+        <path d="M12 7v5l3 3" />
+      </svg>
+    ),
+  },
+  // ── 5 new entries ──
+  {
+    title: "Lifetime Access to Recordings",
+    desc: "Every live session is recorded and made available to you forever — revisit any class, any time, at your own pace.",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        <path d="M10 8l6 4-6 4V8z" fill="currentColor" opacity="0.25" />
+        <path d="M10 8l6 4-6 4V8z" />
+      </svg>
+    ),
+  },
+  {
+    title: "Small Batch Sizes",
+    desc: "Classes are capped at 5–7 students per batch, ensuring every participant receives direct, personal feedback from instructors.",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="9" cy="7" r="3" />
+        <circle cx="15" cy="7" r="3" />
+        <path d="M3 20c0-3.3 2.7-6 6-6h6c3.3 0 6 2.7 6 6" />
+      </svg>
+    ),
+  },
+  {
+    title: "Rooted in Rishikesh Tradition",
+    desc: "Our teaching lineage comes directly from the Himalayan tradition of Rishikesh — the birthplace and world capital of yoga.",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M3 20l4-8 4 4 4-10 4 14" />
+        <path d="M3 20h18" />
+      </svg>
+    ),
+  },
+  {
+    title: "Multi-Language Support",
+    desc: "Our instructors teach in both English and Hindi, making the course accessible to a diverse global and Indian student community.",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="12" cy="12" r="9" />
+        <path d="M2 12h20" />
+        <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z" />
+      </svg>
+    ),
+  },
+  {
+    title: "Post-Course Mentorship",
+    desc: "Your journey doesn't end at graduation. We offer continued guidance, community access, and support as you begin your teaching career.",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M17 20h5v-1a4 4 0 00-5.5-3.7" />
+        <path d="M9 20H4v-1a4 4 0 015.5-3.7" />
+        <circle cx="12" cy="8" r="4" />
+        <path d="M12 12v8" />
+      </svg>
+    ),
   },
 ];
 
-function CourseBlock({ course }: { course: (typeof liveCourses)[0] }) {
+const keyBenefits = [
+  {
+    title: "Start Anytime, From Anywhere",
+    desc: "Enroll whenever you're ready. Our courses are open year-round and accessible globally from any device.",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" />
+        <circle cx="12" cy="9" r="2.5" />
+      </svg>
+    ),
+  },
+  {
+    title: "Yoga Alliance Certified",
+    desc: "All our teacher training programs are recognized by Yoga Alliance (USA), ensuring international credibility.",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M9 12l2 2 4-4" />
+        <circle cx="12" cy="12" r="9" />
+      </svg>
+    ),
+  },
+  {
+    title: "Study at Your Own Pace",
+    desc: "Our flexible format allows you to study at your own pace, making it easy to balance learning with personal life.",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="3" y="4" width="18" height="18" rx="2" />
+        <path d="M16 2v4M8 2v4M3 10h18" />
+      </svg>
+    ),
+  },
+];
+
+/* ─────────────────────────────────────────────
+   SHARED UI COMPONENTS
+───────────────────────────────────────────── */
+function VintageHeading({ children, center = true }: { children: React.ReactNode; center?: boolean }) {
   return (
-    <div className={styles.courseBlock}>
-      <div className={styles.courseBlockLeft}>
-        <h3 className={styles.courseBlockTitle}>{course.title}</h3>
-        <div className={styles.orangeUnderline} />
-        <ul className={styles.courseDetailList}>
-          <li>
-            <span className={styles.detailIconWrap}>
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                <rect
-                  x="1"
-                  y="2"
-                  width="14"
-                  height="13"
-                  rx="2"
-                  stroke="#F15505"
-                  strokeWidth="1.4"
-                />
-                <line
-                  x1="5"
-                  y1="1"
-                  x2="5"
-                  y2="4"
-                  stroke="#F15505"
-                  strokeWidth="1.4"
-                  strokeLinecap="round"
-                />
-                <line
-                  x1="11"
-                  y1="1"
-                  x2="11"
-                  y2="4"
-                  stroke="#F15505"
-                  strokeWidth="1.4"
-                  strokeLinecap="round"
-                />
-                <line
-                  x1="1"
-                  y1="6"
-                  x2="15"
-                  y2="6"
-                  stroke="#F15505"
-                  strokeWidth="1.4"
-                />
-              </svg>
-            </span>
-            <strong>Duration:</strong>&nbsp;{course.duration}
-          </li>
-          <li>
-            <span className={styles.detailIconWrap}>
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                <circle
-                  cx="8"
-                  cy="5"
-                  r="3"
-                  stroke="#F15505"
-                  strokeWidth="1.4"
-                />
-                <path
-                  d="M2 14c0-3.314 2.686-6 6-6s6 2.686 6 6"
-                  stroke="#F15505"
-                  strokeWidth="1.4"
-                  strokeLinecap="round"
-                />
-              </svg>
-            </span>
-            <strong>Course Style:</strong>&nbsp;{course.style}
-          </li>
-          <li>
-            <span className={styles.detailIconWrap}>
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                <rect
-                  x="1"
-                  y="3"
-                  width="14"
-                  height="10"
-                  rx="1.5"
-                  stroke="#F15505"
-                  strokeWidth="1.4"
-                />
-                <circle cx="8" cy="8" r="2" fill="#F15505" opacity="0.6" />
-              </svg>
-            </span>
-            <strong>Live Interactive Sessions:</strong>&nbsp;{course.sessions}
-          </li>
-          <li>
-            <span className={styles.detailIconWrap}>
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                <path
-                  d="M8 1l2 4 4.5.7-3.2 3.1.7 4.5L8 11.2 4 13.3l.7-4.5L1.5 5.7 6 5z"
-                  stroke="#F15505"
-                  strokeWidth="1.2"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </span>
-            <strong>Certificate:</strong>&nbsp;{course.cert}
-          </li>
-          <li>
-            <span className={styles.detailIconWrap}>
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                <circle
-                  cx="8"
-                  cy="8"
-                  r="7"
-                  stroke="#F15505"
-                  strokeWidth="1.4"
-                />
-                <text
-                  x="8"
-                  y="12"
-                  textAnchor="middle"
-                  fontSize="9"
-                  fill="#F15505"
-                  fontFamily="serif"
-                >
-                  $
-                </text>
-              </svg>
-            </span>
-            <strong>Course Fee:</strong>&nbsp;{course.fee}
-          </li>
-        </ul>
-        <a href="#" className={styles.applyBtn}>
-          Apply Now
-        </a>
-      </div>
-      <div className={styles.courseBlockRight}>
-        <h4 className={styles.benefitsTitle}>Key Benefits:</h4>
-        <ul className={styles.benefitsList}>
-          {course.benefits.map((b, j) => (
-            <li key={j} className={styles.benefitItem}>
-              <span className={styles.fireIcon}>🏆</span>
-              <span>
-                {b.includes(" - ") ? (
-                  <>
-                    <strong>{b.split(" - ")[0]}</strong>
-                    {" - " + b.split(" - ").slice(1).join(" - ")}
-                  </>
-                ) : (
-                  b
-                )}
-              </span>
-            </li>
-          ))}
-        </ul>
-        <a href="#" className={styles.bookBtn}>
-          Book Now
-        </a>
+    <div className={styles.vintageHeadingWrap} style={{ textAlign: center ? "center" : "left" }}>
+      <h2 className={styles.vintageHeading}>{children}</h2>
+      <div className={styles.headingUnderline} style={{ justifyContent: center ? "center" : "flex-start" }}>
+        <div className={styles.headingDiamond} />
       </div>
     </div>
   );
 }
 
+function OmDivider() {
+  return (
+    <div className={styles.omDivider}>
+      <div className={`${styles.divLine} ${styles.divLineLeft}`} />
+      <span className={styles.divOm}>ॐ</span>
+      <div className={`${styles.divLine} ${styles.divLineRight}`} />
+    </div>
+  );
+}
+
+/* Course detail icon helpers */
+const CalendarIcon = () => (
+  <svg viewBox="0 0 16 16" fill="none">
+    <rect x="1" y="2" width="14" height="13" rx="2" stroke="currentColor" strokeWidth="1.4" />
+    <line x1="5" y1="1" x2="5" y2="4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+    <line x1="11" y1="1" x2="11" y2="4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+    <line x1="1" y1="6" x2="15" y2="6" stroke="currentColor" strokeWidth="1.4" />
+  </svg>
+);
+const UserIcon = () => (
+  <svg viewBox="0 0 16 16" fill="none">
+    <circle cx="8" cy="5" r="3" stroke="currentColor" strokeWidth="1.4" />
+    <path d="M2 14c0-3.314 2.686-6 6-6s6 2.686 6 6" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+  </svg>
+);
+const VideoIcon = () => (
+  <svg viewBox="0 0 16 16" fill="none">
+    <rect x="1" y="3" width="14" height="10" rx="1.5" stroke="currentColor" strokeWidth="1.4" />
+    <circle cx="8" cy="8" r="2" fill="currentColor" opacity="0.6" />
+  </svg>
+);
+const StarIcon = () => (
+  <svg viewBox="0 0 16 16" fill="none">
+    <path d="M8 1l2 4 4.5.7-3.2 3.1.7 4.5L8 11.2 4 13.3l.7-4.5L1.5 5.7 6 5z" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round" />
+  </svg>
+);
+const DollarIcon = () => (
+  <svg viewBox="0 0 16 16" fill="none">
+    <circle cx="8" cy="8" r="7" stroke="currentColor" strokeWidth="1.4" />
+    <text x="8" y="12" textAnchor="middle" fontSize="9" fill="currentColor" fontFamily="serif">$</text>
+  </svg>
+);
+const CheckIcon = () => (
+  <svg viewBox="0 0 16 16" fill="none">
+    <circle cx="8" cy="8" r="7" stroke="currentColor" strokeWidth="1.3" />
+    <path d="M5 8l2 2 4-4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
+/* ─────────────────────────────────────────────
+   COURSE CARD COMPONENT
+───────────────────────────────────────────── */
+function CourseCard({ title, duration, style, sessions, cert, fee, benefits }: {
+  title: string; duration: string; style: string; sessions: string; cert: string; fee: string; benefits: string[];
+}) {
+  return (
+    <div className={styles.courseCard}>
+      <div className={styles.courseCardHeader}>
+        <h3 className={styles.courseCardTitle}>{title}</h3>
+        <span className={styles.courseCardFeeTag}>{fee}</span>
+      </div>
+      <div className={styles.courseCardBody}>
+        <div className={styles.courseCardLeft}>
+          <ul className={styles.courseDetailList}>
+            <li>
+              <span className={styles.detailIcon}><CalendarIcon /></span>
+              <span><strong>Duration:</strong>&nbsp;{duration}</span>
+            </li>
+            <li>
+              <span className={styles.detailIcon}><UserIcon /></span>
+              <span><strong>Course Style:</strong>&nbsp;{style}</span>
+            </li>
+            <li>
+              <span className={styles.detailIcon}><VideoIcon /></span>
+              <span><strong>Live Interactive Sessions:</strong>&nbsp;{sessions}</span>
+            </li>
+            <li>
+              <span className={styles.detailIcon}><StarIcon /></span>
+              <span><strong>Certificate:</strong>&nbsp;{cert}</span>
+            </li>
+            <li>
+              <span className={styles.detailIcon}><DollarIcon /></span>
+              <span><strong>Course Fee:</strong>&nbsp;{fee}</span>
+            </li>
+          </ul>
+          <div className={styles.courseActions}>
+            <a href="#" className={styles.btnPrimary}>Apply Now</a>
+            <a href="#" className={styles.btnOutline}>Book Now</a>
+          </div>
+        </div>
+        <div className={styles.courseCardRight}>
+          <p className={styles.benefitsListTitle}>Key Benefits</p>
+          <ul className={styles.benefitsList}>
+            {benefits.map((b, j) => (
+              <li key={j} className={styles.benefitsListItem}>
+                <span className={styles.benefitCheck}><CheckIcon /></span>
+                <span>
+                  {b.includes(" - ") ? (
+                    <><strong>{b.split(" - ")[0]}</strong>{" — " + b.split(" - ").slice(1).join(" - ")}</>
+                  ) : b}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ─────────────────────────────────────────────
+   PAGE COMPONENT
+───────────────────────────────────────────── */
 export default function OnlineYogaCourse() {
   return (
     <div className={styles.page}>
-      {/* ── Mandala background watermark ── */}
+      {/* Mandala watermark */}
       <div className={styles.mandalaWatermark} aria-hidden="true">
         <svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
           <g fill="none" stroke="#F15505" strokeWidth="0.5" opacity="0.07">
@@ -415,18 +476,12 @@ export default function OnlineYogaCourse() {
             {Array.from({ length: 36 }, (_, i) => {
               const a = (((i * 360) / 36) * Math.PI) / 180;
               return (
-                <line
-                  key={i}
-                  x1="250"
-                  y1="250"
-                  x2={250 + 240 * Math.cos(a)}
-                  y2={250 + 240 * Math.sin(a)}
-                />
+                <line key={i} x1="250" y1="250"
+                  x2={250 + 240 * Math.cos(a)} y2={250 + 240 * Math.sin(a)} />
               );
             })}
             {[60, 120, 180].map((r, i) => (
-              <polygon
-                key={i}
+              <polygon key={i}
                 points={Array.from({ length: 8 }, (_, j) => {
                   const a = (((j * 360) / 8) * Math.PI) / 180;
                   return `${250 + r * Math.cos(a)},${250 + r * Math.sin(a)}`;
@@ -438,269 +493,146 @@ export default function OnlineYogaCourse() {
       </div>
 
       {/* ══════════════════════════════════════
-          HERO — Screenshot 1
+          HERO IMAGE
       ══════════════════════════════════════ */}
       <section className={styles.heroSection}>
         <Image
           src={heroImg}
           alt="Yoga Students Group"
-          width={1180}
-          height={540}
+          width={1460}
+          height={560}
           className={styles.heroImage}
           priority
         />
       </section>
 
       {/* ══════════════════════════════════════
-          INTRO — Screenshot 2
+          INTRO
       ══════════════════════════════════════ */}
-      <section className={styles.section}>
+      <section className={`${styles.section} ${styles.introSection}`}>
         <div className={styles.container}>
-          <h2 className={styles.sectionTitleOrange}>
-            Online Yoga Teacher Training Course Rishikesh, India
-          </h2>
-          <div className={styles.orangeUnderline} />
-
-          <p className={styles.bodyPara}>
-            At AYM Yoga School, Rishikesh, we bring you a professionally curated{" "}
-            <strong>online Yoga Teacher Training Course</strong> designed for
-            yoga enthusiasts worldwide. Whether you're a beginner or an
-            experienced practitioner, our online yoga course offers the same
-            depth and authenticity as our in-person training in Rishikesh, the{" "}
-            <strong>Yoga Capital of the World</strong>.
-          </p>
-
-          <h3 className={styles.sectionTitleOrange}>
-            Why Choose AYM Yoga School's Online Yoga Teacher Training Course?
-          </h3>
-          <div className={styles.orangeUnderline} />
-
-          <ul className={styles.fireList}>
-            {whyReasons.map((item, i) => (
-              <li key={i} className={styles.fireListItem}>
-                <span className={styles.fireIcon}>🏆</span>
-                <span>
-                  <strong>{item.title}</strong>: {item.desc}
-                </span>
-              </li>
-            ))}
-          </ul>
-
-          <h3 className={styles.sectionTitleOrange}>
-            Key Benefits of Our Online Yoga Courses
-          </h3>
-          <div className={styles.orangeUnderline} />
-
-          <ul className={styles.fireList}>
-            <li className={styles.fireListItem}>
-              <span className={styles.fireIcon}>🏆</span>
-              <span>
-                <strong>Start Anytime, From Anywhere</strong>: Enroll whenever
-                you're ready. Our courses are open year-round and accessible
-                globally.
-              </span>
-            </li>
-            <li className={styles.fireListItem}>
-              <span className={styles.fireIcon}>🏆</span>
-              <span>
-                <strong>Yoga Alliance Certified</strong>: All our teacher
-                training programs are recognized by Yoga Alliance (USA),
-                ensuring international credibility for your certification.
-              </span>
-            </li>
-            <li className={styles.fireListItem}>
-              <span className={styles.fireIcon}>🏆</span>
-              <span>
-                <strong>Our flexible format</strong> allows you to study at your
-                own pace, making it easy to balance your learning with your
-                personal or professional life.
-              </span>
-            </li>
-          </ul>
+          <div className={styles.introText}>
+            <span className={styles.sectionEyebrow}>Rishikesh, India · Online</span>
+            <VintageHeading>
+              Online Yoga Teacher Training Course — Rishikesh, India
+            </VintageHeading>
+            <p className={styles.bodyPara}>
+              At AYM Yoga School, Rishikesh, we bring you a professionally curated{" "}
+              <strong>online Yoga Teacher Training Course</strong> designed for
+              yoga enthusiasts worldwide. Whether you're a beginner or an
+              experienced practitioner, our online yoga course offers the same
+              depth and authenticity as our in-person training in Rishikesh, the{" "}
+              <strong>Yoga Capital of the World</strong>.
+            </p>
+          </div>
+      
         </div>
       </section>
 
       {/* ══════════════════════════════════════
-          LIVE COURSES — Screenshots 3 & 4
+          WHY CHOOSE — with image & video on right
       ══════════════════════════════════════ */}
-      <section className={styles.section}>
+      <section className={styles.whySection}>
         <div className={styles.container}>
-          {liveCourses.map((course) => (
-            <CourseBlock key={course.id} course={course} />
-          ))}
-
-          {/* Prenatal */}
-          <div className={styles.courseBlock}>
-            <div className={styles.courseBlockLeft}>
-              <h3 className={styles.courseBlockTitle}>
-                {prenatalCourse.title}
-              </h3>
-              <div className={styles.orangeUnderline} />
-              <ul className={styles.courseDetailList}>
-                <li>
-                  <span className={styles.detailIconWrap}>
-                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                      <rect
-                        x="1"
-                        y="2"
-                        width="14"
-                        height="13"
-                        rx="2"
-                        stroke="#F15505"
-                        strokeWidth="1.4"
-                      />
-                      <line
-                        x1="5"
-                        y1="1"
-                        x2="5"
-                        y2="4"
-                        stroke="#F15505"
-                        strokeWidth="1.4"
-                        strokeLinecap="round"
-                      />
-                      <line
-                        x1="11"
-                        y1="1"
-                        x2="11"
-                        y2="4"
-                        stroke="#F15505"
-                        strokeWidth="1.4"
-                        strokeLinecap="round"
-                      />
-                      <line
-                        x1="1"
-                        y1="6"
-                        x2="15"
-                        y2="6"
-                        stroke="#F15505"
-                        strokeWidth="1.4"
-                      />
-                    </svg>
-                  </span>
-                  <strong>Duration:</strong>&nbsp;{prenatalCourse.duration}
-                </li>
-                <li>
-                  <span className={styles.detailIconWrap}>
-                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                      <circle
-                        cx="8"
-                        cy="5"
-                        r="3"
-                        stroke="#F15505"
-                        strokeWidth="1.4"
-                      />
-                      <path
-                        d="M2 14c0-3.314 2.686-6 6-6s6 2.686 6 6"
-                        stroke="#F15505"
-                        strokeWidth="1.4"
-                        strokeLinecap="round"
-                      />
-                    </svg>
-                  </span>
-                  <strong>Course Style:</strong>&nbsp;{prenatalCourse.style}
-                </li>
-                <li>
-                  <span className={styles.detailIconWrap}>
-                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                      <rect
-                        x="1"
-                        y="3"
-                        width="14"
-                        height="10"
-                        rx="1.5"
-                        stroke="#F15505"
-                        strokeWidth="1.4"
-                      />
-                      <circle
-                        cx="8"
-                        cy="8"
-                        r="2"
-                        fill="#F15505"
-                        opacity="0.6"
-                      />
-                    </svg>
-                  </span>
-                  <strong>Live Interactive Sessions:</strong>&nbsp;
-                  {prenatalCourse.sessions}
-                </li>
-                <li>
-                  <span className={styles.detailIconWrap}>
-                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                      <path
-                        d="M8 1l2 4 4.5.7-3.2 3.1.7 4.5L8 11.2 4 13.3l.7-4.5L1.5 5.7 6 5z"
-                        stroke="#F15505"
-                        strokeWidth="1.2"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                  </span>
-                  <strong>Certificate:</strong>&nbsp;{prenatalCourse.cert}
-                </li>
-                <li>
-                  <span className={styles.detailIconWrap}>
-                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                      <circle
-                        cx="8"
-                        cy="8"
-                        r="7"
-                        stroke="#F15505"
-                        strokeWidth="1.4"
-                      />
-                      <text
-                        x="8"
-                        y="12"
-                        textAnchor="middle"
-                        fontSize="9"
-                        fill="#F15505"
-                        fontFamily="serif"
-                      >
-                        $
-                      </text>
-                    </svg>
-                  </span>
-                  <strong>Course Fee:</strong>&nbsp;{prenatalCourse.fee}
-                </li>
-              </ul>
-              <a href="#" className={styles.applyBtn}>
-                Apply Now
-              </a>
-            </div>
-            <div className={styles.courseBlockRight}>
-              <h4 className={styles.benefitsTitle}>Key Benefits:</h4>
-              <ul className={styles.benefitsList}>
-                {prenatalCourse.benefits.map((b, j) => (
-                  <li key={j} className={styles.benefitItem}>
-                    <span className={styles.fireIcon}>🏆</span>
-                    <span>
-                      {b.includes(" - ") ? (
-                        <>
-                          <strong>{b.split(" - ")[0]}</strong>
-                          {" - " + b.split(" - ").slice(1).join(" - ")}
-                        </>
-                      ) : (
-                        b
-                      )}
-                    </span>
-                  </li>
+          <span className={styles.sectionEyebrow}>Why Choose Us</span>
+          <VintageHeading>Why Choose AYM Yoga School's Online Yoga Teacher Training Course?</VintageHeading>
+          <div className={styles.whySplit}>
+            {/* Left: reason cards */}
+            <div className={styles.whyLeft}>
+              <div className={styles.whyGrid}>
+                {whyReasons.map((item, i) => (
+                  <div
+                    key={i}
+                    className={styles.whyCard}
+                    style={{ "--wi": i } as React.CSSProperties}
+                  >
+                    <div className={styles.whyIconBox}>{item.icon}</div>
+                    <div className={styles.whyCardBody}>
+                      <div className={styles.whyCardTitle}>{item.title}</div>
+                      <div className={styles.whyCardDesc}>{item.desc}</div>
+                    </div>
+                    <div className={styles.whyCardLine} />
+                  </div>
                 ))}
-              </ul>
-              <a href="#" className={styles.bookBtn}>
-                Book Now
-              </a>
+              </div>
+            </div>
+            {/* Right: image stacked with video */}
+            <div className={styles.whyRight}>
+              <div className={styles.whyImageBox}>
+                <img src={WHY_IMAGE} alt="Online yoga practice" />
+                <div className={styles.whyCornerTl} />
+                <div className={styles.whyCornerBr} />
+                <div className={styles.whyImageBadge}>Since 2010 · Rishikesh</div>
+              </div>
+              <div className={styles.whyVideoBox}>
+               <iframe
+  src="https://www.youtube.com/embed/EJ6K-rhqevE?autoplay=1&mute=1&controls=0&modestbranding=1&rel=0&loop=1&playlist=EJ6K-rhqevE"
+  title="AYM Yoga School"
+  allow="autoplay"
+  allowFullScreen
+/>
+                <div className={styles.whyVideoBadge}>
+                  <span className={styles.pulseDot} /> Live Classes
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* ══════════════════════════════════════
-          SCHEDULE TABLE — Screenshot 4 bottom
+          KEY BENEFITS
       ══════════════════════════════════════ */}
-      <section className={styles.section}>
+      <section className={styles.benefitsSection}>
         <div className={styles.container}>
-          <h3 className={styles.sectionTitleOrange}>
-            Live Online Yoga Teacher Training Schedule
-          </h3>
-          <div className={styles.orangeUnderline} />
+          <span className={styles.sectionEyebrow}>Key Benefits</span>
+          <VintageHeading>Key Benefits of Our Online Yoga Courses</VintageHeading>
+          <div className={styles.benefitsGrid}>
+            {keyBenefits.map((item, i) => (
+              <div
+                key={i}
+                className={styles.benefitCard}
+                style={{ "--bi": i } as React.CSSProperties}
+              >
+                <div className={styles.benefitIconWrap}>{item.icon}</div>
+                <div className={styles.benefitCardNum}>{String(i + 1).padStart(2, "0")}</div>
+                <div className={styles.benefitTitle}>{item.title}</div>
+                <div className={styles.benefitDesc}>{item.desc}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════
+          LIVE COURSES (200hr, 300hr, Prenatal)
+      ══════════════════════════════════════ */}
+      <section className={styles.coursesSection}>
+        <div className={styles.container}>
+          <span className={styles.sectionEyebrow}>Live Online Courses</span>
+          <VintageHeading>Our Live Online Yoga Teacher Training Courses</VintageHeading>
+          {liveCourses.map((course) => (
+            <CourseCard key={course.id} {...course} />
+          ))}
+          <CourseCard
+            title={prenatalCourse.title}
+            duration={prenatalCourse.duration}
+            style={prenatalCourse.style}
+            sessions={prenatalCourse.sessions}
+            cert={prenatalCourse.cert}
+            fee={prenatalCourse.fee}
+            benefits={prenatalCourse.benefits}
+          />
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════
+          SCHEDULE TABLE
+      ══════════════════════════════════════ */}
+      <section className={styles.scheduleSection}>
+        <div className={styles.container}>
+          <span className={styles.sectionEyebrow}>Upcoming Batches</span>
+          <VintageHeading>Live Online Yoga Teacher Training Schedule</VintageHeading>
           <div className={styles.tableWrapper}>
             <table className={styles.scheduleTable}>
               <thead>
@@ -708,18 +640,18 @@ export default function OnlineYogaCourse() {
                   <th>Date</th>
                   <th>200 Hour</th>
                   <th>300 Hour</th>
-                  <th>Apply</th>
+                  <th>Enroll</th>
                 </tr>
               </thead>
               <tbody>
                 {scheduleData.map((row, i) => (
                   <tr key={i}>
-                    <td>{row.date}</td>
-                    <td>{row.h200}</td>
-                    <td>{row.h300}</td>
+                    <td><span className={styles.tableDate}>{row.date}</span></td>
+                    <td><span className={styles.tablePrice}>{row.h200}</span></td>
+                    <td><span className={styles.tablePrice}>{row.h300}</span></td>
                     <td>
-                      <a href="#" className={styles.tableApply}>
-                        Open for Registartion
+                      <a href="#" className={styles.tableApplyBtn}>
+                        Open for Registration
                       </a>
                     </td>
                   </tr>
@@ -731,24 +663,24 @@ export default function OnlineYogaCourse() {
       </section>
 
       {/* ══════════════════════════════════════
-          ABOUT / FAQ — Screenshot 5
+          NOTE + FAQ
       ══════════════════════════════════════ */}
-      <section className={styles.section}>
+      <section className={styles.aboutSection}>
         <div className={styles.container}>
-          <p className={styles.noteText}>
-            Please note that for these courses, there are a minimum of 2 live
-            online sessions which are planned on a daily basis (maximum number
-            of live sessions per day varies from course to course).
-          </p>
-
-          <h3 className={styles.sectionTitleOrange}>
-            About Live Yoga Training Course:
-          </h3>
-          <div className={styles.orangeUnderline} />
-
-          <div className={styles.faqList}>
+          <div className={styles.noteBox}>
+            <strong>Please note:</strong> For these courses, there are a minimum of 2 live
+            online sessions planned on a daily basis (maximum number of live sessions per
+            day varies from course to course).
+          </div>
+          <span className={styles.sectionEyebrow}>FAQs</span>
+          <VintageHeading>About Live Yoga Training Course</VintageHeading>
+          <div className={styles.faqGrid}>
             {faqs.map((item, i) => (
-              <div key={i} className={styles.faqBlock}>
+              <div
+                key={i}
+                className={styles.faqCard}
+                style={{ "--fi": i } as React.CSSProperties}
+              >
                 <p className={styles.faqQ}>{item.q}</p>
                 <p className={styles.faqA}>{item.a}</p>
               </div>
@@ -758,36 +690,35 @@ export default function OnlineYogaCourse() {
       </section>
 
       {/* ══════════════════════════════════════
-          CURRICULUM — Screenshot 6 (with real images)
+          CURRICULUM
       ══════════════════════════════════════ */}
-      <section className={styles.section}>
+      <section className={styles.curriculumSection}>
         <div className={styles.container}>
-          <h3 className={styles.sectionTitleOrange}>
-            The program covers following basic areas of yoga
-          </h3>
-          <div className={styles.orangeUnderline} />
+          <span className={styles.sectionEyebrow}>Curriculum</span>
+          <VintageHeading>The Program Covers Following Basic Areas of Yoga</VintageHeading>
           <div className={styles.chakraGrid}>
             {curriculumAreas.map((area, i) => (
-              <div key={i} className={styles.chakraCard}>
+              <div
+                key={i}
+                className={styles.chakraCard}
+                style={{ "--ci": i } as React.CSSProperties}
+              >
+                <div className={styles.chakraCardBg}>{area.symbol}</div>
                 <div className={styles.chakraImageWrap}>
                   <Image
                     src={area.image}
                     alt={area.title}
-                    width={140}
-                    height={140}
+                    width={130}
+                    height={130}
                     className={styles.chakraImage}
                   />
                 </div>
-                <h4
-                  className={styles.chakraTitle}
-                  style={{ color: area.color }}
-                >
+                <h4 className={styles.chakraTitle} style={{ color: area.color }}>
                   {area.title}
                 </h4>
+                <div className={styles.chakraCardDivider} />
                 {area.lines.map((line, j) => (
-                  <p key={j} className={styles.chakraLine}>
-                    {line}
-                  </p>
+                  <p key={j} className={styles.chakraLine}>{line}</p>
                 ))}
               </div>
             ))}
@@ -796,226 +727,119 @@ export default function OnlineYogaCourse() {
       </section>
 
       {/* ══════════════════════════════════════
-          RECORDED COURSES — Screenshot 7
+          RECORDED COURSES
       ══════════════════════════════════════ */}
-      <section className={styles.section}>
+      <section className={styles.recordedSection}>
         <div className={styles.container}>
-          <h3 className={styles.sectionTitleOrange}>
-            Fully Recorded Online Yoga Teacher Training Course
-          </h3>
-          <div className={styles.orangeUnderline} />
+          <span className={styles.sectionEyebrow}>Self-Paced Learning</span>
+          <VintageHeading>Fully Recorded Online Yoga Teacher Training Course</VintageHeading>
           <div className={styles.recordedGrid}>
             {recordedCourses.map((rc, i) => (
               <div key={i} className={styles.recordedCard}>
-                <div className={styles.recordedPencilIcon}>✎</div>
-                <h4 className={styles.recordedTitle}>{rc.title}</h4>
-                <div className={styles.recordedUnderline} />
-                <div className={styles.recordedPrice}>{rc.price}</div>
-                <div className={styles.recordedDivider} />
-                {rc.features.map((f, j) => (
-                  <p key={j} className={styles.recordedFeature}>
-                    {f}
-                  </p>
-                ))}
-                <div className={styles.recordedDivider} />
-                <a href="#" className={styles.applyLinkBtn}>
-                  Apply Now
-                </a>
+                <div className={styles.recordedCardHeader}>
+                  <span className={styles.recordedCardIcon}>✎</span>
+                  <h4 className={styles.recordedCardTitle}>{rc.title}</h4>
+                  <div className={styles.recordedCardPrice}>
+                    <span className={styles.recordedPriceAmt}>{rc.price}</span>
+                    <span className={styles.recordedPriceCur}>USD</span>
+                  </div>
+                </div>
+                <div className={styles.recordedCardBody}>
+                  <ul className={styles.recordedFeatureList}>
+                    {rc.features.map((f, j) => (
+                      <li key={j} className={styles.recordedFeatureItem}>
+                        <span className={styles.featureCheckIcon}><CheckIcon /></span>
+                        {f}
+                      </li>
+                    ))}
+                  </ul>
+                  <a href="#" className={styles.recordedApplyBtn}>
+                    Apply Now
+                    <svg viewBox="0 0 16 16" fill="none" style={{ width: 14, height: 14 }}>
+                      <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </a>
+                </div>
               </div>
             ))}
           </div>
 
-          {/* Screenshot 8 text */}
-          <div className={styles.recordedInfoBox}>
-            <p>
-              In addition to the above courses, we have fully recorded online
-              teachers' training courses for 200 hours yoga teachers' training
-              as well as for 300 hours training program.
-            </p>
-            <p>
-              <strong>The advantages of fully online courses are:</strong>
+          {/* Info / Advantages box */}
+          <div className={styles.infoBox}>
+            <h4 className={styles.infoBoxTitle}>The Advantages of Fully Online Courses</h4>
+            <p className={styles.infoBoxText}>
+              In addition to the above courses, we have fully recorded online teachers' training
+              courses for 200 hours yoga teachers' training as well as for 300 hours training program.
             </p>
             <ol className={styles.advantageList}>
               <li>You can start the course any time.</li>
+              <li>These courses are recognized by Yoga Alliance, United States.</li>
               <li>
-                These courses are recognized by Yoga Alliance, United States.
-              </li>
-              <li>
-                The courses are based on self-paced learning modules, so you can
-                study as per a schedule that fits you.
+                The courses are based on self-paced learning modules, so you can study as per a
+                schedule that fits you.
               </li>
             </ol>
-            <p>
-              In the 200 hours course you will learn about various yoga aasanas
-              aka yoga postures, various breathing techniques, the yoga
-              philosophy, alignment correction, anatomy of the human body,
-              various meditation techniques, creating your own yogic sequence,
-              various yoga teaching methodologies etc.
+            <p className={styles.infoBoxText}>
+              In the 200 hours course you will learn about various yoga aasanas aka yoga postures,
+              various breathing techniques, the yoga philosophy, alignment correction, anatomy of the
+              human body, various meditation techniques, creating your own yogic sequence, various yoga
+              teaching methodologies etc.
             </p>
-            <p>
-              <strong>How do I apply for these courses?</strong>
-              <br />
-              Please reach out to us at aymyogaschool@gmail.com, or you may
-              click the links provided in the webpage to fill the online
-              registration and submit it. Once we receive the same, our team
-              will reach out to you for further guidance.
+            <h4 className={styles.infoBoxTitle}>How Do I Apply for These Courses?</h4>
+            <p className={styles.infoBoxText}>
+              Please reach out to us at{" "}
+              <strong>aymyogaschool@gmail.com</strong>, or you may click the links provided in
+              the webpage to fill the online registration and submit it. Once we receive the same,
+              our team will reach out to you for further guidance.
             </p>
-            <p>
-              <strong>What should I do after the registration process?</strong>
-              <br />
-              Once the registration is done, we will be sharing the training
-              materials of the course with you. It includes recorded training
-              sessions as well as other course materials like e-books and yoga
-              manual. There is a live exam that will be conducted, once you
-              complete the same you will be provided with your certification.
+            <h4 className={styles.infoBoxTitle}>What Should I Do After the Registration Process?</h4>
+            <p className={styles.infoBoxText}>
+              Once the registration is done, we will be sharing the training materials of the course
+              with you. It includes recorded training sessions as well as other course materials like
+              e-books and yoga manual. There is a live exam that will be conducted; once you complete
+              the same you will be provided with your certification.
             </p>
           </div>
         </div>
       </section>
 
       {/* ══════════════════════════════════════
-          OTHER LIVE COURSES — Screenshot 9
+          OTHER LIVE COURSES
       ══════════════════════════════════════ */}
-      <section className={styles.section}>
+      <section className={styles.otherSection}>
         <div className={styles.container}>
-          <h3 className={styles.sectionTitleOrange}>
-            Other Live Online Yoga Course
-          </h3>
-          <div className={styles.orangeUnderline} />
+          <span className={styles.sectionEyebrow}>Specialised Programs</span>
+          <VintageHeading>Other Live Online Yoga Courses</VintageHeading>
           <div className={styles.otherGrid}>
             {otherCourses.map((oc, i) => (
-              <div key={i} className={styles.otherCard}>
-                <div className={styles.otherFigureWrap}>
-                  {i === 0 && (
-                    <svg viewBox="0 0 80 80" className={styles.otherFigureSvg}>
-                      <circle
-                        cx="40"
-                        cy="14"
-                        r="7"
-                        fill="none"
-                        stroke="#3d1d00"
-                        strokeWidth="1.5"
-                      />
-                      <line
-                        x1="40"
-                        y1="21"
-                        x2="40"
-                        y2="50"
-                        stroke="#3d1d00"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                      />
-                      <path
-                        d="M25 32 Q40 28 55 32"
-                        fill="none"
-                        stroke="#3d1d00"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                      />
-                      <path
-                        d="M40 50 L28 68"
-                        stroke="#3d1d00"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                      />
-                      <path
-                        d="M40 50 L52 68"
-                        stroke="#3d1d00"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                      />
-                      <line
-                        x1="10"
-                        y1="68"
-                        x2="70"
-                        y2="68"
-                        stroke="#3d1d00"
-                        strokeWidth="1.5"
-                      />
-                    </svg>
-                  )}
-                  {i === 1 && (
-                    <svg viewBox="0 0 80 80" className={styles.otherFigureSvg}>
-                      <circle
-                        cx="40"
-                        cy="12"
-                        r="6"
-                        fill="none"
-                        stroke="#3d1d00"
-                        strokeWidth="1.5"
-                      />
-                      <path
-                        d="M30 30 Q40 20 50 30 Q55 40 50 52 Q40 60 30 52 Q25 40 30 30Z"
-                        fill="none"
-                        stroke="#3d1d00"
-                        strokeWidth="1.5"
-                      />
-                      <line
-                        x1="40"
-                        y1="18"
-                        x2="40"
-                        y2="22"
-                        stroke="#3d1d00"
-                        strokeWidth="1.5"
-                      />
-                      <path
-                        d="M25 38 L15 42 M55 38 L65 42"
-                        stroke="#3d1d00"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                      />
-                    </svg>
-                  )}
-                  {i === 2 && (
-                    <svg viewBox="0 0 80 80" className={styles.otherFigureSvg}>
-                      <circle
-                        cx="40"
-                        cy="14"
-                        r="7"
-                        fill="none"
-                        stroke="#3d1d00"
-                        strokeWidth="1.5"
-                      />
-                      <line
-                        x1="40"
-                        y1="21"
-                        x2="40"
-                        y2="48"
-                        stroke="#3d1d00"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                      />
-                      <path
-                        d="M25 33 Q40 28 55 33"
-                        fill="none"
-                        stroke="#3d1d00"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                      />
-                      <path
-                        d="M40 48 Q32 58 22 65"
-                        stroke="#3d1d00"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                      />
-                      <path
-                        d="M40 48 Q48 58 58 65"
-                        stroke="#3d1d00"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                      />
-                    </svg>
-                  )}
+              <div
+                key={i}
+                className={styles.otherCard}
+                style={{ "--oi": i } as React.CSSProperties}
+              >
+                <div className={styles.otherCardImage}>
+                  <img
+                    src={otherCourseImages[i]}
+                    alt={oc.title}
+                  />
+                  <div className={styles.otherCardImageOverlay} />
                 </div>
-                <h4 className={styles.otherTitle}>{oc.title}</h4>
-                <p className={styles.otherMeta}>
-                  {oc.hours} - {oc.price}
-                </p>
+                <div className={styles.otherCardBody}>
+                  <h4 className={styles.otherTitle}>{oc.title}</h4>
+                  <p className={styles.otherMeta}>{oc.hours} · {oc.price}</p>
+                  <a href="#" className={styles.otherCardBtn}>
+                    Enquire Now
+                    <svg viewBox="0 0 16 16" fill="none" style={{ width: 12, height: 12 }}>
+                      <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </a>
+                </div>
               </div>
             ))}
           </div>
         </div>
       </section>
+
       <HowToReach />
     </div>
   );

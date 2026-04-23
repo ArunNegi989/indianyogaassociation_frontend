@@ -4,6 +4,9 @@ import React, { useState, useEffect, useRef } from "react";
 import styles from "@/assets/style/prenatal-yoga-teacher-training-course/Pregnancyyogattc.module.css";
 import HowToReach from "@/components/home/Howtoreach";
 import api from "@/lib/api";
+import ReviewSection from "@/components/common/Reviewsection";
+import RatingsSummarySection from "@/components/home/RatingsSummarySection";
+import PremiumGallerySection from "@/components/PremiumGallerySection";
 
 /* ─────────────────────────────────────────
    TYPES
@@ -83,7 +86,11 @@ interface PageData {
 
 type Currency = "USD" | "INR";
 
-function formatPrice(usdAmount: number, currency: Currency, rate: number): string {
+function formatPrice(
+  usdAmount: number,
+  currency: Currency,
+  rate: number,
+): string {
   if (currency === "USD") {
     return `$${usdAmount}`;
   }
@@ -275,7 +282,9 @@ function CurrencyDropdown({
         <span className={styles.currDropFlag}>
           {currency === "USD" ? "🇺🇸" : "🇮🇳"}
         </span>
-        <span className={styles.currDropLabel}>{currency}</span>
+       <span className={styles.currDropLabel}>
+  {currency === "USD" ? "English" : "हिन्दी"}
+</span>
         <svg
           className={`${styles.currDropArrow} ${open ? styles.currDropArrowOpen : ""}`}
           viewBox="0 0 12 8"
@@ -308,10 +317,12 @@ function CurrencyDropdown({
                 {c === "USD" ? "🇺🇸" : "🇮🇳"}
               </span>
               <div className={styles.currDropItemText}>
-                <span className={styles.currDropItemCode}>{c}</span>
-                <span className={styles.currDropItemName}>
-                  {c === "USD" ? "US Dollar" : "Indian Rupee"}
-                </span>
+                <span className={styles.currDropItemCode}>
+  {c === "USD" ? "English" : "हिन्दी"}
+</span>
+<span className={styles.currDropItemName}>
+  {c === "USD" ? "US Dollar" : "Indian Rupee"}
+</span>
               </div>
               {currency === c && (
                 <svg
@@ -374,10 +385,21 @@ function PremiumSeatBooking({
     <section className={styles.datesSection} id="dates-fees">
       <div className={styles.psbSecTag}>Upcoming Batches · 2026–2027</div>
       <div className={styles.vintageHeadingWrap}>
-        <h2 className={styles.vintageHeading}>Prenatal Yoga Teacher Training India</h2>
+        <h2 className={styles.vintageHeading}>
+          Prenatal Yoga Teacher Training India
+        </h2>
         <div className={styles.vintageHeadingUnderline}>
-          <svg viewBox="0 0 200 8" xmlns="http://www.w3.org/2000/svg" className={styles.headingUndSvg}>
-            <path d="M0,4 Q50,0 100,4 Q150,8 200,4" stroke="#F15505" strokeWidth="1.2" fill="none" />
+          <svg
+            viewBox="0 0 200 8"
+            xmlns="http://www.w3.org/2000/svg"
+            className={styles.headingUndSvg}
+          >
+            <path
+              d="M0,4 Q50,0 100,4 Q150,8 200,4"
+              stroke="#F15505"
+              strokeWidth="1.2"
+              fill="none"
+            />
             <circle cx="100" cy="4" r="3" fill="#F15505" opacity="0.7" />
             <circle cx="10" cy="4" r="1.5" fill="#b8860b" opacity="0.5" />
             <circle cx="190" cy="4" r="1.5" fill="#b8860b" opacity="0.5" />
@@ -404,7 +426,10 @@ function PremiumSeatBooking({
           <div className={styles.psbLph}>
             <span className={styles.psbLphTitle}>Select Your Batch</span>
             <div className={styles.psbLphRight}>
-              <CurrencyDropdown currency={currency} onChange={onCurrencyChange} />
+              <CurrencyDropdown
+                currency={currency}
+                onChange={onCurrencyChange}
+              />
               <div className={styles.psbLegend}>
                 <div className={styles.psbLegItem}>
                   <div className={`${styles.psbLegDot} ${styles.psbDGreen}`} />
@@ -430,43 +455,95 @@ function PremiumSeatBooking({
           )}
 
           {seats.length === 0 ? (
-            <p className={styles.psbNoBatches}>No upcoming batches available at the moment.</p>
+            <p className={styles.psbNoBatches}>
+              No upcoming batches available at the moment.
+            </p>
           ) : (
             <div className={styles.psbBatchGrid}>
               {seats.map((batch) => {
                 const rem = batch.totalSeats - batch.bookedSeats;
                 const full = rem <= 0;
                 const low = !full && rem <= 5;
-                const dotCls = full ? styles.psbDRed : low ? styles.psbDOrange : styles.psbDGreen;
-                const txtCls = full ? styles.psbSRed : low ? styles.psbSOrange : styles.psbSGreen;
-                const statusTxt = full ? "Fully Booked" : low ? "Limited" : "Available";
-                const seatsPercent = Math.max(5, (rem / batch.totalSeats) * 100);
+                const dotCls = full
+                  ? styles.psbDRed
+                  : low
+                    ? styles.psbDOrange
+                    : styles.psbDGreen;
+                const txtCls = full
+                  ? styles.psbSRed
+                  : low
+                    ? styles.psbSOrange
+                    : styles.psbSGreen;
+                const statusTxt = full
+                  ? "Fully Booked"
+                  : low
+                    ? "Limited"
+                    : "Available";
+                const seatsPercent = Math.max(
+                  5,
+                  (rem / batch.totalSeats) * 100,
+                );
                 const isSelected = selectedId === batch._id;
                 const dormFmt = fmtPrice(batch.dormPrice);
                 return (
                   <div
                     key={batch._id}
-                    className={[styles.psbBc, full ? styles.psbBcFull : "", isSelected ? styles.psbBcSel : ""].filter(Boolean).join(" ")}
-                    onClick={() => { if (!full) setSelectedId(batch._id); }}
+                    className={[
+                      styles.psbBc,
+                      full ? styles.psbBcFull : "",
+                      isSelected ? styles.psbBcSel : "",
+                    ]
+                      .filter(Boolean)
+                      .join(" ")}
+                    onClick={() => {
+                      if (!full) setSelectedId(batch._id);
+                    }}
                   >
                     <div className={styles.psbBcTick}>
                       <svg viewBox="0 0 10 10" fill="none">
-                        <polyline points="1.5,5 4,7.5 8.5,2.5" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                        <polyline
+                          points="1.5,5 4,7.5 8.5,2.5"
+                          stroke="white"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
                       </svg>
                     </div>
-                    <div className={styles.psbBcMonth}>{monthYear(batch.startDate)}</div>
-                    <div className={styles.psbBcDates}>{shortDateRange(batch.startDate, batch.endDate)}</div>
-                    <div className={styles.psbBcPrice}>{dormFmt.amount} <span>{dormFmt.cur}</span></div>
+                    <div className={styles.psbBcMonth}>
+                      {monthYear(batch.startDate)}
+                    </div>
+                    <div className={styles.psbBcDates}>
+                      {shortDateRange(batch.startDate, batch.endDate)}
+                    </div>
+                    <div className={styles.psbBcPrice}>
+                      {dormFmt.amount} <span>{dormFmt.cur}</span>
+                    </div>
                     <div className={styles.psbBcStatus}>
                       <div className={`${styles.psbBcDot} ${dotCls}`} />
-                      <span className={`${styles.psbBcStxt} ${txtCls}`}>{statusTxt}</span>
+                      <span className={`${styles.psbBcStxt} ${txtCls}`}>
+                        {statusTxt}
+                      </span>
                     </div>
                     {!full && (
                       <>
                         <div className={styles.psbBcSeatsBar}>
-                          <div className={styles.psbBcSeatsBarFill} style={{ width: `${seatsPercent}%`, background: low ? "linear-gradient(90deg,#c8700a,#e09030)" : "linear-gradient(90deg,#3d6000,#6aa000)" }} />
+                          <div
+                            className={styles.psbBcSeatsBarFill}
+                            style={{
+                              width: `${seatsPercent}%`,
+                              background: low
+                                ? "linear-gradient(90deg,#c8700a,#e09030)"
+                                : "linear-gradient(90deg,#3d6000,#6aa000)",
+                            }}
+                          />
                         </div>
-                        <span className={styles.psbBcSeatsBadge} style={{ color: low ? "#c8700a" : "#3d6000" }}>{rem} / {batch.totalSeats} seats left</span>
+                        <span
+                          className={styles.psbBcSeatsBadge}
+                          style={{ color: low ? "#c8700a" : "#3d6000" }}
+                        >
+                          {rem} / {batch.totalSeats} seats left
+                        </span>
                       </>
                     )}
                   </div>
@@ -484,13 +561,28 @@ function PremiumSeatBooking({
           <div className={`${styles.psbCn} ${styles.psbCnBr}`} />
           <div className={styles.psbRpHead}>
             <div className={styles.psbRpEyebrow}>Course Overview</div>
-            <div className={styles.psbRpCourse}>Prenatal Yoga Teacher Training</div>
+            <div className={styles.psbRpCourse}>
+              Prenatal Yoga Teacher Training
+            </div>
             <div className={styles.psbRpDur}>
               <svg width="11" height="11" viewBox="0 0 16 16" fill="none">
-                <circle cx="8" cy="8" r="7" stroke="rgba(255,243,210,0.8)" strokeWidth="1.2" />
-                <path d="M8 4.5V8.5L10.5 10" stroke="rgba(255,243,210,0.8)" strokeWidth="1.2" strokeLinecap="round" />
+                <circle
+                  cx="8"
+                  cy="8"
+                  r="7"
+                  stroke="rgba(255,243,210,0.8)"
+                  strokeWidth="1.2"
+                />
+                <path
+                  d="M8 4.5V8.5L10.5 10"
+                  stroke="rgba(255,243,210,0.8)"
+                  strokeWidth="1.2"
+                  strokeLinecap="round"
+                />
               </svg>
-              <span className={styles.psbRpDurTxt}>24 Days · Rishikesh, India</span>
+              <span className={styles.psbRpDurTxt}>
+                24 Days · Rishikesh, India
+              </span>
             </div>
             <div className={styles.psbCurrBadge}>
               {currency === "USD" ? "🇺🇸 Prices in USD" : "🇮🇳 Prices in INR"}
@@ -500,18 +592,26 @@ function PremiumSeatBooking({
             <div className={styles.psbPriceLbl}>With Accommodation</div>
             <div className={styles.psbPriceRow}>
               <div className={styles.psbPriceCard}>
-                <div className={styles.psbPcAmt}>{selected ? fmtPrice(selected.privatePrice).amount : "—"}<span className={styles.psbPcCur}>{currency}</span></div>
+                <div className={styles.psbPcAmt}>
+                  {selected ? fmtPrice(selected.privatePrice).amount : "—"}
+                  <span className={styles.psbPcCur}>{currency}</span>
+                </div>
                 <div className={styles.psbPcLbl}>Private Room</div>
               </div>
               <div className={styles.psbPriceCard}>
-                <div className={styles.psbPcAmt}>{selected ? fmtPrice(selected.twinPrice).amount : "—"}<span className={styles.psbPcCur}>{currency}</span></div>
+                <div className={styles.psbPcAmt}>
+                  {selected ? fmtPrice(selected.twinPrice).amount : "—"}
+                  <span className={styles.psbPcCur}>{currency}</span>
+                </div>
                 <div className={styles.psbPcLbl}>Twin / Shared</div>
               </div>
             </div>
             <div className={styles.psbPriceLbl}>Without Accommodation</div>
             <div className={styles.psbPriceWide}>
               <div className={styles.psbPwLeft}>
-                <span className={styles.psbPcAmt} style={{ fontSize: "1rem" }}>{selected ? fmtPrice(selected.dormPrice).amount : "—"}</span>
+                <span className={styles.psbPcAmt} style={{ fontSize: "1rem" }}>
+                  {selected ? fmtPrice(selected.dormPrice).amount : "—"}
+                </span>
                 <span className={styles.psbPcCur}>{currency}</span>
               </div>
               <span className={styles.psbFoodBadge}>Food Included</span>
@@ -526,7 +626,9 @@ function PremiumSeatBooking({
             {selected && currency === "INR" && (
               <div className={styles.psbInrRow}>
                 <span className={styles.psbInrLbl}>USD Price</span>
-                <span className={styles.psbInrAmt}>${selected.dormPrice} USD</span>
+                <span className={styles.psbInrAmt}>
+                  ${selected.dormPrice} USD
+                </span>
               </div>
             )}
 
@@ -537,17 +639,49 @@ function PremiumSeatBooking({
                   const rem = selected.totalSeats - selected.bookedSeats;
                   const full = rem <= 0;
                   const low = !full && rem <= 5;
-                  const pct = full ? 100 : Math.round((selected.bookedSeats / selected.totalSeats) * 100);
+                  const pct = full
+                    ? 100
+                    : Math.round(
+                        (selected.bookedSeats / selected.totalSeats) * 100,
+                      );
                   return (
                     <>
                       <div className={styles.psbRpSeatsRow}>
-                        <span className={styles.psbRpSeatsLbl}>Seats Availability</span>
-                        <span className={styles.psbRpSeatsBadge} style={{ color: full ? "#8a2c00" : low ? "#c8700a" : "#3d6000", borderColor: full ? "#8a2c00" : low ? "#c8700a" : "#3d6000" }}>
-                          {full ? "Fully Booked" : `${rem} of ${selected.totalSeats} left`}
+                        <span className={styles.psbRpSeatsLbl}>
+                          Seats Availability
+                        </span>
+                        <span
+                          className={styles.psbRpSeatsBadge}
+                          style={{
+                            color: full
+                              ? "#8a2c00"
+                              : low
+                                ? "#c8700a"
+                                : "#3d6000",
+                            borderColor: full
+                              ? "#8a2c00"
+                              : low
+                                ? "#c8700a"
+                                : "#3d6000",
+                          }}
+                        >
+                          {full
+                            ? "Fully Booked"
+                            : `${rem} of ${selected.totalSeats} left`}
                         </span>
                       </div>
                       <div className={styles.psbRpSeatsBar}>
-                        <div className={styles.psbRpSeatsBarFill} style={{ width: `${pct}%`, background: full ? "#8a2c00" : low ? "linear-gradient(90deg,#c8700a,#e09030)" : "linear-gradient(90deg,#3d6000,#6aa000)" }} />
+                        <div
+                          className={styles.psbRpSeatsBarFill}
+                          style={{
+                            width: `${pct}%`,
+                            background: full
+                              ? "#8a2c00"
+                              : low
+                                ? "linear-gradient(90deg,#c8700a,#e09030)"
+                                : "linear-gradient(90deg,#3d6000,#6aa000)",
+                          }}
+                        />
                       </div>
                     </>
                   );
@@ -558,23 +692,47 @@ function PremiumSeatBooking({
               {selected ? (
                 <>
                   <div className={styles.psbSelLabel}>Selected Batch</div>
-                  <div className={styles.psbSelDate}>{shortDateRange(selected.startDate, selected.endDate)}, {monthYear(selected.startDate)}</div>
+                  <div className={styles.psbSelDate}>
+                    {shortDateRange(selected.startDate, selected.endDate)},{" "}
+                    {monthYear(selected.startDate)}
+                  </div>
                 </>
               ) : (
-                <span className={styles.psbSelHint}>← Select a batch to continue</span>
+                <span className={styles.psbSelHint}>
+                  ← Select a batch to continue
+                </span>
               )}
             </div>
             {selected ? (
-              <a href={`/yoga-registration?batchId=${selected._id}&type=prenatal`} className={styles.psbBookBtn}>
+              <a
+                href={`/yoga-registration?batchId=${selected._id}&type=prenatal`}
+                className={styles.psbBookBtn}
+              >
                 Book Now — {fmtPrice(selected.dormPrice).amount} {currency}
-                <svg className={styles.psbArrowIcon} viewBox="0 0 16 16" fill="none">
-                  <path d="M3 8h10M9 4l4 4-4 4" stroke="#fff3d2" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                <svg
+                  className={styles.psbArrowIcon}
+                  viewBox="0 0 16 16"
+                  fill="none"
+                >
+                  <path
+                    d="M3 8h10M9 4l4 4-4 4"
+                    stroke="#fff3d2"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
                 </svg>
               </a>
             ) : (
-              <span className={`${styles.psbBookBtn} ${styles.psbBookBtnDis}`}>Book Now</span>
+              <span className={`${styles.psbBookBtn} ${styles.psbBookBtnDis}`}>
+                Book Now
+              </span>
             )}
-            {selected?.note && <p className={styles.psbNote}><strong>Note:</strong> {selected.note}</p>}
+            {selected?.note && (
+              <p className={styles.psbNote}>
+                <strong>Note:</strong> {selected.note}
+              </p>
+            )}
           </div>
         </div>
       </div>
@@ -586,14 +744,28 @@ function PremiumSeatBooking({
    COURSE INFO CARD
 ═══════════════════════════════════════════ */
 const DurationIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.8"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
     <circle cx="12" cy="12" r="9" />
     <path d="M12 7v5l3 3" />
   </svg>
 );
 
 const LevelIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.8"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
     <rect x="2" y="14" width="5" height="7" rx="1" />
     <rect x="9.5" y="9" width="5" height="12" rx="1" />
     <rect x="17" y="4" width="5" height="17" rx="1" />
@@ -601,7 +773,14 @@ const LevelIcon = () => (
 );
 
 const CertIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.8"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
     <rect x="2" y="3" width="20" height="14" rx="2" />
     <path d="M8 17v4M16 17v4M8 21h8" />
     <path d="M9 10l2 2 4-4" />
@@ -609,7 +788,14 @@ const CertIcon = () => (
 );
 
 const StyleIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.8"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
     <circle cx="12" cy="4" r="1.5" />
     <path d="M12 6v5.5" />
     <path d="M8.5 13c0 2 1.5 4 3.5 4.5 2-0.5 3.5-2.5 3.5-4.5" />
@@ -619,7 +805,14 @@ const StyleIcon = () => (
 );
 
 const LangIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.8"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
     <circle cx="12" cy="12" r="9" />
     <path d="M2 12h20" />
     <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
@@ -627,7 +820,14 @@ const LangIcon = () => (
 );
 
 const DateIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.8"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
     <rect x="3" y="4" width="18" height="18" rx="2" />
     <path d="M16 2v4M8 2v4M3 10h18" />
     <circle cx="8" cy="15" r="1" fill="currentColor" />
@@ -636,9 +836,18 @@ const DateIcon = () => (
   </svg>
 );
 
-function CourseInfoCard({ seats, currency, rate }: { seats: Batch[]; currency: Currency; rate: number }) {
+function CourseInfoCard({
+  seats,
+  currency,
+  rate,
+}: {
+  seats: Batch[];
+  currency: Currency;
+  rate: number;
+}) {
   const available = seats.filter((s) => s.totalSeats - s.bookedSeats > 0);
-  const startingPrice = available.length > 0 ? Math.min(...available.map((s) => s.dormPrice)) : 999;
+  const startingPrice =
+    available.length > 0 ? Math.min(...available.map((s) => s.dormPrice)) : 999;
   const originalPrice = Math.round((startingPrice * 1.8) / 50) * 50;
 
   const details = [
@@ -693,7 +902,13 @@ function CourseInfoCard({ seats, currency, rate }: { seats: Batch[]; currency: C
           <a href="#dates-fees" className={styles.icBookBtn}>
             BOOK NOW
             <svg viewBox="0 0 20 20" fill="none" className={styles.icBtnArrow}>
-              <path d="M4 10h12M11 5l5 5-5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              <path
+                d="M4 10h12M11 5l5 5-5 5"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
             </svg>
           </a>
         </div>
@@ -710,7 +925,9 @@ function useCurrencyRate() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.json")
+    fetch(
+      "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.json",
+    )
       .then((r) => r.json())
       .then((data) => {
         const inr = data?.usd?.inr;
@@ -850,7 +1067,9 @@ export default function PregnancyYogaTTC() {
           <OmDivider />
 
           {pageData.introSectionTitle && (
-            <h2 className={styles.sectionTitle}>{pageData.introSectionTitle}</h2>
+            <h2 className={styles.sectionTitle}>
+              {pageData.introSectionTitle}
+            </h2>
           )}
 
           {/* Paragraphs — 2 col newspaper layout */}
@@ -862,13 +1081,23 @@ export default function PregnancyYogaTTC() {
               />
             )}
             {pageData.introPara2 && (
-              <div className={styles.bodyPara} dangerouslySetInnerHTML={{ __html: pageData.introPara2 }} />
+              <div
+                className={styles.bodyPara}
+                dangerouslySetInnerHTML={{ __html: pageData.introPara2 }}
+              />
             )}
             {pageData.introPara3 && (
-              <div className={styles.bodyPara} dangerouslySetInnerHTML={{ __html: pageData.introPara3 }} />
+              <div
+                className={styles.bodyPara}
+                dangerouslySetInnerHTML={{ __html: pageData.introPara3 }}
+              />
             )}
             {pageData.introExtraParagraphs?.map((para, i) => (
-              <div key={i} className={styles.bodyPara} dangerouslySetInnerHTML={{ __html: para }} />
+              <div
+                key={i}
+                className={styles.bodyPara}
+                dangerouslySetInnerHTML={{ __html: para }}
+              />
             ))}
           </div>
 
@@ -915,14 +1144,18 @@ export default function PregnancyYogaTTC() {
         <div className={`container px-3 px-md-4 ${styles.maxx}`}>
           {/* ── Features Header ── */}
           {pageData.featuresSectionTitle && (
-            <h2 className={styles.sectionTitle}>{pageData.featuresSectionTitle}</h2>
+            <h2 className={styles.sectionTitle}>
+              {pageData.featuresSectionTitle}
+            </h2>
           )}
           <div className={styles.titleUnderline} />
 
           {/* ── Super Label as styled badge (not plain <p>) ── */}
           {pageData.featuresSuperLabel && (
             <div className={styles.s2BadgeRow}>
-              <span className={styles.s2Badge}>{pageData.featuresSuperLabel}</span>
+              <span className={styles.s2Badge}>
+                {pageData.featuresSuperLabel}
+              </span>
             </div>
           )}
 
@@ -952,8 +1185,17 @@ export default function PregnancyYogaTTC() {
 
               {/* Static highlight pills */}
               <div className={styles.s2Pills}>
-                {["Garbh Sanskar", "Pranayama", "Meditation", "Anatomy", "Teaching Practice", "Postnatal Care"].map((tag) => (
-                  <span key={tag} className={styles.s2Pill}>{tag}</span>
+                {[
+                  "Garbh Sanskar",
+                  "Pranayama",
+                  "Meditation",
+                  "Anatomy",
+                  "Teaching Practice",
+                  "Postnatal Care",
+                ].map((tag) => (
+                  <span key={tag} className={styles.s2Pill}>
+                    {tag}
+                  </span>
                 ))}
               </div>
             </div>
@@ -1002,7 +1244,9 @@ export default function PregnancyYogaTTC() {
               <span className={styles.s2CardCorner}>✦</span>
 
               {pageData.locationSubTitle && (
-                <h2 className={styles.subSectionTitle}>{pageData.locationSubTitle}</h2>
+                <h2 className={styles.subSectionTitle}>
+                  {pageData.locationSubTitle}
+                </h2>
               )}
               <div className={styles.subUnderline} />
 
@@ -1016,9 +1260,15 @@ export default function PregnancyYogaTTC() {
               {/* ── Static location badges ── */}
               <div className={styles.s2LocBadges}>
                 <span className={styles.s2LocBadge}>📍 Tapovan, Rishikesh</span>
-                <span className={styles.s2LocBadge}>🏔️ Himalayan Foothills</span>
-                <span className={styles.s2LocBadge}>🌊 12 min to Laxman Jhula</span>
-                <span className={styles.s2LocBadge}>🧘 Peaceful Ashram Setting</span>
+                <span className={styles.s2LocBadge}>
+                  🏔️ Himalayan Foothills
+                </span>
+                <span className={styles.s2LocBadge}>
+                  🌊 12 min to Laxman Jhula
+                </span>
+                <span className={styles.s2LocBadge}>
+                  🧘 Peaceful Ashram Setting
+                </span>
               </div>
 
               {/* ── Schedule + Image/Map row ── */}
@@ -1035,7 +1285,9 @@ export default function PregnancyYogaTTC() {
                           <div key={row._id} className={styles.schedRow}>
                             <span className={styles.schedTime}>{row.time}</span>
                             <span className={styles.schedSep}>:</span>
-                            <span className={styles.schedAct}>{row.activity}</span>
+                            <span className={styles.schedAct}>
+                              {row.activity}
+                            </span>
                           </div>
                         ))}
                       </div>
@@ -1094,9 +1346,7 @@ export default function PregnancyYogaTTC() {
       {/* ── Costs Section ── */}
       {pageData.costsSectionTitle && (
         <div className={styles.costsBlock}>
-          <h2 className={styles.sectionTitle}>
-            {pageData.costsSectionTitle}
-          </h2>
+          <h2 className={styles.sectionTitle}>{pageData.costsSectionTitle}</h2>
           <div className={styles.titleUnderline} />
 
           {pageData.costsPara && (
@@ -1116,105 +1366,157 @@ export default function PregnancyYogaTTC() {
       )}
 
       {/* ── Online Section ── */}
-      {pageData.onlineSectionTitle && (
+    {/* ── Online Section ── */}
+{pageData.onlineSectionTitle && (
   <div className={styles.s3Card}>
     <div className={styles.s3CardAccent} />
     <span className={styles.s3CardCorner}>✦</span>
 
-    <h2 className={styles.subSectionTitle}>{pageData.onlineSectionTitle}</h2>
-    <div className={styles.subUnderline} />
+    <div className={styles.s3Header}>
+      <div className={styles.s3HeaderOrnament}>
+        <span className={styles.s3HeaderLine} />
+        <span className={styles.s3HeaderDot} />
+        <span className={styles.s3HeaderLine} />
+      </div>
+      <h2 className={styles.subSectionTitle}>
+        {pageData.onlineSectionTitle}
+      </h2>
+      <div className={styles.subUnderline} />
+      <p className={styles.s3HeaderSubtitle}>
+        Comprehensive Online Training for Aspiring Prenatal Yoga Teachers
+      </p>
+    </div>
 
     {(pageData.onlinePara || pageData.onlineExtraParagraphs?.length > 0) && (
       <div className={styles.s3Intro}>
         {pageData.onlinePara && (
-          <div className={styles.bodyPara} dangerouslySetInnerHTML={{ __html: pageData.onlinePara }} />
+          <div
+            className={styles.bodyPara}
+            dangerouslySetInnerHTML={{ __html: pageData.onlinePara }}
+          />
         )}
         {pageData.onlineExtraParagraphs?.map((para, i) => (
-          <div key={i} className={styles.bodyPara} dangerouslySetInnerHTML={{ __html: para }} />
+          <div
+            key={i}
+            className={styles.bodyPara}
+            dangerouslySetInnerHTML={{ __html: para }}
+          />
         ))}
       </div>
     )}
 
-    <div className={styles.s3Body}>
-
-      {/* ── Left: Curriculum + Hours Summary stacked ── */}
-      <div className={styles.s3LeftCol}>
-
-        {pageData.curriculum?.length > 0 && (
-          <div className={styles.s3CurrWrap}>
-            <div className={styles.s3CurrHeader}>
-              <span className={styles.s3CurrHeaderIcon}>
-                <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M4 6h12M4 10h12M4 14h7" />
-                </svg>
-              </span>
-              <span>Curriculum Breakdown</span>
-            </div>
-            <div className={styles.s3CurrList}>
-              {pageData.curriculum.map((item, idx) => (
-                <div key={item._id} className={styles.s3CurrItem}>
-                  <div className={styles.s3CurrNum}>{String(idx + 1).padStart(2, "0")}</div>
-                  <div className={styles.s3CurrBody}>
-                    <span className={styles.s3CurrTitle}>{item.title}</span>
-                    <div className={styles.s3CurrBar}>
-                      <div
-                        className={styles.s3CurrBarFill}
-                        style={{ width: `${Math.min(100, (parseInt(item.hours) / 40) * 100)}%` }}
-                      />
-                    </div>
-                  </div>
-                  <div className={styles.s3CurrHrs}>{item.hours}<span>hrs</span></div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Hours Summary sits directly below curriculum */}
-        {pageData.hoursSummary?.length > 0 && (
-          <div className={styles.s3HoursWrap}>
-            <div className={styles.s3HoursHeader}>
-              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className={styles.s3HoursHeaderIcon}>
-                <circle cx="10" cy="10" r="8" /><path d="M10 6v4l2.5 2.5" />
+    {/* Curriculum and Hours Summary - Side by Side */}
+    <div className={styles.s3TablesRow}>
+      {/* Curriculum Table */}
+      {pageData.curriculum?.length > 0 && (
+        <div className={styles.s3CurrWrap}>
+          <div className={styles.s3CurrHeader}>
+            <div className={styles.s3CurrHeaderIcon}>
+              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.6">
+                <path d="M4 6h12M4 10h12M4 14h7" />
               </svg>
-              <span>Hours Summary</span>
             </div>
-            <div className={styles.s3HoursTable}>
-              {pageData.hoursSummary.map((row) => (
-                <div key={row._id} className={styles.s3HoursRow}>
-                  <span className={styles.s3HoursLabel}>{row.label}</span>
-                  <span className={styles.s3HoursDash}>—</span>
-                  <span className={styles.s3HoursValue}>{row.value}</span>
-                </div>
-              ))}
+            <span>Curriculum Breakdown</span>
+            <div className={styles.s3CurrHeaderBadge}>
+              {pageData.curriculum.length} Modules
             </div>
           </div>
-        )}
+          <div className={styles.s3CurrList}>
+            {pageData.curriculum.map((item, idx) => (
+              <div key={item._id} className={styles.s3CurrItem}>
+                <div className={styles.s3CurrNum}>
+                  {String(idx + 1).padStart(2, "0")}
+                </div>
+                <div className={styles.s3CurrBody}>
+                  <span className={styles.s3CurrTitle}>{item.title}</span>
+                  <div className={styles.s3CurrBar}>
+                    <div
+                      className={styles.s3CurrBarFill}
+                      style={{
+                        width: `${Math.min(100, (parseInt(item.hours) / 50) * 100)}%`,
+                      }}
+                    />
+                  </div>
+                </div>
+                <div className={styles.s3CurrHrs}>
+                  {item.hours}
+                  <span>hrs</span>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className={styles.s3CurrFooter}>
+            <span className={styles.s3CurrFooterIcon}>📖</span>
+            <span>Total: {pageData.curriculum.reduce((sum, item) => sum + parseInt(item.hours), 0)} Hours</span>
+          </div>
+        </div>
+      )}
 
-      </div>
-
-      {/* ── Right: Highlights + Video only ── */}
-      <div className={styles.s3Right}>
-
-        <div className={styles.s3HighlightsWrap}>
-          <div className={styles.s3HighlightsHeader}>What You Get Online</div>
-          <div className={styles.s3HighlightsList}>
-            {[
-              { icon: "🎥", text: "Recorded video lectures, lifetime access" },
-              { icon: "📄", text: "Downloadable course materials & PDFs" },
-              { icon: "🧘", text: "Live Q&A sessions with instructors" },
-              { icon: "🏆", text: "Internationally recognised certificate" },
-              { icon: "💬", text: "Private student community access" },
-              { icon: "🔄", text: "Flexible, self-paced learning schedule" },
-            ].map((h, i) => (
-              <div key={i} className={styles.s3HighlightItem}>
-                <span className={styles.s3HighlightIcon}>{h.icon}</span>
-                <span className={styles.s3HighlightText}>{h.text}</span>
+      {/* Hours Summary Table */}
+      {pageData.hoursSummary?.length > 0 && (
+        <div className={styles.s3HoursWrap}>
+          <div className={styles.s3HoursHeader}>
+            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.6" className={styles.s3HoursHeaderIcon}>
+              <circle cx="10" cy="10" r="8" />
+              <path d="M10 6v4l2.5 2.5" />
+            </svg>
+            <span>Hours Summary</span>
+            <div className={styles.s3HoursHeaderBadge}>
+              {pageData.hoursSummary.reduce((sum, row) => sum + parseInt(row.value), 0)} hrs
+            </div>
+          </div>
+          <div className={styles.s3HoursTable}>
+            {pageData.hoursSummary.map((row, idx) => (
+              <div key={row._id} className={styles.s3HoursRow}>
+                <div className={styles.s3HoursLabelCell}>
+                  <span className={styles.s3HoursBullet} />
+                  <span className={styles.s3HoursLabel}>{row.label}</span>
+                </div>
+                <div className={styles.s3HoursProgress}>
+                  <div 
+                    className={styles.s3HoursProgressFill} 
+                    style={{ width: `${(parseInt(row.value) / 200) * 100}%` }}
+                  />
+                </div>
+                <div className={styles.s3HoursValue}>
+                  {row.value}
+                  <span>hrs</span>
+                </div>
               </div>
             ))}
           </div>
         </div>
+      )}
+    </div>
 
+    {/* Highlights and Video Section */}
+    <div className={styles.s3BottomRow}>
+      {/* Highlights Card */}
+      <div className={styles.s3HighlightsWrap}>
+        <div className={styles.s3HighlightsHeader}>
+          <span className={styles.s3HighlightsHeaderIcon}>✨</span>
+          <span>What You Get Online</span>
+          <span className={styles.s3HighlightsHeaderIcon}>✨</span>
+        </div>
+        <div className={styles.s3HighlightsList}>
+          {[
+            { icon: "🎥", text: "Recorded video lectures, lifetime access" },
+            { icon: "📄", text: "Downloadable course materials & PDFs" },
+            { icon: "🧘", text: "Live Q&A sessions with instructors" },
+            { icon: "🏆", text: "Internationally recognised certificate" },
+            { icon: "💬", text: "Private student community access" },
+            { icon: "🔄", text: "Flexible, self-paced learning schedule" },
+          ].map((h, i) => (
+            <div key={i} className={styles.s3HighlightItem}>
+              <span className={styles.s3HighlightIcon}>{h.icon}</span>
+              <span className={styles.s3HighlightText}>{h.text}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Video and Bonus */}
+      <div className={styles.s3RightCol}>
         <div className={styles.s3VideoWrap}>
           <iframe
             className={styles.s3Video}
@@ -1224,29 +1526,50 @@ export default function PregnancyYogaTTC() {
             allowFullScreen
           />
           <div className={styles.s3VideoOverlay}>
-            <span className={styles.s3VideoTag}>▶ Course Preview</span>
+            <div className={styles.s3VideoPlayBtn}>
+              <span>▶</span>
+            </div>
+            <span className={styles.s3VideoTag}>Course Preview</span>
           </div>
         </div>
 
+        <div className={styles.s3BonusCard}>
+          <div className={styles.s3BonusIcon}>🎁</div>
+          <div className={styles.s3BonusContent}>
+            <div className={styles.s3BonusTitle}>Bonus Included</div>
+            <div className={styles.s3BonusText}>Free access to prenatal yoga community & monthly workshops</div>
+          </div>
+        </div>
       </div>
     </div>
 
     <div className={styles.s3Cta}>
       <div className={styles.s3CtaLeft}>
-        <span className={styles.s3CtaLabel}>Ready to begin your journey?</span>
-        <span className={styles.s3CtaSub}>Join our next online batch · Flexible schedule · Globally certified</span>
+        <span className={styles.s3CtaLabel}>
+          Ready to begin your journey?
+        </span>
+        <span className={styles.s3CtaSub}>
+          Join our next online batch · Flexible schedule · Globally certified
+        </span>
       </div>
       <a href="#batch-section" className={styles.s3CtaBtn}>
         Enrol Now
         <svg viewBox="0 0 20 20" fill="none" className={styles.s3CtaBtnArrow}>
-          <path d="M4 10h12M11 5l5 5-5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+          <path
+            d="M4 10h12M11 5l5 5-5 5"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
         </svg>
       </a>
     </div>
-
   </div>
 )}
-
+      <PremiumGallerySection type="both" backgroundColor="warm" />
+      {/* ✅ REVIEWS — now a reusable separate component */}
+      <ReviewSection RatingsSummaryComponent={<RatingsSummarySection />} />
       <HowToReach />
     </div>
   );

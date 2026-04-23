@@ -6,6 +6,9 @@ import Image from "next/image";
 import heroImgFallback from "@/assets/images/19.webp";
 import api from "@/lib/api";
 import Link from "next/link";
+import ReviewSection from "@/components/common/Reviewsection";
+import RatingsSummarySection from "@/components/home/RatingsSummarySection";
+import PremiumGallerySection from "@/components/PremiumGallerySection";
 
 /* ─── Types ─── */
 interface DailyScheduleItem {
@@ -217,15 +220,15 @@ export default function AyurvedaPage() {
   const heroImage = imgUrl(data?.heroImage);
 
   const getListItems = (html = "") => {
-  if (typeof window === "undefined") return [];
+    if (typeof window === "undefined") return [];
 
-  const div = document.createElement("div");
-  div.innerHTML = html;
+    const div = document.createElement("div");
+    div.innerHTML = html;
 
-  return Array.from(div.querySelectorAll("li")).map(
-    (li) => li.textContent || ""
-  );
-};
+    return Array.from(div.querySelectorAll("li")).map(
+      (li) => li.textContent || "",
+    );
+  };
 
   return (
     <div className={styles.page}>
@@ -284,16 +287,20 @@ export default function AyurvedaPage() {
               {hasContent(data?.introText2) && (
                 <Html html={data!.introText2!} className={styles.para} />
               )}
-             {hasContent(data?.introList) && (
-  <div className={styles.introCardGrid}>
-    {getListItems(data?.introList).map((item, i) => (
-      <div key={i} className={styles.introCard} style={{ animationDelay: `${i * 0.1}s` }}>
-  <span className={styles.cardNumber}>{i + 1}</span>
-  <p className={styles.cardText}>{item}</p>
-</div>
-    ))}
-  </div>
-)}
+              {hasContent(data?.introList) && (
+                <div className={styles.introCardGrid}>
+                  {getListItems(data?.introList).map((item, i) => (
+                    <div
+                      key={i}
+                      className={styles.introCard}
+                      style={{ animationDelay: `${i * 0.1}s` }}
+                    >
+                      <span className={styles.cardNumber}>{i + 1}</span>
+                      <p className={styles.cardText}>{item}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
 
             <div className={styles.introImage}>
@@ -500,34 +507,32 @@ export default function AyurvedaPage() {
             </h2>
             <OmBar />
           </div>
-         <div className={`${styles.reveal} ${styles.panchBoxRow}`}>
-  
-  {/* LEFT TEXT */}
-  <div className={styles.panchBoxText}>
-    <h3 className={styles.panchHeading}>
-      {data?.panchakarmaHeading || "About Panchakarma"}
-    </h3>
+          <div className={`${styles.reveal} ${styles.panchBoxRow}`}>
+            {/* LEFT TEXT */}
+            <div className={styles.panchBoxText}>
+              <h3 className={styles.panchHeading}>
+                {data?.panchakarmaHeading || "About Panchakarma"}
+              </h3>
 
-    {hasContent(data?.pkPara1) && (
-      <Html html={data!.pkPara1!} className={styles.para} />
-    )}
-    {hasContent(data?.pkPara2) && (
-      <Html html={data!.pkPara2!} className={styles.para} />
-    )}
-    {hasContent(data?.pkPara3) && (
-      <Html html={data!.pkPara3!} className={styles.para} />
-    )}
-  </div>
+              {hasContent(data?.pkPara1) && (
+                <Html html={data!.pkPara1!} className={styles.para} />
+              )}
+              {hasContent(data?.pkPara2) && (
+                <Html html={data!.pkPara2!} className={styles.para} />
+              )}
+              {hasContent(data?.pkPara3) && (
+                <Html html={data!.pkPara3!} className={styles.para} />
+              )}
+            </div>
 
-  {/* RIGHT IMAGE */}
-  <div className={styles.panchBoxImage}>
-    <img
-      src="https://images.unsplash.com/photo-1593811167562-9cef47bfc4d7?w=800&q=80"
-      alt="Panchakarma Therapy"
-    />
-  </div>
-
-</div>
+            {/* RIGHT IMAGE */}
+            <div className={styles.panchBoxImage}>
+              <img
+                src="https://images.unsplash.com/photo-1593811167562-9cef47bfc4d7?w=800&q=80"
+                alt="Panchakarma Therapy"
+              />
+            </div>
+          </div>
 
           {therapies.length > 0 && (
             <div className={`${styles.reveal} ${styles.therapiesGrid}`}>
@@ -571,49 +576,46 @@ export default function AyurvedaPage() {
       <section className={styles.section}>
         <div className={styles.container}>
           {panchaKarmaCourses.length > 0 && (
-           <div className={`${styles.reveal} ${styles.pkCardsFull}`}>
-  {panchaKarmaCourses.map((c, i) => (
-    <div
-      key={c.level}
-      className={styles.pkCardNew}
-      style={{
-       
-        animationDelay: `${i * 0.15}s`,
-      }}
-    >
-      {/* Glow line */}
-      <div className={styles.cardTopGlow} />
+            <div className={`${styles.reveal} ${styles.pkCardsFull}`}>
+              {panchaKarmaCourses.map((c, i) => (
+                <div
+                  key={c.level}
+                  className={styles.pkCardNew}
+                  style={{
+                    animationDelay: `${i * 0.15}s`,
+                  }}
+                >
+                  {/* Glow line */}
+                  <div className={styles.cardTopGlow} />
 
-      {/* Title */}
-      <h3 className={styles.pkTitle}>
-        Panchkarma {c.level} Course
-      </h3>
+                  {/* Title */}
+                  <h3 className={styles.pkTitle}>
+                    Panchkarma {c.level} Course
+                  </h3>
 
-      {/* Info */}
-      <div className={styles.pkInfo}>
-        <div className={styles.pkItem}>
-          <span>💰 Fee</span>
-          <strong>{c.fee}</strong>
-        </div>
+                  {/* Info */}
+                  <div className={styles.pkInfo}>
+                    <div className={styles.pkItem}>
+                      <span>💰 Fee</span>
+                      <strong>{c.fee}</strong>
+                    </div>
 
-        <div className={styles.pkItem}>
-          <span>📅 Duration</span>
-          <strong>{c.days}</strong>
-        </div>
-      </div>
+                    <div className={styles.pkItem}>
+                      <span>📅 Duration</span>
+                      <strong>{c.days}</strong>
+                    </div>
+                  </div>
 
-      {/* Certificate */}
-      <p className={styles.pkCert}>
-        {c.cert}
-      </p>
+                  {/* Certificate */}
+                  <p className={styles.pkCert}>{c.cert}</p>
 
-      {/* Button */}
-      <Link href="#apply" className={styles.pkBtnNew}>
-        Book Now →
-      </Link>
-    </div>
-  ))}
-</div>
+                  {/* Button */}
+                  <Link href="#apply" className={styles.pkBtnNew}>
+                    Book Now →
+                  </Link>
+                </div>
+              ))}
+            </div>
           )}
 
           {/* Massage */}
@@ -648,101 +650,98 @@ export default function AyurvedaPage() {
 
       {/* ════ TRAINING ════ */}
       <section className={`${styles.section} ${styles.sectionTinted}`}>
-  <div className={styles.container}>
-
-    {/* HEADER */}
-    <div className={`${styles.reveal} ${styles.centered}`}>
-      <h2 className={styles.sectionTitle}>
-        {data?.yogaMassageTrainingHeading || "Yoga & Ayurvedic Massage Training"}
-      </h2>
-      <OmBar />
-    </div>
-
-    {/* 🔥 HERO BLOCK */}
-    <div className={styles.trainingHero}>
-
-      {/* LEFT CONTENT */}
-      <div className={styles.trainingContent}>
-
-        <div className={styles.metaRow}>
-          <div className={styles.metaCard}>
-            <span>🧘 Duration</span>
-            <strong>{data?.yogaMassageDuration}</strong>
+        <div className={styles.container}>
+          {/* HEADER */}
+          <div className={`${styles.reveal} ${styles.centered}`}>
+            <h2 className={styles.sectionTitle}>
+              {data?.yogaMassageTrainingHeading ||
+                "Yoga & Ayurvedic Massage Training"}
+            </h2>
+            <OmBar />
           </div>
 
-          <div className={styles.metaCard}>
-            <span>💰 Cost</span>
-            <strong>{data?.yogaMassageCost}</strong>
-          </div>
+          {/* 🔥 HERO BLOCK */}
+          <div className={styles.trainingHero}>
+            {/* LEFT CONTENT */}
+            <div className={styles.trainingContent}>
+              <div className={styles.metaRow}>
+                <div className={styles.metaCard}>
+                  <span>🧘 Duration</span>
+                  <strong>{data?.yogaMassageDuration}</strong>
+                </div>
 
-          <div className={styles.metaCard}>
-            <span>📅 Dates</span>
-            <strong>{data?.yogaMassageDates}</strong>
-          </div>
-        </div>
+                <div className={styles.metaCard}>
+                  <span>💰 Cost</span>
+                  <strong>{data?.yogaMassageCost}</strong>
+                </div>
 
-      </div>
-
-      {/* RIGHT VIDEO */}
-      <div className={styles.videoWrap}>
-        <iframe
-          src="https://www.youtube.com/embed/ABJE9bY7O6E?autoplay=1&mute=1&loop=1&playlist=ABJE9bY7O6E&controls=0&modestbranding=1"
-          allow="autoplay"
-          className={styles.video}
-        />
-      </div>
-
-    </div>
-
-    {/* 🔥 CARDS */}
-    <div className={styles.trainingGridNew}>
-
-      {dailySchedule.length > 0 && (
-        <div className={styles.glassCard}>
-          <h3>Daily Schedule</h3>
-          {dailySchedule.map((s, i) => (
-            <div key={i} className={styles.row}>
-              <span className={styles.metaSpan}>{s.time}</span>
-              <span>{s.activity}</span>
+                <div className={styles.metaCard}>
+                  <span>📅 Dates</span>
+                  <strong>{data?.yogaMassageDates}</strong>
+                </div>
+              </div>
             </div>
-          ))}
+
+            {/* RIGHT VIDEO */}
+            <div className={styles.videoWrap}>
+              <iframe
+                src="https://www.youtube.com/embed/ABJE9bY7O6E?autoplay=1&mute=1&loop=1&playlist=ABJE9bY7O6E&controls=0&modestbranding=1"
+                allow="autoplay"
+                className={styles.video}
+              />
+            </div>
+          </div>
+
+          {/* 🔥 CARDS */}
+          <div className={styles.trainingGridNew}>
+            {dailySchedule.length > 0 && (
+              <div className={styles.glassCard}>
+                <h3>Daily Schedule</h3>
+                {dailySchedule.map((s, i) => (
+                  <div key={i} className={styles.row}>
+                    <span className={styles.metaSpan}>{s.time}</span>
+                    <span>{s.activity}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {syllabus.length > 0 && (
+              <div className={styles.glassCard}>
+                <h3>Syllabus</h3>
+                {syllabus.map((s, i) => (
+                  <div key={i} className={styles.bullet}>
+                    {s}
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {included.length > 0 && (
+              <div className={styles.glassCard}>
+                <h3>Included</h3>
+                {included.map((i, idx) => (
+                  <div key={idx} className={styles.bullet}>
+                    {i}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* CTA */}
+          <div className={styles.ctaPremium}>
+            <p>
+              Secure your seat with{" "}
+              <strong>{data?.registrationAdvanceFee}</strong>
+            </p>
+
+            <Link href="#apply" className={styles.ctaBtn}>
+              Book Now →
+            </Link>
+          </div>
         </div>
-      )}
-
-      {syllabus.length > 0 && (
-        <div className={styles.glassCard}>
-          <h3>Syllabus</h3>
-          {syllabus.map((s, i) => (
-            <div key={i} className={styles.bullet}>{s}</div>
-          ))}
-        </div>
-      )}
-
-      {included.length > 0 && (
-        <div className={styles.glassCard}>
-          <h3>Included</h3>
-          {included.map((i, idx) => (
-            <div key={idx} className={styles.bullet}>{i}</div>
-          ))}
-        </div>
-      )}
-
-    </div>
-
-    {/* CTA */}
-    <div className={styles.ctaPremium}>
-      <p>
-        Secure your seat with{" "}
-        <strong>{data?.registrationAdvanceFee}</strong>
-      </p>
-
-      <Link href="#apply" className={styles.ctaBtn}>
-        Book Now →
-      </Link>
-    </div>
-
-  </div>
-</section>
+      </section>
 
       {/* ════ SPIRITUAL ENVIRONMENT ════ */}
       <section className={styles.section}>
@@ -902,6 +901,9 @@ export default function AyurvedaPage() {
           </p>
         </div>
       </footer>
+      <PremiumGallerySection type="both" backgroundColor="warm" />
+      {/* ✅ REVIEWS — now a reusable separate component */}
+      <ReviewSection RatingsSummaryComponent={<RatingsSummarySection />} />
 
       <HowToReach />
     </div>
