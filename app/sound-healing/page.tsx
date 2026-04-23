@@ -5,7 +5,7 @@ import HowToReach from "@/components/home/Howtoreach";
 import Link from "next/link";
 
 const IMG = {
-  hero: "https://images.unsplash.com/photo-1545389336-cf090694435e?w=1400&q=85",
+  hero: "34.webp",
 
   c1: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=400&q=80",
   c2: "https://images.unsplash.com/photo-1593811167562-9cef47bfc4d7?w=400&q=80",
@@ -586,9 +586,9 @@ export default function SoundHealingPage() {
           alt="Singing bowl on mandala cloth"
           className={styles.heroImg}
         />
-        <div className={styles.heroTextOverlay}>
+        {/* <div className={styles.heroTextOverlay}>
           <h1 className={styles.heroTitle}>SOUND HEALING COURSE</h1>
-        </div>
+        </div> */}
       </section>
 
       {/* ══ INTRO SECTION WITH SIDE IMAGE ══ */}

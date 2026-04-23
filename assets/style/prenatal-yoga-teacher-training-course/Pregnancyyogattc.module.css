@@ -145,7 +145,7 @@
   z-index: 1;
 }
 
-.section::before {
+/* .section::before {
   content: '';
   position: absolute;
   top: 0;
@@ -153,7 +153,7 @@
   right: 0;
   height: 1.5px;
   background: linear-gradient(90deg, transparent, var(--gold), var(--saffron), var(--gold), transparent);
-}
+} */
 
 .sectionLight {
   background: white;
@@ -164,7 +164,7 @@
 }
 
 .sectionDeep {
-  background: linear-gradient(135deg, #f8f4e8 0%, var(--parch) 50%, #fffbf4 100%);
+  background: white;
 }
 
 /* ── OM DIVIDER ── */
@@ -4275,7 +4275,7 @@
   text-transform: uppercase;
   color: #fff;
   padding: 1rem;
-  background: linear-gradient(135deg, var(--saffron), var(--saffron-dk));
+  background: white;
 }
 
 .s3HighlightsHeaderIcon {
