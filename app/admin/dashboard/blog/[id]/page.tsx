@@ -3,19 +3,29 @@
 import { useState, useRef, useEffect } from "react";
 import { useRouter, useParams } from "next/navigation";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import styles from "@/assets/style/Admin/dashboard/blog/Blog.module.css";
 import api from "@/lib/api";
 
+/* ── Jodit Editor (SSR-safe) ── */
+const JoditEditor = dynamic(() => import("jodit-react"), { ssr: false });
+
 /* ════════════════════════════════════════
-   TYPES
+   TYPES  (same as Add form)
 ════════════════════════════════════════ */
-export type SectionType = "heading" | "subheading" | "paragraph" | "images" | "divider";
+export type SectionType =
+  | "heading" | "subheading" | "paragraph" | "images" | "divider"
+  | "list" | "quote" | "code" | "video" | "table" | "callout" | "spacer" | "html";
+
 export type ImageLayout = "single" | "two-col" | "three-col" | "wide";
+export type ListType = "unordered" | "ordered";
+export type CalloutVariant = "info" | "warning" | "success" | "tip" | "danger";
 
 export interface BlogImage {
   id: string;
   src: string;
   caption: string;
+  altText?: string;
   tempUrlInput?: string;
 }
 
@@ -23,6 +33,17 @@ export interface BlogSection {
   id: string;
   type: SectionType;
   text?: string;
+  listType?: ListType;
+  listItems?: string[];
+  quoteAuthor?: string;
+  codeLanguage?: string;
+  videoUrl?: string;
+  videoCaption?: string;
+  tableHeaders?: string[];
+  tableRows?: string[][];
+  calloutVariant?: CalloutVariant;
+  calloutTitle?: string;
+  spacerHeight?: number;
   images?: BlogImage[];
   imageLayout?: ImageLayout;
 }
@@ -50,38 +71,14 @@ interface FormErrors {
   content?: string;
 }
 
-/* ── Helpers ── */
+/* ════════════════════════════════════════
+   CONSTANTS
+════════════════════════════════════════ */
 let idCounter = 0;
 const uid = () => `blk-${++idCounter}-${Math.random().toString(36).slice(2, 6)}`;
 
-const TYPE_LABELS: Record<SectionType, string> = {
-  heading: "H2 Heading",
-  subheading: "H3 Subheading",
-  paragraph: "Paragraph",
-  images: "Image Block",
-  divider: "Divider",
-};
-
-const LAYOUT_LABELS: Record<ImageLayout, string> = {
-  single: "Single Image",
-  "two-col": "2 Column",
-  "three-col": "3 Column",
-  wide: "Wide / Full",
-};
-
-const CATEGORY_OPTIONS = [
-  "Yoga Teacher Training", "Yoga", "Ayurveda", "Yoga Retreats",
-  "Lifestyle", "Health", "Meditation", "Philosophy", "Nutrition",
-];
-
-/* ─────────────────────────────────────────────
-   IMAGE URL HELPERS
-   resolveImage — prepend backend origin to /uploads/... paths
-   stripBase    — remove backend origin before saving back to DB
-────────────────────────────────────────────── */
 const BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL?.replace(/\/api\/?$/, "") ??
-  "http://localhost:5000";
+  process.env.NEXT_PUBLIC_API_URL?.replace(/\/api\/?$/, "") ?? "http://localhost:5000";
 
 function resolveImage(src?: string): string {
   if (!src) return "";
@@ -90,10 +87,63 @@ function resolveImage(src?: string): string {
 }
 
 function stripBase(src: string): string {
-  // turn "http://localhost:5000/uploads/x.jpg" back to "/uploads/x.jpg"
   if (src.startsWith(BASE_URL)) return src.slice(BASE_URL.length);
   return src;
 }
+
+const TYPE_LABELS: Record<SectionType, string> = {
+  heading: "H2 Heading", subheading: "H3 Subheading", paragraph: "Paragraph",
+  images: "Image Block", divider: "Divider", list: "List", quote: "Blockquote",
+  code: "Code Block", video: "Video Embed", table: "Table", callout: "Callout",
+  spacer: "Spacer", html: "Raw HTML",
+};
+
+const TYPE_ICONS: Record<SectionType, string> = {
+  heading: "H2", subheading: "H3", paragraph: "¶", images: "🖼", divider: "—",
+  list: "≡", quote: "❝", code: "</>", video: "▶", table: "⊞",
+  callout: "💡", spacer: "↕", html: "<>",
+};
+
+const LAYOUT_LABELS: Record<ImageLayout, string> = {
+  single: "Single", "two-col": "2 Col", "three-col": "3 Col", wide: "Wide",
+};
+
+const CALLOUT_VARIANTS: CalloutVariant[] = ["info", "tip", "success", "warning", "danger"];
+const CALLOUT_ICONS: Record<CalloutVariant, string> = {
+  info: "ℹ️", tip: "💡", success: "✅", warning: "⚠️", danger: "🚨",
+};
+
+const CATEGORY_OPTIONS = [
+  "Yoga Teacher Training", "Yoga", "Ayurveda", "Yoga Retreats",
+  "Lifestyle", "Health", "Meditation", "Philosophy", "Nutrition",
+];
+
+const CODE_LANGUAGES = [
+  "plaintext", "javascript", "typescript", "python", "html", "css",
+  "json", "bash", "sql", "php", "java", "go", "rust",
+];
+
+const BLOCK_GROUPS = [
+  { label: "Text", types: ["heading", "subheading", "paragraph", "list", "quote"] as SectionType[] },
+  { label: "Media", types: ["images", "video"] as SectionType[] },
+  { label: "Advanced", types: ["table", "callout", "code", "html", "divider", "spacer"] as SectionType[] },
+];
+
+const joditConfig = {
+  readonly: false,
+  height: 320,
+  toolbarAdaptive: false,
+  buttons: [
+    "bold", "italic", "underline", "strikethrough", "|",
+    "font", "fontsize", "paragraph", "|",
+    "brush", "superscript", "subscript", "|",
+    "align", "|",
+    "link", "unlink", "|",
+    "undo", "redo",
+  ],
+  style: { fontFamily: "inherit", fontSize: "15px" },
+  placeholder: "Start writing paragraph content…",
+};
 
 /* ════════════════════════════════════════
    COMPONENT
@@ -115,20 +165,18 @@ export default function EditBlogPage() {
   const coverFile = useRef<File | null>(null);
   const imageFiles = useRef<Record<string, File>>({});
   const imageFileRefs = useRef<Record<string, HTMLInputElement | null>>({});
+  const blockDragIdx = useRef<number | null>(null);
 
   const [form, setForm] = useState<FormData>({
     title: "", slug: "", excerpt: "", date: "", author: "",
     category: "", coverImage: "", tags: [], content: [], status: "Draft",
   });
 
-  const blockDragIdx = useRef<number | null>(null);
-
   /* ─────────────────────────────────────────────
-     FETCH — resolve ALL image paths on load
+     FETCH
   ────────────────────────────────────────────── */
   useEffect(() => {
     if (!blogId) return;
-
     const fetchData = async () => {
       try {
         setIsLoading(true);
@@ -138,11 +186,16 @@ export default function EditBlogPage() {
         const content: BlogSection[] = (data.content ?? []).map((block: any) => ({
           ...block,
           id: uid(),
+          /* defaults for fields that older docs may not have */
+          listItems: block.listItems ?? [],
+          tableHeaders: block.tableHeaders ?? [],
+          tableRows: block.tableRows ?? [],
           images: block.images
             ? block.images.map((img: any) => ({
                 ...img,
                 id: uid(),
-                src: resolveImage(img.src), // ✅ fix content image paths
+                src: resolveImage(img.src),
+                altText: img.altText ?? "",
               }))
             : undefined,
         }));
@@ -154,7 +207,7 @@ export default function EditBlogPage() {
           date: data.date ? data.date.slice(0, 10) : "",
           author: data.author ?? "",
           category: data.category ?? "",
-          coverImage: resolveImage(data.coverImage), // ✅ fix cover image path
+          coverImage: resolveImage(data.coverImage),
           tags: data.tags ?? [],
           status: data.status ?? "Draft",
           content,
@@ -165,7 +218,6 @@ export default function EditBlogPage() {
         setIsLoading(false);
       }
     };
-
     fetchData();
   }, [blogId]);
 
@@ -194,7 +246,6 @@ export default function EditBlogPage() {
     coverFile.current = f;
     set("coverImage", URL.createObjectURL(f));
   };
-
   const handleCoverDrop = (e: React.DragEvent) => {
     e.preventDefault();
     setIsCoverDragOver(false);
@@ -203,7 +254,6 @@ export default function EditBlogPage() {
     coverFile.current = f;
     set("coverImage", URL.createObjectURL(f));
   };
-
   const handleCoverUrl = () => {
     const url = coverUrlInput.trim();
     if (!url) return;
@@ -213,16 +263,21 @@ export default function EditBlogPage() {
   };
 
   /* ─────────────────────────────────────────────
-     CONTENT BLOCK OPERATIONS
+     BLOCK OPERATIONS
   ────────────────────────────────────────────── */
   const addBlock = (type: SectionType) => {
     const newBlock: BlogSection = {
       id: uid(),
       type,
-      ...(type === "images"
-        ? { images: [{ id: uid(), src: "", caption: "" }], imageLayout: "single" }
-        : {}),
-      ...(type !== "images" && type !== "divider" ? { text: "" } : {}),
+      ...(type === "images" ? { images: [{ id: uid(), src: "", caption: "", altText: "" }], imageLayout: "single" } : {}),
+      ...(type !== "images" && type !== "divider" && type !== "spacer" ? { text: "" } : {}),
+      ...(type === "list" ? { listType: "unordered", listItems: [""] } : {}),
+      ...(type === "quote" ? { quoteAuthor: "" } : {}),
+      ...(type === "code" ? { codeLanguage: "plaintext" } : {}),
+      ...(type === "callout" ? { calloutVariant: "info", calloutTitle: "" } : {}),
+      ...(type === "spacer" ? { spacerHeight: 40 } : {}),
+      ...(type === "table" ? { tableHeaders: ["Column 1", "Column 2", "Column 3"], tableRows: [["", "", ""]] } : {}),
+      ...(type === "video" ? { videoUrl: "", videoCaption: "" } : {}),
     };
     setForm((p) => ({ ...p, content: [...p.content, newBlock] }));
     setErrors((p) => ({ ...p, content: undefined }));
@@ -238,28 +293,60 @@ export default function EditBlogPage() {
   const removeBlock = (idx: number) =>
     setForm((p) => ({ ...p, content: p.content.filter((_, i) => i !== idx) }));
 
+  /* ── List ── */
+  const updateListItem = (blockIdx: number, itemIdx: number, val: string) => {
+    const items = [...(form.content[blockIdx].listItems ?? [])];
+    items[itemIdx] = val;
+    updateBlock(blockIdx, { listItems: items });
+  };
+  const addListItem = (blockIdx: number) =>
+    updateBlock(blockIdx, { listItems: [...(form.content[blockIdx].listItems ?? []), ""] });
+  const removeListItem = (blockIdx: number, itemIdx: number) =>
+    updateBlock(blockIdx, { listItems: (form.content[blockIdx].listItems ?? []).filter((_, i) => i !== itemIdx) });
+
+  /* ── Table ── */
+  const addTableRow = (blockIdx: number) => {
+    const cols = form.content[blockIdx].tableHeaders?.length ?? 3;
+    updateBlock(blockIdx, { tableRows: [...(form.content[blockIdx].tableRows ?? []), Array(cols).fill("")] });
+  };
+  const removeTableRow = (blockIdx: number, rowIdx: number) =>
+    updateBlock(blockIdx, { tableRows: (form.content[blockIdx].tableRows ?? []).filter((_, i) => i !== rowIdx) });
+  const updateTableCell = (blockIdx: number, rowIdx: number, colIdx: number, val: string) => {
+    const rows = (form.content[blockIdx].tableRows ?? []).map((r) => [...r]);
+    rows[rowIdx][colIdx] = val;
+    updateBlock(blockIdx, { tableRows: rows });
+  };
+  const updateTableHeader = (blockIdx: number, colIdx: number, val: string) => {
+    const headers = [...(form.content[blockIdx].tableHeaders ?? [])];
+    headers[colIdx] = val;
+    updateBlock(blockIdx, { tableHeaders: headers });
+  };
+  const addTableCol = (blockIdx: number) => {
+    const headers = [...(form.content[blockIdx].tableHeaders ?? []), `Column ${(form.content[blockIdx].tableHeaders?.length ?? 0) + 1}`];
+    const rows = (form.content[blockIdx].tableRows ?? []).map((r) => [...r, ""]);
+    updateBlock(blockIdx, { tableHeaders: headers, tableRows: rows });
+  };
+  const removeTableCol = (blockIdx: number, colIdx: number) => {
+    const headers = (form.content[blockIdx].tableHeaders ?? []).filter((_, i) => i !== colIdx);
+    const rows = (form.content[blockIdx].tableRows ?? []).map((r) => r.filter((_, i) => i !== colIdx));
+    updateBlock(blockIdx, { tableHeaders: headers, tableRows: rows });
+  };
+
+  /* ── Images ── */
   const addImageItem = (blockIdx: number) =>
     updateBlock(blockIdx, {
-      images: [
-        ...(form.content[blockIdx].images ?? []),
-        { id: uid(), src: "", caption: "" },
-      ],
+      images: [...(form.content[blockIdx].images ?? []), { id: uid(), src: "", caption: "", altText: "" }],
     });
-
   const updateImageItem = (blockIdx: number, imgId: string, partial: Partial<BlogImage>) => {
     const imgs = [...(form.content[blockIdx].images ?? [])];
     const i = imgs.findIndex((img) => img.id === imgId);
     imgs[i] = { ...imgs[i], ...partial };
     updateBlock(blockIdx, { images: imgs });
   };
-
   const removeImageItem = (blockIdx: number, imgId: string) => {
     delete imageFiles.current[imgId];
-    updateBlock(blockIdx, {
-      images: (form.content[blockIdx].images ?? []).filter((img) => img.id !== imgId),
-    });
+    updateBlock(blockIdx, { images: (form.content[blockIdx].images ?? []).filter((img) => img.id !== imgId) });
   };
-
   const handleImageFile = (blockIdx: number, imgId: string, file: File) => {
     imageFiles.current[imgId] = file;
     const imgs = [...(form.content[blockIdx].images ?? [])];
@@ -268,6 +355,7 @@ export default function EditBlogPage() {
     updateBlock(blockIdx, { images: imgs });
   };
 
+  /* ── Drag reorder ── */
   const handleBlockDragStart = (i: number) => { blockDragIdx.current = i; };
   const handleBlockDragEnter = (i: number) => {
     if (blockDragIdx.current === null || blockDragIdx.current === i) return;
@@ -295,15 +383,12 @@ export default function EditBlogPage() {
   };
 
   /* ─────────────────────────────────────────────
-     SUBMIT — strip resolved BASE_URL before sending
-     so DB always stores clean relative paths
+     SUBMIT
   ────────────────────────────────────────────── */
   const handleSubmit = async (asDraft = false) => {
     if (!asDraft && !validate()) return;
-
     try {
       setIsSubmitting(true);
-
       const fd = new FormData();
       fd.append("title", form.title);
       fd.append("slug", form.slug);
@@ -314,16 +399,13 @@ export default function EditBlogPage() {
       fd.append("tags", JSON.stringify(form.tags));
       fd.append("status", asDraft ? "Draft" : "Published");
 
-      /* Cover image: new file upload OR existing path (stripped back to relative) */
       if (coverFile.current) {
         fd.append("coverImage", coverFile.current);
       } else {
         fd.append("coverImage", stripBase(form.coverImage));
       }
 
-      /* Content blocks */
       const contentImages: File[] = [];
-
       const cleanContent = form.content.map((block) => {
         if (block.type === "images") {
           return {
@@ -333,13 +415,26 @@ export default function EditBlogPage() {
               const file = imageFiles.current[img.id];
               if (file) {
                 contentImages.push(file);
-                return { isFile: true, caption: img.caption };
+                return { isFile: true, caption: img.caption, altText: img.altText };
               }
-              // strip resolved base URL — send clean relative path back to DB
-              return { src: stripBase(img.src), caption: img.caption };
+              return { src: stripBase(img.src), caption: img.caption, altText: img.altText };
             }),
           };
         }
+        if (block.type === "list")
+          return { type: block.type, listType: block.listType, listItems: block.listItems };
+        if (block.type === "quote")
+          return { type: block.type, text: block.text, quoteAuthor: block.quoteAuthor };
+        if (block.type === "code")
+          return { type: block.type, text: block.text, codeLanguage: block.codeLanguage };
+        if (block.type === "video")
+          return { type: block.type, videoUrl: block.videoUrl, videoCaption: block.videoCaption };
+        if (block.type === "table")
+          return { type: block.type, tableHeaders: block.tableHeaders, tableRows: block.tableRows };
+        if (block.type === "callout")
+          return { type: block.type, text: block.text, calloutVariant: block.calloutVariant, calloutTitle: block.calloutTitle };
+        if (block.type === "spacer")
+          return { type: block.type, spacerHeight: block.spacerHeight };
         return { type: block.type, text: block.text };
       });
 
@@ -360,7 +455,7 @@ export default function EditBlogPage() {
   };
 
   /* ─────────────────────────────────────────────
-     LOADING / SUCCESS SCREENS
+     LOADING / SUCCESS
   ────────────────────────────────────────────── */
   if (isLoading) {
     return (
@@ -424,8 +519,10 @@ export default function EditBlogPage() {
 
           <div className={styles.fieldGroup}>
             <label className={styles.label}><span className={styles.labelIcon}>✦</span>Title<span className={styles.required}>*</span></label>
+            <p className={styles.fieldHint}>The main blog post title</p>
             <div className={`${styles.inputWrap} ${errors.title ? styles.inputError : ""} ${form.title && !errors.title ? styles.inputSuccess : ""}`}>
               <input type="text" className={styles.input} value={form.title} maxLength={200}
+                placeholder="e.g. Top 5 Advantages of Yoga Teacher Training"
                 onChange={(e) => set("title", e.target.value)} />
               <span className={styles.charCount}>{form.title.length}/200</span>
             </div>
@@ -434,6 +531,7 @@ export default function EditBlogPage() {
 
           <div className={styles.fieldGroup}>
             <label className={styles.label}><span className={styles.labelIcon}>✦</span>URL Slug<span className={styles.required}>*</span></label>
+            <p className={styles.fieldHint}>URL path for this blog post</p>
             <div className={`${styles.inputWrap} ${errors.slug ? styles.inputError : ""} ${form.slug && !errors.slug ? styles.inputSuccess : ""}`}
               style={{ display: "flex", alignItems: "center" }}>
               <span style={{ padding: "0 0.75rem", fontFamily: "'Cormorant Garamond', serif", fontSize: "0.85rem", color: "#a07840", borderRight: "1px solid #e8d5b5", whiteSpace: "nowrap", flexShrink: 0 }}>/blog/</span>
@@ -445,6 +543,7 @@ export default function EditBlogPage() {
 
           <div className={styles.fieldGroup}>
             <label className={styles.label}><span className={styles.labelIcon}>✦</span>Excerpt<span className={styles.required}>*</span></label>
+            <p className={styles.fieldHint}>Short summary for listing cards and SEO</p>
             <div className={`${styles.inputWrap} ${errors.excerpt ? styles.inputError : ""} ${form.excerpt && !errors.excerpt ? styles.inputSuccess : ""}`}>
               <textarea className={`${styles.input} ${styles.textarea}`}
                 value={form.excerpt} maxLength={300} rows={3}
@@ -467,6 +566,7 @@ export default function EditBlogPage() {
               <label className={styles.label}><span className={styles.labelIcon}>✦</span>Author</label>
               <div className={`${styles.inputWrap} ${form.author ? styles.inputSuccess : ""}`}>
                 <input type="text" className={styles.input} value={form.author} maxLength={80}
+                  placeholder="e.g. Swami Arvind"
                   onChange={(e) => set("author", e.target.value)} />
               </div>
             </div>
@@ -486,6 +586,7 @@ export default function EditBlogPage() {
 
           <div className={styles.fieldGroup} style={{ marginBottom: 0 }}>
             <label className={styles.label}><span className={styles.labelIcon}>✦</span>Tags</label>
+            <p className={styles.fieldHint}>Type a tag and press Enter or comma to add</p>
             <div className={styles.tagsRow}>
               {form.tags.map((t) => (
                 <span key={t} className={styles.tagChip}>
@@ -524,10 +625,7 @@ export default function EditBlogPage() {
                 ? <>
                     <img src={form.coverImage} alt="Cover" className={styles.coverPreviewImg} />
                     <div className={styles.coverOverlay}>
-                      <button type="button" className={styles.removeImgBtn} onClick={() => {
-                        coverFile.current = null;
-                        set("coverImage", "");
-                      }}>✕</button>
+                      <button type="button" className={styles.removeImgBtn} onClick={() => { coverFile.current = null; set("coverImage", ""); }}>✕</button>
                     </div>
                   </>
                 : <div className={styles.coverPreviewEmpty}>
@@ -584,52 +682,270 @@ export default function EditBlogPage() {
                 onDragEnd={() => { blockDragIdx.current = null; }}
                 onDragOver={(e) => e.preventDefault()}>
 
+                {/* Block header */}
                 <div className={styles.blockCardHeader}>
                   <span className={styles.blockDragHandle}>⠿</span>
                   <span className={styles.blockNum}>{idx + 1}</span>
-                  <span className={`${styles.blockTypeBadge} ${styles[`blockType${block.type.charAt(0).toUpperCase() + block.type.slice(1)}`]}`}>
-                    {block.type === "heading" && "H2 "}
-                    {block.type === "subheading" && "H3 "}
-                    {block.type === "paragraph" && "¶ "}
-                    {block.type === "images" && "🖼 "}
-                    {block.type === "divider" && "— "}
+                  <span className={`${styles.blockTypeBadge} ${styles[`blockType${block.type.charAt(0).toUpperCase() + block.type.slice(1)}`] ?? ""}`}>
+                    <span style={{ marginRight: "0.3em" }}>{TYPE_ICONS[block.type]}</span>
                     {TYPE_LABELS[block.type]}
                   </span>
-                  {block.type === "images" && block.imageLayout && (
-                    <span style={{ marginLeft: "0.4rem", fontFamily: "'Cormorant Garamond', serif", fontSize: "0.75rem", color: "#a07840", fontStyle: "italic" }}>
-                      {LAYOUT_LABELS[block.imageLayout]}
-                    </span>
-                  )}
                   <button type="button" className={styles.blockRemoveBtn} onClick={() => removeBlock(idx)}>✕</button>
                 </div>
 
+                {/* Block body */}
                 <div className={styles.blockCardBody}>
 
+                  {/* HEADING / SUBHEADING */}
                   {(block.type === "heading" || block.type === "subheading") && (
                     <div className={styles.inputWrap} style={{ marginBottom: 0 }}>
                       <input type="text" className={styles.input}
-                        placeholder={block.type === "heading" ? "H2 heading text…" : "H3 subheading text…"}
+                        placeholder={block.type === "heading" ? "e.g. What is Yoga Teacher Training?" : "e.g. 1. Deepened Self-Awareness"}
                         value={block.text ?? ""} maxLength={200}
                         onChange={(e) => updateBlock(idx, { text: e.target.value })} />
                       <span className={styles.charCount}>{(block.text ?? "").length}/200</span>
                     </div>
                   )}
 
+                  {/* PARAGRAPH — Jodit */}
                   {block.type === "paragraph" && (
-                    <div className={styles.inputWrap} style={{ marginBottom: 0 }}>
-                      <textarea className={`${styles.input} ${styles.textarea}`}
-                        style={{ minHeight: "7rem" }} value={block.text ?? ""} rows={5}
-                        onChange={(e) => updateBlock(idx, { text: e.target.value })} />
-                      <span className={styles.charCount}>{(block.text ?? "").length}</span>
+                    <div className={styles.joditWrap}>
+                      <JoditEditor
+                        value={block.text ?? ""}
+                        config={joditConfig}
+                        onBlur={(newContent) => updateBlock(idx, { text: newContent })}
+                      />
+                      <p className={styles.fieldHint} style={{ marginTop: "0.4rem" }}>
+                        Use toolbar for bold, italic, links, font colour, headings etc.
+                      </p>
                     </div>
                   )}
 
+                  {/* LIST */}
+                  {block.type === "list" && (
+                    <div>
+                      <div style={{ display: "flex", gap: "0.5rem", marginBottom: "0.75rem" }}>
+                        {(["unordered", "ordered"] as ListType[]).map((lt) => (
+                          <button key={lt} type="button"
+                            className={`${styles.layoutBtn} ${block.listType === lt ? styles.layoutBtnActive : ""}`}
+                            onClick={() => updateBlock(idx, { listType: lt })}>
+                            {lt === "unordered" ? "• Bullet List" : "1. Numbered List"}
+                          </button>
+                        ))}
+                      </div>
+                      <div style={{ display: "flex", flexDirection: "column", gap: "0.4rem" }}>
+                        {(block.listItems ?? []).map((item, itemIdx) => (
+                          <div key={itemIdx} style={{ display: "flex", gap: "0.4rem", alignItems: "center" }}>
+                            <span style={{ color: "#a07840", fontFamily: "serif", minWidth: "1.2rem", textAlign: "center" }}>
+                              {block.listType === "ordered" ? `${itemIdx + 1}.` : "•"}
+                            </span>
+                            <div className={styles.inputWrap} style={{ flex: 1 }}>
+                              <input type="text" className={styles.input}
+                                placeholder={`List item ${itemIdx + 1}…`}
+                                value={item}
+                                onChange={(e) => updateListItem(idx, itemIdx, e.target.value)}
+                                onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); addListItem(idx); } }}
+                              />
+                            </div>
+                            <button type="button" className={styles.imageSubRemove}
+                              onClick={() => removeListItem(idx, itemIdx)}
+                              disabled={(block.listItems ?? []).length <= 1}>✕</button>
+                          </div>
+                        ))}
+                      </div>
+                      <button type="button" className={styles.addImageBtn} style={{ marginTop: "0.6rem" }} onClick={() => addListItem(idx)}>
+                        + Add Item
+                      </button>
+                      <p className={styles.fieldHint} style={{ marginTop: "0.3rem" }}>Press Enter on any item to quickly add next</p>
+                    </div>
+                  )}
+
+                  {/* QUOTE */}
+                  {block.type === "quote" && (
+                    <div style={{ display: "flex", flexDirection: "column", gap: "0.6rem" }}>
+                      <div className={styles.inputWrap}>
+                        <textarea className={`${styles.input} ${styles.textarea}`}
+                          style={{ minHeight: "5rem", fontStyle: "italic", fontSize: "1.05rem" }}
+                          placeholder="Enter the quote text here…"
+                          value={block.text ?? ""} rows={3}
+                          onChange={(e) => updateBlock(idx, { text: e.target.value })} />
+                      </div>
+                      <div className={styles.inputWrap}>
+                        <input type="text" className={styles.input}
+                          placeholder="— Author name (optional)"
+                          value={block.quoteAuthor ?? ""} maxLength={100}
+                          onChange={(e) => updateBlock(idx, { quoteAuthor: e.target.value })} />
+                      </div>
+                    </div>
+                  )}
+
+                  {/* CODE */}
+                  {block.type === "code" && (
+                    <div style={{ display: "flex", flexDirection: "column", gap: "0.6rem" }}>
+                      <div style={{ display: "flex", gap: "0.4rem", alignItems: "center" }}>
+                        <label className={styles.imageSubLabel} style={{ marginBottom: 0, whiteSpace: "nowrap" }}>Language:</label>
+                        <div className={styles.inputWrap} style={{ maxWidth: "180px" }}>
+                          <select className={styles.input} style={{ cursor: "pointer" }}
+                            value={block.codeLanguage ?? "plaintext"}
+                            onChange={(e) => updateBlock(idx, { codeLanguage: e.target.value })}>
+                            {CODE_LANGUAGES.map((lang) => <option key={lang} value={lang}>{lang}</option>)}
+                          </select>
+                        </div>
+                      </div>
+                      <div className={styles.inputWrap}>
+                        <textarea className={`${styles.input} ${styles.textarea}`}
+                          style={{ minHeight: "8rem", fontFamily: "'Fira Code', 'Courier New', monospace", fontSize: "0.85rem", backgroundColor: "rgba(0,0,0,0.03)" }}
+                          placeholder="// Paste or type your code here…"
+                          value={block.text ?? ""} rows={8} spellCheck={false}
+                          onChange={(e) => updateBlock(idx, { text: e.target.value })} />
+                      </div>
+                    </div>
+                  )}
+
+                  {/* VIDEO */}
+                  {block.type === "video" && (
+                    <div style={{ display: "flex", flexDirection: "column", gap: "0.6rem" }}>
+                      <div className={styles.inputWrap}>
+                        <input type="text" className={styles.input}
+                          placeholder="YouTube / Vimeo URL — e.g. https://www.youtube.com/watch?v=..."
+                          value={block.videoUrl ?? ""}
+                          onChange={(e) => updateBlock(idx, { videoUrl: e.target.value })} />
+                      </div>
+                      <div className={styles.inputWrap}>
+                        <input type="text" className={styles.input}
+                          placeholder="Video caption (optional)"
+                          value={block.videoCaption ?? ""} maxLength={200}
+                          onChange={(e) => updateBlock(idx, { videoCaption: e.target.value })} />
+                      </div>
+                      {block.videoUrl && (
+                        <div style={{ marginTop: "0.4rem", borderRadius: "8px", overflow: "hidden", aspectRatio: "16/9", background: "#000" }}>
+                          <iframe
+                            src={block.videoUrl
+                              .replace("watch?v=", "embed/")
+                              .replace("youtu.be/", "www.youtube.com/embed/")
+                              .replace("vimeo.com/", "player.vimeo.com/video/")}
+                            style={{ width: "100%", height: "100%", border: "none" }}
+                            allowFullScreen title="video preview"
+                          />
+                        </div>
+                      )}
+                      <p className={styles.fieldHint}>Supports YouTube and Vimeo URLs</p>
+                    </div>
+                  )}
+
+                  {/* TABLE */}
+                  {block.type === "table" && (
+                    <div>
+                      <div style={{ overflowX: "auto", marginBottom: "0.6rem" }}>
+                        <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "0.85rem" }}>
+                          <thead>
+                            <tr>
+                              {(block.tableHeaders ?? []).map((header, colIdx) => (
+                                <th key={colIdx} style={{ padding: "0.3rem", border: "1px solid #e8d5b5", background: "rgba(224,123,0,0.06)" }}>
+                                  <input type="text" className={styles.input}
+                                    style={{ padding: "0.25rem 0.4rem", fontWeight: 600, fontSize: "0.82rem", textAlign: "center" }}
+                                    value={header} placeholder={`Col ${colIdx + 1}`}
+                                    onChange={(e) => updateTableHeader(idx, colIdx, e.target.value)} />
+                                </th>
+                              ))}
+                              <th style={{ padding: "0.3rem", width: "2rem" }}>
+                                <button type="button" title="Remove column"
+                                  style={{ background: "none", border: "none", cursor: "pointer", color: "#c85a5a", fontSize: "0.75rem" }}
+                                  onClick={() => removeTableCol(idx, (block.tableHeaders?.length ?? 1) - 1)}>✕col</button>
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {(block.tableRows ?? []).map((row, rowIdx) => (
+                              <tr key={rowIdx}>
+                                {row.map((cell, colIdx) => (
+                                  <td key={colIdx} style={{ padding: "0.3rem", border: "1px solid #e8d5b5" }}>
+                                    <input type="text" className={styles.input}
+                                      style={{ padding: "0.25rem 0.4rem", fontSize: "0.82rem" }}
+                                      value={cell} placeholder="—"
+                                      onChange={(e) => updateTableCell(idx, rowIdx, colIdx, e.target.value)} />
+                                  </td>
+                                ))}
+                                <td style={{ padding: "0.3rem", width: "2rem", textAlign: "center" }}>
+                                  <button type="button"
+                                    style={{ background: "none", border: "none", cursor: "pointer", color: "#c85a5a", fontSize: "0.75rem" }}
+                                    onClick={() => removeTableRow(idx, rowIdx)}
+                                    disabled={(block.tableRows?.length ?? 1) <= 1}>✕</button>
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                      <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
+                        <button type="button" className={styles.addImageBtn} onClick={() => addTableRow(idx)}>+ Add Row</button>
+                        <button type="button" className={styles.addImageBtn} onClick={() => addTableCol(idx)}>+ Add Column</button>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* CALLOUT */}
+                  {block.type === "callout" && (
+                    <div style={{ display: "flex", flexDirection: "column", gap: "0.6rem" }}>
+                      <div style={{ display: "flex", gap: "0.4rem", flexWrap: "wrap" }}>
+                        {CALLOUT_VARIANTS.map((v) => (
+                          <button key={v} type="button"
+                            className={`${styles.layoutBtn} ${block.calloutVariant === v ? styles.layoutBtnActive : ""}`}
+                            onClick={() => updateBlock(idx, { calloutVariant: v })}>
+                            {CALLOUT_ICONS[v]} {v.charAt(0).toUpperCase() + v.slice(1)}
+                          </button>
+                        ))}
+                      </div>
+                      <div className={styles.inputWrap}>
+                        <input type="text" className={styles.input}
+                          placeholder="Callout title (optional) — e.g. Did you know?"
+                          value={block.calloutTitle ?? ""} maxLength={100}
+                          onChange={(e) => updateBlock(idx, { calloutTitle: e.target.value })} />
+                      </div>
+                      <div className={styles.inputWrap}>
+                        <textarea className={`${styles.input} ${styles.textarea}`}
+                          style={{ minHeight: "5rem" }}
+                          placeholder="Callout body text…"
+                          value={block.text ?? ""} rows={3}
+                          onChange={(e) => updateBlock(idx, { text: e.target.value })} />
+                      </div>
+                    </div>
+                  )}
+
+                  {/* SPACER */}
+                  {block.type === "spacer" && (
+                    <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+                      <label className={styles.imageSubLabel} style={{ marginBottom: 0, whiteSpace: "nowrap" }}>Height (px):</label>
+                      <input type="range" min={10} max={200} step={10}
+                        value={block.spacerHeight ?? 40}
+                        onChange={(e) => updateBlock(idx, { spacerHeight: Number(e.target.value) })}
+                        style={{ flex: 1 }} />
+                      <span style={{ fontFamily: "'Cormorant Garamond', serif", color: "#a07840", fontSize: "0.9rem", minWidth: "3rem" }}>
+                        {block.spacerHeight ?? 40}px
+                      </span>
+                    </div>
+                  )}
+
+                  {/* RAW HTML */}
+                  {block.type === "html" && (
+                    <div className={styles.inputWrap} style={{ marginBottom: 0 }}>
+                      <textarea className={`${styles.input} ${styles.textarea}`}
+                        style={{ minHeight: "8rem", fontFamily: "'Fira Code', 'Courier New', monospace", fontSize: "0.85rem", backgroundColor: "rgba(0,0,0,0.03)" }}
+                        placeholder="<div>Raw HTML content here…</div>"
+                        value={block.text ?? ""} rows={6} spellCheck={false}
+                        onChange={(e) => updateBlock(idx, { text: e.target.value })} />
+                      <p className={styles.fieldHint} style={{ marginTop: "0.3rem" }}>⚠ Raw HTML — make sure it is clean and safe</p>
+                    </div>
+                  )}
+
+                  {/* DIVIDER */}
                   {block.type === "divider" && (
                     <div style={{ textAlign: "center", fontFamily: "'Cormorant Garamond', serif", fontSize: "0.88rem", color: "#a07840", fontStyle: "italic", padding: "0.3rem 0" }}>
                       ✦ ॐ ✦ — A visual separator will be rendered here
                     </div>
                   )}
 
+                  {/* IMAGES */}
                   {block.type === "images" && (
                     <>
                       <div className={styles.layoutSelector}>
@@ -683,11 +999,23 @@ export default function EditBlogPage() {
                                     }} />
                                 </div>
                               </div>
+                              {/* Alt Text */}
+                              <div>
+                                <p className={styles.imageSubLabel}>Alt Text (SEO)</p>
+                                <div className={styles.inputWrap}>
+                                  <input type="text" className={styles.input}
+                                    placeholder="Describe the image for screen readers…"
+                                    value={img.altText ?? ""} maxLength={150}
+                                    onChange={(e) => updateImageItem(idx, img.id, { altText: e.target.value })} />
+                                </div>
+                              </div>
+                              {/* Caption */}
                               <div>
                                 <p className={styles.imageSubLabel}>Caption</p>
                                 <div className={styles.inputWrap}>
                                   <input type="text" className={styles.input}
-                                    placeholder="Image caption…" value={img.caption} maxLength={200}
+                                    placeholder="e.g. Morning Asana Practice at AYM Yoga School"
+                                    value={img.caption} maxLength={200}
                                     onChange={(e) => updateImageItem(idx, img.id, { caption: e.target.value })} />
                                   <span className={styles.charCount} style={{ top: "50%", transform: "translateY(-50%)", bottom: "auto" }}>{img.caption.length}/200</span>
                                 </div>
@@ -699,26 +1027,30 @@ export default function EditBlogPage() {
                           </div>
                         ))}
                       </div>
-
                       <button type="button" className={styles.addImageBtn} onClick={() => addImageItem(idx)}>
                         + Add Image
                       </button>
                     </>
                   )}
+
                 </div>
               </div>
             ))}
 
-            <div className={styles.addBlockRow}>
-              <span className={styles.addBlockLabel}>+ Add Block:</span>
-              {(["heading", "subheading", "paragraph", "images", "divider"] as SectionType[]).map((t) => (
-                <button key={t} type="button" className={styles.addBlockBtn} onClick={() => addBlock(t)}>
-                  {t === "heading" && "H2 Heading"}
-                  {t === "subheading" && "H3 Subheading"}
-                  {t === "paragraph" && "¶ Paragraph"}
-                  {t === "images" && "🖼 Images"}
-                  {t === "divider" && "— Divider"}
-                </button>
+            {/* Add Block Buttons — Grouped */}
+            <div className={styles.addBlockRow} style={{ flexDirection: "column", alignItems: "flex-start", gap: "0.6rem" }}>
+              {BLOCK_GROUPS.map((group) => (
+                <div key={group.label} style={{ display: "flex", alignItems: "center", flexWrap: "wrap", gap: "0.4rem", width: "100%" }}>
+                  <span className={styles.addBlockLabel} style={{ minWidth: "4.5rem", fontSize: "0.72rem", letterSpacing: "0.05em", textTransform: "uppercase", color: "#b08850" }}>
+                    {group.label}:
+                  </span>
+                  {group.types.map((t) => (
+                    <button key={t} type="button" className={styles.addBlockBtn} onClick={() => addBlock(t)}>
+                      <span style={{ marginRight: "0.3em" }}>{TYPE_ICONS[t]}</span>
+                      {TYPE_LABELS[t]}
+                    </button>
+                  ))}
+                </div>
               ))}
             </div>
           </div>
@@ -726,6 +1058,7 @@ export default function EditBlogPage() {
 
         <div className={styles.formDivider} />
 
+        {/* Form Actions */}
         <div className={styles.formActions}>
           <Link href="/admin/dashboard/blog" className={styles.cancelBtn}>← Cancel</Link>
           <button type="button" className={styles.draftBtn}
