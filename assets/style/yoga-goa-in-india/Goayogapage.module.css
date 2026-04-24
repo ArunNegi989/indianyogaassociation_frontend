@@ -4,7 +4,7 @@
    TOKENS
 ══════════════════════════════════════════════ */
 :root {
-  --parch: #ffffff;
+  --parch: #ffffff !important;
   --parch2: #ffffff;
   --parch3: #eedfc0;
   --saff: #F15505;
@@ -2205,6 +2205,9 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 2rem;
+}
+.accommodationSection{
+  margin-top: 50px;
 }
 
 /* CARD */

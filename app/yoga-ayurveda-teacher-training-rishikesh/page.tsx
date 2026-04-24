@@ -9,6 +9,7 @@ import Link from "next/link";
 import ReviewSection from "@/components/common/Reviewsection";
 import RatingsSummarySection from "@/components/home/RatingsSummarySection";
 import PremiumGallerySection from "@/components/PremiumGallerySection";
+import StickySectionNav from "@/components/common/StickySectionNav";
 
 /* ─── Types ─── */
 interface DailyScheduleItem {
@@ -230,14 +231,23 @@ export default function AyurvedaPage() {
     );
   };
 
+  const NAV_ITEMS = [
+    { label: "INTRODUCTION", id: "introduction" },
+    { label: "TRIDOSHA", id: "tridosha" },
+    { label: "COURSES", id: "courses" },
+    { label: "FACILITY", id: "facility" },
+    { label: "LOCATION", id: "location" },
+  ];
+
   return (
     <div className={styles.page}>
       <div className={styles.pageWm} aria-hidden="true">
         <MandalaFull size={780} opacity={0.025} />
       </div>
+      <StickySectionNav items={NAV_ITEMS} triggerId="hero" />
 
       {/* ════ HERO ════ */}
-      <section className={styles.heroSection}>
+      <section id="hero" className={styles.heroSection}>
         {heroImage ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
@@ -259,7 +269,7 @@ export default function AyurvedaPage() {
       </section>
 
       {/* ════ INTRO ════ */}
-      <section className={styles.section}>
+      <section id="introduction" className={styles.section}>
         <div className={styles.container}>
           <div className={`${styles.reveal} ${styles.introGrid}`}>
             <div className={styles.introText}>
@@ -327,7 +337,10 @@ export default function AyurvedaPage() {
 
       {/* ════ DOSHAS ════ */}
       {doshas.length > 0 && (
-        <section className={`${styles.section} ${styles.sectionTinted}`}>
+        <section
+          id="tridosha"
+          className={`${styles.section} ${styles.sectionTinted}`}
+        >
           <div className={styles.mandalaBg} aria-hidden="true">
             <MandalaRing size={550} opacity={0.05} />
           </div>
@@ -376,7 +389,7 @@ export default function AyurvedaPage() {
       )}
 
       {/* ════ COURSES (tabs) ════ */}
-      <section id="courses" className={styles.section}>
+      <section id="tridosha" className={styles.section}>
         <div className={` ${styles.container} ${styles.coursesContainer}`}>
           <div className={`${styles.reveal} ${styles.centered}`}>
             <span className={styles.superLabel}>
@@ -499,7 +512,10 @@ export default function AyurvedaPage() {
       </section>
 
       {/* ════ AYURVEDA COURSES IN INDIA ════ */}
-      <section className={`${styles.section} ${styles.sectionTinted}`}>
+      <section
+        id="courses"
+        className={`${styles.section} ${styles.sectionTinted}`}
+      >
         <div className={styles.container}>
           <div className={`${styles.reveal} ${styles.centered}`}>
             <h2 className={styles.sectionTitle}>
@@ -649,7 +665,10 @@ export default function AyurvedaPage() {
       </section>
 
       {/* ════ TRAINING ════ */}
-      <section className={`${styles.section} ${styles.sectionTinted}`}>
+      <section
+        id="facility"
+        className={`${styles.section} ${styles.sectionTinted}`}
+      >
         <div className={styles.container}>
           {/* HEADER */}
           <div className={`${styles.reveal} ${styles.centered}`}>
@@ -904,8 +923,10 @@ export default function AyurvedaPage() {
       <PremiumGallerySection type="both" backgroundColor="warm" />
       {/* ✅ REVIEWS — now a reusable separate component */}
       <ReviewSection RatingsSummaryComponent={<RatingsSummarySection />} />
-
-      <HowToReach />
+      <div id="location">
+        {" "}
+        <HowToReach />
+      </div>
     </div>
   );
 }

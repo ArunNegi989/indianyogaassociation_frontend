@@ -8,6 +8,7 @@ import api from "@/lib/api";
 import ReviewSection from "@/components/common/Reviewsection";
 import RatingsSummarySection from "@/components/home/RatingsSummarySection";
 import PremiumGallerySection from "@/components/PremiumGallerySection";
+import StickySectionNav from "@/components/common/StickySectionNav";
 
 /* ─── Types ─── */
 interface UniquePoint {
@@ -186,16 +187,23 @@ export default function BaliYogaPage() {
   }
 
   const heroImage = imgUrl(data?.heroImage);
-
+ const NAV_ITEMS = [
+    { label: "INTRODUCTION", id: "introduction" },
+    { label: "DESTINATION", id: "destination" },
+    { label: "COURSES", id: "courses" },
+    { label: "REVIEWS", id: "reviews" },
+    { label: "LOCATION", id: "location" },
+  ];
   return (
     <div className={styles.page}>
       {/* ══ Global mandala watermark ══ */}
       <div className={styles.pageWm} aria-hidden="true">
         <MandalaFull size={800} opacity={0.025} />
       </div>
+      <StickySectionNav items={NAV_ITEMS} triggerId="hero" />
 
       {/* ════════════ HERO ════════════ */}
-      <section className={styles.heroSection}>
+      <section id="hero" className={styles.heroSection}>
         {heroImage ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
@@ -217,7 +225,7 @@ export default function BaliYogaPage() {
       </section>
 
       {/* ════════════ INTRO BANNER ════════════ */}
-      <section className={styles.section}>
+      <section id="introduction" className={styles.section}>
         <div className={styles.container}>
           <div className={`${styles.reveal} ${styles.introBanner}`}>
             <div className={styles.introBannerDeco} aria-hidden="true">
@@ -564,9 +572,10 @@ export default function BaliYogaPage() {
       )}
       <PremiumGallerySection type="both" backgroundColor="warm" />
       {/* ✅ REVIEWS — now a reusable separate component */}
-      <ReviewSection RatingsSummaryComponent={<RatingsSummarySection />} />
-
-      <HowToReach />
+      <div id="reviews"><ReviewSection RatingsSummaryComponent={<RatingsSummarySection />} /></div>
+      
+<div id="location"> <HowToReach /></div>
+     
     </div>
   );
 }
