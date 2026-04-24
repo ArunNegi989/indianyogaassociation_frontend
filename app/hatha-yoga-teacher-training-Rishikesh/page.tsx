@@ -851,7 +851,7 @@ export default function HathaYogaPage() {
           {/* <MandalaRingSVG size={500} opacity={0.06} /> */}
         </div>
         <div className={styles.container}>
-          <div className={`${styles.reveal} ${styles.centered}`}>
+          <div className={`${styles.reveal} ${styles.center}`}>
             {d.whatSuperLabel && (
               <p className={styles.superLabel}>{d.whatSuperLabel}</p>
             )}
@@ -864,7 +864,7 @@ export default function HathaYogaPage() {
               ? d.whatParagraphs.map((p, i) => (
                   <div
                     key={i}
-                    className={styles.paraCenter}
+                    className={styles.paragraphCenter}
                     dangerouslySetInnerHTML={{ __html: p }}
                   />
                 ))
@@ -1109,8 +1109,6 @@ export default function HathaYogaPage() {
             <div id="location">
               <HowToReach />
             </div>
-
-      <HowToReach />
     </div>
   );
 }

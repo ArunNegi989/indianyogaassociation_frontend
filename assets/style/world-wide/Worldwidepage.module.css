@@ -13,8 +13,8 @@
   --brown: #7a5c2e;
   --ink: #2e1a06;
   --glow: rgba(224, 123, 0, .28);
-  --ff-d: 'Cinzel', serif;
-  --ff-b: 'Cormorant Garamond', serif;
+  --ff-d: 'Montserrat', Arial, sans-serif;
+  --ff-b: 'Lato', Arial, sans-serif;
   --ff-s: 'Dancing Script', cursive;
   --ff-f: 'IM Fell English', serif;
   --shadow: 0 4px 24px rgba(60, 25, 0, .12);
@@ -29,6 +29,11 @@
   opacity: 0;
   transform: translateY(28px);
   transition: opacity .65s ease, transform .65s ease;
+  
+}
+
+.commonContainer{
+  max-width: 1500px !important;
 }
 
 .reveal.visible {
