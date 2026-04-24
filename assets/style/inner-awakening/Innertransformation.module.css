@@ -24,7 +24,6 @@
   background-image: url("../../images/1905x4451.png");
   color: var(--text-body);
   overflow-x: hidden;
-  max-width: 1600px;
 }
 
 /* ====================================================
@@ -63,11 +62,11 @@
 ==================================================== */
 
 .heroSection {
-  position: relative;
+ position: relative;
   z-index: 1;
   width: 100%;
   margin: 0;
-  padding: 0;
+  padding: 0 0 50px 0;
   line-height: 0;
 }
 
@@ -80,7 +79,7 @@
 
 .heroSection1 {
   padding: 44px 32px 8px;
-  max-width: 1600px;
+  max-width: 1580px;
   margin: 0 auto;
   text-align: center;
 }
@@ -117,11 +116,12 @@
    BODY TEXT
 ==================================================== */
 .bodyText {
-  font-size: clamp(0.82rem, 1.4vw, 0.92rem);
+  font-size: clamp(0.82rem, 1.4vw, 1.2rem);
   line-height: 1.85;
   color: var(--text-body);
   margin-bottom: 1rem;
   text-align: left;
+  font-family: 'Montserrat', serif;
 }
 
 .bodyText strong {
@@ -506,11 +506,7 @@
 
 /* XL: ≥ 1200px */
 @media (min-width: 1200px) {
-  .heroSection1 {
-    padding-top: 56px;
-    padding-left: 48px;
-    padding-right: 48px;
-  }
+  
 
   .section,
   .triImageSection,
@@ -574,11 +570,6 @@
   margin: 0 auto;
 }
 
-/* Retreat Content */
-.retreatContent {
-  max-width: 900px;
-  margin: 0 auto;
-}
 
 /* Quote Box */
 .retreatQuote {
@@ -618,18 +609,7 @@
   margin-bottom: 32px;
 }
 
-.bodyText {
-  font-size: clamp(0.82rem, 1.4vw, 0.92rem);
-  line-height: 1.85;
-  color: var(--text-body);
-  margin-bottom: 1rem;
-  text-align: left;
-}
 
-.bodyText strong {
-  font-weight: 700;
-  color: var(--text-dark);
-}
 
 .highlight {
   font-weight: 600;
@@ -803,12 +783,7 @@
    ENHANCED HERO SECTION
 ==================================================== */
 
-.heroSection1 {
-  padding: 44px 32px 8px;
-  max-width: 1100px;
-  margin: 0 auto;
-  text-align: center;
-}
+
 
 .heroContent {
   max-width: 1600px;
@@ -909,19 +884,7 @@
   margin-top: 4px;
 }
 
-/* Body Text */
-.bodyText {
-  font-size: clamp(0.82rem, 1.4vw, 0.92rem);
-  line-height: 1.85;
-  color: var(--text-body);
-  margin-bottom: 1rem;
-  text-align: left;
-}
 
-.bodyText strong {
-  font-weight: 700;
-  color: var(--text-dark);
-}
 
 /* Image Wrapper */
 .imageWrapper {
@@ -965,8 +928,7 @@
   gap: 40px;
   margin: 32px 0 16px;
   padding: 20px 0;
-  border-top: 1px solid rgba(232, 96, 10, 0.15);
-  border-bottom: 1px solid rgba(232, 96, 10, 0.15);
+ 
 }
 
 .statBox {
@@ -976,15 +938,15 @@
 .statValue {
   display: block;
   font-family: 'Montserrat', serif;
-  font-size: 1.3rem;
+  font-size: 1.8rem;
   font-weight: 700;
   color: var(--orange);
   margin-bottom: 4px;
 }
 
 .statLabel {
-  font-size: 0.7rem;
-  color: #666;
+  font-size: 1rem;
+  color: #181818;
   letter-spacing: 0.5px;
 }
 
@@ -1051,7 +1013,7 @@
   }
   
   .statValue {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
   }
   
   .whoSection {
@@ -1115,7 +1077,7 @@
   }
   
   .statValue {
-    font-size: 1.5rem;
+    font-size: 1.8rem;
   }
 }
 
@@ -1131,7 +1093,7 @@
 }
 
 .whatContainer {
-  max-width: 1600px;
+  max-width: 1540px;
   margin: 0 auto;
   padding: 0 32px;
 }
@@ -1172,11 +1134,7 @@
   margin: 0 auto;
 }
 
-/* Retreat Content */
-.retreatContent {
-  max-width: 900px;
-  margin: 0 auto;
-}
+
 
 /* Quote Box */
 .retreatQuote {
@@ -1215,12 +1173,7 @@
   margin-bottom: 40px;
 }
 
-.bodyText {
-  font-size: clamp(0.82rem, 1.4vw, 0.95rem);
-  line-height: 1.85;
-  color: var(--text-body);
-  margin-bottom: 1rem;
-}
+
 
 .highlight {
   font-weight: 600;
@@ -1295,10 +1248,11 @@
 }
 
 .noteText {
-  font-size: 0.9rem;
+  font-size: 1.2rem;
   font-weight: 500;
   color: var(--text-dark);
   margin: 0;
+  font-family: 'Montserrat', serif;
 }
 
 /* ====================================================
@@ -1309,8 +1263,9 @@
   width: 100%;
   padding: 40px 0 60px;
   margin: 0;
-  background: white;
+  background: rgb(255, 255, 255);
   max-width: 1600px;
+  display: contents;
 }
 
 .scheduleContainer {
@@ -1452,12 +1407,13 @@
 }
 
 .pointsList li {
+  font-family: 'Montserrat', serif;
   display: flex;
   align-items: center;
   gap: 12px;
   padding: 10px 0;
   border-bottom: 1px solid #f0f0f0;
-  font-size: 0.9rem;
+  font-size: 1.1rem;
   color: var(--text-body);
 }
 
@@ -1503,6 +1459,7 @@
   background: rgba(232, 96, 10, 0.1);
   padding: 2px 10px;
   border-radius: 12px;
+  font-family: 'Montserrat', serif;
 }
 
 .scheduleItem {
@@ -1510,12 +1467,14 @@
   justify-content: space-between;
   padding: 8px 0;
   border-bottom: 1px dashed #eee;
+  
 }
 
 .scheduleTime {
   font-weight: 600;
   color: var(--text-dark);
   font-size: 0.85rem;
+  font-family: 'Montserrat', serif;
 }
 
 .scheduleActivity {
@@ -1535,9 +1494,10 @@
 }
 
 .breakText {
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   font-weight: 500;
   color: #555;
+  font-family: 'Montserrat', serif;
 }
 
 /* ====================================================
@@ -1652,7 +1612,7 @@
 }
 
 .galleryContainer {
-  max-width: 1200px;
+  max-width: 1560px;
   margin: 0 auto;
   padding: 0 32px;
 }
@@ -1766,7 +1726,7 @@
 }
 
 .infoContainer {
-  max-width: 1100px;
+  max-width: 1560px;
   margin: 0 auto;
   padding: 0 32px;
 }
@@ -1905,10 +1865,11 @@
   padding: 60px 0;
   margin: 0;
   background: white;
+  display: contents;
 }
 
 .feeContainer {
-  max-width: 1100px;
+  max-width: 1560px;
   margin: 0 auto;
   padding: 0 32px;
 }

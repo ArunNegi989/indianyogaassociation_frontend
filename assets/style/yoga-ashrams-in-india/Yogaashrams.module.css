@@ -18,7 +18,6 @@
   background: #fff;
   color: var(--text-body);
   overflow-x: hidden;
-  max-width: 1600px;
   margin: 0 auto;
 }
 
@@ -45,12 +44,12 @@
   z-index: 1;
   width: 100%;
   margin: 0;
-  padding: 0;
+  padding: 0 0 50px 0;
   line-height: 0;
 }
 
 .heroImage {
-  width: 100%;
+   width: 100%;
   height: auto;
   display: block;
   object-fit: contain;
@@ -241,7 +240,7 @@
 .ashramImageBox {
   position: relative;
   width: 100%;
-  height: 360px;
+  height: 580px;
   /* desktop height */
   overflow: hidden;
 }
@@ -391,7 +390,7 @@
   }
 
   .ashramImageBox {
-    height: 380px;
+    height: 580px;
   }
 
   .section,
@@ -469,7 +468,7 @@
 }
 
 .featureContainer {
-  max-width: 1600px;
+  max-width: 1480px;
   margin: 0 auto;
   border-radius: 16px;
   overflow: hidden;
@@ -518,7 +517,7 @@
 ==================================================== */
 .welcomeSection {
   padding: 2rem 1rem;
-  max-width: 1600px;
+  max-width: 1532px;
   margin: 0 auto;
   background: #fff;
 }
@@ -590,6 +589,7 @@
   max-width: 1600px;
   padding: 3rem 1rem;
   background: #fff;
+  display: contents;
 }
 
 .experienceHeader {
@@ -742,7 +742,7 @@
 /* ── BEST HOME SECTION ── */
 .bestSection {
   padding: 3rem 2rem;
-  max-width: 1600px;
+  max-width: 1555px;
   margin: 0 auto;
   background: #fff;
 }
@@ -826,7 +826,7 @@
 /* ── PHOTO SECTION ── */
 .photoSection {
   padding: 0 2rem 0.5rem;
-  max-width: 1600px;
+  max-width: 1550px;
   margin: 0 auto;
   background: #fff;
 }
@@ -854,22 +854,22 @@
 
 .photoCaptionTitle {
   font-family: 'Montserrat', serif;
-  font-size: 0.9rem;
+  font-size: 1.2rem;
   letter-spacing: 0.2em;
-  color: rgba(200, 168, 75, 0.9);
+  color: rgb(255, 255, 255);
   margin-bottom: 0.2rem;
 }
 
 .photoCaptionSub {
-  font-size: 0.75rem;
-  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.95rem;
+  color: rgb(255, 255, 255);
   letter-spacing: 0.05em;
 }
 
 /* ── WHAT IS AN ASHRAM ── */
 .whatSection {
   padding: 3rem 2rem;
-  max-width: 1600px;
+  max-width: 1550px;
   margin: 0 auto;
   background: #fff;
 }
@@ -904,10 +904,11 @@
 
 .whatIconLabel {
   font-family: 'Montserrat', serif;
-  font-size: 0.65rem;
+  font-size: 0.85rem;
   letter-spacing: 0.1em;
   color: var(--orange-primary);
   text-transform: uppercase;
+  font-weight: 600;
 }
 
 .whatText .bodyText:first-child::first-letter {
@@ -940,7 +941,7 @@
 }
 
 .whyInner {
-  max-width: 1600px;
+  max-width: 1495px;
   margin: 0 auto;
 }
 
@@ -954,9 +955,11 @@
 
 .whySection .sectionTitle a {
   color: #f15505;
-  /* text-decoration: underline; */
+  text-decoration: none;
   font-size: 30px;
   text-decoration-color: rgba(232, 96, 10, 0.4);
+  font-family: 'Montserrat', serif;
+  
 }
 
 .whySection .sectionTitle a:hover {
@@ -986,10 +989,11 @@
 
 .whyCardNum {
   font-family: 'Montserrat', serif;
-  font-size: 0.65rem;
+  font-size: 0.85rem;
   color: #e8600a;
   letter-spacing: 0.2em;
   margin-bottom: 0.5rem;
+  font-weight: 600;
 }
 
 .whyCardTitle {
@@ -1000,9 +1004,11 @@
 }
 
 .whyCardDesc {
-  font-size: 0.82rem;
+  font-size: 0.92rem;
   line-height: 1.7;
   color: #444444;
+  font-weight: 600;
+   font-family: 'Montserrat', serif;
 }
 
 .whyBody {
@@ -1015,7 +1021,7 @@
 /* ── ACTIVITIES ── */
 .actSection {
   padding: 3rem 2rem;
-  max-width: 1600px;
+  max-width: 1550px;
   margin: 0 auto;
   background: #fff;
 }
@@ -1076,7 +1082,7 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-size: 0.82rem;
+  font-size: 1.2rem;
   color: #f15505;
   text-decoration: none;
   padding: 0.5rem 0.7rem;
@@ -1084,6 +1090,7 @@
   border: 1px solid rgba(200, 168, 75, 0.15);
   background: #fdfaf6;
   transition: all 0.2s ease;
+  font-weight: 500;
 }
 
 .coursesList li a::before {
