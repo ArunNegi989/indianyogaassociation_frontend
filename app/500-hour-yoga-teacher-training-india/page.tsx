@@ -107,7 +107,6 @@ function formatPrice(
   const inr = Math.round((usdAmount * rate) / 100) * 100;
   return `₹${inr.toLocaleString("en-IN")}`;
 }
-
 /* ─────────────────────────────────────────
    HELPERS
 ───────────────────────────────────────── */
@@ -234,6 +233,8 @@ const DateIcon = () => (
   </svg>
 );
 
+
+
 /* ══════════════════════════════
    COURSE INFO CARD
 ══════════════════════════════ */
@@ -247,9 +248,38 @@ function CourseInfoCard({
   rate: number;
 }) {
   const available = seats.filter((s) => s.totalSeats - s.bookedSeats > 0);
-  const startingPrice =
-    available.length > 0 ? Math.min(...available.map((s) => s.dormPrice)) : 999;
-  const originalPrice = Math.round((startingPrice * 1.8) / 50) * 50;
+
+  const cheapestBatch = available.reduce<Batch | null>(
+    (min, s) => {
+      const sUsd = parseFloat(s.usdFee.replace(/[$,]/g, "")) || s.dormPrice;
+      const minUsd = min ? (parseFloat(min.usdFee.replace(/[$,]/g, "")) || min.dormPrice) : Infinity;
+      return sUsd < minUsd ? s : min;
+    },
+    null,
+  );
+
+  // Parse usdFee as the base price
+  const startingUsd = cheapestBatch
+    ? parseFloat(cheapestBatch.usdFee.replace(/[$,]/g, "")) || cheapestBatch.dormPrice
+    : 999;
+  const originalPrice = Math.round((startingUsd * 1.8) / 50) * 50;
+
+  const displayPrice = (): string => {
+    if (!cheapestBatch) return currency === "USD" ? `$${startingUsd}` : `₹${Math.round(startingUsd * rate)}`;
+    if (currency === "INR") {
+      // Use stored inrFee if available and valid
+      if (cheapestBatch.inrFee) {
+        const num = parseFloat(cheapestBatch.inrFee.replace(/[₹,]/g, "").trim());
+        if (!isNaN(num) && num > 100) return `₹${num.toLocaleString("en-IN")}`;
+      }
+      // Fallback: usdFee * rate
+      const inr = Math.round(startingUsd * rate);
+      return `₹${inr.toLocaleString("en-IN")}`;
+    }
+    // USD: show usdFee directly
+    const usd = cheapestBatch.usdFee;
+    return usd.startsWith("$") ? usd : `$${usd}`;
+  };
 
   const details = [
     { icon: <DurationIcon />, label: "DURATION", value: "24 Days" },
@@ -293,11 +323,11 @@ function CourseInfoCard({
           </div>
           <div className={styles.icPriceRow}>
             <span className={styles.icPriceOld}>
-              {formatPrice(originalPrice, currency, rate)}
+              {currency === "USD"
+                ? `$${originalPrice}`
+                : `₹${Math.round(originalPrice * rate)}`}
             </span>
-            <span className={styles.icPriceNew}>
-              {formatPrice(startingPrice, currency, rate)}
-            </span>
+            <span className={styles.icPriceNew}>{displayPrice()}</span>
             <span className={styles.icPriceCur}>{currency}</span>
           </div>
           <a href="#dates-fees" className={styles.icBookBtn}>
@@ -360,9 +390,9 @@ function CurrencyDropdown({
         <span className={styles.currDropFlag}>
           {currency === "USD" ? "🇺🇸" : "🇮🇳"}
         </span>
-     <span className={styles.currDropLabel}>
-  {currency === "USD" ? "English" : "हिन्दी"}
-</span>
+        <span className={styles.currDropLabel}>
+          {currency === "USD" ? "English" : "हिन्दी"}
+        </span>
         <svg
           className={`${styles.currDropArrow} ${open ? styles.currDropArrowOpen : ""}`}
           viewBox="0 0 12 8"
@@ -396,11 +426,11 @@ function CurrencyDropdown({
               </span>
               <div className={styles.currDropItemText}>
                 <span className={styles.currDropItemCode}>
-  {c === "USD" ? "English" : "हिन्दी"}
-</span>
-<span className={styles.currDropItemName}>
-  {c === "USD" ? "US Dollar" : "Indian Rupee"}
-</span>
+                  {c === "USD" ? "English" : "हिन्दी"}
+                </span>
+                <span className={styles.currDropItemName}>
+                  {c === "USD" ? "US Dollar" : "Indian Rupee"}
+                </span>
               </div>
               {currency === c && (
                 <svg
@@ -451,13 +481,49 @@ function PremiumSeatBooking({
 
   const selected = seats.find((s) => s._id === selectedId) ?? null;
 
-  const fmtPrice = (usd: number) => {
+  /**
+   * Core price formatter.
+   * Always derives from usdFee * rate for INR, or usdFee directly for USD.
+   * Falls back to dormPrice only if usdFee is missing/invalid.
+   */
+  const fmtPrice = (
+    batch: Batch | null,
+    overrideUsd?: number,
+  ): { amount: string; cur: string } => {
+    if (!batch && overrideUsd === undefined) return { amount: "—", cur: currency };
+
     if (currency === "INR") {
-      const inr = Math.round((usd * rate) / 100) * 100;
+      // Priority 1: stored inrFee
+      if (batch?.inrFee) {
+        const num = parseFloat(batch.inrFee.replace(/[₹,]/g, "").trim());
+        if (!isNaN(num) && num > 100) {
+          return { amount: `₹${num.toLocaleString("en-IN")}`, cur: "INR" };
+        }
+      }
+      // Priority 2: usdFee * live rate
+      const usdNum = batch
+        ? parseFloat(batch.usdFee.replace(/[$,]/g, "")) || batch.dormPrice
+        : overrideUsd ?? 0;
+        const inr = Math.round(usdNum * rate);
       return { amount: `₹${inr.toLocaleString("en-IN")}`, cur: "INR" };
     }
-    return { amount: `$${usd}`, cur: "USD" };
+
+    // USD: use usdFee string directly
+    if (batch?.usdFee) {
+      const raw = batch.usdFee.trim();
+      return { amount: raw.startsWith("$") ? raw : `$${raw}`, cur: "USD" };
+    }
+    // Fallback
+    const fallback = overrideUsd ?? batch?.dormPrice ?? 0;
+    return { amount: `$${fallback}`, cur: "USD" };
   };
+
+  /**
+   * Price shown on each batch card in the LEFT panel.
+   * Uses usdFee * rate (INR) or usdFee (USD) — NOT dormPrice.
+   */
+  const batchCardPrice = (batch: Batch): { amount: string; cur: string } =>
+    fmtPrice(batch);
 
   return (
     <section className={styles.datesSection} id="dates-fees">
@@ -562,7 +628,9 @@ function PremiumSeatBooking({
                   (rem / batch.totalSeats) * 100,
                 );
                 const isSelected = selectedId === batch._id;
-                const dormFmt = fmtPrice(batch.dormPrice);
+                // ✅ FIX: use usdFee-based price, not dormPrice
+                const cardPrice = batchCardPrice(batch);
+
                 return (
                   <div
                     key={batch._id}
@@ -594,8 +662,9 @@ function PremiumSeatBooking({
                     <div className={styles.psbBcDates}>
                       {shortDateRange(batch.startDate, batch.endDate)}
                     </div>
+                    {/* ✅ FIX: shows usdFee or usdFee*rate, not dormPrice */}
                     <div className={styles.psbBcPrice}>
-                      {dormFmt.amount} <span>{dormFmt.cur}</span>
+                      {cardPrice.amount} <span>{cardPrice.cur}</span>
                     </div>
                     <div className={styles.psbBcStatus}>
                       <div className={`${styles.psbBcDot} ${dotCls}`} />
@@ -669,43 +738,73 @@ function PremiumSeatBooking({
           <div className={styles.psbRpBody}>
             <div className={styles.psbPriceLbl}>With Accommodation</div>
             <div className={styles.psbPriceRow}>
+              {/* Private Room — keep using privatePrice as a USD base multiplied by rate */}
               <div className={styles.psbPriceCard}>
                 <div className={styles.psbPcAmt}>
-                  {selected ? fmtPrice(selected.privatePrice).amount : "—"}
+                  {selected
+                    ? currency === "INR"
+                      ? `₹${Math.round(selected.privatePrice * rate)}`
+                      : `$${selected.privatePrice}`
+                    : "—"}
                   <span className={styles.psbPcCur}>{currency}</span>
                 </div>
                 <div className={styles.psbPcLbl}>Private Room</div>
               </div>
+              {/* Twin Room */}
               <div className={styles.psbPriceCard}>
                 <div className={styles.psbPcAmt}>
-                  {selected ? fmtPrice(selected.twinPrice).amount : "—"}
+                  {selected
+                    ? currency === "INR"
+                      ? `₹${Math.round(selected.twinPrice * rate)}`
+                      : `$${selected.twinPrice}`
+                    : "—"}
                   <span className={styles.psbPcCur}>{currency}</span>
                 </div>
                 <div className={styles.psbPcLbl}>Twin / Shared</div>
               </div>
             </div>
+
             <div className={styles.psbPriceLbl}>Without Accommodation</div>
             <div className={styles.psbPriceWide}>
               <div className={styles.psbPwLeft}>
+                {/* ✅ FIX: right panel also uses fmtPrice(selected) = usdFee-based */}
                 <span className={styles.psbPcAmt} style={{ fontSize: "1rem" }}>
-                  {selected ? fmtPrice(selected.dormPrice).amount : "—"}
-                </span>
+  {selected
+    ? currency === "INR"
+      ? `₹${Math.round(selected.dormPrice * rate)}`
+      : `$${selected.dormPrice}`
+    : "—"}
+</span>
                 <span className={styles.psbPcCur}>{currency}</span>
               </div>
               <span className={styles.psbFoodBadge}>Food Included</span>
             </div>
 
+            {/* Info row below "Without Accommodation" */}
             {selected && currency === "USD" && (
               <div className={styles.psbInrRow}>
-                <span className={styles.psbInrLbl}>Indian Price</span>
-                <span className={styles.psbInrAmt}>{selected.inrFee}</span>
+                <span className={styles.psbInrLbl}>USD Price</span>
+                <span className={styles.psbInrAmt}>
+                  {selected.usdFee.startsWith("$")
+                    ? selected.usdFee
+                    : `$${selected.usdFee}`}
+                </span>
               </div>
             )}
             {selected && currency === "INR" && (
               <div className={styles.psbInrRow}>
-                <span className={styles.psbInrLbl}>USD Price</span>
+                <span className={styles.psbInrLbl}>Indian Price</span>
                 <span className={styles.psbInrAmt}>
-                  ${selected.dormPrice} USD
+                  {/* Show stored inrFee if valid, else usdFee * rate */}
+                  {(() => {
+                    if (selected.inrFee) {
+                      const num = parseFloat(selected.inrFee.replace(/[₹,]/g, "").trim());
+                      if (!isNaN(num) && num > 100) return `₹${num.toLocaleString("en-IN")}`;
+                    }
+                    const usdNum = parseFloat(selected.usdFee.replace(/[$,]/g, "")) || selected.dormPrice;
+                    const inr = Math.round(usdNum * rate);
+                    return `₹${inr.toLocaleString("en-IN")}`;
+                  })()}
                 </span>
               </div>
             )}
@@ -783,10 +882,10 @@ function PremiumSeatBooking({
             </div>
             {selected ? (
               <a
-                href={`/yoga-registration?batchId=${selected._id}&type=500hr`}
-                className={styles.psbBookBtn}
-              >
-                Book Now — {fmtPrice(selected.dormPrice).amount} {currency}
+              href={`/yoga-registration?batchId=${selected._id}&type=500hr`}
+              className={styles.psbBookBtn}
+            >
+              Book Now — {fmtPrice(selected).amount} {currency}
                 <svg
                   className={styles.psbArrowIcon}
                   viewBox="0 0 16 16"
@@ -1337,7 +1436,9 @@ function useCurrencyRate() {
       .then((r) => r.json())
       .then((data) => {
         const inr = data?.usd?.inr;
-        if (inr && typeof inr === "number") setRate(inr);
+        if (inr && typeof inr === "number") {
+          setRate(inr);
+        }
       })
       .catch(() => {})
       .finally(() => setLoading(false));
@@ -1347,7 +1448,7 @@ function useCurrencyRate() {
 }
 
 /* ══════════════════════════════════════════════════
-   INCLUDE/EXCLUDE TABS - COPIED FROM 100hr PAGE
+   INCLUDE/EXCLUDE TABS
 ══════════════════════════════════════════════════ */
 function IncludeExcludeTabs({
   includedItems,
@@ -1453,7 +1554,6 @@ export default function YogaTTC500() {
     <div className={styles.page}>
       <div className={styles.chakraGlow} aria-hidden="true" />
 
-      {/* HERO - with id="hero" for StickySectionNav */}
       {content.heroImage && (
         <section id="hero" className={styles.heroSection}>
           <img
@@ -1464,13 +1564,10 @@ export default function YogaTTC500() {
         </section>
       )}
 
-      {/* COURSE INFO CARD */}
       <CourseInfoCard seats={seats} currency={currency} rate={rate} />
 
-      {/* STICKY SECTION NAV - appears when hero scrolls out of view */}
       <StickySectionNav items={NAV_ITEMS} triggerId="hero" />
 
-      {/* ENHANCED INTRO SECTION */}
       {content.introItems && content.introItems.length > 0 ? (
         <EnhancedIntroSection items={content.introItems} />
       ) : (
@@ -1496,10 +1593,8 @@ export default function YogaTTC500() {
         </section>
       )}
 
-      {/* STAND APART + GAINS SECTION */}
       <StandApartSection content={content} />
 
-      {/* PREMIUM SEAT BOOKING */}
       <PremiumSeatBooking
         seats={seats}
         currency={currency}
@@ -1508,7 +1603,6 @@ export default function YogaTTC500() {
         rateLoading={rateLoading}
       />
 
-      {/* INDIAN FEE + CREDIBILITY + DURATION */}
       <section className={`${styles.section} ${styles.sectionLight}`}>
         <div className="container px-3 px-md-4">
           {content.indianFees?.length > 0 && (
@@ -1660,10 +1754,8 @@ export default function YogaTTC500() {
         </div>
       </section>
 
-      {/* VIDEO SECTION */}
       <VideoSection />
 
-      {/* SYLLABUS + ELIGIBILITY + EVALUATION */}
       <section className={styles.section}>
         <div className="container px-3 px-md-4">
           <div className={styles.syllabusSection}>
@@ -1806,7 +1898,6 @@ export default function YogaTTC500() {
         </div>
       </section>
 
-      {/* INCLUDE/EXCLUDE TABS SECTION */}
       <section className={`${styles.section} ${styles.sectionLight}`}>
         <div className="container px-3 px-md-4">
           <IncludeExcludeTabs
@@ -1830,8 +1921,7 @@ export default function YogaTTC500() {
           )}
         </div>
       </section>
-      
-      {/* ACCOMMODATION SECTION */}
+
       {content.accomImages?.length > 0 && (
         <section className={styles.premiumGallerySection}>
           <div className="container px-3 px-md-4">
@@ -1855,8 +1945,7 @@ export default function YogaTTC500() {
           </div>
         </section>
       )}
-      
-      {/* FOOD SECTION */}
+
       {content.foodImages?.length > 0 && (
         <section className={styles.premiumGallerySection}>
           <div className="container px-3 px-md-4">
@@ -1879,8 +1968,7 @@ export default function YogaTTC500() {
           </div>
         </section>
       )}
-      
-      {/* REVIEWS */}
+
       <ReviewSection RatingsSummaryComponent={<RatingsSummarySection />} />
 
       <HowToReach />
