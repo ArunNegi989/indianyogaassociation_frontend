@@ -10,6 +10,7 @@ import image1 from "@/assets/images/yoga.png";
 import image2 from "@/assets/images/_DSC9732.JPG.jpeg"
 import image3 from "@/assets/images/_DSC5018.JPG.jpeg"
 import RatingsSummarySection from "@/components/home/RatingsSummarySection";
+import ReviewSection from "@/components/common/Reviewsection";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "";
 
@@ -1951,7 +1952,7 @@ export default function HundredHourYoga() {
       </section>
 
       {/* REVIEWS */}
-      <ReviewsSection videoUrl={defaultVideoUrl} />
+  <ReviewSection RatingsSummaryComponent={<RatingsSummarySection />} />
 
       {/* LOCATION */}
       <div id="location">

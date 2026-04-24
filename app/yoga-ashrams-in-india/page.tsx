@@ -32,16 +32,6 @@ const OmSVG: React.FC = () => (
   </svg>
 );
 
-// ---- Divider ----
-const Divider: React.FC = () => (
-  <div className={styles.divider}>
-    <span className={styles.dividerLine} />
-    <span className={styles.omSymbol}>
-      <OmSVG />
-    </span>
-    <span className={styles.dividerLine} />
-  </div>
-);
 
 // ===================== MAIN COMPONENT =====================
 const YogaAshrams: React.FC = () => {
@@ -67,7 +57,7 @@ const YogaAshrams: React.FC = () => {
   </div>
 </section>
 
-{/* <Divider /> */}
+
 
 {/* ===== FEATURE IMAGE ===== */}
 <section className={styles.featureSection}>
@@ -89,7 +79,6 @@ const YogaAshrams: React.FC = () => {
   </div>
 </section>
 
-<Divider />
 
 {/* ===== WELCOME SECTION - STATS STYLE ===== */}
 <section className={styles.welcomeSection}>
@@ -132,7 +121,6 @@ const YogaAshrams: React.FC = () => {
   </div>
 </section>
 
-{/* <Divider /> */}
 
 {/* ===== EXPERIENCE SECTION - TIMELINE STYLE ===== */}
 <section className={styles.experienceSection}>
@@ -173,7 +161,6 @@ const YogaAshrams: React.FC = () => {
   </div>
 </section>
 
-      <Divider />
 
     {/* ===== BEST HOME FOR YOGA ===== */}
 <section className={styles.bestSection}>
@@ -212,8 +199,6 @@ const YogaAshrams: React.FC = () => {
   </div>
 </section>
 
-<Divider />
-
 {/* ===== BOTTOM ASHRAM PHOTO ===== */}
 <section className={styles.photoSection}>
   <div className={styles.photoFrame}>
@@ -234,7 +219,6 @@ const YogaAshrams: React.FC = () => {
   </div>
 </section>
 
-{/* <Divider /> */}
 
 {/* ===== WHAT IS AN ASHRAM ===== */}
 <section className={styles.whatSection}>
@@ -272,7 +256,6 @@ const YogaAshrams: React.FC = () => {
   </div>
 </section>
 
-{/* <Divider /> */}
 
 {/* ===== WHY IS AYM BEST ===== */}
 <section className={styles.whySection}>
@@ -303,7 +286,6 @@ const YogaAshrams: React.FC = () => {
   </div>
 </section>
 
-<Divider />
 
 {/* ===== ACTIVITIES ===== */}
 <section className={styles.actSection}>

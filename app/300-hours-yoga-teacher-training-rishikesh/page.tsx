@@ -604,16 +604,19 @@ function CourseInfoCard({
 }
 
 
-function formatDateRange(start: string, end: string): string {
-  const opts: Intl.DateTimeFormatOptions = {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-  };
-  const s = new Date(start).toLocaleDateString("en-IN", opts);
-  const e = new Date(end).toLocaleDateString("en-IN", opts);
-  return `${s} - ${e}`;
+function formatPrice(
+  usdAmount: number,
+  currency: Currency,
+  rate: number,
+): string {
+  if (currency === "USD") {
+    return `$${usdAmount}`;
+  }
+  const inr = Math.round((usdAmount * rate) / 100) * 100;
+  return `₹${inr.toLocaleString("en-IN")}`;
 }
+
+
 
 /* ─────────────────────────────────────────
    YOUTUBE EMBED
@@ -621,8 +624,6 @@ function formatDateRange(start: string, end: string): string {
 const YouTubeEmbed = ({ video }: { video: YouTubeVideo }) => {
   const [playing, setPlaying] = useState(false);
 
-
-  // FILE type — render HTML5 video
   if (video.type === "file" && video.videoFile) {
     return (
       <div className={styles.videoWrapper}>
@@ -636,7 +637,6 @@ const YouTubeEmbed = ({ video }: { video: YouTubeVideo }) => {
     );
   }
 
-  // URL type — YouTube embed
   if (!video.videoId) return null;
 
   return (
@@ -663,13 +663,7 @@ const YouTubeEmbed = ({ video }: { video: YouTubeVideo }) => {
           />
           <span className={styles.playBtn}>
             <svg viewBox="0 0 68 48" width="58" height="42">
-              <rect
-                width="68"
-                height="48"
-                rx="10"
-                fill="#F15505"
-                opacity="0.93"
-              />
+              <rect width="68" height="48" rx="10" fill="#F15505" opacity="0.93" />
               <polygon points="26,13 53,24 26,35" fill="#fff" />
             </svg>
           </span>
@@ -844,20 +838,6 @@ const DateIcon = () => (
   </svg>
 );
 
-function formatPrice(
-  usdAmount: number,
-  currency: Currency,
-  rate: number,
-): string {
-  if (currency === "USD") {
-    return `$${usdAmount}`;
-  }
-  const inr = Math.round((usdAmount * rate) / 100) * 100;
-  return `₹${inr.toLocaleString("en-IN")}`;
-}
-
-
-
 /* ─────────────────────────────────────────
    SKELETON LOADER
 ───────────────────────────────────────── */
@@ -901,6 +881,8 @@ function useCurrencyRate() {
 ───────────────────────────────────────── */
 export default function YogaTTC300() {
   const [activeModule, setActiveModule] = useState(0);
+  /* ── NEW: active tab for inclusions ── */
+  const [activeIncTab, setActiveIncTab] = useState<"include" | "exclude">("include");
 
   const [content1, setContent1] = useState<Content1 | null>(null);
   const [content2, setContent2] = useState<Content2 | null>(null);
@@ -912,6 +894,7 @@ export default function YogaTTC300() {
   const [seats, setSeats] = useState<Batch[]>([]);
   const [currency, setCurrency] = useState<Currency>("USD");
   const { rate, loading: rateLoading } = useCurrencyRate();
+
   /* ── Fetch Content 1 ── */
   useEffect(() => {
     const fetchContent1 = async () => {
@@ -958,7 +941,6 @@ export default function YogaTTC300() {
     fetchBatches();
   }, []);
 
-  // While critical content is loading
   if (loading1 || loading2) return <PageSkeleton />;
 
   const modules = content1?.modules || [];
@@ -966,10 +948,6 @@ export default function YogaTTC300() {
 
   return (
     <div className={styles.page}>
-      {/* Mandala decorations */}
-      {/* <div className={styles.mandalaTopLeft} aria-hidden="true" />
-      <div className={styles.mandalaBottomRight} aria-hidden="true" /> */}
-
       {/* ══════════════════════════════════════
           SECTION 1 — HERO
       ══════════════════════════════════════ */}
@@ -990,9 +968,7 @@ export default function YogaTTC300() {
       <StickySectionNav items={NAV_ITEMS} triggerId="hero" />
 
       <section className={styles.heroSection2}>
-  <div className="container">
-
-    <div className={styles.aLine} />
+  <div className={`container ${styles.facilityContainer}`}>
 
     {content1?.pageMainH1 && (
       <h1 className={styles.heroTitle}>{content1.pageMainH1}</h1>
@@ -1004,7 +980,6 @@ export default function YogaTTC300() {
       <span className={styles.divLine} />
     </div>
 
-    {/* ── SPLIT: pills + intro on left, image on right ── */}
     <div className={styles.hs2Split}>
 
 <div className={styles.hs2Left}>
@@ -1017,7 +992,6 @@ export default function YogaTTC300() {
   )}
 </div>
 
-{/* ── RIGHT — image panel ── */}
 <div className={styles.hs2Right}>
   <div className={styles.hs2VidWrap}>
     <video
@@ -1065,7 +1039,6 @@ export default function YogaTTC300() {
 
 </div>
 
-{/* ── PILLS — full width below both columns ── */}
 <div className={styles.hs2Pills}>
 {[
   "Yoga Alliance RYT 500",
@@ -1080,7 +1053,6 @@ export default function YogaTTC300() {
 ))}
 </div>
 
-    {/* ── FULL WIDTH: H2 + top paragraphs + thumbs ── */}
     {content1?.topSectionH2 && (
       <h2 className={styles.sectionTitleOrange}>
         {content1.topSectionH2}
@@ -1122,9 +1094,8 @@ export default function YogaTTC300() {
     SECTION 2 — OVERVIEW + PREMIUM SEAT BOOKING
 ═════════════════════════════════════ */}
 <section id="dates-fees" className={`${styles.section} ${styles.sectionLight}`}>
-  <div className="container">
+  <div className={`container ${styles.facilityContainer}`}>
     
-    {/* Overview Section with decorative OM */}
     {content1?.overviewH2 && (
       <>
         <div className={styles.overviewHeaderWrapper}>
@@ -1139,7 +1110,6 @@ export default function YogaTTC300() {
       </>
     )}
 
-    {/* Overview Fields - Simple elegant list */}
     {content1?.overviewFields && content1.overviewFields.length > 0 && (
   <div className={styles.ovBoxGrid}>
     {content1.overviewFields.map((field, i) => (
@@ -1157,7 +1127,6 @@ export default function YogaTTC300() {
   </div>
 )}
     
-    {/* Premium Seat Booking */}
     <PremiumSeatBooking
       seats={batches}
       currency={currency}
@@ -1169,47 +1138,53 @@ export default function YogaTTC300() {
 </section>
 
       {/* ══════════════════════════════════════
-          SECTION 3 — INCLUDED / NOT INCLUDED
+          SECTION 3 — INCLUDED / NOT INCLUDED (tabbed design like 100hr page)
       ══════════════════════════════════════ */}
       {(content1?.includedFee?.length || content1?.notIncludedFee?.length) && (
         <section id="inclusions" className={styles.section}>
-          <div className="container">
-            <div className="row g-4">
-              {/* Included */}
-              {content1?.includedFee && content1.includedFee.length > 0 && (
-                <div className="col-md-6">
-                  {content1?.feeIncludedTitle && (
-                    <h3 className={styles.includedTitle}>
-                      {content1.feeIncludedTitle}
-                    </h3>
-                  )}
-                  <div className={styles.sectionUnderlineLeft} />
-                  <ol className={styles.inclList}>
-                    {content1.includedFee.map((item, i) => (
-                      <li key={i}>{item}</li>
-                    ))}
-                  </ol>
-                </div>
-              )}
+          <div className={`container ${styles.facilityContainer}`}>
 
-              {/* Not Included */}
-              {content1?.notIncludedFee &&
-                content1.notIncludedFee.length > 0 && (
-                  <div className="col-md-6">
-                    {content1?.feeNotIncludedTitle && (
-                      <h3 className={styles.notIncludedTitle}>
-                        {content1.feeNotIncludedTitle}
-                      </h3>
-                    )}
-                    <div className={styles.sectionUnderlineLeft} />
-                    <ol className={styles.inclList}>
-                      {content1.notIncludedFee.map((item, i) => (
-                        <li key={i}>{item}</li>
-                      ))}
-                    </ol>
-                  </div>
-                )}
+            {/* Section header */}
+            <div className={styles.incHeaderWrap}>
+              <div className={styles.incOmRow}>
+                <span className={styles.incOmLine} />
+                <span className={styles.incOmGlyph}>ॐ</span>
+                <span className={styles.incOmLine} />
+              </div>
+              <h2 className={styles.sectionTitleOrange}>Course Inclusions</h2>
+              <div className={styles.sectionUnderline} />
             </div>
+
+            {/* Tabbed include/exclude box — same design as 100hr page */}
+            <div className={styles.incWrap}>
+              <div className={styles.incTabs}>
+                <button
+                  className={`${styles.incTab} ${activeIncTab === "include" ? styles.incTabActive : ""}`}
+                  onClick={() => setActiveIncTab("include")}
+                  type="button"
+                >
+                  ✓ {content1?.feeIncludedTitle || "What Is Included?"}
+                </button>
+                <button
+                  className={`${styles.incTab} ${activeIncTab === "exclude" ? styles.incTabActive : ""}`}
+                  onClick={() => setActiveIncTab("exclude")}
+                  type="button"
+                >
+                  ✕ {content1?.feeNotIncludedTitle || "What Is Not Included?"}
+                </button>
+              </div>
+              <div className={styles.incContent}>
+                <ul className={styles.incList}>
+                  {(activeIncTab === "include"
+                    ? content1?.includedFee
+                    : content1?.notIncludedFee
+                  )?.map((item, i) => (
+                    <li key={i}>{item}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
           </div>
         </section>
       )}
@@ -1219,7 +1194,7 @@ export default function YogaTTC300() {
 ══════════════════════════════════ */}
 {modules.length > 0 && (
   <section id="curriculum" className={`${styles.section} ${styles.sectionLight}`}>
-    <div className="container">
+    <div className={`container ${styles.facilityContainer}`}>
       <div className={styles.syllabusHeaderWrap}>
         <div className={styles.syllabusOrnament}>
           <span className={styles.syllabusOrnLine} />
@@ -1237,7 +1212,6 @@ export default function YogaTTC300() {
         )}
       </div>
 
-      {/* Module Tab Strip */}
       <div className={styles.syllabusTabsWrap}>
         <div className={styles.syllabusTabStrip}>
           {modules.map((m, i) => (
@@ -1253,10 +1227,8 @@ export default function YogaTTC300() {
         </div>
       </div>
 
-      {/* Active Module Panel */}
       {mod && (
         <div className={styles.syllabusPanel}>
-          {/* Panel header */}
           <div className={styles.syllabusPanelHeader}>
             <div className={styles.syllabusPanelNum}>Module {activeModule + 1}</div>
             <h4 className={styles.syllabusPanelTitle}>{mod.title}</h4>
@@ -1265,8 +1237,6 @@ export default function YogaTTC300() {
             )}
           </div>
 
-          {/* Panel body */}
-          {/* Panel body */}
 <div className={styles.syllabusPanelBody}>
   <div className={`${styles.syllabusPanelText} ${(!mod.listItems || mod.listItems.filter(Boolean).length === 0) ? styles.syllabusPanelTextFull : ""}`}>
     <SafeHtml html={mod.content} />
@@ -1303,7 +1273,6 @@ export default function YogaTTC300() {
     </div>
   )}
 </div>
-          {/* Panel footer nav */}
           <div className={styles.syllabusPanelFooter}>
             <button
               className={styles.syllabusPrevBtn}
@@ -1340,9 +1309,8 @@ export default function YogaTTC300() {
 ══════════════════════════════════════ */}
 {content2 && (
   <section className={`${styles.section} ${styles.sectionLight}`}>
-    <div className="container">
+    <div className={`container ${styles.facilityContainer}`}>
 
-      {/* ── Section Header ── */}
       <div className={styles.evoHeaderWrap}>
         <div className={styles.evoOrnament}>
           <span className={styles.evoOrnLine} />
@@ -1355,7 +1323,6 @@ export default function YogaTTC300() {
         <div className={styles.sectionUnderline} />
       </div>
 
-      {/* ── Intro Split ── */}
       <div className={styles.evoIntroSplit}>
         <div className={styles.evoIntroLeft}>
           {content2.evolutionParas?.map((para, i) => (
@@ -1379,7 +1346,6 @@ export default function YogaTTC300() {
         </div>
       </div>
 
-      {/* ── Mark Distribution ── */}
       {content2.markDistH3 && (
         <div className={styles.evoMarkCard}>
           <div className={styles.evoMarkCardHeader}>
@@ -1446,7 +1412,6 @@ export default function YogaTTC300() {
         </div>
       )}
 
-      {/* ── Career Opportunities ── */}
       {content2.careerH3 && (
         <div className={styles.evoCareerWrap}>
           <div className={styles.evoCareerHeader}>
@@ -1466,7 +1431,6 @@ export default function YogaTTC300() {
         </div>
       )}
 
-      {/* ── Fee Cards ── */}
       {(content2.feeCard1Title || content2.feeCard2Title) && (
         <div className={styles.evoFeeRow}>
           {content2.feeCard1Title && (
@@ -1521,9 +1485,8 @@ export default function YogaTTC300() {
       ══════════════════════════════════════ */}
       {content2 && (
         <section id="facility" className={`${styles.section} ${styles.sectionLight}`}>
-          <div className="container">
-           {/* FAQ Section — replace this block inside Section 6 */}
-{content2.faqH2 && (
+          <div className={`container ${styles.facilityContainer}`}>
+           {content2.faqH2 && (
   <div className={styles.faqSectionWrap}>
     <div className={styles.faqHeaderRow}>
       <div className={styles.faqHeaderLeft}>
@@ -1555,14 +1518,7 @@ export default function YogaTTC300() {
   </div>
 )}
 
-            {/* Accommodation */}
-            
-            
             <PremiumGallerySection type="both" backgroundColor="warm" />
-
-            {/* Food */}
-           
-            
           </div>
         </section>
       )}
@@ -1572,9 +1528,8 @@ export default function YogaTTC300() {
       ══════════════════════════════════════ */}
      {content2 && (
   <section className={styles.section}>
-    <div className="container">
+    <div className={`container ${styles.facilityContainer}`}>
 
-      {/* Header */}
       {content2.luxuryH2 && (
         <div className={styles.luxHdrWrap}>
           <div className={styles.luxHdrOmRow}>
@@ -1587,10 +1542,8 @@ export default function YogaTTC300() {
         </div>
       )}
 
-      {/* Main layout */}
       <div className={styles.luxLayout}>
 
-        {/* LEFT — feature chips */}
         {content2.luxuryFeatures && content2.luxuryFeatures.length > 0 && (
           <div className={styles.luxFeatures}>
             {content2.luxuryFeatures.map((f, i) => (
@@ -1608,7 +1561,6 @@ export default function YogaTTC300() {
           </div>
         )}
 
-        {/* RIGHT — image mosaic */}
         {content2.luxuryImages && content2.luxuryImages.length > 0 && (
           <div className={styles.luxImgMosaic}>
             {content2.luxuryImages.map((src, i) => (
@@ -1630,7 +1582,6 @@ export default function YogaTTC300() {
 
       </div>
 
-      {/* Yoga Garden Image */}
       {content2.yogaGardenImage && (
         <div className={styles.luxGardenWrap}>
           <img
@@ -1655,9 +1606,8 @@ export default function YogaTTC300() {
       ══════════════════════════════════════ */}
       {content2 && (
   <section className={`${styles.section} ${styles.sectionLight}`}>
-    <div className="container">
+    <div className={`container ${styles.facilityContainer}`}>
 
-      {/* Header */}
       {content2.featuresH2 && (
         <div className={styles.s8HdrWrap}>
           <div className={styles.s8OmRow}>
@@ -1670,7 +1620,6 @@ export default function YogaTTC300() {
         </div>
       )}
 
-      {/* Features list */}
       {content2.featuresList && content2.featuresList.length > 0 && (
         <div className={styles.s8FeatGrid}>
           {content2.featuresList.map((f, i) => (
@@ -1682,10 +1631,8 @@ export default function YogaTTC300() {
         </div>
       )}
 
-      {/* Schedule + Images */}
       <div className={styles.s8ScheduleLayout}>
 
-        {/* Left — schedule */}
         <div className={styles.s8ScheduleLeft}>
           {content2.scheduleH3 && (
             <div className={styles.s8SchedHdr}>
@@ -1718,7 +1665,6 @@ export default function YogaTTC300() {
           )}
         </div>
 
-        {/* Right — images */}
         {content2.scheduleImages && content2.scheduleImages.length > 0 && (
           <div className={styles.s8ImgStack}>
             {content2.scheduleImages.map((src, i) => (
@@ -1748,9 +1694,8 @@ export default function YogaTTC300() {
 ══════════════════════════════════════ */}
 {content2 && (
   <section className={styles.section}>
-    <div className="container">
+    <div className={`container ${styles.facilityContainer}`}>
 
-      {/* ── Section Header ── */}
       <div className={styles.s9HeaderWrap}>
         <div className={styles.s9OmRow}>
           <span className={styles.s9OmLine} />
@@ -1763,9 +1708,7 @@ export default function YogaTTC300() {
         <div className={styles.sectionUnderline} />
       </div>
 
-      {/* ── Learning Outcomes Split ── */}
       <div className={styles.s9OutcomesSplit}>
-        {/* Left — chips grid */}
         <div className={styles.s9OutcomesLeft}>
           {content2.learningItems && content2.learningItems.length > 0 && (
             <div className={styles.s9OutcomesGrid}>
@@ -1781,71 +1724,40 @@ export default function YogaTTC300() {
           )}
         </div>
 
-        {/* Right — image mosaic */}
         <div className={styles.s9ImageMosaic}>
           <div className={`${styles.s9ImgBlock} ${styles.s9ImgTall}`}>
-            <img
-              src="/images/s9-outcomes-1.jpg"
-              alt="Advanced yoga practice in Rishikesh"
-              className={styles.s9Img}
-              loading="lazy"
-            />
-            <div className={styles.s9ImgOverlay}>
-              <span className={styles.s9ImgLabel}>Advanced Practice</span>
-            </div>
+            <img src="/images/s9-outcomes-1.jpg" alt="Advanced yoga practice in Rishikesh" className={styles.s9Img} loading="lazy" />
+            <div className={styles.s9ImgOverlay}><span className={styles.s9ImgLabel}>Advanced Practice</span></div>
           </div>
           <div className={styles.s9ImgBlock}>
-            <img
-              src="/images/s9-outcomes-2.jpg"
-              alt="Yoga certification ceremony"
-              className={styles.s9Img}
-              loading="lazy"
-            />
-            <div className={styles.s9ImgOverlay}>
-              <span className={styles.s9ImgLabel}>Certification</span>
-            </div>
+            <img src="/images/s9-outcomes-2.jpg" alt="Yoga certification ceremony" className={styles.s9Img} loading="lazy" />
+            <div className={styles.s9ImgOverlay}><span className={styles.s9ImgLabel}>Certification</span></div>
           </div>
           <div className={styles.s9ImgBlock}>
-            <img
-              src="/images/s9-outcomes-3.jpg"
-              alt="Graduation at AYM School"
-              className={styles.s9Img}
-              loading="lazy"
-            />
-            <div className={styles.s9ImgOverlay}>
-              <span className={styles.s9ImgLabel}>Graduation</span>
-            </div>
+            <img src="/images/s9-outcomes-3.jpg" alt="Graduation at AYM School" className={styles.s9Img} loading="lazy" />
+            <div className={styles.s9ImgOverlay}><span className={styles.s9ImgLabel}>Graduation</span></div>
           </div>
         </div>
       </div>
 
-      {/* ── Eligibility Card ── */}
       {content2.eligibilityH2 && (
         <div className={styles.s9Card}>
           <div className={styles.s9CardHeader}>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-              stroke="#FFF8EE" strokeWidth="1.6" strokeLinecap="round">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFF8EE" strokeWidth="1.6" strokeLinecap="round">
               <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
             </svg>
             <h2 className={styles.s9CardTitle}>{content2.eligibilityH2}</h2>
           </div>
           <div className={styles.s9CardBody}>
             <div className={styles.s9EligSplit}>
-              {/* Steps */}
               <div className={styles.s9EligLeft}>
-                {content2.eligibilityTag && (
-                  <div className={styles.s9EligTag}>{content2.eligibilityTag}</div>
-                )}
+                {content2.eligibilityTag && (<div className={styles.s9EligTag}>{content2.eligibilityTag}</div>)}
                 {content2.eligibilityParas && content2.eligibilityParas.length > 0 && (
                   <div className={styles.s9EligText}>
-                    {content2.eligibilityParas.map((para, i) => (
-                      <SafeHtml key={i} html={para} />
-                    ))}
+                    {content2.eligibilityParas.map((para, i) => (<SafeHtml key={i} html={para} />))}
                   </div>
                 )}
               </div>
-
-              {/* Right — cert badge + image */}
               <div className={styles.s9EligRight}>
                 <div className={styles.s9CertBadge}>
                   <div className={styles.s9CertBig}>RYT 500</div>
@@ -1856,12 +1768,7 @@ export default function YogaTTC300() {
                   <div className={styles.s9PrereqVal}>200 Hour YTT</div>
                 </div>
                 <div className={styles.s9EligImgWrap}>
-                  <img
-                    src="/images/s9-eligibility.jpg"
-                    alt="Yoga eligibility — student in practice"
-                    className={styles.s9EligImg}
-                    loading="lazy"
-                  />
+                  <img src="/images/s9-eligibility.jpg" alt="Yoga eligibility — student in practice" className={styles.s9EligImg} loading="lazy" />
                 </div>
               </div>
             </div>
@@ -1869,12 +1776,10 @@ export default function YogaTTC300() {
         </div>
       )}
 
-      {/* ── Evaluation Card ── */}
       {content2.evaluationH2 && (
         <div className={styles.s9Card}>
           <div className={styles.s9CardHeader}>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-              stroke="#FFF8EE" strokeWidth="1.6" strokeLinecap="round">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFF8EE" strokeWidth="1.6" strokeLinecap="round">
               <rect x="2" y="3" width="20" height="14" rx="2"/>
               <path d="M8 17v4M16 17v4M8 21h8"/>
               <path d="M9 10l2 2 4-4"/>
@@ -1883,68 +1788,34 @@ export default function YogaTTC300() {
           </div>
           <div className={styles.s9CardBody}>
             <div className={styles.s9EvalLayout}>
-              {/* Left — text + eval icons */}
               <div className={styles.s9EvalLeft}>
-                {content2.evaluationParas?.map((para, i) => (
-                  <div key={i} className={styles.s9EvalPara}>
-                    <SafeHtml html={para} />
-                  </div>
-                ))}
+                {content2.evaluationParas?.map((para, i) => (<div key={i} className={styles.s9EvalPara}><SafeHtml html={para} /></div>))}
                 <div className={styles.s9EvalIconGrid}>
                   <div className={styles.s9EvalItem}>
-                    <div className={styles.s9EvalIconWrap}>
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-                        stroke="#F15505" strokeWidth="1.6" strokeLinecap="round">
-                        <rect x="3" y="4" width="18" height="18" rx="2"/>
-                        <path d="M16 2v4M8 2v4M3 10h18"/>
-                      </svg>
-                    </div>
+                    <div className={styles.s9EvalIconWrap}><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F15505" strokeWidth="1.6" strokeLinecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div>
                     <div className={styles.s9EvalItemTitle}>4-Week Course</div>
                     <div className={styles.s9EvalItemDesc}>24 days residential</div>
                   </div>
                   <div className={styles.s9EvalItem}>
-                    <div className={styles.s9EvalIconWrap}>
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-                        stroke="#F15505" strokeWidth="1.6" strokeLinecap="round">
-                        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
-                        <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
-                      </svg>
-                    </div>
+                    <div className={styles.s9EvalIconWrap}><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F15505" strokeWidth="1.6" strokeLinecap="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></div>
                     <div className={styles.s9EvalItemTitle}>Written Exam</div>
                     <div className={styles.s9EvalItemDesc}>Theory & philosophy</div>
                   </div>
                   <div className={styles.s9EvalItem}>
-                    <div className={styles.s9EvalIconWrap}>
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-                        stroke="#F15505" strokeWidth="1.6" strokeLinecap="round">
-                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                      </svg>
-                    </div>
+                    <div className={styles.s9EvalIconWrap}><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F15505" strokeWidth="1.6" strokeLinecap="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
                     <div className={styles.s9EvalItemTitle}>Practical Demo</div>
                     <div className={styles.s9EvalItemDesc}>Teaching assessment</div>
                   </div>
                 </div>
               </div>
-
-              {/* Right — image */}
               <div className={styles.s9EvalRight}>
                 <div className={styles.s9EvalImgStack}>
-                  <img
-                    src="/images/s9-eval-main.jpg"
-                    alt="Evaluation and certification ceremony"
-                    className={styles.s9EvalMainImg}
-                    loading="lazy"
-                  />
+                  <img src="/images/s9-eval-main.jpg" alt="Evaluation and certification ceremony" className={styles.s9EvalMainImg} loading="lazy" />
                   <div className={styles.s9EvalImgBadge}>
                     <div className={styles.s9EvalBadgeLine1}>Yoga Alliance USA</div>
                     <div className={styles.s9EvalBadgeLine2}>Certification Awarded</div>
                   </div>
-                  <img
-                    src="/images/s9-eval-small.jpg"
-                    alt="Students receiving certificates"
-                    className={styles.s9EvalSmallImg}
-                    loading="lazy"
-                  />
+                  <img src="/images/s9-eval-small.jpg" alt="Students receiving certificates" className={styles.s9EvalSmallImg} loading="lazy" />
                 </div>
               </div>
             </div>
@@ -1955,65 +1826,49 @@ export default function YogaTTC300() {
     </div>
   </section>
 )}
+
      {/* ══════════════════════════════════════
     SECTION 10 — YOGA ETHICS
 ══════════════════════════════════════ */}
 {content2 && (
   <section className={`${styles.section} ${styles.sectionLight}`}>
-    <div className="container">
+    <div className={`container ${styles.facilityContainer}`}>
 
-      {/* ── Header ── */}
       <div className={styles.s10HeaderWrap}>
         <div className={styles.s10OmRow}>
           <span className={styles.s10OmLine} />
           <span className={styles.s10OmGlyph}>ॐ</span>
           <span className={styles.s10OmLine} />
         </div>
-        {content2.ethicsH2 && (
-          <h2 className={styles.sectionTitleOrange}>{content2.ethicsH2}</h2>
-        )}
+        {content2.ethicsH2 && (<h2 className={styles.sectionTitleOrange}>{content2.ethicsH2}</h2>)}
         <div className={styles.sectionUnderline} />
       </div>
 
-      {/* ── Hero Split: intro text left, image + quote right ── */}
       <div className={styles.s10HeroSplit}>
-
-        {/* LEFT — intro paragraphs + yama/niyama chips */}
         <div className={styles.s10Left}>
           {content2.ethicsParas && content2.ethicsParas.length > 0 && (
             <div className={styles.s10IntroParas}>
-              {content2.ethicsParas.map((para, i) => (
-                <div key={i} className={styles.s10Para}>
-                  <SafeHtml html={para} />
-                </div>
-              ))}
+              {content2.ethicsParas.map((para, i) => (<div key={i} className={styles.s10Para}><SafeHtml html={para} /></div>))}
             </div>
           )}
-
-          {/* Yama / Niyama explanation chips */}
           <div className={styles.s10YnRow}>
             <div className={styles.s10YnChip}>
               <div className={styles.s10YnChipAccent} />
               <div className={styles.s10YnChipBody}>
                 <div className={styles.s10YnChipTitle}>Yama</div>
-                <div className={styles.s10YnChipDesc}>
-                  Ethical disciplines — our relationship with the outer world
-                </div>
+                <div className={styles.s10YnChipDesc}>Ethical disciplines — our relationship with the outer world</div>
               </div>
             </div>
             <div className={styles.s10YnChip}>
               <div className={styles.s10YnChipAccent} />
               <div className={styles.s10YnChipBody}>
                 <div className={styles.s10YnChipTitle}>Niyama</div>
-                <div className={styles.s10YnChipDesc}>
-                  Self-observances — our relationship with our inner world
-                </div>
+                <div className={styles.s10YnChipDesc}>Self-observances — our relationship with our inner world</div>
               </div>
             </div>
           </div>
         </div>
 
-        {/* RIGHT — quote block + two stacked images */}
         <div className={styles.s10Right}>
           {content2.ethicsQuote && (
             <div className={styles.s10QuoteBlock}>
@@ -2024,37 +1879,21 @@ export default function YogaTTC300() {
           )}
           <div className={styles.s10ImgPair}>
             <div className={styles.s10ImgWrap}>
-              <img
-                src="/images/s10-ethics-1.jpg"
-                alt="Yoga ethics in practice — Rishikesh"
-                className={styles.s10Img}
-                loading="lazy"
-              />
-              <div className={styles.s10ImgOverlay}>
-                <span className={styles.s10ImgLabel}>Discipline in Practice</span>
-              </div>
+              <img src="/images/s10-ethics-1.jpg" alt="Yoga ethics in practice" className={styles.s10Img} loading="lazy" />
+              <div className={styles.s10ImgOverlay}><span className={styles.s10ImgLabel}>Discipline in Practice</span></div>
             </div>
             <div className={styles.s10ImgWrap}>
-              <img
-                src="/images/s10-ethics-2.jpg"
-                alt="AYM campus — yoga shala"
-                className={styles.s10Img}
-                loading="lazy"
-              />
-              <div className={styles.s10ImgOverlay}>
-                <span className={styles.s10ImgLabel}>AYM Yoga Shala</span>
-              </div>
+              <img src="/images/s10-ethics-2.jpg" alt="AYM campus — yoga shala" className={styles.s10Img} loading="lazy" />
+              <div className={styles.s10ImgOverlay}><span className={styles.s10ImgLabel}>AYM Yoga Shala</span></div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* ── Naturalistic para ── */}
       {content2.ethicsNaturalisticPara && (
         <div className={styles.s10NaturePara}>
           <div className={styles.s10NatureIcon}>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-              stroke="#F15505" strokeWidth="1.5" strokeLinecap="round">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F15505" strokeWidth="1.5" strokeLinecap="round">
               <path d="M12 2a10 10 0 0 1 10 10c0 5.52-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2z"/>
               <path d="M12 6v6l4 2"/>
             </svg>
@@ -2063,12 +1902,10 @@ export default function YogaTTC300() {
         </div>
       )}
 
-      {/* ── Ethics Rules — numbered card grid ── */}
       {content2.ethicsRules && content2.ethicsRules.length > 0 && (
         <div className={styles.s10RulesWrap}>
           <div className={styles.s10RulesHeader}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-              stroke="#FFF8EE" strokeWidth="1.6" strokeLinecap="round">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFF8EE" strokeWidth="1.6" strokeLinecap="round">
               <path d="M9 11l3 3L22 4"/>
               <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
             </svg>
@@ -2085,15 +1922,9 @@ export default function YogaTTC300() {
         </div>
       )}
 
-      {/* ── Diploma Image full-width ── */}
       {content2.diplomaImage && (
         <div className={styles.s10DiplomaWrap}>
-          <img
-            src={imgUrl(content2.diplomaImage)}
-            alt="Students with Diploma certificates — AYM School"
-            className={styles.s10DiplomaImg}
-            loading="lazy"
-          />
+          <img src={imgUrl(content2.diplomaImage)} alt="Students with Diploma certificates — AYM School" className={styles.s10DiplomaImg} loading="lazy" />
           <div className={styles.s10DiplomaBadge}>
             <div className={styles.s10DiplomaBadgeLine1}>Yoga Alliance USA</div>
             <div className={styles.s10DiplomaBadgeLine2}>Certified Graduates</div>
@@ -2111,34 +1942,25 @@ export default function YogaTTC300() {
 {content2 &&
   (content2.misconH2 || (content2.misconItems?.length ?? 0) > 0) && (
     <section className={styles.section}>
-      <div className="container">
+      <div className={`container ${styles.facilityContainer}`}>
 
-        {/* ── Header ── */}
         <div className={styles.s11HeaderWrap}>
           <div className={styles.s11OmRow}>
             <span className={styles.s11OmLine} />
             <span className={styles.s11OmGlyph}>ॐ</span>
             <span className={styles.s11OmLine} />
           </div>
-          {content2.misconH2 && (
-            <h2 className={styles.sectionTitleOrange}>{content2.misconH2}</h2>
-          )}
+          {content2.misconH2 && (<h2 className={styles.sectionTitleOrange}>{content2.misconH2}</h2>)}
           <div className={styles.sectionUnderline} />
         </div>
 
-        {/* ── Intro band ── */}
         {content2.misconParas && content2.misconParas.length > 0 && (
           <div className={styles.s11IntroBand}>
             <div className={styles.s11IntroTag}>Shake your myths</div>
-            {content2.misconParas.map((para, i) => (
-              <div key={i} className={styles.s11IntroPara}>
-                <SafeHtml html={para} />
-              </div>
-            ))}
+            {content2.misconParas.map((para, i) => (<div key={i} className={styles.s11IntroPara}><SafeHtml html={para} /></div>))}
           </div>
         )}
 
-        {/* ── Misconception items grid ── */}
         {content2.misconItems && content2.misconItems.length > 0 && (
           <div className={styles.s11Grid}>
             {content2.misconItems.map((item, i) => (
@@ -2151,7 +1973,6 @@ export default function YogaTTC300() {
           </div>
         )}
 
-        {/* ── CTA footer ── */}
         <div className={styles.s11Footer}>
           <div className={styles.s11FooterOmRow}>
             <span className={styles.s11FooterLine} />
@@ -2166,8 +1987,7 @@ export default function YogaTTC300() {
           <a href="#dates-fees" className={styles.s11FooterBtn}>
             Begin Your Journey
             <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
-              <path d="M3 8h10M9 4l4 4-4 4"
-                stroke="#FFF8EE" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M3 8h10M9 4l4 4-4 4" stroke="#FFF8EE" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </a>
         </div>
@@ -2176,19 +1996,16 @@ export default function YogaTTC300() {
     </section>
   )}
 
-     
-
-      {/* Footer OM */}
       <div className={styles.footerOm}>
         <span className={styles.divLine} />
         <span className={styles.omGlyph}>ॐ</span>
         <span className={styles.divLine} />
       </div>
-{/* ✅ REVIEWS — now a reusable separate component */}
+
       <ReviewSection RatingsSummaryComponent={<RatingsSummarySection />} />
       <div id="location">
-  <HowToReach />
-</div>
+        <HowToReach />
+      </div>
     </div>
   );
 }

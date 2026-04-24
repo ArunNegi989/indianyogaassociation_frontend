@@ -40,7 +40,7 @@
 .benefitsSection .container,
 .expectSection .container,
 .aimSection .aimInner {
-  max-width: 1600px;
+  max-width: 1560px;
   margin: 0 auto;
 }
 
@@ -124,19 +124,17 @@
 ────────────────────────────────────────── */
 .heroBanner {
   position: relative;
+  z-index: 1;
   width: 100%;
-  overflow: hidden;
-  border-top: 4px solid var(--saffron);
-  background: #fff;
+  margin: 0;
+  line-height: 0;
 }
 
 .heroImg {
-  display: block;
   width: 100%;
-  height: clamp(220px, 36vw, 420px);
-  object-fit: cover;
-  object-position: center 40%;
-  background: linear-gradient(135deg, #3d1d00, #f15505);
+  height: auto;
+  display: block;
+  object-fit: contain;
 }
 
 .heroTextOverlay {
@@ -619,6 +617,7 @@
   background: #fff;
   padding: clamp(2.4rem, 5vw, 4rem) 0 clamp(2.4rem, 5vw, 3.5rem);
   border-top: 1px solid var(--border);
+  display: contents;
 }
 
 .expectGrid {
@@ -1543,7 +1542,6 @@
 
 @media (max-width: 768px) {
   .heroTitle { font-size: clamp(1.4rem, 7vw, 2.4rem); letter-spacing: 0.05em; }
-  .heroImg { height: clamp(180px, 44vw, 300px); }
   .introTextCard { padding: 1.5rem; }
   .signatureLine { width: 50px; }
   .aimInner { padding: 0 1.5rem; }
@@ -1567,7 +1565,6 @@
 @media (max-width: 540px) {
   .bodyPara { text-align: left; font-size: 0.97rem; }
   .heroTitle { font-size: clamp(1.2rem, 7.5vw, 1.9rem); }
-  .heroImg { height: clamp(160px, 48vw, 260px); }
   .introTextCard { padding: 1.2rem; }
   .signatureLine { width: 30px; }
   .signatureText { font-size: 0.85rem; }
@@ -1595,7 +1592,6 @@
 
 @media (max-width: 400px) {
   .heroTitle { font-size: 1.15rem; letter-spacing: 0.04em; }
-  .heroImg { height: 160px; }
   .introTextCard { padding: 1rem; }
   .introIconRow span { font-size: 0.9rem; }
   .introSection::before, .introSection::after { font-size: 2rem; }

@@ -9,6 +9,8 @@ import api from "@/lib/api"; // ← your axios instance
 import ReviewSection from "@/components/common/Reviewsection";
 import RatingsSummarySection from "@/components/home/RatingsSummarySection";
 import PremiumGallerySection from "@/components/PremiumGallerySection";
+import StickySectionNav from "@/components/common/StickySectionNav";
+import { label } from "framer-motion/client";
 
 /* ─── Types ─── */
 interface Stat {
@@ -122,6 +124,16 @@ export default function WorldwidePage() {
 
     return () => clearInterval(interval);
   }, []);
+
+  const NAV_ITEMS = [
+ 
+  { label: "CURRICULUM", id: "curriculum" },
+  { label: "FACILITY", id: "facility" },
+  { label: "BENEFITS", id: "benefits" },
+  { label: "WorlWide", id: "worldwide" },
+  {label: "REVIEWS", id: "reviews"},
+  { label: "LOCATION", id: "location" },
+];
   /* ── Fetch from backend using axios ── */
   useEffect(() => {
     api
@@ -205,8 +217,10 @@ export default function WorldwidePage() {
         <MandalaFull size={800} opacity={0.025} />
       </div>
 
+       <StickySectionNav items={NAV_ITEMS} triggerId="hero" />
+
       {/* ════════ HERO SECTION ════════ */}
-      <section className={styles.heroSection}>
+      <section id="hero" className={styles.heroSection}>
         {heroSrc ? (
           <img
             src={heroSrc}
@@ -229,7 +243,7 @@ export default function WorldwidePage() {
       {/* ════════ STATS BAR ════════ */}
       {data.stats?.length > 0 && (
         <div className={styles.statsBar}>
-          <div className="container">
+          <div className={`container ${styles.commonContainer}`}>
             <div className="row g-0">
               {data.stats.map((s) => (
                 <div key={s.label} className="col-6 col-md-3">
@@ -250,7 +264,7 @@ export default function WorldwidePage() {
           <MandalaRing size={580} opacity={0.04} />
         </div>
 
-        <div className="container">
+        <div className={`container ${styles.commonContainer}`}>
           {/* TOP ROW */}
           <div className={`row ${styles.reveal}`}>
             {/* LEFT CONTENT */}
@@ -325,8 +339,8 @@ export default function WorldwidePage() {
       </section>
 
       {/* ════════ TEACHER TEAM ════════ */}
-      <section className={`${styles.section} ${styles.sectionTinted}`}>
-        <div className="container">
+      <section id="facility" className={`${styles.section} ${styles.sectionTinted}`}>
+        <div className={`container ${styles.commonContainer}`}>
           <div className={`row align-items-center ${styles.reveal}`}>
             <div className="col-12 col-lg-5 mb-4 mb-lg-0">
               <div className={styles.teamImgWrap}>
@@ -376,8 +390,8 @@ export default function WorldwidePage() {
 
       {/* ════════ BENEFITS ════════ */}
       {data.benefits?.length > 0 && (
-        <section className={styles.section}>
-          <div className="container">
+        <section id="benefits" className={styles.section}>
+          <div className={`container ${styles.commonContainer}`}>
             <div className={`text-center mb-4 ${styles.reveal}`}>
               <span className={styles.superLabel}>
                 {data.benefitsHeading || "Transformation"}
@@ -444,7 +458,7 @@ export default function WorldwidePage() {
           <div className={styles.mandalaBgR} aria-hidden="true">
             <MandalaRing size={500} opacity={0.04} />
           </div>
-          <div className="container">
+          <div className={`container ${styles.commonContainer}`}>
             <div className={styles.reveal}>
               <span
                 className={styles.superLabel}
@@ -490,10 +504,10 @@ export default function WorldwidePage() {
       {/* ════════ WORLDWIDE LOCATIONS GRID ════════ */}
       {data.locations?.length > 0 && (
         <section
-          id="locations"
+          id="worldwide"
           className={`${styles.section} ${styles.locationsSection}`}
         >
-          <div className="container">
+          <div className={`container ${styles.commonContainer}`}>
             <div className={`text-center mb-5 ${styles.reveal}`}>
               <span className={styles.superLabel}>
                 {data.locationsSubtext || "Our Global Reach"}
@@ -553,7 +567,7 @@ export default function WorldwidePage() {
         <div className={styles.footerCtaMandala} aria-hidden="true">
           <MandalaFull size={600} opacity={0.09} />
         </div>
-        <div className="container">
+        <div className={`container ${styles.commonContainer}`}>
           <div className={`text-center ${styles.footerCtaInner}`}>
             <div className={styles.footerOm}>ॐ</div>
             <h2 className={styles.footerTitle}>
@@ -585,8 +599,10 @@ export default function WorldwidePage() {
       </section>
       <PremiumGallerySection type="both" backgroundColor="warm" />
       {/* ✅ REVIEWS — now a reusable separate component */}
-      <ReviewSection RatingsSummaryComponent={<RatingsSummarySection />} />
-      <HowToReach />
+      <div id="reviews"> <ReviewSection RatingsSummaryComponent={<RatingsSummarySection />} /></div>
+     
+      <div id="location"><HowToReach /></div>
+      
     </div>
   );
 }

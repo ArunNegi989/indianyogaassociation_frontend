@@ -130,7 +130,7 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1.4rem;
-  max-width: 1300px;
+  max-width: 1480px;
   margin: 0 auto 3rem;
 }
 
@@ -361,7 +361,7 @@
   display: grid;
   grid-template-columns: 1fr 320px;
   gap: 2rem;
-  max-width: 1300px;
+  max-width: 1480px;
   margin: 0 auto;
   align-items: start;
 }
