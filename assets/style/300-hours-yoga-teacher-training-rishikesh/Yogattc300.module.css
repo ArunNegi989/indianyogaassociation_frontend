@@ -8,7 +8,7 @@
   --bd: #3d1d00;
   --bm: #5c2d00;
   --bw: #7a5c2e;
-  --parch: #fff9f0;
+  --parch: #ffffff;
   --parchm: #fdf0dc;
   --parchd: #ffefd4;
   --border: #e8d5b5;
@@ -604,7 +604,7 @@
 /* ── Fee cards ── */
 .feeCardLight {
   padding: 1.5rem;
-  background: linear-gradient(135deg, #fff3e0 0%, var(--parchd) 100%);
+  background: linear-gradient(135deg, #ffffff 0%, var(--parchd) 100%);
   border: 1px solid var(--border);
   border-radius: 8px;
   text-align: center;
@@ -2978,7 +2978,7 @@
 
 /* ── Panel ── */
 .syllabusPanel {
-  background: var(--parch);
+  background: #ffffff;
   border: 1.5px solid var(--border);
   border-radius: 0 8px 8px 8px;
   overflow: hidden;
@@ -3363,7 +3363,7 @@
 }
 
 .evoMarkCardBody {
-  background: var(--parch);
+  background: #ffffff;
   padding: 1.4rem 1.5rem;
 }
 
@@ -3510,7 +3510,7 @@
 }
 
 .evoFeeCardLight {
-  background: linear-gradient(145deg, #fff9f0, var(--parchd));
+  background: #ffffff;
   border: 1.5px solid var(--border);
   box-shadow: 0 4px 16px var(--shadow);
 }
@@ -4693,7 +4693,7 @@
 
 /* ── Intro band ── */
 .s11IntroBand {
-  background: rgba(241, 85, 5, 0.05);
+  background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(241, 85, 5, 0.15);
   border-left: 4px solid #F15505;
   border-radius: 0 10px 10px 0;
