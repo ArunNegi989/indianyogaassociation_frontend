@@ -225,7 +225,7 @@
 .founderSection {
   padding: clamp(2.5rem, 5vw, 4rem) 0;
   background-image: url("../../images/1905x1282.png");
-  /* background-size: contain; */
+  background-size: contain;
   position: relative;
 }
 
@@ -238,107 +238,146 @@
 }
 
 /* ── Desktop: image center top, text full width below ── */
-.founderGrid {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.8rem;
-  padding: 2rem 0;
-  background: linear-gradient(135deg, rgba(253, 248, 236, 0.5) 0%, rgba(255, 253, 245, 0.3) 100%);
+.founderCard {
+  max-width: 1600px;
+  margin: 2rem auto;
+  background: #fff;
+  border: 1px solid #e8d5aa;
   border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(92, 45, 0, 0.12), 0 0 0 1px rgba(245, 184, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.founderCard:hover {
+  box-shadow: 0 16px 48px rgba(92, 45, 0, 0.18), 0 0 0 1px rgba(245, 184, 0, 0.15);
+  transform: translateY(-4px);
+}
+
+.founderCardInner {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 2.5rem;
+  align-items: stretch;
   padding: 2.5rem;
-  border: 1px solid rgba(232, 213, 170, 0.4);
 }
 
-.founderImgCol {
-  position: static;
+.founderImgSection {
+  position: relative;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 0.6rem;
+  justify-content: center;
+  background: linear-gradient(135deg, rgba(245, 184, 0, 0.08) 0%, rgba(224, 123, 0, 0.04) 100%);
+  border-radius: 12px;
+  overflow: hidden;
+  min-height: 320px;
 }
 
-.founderImgBadge {
+.founderCardImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+}
+
+.founderCardBadge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
   font-family: 'Cinzel', serif;
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.12em;
-  color: var(--saffron);
-  border: 1px solid var(--gold);
-  padding: 0.3rem 0.9rem;
-  border-radius: 2px;
-  background: rgba(245, 184, 0, 0.08);
+  color: #fff;
+  background: linear-gradient(135deg, var(--saffron), #e67e22);
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(241, 85, 5, 0.3);
 }
 
-.founderTextCol {
-  padding-top: 0.5rem;
-  width: 100%;
-  text-align: center;
+.founderCardContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0.5rem 0;
 }
 
-.founderName {
+.founderCardName {
   font-family: 'Cinzel', serif;
-  font-size: clamp(1.4rem, 3vw, 2rem);
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
   font-weight: 700;
   color: var(--textDark);
   letter-spacing: 0.06em;
-  margin: 0 0 0.3rem;
+  margin: 0 0 0.4rem;
+  line-height: 1.2;
 }
 
-.founderSubtitle {
+.founderCardSubtitle {
   font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(0.9rem, 1.7vw, 1.1rem);
+  font-size: clamp(1rem, 1.8vw, 1.2rem);
   font-style: italic;
   color: var(--saffron);
-  margin: 0 0 1rem;
+  margin: 0 0 1.2rem;
   letter-spacing: 0.03em;
 }
 
-.founderDivider {
-  width: 60px;
-  height: 2px;
+.founderCardDivider {
+  width: 80px;
+  height: 3px;
   background: linear-gradient(90deg, var(--saffron), var(--gold));
-  margin-bottom: 1.2rem;
+  margin-bottom: 1.5rem;
   border-radius: 2px;
 }
 
-.founderPara {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(0.88rem, 1.45vw, 1rem);
-  line-height: 1.9;
-  color: var(--textBody);
-  margin-bottom: 0.85rem;
+.founderCardBio {
+  flex: 1;
+  margin-bottom: 1.5rem;
 }
 
-.founderBtn {
+.founderCardBio p {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(0.9rem, 1.5vw, 1.05rem);
+  line-height: 1.9;
+  color: var(--textBody);
+  margin: 0 0 0.9rem;
+}
+
+.founderCardBio p:last-child {
+  margin-bottom: 0;
+}
+
+.founderCardBtn {
   display: inline-flex;
   align-items: center;
-  gap: 0.6rem;
+  gap: 0.7rem;
   font-family: 'Cinzel', serif;
-  font-size: clamp(0.65rem, 1.05vw, 0.76rem);
+  font-size: clamp(0.7rem, 1.1vw, 0.85rem);
   font-weight: 600;
   letter-spacing: 0.08em;
   color: #fff;
-  background: var(--green);
+  background: linear-gradient(135deg, var(--green), #1f5a14);
   border: none;
-  padding: 0.85rem 1.8rem;
+  padding: 1rem 2rem;
   cursor: pointer;
-  margin-top: 1rem;
-  transition: background 0.22s ease, transform 0.18s ease;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 16px rgba(45, 106, 30, 0.25);
 }
 
-.founderBtn:hover {
-  background: #215016;
-  transform: translateY(-1px);
+.founderCardBtn:hover {
+  background: linear-gradient(135deg, #215016, #0f3d0a);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(45, 106, 30, 0.35);
 }
 
-.founderBtnArrow {
-  font-size: 1.1em;
-  transition: transform 0.2s;
+.founderCardBtnArrow {
+  font-size: 1.2em;
+  transition: transform 0.3s ease;
 }
 
-.founderBtn:hover .founderBtnArrow {
-  transform: translateX(4px);
+.founderCardBtn:hover .founderCardBtnArrow {
+  transform: translateX(6px);
 }
 
 /* ================================================================
@@ -384,84 +423,40 @@
 }
 
 /* ================================================================
-   TEACHER CARDS - CREATIVE TIMELINE/FLOW LAYOUT
+   TEACHER CARDS
 ================================================================ */
 .teachersSection {
-  /* background-image: url("../../images/1905x4418.png"); */
-  /* background-size: contain; */
-  position: relative;
+  background-image: url("../../images/1905x4418.png");
+  background-size: contain;
 }
 
 .tCard {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0;
-  align-items: stretch;
-  padding: 0;
+  /* background-color: #fff; */
+  grid-template-columns: 340px 1fr;
+  gap: clamp(2rem, 4vw, 4.5rem);
+  align-items: start;
+  padding: clamp(2rem, 4vw, 3rem) 0;
   opacity: 0;
   animation: fadeUp 0.55s ease forwards;
-  background: transparent;
-  border-radius: 0;
-  border: none;
-  margin-bottom: 0;
-  position: relative;
-  overflow: visible;
-  transition: all 0.4s ease;
-  box-shadow: none;
-  min-height: 420px;
-}
-
-.tCard:nth-child(odd) {
-  direction: rtl;
-}
-
-.tCard:nth-child(odd) > * {
-  direction: ltr;
-}
-
-.tCard::before {
-  content: '';
-  position: absolute;
-  left: 50%;
-  top: 0;
-  bottom: 0;
-  width: 3px;
-  background: linear-gradient(180deg, transparent 0%, var(--gold) 20%, var(--gold) 80%, transparent 100%);
-  transform: translateX(-50%);
-  z-index: 1;
-}
-
-.tCard::after {
-  content: '';
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 16px;
-  height: 16px;
-  background: var(--gold);
-  border: 4px solid var(--ivory);
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 2;
-  box-shadow: 0 0 0 3px var(--saffron);
 }
 
 .tCardReverse {
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 340px;
 }
 
 .tCardReverse .tImgCol {
-  order: 1;
+  order: 2;
 }
 
 .tCardReverse .tContent {
-  order: 2;
+  order: 1;
 }
 
 @keyframes fadeUp {
   from {
     opacity: 0;
-    transform: translateY(24px);
+    transform: translateY(18px);
   }
 
   to {
@@ -470,60 +465,29 @@
   }
 }
 
-@keyframes shimmer {
-  0% {
-    background-position: -1000px 0;
-  }
-  100% {
-    background-position: 1000px 0;
-  }
-}
-
 .tImgCol {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: clamp(1.5rem, 3vw, 2.5rem);
-  background: linear-gradient(135deg, rgba(253, 248, 236, 0.6) 0%, rgba(255, 253, 245, 0.3) 100%);
-}
-
-.tCard:nth-child(odd) .tImgCol {
-  background: linear-gradient(135deg, rgba(245, 184, 0, 0.08) 0%, rgba(224, 123, 0, 0.04) 100%);
+  position: sticky;
+  top: 100px;
 }
 
 .tImgWrapper {
   position: relative;
   overflow: hidden;
-  border-radius: 20px;
-  box-shadow: 0 16px 48px rgba(92, 45, 0, 0.2), 0 0 0 2px rgba(245, 184, 0, 0.3);
-  width: 100%;
-  max-width: 280px;
-  aspect-ratio: 3 / 4;
-  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.tImgWrapper::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(245, 184, 0, 0.15) 0%, transparent 50%, rgba(224, 123, 0, 0.08) 100%);
-  pointer-events: none;
-  z-index: 2;
-  border-radius: 20px;
+  border-radius: 0 0 0 80px;
+  box-shadow: 6px 10px 40px var(--shadowDk);
 }
 
 .tImg {
   width: 100%;
-  height: 100%;
+  aspect-ratio: 3 / 4;
   object-fit: cover;
   object-position: center top;
   display: block;
-  transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: transform 0.5s ease;
 }
 
 .tImgWrapper:hover .tImg {
-  transform: scale(1.1) rotate(1deg);
+  transform: scale(1.03);
 }
 
 .tImgOverlay {
@@ -531,159 +495,93 @@
   bottom: 0;
   left: 0;
   right: 0;
-  height: 45%;
-  background: linear-gradient(to top, rgba(26, 12, 0, 0.6) 0%, rgba(26, 12, 0, 0.25) 50%, transparent 100%);
+  height: 35%;
+  background: linear-gradient(to top, rgba(26, 12, 0, 0.45) 0%, transparent 100%);
   pointer-events: none;
-  transition: all 0.4s ease;
-  z-index: 1;
-}
-
-.tImgWrapper:hover .tImgOverlay {
-  height: 55%;
-  background: linear-gradient(to top, rgba(26, 12, 0, 0.75) 0%, rgba(26, 12, 0, 0.3) 50%, transparent 100%);
 }
 
 .tYearsBadge {
   position: absolute;
-  bottom: 18px;
-  right: 18px;
+  bottom: 14px;
+  right: 14px;
   font-family: 'Cinzel', serif;
-  font-size: 0.78rem;
+  font-size: 0.72rem;
   font-weight: 700;
-  letter-spacing: 0.14em;
-  color: #fff;
-  background: linear-gradient(135deg, var(--saffron), #d63031);
-  padding: 0.5rem 1.1rem;
-  border-radius: 25px;
-  box-shadow: 0 6px 20px rgba(224, 123, 0, 0.4);
-  transition: all 0.3s ease;
-  z-index: 3;
-  text-transform: uppercase;
-}
-
-.tImgWrapper:hover .tYearsBadge {
-  transform: translateY(-6px) scale(1.05);
-  box-shadow: 0 10px 30px rgba(224, 123, 0, 0.5);
+  letter-spacing: 0.1em;
+  color: var(--textDark);
+  background: var(--gold);
+  padding: 0.32rem 0.75rem;
+  border-radius: 2px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
 }
 
 .tContent {
-  padding: clamp(2rem, 4vw, 3rem);
-  text-align: left;
-  position: relative;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  background: linear-gradient(135deg, rgba(253, 248, 236, 0.8) 0%, rgba(255, 253, 245, 0.5) 100%);
-  border: 1px solid rgba(232, 213, 170, 0.5);
-  border-radius: 0;
-}
-
-.tCard:nth-child(odd) .tContent {
-  background: linear-gradient(135deg, rgba(245, 184, 0, 0.08) 0%, rgba(224, 123, 0, 0.04) 100%);
-  border-color: rgba(224, 123, 0, 0.2);
+  padding-top: 0.4rem;
 }
 
 .tRoleTag {
   font-family: 'Cinzel', serif;
   font-size: 0.65rem;
-  font-weight: 700;
-  letter-spacing: 0.2em;
+  font-weight: 600;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--saffron);
-  margin-bottom: 0.8rem;
-  display: inline-block;
-  padding: 0.35rem 0.9rem;
-  background: linear-gradient(135deg, rgba(241, 85, 5, 0.1), rgba(245, 184, 0, 0.1));
-  border: 1px solid rgba(241, 85, 5, 0.25);
-  border-radius: 20px;
-  transition: all 0.3s ease;
-  width: fit-content;
-}
-
-.tCard:hover .tRoleTag {
-  background: linear-gradient(135deg, rgba(241, 85, 5, 0.18), rgba(245, 184, 0, 0.15));
-  border-color: rgba(241, 85, 5, 0.4);
+  margin-bottom: 0.55rem;
 }
 
 .tName {
   font-family: 'Cinzel', serif;
-  font-size:18px;
+  font-size: clamp(1.15rem, 2.3vw, 1.6rem);
   font-weight: 700;
   color: var(--textDark);
   letter-spacing: 0.05em;
-  margin: 0 0 0.6rem;
+  margin: 0 0 0.8rem;
   line-height: 1.2;
-  transition: color 0.3s ease;
-}
-
-.tCard:hover .tName {
-  color: var(--saffron);
 }
 
 .tDivider {
   width: 50px;
-  height: 3px;
+  height: 2px;
   background: linear-gradient(90deg, var(--saffron), var(--gold));
-  margin: 0 0 1rem;
+  margin-bottom: 1rem;
   border-radius: 2px;
-  transition: width 0.3s ease;
-}
-
-.tCard:hover .tDivider {
-  width: 70px;
 }
 
 .tBio {
   font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(0.88rem, 1.4vw, 1rem);
-  line-height: 1.85;
+  font-size: clamp(0.88rem, 1.45vw, 1rem);
+  line-height: 1.9;
   color: var(--textBody);
   margin-bottom: 1.2rem;
-  transition: color 0.3s ease;
-}
-
-.tCard:hover .tBio {
-  color: #3d2817;
 }
 
 .tDetails {
   overflow: hidden;
   max-height: 0;
   opacity: 0;
-  transition: max-height 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease;
+  transition: max-height 0.45s ease, opacity 0.35s ease;
 }
 
 .tDetailsOpen {
-  max-height: 900px;
+  max-height: 800px;
   opacity: 1;
 }
 
 .tDetailBlock {
-  margin-top: 1rem;
+  margin-top: 1.2rem;
   padding: 1rem 1.2rem;
-  background: linear-gradient(135deg, rgba(253, 240, 176, 0.3) 0%, rgba(245, 184, 0, 0.1) 100%);
-  border-left: 4px solid var(--gold);
-  border-radius: 6px;
-  text-align: left;
-  transition: all 0.3s ease;
-  border: 1px solid rgba(232, 213, 170, 0.4);
-}
-
-.tDetailBlock:hover {
-  background: linear-gradient(135deg, rgba(253, 240, 176, 0.4) 0%, rgba(245, 184, 0, 0.15) 100%);
-  border-color: rgba(224, 123, 0, 0.4);
-  transform: translateX(4px);
+  background: var(--cream);
+  border-left: 3px solid var(--gold);
 }
 
 .tDetailTitle {
   font-family: 'Cinzel', serif;
-  font-size: 0.7rem;
+  font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--textDark);
-  margin: 0 0 0.6rem;
+  margin: 0 0 0.65rem;
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -691,12 +589,6 @@
 
 .tDetailIcon {
   font-style: normal;
-  font-size: 1em;
-  transition: transform 0.3s ease;
-}
-
-.tDetailBlock:hover .tDetailIcon {
-  transform: scale(1.2) rotate(10deg);
 }
 
 .tList {
@@ -707,17 +599,11 @@
 
 .tList li {
   font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(0.82rem, 1.2vw, 0.92rem);
+  font-size: clamp(0.84rem, 1.3vw, 0.93rem);
   color: var(--textBody);
   line-height: 1.7;
-  padding: 0.25rem 0 0.25rem 1.1rem;
+  padding: 0.28rem 0 0.28rem 1.1rem;
   position: relative;
-  transition: all 0.2s ease;
-}
-
-.tList li:hover {
-  color: var(--saffron);
-  transform: translateX(4px);
 }
 
 .tList li::before {
@@ -726,41 +612,31 @@
   left: 0;
   color: var(--saffron);
   font-size: 0.45rem;
-  top: 0.55rem;
-  transition: all 0.2s ease;
-}
-
-.tList li:hover::before {
-  transform: scale(1.3);
+  top: 0.58rem;
 }
 
 .tChips {
   display: flex;
   flex-wrap: wrap;
   gap: 0.4rem;
-  margin-top: 0.4rem;
+  margin-top: 0.3rem;
 }
 
 .tChip {
   font-family: 'Cinzel', serif;
-  font-size: 0.58rem;
+  font-size: 0.6rem;
   font-weight: 600;
   letter-spacing: 0.08em;
   color: var(--textDark);
   background: linear-gradient(135deg, var(--goldLt), #fff8d0);
-  border: 1.5px solid var(--gold);
-  padding: 0.35rem 0.75rem;
-  border-radius: 5px;
-  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
-  cursor: default;
-  text-transform: uppercase;
+  border: 1px solid var(--gold);
+  padding: 0.3rem 0.7rem;
+  border-radius: 2px;
+  transition: background 0.2s;
 }
 
 .tChip:hover {
   background: linear-gradient(135deg, var(--gold), #f5c830);
-  transform: translateY(-3px);
-  box-shadow: 0 6px 16px rgba(224, 123, 0, 0.25);
-  border-color: #e6a800;
 }
 
 .tToggle {
@@ -768,46 +644,25 @@
   align-items: center;
   gap: 0.4rem;
   font-family: 'Cinzel', serif;
-  font-size: 0.65rem;
-  font-weight: 700;
+  font-size: 0.68rem;
+  font-weight: 600;
   letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: #fff;
-  background: linear-gradient(135deg, var(--saffron), #d63031);
-  border: none;
-  padding: 0.6rem 1.4rem;
+  color: var(--saffron);
+  background: transparent;
+  border: 1.5px solid var(--saffron);
+  padding: 0.55rem 1.2rem;
   cursor: pointer;
   margin-top: 1rem;
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-  border-radius: 6px;
-  box-shadow: 0 4px 14px rgba(224, 123, 0, 0.25);
-  position: relative;
-  overflow: hidden;
-}
-
-.tToggle::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-  transition: left 0.5s ease;
-}
-
-.tToggle:hover::before {
-  left: 100%;
+  transition: all 0.22s ease;
 }
 
 .tToggle:hover {
-  background: linear-gradient(135deg, #d63031, var(--saffron));
-  transform: translateY(-3px);
-  box-shadow: 0 8px 22px rgba(224, 123, 0, 0.35);
+  background: var(--saffron);
+  color: #fff;
 }
 
 /* ================================================================
-   MODERN FRAME (No Circle SVG)
+   ORNATE FRAME
 ================================================================ */
 .frameWrap {
   position: relative;
@@ -815,7 +670,6 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  overflow: hidden;
 }
 
 .frameLG {
@@ -839,232 +693,290 @@
   width: 100%;
   height: 100%;
   pointer-events: none;
-  display: none;
 }
 
 .framePhoto {
   position: relative;
   z-index: 2;
-  border-radius: 12px;
+  border-radius: 50%;
   object-fit: cover;
   object-position: center top;
-  width: 100%;
-  height: 100%;
-  box-shadow: 0 8px 32px rgba(92, 45, 0, 0.2);
-  transition: transform 0.4s ease, box-shadow 0.4s ease;
-}
-
-.frameWrap:hover .framePhoto {
-  transform: scale(1.05);
-  box-shadow: 0 12px 48px rgba(92, 45, 0, 0.3);
 }
 
 .frameLG .framePhoto {
-  width: 100%;
-  height: 100%;
+  width: 270px;
+  height: 270px;
 }
 
 .frameMD .framePhoto {
-  width: 100%;
-  height: 100%;
+  width: 142px;
+  height: 142px;
 }
 
 .frameSM .framePhoto {
-  width: 100%;
-  height: 100%;
+  width: 118px;
+  height: 118px;
 }
 
 /* ================================================================
-   GUEST FACULTY GRID - MODERN CARD DESIGN
+   GUEST FACULTY GRID — Modern Card Design
 ================================================================ */
 .guestSection {
-  background: url("../../images/23.png");
-  padding-top: 87px;
+  background: linear-gradient(135deg, rgba(245, 184, 0, 0.03) 0%, rgba(224, 123, 0, 0.02) 100%);
+  padding: clamp(3rem, 5vw, 4.5rem) 0;
 }
 
 .guestHeader {
   text-align: center;
-  margin-bottom: 1rem;
+  margin-bottom: 2.5rem;
 }
 
 .guestTitle {
   font-family: 'Cinzel', serif;
-  font-size: clamp(1rem, 2vw, 1.45rem);
+  font-size: clamp(1.3rem, 2.5vw, 1.8rem);
   font-weight: 600;
   color: var(--textDark);
   letter-spacing: 0.05em;
-  margin: 0 0 0.6rem;
+  margin: 0 0 0.8rem;
+}
+
+.guestSubtitle {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(0.95rem, 1.6vw, 1.1rem);
+  font-style: italic;
+  color: var(--textMed);
+  margin: 0.8rem 0 0;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .guestGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   gap: clamp(1.2rem, 3vw, 2rem);
-  padding: 1.8rem 0;
+  padding: 2rem 0;
 }
 
-.guestItem {
+.guestCard {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 0.8rem;
-  cursor: pointer;
-  padding: 1.2rem;
+  background: #fffdf5;
+  border: 1px solid #e8d5aa;
   border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
   transition: all 0.3s ease;
-  background: linear-gradient(135deg, rgba(253, 248, 236, 0.6) 0%, rgba(255, 253, 245, 0.4) 100%);
-  border: 1px solid rgba(232, 213, 170, 0.4);
+  box-shadow: 0 4px 16px rgba(92, 45, 0, 0.08);
 }
 
-.guestItem:hover {
-  background: linear-gradient(135deg, rgba(245, 184, 0, 0.12) 0%, rgba(224, 123, 0, 0.08) 100%);
+.guestCard:hover {
   transform: translateY(-6px);
-  box-shadow: 0 12px 32px rgba(92, 45, 0, 0.15);
-  border-color: rgba(224, 123, 0, 0.3);
+  box-shadow: 0 12px 32px rgba(92, 45, 0, 0.16);
+  border-color: var(--gold);
 }
 
-.guestFrameWrap {
+.guestCardImgWrap {
   position: relative;
-  display: inline-flex;
+  width: 100%;
+  aspect-ratio: 1;
+  overflow: hidden;
+  background: linear-gradient(135deg, rgba(245, 184, 0, 0.08) 0%, rgba(224, 123, 0, 0.04) 100%);
 }
 
-.guestFrameOverlay {
+.guestCardImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  transition: transform 0.4s ease;
+}
+
+.guestCard:hover .guestCardImg {
+  transform: scale(1.08);
+}
+
+.guestCardOverlay {
   position: absolute;
   inset: 0;
-  border-radius: 12px;
-  background: rgba(224, 123, 0, 0);
+  background: rgba(26, 12, 0, 0);
   transition: background 0.3s ease;
-  z-index: 3;
 }
 
-.guestItem:hover .guestFrameOverlay {
-  background: rgba(224, 123, 0, 0.12);
+.guestCard:hover .guestCardOverlay {
+  background: rgba(26, 12, 0, 0.35);
 }
 
-.guestItemName {
+.guestCardHover {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.guestCard:hover .guestCardHover {
+  opacity: 1;
+}
+
+.guestCardHoverText {
   font-family: 'Cinzel', serif;
-  font-size: 1rem;
+  font-size: 0.85rem;
   font-weight: 600;
-  color: #3d1d00;
+  letter-spacing: 0.1em;
+  color: #fff;
+  text-transform: uppercase;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.guestCardContent {
+  color:#fff;
+  padding: 1.2rem;
   text-align: center;
-  margin: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.guestCardName {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(0.95rem, 1.5vw, 1.1rem);
+  font-weight: 600;
+  color: var(--textDark);
   letter-spacing: 0.04em;
-  line-height: 1.4;
+  margin: 0 0 0.4rem;
+  line-height: 1.3;
 }
 
-.guestItemHint {
+.guestCardLabel {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   font-style: italic;
-  color: #a07840;
-  text-align: center;
+  color: var(--saffron);
   margin: 0;
+  letter-spacing: 0.02em;
 }
 
-.guestLoadingText {
-  text-align: center;
-  padding: 2rem 0;
-  font-family: 'Cormorant Garamond', serif;
-  color: #a07840;
-  font-style: italic;
-  margin: 0;
-}
-
-.guestEmptyText {
-  text-align: center;
-  padding: 2rem 0;
-  font-family: 'Cormorant Garamond', serif;
-  color: #a07840;
-  font-style: italic;
-  margin: 0;
+.guestPagination {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.8rem;
+  margin-top: 2.5rem;
+  padding-top: 2.5rem;
+  border-top: 1px solid rgba(232, 213, 170, 0.5);
 }
 
 /* ── Pagination ── */
 .guestCounter {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 0.88rem;
+  font-size: clamp(1rem, 1.8vw, 1.2rem);
   font-style: italic;
-  color: #a07840;
+  color: var(--gold);
   text-align: center;
-  margin: 0.5rem 0 1.2rem;
+  margin: 0;
+  letter-spacing: 0.02em;
 }
 
 .guestBtnRow {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
+  gap: 1.2rem;
   flex-wrap: wrap;
 }
 
-.guestReadMoreBtn {
+.guestLoadBtn {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.8rem;
   font-family: 'Cinzel', serif;
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.1em;
+  font-size: clamp(0.75rem, 1.2vw, 0.9rem);
+  font-weight: 700;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: #f5d89a;
-  background: linear-gradient(135deg, #3d1d00 0%, #5c2d00 100%);
-  border: 1px solid rgba(245, 184, 0, 0.35);
-  border-radius: 8px;
-  padding: 0.7rem 1.6rem;
+  color: var(--gold);
+  background: linear-gradient(135deg, #5c3a1a 0%, #3d2410 100%);
+  border: 2px solid var(--gold);
+  border-radius: 12px;
+  padding: 1rem 2.2rem;
   cursor: pointer;
-  transition: all 0.22s ease;
-  box-shadow: 0 4px 16px rgba(92, 45, 0, 0.2);
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 24px rgba(92, 45, 0, 0.3), inset 0 1px 0 rgba(245, 184, 0, 0.2);
 }
 
-.guestReadMoreBtn:hover {
-  background: linear-gradient(135deg, #5c2d00, #7a3d00);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 22px rgba(92, 45, 0, 0.3);
+.guestLoadBtn:hover {
+  background: linear-gradient(135deg, #7a4d28, #5c3a1a);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 32px rgba(92, 45, 0, 0.4), inset 0 1px 0 rgba(245, 184, 0, 0.3);
 }
 
-.guestShowLessBtn {
+.guestCollapseBtn {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.8rem;
   font-family: 'Cinzel', serif;
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.1em;
+  font-size: clamp(0.75rem, 1.2vw, 0.9rem);
+  font-weight: 700;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: #a07840;
+  color: var(--saffron);
   background: transparent;
-  border: 1.5px solid rgba(160, 120, 64, 0.45);
-  border-radius: 8px;
-  padding: 0.7rem 1.6rem;
+  border: 2px solid var(--saffron);
+  border-radius: 12px;
+  padding: 1rem 2.2rem;
   cursor: pointer;
-  transition: all 0.22s ease;
+  transition: all 0.3s ease;
 }
 
-.guestShowLessBtn:hover {
-  background: rgba(224, 123, 0, 0.07);
-  border-color: #F15505;
-  color: #5c2d00;
+.guestCollapseBtn:hover {
+  background: var(--saffron);
+  color: #fff;
+  transform: translateY(-3px);
 }
 
 .guestBtnIcon {
-  font-size: 0.5rem;
-  opacity: 0.7;
+  font-size: 0.6rem;
+  opacity: 0.9;
 }
 
 .guestBtnCount {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 0.82rem;
-  font-style: italic;
-  font-weight: 400;
-  letter-spacing: 0;
-  opacity: 0.85;
+  font-family: 'Cinzel', serif;
+  font-size: clamp(0.75rem, 1.1vw, 0.85rem);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  opacity: 0.95;
 }
 
 .guestBtnArrow {
-  font-size: 0.65rem;
-  opacity: 0.8;
+  font-size: 0.85em;
+  transition: transform 0.3s ease;
+}
+
+.guestLoadBtn:hover .guestBtnArrow,
+.guestCollapseBtn:hover .guestBtnArrow {
+  transform: translateY(2px);
+}
+
+.guestLoadingText {
+  text-align: center;
+  padding: 3rem 0;
+  font-family: 'Cormorant Garamond', serif;
+  color: var(--textMed);
+  font-style: italic;
+  margin: 0;
+}
+
+.guestEmptyText {
+  text-align: center;
+  padding: 3rem 0;
+  font-family: 'Cormorant Garamond', serif;
+  color: var(--textMed);
+  font-style: italic;
+  margin: 0;
 }
 
 /* ================================================================
@@ -1249,44 +1161,30 @@
 /* 1200px */
 @media (max-width: 1200px) {
   .tCard {
-    grid-template-columns: 1fr;
-    min-height: auto;
+    grid-template-columns: 300px 1fr;
+    gap: 2.5rem;
   }
 
-  .tCard::before {
-    display: none;
+  .tCardReverse {
+    grid-template-columns: 1fr 300px;
   }
 
-  .tCard::after {
-    display: none;
-  }
-
-  .tImgCol {
-    padding: clamp(1.5rem, 3vw, 2rem);
-  }
-
-  .tContent {
-    padding: clamp(1.5rem, 3vw, 2rem);
-  }
-
-  .founderTextCol {
-    max-width: 780px;
+  .founderCardInner {
+    grid-template-columns: 280px 1fr;
+    gap: 2rem;
+    padding: 2rem;
   }
 }
 
 /* 1024px */
 @media (max-width: 1024px) {
   .tCard {
-    grid-template-columns: 1fr;
-    min-height: auto;
+    grid-template-columns: 270px 1fr;
+    gap: 2rem;
   }
 
-  .tCard::before {
-    display: none;
-  }
-
-  .tCard::after {
-    display: none;
+  .tCardReverse {
+    grid-template-columns: 1fr 270px;
   }
 
   .frameLG {
@@ -1295,8 +1193,8 @@
   }
 
   .frameLG .framePhoto {
-    width: 100%;
-    height: 100%;
+    width: 163px;
+    height: 163px;
   }
 
   .founderTextCol {
@@ -1307,16 +1205,12 @@
 /* 900px */
 @media (max-width: 900px) {
   .tCard {
-    grid-template-columns: 1fr;
-    min-height: auto;
+    grid-template-columns: 240px 1fr;
+    gap: 2rem;
   }
 
-  .tCard::before {
-    display: none;
-  }
-
-  .tCard::after {
-    display: none;
+  .tCardReverse {
+    grid-template-columns: 1fr 240px;
   }
 
   .frameLG {
@@ -1325,8 +1219,8 @@
   }
 
   .frameLG .framePhoto {
-    width: 100%;
-    height: 100%;
+    width: 149px;
+    height: 149px;
   }
 }
 
@@ -1336,16 +1230,7 @@
   .tCard,
   .tCardReverse {
     grid-template-columns: 1fr;
-    gap: 0;
-    min-height: auto;
-  }
-
-  .tCard::before {
-    display: none;
-  }
-
-  .tCard::after {
-    display: none;
+    gap: 1.5rem;
   }
 
   .tCardReverse .tImgCol {
@@ -1358,7 +1243,6 @@
 
   .tImgCol {
     position: static;
-    padding: 1.5rem;
   }
 
   .tImg {
@@ -1368,20 +1252,7 @@
   }
 
   .tImgWrapper {
-    border-radius: 14px;
-    max-width: 100%;
-  }
-
-  .tName {
-    font-size: 1.3rem;
-  }
-
-  .tRoleTag {
-    font-size: 0.65rem;
-  }
-
-  .tContent {
-    padding: 1.5rem;
+    border-radius: 0 0 0 60px;
   }
 
   .frameLG {
@@ -1390,12 +1261,23 @@
   }
 
   .frameLG .framePhoto {
-    width: 100%;
-    height: 100%;
+    width: 150px;
+    height: 150px;
   }
 
   .guestGrid {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .founderCardInner {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding: 1.5rem;
+  }
+
+  .founderImgSection {
+    min-height: 280px;
   }
 
   .tDetailsOpen {
@@ -1429,8 +1311,8 @@
   }
 
   .frameMD .framePhoto {
-    width: 100%;
-    height: 100%;
+    width: 120px;
+    height: 120px;
   }
 
   .frameSM {
@@ -1439,8 +1321,8 @@
   }
 
   .frameSM .framePhoto {
-    width: 100%;
-    height: 100%;
+    width: 100px;
+    height: 100px;
   }
 
   .frameLG {
@@ -1449,8 +1331,8 @@
   }
 
   .frameLG .framePhoto {
-    width: 100%;
-    height: 100%;
+    width: 142px;
+    height: 142px;
   }
 
   .modalBox {
@@ -1483,8 +1365,8 @@
   }
 
   .frameLG .framePhoto {
-    width: 100%;
-    height: 100%;
+    width: 138px;
+    height: 138px;
   }
 
   .founderName {
@@ -1497,20 +1379,11 @@
   }
 
   .tName {
-    font-size: 1.25rem;
+    font-size: 1.15rem;
   }
 
   .tBio {
-    font-size: 0.92rem;
-  }
-
-  .tRoleTag {
-    font-size: 0.62rem;
-  }
-
-  .tToggle {
-    font-size: 0.65rem;
-    padding: 0.6rem 1.4rem;
+    font-size: 0.9rem;
   }
 
   .introTitle {
@@ -1547,8 +1420,8 @@
   }
 
   .frameSM .framePhoto {
-    width: 100%;
-    height: 100%;
+    width: 106px;
+    height: 106px;
   }
 
   .tName {
@@ -1578,8 +1451,8 @@
   }
 
   .frameLG .framePhoto {
-    width: 100%;
-    height: 100%;
+    width: 131px;
+    height: 131px;
   }
 }
 
@@ -1609,8 +1482,8 @@
   }
 
   .frameLG .framePhoto {
-    width: 100%;
-    height: 100%;
+    width: 124px;
+    height: 124px;
   }
 
   .frameMD {
@@ -1619,8 +1492,8 @@
   }
 
   .frameMD .framePhoto {
-    width: 100%;
-    height: 100%;
+    width: 105px;
+    height: 105px;
   }
 
   .frameSM {
@@ -1629,8 +1502,8 @@
   }
 
   .frameSM .framePhoto {
-    width: 100%;
-    height: 100%;
+    width: 92px;
+    height: 92px;
   }
 
   .guestGrid {
@@ -1639,7 +1512,7 @@
   }
 
   .guestItem {
-    padding: 0.8rem 0.4rem;
+    padding: 0.6rem 0.3rem;
   }
 
   .guestItemName {
@@ -1657,32 +1530,10 @@
     padding: 0.75rem 1rem;
   }
 
-  .tCard {
-    padding: 1.5rem;
-  }
-
-  .tName {
-    font-size: 1.15rem;
-  }
-
-  .tBio {
-    font-size: 0.88rem;
-  }
-
-  .tRoleTag {
-    font-size: 0.6rem;
-  }
-
   .tToggle {
     width: 100%;
     justify-content: center;
     font-size: 0.62rem;
-    padding: 0.6rem 1rem;
-  }
-
-  .tYearsBadge {
-    font-size: 0.68rem;
-    padding: 0.35rem 0.7rem;
   }
 
   .guestBtnRow {
@@ -1745,8 +1596,8 @@
   }
 
   .frameLG .framePhoto {
-    width: 100%;
-    height: 100%;
+    width: 110px;
+    height: 110px;
   }
 
   .frameSM {
@@ -1755,8 +1606,8 @@
   }
 
   .frameSM .framePhoto {
-    width: 100%;
-    height: 100%;
+    width: 84px;
+    height: 84px;
   }
 
   .guestGrid {
@@ -1773,7 +1624,7 @@
   }
 
   .guestItem {
-    padding: 0.6rem 0.2rem;
+    padding: 0.5rem 0.2rem;
   }
 
   .founderName {
@@ -1811,8 +1662,8 @@
   }
 
   .frameLG .framePhoto {
-    width: 100%;
-    height: 100%;
+    width: 99px;
+    height: 99px;
   }
 
   .frameSM {
@@ -1821,8 +1672,8 @@
   }
 
   .frameSM .framePhoto {
-    width: 100%;
-    height: 100%;
+    width: 74px;
+    height: 74px;
   }
 
   .guestGrid {
@@ -1839,7 +1690,7 @@
   }
 
   .guestItem {
-    padding: 0.5rem 0.2rem;
+    padding: 0.4rem 0.1rem;
     border-radius: 8px;
   }
 

@@ -39,7 +39,7 @@ interface GuestTeacher {
 const INITIAL_COUNT = 4;
 const LOAD_MORE_COUNT = 8;
 
-// ── Simple Image Frame (No Circle SVG) ─────────────────────────────────────────
+// ── Ornate Gold SVG Frame ─────────────────────────────────────────
 const OrnateFrame: React.FC<{
   src: string;
   alt: string;
@@ -48,6 +48,7 @@ const OrnateFrame: React.FC<{
   <div
     className={`${styles.frameWrap} ${styles[`frame${size.toUpperCase()}`]}`}
   >
+
     <img src={src} alt={alt} className={styles.framePhoto} />
   </div>
 );
@@ -215,6 +216,9 @@ const GuestFacultySection: React.FC<{
           <p className={styles.introEyebrow}>More Experts</p>
           <h2 className={styles.guestTitle}>Guest &amp; Visiting Faculty</h2>
           <OmDivider />
+          <p className={styles.guestSubtitle}>
+            Renowned practitioners and specialists sharing their expertise
+          </p>
         </div>
 
         {loading ? (
@@ -225,57 +229,61 @@ const GuestFacultySection: React.FC<{
               {visibleTeachers.map((t) => (
                 <div
                   key={t._id}
-                  className={styles.guestItem}
+                  className={styles.guestCard}
                   onClick={() => onSelect(t)}
                 >
-                  <div className={styles.guestFrameWrap}>
-                    <OrnateFrame
+                  <div className={styles.guestCardImgWrap}>
+                    <img
                       src={`${apiUrl}${t.image}`}
                       alt={t.name}
-                      size="sm"
+                      className={styles.guestCardImg}
                     />
-                    <div className={styles.guestFrameOverlay} />
+                    <div className={styles.guestCardOverlay} />
+                    <div className={styles.guestCardHover}>
+                      <span className={styles.guestCardHoverText}>View Profile</span>
+                    </div>
                   </div>
-                  <p className={styles.guestItemName}>{t.name}</p>
-                  <p className={styles.guestItemHint}>tap to view</p>
+                  <div className={styles.guestCardContent}>
+                    <h3 className={styles.guestCardName}>{t.name}</h3>
+                    <p className={styles.guestCardLabel}>Guest Faculty</p>
+                  </div>
                 </div>
               ))}
             </div>
 
-            <p className={styles.guestCounter}>
-              Showing {visibleTeachers.length} of {guestTeachers.length} guest
-              teachers
-            </p>
+            {guestTeachers.length > INITIAL_COUNT && (
+              <div className={styles.guestPagination}>
+                <p className={styles.guestCounter}>
+                  Showing {visibleTeachers.length} of {guestTeachers.length} guest teachers
+                </p>
 
-            <div className={styles.guestBtnRow}>
-              {hasMore && (
-                <button
-                  className={styles.guestReadMoreBtn}
-                  onClick={() => setVisibleCount((p) => p + LOAD_MORE_COUNT)}
-                >
-                  <span className={styles.guestBtnIcon}>✦</span>
-                  Load More Teachers
-                  <span className={styles.guestBtnCount}>
-                    +
-                    {Math.min(
-                      LOAD_MORE_COUNT,
-                      guestTeachers.length - visibleCount,
-                    )}
-                  </span>
-                  <span className={styles.guestBtnArrow}>▼</span>
-                </button>
-              )}
-              {canCollapse && (
-                <button
-                  className={styles.guestShowLessBtn}
-                  onClick={() => setVisibleCount(INITIAL_COUNT)}
-                >
-                  <span className={styles.guestBtnIcon}>✦</span>
-                  Show Less
-                  <span className={styles.guestBtnArrow}>▲</span>
-                </button>
-              )}
-            </div>
+                <div className={styles.guestBtnRow}>
+                  {hasMore && (
+                    <button
+                      className={styles.guestLoadBtn}
+                      onClick={() => setVisibleCount((p) => p + LOAD_MORE_COUNT)}
+                    >
+                      <span className={styles.guestBtnIcon}>✦</span>
+                      Load More Teachers
+                      <span className={styles.guestBtnCount}>
+                        +{Math.min(LOAD_MORE_COUNT, guestTeachers.length - visibleCount)}
+                      </span>
+                      <span className={styles.guestBtnArrow}>▼</span>
+                    </button>
+                  )}
+                  {canCollapse && (
+                    <button
+                      className={styles.guestCollapseBtn}
+                      onClick={() => setVisibleCount(INITIAL_COUNT)}
+                    >
+                      <span className={styles.guestBtnIcon}>✦</span>
+                      Show Less
+                      <span className={styles.guestBtnArrow}>▲</span>
+                    </button>
+                  )}
+                </div>
+              </div>
+            )}
           </>
         ) : (
           <p className={styles.guestEmptyText}>No guest teachers found.</p>
@@ -341,33 +349,35 @@ const Teachers: React.FC = () => {
             {loading ? (
               <div className={styles.founderSkeleton} />
             ) : founder ? (
-              <div className={styles.founderGrid}>
-                <div className={styles.founderImgCol}>
-                  <OrnateFrame
-                    src={`${API_URL}${founder.image}`}
-                    alt={founder.name}
-                    size="lg"
-                  />
-                  <div className={styles.founderImgBadge}>
-                    {founder.estYear || "Est. 2005"}
+              <div className={styles.founderCard}>
+                <div className={styles.founderCardInner}>
+                  <div className={styles.founderImgSection}>
+                    <img
+                      src={`${API_URL}${founder.image}`}
+                      alt={founder.name}
+                      className={styles.founderCardImg}
+                    />
+                    <div className={styles.founderCardBadge}>
+                      {founder.estYear || "Est. 2005"}
+                    </div>
                   </div>
-                </div>
-                <div className={styles.founderTextCol}>
-                  <h2 className={styles.founderName}>{founder.name}</h2>
-                  <p className={styles.founderSubtitle}>{founder.subtitle}</p>
-                  <div className={styles.founderDivider} />
-                  {founder.bio.map((p, i) => (
-                    <p key={i} className={styles.founderPara}>
-                      {p}
-                    </p>
-                  ))}
-                  <Link href="/yoga-teacher-india">
-                    <button className={styles.founderBtn}>
-                      {founder.ctaText ||
-                        "More Information about " + founder.name}
-                      <span className={styles.founderBtnArrow}>→</span>
-                    </button>
-                  </Link>
+                  <div className={styles.founderCardContent}>
+                    <h2 className={styles.founderCardName}>{founder.name}</h2>
+                    <p className={styles.founderCardSubtitle}>{founder.subtitle}</p>
+                    <div className={styles.founderCardDivider} />
+                    <div className={styles.founderCardBio}>
+                      {founder.bio.map((p, i) => (
+                        <p key={i}>{p}</p>
+                      ))}
+                    </div>
+                    <Link href="/yoga-teacher-india">
+                      <button className={styles.founderCardBtn}>
+                        {founder.ctaText ||
+                          "More Information about " + founder.name}
+                        <span className={styles.founderCardBtnArrow}>→</span>
+                      </button>
+                    </Link>
+                  </div>
                 </div>
               </div>
             ) : null}

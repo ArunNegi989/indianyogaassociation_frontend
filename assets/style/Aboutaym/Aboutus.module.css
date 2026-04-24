@@ -92,7 +92,7 @@
 
 /* ── Container ─────────────────────────────────────────────── */
 .container {
-  max-width: 1480px;
+  max-width: 1600px;
   margin: 0 auto;
   padding: clamp(2.5rem, 5vw, 5rem) clamp(1.5rem, 6vw, 4rem);
 }
@@ -106,7 +106,8 @@
 .schoolSection {
   color: #3d2b10;
   animation: fadeIn 0.8s ease-in-out;
-  background-image: url("/assets/images/backgroundimage/1905x1662.png");
+  /* background-image: url("/assets/images/backgroundimage/1905x1662.png"); */
+  background: #fff;
   /* background-size: contain; */
 }
 
@@ -517,7 +518,7 @@
 
 .visionCard,
 .missionCard {
-  background: linear-gradient(135deg, rgba(241, 85, 5, 0.08) 0%, rgba(200, 134, 10, 0.05) 100%);
+  background: #fff;
   border-left: 4px solid var(--orange-accent);
   border-radius: 8px;
   padding: clamp(1.5rem, 3vw, 2.5rem);
@@ -574,7 +575,7 @@
 }
 
 .objectiveCard {
-  background: linear-gradient(135deg, rgba(200, 134, 10, 0.1) 0%, rgba(241, 85, 5, 0.06) 100%);
+  background: #fff;
   border: 1px solid rgba(200, 134, 10, 0.25);
   border-radius: 10px;
   padding: clamp(1.5rem, 3vw, 2rem);
@@ -672,7 +673,7 @@
 }
 
 .timelineContent {
-  background: linear-gradient(135deg, rgba(200, 134, 10, 0.08) 0%, rgba(241, 85, 5, 0.05) 100%);
+  background: #fff;
   border: 1px solid rgba(200, 134, 10, 0.2);
   border-radius: 12px;
   padding: clamp(2rem, 3vw, 2.5rem);
@@ -733,7 +734,7 @@
 }
 
 .activityItem {
-  background: linear-gradient(135deg, rgba(241, 85, 5, 0.1) 0%, rgba(200, 134, 10, 0.06) 100%);
+background: linear-gradient(135deg, #f155050d 0%, #c8860a00 100%);;
   border: 1px solid rgba(200, 134, 10, 0.2);
   border-radius: 10px;
   padding: clamp(1.5rem, 3vw, 2rem);

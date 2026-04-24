@@ -3,10 +3,16 @@
 import React, { useState, useEffect } from "react";
 import Image, { StaticImageData } from "next/image";
 import styles from "@/assets/style/Accreditationsection/Accreditationsection.module.css";
-import yogabanner from "@/assets/images/aym-yoga-school-200-300-and-500-RYS.jpg";
+import RYS1 from "@/assets/images/RYS/RPYS.png";
+import RYS2 from "@/assets/images/RYS/RYS200.png";
+import RYS3 from "@/assets/images/RYS/RYS300.png";
+import RYS4 from "@/assets/images/RYS/RYS500.png";
+
 import yogacetificate from "@/assets/images/Minstry-Of-Ayush,-Government-of-India-for-web.jpg";
-import RYS200 from "@/assets/images/RYS-200.jpg";
-import RYS300 from "@/assets/images/RYS-300.jpg";
+import RPYS from "@/assets/images/RYS/certi1.png";
+import RYS200 from "@/assets/images/RYS/certi2.png";
+import RYS300 from "@/assets/images/RYS/certi3.png";
+import RYS500 from "@/assets/images/RYS/certi4.png";
 import yogalogo from "@/assets/images/logo.jpg";
 import HowToReach from "@/components/home/Howtoreach";
 import heroImg from "@/assets/images/26.webp";
@@ -35,14 +41,24 @@ interface AccreditationCard {
 
 const yogaAllianceCerts: YogaCert[] = [
   { 
+    type: "RYS", 
+    img: RPYS,
+    description: "RPYS Yoga Teacher Training Certification"
+  },
+  { 
     type: "RYS 200", 
     img: RYS200,
-    description: "200-Hour Yoga Teacher Training Certification"
+    description: "200-Hour Advanced Yoga Teacher Training Certification"
   },
   { 
     type: "RYS 300", 
     img: RYS300,
-    description: "300-Hour Advanced Yoga Teacher Training Certification"
+    description: "300-Hour Yoga Teacher Training Certification"
+  },
+  { 
+    type: "RYS 500", 
+    img: RYS500,
+    description: "500-Hour Yoga Teacher Training Certification"
   },
 ];
 
@@ -251,6 +267,44 @@ const AccreditationSection: React.FC = () => {
               </div>
             </div>
           </div>
+          <div className={styles.imgWrap}>
+            <Image
+              src={RYS1}
+              alt="AYM Yoga School in Rishikesh registered with Yoga Alliance USA"
+              width={1200}
+              height={600}
+              className={styles.responsiveImgage}
+              sizes="(max-width: 768px) 100vw, 1100px"
+              priority
+            />
+            <Image
+              src={RYS2}
+              alt="AYM Yoga School in Rishikesh registered with Yoga Alliance USA"
+              width={1200}
+              height={600}
+               className={styles.responsiveImgage}
+              sizes="(max-width: 768px) 100vw, 1100px"
+              priority
+            />
+            <Image
+              src={RYS3}
+              alt="AYM Yoga School in Rishikesh registered with Yoga Alliance USA"
+              width={1200}
+              height={600}
+              className={styles.responsiveImgage}
+              sizes="(max-width: 768px) 100vw, 1100px"
+              priority
+            />
+            <Image
+              src={RYS4}
+              alt="AYM Yoga School in Rishikesh registered with Yoga Alliance USA"
+              width={1200}
+              height={600}
+              className={styles.responsiveImgage}
+              sizes="(max-width: 768px) 100vw, 1100px"
+              priority
+            />
+          </div>
 
           <div className={styles.highlightBox}>
             <h4 className={styles.highlightTitle}>📋 Register with Yoga Alliance USA</h4>
@@ -271,18 +325,6 @@ const AccreditationSection: React.FC = () => {
               </a>{" "}
               and create your account with your graduation certification from AYM.
             </p>
-          </div>
-
-          <div className={styles.imgWrap}>
-            <Image
-              src={yogabanner}
-              alt="AYM Yoga School in Rishikesh registered with Yoga Alliance USA"
-              width={1200}
-              height={600}
-              className={styles.responsiveImg}
-              sizes="(max-width: 768px) 100vw, 1100px"
-              priority
-            />
           </div>
         </div>
 
