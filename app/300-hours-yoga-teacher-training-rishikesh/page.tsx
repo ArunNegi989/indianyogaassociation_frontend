@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect,useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styles from "@/assets/style/300-hours-yoga-teacher-training-rishikesh/Yogattc300.module.css";
 import HowToReach from "@/components/home/Howtoreach";
 import StickySectionNav from "@/components/common/StickySectionNav";
@@ -151,9 +151,8 @@ interface Content2 {
   youtubeVideos: YouTubeVideo[];
 }
 
-
 /* ══════════════════════════════════════════════════
-   PREMIUM SEAT BOOKING — from 500hr page
+   PREMIUM SEAT BOOKING — with Kundalini pricing logic
 ══════════════════════════════════════════════════ */
 function PremiumSeatBooking({
   seats,
@@ -178,13 +177,49 @@ function PremiumSeatBooking({
 
   const selected = seats.find((s) => s._id === selectedId) ?? null;
 
-  const fmtPrice = (usd: number) => {
+  /**
+   * Core price formatter — mirrors Kundalini logic exactly.
+   * Priority for INR: stored inrFee → usdFee * rate → fallback dormPrice.
+   * For USD: use usdFee string directly → fallback dormPrice.
+   */
+  const fmtPriceAdvanced = (
+    batch: Batch | null,
+    overrideUsd?: number,
+  ): { amount: string; cur: string } => {
+    if (!batch && overrideUsd === undefined) return { amount: "—", cur: currency };
+
     if (currency === "INR") {
-      const inr = Math.round((usd * rate) / 100) * 100;
+      // Priority 1: stored inrFee
+      if (batch?.inrFee) {
+        const num = parseFloat(batch.inrFee.replace(/[₹,]/g, "").trim());
+        if (!isNaN(num) && num > 100) {
+          return { amount: `₹${num.toLocaleString("en-IN")}`, cur: "INR" };
+        }
+      }
+      // Priority 2: usdFee * live rate
+      const usdNum = batch
+        ? parseFloat(batch.usdFee.replace(/[$,]/g, "")) || batch.dormPrice
+        : overrideUsd ?? 0;
+      const inr = Math.round(usdNum * rate);
       return { amount: `₹${inr.toLocaleString("en-IN")}`, cur: "INR" };
     }
-    return { amount: `$${usd}`, cur: "USD" };
+
+    // USD: use usdFee string directly
+    if (batch?.usdFee) {
+      const raw = batch.usdFee.trim();
+      return { amount: raw.startsWith("$") ? raw : `$${raw}`, cur: "USD" };
+    }
+    // Fallback
+    const fallback = overrideUsd ?? batch?.dormPrice ?? 0;
+    return { amount: `$${fallback}`, cur: "USD" };
   };
+
+  /**
+   * Price shown on each batch card in the LEFT panel.
+   * Uses usdFee-based pricing (same as Kundalini batchCardPrice).
+   */
+  const batchCardPrice = (batch: Batch): { amount: string; cur: string } =>
+    fmtPriceAdvanced(batch);
 
   const monthYear = (start: string) => {
     const s = new Date(start);
@@ -271,7 +306,8 @@ function PremiumSeatBooking({
                 const statusTxt = full ? "Fully Booked" : low ? "Limited" : "Available";
                 const seatsPercent = Math.max(5, (rem / batch.totalSeats) * 100);
                 const isSelected = selectedId === batch._id;
-                const dormFmt = fmtPrice(batch.dormPrice);
+                // ✅ uses usdFee-based price, not dormPrice
+                const cardPrice = batchCardPrice(batch);
                 return (
                   <div
                     key={batch._id}
@@ -285,7 +321,8 @@ function PremiumSeatBooking({
                     </div>
                     <div className={styles.psbBcMonth}>{monthYear(batch.startDate)}</div>
                     <div className={styles.psbBcDates}>{shortDateRange(batch.startDate, batch.endDate)}</div>
-                    <div className={styles.psbBcPrice}>{dormFmt.amount} <span>{dormFmt.cur}</span></div>
+                    {/* ✅ shows usdFee or usdFee*rate, not dormPrice */}
+                    <div className={styles.psbBcPrice}>{cardPrice.amount} <span>{cardPrice.cur}</span></div>
                     <div className={styles.psbBcStatus}>
                       <div className={`${styles.psbBcDot} ${dotCls}`} />
                       <span className={`${styles.psbBcStxt} ${txtCls}`}>{statusTxt}</span>
@@ -328,34 +365,77 @@ function PremiumSeatBooking({
           <div className={styles.psbRpBody}>
             <div className={styles.psbPriceLbl}>With Accommodation</div>
             <div className={styles.psbPriceRow}>
+              {/* Private Room */}
               <div className={styles.psbPriceCard}>
-                <div className={styles.psbPcAmt}>{selected ? fmtPrice(selected.privatePrice).amount : "—"}<span className={styles.psbPcCur}>{currency}</span></div>
+                <div className={styles.psbPcAmt}>
+                  {selected
+                    ? currency === "INR"
+                      ? `₹${Math.round(selected.privatePrice * rate)}`
+                      : `$${selected.privatePrice}`
+                    : "—"}
+                  <span className={styles.psbPcCur}>{currency}</span>
+                </div>
                 <div className={styles.psbPcLbl}>Private Room</div>
               </div>
+              {/* Twin Room */}
               <div className={styles.psbPriceCard}>
-                <div className={styles.psbPcAmt}>{selected ? fmtPrice(selected.twinPrice).amount : "—"}<span className={styles.psbPcCur}>{currency}</span></div>
+                <div className={styles.psbPcAmt}>
+                  {selected
+                    ? currency === "INR"
+                      ? `₹${Math.round(selected.twinPrice * rate)}`
+                      : `$${selected.twinPrice}`
+                    : "—"}
+                  <span className={styles.psbPcCur}>{currency}</span>
+                </div>
                 <div className={styles.psbPcLbl}>Twin / Shared</div>
               </div>
             </div>
+
             <div className={styles.psbPriceLbl}>Without Accommodation</div>
             <div className={styles.psbPriceWide}>
               <div className={styles.psbPwLeft}>
-                <span className={styles.psbPcAmt} style={{ fontSize: "1rem" }}>{selected ? fmtPrice(selected.dormPrice).amount : "—"}</span>
+                <span className={styles.psbPcAmt} style={{ fontSize: "1rem" }}>
+                  {selected
+                    ? currency === "INR"
+                      ? `₹${Math.round(selected.dormPrice * rate)}`
+                      : `$${selected.dormPrice}`
+                    : "—"}
+                </span>
                 <span className={styles.psbPcCur}>{currency}</span>
               </div>
               <span className={styles.psbFoodBadge}>Food Included</span>
             </div>
 
+            {/* ✅ Info row — mirrors Kundalini logic exactly */}
             {selected && currency === "USD" && (
               <div className={styles.psbInrRow}>
-                <span className={styles.psbInrLbl}>Indian Price</span>
-                <span className={styles.psbInrAmt}>{selected.inrFee}</span>
+                <span className={styles.psbInrLbl}>USD Price</span>
+                <span className={styles.psbInrAmt}>
+                  {selected.usdFee.startsWith("$")
+                    ? selected.usdFee
+                    : `$${selected.usdFee}`}
+                </span>
               </div>
             )}
             {selected && currency === "INR" && (
               <div className={styles.psbInrRow}>
-                <span className={styles.psbInrLbl}>USD Price</span>
-                <span className={styles.psbInrAmt}>${selected.dormPrice} USD</span>
+                <span className={styles.psbInrLbl}>Indian Price</span>
+                <span className={styles.psbInrAmt}>
+                  {(() => {
+                    if (selected.inrFee) {
+                      const num = parseFloat(
+                        selected.inrFee.replace(/[₹,]/g, "").trim(),
+                      );
+                      if (!isNaN(num) && num > 100)
+                        return `₹${num.toLocaleString("en-IN")}`;
+                    }
+                    const usdNum =
+                      parseFloat(selected.usdFee.replace(/[$,]/g, "")) ||
+                      selected.dormPrice;
+                    const inr = Math.round(usdNum * rate);
+                    return `₹${inr.toLocaleString("en-IN")}`;
+                  })()}
+                </span>
               </div>
             )}
 
@@ -393,9 +473,10 @@ function PremiumSeatBooking({
                 <span className={styles.psbSelHint}>← Select a batch to continue</span>
               )}
             </div>
+            {/* ✅ Book Now button uses fmtPriceAdvanced(selected) — same as Kundalini */}
             {selected ? (
               <a href={`/yoga-registration?batchId=${selected._id}&type=300hr`} className={styles.psbBookBtn}>
-                Book Now — {fmtPrice(selected.dormPrice).amount} {currency}
+                Book Now — {fmtPriceAdvanced(selected).amount} {currency}
                 <svg className={styles.psbArrowIcon} viewBox="0 0 16 16" fill="none">
                   <path d="M3 8h10M9 4l4 4-4 4" stroke="#fff3d2" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
@@ -517,6 +598,7 @@ const NAV_ITEMS = [
   { label: "FACILITY", id: "facility" },
   { label: "LOCATION", id: "location" },
 ];
+
 /* ─────────────────────────────────────────
    HELPERS
 ───────────────────────────────────────── */
@@ -603,7 +685,6 @@ function CourseInfoCard({
   );
 }
 
-
 function formatPrice(
   usdAmount: number,
   currency: Currency,
@@ -615,8 +696,6 @@ function formatPrice(
   const inr = Math.round((usdAmount * rate) / 100) * 100;
   return `₹${inr.toLocaleString("en-IN")}`;
 }
-
-
 
 /* ─────────────────────────────────────────
    YOUTUBE EMBED
@@ -875,13 +954,11 @@ function useCurrencyRate() {
   return { rate, loading };
 }
 
-
 /* ─────────────────────────────────────────
    MAIN COMPONENT
 ───────────────────────────────────────── */
 export default function YogaTTC300() {
   const [activeModule, setActiveModule] = useState(0);
-  /* ── NEW: active tab for inclusions ── */
   const [activeIncTab, setActiveIncTab] = useState<"include" | "exclude">("include");
 
   const [content1, setContent1] = useState<Content1 | null>(null);
@@ -932,6 +1009,7 @@ export default function YogaTTC300() {
       try {
         const { data } = await api.get("/300hr-seats/all");
         setBatches(data?.data || []);
+        setSeats(data?.data || []);
       } catch (err) {
         console.error("300hr batch fetch error:", err);
       } finally {
@@ -968,174 +1046,159 @@ export default function YogaTTC300() {
       <StickySectionNav items={NAV_ITEMS} triggerId="hero" />
 
       <section className={styles.heroSection2}>
-  <div className={`container ${styles.facilityContainer}`}>
-
-    {content1?.pageMainH1 && (
-      <h1 className={styles.heroTitle}>{content1.pageMainH1}</h1>
-    )}
-
-    <div className={styles.omDivider}>
-      <span className={styles.divLine} />
-      <span className={styles.omGlyph}>ॐ</span>
-      <span className={styles.divLine} />
-    </div>
-
-    <div className={styles.hs2Split}>
-
-<div className={styles.hs2Left}>
-  {content1?.introParagraphs && content1.introParagraphs.length > 0 && (
-    <div className={styles.bodyText}>
-      {content1.introParagraphs.map((para, i) => (
-        <SafeHtml key={i} html={para} />
-      ))}
-    </div>
-  )}
-</div>
-
-<div className={styles.hs2Right}>
-  <div className={styles.hs2VidWrap}>
-    <video
-      className={styles.hs2Video}
-      autoPlay
-      muted
-      loop
-      playsInline
-      poster="/images/ttc-300-hero-poster.jpg"
-    >
-      <source src="/videos/ttc-300-highlight.mp4" type="video/mp4" />
-    </video>
-    <img
-      src="/images/ttc-300-hero-poster.jpg"
-      alt="Yoga in Rishikesh"
-      className={styles.hs2VidFallback}
-    />
-    <div className={styles.hs2VidOverlay} />
-    <div className={styles.hs2FloatCard}>
-      <div className={styles.hs2FloatCardLbl}>Next Batch</div>
-      <div className={styles.hs2FloatCardVal}>
-        Check dates below for upcoming batches
-      </div>
-    </div>
-    <span className={styles.hs2VidBadge}>Live in Rishikesh</span>
-  </div>
-
-  <div className={styles.hs2Stats}>
-    <div className={styles.hs2Stat}>
-      <span className={styles.hs2StatNum}>25+</span>
-      <span className={styles.hs2StatLbl}>Years Experience</span>
-    </div>
-    <div className={styles.hs2StatDiv} />
-    <div className={styles.hs2Stat}>
-      <span className={styles.hs2StatNum}>5000</span>
-      <span className={styles.hs2StatLbl}>Sq Ft Campus</span>
-    </div>
-    <div className={styles.hs2StatDiv} />
-    <div className={styles.hs2Stat}>
-      <span className={styles.hs2StatNum}>500+</span>
-      <span className={styles.hs2StatLbl}>Graduates</span>
-    </div>
-  </div>
-</div>
-
-</div>
-
-<div className={styles.hs2Pills}>
-{[
-  "Yoga Alliance RYT 500",
-  "Internationally Recognised",
-  "Experienced Teachers",
-  "Holistic Curriculum",
-].map((h, i) => (
-  <div key={i} className={styles.hs2Pill}>
-    <span className={styles.hs2PillDot} />
-    <span className={styles.hs2PillTxt}>{h}</span>
-  </div>
-))}
-</div>
-
-    {content1?.topSectionH2 && (
-      <h2 className={styles.sectionTitleOrange}>
-        {content1.topSectionH2}
-      </h2>
-    )}
-    <div className={styles.sectionUnderline} />
-
-    {content1?.topParagraphs && content1.topParagraphs.length > 0 && (
-      <div className={styles.bodyText}>
-        {content1.topParagraphs.map((para, i) => (
-          <SafeHtml key={i} html={para} />
-        ))}
-      </div>
-    )}
-
-    <div className={styles.hs2Thumbs}>
-      {[
-        { src: "/images/ttc-300-thumb1.jpg", alt: "Yoga practice at sunrise" },
-        { src: "/images/ttc-300-thumb2.jpg", alt: "Meditation session" },
-        { src: "/images/ttc-300-thumb3.jpg", alt: "Teacher training class" },
-      ].map((t, i) => (
-        <div key={i} className={styles.hs2Thumb}>
-          <img src={t.src} alt={t.alt} loading="lazy" />
-          <div className={styles.hs2ThumbOv}>
-            <div className={styles.hs2PlayBtn}>
-              <svg width="10" height="10" viewBox="0 0 10 10" fill="#fff">
-                <polygon points="2,1 9,5 2,9" />
-              </svg>
+        <div className={`container ${styles.facilityContainer}`}>
+          {content1?.pageMainH1 && (
+            <h1 className={styles.heroTitle}>{content1.pageMainH1}</h1>
+          )}
+          <div className={styles.omDivider}>
+            <span className={styles.divLine} />
+            <span className={styles.omGlyph}>ॐ</span>
+            <span className={styles.divLine} />
+          </div>
+          <div className={styles.hs2Split}>
+            <div className={styles.hs2Left}>
+              {content1?.introParagraphs && content1.introParagraphs.length > 0 && (
+                <div className={styles.bodyText}>
+                  {content1.introParagraphs.map((para, i) => (
+                    <SafeHtml key={i} html={para} />
+                  ))}
+                </div>
+              )}
+            </div>
+            <div className={styles.hs2Right}>
+              <div className={styles.hs2VidWrap}>
+                <video
+                  className={styles.hs2Video}
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  poster="/images/ttc-300-hero-poster.jpg"
+                >
+                  <source src="/videos/ttc-300-highlight.mp4" type="video/mp4" />
+                </video>
+                <img
+                  src="/images/ttc-300-hero-poster.jpg"
+                  alt="Yoga in Rishikesh"
+                  className={styles.hs2VidFallback}
+                />
+                <div className={styles.hs2VidOverlay} />
+                <div className={styles.hs2FloatCard}>
+                  <div className={styles.hs2FloatCardLbl}>Next Batch</div>
+                  <div className={styles.hs2FloatCardVal}>
+                    Check dates below for upcoming batches
+                  </div>
+                </div>
+                <span className={styles.hs2VidBadge}>Live in Rishikesh</span>
+              </div>
+              <div className={styles.hs2Stats}>
+                <div className={styles.hs2Stat}>
+                  <span className={styles.hs2StatNum}>25+</span>
+                  <span className={styles.hs2StatLbl}>Years Experience</span>
+                </div>
+                <div className={styles.hs2StatDiv} />
+                <div className={styles.hs2Stat}>
+                  <span className={styles.hs2StatNum}>5000</span>
+                  <span className={styles.hs2StatLbl}>Sq Ft Campus</span>
+                </div>
+                <div className={styles.hs2StatDiv} />
+                <div className={styles.hs2Stat}>
+                  <span className={styles.hs2StatNum}>500+</span>
+                  <span className={styles.hs2StatLbl}>Graduates</span>
+                </div>
+              </div>
             </div>
           </div>
+          <div className={styles.hs2Pills}>
+            {[
+              "Yoga Alliance RYT 500",
+              "Internationally Recognised",
+              "Experienced Teachers",
+              "Holistic Curriculum",
+            ].map((h, i) => (
+              <div key={i} className={styles.hs2Pill}>
+                <span className={styles.hs2PillDot} />
+                <span className={styles.hs2PillTxt}>{h}</span>
+              </div>
+            ))}
+          </div>
+          {content1?.topSectionH2 && (
+            <h2 className={styles.sectionTitleOrange}>
+              {content1.topSectionH2}
+            </h2>
+          )}
+          <div className={styles.sectionUnderline} />
+          {content1?.topParagraphs && content1.topParagraphs.length > 0 && (
+            <div className={styles.bodyText}>
+              {content1.topParagraphs.map((para, i) => (
+                <SafeHtml key={i} html={para} />
+              ))}
+            </div>
+          )}
+          <div className={styles.hs2Thumbs}>
+            {[
+              { src: "/images/ttc-300-thumb1.jpg", alt: "Yoga practice at sunrise" },
+              { src: "/images/ttc-300-thumb2.jpg", alt: "Meditation session" },
+              { src: "/images/ttc-300-thumb3.jpg", alt: "Teacher training class" },
+            ].map((t, i) => (
+              <div key={i} className={styles.hs2Thumb}>
+                <img src={t.src} alt={t.alt} loading="lazy" />
+                <div className={styles.hs2ThumbOv}>
+                  <div className={styles.hs2PlayBtn}>
+                    <svg width="10" height="10" viewBox="0 0 10 10" fill="#fff">
+                      <polygon points="2,1 9,5 2,9" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
-      ))}
-    </div>
-
-  </div>
-</section>
+      </section>
 
       {/* ══════════════════════════════════════
-    SECTION 2 — OVERVIEW + PREMIUM SEAT BOOKING
-═════════════════════════════════════ */}
-<section id="dates-fees" className={`${styles.section} ${styles.sectionLight}`}>
-  <div className={`container ${styles.facilityContainer}`}>
-    
-    {content1?.overviewH2 && (
-      <>
-        <div className={styles.overviewHeaderWrapper}>
-          <div className={styles.overviewOmLine}>
-            <span className={styles.overviewLineLeft} />
-            <span className={styles.overviewOmSymbol}>ॐ</span>
-            <span className={styles.overviewLineRight} />
-          </div>
-          <h2 className={styles.overviewSectionTitle}>{content1.overviewH2}</h2>
-          <div className={styles.overviewTitleUnderline} />
+          SECTION 2 — OVERVIEW + PREMIUM SEAT BOOKING
+      ══════════════════════════════════════ */}
+      <section id="dates-fees" className={`${styles.section} ${styles.sectionLight}`}>
+        <div className={`container ${styles.facilityContainer}`}>
+          {content1?.overviewH2 && (
+            <>
+              <div className={styles.overviewHeaderWrapper}>
+                <div className={styles.overviewOmLine}>
+                  <span className={styles.overviewLineLeft} />
+                  <span className={styles.overviewOmSymbol}>ॐ</span>
+                  <span className={styles.overviewLineRight} />
+                </div>
+                <h2 className={styles.overviewSectionTitle}>{content1.overviewH2}</h2>
+                <div className={styles.overviewTitleUnderline} />
+              </div>
+            </>
+          )}
+          {content1?.overviewFields && content1.overviewFields.length > 0 && (
+            <div className={styles.ovBoxGrid}>
+              {content1.overviewFields.map((field, i) => (
+                <div key={field._id} className={styles.ovBox}>
+                  <div className={styles.ovBoxTop}>
+                    <span className={styles.ovBoxNum}>{String(i + 1).padStart(2, "0")}</span>
+                    <span className={styles.ovBoxLabel}>{field.label}</span>
+                  </div>
+                  <div
+                    className={styles.ovBoxValue}
+                    dangerouslySetInnerHTML={{ __html: field.value }}
+                  />
+                </div>
+              ))}
+            </div>
+          )}
+          <PremiumSeatBooking
+            seats={batches}
+            currency={currency}
+            onCurrencyChange={setCurrency}
+            rate={rate}
+            rateLoading={rateLoading}
+          />
         </div>
-      </>
-    )}
-
-    {content1?.overviewFields && content1.overviewFields.length > 0 && (
-  <div className={styles.ovBoxGrid}>
-    {content1.overviewFields.map((field, i) => (
-      <div key={field._id} className={styles.ovBox}>
-        <div className={styles.ovBoxTop}>
-          <span className={styles.ovBoxNum}>{String(i + 1).padStart(2, "0")}</span>
-          <span className={styles.ovBoxLabel}>{field.label}</span>
-        </div>
-        <div
-          className={styles.ovBoxValue}
-          dangerouslySetInnerHTML={{ __html: field.value }}
-        />
-      </div>
-    ))}
-  </div>
-)}
-    
-    <PremiumSeatBooking
-      seats={batches}
-      currency={currency}
-      onCurrencyChange={setCurrency}
-      rate={rate}
-      rateLoading={rateLoading}
-    />
-  </div>
-</section>
+      </section>
 
       {/* ══════════════════════════════════════
           SECTION 3 — INCLUDED / NOT INCLUDED (tabbed design like 100hr page)
@@ -1143,8 +1206,6 @@ export default function YogaTTC300() {
       {(content1?.includedFee?.length || content1?.notIncludedFee?.length) && (
         <section id="inclusions" className={styles.section}>
           <div className={`container ${styles.facilityContainer}`}>
-
-            {/* Section header */}
             <div className={styles.incHeaderWrap}>
               <div className={styles.incOmRow}>
                 <span className={styles.incOmLine} />
@@ -1154,8 +1215,6 @@ export default function YogaTTC300() {
               <h2 className={styles.sectionTitleOrange}>Course Inclusions</h2>
               <div className={styles.sectionUnderline} />
             </div>
-
-            {/* Tabbed include/exclude box — same design as 100hr page */}
             <div className={styles.incWrap}>
               <div className={styles.incTabs}>
                 <button
@@ -1184,301 +1243,290 @@ export default function YogaTTC300() {
                 </ul>
               </div>
             </div>
-
           </div>
         </section>
       )}
 
-   {/* ══════════════════════════════════════
-    SECTION 4 — SYLLABUS TABS (Enhanced)
-══════════════════════════════════ */}
-{modules.length > 0 && (
-  <section id="curriculum" className={`${styles.section} ${styles.sectionLight}`}>
-    <div className={`container ${styles.facilityContainer}`}>
-      <div className={styles.syllabusHeaderWrap}>
-        <div className={styles.syllabusOrnament}>
-          <span className={styles.syllabusOrnLine} />
-          <span className={styles.syllabusOrnSymbol}>ॐ</span>
-          <span className={styles.syllabusOrnLine} />
-        </div>
-        {content1?.syllabusH2 && (
-          <h2 className={styles.sectionTitleOrange}>{content1.syllabusH2}</h2>
-        )}
-        <div className={styles.sectionUnderline} />
-        {content1?.syllabusIntro && (
-          <div className={styles.syllabusIntroText}>
-            <SafeHtml html={content1.syllabusIntro} />
-          </div>
-        )}
-      </div>
-
-      <div className={styles.syllabusTabsWrap}>
-        <div className={styles.syllabusTabStrip}>
-          {modules.map((m, i) => (
-            <button
-              key={m._id}
-              className={`${styles.syllabusTab} ${activeModule === i ? styles.syllabusTabActive : ""}`}
-              onClick={() => setActiveModule(i)}
-            >
-              <span className={styles.syllabusTabNum}>{String(i + 1).padStart(2, "0")}</span>
-              <span className={styles.syllabusTabLabel}>{m.label}</span>
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {mod && (
-        <div className={styles.syllabusPanel}>
-          <div className={styles.syllabusPanelHeader}>
-            <div className={styles.syllabusPanelNum}>Module {activeModule + 1}</div>
-            <h4 className={styles.syllabusPanelTitle}>{mod.title}</h4>
-            {mod.subTitle && (
-              <p className={styles.syllabusPanelSubTitle}>{mod.subTitle}</p>
-            )}
-          </div>
-
-<div className={styles.syllabusPanelBody}>
-  <div className={`${styles.syllabusPanelText} ${(!mod.listItems || mod.listItems.filter(Boolean).length === 0) ? styles.syllabusPanelTextFull : ""}`}>
-    <SafeHtml html={mod.content} />
-  </div>
-
-  {mod.listItems && mod.listItems.filter(Boolean).length > 0 && (
-    <div className={styles.syllabusListWrap}>
-      <div className={styles.syllabusListHeader}>
-        <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
-          <circle cx="8" cy="8" r="7" stroke="#F15505" strokeWidth="1.2"/>
-          <path d="M5 8l2 2 4-4" stroke="#F15505" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
-        </svg>
-        <span>Topics Covered</span>
-      </div>
-      {mod.twoCol ? (
-        <div className={styles.syllabusListTwoCol}>
-          {mod.listItems.filter(Boolean).map((item, i) => (
-            <div key={i} className={styles.syllabusListItem}>
-              <span className={styles.syllabusListDot} />
-              <span>{item}</span>
-            </div>
-          ))}
-        </div>
-      ) : (
-        <div className={styles.syllabusList}>
-          {mod.listItems.filter(Boolean).map((item, i) => (
-            <div key={i} className={styles.syllabusListItem}>
-              <span className={styles.syllabusListDot} />
-              <span>{item}</span>
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
-  )}
-</div>
-          <div className={styles.syllabusPanelFooter}>
-            <button
-              className={styles.syllabusPrevBtn}
-              onClick={() => setActiveModule(i => Math.max(0, i - 1))}
-              disabled={activeModule === 0}
-            >
-              ← Previous
-            </button>
-            <div className={styles.syllabusDots}>
-              {modules.map((_, i) => (
-                <span
-                  key={i}
-                  className={`${styles.syllabusDot} ${activeModule === i ? styles.syllabusDotActive : ""}`}
-                  onClick={() => setActiveModule(i)}
-                />
-              ))}
-            </div>
-            <button
-              className={styles.syllabusNextBtn}
-              onClick={() => setActiveModule(i => Math.min(modules.length - 1, i + 1))}
-              disabled={activeModule === modules.length - 1}
-            >
-              Next →
-            </button>
-          </div>
-        </div>
-      )}
-    </div>
-  </section>
-)}
-
-     {/* ══════════════════════════════════════
-    SECTION 5 — EVOLUTION & CERTIFICATION
-══════════════════════════════════════ */}
-{content2 && (
-  <section className={`${styles.section} ${styles.sectionLight}`}>
-    <div className={`container ${styles.facilityContainer}`}>
-
-      <div className={styles.evoHeaderWrap}>
-        <div className={styles.evoOrnament}>
-          <span className={styles.evoOrnLine} />
-          <span className={styles.evoOrnSymbol}>ॐ</span>
-          <span className={styles.evoOrnLine} />
-        </div>
-        {content2.evolutionH2 && (
-          <h2 className={styles.sectionTitleOrange}>{content2.evolutionH2}</h2>
-        )}
-        <div className={styles.sectionUnderline} />
-      </div>
-
-      <div className={styles.evoIntroSplit}>
-        <div className={styles.evoIntroLeft}>
-          {content2.evolutionParas?.map((para, i) => (
-            <div key={i} className={styles.bodyPara}>
-              <SafeHtml html={para} />
-            </div>
-          ))}
-        </div>
-        <div className={styles.evoIntroRight}>
-          <div className={styles.evoImgFrame}>
-            <img
-              src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=600&q=80"
-              alt="Yoga meditation in Rishikesh"
-              className={styles.evoRealImg}
-            />
-            <div className={styles.evoImgBadge}>
-              <span>Yoga Alliance</span>
-              <strong>RYT 500 Certified</strong>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {content2.markDistH3 && (
-        <div className={styles.evoMarkCard}>
-          <div className={styles.evoMarkCardHeader}>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff3d2" strokeWidth="1.6" strokeLinecap="round">
-              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-            </svg>
-            <h3 className={styles.evoMarkCardTitle}>{content2.markDistH3}</h3>
-          </div>
-          <div className={styles.evoMarkCardBody}>
-            {content2.markDistSubText && (
-              <p className={styles.evoMarkSubText}>{content2.markDistSubText}</p>
-            )}
-            <div className={styles.evoMarkGrid}>
-              {content2.markTotalLabel && content2.markTotalText && (
-                <div className={styles.evoMarkItem}>
-                  <div className={styles.evoMarkIcon}>
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round">
-                      <circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/>
-                    </svg>
-                  </div>
-                  <div>
-                    <div className={styles.evoMarkLabel}>{content2.markTotalLabel}</div>
-                    <div className={styles.evoMarkValue}>{content2.markTotalText}</div>
-                  </div>
-                </div>
-              )}
-              {content2.markTheoryLabel && content2.markTheoryText && (
-                <div className={styles.evoMarkItem}>
-                  <div className={styles.evoMarkIcon}>
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round">
-                      <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
-                      <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
-                    </svg>
-                  </div>
-                  <div>
-                    <div className={styles.evoMarkLabel}>{content2.markTheoryLabel}</div>
-                    <div className={styles.evoMarkValue}>{content2.markTheoryText}</div>
-                  </div>
-                </div>
-              )}
-              {content2.markPracticalLabel && content2.markPracticalText && (
-                <div className={styles.evoMarkItem}>
-                  <div className={styles.evoMarkIcon}>
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round">
-                      <circle cx="12" cy="4" r="1.5"/>
-                      <path d="M12 6v5.5"/>
-                      <path d="M8.5 13c0 2 1.5 4 3.5 4.5 2-.5 3.5-2.5 3.5-4.5"/>
-                      <path d="M7 11l5 2.5 5-2.5"/>
-                    </svg>
-                  </div>
-                  <div>
-                    <div className={styles.evoMarkLabel}>{content2.markPracticalLabel}</div>
-                    <div className={styles.evoMarkValue}>{content2.markPracticalText}</div>
-                  </div>
-                </div>
-              )}
-            </div>
-            {content2.markPracticalDetail && (
-              <div className={styles.evoMarkDetail}>
-                <SafeHtml html={content2.markPracticalDetail} />
+      {/* ══════════════════════════════════════
+          SECTION 4 — SYLLABUS TABS (Enhanced)
+      ══════════════════════════════════════ */}
+      {modules.length > 0 && (
+        <section id="curriculum" className={`${styles.section} ${styles.sectionLight}`}>
+          <div className={`container ${styles.facilityContainer}`}>
+            <div className={styles.syllabusHeaderWrap}>
+              <div className={styles.syllabusOrnament}>
+                <span className={styles.syllabusOrnLine} />
+                <span className={styles.syllabusOrnSymbol}>ॐ</span>
+                <span className={styles.syllabusOrnLine} />
               </div>
-            )}
-          </div>
-        </div>
-      )}
-
-      {content2.careerH3 && (
-        <div className={styles.evoCareerWrap}>
-          <div className={styles.evoCareerHeader}>
-            <h3 className={styles.evoCareerTitle}>{content2.careerH3}</h3>
-            <div className={styles.evoCareerLine} />
-          </div>
-          {content2.careerItems && content2.careerItems.length > 0 && (
-            <div className={styles.evoCareerGrid}>
-              {content2.careerItems.map((career, i) => (
-                <div key={i} className={styles.evoCareerChip}>
-                  <span className={styles.evoCareerDot} />
-                  {career}
+              {content1?.syllabusH2 && (
+                <h2 className={styles.sectionTitleOrange}>{content1.syllabusH2}</h2>
+              )}
+              <div className={styles.sectionUnderline} />
+              {content1?.syllabusIntro && (
+                <div className={styles.syllabusIntroText}>
+                  <SafeHtml html={content1.syllabusIntro} />
                 </div>
-              ))}
+              )}
             </div>
-          )}
-        </div>
-      )}
-
-      {(content2.feeCard1Title || content2.feeCard2Title) && (
-        <div className={styles.evoFeeRow}>
-          {content2.feeCard1Title && (
-            <div className={styles.evoFeeCardLight}>
-              <div className={styles.evoFeeCardIcon}>
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F15505" strokeWidth="1.6" strokeLinecap="round">
-                  <rect x="2" y="3" width="20" height="14" rx="2"/>
-                  <path d="M8 17v4M16 17v4M8 21h8"/>
-                  <path d="M9 10l2 2 4-4"/>
-                </svg>
-              </div>
-              <h4 className={styles.evoFeeCardTitle}>{content2.feeCard1Title}</h4>
-              <div className={styles.evoFeeCardDivider} />
-              <div className={styles.evoFeeCardItems}>
-                {content2.feeCard1Items?.map((item, i) => (
-                  <p key={i} className={styles.evoFeeCardItem}>
-                    <span className={styles.evoFeeCardBullet}>›</span>{item}
-                  </p>
+            <div className={styles.syllabusTabsWrap}>
+              <div className={styles.syllabusTabStrip}>
+                {modules.map((m, i) => (
+                  <button
+                    key={m._id}
+                    className={`${styles.syllabusTab} ${activeModule === i ? styles.syllabusTabActive : ""}`}
+                    onClick={() => setActiveModule(i)}
+                  >
+                    <span className={styles.syllabusTabNum}>{String(i + 1).padStart(2, "0")}</span>
+                    <span className={styles.syllabusTabLabel}>{m.label}</span>
+                  </button>
                 ))}
               </div>
-              <a href="#" className={styles.evoFeeCardBtnOutline}>Read More →</a>
             </div>
-          )}
-          {content2.feeCard2Title && (
-            <div className={styles.evoFeeCardDark}>
-              <div className={styles.evoFeeCardIconDark}>
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff3d2" strokeWidth="1.6" strokeLinecap="round">
-                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                </svg>
+            {mod && (
+              <div className={styles.syllabusPanel}>
+                <div className={styles.syllabusPanelHeader}>
+                  <div className={styles.syllabusPanelNum}>Module {activeModule + 1}</div>
+                  <h4 className={styles.syllabusPanelTitle}>{mod.title}</h4>
+                  {mod.subTitle && (
+                    <p className={styles.syllabusPanelSubTitle}>{mod.subTitle}</p>
+                  )}
+                </div>
+                <div className={styles.syllabusPanelBody}>
+                  <div className={`${styles.syllabusPanelText} ${(!mod.listItems || mod.listItems.filter(Boolean).length === 0) ? styles.syllabusPanelTextFull : ""}`}>
+                    <SafeHtml html={mod.content} />
+                  </div>
+                  {mod.listItems && mod.listItems.filter(Boolean).length > 0 && (
+                    <div className={styles.syllabusListWrap}>
+                      <div className={styles.syllabusListHeader}>
+                        <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                          <circle cx="8" cy="8" r="7" stroke="#F15505" strokeWidth="1.2"/>
+                          <path d="M5 8l2 2 4-4" stroke="#F15505" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                        <span>Topics Covered</span>
+                      </div>
+                      {mod.twoCol ? (
+                        <div className={styles.syllabusListTwoCol}>
+                          {mod.listItems.filter(Boolean).map((item, i) => (
+                            <div key={i} className={styles.syllabusListItem}>
+                              <span className={styles.syllabusListDot} />
+                              <span>{item}</span>
+                            </div>
+                          ))}
+                        </div>
+                      ) : (
+                        <div className={styles.syllabusList}>
+                          {mod.listItems.filter(Boolean).map((item, i) => (
+                            <div key={i} className={styles.syllabusListItem}>
+                              <span className={styles.syllabusListDot} />
+                              <span>{item}</span>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+                <div className={styles.syllabusPanelFooter}>
+                  <button
+                    className={styles.syllabusPrevBtn}
+                    onClick={() => setActiveModule(i => Math.max(0, i - 1))}
+                    disabled={activeModule === 0}
+                  >
+                    ← Previous
+                  </button>
+                  <div className={styles.syllabusDots}>
+                    {modules.map((_, i) => (
+                      <span
+                        key={i}
+                        className={`${styles.syllabusDot} ${activeModule === i ? styles.syllabusDotActive : ""}`}
+                        onClick={() => setActiveModule(i)}
+                      />
+                    ))}
+                  </div>
+                  <button
+                    className={styles.syllabusNextBtn}
+                    onClick={() => setActiveModule(i => Math.min(modules.length - 1, i + 1))}
+                    disabled={activeModule === modules.length - 1}
+                  >
+                    Next →
+                  </button>
+                </div>
               </div>
-              <h4 className={styles.evoFeeCardTitleDark}>{content2.feeCard2Title}</h4>
-              <div className={styles.evoFeeCardDividerDark} />
-              <div className={styles.evoFeeCardItems}>
-                {content2.feeCard2Items?.map((item, i) => (
-                  <p key={i} className={styles.evoFeeCardItemDark}>
-                    <span className={styles.evoFeeCardBulletDark}>›</span>{item}
-                  </p>
-                ))}
-              </div>
-              <a href="#" className={styles.evoFeeCardBtnDark}>Read More →</a>
-            </div>
-          )}
-        </div>
+            )}
+          </div>
+        </section>
       )}
 
-    </div>
-  </section>
-)}
+      {/* ══════════════════════════════════════
+          SECTION 5 — EVOLUTION & CERTIFICATION
+      ══════════════════════════════════════ */}
+      {content2 && (
+        <section className={`${styles.section} ${styles.sectionLight}`}>
+          <div className={`container ${styles.facilityContainer}`}>
+            <div className={styles.evoHeaderWrap}>
+              <div className={styles.evoOrnament}>
+                <span className={styles.evoOrnLine} />
+                <span className={styles.evoOrnSymbol}>ॐ</span>
+                <span className={styles.evoOrnLine} />
+              </div>
+              {content2.evolutionH2 && (
+                <h2 className={styles.sectionTitleOrange}>{content2.evolutionH2}</h2>
+              )}
+              <div className={styles.sectionUnderline} />
+            </div>
+            <div className={styles.evoIntroSplit}>
+              <div className={styles.evoIntroLeft}>
+                {content2.evolutionParas?.map((para, i) => (
+                  <div key={i} className={styles.bodyPara}>
+                    <SafeHtml html={para} />
+                  </div>
+                ))}
+              </div>
+              <div className={styles.evoIntroRight}>
+                <div className={styles.evoImgFrame}>
+                  <img
+                    src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=600&q=80"
+                    alt="Yoga meditation in Rishikesh"
+                    className={styles.evoRealImg}
+                  />
+                  <div className={styles.evoImgBadge}>
+                    <span>Yoga Alliance</span>
+                    <strong>RYT 500 Certified</strong>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {content2.markDistH3 && (
+              <div className={styles.evoMarkCard}>
+                <div className={styles.evoMarkCardHeader}>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff3d2" strokeWidth="1.6" strokeLinecap="round">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                  </svg>
+                  <h3 className={styles.evoMarkCardTitle}>{content2.markDistH3}</h3>
+                </div>
+                <div className={styles.evoMarkCardBody}>
+                  {content2.markDistSubText && (
+                    <p className={styles.evoMarkSubText}>{content2.markDistSubText}</p>
+                  )}
+                  <div className={styles.evoMarkGrid}>
+                    {content2.markTotalLabel && content2.markTotalText && (
+                      <div className={styles.evoMarkItem}>
+                        <div className={styles.evoMarkIcon}>
+                          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round">
+                            <circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/>
+                          </svg>
+                        </div>
+                        <div>
+                          <div className={styles.evoMarkLabel}>{content2.markTotalLabel}</div>
+                          <div className={styles.evoMarkValue}>{content2.markTotalText}</div>
+                        </div>
+                      </div>
+                    )}
+                    {content2.markTheoryLabel && content2.markTheoryText && (
+                      <div className={styles.evoMarkItem}>
+                        <div className={styles.evoMarkIcon}>
+                          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round">
+                            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+                            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+                          </svg>
+                        </div>
+                        <div>
+                          <div className={styles.evoMarkLabel}>{content2.markTheoryLabel}</div>
+                          <div className={styles.evoMarkValue}>{content2.markTheoryText}</div>
+                        </div>
+                      </div>
+                    )}
+                    {content2.markPracticalLabel && content2.markPracticalText && (
+                      <div className={styles.evoMarkItem}>
+                        <div className={styles.evoMarkIcon}>
+                          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round">
+                            <circle cx="12" cy="4" r="1.5"/>
+                            <path d="M12 6v5.5"/>
+                            <path d="M8.5 13c0 2 1.5 4 3.5 4.5 2-.5 3.5-2.5 3.5-4.5"/>
+                            <path d="M7 11l5 2.5 5-2.5"/>
+                          </svg>
+                        </div>
+                        <div>
+                          <div className={styles.evoMarkLabel}>{content2.markPracticalLabel}</div>
+                          <div className={styles.evoMarkValue}>{content2.markPracticalText}</div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                  {content2.markPracticalDetail && (
+                    <div className={styles.evoMarkDetail}>
+                      <SafeHtml html={content2.markPracticalDetail} />
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+            {content2.careerH3 && (
+              <div className={styles.evoCareerWrap}>
+                <div className={styles.evoCareerHeader}>
+                  <h3 className={styles.evoCareerTitle}>{content2.careerH3}</h3>
+                  <div className={styles.evoCareerLine} />
+                </div>
+                {content2.careerItems && content2.careerItems.length > 0 && (
+                  <div className={styles.evoCareerGrid}>
+                    {content2.careerItems.map((career, i) => (
+                      <div key={i} className={styles.evoCareerChip}>
+                        <span className={styles.evoCareerDot} />
+                        {career}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+            {(content2.feeCard1Title || content2.feeCard2Title) && (
+              <div className={styles.evoFeeRow}>
+                {content2.feeCard1Title && (
+                  <div className={styles.evoFeeCardLight}>
+                    <div className={styles.evoFeeCardIcon}>
+                      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F15505" strokeWidth="1.6" strokeLinecap="round">
+                        <rect x="2" y="3" width="20" height="14" rx="2"/>
+                        <path d="M8 17v4M16 17v4M8 21h8"/>
+                        <path d="M9 10l2 2 4-4"/>
+                      </svg>
+                    </div>
+                    <h4 className={styles.evoFeeCardTitle}>{content2.feeCard1Title}</h4>
+                    <div className={styles.evoFeeCardDivider} />
+                    <div className={styles.evoFeeCardItems}>
+                      {content2.feeCard1Items?.map((item, i) => (
+                        <p key={i} className={styles.evoFeeCardItem}>
+                          <span className={styles.evoFeeCardBullet}>›</span>{item}
+                        </p>
+                      ))}
+                    </div>
+                    <a href="#" className={styles.evoFeeCardBtnOutline}>Read More →</a>
+                  </div>
+                )}
+                {content2.feeCard2Title && (
+                  <div className={styles.evoFeeCardDark}>
+                    <div className={styles.evoFeeCardIconDark}>
+                      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff3d2" strokeWidth="1.6" strokeLinecap="round">
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                      </svg>
+                    </div>
+                    <h4 className={styles.evoFeeCardTitleDark}>{content2.feeCard2Title}</h4>
+                    <div className={styles.evoFeeCardDividerDark} />
+                    <div className={styles.evoFeeCardItems}>
+                      {content2.feeCard2Items?.map((item, i) => (
+                        <p key={i} className={styles.evoFeeCardItemDark}>
+                          <span className={styles.evoFeeCardBulletDark}>›</span>{item}
+                        </p>
+                      ))}
+                    </div>
+                    <a href="#" className={styles.evoFeeCardBtnDark}>Read More →</a>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        </section>
+      )}
 
       {/* ══════════════════════════════════════
           SECTION 6 — FAQ + ACCOMMODATION + FOOD
@@ -1486,38 +1534,36 @@ export default function YogaTTC300() {
       {content2 && (
         <section id="facility" className={`${styles.section} ${styles.sectionLight}`}>
           <div className={`container ${styles.facilityContainer}`}>
-           {content2.faqH2 && (
-  <div className={styles.faqSectionWrap}>
-    <div className={styles.faqHeaderRow}>
-      <div className={styles.faqHeaderLeft}>
-        <div className={styles.faqOrnament}>
-          <span className={styles.faqOrnLine} />
-          <span className={styles.faqOrnSymbol}>ॐ</span>
-          <span className={styles.faqOrnLine} />
-        </div>
-        <h2 className={styles.faqMainTitle}>{content2.faqH2}</h2>
-        <div className={styles.faqTitleUnder} />
-        <p className={styles.faqSubtext}>
-          Everything you need to know before enrolling
-        </p>
-      </div>
-    </div>
-
-    {content2.faqItems && content2.faqItems.length > 0 && (
-      <div className={styles.faqGrid}>
-        {content2.faqItems.map((faq, idx) => (
-          <FaqItemComponent
-            key={faq._id}
-            question={faq.question}
-            answer={faq.answer}
-            index={idx}
-          />
-        ))}
-      </div>
-    )}
-  </div>
-)}
-
+            {content2.faqH2 && (
+              <div className={styles.faqSectionWrap}>
+                <div className={styles.faqHeaderRow}>
+                  <div className={styles.faqHeaderLeft}>
+                    <div className={styles.faqOrnament}>
+                      <span className={styles.faqOrnLine} />
+                      <span className={styles.faqOrnSymbol}>ॐ</span>
+                      <span className={styles.faqOrnLine} />
+                    </div>
+                    <h2 className={styles.faqMainTitle}>{content2.faqH2}</h2>
+                    <div className={styles.faqTitleUnder} />
+                    <p className={styles.faqSubtext}>
+                      Everything you need to know before enrolling
+                    </p>
+                  </div>
+                </div>
+                {content2.faqItems && content2.faqItems.length > 0 && (
+                  <div className={styles.faqGrid}>
+                    {content2.faqItems.map((faq, idx) => (
+                      <FaqItemComponent
+                        key={faq._id}
+                        question={faq.question}
+                        answer={faq.answer}
+                        index={idx}
+                      />
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
             <PremiumGallerySection type="both" backgroundColor="warm" />
           </div>
         </section>
@@ -1526,475 +1572,443 @@ export default function YogaTTC300() {
       {/* ══════════════════════════════════════
           SECTION 7 — LUXURY ROOM & FEATURES
       ══════════════════════════════════════ */}
-     {content2 && (
-  <section className={styles.section}>
-    <div className={`container ${styles.facilityContainer}`}>
-
-      {content2.luxuryH2 && (
-        <div className={styles.luxHdrWrap}>
-          <div className={styles.luxHdrOmRow}>
-            <span className={styles.luxHdrLine} />
-            <span className={styles.luxHdrOm}>ॐ</span>
-            <span className={styles.luxHdrLine} />
-          </div>
-          <h2 className={styles.luxHdrTitle}>{content2.luxuryH2}</h2>
-          <div className={styles.luxHdrUnderline} />
-        </div>
-      )}
-
-      <div className={styles.luxLayout}>
-
-        {content2.luxuryFeatures && content2.luxuryFeatures.length > 0 && (
-          <div className={styles.luxFeatures}>
-            {content2.luxuryFeatures.map((f, i) => (
-              <div key={i} className={styles.luxFeatureItem}>
-                <div className={styles.luxFeatureIcon}>
-                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
-                    <circle cx="8" cy="8" r="7" stroke="#F15505" strokeWidth="1.2"/>
-                    <path d="M5 8l2 2 4-4" stroke="#F15505" strokeWidth="1.4"
-                      strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
+      {content2 && (
+        <section className={styles.section}>
+          <div className={`container ${styles.facilityContainer}`}>
+            {content2.luxuryH2 && (
+              <div className={styles.luxHdrWrap}>
+                <div className={styles.luxHdrOmRow}>
+                  <span className={styles.luxHdrLine} />
+                  <span className={styles.luxHdrOm}>ॐ</span>
+                  <span className={styles.luxHdrLine} />
                 </div>
-                <span className={styles.luxFeatureTxt}>{f}</span>
+                <h2 className={styles.luxHdrTitle}>{content2.luxuryH2}</h2>
+                <div className={styles.luxHdrUnderline} />
               </div>
-            ))}
-          </div>
-        )}
-
-        {content2.luxuryImages && content2.luxuryImages.length > 0 && (
-          <div className={styles.luxImgMosaic}>
-            {content2.luxuryImages.map((src, i) => (
-              <div
-                key={i}
-                className={`${styles.luxImgBlock} ${i === 0 ? styles.luxImgBlockWide : ""}`}
-              >
+            )}
+            <div className={styles.luxLayout}>
+              {content2.luxuryFeatures && content2.luxuryFeatures.length > 0 && (
+                <div className={styles.luxFeatures}>
+                  {content2.luxuryFeatures.map((f, i) => (
+                    <div key={i} className={styles.luxFeatureItem}>
+                      <div className={styles.luxFeatureIcon}>
+                        <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                          <circle cx="8" cy="8" r="7" stroke="#F15505" strokeWidth="1.2"/>
+                          <path d="M5 8l2 2 4-4" stroke="#F15505" strokeWidth="1.4"
+                            strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                      </div>
+                      <span className={styles.luxFeatureTxt}>{f}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+              {content2.luxuryImages && content2.luxuryImages.length > 0 && (
+                <div className={styles.luxImgMosaic}>
+                  {content2.luxuryImages.map((src, i) => (
+                    <div
+                      key={i}
+                      className={`${styles.luxImgBlock} ${i === 0 ? styles.luxImgBlockWide : ""}`}
+                    >
+                      <img
+                        src={imgUrl(src)}
+                        alt={`Luxury room ${i + 1}`}
+                        className={styles.luxImg}
+                        loading="lazy"
+                      />
+                      <div className={styles.luxImgOverlay} />
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+            {content2.yogaGardenImage && (
+              <div className={styles.luxGardenWrap}>
                 <img
-                  src={imgUrl(src)}
-                  alt={`Luxury room ${i + 1}`}
-                  className={styles.luxImg}
+                  src={imgUrl(content2.yogaGardenImage)}
+                  alt="Yoga in garden"
+                  className={styles.luxGardenImg}
                   loading="lazy"
                 />
-                <div className={styles.luxImgOverlay} />
+                <div className={styles.luxGardenBadge}>
+                  <span>AYM Yoga School</span>
+                  <strong>Rishikesh, India</strong>
+                </div>
               </div>
-            ))}
+            )}
           </div>
-        )}
-
-      </div>
-
-      {content2.yogaGardenImage && (
-        <div className={styles.luxGardenWrap}>
-          <img
-            src={imgUrl(content2.yogaGardenImage)}
-            alt="Yoga in garden"
-            className={styles.luxGardenImg}
-            loading="lazy"
-          />
-          <div className={styles.luxGardenBadge}>
-            <span>AYM Yoga School</span>
-            <strong>Rishikesh, India</strong>
-          </div>
-        </div>
+        </section>
       )}
-
-    </div>
-  </section>
-)}
 
       {/* ══════════════════════════════════════
           SECTION 8 — FEATURES + DAILY SCHEDULE
       ══════════════════════════════════════ */}
       {content2 && (
-  <section className={`${styles.section} ${styles.sectionLight}`}>
-    <div className={`container ${styles.facilityContainer}`}>
-
-      {content2.featuresH2 && (
-        <div className={styles.s8HdrWrap}>
-          <div className={styles.s8OmRow}>
-            <span className={styles.s8OmLine} />
-            <span className={styles.s8OmGlyph}>ॐ</span>
-            <span className={styles.s8OmLine} />
-          </div>
-          <h2 className={styles.sectionTitleOrange}>{content2.featuresH2}</h2>
-          <div className={styles.sectionUnderline} />
-        </div>
-      )}
-
-      {content2.featuresList && content2.featuresList.length > 0 && (
-        <div className={styles.s8FeatGrid}>
-          {content2.featuresList.map((f, i) => (
-            <div key={i} className={styles.s8FeatItem}>
-              <div className={styles.s8FeatNum}>{String(i + 1).padStart(2, "0")}</div>
-              <p className={styles.s8FeatTxt}>{f}</p>
-            </div>
-          ))}
-        </div>
-      )}
-
-      <div className={styles.s8ScheduleLayout}>
-
-        <div className={styles.s8ScheduleLeft}>
-          {content2.scheduleH3 && (
-            <div className={styles.s8SchedHdr}>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-                stroke="#F15505" strokeWidth="1.6" strokeLinecap="round">
-                <rect x="3" y="4" width="18" height="18" rx="2"/>
-                <path d="M16 2v4M8 2v4M3 10h18"/>
-              </svg>
-              <h3 className={styles.s8SchedTitle}>{content2.scheduleH3}</h3>
-            </div>
-          )}
-
-          {content2.scheduleItems && content2.scheduleItems.length > 0 && (
-            <div className={styles.s8SchedList}>
-              {content2.scheduleItems.map((row, i) => (
-                <div key={row._id} className={styles.s8SchedRow}>
-                  <div className={styles.s8SchedTimeBadge}>
-                    <svg width="10" height="10" viewBox="0 0 16 16" fill="none">
-                      <circle cx="8" cy="8" r="7" stroke="rgba(255,243,210,0.7)" strokeWidth="1.2"/>
-                      <path d="M8 4.5V8.5L10.5 10" stroke="rgba(255,243,210,0.9)"
-                        strokeWidth="1.2" strokeLinecap="round"/>
-                    </svg>
-                    <span>{row.time}</span>
-                  </div>
-                  <div className={styles.s8SchedActivity}>{row.activity}</div>
-                  <div className={styles.s8SchedDot} />
+        <section className={`${styles.section} ${styles.sectionLight}`}>
+          <div className={`container ${styles.facilityContainer}`}>
+            {content2.featuresH2 && (
+              <div className={styles.s8HdrWrap}>
+                <div className={styles.s8OmRow}>
+                  <span className={styles.s8OmLine} />
+                  <span className={styles.s8OmGlyph}>ॐ</span>
+                  <span className={styles.s8OmLine} />
                 </div>
-              ))}
-            </div>
-          )}
-        </div>
-
-        {content2.scheduleImages && content2.scheduleImages.length > 0 && (
-          <div className={styles.s8ImgStack}>
-            {content2.scheduleImages.map((src, i) => (
-              <div
-                key={i}
-                className={`${styles.s8ImgBlock} ${i === 0 ? styles.s8ImgBlockTall : ""}`}
-              >
-                <img
-                  src={imgUrl(src)}
-                  alt={`Schedule ${i + 1}`}
-                  className={styles.s8Img}
-                  loading="lazy"
-                />
-                <div className={styles.s8ImgOverlay} />
+                <h2 className={styles.sectionTitleOrange}>{content2.featuresH2}</h2>
+                <div className={styles.sectionUnderline} />
               </div>
-            ))}
-          </div>
-        )}
-
-      </div>
-    </div>
-  </section>
-)}
-
-   {/* ══════════════════════════════════════
-    SECTION 9 — LEARNING OUTCOMES + ELIGIBILITY + EVALUATION
-══════════════════════════════════════ */}
-{content2 && (
-  <section className={styles.section}>
-    <div className={`container ${styles.facilityContainer}`}>
-
-      <div className={styles.s9HeaderWrap}>
-        <div className={styles.s9OmRow}>
-          <span className={styles.s9OmLine} />
-          <span className={styles.s9OmGlyph}>ॐ</span>
-          <span className={styles.s9OmLine} />
-        </div>
-        {content2.learningH2 && (
-          <h2 className={styles.sectionTitleOrange}>{content2.learningH2}</h2>
-        )}
-        <div className={styles.sectionUnderline} />
-      </div>
-
-      <div className={styles.s9OutcomesSplit}>
-        <div className={styles.s9OutcomesLeft}>
-          {content2.learningItems && content2.learningItems.length > 0 && (
-            <div className={styles.s9OutcomesGrid}>
-              {content2.learningItems.map((item, i) => (
-                <div key={i} className={styles.s9OutcomeChip}>
-                  <span className={styles.s9ChipNum}>
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <span className={styles.s9ChipTxt}>{item}</span>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-
-        <div className={styles.s9ImageMosaic}>
-          <div className={`${styles.s9ImgBlock} ${styles.s9ImgTall}`}>
-            <img src="/images/s9-outcomes-1.jpg" alt="Advanced yoga practice in Rishikesh" className={styles.s9Img} loading="lazy" />
-            <div className={styles.s9ImgOverlay}><span className={styles.s9ImgLabel}>Advanced Practice</span></div>
-          </div>
-          <div className={styles.s9ImgBlock}>
-            <img src="/images/s9-outcomes-2.jpg" alt="Yoga certification ceremony" className={styles.s9Img} loading="lazy" />
-            <div className={styles.s9ImgOverlay}><span className={styles.s9ImgLabel}>Certification</span></div>
-          </div>
-          <div className={styles.s9ImgBlock}>
-            <img src="/images/s9-outcomes-3.jpg" alt="Graduation at AYM School" className={styles.s9Img} loading="lazy" />
-            <div className={styles.s9ImgOverlay}><span className={styles.s9ImgLabel}>Graduation</span></div>
-          </div>
-        </div>
-      </div>
-
-      {content2.eligibilityH2 && (
-        <div className={styles.s9Card}>
-          <div className={styles.s9CardHeader}>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFF8EE" strokeWidth="1.6" strokeLinecap="round">
-              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-            </svg>
-            <h2 className={styles.s9CardTitle}>{content2.eligibilityH2}</h2>
-          </div>
-          <div className={styles.s9CardBody}>
-            <div className={styles.s9EligSplit}>
-              <div className={styles.s9EligLeft}>
-                {content2.eligibilityTag && (<div className={styles.s9EligTag}>{content2.eligibilityTag}</div>)}
-                {content2.eligibilityParas && content2.eligibilityParas.length > 0 && (
-                  <div className={styles.s9EligText}>
-                    {content2.eligibilityParas.map((para, i) => (<SafeHtml key={i} html={para} />))}
+            )}
+            {content2.featuresList && content2.featuresList.length > 0 && (
+              <div className={styles.s8FeatGrid}>
+                {content2.featuresList.map((f, i) => (
+                  <div key={i} className={styles.s8FeatItem}>
+                    <div className={styles.s8FeatNum}>{String(i + 1).padStart(2, "0")}</div>
+                    <p className={styles.s8FeatTxt}>{f}</p>
+                  </div>
+                ))}
+              </div>
+            )}
+            <div className={styles.s8ScheduleLayout}>
+              <div className={styles.s8ScheduleLeft}>
+                {content2.scheduleH3 && (
+                  <div className={styles.s8SchedHdr}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                      stroke="#F15505" strokeWidth="1.6" strokeLinecap="round">
+                      <rect x="3" y="4" width="18" height="18" rx="2"/>
+                      <path d="M16 2v4M8 2v4M3 10h18"/>
+                    </svg>
+                    <h3 className={styles.s8SchedTitle}>{content2.scheduleH3}</h3>
+                  </div>
+                )}
+                {content2.scheduleItems && content2.scheduleItems.length > 0 && (
+                  <div className={styles.s8SchedList}>
+                    {content2.scheduleItems.map((row, i) => (
+                      <div key={row._id} className={styles.s8SchedRow}>
+                        <div className={styles.s8SchedTimeBadge}>
+                          <svg width="10" height="10" viewBox="0 0 16 16" fill="none">
+                            <circle cx="8" cy="8" r="7" stroke="rgba(255,243,210,0.7)" strokeWidth="1.2"/>
+                            <path d="M8 4.5V8.5L10.5 10" stroke="rgba(255,243,210,0.9)"
+                              strokeWidth="1.2" strokeLinecap="round"/>
+                          </svg>
+                          <span>{row.time}</span>
+                        </div>
+                        <div className={styles.s8SchedActivity}>{row.activity}</div>
+                        <div className={styles.s8SchedDot} />
+                      </div>
+                    ))}
                   </div>
                 )}
               </div>
-              <div className={styles.s9EligRight}>
-                <div className={styles.s9CertBadge}>
-                  <div className={styles.s9CertBig}>RYT 500</div>
-                  <div className={styles.s9CertSub}>Yoga Alliance Certified</div>
+              {content2.scheduleImages && content2.scheduleImages.length > 0 && (
+                <div className={styles.s8ImgStack}>
+                  {content2.scheduleImages.map((src, i) => (
+                    <div
+                      key={i}
+                      className={`${styles.s8ImgBlock} ${i === 0 ? styles.s8ImgBlockTall : ""}`}
+                    >
+                      <img
+                        src={imgUrl(src)}
+                        alt={`Schedule ${i + 1}`}
+                        className={styles.s8Img}
+                        loading="lazy"
+                      />
+                      <div className={styles.s8ImgOverlay} />
+                    </div>
+                  ))}
                 </div>
-                <div className={styles.s9PrereqBox}>
-                  <div className={styles.s9PrereqLabel}>Prerequisite</div>
-                  <div className={styles.s9PrereqVal}>200 Hour YTT</div>
-                </div>
-                <div className={styles.s9EligImgWrap}>
-                  <img src="/images/s9-eligibility.jpg" alt="Yoga eligibility — student in practice" className={styles.s9EligImg} loading="lazy" />
-                </div>
-              </div>
+              )}
             </div>
           </div>
-        </div>
+        </section>
       )}
 
-      {content2.evaluationH2 && (
-        <div className={styles.s9Card}>
-          <div className={styles.s9CardHeader}>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFF8EE" strokeWidth="1.6" strokeLinecap="round">
-              <rect x="2" y="3" width="20" height="14" rx="2"/>
-              <path d="M8 17v4M16 17v4M8 21h8"/>
-              <path d="M9 10l2 2 4-4"/>
-            </svg>
-            <h2 className={styles.s9CardTitle}>{content2.evaluationH2}</h2>
-          </div>
-          <div className={styles.s9CardBody}>
-            <div className={styles.s9EvalLayout}>
-              <div className={styles.s9EvalLeft}>
-                {content2.evaluationParas?.map((para, i) => (<div key={i} className={styles.s9EvalPara}><SafeHtml html={para} /></div>))}
-                <div className={styles.s9EvalIconGrid}>
-                  <div className={styles.s9EvalItem}>
-                    <div className={styles.s9EvalIconWrap}><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F15505" strokeWidth="1.6" strokeLinecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div>
-                    <div className={styles.s9EvalItemTitle}>4-Week Course</div>
-                    <div className={styles.s9EvalItemDesc}>24 days residential</div>
+      {/* ══════════════════════════════════════
+          SECTION 9 — LEARNING OUTCOMES + ELIGIBILITY + EVALUATION
+      ══════════════════════════════════════ */}
+      {content2 && (
+        <section className={styles.section}>
+          <div className={`container ${styles.facilityContainer}`}>
+            <div className={styles.s9HeaderWrap}>
+              <div className={styles.s9OmRow}>
+                <span className={styles.s9OmLine} />
+                <span className={styles.s9OmGlyph}>ॐ</span>
+                <span className={styles.s9OmLine} />
+              </div>
+              {content2.learningH2 && (
+                <h2 className={styles.sectionTitleOrange}>{content2.learningH2}</h2>
+              )}
+              <div className={styles.sectionUnderline} />
+            </div>
+            <div className={styles.s9OutcomesSplit}>
+              <div className={styles.s9OutcomesLeft}>
+                {content2.learningItems && content2.learningItems.length > 0 && (
+                  <div className={styles.s9OutcomesGrid}>
+                    {content2.learningItems.map((item, i) => (
+                      <div key={i} className={styles.s9OutcomeChip}>
+                        <span className={styles.s9ChipNum}>
+                          {String(i + 1).padStart(2, "0")}
+                        </span>
+                        <span className={styles.s9ChipTxt}>{item}</span>
+                      </div>
+                    ))}
                   </div>
-                  <div className={styles.s9EvalItem}>
-                    <div className={styles.s9EvalIconWrap}><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F15505" strokeWidth="1.6" strokeLinecap="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></div>
-                    <div className={styles.s9EvalItemTitle}>Written Exam</div>
-                    <div className={styles.s9EvalItemDesc}>Theory & philosophy</div>
-                  </div>
-                  <div className={styles.s9EvalItem}>
-                    <div className={styles.s9EvalIconWrap}><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F15505" strokeWidth="1.6" strokeLinecap="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
-                    <div className={styles.s9EvalItemTitle}>Practical Demo</div>
-                    <div className={styles.s9EvalItemDesc}>Teaching assessment</div>
-                  </div>
-                </div>
+                )}
               </div>
-              <div className={styles.s9EvalRight}>
-                <div className={styles.s9EvalImgStack}>
-                  <img src="/images/s9-eval-main.jpg" alt="Evaluation and certification ceremony" className={styles.s9EvalMainImg} loading="lazy" />
-                  <div className={styles.s9EvalImgBadge}>
-                    <div className={styles.s9EvalBadgeLine1}>Yoga Alliance USA</div>
-                    <div className={styles.s9EvalBadgeLine2}>Certification Awarded</div>
-                  </div>
-                  <img src="/images/s9-eval-small.jpg" alt="Students receiving certificates" className={styles.s9EvalSmallImg} loading="lazy" />
+              <div className={styles.s9ImageMosaic}>
+                <div className={`${styles.s9ImgBlock} ${styles.s9ImgTall}`}>
+                  <img src="/images/s9-outcomes-1.jpg" alt="Advanced yoga practice in Rishikesh" className={styles.s9Img} loading="lazy" />
+                  <div className={styles.s9ImgOverlay}><span className={styles.s9ImgLabel}>Advanced Practice</span></div>
+                </div>
+                <div className={styles.s9ImgBlock}>
+                  <img src="/images/s9-outcomes-2.jpg" alt="Yoga certification ceremony" className={styles.s9Img} loading="lazy" />
+                  <div className={styles.s9ImgOverlay}><span className={styles.s9ImgLabel}>Certification</span></div>
+                </div>
+                <div className={styles.s9ImgBlock}>
+                  <img src="/images/s9-outcomes-3.jpg" alt="Graduation at AYM School" className={styles.s9Img} loading="lazy" />
+                  <div className={styles.s9ImgOverlay}><span className={styles.s9ImgLabel}>Graduation</span></div>
                 </div>
               </div>
             </div>
+            {content2.eligibilityH2 && (
+              <div className={styles.s9Card}>
+                <div className={styles.s9CardHeader}>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFF8EE" strokeWidth="1.6" strokeLinecap="round">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                  </svg>
+                  <h2 className={styles.s9CardTitle}>{content2.eligibilityH2}</h2>
+                </div>
+                <div className={styles.s9CardBody}>
+                  <div className={styles.s9EligSplit}>
+                    <div className={styles.s9EligLeft}>
+                      {content2.eligibilityTag && (<div className={styles.s9EligTag}>{content2.eligibilityTag}</div>)}
+                      {content2.eligibilityParas && content2.eligibilityParas.length > 0 && (
+                        <div className={styles.s9EligText}>
+                          {content2.eligibilityParas.map((para, i) => (<SafeHtml key={i} html={para} />))}
+                        </div>
+                      )}
+                    </div>
+                    <div className={styles.s9EligRight}>
+                      <div className={styles.s9CertBadge}>
+                        <div className={styles.s9CertBig}>RYT 500</div>
+                        <div className={styles.s9CertSub}>Yoga Alliance Certified</div>
+                      </div>
+                      <div className={styles.s9PrereqBox}>
+                        <div className={styles.s9PrereqLabel}>Prerequisite</div>
+                        <div className={styles.s9PrereqVal}>200 Hour YTT</div>
+                      </div>
+                      <div className={styles.s9EligImgWrap}>
+                        <img src="/images/s9-eligibility.jpg" alt="Yoga eligibility — student in practice" className={styles.s9EligImg} loading="lazy" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+            {content2.evaluationH2 && (
+              <div className={styles.s9Card}>
+                <div className={styles.s9CardHeader}>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFF8EE" strokeWidth="1.6" strokeLinecap="round">
+                    <rect x="2" y="3" width="20" height="14" rx="2"/>
+                    <path d="M8 17v4M16 17v4M8 21h8"/>
+                    <path d="M9 10l2 2 4-4"/>
+                  </svg>
+                  <h2 className={styles.s9CardTitle}>{content2.evaluationH2}</h2>
+                </div>
+                <div className={styles.s9CardBody}>
+                  <div className={styles.s9EvalLayout}>
+                    <div className={styles.s9EvalLeft}>
+                      {content2.evaluationParas?.map((para, i) => (<div key={i} className={styles.s9EvalPara}><SafeHtml html={para} /></div>))}
+                      <div className={styles.s9EvalIconGrid}>
+                        <div className={styles.s9EvalItem}>
+                          <div className={styles.s9EvalIconWrap}><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F15505" strokeWidth="1.6" strokeLinecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div>
+                          <div className={styles.s9EvalItemTitle}>4-Week Course</div>
+                          <div className={styles.s9EvalItemDesc}>24 days residential</div>
+                        </div>
+                        <div className={styles.s9EvalItem}>
+                          <div className={styles.s9EvalIconWrap}><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F15505" strokeWidth="1.6" strokeLinecap="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></div>
+                          <div className={styles.s9EvalItemTitle}>Written Exam</div>
+                          <div className={styles.s9EvalItemDesc}>Theory & philosophy</div>
+                        </div>
+                        <div className={styles.s9EvalItem}>
+                          <div className={styles.s9EvalIconWrap}><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F15505" strokeWidth="1.6" strokeLinecap="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+                          <div className={styles.s9EvalItemTitle}>Practical Demo</div>
+                          <div className={styles.s9EvalItemDesc}>Teaching assessment</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className={styles.s9EvalRight}>
+                      <div className={styles.s9EvalImgStack}>
+                        <img src="/images/s9-eval-main.jpg" alt="Evaluation and certification ceremony" className={styles.s9EvalMainImg} loading="lazy" />
+                        <div className={styles.s9EvalImgBadge}>
+                          <div className={styles.s9EvalBadgeLine1}>Yoga Alliance USA</div>
+                          <div className={styles.s9EvalBadgeLine2}>Certification Awarded</div>
+                        </div>
+                        <img src="/images/s9-eval-small.jpg" alt="Students receiving certificates" className={styles.s9EvalSmallImg} loading="lazy" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
-        </div>
+        </section>
       )}
 
-    </div>
-  </section>
-)}
-
-     {/* ══════════════════════════════════════
-    SECTION 10 — YOGA ETHICS
-══════════════════════════════════════ */}
-{content2 && (
-  <section className={`${styles.section} ${styles.sectionLight}`}>
-    <div className={`container ${styles.facilityContainer}`}>
-
-      <div className={styles.s10HeaderWrap}>
-        <div className={styles.s10OmRow}>
-          <span className={styles.s10OmLine} />
-          <span className={styles.s10OmGlyph}>ॐ</span>
-          <span className={styles.s10OmLine} />
-        </div>
-        {content2.ethicsH2 && (<h2 className={styles.sectionTitleOrange}>{content2.ethicsH2}</h2>)}
-        <div className={styles.sectionUnderline} />
-      </div>
-
-      <div className={styles.s10HeroSplit}>
-        <div className={styles.s10Left}>
-          {content2.ethicsParas && content2.ethicsParas.length > 0 && (
-            <div className={styles.s10IntroParas}>
-              {content2.ethicsParas.map((para, i) => (<div key={i} className={styles.s10Para}><SafeHtml html={para} /></div>))}
+      {/* ══════════════════════════════════════
+          SECTION 10 — YOGA ETHICS
+      ══════════════════════════════════════ */}
+      {content2 && (
+        <section className={`${styles.section} ${styles.sectionLight}`}>
+          <div className={`container ${styles.facilityContainer}`}>
+            <div className={styles.s10HeaderWrap}>
+              <div className={styles.s10OmRow}>
+                <span className={styles.s10OmLine} />
+                <span className={styles.s10OmGlyph}>ॐ</span>
+                <span className={styles.s10OmLine} />
+              </div>
+              {content2.ethicsH2 && (<h2 className={styles.sectionTitleOrange}>{content2.ethicsH2}</h2>)}
+              <div className={styles.sectionUnderline} />
             </div>
-          )}
-          <div className={styles.s10YnRow}>
-            <div className={styles.s10YnChip}>
-              <div className={styles.s10YnChipAccent} />
-              <div className={styles.s10YnChipBody}>
-                <div className={styles.s10YnChipTitle}>Yama</div>
-                <div className={styles.s10YnChipDesc}>Ethical disciplines — our relationship with the outer world</div>
+            <div className={styles.s10HeroSplit}>
+              <div className={styles.s10Left}>
+                {content2.ethicsParas && content2.ethicsParas.length > 0 && (
+                  <div className={styles.s10IntroParas}>
+                    {content2.ethicsParas.map((para, i) => (<div key={i} className={styles.s10Para}><SafeHtml html={para} /></div>))}
+                  </div>
+                )}
+                <div className={styles.s10YnRow}>
+                  <div className={styles.s10YnChip}>
+                    <div className={styles.s10YnChipAccent} />
+                    <div className={styles.s10YnChipBody}>
+                      <div className={styles.s10YnChipTitle}>Yama</div>
+                      <div className={styles.s10YnChipDesc}>Ethical disciplines — our relationship with the outer world</div>
+                    </div>
+                  </div>
+                  <div className={styles.s10YnChip}>
+                    <div className={styles.s10YnChipAccent} />
+                    <div className={styles.s10YnChipBody}>
+                      <div className={styles.s10YnChipTitle}>Niyama</div>
+                      <div className={styles.s10YnChipDesc}>Self-observances — our relationship with our inner world</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className={styles.s10Right}>
+                {content2.ethicsQuote && (
+                  <div className={styles.s10QuoteBlock}>
+                    <div className={styles.s10QuoteMark}>&ldquo;</div>
+                    <p className={styles.s10QuoteText}>{content2.ethicsQuote}</p>
+                    <div className={styles.s10QuoteAttrib}>— Yoga Philosophy</div>
+                  </div>
+                )}
+                <div className={styles.s10ImgPair}>
+                  <div className={styles.s10ImgWrap}>
+                    <img src="/images/s10-ethics-1.jpg" alt="Yoga ethics in practice" className={styles.s10Img} loading="lazy" />
+                    <div className={styles.s10ImgOverlay}><span className={styles.s10ImgLabel}>Discipline in Practice</span></div>
+                  </div>
+                  <div className={styles.s10ImgWrap}>
+                    <img src="/images/s10-ethics-2.jpg" alt="AYM campus — yoga shala" className={styles.s10Img} loading="lazy" />
+                    <div className={styles.s10ImgOverlay}><span className={styles.s10ImgLabel}>AYM Yoga Shala</span></div>
+                  </div>
+                </div>
               </div>
             </div>
-            <div className={styles.s10YnChip}>
-              <div className={styles.s10YnChipAccent} />
-              <div className={styles.s10YnChipBody}>
-                <div className={styles.s10YnChipTitle}>Niyama</div>
-                <div className={styles.s10YnChipDesc}>Self-observances — our relationship with our inner world</div>
+            {content2.ethicsNaturalisticPara && (
+              <div className={styles.s10NaturePara}>
+                <div className={styles.s10NatureIcon}>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F15505" strokeWidth="1.5" strokeLinecap="round">
+                    <path d="M12 2a10 10 0 0 1 10 10c0 5.52-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2z"/>
+                    <path d="M12 6v6l4 2"/>
+                  </svg>
+                </div>
+                <p className={styles.s10NatureText}>{content2.ethicsNaturalisticPara}</p>
+              </div>
+            )}
+            {content2.ethicsRules && content2.ethicsRules.length > 0 && (
+              <div className={styles.s10RulesWrap}>
+                <div className={styles.s10RulesHeader}>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFF8EE" strokeWidth="1.6" strokeLinecap="round">
+                    <path d="M9 11l3 3L22 4"/>
+                    <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+                  </svg>
+                  <span className={styles.s10RulesHeaderTxt}>Student Code of Conduct</span>
+                </div>
+                <div className={styles.s10RulesGrid}>
+                  {content2.ethicsRules.map((rule, i) => (
+                    <div key={i} className={styles.s10RuleCard}>
+                      <div className={styles.s10RuleNum}>{String(i + 1).padStart(2, "0")}</div>
+                      <p className={styles.s10RuleTxt}>{rule}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+            {content2.diplomaImage && (
+              <div className={styles.s10DiplomaWrap}>
+                <img src={imgUrl(content2.diplomaImage)} alt="Students with Diploma certificates — AYM School" className={styles.s10DiplomaImg} loading="lazy" />
+                <div className={styles.s10DiplomaBadge}>
+                  <div className={styles.s10DiplomaBadgeLine1}>Yoga Alliance USA</div>
+                  <div className={styles.s10DiplomaBadgeLine2}>Certified Graduates</div>
+                </div>
+              </div>
+            )}
+          </div>
+        </section>
+      )}
+
+      {/* ══════════════════════════════════════
+          SECTION 11 — MISCONCEPTIONS
+      ══════════════════════════════════════ */}
+      {content2 &&
+        (content2.misconH2 || (content2.misconItems?.length ?? 0) > 0) && (
+          <section className={styles.section}>
+            <div className={`container ${styles.facilityContainer}`}>
+              <div className={styles.s11HeaderWrap}>
+                <div className={styles.s11OmRow}>
+                  <span className={styles.s11OmLine} />
+                  <span className={styles.s11OmGlyph}>ॐ</span>
+                  <span className={styles.s11OmLine} />
+                </div>
+                {content2.misconH2 && (<h2 className={styles.sectionTitleOrange}>{content2.misconH2}</h2>)}
+                <div className={styles.sectionUnderline} />
+              </div>
+              {content2.misconParas && content2.misconParas.length > 0 && (
+                <div className={styles.s11IntroBand}>
+                  <div className={styles.s11IntroTag}>Shake your myths</div>
+                  {content2.misconParas.map((para, i) => (<div key={i} className={styles.s11IntroPara}><SafeHtml html={para} /></div>))}
+                </div>
+              )}
+              {content2.misconItems && content2.misconItems.length > 0 && (
+                <div className={styles.s11Grid}>
+                  {content2.misconItems.map((item, i) => (
+                    <div key={i} className={styles.s11Card}>
+                      <div className={styles.s11CardNum}>{String(i + 1).padStart(2, "0")}</div>
+                      <div className={styles.s11CardDivider} />
+                      <p className={styles.s11CardTxt}>{item}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
+              <div className={styles.s11Footer}>
+                <div className={styles.s11FooterOmRow}>
+                  <span className={styles.s11FooterLine} />
+                  <span className={styles.s11FooterOm}>ॐ</span>
+                  <span className={styles.s11FooterLine} />
+                </div>
+                <p className={styles.s11FooterTxt}>
+                  By dispelling these misconceptions, more yogis can appreciate the true value of
+                  the 300 hours yoga teacher training — not just as a certification, but as a
+                  meaningful path toward self-discovery, community, and lifelong learning.
+                </p>
+                <a href="#dates-fees" className={styles.s11FooterBtn}>
+                  Begin Your Journey
+                  <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                    <path d="M3 8h10M9 4l4 4-4 4" stroke="#FFF8EE" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </a>
               </div>
             </div>
-          </div>
-        </div>
-
-        <div className={styles.s10Right}>
-          {content2.ethicsQuote && (
-            <div className={styles.s10QuoteBlock}>
-              <div className={styles.s10QuoteMark}>&ldquo;</div>
-              <p className={styles.s10QuoteText}>{content2.ethicsQuote}</p>
-              <div className={styles.s10QuoteAttrib}>— Yoga Philosophy</div>
-            </div>
-          )}
-          <div className={styles.s10ImgPair}>
-            <div className={styles.s10ImgWrap}>
-              <img src="/images/s10-ethics-1.jpg" alt="Yoga ethics in practice" className={styles.s10Img} loading="lazy" />
-              <div className={styles.s10ImgOverlay}><span className={styles.s10ImgLabel}>Discipline in Practice</span></div>
-            </div>
-            <div className={styles.s10ImgWrap}>
-              <img src="/images/s10-ethics-2.jpg" alt="AYM campus — yoga shala" className={styles.s10Img} loading="lazy" />
-              <div className={styles.s10ImgOverlay}><span className={styles.s10ImgLabel}>AYM Yoga Shala</span></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {content2.ethicsNaturalisticPara && (
-        <div className={styles.s10NaturePara}>
-          <div className={styles.s10NatureIcon}>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F15505" strokeWidth="1.5" strokeLinecap="round">
-              <path d="M12 2a10 10 0 0 1 10 10c0 5.52-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2z"/>
-              <path d="M12 6v6l4 2"/>
-            </svg>
-          </div>
-          <p className={styles.s10NatureText}>{content2.ethicsNaturalisticPara}</p>
-        </div>
-      )}
-
-      {content2.ethicsRules && content2.ethicsRules.length > 0 && (
-        <div className={styles.s10RulesWrap}>
-          <div className={styles.s10RulesHeader}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFF8EE" strokeWidth="1.6" strokeLinecap="round">
-              <path d="M9 11l3 3L22 4"/>
-              <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
-            </svg>
-            <span className={styles.s10RulesHeaderTxt}>Student Code of Conduct</span>
-          </div>
-          <div className={styles.s10RulesGrid}>
-            {content2.ethicsRules.map((rule, i) => (
-              <div key={i} className={styles.s10RuleCard}>
-                <div className={styles.s10RuleNum}>{String(i + 1).padStart(2, "0")}</div>
-                <p className={styles.s10RuleTxt}>{rule}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {content2.diplomaImage && (
-        <div className={styles.s10DiplomaWrap}>
-          <img src={imgUrl(content2.diplomaImage)} alt="Students with Diploma certificates — AYM School" className={styles.s10DiplomaImg} loading="lazy" />
-          <div className={styles.s10DiplomaBadge}>
-            <div className={styles.s10DiplomaBadgeLine1}>Yoga Alliance USA</div>
-            <div className={styles.s10DiplomaBadgeLine2}>Certified Graduates</div>
-          </div>
-        </div>
-      )}
-
-    </div>
-  </section>
-)}
-
- {/* ══════════════════════════════════════
-    SECTION 11 — MISCONCEPTIONS
-══════════════════════════════════════ */}
-{content2 &&
-  (content2.misconH2 || (content2.misconItems?.length ?? 0) > 0) && (
-    <section className={styles.section}>
-      <div className={`container ${styles.facilityContainer}`}>
-
-        <div className={styles.s11HeaderWrap}>
-          <div className={styles.s11OmRow}>
-            <span className={styles.s11OmLine} />
-            <span className={styles.s11OmGlyph}>ॐ</span>
-            <span className={styles.s11OmLine} />
-          </div>
-          {content2.misconH2 && (<h2 className={styles.sectionTitleOrange}>{content2.misconH2}</h2>)}
-          <div className={styles.sectionUnderline} />
-        </div>
-
-        {content2.misconParas && content2.misconParas.length > 0 && (
-          <div className={styles.s11IntroBand}>
-            <div className={styles.s11IntroTag}>Shake your myths</div>
-            {content2.misconParas.map((para, i) => (<div key={i} className={styles.s11IntroPara}><SafeHtml html={para} /></div>))}
-          </div>
+          </section>
         )}
-
-        {content2.misconItems && content2.misconItems.length > 0 && (
-          <div className={styles.s11Grid}>
-            {content2.misconItems.map((item, i) => (
-              <div key={i} className={styles.s11Card}>
-                <div className={styles.s11CardNum}>{String(i + 1).padStart(2, "0")}</div>
-                <div className={styles.s11CardDivider} />
-                <p className={styles.s11CardTxt}>{item}</p>
-              </div>
-            ))}
-          </div>
-        )}
-
-        <div className={styles.s11Footer}>
-          <div className={styles.s11FooterOmRow}>
-            <span className={styles.s11FooterLine} />
-            <span className={styles.s11FooterOm}>ॐ</span>
-            <span className={styles.s11FooterLine} />
-          </div>
-          <p className={styles.s11FooterTxt}>
-            By dispelling these misconceptions, more yogis can appreciate the true value of
-            the 300 hours yoga teacher training — not just as a certification, but as a
-            meaningful path toward self-discovery, community, and lifelong learning.
-          </p>
-          <a href="#dates-fees" className={styles.s11FooterBtn}>
-            Begin Your Journey
-            <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
-              <path d="M3 8h10M9 4l4 4-4 4" stroke="#FFF8EE" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-          </a>
-        </div>
-
-      </div>
-    </section>
-  )}
 
       <div className={styles.footerOm}>
         <span className={styles.divLine} />

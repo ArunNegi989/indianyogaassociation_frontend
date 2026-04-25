@@ -195,6 +195,7 @@ const NAV_ITEMS = [
   { label: "FACILITY", id: "facility" },
   { label: "LOCATION", id: "location" },
 ];
+
 function useCurrencyRate() {
   const [rate, setRate] = useState<number>(83);
   const [loading, setLoading] = useState(true);
@@ -210,6 +211,45 @@ function useCurrencyRate() {
       .finally(() => setLoading(false));
   }, []);
   return { rate, loading };
+}
+
+/**
+ * Core price formatter — mirrors Kundalini logic exactly.
+ * Priority for INR: stored inrFee → usdFee * rate → fallback dormPrice.
+ * For USD: use usdFee string directly → fallback dormPrice.
+ */
+function fmtPriceAdvanced(
+  batch: Batch | null,
+  currency: Currency,
+  rate: number,
+  overrideUsd?: number,
+): { amount: string; cur: string } {
+  if (!batch && overrideUsd === undefined) return { amount: "—", cur: currency };
+
+  if (currency === "INR") {
+    // Priority 1: stored inrFee
+    if (batch?.inrFee) {
+      const num = parseFloat(batch.inrFee.replace(/[₹,]/g, "").trim());
+      if (!isNaN(num) && num > 100) {
+        return { amount: `₹${num.toLocaleString("en-IN")}`, cur: "INR" };
+      }
+    }
+    // Priority 2: usdFee * live rate
+    const usdNum = batch
+      ? parseFloat(batch.usdFee.replace(/[$,]/g, "")) || batch.dormPrice
+      : overrideUsd ?? 0;
+    const inr = Math.round(usdNum * rate);
+    return { amount: `₹${inr.toLocaleString("en-IN")}`, cur: "INR" };
+  }
+
+  // USD: use usdFee string directly
+  if (batch?.usdFee) {
+    const raw = batch.usdFee.trim();
+    return { amount: raw.startsWith("$") ? raw : `$${raw}`, cur: "USD" };
+  }
+  // Fallback
+  const fallback = overrideUsd ?? batch?.dormPrice ?? 0;
+  return { amount: `$${fallback}`, cur: "USD" };
 }
 
 function fmtPrice(usd: number, currency: Currency, rate: number) {
@@ -457,7 +497,7 @@ function CourseInfoCard({
             </span>
             <span className={styles.icPriceCur}>{currency}</span>
           </div>
-          <a href="#dates" className={styles.icBookBtn}>
+          <a href="#dates-fees" className={styles.icBookBtn}>
             BOOK NOW
             <svg viewBox="0 0 20 20" fill="none" className={styles.icBtnArrow}>
               <path
@@ -495,7 +535,7 @@ const COURSE_TABS = [
 ] as const;
 type TabKey = (typeof COURSE_TABS)[number]["key"];
 
-/* ─── PREMIUM SEAT BOOKING ─── */
+/* ─── PREMIUM SEAT BOOKING (Kundalini logic) ─── */
 function PremiumSeatBooking() {
   const [activeTab, setActiveTab] = useState<TabKey>("200hr");
   const [batchCache, setBatchCache] = useState<Record<string, Batch[]>>({});
@@ -538,7 +578,13 @@ function PremiumSeatBooking() {
   }, [seats]);
 
   const selected = seats.find((s) => s._id === selectedId) ?? null;
-  const fmt = (usd: number) => fmtPrice(usd, currency, rate);
+
+  /**
+   * Price shown on each batch card in the LEFT panel.
+   * Uses usdFee-based pricing (same as Kundalini).
+   */
+  const batchCardPrice = (batch: Batch): { amount: string; cur: string } =>
+    fmtPriceAdvanced(batch, currency, rate);
 
   return (
     <section className={styles.datesSection} id="dates-fees">
@@ -641,7 +687,8 @@ function PremiumSeatBooking() {
                   ? 100
                   : Math.max(5, (rem / batch.totalSeats) * 100);
                 const isSelected = selectedId === batch._id;
-                const dormFmt = fmt(batch.dormPrice);
+                // ✅ uses usdFee-based price, not dormPrice
+                const cardPrice = batchCardPrice(batch);
                 return (
                   <div
                     key={batch._id}
@@ -673,8 +720,9 @@ function PremiumSeatBooking() {
                     <div className={styles.psbBcDates}>
                       {shortDateRange(batch.startDate, batch.endDate)}
                     </div>
+                    {/* ✅ shows usdFee or usdFee*rate, not dormPrice */}
                     <div className={styles.psbBcPrice}>
-                      {dormFmt.amount} <span>{dormFmt.cur}</span>
+                      {cardPrice.amount} <span>{cardPrice.cur}</span>
                     </div>
                     <div className={styles.psbBcStatus}>
                       <div className={`${styles.psbBcDot} ${dotCls}`} />
@@ -748,45 +796,80 @@ function PremiumSeatBooking() {
           <div className={styles.psbRpBody}>
             <div className={styles.psbPriceLbl}>With Accommodation</div>
             <div className={styles.psbPriceRow}>
+              {/* Private Room */}
               <div className={styles.psbPriceCard}>
                 <div className={styles.psbPcAmt}>
-                  {selected ? fmt(selected.privatePrice).amount : "—"}
+                  {selected
+                    ? currency === "INR"
+                      ? `₹${Math.round(selected.privatePrice * rate)}`
+                      : `$${selected.privatePrice}`
+                    : "—"}
                   <span className={styles.psbPcCur}>{currency}</span>
                 </div>
                 <div className={styles.psbPcLbl}>Private Room</div>
               </div>
+              {/* Twin Room */}
               <div className={styles.psbPriceCard}>
                 <div className={styles.psbPcAmt}>
-                  {selected ? fmt(selected.twinPrice).amount : "—"}
+                  {selected
+                    ? currency === "INR"
+                      ? `₹${Math.round(selected.twinPrice * rate)}`
+                      : `$${selected.twinPrice}`
+                    : "—"}
                   <span className={styles.psbPcCur}>{currency}</span>
                 </div>
                 <div className={styles.psbPcLbl}>Twin / Shared</div>
               </div>
             </div>
+
             <div className={styles.psbPriceLbl}>Without Accommodation</div>
             <div className={styles.psbPriceWide}>
               <div className={styles.psbPwLeft}>
                 <span className={styles.psbPcAmt} style={{ fontSize: "1rem" }}>
-                  {selected ? fmt(selected.dormPrice).amount : "—"}
+                  {selected
+                    ? currency === "INR"
+                      ? `₹${Math.round(selected.dormPrice * rate)}`
+                      : `$${selected.dormPrice}`
+                    : "—"}
                 </span>
                 <span className={styles.psbPcCur}>{currency}</span>
               </div>
               <span className={styles.psbFoodBadge}>Food Included</span>
             </div>
+
+            {/* ✅ Info row — mirrors Kundalini logic exactly */}
             {selected && currency === "USD" && (
               <div className={styles.psbInrRow}>
-                <span className={styles.psbInrLbl}>Indian Price</span>
-                <span className={styles.psbInrAmt}>{selected.inrFee}</span>
+                <span className={styles.psbInrLbl}>USD Price</span>
+                <span className={styles.psbInrAmt}>
+                  {selected.usdFee.startsWith("$")
+                    ? selected.usdFee
+                    : `$${selected.usdFee}`}
+                </span>
               </div>
             )}
             {selected && currency === "INR" && (
               <div className={styles.psbInrRow}>
-                <span className={styles.psbInrLbl}>USD Price</span>
+                <span className={styles.psbInrLbl}>Indian Price</span>
                 <span className={styles.psbInrAmt}>
-                  ${selected.dormPrice} USD
+                  {(() => {
+                    if (selected.inrFee) {
+                      const num = parseFloat(
+                        selected.inrFee.replace(/[₹,]/g, "").trim(),
+                      );
+                      if (!isNaN(num) && num > 100)
+                        return `₹${num.toLocaleString("en-IN")}`;
+                    }
+                    const usdNum =
+                      parseFloat(selected.usdFee.replace(/[$,]/g, "")) ||
+                      selected.dormPrice;
+                    const inr = Math.round(usdNum * rate);
+                    return `₹${inr.toLocaleString("en-IN")}`;
+                  })()}
                 </span>
               </div>
             )}
+
             <div className={styles.psbDivider} />
             {selected &&
               (() => {
@@ -851,12 +934,14 @@ function PremiumSeatBooking() {
                 </span>
               )}
             </div>
+            {/* ✅ Book Now button uses fmtPriceAdvanced(selected) — same as Kundalini */}
             {selected ? (
               <a
                 href={`/yoga-registration?batchId=${selected._id}&type=${activeTab}`}
                 className={styles.psbBookBtn}
               >
-                Book Now — {fmt(selected.dormPrice).amount} {currency}
+                Book Now — {fmtPriceAdvanced(selected, currency, rate).amount}{" "}
+                {currency}
                 <svg
                   className={styles.psbArrowIcon}
                   viewBox="0 0 16 16"
@@ -1328,7 +1413,8 @@ export default function GoaYogaPage() {
 
       {/* ════════ COURSE INFO CARD ════════ */}
       <CourseInfoCard seats={batchSeats} currency="USD" rate={83} />
- <StickySectionNav items={NAV_ITEMS} triggerId="hero" />
+      <StickySectionNav items={NAV_ITEMS} triggerId="hero" />
+
       {/* ════════ INTRO ════════ */}
       <section className={styles.section}>
         <div className={` ${styles.container} ${styles.introContainer}`}>
@@ -1486,7 +1572,7 @@ export default function GoaYogaPage() {
         API_BASE={API_BASE}
       />
 
-      {/* ════════ SEAT BOOKING (Premium 100hr style) ════════ */}
+      {/* ════════ SEAT BOOKING (Premium Kundalini style) ════════ */}
       <PremiumSeatBooking />
       <div className={` ${styles.container} ${styles.introContainer}`}>
         <div className={styles.tableNote}>
@@ -1630,7 +1716,7 @@ export default function GoaYogaPage() {
             <p className={styles.footerSub}>{pageData.footerCtaSub}</p>
             <div className={styles.heroBtns}>
               <a
-                href={pageData.footerCtaDatesHref || "#dates"}
+                href={pageData.footerCtaDatesHref || "#dates-fees"}
                 className={styles.btnPrimary}
               >
                 Dates
@@ -1652,9 +1738,9 @@ export default function GoaYogaPage() {
       {/* ✅ REVIEWS — now a reusable separate component */}
       <ReviewSection RatingsSummaryComponent={<RatingsSummarySection />} />
       {/* LOCATION */}
-           <div id="location">
-             <HowToReach />
-           </div>
+      <div id="location">
+        <HowToReach />
+      </div>
 
       {/* ════════ MODAL ════════ */}
       {modal && (

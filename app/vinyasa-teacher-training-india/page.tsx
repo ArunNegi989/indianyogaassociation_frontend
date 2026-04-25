@@ -224,8 +224,8 @@ function CurrencyDropdown({
           {currency === "USD" ? "🇺🇸" : "🇮🇳"}
         </span>
         <span className={styles.currDropLabel}>
-  {currency === "USD" ? "English" : "हिन्दी"}
-</span>
+          {currency === "USD" ? "English" : "हिन्दी"}
+        </span>
         <svg
           className={`${styles.currDropArrow} ${open ? styles.currDropArrowOpen : ""}`}
           viewBox="0 0 12 8"
@@ -256,12 +256,12 @@ function CurrencyDropdown({
                 {c === "USD" ? "🇺🇸" : "🇮🇳"}
               </span>
               <div className={styles.currDropItemText}>
-               <span className={styles.currDropItemCode}>
-  {c === "USD" ? "English" : "हिन्दी"}
-</span>
-<span className={styles.currDropItemName}>
-  {c === "USD" ? "US Dollar" : "Indian Rupee"}
-</span>
+                <span className={styles.currDropItemCode}>
+                  {c === "USD" ? "English" : "हिन्दी"}
+                </span>
+                <span className={styles.currDropItemName}>
+                  {c === "USD" ? "US Dollar" : "Indian Rupee"}
+                </span>
               </div>
               {currency === c && (
                 <svg
@@ -443,7 +443,7 @@ function CourseInfoCard({
             </span>
             <span className={styles.icPriceCur}>{currency}</span>
           </div>
-          <a href="#schedule" className={styles.icBookBtn}>
+          <a href="#dates-fees" className={styles.icBookBtn}>
             BOOK NOW
             <svg viewBox="0 0 20 20" fill="none" className={styles.icBtnArrow}>
               <path
@@ -815,9 +815,9 @@ function TextVideoRow({
   );
 }
 
-/* ─────────────────────────────────────────
-   PREMIUM SEAT BOOKING (same 100hr design)
-───────────────────────────────────────── */
+/* ═══════════════════════════════════════════
+   PREMIUM SEAT BOOKING — with Vinyasa pricing logic (matching Kundalini)
+═══════════════════════════════════════════ */
 function PremiumSeatBooking({
   seats,
   currency,
@@ -841,18 +841,52 @@ function PremiumSeatBooking({
 
   const selected = seats.find((s) => s._id === selectedId) ?? null;
 
-  const fmtPrice = (usd: number) => {
+  /**
+   * Core price formatter — mirrors Kundalini logic exactly.
+   * Priority for INR: stored inrFee → usdFee * rate → fallback dormPrice.
+   * For USD: use usdFee string directly → fallback dormPrice.
+   */
+  const fmtPrice = (
+    batch: SeatBatch | null,
+    overrideUsd?: number,
+  ): { amount: string; cur: string } => {
+    if (!batch && overrideUsd === undefined) return { amount: "—", cur: currency };
+
     if (currency === "INR") {
-      const inr = Math.round((usd * rate) / 100) * 100;
+      // Priority 1: stored inrFee
+      if (batch?.inrFee) {
+        const num = parseFloat(batch.inrFee.replace(/[₹,]/g, "").trim());
+        if (!isNaN(num) && num > 100) {
+          return { amount: `₹${num.toLocaleString("en-IN")}`, cur: "INR" };
+        }
+      }
+      // Priority 2: usdFee * live rate
+      const usdNum = batch
+        ? parseFloat(batch.usdFee.replace(/[$,]/g, "")) || batch.dormPrice
+        : overrideUsd ?? 0;
+      const inr = Math.round(usdNum * rate);
       return { amount: `₹${inr.toLocaleString("en-IN")}`, cur: "INR" };
     }
-    return { amount: `$${usd}`, cur: "USD" };
+
+    // USD: use usdFee string directly
+    if (batch?.usdFee) {
+      const raw = batch.usdFee.trim();
+      return { amount: raw.startsWith("$") ? raw : `$${raw}`, cur: "USD" };
+    }
+    // Fallback
+    const fallback = overrideUsd ?? batch?.dormPrice ?? 0;
+    return { amount: `$${fallback}`, cur: "USD" };
   };
 
-  const noteRow = seats.find((s) => s.note);
+  /**
+   * Price shown on each batch card in the LEFT panel.
+   * Uses usdFee-based pricing (same as Kundalini batchCardPrice).
+   */
+  const batchCardPrice = (batch: SeatBatch): { amount: string; cur: string } =>
+    fmtPrice(batch);
 
   return (
-    <section className={styles.datesSection} id="schedule">
+    <section className={styles.datesSection} id="dates-fees">
       <div className="container px-3 px-md-4">
         <div className={styles.psbSecTag}>Upcoming Batches · 2025–2026</div>
         <VintageHeading>
@@ -938,7 +972,9 @@ function PremiumSeatBooking({
                     (rem / batch.totalSeats) * 100,
                   );
                   const isSelected = selectedId === batch._id;
-                  const dormFmt = fmtPrice(batch.dormPrice);
+                  // ✅ uses usdFee-based price, not dormPrice
+                  const cardPrice = batchCardPrice(batch);
+
                   return (
                     <div
                       key={batch._id}
@@ -970,8 +1006,9 @@ function PremiumSeatBooking({
                       <div className={styles.psbBcDates}>
                         {shortDateRange(batch.startDate, batch.endDate)}
                       </div>
+                      {/* ✅ shows usdFee or usdFee*rate, not dormPrice */}
                       <div className={styles.psbBcPrice}>
-                        {dormFmt.amount} <span>{dormFmt.cur}</span>
+                        {cardPrice.amount} <span>{cardPrice.cur}</span>
                       </div>
                       <div className={styles.psbBcStatus}>
                         <div className={`${styles.psbBcDot} ${dotCls}`} />
@@ -1045,21 +1082,32 @@ function PremiumSeatBooking({
             <div className={styles.psbRpBody}>
               <div className={styles.psbPriceLbl}>With Accommodation</div>
               <div className={styles.psbPriceRow}>
+                {/* Private Room */}
                 <div className={styles.psbPriceCard}>
                   <div className={styles.psbPcAmt}>
-                    {selected ? fmtPrice(selected.privatePrice).amount : "—"}
+                    {selected
+                      ? currency === "INR"
+                        ? `₹${Math.round(selected.privatePrice * rate)}`
+                        : `$${selected.privatePrice}`
+                      : "—"}
                     <span className={styles.psbPcCur}>{currency}</span>
                   </div>
                   <div className={styles.psbPcLbl}>Private Room</div>
                 </div>
+                {/* Twin Room */}
                 <div className={styles.psbPriceCard}>
                   <div className={styles.psbPcAmt}>
-                    {selected ? fmtPrice(selected.twinPrice).amount : "—"}
+                    {selected
+                      ? currency === "INR"
+                        ? `₹${Math.round(selected.twinPrice * rate)}`
+                        : `$${selected.twinPrice}`
+                      : "—"}
                     <span className={styles.psbPcCur}>{currency}</span>
                   </div>
                   <div className={styles.psbPcLbl}>Twin / Shared</div>
                 </div>
               </div>
+
               <div className={styles.psbPriceLbl}>Without Accommodation</div>
               <div className={styles.psbPriceWide}>
                 <div className={styles.psbPwLeft}>
@@ -1067,26 +1115,50 @@ function PremiumSeatBooking({
                     className={styles.psbPcAmt}
                     style={{ fontSize: "1rem" }}
                   >
-                    {selected ? fmtPrice(selected.dormPrice).amount : "—"}
+                    {selected
+                      ? currency === "INR"
+                        ? `₹${Math.round(selected.dormPrice * rate)}`
+                        : `$${selected.dormPrice}`
+                      : "—"}
                   </span>
                   <span className={styles.psbPcCur}>{currency}</span>
                 </div>
                 <span className={styles.psbFoodBadge}>Food Included</span>
               </div>
+
+              {/* ✅ Info row — mirrors Kundalini logic exactly */}
               {selected && currency === "USD" && (
                 <div className={styles.psbInrRow}>
-                  <span className={styles.psbInrLbl}>Indian Price</span>
-                  <span className={styles.psbInrAmt}>{selected.inrFee}</span>
+                  <span className={styles.psbInrLbl}>USD Price</span>
+                  <span className={styles.psbInrAmt}>
+                    {selected.usdFee.startsWith("$")
+                      ? selected.usdFee
+                      : `$${selected.usdFee}`}
+                  </span>
                 </div>
               )}
               {selected && currency === "INR" && (
                 <div className={styles.psbInrRow}>
-                  <span className={styles.psbInrLbl}>USD Price</span>
+                  <span className={styles.psbInrLbl}>Indian Price</span>
                   <span className={styles.psbInrAmt}>
-                    ${selected.dormPrice} USD
+                    {(() => {
+                      if (selected.inrFee) {
+                        const num = parseFloat(
+                          selected.inrFee.replace(/[₹,]/g, "").trim(),
+                        );
+                        if (!isNaN(num) && num > 100)
+                          return `₹${num.toLocaleString("en-IN")}`;
+                      }
+                      const usdNum =
+                        parseFloat(selected.usdFee.replace(/[$,]/g, "")) ||
+                        selected.dormPrice;
+                      const inr = Math.round(usdNum * rate);
+                      return `₹${inr.toLocaleString("en-IN")}`;
+                    })()}
                   </span>
                 </div>
               )}
+
               <div className={styles.psbDivider} />
               {selected &&
                 (() => {
@@ -1155,12 +1227,13 @@ function PremiumSeatBooking({
                   </span>
                 )}
               </div>
+              {/* ✅ Book Now button uses fmtPrice(selected) — same as Kundalini */}
               {selected ? (
                 <a
                   href={`/yoga-registration?batchId=${selected._id}&type=vinyasa`}
                   className={styles.psbBookBtn}
                 >
-                  Book Now — {fmtPrice(selected.dormPrice).amount} {currency}
+                  Book Now — {fmtPrice(selected).amount} {currency}
                   <svg
                     className={styles.psbArrowIcon}
                     viewBox="0 0 16 16"
@@ -1182,9 +1255,9 @@ function PremiumSeatBooking({
                   Book Now
                 </span>
               )}
-              {noteRow && (
+              {selected?.note && (
                 <p className={styles.psbNote}>
-                  <strong>Note:</strong> {noteRow.note}
+                  <strong>Note:</strong> {selected.note}
                 </p>
               )}
             </div>
@@ -1386,7 +1459,7 @@ export default function AshtangaVinyasaTTC() {
                 <strong>{pageData.promoFeeAmount}</strong>
               </p>
               <a
-                href={pageData.promoBtnHref || "#schedule"}
+                href={pageData.promoBtnHref || "#dates-fees"}
                 className={styles.promoBtn}
               >
                 {pageData.promoBtnLabel}
@@ -1467,7 +1540,7 @@ export default function AshtangaVinyasaTTC() {
         </div>
       </section>
 
-      {/* ── PREMIUM SEAT BOOKING (100hr style) ── */}
+      {/* ── PREMIUM SEAT BOOKING (Kundalini style) ── */}
       <PremiumSeatBooking
         seats={seats}
         currency={currency}

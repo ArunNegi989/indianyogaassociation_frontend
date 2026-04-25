@@ -360,7 +360,7 @@ function CurrencyDropdown({
 }
 
 /* ═══════════════════════════════════════════
-   PREMIUM SEAT BOOKING
+   PREMIUM SEAT BOOKING — with Kundalini pricing logic
 ═══════════════════════════════════════════ */
 function PremiumSeatBooking({
   seats,
@@ -385,13 +385,49 @@ function PremiumSeatBooking({
 
   const selected = seats.find((s) => s._id === selectedId) ?? null;
 
-  const fmtPrice = (usd: number) => {
+  /**
+   * Core price formatter — mirrors Kundalini logic exactly.
+   * Priority for INR: stored inrFee → usdFee * rate → fallback dormPrice.
+   * For USD: use usdFee string directly → fallback dormPrice.
+   */
+  const fmtPriceAdvanced = (
+    batch: Batch | null,
+    overrideUsd?: number,
+  ): { amount: string; cur: string } => {
+    if (!batch && overrideUsd === undefined) return { amount: "—", cur: currency };
+
     if (currency === "INR") {
-      const inr = Math.round((usd * rate) / 100) * 100;
+      // Priority 1: stored inrFee
+      if (batch?.inrFee) {
+        const num = parseFloat(batch.inrFee.replace(/[₹,]/g, "").trim());
+        if (!isNaN(num) && num > 100) {
+          return { amount: `₹${num.toLocaleString("en-IN")}`, cur: "INR" };
+        }
+      }
+      // Priority 2: usdFee * live rate
+      const usdNum = batch
+        ? parseFloat(batch.usdFee.replace(/[$,]/g, "")) || batch.dormPrice
+        : overrideUsd ?? 0;
+      const inr = Math.round(usdNum * rate);
       return { amount: `₹${inr.toLocaleString("en-IN")}`, cur: "INR" };
     }
-    return { amount: `$${usd}`, cur: "USD" };
+
+    // USD: use usdFee string directly
+    if (batch?.usdFee) {
+      const raw = batch.usdFee.trim();
+      return { amount: raw.startsWith("$") ? raw : `$${raw}`, cur: "USD" };
+    }
+    // Fallback
+    const fallback = overrideUsd ?? batch?.dormPrice ?? 0;
+    return { amount: `$${fallback}`, cur: "USD" };
   };
+
+  /**
+   * Price shown on each batch card in the LEFT panel.
+   * Uses usdFee-based pricing (same as Kundalini batchCardPrice).
+   */
+  const batchCardPrice = (batch: Batch): { amount: string; cur: string } =>
+    fmtPriceAdvanced(batch);
 
   return (
     <section className={styles.datesSection} id="dates-fees">
@@ -496,7 +532,8 @@ function PremiumSeatBooking({
                   (rem / batch.totalSeats) * 100,
                 );
                 const isSelected = selectedId === batch._id;
-                const dormFmt = fmtPrice(batch.dormPrice);
+                // ✅ uses usdFee-based price, not dormPrice
+                const cardPrice = batchCardPrice(batch);
                 return (
                   <div
                     key={batch._id}
@@ -528,8 +565,9 @@ function PremiumSeatBooking({
                     <div className={styles.psbBcDates}>
                       {shortDateRange(batch.startDate, batch.endDate)}
                     </div>
+                    {/* ✅ shows usdFee or usdFee*rate, not dormPrice */}
                     <div className={styles.psbBcPrice}>
-                      {dormFmt.amount} <span>{dormFmt.cur}</span>
+                      {cardPrice.amount} <span>{cardPrice.cur}</span>
                     </div>
                     <div className={styles.psbBcStatus}>
                       <div className={`${styles.psbBcDot} ${dotCls}`} />
@@ -603,43 +641,76 @@ function PremiumSeatBooking({
           <div className={styles.psbRpBody}>
             <div className={styles.psbPriceLbl}>With Accommodation</div>
             <div className={styles.psbPriceRow}>
+              {/* Private Room */}
               <div className={styles.psbPriceCard}>
                 <div className={styles.psbPcAmt}>
-                  {selected ? fmtPrice(selected.privatePrice).amount : "—"}
+                  {selected
+                    ? currency === "INR"
+                      ? `₹${Math.round(selected.privatePrice * rate)}`
+                      : `$${selected.privatePrice}`
+                    : "—"}
                   <span className={styles.psbPcCur}>{currency}</span>
                 </div>
                 <div className={styles.psbPcLbl}>Private Room</div>
               </div>
+              {/* Twin Room */}
               <div className={styles.psbPriceCard}>
                 <div className={styles.psbPcAmt}>
-                  {selected ? fmtPrice(selected.twinPrice).amount : "—"}
+                  {selected
+                    ? currency === "INR"
+                      ? `₹${Math.round(selected.twinPrice * rate)}`
+                      : `$${selected.twinPrice}`
+                    : "—"}
                   <span className={styles.psbPcCur}>{currency}</span>
                 </div>
                 <div className={styles.psbPcLbl}>Twin / Shared</div>
               </div>
             </div>
+
             <div className={styles.psbPriceLbl}>Without Accommodation</div>
             <div className={styles.psbPriceWide}>
               <div className={styles.psbPwLeft}>
                 <span className={styles.psbPcAmt} style={{ fontSize: "1rem" }}>
-                  {selected ? fmtPrice(selected.dormPrice).amount : "—"}
+                  {selected
+                    ? currency === "INR"
+                      ? `₹${Math.round(selected.dormPrice * rate)}`
+                      : `$${selected.dormPrice}`
+                    : "—"}
                 </span>
                 <span className={styles.psbPcCur}>{currency}</span>
               </div>
               <span className={styles.psbFoodBadge}>Food Included</span>
             </div>
 
+            {/* ✅ Info row — mirrors Kundalini logic exactly */}
             {selected && currency === "USD" && (
               <div className={styles.psbInrRow}>
-                <span className={styles.psbInrLbl}>Indian Price</span>
-                <span className={styles.psbInrAmt}>{selected.inrFee}</span>
+                <span className={styles.psbInrLbl}>USD Price</span>
+                <span className={styles.psbInrAmt}>
+                  {selected.usdFee.startsWith("$")
+                    ? selected.usdFee
+                    : `$${selected.usdFee}`}
+                </span>
               </div>
             )}
             {selected && currency === "INR" && (
               <div className={styles.psbInrRow}>
-                <span className={styles.psbInrLbl}>USD Price</span>
+                <span className={styles.psbInrLbl}>Indian Price</span>
                 <span className={styles.psbInrAmt}>
-                  ${selected.dormPrice} USD
+                  {(() => {
+                    if (selected.inrFee) {
+                      const num = parseFloat(
+                        selected.inrFee.replace(/[₹,]/g, "").trim(),
+                      );
+                      if (!isNaN(num) && num > 100)
+                        return `₹${num.toLocaleString("en-IN")}`;
+                    }
+                    const usdNum =
+                      parseFloat(selected.usdFee.replace(/[$,]/g, "")) ||
+                      selected.dormPrice;
+                    const inr = Math.round(usdNum * rate);
+                    return `₹${inr.toLocaleString("en-IN")}`;
+                  })()}
                 </span>
               </div>
             )}
@@ -715,12 +786,13 @@ function PremiumSeatBooking({
                 </span>
               )}
             </div>
+            {/* ✅ Book Now button uses fmtPriceAdvanced(selected) — same as Kundalini */}
             {selected ? (
               <a
                 href={`/yoga-registration?batchId=${selected._id}&type=prenatal`}
                 className={styles.psbBookBtn}
               >
-                Book Now — {fmtPrice(selected.dormPrice).amount} {currency}
+                Book Now — {fmtPriceAdvanced(selected).amount} {currency}
                 <svg
                   className={styles.psbArrowIcon}
                   viewBox="0 0 16 16"
@@ -1032,18 +1104,6 @@ export default function PregnancyYogaTTC() {
   return (
     <div className={styles.page}>
       {/* ── Fixed Mandala Decorations ── */}
-      {/* <div className={styles.mandalaTL} aria-hidden="true">
-        <MandalaSVG size={400} c1="#F15505" c2="#d4a017" sw={0.44} />
-      </div>
-      <div className={styles.mandalaBR} aria-hidden="true">
-        <MandalaSVG size={360} c1="#d4a017" c2="#F15505" sw={0.44} />
-      </div>
-      <div className={styles.mandalaTR} aria-hidden="true">
-        <MandalaSVG size={210} c1="#F15505" c2="#d4a017" sw={0.58} />
-      </div>
-      <div className={styles.mandalaBL} aria-hidden="true">
-        <MandalaSVG size={210} c1="#d4a017" c2="#F15505" sw={0.58} />
-      </div> */}
       <div className={styles.chakraGlow} aria-hidden="true" />
 
       {/* ══ HERO IMAGE with id="hero" for StickySectionNav ══ */}
@@ -1158,38 +1218,38 @@ export default function PregnancyYogaTTC() {
       <section id="features" className={`${styles.section} ${styles.sectionWarm}`}>
         <div className={`container px-3 px-md-4 ${styles.maxx}`}>
           {/* ── Features Header ── */}
-          {pageData.featuresSectionTitle && (
+          if (pageData.featuresSectionTitle) {
             <h2 className={styles.sectionTitle}>
               {pageData.featuresSectionTitle}
             </h2>
-          )}
+          }
           <div className={styles.titleUnderline} />
 
           {/* ── Super Label as styled badge (not plain <p>) ── */}
-          {pageData.featuresSuperLabel && (
+          if (pageData.featuresSuperLabel) {
             <div className={styles.s2BadgeRow}>
               <span className={styles.s2Badge}>
                 {pageData.featuresSuperLabel}
               </span>
             </div>
-          )}
+          }
 
           {/* ── Feature paragraphs + side decorative panel ── */}
           <div className={styles.s2FeaturesWrap}>
             {/* Left: paragraphs */}
             <div className={styles.s2FeaturesText}>
-              {pageData.featuresPara1 && (
+              if (pageData.featuresPara1) {
                 <div
                   className={`${styles.bodyPara} ${styles.s2FirstPara}`}
                   dangerouslySetInnerHTML={{ __html: pageData.featuresPara1 }}
                 />
-              )}
-              {pageData.featuresPara2 && (
+              }
+              if (pageData.featuresPara2) {
                 <div
                   className={styles.bodyPara}
                   dangerouslySetInnerHTML={{ __html: pageData.featuresPara2 }}
                 />
-              )}
+              }
               {pageData.featuresExtraParagraphs?.map((para, i) => (
                 <div
                   key={i}
