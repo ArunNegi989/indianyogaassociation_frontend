@@ -224,7 +224,7 @@
 ================================================================ */
 .founderSection {
   padding: clamp(2.5rem, 5vw, 4rem) 0;
-  background-image: url("../../images/1905x1282.png");
+  background-image: url("../../images/backgroundimage/15.png");
   background-size: contain;
   position: relative;
 }
@@ -426,7 +426,7 @@
    TEACHER CARDS
 ================================================================ */
 .teachersSection {
-  background-image: url("../../images/1905x4418.png");
+  background-image: url("../../images/backgroundimage/16.png");
   background-size: contain;
 }
 
@@ -722,7 +722,7 @@
    GUEST FACULTY GRID — Modern Card Design
 ================================================================ */
 .guestSection {
-  background: linear-gradient(135deg, rgba(245, 184, 0, 0.03) 0%, rgba(224, 123, 0, 0.02) 100%);
+  background-color: #ffffff;
   padding: clamp(3rem, 5vw, 4.5rem) 0;
 }
 
@@ -761,7 +761,7 @@
 .guestCard {
   display: flex;
   flex-direction: column;
-  background: #fffdf5;
+  background: #ffffff;
   border: 1px solid #e8d5aa;
   border-radius: 12px;
   overflow: hidden;

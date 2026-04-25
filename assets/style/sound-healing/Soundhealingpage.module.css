@@ -24,7 +24,7 @@
 
   font-family: 'Lato', Arial, sans-serif;
   color: var(--ink);
-  background: #fff;
+ background-image: url("../../images/backgroundimage/20.png") !important;
   overflow-x: hidden;
   margin: 0;
   padding: 0;
@@ -163,7 +163,6 @@
    INTRO SECTION WITH SIDE IMAGE
 ────────────────────────────────────────── */
 .introSection {
-  background: #fff;
   padding: clamp(2rem, 5vw, 4rem) 0;
   position: relative;
   border-top: 1px solid rgba(241, 85, 5, 0.15);
@@ -235,7 +234,6 @@
 }
 
 .introTextCard {
-  background: rgba(255, 255, 255, 0.75);
   backdrop-filter: blur(8px);
   border-radius: 24px;
   padding: 1.8rem 2rem;
@@ -354,7 +352,6 @@
    AIM SECTION
 ────────────────────────────────────────── */
 .aimSection {
-  background: #fff;
   padding: 4rem 0;
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
@@ -524,7 +521,6 @@
    BENEFITS SECTION
 ────────────────────────────────────────── */
 .benefitsSection {
-  background: #fff;
   padding: clamp(2.4rem, 5vw, 4rem) 0;
   border-top: 1px solid var(--border);
 }
@@ -614,7 +610,7 @@
 ────────────────────────────────────────── */
 .expectSection {
   max-width: 1600px;
-  background: #fff;
+ 
   padding: clamp(2.4rem, 5vw, 4rem) 0 clamp(2.4rem, 5vw, 3.5rem);
   border-top: 1px solid var(--border);
   display: contents;

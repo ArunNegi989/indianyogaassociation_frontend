@@ -5,12 +5,13 @@ import Image from "next/image";
 import styles from "@/assets/style/Aboutaym/Aboutus.module.css";
 import HowToReach from "@/components/home/Howtoreach";
 import heroImg from "@/assets/images/27.webp";
-import visionImg from "@/assets/images/meditation.jpg";
-import missionImg from "@/assets/images/yoga-ttc-classes-outdoor.webp";
-import historyImg1 from "@/assets/images/yoga-ashram-in-rishikesh.jpg";
-import historyImg2 from "@/assets/images/yogi-chetan-mahesh-ji.webp";
-import historyImg3 from "@/assets/images/aym-yoga-campus.webp";
+import visionImg from "@/assets/images/mainimages/44726707092_54dbdf88a1_b.jpg";
+import missionImg from "@/assets/images/mainimages/44262696525_eea8c9277d_b.jpg";
+import historyImg1 from "@/assets/images/mainimages/42014023405_a67ab3a9a9_b.jpg";
+import historyImg2 from "@/assets/images/mainimages/28531495457_bfb39bbd82_b.jpg";
+import historyImg3 from "@/assets/images/mainimages/46021982052_af98401e70_b.jpg";
 import { FaLeaf, FaHeart, FaBook, FaUsers, FaGraduationCap, FaLightbulb, FaFlask, FaHandsHelping } from "react-icons/fa";
+import aboutaymimage from "@/assets/images/mainimages/30160808708_0564cf6164_b.jpg";
 
 // ── DATA ─────────────────────────────────────────────────────────
 const objectives = [
@@ -92,12 +93,7 @@ const AboutUs: React.FC = () => {
           className={styles.heroImage}
           priority
         />
-        <div className={styles.heroOverlay}>
-          <div className={styles.heroContent}>
-            <h1 className={styles.heroTitle}>Association for Yoga & Meditation</h1>
-            <p className={styles.heroSubtitle}>Transforming Lives Through Ancient Wisdom</p>
-          </div>
-        </div>
+        
       </section>
 
       {/* ══════════════════════════════════════
@@ -152,14 +148,15 @@ const AboutUs: React.FC = () => {
 
             {/* Right: Images Gallery */}
             <div className={styles.schoolImagesRight}>
-              <div className={styles.schoolGalleryGrid}>
-                <div className={styles.schoolGalleryCard}>
-                  <div className={styles.schoolGalleryFill} data-label="Yoga Practice" />
-                </div>
-                <div className={styles.schoolGalleryCard}>
-                  <div className={styles.schoolGalleryFill} data-label="Mountain Meditation" />
-                </div>
-              </div>
+           <div className={styles.schoolGalleryCard}>
+  <div
+    className={styles.schoolGalleryFill}
+    data-label="Yoga Practice"
+    style={{ backgroundImage: `url(${aboutaymimage.src})` }}
+  />
+</div>
+
+
             </div>
           </div>
         </div>
@@ -301,7 +298,7 @@ const AboutUs: React.FC = () => {
               </div>
               <div className={styles.timelineImageWrapper}>
                 <Image
-                  src={historyImg2}
+                  src={historyImg1}
                   alt="Yogi Chetan Mahesh - Founder"
                   width={400}
                   height={350}
@@ -322,7 +319,7 @@ const AboutUs: React.FC = () => {
               </div>
               <div className={styles.timelineImageWrapper}>
                 <Image
-                  src={historyImg1}
+                  src={historyImg2}
                   alt="AYM Yoga Ashram in Rishikesh"
                   width={400}
                   height={350}
