@@ -191,8 +191,8 @@ type Currency = "USD" | "INR";
 const NAV_ITEMS = [
   { label: "DATES & FEES", id: "dates-fees" },
   { label: "CURRICULUM", id: "curriculum" },
-  { label: "INCLUSIONS", id: "inclusions" },
-  { label: "FACILITY", id: "facility" },
+  { label: " FACILITY", id: "facility" },
+  { label: "ACCOMMODATION", id: "accommodation" },
   { label: "LOCATION", id: "location" },
 ];
 
@@ -1061,7 +1061,7 @@ function DailyScheduleSection({
 }) {
   const scheduleSrc = resolveImg(scheduleImage, API_BASE);
   return (
-    <section id="curriculum" className={styles.scheduleSection2}>
+    <section  className={styles.scheduleSection2}>
       <div className={styles.scheduleContainer}>
         {scheduleSrc && (
           <div className={styles.schedVideoSide}>
@@ -1123,7 +1123,7 @@ function CurriculumSection({
   mainFocus: string[];
 }) {
   return (
-    <section className={styles.curriculumSection}>
+    <section id="curriculum"  className={styles.curriculumSection}>
       <div className={`${styles.container} ${styles.currContainer}`}>
         <div className={`${styles.reveal} ${styles.centered}`}>
           <span className={styles.superLabel}>{superLabel}</span>
@@ -1733,8 +1733,9 @@ export default function GoaYogaPage() {
           </div>
         </div>
       </section>
-
-      <PremiumGallerySection type="both" backgroundColor="warm" />
+<div id="accommodation" className={styles.accommodationSection}>
+        <PremiumGallerySection type="both" backgroundColor="warm" />
+      </div>
       {/* ✅ REVIEWS — now a reusable separate component */}
       <ReviewSection RatingsSummaryComponent={<RatingsSummarySection />} />
       {/* LOCATION */}

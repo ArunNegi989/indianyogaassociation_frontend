@@ -1,7 +1,6 @@
 import SingleBlog from "@/components/singleblog/Singleblog";
 import { notFound } from "next/navigation";
 
-// ✅ Force dynamic rendering — static build mein 404 nahi aayega
 export const dynamic = "force-dynamic";
 
 interface PageProps {
@@ -32,15 +31,12 @@ function normalise(raw: any) {
       : "",
     author: raw.author || undefined,
     category: raw.category ?? "",
-    image,
+    coverImage: image,
     tags: raw.tags ?? [],
     content: raw.content ?? [],
   };
 }
 
-/* ─────────────────────────────────────────────
-   METADATA
-───────────────────────────────────────────── */
 export async function generateMetadata({ params }: PageProps) {
   const { slug } = await params;
 
@@ -61,13 +57,9 @@ export async function generateMetadata({ params }: PageProps) {
   }
 }
 
-/* ─────────────────────────────────────────────
-   PAGE COMPONENT
-───────────────────────────────────────────── */
 export default async function SingleBlogPage({ params }: PageProps) {
   const { slug } = await params;
 
-  /* ── 1. Current blog by slug ── */
   let blog: ReturnType<typeof normalise>;
 
   try {
@@ -86,7 +78,6 @@ export default async function SingleBlogPage({ params }: PageProps) {
     return notFound();
   }
 
-  /* ── 2. All published blogs — for sidebar (related + recent) ── */
   let allBlogs: ReturnType<typeof normalise>[] = [];
 
   try {
@@ -103,6 +94,7 @@ export default async function SingleBlogPage({ params }: PageProps) {
     .slice(0, 6);
 
   const recentPosts = allBlogs.filter((b) => b.id !== blog.id).slice(0, 5);
+
   return (
     <SingleBlog
       blog={blog}

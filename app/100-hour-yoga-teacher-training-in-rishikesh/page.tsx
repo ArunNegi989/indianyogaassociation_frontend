@@ -11,6 +11,7 @@ import image2 from "@/assets/images/_DSC9732.JPG.jpeg"
 import image3 from "@/assets/images/_DSC5018.JPG.jpeg"
 import RatingsSummarySection from "@/components/home/RatingsSummarySection";
 import ReviewSection from "@/components/common/Reviewsection";
+import PremiumGallerySection from "@/components/PremiumGallerySection";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "";
 
@@ -2022,7 +2023,7 @@ export default function HundredHourYoga() {
           </div>
         </div>
       </section>
-
+  <PremiumGallerySection type="both" backgroundColor="warm" />
       {/* REVIEWS */}
   <ReviewSection RatingsSummaryComponent={<RatingsSummarySection />} />
 
