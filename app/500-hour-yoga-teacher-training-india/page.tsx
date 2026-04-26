@@ -46,8 +46,24 @@ interface Review {
   text: string;
 }
 
+interface CourseInfoDetail {
+  label: string;
+  value: string;
+  sub: string;
+}
+
 interface PageContent {
   _id: string;
+  courseInfoUsdPrice?: number;
+  courseInfoInrPrice?: number;
+  courseInfoOriginalUsdPrice?: number;
+  courseInfoOriginalInrPrice?: number;
+  courseInfoDetails?: CourseInfoDetail[];
+  courseInfoCardTitle?: string;
+  courseInfoFeeLabel?: string;
+  courseInfoFeeFromText?: string;
+  courseInfoBookBtnText?: string;
+  courseInfoOriginalPriceMultiplier?: number;
   pageMainH1: string;
   heroImgAlt: string;
   heroImage: string;
@@ -92,6 +108,16 @@ interface PageContent {
   reviews: Review[];
   accomImages: string[];
   foodImages: string[];
+  // NEW FIELDS
+  standApartPills?: string[];
+  standApartStats?: Array<{ num: string; label: string }>;
+  imgBadgeText?: string;
+  // VIDEO SECTION FIELDS
+  videoUrl?: string;
+  videoBadgeText?: string;
+  videoTitle?: string;
+  videoSubtitle?: string;
+  evalImageAlt?: string;
 }
 
 type Currency = "USD" | "INR";
@@ -239,68 +265,67 @@ const DateIcon = () => (
    COURSE INFO CARD
 ══════════════════════════════ */
 function CourseInfoCard({
-  seats,
+  content,
   currency,
   rate,
 }: {
-  seats: Batch[];
+  content: PageContent;
   currency: Currency;
   rate: number;
 }) {
-  const available = seats.filter((s) => s.totalSeats - s.bookedSeats > 0);
-
-  const cheapestBatch = available.reduce<Batch | null>(
-    (min, s) => {
-      const sUsd = parseFloat(s.usdFee.replace(/[$,]/g, "")) || s.dormPrice;
-      const minUsd = min ? (parseFloat(min.usdFee.replace(/[$,]/g, "")) || min.dormPrice) : Infinity;
-      return sUsd < minUsd ? s : min;
-    },
-    null,
-  );
-
-  // Parse usdFee as the base price
-  const startingUsd = cheapestBatch
-    ? parseFloat(cheapestBatch.usdFee.replace(/[$,]/g, "")) || cheapestBatch.dormPrice
-    : 999;
-  const originalPrice = Math.round((startingUsd * 1.8) / 50) * 50;
+  // Use independent pricing from content, not from seats
+  const currentPrice = currency === "USD" 
+    ? content.courseInfoUsdPrice || 1649
+    : content.courseInfoInrPrice || 135000;
+  
+  const originalPrice = currency === "USD"
+    ? content.courseInfoOriginalUsdPrice || 2950
+    : content.courseInfoOriginalInrPrice || 240000;
 
   const displayPrice = (): string => {
-    if (!cheapestBatch) return currency === "USD" ? `$${startingUsd}` : `₹${Math.round(startingUsd * rate)}`;
-    if (currency === "INR") {
-      // Use stored inrFee if available and valid
-      if (cheapestBatch.inrFee) {
-        const num = parseFloat(cheapestBatch.inrFee.replace(/[₹,]/g, "").trim());
-        if (!isNaN(num) && num > 100) return `₹${num.toLocaleString("en-IN")}`;
-      }
-      // Fallback: usdFee * rate
-      const inr = Math.round(startingUsd * rate);
-      return `₹${inr.toLocaleString("en-IN")}`;
+    if (currency === "USD") {
+      return `$${currentPrice}`;
     }
-    // USD: show usdFee directly
-    const usd = cheapestBatch.usdFee;
-    return usd.startsWith("$") ? usd : `$${usd}`;
+    return `₹${currentPrice.toLocaleString("en-IN")}`;
   };
 
-  const details = [
-    { icon: <DurationIcon />, label: "DURATION", value: "24 Days" },
-    { icon: <LevelIcon />, label: "LEVEL", value: "Advanced" },
-    { icon: <CertIcon />, label: "CERTIFICATION", value: "500 Hour" },
-    {
-      icon: <StyleIcon />,
-      label: "YOGA STYLE",
-      value: "Multistyle",
-      sub: "Ashtanga, Vinyasa & Hatha",
-    },
-    { icon: <LangIcon />, label: "LANGUAGE", value: "English & Hindi" },
-    { icon: <DateIcon />, label: "DATE", value: "Check batches below" },
-  ];
+  const displayOriginalPrice = (): string => {
+    if (currency === "USD") {
+      return `$${originalPrice}`;
+    }
+    return `₹${originalPrice.toLocaleString("en-IN")}`;
+  };
+
+  const details = (content.courseInfoDetails || [
+    { label: "DURATION", value: "24 Days", sub: "" },
+    { label: "LEVEL", value: "Advanced", sub: "" },
+    { label: "CERTIFICATION", value: "500 Hour", sub: "" },
+    { label: "YOGA STYLE", value: "Multistyle", sub: "Ashtanga, Vinyasa & Hatha" },
+    { label: "LANGUAGE", value: "English & Hindi", sub: "" },
+    { label: "DATE", value: "Check batches below", sub: "" },
+  ]).map(detail => ({
+    ...detail,
+    icon: getIconForLabel(detail.label),
+  }));
+
+  function getIconForLabel(label: string) {
+    switch (label.toLowerCase()) {
+      case "duration": return <DurationIcon />;
+      case "level": return <LevelIcon />;
+      case "certification": return <CertIcon />;
+      case "yoga style": return <StyleIcon />;
+      case "language": return <LangIcon />;
+      case "date": return <DateIcon />;
+      default: return <DurationIcon />;
+    }
+  }
 
   return (
     <div className={styles.icWrap}>
       <div className={styles.icCard}>
         <div className={styles.icLeft}>
           <div className={styles.icHdr}>
-            <span className={styles.icHdrTxt}>COURSE DETAILS</span>
+            <span className={styles.icHdrTxt}>{content.courseInfoCardTitle || "COURSE DETAILS"}</span>
           </div>
           <div className={styles.icGrid}>
             {details.map((d, i) => (
@@ -318,20 +343,16 @@ function CourseInfoCard({
         <div className={styles.icVDiv} />
         <div className={styles.icRight}>
           <div className={styles.icFeeTop}>
-            <span className={styles.icFeeLbl}>COURSE FEE</span>
-            <span className={styles.icFeeFrom}>starting from</span>
+            <span className={styles.icFeeLbl}>{content.courseInfoFeeLabel || "COURSE FEE"}</span>
+            <span className={styles.icFeeFrom}>{content.courseInfoFeeFromText || "starting from"}</span>
           </div>
           <div className={styles.icPriceRow}>
-            <span className={styles.icPriceOld}>
-              {currency === "USD"
-                ? `$${originalPrice}`
-                : `₹${Math.round(originalPrice * rate)}`}
-            </span>
+            <span className={styles.icPriceOld}>{displayOriginalPrice()}</span>
             <span className={styles.icPriceNew}>{displayPrice()}</span>
             <span className={styles.icPriceCur}>{currency}</span>
           </div>
           <a href="#dates-fees" className={styles.icBookBtn}>
-            BOOK NOW
+            {content.courseInfoBookBtnText || "BOOK NOW"}
             <svg viewBox="0 0 20 20" fill="none" className={styles.icBtnArrow}>
               <path
                 d="M4 10h12M11 5l5 5-5 5"
@@ -1007,7 +1028,8 @@ function EnhancedIntroSection({ items }: { items: IntroItem[] }) {
    STAND APART SECTION
 ───────────────────────────────────────── */
 function StandApartSection({ content }: { content: PageContent }) {
-  const PILLS = [
+  // Dynamic PILLS from backend if available, otherwise use defaults
+  const PILLS = content.standApartPills || [
     "Anatomy & Kinesiology",
     "Yoga Philosophy",
     "Teaching Methodology",
@@ -1015,7 +1037,8 @@ function StandApartSection({ content }: { content: PageContent }) {
     "Yoga Nidra",
   ];
 
-  const STATS = [
+  // Dynamic STATS from backend if available, otherwise use defaults
+  const STATS = content.standApartStats || [
     { num: "17+", label: "Years of Excellence" },
     { num: "5000+", label: "Yogis Trained" },
     { num: "60+", label: "Countries Reached" },
@@ -1079,7 +1102,7 @@ function StandApartSection({ content }: { content: PageContent }) {
                     <span>Course image</span>
                   </div>
                 )}
-                <span className={styles.imgBadge}>500 Hr Advanced TTC</span>
+                <span className={styles.imgBadge}>{content.imgBadgeText || "500 Hr Advanced TTC"}</span>
               </div>
 
               <div className={styles.statRow}>
@@ -1115,12 +1138,13 @@ function StandApartSection({ content }: { content: PageContent }) {
 /* ─────────────────────────────────────────
    VIDEO SECTION - LOOPING WITHOUT CONTROLS
 ───────────────────────────────────────── */
-function VideoSection() {
-  const videoUrl = "vid.mp4";
+function VideoSection({ content }: { content: PageContent }) {
+  const videoUrl = content.videoUrl || "";
+  const overlayText = content.videoTitle || "Experience the Journey of 500 Hour Yoga Teacher Training";
+  const subText = content.videoSubtitle || "Watch Our Students' Transformation";
+  const badgeText = content.videoBadgeText || "✦ Featured Video ✦";
 
-  const overlayText =
-    "Experience the Journey of 500 Hour Yoga Teacher Training";
-  const subText = "Watch Our Students' Transformation";
+  if (!videoUrl) return null;
 
   return (
     <section className={styles.videoSection}>
@@ -1136,12 +1160,12 @@ function VideoSection() {
               disablePictureInPicture
               controlsList="nodownload nofullscreen noremoteplayback"
             >
-              <source src={videoUrl} type="video/mp4" />
+              <source src={imgSrc(videoUrl)} type="video/mp4" />
               Your browser does not support the video tag.
             </video>
             <div className={styles.videoOverlay}>
               <div className={styles.videoTextOverlay}>
-                <span className={styles.videoBadge}>✦ Featured Video ✦</span>
+                <span className={styles.videoBadge}>{badgeText}</span>
                 <h3 className={styles.videoTitle}>{overlayText}</h3>
                 <p className={styles.videoSubtitle}>{subText}</p>
                 <div className={styles.videoPlayIcon}>
@@ -1564,9 +1588,7 @@ export default function YogaTTC500() {
         </section>
       )}
 
-      <CourseInfoCard seats={seats} currency={currency} rate={rate} />
-
-      <StickySectionNav items={NAV_ITEMS} triggerId="hero" />
+<CourseInfoCard content={content} currency={currency} rate={rate} />      <StickySectionNav items={NAV_ITEMS} triggerId="hero" />
 
       {content.introItems && content.introItems.length > 0 ? (
         <EnhancedIntroSection items={content.introItems} />
@@ -1754,7 +1776,8 @@ export default function YogaTTC500() {
         </div>
       </section>
 
-      <VideoSection />
+      {/* In the main component render section, replace <VideoSection /> with: */}
+<VideoSection content={content} />
 
       <section className={styles.section}>
         <div className="container px-3 px-md-4">
@@ -1885,15 +1908,15 @@ export default function YogaTTC500() {
               )}
             </div>
             {content.evalImage && (
-              <div className="col-12 col-md-6 mt-5">
-                <img
-                  src={imgSrc(content.evalImage)}
-                  alt="Evaluation process"
-                  className={styles.evalImg}
-                  loading="lazy"
-                />
-              </div>
-            )}
+  <div className="col-12 col-md-6 mt-5">
+    <img
+      src={imgSrc(content.evalImage)}
+      alt={content.evalImageAlt || "Evaluation process"}
+      className={styles.evalImg}
+      loading="lazy"
+    />
+  </div>
+)}
           </div>
         </div>
       </section>

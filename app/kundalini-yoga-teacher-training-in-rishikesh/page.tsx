@@ -44,58 +44,163 @@ interface IntroItem {
 }
 
 interface KundaliniContent {
+
+  
   _id: string;
   status: string;
+  refundIcons?: string[];
+  refundColors?: Array<{ color: string; bg: string; border: string }>;
+  // Section 9 - Why Rishikesh Banner
+  whyRishikeshBannerImage?: string;
+  whyRishikeshBannerImageAlt?: string;
+  whyRishikeshBannerTag?: string;
+  whyRishikeshBannerStats?: Array<{ num: string; label: string }>;
+  
+  // Section 9 - Icons
+  spiritualIcon?: string;
+  naturalIcon?: string;
+  typesIcon?: string;
+  topSchoolsIcon?: string;
+  aymPillText?: string;
+  
+  // Section 9 - Refund
+  refundTagLine?: string;
+  refundHeaderSub?: string;
+  refundTrustItems?: Array<{ icon: string; text: string }>;
+
+  
+  scheduleTagLine?: string;
+    scheduleHeaderSub?: string;
+    schedulePhaseLabels?: Array<{ label: string; color: string }>;
+    scheduleNoteIcon?: string;
+    scheduleNoteText?: string;
+    scheduleStats?: Array<{ icon: string; num: string; label: string }>;
+    scheduleQuoteText?: string;
+    scheduleQuoteAuthor?: string;
+    scheduleImg1Tag?: string;
+    scheduleImg2Tag?: string;
+  
+  
+  // Section 1 - What is Kundalini
   whatIsTitle: string;
   whatIsIntroItems?: IntroItem[];
   whatIsParagraphs?: string[];
+  whatIsImage?: string;
+  whatIsImageAlt?: string;
+  
+  // Section 2 - Activate & Benefits
   activateTitle: string;
+  activateParagraphs: string[];
+  activateImage?: string;
+  activateImageAlt?: string;
+  
+  // Section 3 - Benefits Card
   benefitsTitle: string;
   benefitsIntro1: string;
   benefitsIntro2: string;
+  benefitItems: string[];
+  
+  // Section 4 - Course Highlights
   highlightsTitle: string;
   highlightsIntro: string;
+  highlightCards: HighlightCard[];
+  
+  // Section 5 - Syllabus/Curriculum
   syllabusBigTitle: string;
   syllabusSchool: string;
   courseOverviewTitle: string;
   courseOverviewPara: string;
+  syllabusModules: SyllabusModule[];
   readingBoxTitle: string;
   readingBoxNote: string;
+  readingItems: string[];
   noteBoxTitle: string;
   noteBoxPara: string;
+  
+  // Syllabus Header Dynamic Fields
+  sylHeaderBgImage?: string;
+  sylHeaderBgImageAlt?: string;
+  sylBadges?: string[];
+  courseOverviewBadgeText?: string;
+  curriculumImage?: string;
+  curriculumImageAlt?: string;
+  
+  // Section 6 - Eligibility
   eligibilityTitle: string;
+  eligibilityParagraphs: string[];
+  eligibilityImage?: string;
+  eligibilityImageAlt?: string;
+  eligibilityBadgeTitle?: string;
+  eligibilityBadgeSub?: string;
+  eligibilityChip1Num?: string;
+  eligibilityChip1Label?: string;
+  eligibilityChip2Num?: string;
+  eligibilityChip2Label?: string;
+  eligibilityPills?: Array<{ icon: string; text: string }>;
+  
+  // Section 7 - Location
   locationTitle: string;
+  locationParagraphs: string[];
+  locationBannerImage?: string;
+  locationBannerImageAlt?: string;
+  locationStackTopImage?: string;
+  locationStackTopImageAlt?: string;
+  locationStackTopLabel?: string;
+  locationStackBottomImage?: string;
+  locationStackBottomImageAlt?: string;
+  locationStackBottomLabel?: string;
+  locationStats?: Array<{ num: string; label: string }>;
+  
+  // Section 8 - Facilities
   facilitiesTitle: string;
   facilitiesIntro: string;
   facilitiesIntroRich: string;
+  facilityItems: string[];
+  facilitiesVideoUrl?: string;
+  facilitiesVideoPoster?: string;
+  facilitiesVideoTag?: string;
+  facilitiesVideoText?: string;
+  facilityIconCards?: Array<{ icon: string; label: string; desc: string }>;
+  
+  // Section 9 - Daily Schedule
   scheduleSectionTitle: string;
+  scheduleItems: ScheduleItem[];
+  schedImg1: string;
+  schedImg2: string;
+  
+  // Section 10 - Why Choose AYM
   whyAYMTitle: string;
+  whyCards: WhyCard[];
+  classImage: string;
+  
+  // Section 11 - Why Rishikesh
   whyRishikeshTitle: string;
   spiritualTitle: string;
   spiritualPara: string;
   naturalTitle: string;
   naturalPara: string;
   typesTitle: string;
+  typesItems: string[];
   topSchoolsTitle: string;
   topSchoolsPara: string;
+  
+  // Section 12 - Refund Policy
   refundTitle: string;
-  whatIsParagraphsLegacy?: string[];
-  activateParagraphs: string[];
-  eligibilityParagraphs: string[];
-  locationParagraphs: string[];
-  syllabusModules: SyllabusModule[];
-  benefitItems: string[];
-  highlightCards: HighlightCard[];
-  readingItems: string[];
-  facilityItems: string[];
-  scheduleItems: ScheduleItem[];
-  whyCards: WhyCard[];
-  typesItems: string[];
   refundItems: string[];
+  
+  // Course Info Card
+  courseInfoCardTitle?: string;
+  courseInfoFeeLabel?: string;
+  courseInfoFeeFromText?: string;
+  courseInfoBookBtnText?: string;
+  courseInfoUsdPrice?: number;
+  courseInfoInrPrice?: number;
+  courseInfoOriginalUsdPrice?: number;
+  courseInfoOriginalInrPrice?: number;
+  courseInfoDetails?: Array<{ label: string; value: string; sub: string }>;
+  
+  // Hero
   heroImage: string;
-  classImage: string;
-  schedImg1: string;
-  schedImg2: string;
 }
 
 interface KundaliniSeat {
@@ -556,69 +661,59 @@ function CurrencyDropdown({
    COURSE INFO CARD
 ═══════════════════════════════════════════ */
 function CourseInfoCard({
-  seats,
+  content,
   currency,
   rate,
 }: {
-  seats: KundaliniSeat[];
+  content: KundaliniContent;
   currency: Currency;
   rate: number;
 }) {
-  const available = seats.filter((s) => s.totalSeats - s.bookedSeats > 0);
-  const startingPrice =
-    available.length > 0 ? Math.min(...available.map((s) => s.dormPrice)) : 999;
-  const originalPrice = Math.round((startingPrice * 1.8) / 50) * 50;
+  // Use independent pricing from content, not from seats
+  const currentPrice = currency === "USD" 
+    ? content.courseInfoUsdPrice || 999
+    : content.courseInfoInrPrice || 82000;
+  
+  const originalPrice = currency === "USD"
+    ? content.courseInfoOriginalUsdPrice || 1799
+    : content.courseInfoOriginalInrPrice || 148000;
+
+  const displayPrice = (): string => {
+    if (currency === "USD") {
+      return `$${currentPrice}`;
+    }
+    return `₹${currentPrice.toLocaleString("en-IN")}`;
+  };
+
+  const displayOriginalPrice = (): string => {
+    if (currency === "USD") {
+      return `$${originalPrice}`;
+    }
+    return `₹${originalPrice.toLocaleString("en-IN")}`;
+  };
 
   const DurationIcon = () => (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.8"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
       <circle cx="12" cy="12" r="9" />
       <path d="M12 7v5l3 3" />
     </svg>
   );
   const LevelIcon = () => (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.8"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
       <rect x="2" y="14" width="5" height="7" rx="1" />
       <rect x="9.5" y="9" width="5" height="12" rx="1" />
       <rect x="17" y="4" width="5" height="17" rx="1" />
     </svg>
   );
   const CertIcon = () => (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.8"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
       <rect x="2" y="3" width="20" height="14" rx="2" />
       <path d="M8 17v4M16 17v4M8 21h8" />
       <path d="M9 10l2 2 4-4" />
     </svg>
   );
   const StyleIcon = () => (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.8"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
       <circle cx="12" cy="4" r="1.5" />
       <path d="M12 6v5.5" />
       <path d="M8.5 13c0 2 1.5 4 3.5 4.5 2-0.5 3.5-2.5 3.5-4.5" />
@@ -627,28 +722,14 @@ function CourseInfoCard({
     </svg>
   );
   const LangIcon = () => (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.8"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
       <circle cx="12" cy="12" r="9" />
       <path d="M2 12h20" />
       <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
     </svg>
   );
   const DateIcon = () => (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.8"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
       <rect x="3" y="4" width="18" height="18" rx="2" />
       <path d="M16 2v4M8 2v4M3 10h18" />
       <circle cx="8" cy="15" r="1" fill="currentColor" />
@@ -657,26 +738,36 @@ function CourseInfoCard({
     </svg>
   );
 
-  const details = [
-    { icon: <DurationIcon />, label: "DURATION", value: "24 Days" },
-    { icon: <LevelIcon />, label: "LEVEL", value: "Beginner to Advanced" },
-    { icon: <CertIcon />, label: "CERTIFICATION", value: "200 Hour" },
-    {
-      icon: <StyleIcon />,
-      label: "YOGA STYLE",
-      value: "Kundalini Yoga",
-      sub: "As taught by Yogi Bhajan",
-    },
-    { icon: <LangIcon />, label: "LANGUAGE", value: "English & Hindi" },
-    { icon: <DateIcon />, label: "DATE", value: "Check batches below" },
-  ];
+  function getIconForLabel(label: string) {
+    switch (label.toLowerCase()) {
+      case "duration": return <DurationIcon />;
+      case "level": return <LevelIcon />;
+      case "certification": return <CertIcon />;
+      case "yoga style": return <StyleIcon />;
+      case "language": return <LangIcon />;
+      case "date": return <DateIcon />;
+      default: return <DurationIcon />;
+    }
+  }
+
+  const details = (content.courseInfoDetails || [
+    { label: "DURATION", value: "24 Days", sub: "" },
+    { label: "LEVEL", value: "Beginner to Advanced", sub: "" },
+    { label: "CERTIFICATION", value: "200 Hour", sub: "" },
+    { label: "YOGA STYLE", value: "Kundalini Yoga", sub: "As taught by Yogi Bhajan" },
+    { label: "LANGUAGE", value: "English & Hindi", sub: "" },
+    { label: "DATE", value: "Check batches below", sub: "" },
+  ]).map(detail => ({
+    ...detail,
+    icon: getIconForLabel(detail.label),
+  }));
 
   return (
     <div className={styles.icWrap}>
       <div className={styles.icCard}>
         <div className={styles.icLeft}>
           <div className={styles.icHdr}>
-            <span className={styles.icHdrTxt}>COURSE DETAILS</span>
+            <span className={styles.icHdrTxt}>{content.courseInfoCardTitle || "COURSE DETAILS"}</span>
           </div>
           <div className={styles.icGrid}>
             {details.map((d, i) => (
@@ -694,20 +785,16 @@ function CourseInfoCard({
         <div className={styles.icVDiv} />
         <div className={styles.icRight}>
           <div className={styles.icFeeTop}>
-            <span className={styles.icFeeLbl}>COURSE FEE</span>
-            <span className={styles.icFeeFrom}>starting from</span>
+            <span className={styles.icFeeLbl}>{content.courseInfoFeeLabel || "COURSE FEE"}</span>
+            <span className={styles.icFeeFrom}>{content.courseInfoFeeFromText || "starting from"}</span>
           </div>
           <div className={styles.icPriceRow}>
-            <span className={styles.icPriceOld}>
-              {formatPrice(originalPrice, currency, rate)}
-            </span>
-            <span className={styles.icPriceNew}>
-              {formatPrice(startingPrice, currency, rate)}
-            </span>
+            <span className={styles.icPriceOld}>{displayOriginalPrice()}</span>
+            <span className={styles.icPriceNew}>{displayPrice()}</span>
             <span className={styles.icPriceCur}>{currency}</span>
           </div>
           <a href="#dates-fees" className={styles.icBookBtn}>
-            BOOK NOW
+            {content.courseInfoBookBtnText || "BOOK NOW"}
             <svg viewBox="0 0 20 20" fill="none" className={styles.icBtnArrow}>
               <path
                 d="M4 10h12M11 5l5 5-5 5"
@@ -1344,83 +1431,89 @@ export default function KundaliniYogaTTC() {
       </section>
 
       {/* COURSE INFO CARD */}
-      <CourseInfoCard seats={seats} currency={currency} rate={rate} />
-
+      <CourseInfoCard content={content} currency={currency} rate={rate} />
       {/* ✅ STICKY NAVIGATION (from 100hr page) */}
       <StickySectionNav items={NAV_ITEMS} triggerId="hero" />
 
       {/* ══════════════════════════════════════
         SECTION 2 — WHAT IS KUNDALINI YOGA (Enhanced)
       ══════════════════════════════════════ */}
-      <section className={`${styles.section} ${styles.sectionWarm}`}>
-        <div className={`container px-3 px-md-4 ${styles.maxx}`}>
-          <div className={styles.whatIsBlock}>
-            {/* Left: text content */}
-            <div className={styles.whatIsLeft}>
-              <div className={styles.whatIsInner}>
-                <span className={styles.secTagline}>Ancient Wisdom · Modern Practice</span>
-                <h2 className={styles.sectionTitleLeft}>{content.whatIsTitle}</h2>
-                <div className={styles.underlineLeft} />
-                <OmDivider centered={false} />
-                <div className={styles.whatIsTextBody}>
-                  {content.whatIsParagraphs?.map((para, i) => (
-                    <div
-                      key={i}
-                      className={`${styles.bodyPara} ${i === 0 ? styles.whatIsFirstPara : ""}`}
-                      dangerouslySetInnerHTML={{ __html: para }}
-                    />
-                  ))}
-                </div>
-                <div className={styles.whatIsPills}>
-                  {[
-                    { icon: "🧘", text: "Awakens Kundalini Energy" },
-                    { icon: "🌬️", text: "Pranayama & Breathwork" },
-                    { icon: "🕉️", text: "Mantra & Meditation" },
-                    { icon: "⚡", text: "Chakra Activation" },
-                  ].map((pill, i) => (
-                    <div key={i} className={styles.whatIsPill}>
-                      <span className={styles.whatIsPillIcon}>{pill.icon}</span>
-                      <span className={styles.whatIsPillText}>{pill.text}</span>
-                    </div>
-                  ))}
-                </div>
+     <section className={`${styles.section} ${styles.sectionWarm}`}>
+  <div className={`container px-3 px-md-4 ${styles.maxx}`}>
+    <div className={styles.whatIsBlock}>
+      {/* Left: text content */}
+      <div className={styles.whatIsLeft}>
+        <div className={styles.whatIsInner}>
+          <span className={styles.secTagline}>Ancient Wisdom · Modern Practice</span>
+          <h2 className={styles.sectionTitleLeft}>{content.whatIsTitle}</h2>
+          <div className={styles.underlineLeft} />
+          <OmDivider centered={false} />
+          <div className={styles.whatIsTextBody}>
+            {content.whatIsParagraphs?.map((para, i) => (
+              <div
+                key={i}
+                className={`${styles.bodyPara} ${i === 0 ? styles.whatIsFirstPara : ""}`}
+                dangerouslySetInnerHTML={{ __html: para }}
+              />
+            ))}
+          </div>
+          <div className={styles.whatIsPills}>
+            {[
+              { icon: "🧘", text: "Awakens Kundalini Energy" },
+              { icon: "🌬️", text: "Pranayama & Breathwork" },
+              { icon: "🕉️", text: "Mantra & Meditation" },
+              { icon: "⚡", text: "Chakra Activation" },
+            ].map((pill, i) => (
+              <div key={i} className={styles.whatIsPill}>
+                <span className={styles.whatIsPillIcon}>{pill.icon}</span>
+                <span className={styles.whatIsPillText}>{pill.text}</span>
               </div>
-            </div>
-
-            {/* Right: image */}
-            <div className={styles.whatIsRight}>
-              <div className={styles.whatIsImgWrap}>
-                <div className={styles.whatIsImgFrame} aria-hidden="true" />
-                <img
-                  src="https://images.pexels.com/photos/3822725/pexels-photo-3822725.jpeg?auto=compress&cs=tinysrgb&w=800"
-                  alt="Kundalini Yoga meditation practice"
-                  className={styles.whatIsImg}
-                  loading="lazy"
-                />
-                <div className={styles.whatIsImgOverlay} />
-                <div className={styles.whatIsImgBadge}>
-                  <ChakraSVG size={28} color="#f5c87a" />
-                  <div>
-                    <div className={styles.whatIsImgBadgeTitle}>Yoga of Awareness</div>
-                    <div className={styles.whatIsImgBadgeSub}>Transform · Awaken · Elevate</div>
-                  </div>
-                </div>
-                <div className={styles.whatIsFloatChip}>
-                  <span className={styles.whatIsFloatChipNum}>5000+</span>
-                  <span className={styles.whatIsFloatChipLabel}>Years of Tradition</span>
-                </div>
-              </div>
-              {/* Decorative mandala behind image */}
-              <div className={styles.whatIsMandalaDecor} aria-hidden="true">
-                <MandalaSVG size={320} color1="rgba(241,85,5,0.12)" color2="rgba(212,160,23,0.09)" strokeW={0.6} />
-              </div>
-            </div>
+            ))}
           </div>
         </div>
-      </section>
+      </div>
+
+      {/* Right: image - NOW DYNAMIC */}
+      <div className={styles.whatIsRight}>
+        <div className={styles.whatIsImgWrap}>
+          <div className={styles.whatIsImgFrame} aria-hidden="true" />
+          {content.whatIsImage ? (
+            <img
+              src={imgSrc(content.whatIsImage)}
+              alt={content.whatIsImageAlt || "Kundalini Yoga meditation practice"}
+              className={styles.whatIsImg}
+              loading="lazy"
+            />
+          ) : (
+            <div className={styles.whatIsImgPlaceholder}>
+              <ChakraSVG size={80} color="#F15505" />
+              <span>Kundalini Yoga Image</span>
+            </div>
+          )}
+          <div className={styles.whatIsImgOverlay} />
+          <div className={styles.whatIsImgBadge}>
+            <ChakraSVG size={28} color="#f5c87a" />
+            <div>
+              <div className={styles.whatIsImgBadgeTitle}>Yoga of Awareness</div>
+              <div className={styles.whatIsImgBadgeSub}>Transform · Awaken · Elevate</div>
+            </div>
+          </div>
+          <div className={styles.whatIsFloatChip}>
+            <span className={styles.whatIsFloatChipNum}>5000+</span>
+            <span className={styles.whatIsFloatChipLabel}>Years of Tradition</span>
+          </div>
+        </div>
+        {/* Decorative mandala behind image */}
+        <div className={styles.whatIsMandalaDecor} aria-hidden="true">
+          <MandalaSVG size={320} color1="rgba(241,85,5,0.12)" color2="rgba(212,160,23,0.09)" strokeW={0.6} />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
      {/* SECTION 3 — ACTIVATE KUNDALINI (BENEFITS) */}
-<section id="benefits" className={`${styles.section} ${styles.sectionLight}`}>
+     <section id="benefits" className={`${styles.section} ${styles.sectionLight}`}>
   <div className={`container px-3 px-md-4 ${styles.maxx}`}>
     <div className={styles.sectionChakra} aria-hidden="true">
       <ChakraSVG size={120} color="rgba(224,123,0,0.08)" />
@@ -1446,12 +1539,19 @@ export default function KundaliniYogaTTC() {
         )}
       </div>
       <div className={styles.activateIntroImageWrap}>
-        <img
-          src="https://images.pexels.com/photos/3822725/pexels-photo-3822725.jpeg?auto=compress&cs=tinysrgb&w=800"
-          alt="Kundalini Yoga practice"
-          className={styles.activateIntroImage}
-          loading="lazy"
-        />
+        {content.activateImage ? (
+          <img
+            src={imgSrc(content.activateImage)}
+            alt={content.activateImageAlt || "Kundalini Yoga practice"}
+            className={styles.activateIntroImage}
+            loading="lazy"
+          />
+        ) : (
+          <div className={styles.activateIntroImagePlaceholder}>
+            <ChakraSVG size={60} color="#F15505" />
+            <span>Kundalini Yoga Image</span>
+          </div>
+        )}
         <div className={styles.activateIntroImageBadge}>
           <ChakraSVG size={18} color="#f5c87a" />
           <span>Transform · Awaken · Evolve</span>
@@ -1607,508 +1707,484 @@ export default function KundaliniYogaTTC() {
 
       {/* SECTION 4 — SYLLABUS (CURRICULUM) */}
       <section id="curriculum" className={`${styles.section} ${styles.sectionWarm}`}>
-        <div className={`container px-3 px-md-4 ${styles.maxx}`}>
-          <div className={styles.syllabusWrap}>
-            <div className={styles.syllabusHeader}>
-              <div className={styles.sylHeaderBg} aria-hidden="true" />
-              <div className={styles.sylHeaderOverlay} aria-hidden="true" />
-              <div className={styles.sylHeaderContent}>
-                <h2 className={styles.syllabusBigTitle}>
-                  {content.syllabusBigTitle}
-                </h2>
-                <p className={styles.syllabusSchool}>
-                  {content.syllabusSchool}
-                </p>
-                <div className={styles.sylOmRow}>
-                  <span className={styles.sylOmLine} />
-                  <span className={styles.sylOmGlyph}>ॐ</span>
-                  <span className={styles.sylOmLine} />
-                </div>
-                <div className={styles.sylBadgeRow}>
-                  <span className={styles.sylBadge}>200 Hours</span>
-                  <span className={styles.sylBadge}>Rishikesh, India</span>
-                  <span className={styles.sylBadge}>
-                    Yoga Alliance Certified
-                  </span>
-                  <span className={styles.sylBadge}>24 Days</span>
-                </div>
-              </div>
-            </div>
-            <div className={styles.courseOverviewRow}>
-              <div className={styles.courseOverviewLeft}>
-                <h3 className={styles.overviewTitle}>
-                  {content.courseOverviewTitle}
-                </h3>
-                <div
-                  className={styles.bodyPara}
-                  style={{ marginBottom: 0 }}
-                  dangerouslySetInnerHTML={{
-                    __html: content.courseOverviewPara ?? "",
-                  }}
-                />
-              </div>
-              <div className={styles.courseOverviewImgWrap}>
-                <img
-                  src="https://images.pexels.com/photos/3822725/pexels-photo-3822725.jpeg?auto=compress&cs=tinysrgb&w=600"
-                  alt="Kundalini Yoga teacher training"
-                  className={styles.courseOverviewImg}
-                  loading="lazy"
-                />
-                <div className={styles.courseOverviewImgBadge}>
-                  <span>Learn · Practice · Teach</span>
-                </div>
-              </div>
-            </div>
-            <div className={styles.accordionWrap}>
-              {content.syllabusModules?.map((item, i) => (
-                <AccordionItem
-                  key={item.id}
-                  num={i + 1}
-                  title={item.title}
-                  items={item.items}
-                />
-              ))}
-            </div>
-            <div className={styles.sylBottomRow}>
-              <div className={styles.readingBox}>
-                <h3 className={styles.readingTitle}>
-                  {content.readingBoxTitle}
-                </h3>
-                <ul className={styles.readingList}>
-                  {content.readingItems?.map((r, i) => (
-                    <li key={i}>{r}</li>
-                  ))}
-                </ul>
-                {content.readingBoxNote && (
-                  <p className={styles.bodyPara} style={{ marginTop: ".5rem" }}>
-                    {content.readingBoxNote}
-                  </p>
-                )}
-              </div>
-              <div className={styles.noteBox}>
-                <h3 className={styles.noteTitle}>{content.noteBoxTitle}</h3>
-                <p className={styles.bodyPara} style={{ marginBottom: 0 }}>
-                  {content.noteBoxPara}
-                </p>
-              </div>
-            </div>
+  <div className={`container px-3 px-md-4 ${styles.maxx}`}>
+    <div className={styles.syllabusWrap}>
+      <div className={styles.syllabusHeader}>
+        <div className={styles.sylHeaderBg} aria-hidden="true" />
+        <div className={styles.sylHeaderOverlay} aria-hidden="true" />
+        <div className={styles.sylHeaderContent}>
+          <h2 className={styles.syllabusBigTitle}>
+            {content.syllabusBigTitle}
+          </h2>
+          <p className={styles.syllabusSchool}>
+            {content.syllabusSchool}
+          </p>
+          <div className={styles.sylOmRow}>
+            <span className={styles.sylOmLine} />
+            <span className={styles.sylOmGlyph}>ॐ</span>
+            <span className={styles.sylOmLine} />
+          </div>
+          <div className={styles.sylBadgeRow}>
+            <span className={styles.sylBadge}>200 Hours</span>
+            <span className={styles.sylBadge}>Rishikesh, India</span>
+            <span className={styles.sylBadge}>
+              Yoga Alliance Certified
+            </span>
+            <span className={styles.sylBadge}>24 Days</span>
           </div>
         </div>
-      </section>
+      </div>
+      <div className={styles.courseOverviewRow}>
+        <div className={styles.courseOverviewLeft}>
+          <h3 className={styles.overviewTitle}>
+            {content.courseOverviewTitle}
+          </h3>
+          <div
+            className={styles.bodyPara}
+            style={{ marginBottom: 0 }}
+            dangerouslySetInnerHTML={{
+              __html: content.courseOverviewPara ?? "",
+            }}
+          />
+        </div>
+        <div className={styles.courseOverviewImgWrap}>
+          {content.curriculumImage ? (
+            <img
+              src={imgSrc(content.curriculumImage)}
+              alt={content.curriculumImageAlt || "Kundalini Yoga teacher training"}
+              className={styles.courseOverviewImg}
+              loading="lazy"
+            />
+          ) : (
+            <div className={styles.courseOverviewImgPlaceholder}>
+              <ChakraSVG size={60} color="#F15505" />
+              <span>Curriculum Image</span>
+            </div>
+          )}
+          <div className={styles.courseOverviewImgBadge}>
+            <span>Learn · Practice · Teach</span>
+          </div>
+        </div>
+      </div>
+      <div className={styles.accordionWrap}>
+        {content.syllabusModules?.map((item, i) => (
+          <AccordionItem
+            key={item.id}
+            num={i + 1}
+            title={item.title}
+            items={item.items}
+          />
+        ))}
+      </div>
+      <div className={styles.sylBottomRow}>
+        <div className={styles.readingBox}>
+          <h3 className={styles.readingTitle}>
+            {content.readingBoxTitle}
+          </h3>
+          <ul className={styles.readingList}>
+            {content.readingItems?.map((r, i) => (
+              <li key={i}>{r}</li>
+            ))}
+          </ul>
+          {content.readingBoxNote && (
+            <p className={styles.bodyPara} style={{ marginTop: ".5rem" }}>
+              {content.readingBoxNote}
+            </p>
+          )}
+        </div>
+        <div className={styles.noteBox}>
+          <h3 className={styles.noteTitle}>{content.noteBoxTitle}</h3>
+          <p className={styles.bodyPara} style={{ marginBottom: 0 }}>
+            {content.noteBoxPara}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
       {/* SECTION 5 — ELIGIBILITY + LOCATION + FACILITIES */}
       <section className={`${styles.section} ${styles.sectionLight}`}>
-        <div className={`container px-3 px-md-4 ${styles.maxx}`}>
-          {/* Eligibility Block */}
-          <div className={styles.eligibilityBlock}>
-            <div className={styles.eligImgPanel}>
-              <img
-                src="https://images.pexels.com/photos/8436490/pexels-photo-8436490.jpeg?auto=compress&cs=tinysrgb&w=800"
-                alt="Yoga students"
-                className={styles.eligImg}
-                loading="lazy"
-              />
-              <div className={styles.eligImgOverlay} />
-              <div className={styles.eligImgBadge}>
-                <span className={styles.eligBadgeIcon}>🌍</span>
-                <div>
-                  <div className={styles.eligBadgeTitle}>Open to All</div>
-                  <div className={styles.eligBadgeSub}>
-                    No prerequisites required
-                  </div>
-                </div>
-              </div>
-              <div className={`${styles.eligChip} ${styles.eligChip1}`}>
-                <span className={styles.eligChipNum}>0</span>
-                <span className={styles.eligChipLabel}>Age Limit</span>
-              </div>
-              <div className={`${styles.eligChip} ${styles.eligChip2}`}>
-                <span className={styles.eligChipNum}>All</span>
-                <span className={styles.eligChipLabel}>Backgrounds</span>
-              </div>
-            </div>
-            <div className={styles.eligContent}>
-              <div className={styles.eligContentInner}>
-                <div className={styles.secTagline}>WHO CAN JOIN</div>
-                <h2 className={styles.sectionTitleLeft}>
-                  {content.eligibilityTitle}
-                </h2>
-                <div className={styles.underlineLeft} />
-                {content.eligibilityParagraphs?.map((para, i) => (
-                  <div
-                    key={i}
-                    className={styles.bodyPara}
-                    dangerouslySetInnerHTML={{ __html: para }}
-                  />
-                ))}
-                <div className={styles.eligPills}>
-                  {[
-                    { icon: "✓", text: "No prior yoga experience needed" },
-                    { icon: "✓", text: "No age restriction" },
-                    { icon: "✓", text: "All nationalities welcome" },
-                    { icon: "✓", text: "Open to all fitness levels" },
-                  ].map((pill, i) => (
-                    <div key={i} className={styles.eligPill}>
-                      <span className={styles.eligPillIcon}>{pill.icon}</span>
-                      <span>{pill.text}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
+  <div className={`container px-3 px-md-4 ${styles.maxx}`}>
+    {/* Eligibility Block */}
+    <div className={styles.eligibilityBlock}>
+      <div className={styles.eligImgPanel}>
+        {content.eligibilityImage ? (
+          <img
+            src={imgSrc(content.eligibilityImage)}
+            alt={content.eligibilityImageAlt || "Yoga students"}
+            className={styles.eligImg}
+            loading="lazy"
+          />
+        ) : (
+          <div className={styles.eligImgPlaceholder}>
+            <ChakraSVG size={60} color="#F15505" />
+            <span>Eligibility Image</span>
           </div>
-
-          {/* Location Block */}
-          <div id="location" className={styles.locationBlock}>
-            <div className={styles.locationBanner}>
-              <img
-                src="https://images.pexels.com/photos/1371360/pexels-photo-1371360.jpeg?auto=compress&cs=tinysrgb&w=1400"
-                alt="Rishikesh mountains"
-                className={styles.locationBannerImg}
-                loading="lazy"
-              />
-              <div className={styles.locationBannerOverlay} />
-              <div className={styles.locationBannerContent}>
-                <div className={styles.secTaglineLight}>OUR SACRED HOME</div>
-                <h2 className={styles.locationBannerTitle}>
-                  {content.locationTitle}
-                </h2>
-                <div className={styles.locationBannerDivider} />
-                <div className={styles.locationStatRow}>
-                  {[
-                    { num: "3", label: "Rivers confluence" },
-                    { num: "2500+", label: "Metres altitude" },
-                    { num: "100+", label: "Years of yoga legacy" },
-                    { num: "∞", label: "Himalayan energy" },
-                  ].map((stat, i) => (
-                    <div key={i} className={styles.locationStat}>
-                      <span className={styles.locationStatNum}>{stat.num}</span>
-                      <span className={styles.locationStatLabel}>
-                        {stat.label}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-            <div className={styles.locationBody}>
-              <div className={styles.locationText}>
-                {content.locationParagraphs?.map((para, i) => (
-                  <div
-                    key={i}
-                    className={styles.bodyPara}
-                    dangerouslySetInnerHTML={{ __html: para }}
-                  />
-                ))}
-              </div>
-              <div className={styles.locationImgStack}>
-                <div className={styles.locationStackTop}>
-                  <img
-                    src="https://images.pexels.com/photos/3822725/pexels-photo-3822725.jpeg?auto=compress&cs=tinysrgb&w=600"
-                    alt="Yoga class"
-                    loading="lazy"
-                  />
-                  <div className={styles.locationStackLabel}>Practice Hall</div>
-                </div>
-                <div className={styles.locationStackBottom}>
-                  <img
-                    src="https://images.pexels.com/photos/8436560/pexels-photo-8436560.jpeg?auto=compress&cs=tinysrgb&w=600"
-                    alt="Ashram view"
-                    loading="lazy"
-                  />
-                  <div className={styles.locationStackLabel}>
-                    Himalayan Setting
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Facilities Block */}
-          <div className={styles.facilitiesBlock}>
-            <div className={styles.facilitiesHeader}>
-              <span className={styles.cardCorner}>✦</span>
-              <div className={styles.secTagline}>WHAT'S INCLUDED</div>
-              <h2 className={styles.sectionTitleCenter}>
-                {content.facilitiesTitle}
-              </h2>
-              <OmDivider />
-              {content.facilitiesIntroRich ? (
-                <div
-                  className={`${styles.bodyPara} ${styles.textCenter}`}
-                  style={{ maxWidth: 740, margin: "0 auto 1.5rem" }}
-                  dangerouslySetInnerHTML={{
-                    __html: content.facilitiesIntroRich,
-                  }}
-                />
-              ) : (
-                content.facilitiesIntro && (
-                  <p
-                    className={`${styles.bodyPara} ${styles.textCenter}`}
-                    style={{ maxWidth: 740, margin: "0 auto 1.5rem" }}
-                  >
-                    {content.facilitiesIntro}
-                  </p>
-                )
-              )}
-            </div>
-            <div className={styles.facilitiesVideoBanner}>
-              <video
-                className={styles.facilitiesVideo}
-                autoPlay
-                muted
-                loop
-                playsInline
-                poster="https://images.pexels.com/photos/3822725/pexels-photo-3822725.jpeg?auto=compress&cs=tinysrgb&w=1200"
-              >
-                <source
-                  src="https://cdn.pixabay.com/video/2021/02/04/63734-507693979_large.mp4"
-                  type="video/mp4"
-                />
-              </video>
-              <div className={styles.facilitiesVideoOverlay}>
-                <div className={styles.facilitiesVideoText}>
-                  <span className={styles.facilitiesVideoTag}>
-                    LIVE · BREATHE · GROW
-                  </span>
-                  <p>
-                    Everything you need for a transformative 24-day residential
-                    experience
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className={styles.facilitiesIconGrid}>
-              {[
-                {
-                  icon: "🏠",
-                  label: "Accommodation",
-                  desc: "Spacious furnished rooms with attached bathrooms",
-                },
-                {
-                  icon: "👨‍🏫",
-                  label: "Expert Guidance",
-                  desc: "Access to highly skilled yoga professionals",
-                },
-                {
-                  icon: "📚",
-                  label: "Study Materials",
-                  desc: "Online resources, yoga mats, books, and more",
-                },
-                {
-                  icon: "📹",
-                  label: "CCTV Security",
-                  desc: "24/7 surveillance for your safety & peace of mind",
-                },
-                {
-                  icon: "🕐",
-                  label: "24/7 Support",
-                  desc: "Around-the-clock management assistance",
-                },
-                {
-                  icon: "🎓",
-                  label: "Workshops",
-                  desc: "Seminars, workshops, and yoga-related events",
-                },
-                {
-                  icon: "🥤",
-                  label: "Detox Drinks",
-                  desc: "Fresh detox drinks and juices daily",
-                },
-                {
-                  icon: "🥗",
-                  label: "3 Meals Daily",
-                  desc: "Vegetarian and healthy meals three times a day",
-                },
-                {
-                  icon: "📶",
-                  label: "Free Wifi",
-                  desc: "Free wifi and 24/7 hot water service",
-                },
-                {
-                  icon: "📿",
-                  label: "Mala Provided",
-                  desc: "A piece of Mala gifted to every student",
-                },
-                {
-                  icon: "🌿",
-                  label: "Nature Excursions",
-                  desc: "Guided trips to elevate your experience",
-                },
-                {
-                  icon: "📜",
-                  label: "Certification",
-                  desc: "Yoga Alliance TTC certificate upon completion",
-                },
-              ].map((fac, i) => (
-                <div key={i} className={styles.facilityIconCard}>
-                  <div className={styles.facilityIconCircle}>
-                    <span className={styles.facilityIconEmoji}>{fac.icon}</span>
-                  </div>
-                  <div className={styles.facilityIconLabel}>{fac.label}</div>
-                  <div className={styles.facilityIconDesc}>{fac.desc}</div>
-                </div>
-              ))}
+        )}
+        <div className={styles.eligImgOverlay} />
+        <div className={styles.eligImgBadge}>
+          <span className={styles.eligBadgeIcon}>🌍</span>
+          <div>
+            <div className={styles.eligBadgeTitle}>{content.eligibilityBadgeTitle || "Open to All"}</div>
+            <div className={styles.eligBadgeSub}>
+              {content.eligibilityBadgeSub || "No prerequisites required"}
             </div>
           </div>
         </div>
-      </section>
+        <div className={`${styles.eligChip} ${styles.eligChip1}`}>
+          <span className={styles.eligChipNum}>{content.eligibilityChip1Num || "0"}</span>
+          <span className={styles.eligChipLabel}>{content.eligibilityChip1Label || "Age Limit"}</span>
+        </div>
+        <div className={`${styles.eligChip} ${styles.eligChip2}`}>
+          <span className={styles.eligChipNum}>{content.eligibilityChip2Num || "All"}</span>
+          <span className={styles.eligChipLabel}>{content.eligibilityChip2Label || "Backgrounds"}</span>
+        </div>
+      </div>
+      <div className={styles.eligContent}>
+        <div className={styles.eligContentInner}>
+          <div className={styles.secTagline}>WHO CAN JOIN</div>
+          <h2 className={styles.sectionTitleLeft}>
+            {content.eligibilityTitle}
+          </h2>
+          <div className={styles.underlineLeft} />
+          {content.eligibilityParagraphs?.map((para, i) => (
+            <div
+              key={i}
+              className={styles.bodyPara}
+              dangerouslySetInnerHTML={{ __html: para }}
+            />
+          ))}
+          <div className={styles.eligPills}>
+            {(content.eligibilityPills || [
+              { icon: "✓", text: "No prior yoga experience needed" },
+              { icon: "✓", text: "No age restriction" },
+              { icon: "✓", text: "All nationalities welcome" },
+              { icon: "✓", text: "Open to all fitness levels" },
+            ]).map((pill, i) => (
+              <div key={i} className={styles.eligPill}>
+                <span className={styles.eligPillIcon}>{pill.icon || "✓"}</span>
+                <span>{pill.text}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {/* Location Block */}
+    <div id="location" className={styles.locationBlock}>
+      <div className={styles.locationBanner}>
+        {content.locationBannerImage ? (
+          <img
+            src={imgSrc(content.locationBannerImage)}
+            alt={content.locationBannerImageAlt || "Rishikesh mountains"}
+            className={styles.locationBannerImg}
+            loading="lazy"
+          />
+        ) : (
+          <div className={styles.locationBannerPlaceholder}>
+            <ChakraSVG size={80} color="#F15505" />
+            <span>Location Banner</span>
+          </div>
+        )}
+        <div className={styles.locationBannerOverlay} />
+        <div className={styles.locationBannerContent}>
+          <div className={styles.secTaglineLight}>OUR SACRED HOME</div>
+          <h2 className={styles.locationBannerTitle}>
+            {content.locationTitle}
+          </h2>
+          <div className={styles.locationBannerDivider} />
+          <div className={styles.locationStatRow}>
+            {(content.locationStats || [
+              { num: "3", label: "Rivers confluence" },
+              { num: "2500+", label: "Metres altitude" },
+              { num: "100+", label: "Years of yoga legacy" },
+              { num: "∞", label: "Himalayan energy" },
+            ]).map((stat, i) => (
+              <div key={i} className={styles.locationStat}>
+                <span className={styles.locationStatNum}>{stat.num}</span>
+                <span className={styles.locationStatLabel}>
+                  {stat.label}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+      <div className={styles.locationBody}>
+        <div className={styles.locationText}>
+          {content.locationParagraphs?.map((para, i) => (
+            <div
+              key={i}
+              className={styles.bodyPara}
+              dangerouslySetInnerHTML={{ __html: para }}
+            />
+          ))}
+        </div>
+        <div className={styles.locationImgStack}>
+          <div className={styles.locationStackTop}>
+            {content.locationStackTopImage ? (
+              <img
+                src={imgSrc(content.locationStackTopImage)}
+                alt={content.locationStackTopImageAlt || "Yoga class"}
+                loading="lazy"
+              />
+            ) : (
+              <div className={styles.locationStackPlaceholder}>
+                <ChakraSVG size={40} color="#F15505" />
+              </div>
+            )}
+            <div className={styles.locationStackLabel}>{content.locationStackTopLabel || "Practice Hall"}</div>
+          </div>
+          <div className={styles.locationStackBottom}>
+            {content.locationStackBottomImage ? (
+              <img
+                src={imgSrc(content.locationStackBottomImage)}
+                alt={content.locationStackBottomImageAlt || "Ashram view"}
+                loading="lazy"
+              />
+            ) : (
+              <div className={styles.locationStackPlaceholder}>
+                <ChakraSVG size={40} color="#F15505" />
+              </div>
+            )}
+            <div className={styles.locationStackLabel}>{content.locationStackBottomLabel || "Himalayan Setting"}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {/* Facilities Block */}
+    <div className={styles.facilitiesBlock}>
+      <div className={styles.facilitiesHeader}>
+        <span className={styles.cardCorner}>✦</span>
+        <div className={styles.secTagline}>WHAT'S INCLUDED</div>
+        <h2 className={styles.sectionTitleCenter}>
+          {content.facilitiesTitle}
+        </h2>
+        <OmDivider />
+        {content.facilitiesIntroRich ? (
+          <div
+            className={`${styles.bodyPara} ${styles.textCenter}`}
+            style={{ maxWidth: 740, margin: "0 auto 1.5rem" }}
+            dangerouslySetInnerHTML={{
+              __html: content.facilitiesIntroRich,
+            }}
+          />
+        ) : (
+          content.facilitiesIntro && (
+            <p
+              className={`${styles.bodyPara} ${styles.textCenter}`}
+              style={{ maxWidth: 740, margin: "0 auto 1.5rem" }}
+            >
+              {content.facilitiesIntro}
+            </p>
+          )
+        )}
+      </div>
+      <div className={styles.facilitiesVideoBanner}>
+        {content.facilitiesVideoUrl ? (
+          <video
+            className={styles.facilitiesVideo}
+            autoPlay
+            muted
+            loop
+            playsInline
+            poster={content.facilitiesVideoPoster ? imgSrc(content.facilitiesVideoPoster) : undefined}
+          >
+            <source src={content.facilitiesVideoUrl} type="video/mp4" />
+          </video>
+        ) : (
+          <div className={styles.facilitiesVideoPlaceholder}>
+            <ChakraSVG size={80} color="#F15505" />
+            <span>Facilities Video</span>
+          </div>
+        )}
+        <div className={styles.facilitiesVideoOverlay}>
+          <div className={styles.facilitiesVideoText}>
+            <span className={styles.facilitiesVideoTag}>
+              {content.facilitiesVideoTag || "LIVE · BREATHE · GROW"}
+            </span>
+            <p>
+              {content.facilitiesVideoText || "Everything you need for a transformative 24-day residential experience"}
+            </p>
+          </div>
+        </div>
+      </div>
+      <div className={styles.facilitiesIconGrid}>
+        {(content.facilityIconCards || [
+          { icon: "🏠", label: "Accommodation", desc: "Spacious furnished rooms with attached bathrooms" },
+          { icon: "👨‍🏫", label: "Expert Guidance", desc: "Access to highly skilled yoga professionals" },
+          { icon: "📚", label: "Study Materials", desc: "Online resources, yoga mats, books, and more" },
+          { icon: "📹", label: "CCTV Security", desc: "24/7 surveillance for your safety & peace of mind" },
+          { icon: "🕐", label: "24/7 Support", desc: "Around-the-clock management assistance" },
+          { icon: "🎓", label: "Workshops", desc: "Seminars, workshops, and yoga-related events" },
+          { icon: "🥤", label: "Detox Drinks", desc: "Fresh detox drinks and juices daily" },
+          { icon: "🥗", label: "3 Meals Daily", desc: "Vegetarian and healthy meals three times a day" },
+          { icon: "📶", label: "Free Wifi", desc: "Free wifi and 24/7 hot water service" },
+          { icon: "📿", label: "Mala Provided", desc: "A piece of Mala gifted to every student" },
+          { icon: "🌿", label: "Nature Excursions", desc: "Guided trips to elevate your experience" },
+          { icon: "📜", label: "Certification", desc: "Yoga Alliance TTC certificate upon completion" },
+        ]).map((fac, i) => (
+          <div key={i} className={styles.facilityIconCard}>
+            <div className={styles.facilityIconCircle}>
+              <span className={styles.facilityIconEmoji}>{fac.icon}</span>
+            </div>
+            <div className={styles.facilityIconLabel}>{fac.label}</div>
+            <div className={styles.facilityIconDesc}>{fac.desc}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
 
       {/* SECTION 6 — DAILY SCHEDULE */}
       <section id="schedule" className={`${styles.section} ${styles.schedSection}`}>
-        <div className={styles.schedBgTexture} aria-hidden="true" />
-        <div className={`container px-3 px-md-4 ${styles.maxx}`}>
-          <div className={styles.schedHeaderWrap}>
-            <div className={styles.secTagline}>24-DAY RESIDENTIAL PROGRAM</div>
-            <h2 className={styles.sectionTitleCenter}>
-              {content.scheduleSectionTitle}
-            </h2>
-            <OmDivider />
-            <p className={styles.schedHeaderSub}>
-              A carefully structured day balancing intense practice with rest,
-              study &amp; spiritual integration.
-            </p>
-          </div>
-          <div className={styles.schedLayout}>
-            <div className={styles.schedTimelineCol}>
-              {(() => {
-                const schedItems = content.scheduleItems ?? [];
-                const third = Math.ceil(schedItems.length / 3);
-                const phases = [
-                  {
-                    label: "🌅 Morning Practice",
-                    color: "#e8720c",
-                    bg: "rgba(232,114,12,0.08)",
-                    items: schedItems.slice(0, third),
-                  },
-                  {
-                    label: "☀️ Midday Session",
-                    color: "#c8890a",
-                    bg: "rgba(200,137,10,0.08)",
-                    items: schedItems.slice(third, third * 2),
-                  },
-                  {
-                    label: "🌙 Evening Practice",
-                    color: "#7a3a9a",
-                    bg: "rgba(122,58,154,0.08)",
-                    items: schedItems.slice(third * 2),
-                  },
-                ];
-                return phases.map((phase, pi) => (
-                  <div key={pi} className={styles.schedPhaseBlock}>
-                    <div
-                      className={styles.schedPhaseLabel}
-                      style={{
-                        color: phase.color,
-                        borderColor: phase.color,
-                        background: phase.bg,
-                      }}
-                    >
-                      {phase.label}
-                    </div>
-                    <div className={styles.schedTimeline}>
-                      {phase.items.map((s, i) => (
-                        <div key={s.id} className={styles.schedTimelineRow}>
-                          <div className={styles.schedDotCol}>
-                            <div
-                              className={styles.schedDot}
-                              style={{
-                                borderColor: phase.color,
-                                background: i === 0 ? phase.color : "#fff",
-                              }}
-                            />
-                            {i < phase.items.length - 1 && (
-                              <div
-                                className={styles.schedLine}
-                                style={{ background: `${phase.color}33` }}
-                              />
-                            )}
-                          </div>
-                          <div className={styles.schedRowContent}>
-                            <span
-                              className={styles.schedTimeBadge}
-                              style={{ color: phase.color }}
-                            >
-                              {s.time}
-                            </span>
-                            <span className={styles.schedActivity}>
-                              {s.activity}
-                            </span>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                ));
-              })()}
-              <div className={styles.schedNoteStrip}>
-                <span className={styles.schedNoteIcon}>📌</span>
-                <span className={styles.schedNoteText}>
-                  Schedule may vary slightly by week. Self-study &amp; personal
-                  practice time is built into each day.
-                </span>
+  <div className={styles.schedBgTexture} aria-hidden="true" />
+  <div className={`container px-3 px-md-4 ${styles.maxx}`}>
+    <div className={styles.schedHeaderWrap}>
+      <div className={styles.secTagline}>{content.scheduleTagLine || "24-DAY RESIDENTIAL PROGRAM"}</div>
+      <h2 className={styles.sectionTitleCenter}>
+        {content.scheduleSectionTitle}
+      </h2>
+      <OmDivider />
+      <p className={styles.schedHeaderSub}>
+        {content.scheduleHeaderSub || "A carefully structured day balancing intense practice with rest, study &amp; spiritual integration."}
+      </p>
+    </div>
+    <div className={styles.schedLayout}>
+      <div className={styles.schedTimelineCol}>
+        {(() => {
+          const schedItems = content.scheduleItems ?? [];
+          const phases = content.schedulePhaseLabels || [
+            { label: "🌅 Morning Practice", color: "#e8720c" },
+            { label: "☀️ Midday Session", color: "#c8890a" },
+            { label: "🌙 Evening Practice", color: "#7a3a9a" }
+          ];
+          const third = Math.ceil(schedItems.length / 3);
+          
+          const phaseItems = [
+            { ...phases[0], items: schedItems.slice(0, third) },
+            { ...phases[1], items: schedItems.slice(third, third * 2) },
+            { ...phases[2], items: schedItems.slice(third * 2) },
+          ];
+          
+          return phaseItems.map((phase, pi) => (
+            <div key={pi} className={styles.schedPhaseBlock}>
+              <div
+                className={styles.schedPhaseLabel}
+                style={{
+                  color: phase.color,
+                  borderColor: phase.color,
+                  background: `${phase.color}14`,
+                }}
+              >
+                {phase.label}
               </div>
-            </div>
-            <div className={styles.schedRightCol}>
-              <div className={styles.schedImgGrid}>
-                {content.schedImg1 && (
-                  <div className={styles.schedImgCard}>
-                    <img
-                      src={imgSrc(content.schedImg1)}
-                      alt="Daily schedule"
-                      className={styles.schedImg}
-                      loading="lazy"
-                    />
-                    <div className={styles.schedImgOverlay}>
-                      <span className={styles.schedImgTag}>
-                        Morning Practice
+              <div className={styles.schedTimeline}>
+                {phase.items.map((s, i) => (
+                  <div key={s.id} className={styles.schedTimelineRow}>
+                    <div className={styles.schedDotCol}>
+                      <div
+                        className={styles.schedDot}
+                        style={{
+                          borderColor: phase.color,
+                          background: i === 0 ? phase.color : "#fff",
+                        }}
+                      />
+                      {i < phase.items.length - 1 && (
+                        <div
+                          className={styles.schedLine}
+                          style={{ background: `${phase.color}33` }}
+                        />
+                      )}
+                    </div>
+                    <div className={styles.schedRowContent}>
+                      <span
+                        className={styles.schedTimeBadge}
+                        style={{ color: phase.color }}
+                      >
+                        {s.time}
+                      </span>
+                      <span className={styles.schedActivity}>
+                        {s.activity}
                       </span>
                     </div>
-                  </div>
-                )}
-                {content.schedImg2 && (
-                  <div className={styles.schedImgCard}>
-                    <img
-                      src={imgSrc(content.schedImg2)}
-                      alt="Daily practice"
-                      className={styles.schedImg}
-                      loading="lazy"
-                    />
-                    <div className={styles.schedImgOverlay}>
-                      <span className={styles.schedImgTag}>
-                        Evening Sadhana
-                      </span>
-                    </div>
-                  </div>
-                )}
-              </div>
-              <div className={styles.schedStatsRow}>
-                {[
-                  { icon: "⏰", num: "14+", label: "Hrs Practice" },
-                  { icon: "🧘", num: "3", label: "Sessions Daily" },
-                  { icon: "🌿", num: "3", label: "Meals Daily" },
-                  { icon: "📖", num: "4+", label: "Theory Hrs" },
-                ].map((stat, i) => (
-                  <div key={i} className={styles.schedStat}>
-                    <span className={styles.schedStatIcon}>{stat.icon}</span>
-                    <span className={styles.schedStatNum}>{stat.num}</span>
-                    <span className={styles.schedStatLabel}>{stat.label}</span>
                   </div>
                 ))}
               </div>
-              <div className={styles.schedQuoteCard}>
-                <span className={styles.schedQuoteMark}>"</span>
-                <p className={styles.schedQuoteText}>
-                  Sadhana is the foundation. When you practice every day with
-                  discipline and devotion, transformation becomes inevitable.
-                </p>
-                <span className={styles.schedQuoteAuthor}>— Yogi Bhajan</span>
+            </div>
+          ));
+        })()}
+        <div className={styles.schedNoteStrip}>
+          <span className={styles.schedNoteIcon}>{content.scheduleNoteIcon || "📌"}</span>
+          <span className={styles.schedNoteText}>
+            {content.scheduleNoteText || "Schedule may vary slightly by week. Self-study &amp; personal practice time is built into each day."}
+          </span>
+        </div>
+      </div>
+      <div className={styles.schedRightCol}>
+        <div className={styles.schedImgGrid}>
+          {content.schedImg1 && (
+            <div className={styles.schedImgCard}>
+              <img
+                src={imgSrc(content.schedImg1)}
+                alt="Daily schedule"
+                className={styles.schedImg}
+                loading="lazy"
+              />
+              <div className={styles.schedImgOverlay}>
+                <span className={styles.schedImgTag}>
+                  {content.scheduleImg1Tag || "Morning Practice"}
+                </span>
               </div>
             </div>
-          </div>
+          )}
+          {content.schedImg2 && (
+            <div className={styles.schedImgCard}>
+              <img
+                src={imgSrc(content.schedImg2)}
+                alt="Daily practice"
+                className={styles.schedImg}
+                loading="lazy"
+              />
+              <div className={styles.schedImgOverlay}>
+                <span className={styles.schedImgTag}>
+                  {content.scheduleImg2Tag || "Evening Sadhana"}
+                </span>
+              </div>
+            </div>
+          )}
         </div>
-      </section>
-
+        <div className={styles.schedStatsRow}>
+          {(content.scheduleStats || [
+            { icon: "⏰", num: "14+", label: "Hrs Practice" },
+            { icon: "🧘", num: "3", label: "Sessions Daily" },
+            { icon: "🌿", num: "3", label: "Meals Daily" },
+            { icon: "📖", num: "4+", label: "Theory Hrs" },
+          ]).map((stat, i) => (
+            <div key={i} className={styles.schedStat}>
+              <span className={styles.schedStatIcon}>{stat.icon}</span>
+              <span className={styles.schedStatNum}>{stat.num}</span>
+              <span className={styles.schedStatLabel}>{stat.label}</span>
+            </div>
+          ))}
+        </div>
+        <div className={styles.schedQuoteCard}>
+          <span className={styles.schedQuoteMark}>"</span>
+          <p className={styles.schedQuoteText}>
+            {content.scheduleQuoteText || "Sadhana is the foundation. When you practice every day with discipline and devotion, transformation becomes inevitable."}
+          </p>
+          <span className={styles.schedQuoteAuthor}>
+            {content.scheduleQuoteAuthor || "— Yogi Bhajan"}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
       {/* SECTION 7 — WHY CHOOSE AYM */}
       <section className={`${styles.section} ${styles.whySection}`}>
         <div className={`container px-3 px-md-4 ${styles.maxx}`}>
@@ -2248,252 +2324,185 @@ export default function KundaliniYogaTTC() {
       />
 
       {/* SECTION 9 — WHY CHOOSE RISHIKESH + REFUND */}
-      <section
-        className={`${styles.section} ${styles.sectionLight} ${styles.sec9Wrap}`}
-      >
-        <div className={`container px-3 px-md-4 ${styles.maxx}`}>
-          {/* ── WHY RISHIKESH ── */}
-          <div className={styles.whyRishikeshBlock}>
-            {/* Full-width panorama banner */}
-            <div className={styles.wrBanner}>
-              <img
-                src="https://images.pexels.com/photos/1371360/pexels-photo-1371360.jpeg?auto=compress&cs=tinysrgb&w=1400"
-                alt="Rishikesh Himalayan landscape"
-                className={styles.wrBannerImg}
-                loading="lazy"
-              />
-
-              <div className={styles.wrBannerOverlay} />
-              <div className={styles.wrBannerContent}>
-                <span className={styles.wrBannerTag}>
-                  Sacred City · Yoga Capital of the World
-                </span>
-                <h2 className={styles.wrBannerTitle}>
-                  {content.whyRishikeshTitle}
-                </h2>
-                <div className={styles.wrBannerDivider} />
-                <div className={styles.wrBannerStats}>
-                  {[
-                    { num: "5000+", label: "Years of yoga heritage" },
-                    { num: "200+", label: "Ashrams & schools" },
-                    { num: "3", label: "Sacred rivers" },
-                    { num: "∞", label: "Himalayan serenity" },
-                  ].map((s, i) => (
-                    <div key={i} className={styles.wrBannerStat}>
-                      <span className={styles.wrBannerStatNum}>{s.num}</span>
-                      <span className={styles.wrBannerStatLabel}>
-                        {s.label}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* Two-column content area */}
-            <div className={styles.wrBody}>
-              {/* LEFT — Spiritual + Natural columns */}
-              <div className={styles.wrLeft}>
-                {content.spiritualTitle && (
-                  <div className={styles.wrPillar}>
-                    <div className={styles.wrPillarIcon}>🕉️</div>
-                    <div className={styles.wrPillarContent}>
-                      <h3 className={styles.wrPillarTitle}>
-                        {content.spiritualTitle}
-                      </h3>
-                      {content.spiritualPara && (
-                        <div
-                          className={styles.wrPillarPara}
-                          dangerouslySetInnerHTML={{
-                            __html: content.spiritualPara,
-                          }}
-                        />
-                      )}
-                    </div>
-                  </div>
-                )}
-                {content.naturalTitle && (
-                  <div className={styles.wrPillar}>
-                    <div className={styles.wrPillarIcon}>🌿</div>
-                    <div className={styles.wrPillarContent}>
-                      <h3 className={styles.wrPillarTitle}>
-                        {content.naturalTitle}
-                      </h3>
-                      {content.naturalPara && (
-                        <div
-                          className={styles.wrPillarPara}
-                          dangerouslySetInnerHTML={{
-                            __html: content.naturalPara,
-                          }}
-                        />
-                      )}
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              {/* RIGHT — Types + Top Schools */}
-              <div className={styles.wrRight}>
-                {content.typesTitle && (
-                  <div className={styles.wrRightCard}>
-                    <div className={styles.wrRightCardHeader}>
-                      <span className={styles.wrRightCardIcon}>📋</span>
-                      <h3 className={styles.wrRightCardTitle}>
-                        {content.typesTitle}
-                      </h3>
-                    </div>
-                    {content.typesItems && content.typesItems.length > 0 && (
-                      <ul className={styles.wrTypesList}>
-                        {content.typesItems.map((item, i) => (
-                          <li key={i} className={styles.wrTypesItem}>
-                            <span className={styles.wrTypesArrow}>→</span>
-                            <span>{item}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-                  </div>
-                )}
-
-                {content.topSchoolsTitle && (
-                  <div
-                    className={`${styles.wrRightCard} ${styles.wrRightCardAccent}`}
-                  >
-                    <div className={styles.wrRightCardHeader}>
-                      <span className={styles.wrRightCardIcon}>🏆</span>
-                      <h3 className={styles.wrRightCardTitle}>
-                        {content.topSchoolsTitle}
-                      </h3>
-                    </div>
-                    {content.topSchoolsPara && (
-                      <p className={styles.wrRightCardPara}>
-                        {content.topSchoolsPara}
-                      </p>
-                    )}
-                    {/* AYM highlight pill */}
-                    <div className={styles.wrAymPill}>
-                      <span className={styles.wrAymPillDot} />
-                      <span>
-                        AYM Yoga School — Ranked among Rishikesh's finest
-                      </span>
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
+      <section className={`${styles.section} ${styles.sectionLight} ${styles.sec9Wrap}`}>
+  <div className={`container px-3 px-md-4 ${styles.maxx}`}>
+    {/* ── WHY RISHIKESH ── */}
+    <div className={styles.whyRishikeshBlock}>
+      {/* Full-width panorama banner */}
+      <div className={styles.wrBanner}>
+        {content.whyRishikeshBannerImage ? (
+          <img
+            src={imgSrc(content.whyRishikeshBannerImage)}
+            alt={content.whyRishikeshBannerImageAlt || "Rishikesh Himalayan landscape"}
+            className={styles.wrBannerImg}
+            loading="lazy"
+          />
+        ) : (
+          <div className={styles.wrBannerPlaceholder}>
+            <ChakraSVG size={80} color="#F15505" />
+            <span>Banner Image</span>
           </div>
-
-          {/* ── OM DIVIDER ── */}
-          <OmDivider />
-
-          {/* ── REFUND POLICY ── */}
-          <div className={styles.refundBlock}>
-            {/* Header */}
-            <div className={styles.refundHeader}>
-              <span className={styles.cardCorner}>✦</span>
-              <div className={styles.secTagline}>TRANSPARENCY & TRUST</div>
-              <h2 className={styles.sectionTitleCenter}>
-                {content.refundTitle}
-              </h2>
-              <OmDivider />
-              <p className={styles.refundHeaderSub}>
-                We believe in clear, fair policies. Here's everything you need
-                to know about our cancellation terms.
-              </p>
-            </div>
-
-            {/* Policy grid */}
-            <div className={styles.refundGrid}>
-              {content.refundItems?.map((policy, i) => {
-                const icons = ["💰", "❌", "📧", "⚠️"];
-                const accents = [
-                  {
-                    color: "#3d6000",
-                    bg: "rgba(61,96,0,0.07)",
-                    border: "rgba(61,96,0,0.2)",
-                  },
-                  {
-                    color: "#8a2c00",
-                    bg: "rgba(138,44,0,0.07)",
-                    border: "rgba(138,44,0,0.2)",
-                  },
-                  {
-                    color: "#1a6fa8",
-                    bg: "rgba(26,111,168,0.07)",
-                    border: "rgba(26,111,168,0.2)",
-                  },
-                  {
-                    color: "#c8890a",
-                    bg: "rgba(200,137,10,0.07)",
-                    border: "rgba(200,137,10,0.2)",
-                  },
-                ];
-                const a = accents[i % accents.length];
-                return (
-                  <div
-                    key={i}
-                    className={styles.refundCard}
-                    style={
-                      {
-                        "--rc-color": a.color,
-                        "--rc-bg": a.bg,
-                        "--rc-border": a.border,
-                      } as React.CSSProperties
-                    }
-                  >
-                    <div
-                      className={styles.refundCardAccentBar}
-                      style={{ background: a.color }}
-                    />
-                    <div className={styles.refundCardBody}>
-                      <div className={styles.refundCardHead}>
-                        <div
-                          className={styles.refundCardIconWrap}
-                          style={{
-                            background: a.bg,
-                            border: `1.5px solid ${a.border}`,
-                          }}
-                        >
-                          <span className={styles.refundCardIcon}>
-                            {icons[i % icons.length]}
-                          </span>
-                        </div>
-                        <span
-                          className={styles.refundCardNum}
-                          style={{ color: a.color }}
-                        >
-                          0{i + 1}
-                        </span>
-                      </div>
-                      <p className={styles.refundCardText}>{policy}</p>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-
-            {/* Bottom trust note */}
-            <div className={styles.refundTrustStrip}>
-              <div className={styles.refundTrustItem}>
-                <span className={styles.refundTrustIcon}>📩</span>
-                <span>All cancellations must be made via email</span>
+        )}
+        <div className={styles.wrBannerOverlay} />
+        <div className={styles.wrBannerContent}>
+          <span className={styles.wrBannerTag}>
+            {content.whyRishikeshBannerTag || "Sacred City · Yoga Capital of the World"}
+          </span>
+          <h2 className={styles.wrBannerTitle}>
+            {content.whyRishikeshTitle}
+          </h2>
+          <div className={styles.wrBannerDivider} />
+          <div className={styles.wrBannerStats}>
+            {(content.whyRishikeshBannerStats || [
+              { num: "5000+", label: "Years of yoga heritage" },
+              { num: "200+", label: "Ashrams & schools" },
+              { num: "3", label: "Sacred rivers" },
+              { num: "∞", label: "Himalayan serenity" },
+            ]).map((s, i) => (
+              <div key={i} className={styles.wrBannerStat}>
+                <span className={styles.wrBannerStatNum}>{s.num}</span>
+                <span className={styles.wrBannerStatLabel}>{s.label}</span>
               </div>
-              <div className={styles.refundTrustDivider} />
-              <div className={styles.refundTrustItem}>
-                <span className={styles.refundTrustIcon}>🔒</span>
-                <span>Your deposit secures your seat</span>
-              </div>
-              <div className={styles.refundTrustDivider} />
-              <div className={styles.refundTrustItem}>
-                <span className={styles.refundTrustIcon}>🔄</span>
-                <span>Flexible rebooking to future batches</span>
-              </div>
-            </div>
+            ))}
           </div>
-
-          <OmDivider />
         </div>
-      </section>
+      </div>
+
+      {/* Two-column content area */}
+      <div className={styles.wrBody}>
+        {/* LEFT — Spiritual + Natural columns */}
+        <div className={styles.wrLeft}>
+          {content.spiritualTitle && (
+            <div className={styles.wrPillar}>
+              <div className={styles.wrPillarIcon}>{content.spiritualIcon || "🕉️"}</div>
+              <div className={styles.wrPillarContent}>
+                <h3 className={styles.wrPillarTitle}>{content.spiritualTitle}</h3>
+                {content.spiritualPara && (
+                  <div className={styles.wrPillarPara} dangerouslySetInnerHTML={{ __html: content.spiritualPara }} />
+                )}
+              </div>
+            </div>
+          )}
+          {content.naturalTitle && (
+            <div className={styles.wrPillar}>
+              <div className={styles.wrPillarIcon}>{content.naturalIcon || "🌿"}</div>
+              <div className={styles.wrPillarContent}>
+                <h3 className={styles.wrPillarTitle}>{content.naturalTitle}</h3>
+                {content.naturalPara && (
+                  <div className={styles.wrPillarPara} dangerouslySetInnerHTML={{ __html: content.naturalPara }} />
+                )}
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* RIGHT — Types + Top Schools */}
+        <div className={styles.wrRight}>
+          {content.typesTitle && (
+            <div className={styles.wrRightCard}>
+              <div className={styles.wrRightCardHeader}>
+                <span className={styles.wrRightCardIcon}>{content.typesIcon || "📋"}</span>
+                <h3 className={styles.wrRightCardTitle}>{content.typesTitle}</h3>
+              </div>
+              {content.typesItems && content.typesItems.length > 0 && (
+                <ul className={styles.wrTypesList}>
+                  {content.typesItems.map((item, i) => (
+                    <li key={i} className={styles.wrTypesItem}>
+                      <span className={styles.wrTypesArrow}>→</span>
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          )}
+
+          {content.topSchoolsTitle && (
+            <div className={`${styles.wrRightCard} ${styles.wrRightCardAccent}`}>
+              <div className={styles.wrRightCardHeader}>
+                <span className={styles.wrRightCardIcon}>{content.topSchoolsIcon || "🏆"}</span>
+                <h3 className={styles.wrRightCardTitle}>{content.topSchoolsTitle}</h3>
+              </div>
+              {content.topSchoolsPara && (
+                <p className={styles.wrRightCardPara}>{content.topSchoolsPara}</p>
+              )}
+              <div className={styles.wrAymPill}>
+                <span className={styles.wrAymPillDot} />
+                <span>{content.aymPillText || "AYM Yoga School — Ranked among Rishikesh's finest"}</span>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+
+    {/* ── OM DIVIDER ── */}
+    <OmDivider />
+
+    {/* ── REFUND POLICY ── */}
+    <div className={styles.refundBlock}>
+      {/* Header */}
+      <div className={styles.refundHeader}>
+        <span className={styles.cardCorner}>✦</span>
+        <div className={styles.secTagline}>{content.refundTagLine || "TRANSPARENCY & TRUST"}</div>
+        <h2 className={styles.sectionTitleCenter}>{content.refundTitle}</h2>
+        <OmDivider />
+        <p className={styles.refundHeaderSub}>
+          {content.refundHeaderSub || "We believe in clear, fair policies. Here's everything you need to know about our cancellation terms."}
+        </p>
+      </div>
+
+      {/* Policy grid */}
+      <div className={styles.refundGrid}>
+        {(content.refundItems || []).map((policy, i) => {
+          const icons = content.refundIcons || ["💰", "❌", "📧", "⚠️"];
+          const colors = content.refundColors || [
+            { color: "#3d6000", bg: "rgba(61,96,0,0.07)", border: "rgba(61,96,0,0.2)" },
+            { color: "#8a2c00", bg: "rgba(138,44,0,0.07)", border: "rgba(138,44,0,0.2)" },
+            { color: "#1a6fa8", bg: "rgba(26,111,168,0.07)", border: "rgba(26,111,168,0.2)" },
+            { color: "#c8890a", bg: "rgba(200,137,10,0.07)", border: "rgba(200,137,10,0.2)" }
+          ];
+          const a = colors[i % colors.length];
+          return (
+            <div key={i} className={styles.refundCard} style={
+              { "--rc-color": a.color, "--rc-bg": a.bg, "--rc-border": a.border } as React.CSSProperties
+            }>
+              <div className={styles.refundCardAccentBar} style={{ background: a.color }} />
+              <div className={styles.refundCardBody}>
+                <div className={styles.refundCardHead}>
+                  <div className={styles.refundCardIconWrap} style={{ background: a.bg, border: `1.5px solid ${a.border}` }}>
+                    <span className={styles.refundCardIcon}>{icons[i % icons.length]}</span>
+                  </div>
+                  <span className={styles.refundCardNum} style={{ color: a.color }}>0{i + 1}</span>
+                </div>
+                <p className={styles.refundCardText}>{policy}</p>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Bottom trust note */}
+      <div className={styles.refundTrustStrip}>
+        {(content.refundTrustItems || [
+          { icon: "📩", text: "All cancellations must be made via email" },
+          { icon: "🔒", text: "Your deposit secures your seat" },
+          { icon: "🔄", text: "Flexible rebooking to future batches" }
+        ]).map((item, i) => (
+          <React.Fragment key={i}>
+            <div className={styles.refundTrustItem}>
+              <span className={styles.refundTrustIcon}>{item.icon}</span>
+              <span>{item.text}</span>
+            </div>
+            {i < (content.refundTrustItems?.length || 3) - 1 && <div className={styles.refundTrustDivider} />}
+          </React.Fragment>
+        ))}
+      </div>
+    </div>
+
+    <OmDivider />
+  </div>
+</section>
       <PremiumGallerySection type="both" backgroundColor="warm" />
       {/* ✅ REVIEWS — now a reusable separate component */}
       <ReviewSection RatingsSummaryComponent={<RatingsSummarySection />} />

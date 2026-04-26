@@ -25,6 +25,15 @@ const BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? "";
 
 interface PageFormValues {
   slug: string;
+  courseInfoCardTitle: string;
+  courseInfoFeeLabel: string;
+  courseInfoFeeFromText: string;
+  courseInfoBookBtnText: string;
+  courseInfoOriginalPriceMultiplier: number;
+  courseInfoUsdPrice: number;
+  courseInfoInrPrice: number;
+  courseInfoOriginalUsdPrice: number;
+  courseInfoOriginalInrPrice: number;
   status: "Active" | "Inactive";
   pageMainH1: string;
   heroImgAlt: string;
@@ -50,6 +59,11 @@ interface PageFormValues {
   applyH3: string;
   applyPara: string;
   indianFeeH3: string;
+  imgBadgeText: string;
+  videoBadgeText: string;
+  videoTitle: string;
+  videoSubtitle: string;
+  evalImageAlt: string;
 }
 
 interface IntroItem {
@@ -78,6 +92,17 @@ interface MultiImgItem {
 interface SyllabusModule {
   label: string;
   text: string;
+}
+
+interface StatItem {
+  num: string;
+  label: string;
+}
+
+interface CourseInfoDetail {
+  label: string;
+  value: string;
+  sub: string;
 }
 
 interface JoditEditorProps {
@@ -390,10 +415,25 @@ export default function AddEdit500HrPage() {
   const [shivaPrev, setShivaPrev] = useState("");
   const [evalImgFile, setEvalImgFile] = useState<File | null>(null);
   const [evalImgPrev, setEvalImgPrev] = useState("");
+  
+  // Video File
+  const [videoFile, setVideoFile] = useState<File | null>(null);
+  const [videoPrev, setVideoPrev] = useState("");
+  const [existingVideoUrl, setExistingVideoUrl] = useState("");
 
   // Multi Images
   const [accomImgs, setAccomImgs] = useState<MultiImgItem[]>([]);
   const [foodImgs, setFoodImgs] = useState<MultiImgItem[]>([]);
+
+  // Course Info Details
+  const [courseInfoDetails, setCourseInfoDetails] = useState<CourseInfoDetail[]>([
+    { label: "DURATION", value: "24 Days", sub: "" },
+    { label: "LEVEL", value: "Advanced", sub: "" },
+    { label: "CERTIFICATION", value: "500 Hour", sub: "" },
+    { label: "YOGA STYLE", value: "Multistyle", sub: "Ashtanga, Vinyasa & Hatha" },
+    { label: "LANGUAGE", value: "English & Hindi", sub: "" },
+    { label: "DATE", value: "Check batches below", sub: "" },
+  ]);
 
   // Enhanced Intro Items
   const [introItems, setIntroItems] = useState<IntroItem[]>([
@@ -413,6 +453,21 @@ export default function AddEdit500HrPage() {
   const [eligibilityParas, setEligibilityParas] = useState<ParaItem[]>([]);
   const [evaluationParas, setEvaluationParas] = useState<ParaItem[]>([]);
   const [fictionParas, setFictionParas] = useState<ParaItem[]>([]);
+
+  // NEW: Dynamic Stand Apart Stats and Pills
+  const [standApartPills, setStandApartPills] = useState<string[]>([
+    "Anatomy & Kinesiology",
+    "Yoga Philosophy",
+    "Teaching Methodology",
+    "Pranayama & Meditation",
+    "Yoga Nidra",
+  ]);
+  const [standApartStats, setStandApartStats] = useState<StatItem[]>([
+    { num: "17+", label: "Years of Excellence" },
+    { num: "5000+", label: "Yogis Trained" },
+    { num: "60+", label: "Countries Reached" },
+    { num: "RYS 500", label: "Yoga Alliance Certified" },
+  ]);
 
   // String Lists
   const [includedItems, setIncludedItems] = useState<string[]>([
@@ -452,15 +507,30 @@ export default function AddEdit500HrPage() {
 
   const { register, handleSubmit, setValue, formState: { errors } } = useForm<PageFormValues>({
     defaultValues: {
-      slug: "500-hour-yoga-teacher-training-india", status: "Active",
-      pageMainH1: "500 Hour Yoga Teacher Training Course in Rishikesh", heroImgAlt: "Yoga Students Group",
+      courseInfoCardTitle: "COURSE DETAILS",
+      courseInfoFeeLabel: "COURSE FEE",
+      courseInfoFeeFromText: "starting from",
+      courseInfoBookBtnText: "BOOK NOW",
+      courseInfoOriginalPriceMultiplier: 1.8,
+      courseInfoUsdPrice: 1649,
+      courseInfoInrPrice: 135000,
+      courseInfoOriginalUsdPrice: 2950,
+      courseInfoOriginalInrPrice: 240000,
+      slug: "500-hour-yoga-teacher-training-india", 
+      status: "Active",
+      pageMainH1: "500 Hour Yoga Teacher Training Course in Rishikesh", 
+      heroImgAlt: "Yoga Students Group",
       standApartH2: "What makes AYM School's Yoga Teachers Training Courses stand apart from the rest?",
       gainsH2: "What do I gain from the 500 Hour Yoga Teacher Training Course in Rishikesh?",
-      seatSectionH2: "500 Hour Yoga Teacher Training India – Upcoming Batches", seatSectionSubtext: "",
+      seatSectionH2: "500 Hour Yoga Teacher Training India – Upcoming Batches", 
+      seatSectionSubtext: "",
       tableNoteText: "Course Fee: 1649 USD (Including: Dormitory Stay and Food) | For the upgrade you accommodation send us E-mail. Available accommodation Categories: Shared, Private and Luxury.",
-      tableNoteEmail: "", tableNoteAirportText: "Airport pick up from Delhi airport to Yoga school Rishikesh will cost 90 USD and Round Trip 150 USD.",
-      credibilityH2: "What is The Credibility of This Course?", durationH2: "How Long is The Duration of The Course?",
-      syllabusH2: "Overview of Syllabus", eligibilityH3: "What are the Eligibility Criteria?",
+      tableNoteEmail: "", 
+      tableNoteAirportText: "Airport pick up from Delhi airport to Yoga school Rishikesh will cost 90 USD and Round Trip 150 USD.",
+      credibilityH2: "What is The Credibility of This Course?", 
+      durationH2: "How Long is The Duration of The Course?",
+      syllabusH2: "Overview of Syllabus", 
+      eligibilityH3: "What are the Eligibility Criteria?",
       evaluationH3: "Is there an Evaluation Process for the Course?",
       includedTitle: "Included in the package of 500-Hour Courses in India",
       includedNote: "All items in the above included list are part of the course package. And incase you opt out any of these items, we will not be initiating a refund for that particular item.",
@@ -472,6 +542,11 @@ export default function AddEdit500HrPage() {
       applyH3: "How to Apply for the Course?",
       applyPara: "Fill out the online application form, and once you get our approval you could transfer the initial advance payment fee (either through Paypal or through bank transfer) to reserve your seat. You will get an email acknowledgment once we receive the advance fee.",
       indianFeeH3: "500 Hour Course Fee for Indian Students",
+      imgBadgeText: "500 Hr Advanced TTC",
+      videoBadgeText: "✦ Featured Video ✦",
+      videoTitle: "Experience the Journey of 500 Hour Yoga Teacher Training",
+      videoSubtitle: "Watch Our Students' Transformation",
+      evalImageAlt: "Evaluation process",
     },
   });
 
@@ -486,11 +561,30 @@ export default function AddEdit500HrPage() {
       try {
         const res = await api.get("/yoga-500hr/content");
         const d = res.data.data;
-        const fields: (keyof PageFormValues)[] = ["slug", "status", "pageMainH1", "heroImgAlt", "standApartH2", "gainsH2", "seatSectionH2", "seatSectionSubtext", "tableNoteText", "tableNoteEmail", "tableNoteAirportText", "credibilityH2", "durationH2", "syllabusH2", "eligibilityH3", "evaluationH3", "includedTitle", "includedNote", "notIncludedTitle", "fictionH3", "reviewsSectionH2", "refundH3", "refundPara", "applyH3", "applyPara", "indianFeeH3"];
+        const fields: (keyof PageFormValues)[] = [
+          "slug", "status", "pageMainH1", "heroImgAlt", "standApartH2", "gainsH2", 
+          "seatSectionH2", "seatSectionSubtext", "tableNoteText", "tableNoteEmail", 
+          "tableNoteAirportText", "credibilityH2", "durationH2", "syllabusH2", 
+          "eligibilityH3", "evaluationH3", "includedTitle", "includedNote", 
+          "notIncludedTitle", "fictionH3", "reviewsSectionH2", "refundH3", "refundPara", 
+          "applyH3", "applyPara", "indianFeeH3", "imgBadgeText",
+          "videoBadgeText", "videoTitle", "videoSubtitle", "evalImageAlt",
+          "courseInfoCardTitle", "courseInfoFeeLabel", "courseInfoFeeFromText", 
+          "courseInfoBookBtnText", "courseInfoOriginalPriceMultiplier",
+          "courseInfoUsdPrice", "courseInfoInrPrice", "courseInfoOriginalUsdPrice", "courseInfoOriginalInrPrice"
+        ];
         fields.forEach((k) => { if (d[k] !== undefined) setValue(k, d[k]); });
+        
+        // Load course info details
+        if (d.courseInfoDetails?.length) setCourseInfoDetails(d.courseInfoDetails);
+        
         if (d.heroImage) setHeroPrev(BASE_URL + d.heroImage);
         if (d.shivaImage) setShivaPrev(BASE_URL + d.shivaImage);
         if (d.evalImage) setEvalImgPrev(BASE_URL + d.evalImage);
+        if (d.videoUrl) {
+          setVideoPrev(BASE_URL + d.videoUrl);
+          setExistingVideoUrl(d.videoUrl);
+        }
         if (d.introItems?.length) {
           setIntroItems(d.introItems.map((item: any) => ({ 
             paragraph: item.paragraph || "", 
@@ -507,6 +601,10 @@ export default function AddEdit500HrPage() {
         if (d.indianFees?.length) setIndianFees(d.indianFees);
         if (d.syllabusModules?.length) setSyllabusModules(d.syllabusModules);
         if (d.reviews?.length) setReviews(d.reviews);
+        
+        // NEW: Load dynamic stats and pills
+        if (d.standApartPills?.length) setStandApartPills(d.standApartPills);
+        if (d.standApartStats?.length) setStandApartStats(d.standApartStats);
         
         const toItems = (arr: string[] | undefined): ParaItem[] => arr?.length ? arr.map((v) => mkPara(v)) : [];
         if (d.introParas?.length) setIntroParas(toItems(d.introParas));
@@ -542,6 +640,7 @@ export default function AddEdit500HrPage() {
       const fd = new window.FormData();
       Object.entries(data).forEach(([k, v]) => fd.append(k, v as string));
       
+      fd.append("courseInfoDetails", JSON.stringify(courseInfoDetails));
       fd.append("introItems", JSON.stringify(introItems.map(item => ({ 
         paragraph: item.paragraph, 
         media: item.mediaFile ? "new_upload" : (item.media || "").replace(BASE_URL, ""), 
@@ -565,9 +664,22 @@ export default function AddEdit500HrPage() {
       fd.append("syllabusModules", JSON.stringify(syllabusModules));
       fd.append("reviews", JSON.stringify(reviews));
       
+      // NEW: Append dynamic stats and pills
+      fd.append("standApartPills", JSON.stringify(standApartPills));
+      fd.append("standApartStats", JSON.stringify(standApartStats));
+      
       if (heroFile) fd.append("heroImage", heroFile);
       if (shivaFile) fd.append("shivaImage", shivaFile);
       if (evalImgFile) fd.append("evalImage", evalImgFile);
+      
+      // Handle video file
+      if (videoFile) {
+        fd.append("videoFile", videoFile);
+      } else if (!videoPrev && existingVideoUrl) {
+        fd.append("existingVideoUrl", "remove");
+      } else if (existingVideoUrl && !videoFile) {
+        fd.append("existingVideoUrl", existingVideoUrl);
+      }
       
       const keptAccomPaths = accomImgs.filter((img) => img.serverPath).map((img) => img.serverPath as string);
       fd.append("existingAccomImages", JSON.stringify(keptAccomPaths));
@@ -638,6 +750,154 @@ export default function AddEdit500HrPage() {
           <F label="Hero Image Alt Text">
             <div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} placeholder="Yoga Students Group" {...register("heroImgAlt")} /></div>
           </F>
+        </Sec>
+        <D />
+
+        {/* COURSE INFO CARD SECTION */}
+        <Sec title="Course Info Card" badge="Dynamic Details">
+          <F label="Card Title" hint="Title at the top of the card">
+            <div className={styles.inputWrap}>
+              <input className={styles.input} {...register("courseInfoCardTitle")} placeholder="COURSE DETAILS" />
+            </div>
+          </F>
+
+          <F label="Fee Label" hint="Label for the fee section">
+            <div className={styles.inputWrap}>
+              <input className={styles.input} {...register("courseInfoFeeLabel")} placeholder="COURSE FEE" />
+            </div>
+          </F>
+
+          <F label="Fee 'Starting From' Text" hint="Text below the fee label">
+            <div className={styles.inputWrap}>
+              <input className={styles.input} {...register("courseInfoFeeFromText")} placeholder="starting from" />
+            </div>
+          </F>
+
+          <F label="Book Button Text" hint="Text on the book now button">
+            <div className={styles.inputWrap}>
+              <input className={styles.input} {...register("courseInfoBookBtnText")} placeholder="BOOK NOW" />
+            </div>
+          </F>
+
+          <F label="Original Price Multiplier" hint="Multiplier for calculating original price (default: 1.8)">
+            <div className={styles.inputWrap}>
+              <input type="number" step="0.1" className={styles.input} {...register("courseInfoOriginalPriceMultiplier")} placeholder="1.8" />
+            </div>
+          </F>
+
+          <F label="Course Details Items" hint="Each item has label, value, and optional subtext">
+            <div>
+              {(courseInfoDetails || []).map((detail, i) => (
+                <div key={i} className={styles.nestedCard} style={{ marginBottom: "0.8rem" }}>
+                  <div className={styles.nestedCardHeader}>
+                    <span className={styles.nestedCardNum}>Detail {i + 1}</span>
+                    {courseInfoDetails.length > 1 && (
+                      <button type="button" className={styles.removeNestedBtn} onClick={() => setCourseInfoDetails(courseInfoDetails.filter((_, idx) => idx !== i))}>
+                        ✕ Remove
+                      </button>
+                    )}
+                  </div>
+                  <div className={styles.nestedCardBody}>
+                    <div className={styles.grid2}>
+                      <div className={styles.fieldGroup}>
+                        <label className={styles.label}>Label</label>
+                        <div className={styles.inputWrap}>
+                          <input className={styles.input} value={detail.label} placeholder="DURATION" onChange={(e) => {
+                            const n = [...courseInfoDetails];
+                            n[i] = { ...n[i], label: e.target.value };
+                            setCourseInfoDetails(n);
+                          }} />
+                        </div>
+                      </div>
+                      <div className={styles.fieldGroup}>
+                        <label className={styles.label}>Value</label>
+                        <div className={styles.inputWrap}>
+                          <input className={styles.input} value={detail.value} placeholder="24 Days" onChange={(e) => {
+                            const n = [...courseInfoDetails];
+                            n[i] = { ...n[i], value: e.target.value };
+                            setCourseInfoDetails(n);
+                          }} />
+                        </div>
+                      </div>
+                      <div className={styles.fieldGroup} style={{ gridColumn: "1/-1" }}>
+                        <label className={styles.label}>Subtext (optional)</label>
+                        <div className={styles.inputWrap}>
+                          <input className={styles.input} value={detail.sub || ""} placeholder="Ashtanga, Vinyasa & Hatha" onChange={(e) => {
+                            const n = [...courseInfoDetails];
+                            n[i] = { ...n[i], sub: e.target.value };
+                            setCourseInfoDetails(n);
+                          }} />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+              <button type="button" className={styles.addItemBtn} onClick={() => setCourseInfoDetails([...courseInfoDetails, { label: "", value: "", sub: "" }])}>
+                ＋ Add Course Detail
+              </button>
+            </div>
+          </F>
+
+          {/* INDEPENDENT PRICING SECTION */}
+          <div style={{ marginTop: "1.5rem", paddingTop: "1rem", borderTop: "1px solid #e8d5b5" }}>
+            <h4 style={{ fontFamily: "'Cinzel', serif", fontSize: "0.9rem", fontWeight: 600, color: "#3d1d00", marginBottom: "1rem" }}>💰 Course Card Pricing (Independent)</h4>
+            <p className={styles.fieldHint} style={{ marginBottom: "1rem" }}>These prices are displayed on the Course Info Card and are completely separate from seat batch pricing</p>
+            
+            <div className={styles.grid2}>
+              <div className={styles.fieldGroup}>
+                <label className={styles.label}>USD Current Price</label>
+                <div className={styles.inputWrap}>
+                  <input 
+                    type="number" 
+                    className={styles.input} 
+                    {...register("courseInfoUsdPrice")} 
+                    placeholder="1649"
+                  />
+                </div>
+                <p className={styles.fieldHint}>Current discounted price in USD (shown in green)</p>
+              </div>
+
+              <div className={styles.fieldGroup}>
+                <label className={styles.label}>INR Current Price</label>
+                <div className={styles.inputWrap}>
+                  <input 
+                    type="number" 
+                    className={styles.input} 
+                    {...register("courseInfoInrPrice")} 
+                    placeholder="135000"
+                  />
+                </div>
+                <p className={styles.fieldHint}>Current discounted price in INR (shown in green)</p>
+              </div>
+
+              <div className={styles.fieldGroup}>
+                <label className={styles.label}>USD Original Price</label>
+                <div className={styles.inputWrap}>
+                  <input 
+                    type="number" 
+                    className={styles.input} 
+                    {...register("courseInfoOriginalUsdPrice")} 
+                    placeholder="2950"
+                  />
+                </div>
+                <p className={styles.fieldHint}>Original/Strike-through price in USD (shown in gray)</p>
+              </div>
+
+              <div className={styles.fieldGroup}>
+                <label className={styles.label}>INR Original Price</label>
+                <div className={styles.inputWrap}>
+                  <input 
+                    type="number" 
+                    className={styles.input} 
+                    {...register("courseInfoOriginalInrPrice")} 
+                    placeholder="240000"
+                  />
+                </div>
+                <p className={styles.fieldHint}>Original/Strike-through price in INR (shown in gray)</p>
+              </div>
+            </div>
+          </div>
         </Sec>
         <D />
 
@@ -722,9 +982,11 @@ export default function AddEdit500HrPage() {
         </Sec>
         <D />
 
-        {/* STAND APART */}
-        <Sec title="What Makes AYM Stand Apart" badge="Card section">
-          <F label="Section H2 Heading"><div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("standApartH2")} /></div></F>
+        {/* STAND APART SECTION WITH DYNAMIC STATS AND PILLS */}
+        <Sec title="What Makes AYM Stand Apart" badge="Card section + Stats + Pills">
+          <F label="Section H2 Heading">
+            <div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("standApartH2")} /></div>
+          </F>
           <F label="Paragraphs" hint="Rich text paragraphs for this section">
             <div>
               {standApartParas.map((para, i) => (
@@ -736,12 +998,114 @@ export default function AddEdit500HrPage() {
               <button type="button" className={styles.addItemBtn} onClick={() => setStandApartParas([...standApartParas, mkPara()])}>＋ Add Paragraph</button>
             </div>
           </F>
+
+          <div style={{ marginTop: "1.5rem", paddingTop: "1rem", borderTop: "1px solid #e8d5b5" }}>
+            <h4 style={{ fontFamily: "'Cinzel', serif", fontSize: "0.9rem", fontWeight: 600, color: "#3d1d00", marginBottom: "1rem" }}>📊 Dynamic Stats (shown as 4 cards)</h4>
+            <div>
+              {standApartStats.map((stat, i) => (
+                <div key={i} className={styles.listItemRow} style={{ marginBottom: "0.5rem" }}>
+                  <span className={styles.listNum}>{i + 1}</span>
+                  <div className={`${styles.inputWrap} ${styles.listInput}`} style={{ flex: "0.8" }}>
+                    <input className={styles.input} value={stat.num} placeholder="Number (e.g., 17+)" onChange={(e) => { const n = [...standApartStats]; n[i] = { ...n[i], num: e.target.value }; setStandApartStats(n); }} />
+                  </div>
+                  <div className={`${styles.inputWrap} ${styles.listInput}`} style={{ flex: "1.5" }}>
+                    <input className={styles.input} value={stat.label} placeholder="Label (e.g., Years of Excellence)" onChange={(e) => { const n = [...standApartStats]; n[i] = { ...n[i], label: e.target.value }; setStandApartStats(n); }} />
+                  </div>
+                  <button type="button" className={styles.removeItemBtn} onClick={() => { if (standApartStats.length > 1) setStandApartStats(standApartStats.filter((_, idx) => idx !== i)); }}>✕</button>
+                </div>
+              ))}
+              <button type="button" className={styles.addItemBtn} onClick={() => setStandApartStats([...standApartStats, { num: "", label: "" }])}>＋ Add Stat</button>
+              <p className={styles.fieldHint} style={{ marginTop: "0.5rem" }}>These 4 stat cards appear next to the Shiva image</p>
+            </div>
+          </div>
+
+          <div style={{ marginTop: "1.5rem", paddingTop: "1rem", borderTop: "1px solid #e8d5b5" }}>
+            <h4 style={{ fontFamily: "'Cinzel', serif", fontSize: "0.9rem", fontWeight: 600, color: "#3d1d00", marginBottom: "1rem" }}>🏷️ Feature Pills (shown below gains text)</h4>
+            <div>
+              {standApartPills.map((pill, i) => (
+                <div key={i} className={styles.listItemRow} style={{ marginBottom: "0.5rem" }}>
+                  <span className={styles.listNum}>{i + 1}</span>
+                  <div className={`${styles.inputWrap} ${styles.listInput}`}>
+                    <input className={styles.input} value={pill} onChange={(e) => { const n = [...standApartPills]; n[i] = e.target.value; setStandApartPills(n); }} />
+                  </div>
+                  <button type="button" className={styles.removeItemBtn} onClick={() => { if (standApartPills.length > 1) setStandApartPills(standApartPills.filter((_, idx) => idx !== i)); }}>✕</button>
+                </div>
+              ))}
+              <button type="button" className={styles.addItemBtn} onClick={() => setStandApartPills([...standApartPills, ""])}>＋ Add Pill</button>
+            </div>
+          </div>
         </Sec>
         <D />
 
-        {/* GAINS */}
+        {/* VIDEO SECTION */}
+        <Sec title="Video Section" badge="Hero Video with Overlay">
+          <div className={styles.infoBox} style={{ marginBottom: "1rem" }}>
+            <span>ℹ️</span>
+            <span>This video appears in the middle of the page. It autoplays on loop with a text overlay.</span>
+          </div>
+          
+          <F label="Video File (MP4)" hint="Upload an MP4 video file. Recommended: 1920×1080px, 10-30MB">
+            <MediaUploader 
+              preview={videoPrev} 
+              badge="Video" 
+              hint="MP4 · 1920×1080px · Max 100MB" 
+              type="video"
+              onSelect={(file: File, previewUrl: string) => { 
+                setVideoFile(file);
+                setVideoPrev(previewUrl);
+                setExistingVideoUrl("");
+              }} 
+              onRemove={() => { 
+                setVideoFile(null);
+                setVideoPrev("");
+                setExistingVideoUrl("remove");
+              }} 
+            />
+          </F>
+          
+          <F label="Video Badge Text" hint="Small badge text above the title (e.g., '✦ Featured Video ✦')">
+            <div className={styles.inputWrap}>
+              <input 
+                className={styles.input} 
+                {...register("videoBadgeText")} 
+                placeholder="✦ Featured Video ✦"
+              />
+            </div>
+          </F>
+          
+          <F label="Video Title" hint="Main heading text overlay on video">
+            <div className={styles.inputWrap}>
+              <input 
+                className={styles.input} 
+                {...register("videoTitle")} 
+                placeholder="Experience the Journey of 500 Hour Yoga Teacher Training"
+              />
+            </div>
+          </F>
+          
+          <F label="Video Subtitle" hint="Subtitle text below the title">
+            <div className={styles.inputWrap}>
+              <input 
+                className={styles.input} 
+                {...register("videoSubtitle")} 
+                placeholder="Watch Our Students' Transformation"
+              />
+            </div>
+          </F>
+        </Sec>
+        <D />
+
+        {/* GAINS SECTION (What do I gain) */}
         <Sec title="What Do I Gain Section" badge="Inside card block">
-          <F label="Section H2 Heading"><div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("gainsH2")} /></div></F>
+          <F label="Image Badge Text">
+            <div className={styles.inputWrap}>
+              <input className={styles.input} {...register("imgBadgeText")} placeholder="500 Hr Advanced TTC" />
+            </div>
+            <p className={styles.fieldHint}>Text overlay on the image badge (default: "500 Hr Advanced TTC")</p>
+          </F>
+          <F label="Section H2 Heading">
+            <div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("gainsH2")} /></div>
+          </F>
           <F label="Paragraphs" hint="Rich text paragraphs for Gains section">
             <div>
               {gainsParas.map((para, i) => (
@@ -905,6 +1269,12 @@ export default function AddEdit500HrPage() {
             <div>
               <F label="Evaluation Side Image" hint="600×450px recommended">
                 <MediaUploader preview={evalImgPrev} badge="Eval" hint="JPG/PNG/WEBP" onSelect={(f: File, p: string) => { setEvalImgFile(f); setEvalImgPrev(p); }} onRemove={() => { setEvalImgFile(null); setEvalImgPrev(""); }} />
+              </F>
+              <F label="Evaluation Image Alt Text">
+                <div className={styles.inputWrap}>
+                  <input className={styles.input} {...register("evalImageAlt")} placeholder="Evaluation process" />
+                </div>
+                <p className={styles.fieldHint}>Alt text for the evaluation image (SEO/accessibility)</p>
               </F>
             </div>
           </div>
