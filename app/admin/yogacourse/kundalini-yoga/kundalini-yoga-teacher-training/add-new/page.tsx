@@ -19,9 +19,6 @@ const cleanHTML = (val?: string): string => {
   return text ? val.trim() : "";
 };
 
-/* ─────────────────────────────────────────
-   JODIT CONFIG
-───────────────────────────────────────── */
 function makeConfig(ph: string, h: number) {
   return {
     readonly: false,
@@ -52,14 +49,10 @@ function makeConfig(ph: string, h: number) {
   };
 }
 
-/* ─── Divider ─── */
 function D() {
-  return (
-    <div style={{ height: 1, background: "linear-gradient(90deg,transparent,#e8d5b5,transparent)", margin: "0.4rem 0 1.8rem" }} />
-  );
+  return <div style={{ height: 1, background: "linear-gradient(90deg,transparent,#e8d5b5,transparent)", margin: "0.4rem 0 1.8rem" }} />;
 }
 
-/* ─── Section Wrapper ─── */
 function Sec({ title, badge, children }: { title: string; badge?: string; children: React.ReactNode }) {
   return (
     <div className={styles.sectionBlock}>
@@ -73,7 +66,17 @@ function Sec({ title, badge, children }: { title: string; badge?: string; childr
   );
 }
 
-/* ─── Field Wrapper ─── */
+function SubSec({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <div className={styles.nestedCard} style={{ marginBottom: "1rem" }}>
+      <div className={styles.nestedCardHeader}>
+        <span className={styles.nestedCardNum}>{title}</span>
+      </div>
+      <div className={styles.nestedCardBody}>{children}</div>
+    </div>
+  );
+}
+
 function F({ label, hint, req, children }: { label: string; hint?: string; req?: boolean; children: React.ReactNode }) {
   return (
     <div className={styles.fieldGroup}>
@@ -88,7 +91,6 @@ function F({ label, hint, req, children }: { label: string; hint?: string; req?:
   );
 }
 
-/* ─── Stable Jodit ─── */
 const StableJodit = memo(function StableJodit({
   onSave, value, ph = "Start typing…", h = 200, err,
 }: { onSave: (v: string) => void; value?: string; ph?: string; h?: number; err?: string }) {
@@ -124,7 +126,6 @@ const StableJodit = memo(function StableJodit({
   );
 });
 
-/* ─── Rich Para List Item ─── */
 const RichListItem = memo(function RichListItem({
   id, index, total, onSave, onRemove, value, ph,
 }: { id: string; index: number; total: number; onSave: (id: string, v: string) => void; onRemove: (id: string) => void; value?: string; ph?: string }) {
@@ -145,7 +146,6 @@ const RichListItem = memo(function RichListItem({
   );
 });
 
-/* ─── String List ─── */
 function StrList({ items, onAdd, onRemove, onUpdate, max = 30, ph, label }: {
   items: string[]; onAdd: () => void; onRemove: (i: number) => void;
   onUpdate: (i: number, v: string) => void; max?: number; ph?: string; label: string;
@@ -172,7 +172,6 @@ function StrList({ items, onAdd, onRemove, onUpdate, max = 30, ph, label }: {
   );
 }
 
-/* ─── Single Image Uploader ─── */
 function SingleImg({ preview, badge, hint, error, onSelect, onRemove }: {
   preview: string; badge?: string; hint: string; error?: string;
   onSelect: (f: File, p: string) => void; onRemove: () => void;
@@ -211,9 +210,6 @@ function SingleImg({ preview, badge, hint, error, onSelect, onRemove }: {
   );
 }
 
-/* ══════════════════════════════════════════
-   PARA LIST HOOK
-══════════════════════════════════════════ */
 function useParaList(initId: string, initVal = "") {
   const [ids, setIds] = useState<string[]>([initId]);
   const ref = useRef<Record<string, string>>({ [initId]: initVal });
@@ -235,9 +231,6 @@ function useParaList(initId: string, initVal = "") {
   return { ids, ref, add, remove, save, loadFromArray };
 }
 
-/* ══════════════════════════════════════════
-   SYLLABUS MODULE MANAGER
-══════════════════════════════════════════ */
 interface SyllabusModule { id: string; title: string; items: string[]; }
 
 const DEFAULT_SYLLABUS: SyllabusModule[] = [
@@ -256,19 +249,14 @@ const DEFAULT_SYLLABUS: SyllabusModule[] = [
 function SyllabusManager({ items, onChange }: { items: SyllabusModule[]; onChange: (v: SyllabusModule[]) => void }) {
   const updateTitle = (id: string, title: string) =>
     onChange(items.map((m) => (m.id === id ? { ...m, title } : m)));
-
   const updateItem = (id: string, idx: number, val: string) =>
     onChange(items.map((m) => m.id === id ? { ...m, items: m.items.map((it, i) => i === idx ? val : it) } : m));
-
   const addItem = (id: string) =>
     onChange(items.map((m) => m.id === id ? { ...m, items: [...m.items, ""] } : m));
-
   const removeItem = (id: string, idx: number) =>
     onChange(items.map((m) => m.id === id ? { ...m, items: m.items.filter((_, i) => i !== idx) } : m));
-
   const addModule = () =>
     onChange([...items, { id: `sm-${Date.now()}`, title: "", items: [""] }]);
-
   const removeModule = (id: string) => {
     if (items.length <= 1) return;
     onChange(items.filter((m) => m.id !== id));
@@ -318,9 +306,6 @@ function SyllabusManager({ items, onChange }: { items: SyllabusModule[]; onChang
   );
 }
 
-/* ══════════════════════════════════════════
-   HIGHLIGHT CARD MANAGER
-══════════════════════════════════════════ */
 interface HighlightCard { id: string; title: string; desc: string; }
 
 const DEFAULT_HIGHLIGHTS: HighlightCard[] = [
@@ -348,14 +333,12 @@ function HighlightManager({ items, onChange }: { items: HighlightCard[]; onChang
             )}
           </div>
           <div className={styles.nestedCardBody}>
-            <div className={styles.grid2}>
-              <div className={styles.fieldGroup}>
-                <label className={styles.label} style={{ fontSize: "0.8rem" }}>Title</label>
-                <div className={styles.inputWrap}>
-                  <input className={`${styles.input} ${styles.inputNoCount}`} value={item.title}
-                    placeholder="e.g. Daily Guided Practices"
-                    onChange={(e) => update(item.id, "title", e.target.value)} />
-                </div>
+            <div className={styles.fieldGroup}>
+              <label className={styles.label} style={{ fontSize: "0.8rem" }}>Title</label>
+              <div className={styles.inputWrap}>
+                <input className={`${styles.input} ${styles.inputNoCount}`} value={item.title}
+                  placeholder="e.g. Daily Guided Practices"
+                  onChange={(e) => update(item.id, "title", e.target.value)} />
               </div>
             </div>
             <div className={styles.fieldGroup}>
@@ -374,9 +357,6 @@ function HighlightManager({ items, onChange }: { items: HighlightCard[]; onChang
   );
 }
 
-/* ══════════════════════════════════════════
-   WHY AYM CARD MANAGER
-══════════════════════════════════════════ */
 interface WhyCard { id: string; label: string; desc: string; }
 
 const DEFAULT_WHY_CARDS: WhyCard[] = [
@@ -427,9 +407,6 @@ function WhyCardManager({ items, onChange }: { items: WhyCard[]; onChange: (v: W
   );
 }
 
-/* ══════════════════════════════════════════
-   DAILY SCHEDULE MANAGER
-══════════════════════════════════════════ */
 interface ScheduleItem { id: string; time: string; activity: string; }
 
 const DEFAULT_SCHEDULE: ScheduleItem[] = [
@@ -473,56 +450,209 @@ function ScheduleManager({ items, onChange }: { items: ScheduleItem[]; onChange:
   );
 }
 
-/* ══════════════════════════════════════════
-   FORM VALUES INTERFACE
-══════════════════════════════════════════ */
+function LocationStatsManager({ items, onChange }: { items: { num: string; label: string }[]; onChange: (v: any[]) => void }) {
+  const update = (i: number, field: string, val: string) => {
+    const n = [...items];
+    n[i] = { ...n[i], [field]: val };
+    onChange(n);
+  };
+  const add = () => onChange([...items, { num: "", label: "" }]);
+  const remove = (i: number) => { if (items.length <= 1) return; onChange(items.filter((_, idx) => idx !== i)); };
+
+  return (
+    <div>
+      {items.map((item, i) => (
+        <div key={i} className={styles.listItemRow} style={{ marginBottom: "0.5rem", gap: "0.5rem" }}>
+          <span className={styles.listNum}>{i + 1}</span>
+          <div className={styles.inputWrap} style={{ flex: "0 0 110px" }}>
+            <input className={`${styles.input} ${styles.inputNoCount}`} value={item.num}
+              placeholder="e.g. 5000+" onChange={(e) => update(i, "num", e.target.value)} />
+          </div>
+          <div className={`${styles.inputWrap} ${styles.listInput}`} style={{ flex: 1 }}>
+            <input className={`${styles.input} ${styles.inputNoCount}`} value={item.label}
+              placeholder="e.g. Years of yoga heritage" onChange={(e) => update(i, "label", e.target.value)} />
+          </div>
+          <button type="button" className={styles.removeItemBtn} onClick={() => remove(i)} disabled={items.length <= 1}>✕</button>
+        </div>
+      ))}
+      <button type="button" className={styles.addItemBtn} onClick={add}>＋ Add Stat</button>
+    </div>
+  );
+}
+
+function EligibilityPillsManager({ items, onChange }: { items: { icon: string; text: string }[]; onChange: (v: any[]) => void }) {
+  const update = (i: number, field: string, val: string) => {
+    const n = [...items];
+    n[i] = { ...n[i], [field]: val };
+    onChange(n);
+  };
+  const add = () => onChange([...items, { icon: "✓", text: "" }]);
+  const remove = (i: number) => { if (items.length <= 1) return; onChange(items.filter((_, idx) => idx !== i)); };
+
+  return (
+    <div>
+      {items.map((item, i) => (
+        <div key={i} className={styles.listItemRow} style={{ marginBottom: "0.5rem", gap: "0.5rem" }}>
+          <span className={styles.listNum}>{i + 1}</span>
+          <div className={styles.inputWrap} style={{ flex: "0 0 70px" }}>
+            <input className={`${styles.input} ${styles.inputNoCount}`} value={item.icon}
+              placeholder="✓" onChange={(e) => update(i, "icon", e.target.value)} />
+          </div>
+          <div className={`${styles.inputWrap} ${styles.listInput}`} style={{ flex: 1 }}>
+            <input className={`${styles.input} ${styles.inputNoCount}`} value={item.text}
+              placeholder="e.g. No prior yoga experience needed" onChange={(e) => update(i, "text", e.target.value)} />
+          </div>
+          <button type="button" className={styles.removeItemBtn} onClick={() => remove(i)} disabled={items.length <= 1}>✕</button>
+        </div>
+      ))}
+      <button type="button" className={styles.addItemBtn} onClick={add}>＋ Add Pill</button>
+    </div>
+  );
+}
+
+interface FacilityIconCard { icon: string; label: string; desc: string; }
+
+const DEFAULT_FACILITY_ICON_CARDS: FacilityIconCard[] = [
+  { icon: "🏠", label: "Accommodation", desc: "Spacious furnished rooms with attached bathrooms" },
+  { icon: "👨‍🏫", label: "Expert Guidance", desc: "Access to highly skilled yoga professionals" },
+  { icon: "📚", label: "Study Materials", desc: "Online resources, yoga mats, books, and more" },
+  { icon: "📹", label: "CCTV Security", desc: "24/7 surveillance for your safety & peace of mind" },
+  { icon: "🕐", label: "24/7 Support", desc: "Around-the-clock management assistance" },
+  { icon: "🎓", label: "Workshops", desc: "Seminars, workshops, and yoga-related events" },
+  { icon: "🥤", label: "Detox Drinks", desc: "Fresh detox drinks and juices daily" },
+  { icon: "🥗", label: "3 Meals Daily", desc: "Vegetarian and healthy meals three times a day" },
+  { icon: "📶", label: "Free Wifi", desc: "Free wifi and 24/7 hot water service" },
+  { icon: "📿", label: "Mala Provided", desc: "A piece of Mala gifted to every student" },
+  { icon: "🌿", label: "Nature Excursions", desc: "Guided trips to elevate your experience" },
+  { icon: "📜", label: "Certification", desc: "Yoga Alliance TTC certificate upon completion" },
+];
+
+function FacilityIconCardsManager({ items, onChange }: { items: FacilityIconCard[]; onChange: (v: FacilityIconCard[]) => void }) {
+  const update = (i: number, field: keyof FacilityIconCard, val: string) => {
+    const n = [...items];
+    n[i] = { ...n[i], [field]: val };
+    onChange(n);
+  };
+  const add = () => onChange([...items, { icon: "✦", label: "", desc: "" }]);
+  const remove = (i: number) => { if (items.length <= 1) return; onChange(items.filter((_, idx) => idx !== i)); };
+
+  return (
+    <div>
+      {items.map((item, i) => (
+        <div key={i} className={styles.nestedCard} style={{ marginBottom: "0.6rem" }}>
+          <div className={styles.nestedCardHeader}>
+            <span className={styles.nestedCardNum}>Card {i + 1}: {item.label || "New Card"}</span>
+            {items.length > 1 && (
+              <button type="button" className={styles.removeNestedBtn} onClick={() => remove(i)}>✕ Remove</button>
+            )}
+          </div>
+          <div className={styles.nestedCardBody}>
+            <div className={styles.grid2}>
+              <div className={styles.fieldGroup}>
+                <label className={styles.label} style={{ fontSize: "0.8rem" }}>Icon (emoji)</label>
+                <div className={styles.inputWrap}>
+                  <input className={`${styles.input} ${styles.inputNoCount}`} value={item.icon}
+                    placeholder="🏠" onChange={(e) => update(i, "icon", e.target.value)} />
+                </div>
+              </div>
+              <div className={styles.fieldGroup}>
+                <label className={styles.label} style={{ fontSize: "0.8rem" }}>Label</label>
+                <div className={styles.inputWrap}>
+                  <input className={`${styles.input} ${styles.inputNoCount}`} value={item.label}
+                    placeholder="Accommodation" onChange={(e) => update(i, "label", e.target.value)} />
+                </div>
+              </div>
+              <div className={styles.fieldGroup} style={{ gridColumn: "1/-1" }}>
+                <label className={styles.label} style={{ fontSize: "0.8rem" }}>Description</label>
+                <div className={styles.inputWrap}>
+                  <input className={`${styles.input} ${styles.inputNoCount}`} value={item.desc}
+                    placeholder="Short description…" onChange={(e) => update(i, "desc", e.target.value)} />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
+      <button type="button" className={styles.addItemBtn} onClick={add}>＋ Add Facility Card</button>
+    </div>
+  );
+}
+
 interface KundaliniFormValues {
   status: "Active" | "Inactive";
-  // Sec 2 — What is Kundalini
   whatIsTitle: string;
-  // Sec 3 — Activate
+  whatIsImageAlt: string;
   activateTitle: string;
-  // Benefits card
+  activateImageAlt: string;
   benefitsTitle: string;
   benefitsIntro1: string;
   benefitsIntro2: string;
-  // Highlights card
   highlightsTitle: string;
   highlightsIntro: string;
-  // Sec 4 — Syllabus
   syllabusBigTitle: string;
   syllabusSchool: string;
   courseOverviewTitle: string;
-  // Reading box
+  curriculumImageAlt: string;
+  sylHeaderBgImageAlt: string;
+  courseOverviewBadgeText: string;
   readingBoxTitle: string;
-  // Note box
   noteBoxTitle: string;
   noteBoxPara: string;
-  // Sec 5 — Eligibility
   eligibilityTitle: string;
-  // Sec 5 — Location
+  eligibilityImageAlt: string;
+  eligibilityBadgeTitle: string;
+  eligibilityBadgeSub: string;
+  eligibilityChip1Num: string;
+  eligibilityChip1Label: string;
+  eligibilityChip2Num: string;
+  eligibilityChip2Label: string;
   locationTitle: string;
-  // Sec 5 — Facilities
+  locationBannerImageAlt: string;
+  locationStackTopImageAlt: string;
+  locationStackTopLabel: string;
+  locationStackBottomImageAlt: string;
+  locationStackBottomLabel: string;
   facilitiesTitle: string;
   facilitiesIntro: string;
-  // Sec 6 — Daily Schedule
+  facilitiesVideoUrl: string;
+  facilitiesVideoTag: string;
+  facilitiesVideoText: string;
   scheduleSectionTitle: string;
-  // Sec 7 — Why AYM
+  scheduleTagLine: string;
+  scheduleHeaderSub: string;
+  scheduleNoteIcon: string;
+  scheduleNoteText: string;
+  scheduleQuoteText: string;
+  scheduleQuoteAuthor: string;
+  scheduleImg1Tag: string;
+  scheduleImg2Tag: string;
   whyAYMTitle: string;
-  // Sec 9 — Why Rishikesh card
   whyRishikeshTitle: string;
+  whyRishikeshBannerImageAlt: string;
+  whyRishikeshBannerTag: string;
   spiritualTitle: string;
+  spiritualIcon: string;
   naturalTitle: string;
+  naturalIcon: string;
   typesTitle: string;
+  typesIcon: string;
   topSchoolsTitle: string;
+  topSchoolsIcon: string;
+  aymPillText: string;
   topSchoolsPara: string;
-  // Refund
   refundTitle: string;
+  refundTagLine: string;
+  refundHeaderSub: string;
+  courseInfoCardTitle: string;
+  courseInfoFeeLabel: string;
+  courseInfoFeeFromText: string;
+  courseInfoBookBtnText: string;
+  courseInfoUsdPrice: number;
+  courseInfoInrPrice: number;
+  courseInfoOriginalUsdPrice: number;
+  courseInfoOriginalInrPrice: number;
 }
 
-/* ══════════════════════════════════════════
-   MAIN FORM COMPONENT
-══════════════════════════════════════════ */
 export default function KundaliniTTCAdminForm() {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -535,46 +665,145 @@ export default function KundaliniTTCAdminForm() {
   const [heroPrev, setHeroPrev] = useState("");
   const [heroErr, setHeroErr] = useState("");
 
-  /* ── Class Image (Section 7) ── */
+  /* ── What Is Kundalini Image ── */
+  const [whatIsImgFile, setWhatIsImgFile] = useState<File | null>(null);
+  const [whatIsImgPrev, setWhatIsImgPrev] = useState("");
+
+  /* ── Activate Section Image ── */
+  const [activateImgFile, setActivateImgFile] = useState<File | null>(null);
+  const [activateImgPrev, setActivateImgPrev] = useState("");
+
+  /* ── Curriculum Image ── */
+  const [curriculumImgFile, setCurriculumImgFile] = useState<File | null>(null);
+  const [curriculumImgPrev, setCurriculumImgPrev] = useState("");
+
+  /* ── Syllabus Header Background Image ── */
+  const [sylHeaderBgFile, setSylHeaderBgFile] = useState<File | null>(null);
+  const [sylHeaderBgPrev, setSylHeaderBgPrev] = useState("");
+
+  /* ── Eligibility Image ── */
+  const [eligibilityImgFile, setEligibilityImgFile] = useState<File | null>(null);
+  const [eligibilityImgPrev, setEligibilityImgPrev] = useState("");
+
+  /* ── Location Banner Image ── */
+  const [locationBannerFile, setLocationBannerFile] = useState<File | null>(null);
+  const [locationBannerPrev, setLocationBannerPrev] = useState("");
+
+  /* ── Location Stack Top Image ── */
+  const [locationStackTopFile, setLocationStackTopFile] = useState<File | null>(null);
+  const [locationStackTopPrev, setLocationStackTopPrev] = useState("");
+
+  /* ── Location Stack Bottom Image ── */
+  const [locationStackBottomFile, setLocationStackBottomFile] = useState<File | null>(null);
+  const [locationStackBottomPrev, setLocationStackBottomPrev] = useState("");
+
+  /* ── Facilities Video Poster ── */
+  const [facilitiesPosterFile, setFacilitiesPosterFile] = useState<File | null>(null);
+  const [facilitiesPosterPrev, setFacilitiesPosterPrev] = useState("");
+
+  /* ── Class Image ── */
   const [classFile, setClassFile] = useState<File | null>(null);
   const [classPrev, setClassPrev] = useState("");
 
-  /* ── Schedule Images (Section 6 - 2 images) ── */
+  /* ── Schedule Images ── */
   const [schedImg1File, setSchedImg1File] = useState<File | null>(null);
   const [schedImg1Prev, setSchedImg1Prev] = useState("");
   const [schedImg2File, setSchedImg2File] = useState<File | null>(null);
   const [schedImg2Prev, setSchedImg2Prev] = useState("");
 
+  /* ── Why Rishikesh Banner Image ── */
+  const [whyRishikeshBannerFile, setWhyRishikeshBannerFile] = useState<File | null>(null);
+  const [whyRishikeshBannerPrev, setWhyRishikeshBannerPrev] = useState("");
+
   /* ── Rich text refs ── */
   const courseOverviewParaRef = useRef("");
   const readingBoxNoteRef = useRef("");
-  const facilitiesIntroRef = useRef("");
+  const facilitiesIntroRichRef = useRef("");
   const spiritualParaRef = useRef("");
   const naturalParaRef = useRef("");
 
   /* ── Para Lists ── */
-  const whatIsParaList    = useParaList("wip1");
-  const activateParaList  = useParaList("acp1");
+  const whatIsParaList      = useParaList("wip1");
+  const activateParaList    = useParaList("acp1");
   const eligibilityParaList = useParaList("elp1");
-  const locationParaList  = useParaList("locp1");
-  const readingItemsList  = useParaList("ri1");   // used differently (string list)
+  const locationParaList    = useParaList("locp1");
 
   /* ── Dynamic managers ── */
-  const [syllabusModules, setSyllabusModules]   = useState<SyllabusModule[]>(DEFAULT_SYLLABUS);
-  const [benefitItems, setBenefitItems]         = useState<string[]>(["It promotes spiritual growth, higher consciousness and self-awareness.", "This practice raises and balances energy, promoting overall well-being.", "It offers calmness to the mind and lowers stress and anxiety.", "Not only does it balance the nervous system, but it also improves flexibility and strengthens the immune system.", "As you take up kundalini Rishikesh yoga, it TTC enhances emotional intelligence, fosters inner peace and offers mental clarity.", "Kundalini yoga promotes self-growth, self-love, self-acceptance, self-healing, and cultivating intuition.", "It helps to overcome addictive behaviours and facilitates profound personal growth and spiritual evolution."]);
-  const [highlightCards, setHighlightCards]     = useState<HighlightCard[]>(DEFAULT_HIGHLIGHTS);
-  const [readingItems, setReadingItems]         = useState<string[]>(['"The Aquarian Teacher" by Yogi Bhajan', '"Hatha yoga pradipika: Bihar school of Yoga"', '"The Yoga Sutras of Patanjali"', "Aym Yoga School Training Manual of Kundalini Yoga TTC in Rishikesh."]);
-  const [facilityItems, setFacilityItems]       = useState<string[]>(["Accommodation in spacious and furnished rooms with attached bathrooms.", "Guidance and access to highly skilled professionals in yoga.", "Access to study material includes online resources, yoga mats, books, and more.", "CCTV surveillance for extra security.", "Around-the-clock management support.", "Attend seminars, workshops, and other related events that promote yoga.", "Detox drinks and juices are offered.", "Vegetarian and healthy meals are provided three times a day.", "Access to free wifi and 24/7 hot water service is offered.", "A piece of Mala is provided to every student.", "Students are taken to nature excursions that elevate their experience.", "Kundalini yoga teacher training course certification is provided at the end of the course."]);
-  const [scheduleItems, setScheduleItems]       = useState<ScheduleItem[]>(DEFAULT_SCHEDULE);
-  const [whyCards, setWhyCards]                 = useState<WhyCard[]>(DEFAULT_WHY_CARDS);
-  const [typesItems, setTypesItems]             = useState<string[]>(["Beginner to advanced kundalini classes", "Kundalini yoga retreats and intensive courses", "Teacher training programs."]);
-  const [refundItems, setRefundItems]           = useState<string[]>(["An advance course fee will not be refundable. Students can join us on other schedules in case of an emergency.", "If students cancel the course, we accept the cancellation, but the advance deposit will not be refunded in cancellation.", "There is no charge for course cancellation. The student has to inform by email.", "AYM Yoga School is not responsible for any mishappenings before the course schedule."]);
+  const [syllabusModules, setSyllabusModules]         = useState<SyllabusModule[]>(DEFAULT_SYLLABUS);
+  const [benefitItems, setBenefitItems]               = useState<string[]>(["It promotes spiritual growth, higher consciousness and self-awareness.", "This practice raises and balances energy, promoting overall well-being.", "It offers calmness to the mind and lowers stress and anxiety.", "Not only does it balance the nervous system, but it also improves flexibility and strengthens the immune system.", "As you take up kundalini Rishikesh yoga, it TTC enhances emotional intelligence, fosters inner peace and offers mental clarity.", "Kundalini yoga promotes self-growth, self-love, self-acceptance, self-healing, and cultivating intuition.", "It helps to overcome addictive behaviours and facilitates profound personal growth and spiritual evolution."]);
+  const [highlightCards, setHighlightCards]           = useState<HighlightCard[]>(DEFAULT_HIGHLIGHTS);
+  const [readingItems, setReadingItems]               = useState<string[]>(['"The Aquarian Teacher" by Yogi Bhajan', '"Hatha yoga pradipika: Bihar school of Yoga"', '"The Yoga Sutras of Patanjali"', "Aym Yoga School Training Manual of Kundalini Yoga TTC in Rishikesh."]);
+  const [facilityItems, setFacilityItems]             = useState<string[]>(["Accommodation in spacious and furnished rooms with attached bathrooms.", "Guidance and access to highly skilled professionals in yoga.", "Access to study material includes online resources, yoga mats, books, and more.", "CCTV surveillance for extra security.", "Around-the-clock management support.", "Attend seminars, workshops, and other related events that promote yoga.", "Detox drinks and juices are offered.", "Vegetarian and healthy meals are provided three times a day.", "Access to free wifi and 24/7 hot water service is offered.", "A piece of Mala is provided to every student.", "Students are taken to nature excursions that elevate their experience.", "Kundalini yoga teacher training course certification is provided at the end of the course."]);
+  const [facilityIconCards, setFacilityIconCards]     = useState<FacilityIconCard[]>(DEFAULT_FACILITY_ICON_CARDS);
+  const [scheduleItems, setScheduleItems]             = useState<ScheduleItem[]>(DEFAULT_SCHEDULE);
+  const [whyCards, setWhyCards]                       = useState<WhyCard[]>(DEFAULT_WHY_CARDS);
+  const [typesItems, setTypesItems]                   = useState<string[]>(["Beginner to advanced kundalini classes", "Kundalini yoga retreats and intensive courses", "Teacher training programs."]);
+  const [refundItems, setRefundItems]                 = useState<string[]>(["An advance course fee will not be refundable. Students can join us on other schedules in case of an emergency.", "If students cancel the course, we accept the cancellation, but the advance deposit will not be refunded in cancellation.", "There is no charge for course cancellation. The student has to inform by email.", "AYM Yoga School is not responsible for any mishappenings before the course schedule."]);
+  const [locationStats, setLocationStats]             = useState<{ num: string; label: string }[]>([
+    { num: "3", label: "Rivers confluence" },
+    { num: "2500+", label: "Metres altitude" },
+    { num: "100+", label: "Years of yoga legacy" },
+    { num: "∞", label: "Himalayan energy" },
+  ]);
+  const [eligibilityPills, setEligibilityPills]       = useState<{ icon: string; text: string }[]>([
+    { icon: "✓", text: "No prior yoga experience needed" },
+    { icon: "✓", text: "No age restriction" },
+    { icon: "✓", text: "All nationalities welcome" },
+    { icon: "✓", text: "Open to all fitness levels" },
+  ]);
+  const [courseInfoDetails, setCourseInfoDetails]     = useState([
+    { label: "DURATION", value: "24 Days", sub: "" },
+    { label: "LEVEL", value: "Beginner to Advanced", sub: "" },
+    { label: "CERTIFICATION", value: "200 Hour", sub: "" },
+    { label: "YOGA STYLE", value: "Kundalini Yoga", sub: "As taught by Yogi Bhajan" },
+    { label: "LANGUAGE", value: "English & Hindi", sub: "" },
+    { label: "DATE", value: "Check batches below", sub: "" },
+  ]);
+
+  /* ── Schedule Dynamic Fields ── */
+  const [schedulePhaseLabels, setSchedulePhaseLabels] = useState([
+    { label: "🌅 Morning Practice", color: "#e8720c" },
+    { label: "☀️ Midday Session", color: "#c8890a" },
+    { label: "🌙 Evening Practice", color: "#7a3a9a" },
+  ]);
+  const [scheduleStats, setScheduleStats] = useState([
+    { icon: "⏰", num: "14+", label: "Hrs Practice" },
+    { icon: "🧘", num: "3", label: "Sessions Daily" },
+    { icon: "🌿", num: "3", label: "Meals Daily" },
+    { icon: "📖", num: "4+", label: "Theory Hrs" },
+  ]);
+
+  /* ── Section 9 - Why Rishikesh Banner Stats ── */
+  const [whyRishikeshBannerStats, setWhyRishikeshBannerStats] = useState([
+    { num: "5000+", label: "Years of yoga heritage" },
+    { num: "200+", label: "Ashrams & schools" },
+    { num: "3", label: "Sacred rivers" },
+    { num: "∞", label: "Himalayan serenity" },
+  ]);
+
+  /* ── Section 9 - Refund Trust Items ── */
+  const [refundTrustItems, setRefundTrustItems] = useState([
+    { icon: "📩", text: "All cancellations must be made via email" },
+    { icon: "🔒", text: "Your deposit secures your seat" },
+    { icon: "🔄", text: "Flexible rebooking to future batches" },
+  ]);
+
+  /* ── Section 9 - Refund Icons & Colors ── */
+  const [refundIcons, setRefundIcons] = useState(["💰", "❌", "📧", "⚠️"]);
+  const [refundColors, setRefundColors] = useState([
+    { color: "#3d6000", bg: "rgba(61,96,0,0.07)", border: "rgba(61,96,0,0.2)" },
+    { color: "#8a2c00", bg: "rgba(138,44,0,0.07)", border: "rgba(138,44,0,0.2)" },
+    { color: "#1a6fa8", bg: "rgba(26,111,168,0.07)", border: "rgba(26,111,168,0.2)" },
+    { color: "#c8890a", bg: "rgba(200,137,10,0.07)", border: "rgba(200,137,10,0.2)" }
+  ]);
 
   const { register, handleSubmit, setValue, formState: { errors } } = useForm<KundaliniFormValues>({
     defaultValues: {
       status: "Active",
       whatIsTitle: "What is Kundalini Yoga?",
+      whatIsImageAlt: "Kundalini Yoga meditation practice",
       activateTitle: "Activate your Kundalini through the kundalini yoga TTC in rishikesh at AYM",
+      activateImageAlt: "Kundalini Yoga practice",
       benefitsTitle: "What are the Benefits of Kundalini Yoga?",
       benefitsIntro1: "Is Kundalini yoga the right choice for you?",
       benefitsIntro2: "You must know that enrolling in our Kundalini YTT course in Rishikesh at AYM will transform your personal and professional lives.",
@@ -583,26 +812,68 @@ export default function KundaliniTTCAdminForm() {
       syllabusBigTitle: "200-Hour Kundalini Yoga Teacher Training Syllabus",
       syllabusSchool: "Aym Yoga School",
       courseOverviewTitle: "Course Overview:",
+      curriculumImageAlt: "Kundalini Yoga teacher training class",
+      sylHeaderBgImageAlt: "Kundalini Yoga syllabus header background",
+      courseOverviewBadgeText: "Learn · Practice · Teach",
       readingBoxTitle: "Required Reading: Kundalini Yoga teacher training 200 hours India",
       noteBoxTitle: "Note:",
       noteBoxPara: "The above syllabus is in accordance with the specific guidelines and vision of Best Kundalini Yoga teacher training India at Aym Yoga School.",
       eligibilityTitle: "Who Is Eligible to Join the Kundalini Yoga Teacher Training Course in Rishikesh?",
+      eligibilityImageAlt: "Yoga students practicing",
+      eligibilityBadgeTitle: "Open to All",
+      eligibilityBadgeSub: "No prerequisites required",
+      eligibilityChip1Num: "0",
+      eligibilityChip1Label: "Age Limit",
+      eligibilityChip2Num: "All",
+      eligibilityChip2Label: "Backgrounds",
       locationTitle: "Is the Location Prime for Yoga Learning?",
+      locationBannerImageAlt: "Rishikesh mountains",
+      locationStackTopImageAlt: "Yoga class",
+      locationStackTopLabel: "Practice Hall",
+      locationStackBottomImageAlt: "Ashram view",
+      locationStackBottomLabel: "Himalayan Setting",
       facilitiesTitle: "What Facilities are Included in the Course Fee?",
       facilitiesIntro: "Aspirants often worry that learning yoga will break the bank.",
+      facilitiesVideoUrl: "",
+      facilitiesVideoTag: "LIVE · BREATHE · GROW",
+      facilitiesVideoText: "Everything you need for a transformative 24-day residential experience",
       scheduleSectionTitle: "Daily Schedule",
+      scheduleTagLine: "24-DAY RESIDENTIAL PROGRAM",
+      scheduleHeaderSub: "A carefully structured day balancing intense practice with rest, study &amp; spiritual integration.",
+      scheduleNoteIcon: "📌",
+      scheduleNoteText: "Schedule may vary slightly by week. Self-study &amp; personal practice time is built into each day.",
+      scheduleQuoteText: "Sadhana is the foundation. When you practice every day with discipline and devotion, transformation becomes inevitable.",
+      scheduleQuoteAuthor: "— Yogi Bhajan",
+      scheduleImg1Tag: "Morning Practice",
+      scheduleImg2Tag: "Evening Sadhana",
       whyAYMTitle: "Why Choose AYM Yoga School?",
       whyRishikeshTitle: "Why choose Kundalini Yoga classes and training in rishikesh?",
+      whyRishikeshBannerImageAlt: "Rishikesh Himalayan landscape",
+      whyRishikeshBannerTag: "Sacred City · Yoga Capital of the World",
       spiritualTitle: "Spiritual significance of Rishikesh:",
+      spiritualIcon: "🕉️",
       naturalTitle: "Natural setting and serene environment of Rishikesh:",
+      naturalIcon: "🌿",
       typesTitle: "Types of Kundalini Yoga Classes in Rishikesh",
+      typesIcon: "📋",
       topSchoolsTitle: "Top Kundalini Yoga Schools and Centers in Rishikesh",
+      topSchoolsIcon: "🏆",
+      aymPillText: "AYM Yoga School — Ranked among Rishikesh's finest",
       topSchoolsPara: "In recent times, Kundalini yoga has become popular…",
       refundTitle: "Refund Policy - AYM Yoga School",
+      refundTagLine: "TRANSPARENCY & TRUST",
+      refundHeaderSub: "We believe in clear, fair policies. Here's everything you need to know about our cancellation terms.",
+      courseInfoCardTitle: "COURSE DETAILS",
+      courseInfoFeeLabel: "COURSE FEE",
+      courseInfoFeeFromText: "starting from",
+      courseInfoBookBtnText: "BOOK NOW",
+      courseInfoUsdPrice: 999,
+      courseInfoInrPrice: 82000,
+      courseInfoOriginalUsdPrice: 1799,
+      courseInfoOriginalInrPrice: 148000,
     },
   });
 
-  /* ── Fetch existing data ── */
   useEffect(() => {
     const fetchData = async () => {
       setLoadingData(true);
@@ -613,45 +884,73 @@ export default function KundaliniTTCAdminForm() {
         setIsEdit(true);
 
         const keys: (keyof KundaliniFormValues)[] = [
-          "status", "whatIsTitle", "activateTitle", "benefitsTitle", "benefitsIntro1",
-          "benefitsIntro2", "highlightsTitle", "highlightsIntro", "syllabusBigTitle",
-          "syllabusSchool", "courseOverviewTitle", "readingBoxTitle", "noteBoxTitle",
-          "noteBoxPara", "eligibilityTitle", "locationTitle", "facilitiesTitle",
-          "facilitiesIntro", "scheduleSectionTitle", "whyAYMTitle", "whyRishikeshTitle",
-          "spiritualTitle", "naturalTitle", "typesTitle", "topSchoolsTitle",
-          "topSchoolsPara", "refundTitle",
+          "status", "whatIsTitle", "whatIsImageAlt", "activateTitle", "activateImageAlt",
+          "benefitsTitle", "benefitsIntro1", "benefitsIntro2", "highlightsTitle", "highlightsIntro",
+          "syllabusBigTitle", "syllabusSchool", "courseOverviewTitle", "curriculumImageAlt",
+          "sylHeaderBgImageAlt", "courseOverviewBadgeText", "readingBoxTitle",
+          "noteBoxTitle", "noteBoxPara", "eligibilityTitle", "eligibilityImageAlt",
+          "eligibilityBadgeTitle", "eligibilityBadgeSub", "eligibilityChip1Num", "eligibilityChip1Label",
+          "eligibilityChip2Num", "eligibilityChip2Label", "locationTitle", "locationBannerImageAlt",
+          "locationStackTopImageAlt", "locationStackTopLabel", "locationStackBottomImageAlt",
+          "locationStackBottomLabel", "facilitiesTitle", "facilitiesIntro", "facilitiesVideoUrl",
+          "facilitiesVideoTag", "facilitiesVideoText", "scheduleSectionTitle", "scheduleTagLine",
+          "scheduleHeaderSub", "scheduleNoteIcon", "scheduleNoteText", "scheduleQuoteText",
+          "scheduleQuoteAuthor", "scheduleImg1Tag", "scheduleImg2Tag", "whyAYMTitle",
+          "whyRishikeshTitle", "whyRishikeshBannerImageAlt", "whyRishikeshBannerTag",
+          "spiritualTitle", "spiritualIcon", "naturalTitle", "naturalIcon", "typesTitle",
+          "typesIcon", "topSchoolsTitle", "topSchoolsIcon", "aymPillText", "topSchoolsPara",
+          "refundTitle", "refundTagLine", "refundHeaderSub", "courseInfoCardTitle",
+          "courseInfoFeeLabel", "courseInfoFeeFromText", "courseInfoBookBtnText",
+          "courseInfoUsdPrice", "courseInfoInrPrice", "courseInfoOriginalUsdPrice",
+          "courseInfoOriginalInrPrice",
         ];
-        keys.forEach((k) => { if (d[k] !== undefined) setValue(k, d[k] as any); });
+        keys.forEach((k) => { if (d[k] !== undefined) setValue(k, d[k]); });
 
-        /* Rich text refs */
-        courseOverviewParaRef.current = d.courseOverviewPara || "";
-        readingBoxNoteRef.current     = d.readingBoxNote || "";
-        facilitiesIntroRef.current    = d.facilitiesIntroRich || "";
-        spiritualParaRef.current      = d.spiritualPara || "";
-        naturalParaRef.current        = d.naturalPara || "";
+        courseOverviewParaRef.current  = d.courseOverviewPara || "";
+        readingBoxNoteRef.current      = d.readingBoxNote || "";
+        facilitiesIntroRichRef.current = d.facilitiesIntroRich || "";
+        spiritualParaRef.current       = d.spiritualPara || "";
+        naturalParaRef.current         = d.naturalPara || "";
 
-        /* Images */
-        if (d.heroImage)   setHeroPrev(BASE_URL + d.heroImage);
-        if (d.classImage)  setClassPrev(BASE_URL + d.classImage);
-        if (d.schedImg1)   setSchedImg1Prev(BASE_URL + d.schedImg1);
-        if (d.schedImg2)   setSchedImg2Prev(BASE_URL + d.schedImg2);
+        if (d.heroImage)               setHeroPrev(BASE_URL + d.heroImage);
+        if (d.whatIsImage)             setWhatIsImgPrev(BASE_URL + d.whatIsImage);
+        if (d.activateImage)           setActivateImgPrev(BASE_URL + d.activateImage);
+        if (d.curriculumImage)         setCurriculumImgPrev(BASE_URL + d.curriculumImage);
+        if (d.sylHeaderBgImage)        setSylHeaderBgPrev(BASE_URL + d.sylHeaderBgImage);
+        if (d.eligibilityImage)        setEligibilityImgPrev(BASE_URL + d.eligibilityImage);
+        if (d.locationBannerImage)     setLocationBannerPrev(BASE_URL + d.locationBannerImage);
+        if (d.locationStackTopImage)   setLocationStackTopPrev(BASE_URL + d.locationStackTopImage);
+        if (d.locationStackBottomImage) setLocationStackBottomPrev(BASE_URL + d.locationStackBottomImage);
+        if (d.facilitiesVideoPoster)   setFacilitiesPosterPrev(BASE_URL + d.facilitiesVideoPoster);
+        if (d.classImage)              setClassPrev(BASE_URL + d.classImage);
+        if (d.schedImg1)               setSchedImg1Prev(BASE_URL + d.schedImg1);
+        if (d.schedImg2)               setSchedImg2Prev(BASE_URL + d.schedImg2);
+        if (d.whyRishikeshBannerImage) setWhyRishikeshBannerPrev(BASE_URL + d.whyRishikeshBannerImage);
 
-        /* Para lists */
-        if (d.whatIsParagraphs?.length)     whatIsParaList.loadFromArray(d.whatIsParagraphs, "wip");
-        if (d.activateParagraphs?.length)   activateParaList.loadFromArray(d.activateParagraphs, "acp");
+        if (d.whatIsParagraphs?.length)      whatIsParaList.loadFromArray(d.whatIsParagraphs, "wip");
+        if (d.activateParagraphs?.length)    activateParaList.loadFromArray(d.activateParagraphs, "acp");
         if (d.eligibilityParagraphs?.length) eligibilityParaList.loadFromArray(d.eligibilityParagraphs, "elp");
-        if (d.locationParagraphs?.length)   locationParaList.loadFromArray(d.locationParagraphs, "locp");
+        if (d.locationParagraphs?.length)    locationParaList.loadFromArray(d.locationParagraphs, "locp");
 
-        /* Dynamic arrays */
-        if (d.syllabusModules?.length)  setSyllabusModules(d.syllabusModules);
-        if (d.benefitItems?.length)     setBenefitItems(d.benefitItems);
-        if (d.highlightCards?.length)   setHighlightCards(d.highlightCards);
-        if (d.readingItems?.length)     setReadingItems(d.readingItems);
-        if (d.facilityItems?.length)    setFacilityItems(d.facilityItems);
-        if (d.scheduleItems?.length)    setScheduleItems(d.scheduleItems);
-        if (d.whyCards?.length)         setWhyCards(d.whyCards);
-        if (d.typesItems?.length)       setTypesItems(d.typesItems);
-        if (d.refundItems?.length)      setRefundItems(d.refundItems);
+        if (d.syllabusModules?.length)   setSyllabusModules(d.syllabusModules);
+        if (d.benefitItems?.length)      setBenefitItems(d.benefitItems);
+        if (d.highlightCards?.length)    setHighlightCards(d.highlightCards);
+        if (d.readingItems?.length)      setReadingItems(d.readingItems);
+        if (d.facilityItems?.length)     setFacilityItems(d.facilityItems);
+        if (d.facilityIconCards?.length) setFacilityIconCards(d.facilityIconCards);
+        if (d.scheduleItems?.length)     setScheduleItems(d.scheduleItems);
+        if (d.whyCards?.length)          setWhyCards(d.whyCards);
+        if (d.typesItems?.length)        setTypesItems(d.typesItems);
+        if (d.refundItems?.length)       setRefundItems(d.refundItems);
+        if (d.locationStats?.length)     setLocationStats(d.locationStats);
+        if (d.eligibilityPills?.length)  setEligibilityPills(d.eligibilityPills);
+        if (d.courseInfoDetails?.length) setCourseInfoDetails(d.courseInfoDetails);
+        if (d.schedulePhaseLabels?.length) setSchedulePhaseLabels(d.schedulePhaseLabels);
+        if (d.scheduleStats?.length)     setScheduleStats(d.scheduleStats);
+        if (d.whyRishikeshBannerStats?.length) setWhyRishikeshBannerStats(d.whyRishikeshBannerStats);
+        if (d.refundTrustItems?.length)  setRefundTrustItems(d.refundTrustItems);
+        if (d.refundIcons?.length)       setRefundIcons(d.refundIcons);
+        if (d.refundColors?.length)      setRefundColors(d.refundColors);
       } catch {
         toast.error("Failed to load existing content");
       } finally {
@@ -661,7 +960,6 @@ export default function KundaliniTTCAdminForm() {
     fetchData();
   }, []);
 
-  /* ── Submit ── */
   const onSubmit = async (data: KundaliniFormValues) => {
     if (!heroFile && !heroPrev) {
       setHeroErr("Hero image is required");
@@ -673,14 +971,12 @@ export default function KundaliniTTCAdminForm() {
 
       Object.entries(data).forEach(([k, v]) => fd.append(k, v as string));
 
-      /* Rich text */
-      fd.append("courseOverviewPara", courseOverviewParaRef.current);
-      fd.append("readingBoxNote", readingBoxNoteRef.current);
-      fd.append("facilitiesIntroRich", facilitiesIntroRef.current);
-      fd.append("spiritualPara", spiritualParaRef.current);
-      fd.append("naturalPara", naturalParaRef.current);
+      fd.append("courseOverviewPara",  courseOverviewParaRef.current);
+      fd.append("readingBoxNote",      readingBoxNoteRef.current);
+      fd.append("facilitiesIntroRich", facilitiesIntroRichRef.current);
+      fd.append("spiritualPara",       spiritualParaRef.current);
+      fd.append("naturalPara",         naturalParaRef.current);
 
-      /* Para lists */
       fd.append("whatIsParagraphs", JSON.stringify(
         whatIsParaList.ids.map((id) => cleanHTML(whatIsParaList.ref.current[id])).filter(Boolean)
       ));
@@ -694,22 +990,40 @@ export default function KundaliniTTCAdminForm() {
         locationParaList.ids.map((id) => cleanHTML(locationParaList.ref.current[id])).filter(Boolean)
       ));
 
-      /* Dynamic arrays */
-      fd.append("syllabusModules", JSON.stringify(syllabusModules));
-      fd.append("benefitItems",    JSON.stringify(benefitItems.filter(Boolean)));
-      fd.append("highlightCards",  JSON.stringify(highlightCards));
-      fd.append("readingItems",    JSON.stringify(readingItems.filter(Boolean)));
-      fd.append("facilityItems",   JSON.stringify(facilityItems.filter(Boolean)));
-      fd.append("scheduleItems",   JSON.stringify(scheduleItems));
-      fd.append("whyCards",        JSON.stringify(whyCards));
-      fd.append("typesItems",      JSON.stringify(typesItems.filter(Boolean)));
-      fd.append("refundItems",     JSON.stringify(refundItems.filter(Boolean)));
+      fd.append("syllabusModules",   JSON.stringify(syllabusModules));
+      fd.append("benefitItems",      JSON.stringify(benefitItems.filter(Boolean)));
+      fd.append("highlightCards",    JSON.stringify(highlightCards));
+      fd.append("readingItems",      JSON.stringify(readingItems.filter(Boolean)));
+      fd.append("facilityItems",     JSON.stringify(facilityItems.filter(Boolean)));
+      fd.append("facilityIconCards", JSON.stringify(facilityIconCards));
+      fd.append("scheduleItems",     JSON.stringify(scheduleItems));
+      fd.append("whyCards",          JSON.stringify(whyCards));
+      fd.append("typesItems",        JSON.stringify(typesItems.filter(Boolean)));
+      fd.append("refundItems",       JSON.stringify(refundItems.filter(Boolean)));
+      fd.append("locationStats",     JSON.stringify(locationStats));
+      fd.append("eligibilityPills",  JSON.stringify(eligibilityPills));
+      fd.append("courseInfoDetails", JSON.stringify(courseInfoDetails));
+      fd.append("schedulePhaseLabels", JSON.stringify(schedulePhaseLabels));
+      fd.append("scheduleStats",     JSON.stringify(scheduleStats));
+      fd.append("whyRishikeshBannerStats", JSON.stringify(whyRishikeshBannerStats));
+      fd.append("refundTrustItems",  JSON.stringify(refundTrustItems));
+      fd.append("refundIcons",       JSON.stringify(refundIcons));
+      fd.append("refundColors",      JSON.stringify(refundColors));
 
-      /* Images */
-      if (heroFile)     fd.append("heroImage",  heroFile);
-      if (classFile)    fd.append("classImage", classFile);
-      if (schedImg1File) fd.append("schedImg1", schedImg1File);
-      if (schedImg2File) fd.append("schedImg2", schedImg2File);
+      if (heroFile)                fd.append("heroImage", heroFile);
+      if (whatIsImgFile)           fd.append("whatIsImage", whatIsImgFile);
+      if (activateImgFile)         fd.append("activateImage", activateImgFile);
+      if (curriculumImgFile)       fd.append("curriculumImage", curriculumImgFile);
+      if (sylHeaderBgFile)         fd.append("sylHeaderBgImage", sylHeaderBgFile);
+      if (eligibilityImgFile)      fd.append("eligibilityImage", eligibilityImgFile);
+      if (locationBannerFile)      fd.append("locationBannerImage", locationBannerFile);
+      if (locationStackTopFile)    fd.append("locationStackTopImage", locationStackTopFile);
+      if (locationStackBottomFile) fd.append("locationStackBottomImage", locationStackBottomFile);
+      if (facilitiesPosterFile)    fd.append("facilitiesVideoPoster", facilitiesPosterFile);
+      if (classFile)               fd.append("classImage", classFile);
+      if (schedImg1File)           fd.append("schedImg1", schedImg1File);
+      if (schedImg2File)           fd.append("schedImg2", schedImg2File);
+      if (whyRishikeshBannerFile)  fd.append("whyRishikeshBannerImage", whyRishikeshBannerFile);
 
       if (isEdit) {
         await api.put("/kundalini-ttc-content/update", fd, { headers: { "Content-Type": "multipart/form-data" } });
@@ -727,7 +1041,6 @@ export default function KundaliniTTCAdminForm() {
     }
   };
 
-  /* ── Loading state ── */
   if (loadingData) return (
     <div className={styles.loadingWrap}>
       <span className={styles.spinner} />
@@ -735,7 +1048,6 @@ export default function KundaliniTTCAdminForm() {
     </div>
   );
 
-  /* ── Success state ── */
   if (submitted) return (
     <div className={styles.successScreen}>
       <div className={styles.successCard}>
@@ -747,12 +1059,8 @@ export default function KundaliniTTCAdminForm() {
     </div>
   );
 
-  /* ════════════════════════════════════════
-     RENDER
-  ════════════════════════════════════════ */
   return (
     <div className={styles.formPage}>
-      {/* Breadcrumb */}
       <div className={styles.breadcrumb}>
         <button className={styles.breadcrumbLink} onClick={() => router.push("/admin/yogacourse/kundalini-yoga/kundalini-yoga-teacher-training")}>
           Kundalini TTC
@@ -761,14 +1069,13 @@ export default function KundaliniTTCAdminForm() {
         <span className={styles.breadcrumbCurrent}>{isEdit ? "Edit Page" : "Add New Page"}</span>
       </div>
 
-      {/* Header */}
       <div className={styles.pageHeader}>
         <div className={styles.pageHeaderText}>
           <h1 className={styles.pageTitle}>
             {isEdit ? "Edit Kundalini Yoga TTC Page" : "Add Kundalini Yoga TTC Page"}
           </h1>
           <p className={styles.pageSubtitle}>
-            Hero · What is Kundalini · Benefits · Highlights · Syllabus · Eligibility · Facilities · Schedule · Why AYM · Rishikesh · Refund
+            Hero · Course Info Card · What is Kundalini · Activate & Benefits · Syllabus · Eligibility · Location · Facilities · Schedule · Why AYM · Why Rishikesh · Refund
           </p>
         </div>
       </div>
@@ -780,9 +1087,8 @@ export default function KundaliniTTCAdminForm() {
       </div>
 
       <div className={styles.formCard}>
-
-        {/* ══ 1. HERO IMAGE ══ */}
-        <Sec title="Hero Banner Image" badge="Section 1 — Top of Page">
+        {/* HERO IMAGE */}
+        <Sec title="Hero Banner Image" badge="Top of Page">
           <F label="Hero Image" req hint="Recommended: 1440×600px · JPG/PNG/WEBP">
             <SingleImg
               preview={heroPrev} badge="Hero" hint="JPG/PNG/WEBP · 1440×600px"
@@ -794,229 +1100,477 @@ export default function KundaliniTTCAdminForm() {
         </Sec>
         <D />
 
-        {/* ══ 2. WHAT IS KUNDALINI YOGA ══ */}
-        <Sec title="What is Kundalini Yoga?" badge="Section 2 — Vintage Card">
+        {/* COURSE INFO CARD */}
+        <Sec title="Course Info Card" badge="Dynamic Pricing & Details">
+          <F label="Card Title">
+            <div className={styles.inputWrap}>
+              <input className={styles.input} {...register("courseInfoCardTitle")} placeholder="COURSE DETAILS" />
+            </div>
+          </F>
+          <F label="Fee Label">
+            <div className={styles.inputWrap}>
+              <input className={styles.input} {...register("courseInfoFeeLabel")} placeholder="COURSE FEE" />
+            </div>
+          </F>
+          <F label="Fee 'Starting From' Text">
+            <div className={styles.inputWrap}>
+              <input className={styles.input} {...register("courseInfoFeeFromText")} placeholder="starting from" />
+            </div>
+          </F>
+          <F label="Book Button Text">
+            <div className={styles.inputWrap}>
+              <input className={styles.input} {...register("courseInfoBookBtnText")} placeholder="BOOK NOW" />
+            </div>
+          </F>
+
+          <F label="Course Details Items">
+            <div>
+              {courseInfoDetails.map((detail, i) => (
+                <div key={i} className={styles.nestedCard} style={{ marginBottom: "0.8rem" }}>
+                  <div className={styles.nestedCardHeader}>
+                    <span className={styles.nestedCardNum}>Detail {i + 1}</span>
+                    {courseInfoDetails.length > 1 && (
+                      <button type="button" className={styles.removeNestedBtn}
+                        onClick={() => setCourseInfoDetails(courseInfoDetails.filter((_, idx) => idx !== i))}>
+                        ✕ Remove
+                      </button>
+                    )}
+                  </div>
+                  <div className={styles.nestedCardBody}>
+                    <div className={styles.grid2}>
+                      <div className={styles.fieldGroup}>
+                        <label className={styles.label}>Label</label>
+                        <div className={styles.inputWrap}>
+                          <input className={styles.input} value={detail.label} placeholder="DURATION"
+                            onChange={(e) => { const n = [...courseInfoDetails]; n[i] = { ...n[i], label: e.target.value }; setCourseInfoDetails(n); }} />
+                        </div>
+                      </div>
+                      <div className={styles.fieldGroup}>
+                        <label className={styles.label}>Value</label>
+                        <div className={styles.inputWrap}>
+                          <input className={styles.input} value={detail.value} placeholder="24 Days"
+                            onChange={(e) => { const n = [...courseInfoDetails]; n[i] = { ...n[i], value: e.target.value }; setCourseInfoDetails(n); }} />
+                        </div>
+                      </div>
+                      <div className={styles.fieldGroup} style={{ gridColumn: "1/-1" }}>
+                        <label className={styles.label}>Subtext (optional)</label>
+                        <div className={styles.inputWrap}>
+                          <input className={styles.input} value={detail.sub || ""} placeholder="As taught by Yogi Bhajan"
+                            onChange={(e) => { const n = [...courseInfoDetails]; n[i] = { ...n[i], sub: e.target.value }; setCourseInfoDetails(n); }} />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+              <button type="button" className={styles.addItemBtn}
+                onClick={() => setCourseInfoDetails([...courseInfoDetails, { label: "", value: "", sub: "" }])}>
+                ＋ Add Course Detail
+              </button>
+            </div>
+          </F>
+
+          <div style={{ marginTop: "1.5rem", paddingTop: "1rem", borderTop: "1px solid #e8d5b5" }}>
+            <h4 style={{ fontFamily: "'Cinzel', serif", fontSize: "0.9rem", fontWeight: 600, color: "#3d1d00", marginBottom: "0.5rem" }}>
+              💰 Course Card Pricing (Independent of batch pricing)
+            </h4>
+            <div className={styles.grid2}>
+              <div className={styles.fieldGroup}>
+                <label className={styles.label}>USD Current Price</label>
+                <div className={styles.inputWrap}>
+                  <input type="number" className={styles.input} {...register("courseInfoUsdPrice")} placeholder="999" />
+                </div>
+              </div>
+              <div className={styles.fieldGroup}>
+                <label className={styles.label}>INR Current Price</label>
+                <div className={styles.inputWrap}>
+                  <input type="number" className={styles.input} {...register("courseInfoInrPrice")} placeholder="82000" />
+                </div>
+              </div>
+              <div className={styles.fieldGroup}>
+                <label className={styles.label}>USD Original Price</label>
+                <div className={styles.inputWrap}>
+                  <input type="number" className={styles.input} {...register("courseInfoOriginalUsdPrice")} placeholder="1799" />
+                </div>
+              </div>
+              <div className={styles.fieldGroup}>
+                <label className={styles.label}>INR Original Price</label>
+                <div className={styles.inputWrap}>
+                  <input type="number" className={styles.input} {...register("courseInfoOriginalInrPrice")} placeholder="148000" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </Sec>
+        <D />
+
+        {/* WHAT IS KUNDALINI YOGA */}
+        <Sec title="What is Kundalini Yoga?" badge="Vintage Card">
           <F label="Card Title" req>
             <div className={`${styles.inputWrap} ${errors.whatIsTitle ? styles.inputError : ""}`}>
-              <input className={`${styles.input} ${styles.inputNoCount}`}
-                placeholder="What is Kundalini Yoga?" {...register("whatIsTitle", { required: "Required" })} />
+              <input className={styles.input} {...register("whatIsTitle", { required: "Required" })} />
             </div>
-            {errors.whatIsTitle && <p className={styles.errorMsg}>⚠ {errors.whatIsTitle.message}</p>}
           </F>
-          <F label="Paragraphs" hint="Add all paragraphs for this section. First para will appear at top.">
+          <F label="Section Image">
+            <SingleImg preview={whatIsImgPrev} badge="What Is Kundalini" hint="JPG/PNG/WEBP · 800×600px" error=""
+              onSelect={(f, p) => { setWhatIsImgFile(f); setWhatIsImgPrev(p); }}
+              onRemove={() => { setWhatIsImgFile(null); setWhatIsImgPrev(""); }} />
+          </F>
+          <F label="Image Alt Text">
+            <div className={styles.inputWrap}>
+              <input className={styles.input} {...register("whatIsImageAlt")} />
+            </div>
+          </F>
+          <F label="Paragraphs">
             {whatIsParaList.ids.map((id, i) => (
               <RichListItem key={id} id={id} index={i} total={whatIsParaList.ids.length}
                 onSave={whatIsParaList.save} onRemove={whatIsParaList.remove}
-                value={whatIsParaList.ref.current[id]}
-                ph="When we talk about the awakening of Kundalini…" />
+                value={whatIsParaList.ref.current[id]} />
             ))}
             <button type="button" className={styles.addItemBtn} onClick={whatIsParaList.add}>＋ Add Paragraph</button>
           </F>
         </Sec>
         <D />
 
-        {/* ══ 3. ACTIVATE KUNDALINI ══ */}
-        <Sec title="Activate Your Kundalini" badge="Section 3 — Light Section">
+        {/* ACTIVATE & BENEFITS */}
+        <Sec title="Activate & Benefits" badge="Light Section">
           <F label="Section Heading" req>
             <div className={styles.inputWrap}>
-              <input className={`${styles.input} ${styles.inputNoCount}`}
-                placeholder="Activate your Kundalini through the kundalini yoga TTC in rishikesh at AYM"
-                {...register("activateTitle")} />
+              <input className={styles.input} {...register("activateTitle")} />
             </div>
           </F>
-          <F label="Paragraphs" hint="Main body text for this section.">
+          <F label="Section Image">
+            <SingleImg preview={activateImgPrev} badge="Activate Section" hint="JPG/PNG/WEBP · 800×600px" error=""
+              onSelect={(f, p) => { setActivateImgFile(f); setActivateImgPrev(p); }}
+              onRemove={() => { setActivateImgFile(null); setActivateImgPrev(""); }} />
+          </F>
+          <F label="Image Alt Text">
+            <div className={styles.inputWrap}>
+              <input className={styles.input} {...register("activateImageAlt")} />
+            </div>
+          </F>
+          <F label="Paragraphs">
             {activateParaList.ids.map((id, i) => (
               <RichListItem key={id} id={id} index={i} total={activateParaList.ids.length}
                 onSave={activateParaList.save} onRemove={activateParaList.remove}
-                value={activateParaList.ref.current[id]}
-                ph="When approached with care, patience, proper guidance…" />
+                value={activateParaList.ref.current[id]} />
             ))}
             <button type="button" className={styles.addItemBtn} onClick={activateParaList.add}>＋ Add Paragraph</button>
           </F>
-        </Sec>
-        <D />
 
-        {/* ══ 4. BENEFITS CARD ══ */}
-        <Sec title="Benefits of Kundalini Yoga" badge="Section 3 — Inner Vintage Card">
-          <F label="Card Title" req>
-            <div className={styles.inputWrap}>
-              <input className={`${styles.input} ${styles.inputNoCount}`}
-                placeholder="What are the Benefits of Kundalini Yoga?" {...register("benefitsTitle")} />
-            </div>
-          </F>
-          <div className={styles.grid2}>
-            <F label="Intro Paragraph 1">
+          <div style={{ marginTop: "1.5rem", paddingTop: "1rem", borderTop: "1px solid #e8d5b5" }}>
+            <h4 style={{ fontFamily: "'Cinzel', serif", fontSize: "0.9rem", fontWeight: 600, color: "#3d1d00", marginBottom: "1rem" }}>✨ Benefits Card</h4>
+            <F label="Benefits Card Title" req>
               <div className={styles.inputWrap}>
-                <textarea className={`${styles.input} ${styles.textarea}`} rows={3}
-                  placeholder="Is Kundalini yoga the right choice for you?…"
-                  {...register("benefitsIntro1")} />
+                <input className={styles.input} {...register("benefitsTitle")} />
               </div>
             </F>
-            <F label="Intro Paragraph 2">
-              <div className={styles.inputWrap}>
-                <textarea className={`${styles.input} ${styles.textarea}`} rows={3}
-                  placeholder="You must know that enrolling in our Kundalini YTT course…"
-                  {...register("benefitsIntro2")} />
-              </div>
+            <div className={styles.grid2}>
+              <F label="Intro Paragraph 1">
+                <textarea className={`${styles.input} ${styles.textarea}`} rows={3} {...register("benefitsIntro1")} />
+              </F>
+              <F label="Intro Paragraph 2">
+                <textarea className={`${styles.input} ${styles.textarea}`} rows={3} {...register("benefitsIntro2")} />
+              </F>
+            </div>
+            <F label="Benefit Items">
+              <StrList items={benefitItems} label="Benefit"
+                onAdd={() => setBenefitItems((p) => [...p, ""])}
+                onRemove={(i) => { if (benefitItems.length <= 1) return; setBenefitItems((p) => p.filter((_, idx) => idx !== i)); }}
+                onUpdate={(i, v) => { const n = [...benefitItems]; n[i] = v; setBenefitItems(n); }} />
             </F>
           </div>
-          <F label="Benefit Items" hint="Each item will appear as a numbered benefit row.">
-            <StrList items={benefitItems} label="Benefit"
-              ph="It promotes spiritual growth, higher consciousness…"
-              onAdd={() => setBenefitItems((p) => [...p, ""])}
-              onRemove={(i) => { if (benefitItems.length <= 1) return; setBenefitItems((p) => p.filter((_, idx) => idx !== i)); }}
-              onUpdate={(i, v) => { const n = [...benefitItems]; n[i] = v; setBenefitItems(n); }} />
-          </F>
         </Sec>
         <D />
 
-        {/* ══ 5. COURSE HIGHLIGHTS CARD ══ */}
-        <Sec title="Course Highlights" badge="Section 3 — Inner Vintage Card">
+        {/* COURSE HIGHLIGHTS */}
+        <Sec title="Course Highlights" badge="Vintage Card">
           <F label="Card Title">
             <div className={styles.inputWrap}>
-              <input className={`${styles.input} ${styles.inputNoCount}`}
-                placeholder="Kundalini YTT Course Highlights at AYM in Rishikesh"
-                {...register("highlightsTitle")} />
+              <input className={styles.input} {...register("highlightsTitle")} />
             </div>
           </F>
           <F label="Intro Paragraph">
-            <div className={styles.inputWrap}>
-              <textarea className={`${styles.input} ${styles.textarea}`} rows={3}
-                placeholder="At AYM, we offer the best Kundalini yoga teacher training course in rishikesh…"
-                {...register("highlightsIntro")} />
-            </div>
+            <textarea className={`${styles.input} ${styles.textarea}`} rows={3} {...register("highlightsIntro")} />
           </F>
-          <F label="Highlight Cards" hint="Each card has a bold title and description.">
+          <F label="Highlight Cards">
             <HighlightManager items={highlightCards} onChange={setHighlightCards} />
           </F>
         </Sec>
         <D />
 
-        {/* ══ 6. SYLLABUS ACCORDION ══ */}
-        <Sec title="200-Hr Syllabus" badge="Section 4 — Accordion">
+        {/* SYLLABUS / CURRICULUM */}
+        <Sec title="200-Hr Syllabus" badge="Accordion + Images">
           <div className={styles.grid2}>
             <F label="Main Syllabus Title" req>
               <div className={styles.inputWrap}>
-                <input className={`${styles.input} ${styles.inputNoCount}`}
-                  placeholder="200-Hour Kundalini Yoga Teacher Training Syllabus"
-                  {...register("syllabusBigTitle")} />
+                <input className={styles.input} {...register("syllabusBigTitle")} />
               </div>
             </F>
-            <F label="School Name (Subtitle)">
+            <F label="School Name">
               <div className={styles.inputWrap}>
-                <input className={`${styles.input} ${styles.inputNoCount}`}
-                  placeholder="Aym Yoga School" {...register("syllabusSchool")} />
+                <input className={styles.input} {...register("syllabusSchool")} />
               </div>
             </F>
           </div>
+
+          <SubSec title="Syllabus Header Background">
+            <F label="Header Background Image">
+              <SingleImg preview={sylHeaderBgPrev} badge="Syllabus Header BG" hint="JPG/PNG/WEBP · 1440×500px" error=""
+                onSelect={(f, p) => { setSylHeaderBgFile(f); setSylHeaderBgPrev(p); }}
+                onRemove={() => { setSylHeaderBgFile(null); setSylHeaderBgPrev(""); }} />
+            </F>
+            <F label="Header Background Alt Text">
+              <div className={styles.inputWrap}>
+                <input className={styles.input} {...register("sylHeaderBgImageAlt")} />
+              </div>
+            </F>
+          </SubSec>
+
           <F label="Course Overview Label">
             <div className={styles.inputWrap}>
-              <input className={`${styles.input} ${styles.inputNoCount}`}
-                placeholder="Course Overview:" {...register("courseOverviewTitle")} />
+              <input className={styles.input} {...register("courseOverviewTitle")} />
+            </div>
+          </F>
+          <F label="Course Overview Badge Text">
+            <div className={styles.inputWrap}>
+              <input className={styles.input} {...register("courseOverviewBadgeText")} />
             </div>
           </F>
           <F label="Course Overview Paragraph">
-            <StableJodit
-              onSave={(v) => { courseOverviewParaRef.current = v; }}
-              value={courseOverviewParaRef.current} h={180}
-              ph="This comprehensive 200-hour Kundalini Yoga Teacher Training in India…" />
+            <StableJodit onSave={(v) => { courseOverviewParaRef.current = v; }} value={courseOverviewParaRef.current} />
           </F>
-          <F label="Syllabus Modules" hint="Each module = one accordion item. Add topics inside each module.">
+
+          <SubSec title="Curriculum Section Image">
+            <F label="Curriculum Image">
+              <SingleImg preview={curriculumImgPrev} badge="Curriculum" hint="JPG/PNG/WEBP · 700×500px" error=""
+                onSelect={(f, p) => { setCurriculumImgFile(f); setCurriculumImgPrev(p); }}
+                onRemove={() => { setCurriculumImgFile(null); setCurriculumImgPrev(""); }} />
+            </F>
+            <F label="Curriculum Image Alt Text">
+              <div className={styles.inputWrap}>
+                <input className={styles.input} {...register("curriculumImageAlt")} />
+              </div>
+            </F>
+          </SubSec>
+
+          <F label="Syllabus Modules">
             <SyllabusManager items={syllabusModules} onChange={setSyllabusModules} />
           </F>
-          <F label="Required Reading Box — Title">
+
+          <F label="Required Reading Box Title">
             <div className={styles.inputWrap}>
-              <input className={`${styles.input} ${styles.inputNoCount}`}
-                placeholder="Required Reading: Kundalini Yoga teacher training 200 hours India"
-                {...register("readingBoxTitle")} />
+              <input className={styles.input} {...register("readingBoxTitle")} />
             </div>
           </F>
           <F label="Required Reading Items">
             <StrList items={readingItems} label="Reading Item"
-              ph='"The Aquarian Teacher" by Yogi Bhajan'
               onAdd={() => setReadingItems((p) => [...p, ""])}
               onRemove={(i) => { if (readingItems.length <= 1) return; setReadingItems((p) => p.filter((_, idx) => idx !== i)); }}
               onUpdate={(i, v) => { const n = [...readingItems]; n[i] = v; setReadingItems(n); }} />
           </F>
           <div className={styles.grid2}>
-            <F label="Note Box — Label">
+            <F label="Note Box Label">
               <div className={styles.inputWrap}>
-                <input className={`${styles.input} ${styles.inputNoCount}`}
-                  placeholder="Note:" {...register("noteBoxTitle")} />
+                <input className={styles.input} {...register("noteBoxTitle")} />
               </div>
             </F>
-            <F label="Note Box — Paragraph">
-              <div className={styles.inputWrap}>
-                <textarea className={`${styles.input} ${styles.textarea}`} rows={3}
-                  placeholder="The above syllabus is in accordance with…"
-                  {...register("noteBoxPara")} />
-              </div>
+            <F label="Note Box Paragraph">
+              <textarea className={`${styles.input} ${styles.textarea}`} rows={3} {...register("noteBoxPara")} />
             </F>
           </div>
         </Sec>
         <D />
 
-        {/* ══ 7. ELIGIBILITY ══ */}
-        <Sec title="Eligibility" badge="Section 5 — Card 1">
+        {/* ELIGIBILITY */}
+        <Sec title="Eligibility" badge="Card + Image + Chips + Pills">
           <F label="Card Title">
             <div className={styles.inputWrap}>
-              <input className={`${styles.input} ${styles.inputNoCount}`}
-                placeholder="Who Is Eligible to Join the Kundalini Yoga Teacher Training Course in Rishikesh?"
-                {...register("eligibilityTitle")} />
+              <input className={styles.input} {...register("eligibilityTitle")} />
             </div>
           </F>
+
+          <SubSec title="Section Image">
+            <F label="Eligibility Image">
+              <SingleImg preview={eligibilityImgPrev} badge="Eligibility" hint="JPG/PNG/WEBP · 600×750px" error=""
+                onSelect={(f, p) => { setEligibilityImgFile(f); setEligibilityImgPrev(p); }}
+                onRemove={() => { setEligibilityImgFile(null); setEligibilityImgPrev(""); }} />
+            </F>
+            <F label="Image Alt Text">
+              <div className={styles.inputWrap}>
+                <input className={styles.input} {...register("eligibilityImageAlt")} />
+              </div>
+            </F>
+          </SubSec>
+
+          <SubSec title="Image Badge & Floating Chips">
+            <div className={styles.grid2}>
+              <F label="Badge Title">
+                <div className={styles.inputWrap}>
+                  <input className={styles.input} {...register("eligibilityBadgeTitle")} />
+                </div>
+              </F>
+              <F label="Badge Subtitle">
+                <div className={styles.inputWrap}>
+                  <input className={styles.input} {...register("eligibilityBadgeSub")} />
+                </div>
+              </F>
+              <F label="Chip 1 Number">
+                <div className={styles.inputWrap}>
+                  <input className={styles.input} {...register("eligibilityChip1Num")} />
+                </div>
+              </F>
+              <F label="Chip 1 Label">
+                <div className={styles.inputWrap}>
+                  <input className={styles.input} {...register("eligibilityChip1Label")} />
+                </div>
+              </F>
+              <F label="Chip 2 Number">
+                <div className={styles.inputWrap}>
+                  <input className={styles.input} {...register("eligibilityChip2Num")} />
+                </div>
+              </F>
+              <F label="Chip 2 Label">
+                <div className={styles.inputWrap}>
+                  <input className={styles.input} {...register("eligibilityChip2Label")} />
+                </div>
+              </F>
+            </div>
+          </SubSec>
+
           <F label="Paragraphs">
             {eligibilityParaList.ids.map((id, i) => (
               <RichListItem key={id} id={id} index={i} total={eligibilityParaList.ids.length}
                 onSave={eligibilityParaList.save} onRemove={eligibilityParaList.remove}
-                value={eligibilityParaList.ref.current[id]}
-                ph="Wondering if you will ever get the chance to complete your dream…" />
+                value={eligibilityParaList.ref.current[id]} />
             ))}
             <button type="button" className={styles.addItemBtn} onClick={eligibilityParaList.add}>＋ Add Paragraph</button>
           </F>
+
+          <SubSec title="Eligibility Pills">
+            <EligibilityPillsManager items={eligibilityPills} onChange={setEligibilityPills} />
+          </SubSec>
         </Sec>
         <D />
 
-        {/* ══ 8. LOCATION CARD ══ */}
-        <Sec title="Location — Is it Prime?" badge="Section 5 — Card 2">
+        {/* LOCATION */}
+        <Sec title="Location" badge="Banner + Images + Stats">
           <F label="Card Title">
             <div className={styles.inputWrap}>
-              <input className={`${styles.input} ${styles.inputNoCount}`}
-                placeholder="Is the Location Prime for Yoga Learning?"
-                {...register("locationTitle")} />
+              <input className={styles.input} {...register("locationTitle")} />
             </div>
           </F>
+
+          <SubSec title="Location Banner Image">
+            <F label="Banner Image">
+              <SingleImg preview={locationBannerPrev} badge="Location Banner" hint="JPG/PNG/WEBP · 1440×500px" error=""
+                onSelect={(f, p) => { setLocationBannerFile(f); setLocationBannerPrev(p); }}
+                onRemove={() => { setLocationBannerFile(null); setLocationBannerPrev(""); }} />
+            </F>
+            <F label="Banner Image Alt Text">
+              <div className={styles.inputWrap}>
+                <input className={styles.input} {...register("locationBannerImageAlt")} />
+              </div>
+            </F>
+          </SubSec>
+
+          <SubSec title="Location Banner Stats">
+            <LocationStatsManager items={locationStats} onChange={setLocationStats} />
+          </SubSec>
+
           <F label="Paragraphs">
             {locationParaList.ids.map((id, i) => (
               <RichListItem key={id} id={id} index={i} total={locationParaList.ids.length}
                 onSave={locationParaList.save} onRemove={locationParaList.remove}
-                value={locationParaList.ref.current[id]}
-                ph="When learning yoga, we understand how much the surroundings…" />
+                value={locationParaList.ref.current[id]} />
             ))}
             <button type="button" className={styles.addItemBtn} onClick={locationParaList.add}>＋ Add Paragraph</button>
           </F>
+
+          <SubSec title="Location Stack Images">
+            <div className={styles.grid2}>
+              <F label="Top Image">
+                <SingleImg preview={locationStackTopPrev} badge="Top Image" hint="JPG/PNG/WEBP · 500×300px" error=""
+                  onSelect={(f, p) => { setLocationStackTopFile(f); setLocationStackTopPrev(p); }}
+                  onRemove={() => { setLocationStackTopFile(null); setLocationStackTopPrev(""); }} />
+              </F>
+              <F label="Bottom Image">
+                <SingleImg preview={locationStackBottomPrev} badge="Bottom Image" hint="JPG/PNG/WEBP · 500×300px" error=""
+                  onSelect={(f, p) => { setLocationStackBottomFile(f); setLocationStackBottomPrev(p); }}
+                  onRemove={() => { setLocationStackBottomFile(null); setLocationStackBottomPrev(""); }} />
+              </F>
+            </div>
+            <div className={styles.grid2} style={{ marginTop: "0.75rem" }}>
+              <F label="Top Image Alt Text">
+                <div className={styles.inputWrap}>
+                  <input className={styles.input} {...register("locationStackTopImageAlt")} />
+                </div>
+              </F>
+              <F label="Bottom Image Alt Text">
+                <div className={styles.inputWrap}>
+                  <input className={styles.input} {...register("locationStackBottomImageAlt")} />
+                </div>
+              </F>
+              <F label="Top Image Label">
+                <div className={styles.inputWrap}>
+                  <input className={styles.input} {...register("locationStackTopLabel")} />
+                </div>
+              </F>
+              <F label="Bottom Image Label">
+                <div className={styles.inputWrap}>
+                  <input className={styles.input} {...register("locationStackBottomLabel")} />
+                </div>
+              </F>
+            </div>
+          </SubSec>
         </Sec>
         <D />
 
-        {/* ══ 9. FACILITIES CARD ══ */}
-        <Sec title="Facilities Included in Course Fee" badge="Section 5 — Card 3">
+        {/* FACILITIES */}
+        <Sec title="Facilities" badge="Card + Icon Grid">
           <F label="Card Title">
             <div className={styles.inputWrap}>
-              <input className={`${styles.input} ${styles.inputNoCount}`}
-                placeholder="What Facilities are Included in the Course Fee?"
-                {...register("facilitiesTitle")} />
+              <input className={styles.input} {...register("facilitiesTitle")} />
             </div>
           </F>
-          <F label="Intro Paragraph">
-            <div className={styles.inputWrap}>
-              <textarea className={`${styles.input} ${styles.textarea}`} rows={3}
-                placeholder="Aspirants often worry that learning yoga will break the bank…"
-                {...register("facilitiesIntro")} />
-            </div>
+          <F label="Intro Paragraph (plain text)">
+            <textarea className={`${styles.input} ${styles.textarea}`} rows={3} {...register("facilitiesIntro")} />
           </F>
-          <F label="Facility Items" hint="Each item appears as a numbered row.">
+          <F label="Intro Paragraph (Rich Text)">
+            <StableJodit onSave={(v) => { facilitiesIntroRichRef.current = v; }} value={facilitiesIntroRichRef.current} />
+          </F>
+
+          <SubSec title="Facilities Video Banner">
+            <F label="Video URL (MP4)">
+              <div className={styles.inputWrap}>
+                <input className={styles.input} {...register("facilitiesVideoUrl")} placeholder="https://cdn.example.com/video.mp4" />
+              </div>
+            </F>
+            <F label="Video Poster Image">
+              <SingleImg preview={facilitiesPosterPrev} badge="Video Poster" hint="JPG/PNG/WEBP · 1440×600px" error=""
+                onSelect={(f, p) => { setFacilitiesPosterFile(f); setFacilitiesPosterPrev(p); }}
+                onRemove={() => { setFacilitiesPosterFile(null); setFacilitiesPosterPrev(""); }} />
+            </F>
+            <div className={styles.grid2}>
+              <F label="Video Tag Line">
+                <div className={styles.inputWrap}>
+                  <input className={styles.input} {...register("facilitiesVideoTag")} />
+                </div>
+              </F>
+              <F label="Video Overlay Text">
+                <div className={styles.inputWrap}>
+                  <input className={styles.input} {...register("facilitiesVideoText")} />
+                </div>
+              </F>
+            </div>
+          </SubSec>
+
+          <SubSec title="Facility Icon Cards">
+            <FacilityIconCardsManager items={facilityIconCards} onChange={setFacilityIconCards} />
+          </SubSec>
+
+          <F label="Facility List Items">
             <StrList items={facilityItems} label="Facility Item"
-              ph="Accommodation in spacious and furnished rooms…"
               onAdd={() => setFacilityItems((p) => [...p, ""])}
               onRemove={(i) => { if (facilityItems.length <= 1) return; setFacilityItems((p) => p.filter((_, idx) => idx !== i)); }}
               onUpdate={(i, v) => { const n = [...facilityItems]; n[i] = v; setFacilityItems(n); }} />
@@ -1024,175 +1578,419 @@ export default function KundaliniTTCAdminForm() {
         </Sec>
         <D />
 
-        {/* ══ 10. DAILY SCHEDULE ══ */}
-        <Sec title="Daily Schedule" badge="Section 6 — Time Table + Images">
-          <F label="Section Title">
+        {/* DAILY SCHEDULE */}
+        <Sec title="Daily Schedule" badge="Time Table + Images + Stats + Quote">
+          <F label="Section Tag Line">
             <div className={styles.inputWrap}>
-              <input className={`${styles.input} ${styles.inputNoCount}`}
-                placeholder="Daily Schedule" {...register("scheduleSectionTitle")} />
+              <input className={styles.input} {...register("scheduleTagLine")} placeholder="24-DAY RESIDENTIAL PROGRAM" />
             </div>
           </F>
-          <F label="Schedule Rows" hint="Time (left column) + Activity (right column).">
+          <F label="Section Title">
+            <div className={styles.inputWrap}>
+              <input className={styles.input} {...register("scheduleSectionTitle")} placeholder="Daily Schedule" />
+            </div>
+          </F>
+          <F label="Header Subtitle">
+            <div className={styles.inputWrap}>
+              <textarea className={`${styles.input} ${styles.textarea}`} rows={2} {...register("scheduleHeaderSub")} />
+            </div>
+          </F>
+          <F label="Schedule Rows">
             <ScheduleManager items={scheduleItems} onChange={setScheduleItems} />
           </F>
+          
+          <SubSec title="Phase Labels (Colors & Icons)">
+            <div>
+              {schedulePhaseLabels.map((phase, idx) => (
+                <div key={idx} className={styles.nestedCard} style={{ marginBottom: "0.8rem" }}>
+                  <div className={styles.nestedCardHeader}>
+                    <span className={styles.nestedCardNum}>Phase {idx + 1}</span>
+                    {schedulePhaseLabels.length > 1 && (
+                      <button type="button" className={styles.removeNestedBtn} 
+                        onClick={() => setSchedulePhaseLabels(schedulePhaseLabels.filter((_, i) => i !== idx))}>
+                        ✕ Remove
+                      </button>
+                    )}
+                  </div>
+                  <div className={styles.nestedCardBody}>
+                    <div className={styles.grid2}>
+                      <div className={styles.fieldGroup}>
+                        <label className={styles.label}>Label (with emoji)</label>
+                        <div className={styles.inputWrap}>
+                          <input className={styles.input} value={phase.label} placeholder="🌅 Morning Practice"
+                            onChange={(e) => { const n = [...schedulePhaseLabels]; n[idx] = { ...n[idx], label: e.target.value }; setSchedulePhaseLabels(n); }} />
+                        </div>
+                      </div>
+                      <div className={styles.fieldGroup}>
+                        <label className={styles.label}>Color (hex)</label>
+                        <div className={styles.inputWrap}>
+                          <input className={styles.input} value={phase.color} placeholder="#e8720c"
+                            onChange={(e) => { const n = [...schedulePhaseLabels]; n[idx] = { ...n[idx], color: e.target.value }; setSchedulePhaseLabels(n); }} />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+              <button type="button" className={styles.addItemBtn} 
+                onClick={() => setSchedulePhaseLabels([...schedulePhaseLabels, { label: "", color: "#000000" }])}>
+                ＋ Add Phase
+              </button>
+            </div>
+          </SubSec>
+          
+          <SubSec title="Bottom Note Strip">
+            <div className={styles.grid2}>
+              <F label="Note Icon">
+                <div className={styles.inputWrap}>
+                  <input className={styles.input} {...register("scheduleNoteIcon")} placeholder="📌" />
+                </div>
+              </F>
+              <F label="Note Text">
+                <div className={styles.inputWrap}>
+                  <input className={styles.input} {...register("scheduleNoteText")} />
+                </div>
+              </F>
+            </div>
+          </SubSec>
+          
+          <SubSec title="Schedule Stats">
+            <div>
+              {scheduleStats.map((stat, idx) => (
+                <div key={idx} className={styles.listItemRow} style={{ marginBottom: "0.5rem", gap: "0.5rem" }}>
+                  <span className={styles.listNum}>{idx + 1}</span>
+                  <div className={styles.inputWrap} style={{ flex: "0 0 70px" }}>
+                    <input className={styles.input} value={stat.icon} placeholder="⏰"
+                      onChange={(e) => { const n = [...scheduleStats]; n[idx] = { ...n[idx], icon: e.target.value }; setScheduleStats(n); }} />
+                  </div>
+                  <div className={styles.inputWrap} style={{ flex: "0 0 80px" }}>
+                    <input className={styles.input} value={stat.num} placeholder="14+"
+                      onChange={(e) => { const n = [...scheduleStats]; n[idx] = { ...n[idx], num: e.target.value }; setScheduleStats(n); }} />
+                  </div>
+                  <div className={`${styles.inputWrap} ${styles.listInput}`}>
+                    <input className={styles.input} value={stat.label} placeholder="Hrs Practice"
+                      onChange={(e) => { const n = [...scheduleStats]; n[idx] = { ...n[idx], label: e.target.value }; setScheduleStats(n); }} />
+                  </div>
+                  <button type="button" className={styles.removeItemBtn} 
+                    onClick={() => { if (scheduleStats.length > 1) setScheduleStats(scheduleStats.filter((_, i) => i !== idx)); }}
+                    disabled={scheduleStats.length <= 1}>✕</button>
+                </div>
+              ))}
+              <button type="button" className={styles.addItemBtn} 
+                onClick={() => setScheduleStats([...scheduleStats, { icon: "", num: "", label: "" }])}>
+                ＋ Add Stat
+              </button>
+            </div>
+          </SubSec>
+          
+          <SubSec title="Quote Card">
+            <F label="Quote Text">
+              <div className={styles.inputWrap}>
+                <textarea className={`${styles.input} ${styles.textarea}`} rows={3} {...register("scheduleQuoteText")} />
+              </div>
+            </F>
+            <F label="Quote Author">
+              <div className={styles.inputWrap}>
+                <input className={styles.input} {...register("scheduleQuoteAuthor")} placeholder="— Yogi Bhajan" />
+              </div>
+            </F>
+          </SubSec>
+          
           <div className={styles.grid2}>
-            <F label="Schedule Photo 1" hint="Portrait-style yoga image · 500×660px">
-              <SingleImg preview={schedImg1Prev} badge="Photo 1" hint="JPG/PNG · portrait"
-                error=""
-                onSelect={(f, p) => { setSchedImg1File(f); setSchedImg1Prev(p); }}
-                onRemove={() => { setSchedImg1File(null); setSchedImg1Prev(""); }} />
-            </F>
-            <F label="Schedule Photo 2" hint="Portrait-style yoga image · 500×660px">
-              <SingleImg preview={schedImg2Prev} badge="Photo 2" hint="JPG/PNG · portrait"
-                error=""
-                onSelect={(f, p) => { setSchedImg2File(f); setSchedImg2Prev(p); }}
-                onRemove={() => { setSchedImg2File(null); setSchedImg2Prev(""); }} />
-            </F>
+            <SubSec title="Schedule Photo 1">
+              <F label="Image">
+                <SingleImg preview={schedImg1Prev} badge="Photo 1" hint="JPG/PNG · portrait" error=""
+                  onSelect={(f, p) => { setSchedImg1File(f); setSchedImg1Prev(p); }}
+                  onRemove={() => { setSchedImg1File(null); setSchedImg1Prev(""); }} />
+              </F>
+              <F label="Image Tag Text">
+                <div className={styles.inputWrap}>
+                  <input className={styles.input} {...register("scheduleImg1Tag")} placeholder="Morning Practice" />
+                </div>
+              </F>
+            </SubSec>
+            <SubSec title="Schedule Photo 2">
+              <F label="Image">
+                <SingleImg preview={schedImg2Prev} badge="Photo 2" hint="JPG/PNG · portrait" error=""
+                  onSelect={(f, p) => { setSchedImg2File(f); setSchedImg2Prev(p); }}
+                  onRemove={() => { setSchedImg2File(null); setSchedImg2Prev(""); }} />
+              </F>
+              <F label="Image Tag Text">
+                <div className={styles.inputWrap}>
+                  <input className={styles.input} {...register("scheduleImg2Tag")} placeholder="Evening Sadhana" />
+                </div>
+              </F>
+            </SubSec>
           </div>
         </Sec>
         <D />
 
-        {/* ══ 11. WHY CHOOSE AYM ══ */}
-        <Sec title="Why Choose AYM Yoga School?" badge="Section 7 — Cards + Class Image">
+        {/* WHY CHOOSE AYM */}
+        <Sec title="Why Choose AYM" badge="Cards + Class Image">
           <F label="Section Title">
             <div className={styles.inputWrap}>
-              <input className={`${styles.input} ${styles.inputNoCount}`}
-                placeholder="Why Choose AYM Yoga School?" {...register("whyAYMTitle")} />
+              <input className={styles.input} {...register("whyAYMTitle")} />
             </div>
           </F>
-          <F label="Why Cards" hint="Each card shows a number, bold label and description.">
+          <F label="Why Cards">
             <WhyCardManager items={whyCards} onChange={setWhyCards} />
           </F>
-          <F label="Class Group Photo" hint="Wide yoga class photo below the cards · 1200×500px">
-            <SingleImg preview={classPrev} badge="Class Photo" hint="JPG/PNG/WEBP · 1200×500px"
-              error=""
+          <F label="Class Group Photo">
+            <SingleImg preview={classPrev} badge="Class Photo" hint="JPG/PNG/WEBP · 1200×500px" error=""
               onSelect={(f, p) => { setClassFile(f); setClassPrev(p); }}
               onRemove={() => { setClassFile(null); setClassPrev(""); }} />
           </F>
         </Sec>
         <D />
 
-        {/* ══ 12. WHY RISHIKESH CARD ══ */}
-        <Sec title="Why Choose Rishikesh?" badge="Section 9 — Card 1">
-          <F label="Card Title">
+        {/* WHY RISHIKESH BANNER SECTION */}
+        <Sec title="Why Rishikesh Banner" badge="Section 9 - Top Banner">
+          <F label="Banner Image" hint="Full-width banner image · Recommended: 1440×500px">
+            <SingleImg preview={whyRishikeshBannerPrev} badge="Rishikesh Banner" hint="JPG/PNG/WEBP · 1440×500px" error=""
+              onSelect={(f, p) => { setWhyRishikeshBannerFile(f); setWhyRishikeshBannerPrev(p); }}
+              onRemove={() => { setWhyRishikeshBannerFile(null); setWhyRishikeshBannerPrev(""); }} />
+          </F>
+          <F label="Banner Image Alt Text">
             <div className={styles.inputWrap}>
-              <input className={`${styles.input} ${styles.inputNoCount}`}
-                placeholder="Why choose Kundalini Yoga classes and training in rishikesh?"
-                {...register("whyRishikeshTitle")} />
+              <input className={styles.input} {...register("whyRishikeshBannerImageAlt")} placeholder="Rishikesh Himalayan landscape" />
             </div>
           </F>
-
-          {/* Spiritual significance sub-section */}
-          <div className={styles.nestedCard} style={{ marginBottom: "1rem" }}>
-            <div className={styles.nestedCardHeader}>
-              <span className={styles.nestedCardNum}>Sub-section 1 — Spiritual Significance</span>
+          <F label="Banner Tag Line">
+            <div className={styles.inputWrap}>
+              <input className={styles.input} {...register("whyRishikeshBannerTag")} placeholder="Sacred City · Yoga Capital of the World" />
             </div>
-            <div className={styles.nestedCardBody}>
-              <F label="Sub-heading">
+          </F>
+          <F label="Card Title">
+            <div className={styles.inputWrap}>
+              <input className={styles.input} {...register("whyRishikeshTitle")} />
+            </div>
+          </F>
+          
+          <SubSec title="Banner Stats">
+            <p className={styles.fieldHint}>Statistics shown on the banner overlay</p>
+            <div>
+              {whyRishikeshBannerStats.map((stat, idx) => (
+                <div key={idx} className={styles.listItemRow} style={{ marginBottom: "0.5rem", gap: "0.5rem" }}>
+                  <span className={styles.listNum}>{idx + 1}</span>
+                  <div className={styles.inputWrap} style={{ flex: "0 0 100px" }}>
+                    <input className={styles.input} value={stat.num} placeholder="5000+"
+                      onChange={(e) => { const n = [...whyRishikeshBannerStats]; n[idx] = { ...n[idx], num: e.target.value }; setWhyRishikeshBannerStats(n); }} />
+                  </div>
+                  <div className={`${styles.inputWrap} ${styles.listInput}`}>
+                    <input className={styles.input} value={stat.label} placeholder="Years of yoga heritage"
+                      onChange={(e) => { const n = [...whyRishikeshBannerStats]; n[idx] = { ...n[idx], label: e.target.value }; setWhyRishikeshBannerStats(n); }} />
+                  </div>
+                  <button type="button" className={styles.removeItemBtn} 
+                    onClick={() => { if (whyRishikeshBannerStats.length > 1) setWhyRishikeshBannerStats(whyRishikeshBannerStats.filter((_, i) => i !== idx)); }}
+                    disabled={whyRishikeshBannerStats.length <= 1}>✕</button>
+                </div>
+              ))}
+              <button type="button" className={styles.addItemBtn} 
+                onClick={() => setWhyRishikeshBannerStats([...whyRishikeshBannerStats, { num: "", label: "" }])}>
+                ＋ Add Stat
+              </button>
+            </div>
+          </SubSec>
+        </Sec>
+        <D />
+
+        {/* SPIRITUAL & NATURAL PILLARS */}
+        <Sec title="Spiritual & Natural Pillars" badge="Section 9 - Left Column">
+          <div className={styles.grid2}>
+            <SubSec title="Spiritual Pillar">
+              <F label="Icon">
                 <div className={styles.inputWrap}>
-                  <input className={`${styles.input} ${styles.inputNoCount}`}
-                    placeholder="Spiritual significance of Rishikesh:"
-                    {...register("spiritualTitle")} />
+                  <input className={styles.input} {...register("spiritualIcon")} placeholder="🕉️" />
                 </div>
               </F>
-              <F label="Paragraph">
-                <StableJodit onSave={(v) => { spiritualParaRef.current = v; }}
-                  value={spiritualParaRef.current} h={150}
-                  ph="Rishikesh, situated on the banks of the sacred Ganges River…" />
+              <F label="Title">
+                <div className={styles.inputWrap}>
+                  <input className={styles.input} {...register("spiritualTitle")} />
+                </div>
               </F>
-            </div>
+              <F label="Content (Rich Text)">
+                <StableJodit onSave={(v) => { spiritualParaRef.current = v; }} value={spiritualParaRef.current} />
+              </F>
+            </SubSec>
+            <SubSec title="Natural Pillar">
+              <F label="Icon">
+                <div className={styles.inputWrap}>
+                  <input className={styles.input} {...register("naturalIcon")} placeholder="🌿" />
+                </div>
+              </F>
+              <F label="Title">
+                <div className={styles.inputWrap}>
+                  <input className={styles.input} {...register("naturalTitle")} />
+                </div>
+              </F>
+              <F label="Content (Rich Text)">
+                <StableJodit onSave={(v) => { naturalParaRef.current = v; }} value={naturalParaRef.current} />
+              </F>
+            </SubSec>
           </div>
+        </Sec>
+        <D />
 
-          {/* Natural setting sub-section */}
-          <div className={styles.nestedCard} style={{ marginBottom: "1rem" }}>
-            <div className={styles.nestedCardHeader}>
-              <span className={styles.nestedCardNum}>Sub-section 2 — Natural Setting</span>
-            </div>
-            <div className={styles.nestedCardBody}>
-              <F label="Sub-heading">
+        {/* TYPES & TOP SCHOOLS */}
+        <Sec title="Types & Top Schools" badge="Section 9 - Right Column">
+          <div className={styles.grid2}>
+            <SubSec title="Types of Kundalini Classes">
+              <F label="Icon">
                 <div className={styles.inputWrap}>
-                  <input className={`${styles.input} ${styles.inputNoCount}`}
-                    placeholder="Natural setting and serene environment of Rishikesh:"
-                    {...register("naturalTitle")} />
+                  <input className={styles.input} {...register("typesIcon")} placeholder="📋" />
                 </div>
               </F>
-              <F label="Paragraph">
-                <StableJodit onSave={(v) => { naturalParaRef.current = v; }}
-                  value={naturalParaRef.current} h={150}
-                  ph="The tranquil ambiance, combined with the region's powerful energy…" />
-              </F>
-            </div>
-          </div>
-
-          {/* Types of classes */}
-          <div className={styles.nestedCard} style={{ marginBottom: "1rem" }}>
-            <div className={styles.nestedCardHeader}>
-              <span className={styles.nestedCardNum}>Sub-section 3 — Types of Classes</span>
-            </div>
-            <div className={styles.nestedCardBody}>
-              <F label="Sub-heading">
+              <F label="Title">
                 <div className={styles.inputWrap}>
-                  <input className={`${styles.input} ${styles.inputNoCount}`}
-                    placeholder="Types of Kundalini Yoga Classes in Rishikesh"
-                    {...register("typesTitle")} />
+                  <input className={styles.input} {...register("typesTitle")} />
                 </div>
               </F>
-              <F label="Bullet List Items">
+              <F label="List Items">
                 <StrList items={typesItems} label="Type Item"
-                  ph="Beginner to advanced kundalini classes"
                   onAdd={() => setTypesItems((p) => [...p, ""])}
                   onRemove={(i) => { if (typesItems.length <= 1) return; setTypesItems((p) => p.filter((_, idx) => idx !== i)); }}
                   onUpdate={(i, v) => { const n = [...typesItems]; n[i] = v; setTypesItems(n); }} />
               </F>
-            </div>
-          </div>
-
-          {/* Top Schools */}
-          <div className={styles.nestedCard}>
-            <div className={styles.nestedCardHeader}>
-              <span className={styles.nestedCardNum}>Sub-section 4 — Top Schools</span>
-            </div>
-            <div className={styles.nestedCardBody}>
-              <div className={styles.grid2}>
-                <F label="Sub-heading">
-                  <div className={styles.inputWrap}>
-                    <input className={`${styles.input} ${styles.inputNoCount}`}
-                      placeholder="Top Kundalini Yoga Schools and Centers in Rishikesh"
-                      {...register("topSchoolsTitle")} />
-                  </div>
-                </F>
-                <F label="Paragraph">
-                  <div className={styles.inputWrap}>
-                    <textarea className={`${styles.input} ${styles.textarea}`} rows={3}
-                      placeholder="In recent times, Kundalini yoga has become popular…"
-                      {...register("topSchoolsPara")} />
-                  </div>
-                </F>
-              </div>
-            </div>
+            </SubSec>
+            <SubSec title="Top Schools">
+              <F label="Icon">
+                <div className={styles.inputWrap}>
+                  <input className={styles.input} {...register("topSchoolsIcon")} placeholder="🏆" />
+                </div>
+              </F>
+              <F label="Title">
+                <div className={styles.inputWrap}>
+                  <input className={styles.input} {...register("topSchoolsTitle")} />
+                </div>
+              </F>
+              <F label="Paragraph">
+                <div className={styles.inputWrap}>
+                  <textarea className={`${styles.input} ${styles.textarea}`} rows={3} {...register("topSchoolsPara")} />
+                </div>
+              </F>
+              <F label="AYM Pill Text">
+                <div className={styles.inputWrap}>
+                  <input className={styles.input} {...register("aymPillText")} placeholder="AYM Yoga School — Ranked among Rishikesh's finest" />
+                </div>
+              </F>
+            </SubSec>
           </div>
         </Sec>
         <D />
 
-        {/* ══ 13. REFUND POLICY ══ */}
-        <Sec title="Refund Policy" badge="Section 9 — Card 2">
-          <F label="Card Title">
+        {/* REFUND POLICY SECTION */}
+        <Sec title="Refund Policy" badge="Section 9 - Refund Cards">
+          <F label="Section Tag Line">
             <div className={styles.inputWrap}>
-              <input className={`${styles.input} ${styles.inputNoCount}`}
-                placeholder="Refund Policy - AYM Yoga School" {...register("refundTitle")} />
+              <input className={styles.input} {...register("refundTagLine")} placeholder="TRANSPARENCY & TRUST" />
             </div>
           </F>
-          <F label="Refund Policy Items" hint="Each item appears as a numbered policy card.">
+          <F label="Card Title">
+            <div className={styles.inputWrap}>
+              <input className={styles.input} {...register("refundTitle")} />
+            </div>
+          </F>
+          <F label="Header Subtitle">
+            <div className={styles.inputWrap}>
+              <textarea className={`${styles.input} ${styles.textarea}`} rows={2} {...register("refundHeaderSub")} />
+            </div>
+          </F>
+          
+          <SubSec title="Refund Policy Items">
+            <p className={styles.fieldHint}>Each item appears as a numbered policy card. Icons cycle through the list below.</p>
             <StrList items={refundItems} label="Policy Item"
-              ph="An advance course fee will not be refundable…"
               onAdd={() => setRefundItems((p) => [...p, ""])}
               onRemove={(i) => { if (refundItems.length <= 1) return; setRefundItems((p) => p.filter((_, idx) => idx !== i)); }}
               onUpdate={(i, v) => { const n = [...refundItems]; n[i] = v; setRefundItems(n); }} />
-          </F>
+          </SubSec>
+          
+          <SubSec title="Refund Icons (Cycle Order)">
+            <p className={styles.fieldHint}>Icons that cycle through the policy cards (in order)</p>
+            <div className={styles.listItemRow} style={{ gap: "0.5rem", flexWrap: "wrap" }}>
+              {refundIcons.map((icon, idx) => (
+                <div key={idx} className={styles.inputWrap} style={{ flex: "0 0 80px" }}>
+                  <input className={styles.input} value={icon} placeholder="💰"
+                    onChange={(e) => { const n = [...refundIcons]; n[idx] = e.target.value; setRefundIcons(n); }} />
+                </div>
+              ))}
+              <button type="button" className={styles.addItemBtn} 
+                onClick={() => setRefundIcons([...refundIcons, "✨"])}>
+                ＋ Add Icon
+              </button>
+            </div>
+          </SubSec>
+          
+          <SubSec title="Refund Card Colors">
+            <p className={styles.fieldHint}>Colors for each policy card (cycles in order)</p>
+            <div>
+              {refundColors.map((color, idx) => (
+                <div key={idx} className={styles.nestedCard} style={{ marginBottom: "0.5rem" }}>
+                  <div className={styles.nestedCardHeader}>
+                    <span className={styles.nestedCardNum}>Card {idx + 1} Colors</span>
+                    {refundColors.length > 1 && (
+                      <button type="button" className={styles.removeNestedBtn} 
+                        onClick={() => setRefundColors(refundColors.filter((_, i) => i !== idx))}>
+                        ✕ Remove
+                      </button>
+                    )}
+                  </div>
+                  <div className={styles.nestedCardBody}>
+                    <div className={styles.grid3}>
+                      <div className={styles.fieldGroup}>
+                        <label className={styles.label}>Color (hex)</label>
+                        <input className={styles.input} value={color.color} placeholder="#3d6000"
+                          onChange={(e) => { const n = [...refundColors]; n[idx] = { ...n[idx], color: e.target.value }; setRefundColors(n); }} />
+                      </div>
+                      <div className={styles.fieldGroup}>
+                        <label className={styles.label}>Background</label>
+                        <input className={styles.input} value={color.bg} placeholder="rgba(61,96,0,0.07)"
+                          onChange={(e) => { const n = [...refundColors]; n[idx] = { ...n[idx], bg: e.target.value }; setRefundColors(n); }} />
+                      </div>
+                      <div className={styles.fieldGroup}>
+                        <label className={styles.label}>Border</label>
+                        <input className={styles.input} value={color.border} placeholder="rgba(61,96,0,0.2)"
+                          onChange={(e) => { const n = [...refundColors]; n[idx] = { ...n[idx], border: e.target.value }; setRefundColors(n); }} />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+              <button type="button" className={styles.addItemBtn} 
+                onClick={() => setRefundColors([...refundColors, { color: "#000000", bg: "rgba(0,0,0,0.07)", border: "rgba(0,0,0,0.2)" }])}>
+                ＋ Add Color Set
+              </button>
+            </div>
+          </SubSec>
+          
+          <SubSec title="Refund Trust Strip">
+            <p className={styles.fieldHint}>Bottom trust badges with icons and text</p>
+            <div>
+              {refundTrustItems.map((item, idx) => (
+                <div key={idx} className={styles.listItemRow} style={{ marginBottom: "0.5rem", gap: "0.5rem" }}>
+                  <span className={styles.listNum}>{idx + 1}</span>
+                  <div className={styles.inputWrap} style={{ flex: "0 0 80px" }}>
+                    <input className={styles.input} value={item.icon} placeholder="📩"
+                      onChange={(e) => { const n = [...refundTrustItems]; n[idx] = { ...n[idx], icon: e.target.value }; setRefundTrustItems(n); }} />
+                  </div>
+                  <div className={`${styles.inputWrap} ${styles.listInput}`}>
+                    <input className={styles.input} value={item.text} placeholder="All cancellations must be made via email"
+                      onChange={(e) => { const n = [...refundTrustItems]; n[idx] = { ...n[idx], text: e.target.value }; setRefundTrustItems(n); }} />
+                  </div>
+                  <button type="button" className={styles.removeItemBtn} 
+                    onClick={() => { if (refundTrustItems.length > 1) setRefundTrustItems(refundTrustItems.filter((_, i) => i !== idx)); }}
+                    disabled={refundTrustItems.length <= 1}>✕</button>
+                </div>
+              ))}
+              <button type="button" className={styles.addItemBtn} 
+                onClick={() => setRefundTrustItems([...refundTrustItems, { icon: "", text: "" }])}>
+                ＋ Add Trust Item
+              </button>
+            </div>
+          </SubSec>
         </Sec>
         <D />
 
-        {/* ══ 14. PAGE SETTINGS ══ */}
+        {/* PAGE SETTINGS */}
         <Sec title="Page Settings" badge="Status">
           <F label="Status">
             <div className={styles.selectWrap}>
@@ -1204,12 +2002,12 @@ export default function KundaliniTTCAdminForm() {
             </div>
           </F>
         </Sec>
+      </div>
 
-      </div>{/* /formCard */}
-
-      {/* Actions */}
       <div className={styles.formActions}>
-        <Link href="/admin/yogacourse/kundalini-yoga/kundalini-yoga-teacher-training" className={styles.cancelBtn}>← Cancel</Link>
+        <Link href="/admin/yogacourse/kundalini-yoga/kundalini-yoga-teacher-training" className={styles.cancelBtn}>
+          ← Cancel
+        </Link>
         <button type="button"
           className={`${styles.submitBtn} ${isSubmitting ? styles.submitBtnLoading : ""}`}
           onClick={handleSubmit(onSubmit)} disabled={isSubmitting}>
