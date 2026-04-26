@@ -1,3 +1,9 @@
+/* ════════════════════════════════════════════════
+   AccreditationSection — Fully Responsive CSS
+   Breakpoints: 320 | 480 | 600 | 768 | 900 | 1024 | 1280 | 1600+
+   ════════════════════════════════════════════════ */
+
+/* ── Hero ── */
 .heroSection {
   position: relative;
   z-index: 1;
@@ -13,6 +19,7 @@
   height: auto;
   display: block;
   object-fit: cover;
+  max-height: 540px;
 }
 
 .heroOverlay {
@@ -22,25 +29,26 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0.35);
   color: white;
   text-align: center;
   padding: 2rem;
 }
 
 .heroTitle {
-  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-size: clamp(1.4rem, 4vw, 3.5rem);
   font-weight: 700;
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
   text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
 }
 
 .heroSubtitle {
-  font-size: clamp(1rem, 2vw, 1.5rem);
+  font-size: clamp(0.9rem, 2vw, 1.5rem);
   font-weight: 300;
   text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
 }
 
+/* ── Section Wrapper ── */
 .section {
   color: #3d2b10;
   animation: fadeIn 0.8s ease-in-out;
@@ -48,162 +56,162 @@
   background-size: cover;
   background-attachment: fixed;
   background-position: center;
-  padding: 3rem 2rem;
+  padding: 3rem 1rem;
 }
 
-/* Container */
+/* ── Container ── */
 .container {
-  max-width: 1600px;
+  max-width: 1300px;
+  width: 100%;
   margin: 0 auto 4rem;
-  padding: 0 1rem;
+  padding: 0 1.5rem;
+  box-sizing: border-box;
 }
+
+/* ── Titles ── */
 .mainTitle {
   font-family: "Montserrat", Arial, sans-serif;
   color: #f15505;
   letter-spacing: 0.02em;
-  font-size: clamp(1rem, 2.2vw, 1.45rem);
-  font-weight: 600;
+  font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+  font-weight: 700;
   line-height: 1.4;
   text-align: center;
-  margin-bottom: 2.5rem;
+  margin-bottom: 2rem;
 }
 
 .sectionTitleWrap {
   text-align: center;
-  margin-bottom: 3rem;
+  margin-bottom: 2.5rem;
 }
 
 .sectionTitle {
   font-family: "Montserrat", Arial, sans-serif;
   color: #f15505;
   letter-spacing: 0.02em;
-  font-size: clamp(1rem, 2.2vw, 1.45rem);
-  font-weight: 600;
+  font-size: clamp(1.1rem, 2.5vw, 1.45rem);
+  font-weight: 700;
   line-height: 1.4;
   margin: 0;
-  position: relative;
   display: inline-block;
   width: 100%;
 }
 
 .sectionSubtitle {
-  font-size: 1rem;
+  font-size: clamp(0.85rem, 1.5vw, 1rem);
   color: #666;
-  margin-top: 0.5rem;
+  margin-top: 0.4rem;
   font-weight: 400;
 }
 
 .sectionDescription {
   text-align: center;
-  font-size: 1rem;
+  font-size: clamp(0.85rem, 1.5vw, 1rem);
   color: #666;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
   font-weight: 500;
 }
 
-/* Paragraphs */
+/* ── Paragraphs ── */
 .introParagraphs {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  /* margin-bottom: 2rem; */
   line-height: 1.7;
+  font-size: clamp(0.88rem, 1.4vw, 1rem);
 }
 
-/* Accreditation Cards Grid */
+/* ── Accreditation Cards Grid ── */
 .accreditationCardsGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 2rem;
-  margin-bottom: 3rem;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 2rem;
 }
 
 .accreditationCard {
   background: white;
   border-radius: 12px;
-  padding: 2rem;
-  border-top: 4px solid #F15505;
+  padding: 2rem 1.5rem;
+  border-top: 4px solid #f15505;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  transition: all 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   text-align: center;
 }
 
 .accreditationCard:hover {
-  transform: translateY(-8px);
+  transform: translateY(-6px);
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
 }
 
 .cardIcon {
-  font-size: 3rem;
-  margin-bottom: 1rem;
+  font-size: 2.8rem;
+  margin-bottom: 0.8rem;
   display: block;
 }
 
 .cardTitle {
   font-family: "Montserrat", Arial, sans-serif;
   color: #f15505;
-  letter-spacing: 0.02em;
-  font-size: clamp(1rem, 2.2vw, 1.45rem);
-  font-weight: 600;
-  line-height: 1.4;
-  margin-bottom: 0.75rem;
+  font-size: clamp(0.95rem, 1.8vw, 1.2rem);
+  font-weight: 700;
+  margin-bottom: 0.6rem;
 }
 
 .cardDescription {
-  font-size: 0.95rem;
+  font-size: clamp(0.82rem, 1.3vw, 0.95rem);
   color: #666;
   line-height: 1.6;
 }
 
-/* Intro Card */
+/* ── Intro Card ── */
 .introCard {
   background: white;
   border-radius: 12px;
-  padding: 2.5rem;
+  padding: 2rem;
   margin-bottom: 2rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  border-left: 5px solid #F15505;
+  border-left: 5px solid #f15505;
+  box-sizing: border-box;
 }
 
 .introContent {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.75rem;
 }
 
 .introCardTitle {
   font-family: "Montserrat", Arial, sans-serif;
   color: #f15505;
-  letter-spacing: 0.02em;
-  font-size: clamp(1rem, 2.2vw, 1.45rem);
-  font-weight: 600;
-  line-height: 1.4;
-  margin-bottom: 0.5rem;
+  font-size: clamp(1rem, 2vw, 1.3rem);
+  font-weight: 700;
+  margin-bottom: 0.4rem;
 }
 
-/* Highlight Box */
+/* ── Highlight Box ── */
 .highlightBox {
-     background: linear-gradient(135deg, #fff8f3bd 0%, #ffe8d63d 100%);
-  border-left: 5px solid #F15505;
+  background: linear-gradient(135deg, #fff8f3bd 0%, #ffe8d63d 100%);
+  border-left: 5px solid #f15505;
   border-radius: 8px;
-  padding: 2rem;
-  margin-bottom: 2.5rem;
+  padding: 1.75rem;
+  margin-bottom: 2rem;
+  box-sizing: border-box;
 }
 
 .highlightTitle {
   font-family: "Montserrat", Arial, sans-serif;
   color: #f15505;
-  letter-spacing: 0.02em;
-  font-size: clamp(1rem, 2.2vw, 1.45rem);
-  font-weight: 600;
-  line-height: 1.4;
-  margin-bottom: 1rem;
+  font-size: clamp(0.95rem, 1.8vw, 1.2rem);
+  font-weight: 700;
+  margin-bottom: 0.8rem;
 }
 
 .highlightText {
   color: #333;
   line-height: 1.7;
-  margin-bottom: 1rem;
+  margin-bottom: 0.8rem;
+  font-size: clamp(0.85rem, 1.4vw, 0.98rem);
 }
 
 .highlightText:last-child {
@@ -220,9 +228,7 @@
   text-decoration: underline;
 }
 
-/* Divider */
-
-/* ── Om divider ── */
+/* ── Om Divider ── */
 .omDivider {
   display: flex;
   align-items: center;
@@ -235,27 +241,43 @@
   flex: 1;
   max-width: 180px;
   height: 1.5px;
-  background: linear-gradient(90deg, transparent, #F15505, transparent);
+  background: linear-gradient(90deg, transparent, #f15505, transparent);
 }
 
 .omSymbol {
-  font-family: 'Cinzel', serif;
-  font-size: 1.6rem;
-  color: #F15505;
+  font-family: "Cinzel", serif;
+  font-size: 1.5rem;
+  color: #f15505;
   line-height: 1;
   filter: drop-shadow(0 1px 3px rgba(224, 123, 0, 0.3));
 }
 
-
-
-/* Image Wrapper */
+/* ── Image Grid (RYS badges) ── */
 .imgWrap {
-  /* width: 100%; */
-  margin: 0 auto;
-      margin: 40px;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  margin: 2rem 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.imgWrap1 {
+  display: grid;
+  gap: 1.5rem;
+  margin: 2rem 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Logo size control inside imgWrap */
+.imgWrap img {
+  max-height: 360px;
+  width: auto;
+  max-width: 100%;
+  margin: 0 auto;
+  display: block;
+  object-fit: contain;
 }
 
 .imgWraplogo {
@@ -269,16 +291,26 @@
   width: 100%;
   height: auto;
   display: block;
-  border-radius: 12px;
+  border-radius: 10px;
+  object-fit: contain;
 }
-.responsiveImgage{
-      width: 60%;
+
+.responsiveImgage {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 10px;
+  object-fit: contain;
 }
-/* ── Carousel Styles ── */
+
+/* ════════════════════════════════════════════════
+   CAROUSEL
+   ════════════════════════════════════════════════ */
 .carouselContainer {
   width: 100%;
   margin: 2rem auto;
-  padding: 0 1rem;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 .carouselWrapper {
@@ -287,7 +319,7 @@
   max-width: 1000px;
   margin: 0 auto;
   aspect-ratio: 16 / 9;
-  border-radius: 16px;
+  border-radius: 14px;
   overflow: hidden;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
 }
@@ -314,12 +346,12 @@
   object-position: center;
 }
 
-/* Navigation Buttons */
+/* Nav Buttons */
 .carouselBtn {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: rgba(241, 85, 5, 0.8);
+  background: rgba(241, 85, 5, 0.82);
   color: white;
   border: none;
   width: 50px;
@@ -333,14 +365,15 @@
   transition: all 0.3s ease;
   z-index: 10;
   font-weight: bold;
+  line-height: 1;
 }
 
 .carouselBtn:first-of-type {
-  left: 15px;
+  left: 16px;
 }
 
 .carouselBtn:last-of-type {
-  right: 15px;
+  right: 16px;
 }
 
 .carouselBtn:hover {
@@ -349,24 +382,20 @@
   box-shadow: 0 4px 12px rgba(241, 85, 5, 0.4);
 }
 
-.carouselBtn:active {
-  transform: translateY(-50%) scale(0.95);
-}
-
-/* Dots Indicator */
+/* Dots */
 .carouselDots {
   position: absolute;
-  bottom: 15px;
+  bottom: 14px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
-  gap: 10px;
+  gap: 8px;
   z-index: 10;
 }
 
 .dot {
-  width: 12px;
-  height: 12px;
+  width: 11px;
+  height: 11px;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.5);
   border: 2px solid rgba(255, 255, 255, 0.8);
@@ -381,23 +410,24 @@
 }
 
 .dot.activeDot {
-  background: #F15505;
-  border-color: #F15505;
+  background: #f15505;
+  border-color: #f15505;
   transform: scale(1.3);
 }
 
-/* Certificate Grid */
+/* ════════════════════════════════════════════════
+   CERTIFICATE GRIDS
+   ════════════════════════════════════════════════ */
 .certGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
 }
 
-/* Enhanced Certificate Grid */
 .certGridEnhanced {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2.5rem;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
   margin-bottom: 2rem;
 }
 
@@ -406,55 +436,75 @@
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  transition: all 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
 }
 
 .certCard:hover {
-  transform: translateY(-8px);
+  transform: translateY(-6px);
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
 }
 
 .certImageWrapper {
   width: 100%;
-  height: 250px;
+  aspect-ratio: 4 / 3;
   overflow: hidden;
   background: #f5f3f0;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+.certImageWrapper img {
+  max-width: 90%;
+  max-height: 90%;
+  object-fit: contain;
+  width: auto;
+  height: auto;
+}
+
+.certImageWrapper img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
 }
 
 .certInfo {
-  padding: 1.5rem;
+  padding: 1.2rem;
   text-align: center;
+  flex: 1;
 }
 
 .certType {
   font-family: "Montserrat", Arial, sans-serif;
   color: #f15505;
-  letter-spacing: 0.02em;
-  font-size: clamp(1rem, 2.2vw, 1.45rem);
-  font-weight: 600;
-  line-height: 1.4;
-  margin-bottom: 0.5rem;
+  font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+  font-weight: 700;
+  margin-bottom: 0.4rem;
 }
 
 .certDescription {
-  font-size: 0.9rem;
+  font-size: clamp(0.78rem, 1.2vw, 0.9rem);
   color: #666;
   line-height: 1.5;
 }
 
-/* Certification Board Wrapper */
+/* ════════════════════════════════════════════════
+   CERT BOARD (Ministry of AYUSH)
+   ════════════════════════════════════════════════ */
 .certBoardWrapper {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 3rem;
-  align-items: center;
+  gap: 2.5rem;
+  align-items: start;
   background: white;
   border-radius: 12px;
   padding: 2.5rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  box-sizing: border-box;
 }
 
 .certBoardInfo {
@@ -466,23 +516,26 @@
 .certBoardInfo h4 {
   font-family: "Montserrat", Arial, sans-serif;
   color: #f15505;
-  letter-spacing: 0.02em;
-  font-size: clamp(1rem, 2.2vw, 1.45rem);
-  font-weight: 600;
-  line-height: 1.4;
+  font-size: clamp(1rem, 1.8vw, 1.2rem);
+  font-weight: 700;
+  margin: 0;
 }
 
 .certBoardInfo p {
-  color: #666;
-  line-height: 1.7;
+  color: #555;
+  line-height: 1.75;
+  font-size: clamp(0.82rem, 1.3vw, 0.95rem);
+  margin: 0;
 }
 
-/* IYF Section */
+/* ════════════════════════════════════════════════
+   IYF SECTION
+   ════════════════════════════════════════════════ */
 .iyfSection {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 3rem;
-  align-items: center;
+  gap: 2.5rem;
+  align-items: start;
 }
 
 .iyfContent {
@@ -494,10 +547,8 @@
 .iyfTitle {
   font-family: "Montserrat", Arial, sans-serif;
   color: #f15505;
-  letter-spacing: 0.02em;
-  font-size: clamp(1rem, 2.2vw, 1.45rem);
-  font-weight: 600;
-  line-height: 1.4;
+  font-size: clamp(1rem, 1.8vw, 1.25rem);
+  font-weight: 700;
 }
 
 .iyfImageWrapper {
@@ -512,55 +563,129 @@
 
 /* Footer Notes */
 .iyfFooterNotes {
-  /* margin-top: 2rem; */
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1rem;
   line-height: 1.6;
 }
 
 .noteItem {
   display: flex;
-  gap: 1rem;
+  gap: 0.85rem;
   align-items: flex-start;
   background: #f9f7f5;
-  padding: 1.5rem;
+  padding: 1.2rem;
   border-radius: 8px;
-  border-left: 4px solid #F15505;
+  border-left: 4px solid #f15505;
+  box-sizing: border-box;
 }
 
 .noteIcon {
-  font-size: 1.5rem;
-  color: #F15505;
+  font-size: 1.3rem;
+  color: #f15505;
   font-weight: bold;
   flex-shrink: 0;
-  margin-top: 0.2rem;
+  margin-top: 0.1rem;
 }
 
 .noteItem p {
   color: #333;
   margin: 0;
   line-height: 1.6;
+  font-size: clamp(0.82rem, 1.3vw, 0.93rem);
 }
 
-/* Animation */
+/* ── Animation ── */
 @keyframes fadeIn {
   from {
     opacity: 0;
     transform: translateY(15px);
   }
-
   to {
     opacity: 1;
     transform: translateY(0);
   }
 }
 
-/* Mobile Optimization */
+/* ════════════════════════════════════════════════
+   RESPONSIVE BREAKPOINTS
+   ════════════════════════════════════════════════ */
+
+/* ── ≤ 1280px ── */
+@media (max-width: 1280px) {
+  .certGridEnhanced {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+
+  .imgWrap {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ── ≤ 1024px ── */
+@media (max-width: 1024px) {
+  .accreditationCardsGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .certBoardWrapper {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    padding: 2rem;
+  }
+
+  .iyfSection {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .iyfImageWrapper {
+    order: -1;
+    margin: 0 auto;
+    width: 100%;
+  }
+}
+
+/* ── ≤ 900px ── */
+@media (max-width: 900px) {
+  .accreditationCardsGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+  }
+
+  .certGridEnhanced {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .imgWrap {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.2rem;
+    margin: 1.5rem 0;
+  }
+}
+
+/* ── ≤ 768px ── */
 @media (max-width: 768px) {
+  .section {
+    padding: 2rem 0.75rem;
+    background-attachment: scroll; /* fixes mobile flicker */
+  }
+
+  .container {
+    padding: 0 1rem;
+    margin-bottom: 2.5rem;
+  }
+
+  /* Carousel */
+  .carouselWrapper {
+    border-radius: 10px;
+    aspect-ratio: 4 / 3;  /* taller on mobile = bigger image */
+  }
+
   .carouselBtn {
-    width: 40px;
-    height: 40px;
+    width: 42px;
+    height: 42px;
     font-size: 22px;
   }
 
@@ -573,8 +698,8 @@
   }
 
   .carouselDots {
-    bottom: 12px;
-    gap: 8px;
+    bottom: 10px;
+    gap: 7px;
   }
 
   .dot {
@@ -582,22 +707,57 @@
     height: 10px;
   }
 
-  .certBoardWrapper {
-    grid-template-columns: 1fr;
-    gap: 2rem;
+  /* Cert Grid */
+  .certGridEnhanced {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
   }
 
+  .certImageWrapper {
+    aspect-ratio: 1 / 1;
+    padding: 0.4rem;  /* padding kam = image badi */
+  }
+
+  .certImageWrapper img {
+    max-width: 98%;
+    max-height: 98%;
+  }
+
+  /* RYS badges — 2 per row on tablet, logo size chhota */
+  .imgWrap {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+
+  .imgWrap img {
+    max-height: 235px;
+  }
+  .certBoardWrapper {
+    grid-template-columns: 1fr;
+    padding: 1.5rem;
+    gap: 1.5rem;
+  }
+
+  /* IYF */
   .iyfSection {
     grid-template-columns: 1fr;
-    gap: 2rem;
   }
 
   .iyfImageWrapper {
     order: -1;
+    padding: 1.5rem;
+   
   }
 
+  /* Cards */
   .accreditationCardsGrid {
     grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .accreditationCard {
+    padding: 1.5rem;
   }
 
   .introCard {
@@ -605,18 +765,67 @@
   }
 
   .highlightBox {
-    padding: 1.5rem;
+    padding: 1.25rem;
+  }
+
+}
+
+/* ── ≤ 600px ── */
+@media (max-width: 600px) {
+  .heroImage {
+    max-height: 280px;
+    object-fit: cover;
+  }
+
+  .certGridEnhanced {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.85rem;
+  }
+
+  .certInfo {
+    padding: 0.85rem;
+  }
+
+  .certImageWrapper {
+    aspect-ratio: 1 / 1;
+    padding: 0.3rem;
+  }
+
+  .certImageWrapper img {
+    max-width: 100%;
+    max-height: 100%;
+  }
+
+  .imgWrap img {
+    max-height: 230px;
+  }
+
+  .iyfImageWrapper {
+ 
+    padding: 1.2rem;
+  }
+
+  .imgWraplogo {
+    width: 60%;
+  }
+
+  .noteItem {
+    padding: 1rem;
+    gap: 0.7rem;
   }
 }
 
+/* ── ≤ 480px ── */
 @media (max-width: 480px) {
   .container {
-    padding: 0 1rem;
+    padding: 0 0.85rem;
     margin-bottom: 2rem;
   }
 
-  .certGrid {
-    gap: 1.2rem;
+  /* Carousel fills screen width, tall aspect */
+  .carouselWrapper {
+    aspect-ratio: 3 / 2;
+    border-radius: 8px;
   }
 
   .carouselBtn {
@@ -634,7 +843,7 @@
   }
 
   .carouselDots {
-    bottom: 10px;
+    bottom: 8px;
     gap: 6px;
   }
 
@@ -643,44 +852,147 @@
     height: 8px;
   }
 
-  .heroTitle {
-    font-size: 1.5rem;
-  }
-
-  .heroSubtitle {
-    font-size: 0.9rem;
-  }
-
-  .mainTitle {
-    font-size: 1.4rem;
-  }
-
-  .sectionTitle {
-    font-size: 1.2rem;
-  }
-
-  .accreditationCard {
-    padding: 1.5rem;
-  }
-
-  .cardIcon {
-    font-size: 2.5rem;
-  }
-
-  .certCard {
-    margin-bottom: 1rem;
+  /* Certs: 1 per row on small phones */
+  .certGridEnhanced {
+    grid-template-columns: 1fr;
+    gap: 1rem;
   }
 
   .certImageWrapper {
-    height: 200px;
+    aspect-ratio: 16 / 9;
+    padding: 0.2rem;  /* almost no padding = max image size */
   }
 
-  .noteItem {
-    padding: 1rem;
+  .certImageWrapper img {
+    max-width: 100%;
+    max-height: 100%;
+  }
+
+  /* RYS badges: 1 per row on small phones */
+  .imgWrap {
+    grid-template-columns: repeat(2, 1fr);
     gap: 0.75rem;
   }
 
+  .imgWrap img {
+    max-height: 225px;
+  }
+
+  .accreditationCard {
+    padding: 1.25rem;
+  }
+
+  .cardIcon {
+    font-size: 2.2rem;
+  }
+
+  .certBoardWrapper {
+    padding: 1.25rem;
+  }
+
+  .certBoardWrapper .imgWrap {
+    grid-template-columns: 1fr;
+  }
+
+  .iyfImageWrapper {
+    
+    padding: 1rem;
+  }
+
+  .highlightBox {
+    padding: 1rem;
+  }
+
+  .introCard {
+    padding: 1.2rem;
+  }
+
+  .noteItem {
+    padding: 0.85rem;
+  }
+
   .noteIcon {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
+  }
+}
+
+/* ── ≤ 380px (very small phones) ── */
+@media (max-width: 380px) {
+  .section {
+    padding: 1.5rem 0.5rem;
+  }
+
+  .container {
+    padding: 0 0.6rem;
+  }
+
+  .carouselWrapper {
+    aspect-ratio: 1 / 1;
+    border-radius: 6px;
+  }
+
+  .carouselBtn {
+    width: 32px;
+    height: 32px;
+    font-size: 16px;
+  }
+
+  .carouselBtn:first-of-type {
+    left: 6px;
+  }
+
+  .carouselBtn:last-of-type {
+    right: 6px;
+  }
+
+  .dot {
+    width: 7px;
+    height: 7px;
+  }
+
+  .certGridEnhanced {
+    grid-template-columns: 1fr;
+  }
+
+  .certImageWrapper {
+    aspect-ratio: 16 / 9;
+    padding: 0;
+  }
+
+  .imgWrap {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+  }
+
+  .imgWrap img {
+    max-height: 215px;
+  }
+
+  .accreditationCardsGrid {
+    gap: 0.75rem;
+  }
+
+  .iyfImageWrapper {
+   
+    padding: 0.75rem;
+  }
+
+  .highlightBox {
+    padding: 0.85rem;
+  }
+
+  .introCard {
+    padding: 1rem;
+    border-left-width: 4px;
+  }
+
+  .certBoardWrapper {
+    padding: 1rem;
+  }
+
+  .noteItem {
+    padding: 0.75rem;
+    gap: 0.6rem;
+    flex-direction: row;
   }
 }

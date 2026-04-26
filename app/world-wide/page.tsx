@@ -5,29 +5,30 @@ import Image from "next/image";
 import styles from "@/assets/style/world-wide/Worldwidepage.module.css";
 import HowToReach from "@/components/home/Howtoreach";
 import heroImgFallback from "@/assets/images/18.webp";
-import api from "@/lib/api"; // ← your axios instance
+import api from "@/lib/api";
 import ReviewSection from "@/components/common/Reviewsection";
 import RatingsSummarySection from "@/components/home/RatingsSummarySection";
 import PremiumGallerySection from "@/components/PremiumGallerySection";
 import StickySectionNav from "@/components/common/StickySectionNav";
-import { label } from "framer-motion/client";
 
 /* ─── Types ─── */
 interface Stat {
   val: string;
   label: string;
 }
-
 interface Benefit {
   num: string;
   text: string;
 }
-
 interface Location {
   name: string;
   flag: string;
   href: string;
   region: string;
+}
+interface NavItem {
+  label: string;
+  id: string;
 }
 
 interface WorldwideData {
@@ -70,6 +71,9 @@ interface WorldwideData {
   communityTitle: string;
   communitySubtext: string;
   communityDescription: string;
+  communitySliderImages: string[]; // ← from DB
+
+  navItems: NavItem[]; // ← from DB
 
   locationsTitle: string;
   locationsSubtext: string;
@@ -78,21 +82,36 @@ interface WorldwideData {
   footerTitle: string;
   footerSubtext: string;
   footerMetaText: string;
+  footerApplyLink: string; // ← from DB
+  footerEmailAddress: string; // ← from DB
 }
 
-/* ─── Base URL for uploaded images ─── */
+/* ─── Helpers ─── */
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "";
 
 const resolveImg = (path?: string) => {
   if (!path) return null;
   return path.startsWith("http") ? path : `${BASE_URL}${path}`;
 };
-const images = [
+
+/* Fallback slider images shown only when DB has none */
+const FALLBACK_SLIDER = [
   "https://images.unsplash.com/photo-1545389336-cf090694435e?w=1600",
   "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=1600",
   "https://images.unsplash.com/photo-1518611012118-696072aa579a?w=1600",
   "https://images.unsplash.com/photo-1593811167562-9cef47bfc4d7?w=1600",
 ];
+
+/* Default nav used only when DB has none */
+const DEFAULT_NAV: NavItem[] = [
+  { label: "CURRICULUM", id: "curriculum" },
+  { label: "FACILITY", id: "facility" },
+  { label: "BENEFITS", id: "benefits" },
+  { label: "WORLDWIDE", id: "worldwide" },
+  { label: "REVIEWS", id: "reviews" },
+  { label: "LOCATION", id: "location" },
+];
+
 /* ═══════════════════════ MAIN ═══════════════════════ */
 export default function WorldwidePage() {
   const [data, setData] = useState<WorldwideData | null>(null);
@@ -100,19 +119,21 @@ export default function WorldwidePage() {
   const [error, setError] = useState<string | null>(null);
   const sliderRef = useRef<HTMLDivElement | null>(null);
 
+  /* ── Auto-slider ── */
   useEffect(() => {
-    let index = 0;
     const slider = sliderRef.current;
     if (!slider) return;
 
+    let index = 0;
     const slides = slider.children.length;
+    if (slides <= 1) return; // no point sliding a single image
 
     const interval = setInterval(() => {
       index++;
-
       slider.style.transition = "transform 0.8s ease";
       slider.style.transform = `translateX(-${index * 100}%)`;
 
+      // When we hit the cloned last slide, jump silently back to start
       if (index === slides - 1) {
         setTimeout(() => {
           slider.style.transition = "none";
@@ -123,27 +144,15 @@ export default function WorldwidePage() {
     }, 3000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [data]); // re-run when data (and slider images) change
 
-  const NAV_ITEMS = [
- 
-  { label: "CURRICULUM", id: "curriculum" },
-  { label: "FACILITY", id: "facility" },
-  { label: "BENEFITS", id: "benefits" },
-  { label: "WorlWide", id: "worldwide" },
-  {label: "REVIEWS", id: "reviews"},
-  { label: "LOCATION", id: "location" },
-];
-  /* ── Fetch from backend using axios ── */
+  /* ── Fetch from backend ── */
   useEffect(() => {
     api
       .get("/worldwide/content")
       .then((res) => {
-        if (res.data.success) {
-          setData(res.data.data);
-        } else {
-          throw new Error("Invalid response");
-        }
+        if (res.data.success) setData(res.data.data);
+        else throw new Error("Invalid response");
       })
       .catch((err) => {
         console.error("WorldwidePage fetch error:", err);
@@ -152,7 +161,7 @@ export default function WorldwidePage() {
       .finally(() => setLoading(false));
   }, []);
 
-  /* ── Scroll reveal (runs after data loads) ── */
+  /* ── Scroll reveal ── */
   useEffect(() => {
     if (!data) return;
     const obs = new IntersectionObserver(
@@ -208,7 +217,23 @@ export default function WorldwidePage() {
     );
   }
 
+  /* ── Derived values ── */
   const heroSrc = resolveImg(data.heroImage);
+
+  // Nav: prefer DB data, fallback to hardcoded defaults
+  const navItems: NavItem[] = data.navItems?.length
+    ? data.navItems
+    : DEFAULT_NAV;
+
+  // Slider: prefer DB-uploaded images, fallback to Unsplash placeholders
+  const rawSliderImages: string[] = data.communitySliderImages?.length
+    ? data.communitySliderImages.map((p) => resolveImg(p) || p)
+    : FALLBACK_SLIDER;
+
+  // Footer links with fallback
+  const footerApplyLink = data.footerApplyLink || "/apply";
+  const footerEmailAddress =
+    data.footerEmailAddress || "aymyogaschool@gmail.com";
 
   return (
     <div className={styles.page}>
@@ -217,9 +242,10 @@ export default function WorldwidePage() {
         <MandalaFull size={800} opacity={0.025} />
       </div>
 
-       <StickySectionNav items={NAV_ITEMS} triggerId="hero" />
+      {/* ── Sticky nav from DB ── */}
+      <StickySectionNav items={navItems} triggerId="hero" />
 
-      {/* ════════ HERO SECTION ════════ */}
+      {/* ════════ HERO ════════ */}
       <section id="hero" className={styles.heroSection}>
         {heroSrc ? (
           <img
@@ -265,18 +291,15 @@ export default function WorldwidePage() {
         </div>
 
         <div className={`container ${styles.commonContainer}`}>
-          {/* TOP ROW */}
           <div className={`row ${styles.reveal}`}>
-            {/* LEFT CONTENT */}
+            {/* Left content */}
             <div className="col-12 col-lg-6">
               <span className={styles.superLabel}>
                 {data.curriculumSubHeading || "What You'll Study"}
               </span>
-
               <h2 className={styles.sectionTitle}>
                 {data.curriculumTitle || "Course Curriculum"}
               </h2>
-
               <OmBar align="left" />
 
               {data.topParagraphs?.map((para, i) => (
@@ -286,14 +309,12 @@ export default function WorldwidePage() {
                   dangerouslySetInnerHTML={{ __html: para }}
                 />
               ))}
-
               {data.curriculumIntro && (
                 <p
                   className={styles.para}
                   dangerouslySetInnerHTML={{ __html: data.curriculumIntro }}
                 />
               )}
-
               {data.curriculumParagraphs?.map((para, i) => (
                 <p
                   key={i}
@@ -303,7 +324,7 @@ export default function WorldwidePage() {
               ))}
             </div>
 
-            {/* RIGHT IMAGE */}
+            {/* Right image */}
             <div className="col-12 col-lg-6 mt-4 mt-lg-0">
               <div className={styles.curriculumImgWrap}>
                 <img
@@ -321,7 +342,7 @@ export default function WorldwidePage() {
             </div>
           </div>
 
-          {/* 🔥 FULL WIDTH CARDS */}
+          {/* Curriculum cards */}
           {data.curriculumItems?.length > 0 && (
             <div className={`${styles.curriculumGrid} ${styles.fullWidthGrid}`}>
               {data.curriculumItems.map((c, i) => (
@@ -329,7 +350,6 @@ export default function WorldwidePage() {
                   <div className={styles.cardNumber}>
                     {String(i + 1).padStart(2, "0")}
                   </div>
-
                   <p className={styles.cardText}>{c}</p>
                 </div>
               ))}
@@ -339,7 +359,10 @@ export default function WorldwidePage() {
       </section>
 
       {/* ════════ TEACHER TEAM ════════ */}
-      <section id="facility" className={`${styles.section} ${styles.sectionTinted}`}>
+      <section
+        id="facility"
+        className={`${styles.section} ${styles.sectionTinted}`}
+      >
         <div className={`container ${styles.commonContainer}`}>
           <div className={`row align-items-center ${styles.reveal}`}>
             <div className="col-12 col-lg-5 mb-4 mb-lg-0">
@@ -366,7 +389,6 @@ export default function WorldwidePage() {
                 )}
               </div>
             </div>
-
             <div className="col-12 col-lg-7 ps-lg-5">
               <span className={styles.superLabel}>
                 {data.teacherTeamSubtitle || "Our Faculty"}
@@ -482,17 +504,17 @@ export default function WorldwidePage() {
                 />
               )}
 
+              {/* ── Auto-slider: uses DB images or fallback ── */}
               <div className={styles.fullSlider}>
                 <div className={styles.sliderWrapper} ref={sliderRef}>
-                  {images.map((img, i) => (
+                  {rawSliderImages.map((img, i) => (
                     <div key={i} className={styles.fullSlide}>
-                      <img src={img} alt="Yoga Slide" />
+                      <img src={img} alt={`Community Slide ${i + 1}`} />
                     </div>
                   ))}
-
-                  {/* 🔥 duplicate first image */}
+                  {/* Duplicate first image for seamless loop */}
                   <div className={styles.fullSlide}>
-                    <img src={images[0]} alt="Yoga Slide" />
+                    <img src={rawSliderImages[0]} alt="Community Slide" />
                   </div>
                 </div>
               </div>
@@ -501,7 +523,7 @@ export default function WorldwidePage() {
         </section>
       )}
 
-      {/* ════════ WORLDWIDE LOCATIONS GRID ════════ */}
+      {/* ════════ WORLDWIDE LOCATIONS ════════ */}
       {data.locations?.length > 0 && (
         <section
           id="worldwide"
@@ -518,7 +540,6 @@ export default function WorldwidePage() {
               </h2>
               <OmBar />
             </div>
-
             <div className={`row g-3 ${styles.reveal}`}>
               {data.locations.map((loc) => (
                 <div key={loc.name} className="col-12 col-sm-6 col-lg-4">
@@ -578,11 +599,12 @@ export default function WorldwidePage() {
               <p className={styles.footerSub}>{data.footerSubtext}</p>
             )}
             <div className="d-flex flex-wrap justify-content-center gap-3 mt-3">
-              <Link href="/apply" className={styles.btnPrimary}>
+              {/* ✅ Dynamic links from DB */}
+              <Link href={footerApplyLink} className={styles.btnPrimary}>
                 Apply Now
               </Link>
               <a
-                href="mailto:aymyogaschool@gmail.com"
+                href={`mailto:${footerEmailAddress}`}
                 className={styles.btnGhost}
               >
                 Email Us
@@ -597,17 +619,19 @@ export default function WorldwidePage() {
           </div>
         </div>
       </section>
+
       <PremiumGallerySection type="both" backgroundColor="warm" />
-      {/* ✅ REVIEWS — now a reusable separate component */}
-      <div id="reviews"> <ReviewSection RatingsSummaryComponent={<RatingsSummarySection />} /></div>
-     
-      <div id="location"><HowToReach /></div>
-      
+      <div id="reviews">
+        <ReviewSection RatingsSummaryComponent={<RatingsSummarySection />} />
+      </div>
+      <div id="location">
+        <HowToReach />
+      </div>
     </div>
   );
 }
 
-/* ─── SHARED COMPONENTS ─── */
+/* ─── SHARED UI COMPONENTS ─── */
 function OmBar({
   align = "center",
   dark = false,
@@ -615,36 +639,22 @@ function OmBar({
   align?: "center" | "left";
   dark?: boolean;
 }) {
+  const gradientStyle = dark
+    ? {
+        background:
+          "linear-gradient(90deg,transparent,rgba(245,184,0,.55),transparent)",
+      }
+    : {};
   return (
     <div
       className={styles.omBar}
       style={{ justifyContent: align === "left" ? "flex-start" : "center" }}
     >
-      <span
-        className={styles.omLine}
-        style={
-          dark
-            ? {
-                background:
-                  "linear-gradient(90deg,transparent,rgba(245,184,0,.55),transparent)",
-              }
-            : {}
-        }
-      />
+      <span className={styles.omLine} style={gradientStyle} />
       <span className={styles.omGlyph} style={dark ? { color: "#f5b800" } : {}}>
         ॐ
       </span>
-      <span
-        className={styles.omLine}
-        style={
-          dark
-            ? {
-                background:
-                  "linear-gradient(90deg,transparent,rgba(245,184,0,.55),transparent)",
-              }
-            : {}
-        }
-      />
+      <span className={styles.omLine} style={gradientStyle} />
     </div>
   );
 }

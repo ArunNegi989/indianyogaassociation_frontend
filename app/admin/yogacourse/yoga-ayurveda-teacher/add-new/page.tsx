@@ -11,7 +11,8 @@ import toast from "react-hot-toast";
 
 const JoditEditor = dynamic(() => import("jodit-react"), { ssr: false });
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "";
+
 /* ─────────────────────────────────────────
    JODIT CONFIG
 ───────────────────────────────────────── */
@@ -122,14 +123,7 @@ function F({
   );
 }
 
-/* ─── Stable Jodit ───
-   ✅ FIX (Cursor Jump):
-   - initialValue sirf ek baar mount par read hoti hai (useRef se)
-   - value prop ka useEffect HATA DIYA — yahi cursor ko pehle
-     position par jump karata tha har keystroke par
-   - onChange se sirf parent ka ref update hota hai, editor ka
-     internal state disturb nahi hota
-─── */
+/* ─── StableJodit ─── */
 const StableJodit = memo(function StableJodit({
   onSave,
   value,
@@ -144,13 +138,11 @@ const StableJodit = memo(function StableJodit({
   err?: string;
 }) {
   const [visible, setVisible] = useState(false);
-  const initialValue = useRef(value || ""); // mount par ek baar set, baad mein nahi
+  const initialValue = useRef(value || "");
   const wrapRef = useRef<HTMLDivElement>(null);
   const onSaveRef = useRef(onSave);
   onSaveRef.current = onSave;
   const config = useMemo(() => makeConfig(ph, h), [ph, h]);
-
-  // Sirf parent ko notify karo — editor ka state khud manage karta hai
   const handleChange = useCallback((val: string) => {
     onSaveRef.current(val);
   }, []);
@@ -205,7 +197,7 @@ const StableJodit = memo(function StableJodit({
   );
 });
 
-/* ─── Rich List Item ─── */
+/* ─── RichListItem ─── */
 const RichListItem = memo(function RichListItem({
   id,
   index,
@@ -230,7 +222,6 @@ const RichListItem = memo(function RichListItem({
     },
     [id, onSave],
   );
-
   return (
     <div className={styles.nestedCard} style={{ marginBottom: "0.8rem" }}>
       <div className={styles.nestedCardHeader}>
@@ -257,7 +248,7 @@ const RichListItem = memo(function RichListItem({
   );
 });
 
-/* ─── String List ─── */
+/* ─── StrList ─── */
 function StrList({
   items,
   onAdd,
@@ -309,7 +300,7 @@ function StrList({
   );
 }
 
-/* ─── Single Image Uploader ─── */
+/* ─── SingleImg ─── */
 function SingleImg({
   preview,
   badge,
@@ -386,11 +377,160 @@ function SingleImg({
   );
 }
 
-/* ══════════════════════════════════════════
-   DYNAMIC LIST MANAGERS
-══════════════════════════════════════════ */
+/* ════════════════════════════════════════
+   VIDEO UPLOADER
+   Two options: URL (YouTube/Vimeo embed) OR file upload
+════════════════════════════════════════ */
+function VideoUploader({
+  urlValue,
+  filePreview,
+  onUrlChange,
+  onFileSelect,
+  onFileRemove,
+}: {
+  urlValue: string;
+  filePreview: string; // either existing served path or blob URL
+  onUrlChange: (url: string) => void;
+  onFileSelect: (f: File, preview: string) => void;
+  onFileRemove: () => void;
+}) {
+  const [mode, setMode] = useState<"url" | "file">(
+    filePreview ? "file" : "url",
+  );
 
-/* ── Ayurveda Courses ── */
+  return (
+    <div>
+      {/* Toggle */}
+      <div style={{ display: "flex", gap: 8, marginBottom: "0.8rem" }}>
+        <button
+          type="button"
+          onClick={() => setMode("url")}
+          style={{
+            padding: "6px 16px",
+            borderRadius: 6,
+            border: "1.5px solid #e8d5b5",
+            background: mode === "url" ? "#f15505" : "transparent",
+            color: mode === "url" ? "#fff" : "#7a3f00",
+            cursor: "pointer",
+            fontSize: 13,
+          }}
+        >
+          🔗 Video URL
+        </button>
+        <button
+          type="button"
+          onClick={() => setMode("file")}
+          style={{
+            padding: "6px 16px",
+            borderRadius: 6,
+            border: "1.5px solid #e8d5b5",
+            background: mode === "file" ? "#f15505" : "transparent",
+            color: mode === "file" ? "#fff" : "#7a3f00",
+            cursor: "pointer",
+            fontSize: 13,
+          }}
+        >
+          📁 Upload Video File
+        </button>
+      </div>
+
+      {mode === "url" && (
+        <div>
+          <p className={styles.fieldHint}>
+            Enter a YouTube or Vimeo <strong>embed</strong> URL. e.g.{" "}
+            <code>https://www.youtube.com/embed/ABJE9bY7O6E</code>
+          </p>
+          <div className={styles.inputWrap}>
+            <input
+              className={styles.input}
+              value={urlValue}
+              placeholder="https://www.youtube.com/embed/VIDEO_ID?autoplay=1&mute=1&loop=1"
+              onChange={(e) => onUrlChange(e.target.value)}
+            />
+          </div>
+          {urlValue && (
+            <div
+              style={{
+                marginTop: "0.6rem",
+                borderRadius: 8,
+                overflow: "hidden",
+                aspectRatio: "16/9",
+                maxWidth: 480,
+              }}
+            >
+              <iframe
+                src={urlValue}
+                allow="autoplay"
+                style={{ width: "100%", height: "100%", border: "none" }}
+                title="Video preview"
+              />
+            </div>
+          )}
+        </div>
+      )}
+
+      {mode === "file" && (
+        <div>
+          <p className={styles.fieldHint}>
+            Upload an MP4/WEBM video file (max ~50MB recommended).
+          </p>
+          {!filePreview ? (
+            <div
+              className={`${styles.imageUploadZone}`}
+              style={{ minHeight: 100 }}
+            >
+              <input
+                type="file"
+                accept="video/mp4,video/webm,video/ogg"
+                onChange={(e) => {
+                  const f = e.target.files?.[0];
+                  if (f) {
+                    onFileSelect(f, URL.createObjectURL(f));
+                    e.target.value = "";
+                  }
+                }}
+              />
+              <div className={styles.imageUploadPlaceholder}>
+                <span className={styles.imageUploadIcon}>🎬</span>
+                <span className={styles.imageUploadText}>
+                  Click to Upload Video
+                </span>
+                <span className={styles.imageUploadSub}>
+                  MP4 / WEBM · max ~50MB
+                </span>
+              </div>
+            </div>
+          ) : (
+            <div style={{ position: "relative", maxWidth: 480 }}>
+              <video
+                src={filePreview}
+                controls
+                style={{
+                  width: "100%",
+                  borderRadius: 8,
+                  border: "1px solid #e8d5b5",
+                }}
+              />
+              <button
+                type="button"
+                className={styles.removeImageBtn}
+                style={{ position: "absolute", top: 8, right: 8 }}
+                onClick={onFileRemove}
+              >
+                ✕
+              </button>
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ════════════════════════════════════════
+   DYNAMIC LIST MANAGERS (unchanged from original)
+════════════════════════════════════════ */
+
 interface AyurvedaCourseItem {
   id: string;
   level: string;
@@ -435,7 +575,6 @@ const DEFAULT_AYURVEDA_COURSES: AyurvedaCourseItem[] = [
     imgPreview: "",
   },
 ];
-
 function AyurvedaCoursesManager({
   items,
   onChange,
@@ -444,20 +583,15 @@ function AyurvedaCoursesManager({
   onChange: (v: AyurvedaCourseItem[]) => void;
 }) {
   const update = useCallback(
-    (id: string, field: keyof AyurvedaCourseItem, value: any) => {
-      onChange(items.map((i) => (i.id === id ? { ...i, [field]: value } : i)));
-    },
+    (id: string, field: keyof AyurvedaCourseItem, value: any) =>
+      onChange(items.map((i) => (i.id === id ? { ...i, [field]: value } : i))),
     [items, onChange],
   );
-
-  // ✅ ek saath multiple fields — image upload stale closure fix
   const updateMany = useCallback(
-    (id: string, patch: Partial<AyurvedaCourseItem>) => {
-      onChange(items.map((i) => (i.id === id ? { ...i, ...patch } : i)));
-    },
+    (id: string, patch: Partial<AyurvedaCourseItem>) =>
+      onChange(items.map((i) => (i.id === id ? { ...i, ...patch } : i))),
     [items, onChange],
   );
-
   const add = () =>
     onChange([
       ...items,
@@ -476,7 +610,6 @@ function AyurvedaCoursesManager({
     if (items.length <= 1) return;
     onChange(items.filter((i) => i.id !== id));
   };
-
   return (
     <div>
       {items.map((item) => (
@@ -622,7 +755,6 @@ function AyurvedaCoursesManager({
   );
 }
 
-/* ── Panchakarma Courses ── */
 interface PanchaKarmaCourseItem {
   id: string;
   level: string;
@@ -667,7 +799,6 @@ const DEFAULT_PANCHAKARMA_COURSES: PanchaKarmaCourseItem[] = [
     imgPreview: "",
   },
 ];
-
 function PanchaKarmaCoursesManager({
   items,
   onChange,
@@ -676,19 +807,15 @@ function PanchaKarmaCoursesManager({
   onChange: (v: PanchaKarmaCourseItem[]) => void;
 }) {
   const update = useCallback(
-    (id: string, field: keyof PanchaKarmaCourseItem, value: any) => {
-      onChange(items.map((i) => (i.id === id ? { ...i, [field]: value } : i)));
-    },
+    (id: string, field: keyof PanchaKarmaCourseItem, value: any) =>
+      onChange(items.map((i) => (i.id === id ? { ...i, [field]: value } : i))),
     [items, onChange],
   );
-
   const updateMany = useCallback(
-    (id: string, patch: Partial<PanchaKarmaCourseItem>) => {
-      onChange(items.map((i) => (i.id === id ? { ...i, ...patch } : i)));
-    },
+    (id: string, patch: Partial<PanchaKarmaCourseItem>) =>
+      onChange(items.map((i) => (i.id === id ? { ...i, ...patch } : i))),
     [items, onChange],
   );
-
   const add = () =>
     onChange([
       ...items,
@@ -707,7 +834,6 @@ function PanchaKarmaCoursesManager({
     if (items.length <= 1) return;
     onChange(items.filter((i) => i.id !== id));
   };
-
   return (
     <div>
       {items.map((item) => (
@@ -853,7 +979,6 @@ function PanchaKarmaCoursesManager({
   );
 }
 
-/* ── Therapies Manager ── */
 interface TherapyItem {
   id: string;
   num: string;
@@ -1016,7 +1141,6 @@ function TherapiesManager({
   );
 }
 
-/* ── Doshas Manager ── */
 interface DoshaItem {
   id: string;
   name: string;
@@ -1193,7 +1317,6 @@ function DoshasManager({
   );
 }
 
-/* ── Schedule Manager ── */
 interface ScheduleItem {
   id: string;
   time: string;
@@ -1285,7 +1408,6 @@ function ScheduleManager({
   );
 }
 
-/* ── Yoga Pricing Manager ── */
 interface YogaPricingItem {
   id: string;
   hrs: string;
@@ -1419,7 +1541,6 @@ function YogaPricingManager({
   );
 }
 
-/* ── Massage Types Manager ── */
 interface MassageTypeItem {
   id: string;
   num: string;
@@ -1530,14 +1651,9 @@ function MassageTypesManager({
   );
 }
 
-/* ══════════════════════════════════════════
-   FORM VALUES INTERFACE
-   ✅ FIX: "FormData" → "PageFormValues"
-   Browser ke built-in FormData class se naam clash hota tha.
-   Isliye `new FormData()` likhne par TypeScript apna interface
-   inject kar deta tha — "Unexpected field" error aata tha.
-   Ab `new window.FormData()` + rename dono milke fix karte hain.
-══════════════════════════════════════════ */
+/* ════════════════════════════════════════
+   FORM VALUES
+════════════════════════════════════════ */
 interface PageFormValues {
   slug: string;
   status: "Active" | "Inactive";
@@ -1558,6 +1674,8 @@ interface PageFormValues {
   yogaMassageDuration: string;
   yogaMassageCost: string;
   yogaMassageDates: string;
+  /* ✅ NEW: training video URL field */
+  trainingVideoUrl: string;
   registrationAdvanceFee: string;
   registrationPaymentLink: string;
   spiritualEnvironmentSuperLabel: string;
@@ -1575,9 +1693,9 @@ interface PageFormValues {
   footerTag: string;
 }
 
-/* ══════════════════════════════════════════
+/* ════════════════════════════════════════
    PARA LIST HOOK
-══════════════════════════════════════════ */
+════════════════════════════════════════ */
 function useParaList(initId: string, initVal = "") {
   const [ids, setIds] = useState<string[]>([initId]);
   const ref = useRef<Record<string, string>>({ [initId]: initVal });
@@ -1605,9 +1723,9 @@ function useParaList(initId: string, initVal = "") {
   return { ids, ref, add, remove, save, loadFromArray };
 }
 
-/* ══════════════════════════════════════════
+/* ════════════════════════════════════════
    MAIN FORM
-══════════════════════════════════════════ */
+════════════════════════════════════════ */
 export default function AddEditAyurvedaPage() {
   const router = useRouter();
   const params = useParams();
@@ -1628,6 +1746,13 @@ export default function AddEditAyurvedaPage() {
   const [spicesPrev, setSpicesPrev] = useState("");
   const [sunsetFile, setSunsetFile] = useState<File | null>(null);
   const [sunsetPrev, setSunsetPrev] = useState("");
+  /* ✅ NEW */
+  const [pkRightFile, setPkRightFile] = useState<File | null>(null);
+  const [pkRightPrev, setPkRightPrev] = useState("");
+
+  /* ── Training Video ── */
+  const [trainingVideoFile, setTrainingVideoFile] = useState<File | null>(null);
+  const [trainingVideoFilePrev, setTrainingVideoFilePrev] = useState(""); // blob or served URL
 
   /* ── Rich text refs ── */
   const introText1Ref = useRef("");
@@ -1686,11 +1811,11 @@ export default function AddEditAyurvedaPage() {
     DEFAULT_MASSAGE_TYPES,
   );
 
-  /* ✅ FIX: useForm<PageFormValues> — browser FormData se koi conflict nahi */
   const {
     register,
     handleSubmit,
     setValue,
+    watch,
     formState: { errors },
   } = useForm<PageFormValues>({
     defaultValues: {
@@ -1714,6 +1839,8 @@ export default function AddEditAyurvedaPage() {
       yogaMassageDuration: "7 – 10 days",
       yogaMassageCost: "28,000 – 40,000 INR",
       yogaMassageDates: "Open every month on 10th",
+      trainingVideoUrl:
+        "https://www.youtube.com/embed/ABJE9bY7O6E?autoplay=1&mute=1&loop=1&playlist=ABJE9bY7O6E&controls=0&modestbranding=1",
       registrationAdvanceFee: "210 US Dollars",
       registrationPaymentLink: "#",
       spiritualEnvironmentSuperLabel: "Sacred Setting",
@@ -1733,6 +1860,8 @@ export default function AddEditAyurvedaPage() {
     },
   });
 
+  const trainingVideoUrlWatch = watch("trainingVideoUrl");
+
   /* ── Fetch on edit ── */
   useEffect(() => {
     if (!isEdit) return;
@@ -1741,6 +1870,7 @@ export default function AddEditAyurvedaPage() {
       try {
         const res = await api.get(`/ayurveda-course/${pageId}`);
         const d = res.data.data;
+
         (
           [
             "slug",
@@ -1762,6 +1892,7 @@ export default function AddEditAyurvedaPage() {
             "yogaMassageDuration",
             "yogaMassageCost",
             "yogaMassageDates",
+            "trainingVideoUrl",
             "registrationAdvanceFee",
             "registrationPaymentLink",
             "spiritualEnvironmentSuperLabel",
@@ -1782,8 +1913,7 @@ export default function AddEditAyurvedaPage() {
           if (d[k] !== undefined) setValue(k, d[k]);
         });
 
-        /* Rich text: sirf ref update karo — StableJodit initialValue.current se read karega
-           is wajah se cursor jump nahi hoga */
+        /* Rich text refs */
         introText1Ref.current = d.introText1 || "";
         introText2Ref.current = d.introText2 || "";
         introListRef.current = d.introList || "";
@@ -1800,11 +1930,18 @@ export default function AddEditAyurvedaPage() {
         spiritualBottomParaRef.current = d.spiritualBottomPara || "";
         applyTextRef.current = d.applyText || "";
 
+        /* Image previews */
         if (d.heroImage) setHeroPrev(BASE_URL + d.heroImage);
         if (d.introRightImage) setIntroRightPrev(BASE_URL + d.introRightImage);
         if (d.spicesStripImage) setSpicesPrev(BASE_URL + d.spicesStripImage);
         if (d.sunsetImage) setSunsetPrev(BASE_URL + d.sunsetImage);
+        /* ✅ NEW */
+        if (d.panchakarmaRightImage)
+          setPkRightPrev(BASE_URL + d.panchakarmaRightImage);
+        if (d.trainingVideoFile)
+          setTrainingVideoFilePrev(BASE_URL + d.trainingVideoFile);
 
+        /* Para lists */
         if (d.introParagraphs?.length)
           introPara.loadFromArray(d.introParagraphs, "ip");
         if (d.pkParagraphs?.length) pkPara.loadFromArray(d.pkParagraphs, "pp");
@@ -1815,32 +1952,62 @@ export default function AddEditAyurvedaPage() {
         if (d.spiritualParagraphs?.length)
           spiritualPara.loadFromArray(d.spiritualParagraphs, "sp");
 
-if (Array.isArray(d?.ayurvedaCourses)) {
-  setAyurvedaCourses(
-    d.ayurvedaCourses.map((item: any) => ({
-      ...item,
-      imgPreview: item?.image ? BASE_URL + item.image : "",
-      imgFile: null,
-    })),
-  );
-}
-
-if (Array.isArray(d?.panchaKarmaCourses)) {
-  setPanchaKarmaCourses(
-    d.panchaKarmaCourses.map((item: any) => ({
-      ...item,
-      imgPreview: item?.image ? BASE_URL + item.image : "",
-      imgFile: null,
-    })),
-  );
-}
-        if (d.therapies?.length) setTherapies(d.therapies);
-        if (d.doshas?.length) setDoshas(d.doshas);
-        if (d.dailySchedule?.length) setDailySchedule(d.dailySchedule);
+        /* Dynamic lists */
+        if (Array.isArray(d?.ayurvedaCourses))
+          setAyurvedaCourses(
+            d.ayurvedaCourses.map((item: any) => ({
+              ...item,
+              id: item.id || `ac-${Date.now()}-${Math.random()}`,
+              imgPreview: item?.image ? BASE_URL + item.image : "",
+              imgFile: null,
+            })),
+          );
+        if (Array.isArray(d?.panchaKarmaCourses))
+          setPanchaKarmaCourses(
+            d.panchaKarmaCourses.map((item: any) => ({
+              ...item,
+              id: item.id || `pk-${Date.now()}-${Math.random()}`,
+              imgPreview: item?.image ? BASE_URL + item.image : "",
+              imgFile: null,
+            })),
+          );
+        if (d.therapies?.length)
+          setTherapies(
+            d.therapies.map((t: any) => ({
+              ...t,
+              id: t.id || `th-${Date.now()}-${Math.random()}`,
+            })),
+          );
+        if (d.doshas?.length)
+          setDoshas(
+            d.doshas.map((t: any) => ({
+              ...t,
+              id: t.id || `d-${Date.now()}-${Math.random()}`,
+            })),
+          );
+        if (d.dailySchedule?.length)
+          setDailySchedule(
+            d.dailySchedule.map((t: any) => ({
+              ...t,
+              id: t.id || `s-${Date.now()}-${Math.random()}`,
+            })),
+          );
         if (d.syllabus?.length) setSyllabus(d.syllabus);
         if (d.included?.length) setIncluded(d.included);
-        if (d.yogaPricing?.length) setYogaPricing(d.yogaPricing);
-        if (d.massageTypes?.length) setMassageTypes(d.massageTypes);
+        if (d.yogaPricing?.length)
+          setYogaPricing(
+            d.yogaPricing.map((t: any) => ({
+              ...t,
+              id: t.id || `yp-${Date.now()}-${Math.random()}`,
+            })),
+          );
+        if (d.massageTypes?.length)
+          setMassageTypes(
+            d.massageTypes.map((t: any) => ({
+              ...t,
+              id: t.id || `mt-${Date.now()}-${Math.random()}`,
+            })),
+          );
       } catch {
         toast.error("Failed to load");
         router.push("/admin/yogacourse/yoga-ayurveda-teacher");
@@ -1859,8 +2026,6 @@ if (Array.isArray(d?.panchaKarmaCourses)) {
     }
     try {
       setIsSubmitting(true);
-
-      /* ✅ FIX: window.FormData — PageFormValues interface se zero conflict */
       const fd = new window.FormData();
 
       Object.entries(data).forEach(([k, v]) => fd.append(k, v as string));
@@ -1934,6 +2099,9 @@ if (Array.isArray(d?.panchaKarmaCourses)) {
       if (introRightFile) fd.append("introRightImage", introRightFile);
       if (spicesFile) fd.append("spicesStripImage", spicesFile);
       if (sunsetFile) fd.append("sunsetImage", sunsetFile);
+      /* ✅ NEW files */
+      if (pkRightFile) fd.append("panchakarmaRightImage", pkRightFile);
+      if (trainingVideoFile) fd.append("trainingVideoFile", trainingVideoFile);
 
       if (isEdit) {
         fd.append("_id", pageId);
@@ -1968,6 +2136,7 @@ if (Array.isArray(d?.panchaKarmaCourses)) {
         <span>Loading page data…</span>
       </div>
     );
+
   if (submitted)
     return (
       <div className={styles.successScreen}>
@@ -1982,9 +2151,6 @@ if (Array.isArray(d?.panchaKarmaCourses)) {
       </div>
     );
 
-  /* ══════════════════════════════════════════
-     RENDER
-  ══════════════════════════════════════════ */
   return (
     <div className={styles.formPage}>
       <div className={styles.breadcrumb}>
@@ -2175,7 +2341,7 @@ if (Array.isArray(d?.panchaKarmaCourses)) {
         </Sec>
         <D />
 
-        {/* ══ 4. DOSHAS SECTION ══ */}
+        {/* ══ 4. DOSHAS ══ */}
         <Sec title="Doshas Section" badge="Tridosha">
           <F label="Super Label">
             <div className={styles.inputWrap}>
@@ -2206,7 +2372,7 @@ if (Array.isArray(d?.panchaKarmaCourses)) {
         </Sec>
         <D />
 
-        {/* ══ 5. COURSES SECTION ══ */}
+        {/* ══ 5. COURSES ══ */}
         <Sec title="Courses Section" badge="Ayurveda & Panchakarma tabs">
           <F label="Super Label">
             <div className={styles.inputWrap}>
@@ -2267,7 +2433,7 @@ if (Array.isArray(d?.panchaKarmaCourses)) {
               }}
               value={pkPara1Ref.current}
               h={150}
-              ph="PANCHAKARMA is a set of five karma 'procedures' that detoxify and rejuvenate the body…"
+              ph="PANCHAKARMA is a set of five karma 'procedures' that detoxify…"
             />
           </F>
           <F label="Panchakarma Paragraph 2">
@@ -2277,7 +2443,7 @@ if (Array.isArray(d?.panchaKarmaCourses)) {
               }}
               value={pkPara2Ref.current}
               h={130}
-              ph="Ayurveda is the science and art of healing and appropriate living…"
+              ph="Ayurveda is the science and art of healing…"
             />
           </F>
           <F label="Panchakarma Paragraph 3">
@@ -2287,7 +2453,7 @@ if (Array.isArray(d?.panchaKarmaCourses)) {
               }}
               value={pkPara3Ref.current}
               h={110}
-              ph="AYM Kerala Panchakarma Center in Rishikesh includes five kinds of therapies…"
+              ph="AYM Kerala Panchakarma Center in Rishikesh…"
             />
           </F>
           <F label="Additional Panchakarma Paragraphs">
@@ -2311,6 +2477,28 @@ if (Array.isArray(d?.panchaKarmaCourses)) {
               ＋ Add Paragraph
             </button>
           </F>
+
+          {/* ✅ NEW: Panchakarma right-side image */}
+          <F
+            label="Panchakarma Right Side Image"
+            hint="Was hardcoded Unsplash. Now upload your own. 800×600px recommended."
+          >
+            <SingleImg
+              preview={pkRightPrev}
+              badge="Panchakarma"
+              hint="JPG/PNG/WEBP · 800×600px"
+              error=""
+              onSelect={(f, p) => {
+                setPkRightFile(f);
+                setPkRightPrev(p);
+              }}
+              onRemove={() => {
+                setPkRightFile(null);
+                setPkRightPrev("");
+              }}
+            />
+          </F>
+
           <F label="Therapies">
             <TherapiesManager items={therapies} onChange={setTherapies} />
           </F>
@@ -2332,6 +2520,7 @@ if (Array.isArray(d?.panchaKarmaCourses)) {
               preview={spicesPrev}
               badge="Strip"
               hint="JPG/PNG/WEBP · Full width"
+              error=""
               onSelect={(f, p) => {
                 setSpicesFile(f);
                 setSpicesPrev(p);
@@ -2345,7 +2534,7 @@ if (Array.isArray(d?.panchaKarmaCourses)) {
         </Sec>
         <D />
 
-        {/* ══ 8. PANCHAKARMA FULL CARDS ══ */}
+        {/* ══ 8. PANCHAKARMA FULL CARDS (info note) ══ */}
         <Sec
           title="Panchakarma Full Cards (below strip)"
           badge="Same data as tab — reused"
@@ -2374,7 +2563,7 @@ if (Array.isArray(d?.panchaKarmaCourses)) {
               }}
               value={massagePara1Ref.current}
               h={140}
-              ph="AYM Kerala Panchakarma Center in Rishikesh, India has come up with various Ayurveda treatment and massage courses…"
+              ph="AYM Kerala Panchakarma Center in Rishikesh, India has come up with various Ayurveda treatment…"
             />
           </F>
           <F label="Center Paragraph 2">
@@ -2456,6 +2645,30 @@ if (Array.isArray(d?.panchaKarmaCourses)) {
               </div>
             </F>
           </div>
+
+          {/* ✅ NEW: Training Video — URL or File */}
+          <F
+            label="Training Video"
+            hint="Choose a YouTube/Vimeo embed URL OR upload a video file. File upload takes priority."
+          >
+            <VideoUploader
+              urlValue={trainingVideoUrlWatch}
+              filePreview={trainingVideoFilePrev}
+              onUrlChange={(url) => setValue("trainingVideoUrl", url)}
+              onFileSelect={(f, p) => {
+                setTrainingVideoFile(f);
+                setTrainingVideoFilePrev(p);
+                setValue("trainingVideoUrl", "");
+              }}
+              onFileRemove={() => {
+                setTrainingVideoFile(null);
+                setTrainingVideoFilePrev("");
+              }}
+            />
+            {/* Hidden register for the URL so it submits with the form */}
+            <input type="hidden" {...register("trainingVideoUrl")} />
+          </F>
+
           <F label="Training Description (Rich Text)">
             <StableJodit
               onSave={(v) => {
@@ -2593,6 +2806,7 @@ if (Array.isArray(d?.panchaKarmaCourses)) {
               preview={sunsetPrev}
               badge="Spiritual"
               hint="JPG/PNG/WEBP"
+              error=""
               onSelect={(f, p) => {
                 setSunsetFile(f);
                 setSunsetPrev(p);
@@ -2683,7 +2897,7 @@ if (Array.isArray(d?.panchaKarmaCourses)) {
               }}
               value={applyTextRef.current}
               h={130}
-              ph="Fill the application form and send it to aymyogaschool@gmail.com. After approval…"
+              ph="Fill the application form and send it to aymyogaschool@gmail.com…"
             />
           </F>
           <div className={styles.grid2}>
@@ -2774,9 +2988,7 @@ if (Array.isArray(d?.panchaKarmaCourses)) {
           </div>
         </Sec>
       </div>
-      {/* /formCard */}
 
-      {/* ── Actions ── */}
       <div className={styles.formActions}>
         <Link
           href="/admin/yogacourse/yoga-ayurveda-teacher"
