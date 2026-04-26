@@ -1169,7 +1169,7 @@
    ================================================================ */
 .splitLayout {
   display: grid;
-  grid-template-columns: 1.2fr 0.8fr;
+  grid-template-columns: 1.2fr 0.68fr;
   gap: 2.5rem;
   margin-top: 2.5rem;
 }
@@ -1310,6 +1310,7 @@
 
 .imageBox {
   position: relative;
+  height: 552px;
   width: 100%;
   overflow: hidden;
   border-radius: 14px;
@@ -1877,7 +1878,7 @@
 }
 
 .psbLeftPanel {
-  background: linear-gradient(160deg, #fffdf9, #fffdf8);
+  background: linear-gradient(160deg, #fffefd, #fffefd);
   border: 1.5px solid rgba(184, 134, 11, 0.4);
   border-radius: 6px;
   padding: 1.2rem;
@@ -1997,7 +1998,7 @@
 
 .psbBcSel {
   border: 1.5px solid var(--saffron-bright) !important;
-  background: linear-gradient(145deg, #f9f8f5, #fff9e8) !important;
+  background: linear-gradient(145deg, #fffefc, #fffef9) !important;
   box-shadow: 0 4px 18px rgba(200, 112, 10, 0.22) !important;
 }
 
@@ -3598,4 +3599,53 @@
   .currDropMenu {
     animation: none;
   }
+}
+
+/* Hide all native video controls globally */
+video::-webkit-media-controls {
+  display: none !important;
+}
+
+video::-webkit-media-controls-enclosure {
+  display: none !important;
+}
+
+video::-webkit-media-controls-panel {
+  display: none !important;
+}
+
+video::-webkit-media-controls-play-button {
+  display: none !important;
+}
+
+video::-webkit-media-controls-timeline {
+  display: none !important;
+}
+
+video::-webkit-media-controls-current-time-display {
+  display: none !important;
+}
+
+video::-webkit-media-controls-time-remaining-display {
+  display: none !important;
+}
+
+video::-webkit-media-controls-mute-button {
+  display: none !important;
+}
+
+video::-webkit-media-controls-volume-slider {
+  display: none !important;
+}
+
+video::-webkit-media-controls-fullscreen-button {
+  display: none !important;
+}
+
+video::-webkit-media-controls-overflow-button {
+  display: none !important;
+}
+
+video::-webkit-media-controls-download-button {
+  display: none !important;
 }

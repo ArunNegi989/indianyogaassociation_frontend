@@ -112,12 +112,12 @@
 }
 
 .contentSection {
-  background-image: url("../../images/1905x580.png");
+  background-image: url("../../images/backgroundimage/11.png");
   border-top: 1px solid var(--border-soft);
 }
 
 .contentSectionLarge {
-  background-image: url("../../images/1905x614.png");
+  background-image: url("../../images/backgroundimage/13.png");
   border-top: 1px solid var(--border-soft);
 }
 
@@ -125,7 +125,7 @@
   background: #ffffff;
   color: #3d2b10;
   animation: fadeIn 0.8s ease-in-out;
-  background-image: url("../../images/1905x478.webp");
+  background-image: url("../../images/backgroundimage/12.png");
   background-size: contain;
 }
 
@@ -330,7 +330,6 @@
 }
 
 .schoolImagesRight {
-  display: flex;
   align-items: stretch;
 }
 
@@ -343,7 +342,7 @@
 
 .schoolGalleryCard {
   position: relative;
-  min-height: clamp(200px, 25vw, 280px);
+  min-height: clamp(200px, 25vw, 500px);
   overflow: hidden;
   border-radius: 12px;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
@@ -536,7 +535,7 @@
 
 .vmImageWrapper {
   width: 100%;
-  height: clamp(200px, 30vw, 280px);
+  height: clamp(200px, 30vw, 360px);
   border-radius: 8px;
   overflow: hidden;
   margin-bottom: 1.5rem;

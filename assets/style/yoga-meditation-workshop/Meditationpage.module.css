@@ -29,13 +29,15 @@
   --v-shadow-warm: rgba(80, 40, 5, 0.15);
   --v-font-display: 'Montserrat', serif;
   --v-font-body: 'Lato', serif;
+
+ 
 }
 
 /* ─── Page Wrapper ─── */
 .page {
   font-family: 'Lato', sans-serif;
   color: var(--text-dark);
-  background: var(--white);
+   background-image: url("../../images/backgroundimage/20.png") !important;
 }
 
 /* ─── Shared Container ─── */
@@ -64,29 +66,26 @@
   object-fit: contain;
 }
 .heroSection1 {
-  background: var(--white);
+  
   padding: 3rem 0 1.5rem;
 }
 
 .altSection {
-  background: white;
   padding: 3rem 0;
 }
 
 .methodSection {
-  background: var(--white);
   padding: 3rem 0;
   max-width: 1600px;
   display: contents;
 }
 
 .scheduleSection {
-  background: white;
+
   padding: 3rem 0;
 }
 
 .ctaSection {
-  background: white;
   padding: 3rem 0;
   border-top: 1px solid var(--border);
 }
@@ -1286,7 +1285,6 @@
    ================================================================ */
 
 .whatIsSection {
-  background: white;
   padding: 3rem 0;
 }
 
@@ -1715,7 +1713,6 @@
    ================================================================ */
 
    .ctaSection {
-    background: white;
     padding: 4rem 0;
     position: relative;
     overflow: hidden;

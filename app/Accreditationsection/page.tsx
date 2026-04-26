@@ -18,12 +18,12 @@ import HowToReach from "@/components/home/Howtoreach";
 import heroImg from "@/assets/images/26.webp";
 
 // Carousel images
-import carouselImg1 from "@/assets/images/yoga-ttc-classes-outdoor.webp";
-import carouselImg2 from "@/assets/images/aym-yoga-campus.webp";
-import carouselImg3 from "@/assets/images/meditation.jpg";
-import carouselImg4 from "@/assets/images/yoga-ashram-in-rishikesh.jpg";
-import carouselImg5 from "@/assets/images/yogi-chetan-mahesh-ji.webp";
-import carouselImg6 from "@/assets/images/front-yoga-school.jpg";
+import carouselImg1 from "@/assets/images/mainimages/30736248347_790050d8b3_b.jpg";
+import carouselImg2 from "@/assets/images/mainimages/45949950391_26d19913f1_b.jpg";
+import carouselImg3 from "@/assets/images/mainimages/45840430941_d5eb250540_b.jpg";
+import carouselImg4 from "@/assets/images/mainimages/43945288051_41cc9e9985_b.jpg";
+import carouselImg5 from "@/assets/images/mainimages/31969564338_2b4e341845_b.jpg";
+import carouselImg6 from "@/assets/images/mainimages/45840433241_d34be93857_b.jpg";
 
 /* ── Data ── */
 interface YogaCert {
@@ -373,10 +373,13 @@ const AccreditationSection: React.FC = () => {
             <div className={styles.certBoardInfo}>
               <h4>Government Recognition</h4>
               <p>
-                AYM Yoga School is officially recognized by the Ministry of AYUSH 
-                (Ayurveda, Yoga & Naturopathy, Unani, Siddha and Homeopathy), 
-                Government of India, ensuring the highest standards of yoga education 
-                and teacher training.
+               AYM Yoga School is officially recognized by the Ministry of AYUSH (Ayurveda, Yoga & Naturopathy, Unani, Siddha, and Homeopathy), which reflects its commitment to maintaining the highest standards of yoga education and teacher training. This recognition ensures that the curriculum, teaching methodology, and overall learning environment align with authentic traditional practices as well as modern educational benchmarks. <br />
+
+With this accreditation, students can be confident that they are receiving structured, credible, and globally respected training. The courses are thoughtfully designed to blend ancient yogic wisdom with contemporary teaching techniques, allowing practitioners not only to deepen their personal practice but also to become skilled and confident yoga instructors. <br />
+
+AYM Yoga School emphasizes holistic development—covering physical postures (asanas), breath control (pranayama), meditation, philosophy, anatomy, and teaching methodology. The experienced faculty, serene learning environment, and well-structured programs create an ideal space for transformation and growth.<br />
+
+Moreover, certification from a recognized institution like AYM enhances career opportunities worldwide, as it adds authenticity and credibility to a yoga teacher’s profile. Whether your goal is self-growth, spiritual exploration, or building a professional teaching career, AYM Yoga School provides a strong and trusted foundation for your journey in yoga.
               </p>
             </div>
           </div>
