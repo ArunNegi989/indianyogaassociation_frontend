@@ -73,6 +73,18 @@ function Sec({ title, badge, children }: { title: string; badge?: string; childr
   );
 }
 
+/* ─── Sub Section Wrapper ─── */
+function SubSec({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <div className={styles.nestedCard} style={{ marginBottom: "1rem" }}>
+      <div className={styles.nestedCardHeader}>
+        <span className={styles.nestedCardNum}>{title}</span>
+      </div>
+      <div className={styles.nestedCardBody}>{children}</div>
+    </div>
+  );
+}
+
 /* ─── Field Wrapper ─── */
 function F({ label, hint, req, children }: { label: string; hint?: string; req?: boolean; children: React.ReactNode }) {
   return (
@@ -315,7 +327,7 @@ function AccredManager({
 }
 
 /* ══════════════════════════════════════════
-   COURSE CARD MANAGER  (200/300/500 hr)
+   COURSE CARD MANAGER
 ══════════════════════════════════════════ */
 interface CourseCardData {
   id: string;
@@ -335,39 +347,39 @@ const DEFAULT_COURSES: CourseCardData[] = [
   {
     id: "cc1",
     title: "200 Hours Yoga Teacher Training in Rishikesh",
-    description: "Our 200 hour yoga course is thoughtfully crafted to offer a deep understanding of yoga principles, techniques, and philosophy. This comprehensive course covers various yoga practices, including asanas, pranayama, meditation, anatomy, and teaching methodology.",
+    description: "Our 200 hour yoga course is thoughtfully crafted to offer a deep understanding of yoga principles, techniques, and philosophy.",
     duration: "24 Days.",
     certificate: "Yoga Alliance, USA and YCB, Ministry of AYUSH ( Optional ).",
     detailsLabel: "200 Hour Details",
     detailsHref: "#",
     bookHref: "#",
-    imgAlt: "200 Hour Yoga Teacher Training Rishikesh — students in Vrikshasana",
+    imgAlt: "200 Hour Yoga Teacher Training",
     imgUrl: "",
     reverse: false,
   },
   {
     id: "cc2",
     title: "300 Hours Yoga Teacher Training in Rishikesh",
-    description: "Our 300 hour yoga course is carefully designed to build upon the foundational knowledge gained in the 200-hour course. This advanced program delves deeper into yoga philosophy, advanced asanas, pranayama techniques, meditation, subtle anatomy, and the art of teaching.",
+    description: "Our 300 hour yoga course is carefully designed to build upon the foundational knowledge.",
     duration: "28 Days.",
     certificate: "Yoga Alliance, USA and YCB, Ministry of AYUSH ( Optional ).",
     detailsLabel: "300 Hour Details",
     detailsHref: "#",
     bookHref: "#",
-    imgAlt: "300 Hour Yoga Teacher Training Rishikesh — advanced class",
+    imgAlt: "300 Hour Yoga Teacher Training",
     imgUrl: "",
     reverse: true,
   },
   {
     id: "cc3",
     title: "500 Hours Yoga Teacher Training in Rishikesh",
-    description: "Our 500 hour yoga course is designed to deepen your practice and refine your teaching skills. This advanced program explores yoga philosophy, advanced asanas, pranayama techniques, meditation, subtle anatomy, and the art of teaching.",
+    description: "Our 500 hour yoga course is designed to deepen your practice and refine your teaching skills.",
     duration: "56 Days.",
     certificate: "Yoga Alliance, USA and YCB, Ministry of AYUSH ( Optional ).",
     detailsLabel: "500 Hour Details",
     detailsHref: "#",
     bookHref: "#",
-    imgAlt: "500 Hour Yoga Teacher Training Rishikesh — large group class",
+    imgAlt: "500 Hour Yoga Teacher Training",
     imgUrl: "",
     reverse: false,
   },
@@ -405,7 +417,7 @@ function CourseCardManager({
             <F label="Course Title">
               <div className={styles.inputWrap}>
                 <input className={`${styles.input} ${styles.inputNoCount}`} value={item.title}
-                  placeholder="e.g. 200 Hours Yoga Teacher Training in Rishikesh"
+                  placeholder="e.g. 200 Hours Yoga Teacher Training"
                   onChange={(e) => update(item.id, "title", e.target.value)} />
               </div>
             </F>
@@ -434,18 +446,18 @@ function CourseCardManager({
               <F label="Details Button Label">
                 <div className={styles.inputWrap}>
                   <input className={`${styles.input} ${styles.inputNoCount}`} value={item.detailsLabel}
-                    placeholder="e.g. 200 Hour Details" onChange={(e) => update(item.id, "detailsLabel", e.target.value)} />
+                    placeholder="e.g. View Details" onChange={(e) => update(item.id, "detailsLabel", e.target.value)} />
                 </div>
               </F>
-              <F label="Details Button Link (href)">
+              <F label="Details Button Link">
                 <div className={styles.inputWrap}>
                   <input className={`${styles.input} ${styles.inputNoCount}`} value={item.detailsHref}
-                    placeholder="/courses/200-hour-yoga-ttc" onChange={(e) => update(item.id, "detailsHref", e.target.value)} />
+                    placeholder="/courses/200-hour-ttc" onChange={(e) => update(item.id, "detailsHref", e.target.value)} />
                 </div>
               </F>
             </div>
             <div className={styles.grid2}>
-              <F label="Book Now Link (href)">
+              <F label="Book Now Link">
                 <div className={styles.inputWrap}>
                   <input className={`${styles.input} ${styles.inputNoCount}`} value={item.bookHref}
                     placeholder="/book/200-hour-ttc" onChange={(e) => update(item.id, "bookHref", e.target.value)} />
@@ -454,11 +466,11 @@ function CourseCardManager({
               <F label="Image Alt Text">
                 <div className={styles.inputWrap}>
                   <input className={`${styles.input} ${styles.inputNoCount}`} value={item.imgAlt}
-                    placeholder="Descriptive alt text for SEO" onChange={(e) => update(item.id, "imgAlt", e.target.value)} />
+                    placeholder="Descriptive alt text" onChange={(e) => update(item.id, "imgAlt", e.target.value)} />
                 </div>
               </F>
             </div>
-            <F label="Course Image" hint="Recommended: 700×500px · JPG/PNG/WEBP">
+            <F label="Course Image" hint="Recommended: 700×500px">
               <SingleImg
                 preview={imgPreviews[item.id] || item.imgUrl || ""}
                 badge={`Course ${idx + 1}`}
@@ -474,12 +486,12 @@ function CourseCardManager({
                 }}
               />
             </F>
-            <F label="Layout" hint="Controls whether the image appears on left or right side.">
+            <F label="Layout">
               <div className={styles.selectWrap}>
                 <select className={styles.select} value={item.reverse ? "true" : "false"}
                   onChange={(e) => update(item.id, "reverse", e.target.value === "true")}>
-                  <option value="false">Image Left, Text Right (Normal)</option>
-                  <option value="true">Image Right, Text Left (Reversed)</option>
+                  <option value="false">Image Left, Text Right</option>
+                  <option value="true">Image Right, Text Left</option>
                 </select>
                 <span className={styles.selectArrow}>▾</span>
               </div>
@@ -499,26 +511,26 @@ const DEFAULT_SPECIALTY: CourseCardData[] = [
   {
     id: "sc1",
     title: "Ayurveda Yoga Course in Rishikesh",
-    description: "Discover the transformative energy of traditional healing with the Ayurveda course at AYM Yoga School in Rishikesh. Our comprehensive program offers in-depth knowledge of Ayurvedic principles, herbal treatments, and lifestyle practices.",
+    description: "Discover the transformative energy of traditional healing with the Ayurveda course.",
     duration: "7, 14 & 21 Days",
     certificate: "AYM YOGA SCHOOL.",
     detailsLabel: "Ayurveda Courses",
     detailsHref: "#",
     bookHref: "#",
-    imgAlt: "Ayurveda Yoga Course Rishikesh — shirodhara treatment",
+    imgAlt: "Ayurveda Yoga Course",
     imgUrl: "",
     reverse: true,
   },
   {
     id: "sc2",
     title: "Sound Healing Course in Rishikesh",
-    description: "Transform your well-being with the Sound Healing Course at AYM Yoga School in Rishikesh. Our expert instructors guide you through ancient techniques that harness the power of sound for relaxation and healing.",
+    description: "Transform your well-being with the Sound Healing Course.",
     duration: "5 Days.",
     certificate: "Yoga Alliance, USA.",
     detailsLabel: "Sound Healing Details",
     detailsHref: "#",
     bookHref: "#",
-    imgAlt: "Sound Healing Course Rishikesh — singing bowls",
+    imgAlt: "Sound Healing Course",
     imgUrl: "",
     reverse: false,
   },
@@ -538,17 +550,15 @@ function InlineLinkManager({ items, onChange }: { items: InlineLink[]; onChange:
   return (
     <div>
       {items.map((item, idx) => (
-        <div key={item.id} className={styles.listItemRow} style={{ marginBottom: "0.5rem", alignItems: "flex-start", gap: "0.5rem" }}>
+        <div key={item.id} className={styles.listItemRow} style={{ marginBottom: "0.5rem", gap: "0.5rem" }}>
           <span className={styles.listNum}>{idx + 1}</span>
           <div className={`${styles.inputWrap} ${styles.listInput}`} style={{ flex: 1 }}>
             <input className={`${styles.input} ${styles.inputNoCount}`} value={item.text}
-              placeholder="Link text e.g. 200 hour residential yoga teacher training in rishikesh"
-              onChange={(e) => update(item.id, "text", e.target.value)} />
+              placeholder="Link text" onChange={(e) => update(item.id, "text", e.target.value)} />
           </div>
           <div className={`${styles.inputWrap} ${styles.listInput}`} style={{ flex: 1 }}>
             <input className={`${styles.input} ${styles.inputNoCount}`} value={item.href}
-              placeholder="/courses/200-hour-ttc"
-              onChange={(e) => update(item.id, "href", e.target.value)} />
+              placeholder="/link-url" onChange={(e) => update(item.id, "href", e.target.value)} />
           </div>
           <button type="button" className={styles.removeItemBtn}
             onClick={() => remove(item.id)} disabled={items.length <= 1}>✕</button>
@@ -564,15 +574,26 @@ function InlineLinkManager({ items, onChange }: { items: InlineLink[]; onChange:
 ══════════════════════════════════════════ */
 interface BestYogaSchoolFormValues {
   status: "Active" | "Inactive";
-  // Sec 1 — Hero
   heroTitle: string;
-  // Sec 1 — Accreditations
   accrSectionTitle: string;
-  // Sec 2 — Body Text
-  // Sec 3 — Courses
   coursesSectionTitle: string;
-  // Sec 4 — Specialty Courses
   specialtySectionTitle: string;
+  // Course Info Card Fields
+  courseInfoCardTitle: string;
+  courseInfoFeeLabel: string;
+  courseInfoFeeFromText: string;
+  courseInfoBookBtnText: string;
+  courseInfoUsdPrice: number;
+  courseInfoInrPrice: number;
+  courseInfoOriginalUsdPrice: number;
+  courseInfoOriginalInrPrice: number;
+  // Media Gallery Fields
+  contentBadgeText: string;
+  contentTitleHighlight: string;
+  mediaMainImageAlt: string;
+  mediaMainVideoUrl: string;
+  accrEyebrowText: string;
+  accrTaglineText: string;
 }
 
 /* ══════════════════════════════════════════
@@ -590,6 +611,28 @@ export default function BestYogaSchoolAdminForm() {
   const [heroPrev, setHeroPrev] = useState("");
   const [heroErr, setHeroErr] = useState("");
 
+  /* ── Media Gallery Images ── */
+  const [mediaMainFile, setMediaMainFile] = useState<File | null>(null);
+  const [mediaMainPrev, setMediaMainPrev] = useState("");
+  const [mediaSmallFiles, setMediaSmallFiles] = useState<Record<number, File>>({});
+  const [mediaSmallPrevs, setMediaSmallPrevs] = useState<string[]>([]);
+  const [mediaSmallImages, setMediaSmallImages] = useState([
+    { imgUrl: "", alt: "Yoga Class", overlayText: "Yoga Practice" },
+    { imgUrl: "", alt: "Meditation", overlayText: "Meditation" },
+    { imgUrl: "", alt: "Ashram View", overlayText: "Ashram Life" },
+  ]);
+  const [trainingTags, setTrainingTags] = useState([
+    { icon: "🧘", text: "200 Hour TTC" },
+    { icon: "🕉️", text: "300 Hour TTC" },
+    { icon: "✨", text: "500 Hour TTC" },
+  ]);
+  const [pillsItems, setPillsItems] = useState([
+    { text: "✓ Yoga Alliance Certified" },
+    { text: "✓ 6000+ Graduates" },
+    { text: "✓ Since 2009" },
+    { text: "✓ Top Rated School" },
+  ]);
+
   /* ── Accreditation badge images ── */
   const [accredImgFiles, setAccredImgFiles] = useState<Record<string, File>>({});
   const [accredImgPrevs, setAccredImgPrevs] = useState<Record<string, string>>({});
@@ -602,21 +645,31 @@ export default function BestYogaSchoolAdminForm() {
   const [specialtyImgFiles, setSpecialtyImgFiles] = useState<Record<string, File>>({});
   const [specialtyImgPrevs, setSpecialtyImgPrevs] = useState<Record<string, string>>({});
 
-  /* ── Rich text (body paragraphs section 1) ── */
+  /* ── Rich text (body paragraphs) ── */
   const bodyParaList = useParaList("bp1");
-  const bodyParaList2 = useParaList("bp2"); // second set of body paras (after accred section)
+  const bodyParaList2 = useParaList("bp2");
 
   /* ── Dynamic managers ── */
-  const [accredBadges, setAccredBadges]     = useState<AccredBadge[]>(DEFAULT_ACCRED);
-  const [courseCards, setCourseCards]         = useState<CourseCardData[]>(DEFAULT_COURSES);
+  const [accredBadges, setAccredBadges] = useState<AccredBadge[]>(DEFAULT_ACCRED);
+  const [courseCards, setCourseCards] = useState<CourseCardData[]>(DEFAULT_COURSES);
   const [specialtyCourses, setSpecialtyCourses] = useState<CourseCardData[]>(DEFAULT_SPECIALTY);
-  const [inlineLinks, setInlineLinks]         = useState<InlineLink[]>([
-    { id: "il1", text: "200 hour residential yoga teacher training in rishikesh", href: "#" },
-    { id: "il2", text: "300 hour residential yoga teacher training in rishikesh", href: "#" },
-    { id: "il3", text: "500 hours residential yoga teacher teaching certifications in Rishikesh India", href: "#" },
+  const [inlineLinks, setInlineLinks] = useState<InlineLink[]>([
+    { id: "il1", text: "200 hour residential yoga teacher training", href: "#" },
+    { id: "il2", text: "300 hour residential yoga teacher training", href: "#" },
+    { id: "il3", text: "500 hours residential yoga teacher teaching certifications", href: "#" },
   ]);
-  const [inlineLinks2, setInlineLinks2]       = useState<InlineLink[]>([
+  const [inlineLinks2, setInlineLinks2] = useState<InlineLink[]>([
     { id: "il4", text: "best yoga teacher training for beginner in rishikesh", href: "#" },
+  ]);
+
+  /* ── Course Info Details ── */
+  const [courseInfoDetails, setCourseInfoDetails] = useState([
+    { label: "DURATION", value: "24 Days", sub: "" },
+    { label: "LEVEL", value: "Advanced", sub: "" },
+    { label: "CERTIFICATION", value: "500 Hour", sub: "" },
+    { label: "YOGA STYLE", value: "Multistyle", sub: "Ashtanga, Vinyasa & Hatha" },
+    { label: "LANGUAGE", value: "English & Hindi", sub: "" },
+    { label: "DATE", value: "Check batches below", sub: "" },
   ]);
 
   const { register, handleSubmit, setValue, formState: { errors } } = useForm<BestYogaSchoolFormValues>({
@@ -626,6 +679,20 @@ export default function BestYogaSchoolAdminForm() {
       accrSectionTitle: "Our Accreditations – AYM Yoga School",
       coursesSectionTitle: "Our Yoga Teacher Training Courses",
       specialtySectionTitle: "Specialty Courses",
+      courseInfoCardTitle: "COURSE DETAILS",
+      courseInfoFeeLabel: "COURSE FEE",
+      courseInfoFeeFromText: "starting from",
+      courseInfoBookBtnText: "BOOK NOW",
+      courseInfoUsdPrice: 999,
+      courseInfoInrPrice: 82000,
+      courseInfoOriginalUsdPrice: 1799,
+      courseInfoOriginalInrPrice: 148000,
+      contentBadgeText: "Welcome to AYM Yoga School",
+      contentTitleHighlight: "Rishikesh",
+      mediaMainImageAlt: "Yoga Teacher Training",
+      mediaMainVideoUrl: "",
+      accrEyebrowText: "Certified & Recognised",
+      accrTaglineText: "Yoga Alliance USA & Ministry of AYUSH, Government of India",
     },
   });
 
@@ -641,24 +708,40 @@ export default function BestYogaSchoolAdminForm() {
 
         const keys: (keyof BestYogaSchoolFormValues)[] = [
           "status", "heroTitle", "accrSectionTitle", "coursesSectionTitle", "specialtySectionTitle",
+          "courseInfoCardTitle", "courseInfoFeeLabel", "courseInfoFeeFromText",
+          "courseInfoBookBtnText", "courseInfoUsdPrice", "courseInfoInrPrice",
+          "courseInfoOriginalUsdPrice", "courseInfoOriginalInrPrice",
+          "contentBadgeText", "contentTitleHighlight", "mediaMainImageAlt",
+          "mediaMainVideoUrl", "accrEyebrowText", "accrTaglineText",
         ];
-        keys.forEach((k) => { if (d[k] !== undefined) setValue(k, d[k] as any); });
+        keys.forEach((k) => { if (d[k] !== undefined) setValue(k, d[k]); });
 
         /* Images */
         if (d.heroImage) setHeroPrev(BASE_URL + d.heroImage);
+        if (d.mediaMainImage) setMediaMainPrev(BASE_URL + d.mediaMainImage);
+        
+        /* Media Small Images */
+        if (d.mediaSmallImages?.length) {
+          setMediaSmallImages(d.mediaSmallImages);
+          const previews = d.mediaSmallImages.map((img: any) => img.imgUrl ? BASE_URL + img.imgUrl : "");
+          setMediaSmallPrevs(previews);
+        }
+        if (d.trainingTags?.length) setTrainingTags(d.trainingTags);
+        if (d.pillsItems?.length) setPillsItems(d.pillsItems);
 
         /* Para lists */
-        if (d.bodyParagraphs1?.length)  bodyParaList.loadFromArray(d.bodyParagraphs1, "bp1-");
-        if (d.bodyParagraphs2?.length)  bodyParaList2.loadFromArray(d.bodyParagraphs2, "bp2-");
+        if (d.bodyParagraphs1?.length) bodyParaList.loadFromArray(d.bodyParagraphs1, "bp1-");
+        if (d.bodyParagraphs2?.length) bodyParaList2.loadFromArray(d.bodyParagraphs2, "bp2-");
 
         /* Dynamic arrays */
-        if (d.accredBadges?.length)       setAccredBadges(d.accredBadges);
-        if (d.courseCards?.length)         setCourseCards(d.courseCards);
-        if (d.specialtyCourses?.length)    setSpecialtyCourses(d.specialtyCourses);
-        if (d.inlineLinks?.length)         setInlineLinks(d.inlineLinks);
-        if (d.inlineLinks2?.length)        setInlineLinks2(d.inlineLinks2);
+        if (d.accredBadges?.length) setAccredBadges(d.accredBadges);
+        if (d.courseCards?.length) setCourseCards(d.courseCards);
+        if (d.specialtyCourses?.length) setSpecialtyCourses(d.specialtyCourses);
+        if (d.inlineLinks?.length) setInlineLinks(d.inlineLinks);
+        if (d.inlineLinks2?.length) setInlineLinks2(d.inlineLinks2);
+        if (d.courseInfoDetails?.length) setCourseInfoDetails(d.courseInfoDetails);
 
-        /* Accred image previews from server */
+        /* Accred image previews */
         if (d.accredBadges) {
           const prevs: Record<string, string> = {};
           d.accredBadges.forEach((b: AccredBadge) => { if (b.imgUrl) prevs[b.id] = BASE_URL + b.imgUrl; });
@@ -706,22 +789,32 @@ export default function BestYogaSchoolAdminForm() {
       ));
 
       /* Dynamic arrays */
-      fd.append("accredBadges",      JSON.stringify(accredBadges));
-      fd.append("courseCards",       JSON.stringify(courseCards));
-      fd.append("specialtyCourses",  JSON.stringify(specialtyCourses));
-      fd.append("inlineLinks",       JSON.stringify(inlineLinks));
-      fd.append("inlineLinks2",      JSON.stringify(inlineLinks2));
+      fd.append("accredBadges", JSON.stringify(accredBadges));
+      fd.append("courseCards", JSON.stringify(courseCards));
+      fd.append("specialtyCourses", JSON.stringify(specialtyCourses));
+      fd.append("inlineLinks", JSON.stringify(inlineLinks));
+      fd.append("inlineLinks2", JSON.stringify(inlineLinks2));
+      fd.append("courseInfoDetails", JSON.stringify(courseInfoDetails));
+      fd.append("mediaSmallImages", JSON.stringify(mediaSmallImages));
+      fd.append("trainingTags", JSON.stringify(trainingTags));
+      fd.append("pillsItems", JSON.stringify(pillsItems));
 
       /* Hero image */
       if (heroFile) fd.append("heroImage", heroFile);
+      
+      /* Media Main Image */
+      if (mediaMainFile) fd.append("mediaMainImage", mediaMainFile);
+      
+      /* Media Small Images */
+      Object.entries(mediaSmallFiles).forEach(([idx, file]) => fd.append(`mediaSmallImage_${idx}`, file));
 
-      /* Accred badge images — key: accredImg_{id} */
+      /* Accred badge images */
       Object.entries(accredImgFiles).forEach(([id, f]) => fd.append(`accredImg_${id}`, f));
 
-      /* Course card images — key: courseImg_{id} */
+      /* Course card images */
       Object.entries(courseImgFiles).forEach(([id, f]) => fd.append(`courseImg_${id}`, f));
 
-      /* Specialty course images — key: specialtyImg_{id} */
+      /* Specialty course images */
       Object.entries(specialtyImgFiles).forEach(([id, f]) => fd.append(`specialtyImg_${id}`, f));
 
       if (isEdit) {
@@ -781,7 +874,7 @@ export default function BestYogaSchoolAdminForm() {
             {isEdit ? "Edit Best Yoga School Page" : "Add Best Yoga School Page"}
           </h1>
           <p className={styles.pageSubtitle}>
-            Hero · Accreditations · Body Text · Courses (200/300/500hr) · Specialty Courses · Inline Links
+            Hero · Course Info Card · Media Gallery · Accreditations · Body Text · Courses · Specialty · Inline Links
           </p>
         </div>
       </div>
@@ -795,8 +888,8 @@ export default function BestYogaSchoolAdminForm() {
       <div className={styles.formCard}>
 
         {/* ══ 1. HERO IMAGE ══ */}
-        <Sec title="Hero Image" badge="Section 1 — Top of Page">
-          <F label="Hero Image" req hint="Recommended: 1180×540px · JPG/PNG/WEBP">
+        <Sec title="Hero Image" badge="Top of Page">
+          <F label="Hero Image" req hint="Recommended: 1180×540px">
             <SingleImg
               preview={heroPrev} badge="Hero" hint="JPG/PNG/WEBP · 1180×540px"
               error={heroErr}
@@ -804,21 +897,287 @@ export default function BestYogaSchoolAdminForm() {
               onRemove={() => { setHeroFile(null); setHeroPrev(""); setHeroErr("Hero image is required"); }}
             />
           </F>
-        </Sec>
-        <D />
-
-        {/* ══ 2. HERO INTRO + BODY TEXT ══ */}
-        <Sec title="Hero Title & Body Text" badge="Section 1 — Intro Block">
-          <F label="Page / Hero Title" req>
+          <F label="Hero Title" req>
             <div className={`${styles.inputWrap} ${errors.heroTitle ? styles.inputError : ""}`}>
               <input className={`${styles.input} ${styles.inputNoCount}`}
-                placeholder="Best Yoga Teacher Training Rishikesh – Best Yoga School Rishikesh"
+                placeholder="Best Yoga Teacher Training Rishikesh"
                 {...register("heroTitle", { required: "Required" })} />
             </div>
             {errors.heroTitle && <p className={styles.errorMsg}>⚠ {errors.heroTitle.message}</p>}
           </F>
+        </Sec>
+        <D />
 
-          <F label="Body Paragraphs (First Block)" hint="Paragraphs appearing above the accreditation badges. First paragraph is shown by default.">
+        {/* ══ 2. COURSE INFO CARD SECTION ══ */}
+        <Sec title="Course Info Card" badge="Dynamic Pricing & Details">
+          <F label="Card Title">
+            <div className={styles.inputWrap}>
+              <input className={styles.input} {...register("courseInfoCardTitle")} placeholder="COURSE DETAILS" />
+            </div>
+          </F>
+          <F label="Fee Label">
+            <div className={styles.inputWrap}>
+              <input className={styles.input} {...register("courseInfoFeeLabel")} placeholder="COURSE FEE" />
+            </div>
+          </F>
+          <F label="Fee 'Starting From' Text">
+            <div className={styles.inputWrap}>
+              <input className={styles.input} {...register("courseInfoFeeFromText")} placeholder="starting from" />
+            </div>
+          </F>
+          <F label="Book Button Text">
+            <div className={styles.inputWrap}>
+              <input className={styles.input} {...register("courseInfoBookBtnText")} placeholder="BOOK NOW" />
+            </div>
+          </F>
+
+          <F label="Course Details Items">
+            <div>
+              {courseInfoDetails.map((detail, i) => (
+                <div key={i} className={styles.nestedCard} style={{ marginBottom: "0.8rem" }}>
+                  <div className={styles.nestedCardHeader}>
+                    <span className={styles.nestedCardNum}>Detail {i + 1}</span>
+                    {courseInfoDetails.length > 1 && (
+                      <button type="button" className={styles.removeNestedBtn} onClick={() => setCourseInfoDetails(courseInfoDetails.filter((_, idx) => idx !== i))}>
+                        ✕ Remove
+                      </button>
+                    )}
+                  </div>
+                  <div className={styles.nestedCardBody}>
+                    <div className={styles.grid2}>
+                      <div className={styles.fieldGroup}>
+                        <label className={styles.label}>Label</label>
+                        <div className={styles.inputWrap}>
+                          <input className={styles.input} value={detail.label} placeholder="DURATION"
+                            onChange={(e) => { const n = [...courseInfoDetails]; n[i] = { ...n[i], label: e.target.value }; setCourseInfoDetails(n); }} />
+                        </div>
+                      </div>
+                      <div className={styles.fieldGroup}>
+                        <label className={styles.label}>Value</label>
+                        <div className={styles.inputWrap}>
+                          <input className={styles.input} value={detail.value} placeholder="24 Days"
+                            onChange={(e) => { const n = [...courseInfoDetails]; n[i] = { ...n[i], value: e.target.value }; setCourseInfoDetails(n); }} />
+                        </div>
+                      </div>
+                      <div className={styles.fieldGroup} style={{ gridColumn: "1/-1" }}>
+                        <label className={styles.label}>Subtext (optional)</label>
+                        <div className={styles.inputWrap}>
+                          <input className={styles.input} value={detail.sub || ""}
+                            onChange={(e) => { const n = [...courseInfoDetails]; n[i] = { ...n[i], sub: e.target.value }; setCourseInfoDetails(n); }} />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+              <button type="button" className={styles.addItemBtn} onClick={() => setCourseInfoDetails([...courseInfoDetails, { label: "", value: "", sub: "" }])}>
+                ＋ Add Course Detail
+              </button>
+            </div>
+          </F>
+
+          <div style={{ marginTop: "1.5rem", paddingTop: "1rem", borderTop: "1px solid #e8d5b5" }}>
+            <h4 style={{ fontFamily: "'Cinzel', serif", fontSize: "0.9rem", fontWeight: 600, color: "#3d1d00", marginBottom: "1rem" }}>💰 Course Card Pricing (Independent)</h4>
+            <div className={styles.grid2}>
+              <div className={styles.fieldGroup}>
+                <label className={styles.label}>USD Current Price</label>
+                <div className={styles.inputWrap}>
+                  <input type="number" className={styles.input} {...register("courseInfoUsdPrice")} placeholder="999" />
+                </div>
+              </div>
+              <div className={styles.fieldGroup}>
+                <label className={styles.label}>INR Current Price</label>
+                <div className={styles.inputWrap}>
+                  <input type="number" className={styles.input} {...register("courseInfoInrPrice")} placeholder="82000" />
+                </div>
+              </div>
+              <div className={styles.fieldGroup}>
+                <label className={styles.label}>USD Original Price</label>
+                <div className={styles.inputWrap}>
+                  <input type="number" className={styles.input} {...register("courseInfoOriginalUsdPrice")} placeholder="1799" />
+                </div>
+              </div>
+              <div className={styles.fieldGroup}>
+                <label className={styles.label}>INR Original Price</label>
+                <div className={styles.inputWrap}>
+                  <input type="number" className={styles.input} {...register("courseInfoOriginalInrPrice")} placeholder="148000" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </Sec>
+        <D />
+
+        {/* ══ 3. MEDIA GALLERY SECTION ══ */}
+        <Sec title="Media Gallery" badge="Introduction Section Images">
+          <F label="Content Badge Text">
+            <div className={styles.inputWrap}>
+              <input className={styles.input} {...register("contentBadgeText")} placeholder="Welcome to AYM Yoga School" />
+            </div>
+          </F>
+          <F label="Content Title Highlight Word">
+            <div className={styles.inputWrap}>
+              <input className={styles.input} {...register("contentTitleHighlight")} placeholder="Rishikesh" />
+            </div>
+          </F>
+          
+          <SubSec title="Main Media (Large Image/Video)">
+            <F label="Main Image" hint="Recommended: 800×600px">
+              <SingleImg
+                preview={mediaMainPrev}
+                badge="Main Media"
+                hint="JPG/PNG/WEBP · 800×600px"
+                error=""
+                onSelect={(f, p) => { setMediaMainFile(f); setMediaMainPrev(p); }}
+                onRemove={() => { setMediaMainFile(null); setMediaMainPrev(""); }}
+              />
+            </F>
+            <F label="Main Image Alt Text">
+              <div className={styles.inputWrap}>
+                <input className={styles.input} {...register("mediaMainImageAlt")} placeholder="Yoga Teacher Training" />
+              </div>
+            </F>
+            <F label="Video URL (optional)">
+              <div className={styles.inputWrap}>
+                <input className={styles.input} {...register("mediaMainVideoUrl")} placeholder="https://www.youtube.com/embed/..." />
+              </div>
+              <p className={styles.fieldHint}>If provided, users can toggle between image and video</p>
+            </F>
+          </SubSec>
+          
+          <SubSec title="Small Images Grid (3 images)">
+            <p className={styles.fieldHint}>These 3 small images appear below the main image</p>
+            <div>
+              {mediaSmallImages.map((item, idx) => (
+                <div key={idx} className={styles.nestedCard} style={{ marginBottom: "0.8rem" }}>
+                  <div className={styles.nestedCardHeader}>
+                    <span className={styles.nestedCardNum}>Small Image {idx + 1}</span>
+                    {mediaSmallImages.length > 1 && (
+                      <button type="button" className={styles.removeNestedBtn} 
+                        onClick={() => setMediaSmallImages(mediaSmallImages.filter((_, i) => i !== idx))}>
+                        ✕ Remove
+                      </button>
+                    )}
+                  </div>
+                  <div className={styles.nestedCardBody}>
+                    <F label="Image">
+                      <SingleImg
+                        preview={mediaSmallPrevs[idx] || item.imgUrl || ""}
+                        badge={`Small ${idx + 1}`}
+                        hint="JPG/PNG/WEBP · 400×300px"
+                        onSelect={(f, p) => {
+                          const newFiles = { ...mediaSmallFiles, [idx]: f };
+                          setMediaSmallFiles(newFiles);
+                          const newPrevs = [...mediaSmallPrevs];
+                          newPrevs[idx] = p;
+                          setMediaSmallPrevs(newPrevs);
+                        }}
+                        onRemove={() => {
+                          const newPrevs = [...mediaSmallPrevs];
+                          newPrevs[idx] = "";
+                          setMediaSmallPrevs(newPrevs);
+                          const newFiles = { ...mediaSmallFiles };
+                          delete newFiles[idx];
+                          setMediaSmallFiles(newFiles);
+                        }}
+                      />
+                    </F>
+                    <F label="Alt Text">
+                      <div className={styles.inputWrap}>
+                        <input className={styles.input} value={item.alt || ""} placeholder="Image description"
+                          onChange={(e) => {
+                            const n = [...mediaSmallImages];
+                            n[idx] = { ...n[idx], alt: e.target.value };
+                            setMediaSmallImages(n);
+                          }} />
+                      </div>
+                    </F>
+                    <F label="Overlay Text">
+                      <div className={styles.inputWrap}>
+                        <input className={styles.input} value={item.overlayText || ""} placeholder="Yoga Practice"
+                          onChange={(e) => {
+                            const n = [...mediaSmallImages];
+                            n[idx] = { ...n[idx], overlayText: e.target.value };
+                            setMediaSmallImages(n);
+                          }} />
+                      </div>
+                    </F>
+                  </div>
+                </div>
+              ))}
+              <button type="button" className={styles.addItemBtn} 
+                onClick={() => setMediaSmallImages([...mediaSmallImages, { imgUrl: "", alt: "", overlayText: "" }])}>
+                ＋ Add Small Image
+              </button>
+            </div>
+          </SubSec>
+          
+          <SubSec title="Training Tags">
+            <p className={styles.fieldHint}>Tags shown below the images (icon + text)</p>
+            <div>
+              {trainingTags.map((tag, idx) => (
+                <div key={idx} className={styles.listItemRow} style={{ marginBottom: "0.5rem", gap: "0.5rem" }}>
+                  <span className={styles.listNum}>{idx + 1}</span>
+                  <div className={styles.inputWrap} style={{ flex: "0 0 80px" }}>
+                    <input className={styles.input} value={tag.icon} placeholder="🧘"
+                      onChange={(e) => { const n = [...trainingTags]; n[idx] = { ...n[idx], icon: e.target.value }; setTrainingTags(n); }} />
+                  </div>
+                  <div className={`${styles.inputWrap} ${styles.listInput}`}>
+                    <input className={styles.input} value={tag.text} placeholder="200 Hour TTC"
+                      onChange={(e) => { const n = [...trainingTags]; n[idx] = { ...n[idx], text: e.target.value }; setTrainingTags(n); }} />
+                  </div>
+                  <button type="button" className={styles.removeItemBtn} 
+                    onClick={() => { if (trainingTags.length > 1) setTrainingTags(trainingTags.filter((_, i) => i !== idx)); }}
+                    disabled={trainingTags.length <= 1}>✕</button>
+                </div>
+              ))}
+              <button type="button" className={styles.addItemBtn} 
+                onClick={() => setTrainingTags([...trainingTags, { icon: "✨", text: "" }])}>
+                ＋ Add Training Tag
+              </button>
+            </div>
+          </SubSec>
+          
+          <SubSec title="Pills Items">
+            <p className={styles.fieldHint}>Additional pill badges shown below training tags</p>
+            <div>
+              {pillsItems.map((pill, idx) => (
+                <div key={idx} className={styles.listItemRow} style={{ marginBottom: "0.5rem", gap: "0.5rem" }}>
+                  <span className={styles.listNum}>{idx + 1}</span>
+                  <div className={`${styles.inputWrap} ${styles.listInput}`}>
+                    <input className={styles.input} value={pill.text} placeholder="✓ Yoga Alliance Certified"
+                      onChange={(e) => { const n = [...pillsItems]; n[idx] = { ...n[idx], text: e.target.value }; setPillsItems(n); }} />
+                  </div>
+                  <button type="button" className={styles.removeItemBtn} 
+                    onClick={() => { if (pillsItems.length > 1) setPillsItems(pillsItems.filter((_, i) => i !== idx)); }}
+                    disabled={pillsItems.length <= 1}>✕</button>
+                </div>
+              ))}
+              <button type="button" className={styles.addItemBtn} 
+                onClick={() => setPillsItems([...pillsItems, { text: "" }])}>
+                ＋ Add Pill
+              </button>
+            </div>
+          </SubSec>
+          
+          <SubSec title="Accreditations Header Text">
+            <F label="Eyebrow Text">
+              <div className={styles.inputWrap}>
+                <input className={styles.input} {...register("accrEyebrowText")} placeholder="Certified & Recognised" />
+              </div>
+            </F>
+            <F label="Tagline Text">
+              <div className={styles.inputWrap}>
+                <input className={styles.input} {...register("accrTaglineText")} placeholder="Yoga Alliance USA & Ministry of AYUSH" />
+              </div>
+            </F>
+          </SubSec>
+        </Sec>
+        <D />
+
+        {/* ══ 4. BODY TEXT (First Block) ══ */}
+        <Sec title="Body Text (First Block)" badge="Above Accreditations">
+          <F label="Body Paragraphs">
             {bodyParaList.ids.map((id, i) => (
               <RichListItem key={id} id={id} index={i} total={bodyParaList.ids.length}
                 onSave={bodyParaList.save} onRemove={bodyParaList.remove}
@@ -827,23 +1186,22 @@ export default function BestYogaSchoolAdminForm() {
             ))}
             <button type="button" className={styles.addItemBtn} onClick={bodyParaList.add}>＋ Add Paragraph</button>
           </F>
-
-          <F label="Inline Links (First Block)" hint="Links embedded inside the paragraph text above (e.g. 200 hr, 300 hr, 500 hr links).">
+          <F label="Inline Links">
             <InlineLinkManager items={inlineLinks} onChange={setInlineLinks} />
           </F>
         </Sec>
         <D />
 
-        {/* ══ 3. ACCREDITATIONS ══ */}
-        <Sec title="Accreditations" badge="Section 1 — Certificate Grid">
-          <F label="Accreditations Section Title">
+        {/* ══ 5. ACCREDITATIONS ══ */}
+        <Sec title="Accreditations" badge="Certificate Grid">
+          <F label="Section Title">
             <div className={styles.inputWrap}>
               <input className={`${styles.input} ${styles.inputNoCount}`}
                 placeholder="Our Accreditations – AYM Yoga School"
                 {...register("accrSectionTitle")} />
             </div>
           </F>
-          <F label="Accreditation Badges" hint="Each badge shows a short code, caption label, and certificate image.">
+          <F label="Accreditation Badges">
             <AccredManager
               items={accredBadges} onChange={setAccredBadges}
               imgFiles={accredImgFiles} setImgFiles={setAccredImgFiles}
@@ -853,25 +1211,24 @@ export default function BestYogaSchoolAdminForm() {
         </Sec>
         <D />
 
-        {/* ══ 4. BODY TEXT BLOCK 2 ══ */}
-        <Sec title="Body Text (Below Accreditations)" badge="Section 1 — Continuation">
-          <F label="Body Paragraphs (Second Block)" hint="Paragraphs appearing below the accreditation badges.">
+        {/* ══ 6. BODY TEXT (Second Block) ══ */}
+        <Sec title="Body Text (Second Block)" badge="Below Accreditations">
+          <F label="Body Paragraphs">
             {bodyParaList2.ids.map((id, i) => (
               <RichListItem key={id} id={id} index={i} total={bodyParaList2.ids.length}
                 onSave={bodyParaList2.save} onRemove={bodyParaList2.remove}
                 value={bodyParaList2.ref.current[id]}
-                ph="At AYM, we conduct the best yoga course in Rishikesh…" />
+                ph="The Association for Yoga and Meditation - the best yoga school in Rishikesh…" />
             ))}
             <button type="button" className={styles.addItemBtn} onClick={bodyParaList2.add}>＋ Add Paragraph</button>
           </F>
-
-          <F label="Inline Links (Second Block)" hint="Links embedded inside the second block of paragraphs.">
+          <F label="Inline Links (Second Block)">
             <InlineLinkManager items={inlineLinks2} onChange={setInlineLinks2} />
           </F>
         </Sec>
         <D />
 
-        {/* ══ 5. YOGA COURSES (200 / 300 / 500 hr) ══ */}
+        {/* ══ 7. YOGA COURSES ══ */}
         <Sec title="Yoga Teacher Training Courses" badge="Section 2 — Course Cards">
           <F label="Section Title">
             <div className={styles.inputWrap}>
@@ -880,7 +1237,7 @@ export default function BestYogaSchoolAdminForm() {
                 {...register("coursesSectionTitle")} />
             </div>
           </F>
-          <F label="Course Cards" hint="Each card = one course with title, description, duration, certificate, links and image.">
+          <F label="Course Cards">
             <CourseCardManager
               items={courseCards} onChange={setCourseCards}
               imgFiles={courseImgFiles} setImgFiles={setCourseImgFiles}
@@ -890,8 +1247,8 @@ export default function BestYogaSchoolAdminForm() {
         </Sec>
         <D />
 
-        {/* ══ 6. SPECIALTY COURSES ══ */}
-        <Sec title="Specialty Courses" badge="Section 3 — Ayurveda / Sound Healing etc.">
+        {/* ══ 8. SPECIALTY COURSES ══ */}
+        <Sec title="Specialty Courses" badge="Section 3 — Ayurveda / Sound Healing">
           <F label="Section Title">
             <div className={styles.inputWrap}>
               <input className={`${styles.input} ${styles.inputNoCount}`}
@@ -899,7 +1256,7 @@ export default function BestYogaSchoolAdminForm() {
                 {...register("specialtySectionTitle")} />
             </div>
           </F>
-          <F label="Specialty Course Cards" hint="Same layout as main courses — add Ayurveda, Sound Healing, etc.">
+          <F label="Specialty Course Cards">
             <CourseCardManager
               items={specialtyCourses} onChange={setSpecialtyCourses}
               imgFiles={specialtyImgFiles} setImgFiles={setSpecialtyImgFiles}
@@ -909,7 +1266,7 @@ export default function BestYogaSchoolAdminForm() {
         </Sec>
         <D />
 
-        {/* ══ 7. PAGE SETTINGS ══ */}
+        {/* ══ 9. PAGE SETTINGS ══ */}
         <Sec title="Page Settings" badge="Status">
           <F label="Status">
             <div className={styles.selectWrap}>
@@ -922,7 +1279,7 @@ export default function BestYogaSchoolAdminForm() {
           </F>
         </Sec>
 
-      </div>{/* /formCard */}
+      </div>
 
       {/* Actions */}
       <div className={styles.formActions}>

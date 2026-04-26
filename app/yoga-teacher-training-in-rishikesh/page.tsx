@@ -46,8 +46,54 @@ interface HeroMedia {
   caption?: string;
 }
 
+// NEW - Media Small Image Item
+interface MediaSmallImage {
+  imgUrl: string;
+  alt: string;
+  overlayText: string;
+}
+
+// NEW - Training Tag Item
+interface TrainingTag {
+  icon: string;
+  text: string;
+}
+
+// NEW - Pill Item
+interface PillItem {
+  text: string;
+}
+
+// NEW - Course Info Detail Item
+interface CourseInfoDetail {
+  label: string;
+  value: string;
+  sub: string;
+}
+
 interface PageData {
   _id: string;
+  contentBadgeText?: string;
+  contentTitleHighlight?: string;
+  mediaMainImage?: string;
+  mediaMainImageAlt?: string;
+  mediaMainVideoUrl?: string;
+  mediaSmallImages?: MediaSmallImage[];
+  trainingTags?: TrainingTag[];
+  pillsItems?: PillItem[];
+  
+  // NEW - Accreditations Header Text
+  accrEyebrowText?: string;
+  accrTaglineText?: string;
+  courseInfoCardTitle?: string;
+  courseInfoFeeLabel?: string;
+  courseInfoFeeFromText?: string;
+  courseInfoBookBtnText?: string;
+  courseInfoUsdPrice?: number;
+  courseInfoInrPrice?: number;
+  courseInfoOriginalUsdPrice?: number;
+  courseInfoOriginalInrPrice?: number;
+  courseInfoDetails?: Array<{ label: string; value: string; sub: string }>;
   status: string;
   heroTitle: string;
   heroImage: string;
@@ -352,6 +398,9 @@ const SpecialtyCourseCard = ({
 /* ═══════════════════════════════════════════
    COURSE INFO CARD
 ═══════════════════════════════════════════ */
+/* ═══════════════════════════════════════════
+   COURSE INFO CARD (DYNAMIC)
+═══════════════════════════════════════════ */
 const DurationIcon = () => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
     <circle cx="12" cy="12" r="9" />
@@ -403,27 +452,57 @@ const DateIcon = () => (
   </svg>
 );
 
-function CourseInfoCard() {
-  const details = [
-    { icon: <DurationIcon />, label: "DURATION", value: "24 Days" },
-    { icon: <LevelIcon />, label: "LEVEL", value: "Advanced" },
-    { icon: <CertIcon />, label: "CERTIFICATION", value: "500 Hour" },
-    {
-      icon: <StyleIcon />,
-      label: "YOGA STYLE",
-      value: "Multistyle",
-      sub: "Ashtanga, Vinyasa & Hatha",
-    },
-    { icon: <LangIcon />, label: "LANGUAGE", value: "English & Hindi" },
-    { icon: <DateIcon />, label: "DATE", value: "Check batches below" },
-  ];
+function CourseInfoCard({ data }: { data: PageData }) {
+  const getIconForLabel = (label: string) => {
+    switch (label.toLowerCase()) {
+      case "duration":
+        return <DurationIcon />;
+      case "level":
+        return <LevelIcon />;
+      case "certification":
+        return <CertIcon />;
+      case "yoga style":
+        return <StyleIcon />;
+      case "language":
+        return <LangIcon />;
+      case "date":
+        return <DateIcon />;
+      default:
+        return <DurationIcon />;
+    }
+  };
+
+  const details = (data.courseInfoDetails || [
+    { label: "DURATION", value: "24 Days", sub: "" },
+    { label: "LEVEL", value: "Advanced", sub: "" },
+    { label: "CERTIFICATION", value: "500 Hour", sub: "" },
+    { label: "YOGA STYLE", value: "Multistyle", sub: "Ashtanga, Vinyasa & Hatha" },
+    { label: "LANGUAGE", value: "English & Hindi", sub: "" },
+    { label: "DATE", value: "Check batches below", sub: "" },
+  ]).map((detail) => ({
+    ...detail,
+    icon: getIconForLabel(detail.label),
+  }));
+
+  const displayPrice = (currency: string = "USD", isOriginal: boolean = false) => {
+    if (isOriginal) {
+      if (currency === "USD") {
+        return `$${data.courseInfoOriginalUsdPrice || 1799}`;
+      }
+      return `₹${(data.courseInfoOriginalInrPrice || 148000).toLocaleString("en-IN")}`;
+    }
+    if (currency === "USD") {
+      return `$${data.courseInfoUsdPrice || 999}`;
+    }
+    return `₹${(data.courseInfoInrPrice || 82000).toLocaleString("en-IN")}`;
+  };
 
   return (
     <div className={styles.icWrap}>
       <div className={styles.icCard}>
         <div className={styles.icLeft}>
           <div className={styles.icHdr}>
-            <span className={styles.icHdrTxt}>COURSE DETAILS</span>
+            <span className={styles.icHdrTxt}>{data.courseInfoCardTitle || "COURSE DETAILS"}</span>
           </div>
           <div className={styles.icGrid}>
             {details.map((d, i) => (
@@ -441,18 +520,24 @@ function CourseInfoCard() {
         <div className={styles.icVDiv} />
         <div className={styles.icRight}>
           <div className={styles.icFeeTop}>
-            <span className={styles.icFeeLbl}>COURSE FEE</span>
-            <span className={styles.icFeeFrom}>starting from</span>
+            <span className={styles.icFeeLbl}>{data.courseInfoFeeLabel || "COURSE FEE"}</span>
+            <span className={styles.icFeeFrom}>{data.courseInfoFeeFromText || "starting from"}</span>
           </div>
           <div className={styles.icPriceRow}>
-            <span className={styles.icPriceOld}>$1799</span>
-            <span className={styles.icPriceNew}>$999</span>
+            <span className={styles.icPriceOld}>{displayPrice("USD", true)}</span>
+            <span className={styles.icPriceNew}>{displayPrice("USD", false)}</span>
             <span className={styles.icPriceCur}>USD</span>
           </div>
           <a href="#apply" className={styles.icBookBtn}>
-            BOOK NOW
+            {data.courseInfoBookBtnText || "BOOK NOW"}
             <svg viewBox="0 0 20 20" fill="none" className={styles.icBtnArrow}>
-              <path d="M4 10h12M11 5l5 5-5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              <path
+                d="M4 10h12M11 5l5 5-5 5"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
             </svg>
           </a>
         </div>
@@ -460,7 +545,6 @@ function CourseInfoCard() {
     </div>
   );
 }
-
 /* ─────────────────────────────────────────
    SKELETON
 ───────────────────────────────────────── */
@@ -545,7 +629,7 @@ export default function BestYogaSchool() {
       )}
 
       {/* ══ COURSE INFO CARD ══ */}
-      <CourseInfoCard />
+      <CourseInfoCard data={data} />
 
       {/* ══ STICKY SECTION NAV — exactly like 300hr page ══ */}
       <StickySectionNav items={NAV_ITEMS} triggerId="hero" />
@@ -553,189 +637,170 @@ export default function BestYogaSchool() {
       {/* ══════════════════════════════════════
           SECTION 1 — INTRO + ACCREDITATIONS (ENHANCED WITH MULTIPLE MEDIA)
       ═════════════════════════════════════════ */}
-      <section id="intro" className={`${styles.section} ${styles.sectionLight}`}>
-        <div className={`container px-3 px-md-4 ${styles.maxx}`}>
-          {data.heroTitle && (
-            <h1 className={styles.heroTitle}>{data.heroTitle}</h1>
-          )}
-          <OmDivider />
+     <section id="intro" className={`${styles.section} ${styles.sectionLight}`}>
+  <div className={`container px-3 px-md-4 ${styles.maxx}`}>
+    {data.heroTitle && (
+      <h1 className={styles.heroTitle}>{data.heroTitle}</h1>
+    )}
+    <OmDivider />
 
-          {/* Content first, then media gallery */}
-          <div className={styles.contentFirstLayout}>
-            {/* Text Content */}
-            <div className={styles.textContentBlock}>
-              <div className={styles.contentIntroEnhanced}>
-                <span className={styles.contentBadgeEnhanced}>Welcome to AYM Yoga School</span>
-                <h2 className={styles.contentTitleEnhanced}>
-                  Best Yoga Teacher Training in <span className={styles.highlightText}>Rishikesh</span>
-                </h2>
-                <div className={styles.contentUnderlineEnhanced} />
-              </div>
+    {/* Content first, then media gallery */}
+    <div className={styles.contentFirstLayout}>
+      {/* Text Content */}
+      <div className={styles.textContentBlock}>
+        <div className={styles.contentIntroEnhanced}>
+          <span className={styles.contentBadgeEnhanced}>{data.contentBadgeText || "Welcome to AYM Yoga School"}</span>
+          <h2 className={styles.contentTitleEnhanced}>
+            Best Yoga Teacher Training in <span className={styles.highlightText}>{data.contentTitleHighlight || "Rishikesh"}</span>
+          </h2>
+          <div className={styles.contentUnderlineEnhanced} />
+        </div>
 
-              <div className={styles.contentTextEnhanced}>
-                <p className={styles.bodyParaEnhanced}>
-                  Best Yoga Teacher Training in Rishikesh is written on every school website's wall. 
-                  The world capital of yoga, lush green forests surround Rishikesh, the Holy River 
-                  mother Ganga, and thousands of spiritual ashrams for learning the best yoga in the world. 
-                  It is also a highly recommended and famous destination for the best yoga teacher training 
-                  in Rishikesh. Rishikesh is known as a spiritual energy spot. It attracts millions of 
-                  devotees worldwide, seeking an inner spiritual journey through yoga.
-                </p>
-                
-                <p className={styles.bodyParaEnhanced}>
-                  The Association for Yoga and Meditation - the best yoga school in Rishikesh 
-                  (AYM Yoga School in Rishikesh) is registered with the Yoga Alliance USA and situated 
-                  in this beautiful lap of green mountains. Our primary objective is to train the best 
-                  yoga teachers through the best yoga master, using the best modern technology to 
-                  understand the ancient science of yoga. Our syllabus is designed to give the students 
-                  complete exposure to yogic techniques in 200 hour residential yoga teacher training 
-                  in Rishikesh, 300 hour residential yoga teacher training in Rishikesh and 500 hours 
-                  residential yoga teacher teaching certifications in Rishikesh India.
-                </p>
-              </div>
+        <div className={styles.contentTextEnhanced}>
+          {data.bodyParagraphs1?.map((para, i) => (
+            <p key={i} className={styles.bodyParaEnhanced} dangerouslySetInnerHTML={{ __html: para }} />
+          ))}
+        </div>
 
-              {data.inlineLinks?.length > 0 && (
-                <div className={styles.linkGroupEnhanced}>
-                  {data.inlineLinks.map((link) => (
-                    <a key={link.id} href={link.href} className={styles.linkPillEnhanced}>
-                      {link.text}
-                      <svg viewBox="0 0 20 20" fill="none">
-                        <path d="M4 10h12M11 5l5 5-5 5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-                      </svg>
-                    </a>
-                  ))}
-                </div>
-              )}
-            </div>
+        {data.inlineLinks?.length > 0 && (
+          <div className={styles.linkGroupEnhanced}>
+            {data.inlineLinks.map((link) => (
+              <a key={link.id} href={link.href} className={styles.linkPillEnhanced}>
+                {link.text}
+                <svg viewBox="0 0 20 20" fill="none">
+                  <path d="M4 10h12M11 5l5 5-5 5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+                </svg>
+              </a>
+            ))}
+          </div>
+        )}
+      </div>
 
-            {/* Media Gallery Block */}
-            <div className={styles.mediaGalleryBlock}>
-              <div className={styles.mediaGrid}>
-                {/* Main Large Image */}
-                <div className={styles.mediaMainItem}>
-                  {hasVideo && mediaMode === "vid" ? (
-                    <iframe 
-                      src={videoUrl} 
-                      className={styles.mediaMainVideo} 
-                      allow="autoplay; encrypted-media" 
-                      allowFullScreen
-                      title="Yoga Teacher Training Video"
-                    />
-                  ) : (
-                    <img src={mediaSrc} alt={mediaAlt} className={styles.mediaMainImg} loading="lazy" />
-                  )}
-                  {hasVideo && (
-                    <button 
-                      className={styles.mediaVideoToggle}
-                      onClick={() => setMediaMode(mediaMode === "img" ? "vid" : "img")}
-                    >
-                      {mediaMode === "img" ? (
-                        <>
-                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                            <rect x="2" y="4" width="20" height="16" rx="2" />
-                            <path d="M9 8l6 4-6 4V8z" />
-                          </svg>
-                          Watch Video
-                        </>
-                      ) : (
-                        <>
-                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                            <rect x="2" y="2" width="20" height="20" rx="2" />
-                            <circle cx="8.5" cy="8.5" r="2.5" />
-                            <path d="M21 15l-5-4-3 3-4-4-6 6" />
-                          </svg>
-                          View Photo
-                        </>
-                      )}
-                    </button>
-                  )}
-                  <div className={styles.mediaMainOverlay}>
-                    <span className={styles.mediaMainBadge}>Featured</span>
-                  </div>
-                </div>
-
-                {/* Small Images Grid - Only 3 images */}
-                <div className={styles.mediaSmallGrid}>
-                  <div className={styles.mediaSmallItem}>
-                    <img src="/images/yoga-class-1.jpg" alt="Yoga Class" className={styles.mediaSmallImg} />
-                    <div className={styles.mediaSmallOverlay}>
-                      <span>Yoga Practice</span>
-                    </div>
-                  </div>
-                  <div className={styles.mediaSmallItem}>
-                    <img src="/images/meditation-1.jpg" alt="Meditation" className={styles.mediaSmallImg} />
-                    <div className={styles.mediaSmallOverlay}>
-                      <span>Meditation</span>
-                    </div>
-                  </div>
-                  <div className={styles.mediaSmallItem}>
-                    <img src="/images/ashram-1.jpg" alt="Ashram View" className={styles.mediaSmallImg} />
-                    <div className={styles.mediaSmallOverlay}>
-                      <span>Ashram Life</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Training Tags & Pills - Below Images */}
-              <div className={styles.mediaFooterEnhanced}>
-                {/* Training Options Tags */}
-                <div className={styles.trainingTagsEnhanced}>
-                  <div className={styles.trainingTag}>
-                    <span className={styles.trainingTagIcon}>🧘</span>
-                    <span>200 Hour TTC</span>
-                  </div>
-                  <div className={styles.trainingTag}>
-                    <span className={styles.trainingTagIcon}>🕉️</span>
-                    <span>300 Hour TTC</span>
-                  </div>
-                  <div className={styles.trainingTag}>
-                    <span className={styles.trainingTagIcon}>✨</span>
-                    <span>500 Hour TTC</span>
-                  </div>
-                </div>
-
-                {/* Additional Pills */}
-                <div className={styles.pillsGroupEnhanced}>
-                  <span className={styles.pillItem}>✓ Yoga Alliance Certified</span>
-                  <span className={styles.pillItem}>✓ 6000+ Graduates</span>
-                  <span className={styles.pillItem}>✓ Since 2009</span>
-                  <span className={styles.pillItem}>✓ Top Rated School</span>
-                </div>
-              </div>
+      {/* Media Gallery Block - DYNAMIC */}
+      <div className={styles.mediaGalleryBlock}>
+        <div className={styles.mediaGrid}>
+          {/* Main Large Image/Video */}
+          <div className={styles.mediaMainItem}>
+            {data.mediaMainVideoUrl && mediaMode === "vid" ? (
+              <iframe 
+                src={data.mediaMainVideoUrl} 
+                className={styles.mediaMainVideo} 
+                allow="autoplay; encrypted-media" 
+                allowFullScreen
+                title="Yoga Teacher Training Video"
+              />
+            ) : (
+              <img 
+                src={data.mediaMainImage ? imgSrc(data.mediaMainImage) : mediaSrc} 
+                alt={data.mediaMainImageAlt || mediaAlt} 
+                className={styles.mediaMainImg} 
+                loading="lazy" 
+              />
+            )}
+            {data.mediaMainVideoUrl && (
+              <button 
+                className={styles.mediaVideoToggle}
+                onClick={() => setMediaMode(mediaMode === "img" ? "vid" : "img")}
+              >
+                {mediaMode === "img" ? (
+                  <>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                      <rect x="2" y="4" width="20" height="16" rx="2" />
+                      <path d="M9 8l6 4-6 4V8z" />
+                    </svg>
+                    Watch Video
+                  </>
+                ) : (
+                  <>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                      <rect x="2" y="2" width="20" height="20" rx="2" />
+                      <circle cx="8.5" cy="8.5" r="2.5" />
+                      <path d="M21 15l-5-4-3 3-4-4-6 6" />
+                    </svg>
+                    View Photo
+                  </>
+                )}
+              </button>
+            )}
+            <div className={styles.mediaMainOverlay}>
+              <span className={styles.mediaMainBadge}>Featured</span>
             </div>
           </div>
 
-          {/* Accreditations Section */}
-          {data.accrSectionTitle && (
-            <div className={styles.accrSectionEnhanced}>
-              <div className={styles.accrHeadEnhanced}>
-                <span className={styles.accrHeadLineEnhanced} />
-                <div className={styles.accrHeadInnerEnhanced}>
-                  <p className={styles.accrEyebrowEnhanced}>Certified &amp; Recognised</p>
-                  <h2 className={styles.accrTitleEnhanced}>{data.accrSectionTitle}</h2>
-                  <p className={styles.accrTaglineEnhanced}>
-                    Yoga Alliance USA &amp; Ministry of AYUSH, Government of India
-                  </p>
+          {/* Small Images Grid */}
+          {data.mediaSmallImages && data.mediaSmallImages.length > 0 && (
+            <div className={styles.mediaSmallGrid}>
+              {data.mediaSmallImages.map((item, idx) => (
+                <div key={idx} className={styles.mediaSmallItem}>
+                  <img 
+                    src={item.imgUrl ? imgSrc(item.imgUrl) : ""} 
+                    alt={item.alt || ""} 
+                    className={styles.mediaSmallImg} 
+                    loading="lazy" 
+                  />
+                  <div className={styles.mediaSmallOverlay}>
+                    <span>{item.overlayText || ""}</span>
+                  </div>
                 </div>
-                <span className={styles.accrHeadLineRevEnhanced} />
-              </div>
+              ))}
+            </div>
+          )}
+        </div>
 
-              {data.accredBadges?.length > 0 && (
-                <div className={styles.certGridEnhanced}>
-                  {data.accredBadges.map((badge) => (
-                    <CertCard key={badge.id} {...badge} />
-                  ))}
+        {/* Training Tags & Pills */}
+        <div className={styles.mediaFooterEnhanced}>
+          {data.trainingTags && data.trainingTags.length > 0 && (
+            <div className={styles.trainingTagsEnhanced}>
+              {data.trainingTags.map((tag, idx) => (
+                <div key={idx} className={styles.trainingTag}>
+                  <span className={styles.trainingTagIcon}>{tag.icon}</span>
+                  <span>{tag.text}</span>
                 </div>
-              )}
+              ))}
             </div>
           )}
 
-          {data.bodyParagraphs2?.map((para, i) => (
-            <div key={i} className={styles.bodyParaEnhanced} dangerouslySetInnerHTML={{ __html: para }} />
-          ))}
+          {data.pillsItems && data.pillsItems.length > 0 && (
+            <div className={styles.pillsGroupEnhanced}>
+              {data.pillsItems.map((pill, idx) => (
+                <span key={idx} className={styles.pillItem}>{pill.text}</span>
+              ))}
+            </div>
+          )}
         </div>
-      </section>
+      </div>
+    </div>
+
+    {/* Accreditations Section */}
+    {data.accrSectionTitle && (
+      <div className={styles.accrSectionEnhanced}>
+        <div className={styles.accrHeadEnhanced}>
+          <span className={styles.accrHeadLineEnhanced} />
+          <div className={styles.accrHeadInnerEnhanced}>
+            <p className={styles.accrEyebrowEnhanced}>{data.accrEyebrowText || "Certified & Recognised"}</p>
+            <h2 className={styles.accrTitleEnhanced}>{data.accrSectionTitle}</h2>
+            <p className={styles.accrTaglineEnhanced}>
+              {data.accrTaglineText || "Yoga Alliance USA & Ministry of AYUSH, Government of India"}
+            </p>
+          </div>
+          <span className={styles.accrHeadLineRevEnhanced} />
+        </div>
+
+        {data.accredBadges?.length > 0 && (
+          <div className={styles.certGridEnhanced}>
+            {data.accredBadges.map((badge) => (
+              <CertCard key={badge.id} {...badge} />
+            ))}
+          </div>
+        )}
+      </div>
+    )}
+
+    {data.bodyParagraphs2?.map((para, i) => (
+      <div key={i} className={styles.bodyParaEnhanced} dangerouslySetInnerHTML={{ __html: para }} />
+    ))}
+  </div>
+</section>
 
       {/* ══════════════════════════════════════
           SECTION 2 — COURSE CARDS (ENHANCED)
