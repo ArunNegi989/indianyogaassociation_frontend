@@ -197,7 +197,7 @@ const navItems: NavItem[] = [
   },
 
   {
-    label: "Testimonials",
+    label: "Home Testimonials",
     icon: "✦",
     children: [
       { href: "/admin/dashboard/testimonialsvideo",  label: "Testimonials Video" },
@@ -209,6 +209,15 @@ const navItems: NavItem[] = [
   { href: "/admin/dashboard/blog",    label: "Blog",    icon: "✏" },
    { href: "/admin/Registrationlist", label: "Registration List", icon: "🖼" },
   { href: "/admin/accommodation", label: "Accommodation", icon: "🏠" },
+  {
+    label: "Testimonials",
+    icon: "✦",
+    children: [
+      { href: "/admin/testimonial/text-testimonial",  label: "Text Testimonials " },
+      { href: "/admin/testimonial/video-testimonial",   label: "Video Testimonials" },
+    ],
+  },
+ 
 ];
 
 /* ══════════════════════════════════════════════

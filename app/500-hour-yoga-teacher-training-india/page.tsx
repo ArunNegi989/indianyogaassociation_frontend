@@ -1992,7 +1992,7 @@ export default function YogaTTC500() {
         </section>
       )}
 
-      <ReviewSection RatingsSummaryComponent={<RatingsSummarySection />} />
+      <ReviewSection courseType="500-hour-yoga-teacher-training" RatingsSummaryComponent={<RatingsSummarySection />} />
 
       <HowToReach />
     </div>

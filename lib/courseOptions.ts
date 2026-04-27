@@ -1,0 +1,16 @@
+export const COURSE_OPTIONS = [
+  { label: "100 Hour Yoga Teacher Training", value: "100-hour-yoga-teacher-training" },
+  { label: "200 Hour Yoga Teacher Training", value: "200-hour-yoga-teacher-training" },
+  { label: "300 Hour Yoga Teacher Training", value: "300-hour-yoga-teacher-training" },
+  { label: "500 Hour Yoga Teacher Training", value: "500-hour-yoga-teacher-training" },
+  { label: "Kundalini Yoga Teacher Training", value: "kundalini-yoga-teacher-training" },
+  { label: "Yoga Teacher Training Rishikesh", value: "yoga-teacher-training-rishikesh" },
+  { label: "Prenatal Yoga Teacher Training", value: "prenatal-yoga-teacher-training" },
+  { label: "Vinyasa Yoga Teacher Training", value: "vinyasa-yoga-teacher-training" },
+  { label: "Yoga Teacher Training in India", value: "yoga-teacher-training-india" },
+  { label: "Hatha Yoga Teacher Training", value: "hatha-yoga-teacher-training" },
+  { label: "Yoga Teacher Training Goa", value: "yoga-teacher-training-goa" },
+  { label: "Yoga Teacher Training Bali", value: "yoga-teacher-training-bali" },
+  { label: "Ayurveda & Yoga TTC", value: "ayurveda-yoga-ttc" },
+  { label: "Yoga Teacher Training World Wide", value: "yoga-teacher-training-worldwide" },
+] as const;

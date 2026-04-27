@@ -1,5 +1,8 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import Slider from "react-slick";
+
+// Slick CSS global.css mein already hai — yahan se hataya
 import styles from "@/assets/style/Home/Reviewsection.module.css";
 import api from "@/lib/api";
 
@@ -31,10 +34,9 @@ interface ReviewData {
   videoUrl: string;
 }
 
-// ✅ Zero required props — just call <ReviewSection />
 export interface ReviewSectionProps {
-  /** Optional: inject a ratings summary block between text reviews and video section */
   RatingsSummaryComponent?: React.ReactNode;
+  courseType: string; // 👈 ADD THIS
 }
 
 /* ══════════════════════════════════════════════════
@@ -118,6 +120,13 @@ const fallbackVideoReviews: VideoReview[] = [
     name: "Thomas Müller",
     country: "Germany",
     thumbnail: "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=600&q=80",
+    videoUrl: fallbackVideoUrl,
+    label: "Watch Review",
+  },
+  {
+    name: "Aiko Nakamura",
+    country: "Japan",
+    thumbnail: "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=600&q=80",
     videoUrl: fallbackVideoUrl,
     label: "Watch Review",
   },
@@ -269,30 +278,144 @@ function ReviewSkeleton() {
 }
 
 /* ══════════════════════════════════════════════════
-   MAIN EXPORT
-   
-   ✅ Zero props required:
-      <ReviewSection />
-
-   Optional:
-      <ReviewSection RatingsSummaryComponent={<RatingsSummarySection />} />
-
-   API: GET /reviews/get
-   Expected response:
-   {
-     data: {
-       videoUrl: string,        ← main video played in cards
-       textReviews: TextReview[],
-       videoReviews: VideoReview[],
-       stats: { num, label }[]
-     }
-   }
-   Falls back to built-in data if API fails or returns empty.
+   CUSTOM SLICK ARROW COMPONENTS
 ══════════════════════════════════════════════════ */
+interface ArrowProps {
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
+  currentSlide?: number;
+  slideCount?: number;
+}
+
+function PrevArrow({ onClick }: ArrowProps) {
+  return (
+    <button
+      type="button"
+      className={`${styles.rvSliderBtn} ${styles.rvSliderBtnPrev}`}
+      onClick={onClick}
+      aria-label="Previous"
+    >
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
+        <path d="M15 18l-6-6 6-6" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    </button>
+  );
+}
+
+function NextArrow({ onClick }: ArrowProps) {
+  return (
+    <button
+      type="button"
+      className={`${styles.rvSliderBtn} ${styles.rvSliderBtnNext}`}
+      onClick={onClick}
+      aria-label="Next"
+    >
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
+        <path d="M9 18l6-6-6-6" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    </button>
+  );
+}
+
+/* ══════════════════════════════════════════════════
+   VIDEO SLIDER
+══════════════════════════════════════════════════ */
+function VideoSlider({
+  videoReviews,
+  videoUrl,
+  activeVideo,
+  setActiveVideo,
+}: {
+  videoReviews: VideoReview[];
+  videoUrl: string;
+  activeVideo: number | null;
+  setActiveVideo: (i: number | null) => void;
+}) {
+  const isPlaying = activeVideo !== null;
+
+  const slickSettings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    autoplay: !isPlaying,
+    autoplaySpeed: 3500,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    prevArrow: <PrevArrow />,
+    nextArrow: <NextArrow />,
+    dotsClass: `slick-dots ${styles.rvSlickDots}`,
+    responsive: [
+      {
+        // Tablet: 2 cards
+        breakpoint: 1024,
+        settings: { slidesToShow: 2, slidesToScroll: 1 },
+      },
+      {
+        // ── FIX: Mobile (≤768px) — ek baar mein sirf 1 card ──
+        // Pehle 767 tha — exactly 768px wale devices pe 2 cards dikh rahe the
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          centerMode: false,
+        },
+      },
+    ],
+  };
+
+  return (
+    <div className={styles.rvSliderRoot}>
+      <Slider key={String(isPlaying)} {...slickSettings}>
+        {videoReviews.map((vr, i) => (
+          <div key={i} className={styles.rvSlickSlide}>
+            <div
+              className={styles.rvVideoCard}
+              style={{ "--vri": i } as React.CSSProperties}
+            >
+              <div
+                className={styles.rvThumbWrap}
+                onClick={() => setActiveVideo(activeVideo === i ? null : i)}
+              >
+                {activeVideo === i ? (
+                  <div className={styles.rvVideoActive}>
+                    <DynamicVideo url={vr.videoUrl || videoUrl} />
+                  </div>
+                ) : (
+                  <>
+                    <img src={vr.thumbnail} alt={vr.name} className={styles.rvThumb} />
+                    <div className={styles.rvOverlay} />
+                    <div className={styles.rvPlayBtn}>
+                      <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M8 5v14l11-7z" />
+                      </svg>
+                    </div>
+                    <div className={styles.rvLabel}>{vr.label}</div>
+                  </>
+                )}
+              </div>
+              <div className={styles.rvVideoInfo}>
+                <div className={styles.rvVideoName}>{vr.name}</div>
+                <div className={styles.rvVideoCountry}>{vr.country}</div>
+                <StarRating count={5} />
+              </div>
+            </div>
+          </div>
+        ))}
+      </Slider>
+    </div>
+  );
+}
+
+/* ══════════════════════════════════════════════════
+   MAIN EXPORT
+══════════════════════════════════════════════════ */
+const REVIEWS_PER_PAGE = 6;
+
 export default function ReviewSection({
   RatingsSummaryComponent,
+  courseType, // 👈 ADD THIS
 }: ReviewSectionProps) {
   const [activeVideo, setActiveVideo] = useState<number | null>(null);
+  const [visibleCount, setVisibleCount] = useState(REVIEWS_PER_PAGE);
   const [data, setData] = useState<ReviewData>({
     textReviews: fallbackTextReviews,
     videoReviews: fallbackVideoReviews,
@@ -301,38 +424,71 @@ export default function ReviewSection({
   });
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    api
-      .get("/reviews/get")
-      .then((res) => {
-        const d = res.data?.data;
-        if (d) {
-          setData({
-            textReviews:
-              Array.isArray(d.textReviews) && d.textReviews.length > 0
-                ? d.textReviews
-                : fallbackTextReviews,
-            videoReviews:
-              Array.isArray(d.videoReviews) && d.videoReviews.length > 0
-                ? d.videoReviews
-                : fallbackVideoReviews,
-            stats:
-              Array.isArray(d.stats) && d.stats.length > 0
-                ? d.stats
-                : fallbackStats,
-            videoUrl: d.videoUrl || fallbackVideoUrl,
-          });
-        }
-      })
-      .catch(() => {
-        // silently use fallback data
-      })
-      .finally(() => setLoading(false));
-  }, []);
+ useEffect(() => {
+  const fetchReviews = async () => {
+    try {
+      const [textRes, videoRes] = await Promise.all([
+        api.get("/student-reviews/get"),
+        api.get("/video-reviews/get"),
+      ]);
+
+      // ✅ FILTER BY COURSE TYPE
+      const textFiltered = textRes.data?.data?.filter(
+        (r: any) => r.courseType === courseType && r.status === "Active"
+      );
+
+      const videoFiltered = videoRes.data?.data?.filter(
+        (r: any) => r.courseType === courseType && r.status === "Active"
+      );
+
+      // ✅ MAP DATA (IMPORTANT for UI match)
+      const mappedText = textFiltered.map((r: any) => ({
+        name: r.name,
+        country: r.country,
+        image: r.image.startsWith("http")
+          ? r.image
+          : `${process.env.NEXT_PUBLIC_API_URL}${r.image}`,
+        rating: r.rating,
+        review: r.review,
+        course: r.courseType,
+        date: new Date(r.date).toLocaleDateString("en-IN", {
+          day: "2-digit",
+          month: "short",
+          year: "numeric",
+        }),
+      }));
+
+      const mappedVideo = videoFiltered.map((v: any) => ({
+        name: v.name,
+        country: v.country,
+        thumbnail: v.thumbnail
+          ? `${process.env.NEXT_PUBLIC_API_URL}${v.thumbnail}`
+          : "",
+        videoUrl: v.videoUrl || v.videoFile,
+        label: v.label || "Watch Review",
+      }));
+
+      setData({
+        textReviews: mappedText.length ? mappedText : fallbackTextReviews,
+        videoReviews: mappedVideo.length ? mappedVideo : fallbackVideoReviews,
+        stats: fallbackStats,
+        videoUrl: fallbackVideoUrl,
+      });
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchReviews();
+}, [courseType]);
 
   if (loading) return <ReviewSkeleton />;
 
   const { textReviews, videoReviews, stats, videoUrl } = data;
+  const visibleReviews = textReviews.slice(0, visibleCount);
+  const hasMore = visibleCount < textReviews.length;
 
   return (
     <section className={styles.rvSection}>
@@ -358,7 +514,7 @@ export default function ReviewSection({
 
       {/* ── TEXT REVIEWS GRID ── */}
       <div className={styles.rvTextGrid}>
-        {textReviews.map((r, i) => (
+        {visibleReviews.map((r, i) => (
           <div
             key={i}
             className={styles.rvTextCard}
@@ -410,6 +566,28 @@ export default function ReviewSection({
         ))}
       </div>
 
+      {/* ── VIEW MORE BUTTON ── */}
+      {hasMore && (
+        <div className={styles.rvViewMoreWrap}>
+          <button
+            type="button"
+            className={styles.rvViewMoreBtn}
+            onClick={() => setVisibleCount((prev) => prev + REVIEWS_PER_PAGE)}
+          >
+            View More Reviews
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.2"
+              className={styles.rvViewMoreIcon}
+            >
+              <path d="M6 9l6 6 6-6" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </button>
+        </div>
+      )}
+
       {/* ── RATINGS SUMMARY (optional slot) ── */}
       {RatingsSummaryComponent && (
         <div className={styles.rvRatingsWrap}>{RatingsSummaryComponent}</div>
@@ -418,43 +596,12 @@ export default function ReviewSection({
       {/* ── VIDEO TESTIMONIALS ── */}
       <OmDivider label="Video Testimonials" />
       <div className={styles.rvVideoWrap}>
-        <div className={styles.rvVideoGrid}>
-          {videoReviews.map((vr, i) => (
-            <div
-              key={i}
-              className={styles.rvVideoCard}
-              style={{ "--vri": i } as React.CSSProperties}
-            >
-              <div
-                className={styles.rvThumbWrap}
-                onClick={() => setActiveVideo(activeVideo === i ? null : i)}
-              >
-                {activeVideo === i ? (
-                  <div className={styles.rvVideoActive}>
-                    {/* Each card uses its own videoUrl from API, falls back to section-level videoUrl */}
-                    <DynamicVideo url={vr.videoUrl || videoUrl} />
-                  </div>
-                ) : (
-                  <>
-                    <img src={vr.thumbnail} alt={vr.name} className={styles.rvThumb} />
-                    <div className={styles.rvOverlay} />
-                    <div className={styles.rvPlayBtn}>
-                      <svg viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M8 5v14l11-7z" />
-                      </svg>
-                    </div>
-                    <div className={styles.rvLabel}>{vr.label}</div>
-                  </>
-                )}
-              </div>
-              <div className={styles.rvVideoInfo}>
-                <div className={styles.rvVideoName}>{vr.name}</div>
-                <div className={styles.rvVideoCountry}>{vr.country}</div>
-                <StarRating count={5} />
-              </div>
-            </div>
-          ))}
-        </div>
+        <VideoSlider
+          videoReviews={videoReviews}
+          videoUrl={videoUrl}
+          activeVideo={activeVideo}
+          setActiveVideo={setActiveVideo}
+        />
 
         {/* ── SIDE PANEL ── */}
         <div className={styles.rvSidePanel}>

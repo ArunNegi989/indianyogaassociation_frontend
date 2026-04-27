@@ -5,7 +5,7 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Lato:ital,wght@0,300;0,400;0,700;1,400&family=Montserrat:wght@500;600;700&display=swap');
 
-/* ── CSS Variables (self-contained so component works on any page) ── */
+/* ── CSS Variables ── */
 .rvSection {
   --rv-parchment: #fff9ed;
   --rv-ink-sepia: #2c1a08;
@@ -234,11 +234,7 @@
   gap: 2px;
 }
 
-.rvStar {
-  width: 13px;
-  height: 13px;
-}
-
+.rvStar { width: 13px; height: 13px; }
 .rvStarFilled { color: #e07b00; }
 .rvStarEmpty  { color: #e0c88a; }
 
@@ -303,9 +299,50 @@
   transition: width 0.4s ease;
 }
 
-.rvTextCard:hover .rvGlowLine {
-  width: 100%;
+.rvTextCard:hover .rvGlowLine { width: 100%; }
+
+/* ================================================================
+   VIEW MORE BUTTON
+   ================================================================ */
+.rvViewMoreWrap {
+  display: flex;
+  justify-content: center;
+  margin: 0.5rem 0 2.5rem;
 }
+
+.rvViewMoreBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.72rem 2.2rem;
+  background: transparent;
+  border: 1.5px solid var(--rv-saffron);
+  color: var(--rv-saffron);
+  border-radius: 50px;
+  font-family: var(--rv-font-menu);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.22s, color 0.22s, transform 0.18s, box-shadow 0.22s;
+}
+
+.rvViewMoreBtn:hover {
+  background: var(--rv-saffron);
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 22px rgba(241, 85, 5, 0.28);
+}
+
+.rvViewMoreIcon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  transition: transform 0.2s;
+}
+
+.rvViewMoreBtn:hover .rvViewMoreIcon { transform: translateY(2px); }
 
 /* ================================================================
    RATINGS SUMMARY SLOT
@@ -322,10 +359,8 @@
   display: flex;
   align-items: center;
   gap: 1rem;
-  margin: 2rem 0;
+  margin: 2rem auto;
   max-width: 1300px;
-  margin-left: auto;
-  margin-right: auto;
 }
 
 .rvDivLineLeft {
@@ -340,11 +375,7 @@
   background: linear-gradient(90deg, var(--rv-saffron-gold), transparent);
 }
 
-.rvOmDividerCenter {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+.rvOmDividerCenter { display: flex; flex-direction: column; align-items: center; }
 
 .rvOmDividerLabel {
   font-family: var(--rv-font-menu);
@@ -355,7 +386,7 @@
 }
 
 /* ================================================================
-   VIDEO REVIEWS
+   VIDEO SECTION LAYOUT
    ================================================================ */
 .rvVideoWrap {
   display: grid;
@@ -366,20 +397,131 @@
   align-items: start;
 }
 
-.rvVideoGrid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.2rem;
+/* ================================================================
+   REACT-SLICK SLIDER
+   ================================================================ */
+
+/* Root wrapper */
+.rvSliderRoot {
+  position: relative;
+  padding: 0 48px;
+  /* ── FIX: contain all slides so extra cards never spill below ── */
+  overflow: hidden;
+  min-width: 0; /* prevents grid blowout */
 }
 
+/* ── FIX: Force slick internals to clip properly (CSS Modules :global) ── */
+.rvSliderRoot :global(.slick-slider),
+.rvSliderRoot :global(.slick-list) {
+  overflow: hidden !important;
+}
+
+/* ── FIX: slick-track must be a flex row, never wrap ── */
+.rvSliderRoot :global(.slick-track) {
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  align-items: stretch;
+}
+
+/* ── FIX: each slick slide must not exceed its column width ── */
+.rvSliderRoot :global(.slick-slide) {
+  float: none !important; /* slick uses float by default — override with flex */
+  height: auto !important;
+  min-width: 0;
+}
+
+/* ── FIX: inner div slick injects must also be contained ── */
+.rvSliderRoot :global(.slick-slide) > div {
+  height: 100%;
+}
+
+/* Each slide wrapper — padding creates gap between cards */
+.rvSlickSlide {
+  padding: 0 8px;
+  box-sizing: border-box;
+  height: 100%;
+}
+
+/* ── Custom arrow buttons ── */
+.rvSliderBtn {
+  position: absolute;
+  top: 38%;
+  transform: translateY(-50%);
+  z-index: 10;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(241, 85, 5, 0.35);
+  background: #fff;
+  color: var(--rv-saffron);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(80, 40, 5, 0.12);
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s, transform 0.2s;
+  padding: 0;
+}
+
+.rvSliderBtn svg { width: 20px; height: 20px; }
+
+.rvSliderBtn:hover {
+  background: var(--rv-saffron);
+  color: #fff;
+  box-shadow: 0 6px 20px rgba(241, 85, 5, 0.3);
+  transform: translateY(-50%) scale(1.08);
+}
+
+.rvSliderBtnPrev { left: 0; }
+.rvSliderBtnNext { right: 0; }
+
+/* ── Slick dots — brand styled ── */
+.rvSlickDots {
+  position: static !important;
+  margin-top: 1.4rem !important;
+  display: flex !important;
+  justify-content: center;
+  gap: 6px;
+  list-style: none;
+  padding: 0;
+  /* ── FIX: limit dots row height so many dots never expand section ── */
+  flex-wrap: wrap;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.rvSlickDots li { margin: 0 !important; width: auto !important; height: auto !important; }
+
+.rvSlickDots li button {
+  width: 8px !important;
+  height: 8px !important;
+  border-radius: 50% !important;
+  background: rgba(241, 85, 5, 0.22) !important;
+  border: none !important;
+  padding: 0 !important;
+  cursor: pointer;
+  transition: background 0.25s, transform 0.25s;
+  font-size: 0 !important;
+}
+
+.rvSlickDots li button::before {
+  display: none !important;
+}
+
+.rvSlickDots li.slick-active button {
+  background: var(--rv-saffron) !important;
+  transform: scale(1.4);
+}
+
+/* ================================================================
+   VIDEO CARD
+   ================================================================ */
 .rvVideoCard {
   border-radius: 14px;
   overflow: hidden;
   background: #fff;
   border: 1px solid rgba(184, 134, 11, 0.15);
   box-shadow: 0 4px 16px rgba(80, 40, 5, 0.07);
-  animation: rvReviewFadeUp 0.6s ease both;
-  animation-delay: calc(var(--vri, 0) * 0.1s);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
@@ -403,9 +545,7 @@
   transition: transform 0.5s ease;
 }
 
-.rvVideoCard:hover .rvThumb {
-  transform: scale(1.06);
-}
+.rvVideoCard:hover .rvThumb { transform: scale(1.06); }
 
 .rvOverlay {
   position: absolute;
@@ -430,10 +570,7 @@
   transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.2s;
 }
 
-.rvPlayBtn svg {
-  width: 24px;
-  height: 24px;
-}
+.rvPlayBtn svg { width: 24px; height: 24px; }
 
 .rvVideoCard:hover .rvPlayBtn {
   transform: translate(-50%, -50%) scale(1.12);
@@ -499,10 +636,7 @@
 }
 
 /* ── Side panel ── */
-.rvSidePanel {
-  position: sticky;
-  top: 100px;
-}
+.rvSidePanel { position: sticky; top: 100px; }
 
 .rvSideInner {
   background: linear-gradient(155deg, #fffefd, #fffdfa);
@@ -526,10 +660,7 @@
   margin-bottom: 1.2rem;
 }
 
-.rvSideIcon svg {
-  width: 100%;
-  height: 100%;
-}
+.rvSideIcon svg { width: 100%; height: 100%; }
 
 .rvSideTitle {
   font-family: var(--rv-font-fell);
@@ -557,11 +688,7 @@
   border-top: 1px solid rgba(184, 134, 11, 0.15);
 }
 
-.rvSideStat {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
+.rvSideStat { display: flex; flex-direction: column; align-items: flex-start; }
 
 .rvSideStatNum {
   font-family: var(--rv-font-display);
@@ -600,50 +727,42 @@
   box-shadow: 0 4px 16px rgba(200, 112, 10, 0.3);
 }
 
-.rvSideBtn:hover {
-  opacity: 0.9;
-  transform: translateY(-1px);
-}
-
-.rvSideBtnArrow {
-  width: 14px;
-  height: 14px;
-}
+.rvSideBtn:hover { opacity: 0.9; transform: translateY(-1px); }
+.rvSideBtnArrow { width: 14px; height: 14px; }
 
 /* ================================================================
    RESPONSIVE
    ================================================================ */
 @media (min-width: 1024px) and (max-width: 1199px) {
-  .rvTextGrid        { grid-template-columns: repeat(2, 1fr); }
-  .rvVideoWrap       { grid-template-columns: 1fr; }
-  .rvSidePanel       { position: static; }
+  .rvTextGrid  { grid-template-columns: repeat(2, 1fr); }
+  .rvVideoWrap { grid-template-columns: 1fr; }
+  .rvSidePanel { position: static; }
 }
 
 @media (max-width: 1023px) {
-  .rvTextGrid        { grid-template-columns: repeat(2, 1fr); }
-  .rvVideoGrid       { grid-template-columns: repeat(2, 1fr); }
-  .rvVideoWrap       { grid-template-columns: 1fr; }
-  .rvSidePanel       { position: static; }
-  .rvStatRow         { flex-wrap: wrap; gap: 1rem; border-radius: 16px; }
+  .rvTextGrid  { grid-template-columns: repeat(2, 1fr); }
+  .rvVideoWrap { grid-template-columns: 1fr; }
+  .rvSidePanel { position: static; }
+  .rvStatRow   { flex-wrap: wrap; gap: 1rem; border-radius: 16px; }
 }
 
 @media (max-width: 767px) {
-  .rvSection         { padding-left: 1rem; padding-right: 1rem; }
-  .rvTextGrid        { grid-template-columns: 1fr; }
-  .rvVideoGrid       { grid-template-columns: 1fr 1fr; }
-  .rvVideoWrap       { grid-template-columns: 1fr; }
-  .rvSidePanel       { position: static; }
+  .rvSection   { padding-left: 1rem; padding-right: 1rem; }
+  .rvTextGrid  { grid-template-columns: 1fr; }
+  .rvVideoWrap { grid-template-columns: 1fr; }
+  .rvSidePanel { position: static; }
+  .rvSliderRoot { padding: 0 36px; }
 }
 
 @media (max-width: 599px) {
-  .rvVideoGrid       { grid-template-columns: 1fr; }
-  .rvCardTop         { flex-wrap: wrap; }
-  .rvCourseBadge     { order: 3; flex-basis: 100%; text-align: left; }
+  .rvCardTop     { flex-wrap: wrap; }
+  .rvCourseBadge { order: 3; flex-basis: 100%; text-align: left; }
+  .rvSliderRoot  { padding: 0 32px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .rvTextCard,
-  .rvVideoCard       { animation: none; opacity: 1; }
+  .rvVideoCard        { animation: none; opacity: 1; }
   .rvTextCard:hover,
-  .rvVideoCard:hover { transform: none; }
+  .rvVideoCard:hover  { transform: none; }
 }

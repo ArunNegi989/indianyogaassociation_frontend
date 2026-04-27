@@ -2053,7 +2053,10 @@ export default function TwoHundredHourYoga() {
       </section>
 
       <PremiumGallerySection type="both" backgroundColor="warm" />
-      <ReviewSection RatingsSummaryComponent={<RatingsSummarySection />} />
+       <ReviewSection
+       courseType="200-hour-yoga-teacher-training"
+       RatingsSummaryComponent={<RatingsSummarySection />}
+     />
       <div id="location">
         <HowToReach />
       </div>

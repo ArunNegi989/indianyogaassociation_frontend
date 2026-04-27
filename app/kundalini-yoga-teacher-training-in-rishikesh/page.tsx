@@ -2505,7 +2505,7 @@ export default function KundaliniYogaTTC() {
 </section>
       <PremiumGallerySection type="both" backgroundColor="warm" />
       {/* ✅ REVIEWS — now a reusable separate component */}
-      <ReviewSection RatingsSummaryComponent={<RatingsSummarySection />} />
+      <ReviewSection courseType="kundalini-yoga-teacher-training" RatingsSummaryComponent={<RatingsSummarySection />} />
 
       <HowToReach />
     </div>

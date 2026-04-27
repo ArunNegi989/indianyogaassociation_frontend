@@ -1854,7 +1854,10 @@ export default function HundredHourYoga() {
       <PremiumGallerySection type="both" backgroundColor="warm" />
 
       {/* REVIEWS */}
-      <ReviewSection RatingsSummaryComponent={<RatingsSummarySection />} />
+    <ReviewSection
+  courseType="100-hour-yoga-teacher-training"
+  RatingsSummaryComponent={<RatingsSummarySection />}
+/>
 
       {/* LOCATION */}
       <div id="location">

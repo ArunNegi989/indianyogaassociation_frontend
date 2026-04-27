@@ -877,7 +877,7 @@ export default function BestYogaSchool() {
 
       {/* ✅ REVIEWS — now a reusable separate component */}
       <div id="reviews">
-        <ReviewSection RatingsSummaryComponent={<RatingsSummarySection />} />
+        <ReviewSection courseType="yoga-teacher-training-rishikesh" RatingsSummaryComponent={<RatingsSummarySection />} />
       </div>
 
       <div id="location">

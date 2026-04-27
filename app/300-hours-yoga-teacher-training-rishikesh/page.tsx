@@ -2016,7 +2016,7 @@ export default function YogaTTC300() {
         <span className={styles.divLine} />
       </div>
 
-      <ReviewSection RatingsSummaryComponent={<RatingsSummarySection />} />
+      <ReviewSection courseType="300-hour-yoga-teacher-training"  RatingsSummaryComponent={<RatingsSummarySection />} />
       <div id="location">
         <HowToReach />
       </div>
