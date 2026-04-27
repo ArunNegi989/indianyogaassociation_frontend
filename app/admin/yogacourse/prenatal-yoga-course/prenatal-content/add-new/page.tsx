@@ -2,7 +2,7 @@
 
 import { useState, useRef, useCallback, useEffect, memo, useMemo } from "react";
 import { useForm } from "react-hook-form";
-import { useRouter} from "next/navigation";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import styles from "@/assets/style/Admin/yogacourse/200hourscourse/Yoga200hr.module.css";
@@ -67,6 +67,18 @@ function Sec({ title, badge, children }: { title: string; badge?: string; childr
         {badge && <span className={styles.sectionBadge}>{badge}</span>}
       </div>
       {children}
+    </div>
+  );
+}
+
+/* ─── Sub Section Wrapper ─── */
+function SubSec({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <div className={styles.nestedCard} style={{ marginBottom: "1rem" }}>
+      <div className={styles.nestedCardHeader}>
+        <span className={styles.nestedCardNum}>{title}</span>
+      </div>
+      <div className={styles.nestedCardBody}>{children}</div>
     </div>
   );
 }
@@ -153,33 +165,68 @@ const RichListItem = memo(function RichListItem({
   );
 });
 
-/* ─── Single Image Uploader ─── */
-function SingleImg({ preview, badge, hint, error, onSelect, onRemove }: {
+/* ─── String List ─── */
+function StrList({ items, onAdd, onRemove, onUpdate, max = 30, ph, label }: {
+  items: string[]; onAdd: () => void; onRemove: (i: number) => void;
+  onUpdate: (i: number, v: string) => void; max?: number; ph?: string; label: string;
+}) {
+  return (
+    <>
+      <div className={styles.listItems}>
+        {items.map((val, i) => (
+          <div key={i} className={styles.listItemRow}>
+            <span className={styles.listNum}>{i + 1}</span>
+            <div className={`${styles.inputWrap} ${styles.listInput}`}>
+              <input className={`${styles.input} ${styles.inputNoCount}`} value={val}
+                placeholder={ph || "Enter item…"} onChange={(e) => onUpdate(i, e.target.value)} />
+            </div>
+            <button type="button" className={styles.removeItemBtn}
+              onClick={() => onRemove(i)} disabled={items.length <= 1}>✕</button>
+          </div>
+        ))}
+      </div>
+      {items.length < max && (
+        <button type="button" className={styles.addItemBtn} onClick={onAdd}>＋ Add {label}</button>
+      )}
+    </>
+  );
+}
+
+/* ─── Single Image/Video Uploader ─── */
+function SingleMedia({ preview, badge, hint, error, onSelect, onRemove, type = "image" }: {
   preview: string; badge?: string; hint: string; error?: string;
   onSelect: (f: File, p: string) => void; onRemove: () => void;
+  type?: string;
 }) {
+  const isVideo = type === "video";
+  const accept = isVideo ? "video/mp4,video/webm,video/quicktime" : "image/*";
+  
   return (
     <div>
       <div className={`${styles.imageUploadZone} ${preview ? styles.hasImage : ""} ${error ? styles.inputError : ""}`}>
         {!preview ? (
           <>
-            <input type="file" accept="image/*" onChange={(e) => {
+            <input type="file" accept={accept} onChange={(e) => {
               const f = e.target.files?.[0];
               if (f) { onSelect(f, URL.createObjectURL(f)); e.target.value = ""; }
             }} />
             <div className={styles.imageUploadPlaceholder}>
-              <span className={styles.imageUploadIcon}>🖼️</span>
-              <span className={styles.imageUploadText}>Click to Upload</span>
+              <span className={styles.imageUploadIcon}>{isVideo ? "🎥" : "🖼️"}</span>
+              <span className={styles.imageUploadText}>Click to Upload {isVideo ? "Video" : "Image"}</span>
               <span className={styles.imageUploadSub}>{hint}</span>
             </div>
           </>
         ) : (
           <div className={styles.imagePreviewWrap}>
             {badge && <span className={styles.imageBadge}>{badge}</span>}
-            <img src={preview} alt="" className={styles.imagePreview} />
+            {isVideo ? (
+              <video src={preview} className={styles.imagePreview} controls />
+            ) : (
+              <img src={preview} alt="" className={styles.imagePreview} />
+            )}
             <div className={styles.imagePreviewOverlay}>
               <span className={styles.imagePreviewAction}>✎ Change</span>
-              <input type="file" accept="image/*" className={styles.imagePreviewOverlayInput} onChange={(e) => {
+              <input type="file" accept={accept} className={styles.imagePreviewOverlayInput} onChange={(e) => {
                 const f = e.target.files?.[0];
                 if (f) { onSelect(f, URL.createObjectURL(f)); e.target.value = ""; }
               }} />
@@ -268,7 +315,7 @@ function ScheduleManager({ items, onChange }: { items: ScheduleItem[]; onChange:
 }
 
 /* ══════════════════════════════════════════
-   CURRICULUM MODULES MANAGER (Online/Offline)
+   CURRICULUM MODULES MANAGER
 ══════════════════════════════════════════ */
 interface CurriculumItem {
   id: string;
@@ -424,7 +471,7 @@ function HeroGridManager({ images, onChange }: {
       {images.map((img, idx) => (
         <div key={idx} className={styles.fieldGroup}>
           <label className={styles.label} style={{ fontSize: "0.8rem" }}>Image {idx + 1}</label>
-          <SingleImg
+          <SingleMedia
             preview={img.preview}
             badge={`Grid ${idx + 1}`}
             hint="JPG/PNG/WEBP · 600×400px"
@@ -481,35 +528,40 @@ function useParaList(initId: string, initVal = "") {
 interface PageFormValues {
   slug: string;
   status: "Active" | "Inactive";
-  /* Section 1 — Hero */
   pageTitleH1: string;
   heroImgAlt: string;
-  /* Section 2 — Intro / About */
   introSectionTitle: string;
-  introPara1: string;
-  introPara2: string;
-  introPara3: string;
-  /* Section 3 — Course Features */
   featuresSectionTitle: string;
   featuresSuperLabel: string;
-  featuresPara1: string;
-  featuresPara2: string;
-  /* Section 3a — Location */
+  featuresVideoLabel: string;
   locationSubTitle: string;
-  locationPara: string;
-  /* Section 4 — Batch Table */
+  locationMapEmbedUrl: string;
+  locationMapLabel: string;
   batchSectionTitle: string;
   joinBtnText: string;
   joinBtnUrl: string;
-  /* Section 5 — TTC Costs */
   costsSectionTitle: string;
-  costsPara: string;
-  /* Section 6 — Online Course */
   onlineSectionTitle: string;
-  onlinePara: string;
-  /* Meta */
+  onlineHeaderSubtitle: string;
+  onlineHighlightsTitle: string;
+  onlineVideoLabel: string;
+  onlineBonusIcon: string;
+  onlineBonusTitle: string;
+  onlineBonusText: string;
+  onlineCtaLabel: string;
+  onlineCtaSub: string;
+  onlineCtaBtnText: string;
+  onlineCtaBtnUrl: string;
   metaTitle: string;
   metaDescription: string;
+  courseInfoCardTitle: string;
+  courseInfoFeeLabel: string;
+  courseInfoFeeFromText: string;
+  courseInfoBookBtnText: string;
+  courseInfoUsdPrice: number;
+  courseInfoInrPrice: number;
+  courseInfoOriginalUsdPrice: number;
+  courseInfoOriginalInrPrice: number;
 }
 
 /* ══════════════════════════════════════════
@@ -517,8 +569,7 @@ interface PageFormValues {
 ══════════════════════════════════════════ */
 export default function AddEditPrenatalYogaTTCPage() {
   const router = useRouter();
- 
-const [isEdit, setIsEdit] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [loadingData, setLoadingData] = useState(false);
@@ -531,6 +582,14 @@ const [isEdit, setIsEdit] = useState(false);
   /* ── Location Image ── */
   const [locationImageFile, setLocationImageFile] = useState<File | null>(null);
   const [locationImagePrev, setLocationImagePrev] = useState("");
+
+  /* ── Features Video File ── */
+  const [featuresVideoFile, setFeaturesVideoFile] = useState<File | null>(null);
+  const [featuresVideoPrev, setFeaturesVideoPrev] = useState("");
+
+  /* ── Online Video File ── */
+  const [onlineVideoFile, setOnlineVideoFile] = useState<File | null>(null);
+  const [onlineVideoPrev, setOnlineVideoPrev] = useState("");
 
   /* ── Hero Grid Images (3) ── */
   const [heroGridImages, setHeroGridImages] = useState<HeroGridImage[]>([
@@ -549,7 +608,7 @@ const [isEdit, setIsEdit] = useState(false);
   const costParaRef = useRef("");
   const onlineParaRef = useRef("");
 
-  /* ── Para lists (for sections that need multiple paragraphs) ── */
+  /* ── Para lists ── */
   const introExtraParaList = useParaList("iep1");
   const featuresExtraParaList = useParaList("fep1");
   const costsExtraParaList = useParaList("cep1");
@@ -560,7 +619,44 @@ const [isEdit, setIsEdit] = useState(false);
   const [curriculum, setCurriculum] = useState<CurriculumItem[]>(DEFAULT_CURRICULUM);
   const [hoursSummary, setHoursSummary] = useState<HoursSummaryItem[]>(DEFAULT_HOURS_SUMMARY);
 
-  /* ── useForm ── */
+  /* ── Features Dynamic Fields ── */
+  const [featuresPills, setFeaturesPills] = useState<string[]>([
+    "Garbh Sanskar", "Pranayama", "Meditation", "Anatomy", "Teaching Practice", "Postnatal Care"
+  ]);
+  const [featuresStats, setFeaturesStats] = useState([
+    { num: "85+", label: "Hours Training" },
+    { num: "500+", label: "Graduates" },
+    { num: "15+", label: "Years Experience" }
+  ]);
+
+  /* ── Location Dynamic Fields ── */
+  const [locationBadges, setLocationBadges] = useState<string[]>([
+    "📍 Tapovan, Rishikesh",
+    "🏔️ Himalayan Foothills",
+    "🌊 12 min to Laxman Jhula",
+    "🧘 Peaceful Ashram Setting"
+  ]);
+
+  /* ── Online Highlights Items ── */
+  const [onlineHighlights, setOnlineHighlights] = useState([
+    { icon: "🎥", text: "Recorded video lectures, lifetime access" },
+    { icon: "📄", text: "Downloadable course materials & PDFs" },
+    { icon: "🧘", text: "Live Q&A sessions with instructors" },
+    { icon: "🏆", text: "Internationally recognised certificate" },
+    { icon: "💬", text: "Private student community access" },
+    { icon: "🔄", text: "Flexible, self-paced learning schedule" },
+  ]);
+
+  /* ── Course Info Details ── */
+  const [courseInfoDetails, setCourseInfoDetails] = useState([
+    { label: "DURATION", value: "24 Days", sub: "" },
+    { label: "LEVEL", value: "Beginner to Advanced", sub: "" },
+    { label: "CERTIFICATION", value: "85 Hour", sub: "" },
+    { label: "STYLE", value: "Prenatal Yoga", sub: "Hatha & Kundalini Based" },
+    { label: "LANGUAGE", value: "English & Hindi", sub: "" },
+    { label: "DATE", value: "Check batches below", sub: "" },
+  ]);
+
   const { register, handleSubmit, setValue, formState: { errors } } = useForm<PageFormValues>({
     defaultValues: {
       slug: "",
@@ -568,148 +664,191 @@ const [isEdit, setIsEdit] = useState(false);
       pageTitleH1: "Pregnancy Yoga Course in Rishikesh",
       heroImgAlt: "Yoga Students Group",
       introSectionTitle: "Pregnancy Yoga Course in Rishikesh",
-      introPara1: "Pregnancy is one of the most crucial and beautiful phases in a woman's life. During this time, her body undergoes significant physical and emotional changes. To support women during this sacred journey, AYM Yoga School offers the best prenatal yoga teacher training in Rishikesh, including our specialized 85-hour prenatal yoga course designed to meet the needs of expecting mothers.",
-      introPara2: "Our program blends traditional techniques with modern approaches, incorporating Garbh Sanskar practices to nurture both the mother and the baby. From mindfulness and emotional balance to building strength and preparing for childbirth, this certification course provides holistic support for a healthy and joyful pregnancy.",
-      introPara3: "Join AYM - the trusted name in pregnancy and prenatal yoga in Rishikesh—and experience a transformative journey toward motherhood.",
       featuresSectionTitle: "Prenatal Yoga Teacher Training Course Features",
       featuresSuperLabel: "Course Structure",
-      featuresPara1: "Being at the top of the list of best pregnancy yoga courses in Rishikesh, we offer tailored courses for pregnant women. We aim to offer a soothing journey towards a healthy pregnancy. Our courses include different forms and techniques of yoga and practical guidance.",
-      featuresPara2: "All the techniques are beneficial for expecting mothers. In addition to teaching, our pregnancy yoga course in Rishikesh also involves practical workshops to offer you hands-on experience.",
+      featuresVideoLabel: "Watch Our Prenatal Yoga Sessions",
       locationSubTitle: "Prenatal Yoga School in Rishikesh – Location",
-      locationPara: "AYM Yoga Ashram is set back in the stunning location of Tapovan, Rishikesh and is surrounded by beautiful mountains, waterfalls, and supreme tranquility. The famous Laxman Jhula Bridge over the graceful and holy Ganges River is just a 12-minute walk from our ashram.",
+      locationMapEmbedUrl: "",
+      locationMapLabel: "📍 Tapovan, Rishikesh, Uttarakhand",
       batchSectionTitle: "Upcoming Prenatal Yoga Teacher Training India 2026",
       joinBtnText: "Join Your Yoga Journey",
       joinBtnUrl: "#",
       costsSectionTitle: "Prenatal Yoga TTC Costs and How to Apply",
-      costsPara: "Course Fee: 399 USD. This fee includes food, accommodation and course fees. To apply send us an email.",
       onlineSectionTitle: "Online Pregnancy Yoga Teacher Training in Rishikesh",
-      onlinePara: "Detailed Structure of the course for online and offline course.",
+      onlineHeaderSubtitle: "Comprehensive Online Training for Aspiring Prenatal Yoga Teachers",
+      onlineHighlightsTitle: "What You Get Online",
+      onlineVideoLabel: "Course Preview",
+      onlineBonusIcon: "🎁",
+      onlineBonusTitle: "Bonus Included",
+      onlineBonusText: "Free access to prenatal yoga community & monthly workshops",
+      onlineCtaLabel: "Ready to begin your journey?",
+      onlineCtaSub: "Join our next online batch · Flexible schedule · Globally certified",
+      onlineCtaBtnText: "Enrol Now",
+      onlineCtaBtnUrl: "#batch-section",
       metaTitle: "Pregnancy Yoga Course in Rishikesh | AYM Yoga School",
       metaDescription: "Join AYM Yoga School for the best prenatal yoga teacher training in Rishikesh. 85-hour certified program blending traditional and modern techniques.",
+      courseInfoCardTitle: "COURSE DETAILS",
+      courseInfoFeeLabel: "COURSE FEE",
+      courseInfoFeeFromText: "starting from",
+      courseInfoBookBtnText: "BOOK NOW",
+      courseInfoUsdPrice: 399,
+      courseInfoInrPrice: 33000,
+      courseInfoOriginalUsdPrice: 799,
+      courseInfoOriginalInrPrice: 66000,
     },
   });
 
   /* ── Fetch on edit ── */
   useEffect(() => {
-  const fetchData = async () => {
-    setLoadingData(true);
-    try {
-      const res = await api.get(`/prenatal-page`);
-      const d = res.data?.data;
+    const fetchData = async () => {
+      setLoadingData(true);
+      try {
+        const res = await api.get(`/prenatal-page`);
+        const d = res.data?.data;
 
-      if (!d) return;
+        if (!d) {
+          setIsEdit(false);
+          return;
+        }
 
-      setIsEdit(true); // 🔥 important
+        setIsEdit(true);
 
-   const textFields: (keyof PageFormValues)[] = [
-  "slug", "status", "pageTitleH1", "heroImgAlt",
-  "introSectionTitle", "introPara1", "introPara2", "introPara3",
-  "featuresSectionTitle", "featuresSuperLabel", "featuresPara1", "featuresPara2",
-  "locationSubTitle", "locationPara",
-  "batchSectionTitle", "joinBtnText", "joinBtnUrl",
-  "costsSectionTitle", "costsPara",
-  "onlineSectionTitle", "onlinePara",
-  "metaTitle", "metaDescription",
-];
+        const textFields: (keyof PageFormValues)[] = [
+          "slug", "status", "pageTitleH1", "heroImgAlt",
+          "introSectionTitle", "featuresSectionTitle", "featuresSuperLabel",
+          "featuresVideoLabel", "locationSubTitle", "locationMapEmbedUrl", "locationMapLabel",
+          "batchSectionTitle", "joinBtnText", "joinBtnUrl",
+          "costsSectionTitle", "onlineSectionTitle", "onlineHeaderSubtitle",
+          "onlineHighlightsTitle", "onlineVideoLabel", "onlineBonusIcon",
+          "onlineBonusTitle", "onlineBonusText", "onlineCtaLabel", "onlineCtaSub",
+          "onlineCtaBtnText", "onlineCtaBtnUrl", "metaTitle", "metaDescription",
+          "courseInfoCardTitle", "courseInfoFeeLabel", "courseInfoFeeFromText",
+          "courseInfoBookBtnText", "courseInfoUsdPrice", "courseInfoInrPrice",
+          "courseInfoOriginalUsdPrice", "courseInfoOriginalInrPrice",
+        ];
 
-     textFields.forEach((k) => {
-  if (d[k] !== undefined) {
-    setValue(k, d[k] as PageFormValues[typeof k]);
-  }
+        textFields.forEach((k) => {
+          if (d[k] !== undefined) {
+            setValue(k, d[k]);
+          }
+        });
 
-  // ✅ RICH TEXT
-introPara1Ref.current = d.introPara1 || "";
-introPara2Ref.current = d.introPara2 || "";
-introPara3Ref.current = d.introPara3 || "";
+        // Rich Text
+        introPara1Ref.current = d.introPara1 || "";
+        introPara2Ref.current = d.introPara2 || "";
+        introPara3Ref.current = d.introPara3 || "";
+        featuresPara1Ref.current = d.featuresPara1 || "";
+        featuresPara2Ref.current = d.featuresPara2 || "";
+        locationParaRef.current = d.locationPara || "";
+        costParaRef.current = d.costsPara || "";
+        onlineParaRef.current = d.onlinePara || "";
 
-featuresPara1Ref.current = d.featuresPara1 || "";
-featuresPara2Ref.current = d.featuresPara2 || "";
+        // Images & Video
+        if (d.heroImage) {
+          setHeroPrev(BASE_URL + d.heroImage);
+        }
+        if (d.locationImage) {
+          setLocationImagePrev(BASE_URL + d.locationImage);
+        }
+        if (d.featuresVideoFile) {
+          setFeaturesVideoPrev(BASE_URL + d.featuresVideoFile);
+        }
+        if (d.onlineVideoFile) {
+          setOnlineVideoPrev(BASE_URL + d.onlineVideoFile);
+        }
 
-locationParaRef.current = d.locationPara || "";
-costParaRef.current = d.costsPara || "";
-onlineParaRef.current = d.onlinePara || "";
+        // Hero Grid
+        if (d.heroGridImages?.length) {
+          setHeroGridImages(
+            d.heroGridImages.map((img: any) => ({
+              file: null,
+              preview: BASE_URL + img.url,
+              alt: img.alt || "",
+            }))
+          );
+        }
 
-// ✅ IMAGES
-if (d.heroImage) {
-  setHeroPrev(BASE_URL + d.heroImage);
-}
+        // Schedule
+        if (d.schedule) {
+          setSchedule(
+            d.schedule.map((s: any, i: number) => ({
+              id: "s" + i,
+              time: s.time,
+              activity: s.activity,
+            }))
+          );
+        }
 
-if (d.locationImage) {
-  setLocationImagePrev(BASE_URL + d.locationImage);
-}
+        // Curriculum
+        if (d.curriculum) {
+          setCurriculum(
+            d.curriculum.map((c: any, i: number) => ({
+              id: "cu" + i,
+              title: c.title,
+              hours: c.hours,
+            }))
+          );
+        }
 
-// ✅ HERO GRID
-if (d.heroGridImages?.length) {
-  setHeroGridImages(
-    d.heroGridImages.map((img: any) => ({
-      file: null,
-      preview: BASE_URL + img.url,
-      alt: img.alt || "",
-    }))
-  );
-}
+        // Hours Summary
+        if (d.hoursSummary) {
+          setHoursSummary(
+            d.hoursSummary.map((h: any, i: number) => ({
+              id: "hs" + i,
+              label: h.label,
+              value: h.value,
+            }))
+          );
+        }
 
-// ✅ SCHEDULE
-if (d.schedule) {
-  setSchedule(
-    d.schedule.map((s: any, i: number) => ({
-      id: "s" + i,
-      time: s.time,
-      activity: s.activity,
-    }))
-  );
-}
+        // Features Dynamic Fields
+        if (d.featuresPills?.length) {
+          setFeaturesPills(d.featuresPills);
+        }
+        if (d.featuresStats?.length) {
+          setFeaturesStats(d.featuresStats);
+        }
 
-// ✅ CURRICULUM
-if (d.curriculum) {
-  setCurriculum(
-    d.curriculum.map((c: any, i: number) => ({
-      id: "cu" + i,
-      title: c.title,
-      hours: c.hours,
-    }))
-  );
-}
+        // Location Dynamic Fields
+        if (d.locationBadges?.length) {
+          setLocationBadges(d.locationBadges);
+        }
 
-// ✅ HOURS SUMMARY
-if (d.hoursSummary) {
-  setHoursSummary(
-    d.hoursSummary.map((h: any, i: number) => ({
-      id: "hs" + i,
-      label: h.label,
-      value: h.value,
-    }))
-  );
-}
+        // Online Highlights
+        if (d.onlineHighlights?.length) {
+          setOnlineHighlights(d.onlineHighlights);
+        }
 
-// ✅ EXTRA PARAGRAPHS
-if (d.introExtraParagraphs) {
-  introExtraParaList.loadFromArray(d.introExtraParagraphs, "iep");
-}
+        // Course Info Details
+        if (d.courseInfoDetails?.length) {
+          setCourseInfoDetails(d.courseInfoDetails);
+        }
 
-if (d.featuresExtraParagraphs) {
-  featuresExtraParaList.loadFromArray(d.featuresExtraParagraphs, "fep");
-}
+        // Extra Paragraphs
+        if (d.introExtraParagraphs) {
+          introExtraParaList.loadFromArray(d.introExtraParagraphs, "iep");
+        }
+        if (d.featuresExtraParagraphs) {
+          featuresExtraParaList.loadFromArray(d.featuresExtraParagraphs, "fep");
+        }
+        if (d.costsExtraParagraphs) {
+          costsExtraParaList.loadFromArray(d.costsExtraParagraphs, "cep");
+        }
+        if (d.onlineExtraParagraphs) {
+          onlineExtraParaList.loadFromArray(d.onlineExtraParagraphs, "oep");
+        }
 
-if (d.costsExtraParagraphs) {
-  costsExtraParaList.loadFromArray(d.costsExtraParagraphs, "cep");
-}
+      } catch (err) {
+        console.error(err);
+        toast.error("Failed to load page data");
+      } finally {
+        setLoadingData(false);
+      }
+    };
 
-if (d.onlineExtraParagraphs) {
-  onlineExtraParaList.loadFromArray(d.onlineExtraParagraphs, "oep");
-}
-});
+    fetchData();
+  }, []);
 
-      // rest same as your code
-    } catch {
-      toast.error("Failed to load page data");
-    } finally {
-      setLoadingData(false);
-    }
-  };
-
-  fetchData();
-}, []);
   /* ── Submit ── */
   const onSubmit = async (data: PageFormValues) => {
     if (!heroFile && !heroPrev) {
@@ -721,13 +860,14 @@ if (d.onlineExtraParagraphs) {
       setIsSubmitting(true);
       const fd = new FormData();
 
-      /* Basic fields */
+      // Basic fields
       Object.entries(data).forEach(([k, v]) => {
-        const skipKeys = ["introPara1", "introPara2", "introPara3", "featuresPara1", "featuresPara2", "locationPara", "costsPara", "onlinePara"];
-        if (!skipKeys.includes(k)) fd.append(k, v ?? "");
+        if (v !== undefined && v !== null) {
+          fd.append(k, v.toString());
+        }
       });
 
-      /* Rich text */
+      // Rich text
       fd.append("introPara1", introPara1Ref.current || "");
       fd.append("introPara2", introPara2Ref.current || "");
       fd.append("introPara3", introPara3Ref.current || "");
@@ -737,34 +877,47 @@ if (d.onlineExtraParagraphs) {
       fd.append("costsPara", costParaRef.current || "");
       fd.append("onlinePara", onlineParaRef.current || "");
 
-      /* Para lists */
+      // Para lists
       fd.append("introExtraParagraphs", JSON.stringify(introExtraParaList.ids.map(id => introExtraParaList.ref.current[id] || "")));
       fd.append("featuresExtraParagraphs", JSON.stringify(featuresExtraParaList.ids.map(id => featuresExtraParaList.ref.current[id] || "")));
       fd.append("costsExtraParagraphs", JSON.stringify(costsExtraParaList.ids.map(id => costsExtraParaList.ref.current[id] || "")));
       fd.append("onlineExtraParagraphs", JSON.stringify(onlineExtraParaList.ids.map(id => onlineExtraParaList.ref.current[id] || "")));
 
-      /* Dynamic lists */
+      // Dynamic lists
       fd.append("schedule", JSON.stringify(schedule));
       fd.append("curriculum", JSON.stringify(curriculum));
       fd.append("hoursSummary", JSON.stringify(hoursSummary));
+      fd.append("courseInfoDetails", JSON.stringify(courseInfoDetails));
+      
+      // Features Dynamic Fields
+      fd.append("featuresPills", JSON.stringify(featuresPills));
+      fd.append("featuresStats", JSON.stringify(featuresStats));
+      
+      // Location Dynamic Fields
+      fd.append("locationBadges", JSON.stringify(locationBadges));
 
-      /* Hero grid images alts */
+      // Online Highlights
+      fd.append("onlineHighlights", JSON.stringify(onlineHighlights));
+
+      // Hero grid images alts
       fd.append("heroGridAlts", JSON.stringify(heroGridImages.map(i => i.alt)));
 
-      /* Images */
+      // Images & Videos
       if (heroFile) fd.append("heroImage", heroFile);
       if (locationImageFile) fd.append("locationImage", locationImageFile);
+      if (featuresVideoFile) fd.append("featuresVideoFile", featuresVideoFile);
+      if (onlineVideoFile) fd.append("onlineVideoFile", onlineVideoFile);
       heroGridImages.forEach((img, idx) => {
         if (img.file) fd.append(`heroGridImage${idx}`, img.file);
       });
 
       if (isEdit) {
-  await api.put("/prenatal-page", fd);
-  toast.success("Page updated successfully");
-} else {
-  await api.post("/prenatal-page", fd);
-  toast.success("Page created successfully");
-}
+        await api.put("/prenatal-page", fd);
+        toast.success("Page updated successfully");
+      } else {
+        await api.post("/prenatal-page", fd);
+        toast.success("Page created successfully");
+      }
       setSubmitted(true);
       setTimeout(() => { router.push("/admin/yogacourse/prenatal-yoga-course/prenatal-content"); }, 1500);
     } catch (e: any) {
@@ -798,7 +951,7 @@ if (d.onlineExtraParagraphs) {
   ══════════════════════════════════════════ */
   return (
     <div className={styles.formPage}>
-      {/* ── Breadcrumb ── */}
+      {/* Breadcrumb */}
       <div className={styles.breadcrumb}>
         <button className={styles.breadcrumbLink} onClick={() => router.push("/admin/yogacourse/prenatal-yoga-course/prenatal-content")}>
           Prenatal Yoga Content
@@ -807,12 +960,12 @@ if (d.onlineExtraParagraphs) {
         <span className={styles.breadcrumbCurrent}>{isEdit ? "Edit Page" : "Add New Page"}</span>
       </div>
 
-      {/* ── Page Header ── */}
+      {/* Page Header */}
       <div className={styles.pageHeader}>
         <div className={styles.pageHeaderText}>
           <h1 className={styles.pageTitle}>{isEdit ? "Edit Prenatal Yoga TTC Page" : "Add New Prenatal Yoga TTC Page"}</h1>
           <p className={styles.pageSubtitle}>
-            Hero · Intro · Course Features · Location · Schedule · Batches · Costs · Online Course · SEO
+            Hero · Course Info Card · Intro · Course Features · Location · Schedule · Batches · Costs · Online Course · SEO
           </p>
         </div>
       </div>
@@ -838,7 +991,7 @@ if (d.onlineExtraParagraphs) {
           </F>
 
           <F label="Hero Banner Image" req hint="Recommended 1180×540px · Full-width banner">
-            <SingleImg
+            <SingleMedia
               preview={heroPrev}
               badge="Hero Banner"
               hint="JPG/PNG/WEBP · 1180×540px"
@@ -853,10 +1006,141 @@ if (d.onlineExtraParagraphs) {
               <input className={`${styles.input} ${styles.inputNoCount}`} {...register("heroImgAlt")} />
             </div>
           </F>
+          
+          <F label="Slug" req>
+            <div className={`${styles.inputWrap} ${errors.slug ? styles.inputError : ""}`}>
+              <input className={`${styles.input} ${styles.inputNoCount}`}
+                placeholder="pregnancy-yoga-course-rishikesh"
+                {...register("slug", { required: "Slug is required" })} />
+            </div>
+            {errors.slug && <p className={styles.errorMsg}>⚠ {errors.slug.message}</p>}
+          </F>
         </Sec>
         <D />
 
-        {/* ══ 2. INTRO / ABOUT SECTION ══ */}
+        {/* ══ 2. COURSE INFO CARD SECTION ══ */}
+        <Sec title="Course Info Card" badge="Dynamic Pricing & Details">
+          <F label="Card Title" hint="Title at the top of the card">
+            <div className={styles.inputWrap}>
+              <input className={styles.input} {...register("courseInfoCardTitle")} placeholder="COURSE DETAILS" />
+            </div>
+          </F>
+
+          <F label="Fee Label" hint="Label for the fee section">
+            <div className={styles.inputWrap}>
+              <input className={styles.input} {...register("courseInfoFeeLabel")} placeholder="COURSE FEE" />
+            </div>
+          </F>
+
+          <F label="Fee 'Starting From' Text" hint="Text below the fee label">
+            <div className={styles.inputWrap}>
+              <input className={styles.input} {...register("courseInfoFeeFromText")} placeholder="starting from" />
+            </div>
+          </F>
+
+          <F label="Book Button Text" hint="Text on the book now button">
+            <div className={styles.inputWrap}>
+              <input className={styles.input} {...register("courseInfoBookBtnText")} placeholder="BOOK NOW" />
+            </div>
+          </F>
+
+          <F label="Course Details Items" hint="Each item has label, value, and optional subtext">
+            <div>
+              {courseInfoDetails.map((detail, i) => (
+                <div key={i} className={styles.nestedCard} style={{ marginBottom: "0.8rem" }}>
+                  <div className={styles.nestedCardHeader}>
+                    <span className={styles.nestedCardNum}>Detail {i + 1}</span>
+                    {courseInfoDetails.length > 1 && (
+                      <button type="button" className={styles.removeNestedBtn} onClick={() => setCourseInfoDetails(courseInfoDetails.filter((_, idx) => idx !== i))}>
+                        ✕ Remove
+                      </button>
+                    )}
+                  </div>
+                  <div className={styles.nestedCardBody}>
+                    <div className={styles.grid2}>
+                      <div className={styles.fieldGroup}>
+                        <label className={styles.label}>Label</label>
+                        <div className={styles.inputWrap}>
+                          <input className={styles.input} value={detail.label} placeholder="DURATION" onChange={(e) => {
+                            const n = [...courseInfoDetails];
+                            n[i] = { ...n[i], label: e.target.value };
+                            setCourseInfoDetails(n);
+                          }} />
+                        </div>
+                      </div>
+                      <div className={styles.fieldGroup}>
+                        <label className={styles.label}>Value</label>
+                        <div className={styles.inputWrap}>
+                          <input className={styles.input} value={detail.value} placeholder="24 Days" onChange={(e) => {
+                            const n = [...courseInfoDetails];
+                            n[i] = { ...n[i], value: e.target.value };
+                            setCourseInfoDetails(n);
+                          }} />
+                        </div>
+                      </div>
+                      <div className={styles.fieldGroup} style={{ gridColumn: "1/-1" }}>
+                        <label className={styles.label}>Subtext (optional)</label>
+                        <div className={styles.inputWrap}>
+                          <input className={styles.input} value={detail.sub || ""} placeholder="Hatha & Kundalini Based" onChange={(e) => {
+                            const n = [...courseInfoDetails];
+                            n[i] = { ...n[i], sub: e.target.value };
+                            setCourseInfoDetails(n);
+                          }} />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+              <button type="button" className={styles.addItemBtn} onClick={() => setCourseInfoDetails([...courseInfoDetails, { label: "", value: "", sub: "" }])}>
+                ＋ Add Course Detail
+              </button>
+            </div>
+          </F>
+
+          {/* INDEPENDENT PRICING SECTION */}
+          <div style={{ marginTop: "1.5rem", paddingTop: "1rem", borderTop: "1px solid #e8d5b5" }}>
+            <h4 style={{ fontFamily: "'Cinzel', serif", fontSize: "0.9rem", fontWeight: 600, color: "#3d1d00", marginBottom: "1rem" }}>💰 Course Card Pricing (Independent)</h4>
+            <p className={styles.fieldHint} style={{ marginBottom: "1rem" }}>These prices are displayed on the Course Info Card</p>
+            
+            <div className={styles.grid2}>
+              <div className={styles.fieldGroup}>
+                <label className={styles.label}>USD Current Price</label>
+                <div className={styles.inputWrap}>
+                  <input type="number" className={styles.input} {...register("courseInfoUsdPrice")} placeholder="399" />
+                </div>
+                <p className={styles.fieldHint}>Current discounted price in USD (shown in green)</p>
+              </div>
+
+              <div className={styles.fieldGroup}>
+                <label className={styles.label}>INR Current Price</label>
+                <div className={styles.inputWrap}>
+                  <input type="number" className={styles.input} {...register("courseInfoInrPrice")} placeholder="33000" />
+                </div>
+                <p className={styles.fieldHint}>Current discounted price in INR (shown in green)</p>
+              </div>
+
+              <div className={styles.fieldGroup}>
+                <label className={styles.label}>USD Original Price</label>
+                <div className={styles.inputWrap}>
+                  <input type="number" className={styles.input} {...register("courseInfoOriginalUsdPrice")} placeholder="799" />
+                </div>
+                <p className={styles.fieldHint}>Original/Strike-through price in USD (shown in gray)</p>
+              </div>
+
+              <div className={styles.fieldGroup}>
+                <label className={styles.label}>INR Original Price</label>
+                <div className={styles.inputWrap}>
+                  <input type="number" className={styles.input} {...register("courseInfoOriginalInrPrice")} placeholder="66000" />
+                </div>
+                <p className={styles.fieldHint}>Original/Strike-through price in INR (shown in gray)</p>
+              </div>
+            </div>
+          </div>
+        </Sec>
+        <D />
+
+        {/* ══ 3. INTRO / ABOUT SECTION ══ */}
         <Sec title="Intro / About Section" badge="Section 1">
           <F label="Section Title (H1)">
             <div className={styles.inputWrap}>
@@ -867,7 +1151,7 @@ if (d.onlineExtraParagraphs) {
           <F label="Paragraph 1" hint="First intro paragraph about the course">
             <StableJodit
               onSave={(v) => { introPara1Ref.current = v; }}
-             value={introPara1Ref.current || ""}
+              value={introPara1Ref.current || ""}
               key={introPara1Ref.current}
               ph="Pregnancy is one of the most crucial and beautiful phases…"
               h={160}
@@ -912,8 +1196,8 @@ if (d.onlineExtraParagraphs) {
         </Sec>
         <D />
 
-        {/* ══ 3. COURSE FEATURES SECTION ══ */}
-        <Sec title="Course Features Section" badge="Section 2 · Warm BG">
+        {/* ══ 4. COURSE FEATURES SECTION (WITH LOCAL VIDEO UPLOAD) ══ */}
+        <Sec title="Course Features Section" badge="Section 2 · Warm BG + Video">
           <F label="Super Label">
             <div className={styles.inputWrap}>
               <input className={styles.input} {...register("featuresSuperLabel")} placeholder="Course Structure" />
@@ -957,10 +1241,74 @@ if (d.onlineExtraParagraphs) {
               ＋ Add Paragraph
             </button>
           </F>
+
+          {/* Video Section - Local File Upload */}
+          <SubSec title="Feature Video Panel">
+            <F label="Video File (MP4)" hint="Upload an MP4 video file. Recommended: 1920×1080px, 10-30MB">
+              <SingleMedia
+                preview={featuresVideoPrev}
+                badge="Feature Video"
+                hint="MP4 · 1920×1080px · Max 100MB"
+                type="video"
+                onSelect={(f, p) => { 
+                  setFeaturesVideoFile(f);
+                  setFeaturesVideoPrev(p);
+                }}
+                onRemove={() => { 
+                  setFeaturesVideoFile(null);
+                  setFeaturesVideoPrev("");
+                }}
+              />
+              <p className={styles.fieldHint}>Upload a local MP4 video file. Leave empty to keep existing video.</p>
+            </F>
+            
+            <F label="Video Label" hint="Text below the video">
+              <div className={styles.inputWrap}>
+                <input className={styles.input} {...register("featuresVideoLabel")} placeholder="Watch Our Prenatal Yoga Sessions" />
+              </div>
+            </F>
+          </SubSec>
+
+          {/* Feature Pills */}
+          <SubSec title="Feature Pills (Tags)">
+            <p className={styles.fieldHint}>Pill badges shown below the feature paragraphs</p>
+            <StrList items={featuresPills} label="Pill"
+              ph="Garbh Sanskar"
+              onAdd={() => setFeaturesPills((p) => [...p, ""])}
+              onRemove={(i) => { if (featuresPills.length <= 1) return; setFeaturesPills((p) => p.filter((_, idx) => idx !== i)); }}
+              onUpdate={(i, v) => { const n = [...featuresPills]; n[i] = v; setFeaturesPills(n); }} />
+          </SubSec>
+
+          {/* Feature Stats */}
+          <SubSec title="Feature Stats (Right Panel)">
+            <p className={styles.fieldHint}>Statistics shown in the video panel</p>
+            <div>
+              {(featuresStats || []).map((stat, idx) => (
+                <div key={idx} className={styles.listItemRow} style={{ marginBottom: "0.5rem", gap: "0.5rem" }}>
+                  <span className={styles.listNum}>{idx + 1}</span>
+                  <div className={styles.inputWrap} style={{ flex: "0 0 100px" }}>
+                    <input className={styles.input} value={stat.num} placeholder="85+"
+                      onChange={(e) => { const n = [...featuresStats]; n[idx] = { ...n[idx], num: e.target.value }; setFeaturesStats(n); }} />
+                  </div>
+                  <div className={`${styles.inputWrap} ${styles.listInput}`}>
+                    <input className={styles.input} value={stat.label} placeholder="Hours Training"
+                      onChange={(e) => { const n = [...featuresStats]; n[idx] = { ...n[idx], label: e.target.value }; setFeaturesStats(n); }} />
+                  </div>
+                  <button type="button" className={styles.removeItemBtn} 
+                    onClick={() => { if (featuresStats.length > 1) setFeaturesStats(featuresStats.filter((_, i) => i !== idx)); }}
+                    disabled={featuresStats.length <= 1}>✕</button>
+                </div>
+              ))}
+              <button type="button" className={styles.addItemBtn} 
+                onClick={() => setFeaturesStats([...featuresStats, { num: "", label: "" }])}>
+                ＋ Add Stat
+              </button>
+            </div>
+          </SubSec>
         </Sec>
         <D />
 
-        {/* ══ 3a. LOCATION SUB-SECTION ══ */}
+        {/* ══ 5. LOCATION SUB-SECTION ══ */}
         <Sec title="Location Sub-Section" badge="Inside Vintage Card">
           <F label="Location Sub-Title">
             <div className={styles.inputWrap}>
@@ -978,12 +1326,20 @@ if (d.onlineExtraParagraphs) {
             />
           </F>
 
+          <F label="Location Badges" hint="Badges shown below the location description">
+            <StrList items={locationBadges} label="Badge"
+              ph="📍 Tapovan, Rishikesh"
+              onAdd={() => setLocationBadges((p) => [...p, ""])}
+              onRemove={(i) => { if (locationBadges.length <= 1) return; setLocationBadges((p) => p.filter((_, idx) => idx !== i)); }}
+              onUpdate={(i, v) => { const n = [...locationBadges]; n[i] = v; setLocationBadges(n); }} />
+          </F>
+
           <F label="Daily Schedule" hint="Time slots shown in the schedule grid">
             <ScheduleManager items={schedule} onChange={setSchedule} />
           </F>
 
           <F label="Location Image" hint="Shown alongside the schedule · Recommended 700×500px">
-            <SingleImg
+            <SingleMedia
               preview={locationImagePrev}
               badge="Location"
               hint="JPG/PNG/WEBP · 700×500px"
@@ -991,10 +1347,24 @@ if (d.onlineExtraParagraphs) {
               onRemove={() => { setLocationImageFile(null); setLocationImagePrev(""); }}
             />
           </F>
+
+          <SubSec title="Google Map Embed">
+            <F label="Map Embed URL" hint="Google Maps iframe embed URL">
+              <div className={styles.inputWrap}>
+                <input className={styles.input} {...register("locationMapEmbedUrl")} 
+                  placeholder="https://www.google.com/maps/embed?pb=!1m18..." />
+              </div>
+            </F>
+            <F label="Map Label" hint="Text shown below the map">
+              <div className={styles.inputWrap}>
+                <input className={styles.input} {...register("locationMapLabel")} placeholder="📍 Tapovan, Rishikesh, Uttarakhand" />
+              </div>
+            </F>
+          </SubSec>
         </Sec>
         <D />
 
-        {/* ══ 4. BATCH TABLE SECTION ══ */}
+        {/* ══ 6. BATCH TABLE SECTION ══ */}
         <Sec title="Upcoming Batches / Dates Table" badge="Section 3 · Deep BG">
           <F label="Section Title (H2)">
             <div className={styles.inputWrap}>
@@ -1018,7 +1388,7 @@ if (d.onlineExtraParagraphs) {
         </Sec>
         <D />
 
-        {/* ══ 5. COSTS & HOW TO APPLY SECTION ══ */}
+        {/* ══ 7. COSTS & HOW TO APPLY SECTION ══ */}
         <Sec title="TTC Costs & How to Apply" badge="Pricing Info">
           <F label="Section Title (H2)">
             <div className={styles.inputWrap}>
@@ -1050,14 +1420,26 @@ if (d.onlineExtraParagraphs) {
         </Sec>
         <D />
 
-        {/* ══ 6. ONLINE COURSE SECTION ══ */}
+        {/* ══ 8. ONLINE COURSE SECTION (WITH LOCAL VIDEO) ══ */}
         <Sec title="Online Pregnancy Yoga TTC Section" badge="Online / Offline">
-          <F label="Section Title (H2)">
-            <div className={styles.inputWrap}>
-              <input className={styles.input} {...register("onlineSectionTitle")} />
-            </div>
-          </F>
+          
+          {/* Header Section */}
+          <SubSec title="Section Header">
+            <F label="Section Title (H2)">
+              <div className={styles.inputWrap}>
+                <input className={styles.input} {...register("onlineSectionTitle")} />
+              </div>
+            </F>
+            
+            <F label="Header Subtitle">
+              <div className={styles.inputWrap}>
+                <input className={styles.input} {...register("onlineHeaderSubtitle")} 
+                  placeholder="Comprehensive Online Training for Aspiring Prenatal Yoga Teachers" />
+              </div>
+            </F>
+          </SubSec>
 
+          {/* Intro Paragraphs */}
           <F label="Section Intro Paragraph">
             <StableJodit
               onSave={(v) => { onlineParaRef.current = v; }}
@@ -1080,38 +1462,130 @@ if (d.onlineExtraParagraphs) {
             </button>
           </F>
 
-          <F label="Curriculum Modules" hint="Each module becomes a bullet point in the course outline">
-            <CurriculumManager items={curriculum} onChange={setCurriculum} />
-          </F>
+          {/* Curriculum and Hours Summary */}
+          <div className={styles.grid2}>
+            <div>
+              <F label="Curriculum Modules" hint="Each module becomes a bullet point in the course outline">
+                <CurriculumManager items={curriculum} onChange={setCurriculum} />
+              </F>
+            </div>
+            <div>
+              <F label="Hours Summary Table" hint="Rows shown below the curriculum (Total Hours, Contact Hours, etc.)">
+                <HoursSummaryManager items={hoursSummary} onChange={setHoursSummary} />
+              </F>
+            </div>
+          </div>
 
-          <F label="Hours Summary Table" hint="Rows shown below the curriculum (Total Hours, Contact Hours, etc.)">
-            <HoursSummaryManager items={hoursSummary} onChange={setHoursSummary} />
-          </F>
+          {/* Highlights Card (Left Side) */}
+          <SubSec title="Highlights Card (What You Get Online)">
+            <F label="Highlights Title">
+              <div className={styles.inputWrap}>
+                <input className={styles.input} {...register("onlineHighlightsTitle")} placeholder="What You Get Online" />
+              </div>
+            </F>
+            <F label="Highlight Items" hint="Each item has an icon and text">
+              <div>
+                {(onlineHighlights || []).map((item, idx) => (
+                  <div key={idx} className={styles.listItemRow} style={{ marginBottom: "0.5rem", gap: "0.5rem" }}>
+                    <span className={styles.listNum}>{idx + 1}</span>
+                    <div className={styles.inputWrap} style={{ flex: "0 0 70px" }}>
+                      <input className={styles.input} value={item.icon} placeholder="🎥"
+                        onChange={(e) => { const n = [...onlineHighlights]; n[idx] = { ...n[idx], icon: e.target.value }; setOnlineHighlights(n); }} />
+                    </div>
+                    <div className={`${styles.inputWrap} ${styles.listInput}`}>
+                      <input className={styles.input} value={item.text} placeholder="Recorded video lectures, lifetime access"
+                        onChange={(e) => { const n = [...onlineHighlights]; n[idx] = { ...n[idx], text: e.target.value }; setOnlineHighlights(n); }} />
+                    </div>
+                    <button type="button" className={styles.removeItemBtn} 
+                      onClick={() => { if (onlineHighlights.length > 1) setOnlineHighlights(onlineHighlights.filter((_, i) => i !== idx)); }}
+                      disabled={onlineHighlights.length <= 1}>✕</button>
+                  </div>
+                ))}
+                <button type="button" className={styles.addItemBtn} 
+                  onClick={() => setOnlineHighlights([...onlineHighlights, { icon: "✨", text: "" }])}>
+                  ＋ Add Highlight
+                </button>
+              </div>
+            </F>
+          </SubSec>
+
+          {/* Right Column - Video and Bonus */}
+          <SubSec title="Right Column - Video & Bonus">
+            <F label="Video File (MP4)" hint="Upload an MP4 video file for the online section preview">
+              <SingleMedia
+                preview={onlineVideoPrev}
+                badge="Online Video"
+                hint="MP4 · 1920×1080px · Max 100MB"
+                type="video"
+                onSelect={(f, p) => { 
+                  setOnlineVideoFile(f);
+                  setOnlineVideoPrev(p);
+                }}
+                onRemove={() => { 
+                  setOnlineVideoFile(null);
+                  setOnlineVideoPrev("");
+                }}
+              />
+            </F>
+            
+            <F label="Video Label (Overlay Text)">
+              <div className={styles.inputWrap}>
+                <input className={styles.input} {...register("onlineVideoLabel")} placeholder="Course Preview" />
+              </div>
+            </F>
+
+            {/* Bonus Card */}
+            <div className={styles.grid2} style={{ marginTop: "1rem" }}>
+              <F label="Bonus Icon">
+                <div className={styles.inputWrap}>
+                  <input className={styles.input} {...register("onlineBonusIcon")} placeholder="🎁" />
+                </div>
+              </F>
+              <F label="Bonus Title">
+                <div className={styles.inputWrap}>
+                  <input className={styles.input} {...register("onlineBonusTitle")} placeholder="Bonus Included" />
+                </div>
+              </F>
+            </div>
+            <F label="Bonus Text">
+              <div className={styles.inputWrap}>
+                <input className={styles.input} {...register("onlineBonusText")} 
+                  placeholder="Free access to prenatal yoga community & monthly workshops" />
+              </div>
+            </F>
+          </SubSec>
+
+          {/* CTA Section */}
+          <SubSec title="Call to Action Section">
+            <div className={styles.grid2}>
+              <F label="CTA Label">
+                <div className={styles.inputWrap}>
+                  <input className={styles.input} {...register("onlineCtaLabel")} placeholder="Ready to begin your journey?" />
+                </div>
+              </F>
+              <F label="CTA Subtitle">
+                <div className={styles.inputWrap}>
+                  <input className={styles.input} {...register("onlineCtaSub")} 
+                    placeholder="Join our next online batch · Flexible schedule · Globally certified" />
+                </div>
+              </F>
+            </div>
+            <F label="CTA Button Text">
+              <div className={styles.inputWrap}>
+                <input className={styles.input} {...register("onlineCtaBtnText")} placeholder="Enrol Now" />
+              </div>
+            </F>
+            <F label="CTA Button URL">
+              <div className={styles.inputWrap}>
+                <input className={styles.input} {...register("onlineCtaBtnUrl")} placeholder="/batch-section" />
+              </div>
+            </F>
+          </SubSec>
         </Sec>
         <D />
 
-        {/* ══ 7. SEO & PAGE SETTINGS ══ */}
-        <Sec title="SEO & Page Settings" badge="Meta · Slug · Status">
-          <div className={styles.grid2}>
-            <F label="Slug" req>
-              <div className={`${styles.inputWrap} ${errors.slug ? styles.inputError : ""}`}>
-                <input className={`${styles.input} ${styles.inputNoCount}`}
-                  placeholder="pregnancy-yoga-course-rishikesh"
-                  {...register("slug", { required: "Slug is required" })} />
-              </div>
-              {errors.slug && <p className={styles.errorMsg}>⚠ {errors.slug.message}</p>}
-            </F>
-            <F label="Status">
-              <div className={styles.selectWrap}>
-                <select className={styles.select} {...register("status")}>
-                  <option value="Active">Active</option>
-                  <option value="Inactive">Inactive</option>
-                </select>
-                <span className={styles.selectArrow}>▾</span>
-              </div>
-            </F>
-          </div>
-
+        {/* ══ 9. SEO & PAGE SETTINGS ══ */}
+        <Sec title="SEO & Page Settings" badge="Meta · Status">
           <F label="Meta Title" hint="SEO title tag — keep under 60 characters">
             <div className={styles.inputWrap}>
               <input className={styles.input} {...register("metaTitle")}
@@ -1126,11 +1600,21 @@ if (d.onlineExtraParagraphs) {
                 placeholder="Join AYM Yoga School for the best prenatal yoga teacher training in Rishikesh…" />
             </div>
           </F>
+
+          <F label="Status">
+            <div className={styles.selectWrap}>
+              <select className={styles.select} {...register("status")}>
+                <option value="Active">Active</option>
+                <option value="Inactive">Inactive</option>
+              </select>
+              <span className={styles.selectArrow}>▾</span>
+            </div>
+          </F>
         </Sec>
 
       </div>
 
-      {/* ── Form Actions ── */}
+      {/* Form Actions */}
       <div className={styles.formActions}>
         <Link href="/admin/yogacourse/prenatal-yoga-course/prenatal-content" className={styles.cancelBtn}>
           ← Cancel

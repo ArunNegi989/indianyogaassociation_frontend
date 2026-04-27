@@ -208,6 +208,7 @@ const navItems: NavItem[] = [
   { href: "/admin/dashboard/gallery", label: "Gallery", icon: "🖼" },
   { href: "/admin/dashboard/blog",    label: "Blog",    icon: "✏" },
    { href: "/admin/Registrationlist", label: "Registration List", icon: "🖼" },
+  { href: "/admin/accommodation", label: "Accommodation", icon: "🏠" },
 ];
 
 /* ══════════════════════════════════════════════
