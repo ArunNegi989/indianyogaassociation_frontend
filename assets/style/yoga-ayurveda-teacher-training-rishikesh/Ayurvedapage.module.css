@@ -14,7 +14,7 @@
   --ink: #2e1a06;
   --turmeric: #d4a017;
   --glow: rgba(224, 123, 0, .28);
-  --ff-d: 'Cinzel', serif;
+  --ff-d: 'Montserrat', Arial, sans-serif;
   --ff-b: 'Cormorant Garamond', serif;
   --ff-s: 'Dancing Script', cursive;
   --ff-f: 'IM Fell English', serif;
@@ -990,7 +990,7 @@
 
 .panchHeading {
   font-family: var(--ff-d);
-  font-size: clamp(.88rem, 1.8vw, 1.1rem);
+  font-size: clamp(.88rem, 1.8vw, 2.1rem);
   font-weight: 700;
   color: var(--maho);
   margin-bottom: 1rem;
@@ -1317,7 +1317,7 @@
   overflow: hidden;
   box-shadow: var(--shadow-lg);
   margin: 1.5rem auto;
-  max-width: 760px;
+ 
 }
 
 .sunsetImg {

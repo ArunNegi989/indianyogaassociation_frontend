@@ -11,9 +11,19 @@ const nextConfig: NextConfig = {
       },
     ],
     dangerouslyAllowSVG: true,
-    unoptimized: true, // 👈 🔥 THIS LINE FIXES PRIVATE IP ISSUE
+    unoptimized: true,
   },
+
   reactStrictMode: false,
+
+  async rewrites() {
+    return [
+      {
+        source: "/:path*.html",
+        destination: "/:path*",
+      },
+    ];
+  },
 };
 
 export default nextConfig;
