@@ -438,7 +438,7 @@
 
 .fullSlide {
   min-width: 100%;
-  height: 420px;
+  height: 700px;
 }
 
 .fullSlide img {
@@ -558,7 +558,7 @@
 
 /* ════════ LOCATIONS ════════ */
 .locationsSection {
-  background: var(--parch);
+  background: #ffffff;
   border-top: 3px solid;
   border-image: linear-gradient(90deg, transparent, var(--saff), transparent) 1;
   padding-bottom: 50px;

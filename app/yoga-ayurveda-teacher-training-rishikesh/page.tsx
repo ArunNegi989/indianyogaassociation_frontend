@@ -80,8 +80,10 @@ interface AyurvedaData {
   pkPara2?: string;
   pkPara3?: string;
   pkParagraphs?: string[];
-
   therapies?: Therapy[];
+
+  /* ✅ NEW */
+  panchakarmaRightImage?: string;
 
   spicesStripTitle?: string;
   spicesStripImage?: string;
@@ -98,6 +100,10 @@ interface AyurvedaData {
   yogaMassageDates?: string;
   trainingDesc?: string;
   trainingParagraphs?: string[];
+
+  /* ✅ NEW: video — either embed URL or uploaded file path */
+  trainingVideoUrl?: string;
+  trainingVideoFile?: string;
 
   dailySchedule?: DailyScheduleItem[];
   syllabus?: string[];
@@ -139,14 +145,78 @@ const imgUrl = (path?: string) => {
   return `${BASE_URL}${path}`;
 };
 
-/* Check if HTML string has visible text */
 const hasContent = (html?: string) =>
   !!html && html.replace(/<[^>]*>/g, "").trim().length > 0;
 
-/* Render HTML safely */
 const Html = ({ html, className }: { html: string; className?: string }) => (
   <div className={className} dangerouslySetInnerHTML={{ __html: html }} />
 );
+
+/* ════════════════════════════════════════
+   VIDEO RENDERER
+   Priority: uploaded file > embed URL > nothing
+════════════════════════════════════════ */
+function TrainingVideo({
+  videoUrl,
+  videoFile,
+  className,
+}: {
+  videoUrl?: string;
+  videoFile?: string;
+  className?: string;
+}) {
+  /* Uploaded file takes priority */
+  if (videoFile) {
+    return (
+      <video
+        src={imgUrl(videoFile)}
+        autoPlay
+        muted
+        loop
+        playsInline
+        className={className}
+        style={{
+          width: "100%",
+          height: "100%",
+          objectFit: "cover",
+          borderRadius: 8,
+        }}
+      />
+    );
+  }
+
+  /* Fallback to embed URL (YouTube / Vimeo) */
+  if (videoUrl) {
+    return (
+      <iframe
+        src={videoUrl}
+        allow="autoplay; encrypted-media"
+        allowFullScreen
+        className={className}
+        style={{ border: "none" }}
+        title="Training video"
+      />
+    );
+  }
+
+  /* Nothing configured — show placeholder */
+  return (
+    <div
+      className={className}
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        background: "#1a0a00",
+        borderRadius: 8,
+        color: "#f15505",
+        fontSize: "0.9rem",
+      }}
+    >
+      🎬 Video not configured
+    </div>
+  );
+}
 
 /* ════════════════════════ MAIN ════════════════════════ */
 export default function AyurvedaPage() {
@@ -167,11 +237,9 @@ export default function AyurvedaPage() {
       .finally(() => setLoading(false));
   }, []);
 
-  /* ── FIX: activeTab added as dependency so Observer re-runs on tab switch ── */
+  /* Scroll-reveal — re-runs on tab switch so newly painted cards animate in */
   useEffect(() => {
     if (loading) return;
-
-    /* Small timeout so new tab's DOM is fully painted before observing */
     const timer = setTimeout(() => {
       const obs = new IntersectionObserver(
         (entries) =>
@@ -185,11 +253,10 @@ export default function AyurvedaPage() {
         .forEach((el) => obs.observe(el));
       return () => obs.disconnect();
     }, 50);
-
     return () => clearTimeout(timer);
-  }, [loading, activeTab]); /* 👈 activeTab dependency added */
+  }, [loading, activeTab]);
 
-  /* ── Pure dynamic data — no static fallbacks ── */
+  /* Pure dynamic data */
   const ayurvedaCourses: CourseItem[] = data?.ayurvedaCourses ?? [];
   const panchaKarmaCourses: CourseItem[] = data?.panchaKarmaCourses ?? [];
   const therapies = data?.therapies ?? [];
@@ -222,14 +289,17 @@ export default function AyurvedaPage() {
 
   const getListItems = (html = "") => {
     if (typeof window === "undefined") return [];
-
     const div = document.createElement("div");
     div.innerHTML = html;
-
     return Array.from(div.querySelectorAll("li")).map(
       (li) => li.textContent || "",
     );
   };
+
+  /* ── Panchakarma right image: DB value or fallback Unsplash ── */
+  const pkRightImage =
+    imgUrl(data?.panchakarmaRightImage) ||
+    "https://images.unsplash.com/photo-1593811167562-9cef47bfc4d7?w=800&q=80";
 
   const NAV_ITEMS = [
     { label: "INTRODUCTION", id: "introduction" },
@@ -297,6 +367,7 @@ export default function AyurvedaPage() {
               {hasContent(data?.introText2) && (
                 <Html html={data!.introText2!} className={styles.para} />
               )}
+
               {hasContent(data?.introList) && (
                 <div className={styles.introCardGrid}>
                   {getListItems(data?.introList).map((item, i) => (
@@ -310,6 +381,14 @@ export default function AyurvedaPage() {
                     </div>
                   ))}
                 </div>
+              )}
+
+              {/* Additional intro paragraphs from DB */}
+              {data?.introParagraphs?.map(
+                (para, i) =>
+                  hasContent(para) && (
+                    <Html key={i} html={para} className={styles.para} />
+                  ),
               )}
             </div>
 
@@ -344,7 +423,7 @@ export default function AyurvedaPage() {
           <div className={styles.mandalaBg} aria-hidden="true">
             <MandalaRing size={550} opacity={0.05} />
           </div>
-          <div className={` ${styles.container} ${styles.doshaSection}`}>
+          <div className={`${styles.container} ${styles.doshaSection}`}>
             <div className={`${styles.reveal} ${styles.centered}`}>
               <span className={styles.superLabel}>
                 {data?.doshasSuperLabel || "The Three Bio-Energies"}
@@ -390,7 +469,7 @@ export default function AyurvedaPage() {
 
       {/* ════ COURSES (tabs) ════ */}
       <section id="tridosha" className={styles.section}>
-        <div className={` ${styles.container} ${styles.coursesContainer}`}>
+        <div className={`${styles.container} ${styles.coursesContainer}`}>
           <div className={`${styles.reveal} ${styles.centered}`}>
             <span className={styles.superLabel}>
               {data?.coursesSuperLabel || "Programmes"}
@@ -401,7 +480,6 @@ export default function AyurvedaPage() {
             <OmBar />
           </div>
 
-          {/* ── Tab switcher ── */}
           <div className={`${styles.reveal} ${styles.tabRow}`}>
             <button
               className={`${styles.tab} ${activeTab === "ayurveda" ? styles.tabActive : ""}`}
@@ -417,7 +495,6 @@ export default function AyurvedaPage() {
             </button>
           </div>
 
-          {/* ── Ayurveda tab ── */}
           {activeTab === "ayurveda" && (
             <div className={`${styles.reveal} ${styles.courseGrid}`}>
               {ayurvedaCourses.length === 0 ? (
@@ -463,7 +540,6 @@ export default function AyurvedaPage() {
             </div>
           )}
 
-          {/* ── Panchakarma tab ── */}
           {activeTab === "panchakarma" && (
             <div className={`${styles.reveal} ${styles.courseGrid}`}>
               {panchaKarmaCourses.length === 0 ? (
@@ -523,13 +599,13 @@ export default function AyurvedaPage() {
             </h2>
             <OmBar />
           </div>
+
           <div className={`${styles.reveal} ${styles.panchBoxRow}`}>
             {/* LEFT TEXT */}
             <div className={styles.panchBoxText}>
               <h3 className={styles.panchHeading}>
                 {data?.panchakarmaHeading || "About Panchakarma"}
               </h3>
-
               {hasContent(data?.pkPara1) && (
                 <Html html={data!.pkPara1!} className={styles.para} />
               )}
@@ -539,14 +615,17 @@ export default function AyurvedaPage() {
               {hasContent(data?.pkPara3) && (
                 <Html html={data!.pkPara3!} className={styles.para} />
               )}
+              {/* Additional pk paragraphs */}
+              {data?.pkParagraphs?.map((para, i) =>
+                hasContent(para) ? (
+                  <Html key={i} html={para} className={styles.para} />
+                ) : null,
+              )}
             </div>
 
-            {/* RIGHT IMAGE */}
+            {/* ✅ RIGHT IMAGE — now from DB, falls back to Unsplash */}
             <div className={styles.panchBoxImage}>
-              <img
-                src="https://images.unsplash.com/photo-1593811167562-9cef47bfc4d7?w=800&q=80"
-                alt="Panchakarma Therapy"
-              />
+              <img src={pkRightImage} alt="Panchakarma Therapy" />
             </div>
           </div>
 
@@ -597,35 +676,23 @@ export default function AyurvedaPage() {
                 <div
                   key={c.level}
                   className={styles.pkCardNew}
-                  style={{
-                    animationDelay: `${i * 0.15}s`,
-                  }}
+                  style={{ animationDelay: `${i * 0.15}s` }}
                 >
-                  {/* Glow line */}
                   <div className={styles.cardTopGlow} />
-
-                  {/* Title */}
                   <h3 className={styles.pkTitle}>
                     Panchkarma {c.level} Course
                   </h3>
-
-                  {/* Info */}
                   <div className={styles.pkInfo}>
                     <div className={styles.pkItem}>
                       <span>💰 Fee</span>
                       <strong>{c.fee}</strong>
                     </div>
-
                     <div className={styles.pkItem}>
                       <span>📅 Duration</span>
                       <strong>{c.days}</strong>
                     </div>
                   </div>
-
-                  {/* Certificate */}
                   <p className={styles.pkCert}>{c.cert}</p>
-
-                  {/* Button */}
                   <Link href="#apply" className={styles.pkBtnNew}>
                     Book Now →
                   </Link>
@@ -634,7 +701,7 @@ export default function AyurvedaPage() {
             </div>
           )}
 
-          {/* Massage */}
+          {/* Massage section */}
           <div
             className={`${styles.reveal} ${styles.centered}`}
             style={{ marginTop: "3rem" }}
@@ -649,6 +716,11 @@ export default function AyurvedaPage() {
             )}
             {hasContent(data?.massagePara2) && (
               <Html html={data!.massagePara2!} className={styles.paraCenter} />
+            )}
+            {data?.massageParagraphs?.map((para, i) =>
+              hasContent(para) ? (
+                <Html key={i} html={para} className={styles.paraCenter} />
+              ) : null,
             )}
           </div>
 
@@ -670,7 +742,6 @@ export default function AyurvedaPage() {
         className={`${styles.section} ${styles.sectionTinted}`}
       >
         <div className={styles.container}>
-          {/* HEADER */}
           <div className={`${styles.reveal} ${styles.centered}`}>
             <h2 className={styles.sectionTitle}>
               {data?.yogaMassageTrainingHeading ||
@@ -679,39 +750,49 @@ export default function AyurvedaPage() {
             <OmBar />
           </div>
 
-          {/* 🔥 HERO BLOCK */}
           <div className={styles.trainingHero}>
-            {/* LEFT CONTENT */}
+            {/* LEFT: meta cards */}
             <div className={styles.trainingContent}>
               <div className={styles.metaRow}>
                 <div className={styles.metaCard}>
                   <span>🧘 Duration</span>
                   <strong>{data?.yogaMassageDuration}</strong>
                 </div>
-
                 <div className={styles.metaCard}>
                   <span>💰 Cost</span>
                   <strong>{data?.yogaMassageCost}</strong>
                 </div>
-
                 <div className={styles.metaCard}>
                   <span>📅 Dates</span>
                   <strong>{data?.yogaMassageDates}</strong>
                 </div>
               </div>
+
+              {/* Training description paragraphs */}
+              {hasContent(data?.trainingDesc) && (
+                <Html html={data!.trainingDesc!} className={styles.para} />
+              )}
+              {data?.trainingParagraphs?.map((para, i) =>
+                hasContent(para) ? (
+                  <Html key={i} html={para} className={styles.para} />
+                ) : null,
+              )}
             </div>
 
-            {/* RIGHT VIDEO */}
+            {/* ✅ RIGHT VIDEO — DB file > DB URL > fallback hardcoded */}
             <div className={styles.videoWrap}>
-              <iframe
-                src="https://www.youtube.com/embed/ABJE9bY7O6E?autoplay=1&mute=1&loop=1&playlist=ABJE9bY7O6E&controls=0&modestbranding=1"
-                allow="autoplay"
+              <TrainingVideo
+                videoFile={data?.trainingVideoFile}
+                videoUrl={
+                  data?.trainingVideoUrl ||
+                  "https://www.youtube.com/embed/ABJE9bY7O6E?autoplay=1&mute=1&loop=1&playlist=ABJE9bY7O6E&controls=0&modestbranding=1"
+                }
                 className={styles.video}
               />
             </div>
           </div>
 
-          {/* 🔥 CARDS */}
+          {/* Schedule · Syllabus · Included */}
           <div className={styles.trainingGridNew}>
             {dailySchedule.length > 0 && (
               <div className={styles.glassCard}>
@@ -724,7 +805,6 @@ export default function AyurvedaPage() {
                 ))}
               </div>
             )}
-
             {syllabus.length > 0 && (
               <div className={styles.glassCard}>
                 <h3>Syllabus</h3>
@@ -735,27 +815,32 @@ export default function AyurvedaPage() {
                 ))}
               </div>
             )}
-
             {included.length > 0 && (
               <div className={styles.glassCard}>
                 <h3>Included</h3>
-                {included.map((i, idx) => (
-                  <div key={idx} className={styles.bullet}>
-                    {i}
+                {included.map((item, i) => (
+                  <div key={i} className={styles.bullet}>
+                    {item}
                   </div>
                 ))}
               </div>
             )}
           </div>
 
-          {/* CTA */}
+          {/* Registration CTA */}
           <div className={styles.ctaPremium}>
-            <p>
-              Secure your seat with{" "}
-              <strong>{data?.registrationAdvanceFee}</strong>
-            </p>
-
-            <Link href="#apply" className={styles.ctaBtn}>
+            {hasContent(data?.registrationBoxText) ? (
+              <Html html={data!.registrationBoxText!} className={styles.para} />
+            ) : (
+              <p>
+                Secure your seat with{" "}
+                <strong>{data?.registrationAdvanceFee}</strong>
+              </p>
+            )}
+            <Link
+              href={data?.registrationPaymentLink || "#apply"}
+              className={styles.ctaBtn}
+            >
               Book Now →
             </Link>
           </div>
@@ -803,6 +888,14 @@ export default function AyurvedaPage() {
             <div className={styles.reveal}>
               <Html html={data!.spiritualBottomPara!} className={styles.para} />
             </div>
+          )}
+
+          {data?.spiritualParagraphs?.map((para, i) =>
+            hasContent(para) ? (
+              <div key={i} className={styles.reveal}>
+                <Html html={para} className={styles.para} />
+              </div>
+            ) : null,
           )}
         </div>
       </section>
@@ -920,11 +1013,10 @@ export default function AyurvedaPage() {
           </p>
         </div>
       </footer>
+
       <PremiumGallerySection type="both" backgroundColor="warm" />
-      {/* ✅ REVIEWS — now a reusable separate component */}
       <ReviewSection RatingsSummaryComponent={<RatingsSummarySection />} />
       <div id="location">
-        {" "}
         <HowToReach />
       </div>
     </div>
@@ -939,36 +1031,22 @@ function OmBar({
   align?: "center" | "left";
   dark?: boolean;
 }) {
+  const lineStyle = dark
+    ? {
+        background:
+          "linear-gradient(90deg,transparent,rgba(245,184,0,.55),transparent)",
+      }
+    : {};
   return (
     <div
       className={styles.omBar}
       style={{ justifyContent: align === "left" ? "flex-start" : "center" }}
     >
-      <span
-        className={styles.omLine}
-        style={
-          dark
-            ? {
-                background:
-                  "linear-gradient(90deg,transparent,rgba(245,184,0,.55),transparent)",
-              }
-            : {}
-        }
-      />
+      <span className={styles.omLine} style={lineStyle} />
       <span className={styles.omGlyph} style={dark ? { color: "#f5b800" } : {}}>
         ॐ
       </span>
-      <span
-        className={styles.omLine}
-        style={
-          dark
-            ? {
-                background:
-                  "linear-gradient(90deg,transparent,rgba(245,184,0,.55),transparent)",
-              }
-            : {}
-        }
-      />
+      <span className={styles.omLine} style={lineStyle} />
     </div>
   );
 }
@@ -1018,9 +1096,7 @@ function MandalaRing({
               cy={c + r * Math.sin(a)}
               rx={size * 0.065}
               ry={size * 0.022}
-              transform={`rotate(${(i / petals) * 360} ${c + r * Math.cos(a)} ${
-                c + r * Math.sin(a)
-              })`}
+              transform={`rotate(${(i / petals) * 360} ${c + r * Math.cos(a)} ${c + r * Math.sin(a)})`}
             />
           );
         })}
@@ -1077,9 +1153,7 @@ function MandalaFull({
                 cy={R * Math.sin(a)}
                 rx={size * (gi === 0 ? 0.07 : 0.04)}
                 ry={size * 0.02}
-                transform={`rotate(${(i / n) * 360} ${R * Math.cos(a)} ${
-                  R * Math.sin(a)
-                })`}
+                transform={`rotate(${(i / n) * 360} ${R * Math.cos(a)} ${R * Math.sin(a)})`}
               />
             );
           }),

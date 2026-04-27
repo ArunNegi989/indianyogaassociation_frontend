@@ -363,7 +363,7 @@ const AccreditationSection: React.FC = () => {
           </p>
 
           <div className={styles.certBoardWrapper}>
-            <div className={styles.imgWrap}>
+            <div className={styles.imgWrap1}>
               <Image
                 src={yogacetificate}
                 alt="Yoga Certification Board certificate under Ministry of AYUSH Government of India"

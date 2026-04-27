@@ -8,7 +8,7 @@ const quickLinks = [
   { label: "Online Yoga Course", href: "/online-yoga-course" },
   { label: "AYUSH Course", href: "/yoga-college-in-rishikesh" },
   { label: "Student Reviews", href: "#testimonials" },
-  { label: "FAQ", href: "/faq" },
+  { label: "FAQ", href: "/yoga-ttc-faq" },
   { label: "Yoga Competition", href: "/yoga-competition" },
   { label: "Blog", href: "/aym-yoga-blog" },
   { label: "Payment", href: "/ttc-payment" },

@@ -16,26 +16,18 @@ interface UniquePoint {
   title: string;
   body: string;
 }
-
 interface Course {
   hrs: string;
   tag: string;
   color: string;
+  title?: string;
+  url?: string;
   desc?: string;
 }
-
 interface AymSpecial {
   num: string;
   title: string;
   body: string;
-}
-
-interface Chakra {
-  name: string;
-  color: string;
-  symbol: string;
-  meaning: string;
-  mantra: string;
 }
 
 interface BaliPageData {
@@ -58,7 +50,6 @@ interface BaliPageData {
   /* UNIQUE */
   introSuperLabel?: string;
   introTitle?: string;
-  introParaCenter?: string;
   uniquePointsSectionTitle?: string;
   uniquePointsSuperLabel?: string;
   uniquePointsCenterPara?: string;
@@ -111,17 +102,24 @@ interface BaliPageData {
 /* ─── Helpers ─── */
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "";
 
-const imgUrl = (path?: string) => {
+/**
+ * Resolves an image path to a full URL.
+ * Handles:
+ *  - already-full URLs (http/https) → return as-is
+ *  - DB paths starting with /uploads/ → prepend BASE_URL
+ *  - empty / undefined → return ""
+ */
+const imgUrl = (path?: string): string => {
   if (!path) return "";
-  if (path.startsWith("http")) return path;
+  if (path.startsWith("http://") || path.startsWith("https://")) return path;
   return `${BASE_URL}${path}`;
 };
 
-/* Strips HTML tags to check if real text exists */
+/** Strips HTML tags to check if real text exists */
 const hasText = (s?: string) =>
   !!s && s.replace(/<[^>]*>/g, "").trim().length > 0;
 
-/* Renders backend HTML safely — prevents raw <p> tags showing as text */
+/** Renders backend HTML safely */
 const Html = ({ html, className }: { html: string; className?: string }) => (
   <div className={className} dangerouslySetInnerHTML={{ __html: html }} />
 );
@@ -161,7 +159,7 @@ export default function BaliYogaPage() {
     return () => clearTimeout(timer);
   }, [loading]);
 
-  /* ── Derived arrays — pure dynamic ── */
+  /* Derived arrays */
   const uniquePoints: UniquePoint[] = data?.uniquePoints ?? [];
   const courses: Course[] = data?.courses ?? [];
   const highlights: string[] = data?.highlights ?? [];
@@ -186,17 +184,19 @@ export default function BaliYogaPage() {
     );
   }
 
-  const heroImage = imgUrl(data?.heroImage);
- const NAV_ITEMS = [
+  const heroImageSrc = imgUrl(data?.heroImage);
+
+  const NAV_ITEMS = [
     { label: "INTRODUCTION", id: "introduction" },
     { label: "DESTINATION", id: "destination" },
     { label: "COURSES", id: "courses" },
     { label: "REVIEWS", id: "reviews" },
     { label: "LOCATION", id: "location" },
   ];
+
   return (
     <div className={styles.page}>
-      {/* ══ Global mandala watermark ══ */}
+      {/* Global mandala watermark */}
       <div className={styles.pageWm} aria-hidden="true">
         <MandalaFull size={800} opacity={0.025} />
       </div>
@@ -204,10 +204,10 @@ export default function BaliYogaPage() {
 
       {/* ════════════ HERO ════════════ */}
       <section id="hero" className={styles.heroSection}>
-        {heroImage ? (
+        {heroImageSrc ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
-            src={heroImage}
+            src={heroImageSrc}
             alt={data?.heroImgAlt || "Yoga Students Group Bali"}
             className={styles.heroImage}
             style={{ width: "100%", height: "100%", objectFit: "cover" }}
@@ -237,11 +237,9 @@ export default function BaliYogaPage() {
                 {data?.introBannerTitle ||
                   "Bali: Take Your 200 Hour Yoga Teacher Training to the Next Level in Paradise"}
               </h2>
-
               {hasText(data?.introBannerText) && (
                 <Html html={data!.introBannerText!} className={styles.para} />
               )}
-
               {(data?.introParagraphs ?? []).map((p, i) => (
                 <Html key={i} html={p} className={styles.para} />
               ))}
@@ -263,22 +261,19 @@ export default function BaliYogaPage() {
               </span>
               <h2 className={styles.sectionTitle}>
                 {data?.uniquePointsSectionTitle ||
-                  "What Make Bali Unique for Yoga Teacher Training in Bali"}
+                  "What Makes Bali Unique for Yoga Teacher Training"}
               </h2>
               <OmBar />
-
               {hasText(data?.uniquePointsCenterPara) && (
                 <Html
                   html={data!.uniquePointsCenterPara!}
                   className={styles.paraCenter}
                 />
               )}
-
               {(data?.uniquePointsParagraphs ?? []).map((p, i) => (
                 <Html key={i} html={p} className={styles.paraCenter} />
               ))}
             </div>
-
             {uniquePoints.length > 0 && (
               <div className={`${styles.reveal} ${styles.uniqueGrid}`}>
                 {uniquePoints.map((u) => (
@@ -298,26 +293,21 @@ export default function BaliYogaPage() {
       <section id="destination" className={styles.section}>
         <div className={styles.container}>
           <div className={`${styles.reveal} ${styles.destWrap}`}>
-            {/* LEFT CONTENT */}
+            {/* LEFT */}
             <div className={styles.destContentCard}>
               <span className={styles.superLabel}>
                 {data?.destSuperLabel || "Our Location"}
               </span>
-
               <h2 className={styles.sectionTitle}>
                 {data?.destTitle || "Our Destination"}
               </h2>
-
               <OmBar align="left" />
-
               {hasText(data?.destPara1) && (
                 <Html html={data!.destPara1!} className={styles.para} />
               )}
-
               {hasText(data?.destPara2) && (
                 <Html html={data!.destPara2!} className={styles.para} />
               )}
-
               {destHighlights.length > 0 && (
                 <div className={styles.destPills}>
                   {destHighlights.map((p) => (
@@ -331,14 +321,12 @@ export default function BaliYogaPage() {
 
             {/* RIGHT VISUAL */}
             <div className={styles.destVisual}>
-              {/* TOP 2 IMAGES */}
               <div className={styles.destTopRow}>
                 {imgUrl(data?.templeImage) && (
                   <div className={styles.destTopImg}>
                     <img src={imgUrl(data?.templeImage)} alt="Bali temple" />
                   </div>
                 )}
-
                 {imgUrl(data?.riceImage) && (
                   <div className={styles.destTopImg}>
                     <img
@@ -348,8 +336,6 @@ export default function BaliYogaPage() {
                   </div>
                 )}
               </div>
-
-              {/* BOTTOM FULL IMAGE */}
               {imgUrl(data?.groupImage) && (
                 <div className={styles.destBottomImg}>
                   <img src={imgUrl(data?.groupImage)} alt="Yoga group Bali" />
@@ -436,12 +422,14 @@ export default function BaliYogaPage() {
                   </div>
                   <div className={styles.courseTag}>{c.tag} Programme</div>
                   <h3 className={styles.courseTitle}>
-                    {c.hrs}-Hour Yoga Teacher Training in Bali
+                    {/* Use dynamic title if available, else fallback */}
+                    {c.title || `${c.hrs}-Hour Yoga Teacher Training in Bali`}
                   </h3>
                   {hasText(c.desc) && (
                     <Html html={c.desc!} className={styles.courseDesc} />
                   )}
-                  <a href="#apply" className={styles.courseBtn}>
+                  {/* Dynamic URL or fallback to #apply */}
+                  <a href={c.url || "#apply"} className={styles.courseBtn}>
                     Enquire →
                   </a>
                 </div>
@@ -466,14 +454,12 @@ export default function BaliYogaPage() {
                   {data?.highlightsSectionTitle || "Highlights of the Courses"}
                 </h2>
                 <OmBar align="left" />
-
                 {hasText(data?.highlightsPara1) && (
                   <Html html={data!.highlightsPara1!} className={styles.para} />
                 )}
                 {hasText(data?.highlightsPara2) && (
                   <Html html={data!.highlightsPara2!} className={styles.para} />
                 )}
-
                 {highlights.length > 0 && (
                   <ul className={styles.hlList}>
                     {highlights.map((h, i) => (
@@ -549,7 +535,6 @@ export default function BaliYogaPage() {
           <div className={styles.teacherStripMandala} aria-hidden="true">
             <MandalaRing size={300} opacity={0.1} />
           </div>
-
           <div className={styles.teacherImgWrap}>
             <img
               src={imgUrl(data?.ubudImage)}
@@ -570,12 +555,16 @@ export default function BaliYogaPage() {
           </div>
         </section>
       )}
+
       <PremiumGallerySection type="both" backgroundColor="warm" />
-      {/* ✅ REVIEWS — now a reusable separate component */}
-      <div id="reviews"><ReviewSection RatingsSummaryComponent={<RatingsSummarySection />} /></div>
-      
-<div id="location"> <HowToReach /></div>
-     
+
+      <div id="reviews">
+        <ReviewSection RatingsSummaryComponent={<RatingsSummarySection />} />
+      </div>
+
+      <div id="location">
+        <HowToReach />
+      </div>
     </div>
   );
 }
@@ -588,39 +577,23 @@ function OmBar({
   align?: "center" | "left";
   dark?: boolean;
 }) {
+  const goldLine = {
+    background:
+      "linear-gradient(90deg,transparent,rgba(245,184,0,0.6),transparent)",
+  };
   return (
     <div
       className={styles.omBar}
       style={{ justifyContent: align === "left" ? "flex-start" : "center" }}
     >
-      <span
-        className={styles.omBarLine}
-        style={
-          dark
-            ? {
-                background:
-                  "linear-gradient(90deg,transparent,rgba(245,184,0,0.6),transparent)",
-              }
-            : {}
-        }
-      />
+      <span className={styles.omBarLine} style={dark ? goldLine : {}} />
       <span
         className={styles.omBarGlyph}
         style={dark ? { color: "#f5b800" } : {}}
       >
         ॐ
       </span>
-      <span
-        className={styles.omBarLine}
-        style={
-          dark
-            ? {
-                background:
-                  "linear-gradient(90deg,transparent,rgba(245,184,0,0.6),transparent)",
-              }
-            : {}
-        }
-      />
+      <span className={styles.omBarLine} style={dark ? goldLine : {}} />
     </div>
   );
 }

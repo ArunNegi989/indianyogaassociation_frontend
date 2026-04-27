@@ -11,7 +11,7 @@ import toast from "react-hot-toast";
 
 const JoditEditor = dynamic(() => import("jodit-react"), { ssr: false });
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "";
 
 /* ─────────────────────────────────────────
    JODIT CONFIG
@@ -123,6 +123,173 @@ function F({
   );
 }
 
+/* ─────────────────────────────────────────
+   DUAL IMAGE FIELD — Upload OR URL
+   Shows the preview from either source.
+   Priority: uploaded file > url > nothing
+───────────────────────────────────────── */
+interface DualImageProps {
+  badge?: string;
+  hint: string;
+  error?: string;
+  /** Preview from existing DB path (already resolved to full URL) */
+  existingPreview: string;
+  onFileSelect: (f: File, localPreview: string) => void;
+  onFileRemove: () => void;
+  onUrlChange: (url: string) => void;
+  urlValue: string;
+  /** Active preview to show (caller manages this) */
+  preview: string;
+}
+
+function DualImageField({
+  badge,
+  hint,
+  error,
+  preview,
+  urlValue,
+  onFileSelect,
+  onFileRemove,
+  onUrlChange,
+}: DualImageProps) {
+  const [tab, setTab] = useState<"upload" | "url">("upload");
+
+  return (
+    <div>
+      {/* Tab switcher */}
+      <div style={{ display: "flex", gap: 8, marginBottom: 10 }}>
+        {(["upload", "url"] as const).map((t) => (
+          <button
+            key={t}
+            type="button"
+            onClick={() => setTab(t)}
+            style={{
+              padding: "4px 14px",
+              borderRadius: 6,
+              border: `1.5px solid ${tab === t ? "#f15505" : "#e8d5b5"}`,
+              background: tab === t ? "#fff5f0" : "white",
+              color: tab === t ? "#f15505" : "#888",
+              fontWeight: tab === t ? 700 : 400,
+              fontSize: 12,
+              cursor: "pointer",
+              transition: "all .2s",
+            }}
+          >
+            {t === "upload" ? "📁 Upload File" : "🔗 Image URL"}
+          </button>
+        ))}
+      </div>
+
+      {/* Upload tab */}
+      {tab === "upload" && (
+        <div
+          className={`${styles.imageUploadZone} ${preview ? styles.hasImage : ""} ${error ? styles.inputError : ""}`}
+        >
+          {!preview ? (
+            <>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => {
+                  const f = e.target.files?.[0];
+                  if (f) {
+                    onFileSelect(f, URL.createObjectURL(f));
+                    e.target.value = "";
+                  }
+                }}
+              />
+              <div className={styles.imageUploadPlaceholder}>
+                <span className={styles.imageUploadIcon}>🖼️</span>
+                <span className={styles.imageUploadText}>Click to Upload</span>
+                <span className={styles.imageUploadSub}>{hint}</span>
+              </div>
+            </>
+          ) : (
+            <div className={styles.imagePreviewWrap}>
+              {badge && <span className={styles.imageBadge}>{badge}</span>}
+              <img src={preview} alt="" className={styles.imagePreview} />
+              <div className={styles.imagePreviewOverlay}>
+                <span className={styles.imagePreviewAction}>✎ Change</span>
+                <input
+                  type="file"
+                  accept="image/*"
+                  className={styles.imagePreviewOverlayInput}
+                  onChange={(e) => {
+                    const f = e.target.files?.[0];
+                    if (f) {
+                      onFileSelect(f, URL.createObjectURL(f));
+                      e.target.value = "";
+                    }
+                  }}
+                />
+              </div>
+              <button
+                type="button"
+                className={styles.removeImageBtn}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onFileRemove();
+                }}
+              >
+                ✕
+              </button>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* URL tab */}
+      {tab === "url" && (
+        <div>
+          <div className={styles.inputWrap} style={{ marginBottom: 10 }}>
+            <input
+              className={`${styles.input} ${styles.inputNoCount}`}
+              value={urlValue}
+              placeholder="https://example.com/image.jpg"
+              onChange={(e) => onUrlChange(e.target.value)}
+            />
+          </div>
+          {urlValue && (
+            <div
+              style={{
+                position: "relative",
+                borderRadius: 10,
+                overflow: "hidden",
+                maxHeight: 200,
+              }}
+            >
+              <img
+                src={urlValue}
+                alt="URL preview"
+                style={{
+                  width: "100%",
+                  maxHeight: 200,
+                  objectFit: "cover",
+                  display: "block",
+                  borderRadius: 10,
+                }}
+                onError={(e) => {
+                  (e.target as HTMLImageElement).style.display = "none";
+                }}
+              />
+              {badge && (
+                <span
+                  className={styles.imageBadge}
+                  style={{ position: "absolute", top: 8, left: 8 }}
+                >
+                  {badge}
+                </span>
+              )}
+            </div>
+          )}
+        </div>
+      )}
+
+      {error && <p className={styles.errorMsg}>⚠ {error}</p>}
+    </div>
+  );
+}
+
 /* ─── Stable Jodit ─── */
 const StableJodit = memo(function StableJodit({
   onSave,
@@ -139,21 +306,19 @@ const StableJodit = memo(function StableJodit({
 }) {
   const [visible, setVisible] = useState(false);
   const [editorValue, setEditorValue] = useState(value || "");
-
-
   const wrapRef = useRef<HTMLDivElement>(null);
   const onSaveRef = useRef(onSave);
   onSaveRef.current = onSave;
   const config = useMemo(() => makeConfig(ph, h), [ph, h]);
 
- const handleChange = useCallback((val: string) => {
-  setEditorValue(val);
-  onSaveRef.current(val);
-}, []);
+  const handleChange = useCallback((val: string) => {
+    setEditorValue(val);
+    onSaveRef.current(val);
+  }, []);
 
-useEffect(() => {
-  setEditorValue(value || "");
-}, [value]);
+  useEffect(() => {
+    setEditorValue(value || "");
+  }, [value]);
 
   useEffect(() => {
     const el = wrapRef.current;
@@ -229,7 +394,6 @@ const RichListItem = memo(function RichListItem({
     },
     [id, onSave],
   );
-
   return (
     <div className={styles.nestedCard} style={{ marginBottom: "0.8rem" }}>
       <div className={styles.nestedCardHeader}>
@@ -246,9 +410,9 @@ const RichListItem = memo(function RichListItem({
       </div>
       <div className={styles.nestedCardBody}>
         <StableJodit
-           onSave={handleSave}
-  value={value || ""}
-  key={value}
+          onSave={handleSave}
+          value={value || ""}
+          key={value}
           ph={ph}
           h={180}
         />
@@ -309,88 +473,8 @@ function StrList({
   );
 }
 
-/* ─── Single Image Uploader ─── */
-function SingleImg({
-  preview,
-  badge,
-  hint,
-  error,
-  onSelect,
-  onRemove,
-}: {
-  preview: string;
-  badge?: string;
-  hint: string;
-  error?: string;
-  onSelect: (f: File, p: string) => void;
-  onRemove: () => void;
-}) {
-  return (
-    <div>
-      <div
-        className={`${styles.imageUploadZone} ${preview ? styles.hasImage : ""} ${error ? styles.inputError : ""}`}
-      >
-        {!preview ? (
-          <>
-            <input
-              type="file"
-              accept="image/*"
-              onChange={(e) => {
-                const f = e.target.files?.[0];
-                if (f) {
-                  onSelect(f, URL.createObjectURL(f));
-                  e.target.value = "";
-                }
-              }}
-            />
-            <div className={styles.imageUploadPlaceholder}>
-              <span className={styles.imageUploadIcon}>🖼️</span>
-              <span className={styles.imageUploadText}>Click to Upload</span>
-              <span className={styles.imageUploadSub}>{hint}</span>
-            </div>
-          </>
-        ) : (
-          <div className={styles.imagePreviewWrap}>
-            {badge && <span className={styles.imageBadge}>{badge}</span>}
-            <img src={preview} alt="" className={styles.imagePreview} />
-            <div className={styles.imagePreviewOverlay}>
-              <span className={styles.imagePreviewAction}>✎ Change</span>
-              <input
-                type="file"
-                accept="image/*"
-                className={styles.imagePreviewOverlayInput}
-                onChange={(e) => {
-                  const f = e.target.files?.[0];
-                  if (f) {
-                    onSelect(f, URL.createObjectURL(f));
-                    e.target.value = "";
-                  }
-                }}
-              />
-            </div>
-            <button
-              type="button"
-              className={styles.removeImageBtn}
-              onClick={(e) => {
-                e.stopPropagation();
-                onRemove();
-              }}
-            >
-              ✕
-            </button>
-          </div>
-        )}
-      </div>
-      {error && <p className={styles.errorMsg}>⚠ {error}</p>}
-    </div>
-  );
-}
+/* ══ Dynamic list managers (same as before) ══ */
 
-/* ══════════════════════════════════════════
-   DYNAMIC LIST MANAGERS
-══════════════════════════════════════════ */
-
-/* ── Unique Points Manager ── */
 interface UniquePointItem {
   id: string;
   icon: string;
@@ -402,7 +486,7 @@ const DEFAULT_UNIQUE_POINTS: UniquePointItem[] = [
     id: "up1",
     icon: "🛕",
     title: "Hindu Culture & Ceremonies",
-    body: "Home to various Hindu ceremonies and traditions. Since Bali is predominantly Hindu while the rest of Indonesia is Muslim, it creates a unique cultural vibe — creating the daily fabric of life here.",
+    body: "Home to various Hindu ceremonies and traditions. Since Bali is predominantly Hindu while the rest of Indonesia is Muslim, it creates a unique cultural vibe.",
   },
   {
     id: "up2",
@@ -437,7 +521,6 @@ function UniquePointsManager({
     },
     [items, onChange],
   );
-
   const add = () =>
     onChange([
       ...items,
@@ -522,43 +605,42 @@ function UniquePointsManager({
   );
 }
 
-/* ── Courses Manager (UPDATED with Title and URL) ── */
 interface CourseItem {
   id: string;
   hrs: string;
   tag: string;
   color: string;
-  title: string;  // NEW: Full course title (e.g., "200-Hour Yoga Teacher Training in Bali")
-  url: string;    // NEW: URL for the "Enquire →" button
+  title: string;
+  url: string;
   desc: string;
 }
 const DEFAULT_COURSES: CourseItem[] = [
-  { 
-    id: "c1", 
-    hrs: "200", 
-    tag: "Foundation", 
-    color: "#F15505", 
+  {
+    id: "c1",
+    hrs: "200",
+    tag: "Foundation",
+    color: "#F15505",
     title: "200-Hour Yoga Teacher Training in Bali",
     url: "/contact",
-    desc: "The internationally recognized standard certification to begin your journey as a yoga teacher. Ideal for beginners and those looking to deepen their personal practice." 
+    desc: "The internationally recognized standard certification to begin your journey as a yoga teacher.",
   },
-  { 
-    id: "c2", 
-    hrs: "300", 
-    tag: "Advanced", 
-    color: "#f15505", 
+  {
+    id: "c2",
+    hrs: "300",
+    tag: "Advanced",
+    color: "#f15505",
     title: "300-Hour Yoga Teacher Training in Bali",
     url: "/contact",
-    desc: "An advanced course for 200-hour certified teachers to expand their knowledge, skills and deepen their personal practice significantly." 
+    desc: "An advanced course for 200-hour certified teachers to expand their knowledge and skills.",
   },
-  { 
-    id: "c3", 
-    hrs: "500", 
-    tag: "Mastery", 
-    color: "#7a3f00", 
+  {
+    id: "c3",
+    hrs: "500",
+    tag: "Mastery",
+    color: "#7a3f00",
     title: "500-Hour Yoga Teacher Training in Bali",
     url: "/contact",
-    desc: "A comprehensive, advanced-level program for those seeking complete mastery in yoga instruction. Internationally recognised qualification." 
+    desc: "A comprehensive, advanced-level program for those seeking complete mastery in yoga instruction.",
   },
 ];
 
@@ -575,11 +657,18 @@ function CoursesManager({
     },
     [items, onChange],
   );
-
   const add = () =>
     onChange([
       ...items,
-      { id: `c-${Date.now()}`, hrs: "", tag: "", color: "#F15505", title: "", url: "", desc: "" },
+      {
+        id: `c-${Date.now()}`,
+        hrs: "",
+        tag: "",
+        color: "#F15505",
+        title: "",
+        url: "",
+        desc: "",
+      },
     ]);
   const remove = (id: string) => {
     if (items.length <= 1) return;
@@ -714,7 +803,6 @@ function CoursesManager({
   );
 }
 
-/* ── Highlights Manager ── */
 function HighlightsManager({
   items,
   onChange,
@@ -722,18 +810,19 @@ function HighlightsManager({
   items: string[];
   onChange: (v: string[]) => void;
 }) {
-  const update = useCallback((idx: number, val: string) => {
-    const newItems = [...items];
-    newItems[idx] = val;
-    onChange(newItems);
-  }, [items, onChange]);
-
+  const update = useCallback(
+    (idx: number, val: string) => {
+      const n = [...items];
+      n[idx] = val;
+      onChange(n);
+    },
+    [items, onChange],
+  );
   const add = () => onChange([...items, ""]);
   const remove = (idx: number) => {
     if (items.length <= 1) return;
     onChange(items.filter((_, i) => i !== idx));
   };
-
   return (
     <div>
       {items.map((item, idx) => (
@@ -764,7 +853,6 @@ function HighlightsManager({
   );
 }
 
-/* ── Destination Highlights Manager ── */
 function DestHighlightsManager({
   items,
   onChange,
@@ -772,18 +860,19 @@ function DestHighlightsManager({
   items: string[];
   onChange: (v: string[]) => void;
 }) {
-  const update = useCallback((idx: number, val: string) => {
-    const newItems = [...items];
-    newItems[idx] = val;
-    onChange(newItems);
-  }, [items, onChange]);
-
+  const update = useCallback(
+    (idx: number, val: string) => {
+      const n = [...items];
+      n[idx] = val;
+      onChange(n);
+    },
+    [items, onChange],
+  );
   const add = () => onChange([...items, ""]);
   const remove = (idx: number) => {
     if (items.length <= 1) return;
     onChange(items.filter((_, i) => i !== idx));
   };
-
   return (
     <div>
       {items.map((item, idx) => (
@@ -814,7 +903,6 @@ function DestHighlightsManager({
   );
 }
 
-/* ── AYM Special Manager ── */
 interface AYMSpecialItem {
   id: string;
   num: string;
@@ -822,11 +910,36 @@ interface AYMSpecialItem {
   body: string;
 }
 const DEFAULT_AYM_SPECIAL: AYMSpecialItem[] = [
-  { id: "as1", num: "01", title: "Steadiness of Practice", body: "Comprehensive knowledge of yoga techniques, skillfulness in yogic postures, and philosophy makes our curriculum the best yoga teacher training in Bali." },
-  { id: "as2", num: "02", title: "Coherent Structure", body: "We structured our curriculum so that even beginners and advanced practitioners obtain a comprehensive overview of Hatha Yoga." },
-  { id: "as3", num: "03", title: "Morning Rituals", body: "Our day begins with the practice of meditation, hatha yoga practice and morning chants; with personalised interaction to provide a family-like atmosphere." },
-  { id: "as4", num: "04", title: "Teaching Professionalisation", body: "During your yoga teacher training, we will provide plenty of opportunities to professionalise your teaching skills and help you market your new expertise." },
-  { id: "as5", num: "05", title: "Yoga Alliance Standards", body: "Our curriculum meets the standards of the internationally acclaimed Yoga Alliance. Our best yoga teachers provide the best conditions so they grow as best instructors." },
+  {
+    id: "as1",
+    num: "01",
+    title: "Steadiness of Practice",
+    body: "Comprehensive knowledge of yoga techniques, skillfulness in yogic postures, and philosophy makes our curriculum the best yoga teacher training in Bali.",
+  },
+  {
+    id: "as2",
+    num: "02",
+    title: "Coherent Structure",
+    body: "We structured our curriculum so that even beginners and advanced practitioners obtain a comprehensive overview of Hatha Yoga.",
+  },
+  {
+    id: "as3",
+    num: "03",
+    title: "Morning Rituals",
+    body: "Our day begins with the practice of meditation, hatha yoga practice and morning chants; with personalised interaction to provide a family-like atmosphere.",
+  },
+  {
+    id: "as4",
+    num: "04",
+    title: "Teaching Professionalisation",
+    body: "During your yoga teacher training, we will provide plenty of opportunities to professionalise your teaching skills.",
+  },
+  {
+    id: "as5",
+    num: "05",
+    title: "Yoga Alliance Standards",
+    body: "Our curriculum meets the standards of the internationally acclaimed Yoga Alliance.",
+  },
 ];
 
 function AYMSpecialManager({
@@ -842,17 +955,20 @@ function AYMSpecialManager({
     },
     [items, onChange],
   );
-
   const add = () =>
     onChange([
       ...items,
-      { id: `as-${Date.now()}`, num: String(items.length + 1).padStart(2, "0"), title: "", body: "" },
+      {
+        id: `as-${Date.now()}`,
+        num: String(items.length + 1).padStart(2, "0"),
+        title: "",
+        body: "",
+      },
     ]);
   const remove = (id: string) => {
     if (items.length <= 1) return;
     onChange(items.filter((i) => i.id !== id));
   };
-
   return (
     <div>
       {items.map((item) => (
@@ -927,164 +1043,6 @@ function AYMSpecialManager({
   );
 }
 
-/* ── Chakras Manager ── */
-interface ChakraItem {
-  id: string;
-  name: string;
-  color: string;
-  symbol: string;
-  meaning: string;
-  mantra: string;
-}
-const DEFAULT_CHAKRAS: ChakraItem[] = [
-  { id: "ch1", name: "Muladhara", color: "#c0392b", symbol: "◼", meaning: "Root · Earth · Stability", mantra: "LAM" },
-  { id: "ch2", name: "Svadhisthana", color: "#e67e22", symbol: "◉", meaning: "Sacral · Water · Creativity", mantra: "VAM" },
-  { id: "ch3", name: "Manipura", color: "#f1c40f", symbol: "▲", meaning: "Solar Plexus · Fire · Power", mantra: "RAM" },
-  { id: "ch4", name: "Anahata", color: "#27ae60", symbol: "✦", meaning: "Heart · Air · Love", mantra: "YAM" },
-  { id: "ch5", name: "Vishuddha", color: "#2980b9", symbol: "◎", meaning: "Throat · Ether · Truth", mantra: "HAM" },
-  { id: "ch6", name: "Ajna", color: "#8e44ad", symbol: "◈", meaning: "Third Eye · Light · Intuition", mantra: "OM" },
-  { id: "ch7", name: "Sahasrara", color: "#9b59b6", symbol: "✿", meaning: "Crown · Cosmic · Consciousness", mantra: "AH" },
-];
-
-function ChakrasManager({
-  items,
-  onChange,
-}: {
-  items: ChakraItem[];
-  onChange: (v: ChakraItem[]) => void;
-}) {
-  const update = useCallback(
-    (id: string, field: keyof ChakraItem, value: string) => {
-      onChange(items.map((i) => (i.id === id ? { ...i, [field]: value } : i)));
-    },
-    [items, onChange],
-  );
-
-  const add = () =>
-    onChange([
-      ...items,
-      { id: `ch-${Date.now()}`, name: "", color: "#F15505", symbol: "●", meaning: "", mantra: "" },
-    ]);
-  const remove = (id: string) => {
-    if (items.length <= 1) return;
-    onChange(items.filter((i) => i.id !== id));
-  };
-
-  return (
-    <div>
-      {items.map((item) => (
-        <div
-          key={item.id}
-          className={styles.nestedCard}
-          style={{ marginBottom: "0.8rem" }}
-        >
-          <div className={styles.nestedCardHeader}>
-            <span className={styles.nestedCardNum}>
-              Chakra: {item.name || "New"}
-            </span>
-            {items.length > 1 && (
-              <button
-                type="button"
-                className={styles.removeNestedBtn}
-                onClick={() => remove(item.id)}
-              >
-                ✕ Remove
-              </button>
-            )}
-          </div>
-          <div className={styles.nestedCardBody}>
-            <div className={styles.grid2}>
-              <div className={styles.fieldGroup}>
-                <label className={styles.label} style={{ fontSize: "0.8rem" }}>
-                  Name
-                </label>
-                <div className={styles.inputWrap}>
-                  <input
-                    className={styles.input}
-                    value={item.name}
-                    placeholder="Muladhara"
-                    onChange={(e) => update(item.id, "name", e.target.value)}
-                  />
-                </div>
-              </div>
-              <div className={styles.fieldGroup}>
-                <label className={styles.label} style={{ fontSize: "0.8rem" }}>
-                  Symbol
-                </label>
-                <div className={styles.inputWrap}>
-                  <input
-                    className={styles.input}
-                    value={item.symbol}
-                    placeholder="◼"
-                    onChange={(e) => update(item.id, "symbol", e.target.value)}
-                  />
-                </div>
-              </div>
-              <div className={styles.fieldGroup}>
-                <label className={styles.label} style={{ fontSize: "0.8rem" }}>
-                  Color (hex)
-                </label>
-                <div
-                  className={styles.inputWrap}
-                  style={{ display: "flex", gap: 8, alignItems: "center" }}
-                >
-                  <input
-                    type="color"
-                    value={item.color}
-                    style={{
-                      width: 40,
-                      height: 36,
-                      border: "none",
-                      background: "none",
-                      cursor: "pointer",
-                    }}
-                    onChange={(e) => update(item.id, "color", e.target.value)}
-                  />
-                  <input
-                    className={styles.input}
-                    value={item.color}
-                    placeholder="#c0392b"
-                    onChange={(e) => update(item.id, "color", e.target.value)}
-                  />
-                </div>
-              </div>
-              <div className={styles.fieldGroup}>
-                <label className={styles.label} style={{ fontSize: "0.8rem" }}>
-                  Mantra
-                </label>
-                <div className={styles.inputWrap}>
-                  <input
-                    className={styles.input}
-                    value={item.mantra}
-                    placeholder="LAM"
-                    onChange={(e) => update(item.id, "mantra", e.target.value)}
-                  />
-                </div>
-              </div>
-            </div>
-            <div className={styles.fieldGroup}>
-              <label className={styles.label} style={{ fontSize: "0.8rem" }}>
-                Meaning
-              </label>
-              <div className={styles.inputWrap}>
-                <input
-                  className={styles.input}
-                  value={item.meaning}
-                  placeholder="Root · Earth · Stability"
-                  onChange={(e) => update(item.id, "meaning", e.target.value)}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      ))}
-      <button type="button" className={styles.addItemBtn} onClick={add}>
-        ＋ Add Chakra
-      </button>
-    </div>
-  );
-}
-
 /* ── PARA LIST HOOK ── */
 function useParaList(initId: string, initVal = "") {
   const [ids, setIds] = useState<string[]>([initId]);
@@ -1113,8 +1071,25 @@ function useParaList(initId: string, initVal = "") {
   return { ids, ref, add, remove, save, loadFromArray };
 }
 
+/* ══ IMAGE STATE HELPER ══
+   Each image has:
+   - file: File | null  (upload)
+   - preview: string    (local blob OR resolved DB url)
+   - url: string        (external URL input)
+   - error: string
+*/
+interface ImgState {
+  file: File | null;
+  preview: string; // blob or existing DB url
+  url: string; // url-tab value
+  error: string;
+}
+function initImg(): ImgState {
+  return { file: null, preview: "", url: "", error: "" };
+}
+
 /* ══════════════════════════════════════════
-   FORM VALUES INTERFACE
+   FORM VALUES
 ══════════════════════════════════════════ */
 interface PageFormValues {
   slug: string;
@@ -1123,24 +1098,16 @@ interface PageFormValues {
   heroImgAlt: string;
   heroCaption?: string;
   introBannerTitle: string;
-  introBannerText: string;
   introSuperLabel: string;
   introTitle: string;
-  introParaCenter: string;
   uniquePointsSectionTitle: string;
   uniquePointsSuperLabel: string;
-  uniquePointsCenterPara: string;
   destSuperLabel: string;
   destTitle: string;
-  destPara1: string;
-  destPara2: string;
   coursesSuperLabel: string;
   coursesSectionTitle: string;
-  coursesCenterPara: string;
   highlightsSuperLabel: string;
   highlightsSectionTitle: string;
-  highlightsPara1: string;
-  highlightsPara2: string;
   aymSpecialSuperLabel: string;
   aymSpecialSectionTitle: string;
   pullQuoteText: string;
@@ -1164,24 +1131,34 @@ export default function AddEditBaliPage() {
   const [submitted, setSubmitted] = useState(false);
   const [loadingData, setLoadingData] = useState(false);
 
-  /* ── Images ── */
-  const [heroFile, setHeroFile] = useState<File | null>(null);
-  const [heroPrev, setHeroPrev] = useState("");
-  const [heroErr, setHeroErr] = useState("");
-  const [groupImageFile, setGroupImageFile] = useState<File | null>(null);
-  const [groupImagePrev, setGroupImagePrev] = useState("");
-  const [templeImageFile, setTempleImageFile] = useState<File | null>(null);
-  const [templeImagePrev, setTempleImagePrev] = useState("");
-  const [riceImageFile, setRiceImageFile] = useState<File | null>(null);
-  const [riceImagePrev, setRiceImagePrev] = useState("");
-  const [practiceImageFile, setPracticeImageFile] = useState<File | null>(null);
-  const [practiceImagePrev, setPracticeImagePrev] = useState("");
-  const [teacherImageFile, setTeacherImageFile] = useState<File | null>(null);
-  const [teacherImagePrev, setTeacherImagePrev] = useState("");
-  const [gardenImageFile, setGardenImageFile] = useState<File | null>(null);
-  const [gardenImagePrev, setGardenImagePrev] = useState("");
-  const [ubudImageFile, setUbudImageFile] = useState<File | null>(null);
-  const [ubudImagePrev, setUbudImagePrev] = useState("");
+  /* ── Image states ── */
+  const [heroImg, setHeroImg] = useState<ImgState>(initImg());
+  const [groupImg, setGroupImg] = useState<ImgState>(initImg());
+  const [templeImg, setTempleImg] = useState<ImgState>(initImg());
+  const [riceImg, setRiceImg] = useState<ImgState>(initImg());
+  const [practiceImg, setPracticeImg] = useState<ImgState>(initImg());
+  const [teacherImg, setTeacherImg] = useState<ImgState>(initImg());
+  const [gardenImg, setGardenImg] = useState<ImgState>(initImg());
+  const [ubudImg, setUbudImg] = useState<ImgState>(initImg());
+
+  /* Helper to build effective preview (file blob > url) */
+  const effectivePreview = (s: ImgState) => s.preview || s.url;
+
+  /* Helper to update a single image state field */
+  const setImg = (setter: React.Dispatch<React.SetStateAction<ImgState>>) => ({
+    onFileSelect: (f: File, p: string) =>
+      setter((prev) => ({ ...prev, file: f, preview: p, error: "" })),
+    onFileRemove: () =>
+      setter((prev) => ({ ...prev, file: null, preview: "", error: "" })),
+    onUrlChange: (u: string) =>
+      setter((prev) => ({
+        ...prev,
+        url: u,
+        file: null,
+        preview: "",
+        error: "",
+      })),
+  });
 
   /* ── Rich text refs ── */
   const introTextRef = useRef("");
@@ -1198,7 +1175,9 @@ export default function AddEditBaliPage() {
   const aymSpecialParaList = useParaList("asp1");
 
   /* ── Dynamic lists ── */
-  const [uniquePoints, setUniquePoints] = useState<UniquePointItem[]>(DEFAULT_UNIQUE_POINTS);
+  const [uniquePoints, setUniquePoints] = useState<UniquePointItem[]>(
+    DEFAULT_UNIQUE_POINTS,
+  );
   const [courses, setCourses] = useState<CourseItem[]>(DEFAULT_COURSES);
   const [highlights, setHighlights] = useState<string[]>([
     "Comprehensive studies of Hatha Yoga, Kundalini yoga, and spiritual heart meditation",
@@ -1214,8 +1193,8 @@ export default function AddEditBaliPage() {
     "Campuhan Ridge Walk",
     "Goa Gajah — Elephant Cave",
   ]);
-  const [aymSpecial, setAymSpecial] = useState<AYMSpecialItem[]>(DEFAULT_AYM_SPECIAL);
-  const [chakras, setChakras] = useState<ChakraItem[]>(DEFAULT_CHAKRAS);
+  const [aymSpecial, setAymSpecial] =
+    useState<AYMSpecialItem[]>(DEFAULT_AYM_SPECIAL);
 
   /* ── useForm ── */
   const {
@@ -1227,32 +1206,28 @@ export default function AddEditBaliPage() {
     defaultValues: {
       slug: "",
       status: "Active",
-      pageTitleH1: "Bali: Take Your 200 Hour Yoga Teacher Training to the Next Level in Paradise",
+      pageTitleH1:
+        "Bali: Take Your 200 Hour Yoga Teacher Training to the Next Level in Paradise",
       heroImgAlt: "Yoga Students Group",
       heroCaption: "Yoga Students Group",
-      introBannerTitle: "Bali: Take Your 200 Hour Yoga Teacher Training to the Next Level in Paradise",
-      introBannerText: "Bali is an Island situated between the Indian and Pacific Ocean and the only Island in Indonesia which follows Hinduism. The Island is home to a various religious site like Uluwatu Temple. Also known as the Islands of Gods and culture, it attracts tourists from all over the world.",
+      introBannerTitle:
+        "Bali: Take Your 200 Hour Yoga Teacher Training to the Next Level in Paradise",
       introSuperLabel: "Sacred Island",
       introTitle: "What Make Bali Unique for Yoga Teacher Training in Bali",
-      introParaCenter: "It is the home of various Hindus ceremonies and traditions. Travelers flock from all over the world to this health and wellness hotspot. Since Bali is predominantly Hindu while the rest of the country is Muslim, it creates a unique cultural vibe. All those Hindus ceremonies and traditions create the daily fabric of Life here, which make Bali very unique and sacred. Alike with the mixture of culture, spirituality and the warmth of Balinese people make it a hub for yogis and the best place for yoga teacher training.",
       uniquePointsSectionTitle: "What Makes Bali Unique",
       uniquePointsSuperLabel: "Sacred Island",
-      uniquePointsCenterPara: "It is the home of various Hindus ceremonies and traditions. Travelers flock from all over the world to this health and wellness hotspot.",
       destSuperLabel: "Our Location",
       destTitle: "Our Destination",
-      destPara1: "Our AYM yoga school is situated in Ubud, the yoga capital of Bali, a city with numerous yoga retreats and studios. It also homes to countless yogis who came from all over the world — which make Ubud an excellent setting for yoga teacher training.",
-      destPara2: "Filled with lush green paddy field, picturesque temple, art galleries, colourful market, and countless healthy food restaurants, you will fall in love with the dazzling town.",
       coursesSuperLabel: "Programmes",
       coursesSectionTitle: "Courses Provided",
-      coursesCenterPara: "Our curriculum caters to all the requirements of all yoga practitioners. If you want to immerse yourself in Yoga, meditation, and philosophy, we have training courses for you. Each training program is developed and run by our best Yoga teachers themselves. The programs vary from a yoga retreat to yoga teacher training of 200, 300 to 500 hours accreditations.",
       highlightsSuperLabel: "Curriculum",
       highlightsSectionTitle: "Highlights of the Courses",
-      highlightsPara1: "The keystone of our courses is comprehensive studies of Hatha Yoga, Kundalini yoga, and spiritual heart meditation. Our Courses includes the intense and regular practice of asanas (postures), Ashtanga yoga, vinyasa flow. To introduce full aspects of Hatha Yoga, we incorporate purification techniques, breathing patterns, and meditations.",
-      highlightsPara2: "Extensive studies of yogic philosophy frame our training courses, meditation and mantra chanting, the practice of pranayama and subtle energies channels of nadi and chakra.",
       aymSpecialSuperLabel: "Why AYM",
       aymSpecialSectionTitle: "What makes AYM yoga school training special?",
-      pullQuoteText: "Yoga is not about touching your toes. It is what you learn on the way down.",
-      teacherCaptionText: "Experience the transformative power of yoga in the heart of Bali",
+      pullQuoteText:
+        "Yoga is not about touching your toes. It is what you learn on the way down.",
+      teacherCaptionText:
+        "Experience the transformative power of yoga in the heart of Bali",
       footerTitle: "AYM Yoga School Bali",
       footerLoc: "Ubud, Bali, Indonesia",
       footerMail: "info@aymyogaschool.com",
@@ -1263,29 +1238,45 @@ export default function AddEditBaliPage() {
   /* ── Fetch on edit ── */
   useEffect(() => {
     if (!isEdit) return;
-    const fetchData = async () => {
-      setLoadingData(true);
-      try {
-        const res = await api.get(`/bali-page`);
-        const d = res.data.data;
-        
+    setLoadingData(true);
+    api
+      .get("/bali-page")
+      .then((res) => {
+        const d = res.data?.data;
+        if (!d) return;
+
         const textFields: (keyof PageFormValues)[] = [
-          "slug", "status", "pageTitleH1", "heroImgAlt", "heroCaption",
-          "introBannerTitle", "introBannerText", "introSuperLabel", "introTitle",
-          "introParaCenter", "uniquePointsSectionTitle", "uniquePointsSuperLabel",
-          "uniquePointsCenterPara", "destSuperLabel", "destTitle", "destPara1",
-          "destPara2", "coursesSuperLabel", "coursesSectionTitle", "coursesCenterPara",
-          "highlightsSuperLabel", "highlightsSectionTitle", "highlightsPara1",
-          "highlightsPara2", "aymSpecialSuperLabel", "aymSpecialSectionTitle",
-          "pullQuoteText", "teacherCaptionText", "footerTitle", "footerLoc",
-          "footerMail", "footerTag"
+          "slug",
+          "status",
+          "pageTitleH1",
+          "heroImgAlt",
+          "heroCaption",
+          "introBannerTitle",
+          "introSuperLabel",
+          "introTitle",
+          "uniquePointsSectionTitle",
+          "uniquePointsSuperLabel",
+          "destSuperLabel",
+          "destTitle",
+          "coursesSuperLabel",
+          "coursesSectionTitle",
+          "highlightsSuperLabel",
+          "highlightsSectionTitle",
+          "aymSpecialSuperLabel",
+          "aymSpecialSectionTitle",
+          "pullQuoteText",
+          "teacherCaptionText",
+          "footerTitle",
+          "footerLoc",
+          "footerMail",
+          "footerTag",
         ];
         textFields.forEach((k) => {
           if (d[k] !== undefined) setValue(k, d[k]);
         });
 
         /* Rich text refs */
-        introTextRef.current = d.introText || "";
+        introTextRef.current = d.introBannerText || d.introText || "";
         uniquePointsCenterParaRef.current = d.uniquePointsCenterPara || "";
         destPara1Ref.current = d.destPara1 || "";
         destPara2Ref.current = d.destPara2 || "";
@@ -1294,30 +1285,31 @@ export default function AddEditBaliPage() {
         highlightsPara2Ref.current = d.highlightsPara2 || "";
 
         /* Para lists */
-        if (d.introParagraphs?.length) introParaList.loadFromArray(d.introParagraphs, "ip");
-        if (d.uniquePointsParagraphs?.length) uniquePointsParaList.loadFromArray(d.uniquePointsParagraphs, "up");
-       let aymParas = d.aymSpecialParagraphs;
+        if (d.introParagraphs?.length)
+          introParaList.loadFromArray(d.introParagraphs, "ip");
+        if (d.uniquePointsParagraphs?.length)
+          uniquePointsParaList.loadFromArray(d.uniquePointsParagraphs, "up");
+        let aymParas = d.aymSpecialParagraphs;
+        if (typeof aymParas === "string") {
+          try {
+            aymParas = JSON.parse(aymParas);
+          } catch {
+            aymParas = [];
+          }
+        }
+        if (aymParas?.length) aymSpecialParaList.loadFromArray(aymParas, "asp");
 
-if (typeof aymParas === "string") {
-  try {
-    aymParas = JSON.parse(aymParas);
-  } catch {
-    aymParas = [];
-  }
-}
-
-if (aymParas?.length) {
-  aymSpecialParaList.loadFromArray(aymParas, "asp");
-}
-        /* Images */
-        if (d.heroImage) setHeroPrev(BASE_URL + d.heroImage);
-        if (d.groupImage) setGroupImagePrev(BASE_URL + d.groupImage);
-        if (d.templeImage) setTempleImagePrev(BASE_URL + d.templeImage);
-        if (d.riceImage) setRiceImagePrev(BASE_URL + d.riceImage);
-        if (d.practiceImage) setPracticeImagePrev(BASE_URL + d.practiceImage);
-        if (d.teacherImage) setTeacherImagePrev(BASE_URL + d.teacherImage);
-        if (d.gardenImage) setGardenImagePrev(BASE_URL + d.gardenImage);
-        if (d.ubudImage) setUbudImagePrev(BASE_URL + d.ubudImage);
+        /* Images — set preview from existing DB path */
+        const resolveImg = (path?: string) =>
+          path ? (path.startsWith("http") ? path : BASE_URL + path) : "";
+        setHeroImg((p) => ({ ...p, preview: resolveImg(d.heroImage) }));
+        setGroupImg((p) => ({ ...p, preview: resolveImg(d.groupImage) }));
+        setTempleImg((p) => ({ ...p, preview: resolveImg(d.templeImage) }));
+        setRiceImg((p) => ({ ...p, preview: resolveImg(d.riceImage) }));
+        setPracticeImg((p) => ({ ...p, preview: resolveImg(d.practiceImage) }));
+        setTeacherImg((p) => ({ ...p, preview: resolveImg(d.teacherImage) }));
+        setGardenImg((p) => ({ ...p, preview: resolveImg(d.gardenImage) }));
+        setUbudImg((p) => ({ ...p, preview: resolveImg(d.ubudImage) }));
 
         /* Dynamic lists */
         if (d.uniquePoints?.length) setUniquePoints(d.uniquePoints);
@@ -1325,149 +1317,115 @@ if (aymParas?.length) {
         if (d.highlights?.length) setHighlights(d.highlights);
         if (d.destHighlights?.length) setDestHighlights(d.destHighlights);
         if (d.aymSpecial?.length) setAymSpecial(d.aymSpecial);
-        if (d.chakras?.length) setChakras(d.chakras);
-      } catch {
+      })
+      .catch(() => {
         toast.error("Failed to load page data");
         router.push("/admin/yogacourse/yoga-course-bali");
-      } finally {
-        setLoadingData(false);
-      }
-    };
-    fetchData();
+      })
+      .finally(() => setLoadingData(false));
   }, [isEdit, pageId]);
 
   /* ── Submit ── */
- const onSubmit = async (data: PageFormValues) => {
-  if (!heroFile && !heroPrev) {
-    setHeroErr("Hero image is required");
-    return;
-  }
-
-  try {
-    setIsSubmitting(true);
-
-    const fd = new FormData();
-
-    /* =========================
-       BASIC FIELDS
-    ========================= */
-    Object.entries(data).forEach(([k, v]) => {
-  if (
-    [
-      "destPara1",
-      "destPara2",
-      "coursesCenterPara",
-      "highlightsPara1",
-      "highlightsPara2",
-      "uniquePointsCenterPara",
-      "introText",
-    ].includes(k)
-  ) {
-    return; // skip (we handle manually)
-  }
-
-  fd.append(k, v ?? "");
-});
-
-    /* =========================
-       HELPER (IMPORTANT)
-    ========================= */
-    const getString = (val: any) => {
-      if (!val) return "";
-      return Array.isArray(val) ? val.join(" ") : val;
-    };
-
-    /* =========================
-       RICH TEXT (FIXED)
-    ========================= */
-    fd.append("introText", getString(introTextRef.current));
-    fd.append(
-      "uniquePointsCenterPara",
-      getString(uniquePointsCenterParaRef.current)
-    );
-    fd.append("destPara1", getString(destPara1Ref.current));
-    fd.append("destPara2", getString(destPara2Ref.current));
-    fd.append(
-      "coursesCenterPara",
-      getString(coursesCenterParaRef.current)
-    );
-    fd.append("highlightsPara1", getString(highlightsPara1Ref.current));
-    fd.append("highlightsPara2", getString(highlightsPara2Ref.current));
-
-    /* =========================
-       PARA LISTS (FIXED)
-    ========================= */
-    const introArr = introParaList.ids.map(
-      (id) => introParaList.ref.current[id] || ""
-    );
-
-    const uniqueArr = uniquePointsParaList.ids.map(
-      (id) => uniquePointsParaList.ref.current[id] || ""
-    );
-
-    const aymArr = aymSpecialParaList.ids.map(
-      (id) => aymSpecialParaList.ref.current[id] || ""
-    );
-
-    fd.append("introParagraphs", JSON.stringify(introArr));
-    fd.append("uniquePointsParagraphs", JSON.stringify(uniqueArr));
-    fd.append("aymSpecialParagraphs", JSON.stringify(aymArr));
-
-    /* =========================
-       DYNAMIC LISTS
-    ========================= */
-    fd.append("uniquePoints", JSON.stringify(uniquePoints));
-    fd.append("courses", JSON.stringify(courses));
-    fd.append("highlights", JSON.stringify(highlights));
-    fd.append("destHighlights", JSON.stringify(destHighlights));
-    fd.append("aymSpecial", JSON.stringify(aymSpecial));
-    fd.append("chakras", JSON.stringify(chakras));
-
-    /* =========================
-       IMAGES
-    ========================= */
-    if (heroFile) fd.append("heroImage", heroFile);
-    if (groupImageFile) fd.append("groupImage", groupImageFile);
-    if (templeImageFile) fd.append("templeImage", templeImageFile);
-    if (riceImageFile) fd.append("riceImage", riceImageFile);
-    if (practiceImageFile) fd.append("practiceImage", practiceImageFile);
-    if (teacherImageFile) fd.append("teacherImage", teacherImageFile);
-    if (gardenImageFile) fd.append("gardenImage", gardenImageFile);
-    if (ubudImageFile) fd.append("ubudImage", ubudImageFile);
-
-    /* =========================
-       API CALL
-    ========================= */
-    if (isEdit) {
-      fd.append("_id", pageId);
-
-      await api.put("/bali-page", fd, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
-
-      toast.success("Page updated successfully");
-    } else {
-      await api.post("/bali-page", fd, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
-
-      toast.success("Page created successfully");
+  const onSubmit = async (data: PageFormValues) => {
+    if (!effectivePreview(heroImg)) {
+      setHeroImg((p) => ({ ...p, error: "Hero image is required" }));
+      return;
     }
 
-    setSubmitted(true);
-    setTimeout(() => {
-      router.push("/admin/yogacourse/yoga-course-bali");
-    }, 1500);
-  } catch (e: any) {
-    toast.error(
-      e?.response?.data?.message ||
-        e?.message ||
-        "Something went wrong"
-    );
-  } finally {
-    setIsSubmitting(false);
-  }
-};
+    try {
+      setIsSubmitting(true);
+      const fd = new FormData();
+
+      /* Basic fields */
+      Object.entries(data).forEach(([k, v]) => fd.append(k, v ?? ""));
+
+      /* Rich text */
+      fd.append("introBannerText", introTextRef.current || "");
+      fd.append("introText", introTextRef.current || "");
+      fd.append(
+        "uniquePointsCenterPara",
+        uniquePointsCenterParaRef.current || "",
+      );
+      fd.append("destPara1", destPara1Ref.current || "");
+      fd.append("destPara2", destPara2Ref.current || "");
+      fd.append("coursesCenterPara", coursesCenterParaRef.current || "");
+      fd.append("highlightsPara1", highlightsPara1Ref.current || "");
+      fd.append("highlightsPara2", highlightsPara2Ref.current || "");
+
+      /* Para lists */
+      fd.append(
+        "introParagraphs",
+        JSON.stringify(
+          introParaList.ids.map((id) => introParaList.ref.current[id] || ""),
+        ),
+      );
+      fd.append(
+        "uniquePointsParagraphs",
+        JSON.stringify(
+          uniquePointsParaList.ids.map(
+            (id) => uniquePointsParaList.ref.current[id] || "",
+          ),
+        ),
+      );
+      fd.append(
+        "aymSpecialParagraphs",
+        JSON.stringify(
+          aymSpecialParaList.ids.map(
+            (id) => aymSpecialParaList.ref.current[id] || "",
+          ),
+        ),
+      );
+
+      /* Dynamic lists */
+      fd.append("uniquePoints", JSON.stringify(uniquePoints));
+      fd.append("courses", JSON.stringify(courses));
+      fd.append("highlights", JSON.stringify(highlights));
+      fd.append("destHighlights", JSON.stringify(destHighlights));
+      fd.append("aymSpecial", JSON.stringify(aymSpecial));
+
+      /* Images — file takes priority; if no file, send URL (backend stores it as-is) */
+      const appendImage = (fieldName: string, state: ImgState) => {
+        if (state.file) {
+          fd.append(fieldName, state.file);
+        } else if (state.url) {
+          // Send URL as a plain text field so backend can store it
+          fd.append(`${fieldName}Url`, state.url);
+        }
+        // If only preview (existing DB path) — don't send anything; backend keeps existing
+      };
+
+      appendImage("heroImage", heroImg);
+      appendImage("groupImage", groupImg);
+      appendImage("templeImage", templeImg);
+      appendImage("riceImage", riceImg);
+      appendImage("practiceImage", practiceImg);
+      appendImage("teacherImage", teacherImg);
+      appendImage("gardenImage", gardenImg);
+      appendImage("ubudImage", ubudImg);
+
+      if (isEdit) {
+        fd.append("_id", pageId);
+        await api.put("/bali-page", fd, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+        toast.success("Page updated successfully");
+      } else {
+        await api.post("/bali-page", fd, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+        toast.success("Page created successfully");
+      }
+
+      setSubmitted(true);
+      setTimeout(() => router.push("/admin/yogacourse/yoga-course-bali"), 1500);
+    } catch (e: any) {
+      toast.error(
+        e?.response?.data?.message || e?.message || "Something went wrong",
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   if (loadingData)
     return (
@@ -1489,6 +1447,16 @@ if (aymParas?.length) {
         </div>
       </div>
     );
+
+  /* ── Shorthand handlers ── */
+  const heroH = setImg(setHeroImg);
+  const groupH = setImg(setGroupImg);
+  const templeH = setImg(setTempleImg);
+  const riceH = setImg(setRiceImg);
+  const practiceH = setImg(setPracticeImg);
+  const teacherH = setImg(setTeacherImg);
+  const gardenH = setImg(setGardenImg);
+  const ubudH = setImg(setUbudImg);
 
   /* ══════════════════════════════════════════
      RENDER
@@ -1513,7 +1481,8 @@ if (aymParas?.length) {
             {isEdit ? "Edit Bali Yoga Page" : "Add New Bali Yoga Page"}
           </h1>
           <p className={styles.pageSubtitle}>
-            Hero · Intro · Unique Points · Destination · Courses · Highlights · AYM Special · Chakras · Footer
+            Hero · Intro · Unique Points · Destination · Courses · Highlights ·
+            AYM Special · Footer
           </p>
         </div>
       </div>
@@ -1526,32 +1495,51 @@ if (aymParas?.length) {
       </div>
 
       <div className={styles.formCard}>
-        {/* ══ 1. HERO SECTION ══ */}
+        {/* ══ 1. HERO ══ */}
         <Sec title="Hero Section">
           <F label="Page H1 Heading" req>
-            <div className={`${styles.inputWrap} ${errors.pageTitleH1 ? styles.inputError : ""}`}>
-              <input className={`${styles.input} ${styles.inputNoCount}`} {...register("pageTitleH1", { required: "Required" })} />
+            <div
+              className={`${styles.inputWrap} ${errors.pageTitleH1 ? styles.inputError : ""}`}
+            >
+              <input
+                className={`${styles.input} ${styles.inputNoCount}`}
+                {...register("pageTitleH1", { required: "Required" })}
+              />
             </div>
-            {errors.pageTitleH1 && <p className={styles.errorMsg}>⚠ {errors.pageTitleH1.message}</p>}
+            {errors.pageTitleH1 && (
+              <p className={styles.errorMsg}>⚠ {errors.pageTitleH1.message}</p>
+            )}
           </F>
-          <F label="Hero Image" req hint="Recommended 1180×540px">
-            <SingleImg
-              preview={heroPrev}
+          <F
+            label="Hero Image"
+            req
+            hint="Recommended 1180×540px · Upload a file OR paste an image URL"
+          >
+            <DualImageField
               badge="Hero"
               hint="JPG/PNG/WEBP · 1180×540px"
-              error={heroErr}
-              onSelect={(f, p) => { setHeroFile(f); setHeroPrev(p); setHeroErr(""); }}
-              onRemove={() => { setHeroFile(null); setHeroPrev(""); setHeroErr("Hero image is required"); }}
+              error={heroImg.error}
+              existingPreview={heroImg.preview}
+              preview={effectivePreview(heroImg)}
+              urlValue={heroImg.url}
+              {...heroH}
             />
           </F>
           <F label="Hero Image Alt Text">
             <div className={styles.inputWrap}>
-              <input className={`${styles.input} ${styles.inputNoCount}`} {...register("heroImgAlt")} />
+              <input
+                className={`${styles.input} ${styles.inputNoCount}`}
+                {...register("heroImgAlt")}
+              />
             </div>
           </F>
           <F label="Hero Caption (optional)">
             <div className={styles.inputWrap}>
-              <input className={styles.input} {...register("heroCaption")} placeholder="Yoga Students Group" />
+              <input
+                className={styles.input}
+                {...register("heroCaption")}
+                placeholder="Yoga Students Group"
+              />
             </div>
           </F>
         </Sec>
@@ -1561,26 +1549,57 @@ if (aymParas?.length) {
         <Sec title="Intro Banner" badge="What is Bali">
           <F label="Intro Banner Title">
             <div className={styles.inputWrap}>
-              <input className={styles.input} {...register("introBannerTitle")} />
+              <input
+                className={styles.input}
+                {...register("introBannerTitle")}
+              />
             </div>
           </F>
           <F label="Intro Banner Text">
             <StableJodit
-              onSave={(v) => { introTextRef.current = v; }}
-             value={introTextRef.current || ""}
-key={introTextRef.current}
+              onSave={(v) => {
+                introTextRef.current = v;
+              }}
+              value={introTextRef.current}
               h={150}
               ph="Bali is an Island situated between the Indian and Pacific Ocean..."
             />
           </F>
+          <F
+            label="Additional Intro Paragraphs"
+            hint="These appear below the banner text"
+          >
+            {introParaList.ids.map((id, i) => (
+              <RichListItem
+                key={id}
+                id={id}
+                index={i}
+                total={introParaList.ids.length}
+                onSave={introParaList.save}
+                onRemove={introParaList.remove}
+                value={introParaList.ref.current[id]}
+                ph="Additional paragraph..."
+              />
+            ))}
+            <button
+              type="button"
+              className={styles.addItemBtn}
+              onClick={introParaList.add}
+            >
+              ＋ Add Paragraph
+            </button>
+          </F>
         </Sec>
         <D />
 
-        {/* ══ 3. WHAT MAKES BALI UNIQUE SECTION ══ */}
+        {/* ══ 3. WHAT MAKES BALI UNIQUE ══ */}
         <Sec title="What Makes Bali Unique Section" badge="Sacred Island">
           <F label="Super Label">
             <div className={styles.inputWrap}>
-              <input className={styles.input} {...register("introSuperLabel")} />
+              <input
+                className={styles.input}
+                {...register("introSuperLabel")}
+              />
             </div>
           </F>
           <F label="Section Title (H2)">
@@ -1590,20 +1609,45 @@ key={introTextRef.current}
           </F>
           <F label="Center Paragraph">
             <StableJodit
-              onSave={(v) => { uniquePointsCenterParaRef.current = v; }}
-             value={uniquePointsCenterParaRef.current || ""}
-key={uniquePointsCenterParaRef.current}
+              onSave={(v) => {
+                uniquePointsCenterParaRef.current = v;
+              }}
+              value={uniquePointsCenterParaRef.current}
               h={200}
               ph="It is the home of various Hindus ceremonies and traditions..."
             />
           </F>
+          <F label="Additional Paragraphs">
+            {uniquePointsParaList.ids.map((id, i) => (
+              <RichListItem
+                key={id}
+                id={id}
+                index={i}
+                total={uniquePointsParaList.ids.length}
+                onSave={uniquePointsParaList.save}
+                onRemove={uniquePointsParaList.remove}
+                value={uniquePointsParaList.ref.current[id]}
+                ph="Additional unique points paragraph..."
+              />
+            ))}
+            <button
+              type="button"
+              className={styles.addItemBtn}
+              onClick={uniquePointsParaList.add}
+            >
+              ＋ Add Paragraph
+            </button>
+          </F>
           <F label="Unique Points Cards">
-            <UniquePointsManager items={uniquePoints} onChange={setUniquePoints} />
+            <UniquePointsManager
+              items={uniquePoints}
+              onChange={setUniquePoints}
+            />
           </F>
         </Sec>
         <D />
 
-        {/* ══ 4. DESTINATION SECTION ══ */}
+        {/* ══ 4. DESTINATION ══ */}
         <Sec title="Destination Section" badge="Ubud Location">
           <F label="Super Label">
             <div className={styles.inputWrap}>
@@ -1617,156 +1661,99 @@ key={uniquePointsCenterParaRef.current}
           </F>
           <F label="Paragraph 1">
             <StableJodit
-              onSave={(v) => { destPara1Ref.current = v; }}
-              value={destPara1Ref.current || ""}
-key={destPara1Ref.current}
+              onSave={(v) => {
+                destPara1Ref.current = v;
+              }}
+              value={destPara1Ref.current}
               h={150}
               ph="Our AYM yoga school is situated in Ubud, the yoga capital of Bali..."
             />
           </F>
           <F label="Paragraph 2">
             <StableJodit
-              onSave={(v) => { destPara2Ref.current = v; }}
-             value={destPara2Ref.current || ""}
-key={destPara2Ref.current}
+              onSave={(v) => {
+                destPara2Ref.current = v;
+              }}
+              value={destPara2Ref.current}
               h={150}
               ph="Filled with lush green paddy field, picturesque temple..."
             />
           </F>
-          <F label="Destination Highlights">
-            <DestHighlightsManager items={destHighlights} onChange={setDestHighlights} />
+          <F label="Destination Highlights (pills)">
+            <DestHighlightsManager
+              items={destHighlights}
+              onChange={setDestHighlights}
+            />
           </F>
 
           {/* Destination Images */}
-          <F label="Group Image (Main)" hint="Recommended 1100×700px">
-            <SingleImg
-              preview={groupImagePrev}
+          <F
+            label="Group Image (Bottom Full-Width)"
+            hint="Recommended 1100×700px · Upload OR URL"
+          >
+            <DualImageField
               badge="Group"
-              hint="JPG/PNG/WEBP"
-              onSelect={(f, p) => { setGroupImageFile(f); setGroupImagePrev(p); }}
-              onRemove={() => { setGroupImageFile(null); setGroupImagePrev(""); }}
+              hint="JPG/PNG/WEBP · 1100×700px"
+              error={groupImg.error}
+              existingPreview={groupImg.preview}
+              preview={effectivePreview(groupImg)}
+              urlValue={groupImg.url}
+              {...groupH}
             />
           </F>
           <div className={styles.grid2}>
-            <F label="Temple Image">
-              <SingleImg
-                preview={templeImagePrev}
+            <F label="Temple Image (Top-Left)" hint="Upload OR paste URL">
+              <DualImageField
                 badge="Temple"
                 hint="JPG/PNG/WEBP · 900×600px"
-                onSelect={(f, p) => { setTempleImageFile(f); setTempleImagePrev(p); }}
-                onRemove={() => { setTempleImageFile(null); setTempleImagePrev(""); }}
+                error={templeImg.error}
+                existingPreview={templeImg.preview}
+                preview={effectivePreview(templeImg)}
+                urlValue={templeImg.url}
+                {...templeH}
               />
             </F>
-            <F label="Rice Terraces Image">
-              <SingleImg
-                preview={riceImagePrev}
+            <F
+              label="Rice Terraces Image (Top-Right)"
+              hint="Upload OR paste URL"
+            >
+              <DualImageField
                 badge="Rice"
                 hint="JPG/PNG/WEBP · 900×600px"
-                onSelect={(f, p) => { setRiceImageFile(f); setRiceImagePrev(p); }}
-                onRemove={() => { setRiceImageFile(null); setRiceImagePrev(""); }}
+                error={riceImg.error}
+                existingPreview={riceImg.preview}
+                preview={effectivePreview(riceImg)}
+                urlValue={riceImg.url}
+                {...riceH}
               />
             </F>
           </div>
         </Sec>
         <D />
 
-        {/* ══ 5. COURSES SECTION ══ */}
-        <Sec title="Courses Section" badge="200/300/500 Hour">
-          <F label="Super Label">
-            <div className={styles.inputWrap}>
-              <input className={styles.input} {...register("coursesSuperLabel")} />
-            </div>
-          </F>
-          <F label="Section Title (H2)">
-            <div className={styles.inputWrap}>
-              <input className={styles.input} {...register("coursesSectionTitle")} />
-            </div>
-          </F>
-          <F label="Center Paragraph">
-            <StableJodit
-              onSave={(v) => { coursesCenterParaRef.current = v; }}
-             value={coursesCenterParaRef.current || ""}
-key={coursesCenterParaRef.current}
-              h={150}
-              ph="Our curriculum caters to all the requirements of all yoga practitioners..."
-            />
-          </F>
-          <F label="Courses Cards">
-            <CoursesManager items={courses} onChange={setCourses} />
-          </F>
-        </Sec>
-        <D />
-
-        {/* ══ 6. HIGHLIGHTS SECTION ══ */}
-        <Sec title="Highlights Section" badge="Curriculum">
-          <F label="Super Label">
-            <div className={styles.inputWrap}>
-              <input className={styles.input} {...register("highlightsSuperLabel")} />
-            </div>
-          </F>
-          <F label="Section Title (H2)">
-            <div className={styles.inputWrap}>
-              <input className={styles.input} {...register("highlightsSectionTitle")} />
-            </div>
-          </F>
-          <F label="Paragraph 1">
-            <StableJodit
-              onSave={(v) => { highlightsPara1Ref.current = v; }}
-              value={highlightsPara1Ref.current || ""}
-key={highlightsPara1Ref.current}
-              h={150}
-              ph="The keystone of our courses is comprehensive studies of Hatha Yoga..."
-            />
-          </F>
-          <F label="Paragraph 2">
-            <StableJodit
-              onSave={(v) => { highlightsPara2Ref.current = v; }}
-              value={highlightsPara2Ref.current || ""}
-key={highlightsPara2Ref.current}
-              h={150}
-              ph="Extensive studies of yogic philosophy frame our training courses..."
-            />
-          </F>
-          <F label="Highlights List">
-            <HighlightsManager items={highlights} onChange={setHighlights} />
-          </F>
-
-          {/* Highlights Images */}
-          <div className={styles.grid2}>
-            <F label="Practice Image">
-              <SingleImg
-                preview={practiceImagePrev}
-                badge="Practice"
-                hint="JPG/PNG/WEBP · 900×600px"
-                onSelect={(f, p) => { setPracticeImageFile(f); setPracticeImagePrev(p); }}
-                onRemove={() => { setPracticeImageFile(null); setPracticeImagePrev(""); }}
-              />
-            </F>
-            <F label="Teacher Image">
-              <SingleImg
-                preview={teacherImagePrev}
-                badge="Teacher"
-                hint="JPG/PNG/WEBP · 900×600px"
-                onSelect={(f, p) => { setTeacherImageFile(f); setTeacherImagePrev(p); }}
-                onRemove={() => { setTeacherImageFile(null); setTeacherImagePrev(""); }}
-              />
-            </F>
-          </div>
-        </Sec>
-        <D />
-
-        {/* ══ 7. FULL-WIDTH GARDEN IMAGE ══ */}
-        <Sec title="Full-Width Garden Image" badge="Pull Quote">
-          <F label="Garden Image" hint="Recommended 1920×800px">
-            <SingleImg
-              preview={gardenImagePrev}
+        {/* ══ 5. FULL-WIDTH GARDEN IMAGE (between dest and courses) ══ */}
+        <Sec
+          title="Full-Width Break Image + Pull Quote"
+          badge="Mid-Page Banner"
+        >
+          <F
+            label="Garden / Break Image"
+            hint="Recommended 1920×800px · Upload OR paste URL"
+          >
+            <DualImageField
               badge="Garden"
-              hint="JPG/PNG/WEBP · Full width"
-              onSelect={(f, p) => { setGardenImageFile(f); setGardenImagePrev(p); }}
-              onRemove={() => { setGardenImageFile(null); setGardenImagePrev(""); }}
+              hint="JPG/PNG/WEBP · Full width 1920×800px"
+              error={gardenImg.error}
+              existingPreview={gardenImg.preview}
+              preview={effectivePreview(gardenImg)}
+              urlValue={gardenImg.url}
+              {...gardenH}
             />
           </F>
-          <F label="Pull Quote Text">
+          <F
+            label="Pull Quote Text"
+            hint="Displayed centered over the garden image"
+          >
             <div className={styles.inputWrap}>
               <textarea
                 className={`${styles.input} ${styles.textarea}`}
@@ -1779,16 +1766,124 @@ key={highlightsPara2Ref.current}
         </Sec>
         <D />
 
-        {/* ══ 8. WHAT MAKES AYM SPECIAL SECTION ══ */}
-        <Sec title="What Makes AYM Special" badge="Why AYM">
+        {/* ══ 6. COURSES ══ */}
+        <Sec title="Courses Section" badge="200/300/500 Hour">
           <F label="Super Label">
             <div className={styles.inputWrap}>
-              <input className={styles.input} {...register("aymSpecialSuperLabel")} />
+              <input
+                className={styles.input}
+                {...register("coursesSuperLabel")}
+              />
             </div>
           </F>
           <F label="Section Title (H2)">
             <div className={styles.inputWrap}>
-              <input className={styles.input} {...register("aymSpecialSectionTitle")} />
+              <input
+                className={styles.input}
+                {...register("coursesSectionTitle")}
+              />
+            </div>
+          </F>
+          <F label="Center Paragraph">
+            <StableJodit
+              onSave={(v) => {
+                coursesCenterParaRef.current = v;
+              }}
+              value={coursesCenterParaRef.current}
+              h={150}
+              ph="Our curriculum caters to all the requirements of all yoga practitioners..."
+            />
+          </F>
+          <F label="Courses Cards">
+            <CoursesManager items={courses} onChange={setCourses} />
+          </F>
+        </Sec>
+        <D />
+
+        {/* ══ 7. HIGHLIGHTS ══ */}
+        <Sec title="Highlights Section" badge="Curriculum">
+          <F label="Super Label">
+            <div className={styles.inputWrap}>
+              <input
+                className={styles.input}
+                {...register("highlightsSuperLabel")}
+              />
+            </div>
+          </F>
+          <F label="Section Title (H2)">
+            <div className={styles.inputWrap}>
+              <input
+                className={styles.input}
+                {...register("highlightsSectionTitle")}
+              />
+            </div>
+          </F>
+          <F label="Paragraph 1">
+            <StableJodit
+              onSave={(v) => {
+                highlightsPara1Ref.current = v;
+              }}
+              value={highlightsPara1Ref.current}
+              h={150}
+              ph="The keystone of our courses is comprehensive studies of Hatha Yoga..."
+            />
+          </F>
+          <F label="Paragraph 2">
+            <StableJodit
+              onSave={(v) => {
+                highlightsPara2Ref.current = v;
+              }}
+              value={highlightsPara2Ref.current}
+              h={150}
+              ph="Extensive studies of yogic philosophy frame our training courses..."
+            />
+          </F>
+          <F label="Highlights List">
+            <HighlightsManager items={highlights} onChange={setHighlights} />
+          </F>
+          <div className={styles.grid2}>
+            <F label="Practice Image (Left)" hint="Upload OR paste URL">
+              <DualImageField
+                badge="Practice"
+                hint="JPG/PNG/WEBP · 900×600px"
+                error={practiceImg.error}
+                existingPreview={practiceImg.preview}
+                preview={effectivePreview(practiceImg)}
+                urlValue={practiceImg.url}
+                {...practiceH}
+              />
+            </F>
+            <F label="Teacher Image (Right)" hint="Upload OR paste URL">
+              <DualImageField
+                badge="Teacher"
+                hint="JPG/PNG/WEBP · 900×600px"
+                error={teacherImg.error}
+                existingPreview={teacherImg.preview}
+                preview={effectivePreview(teacherImg)}
+                urlValue={teacherImg.url}
+                {...teacherH}
+              />
+            </F>
+          </div>
+        </Sec>
+        <D />
+
+        {/* ══ 8. WHAT MAKES AYM SPECIAL ══ */}
+        <Sec title="What Makes AYM Special" badge="Why AYM">
+          <F label="Super Label">
+            <div className={styles.inputWrap}>
+              <input
+                className={styles.input}
+                {...register("aymSpecialSuperLabel")}
+              />
+            </div>
+          </F>
+          <F label="Section Title (H2)">
+            <div className={styles.inputWrap}>
+              <input
+                className={styles.input}
+                {...register("aymSpecialSectionTitle")}
+              />
             </div>
           </F>
           <F label="Additional Paragraphs">
@@ -1804,7 +1899,11 @@ key={highlightsPara2Ref.current}
                 ph="Additional information about AYM..."
               />
             ))}
-            <button type="button" className={styles.addItemBtn} onClick={aymSpecialParaList.add}>
+            <button
+              type="button"
+              className={styles.addItemBtn}
+              onClick={aymSpecialParaList.add}
+            >
               ＋ Add Paragraph
             </button>
           </F>
@@ -1816,39 +1915,48 @@ key={highlightsPara2Ref.current}
 
         {/* ══ 9. TEACHER PHOTO STRIP ══ */}
         <Sec title="Teacher Photo Strip" badge="Bottom Banner">
-          <F label="Ubud/Teacher Image" hint="Recommended 1920×600px">
-            <SingleImg
-              preview={ubudImagePrev}
+          <F
+            label="Ubud / Teacher Banner Image"
+            hint="Recommended 1920×600px · Upload OR paste URL"
+          >
+            <DualImageField
               badge="Teacher Strip"
-              hint="JPG/PNG/WEBP · Full width"
-              onSelect={(f, p) => { setUbudImageFile(f); setUbudImagePrev(p); }}
-              onRemove={() => { setUbudImageFile(null); setUbudImagePrev(""); }}
+              hint="JPG/PNG/WEBP · Full width 1920×600px"
+              error={ubudImg.error}
+              existingPreview={ubudImg.preview}
+              preview={effectivePreview(ubudImg)}
+              urlValue={ubudImg.url}
+              {...ubudH}
             />
           </F>
           <F label="Teacher Caption Text">
             <div className={styles.inputWrap}>
-              <input className={styles.input} {...register("teacherCaptionText")} placeholder="Experience the transformative power of yoga in the heart of Bali" />
+              <input
+                className={styles.input}
+                {...register("teacherCaptionText")}
+                placeholder="Experience the transformative power of yoga in the heart of Bali"
+              />
             </div>
           </F>
         </Sec>
         <D />
 
-       
-
-       
-
-        {/* ══ 12. PAGE SETTINGS ══ */}
+        {/* ══ 10. PAGE SETTINGS ══ */}
         <Sec title="Page Settings" badge="SEO & Status">
           <div className={styles.grid2}>
             <F label="Slug" req>
-              <div className={`${styles.inputWrap} ${errors.slug ? styles.inputError : ""}`}>
+              <div
+                className={`${styles.inputWrap} ${errors.slug ? styles.inputError : ""}`}
+              >
                 <input
                   className={`${styles.input} ${styles.inputNoCount}`}
                   placeholder="bali-yoga-teacher-training"
                   {...register("slug", { required: "Slug is required" })}
                 />
               </div>
-              {errors.slug && <p className={styles.errorMsg}>⚠ {errors.slug.message}</p>}
+              {errors.slug && (
+                <p className={styles.errorMsg}>⚠ {errors.slug.message}</p>
+              )}
             </F>
             <F label="Status">
               <div className={styles.selectWrap}>
@@ -1860,12 +1968,41 @@ key={highlightsPara2Ref.current}
               </div>
             </F>
           </div>
+          <div className={styles.grid2}>
+            <F label="Footer Title">
+              <div className={styles.inputWrap}>
+                <input className={styles.input} {...register("footerTitle")} />
+              </div>
+            </F>
+            <F label="Footer Location">
+              <div className={styles.inputWrap}>
+                <input className={styles.input} {...register("footerLoc")} />
+              </div>
+            </F>
+            <F label="Footer Email">
+              <div className={styles.inputWrap}>
+                <input
+                  className={styles.input}
+                  type="email"
+                  {...register("footerMail")}
+                />
+              </div>
+            </F>
+            <F label="Footer Tag">
+              <div className={styles.inputWrap}>
+                <input className={styles.input} {...register("footerTag")} />
+              </div>
+            </F>
+          </div>
         </Sec>
       </div>
 
       {/* ── Actions ── */}
       <div className={styles.formActions}>
-        <Link href="/admin/yogacourse/yoga-course-bali" className={styles.cancelBtn}>
+        <Link
+          href="/admin/yogacourse/yoga-course-bali"
+          className={styles.cancelBtn}
+        >
           ← Cancel
         </Link>
         <button
