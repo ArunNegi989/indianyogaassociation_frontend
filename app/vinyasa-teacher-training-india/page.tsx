@@ -1583,7 +1583,7 @@ export default function AshtangaVinyasaTTC() {
       />
 
       <PremiumGallerySection type="both" backgroundColor="warm" />
-      <ReviewSection RatingsSummaryComponent={<RatingsSummarySection />} />
+      <ReviewSection  courseType="vinyasa-yoga-teacher-training" RatingsSummaryComponent={<RatingsSummarySection />} />
       <HowToReach />
     </div>
   );

@@ -870,7 +870,7 @@ export default function YogaTTCIndia() {
       </section>
       <PremiumGallerySection type="both" backgroundColor="warm" />
       {/* ✅ REVIEWS — now a reusable separate component */}
-      <ReviewSection RatingsSummaryComponent={<RatingsSummarySection />} />
+      <ReviewSection courseType="yoga-teacher-training-india" RatingsSummaryComponent={<RatingsSummarySection />} />
       <HowToReach />
     </div>
   );

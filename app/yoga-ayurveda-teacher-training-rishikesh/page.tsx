@@ -1015,7 +1015,7 @@ export default function AyurvedaPage() {
       </footer>
 
       <PremiumGallerySection type="both" backgroundColor="warm" />
-      <ReviewSection RatingsSummaryComponent={<RatingsSummarySection />} />
+      <ReviewSection courseType="ayurveda-yoga-ttc" RatingsSummaryComponent={<RatingsSummarySection />} />
       <div id="location">
         <HowToReach />
       </div>

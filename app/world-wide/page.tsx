@@ -622,7 +622,7 @@ export default function WorldwidePage() {
 
       <PremiumGallerySection type="both" backgroundColor="warm" />
       <div id="reviews">
-        <ReviewSection RatingsSummaryComponent={<RatingsSummarySection />} />
+        <ReviewSection courseType="yoga-teacher-training-worldwide" RatingsSummaryComponent={<RatingsSummarySection />} />
       </div>
       <div id="location">
         <HowToReach />

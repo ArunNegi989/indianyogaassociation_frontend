@@ -1737,7 +1737,7 @@ export default function PregnancyYogaTTC() {
       
       {/* ✅ REVIEWS — now a reusable separate component */}
       <section id="reviews">
-        <ReviewSection RatingsSummaryComponent={<RatingsSummarySection />} />
+        <ReviewSection courseType="prenatal-yoga-teacher-training" RatingsSummaryComponent={<RatingsSummarySection />} />
       </section>
       
       <section id="location">

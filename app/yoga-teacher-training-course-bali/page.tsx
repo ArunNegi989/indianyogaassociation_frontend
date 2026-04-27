@@ -559,7 +559,7 @@ export default function BaliYogaPage() {
       <PremiumGallerySection type="both" backgroundColor="warm" />
 
       <div id="reviews">
-        <ReviewSection RatingsSummaryComponent={<RatingsSummarySection />} />
+        <ReviewSection courseType="yoga-teacher-training-bali" RatingsSummaryComponent={<RatingsSummarySection />} />
       </div>
 
       <div id="location">

@@ -1828,7 +1828,7 @@ export default function GoaYogaPage() {
         <PremiumGallerySection type="both" backgroundColor="warm" />
       </div>
 
-      <ReviewSection RatingsSummaryComponent={<RatingsSummarySection />} />
+      <ReviewSection courseType="yoga-teacher-training-goa" RatingsSummaryComponent={<RatingsSummarySection />} />
 
       <div id="location">
         <HowToReach />
