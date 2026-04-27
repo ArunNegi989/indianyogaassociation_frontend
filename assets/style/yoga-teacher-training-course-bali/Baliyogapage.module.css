@@ -806,7 +806,6 @@
 
 .teacherImg {
   width: 100%;
-  aspect-ratio: 16/7;
   object-fit: cover;
   display: block;
   filter: saturate(.75) sepia(.12);

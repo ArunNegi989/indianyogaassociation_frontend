@@ -55,13 +55,6 @@ interface ScheduleRow {
   activity: string;
 }
 
-interface CampusImage {
-  _id: string;
-  id: string;
-  label: string;
-  imgUrl: string;
-}
-
 interface BeachImage {
   id: string;
   imgUrl: string;
@@ -74,7 +67,8 @@ interface ApplyField {
 
 interface ReelVideo {
   _id: string;
-  videoUrl: string;
+  videoUrl: string; // YouTube embed URL OR direct video URL (mp4/webm/etc.)
+  videoFile: string; // uploaded file path e.g. /uploads/reel.mp4
   label?: string;
 }
 
@@ -121,7 +115,6 @@ interface PageData {
   batchesAirportNote: string;
   gallerySuperLabel: string;
   gallerySectionTitle: string;
-  campusImages: CampusImage[];
   schoolName: string;
   address1: string;
   address2: string;
@@ -185,6 +178,20 @@ function resolveImg(path: string, base: string): string {
   return `${base}${path}`;
 }
 
+/* ─── Check if a URL is a direct video file (not YouTube/Vimeo embed) ─── */
+function isDirectVideoUrl(url: string): boolean {
+  if (!url) return false;
+  // Check for common video file extensions
+  const videoExtensions = /\.(mp4|webm|ogg|mov|avi|mkv|m4v)(\?.*)?$/i;
+  if (videoExtensions.test(url)) return true;
+  // Not a YouTube/Vimeo embed URL pattern
+  const embedPatterns = /youtube\.com\/embed|vimeo\.com\/video|youtu\.be/i;
+  if (embedPatterns.test(url)) return false;
+  // If it's a blob or data URL treat as video
+  if (url.startsWith("blob:") || url.startsWith("data:video")) return true;
+  return false;
+}
+
 /* ─── CURRENCY ─── */
 type Currency = "USD" | "INR";
 
@@ -213,41 +220,30 @@ function useCurrencyRate() {
   return { rate, loading };
 }
 
-/**
- * Core price formatter — mirrors Kundalini logic exactly.
- * Priority for INR: stored inrFee → usdFee * rate → fallback dormPrice.
- * For USD: use usdFee string directly → fallback dormPrice.
- */
 function fmtPriceAdvanced(
   batch: Batch | null,
   currency: Currency,
   rate: number,
   overrideUsd?: number,
 ): { amount: string; cur: string } {
-  if (!batch && overrideUsd === undefined) return { amount: "—", cur: currency };
-
+  if (!batch && overrideUsd === undefined)
+    return { amount: "—", cur: currency };
   if (currency === "INR") {
-    // Priority 1: stored inrFee
     if (batch?.inrFee) {
       const num = parseFloat(batch.inrFee.replace(/[₹,]/g, "").trim());
-      if (!isNaN(num) && num > 100) {
+      if (!isNaN(num) && num > 100)
         return { amount: `₹${num.toLocaleString("en-IN")}`, cur: "INR" };
-      }
     }
-    // Priority 2: usdFee * live rate
     const usdNum = batch
       ? parseFloat(batch.usdFee.replace(/[$,]/g, "")) || batch.dormPrice
-      : overrideUsd ?? 0;
+      : (overrideUsd ?? 0);
     const inr = Math.round(usdNum * rate);
     return { amount: `₹${inr.toLocaleString("en-IN")}`, cur: "INR" };
   }
-
-  // USD: use usdFee string directly
   if (batch?.usdFee) {
     const raw = batch.usdFee.trim();
     return { amount: raw.startsWith("$") ? raw : `$${raw}`, cur: "USD" };
   }
-  // Fallback
   const fallback = overrideUsd ?? batch?.dormPrice ?? 0;
   return { amount: `$${fallback}`, cur: "USD" };
 }
@@ -447,7 +443,6 @@ function CourseInfoCard({
     available.length > 0 ? Math.min(...available.map((s) => s.dormPrice)) : 699;
   const originalPrice = Math.round((startingPrice * 1.7) / 50) * 50;
   const fmt = (usd: number) => fmtPrice(usd, currency, rate);
-
   const details = [
     { icon: <DurationIcon />, label: "DURATION", value: "28 Days" },
     { icon: <LevelIcon />, label: "LEVEL", value: "All Levels" },
@@ -461,7 +456,6 @@ function CourseInfoCard({
     { icon: <LangIcon />, label: "LANGUAGE", value: "English" },
     { icon: <DateIcon />, label: "LOCATION", value: "Arambol Beach, Goa" },
   ];
-
   return (
     <div className={styles.icWrap}>
       <div className={styles.icCard}>
@@ -535,7 +529,7 @@ const COURSE_TABS = [
 ] as const;
 type TabKey = (typeof COURSE_TABS)[number]["key"];
 
-/* ─── PREMIUM SEAT BOOKING (Kundalini logic) ─── */
+/* ─── PREMIUM SEAT BOOKING ─── */
 function PremiumSeatBooking() {
   const [activeTab, setActiveTab] = useState<TabKey>("200hr");
   const [batchCache, setBatchCache] = useState<Record<string, Batch[]>>({});
@@ -579,10 +573,6 @@ function PremiumSeatBooking() {
 
   const selected = seats.find((s) => s._id === selectedId) ?? null;
 
-  /**
-   * Price shown on each batch card in the LEFT panel.
-   * Uses usdFee-based pricing (same as Kundalini).
-   */
   const batchCardPrice = (batch: Batch): { amount: string; cur: string } =>
     fmtPriceAdvanced(batch, currency, rate);
 
@@ -602,7 +592,6 @@ function PremiumSeatBooking() {
         <div className={styles.psbOrnR} />
       </div>
 
-      {/* Course Tab Bar */}
       <div className={styles.psbTabBar}>
         {COURSE_TABS.map((tab) => (
           <button
@@ -644,14 +633,12 @@ function PremiumSeatBooking() {
               </div>
             </div>
           </div>
-
           {rateLoading && (
             <div className={styles.rateLoader}>
               <div className={styles.rateLoaderDot} />
               <span>Loading live exchange rate...</span>
             </div>
           )}
-
           {loading ? (
             <p className={styles.psbNoBatches}>🕉️ Loading batches...</p>
           ) : error ? (
@@ -687,7 +674,6 @@ function PremiumSeatBooking() {
                   ? 100
                   : Math.max(5, (rem / batch.totalSeats) * 100);
                 const isSelected = selectedId === batch._id;
-                // ✅ uses usdFee-based price, not dormPrice
                 const cardPrice = batchCardPrice(batch);
                 return (
                   <div
@@ -720,7 +706,6 @@ function PremiumSeatBooking() {
                     <div className={styles.psbBcDates}>
                       {shortDateRange(batch.startDate, batch.endDate)}
                     </div>
-                    {/* ✅ shows usdFee or usdFee*rate, not dormPrice */}
                     <div className={styles.psbBcPrice}>
                       {cardPrice.amount} <span>{cardPrice.cur}</span>
                     </div>
@@ -796,7 +781,6 @@ function PremiumSeatBooking() {
           <div className={styles.psbRpBody}>
             <div className={styles.psbPriceLbl}>With Accommodation</div>
             <div className={styles.psbPriceRow}>
-              {/* Private Room */}
               <div className={styles.psbPriceCard}>
                 <div className={styles.psbPcAmt}>
                   {selected
@@ -808,7 +792,6 @@ function PremiumSeatBooking() {
                 </div>
                 <div className={styles.psbPcLbl}>Private Room</div>
               </div>
-              {/* Twin Room */}
               <div className={styles.psbPriceCard}>
                 <div className={styles.psbPcAmt}>
                   {selected
@@ -821,7 +804,6 @@ function PremiumSeatBooking() {
                 <div className={styles.psbPcLbl}>Twin / Shared</div>
               </div>
             </div>
-
             <div className={styles.psbPriceLbl}>Without Accommodation</div>
             <div className={styles.psbPriceWide}>
               <div className={styles.psbPwLeft}>
@@ -836,8 +818,6 @@ function PremiumSeatBooking() {
               </div>
               <span className={styles.psbFoodBadge}>Food Included</span>
             </div>
-
-            {/* ✅ Info row — mirrors Kundalini logic exactly */}
             {selected && currency === "USD" && (
               <div className={styles.psbInrRow}>
                 <span className={styles.psbInrLbl}>USD Price</span>
@@ -863,13 +843,11 @@ function PremiumSeatBooking() {
                     const usdNum =
                       parseFloat(selected.usdFee.replace(/[$,]/g, "")) ||
                       selected.dormPrice;
-                    const inr = Math.round(usdNum * rate);
-                    return `₹${inr.toLocaleString("en-IN")}`;
+                    return `₹${Math.round(usdNum * rate).toLocaleString("en-IN")}`;
                   })()}
                 </span>
               </div>
             )}
-
             <div className={styles.psbDivider} />
             {selected &&
               (() => {
@@ -934,7 +912,6 @@ function PremiumSeatBooking() {
                 </span>
               )}
             </div>
-            {/* ✅ Book Now button uses fmtPriceAdvanced(selected) — same as Kundalini */}
             {selected ? (
               <a
                 href={`/yoga-registration?batchId=${selected._id}&type=${activeTab}`}
@@ -973,38 +950,173 @@ function PremiumSeatBooking() {
   );
 }
 
-/* ─── REEL VIDEO GRID ─── */
-const DEFAULT_REELS = [
+/* ═══════════════════════════════════════════════════════
+   REEL VIDEO GRID — fully dynamic, lazy-loaded
+
+   Priority logic (per card):
+   1. videoFile (uploaded mp4/webm) → <video autoPlay muted loop playsInline>
+   2. videoUrl that is a direct video URL (.mp4 etc.) → <video autoPlay muted loop playsInline>
+   3. videoUrl that is a YouTube/embed URL → <iframe> with autoplay params
+
+   All videos: no controls shown, autoplay muted loop.
+═══════════════════════════════════════════════════════ */
+
+const ReelPlaceholder = () => (
+  <div
+    style={{
+      width: "100%",
+      aspectRatio: "9/16",
+      background: "linear-gradient(135deg,#1a0a00 0%,#2d1500 100%)",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      borderRadius: 12,
+    }}
+  >
+    <span style={{ fontSize: "2.5rem", opacity: 0.25 }}>▶</span>
+  </div>
+);
+
+function LazyReelCard({
+  reel,
+  index,
+  API_BASE,
+}: {
+  reel: ReelVideo;
+  index: number;
+  API_BASE: string;
+}) {
+  const [visible, setVisible] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          obs.disconnect();
+        }
+      },
+      { rootMargin: "200px" },
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+
+  // Resolve file src (uploaded file takes top priority)
+  const fileSrc = reel.videoFile ? resolveImg(reel.videoFile, API_BASE) : "";
+  const urlSrc = reel.videoUrl || "";
+
+  // Decide render mode
+  const useFileSrc = !!fileSrc;
+  const useDirectUrl = !useFileSrc && !!urlSrc && isDirectVideoUrl(urlSrc);
+  const useIframe = !useFileSrc && !useDirectUrl && !!urlSrc;
+
+  // Ensure YouTube embeds have autoplay + mute params
+  const safeIframeSrc = (() => {
+    if (!useIframe) return urlSrc;
+    try {
+      const u = new URL(urlSrc);
+      u.searchParams.set("autoplay", "1");
+      u.searchParams.set("mute", "1");
+      u.searchParams.set("controls", "0");
+      u.searchParams.set("playsinline", "1");
+      u.searchParams.set("modestbranding", "1");
+      return u.toString();
+    } catch {
+      return urlSrc;
+    }
+  })();
+
+  return (
+    <div
+      ref={ref}
+      className={styles.reelCard}
+      style={{ "--ri": index } as React.CSSProperties}
+    >
+      <div className={styles.reelVideoWrap}>
+        {!visible ? (
+          <ReelPlaceholder />
+        ) : useFileSrc || useDirectUrl ? (
+          // ── Uploaded file OR direct video URL ──
+          // eslint-disable-next-line jsx-a11y/media-has-caption
+          <video
+            src={useFileSrc ? fileSrc : urlSrc}
+            className={styles.reelIframe}
+            autoPlay
+            muted
+            loop
+            playsInline
+            style={{ objectFit: "cover" }}
+            // No controls prop → hides play/pause button
+          />
+        ) : useIframe ? (
+          // ── YouTube embed / external embed URL ──
+          <iframe
+            src={safeIframeSrc}
+            className={styles.reelIframe}
+            frameBorder="0"
+            allow="autoplay; encrypted-media"
+            allowFullScreen
+            title={reel.label || `Reel ${index + 1}`}
+            loading="lazy"
+            // pointer-events none prevents user clicking pause on iframe
+            style={{ pointerEvents: "none" }}
+          />
+        ) : (
+          <ReelPlaceholder />
+        )}
+        <div className={styles.reelOverlay} />
+      </div>
+      {reel.label && (
+        <div className={styles.reelLabel}>
+          <span className={styles.reelPulseDot} />
+          {reel.label}
+        </div>
+      )}
+    </div>
+  );
+}
+
+const DEFAULT_REELS: ReelVideo[] = [
   {
     _id: "1",
     videoUrl:
       "https://www.youtube.com/embed/X-4RQYlTRtk?autoplay=1&mute=1&loop=1&playlist=X-4RQYlTRtk&controls=0&playsinline=1&modestbranding=1",
+    videoFile: "",
     label: "Morning Practice",
   },
   {
     _id: "2",
     videoUrl:
       "https://www.youtube.com/embed/lYeh7tUMLHQ?autoplay=1&mute=1&loop=1&playlist=lYeh7tUMLHQ&controls=0&playsinline=1&modestbranding=1",
+    videoFile: "",
     label: "Pranayama Session",
   },
   {
     _id: "3",
     videoUrl:
       "https://www.youtube.com/embed/EJ6K-rhqevE?autoplay=1&mute=1&loop=1&playlist=EJ6K-rhqevE&controls=0&playsinline=1&modestbranding=1",
+    videoFile: "",
     label: "Beach Meditation",
   },
   {
     _id: "4",
     videoUrl:
       "https://www.youtube.com/embed/v7AYKMP6rOE?autoplay=1&mute=1&loop=1&playlist=v7AYKMP6rOE&controls=0&playsinline=1&modestbranding=1",
+    videoFile: "",
     label: "Yoga Flow",
   },
 ];
 
 function ReelVideoGrid({
   reels,
+  API_BASE,
 }: {
-  reels?: Array<{ _id: string; videoUrl: string; label?: string }>;
+  reels?: ReelVideo[];
+  API_BASE: string;
 }) {
   const items = reels && reels.length > 0 ? reels : DEFAULT_REELS;
   return (
@@ -1016,36 +1128,19 @@ function ReelVideoGrid({
       </div>
       <div className={styles.reelGrid}>
         {items.slice(0, 4).map((reel, i) => (
-          <div
+          <LazyReelCard
             key={reel._id || i}
-            className={styles.reelCard}
-            style={{ "--ri": i } as React.CSSProperties}
-          >
-            <div className={styles.reelVideoWrap}>
-              <iframe
-                src={reel.videoUrl}
-                className={styles.reelIframe}
-                frameBorder="0"
-                allow="autoplay; encrypted-media"
-                allowFullScreen
-                title={reel.label || `Reel ${i + 1}`}
-              />
-              <div className={styles.reelOverlay} />
-            </div>
-            {reel.label && (
-              <div className={styles.reelLabel}>
-                <span className={styles.reelPulseDot} />
-                {reel.label}
-              </div>
-            )}
-          </div>
+            reel={reel}
+            index={i}
+            API_BASE={API_BASE}
+          />
         ))}
       </div>
     </section>
   );
 }
 
-/* ─── DAILY SCHEDULE (100hr style) ─── */
+/* ─── DAILY SCHEDULE ─── */
 function DailyScheduleSection({
   rows,
   scheduleImage,
@@ -1061,7 +1156,7 @@ function DailyScheduleSection({
 }) {
   const scheduleSrc = resolveImg(scheduleImage, API_BASE);
   return (
-    <section  className={styles.scheduleSection2}>
+    <section className={styles.scheduleSection2}>
       <div className={styles.scheduleContainer}>
         {scheduleSrc && (
           <div className={styles.schedVideoSide}>
@@ -1069,6 +1164,7 @@ function DailyScheduleSection({
               src={scheduleSrc}
               alt="Daily Schedule"
               className={styles.schedImg}
+              loading="lazy"
             />
             <div className={styles.schedVideoOverlay} />
             <div className={styles.schedVideoBadge}>
@@ -1106,7 +1202,7 @@ function DailyScheduleSection({
   );
 }
 
-/* ─── CURRICULUM CARDS ─── */
+/* ─── CURRICULUM ─── */
 function CurriculumSection({
   superLabel,
   sectionTitle,
@@ -1123,7 +1219,7 @@ function CurriculumSection({
   mainFocus: string[];
 }) {
   return (
-    <section id="curriculum"  className={styles.curriculumSection}>
+    <section id="curriculum" className={styles.curriculumSection}>
       <div className={`${styles.container} ${styles.currContainer}`}>
         <div className={`${styles.reveal} ${styles.centered}`}>
           <span className={styles.superLabel}>{superLabel}</span>
@@ -1241,6 +1337,7 @@ function MandalaRing({
     </svg>
   );
 }
+
 function MandalaFull({
   size = 600,
   opacity = 0.05,
@@ -1417,18 +1514,26 @@ export default function GoaYogaPage() {
 
       {/* ════════ INTRO ════════ */}
       <section className={styles.section}>
-        <div className={` ${styles.container} ${styles.introContainer}`}>
+        <div className={`${styles.container} ${styles.introContainer}`}>
           <div className={`${styles.reveal} ${styles.introGrid}`}>
             <div className={styles.introImages}>
               <div className={styles.imageStack}>
                 {introBigSrc && (
                   <div className={styles.imgMain}>
-                    <img src={introBigSrc} alt={pageData.heroAlt} />
+                    <img
+                      src={introBigSrc}
+                      alt={pageData.heroAlt}
+                      loading="lazy"
+                    />
                   </div>
                 )}
                 {introSmallSrc && (
                   <div className={styles.imgAccent}>
-                    <img src={introSmallSrc} alt={pageData.introHeading} />
+                    <img
+                      src={introSmallSrc}
+                      alt={pageData.introHeading}
+                      loading="lazy"
+                    />
                   </div>
                 )}
               </div>
@@ -1457,7 +1562,7 @@ export default function GoaYogaPage() {
         <div className={styles.mandalaBg} aria-hidden="true">
           <MandalaRing size={600} opacity={0.05} />
         </div>
-        <div className={` ${styles.container} ${styles.programcontainer}`}>
+        <div className={`${styles.container} ${styles.programcontainer}`}>
           <div className={`${styles.reveal} ${styles.centered}`}>
             <span className={styles.superLabel}>
               {pageData.programsSuperLabel}
@@ -1511,7 +1616,7 @@ export default function GoaYogaPage() {
                   const src = resolveImg(b.imgUrl, API_BASE);
                   return src ? (
                     <div key={b.id} className={styles.beachPhoto}>
-                      <img src={src} alt={`Beach ${b.id}`} />
+                      <img src={src} alt={`Beach ${b.id}`} loading="lazy" />
                     </div>
                   ) : null;
                 })}
@@ -1523,7 +1628,7 @@ export default function GoaYogaPage() {
 
       {/* ════════ HIGHLIGHTS ════════ */}
       <section className={styles.section}>
-        <div className={` ${styles.container} ${styles.highlightcontainer}`}>
+        <div className={`${styles.container} ${styles.highlightcontainer}`}>
           <div className={`${styles.reveal} ${styles.centered}`}>
             <span className={styles.superLabel}>
               {pageData.highlightsSuperLabel}
@@ -1563,7 +1668,7 @@ export default function GoaYogaPage() {
         mainFocus={pageData.mainFocus}
       />
 
-      {/* ════════ DAILY SCHEDULE (100hr style) ════════ */}
+      {/* ════════ DAILY SCHEDULE ════════ */}
       <DailyScheduleSection
         rows={pageData.scheduleRows}
         scheduleImage={pageData.scheduleImage}
@@ -1572,9 +1677,9 @@ export default function GoaYogaPage() {
         API_BASE={API_BASE}
       />
 
-      {/* ════════ SEAT BOOKING (Premium Kundalini style) ════════ */}
+      {/* ════════ SEAT BOOKING ════════ */}
       <PremiumSeatBooking />
-      <div className={` ${styles.container} ${styles.introContainer}`}>
+      <div className={`${styles.container} ${styles.introContainer}`}>
         <div className={styles.tableNote}>
           {pageData.batchesNote && (
             <p>
@@ -1594,7 +1699,7 @@ export default function GoaYogaPage() {
       </div>
 
       {/* ════════ REEL VIDEO GRID ════════ */}
-      <ReelVideoGrid reels={pageData.reelVideos} />
+      <ReelVideoGrid reels={pageData.reelVideos} API_BASE={API_BASE} />
 
       {/* ════════ INFO GRID ════════ */}
       <section id="apply" className={styles.section}>
@@ -1606,15 +1711,12 @@ export default function GoaYogaPage() {
                 <span className={styles.infoIcon}>📍</span>
                 <h3 className={styles.infoTitle}>Address</h3>
               </div>
-
               <OmDivider align="left" />
-
               <address className={styles.address}>
                 {pageData.schoolName && <strong>{pageData.schoolName}</strong>}
                 {pageData.address1 && <p>{pageData.address1}</p>}
                 {pageData.address2 && <p>{pageData.address2}</p>}
                 {pageData.address3 && <p>{pageData.address3}</p>}
-
                 <div className={styles.contactLinks}>
                   {pageData.phone1 && (
                     <a href={`tel:${pageData.phone1}`}>{pageData.phone1}</a>
@@ -1632,9 +1734,7 @@ export default function GoaYogaPage() {
                 <span className={styles.infoIcon}>✈️</span>
                 <h3 className={styles.infoTitle}>{pageData.reachHeading}</h3>
               </div>
-
               <OmDivider align="left" />
-
               <p className={styles.para}>
                 {pageData.reachViaAirLabel && (
                   <strong>{pageData.reachViaAirLabel} </strong>
@@ -1649,17 +1749,13 @@ export default function GoaYogaPage() {
                 <span className={styles.infoIcon}>📝</span>
                 <h3 className={styles.infoTitle}>How to Apply</h3>
               </div>
-
               <OmDivider align="center" />
-
               {pageData.applyInstructions && (
                 <p className={styles.para}>{pageData.applyInstructions}</p>
               )}
-
               {pageData.applyDepositNote && (
                 <p className={styles.note}>{pageData.applyDepositNote}</p>
               )}
-
               <div className={styles.formFields}>
                 {pageData.applyFields?.map((f) => (
                   <span key={f._id} className={styles.fieldChip}>
@@ -1683,17 +1779,11 @@ export default function GoaYogaPage() {
                 <span className={styles.infoIcon}>🔄</span>
                 <h3 className={styles.infoTitle}>Refund Rules</h3>
               </div>
-
               <OmDivider align="left" />
-
               <p className={styles.para}>{pageData.refundPolicy}</p>
-
-              {/* ✅ NEW LINE */}
               <p className={styles.rulesText}>
                 Rules and regulation as per yoga TTC courses at AYM.
               </p>
-
-              {/* ✅ BUTTON */}
               {pageData.rulesHref && (
                 <Link href={pageData.rulesHref} className={styles.rulesBtn}>
                   More Information Rules & Regulation →
@@ -1733,12 +1823,13 @@ export default function GoaYogaPage() {
           </div>
         </div>
       </section>
-<div id="accommodation" className={styles.accommodationSection}>
+
+      <div id="accommodation" className={styles.accommodationSection}>
         <PremiumGallerySection type="both" backgroundColor="warm" />
       </div>
-      {/* ✅ REVIEWS — now a reusable separate component */}
+
       <ReviewSection RatingsSummaryComponent={<RatingsSummarySection />} />
-      {/* LOCATION */}
+
       <div id="location">
         <HowToReach />
       </div>
