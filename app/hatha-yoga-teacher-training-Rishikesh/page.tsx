@@ -1105,7 +1105,7 @@ export default function HathaYogaPage() {
         </div>
       </section>
       <PremiumGallerySection type="both" backgroundColor="warm" />
-            <ReviewSection RatingsSummaryComponent={<RatingsSummarySection/>} />
+            <ReviewSection courseType="hatha-yoga-teacher-training" RatingsSummaryComponent={<RatingsSummarySection/>} />
             <div id="location">
               <HowToReach />
             </div>
