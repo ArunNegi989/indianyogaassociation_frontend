@@ -22,7 +22,9 @@
   --font-script: 'Poppins', Arial, sans-serif;
   --font-menu: 'Montserrat', Arial, sans-serif;
 }
-
+.enhancedIntroContainer{
+  max-width: 1520px !important;
+}
 /* ────────────────────────────────────────
    PAGE WRAPPER
 ──────────────────────────────────────── */
