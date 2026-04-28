@@ -12,6 +12,80 @@ import StickySectionNav from "@/components/common/StickySectionNav";
 /* ─────────────────────────────────────────
    TYPES
 ───────────────────────────────────────── */
+/* Helper function to add autoplay and loop parameters to YouTube URLs */
+
+/* Helper function to process YouTube URLs for autoplay and loop */
+function processYouTubeUrl(url: string): string {
+  if (!url) return "";
+  
+  // Check if it's a YouTube embed URL
+  const isYouTube = url.includes("youtube.com/embed/") || url.includes("youtu.be/");
+  
+  if (!isYouTube) return url;
+  
+  // Extract base URL without query params
+  const baseUrl = url.split("?")[0];
+  
+  // Extract video ID
+  const videoIdMatch = baseUrl.match(/\/(embed\/|)([a-zA-Z0-9_-]{11})/);
+  const videoId = videoIdMatch ? videoIdMatch[2] : null;
+  
+  // Build new URL with autoplay and loop parameters
+  const params = new URLSearchParams();
+  params.set("autoplay", "1");
+  params.set("loop", "1");
+  params.set("mute", "1");
+  params.set("controls", "1");
+  params.set("playsinline", "1");
+  params.set("modestbranding", "1");
+  params.set("rel", "0");
+  
+  if (videoId) {
+    params.set("playlist", videoId);
+  }
+  
+  return `${baseUrl}?${params.toString()}`;
+}
+
+function getYouTubeEmbedWithAutoplay(url: string): string {
+  if (!url) return "";
+  
+  // Check if it's a YouTube URL
+  const isYouTube = url.includes("youtube.com/embed/") || url.includes("youtu.be/");
+  
+  if (!isYouTube) return url;
+  
+  // Remove any existing query parameters
+  let baseUrl = url.split("?")[0];
+  
+  // Add autoplay and loop parameters
+  // Note: For YouTube loops to work, you need to specify a playlist parameter (same as video ID)
+  const videoId = extractYouTubeId(url);
+  const params = new URLSearchParams();
+  params.set("autoplay", "1");
+  params.set("loop", "1");
+  params.set("mute", "1");
+  params.set("controls", "1");
+  params.set("playsinline", "1");
+  params.set("modestbranding", "1");
+  params.set("rel", "0");
+  
+  // For loop to work, playlist must be set to the same video ID
+  if (videoId) {
+    params.set("playlist", videoId);
+  }
+  
+  return `${baseUrl}?${params.toString()}`;
+}
+
+/* Helper function to extract YouTube video ID */
+function extractYouTubeId(url: string): string | null {
+  const regex = /(?:youtube\.com\/embed\/|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+  const match = url.match(regex);
+  return match ? match[1] : null;
+}
+
+
 interface Batch {
   _id: string;
   startDate: string;
@@ -91,6 +165,15 @@ interface PageData {
   pageTitleH1: string;
   heroImage: string;
   heroImgAlt: string;
+
+  
+  onlineVideoUrl: string;       // External video URL (YouTube/Vimeo)
+  onlineVideoType: "local" | "url" | "none";  // Type of video source
+  
+
+       // External video URL (YouTube/Vimeo)
+  featuresVideoType: "local" | "url" | "none";  // Type of video source
+     // Text below the video
  
   onlineHeaderSubtitle?: string;
   onlineHighlightsTitle?: string;
@@ -1314,21 +1397,30 @@ export default function PregnancyYogaTTC() {
         </div>
       </div>
 
-      {/* Right: Dynamic video embed panel (Local Video) */}
+     {/* Right: Dynamic video embed panel (Local Video or External URL) */}
 <div className={styles.s2MediaPanel}>
   <div className={styles.s2VideoWrap}>
-    {pageData.featuresVideoFile ? (
+    {pageData.featuresVideoType === "local" && pageData.featuresVideoFile ? (
       <video
         className={styles.s2Video}
         controls
-        autoPlay={false}
-        muted
+        autoPlay
         loop
+        muted
         playsInline
       >
         <source src={imgSrc(pageData.featuresVideoFile)} type="video/mp4" />
         Your browser does not support the video tag.
       </video>
+    ) : pageData.featuresVideoType === "url" && pageData.featuresVideoUrl ? (
+      <iframe
+        className={styles.s2Video}
+        src={getYouTubeEmbedWithAutoplay(pageData.featuresVideoUrl)}
+        title="Prenatal Yoga Video"
+        frameBorder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowFullScreen
+      />
     ) : (
       <div className={styles.s2VideoPlaceholder}>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -1651,16 +1743,31 @@ export default function PregnancyYogaTTC() {
 {/* Video and Bonus */}
 <div className={styles.s3RightCol}>
   <div className={styles.s3VideoWrap}>
+    {/* Check for local video file */}
     {pageData.onlineVideoFile ? (
       <video
         className={styles.s3Video}
         controls
+        autoPlay
+        loop
+        muted
+        playsInline
         preload="metadata"
         poster={pageData.onlineVideoPoster ? imgSrc(pageData.onlineVideoPoster) : undefined}
       >
         <source src={imgSrc(pageData.onlineVideoFile)} type="video/mp4" />
         Your browser does not support the video tag.
       </video>
+    ) : pageData.onlineVideoType === "url" && pageData.onlineVideoUrl ? (
+      /* YouTube/Vimeo URL embed with autoplay and loop */
+      <iframe
+        className={styles.s3Video}
+        src={processYouTubeUrl(pageData.onlineVideoUrl)}
+        title="Online Course Preview"
+        frameBorder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowFullScreen
+      />
     ) : (
       <>
         <div className={styles.s3VideoPlaceholder}>
@@ -1682,8 +1789,8 @@ export default function PregnancyYogaTTC() {
       </>
     )}
 
-    {/* Label shown below video when file exists */}
-    {pageData.onlineVideoFile && pageData.onlineVideoLabel && (
+    {/* Label shown below video when file or URL exists */}
+    {(pageData.onlineVideoFile || pageData.onlineVideoUrl) && pageData.onlineVideoLabel && (
       <div className={styles.s3VideoTag} style={{ textAlign: "center", padding: "6px 0" }}>
         {pageData.onlineVideoLabel}
       </div>

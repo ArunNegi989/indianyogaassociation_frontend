@@ -583,13 +583,19 @@ export default function AddEditPrenatalYogaTTCPage() {
   const [locationImageFile, setLocationImageFile] = useState<File | null>(null);
   const [locationImagePrev, setLocationImagePrev] = useState("");
 
-  /* ── Features Video File ── */
+  /* ── Features Video ── */
   const [featuresVideoFile, setFeaturesVideoFile] = useState<File | null>(null);
   const [featuresVideoPrev, setFeaturesVideoPrev] = useState("");
+  const [featuresVideoType, setFeaturesVideoType] = useState<"local" | "url" | "none">("none");
+  const [featuresVideoUrl, setFeaturesVideoUrl] = useState("");
 
-  /* ── Online Video File ── */
+  /* ── Online Video ── */
   const [onlineVideoFile, setOnlineVideoFile] = useState<File | null>(null);
   const [onlineVideoPrev, setOnlineVideoPrev] = useState("");
+  const [onlineVideoType, setOnlineVideoType] = useState<"local" | "url" | "none">("none");
+  const [onlineVideoUrl, setOnlineVideoUrl] = useState("");
+  const [onlineVideoPosterFile, setOnlineVideoPosterFile] = useState<File | null>(null);
+  const [onlineVideoPosterPrev, setOnlineVideoPosterPrev] = useState("");
 
   /* ── Hero Grid Images (3) ── */
   const [heroGridImages, setHeroGridImages] = useState<HeroGridImage[]>([
@@ -750,11 +756,22 @@ export default function AddEditPrenatalYogaTTCPage() {
         if (d.locationImage) {
           setLocationImagePrev(BASE_URL + d.locationImage);
         }
+        
+        // Features Video
         if (d.featuresVideoFile) {
           setFeaturesVideoPrev(BASE_URL + d.featuresVideoFile);
         }
+        if (d.featuresVideoType) setFeaturesVideoType(d.featuresVideoType);
+        if (d.featuresVideoUrl) setFeaturesVideoUrl(d.featuresVideoUrl);
+        
+        // Online Video
         if (d.onlineVideoFile) {
           setOnlineVideoPrev(BASE_URL + d.onlineVideoFile);
+        }
+        if (d.onlineVideoType) setOnlineVideoType(d.onlineVideoType);
+        if (d.onlineVideoUrl) setOnlineVideoUrl(d.onlineVideoUrl);
+        if (d.onlineVideoPoster) {
+          setOnlineVideoPosterPrev(BASE_URL + d.onlineVideoPoster);
         }
 
         // Hero Grid
@@ -867,6 +884,14 @@ export default function AddEditPrenatalYogaTTCPage() {
         }
       });
 
+      // Features Video fields
+      fd.append("featuresVideoType", featuresVideoType);
+      fd.append("featuresVideoUrl", featuresVideoUrl);
+      
+      // Online Video fields
+      fd.append("onlineVideoType", onlineVideoType);
+      fd.append("onlineVideoUrl", onlineVideoUrl);
+
       // Rich text
       fd.append("introPara1", introPara1Ref.current || "");
       fd.append("introPara2", introPara2Ref.current || "");
@@ -905,8 +930,20 @@ export default function AddEditPrenatalYogaTTCPage() {
       // Images & Videos
       if (heroFile) fd.append("heroImage", heroFile);
       if (locationImageFile) fd.append("locationImage", locationImageFile);
-      if (featuresVideoFile) fd.append("featuresVideoFile", featuresVideoFile);
-      if (onlineVideoFile) fd.append("onlineVideoFile", onlineVideoFile);
+      
+      // Features Video - only if type is local
+      if (featuresVideoType === "local" && featuresVideoFile) {
+        fd.append("featuresVideoFile", featuresVideoFile);
+      }
+      
+      // Online Video - only if type is local
+      if (onlineVideoType === "local" && onlineVideoFile) {
+        fd.append("onlineVideoFile", onlineVideoFile);
+      }
+      if (onlineVideoPosterFile) {
+        fd.append("onlineVideoPoster", onlineVideoPosterFile);
+      }
+      
       heroGridImages.forEach((img, idx) => {
         if (img.file) fd.append(`heroGridImage${idx}`, img.file);
       });
@@ -1196,7 +1233,7 @@ export default function AddEditPrenatalYogaTTCPage() {
         </Sec>
         <D />
 
-        {/* ══ 4. COURSE FEATURES SECTION (WITH LOCAL VIDEO UPLOAD) ══ */}
+        {/* ══ 4. COURSE FEATURES SECTION ══ */}
         <Sec title="Course Features Section" badge="Section 2 · Warm BG + Video">
           <F label="Super Label">
             <div className={styles.inputWrap}>
@@ -1242,25 +1279,60 @@ export default function AddEditPrenatalYogaTTCPage() {
             </button>
           </F>
 
-          {/* Video Section - Local File Upload */}
+          {/* Video Section - Support both local file and URL */}
           <SubSec title="Feature Video Panel">
-            <F label="Video File (MP4)" hint="Upload an MP4 video file. Recommended: 1920×1080px, 10-30MB">
-              <SingleMedia
-                preview={featuresVideoPrev}
-                badge="Feature Video"
-                hint="MP4 · 1920×1080px · Max 100MB"
-                type="video"
-                onSelect={(f, p) => { 
-                  setFeaturesVideoFile(f);
-                  setFeaturesVideoPrev(p);
-                }}
-                onRemove={() => { 
-                  setFeaturesVideoFile(null);
-                  setFeaturesVideoPrev("");
-                }}
-              />
-              <p className={styles.fieldHint}>Upload a local MP4 video file. Leave empty to keep existing video.</p>
+            <F label="Video Source Type" hint="Choose between local video upload or external URL">
+              <div className={styles.selectWrap}>
+                <select 
+                  className={styles.select}
+                  value={featuresVideoType}
+                  onChange={(e) => setFeaturesVideoType(e.target.value as "local" | "url" | "none")}
+                >
+                  <option value="none">No Video</option>
+                  <option value="local">Upload Local Video (MP4)</option>
+                  <option value="url">External Video URL (YouTube/Vimeo)</option>
+                </select>
+                <span className={styles.selectArrow}>▾</span>
+              </div>
             </F>
+
+            {featuresVideoType === "local" && (
+              <>
+                <F label="Video File (MP4)" hint="Upload an MP4 video file. Recommended: 1920×1080px, 10-30MB">
+                  <SingleMedia
+                    preview={featuresVideoPrev}
+                    badge="Feature Video"
+                    hint="MP4 · 1920×1080px · Max 100MB"
+                    type="video"
+                    onSelect={(f, p) => { 
+                      setFeaturesVideoFile(f);
+                      setFeaturesVideoPrev(p);
+                    }}
+                    onRemove={() => { 
+                      setFeaturesVideoFile(null);
+                      setFeaturesVideoPrev("");
+                    }}
+                  />
+                  <p className={styles.fieldHint}>Upload a local MP4 video file. Leave empty to keep existing video.</p>
+                </F>
+              </>
+            )}
+
+            {featuresVideoType === "url" && (
+              <>
+                <F label="Video URL" hint="YouTube or Vimeo embed URL">
+                  <div className={styles.inputWrap}>
+                    <input 
+                      className={styles.input} 
+                      value={featuresVideoUrl}
+                      onChange={(e) => setFeaturesVideoUrl(e.target.value)}
+                      placeholder="https://www.youtube.com/embed/VIDEO_ID"
+                    />
+                  </div>
+                  <p className={styles.fieldHint}>Example: https://www.youtube.com/embed/X-4RQYlTRtk</p>
+                </F>
+              </>
+            )}
             
             <F label="Video Label" hint="Text below the video">
               <div className={styles.inputWrap}>
@@ -1420,7 +1492,7 @@ export default function AddEditPrenatalYogaTTCPage() {
         </Sec>
         <D />
 
-        {/* ══ 8. ONLINE COURSE SECTION (WITH LOCAL VIDEO) ══ */}
+        {/* ══ 8. ONLINE COURSE SECTION ══ */}
         <Sec title="Online Pregnancy Yoga TTC Section" badge="Online / Offline">
           
           {/* Header Section */}
@@ -1511,24 +1583,65 @@ export default function AddEditPrenatalYogaTTCPage() {
 
           {/* Right Column - Video and Bonus */}
           <SubSec title="Right Column - Video & Bonus">
-            <F label="Video File (MP4)" hint="Upload an MP4 video file for the online section preview">
-              <SingleMedia
-                preview={onlineVideoPrev}
-                badge="Online Video"
-                hint="MP4 · 1920×1080px · Max 100MB"
-                type="video"
-                onSelect={(f, p) => { 
-                  setOnlineVideoFile(f);
-                  setOnlineVideoPrev(p);
-                }}
-                onRemove={() => { 
-                  setOnlineVideoFile(null);
-                  setOnlineVideoPrev("");
-                }}
-              />
+            <F label="Video Source Type" hint="Choose between local video upload or external URL">
+              <div className={styles.selectWrap}>
+                <select 
+                  className={styles.select}
+                  value={onlineVideoType}
+                  onChange={(e) => setOnlineVideoType(e.target.value as "local" | "url" | "none")}
+                >
+                  <option value="none">No Video</option>
+                  <option value="local">Upload Local Video (MP4)</option>
+                  <option value="url">External Video URL (YouTube/Vimeo)</option>
+                </select>
+                <span className={styles.selectArrow}>▾</span>
+              </div>
             </F>
+
+            {onlineVideoType === "local" && (
+              <>
+                <F label="Video File (MP4)" hint="Upload an MP4 video file. Recommended: 1920×1080px">
+                  <SingleMedia
+                    preview={onlineVideoPrev}
+                    badge="Online Video"
+                    hint="MP4 · 1920×1080px · Max 100MB"
+                    type="video"
+                    onSelect={(f, p) => { 
+                      setOnlineVideoFile(f);
+                      setOnlineVideoPrev(p);
+                    }}
+                    onRemove={() => { 
+                      setOnlineVideoFile(null);
+                      setOnlineVideoPrev("");
+                    }}
+                  />
+                </F>
+                <F label="Video Poster Image" hint="Thumbnail image shown before video plays">
+                  <SingleMedia
+                    preview={onlineVideoPosterPrev}
+                    badge="Poster"
+                    hint="JPG/PNG/WEBP · 1920×1080px"
+                    onSelect={(f, p) => { setOnlineVideoPosterFile(f); setOnlineVideoPosterPrev(p); }}
+                    onRemove={() => { setOnlineVideoPosterFile(null); setOnlineVideoPosterPrev(""); }}
+                  />
+                </F>
+              </>
+            )}
+
+            {onlineVideoType === "url" && (
+              <F label="Video URL" hint="YouTube or Vimeo embed URL">
+                <div className={styles.inputWrap}>
+                  <input 
+                    className={styles.input} 
+                    value={onlineVideoUrl}
+                    onChange={(e) => setOnlineVideoUrl(e.target.value)}
+                    placeholder="https://www.youtube.com/embed/VIDEO_ID"
+                  />
+                </div>
+              </F>
+            )}
             
-            <F label="Video Label (Overlay Text)">
+            <F label="Video Label" hint="Text below the video">
               <div className={styles.inputWrap}>
                 <input className={styles.input} {...register("onlineVideoLabel")} placeholder="Course Preview" />
               </div>
