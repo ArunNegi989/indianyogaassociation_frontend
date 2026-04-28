@@ -39,11 +39,51 @@ interface Location {
   _id: string;
   name: string;
   desc: string;
+  image?: string;      // image path from backend
+  imageAlt?: string;   // image alt text
 }
 
 interface YogaTTCData {
   _id: string;
   slug: string;
+ 
+    // Rishikesh & Goa Section Images
+    rishikeshImage: string;
+    rishikeshImageAlt: string;
+    rishikeshImageBadge: string;
+    goaImage: string;
+    goaImageAlt: string;
+    goaImageBadge: string;
+  // ===== WHY AYM SECTION IMAGE =====
+  whyAYMImage: string;
+  whyAYMImageAlt: string;
+  whyAYMImageBadge: string;
+  
+
+    // ===== NEW YOGA HOLIDAYS FIELDS =====
+    mainTitle: string;
+    mediaImageAlt: string;
+    mediaImageCaption: string;
+    videoUrl: string;
+    videoPlaceholderText: string;
+    videoEnabled: boolean;
+    ayurvedaCalloutText: string;
+    ayurvedaLinkText: string;
+    ayurvedaLinkUrl: string;
+    benefitsHeading: string;
+    benefitsList: string[];
+    ctaText: string;
+    ctaButtonText: string;
+    ctaButtonUrl: string;
+
+    image?: string;      // NEW: image path
+    imageAlt?: string;   // NEW: image alt text
+    
+    // ===== NEW WHO WE ARE VIDEO FIELDS =====
+    whoWeAreVideo: string;           // Path to uploaded video file
+    whoWeAreVideoEnabled: boolean;   // Toggle to show/hide video
+    whoWeAreVideoPoster: string;     // Path to video poster image
+  mediaImage: string;
   status: string;
   heroImage: string;
   heroImgAlt: string;
@@ -107,7 +147,7 @@ const PLACEHOLDER = {
     "https://images.unsplash.com/photo-1518611012118-696072aa579a?w=600&q=80",
   course3:
     "https://images.unsplash.com/photo-1593811167562-9cef47bfc4d7?w=600&q=80",
-  videoId: "X-4RQYlTRtk", // YouTube short ID for autoplay embed
+  videoId: "X-4RQYlTRtk",
 };
 
 const getYouTubeEmbed = (videoId: string) =>
@@ -321,36 +361,58 @@ const TextImageRow = ({
   </div>
 );
 
-/* ─── TEXT + VIDEO ROW ─── */
-const TextVideoRow = ({
+/* ─── TEXT + VIDEO ROW (with local video support) ─── */
+const TextVideoRowWithUpload = ({
   children,
-  videoId,
+  videoPath,
+  posterPath,
+  videoEnabled,
   reverse = false,
 }: {
   children: React.ReactNode;
-  videoId: string;
+  videoPath?: string;
+  posterPath?: string;
+  videoEnabled: boolean;
   reverse?: boolean;
-}) => (
-  <div className={`${styles.tiRow} ${reverse ? styles.tiRowReverse : ""}`}>
-    <div className={styles.tiText}>{children}</div>
-    <div className={styles.tiVideoWrap}>
-      <div className={styles.tiVideoFrame}>
-        <iframe
-          src={getYouTubeEmbed(videoId)}
-          className={styles.videoIframe}
-          title="Yoga Video"
-          frameBorder="0"
-          allow="autoplay; encrypted-media"
-          allowFullScreen
-          style={{ pointerEvents: "none" }}
-        />
-        <div className={styles.tiVideoBadge}>
-          <span className={styles.pulseDot} /> Live Classes
+}) => {
+  const videoUrl = videoPath ? `${process.env.NEXT_PUBLIC_API_URL}${videoPath}` : "";
+  const posterUrl = posterPath ? `${process.env.NEXT_PUBLIC_API_URL}${posterPath}` : "";
+
+  return (
+    <div className={`${styles.tiRow} ${reverse ? styles.tiRowReverse : ""}`}>
+      <div className={styles.tiText}>{children}</div>
+      <div className={styles.tiVideoWrap}>
+        <div className={styles.tiVideoFrame}>
+          {videoEnabled && videoUrl ? (
+            <video
+              src={videoUrl}
+              poster={posterUrl}
+              className={styles.videoIframe}
+              controls
+              autoPlay
+              loop
+              muted
+              playsInline
+              style={{ width: "100%", height: "100%", objectFit: "cover" }}
+            />
+          ) : (
+            <div className={styles.videoPlaceholder}>
+              <div className={styles.playBtn}>
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                  <polygon points="5,2 16,9 5,16" fill="white" />
+                </svg>
+              </div>
+              <span className={styles.videoLabel}>Who We Are - AYM Yoga School</span>
+            </div>
+          )}
+          <div className={styles.tiVideoBadge}>
+            <span className={styles.pulseDot} /> Who We Are
+          </div>
         </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 /* ─── SINGLE BADGE — auto detects shape ─── */
 const BadgeItem = ({ b, i }: { b: AccredBadge; i: number }) => {
@@ -361,13 +423,12 @@ const BadgeItem = ({ b, i }: { b: AccredBadge; i: number }) => {
     const img = e.currentTarget;
     const ratio = img.naturalWidth / img.naturalHeight;
     if (ratio > 1.3)
-      setShape("wide"); // landscape / wide logo
+      setShape("wide");
     else if (ratio < 0.77)
-      setShape("square"); // tall / portrait
-    else setShape("circle"); // roughly square → circular frame
+      setShape("square");
+    else setShape("circle");
   };
 
-  // frame class based on detected shape
   const frameClass = [
     styles.badgeFrame,
     shape === "circle"
@@ -376,7 +437,7 @@ const BadgeItem = ({ b, i }: { b: AccredBadge; i: number }) => {
         ? styles.badgeFrameWide
         : shape === "square"
           ? styles.badgeFrameSquare
-          : styles.badgeFrameCircle, // default while loading
+          : styles.badgeFrameCircle,
   ].join(" ");
 
   return (
@@ -422,17 +483,16 @@ const CourseCardComp = ({
   card: CourseCard;
   index: number;
 }) => {
-  const fallbacks = [
-    PLACEHOLDER.course1,
-    PLACEHOLDER.course2,
-    PLACEHOLDER.course3,
-  ];
-  const src = getImageSrc(card.image, card.imgUrl, fallbacks[index % 3]);
+  // Get image from backend or fallback
+  const courseImageSrc = card.image 
+    ? `${process.env.NEXT_PUBLIC_API_URL}${card.image}`
+    : (card.imgUrl || PLACEHOLDER.course1);
+  
   return (
     <div className={styles.courseCard}>
       <div className={styles.courseImgWrap}>
         <img
-          src={src}
+          src={courseImageSrc}
           alt={card.title}
           className={styles.courseImg}
           loading="lazy"
@@ -488,11 +548,13 @@ const QuoteCard = ({ card }: { card: QuoteCard }) => {
 };
 
 /* ─── LOCATION DETAIL SECTION ─── */
+/* ─── LOCATION DETAIL SECTION ─── */
 const LocationDetail = ({
   title,
   paragraphs,
   fallbackPara,
   imgSrc,
+  imageAlt,
   badge,
   reverse = false,
 }: {
@@ -500,6 +562,7 @@ const LocationDetail = ({
   paragraphs: string[];
   fallbackPara?: string;
   imgSrc: string;
+  imageAlt: string;
   badge?: string;
   reverse?: boolean;
 }) => {
@@ -513,7 +576,7 @@ const LocationDetail = ({
     <div className={styles.locationDetailWrap}>
       <TextImageRow
         imageUrl={imgSrc}
-        imageAlt={title}
+        imageAlt={imageAlt}
         badge={badge}
         reverse={reverse}
       >
@@ -613,16 +676,26 @@ export default function YogaTTCIndia() {
     ? `${process.env.NEXT_PUBLIC_API_URL}${data.heroImage}`
     : data.heroImage || "";
 
+  // ── normalize introParagraphs (guard against nested array from duplicate append bug)
+  const rawIntro = data.introParagraphs;
   const introParagraphs =
-    data.introParagraphs?.length > 0
-      ? data.introParagraphs
-      : data.introPara
-        ? [data.introPara]
-        : [];
+    Array.isArray(rawIntro?.[0])
+      ? (rawIntro[0] as unknown as string[])
+      : rawIntro?.length > 0
+        ? rawIntro
+        : data.introPara
+          ? [data.introPara]
+          : [];
+
   const whyParas =
     data.whyAYMParagraphs?.length > 0
       ? data.whyAYMParagraphs
       : [data.whyAYMPara1, data.whyAYMPara2, data.whyAYMPara3].filter(Boolean);
+
+  // ── intro image: use DB mediaImage if available, else placeholder
+  const introImageSrc = data.mediaImage?.startsWith("/uploads/")
+  ? `${process.env.NEXT_PUBLIC_API_URL}${data.mediaImage}`
+  : PLACEHOLDER.yoga1;
 
   return (
     <div className={styles.page}>
@@ -658,22 +731,24 @@ export default function YogaTTCIndia() {
       ══════════════════════════════ */}
       <section className={`${styles.section} ${styles.sectionLight}`}>
         <div className="container px-3 px-md-4">
-          {/* Hero heading */}
-          <div className={styles.heroWrap}>
-            {data.heroTitle && (
-              <h1 className={styles.heroTitle}>{data.heroTitle}</h1>
-            )}
-            {data.heroSubTitle && (
-              <p className={styles.heroSub}>{data.heroSubTitle}</p>
-            )}
-            <div className={styles.heroUnderline} />
-          </div>
+          {/* Hero heading — dynamic */}
+          {(data.heroTitle || data.heroSubTitle) && (
+            <div className={styles.heroWrap}>
+              {data.heroTitle && (
+                <h1 className={styles.heroTitle}>{data.heroTitle}</h1>
+              )}
+              {data.heroSubTitle && (
+                <p className={styles.heroSub}>{data.heroSubTitle}</p>
+              )}
+              <div className={styles.heroUnderline} />
+            </div>
+          )}
 
-          {/* Intro — text left, image right */}
+          {/* Intro — text left, image right — dynamic */}
           {introParagraphs.length > 0 && (
             <TextImageRow
-              imageUrl={PLACEHOLDER.yoga1}
-              imageAlt="Yoga Teacher Training India"
+              imageUrl={introImageSrc}
+              imageAlt={data.heroImgAlt || "Yoga Teacher Training India"}
               badge="Since 2010"
             >
               <>
@@ -688,13 +763,17 @@ export default function YogaTTCIndia() {
             </TextImageRow>
           )}
 
-          {/* Accreditation badges */}
+          {/* Accreditation badges — already dynamic */}
           <AccredBadges badges={data.accredBadges} />
 
-          {/* Who We Are — text left, VIDEO right (autoplay, no controls) */}
-          {(data.whoWeAreTitle || data.whoWeArePara) && (
+         {/* Who We Are — dynamic title + para + video */}
+         {(data.whoWeAreTitle || data.whoWeArePara) && (
             <div className={styles.sectionSpacer}>
-              <TextVideoRow videoId={PLACEHOLDER.videoId}>
+              <TextVideoRowWithUpload
+                videoPath={data.whoWeAreVideo}
+                posterPath={data.whoWeAreVideoPoster}
+                videoEnabled={data.whoWeAreVideoEnabled || false}
+              >
                 <>
                   <VintageHeading>
                     {data.whoWeAreTitle || "Who We Are"}
@@ -706,168 +785,215 @@ export default function YogaTTCIndia() {
                     />
                   )}
                 </>
-              </TextVideoRow>
+              </TextVideoRowWithUpload>
             </div>
           )}
 
-          {/* YTT Through AYM — improved location cards */}
-          {(data.yytTitle ||
-            data.yytPara ||
-            (data.locations && data.locations.length > 0)) && (
-            <div className={styles.yytSection}>
-              <VintageHeading>
-                {data.yytTitle ||
-                  "Yoga Teacher Training through AYM Yoga School"}
-              </VintageHeading>
-              {data.yytPara && (
-                <div
-                  className={styles.bodyPara}
-                  dangerouslySetInnerHTML={{ __html: data.yytPara }}
+         {/* YTT Through AYM — dynamic title, para, location cards */}
+{/* YTT Through AYM — dynamic title, para, location cards */}
+{(data.yytTitle ||
+  data.yytPara ||
+  (data.locations && data.locations.length > 0)) && (
+  <div className={styles.yytSection}>
+    <VintageHeading>
+      {data.yytTitle ||
+        "Yoga Teacher Training through AYM Yoga School"}
+    </VintageHeading>
+    {data.yytPara && (
+      <div
+        className={styles.bodyPara}
+        dangerouslySetInnerHTML={{ __html: data.yytPara }}
+      />
+    )}
+    {data.locations && data.locations.length > 0 && (
+      <div className={styles.locationCardsGrid}>
+        {data.locations.map((loc, i) => {
+          // Get image source from backend or use placeholder
+          const locationImageSrc = loc.image 
+            ? `${process.env.NEXT_PUBLIC_API_URL}${loc.image}`
+            : (i === 0 ? PLACEHOLDER.rishikesh : PLACEHOLDER.goa);
+          
+          return (
+            <div key={loc._id || i} className={styles.locationCard}>
+              <div className={styles.locationCardImg}>
+                <img
+                  src={locationImageSrc}
+                  alt={loc.imageAlt || loc.name}
+                  loading="lazy"
                 />
-              )}
-              {data.locations && data.locations.length > 0 && (
-                <div className={styles.locationCardsGrid}>
-                  {data.locations.map((loc, i) => (
-                    <div key={loc._id || i} className={styles.locationCard}>
-                      <div className={styles.locationCardImg}>
-                        <img
-                          src={
-                            i === 0 ? PLACEHOLDER.rishikesh : PLACEHOLDER.goa
-                          }
-                          alt={loc.name}
-                          loading="lazy"
-                        />
-                        <div className={styles.locationCardImgOverlay} />
-                        <div className={styles.locationCardBadge}>
-                          {loc.name}
-                        </div>
-                      </div>
-                      <div className={styles.locationCardBody}>
-                        <div className={styles.locationCardIcon}>
-                          <ChakraSVG
-                            size={28}
-                            color={i === 0 ? "#F15505" : "#d4a017"}
-                          />
-                        </div>
-                        <h3 className={styles.locationName}>{loc.name}</h3>
-                        <p className={styles.locationDesc}>{loc.desc}</p>
-                        <div className={styles.locationCardLine} />
-                      </div>
-                    </div>
-                  ))}
+                <div className={styles.locationCardImgOverlay} />
+                <div className={styles.locationCardBadge}>
+                  {loc.name}
                 </div>
-              )}
+              </div>
+              <div className={styles.locationCardBody}>
+                <div className={styles.locationCardIcon}>
+                  <ChakraSVG
+                    size={28}
+                    color={i === 0 ? "#F15505" : "#d4a017"}
+                  />
+                </div>
+                <h3 className={styles.locationName}>{loc.name}</h3>
+                <p className={styles.locationDesc}>{loc.desc}</p>
+                <div className={styles.locationCardLine} />
+              </div>
             </div>
-          )}
-        </div>
+          );
+        })}
+      </div>
+    )}
+  </div>
+)}
+</div>
       </section>
 
-      {/* ══════════════════════════════
-          SECTION 2 — RISHIKESH + GOA + COURSE CARDS
-      ══════════════════════════════ */}
-      <section className={`${styles.section} ${styles.sectionWarm}`}>
-        <div className="container px-3 px-md-4">
-          {/* Rishikesh detail */}
-          {(data.rishikeshTitle ||
-            data.rishikeshDetailPara ||
-            (data.rishikeshParagraphs &&
-              data.rishikeshParagraphs.length > 0)) && (
-            <LocationDetail
-              title={
-                data.rishikeshTitle || "Yoga Teacher Training in Rishikesh"
-              }
-              paragraphs={data.rishikeshParagraphs || []}
-              fallbackPara={data.rishikeshDetailPara}
-              imgSrc={PLACEHOLDER.rishikesh}
-              badge="Rishikesh, India"
-            />
-          )}
+    {/* ══════════════════════════════
+    SECTION 2 — RISHIKESH + GOA + COURSE CARDS
+══════════════════════════════════ */}
+<section className={`${styles.section} ${styles.sectionWarm}`}>
+  <div className="container px-3 px-md-4">
+    {/* Rishikesh detail */}
+    {(data.rishikeshTitle ||
+      data.rishikeshDetailPara ||
+      (data.rishikeshParagraphs &&
+        data.rishikeshParagraphs.length > 0)) && (
+      <LocationDetail
+        title={data.rishikeshTitle || "Yoga Teacher Training in Rishikesh"}
+        paragraphs={data.rishikeshParagraphs || []}
+        fallbackPara={data.rishikeshDetailPara}
+        imgSrc={data.rishikeshImage ? `${process.env.NEXT_PUBLIC_API_URL}${data.rishikeshImage}` : PLACEHOLDER.rishikesh}
+        imageAlt={data.rishikeshImageAlt || "Yoga Teacher Training in Rishikesh"}
+        badge={data.rishikeshImageBadge || "Rishikesh, India"}
+      />
+    )}
 
-          {/* Goa detail */}
-          {(data.goaTitle ||
-            data.goaDetailPara ||
-            (data.goaParagraphs && data.goaParagraphs.length > 0)) && (
-            <div className={styles.locationDetailSpacer}>
-              <LocationDetail
-                title={data.goaTitle || "Yoga Teacher Training in Goa"}
-                paragraphs={data.goaParagraphs || []}
-                fallbackPara={data.goaDetailPara}
-                imgSrc={PLACEHOLDER.goa}
-                badge="Goa, India"
-                reverse={true}
-              />
+    {/* Goa detail */}
+    {(data.goaTitle ||
+      data.goaDetailPara ||
+      (data.goaParagraphs && data.goaParagraphs.length > 0)) && (
+      <div className={styles.locationDetailSpacer}>
+        <LocationDetail
+          title={data.goaTitle || "Yoga Teacher Training in Goa"}
+          paragraphs={data.goaParagraphs || []}
+          fallbackPara={data.goaDetailPara}
+          imgSrc={data.goaImage ? `${process.env.NEXT_PUBLIC_API_URL}${data.goaImage}` : PLACEHOLDER.goa}
+          imageAlt={data.goaImageAlt || "Yoga Teacher Training in Goa"}
+          badge={data.goaImageBadge || "Goa, India"}
+          reverse={true}
+        />
+      </div>
+    )}
+
+    <OmDivider label="Our Courses" />
+
+    {/* Course Cards - Dynamic Images */}
+    {data.courseCards && data.courseCards.length > 0 && (
+      <div className={styles.courseCardsGrid}>
+        {data.courseCards.map((card, i) => {
+          // Get course image from backend or use fallback
+          const courseImageSrc = card.image 
+            ? `${process.env.NEXT_PUBLIC_API_URL}${card.image}`
+            : (card.imgUrl || PLACEHOLDER.course1);
+          
+          return (
+            <div key={card._id || i} className={styles.courseCard}>
+              <div className={styles.courseImgWrap}>
+                <img
+                  src={courseImageSrc}
+                  alt={card.title}
+                  className={styles.courseImg}
+                  loading="lazy"
+                />
+                <div className={styles.courseImgOverlay} />
+                <div className={styles.courseHourBadge}>{card.hours} HR</div>
+                <div className={styles.courseCardGlow} />
+              </div>
+              <div className={styles.courseBody}>
+                <h3 className={styles.courseTitle}>{card.title}</h3>
+                <div className={styles.courseLine} />
+                {card.desc ? (
+                  <div
+                    className={styles.courseDesc}
+                    dangerouslySetInnerHTML={{ __html: card.desc }}
+                  />
+                ) : null}
+              </div>
+              <a href={card.href || "#"} className={styles.courseBtn}>
+                <span>{card.linkLabel}</span>
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                  <path
+                    d="M3 8h10M9 4l4 4-4 4"
+                    stroke="currentColor"
+                    strokeWidth="1.8"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </a>
             </div>
-          )}
-
-          <OmDivider label="Our Courses" />
-
-          {/* Course Cards — improved design */}
-          {data.courseCards && data.courseCards.length > 0 && (
-            <div className={styles.courseCardsGrid}>
-              {data.courseCards.map((card, i) => (
-                <CourseCardComp key={card._id || i} card={card} index={i} />
-              ))}
-            </div>
-          )}
-        </div>
-      </section>
+          );
+        })}
+      </div>
+    )}
+  </div>
+</section>
 
       {/* ══════════════════════════════
           SECTION 3 — WHY AYM + QUOTE IMAGES + PANELS
       ══════════════════════════════ */}
-      <section className={`${styles.section} ${styles.sectionDeep}`}>
-        <div className="container px-3 px-md-4">
-          {/* Why AYM — text left, image right */}
-          {data.whyAYMTitle && (
-            <TextImageRow
-              imageUrl={PLACEHOLDER.yoga5}
-              imageAlt="Why AYM Yoga School"
-              badge="Excellence in Yoga"
-            >
-              <>
-                <VintageHeading>{data.whyAYMTitle}</VintageHeading>
-                {whyParas.map((p, i) => (
-                  <div
-                    key={i}
-                    className={styles.bodyPara}
-                    dangerouslySetInnerHTML={{ __html: p }}
-                  />
-                ))}
-              </>
-            </TextImageRow>
-          )}
+  <section className={`${styles.section} ${styles.sectionDeep}`}>
+  <div className="container px-3 px-md-4">
+    {/* Why AYM - Dynamic Image */}
+    {data.whyAYMTitle && (
+      <TextImageRow
+        imageUrl={data.whyAYMImage ? `${process.env.NEXT_PUBLIC_API_URL}${data.whyAYMImage}` : PLACEHOLDER.yoga5}
+        imageAlt={data.whyAYMImageAlt || "Why AYM Yoga School"}
+        badge={data.whyAYMImageBadge || "Excellence in Yoga"}
+      >
+        <>
+          <VintageHeading>{data.whyAYMTitle}</VintageHeading>
+          {whyParas.map((p, i) => (
+            <div
+              key={i}
+              className={styles.bodyPara}
+              dangerouslySetInnerHTML={{ __html: p }}
+            />
+          ))}
+        </>
+      </TextImageRow>
+    )}
 
-          {/* Quote image cards */}
-          {data.quoteCards && data.quoteCards.length > 0 && (
-            <div className={styles.quoteCardsGrid}>
-              {data.quoteCards.map((card, i) => (
-                <QuoteCard key={card._id || i} card={card} />
-              ))}
-            </div>
-          )}
+    {/* Quote image cards */}
+    {data.quoteCards && data.quoteCards.length > 0 && (
+      <div className={styles.quoteCardsGrid}>
+        {data.quoteCards.map((card, i) => (
+          <QuoteCard key={card._id || i} card={card} />
+        ))}
+      </div>
+    )}
 
-          <OmDivider label="Practical Info" />
+    <OmDivider label="Practical Info" />
 
-          {/* Info Panels — improved design */}
-          {((data.arrivalList && data.arrivalList.length > 0) ||
-            (data.feeList && data.feeList.length > 0)) && (
-            <div className={styles.infoPanelsGrid}>
-              {data.arrivalList && data.arrivalList.length > 0 && (
-                <InfoPanel
-                  title={data.arrivalTitle || "Arrival & Departure"}
-                  items={data.arrivalList}
-                />
-              )}
-              {data.feeList && data.feeList.length > 0 && (
-                <InfoPanel
-                  title={data.feeTitle || "Includes in Fee"}
-                  items={data.feeList}
-                />
-              )}
-            </div>
-          )}
-        </div>
-      </section>
+    {/* Info Panels */}
+    {((data.arrivalList && data.arrivalList.length > 0) ||
+      (data.feeList && data.feeList.length > 0)) && (
+      <div className={styles.infoPanelsGrid}>
+        {data.arrivalList && data.arrivalList.length > 0 && (
+          <InfoPanel
+            title={data.arrivalTitle || "Arrival & Departure"}
+            items={data.arrivalList}
+          />
+        )}
+        {data.feeList && data.feeList.length > 0 && (
+          <InfoPanel
+            title={data.feeTitle || "Includes in Fee"}
+            items={data.feeList}
+          />
+        )}
+      </div>
+    )}
+  </div>
+</section>
       <PremiumGallerySection type="both" backgroundColor="warm" />
       {/* ✅ REVIEWS — now a reusable separate component */}
       <ReviewSection courseType="yoga-teacher-training-india" RatingsSummaryComponent={<RatingsSummarySection />} />
