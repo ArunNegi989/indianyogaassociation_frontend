@@ -946,7 +946,7 @@ function EnhancedIntroSection({ items }: { items: IntroItem[] }) {
 
   return (
     <section className={styles.enhancedIntroSection}>
-      <div className="container px-3 px-md-4">
+      <div className={`container px-3 px-md-4 ${styles.enhancedIntroContainer}`}>
         <h1 className={styles.heroTitle}>
           500 Hour Yoga Teacher Training Course in Rishikesh
         </h1>
@@ -1047,7 +1047,7 @@ function StandApartSection({ content }: { content: PageContent }) {
 
   return (
     <section className={`${styles.section} ${styles.sectionLight}`}>
-      <div className="container px-3 px-md-4">
+      <div className={`container px-3 px-md-4 ${styles.enhancedIntroContainer}`}>
         <div className={styles.block}>
           {content.standApartH2 && (
             <h2
@@ -1148,7 +1148,7 @@ function VideoSection({ content }: { content: PageContent }) {
 
   return (
     <section className={styles.videoSection}>
-      <div className="container px-3 px-md-4">
+      <div className={`container px-3 px-md-4 ${styles.enhancedIntroContainer}`}>
         <div className={styles.videoWrapper}>
           <div className={styles.videoContainerShort}>
             <video
@@ -1594,7 +1594,7 @@ export default function YogaTTC500() {
         <EnhancedIntroSection items={content.introItems} />
       ) : (
         <section className={styles.heroSection2}>
-          <div className="container px-3 px-md-4">
+          <div className={`container px-3 px-md-4 ${styles.enhancedIntroContainer}`}>
             {content.pageMainH1 && (
               <h1
                 className={styles.heroTitle}
@@ -1626,7 +1626,7 @@ export default function YogaTTC500() {
       />
 
       <section className={`${styles.section} ${styles.sectionLight}`}>
-        <div className="container px-3 px-md-4">
+        <div className={`container px-3 px-md-4 ${styles.enhancedIntroContainer}`}>
           {content.indianFees?.length > 0 && (
             <div className={styles.indianFeeBlock}>
               {content.indianFeeH3 && (
@@ -1780,7 +1780,7 @@ export default function YogaTTC500() {
 <VideoSection content={content} />
 
       <section className={styles.section}>
-        <div className="container px-3 px-md-4">
+        <div className={`container px-3 px-md-4 ${styles.enhancedIntroContainer}`}>
           <div className={styles.syllabusSection}>
             {content.syllabusH2 && (
               <div className={styles.syllabusTitleWrap}>
@@ -1922,7 +1922,7 @@ export default function YogaTTC500() {
       </section>
 
       <section className={`${styles.section} ${styles.sectionLight}`}>
-        <div className="container px-3 px-md-4">
+        <div className={`container px-3 px-md-4 ${styles.enhancedIntroContainer}`}>
           <IncludeExcludeTabs
             includedItems={content.includedItems || []}
             notIncludedItems={content.notIncludedItems || []}
@@ -1947,7 +1947,7 @@ export default function YogaTTC500() {
 
       {content.accomImages?.length > 0 && (
         <section className={styles.premiumGallerySection}>
-          <div className="container px-3 px-md-4">
+          <div className={`container px-3 px-md-4 ${styles.enhancedIntroContainer}`}>
             <div className={styles.premiumGalleryHeader}>
               <span className={styles.premiumGalleryBadge}>Peaceful Stay</span>
               <h2 className={styles.premiumGalleryTitle}>Accommodation</h2>
@@ -1971,7 +1971,7 @@ export default function YogaTTC500() {
 
       {content.foodImages?.length > 0 && (
         <section className={styles.premiumGallerySection}>
-          <div className="container px-3 px-md-4">
+          <div className={`container px-3 px-md-4 ${styles.enhancedIntroContainer}`}>
             <div className={styles.premiumGalleryHeader}>
               <span className={styles.premiumGalleryBadge}>
                 Nourishing Meals
