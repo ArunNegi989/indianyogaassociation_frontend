@@ -1967,7 +1967,7 @@ export default function KundaliniYogaTTC() {
         {content.facilitiesIntroRich ? (
           <div
             className={`${styles.bodyPara} ${styles.textCenter}`}
-            style={{ maxWidth: 740, margin: "0 auto 1.5rem" }}
+            style={{ margin: "0 auto 1.5rem" }}
             dangerouslySetInnerHTML={{
               __html: content.facilitiesIntroRich,
             }}
@@ -1976,7 +1976,7 @@ export default function KundaliniYogaTTC() {
           content.facilitiesIntro && (
             <p
               className={`${styles.bodyPara} ${styles.textCenter}`}
-              style={{ maxWidth: 740, margin: "0 auto 1.5rem" }}
+              style={{ margin: "0 auto 1.5rem" }}
             >
               {content.facilitiesIntro}
             </p>

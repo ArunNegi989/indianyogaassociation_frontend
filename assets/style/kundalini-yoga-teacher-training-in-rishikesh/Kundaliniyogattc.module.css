@@ -390,7 +390,7 @@
 
 .sectionTitleCenter {
   font-family: 'Montserrat', serif;
-  font-size: clamp(.88rem, 1.9vw, 1.25rem);
+  font-size: clamp(.88rem, 1.9vw, 1.35rem);
   font-weight: 700;
   color: var(--saffron);
   text-align: center;
@@ -401,7 +401,7 @@
 
 .sectionTitleLeft {
   font-family: 'Montserrat', serif;
-  font-size: clamp(.88rem, 1.8vw, 1.2rem);
+  font-size: clamp(.88rem, 1.8vw, 1.3rem);
   font-weight: 700;
   color: var(--saffron);
   letter-spacing: .04em;
@@ -425,7 +425,7 @@
 }
 
 .bodyPara {
-  font-size: clamp(.9rem, 1.48vw, 1.03rem);
+  font-size: clamp(.9rem, 1.48vw, 1.13rem);
   line-height: 1.94;
   color: var(--ink);
   margin-bottom: .95rem;
@@ -445,7 +445,7 @@
    VINTAGE CARD
 ──────────────────────────────────────── */
 .vintageCard {
-  background: rgba(255, 253, 245, .92);
+  background: rgb(255, 255, 255);
   border: 1px solid var(--border);
   border-top: 3px solid var(--saffron);
   border-radius: 7px;
@@ -558,7 +558,7 @@
    SYLLABUS SECTION
 ──────────────────────────────────────── */
 .syllabusWrap {
-  background: rgba(255, 253, 248, .95);
+  background: #ffffff;
   border: 1px solid var(--border);
   border-radius: 8px;
   overflow: hidden;
@@ -598,7 +598,7 @@
 
 .overviewTitle {
   font-family: 'Montserrat', serif;
-  font-size: clamp(.85rem, 1.4vw, .98rem);
+  font-size: clamp(.85rem, 1.4vw, 1.5rem);
   font-weight: 700;
   color: var(--ink);
   text-align: center;
@@ -637,8 +637,8 @@
   width: 100%;
   cursor: pointer;
   padding: .85rem 1.1rem;
-  background: rgba(245, 232, 195, .35);
   transition: background .18s;
+  background-color: #ffffff;
 }
 
 .accordOpen .accordHead {
@@ -646,7 +646,7 @@
 }
 
 .accordHead:hover:not(.accordOpen .accordHead) {
-  background: rgba(245, 232, 195, .6);
+  background: rgb(255, 255, 255);
 }
 
 .accordNum {
@@ -719,7 +719,7 @@
 .readingBox {
   margin: 1.2rem clamp(1rem, 2vw, 1.5rem);
   padding: 1.2rem 1.4rem;
-  background: rgba(245, 232, 195, .3);
+  background: #ffffff;
   border: 1px solid var(--border);
   border-radius: 6px;
   box-shadow: 0 2px 8px var(--shadow);
@@ -741,17 +741,12 @@
   margin: 0;
 }
 
-.readingList li {
-  font-size: clamp(.82rem, 1.3vw, .93rem);
-  line-height: 1.72;
-  color: var(--ink);
-  margin-bottom: .25rem;
-}
+
 
 .noteBox {
   margin: 1rem clamp(1rem, 2vw, 1.5rem) clamp(1rem, 2vw, 1.5rem);
   padding: 1.2rem 1.4rem;
-  background: rgba(255, 253, 248, .8);
+  background: #ffffff;
   border: 1px solid var(--border);
   border-left: 4px solid var(--gold);
   border-radius: 0 6px 6px 0;
@@ -1513,8 +1508,8 @@
     position: relative;
     z-index: 10;
     width: 90%;
-    max-width: 1100px;
-    margin: -60px auto 0;
+    max-width: 1530px;
+    margin: -20px auto 0;
     padding: 0;
   }
   
@@ -1541,14 +1536,7 @@
     border-bottom-right-radius: 30px;
   }
   
-  .icHdrTxt {
-    font-family: 'Montserrat', serif;
-    font-size: 0.85rem;
-    font-weight: 700;
-    letter-spacing: 0.18em;
-    color: #ffffff;
-    text-transform: uppercase;
-  }
+ 
   
   .icGrid {
     display: grid;
@@ -1599,31 +1587,9 @@
     gap: 1px;
   }
   
-  .icLbl {
-    font-family: 'Montserrat', serif;
-    font-size: 0.7rem;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: #F15505;
-    line-height: 1.3;
-  }
-  
-  .icVal {
-    font-family: 'Lato', serif;
-    font-size: clamp(0.88rem, 1.3vw, 1rem);
-    font-weight: 600;
-    color: #3d1d00;
-    line-height: 1.3;
-  }
-  
-  .icSub {
-    font-family: 'Lato', serif;
-    font-size: 0.75rem;
-    color: #7a5c2e;
-    line-height: 1.3;
-  }
-  
+
+ 
+ 
   .icVDiv {
     width: 1px;
     background: linear-gradient(to bottom, transparent 5%, rgba(200, 112, 10, 0.25) 25%, rgba(200, 112, 10, 0.25) 75%, transparent 95%);
@@ -2255,14 +2221,7 @@
    COURSE INFO CARD
    ================================================================ */
 
-.icWrap {
-  position: relative;
-  z-index: 10;
-  width: 90%;
-  max-width: 1100px;
-  margin: -60px auto 0;
-  padding: 0;
-}
+
 
 .icCard {
   display: grid;
@@ -2289,7 +2248,7 @@
 
 .icHdrTxt {
   font-family: 'Montserrat', serif;
-  font-size: 0.85rem;
+  font-size: 1.2rem;
   font-weight: 700;
   letter-spacing: 0.18em;
   color: #ffffff;
@@ -2347,7 +2306,7 @@
 
 .icLbl {
   font-family: 'Montserrat', serif;
-  font-size: 0.7rem;
+  font-size: 1.1rem;
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -2357,7 +2316,7 @@
 
 .icVal {
   font-family: 'Lato', serif;
-  font-size: clamp(0.88rem, 1.3vw, 1rem);
+  font-size: clamp(0.88rem, 1.3vw, 1.2rem);
   font-weight: 600;
   color: #3d1d00;
   line-height: 1.3;
@@ -2365,7 +2324,7 @@
 
 .icSub {
   font-family: 'Lato', serif;
-  font-size: 0.75rem;
+  font-size: 0.95rem;
   color: #7a5c2e;
   line-height: 1.3;
 }
@@ -2797,7 +2756,6 @@
   border-left: 3px solid var(--saffron);
   padding: .65rem 1.15rem;
   margin-bottom: 1.1rem;
-  background: rgba(241, 85, 5, .04);
   border-radius: 0 4px 4px 0;
   font-size: clamp(.9rem, 1.45vw, 1rem);
   line-height: 1.92;
@@ -2887,20 +2845,9 @@
   box-shadow: 0 0 0 3px rgba(241, 85, 5, .15);
 }
 
-.activateHlTitle {
-  font-family: 'Montserrat', serif;
-  font-size: .7rem;
-  font-weight: 700;
-  color: var(--ink);
-  letter-spacing: .04em;
-  margin-bottom: .25rem;
-}
 
-.activateHlDesc {
-  font-size: clamp(.84rem, 1.3vw, .93rem);
-  line-height: 1.72;
-  color: var(--ink-md);
-}
+
+
 
 /* ── Responsive ── */
 @media (max-width: 991px) {
@@ -2950,13 +2897,6 @@
    SYLLABUS SECTION — ENHANCED
 ════════════════════════════════════════ */
 
-.syllabusWrap {
-  background: rgba(255, 253, 248, .95);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 8px 36px var(--shadow-md);
-}
 
 /* ── Header with background image ── */
 .syllabusHeader {
@@ -3068,20 +3008,10 @@
   padding: 1.4rem 1.6rem;
   border-left: 4px solid var(--saffron);
   margin: 1.2rem 0 1.2rem 1.4rem;
-  background: rgba(245, 232, 195, .22);
+  background: rgb(255, 255, 255);
   border-radius: 0 5px 5px 0;
 }
 
-.overviewTitle {
-  font-family: 'Montserrat', serif;
-  font-size: clamp(.8rem, 1.3vw, .95rem);
-  font-weight: 700;
-  color: var(--ink);
-  text-align: center;
-  margin-bottom: .7rem;
-  padding-bottom: .55rem;
-  border-bottom: 1px solid var(--border-lt);
-}
 
 .courseOverviewImgWrap {
   position: relative;
@@ -3168,7 +3098,7 @@
   display: flex;
   align-items: flex-start;
   gap: .6rem;
-  font-size: clamp(.83rem, 1.3vw, .92rem);
+  font-size: clamp(.83rem, 1.3vw, 1.1rem);
   line-height: 1.72;
   color: var(--ink);
 }
@@ -3180,11 +3110,6 @@
   margin-top: 2px;
 }
 
-.noteBox {
-  padding: 1.3rem 1.5rem;
-  background: rgba(245, 232, 195, .18);
-  border-left: 3px solid var(--gold);
-}
 
 .noteTitle {
   font-family: 'Montserrat', serif;
@@ -3254,12 +3179,11 @@
 ════════════════════════════════════════ */
 
 .hlIntro {
-  font-size: clamp(.9rem, 1.45vw, 1rem);
+  font-size: clamp(.9rem, 1.45vw, 1.2rem);
   line-height: 1.88;
   color: var(--ink);
   text-align: center;
-  font-style: italic;
-  max-width: 720px;
+  max-width: 1020px;
   margin: 0 auto 1.4rem;
 }
 
@@ -3290,12 +3214,12 @@
 }
 
 .hlStripIcon {
-  font-size: 1.15rem;
+  font-size: 2.15rem;
 }
 
 .hlStripNum {
   font-family: 'Montserrat', serif;
-  font-size: 1rem;
+  font-size: 1.8rem;
   font-weight: 700;
   color: var(--saffron);
   line-height: 1;
@@ -3303,7 +3227,7 @@
 
 .hlStripLabel {
   font-family: 'Montserrat', serif;
-  font-size: .54rem;
+  font-size: .84rem;
   font-weight: 700;
   letter-spacing: .06em;
   color: var(--ink-lt);
@@ -3371,7 +3295,7 @@
 
 .activateHlTitle {
   font-family: 'Montserrat', serif;
-  font-size: .72rem;
+  font-size: 1rem;
   font-weight: 700;
   letter-spacing: .05em;
   color: var(--ink);
@@ -3379,7 +3303,7 @@
 }
 
 .activateHlDesc {
-  font-size: clamp(.84rem, 1.3vw, .93rem);
+  font-size: clamp(.84rem, 1.3vw, 1rem);
   line-height: 1.75;
   color: var(--ink-md);
   padding-left: 3.1rem;
@@ -3393,7 +3317,7 @@
   display: inline-flex;
   align-items: center;
   font-family: 'Montserrat', serif;
-  font-size: .54rem;
+  font-size: .84rem;
   font-weight: 700;
   letter-spacing: .08em;
   border-radius: 20px;
@@ -3451,7 +3375,7 @@
 /* ── Shared tag label ── */
 .secTagline {
   font-family: 'Montserrat', serif;
-  font-size: 0.62rem;
+  font-size: 1.1rem;
   font-weight: 700;
   letter-spacing: 0.28em;
   text-transform: uppercase;
@@ -3461,7 +3385,7 @@
 
 .secTaglineLight {
   font-family: 'Montserrat', serif;
-  font-size: 0.62rem;
+  font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.28em;
   text-transform: uppercase;
@@ -3627,7 +3551,7 @@
   align-items: center;
   gap: 0.7rem;
   padding: 0.55rem 0.9rem;
-  background: rgba(241, 85, 5, 0.04);
+  background: #ffffff;
   border: 1px solid rgba(241, 85, 5, 0.15);
   border-radius: 6px;
   font-size: clamp(0.85rem, 1.3vw, 0.95rem);
@@ -3636,7 +3560,7 @@
 }
 
 .eligPill:hover {
-  background: rgba(241, 85, 5, 0.08);
+  background: #ffffff;
   border-color: rgba(241, 85, 5, 0.3);
 }
 
@@ -3775,7 +3699,7 @@
 
 .locationStatLabel {
   font-family: 'Lato', serif;
-  font-size: clamp(0.65rem, 1.1vw, 0.78rem);
+  font-size: clamp(0.65rem, 1.1vw, 0.98rem);
   font-style: italic;
   color: rgba(255, 220, 160, 0.85);
   letter-spacing: 0.06em;
@@ -4007,7 +3931,7 @@
 
 .facilityIconLabel {
   font-family: 'Montserrat', serif;
-  font-size: 0.63rem;
+  font-size: 0.93rem;
   font-weight: 700;
   letter-spacing: 0.06em;
   color: var(--ink-md);
@@ -4017,10 +3941,10 @@
 
 .facilityIconDesc {
   font-family: 'Lato', serif;
-  font-size: 0.82rem;
+  font-size: 1rem;
   line-height: 1.6;
   color: var(--ink-lt);
-  font-style: italic;
+  
 }
 
 /* Responsive for facilities */
@@ -4110,16 +4034,7 @@
    (Section 7 Why AYM CSS unchanged from previous delivery)
 ════════════════════════════════════════ */
 
-/* ── Shared tag label (add once if not already present) ── */
-.secTagline {
-  font-family: 'Montserrat', serif;
-  font-size: 0.62rem;
-  font-weight: 700;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-  color: var(--saffron);
-  margin-bottom: 0.5rem;
-}
+
 
 /* ── Section background ── */
 .schedSection {
@@ -4195,7 +4110,7 @@
   gap: 0.5rem;
   padding: 0.65rem 1.2rem;
   font-family: 'Montserrat', serif;
-  font-size: 0.68rem;
+  font-size: 0.98rem;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -4268,7 +4183,7 @@
 
 .schedTimeBadge {
   font-family: 'Montserrat', serif;
-  font-size: clamp(0.64rem, 1.1vw, 0.74rem);
+  font-size: clamp(0.64rem, 1.1vw, 0.94rem);
   font-weight: 700;
   letter-spacing: 0.04em;
   min-width: 72px;
@@ -4303,7 +4218,7 @@
 
 .schedNoteText {
   font-family: 'Lato', serif;
-  font-size: 0.88rem;
+  font-size: 1.1rem;
   font-style: italic;
   color: var(--ink-lt);
   line-height: 1.65;
@@ -4363,7 +4278,7 @@
 
 .schedImgTag {
   font-family: 'Montserrat', serif;
-  font-size: 0.52rem;
+  font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.16em;
   color: rgba(255, 218, 150, 0.95);
@@ -4407,8 +4322,8 @@
 
 .schedStatNum {
   font-family: 'Montserrat', serif;
-  font-size: clamp(0.9rem, 1.6vw, 1.1rem);
-  font-weight: 900;
+  font-size: clamp(0.9rem, 1.6vw, 1.5rem);
+  font-weight: 700;
   color: var(--saffron);
   line-height: 1;
 }
@@ -4547,15 +4462,6 @@
    (unchanged from previous delivery — included here for convenience)
 ════════════════════════════════════════ */
 
-.secTaglineLight {
-  font-family: 'Montserrat', serif;
-  font-size: 0.62rem;
-  font-weight: 700;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-  color: rgba(255, 210, 140, 0.92);
-  margin-bottom: 0.5rem;
-}
 
 .whySection {
   background: white;
@@ -4722,7 +4628,7 @@
 
 .whyEnhLabel {
   font-family: 'Montserrat', serif;
-  font-size: clamp(0.7rem, 1.2vw, 0.85rem);
+  font-size: clamp(0.7rem, 1.2vw, 1.1rem);
   font-weight: 700;
   letter-spacing: 0.05em;
   color: var(--ink-md);
@@ -4731,7 +4637,7 @@
 
 .whyEnhDesc {
   font-family: 'Lato', serif;
-  font-size: clamp(0.88rem, 1.4vw, 1rem);
+  font-size: clamp(0.88rem, 1.4vw, 1.1rem);
   line-height: 1.75;
   color: var(--ink);
 }
@@ -5815,7 +5721,7 @@
   background: white;
 }
 .maxx{
-  max-width:1460px !important;
+  max-width:1540px !important;
 }
 /* ────────────────────────────────────────
    WHY RISHIKESH BLOCK
@@ -6181,10 +6087,9 @@
 
 .refundHeaderSub {
   font-family: 'Lato', serif;
-  font-size: clamp(.9rem, 1.45vw, 1.05rem);
-  font-style: italic;
+  font-size: clamp(.9rem, 1.45vw, 1.25rem);
   color: var(--ink-lt);
-  max-width: 580px;
+  max-width: 780px;
   margin: 0 auto 1.5rem;
   line-height: 1.75;
 }
@@ -6266,7 +6171,7 @@
 
 .refundCardText {
   font-family: 'Lato', serif;
-  font-size: clamp(.9rem, 1.45vw, 1.04rem);
+  font-size: clamp(.9rem, 1.45vw, 1.14rem);
   line-height: 1.82;
   color: var(--ink);
   margin: 0;
@@ -6363,7 +6268,7 @@
   display: grid;
   grid-template-columns: 1fr 420px;
   gap: 0;
-  background: rgba(255, 253, 248, .94);
+  background: rgba(255, 255, 255, 0.94);
   border: 1px solid var(--border);
   border-top: 3px solid var(--saffron);
   border-radius: 10px;
@@ -6391,7 +6296,6 @@
 .whatIsFirstPara {
   border-left: 3px solid var(--saffron);
   padding: 0.65rem 1.15rem;
-  background: rgba(241, 85, 5, .04);
   border-radius: 0 4px 4px 0;
   font-size: clamp(.9rem, 1.48vw, 1.02rem) !important;
   margin-bottom: 1rem !important;
@@ -6431,7 +6335,7 @@
 
 .whatIsPillText {
   font-family: 'Montserrat', serif;
-  font-size: clamp(.56rem, .95vw, .68rem);
+  font-size: clamp(.56rem, .95vw, 0.88rem);
   font-weight: 700;
   letter-spacing: .05em;
   color: var(--saffron-dk);
@@ -6631,7 +6535,7 @@
 ════════════════════════════════════════ */
 
 .benefitsCardWrap {
-  background: rgba(255, 253, 248, .92);
+  background: rgb(255, 255, 255);
   border: 1px solid var(--border);
   border-radius: 10px;
   padding: clamp(1.8rem, 4vw, 3rem) clamp(1.5rem, 3.5vw, 2.8rem);
