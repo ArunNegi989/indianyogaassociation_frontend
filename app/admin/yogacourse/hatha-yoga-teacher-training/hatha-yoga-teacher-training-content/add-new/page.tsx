@@ -19,9 +19,6 @@ const cleanHTML = (val?: string): string => {
   return text ? val.trim() : "";
 };
 
-/* ─────────────────────────────────────────
-   JODIT CONFIG
-───────────────────────────────────────── */
 function makeConfig(ph: string, h: number) {
   return {
     readonly: false,
@@ -37,13 +34,30 @@ function makeConfig(ph: string, h: number) {
     askBeforePasteFromWord: false,
     defaultActionOnPaste: "insert_clear_html" as const,
     buttons: [
-      "bold","italic","underline","strikethrough","|",
-      "font","fontsize","brush","|",
-      "paragraph","align","|",
-      "ul","ol","|",
-      "link","|",
-      "undo","redo","|",
-      "selectall","cut","copy","paste",
+      "bold",
+      "italic",
+      "underline",
+      "strikethrough",
+      "|",
+      "font",
+      "fontsize",
+      "brush",
+      "|",
+      "paragraph",
+      "align",
+      "|",
+      "ul",
+      "ol",
+      "|",
+      "link",
+      "|",
+      "undo",
+      "redo",
+      "|",
+      "selectall",
+      "cut",
+      "copy",
+      "paste",
     ],
     uploader: { insertImageAsBase64URI: true },
     height: h,
@@ -52,15 +66,29 @@ function makeConfig(ph: string, h: number) {
   };
 }
 
-/* ─── Divider ─── */
+/* ── Divider ── */
 function D() {
   return (
-    <div style={{ height: 1, background: "linear-gradient(90deg,transparent,#e8d5b5,transparent)", margin: "0.4rem 0 1.8rem" }} />
+    <div
+      style={{
+        height: 1,
+        background: "linear-gradient(90deg,transparent,#e8d5b5,transparent)",
+        margin: "0.4rem 0 1.8rem",
+      }}
+    />
   );
 }
 
-/* ─── Section wrapper ─── */
-function Sec({ title, badge, children }: { title: string; badge?: string; children: React.ReactNode }) {
+/* ── Section wrapper ── */
+function Sec({
+  title,
+  badge,
+  children,
+}: {
+  title: string;
+  badge?: string;
+  children: React.ReactNode;
+}) {
   return (
     <div className={styles.sectionBlock}>
       <div className={styles.sectionHeader}>
@@ -73,8 +101,18 @@ function Sec({ title, badge, children }: { title: string; badge?: string; childr
   );
 }
 
-/* ─── Field wrapper ─── */
-function F({ label, hint, req, children }: { label: string; hint?: string; req?: boolean; children: React.ReactNode }) {
+/* ── Field wrapper ── */
+function F({
+  label,
+  hint,
+  req,
+  children,
+}: {
+  label: string;
+  hint?: string;
+  req?: boolean;
+  children: React.ReactNode;
+}) {
   return (
     <div className={styles.fieldGroup}>
       <label className={styles.label}>
@@ -88,30 +126,70 @@ function F({ label, hint, req, children }: { label: string; hint?: string; req?:
   );
 }
 
-/* ─── Stable Jodit ─── */
+/* ── Stable Jodit ── */
 const StableJodit = memo(function StableJodit({
-  onSave, value, ph = "Start typing…", h = 200, err,
-}: { onSave: (v: string) => void; value?: string; ph?: string; h?: number; err?: string }) {
+  onSave,
+  value,
+  ph = "Start typing…",
+  h = 200,
+  err,
+}: {
+  onSave: (v: string) => void;
+  value?: string;
+  ph?: string;
+  h?: number;
+  err?: string;
+}) {
   const [visible, setVisible] = useState(false);
   const initialValue = useRef(value || "");
   const wrapRef = useRef<HTMLDivElement>(null);
   const onSaveRef = useRef(onSave);
   onSaveRef.current = onSave;
   const config = useMemo(() => makeConfig(ph, h), [ph, h]);
-  const handleChange = useCallback((val: string) => { onSaveRef.current(val); }, []);
+  const handleChange = useCallback((val: string) => {
+    onSaveRef.current(val);
+  }, []);
   useEffect(() => {
     const el = wrapRef.current;
     if (!el) return;
-    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setVisible(true); obs.disconnect(); } }, { rootMargin: "300px" });
+    const obs = new IntersectionObserver(
+      ([e]) => {
+        if (e.isIntersecting) {
+          setVisible(true);
+          obs.disconnect();
+        }
+      },
+      { rootMargin: "300px" },
+    );
     obs.observe(el);
     return () => obs.disconnect();
   }, []);
   return (
-    <div ref={wrapRef} className={`${styles.joditWrap} ${err ? styles.joditError : ""}`} style={{ minHeight: h }}>
+    <div
+      ref={wrapRef}
+      className={`${styles.joditWrap} ${err ? styles.joditError : ""}`}
+      style={{ minHeight: h }}
+    >
       {visible ? (
-        <JoditEditor config={config} value={initialValue.current} onChange={handleChange} />
+        <JoditEditor
+          config={config}
+          value={initialValue.current}
+          onChange={handleChange}
+        />
       ) : (
-        <div style={{ height: h, display: "flex", alignItems: "center", justifyContent: "center", background: "#faf8f4", border: "1px solid #e8d5b5", borderRadius: 8, color: "#bbb", fontSize: 13 }}>
+        <div
+          style={{
+            height: h,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            background: "#faf8f4",
+            border: "1px solid #e8d5b5",
+            borderRadius: 8,
+            color: "#bbb",
+            fontSize: 13,
+          }}
+        >
           ✦ Scroll to load editor…
         </div>
       )}
@@ -120,30 +198,74 @@ const StableJodit = memo(function StableJodit({
   );
 });
 
-/* ─── Rich List Item ─── */
+/* ── Rich list item ── */
 const RichListItem = memo(function RichListItem({
-  id, index, total, onSave, onRemove, value, ph,
-}: { id: string; index: number; total: number; onSave: (id: string, v: string) => void; onRemove: (id: string) => void; value?: string; ph?: string }) {
+  id,
+  index,
+  total,
+  onSave,
+  onRemove,
+  value,
+  ph,
+}: {
+  id: string;
+  index: number;
+  total: number;
+  onSave: (id: string, v: string) => void;
+  onRemove: (id: string) => void;
+  value?: string;
+  ph?: string;
+}) {
   const initialValue = useRef(value || "");
-  const handleSave = useCallback((v: string) => { onSave(id, v); }, [id, onSave]);
+  const handleSave = useCallback(
+    (v: string) => {
+      onSave(id, v);
+    },
+    [id, onSave],
+  );
   return (
     <div className={styles.nestedCard} style={{ marginBottom: "0.8rem" }}>
       <div className={styles.nestedCardHeader}>
         <span className={styles.nestedCardNum}>Paragraph {index + 1}</span>
         {total > 1 && (
-          <button type="button" className={styles.removeNestedBtn} onClick={() => onRemove(id)}>✕ Remove</button>
+          <button
+            type="button"
+            className={styles.removeNestedBtn}
+            onClick={() => onRemove(id)}
+          >
+            ✕ Remove
+          </button>
         )}
       </div>
       <div className={styles.nestedCardBody}>
-        <StableJodit onSave={handleSave} value={initialValue.current} ph={ph} h={180} />
+        <StableJodit
+          onSave={handleSave}
+          value={initialValue.current}
+          ph={ph}
+          h={180}
+        />
       </div>
     </div>
   );
 });
 
-/* ─── String List ─── */
-function StrList({ items, onAdd, onRemove, onUpdate, max = 30, ph, label }: {
-  items: string[]; onAdd: () => void; onRemove: (i: number) => void; onUpdate: (i: number, v: string) => void; max?: number; ph?: string; label: string;
+/* ── String list ── */
+function StrList({
+  items,
+  onAdd,
+  onRemove,
+  onUpdate,
+  max = 30,
+  ph,
+  label,
+}: {
+  items: string[];
+  onAdd: () => void;
+  onRemove: (i: number) => void;
+  onUpdate: (i: number, v: string) => void;
+  max?: number;
+  ph?: string;
+  label: string;
 }) {
   return (
     <>
@@ -152,29 +274,67 @@ function StrList({ items, onAdd, onRemove, onUpdate, max = 30, ph, label }: {
           <div key={i} className={styles.listItemRow}>
             <span className={styles.listNum}>{i + 1}</span>
             <div className={`${styles.inputWrap} ${styles.listInput}`}>
-              <input className={`${styles.input} ${styles.inputNoCount}`} value={val} placeholder={ph || "Enter item…"} onChange={(e) => onUpdate(i, e.target.value)} />
+              <input
+                className={`${styles.input} ${styles.inputNoCount}`}
+                value={val}
+                placeholder={ph || "Enter item…"}
+                onChange={(e) => onUpdate(i, e.target.value)}
+              />
             </div>
-            <button type="button" className={styles.removeItemBtn} onClick={() => onRemove(i)} disabled={items.length <= 1}>✕</button>
+            <button
+              type="button"
+              className={styles.removeItemBtn}
+              onClick={() => onRemove(i)}
+              disabled={items.length <= 1}
+            >
+              ✕
+            </button>
           </div>
         ))}
       </div>
       {items.length < max && (
-        <button type="button" className={styles.addItemBtn} onClick={onAdd}>＋ Add {label}</button>
+        <button type="button" className={styles.addItemBtn} onClick={onAdd}>
+          ＋ Add {label}
+        </button>
       )}
     </>
   );
 }
 
-/* ─── Single Image Uploader ─── */
-function SingleImg({ preview, badge, hint, error, onSelect, onRemove }: {
-  preview: string; badge?: string; hint: string; error?: string; onSelect: (f: File, p: string) => void; onRemove: () => void;
+/* ── Single image uploader ── */
+function SingleImg({
+  preview,
+  badge,
+  hint,
+  error,
+  onSelect,
+  onRemove,
+}: {
+  preview: string;
+  badge?: string;
+  hint: string;
+  error?: string;
+  onSelect: (f: File, p: string) => void;
+  onRemove: () => void;
 }) {
   return (
     <div>
-      <div className={`${styles.imageUploadZone} ${preview ? styles.hasImage : ""} ${error ? styles.inputError : ""}`}>
+      <div
+        className={`${styles.imageUploadZone} ${preview ? styles.hasImage : ""} ${error ? styles.inputError : ""}`}
+      >
         {!preview ? (
           <>
-            <input type="file" accept="image/*" onChange={(e) => { const f = e.target.files?.[0]; if (f) { onSelect(f, URL.createObjectURL(f)); e.target.value = ""; } }} />
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => {
+                const f = e.target.files?.[0];
+                if (f) {
+                  onSelect(f, URL.createObjectURL(f));
+                  e.target.value = "";
+                }
+              }}
+            />
             <div className={styles.imageUploadPlaceholder}>
               <span className={styles.imageUploadIcon}>🖼️</span>
               <span className={styles.imageUploadText}>Click to Upload</span>
@@ -187,9 +347,29 @@ function SingleImg({ preview, badge, hint, error, onSelect, onRemove }: {
             <img src={preview} alt="" className={styles.imagePreview} />
             <div className={styles.imagePreviewOverlay}>
               <span className={styles.imagePreviewAction}>✎ Change</span>
-              <input type="file" accept="image/*" className={styles.imagePreviewOverlayInput} onChange={(e) => { const f = e.target.files?.[0]; if (f) { onSelect(f, URL.createObjectURL(f)); e.target.value = ""; } }} />
+              <input
+                type="file"
+                accept="image/*"
+                className={styles.imagePreviewOverlayInput}
+                onChange={(e) => {
+                  const f = e.target.files?.[0];
+                  if (f) {
+                    onSelect(f, URL.createObjectURL(f));
+                    e.target.value = "";
+                  }
+                }}
+              />
             </div>
-            <button type="button" className={styles.removeImageBtn} onClick={(e) => { e.stopPropagation(); onRemove(); }}>✕</button>
+            <button
+              type="button"
+              className={styles.removeImageBtn}
+              onClick={(e) => {
+                e.stopPropagation();
+                onRemove();
+              }}
+            >
+              ✕
+            </button>
           </div>
         )}
       </div>
@@ -198,26 +378,35 @@ function SingleImg({ preview, badge, hint, error, onSelect, onRemove }: {
   );
 }
 
-/* ══════════════════════════════════════════
-   PARA LIST HOOK
-══════════════════════════════════════════ */
+/* ══ Para list hook ══ */
 function useParaList(initId: string, initVal = "") {
   const [ids, setIds] = useState<string[]>([initId]);
   const ref = useRef<Record<string, string>>({ [initId]: initVal });
-  const add = useCallback(() => { const id = `${initId}-${Date.now()}`; ref.current[id] = ""; setIds((p) => [...p, id]); }, [initId]);
-  const remove = useCallback((id: string) => { delete ref.current[id]; setIds((p) => p.filter((x) => x !== id)); }, []);
-  const save = useCallback((id: string, v: string) => { ref.current[id] = v; }, []);
+  const add = useCallback(() => {
+    const id = `${initId}-${Date.now()}`;
+    ref.current[id] = "";
+    setIds((p) => [...p, id]);
+  }, [initId]);
+  const remove = useCallback((id: string) => {
+    delete ref.current[id];
+    setIds((p) => p.filter((x) => x !== id));
+  }, []);
+  const save = useCallback((id: string, v: string) => {
+    ref.current[id] = v;
+  }, []);
   const loadFromArray = useCallback((arr: string[], prefix: string) => {
     const newIds: string[] = [];
-    arr.forEach((p, i) => { const id = `${prefix}${i}`; newIds.push(id); ref.current[id] = p; });
+    arr.forEach((p, i) => {
+      const id = `${prefix}${i}`;
+      newIds.push(id);
+      ref.current[id] = p;
+    });
     setIds(newIds);
   }, []);
   return { ids, ref, add, remove, save, loadFromArray };
 }
 
-/* ══════════════════════════════════════════
-   CERT CARD MANAGER
-══════════════════════════════════════════ */
+/* ══ Cert Card Manager ══ */
 interface CertCardItem {
   id: string;
   hours: string;
@@ -229,133 +418,326 @@ interface CertCardItem {
 }
 
 const DEFAULT_CERT_CARDS: CertCardItem[] = [
-  { id: "cert1", hours: "200 Hour", sub: "Foundation Programme", href: "#200hr", imgUrl: "", imgPreview: "", imgFile: null },
-  { id: "cert2", hours: "300 Hour", sub: "Advanced Programme",   href: "#300hr", imgUrl: "", imgPreview: "", imgFile: null },
-  { id: "cert3", hours: "500 Hour", sub: "Master Programme",     href: "#500hr", imgUrl: "", imgPreview: "", imgFile: null },
+  {
+    id: "cert1",
+    hours: "200 Hour",
+    sub: "Foundation Programme",
+    href: "#200hr",
+    imgUrl: "",
+    imgPreview: "",
+    imgFile: null,
+  },
+  {
+    id: "cert2",
+    hours: "300 Hour",
+    sub: "Advanced Programme",
+    href: "#300hr",
+    imgUrl: "",
+    imgPreview: "",
+    imgFile: null,
+  },
+  {
+    id: "cert3",
+    hours: "500 Hour",
+    sub: "Master Programme",
+    href: "#500hr",
+    imgUrl: "",
+    imgPreview: "",
+    imgFile: null,
+  },
 ];
 
-function CertCardsManager({ items, onChange }: { items: CertCardItem[]; onChange: (v: CertCardItem[]) => void }) {
-  const update = useCallback((id: string, field: keyof CertCardItem, value: any) => {
-    onChange(items.map((i) => (i.id === id ? { ...i, [field]: value } : i)));
-  }, [items, onChange]);
-  const updateMany = useCallback((id: string, patch: Partial<CertCardItem>) => {
-    onChange(items.map((i) => (i.id === id ? { ...i, ...patch } : i)));
-  }, [items, onChange]);
-  const add = () => onChange([...items, { id: `cert-${Date.now()}`, hours: "", sub: "", href: "#", imgUrl: "", imgPreview: "", imgFile: null }]);
-  const remove = (id: string) => { if (items.length <= 1) return; onChange(items.filter((i) => i.id !== id)); };
+function CertCardsManager({
+  items,
+  onChange,
+}: {
+  items: CertCardItem[];
+  onChange: (v: CertCardItem[]) => void;
+}) {
+  const update = useCallback(
+    (id: string, field: keyof CertCardItem, value: any) => {
+      onChange(items.map((i) => (i.id === id ? { ...i, [field]: value } : i)));
+    },
+    [items, onChange],
+  );
+  const updateMany = useCallback(
+    (id: string, patch: Partial<CertCardItem>) => {
+      onChange(items.map((i) => (i.id === id ? { ...i, ...patch } : i)));
+    },
+    [items, onChange],
+  );
+  const add = () =>
+    onChange([
+      ...items,
+      {
+        id: `cert-${Date.now()}`,
+        hours: "",
+        sub: "",
+        href: "#",
+        imgUrl: "",
+        imgPreview: "",
+        imgFile: null,
+      },
+    ]);
+  const remove = (id: string) => {
+    if (items.length <= 1) return;
+    onChange(items.filter((i) => i.id !== id));
+  };
 
   return (
     <div>
       {items.map((item, idx) => (
-        <div key={item.id} className={styles.nestedCard} style={{ marginBottom: "0.8rem" }}>
+        <div
+          key={item.id}
+          className={styles.nestedCard}
+          style={{ marginBottom: "0.8rem" }}
+        >
           <div className={styles.nestedCardHeader}>
-            <span className={styles.nestedCardNum}>{item.hours || `Card ${idx + 1}`}</span>
+            <span className={styles.nestedCardNum}>
+              {item.hours || `Card ${idx + 1}`}
+            </span>
             {items.length > 1 && (
-              <button type="button" className={styles.removeNestedBtn} onClick={() => remove(item.id)}>✕ Remove</button>
+              <button
+                type="button"
+                className={styles.removeNestedBtn}
+                onClick={() => remove(item.id)}
+              >
+                ✕ Remove
+              </button>
             )}
           </div>
           <div className={styles.nestedCardBody}>
             <div className={styles.grid2}>
               <div className={styles.fieldGroup}>
-                <label className={styles.label} style={{ fontSize: "0.8rem" }}>Hours Label</label>
+                <label className={styles.label} style={{ fontSize: "0.8rem" }}>
+                  Hours Label
+                </label>
                 <div className={styles.inputWrap}>
-                  <input className={styles.input} value={item.hours} placeholder="200 Hour" onChange={(e) => update(item.id, "hours", e.target.value)} />
+                  <input
+                    className={styles.input}
+                    value={item.hours}
+                    placeholder="200 Hour"
+                    onChange={(e) => update(item.id, "hours", e.target.value)}
+                  />
                 </div>
               </div>
               <div className={styles.fieldGroup}>
-                <label className={styles.label} style={{ fontSize: "0.8rem" }}>Programme Sub-label</label>
+                <label className={styles.label} style={{ fontSize: "0.8rem" }}>
+                  Programme Sub-label
+                </label>
                 <div className={styles.inputWrap}>
-                  <input className={styles.input} value={item.sub} placeholder="Foundation Programme" onChange={(e) => update(item.id, "sub", e.target.value)} />
+                  <input
+                    className={styles.input}
+                    value={item.sub}
+                    placeholder="Foundation Programme"
+                    onChange={(e) => update(item.id, "sub", e.target.value)}
+                  />
                 </div>
               </div>
               <div className={styles.fieldGroup} style={{ gridColumn: "1/-1" }}>
-                <label className={styles.label} style={{ fontSize: "0.8rem" }}>Card Link (href)</label>
+                <label className={styles.label} style={{ fontSize: "0.8rem" }}>
+                  Card Link (href)
+                </label>
                 <div className={styles.inputWrap}>
-                  <input className={styles.input} value={item.href} placeholder="#200hr" onChange={(e) => update(item.id, "href", e.target.value)} />
+                  <input
+                    className={styles.input}
+                    value={item.href}
+                    placeholder="#200hr"
+                    onChange={(e) => update(item.id, "href", e.target.value)}
+                  />
                 </div>
               </div>
               <div className={styles.fieldGroup} style={{ gridColumn: "1/-1" }}>
-                <label className={styles.label} style={{ fontSize: "0.8rem" }}>Image URL (optional)</label>
+                <label className={styles.label} style={{ fontSize: "0.8rem" }}>
+                  Image URL (optional)
+                </label>
                 <div className={styles.inputWrap}>
-                  <input className={styles.input} value={item.imgUrl} placeholder="https://…" onChange={(e) => update(item.id, "imgUrl", e.target.value)} />
+                  <input
+                    className={styles.input}
+                    value={item.imgUrl}
+                    placeholder="https://…"
+                    onChange={(e) => update(item.id, "imgUrl", e.target.value)}
+                  />
                 </div>
               </div>
             </div>
             <div className={styles.fieldGroup}>
-              <label className={styles.label} style={{ fontSize: "0.8rem" }}>Or Upload Card Image</label>
-              <SingleImg preview={item.imgPreview} badge="Cert" hint="JPG/PNG/WEBP · 600×400px" error=""
-                onSelect={(f, p) => updateMany(item.id, { imgFile: f, imgPreview: p, imgUrl: "" })}
-                onRemove={() => updateMany(item.id, { imgFile: null, imgPreview: "" })}
+              <label className={styles.label} style={{ fontSize: "0.8rem" }}>
+                Or Upload Card Image
+              </label>
+              <SingleImg
+                preview={item.imgPreview}
+                badge="Cert"
+                hint="JPG/PNG/WEBP · 600×400px"
+                error=""
+                onSelect={(f, p) =>
+                  updateMany(item.id, { imgFile: f, imgPreview: p, imgUrl: "" })
+                }
+                onRemove={() =>
+                  updateMany(item.id, { imgFile: null, imgPreview: "" })
+                }
               />
             </div>
           </div>
         </div>
       ))}
-      <button type="button" className={styles.addItemBtn} onClick={add}>＋ Add Cert Card</button>
+      <button type="button" className={styles.addItemBtn} onClick={add}>
+        ＋ Add Cert Card
+      </button>
     </div>
   );
 }
 
-/* ══════════════════════════════════════════
-   PRICING ROW MANAGER
-══════════════════════════════════════════ */
-interface PricingRowItem {
+/* ══ NEW: What Cards Manager ══ */
+interface WhatCardItem {
   id: string;
-  date: string;
-  usdFee: string;
-  inrFee: string;
-  dormPrice: string;
-  twinPrice: string;
-  privatePrice: string;
-  totalSeats: string;
-  bookedSeats: string;
+  icon: string;
+  title: string;
+  desc: string;
 }
 
+const DEFAULT_WHAT_CARDS: WhatCardItem[] = [
+  {
+    id: "wc1",
+    icon: "🧘",
+    title: "Traditional Practice",
+    desc: "Rooted in ancient Hatha Yoga Pradipika texts, balancing Ha (Sun) and Tha (Moon) energies",
+  },
+  {
+    id: "wc2",
+    icon: "⚡",
+    title: "Energy Balance",
+    desc: "Harmonises chakras, nadis and prana flow through asanas and pranayama",
+  },
+  {
+    id: "wc3",
+    icon: "🌿",
+    title: "Holistic Wellbeing",
+    desc: "Cultivates physical strength, mental clarity, and spiritual connection simultaneously",
+  },
+  {
+    id: "wc4",
+    icon: "📜",
+    title: "Yoga Alliance Certified",
+    desc: "Internationally recognised certification from Yoga Alliance USA, Ministry of AYUSH",
+  },
+];
 
+function WhatCardsManager({
+  items,
+  onChange,
+}: {
+  items: WhatCardItem[];
+  onChange: (v: WhatCardItem[]) => void;
+}) {
+  const update = (id: string, field: keyof WhatCardItem, value: string) => {
+    onChange(items.map((i) => (i.id === id ? { ...i, [field]: value } : i)));
+  };
+  const add = () =>
+    onChange([
+      ...items,
+      { id: `wc-${Date.now()}`, icon: "✨", title: "", desc: "" },
+    ]);
+  const remove = (id: string) => {
+    if (items.length <= 1) return;
+    onChange(items.filter((i) => i.id !== id));
+  };
 
+  return (
+    <div>
+      {items.map((item, idx) => (
+        <div
+          key={item.id}
+          className={styles.nestedCard}
+          style={{ marginBottom: "0.8rem" }}
+        >
+          <div className={styles.nestedCardHeader}>
+            <span className={styles.nestedCardNum}>
+              {item.icon} {item.title || `Card ${idx + 1}`}
+            </span>
+            {items.length > 1 && (
+              <button
+                type="button"
+                className={styles.removeNestedBtn}
+                onClick={() => remove(item.id)}
+              >
+                ✕ Remove
+              </button>
+            )}
+          </div>
+          <div className={styles.nestedCardBody}>
+            <div className={styles.grid2}>
+              <div className={styles.fieldGroup}>
+                <label className={styles.label} style={{ fontSize: "0.8rem" }}>
+                  Icon (emoji)
+                </label>
+                <div className={styles.inputWrap}>
+                  <input
+                    className={styles.input}
+                    value={item.icon}
+                    placeholder="🧘"
+                    onChange={(e) => update(item.id, "icon", e.target.value)}
+                  />
+                </div>
+              </div>
+              <div className={styles.fieldGroup}>
+                <label className={styles.label} style={{ fontSize: "0.8rem" }}>
+                  Card Title
+                </label>
+                <div className={styles.inputWrap}>
+                  <input
+                    className={styles.input}
+                    value={item.title}
+                    placeholder="Traditional Practice"
+                    onChange={(e) => update(item.id, "title", e.target.value)}
+                  />
+                </div>
+              </div>
+              <div className={styles.fieldGroup} style={{ gridColumn: "1/-1" }}>
+                <label className={styles.label} style={{ fontSize: "0.8rem" }}>
+                  Description
+                </label>
+                <div className={styles.inputWrap}>
+                  <textarea
+                    className={`${styles.input} ${styles.textarea}`}
+                    rows={2}
+                    value={item.desc}
+                    placeholder="Rooted in ancient Hatha Yoga Pradipika texts…"
+                    onChange={(e) => update(item.id, "desc", e.target.value)}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
+      <button type="button" className={styles.addItemBtn} onClick={add}>
+        ＋ Add Feature Card
+      </button>
+    </div>
+  );
+}
 
-/* ══════════════════════════════════════════
-   ACCREDITATION LIST MANAGER (simple strings)
-══════════════════════════════════════════ */
-
-/* ══════════════════════════════════════════
-   FORM VALUES INTERFACE
-══════════════════════════════════════════ */
+/* ══ Form values interface ══ */
 interface HathaPageFormValues {
   slug: string;
   status: "Active" | "Inactive";
-
-  // Hero
   heroImgAlt: string;
-
-  // Intro Section
   introSectionTitle: string;
   introSideImgAlt: string;
-
-  // What is Hatha Yoga
   whatSuperLabel: string;
   whatTitle: string;
-
-  // Benefits
   benefitsSuperLabel: string;
   benefitsTitle: string;
   benefitsSideImgAlt: string;
   pullQuote: string;
-
-  // Certification
   certSuperLabel: string;
   certTitle: string;
-
-  // Ashram
   ashramSuperLabel: string;
   ashramTitle: string;
   ashramImgAlt: string;
-
-  // Curriculum
   curriculumSuperLabel: string;
   curriculumTitle: string;
-
-  // Pricing / Enrolment
   pricingSuperLabel: string;
   pricingTitle: string;
   pricingIntroPara: string;
@@ -363,14 +745,27 @@ interface HathaPageFormValues {
   tableNote: string;
   joinBtnLabel: string;
   joinBtnHref: string;
-
-  // Footer CTA
   footerTitle: string;
   footerSubtitle: string;
   applyBtnLabel: string;
   applyBtnHref: string;
   contactBtnLabel: string;
   contactEmail: string;
+  /* ── NEW ── */
+  courseInfoTitle: string;
+  courseDuration: string;
+  courseLevel: string;
+  courseCertLabel: string;
+  courseYogaStyle: string;
+  courseYogaStyleSub: string;
+  courseLanguage: string;
+  courseDates: string;
+  seatSectionTag: string;
+  seatSectionTitle: string;
+  seatSectionSubtitle: string;
+  seatDurationLocation: string;
+  programmeSuperLabel: string;
+  programmeTitle: string;
 }
 
 /* ══════════════════════════════════════════
@@ -387,19 +782,15 @@ export default function AddEditHathaYogaPage() {
   const [heroFile, setHeroFile] = useState<File | null>(null);
   const [heroPrev, setHeroPrev] = useState("");
   const [heroErr, setHeroErr] = useState("");
-
   const [introSideFile, setIntroSideFile] = useState<File | null>(null);
   const [introSidePrev, setIntroSidePrev] = useState("");
-
   const [benefitsSideFile, setBenefitsSideFile] = useState<File | null>(null);
   const [benefitsSidePrev, setBenefitsSidePrev] = useState("");
-
   const [ashramFile, setAshramFile] = useState<File | null>(null);
   const [ashramPrev, setAshramPrev] = useState("");
 
-  /* ── Rich text single refs ── */
+  /* ── Rich text refs ── */
   const benefitsIntroParaRef = useRef("");
-  const certParaRef = useRef("");
   const pricingProgrammeParaRef = useRef("");
 
   /* ── Para lists ── */
@@ -407,6 +798,7 @@ export default function AddEditHathaYogaPage() {
   const whatParaList = useParaList("wp1");
   const ashramParaList = useParaList("ap1");
   const programmeParaList = useParaList("pp1");
+  const certParaList = useParaList("cp1");
 
   /* ── Dynamic lists ── */
   const [accreditations, setAccreditations] = useState<string[]>([
@@ -415,7 +807,6 @@ export default function AddEditHathaYogaPage() {
     "✓ International Yoga Federation",
     "✓ Internationally Recognised Certificate",
   ]);
-
   const [benefitsList, setBenefitsList] = useState<string[]>([
     "Promotes physical strength and flexibility",
     "Relieves stress and ensures deep relaxation",
@@ -427,9 +818,10 @@ export default function AddEditHathaYogaPage() {
     "Promotes better sleep and healthy digestion",
     "Enhances overall well-being and promotes a fulfilling life",
   ]);
-
-  const [certCards, setCertCards] = useState<CertCardItem[]>(DEFAULT_CERT_CARDS);
-
+  const [certCards, setCertCards] =
+    useState<CertCardItem[]>(DEFAULT_CERT_CARDS);
+  const [whatCards, setWhatCards] =
+    useState<WhatCardItem[]>(DEFAULT_WHAT_CARDS);
   const [courseDetailsList, setCourseDetailsList] = useState<string[]>([
     "Upa Yoga, Yogasana, Surya Kriya, Pranayama, Mantra Yoga, Nada Yoga and more",
     "Qualified instructors conduct both practical and theoretical classes",
@@ -441,10 +833,13 @@ export default function AddEditHathaYogaPage() {
     "Tests and assessments to keep track of learning progress",
   ]);
 
- 
-
   /* ── React Hook Form ── */
-  const { register, handleSubmit, setValue, formState: { errors } } = useForm<HathaPageFormValues>({
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm<HathaPageFormValues>({
     defaultValues: {
       slug: "hatha-yoga-teacher-training-india",
       status: "Active",
@@ -456,7 +851,8 @@ export default function AddEditHathaYogaPage() {
       benefitsSuperLabel: "Transformation",
       benefitsTitle: "Benefits of Hatha Yoga",
       benefitsSideImgAlt: "Yoga Ashram Rishikesh",
-      pullQuote: "Yoga is not about touching your toes. It is what you learn on the way down.",
+      pullQuote:
+        "Yoga is not about touching your toes. It is what you learn on the way down.",
       certSuperLabel: "Recognition",
       certTitle: "Hatha Yoga Certification",
       ashramSuperLabel: "Sacred Space",
@@ -466,66 +862,155 @@ export default function AddEditHathaYogaPage() {
       curriculumTitle: "Course Details of Hatha Yoga Teacher Training in India",
       pricingSuperLabel: "Enrolment",
       pricingTitle: "How to Apply for Hatha Yoga Course",
-      pricingIntroPara: "To apply, fill the Registration Form and Deposit Advance Fee to secure your place in the teacher training programs in India.",
+      pricingIntroPara:
+        "To apply, fill the Registration Form and Deposit Advance Fee to secure your place in the teacher training programs in India.",
       registrationFormLink: "#",
-      tableNote: "Note: Register your spot by paying $110 only as advance deposit.",
+      tableNote:
+        "Note: Register your spot by paying $110 only as advance deposit.",
       joinBtnLabel: "Join Your Yoga Journey",
       joinBtnHref: "#",
       footerTitle: "Begin Your Sacred Journey",
-      footerSubtitle: "Join thousands of students who have transformed their lives at AYM Yoga School",
+      footerSubtitle:
+        "Join thousands of students who have transformed their lives at AYM Yoga School",
       applyBtnLabel: "Apply Now",
       applyBtnHref: "#apply",
       contactBtnLabel: "Contact Us",
       contactEmail: "mailto:info@aymyogaschool.com",
+      /* NEW defaults */
+      courseInfoTitle: "COURSE DETAILS",
+      courseDuration: "13 Days",
+      courseLevel: "Beginner",
+      courseCertLabel: "Hatha Yoga",
+      courseYogaStyle: "Hatha Yoga",
+      courseYogaStyleSub: "Traditional & Classical",
+      courseLanguage: "English & Hindi",
+      courseDates: "1st to 13th of every month",
+      seatSectionTag: "Upcoming Batches · 2026–2027",
+      seatSectionTitle: "Hatha Yoga Training in Rishikesh",
+      seatSectionSubtitle:
+        "Choose your dates & preferred accommodation — prices include tuition and meals",
+      seatDurationLocation: "13 Days · Rishikesh, India",
+      programmeSuperLabel: "Programme Overview",
+      programmeTitle: "Our Hatha Yoga Programmes",
     },
   });
 
-  /* ── Fetch on edit ── */
+  /* ── Fetch existing data ── */
   useEffect(() => {
     const fetchData = async () => {
       setLoadingData(true);
       try {
         const res = await api.get("/hatha-yoga");
         const d = res.data?.data;
-        if (!d) { setIsEdit(false); return; }
+        if (!d) {
+          setIsEdit(false);
+          return;
+        }
         setIsEdit(true);
 
         const keys: (keyof HathaPageFormValues)[] = [
-          "slug","status","heroImgAlt","introSectionTitle","introSideImgAlt",
-          "whatSuperLabel","whatTitle","benefitsSuperLabel","benefitsTitle","benefitsSideImgAlt","pullQuote",
-          "certSuperLabel","certTitle","ashramSuperLabel","ashramTitle","ashramImgAlt",
-          "curriculumSuperLabel","curriculumTitle","pricingSuperLabel","pricingTitle",
-          "pricingIntroPara","registrationFormLink","tableNote","joinBtnLabel","joinBtnHref",
-          "footerTitle","footerSubtitle","applyBtnLabel","applyBtnHref","contactBtnLabel","contactEmail",
+          "slug",
+          "status",
+          "heroImgAlt",
+          "introSectionTitle",
+          "introSideImgAlt",
+          "whatSuperLabel",
+          "whatTitle",
+          "benefitsSuperLabel",
+          "benefitsTitle",
+          "benefitsSideImgAlt",
+          "pullQuote",
+          "certSuperLabel",
+          "certTitle",
+          "ashramSuperLabel",
+          "ashramTitle",
+          "ashramImgAlt",
+          "curriculumSuperLabel",
+          "curriculumTitle",
+          "pricingSuperLabel",
+          "pricingTitle",
+          "pricingIntroPara",
+          "registrationFormLink",
+          "tableNote",
+          "joinBtnLabel",
+          "joinBtnHref",
+          "footerTitle",
+          "footerSubtitle",
+          "applyBtnLabel",
+          "applyBtnHref",
+          "contactBtnLabel",
+          "contactEmail",
+          /* NEW */
+          "courseInfoTitle",
+          "courseDuration",
+          "courseLevel",
+          "courseCertLabel",
+          "courseYogaStyle",
+          "courseYogaStyleSub",
+          "courseLanguage",
+          "courseDates",
+          "seatSectionTag",
+          "seatSectionTitle",
+          "seatSectionSubtitle",
+          "seatDurationLocation",
+          "programmeSuperLabel",
+          "programmeTitle",
         ];
-        keys.forEach((k) => { if (d[k] !== undefined) setValue(k, d[k] as any); });
+        keys.forEach((k) => {
+          if (d[k] !== undefined) setValue(k, d[k] as any);
+        });
 
         benefitsIntroParaRef.current = d.benefitsIntroPara || "";
-        certParaRef.current = d.certPara || "";
         pricingProgrammeParaRef.current = d.pricingProgrammePara || "";
 
         if (d.heroImage) setHeroPrev(BASE_URL + d.heroImage);
         if (d.introSideImage) setIntroSidePrev(BASE_URL + d.introSideImage);
-        if (d.benefitsSideImage) setBenefitsSidePrev(BASE_URL + d.benefitsSideImage);
+        if (d.benefitsSideImage)
+          setBenefitsSidePrev(BASE_URL + d.benefitsSideImage);
         if (d.ashramImage) setAshramPrev(BASE_URL + d.ashramImage);
 
-        if (d.introParagraphs?.length) introParaList.loadFromArray(d.introParagraphs, "ip");
-        if (d.whatParagraphs?.length) whatParaList.loadFromArray(d.whatParagraphs, "wp");
-        if (d.ashramParagraphs?.length) ashramParaList.loadFromArray(d.ashramParagraphs, "ap");
-        if (d.programmeParagraphs?.length) programmeParaList.loadFromArray(d.programmeParagraphs, "pp");
+        if (d.introParagraphs?.length)
+          introParaList.loadFromArray(d.introParagraphs, "ip");
+        if (d.whatParagraphs?.length)
+          whatParaList.loadFromArray(d.whatParagraphs, "wp");
+        if (d.ashramParagraphs?.length)
+          ashramParaList.loadFromArray(d.ashramParagraphs, "ap");
+        if (d.programmeParagraphs?.length)
+          programmeParaList.loadFromArray(d.programmeParagraphs, "pp");
+        if (d.certParagraphs?.length)
+          certParaList.loadFromArray(d.certParagraphs, "cp");
 
-        if (Array.isArray(d.accreditations)) setAccreditations(d.accreditations);
+        if (Array.isArray(d.accreditations))
+          setAccreditations(d.accreditations);
         if (Array.isArray(d.benefitsList)) setBenefitsList(d.benefitsList);
-        if (Array.isArray(d.courseDetailsList)) setCourseDetailsList(d.courseDetailsList);
+        if (Array.isArray(d.courseDetailsList))
+          setCourseDetailsList(d.courseDetailsList);
 
         if (Array.isArray(d.certCards)) {
-          setCertCards(d.certCards.map((c: any, i: number) => ({
-            id: c._id || `cert-${i}`, hours: c.hours || "", sub: c.sub || "",
-            href: c.href || "#", imgUrl: c.imgUrl || "",
-            imgPreview: c.image ? BASE_URL + c.image : "", imgFile: null,
-          })));
+          setCertCards(
+            d.certCards.map((c: any, i: number) => ({
+              id: c._id || `cert-${i}`,
+              hours: c.hours || "",
+              sub: c.sub || "",
+              href: c.href || "#",
+              imgUrl: c.imgUrl || "",
+              imgPreview: c.image ? BASE_URL + c.image : "",
+              imgFile: null,
+            })),
+          );
         }
-      
+
+        /* NEW: load whatCards */
+        if (Array.isArray(d.whatCards) && d.whatCards.length) {
+          setWhatCards(
+            d.whatCards.map((c: any, i: number) => ({
+              id: c._id || `wc-${i}`,
+              icon: c.icon || "✨",
+              title: c.title || "",
+              desc: c.desc || "",
+            })),
+          );
+        }
       } catch {
         toast.error("Failed to load page data.");
       } finally {
@@ -548,44 +1033,110 @@ export default function AddEditHathaYogaPage() {
       Object.entries(data).forEach(([k, v]) => fd.append(k, v as string));
 
       fd.append("benefitsIntroPara", benefitsIntroParaRef.current);
-      fd.append("certPara", certParaRef.current);
       fd.append("pricingProgrammePara", pricingProgrammeParaRef.current);
 
-      fd.append("introParagraphs", JSON.stringify(introParaList.ids.map((id) => cleanHTML(introParaList.ref.current[id])).filter(Boolean)));
-      fd.append("whatParagraphs", JSON.stringify(whatParaList.ids.map((id) => cleanHTML(whatParaList.ref.current[id])).filter(Boolean)));
-      fd.append("ashramParagraphs", JSON.stringify(ashramParaList.ids.map((id) => cleanHTML(ashramParaList.ref.current[id])).filter(Boolean)));
-      fd.append("programmeParagraphs", JSON.stringify(programmeParaList.ids.map((id) => cleanHTML(programmeParaList.ref.current[id])).filter(Boolean)));
+      fd.append(
+        "introParagraphs",
+        JSON.stringify(
+          introParaList.ids
+            .map((id) => cleanHTML(introParaList.ref.current[id]))
+            .filter(Boolean),
+        ),
+      );
+      fd.append(
+        "whatParagraphs",
+        JSON.stringify(
+          whatParaList.ids
+            .map((id) => cleanHTML(whatParaList.ref.current[id]))
+            .filter(Boolean),
+        ),
+      );
+      fd.append(
+        "ashramParagraphs",
+        JSON.stringify(
+          ashramParaList.ids
+            .map((id) => cleanHTML(ashramParaList.ref.current[id]))
+            .filter(Boolean),
+        ),
+      );
+      fd.append(
+        "programmeParagraphs",
+        JSON.stringify(
+          programmeParaList.ids
+            .map((id) => cleanHTML(programmeParaList.ref.current[id]))
+            .filter(Boolean),
+        ),
+      );
+      fd.append(
+        "certParagraphs",
+        JSON.stringify(
+          certParaList.ids
+            .map((id) => cleanHTML(certParaList.ref.current[id]))
+            .filter(Boolean),
+        ),
+      );
 
-      fd.append("accreditations", JSON.stringify(accreditations.map((i) => i.trim()).filter(Boolean)));
-      fd.append("benefitsList", JSON.stringify(benefitsList.map((i) => i.trim()).filter(Boolean)));
-      fd.append("courseDetailsList", JSON.stringify(courseDetailsList.map((i) => i.trim()).filter(Boolean)));
-      fd.append("certCards", JSON.stringify(certCards.map(({ imgFile, imgPreview, ...r }) => r)));
-    
+      fd.append(
+        "accreditations",
+        JSON.stringify(accreditations.map((i) => i.trim()).filter(Boolean)),
+      );
+      fd.append(
+        "benefitsList",
+        JSON.stringify(benefitsList.map((i) => i.trim()).filter(Boolean)),
+      );
+      fd.append(
+        "courseDetailsList",
+        JSON.stringify(courseDetailsList.map((i) => i.trim()).filter(Boolean)),
+      );
+      fd.append(
+        "certCards",
+        JSON.stringify(certCards.map(({ imgFile, imgPreview, ...r }) => r)),
+      );
+
+      /* NEW: whatCards */
+      fd.append(
+        "whatCards",
+        JSON.stringify(whatCards.map(({ id, ...r }) => r)),
+      );
 
       if (heroFile) fd.append("heroImage", heroFile);
       if (introSideFile) fd.append("introSideImage", introSideFile);
       if (benefitsSideFile) fd.append("benefitsSideImage", benefitsSideFile);
       if (ashramFile) fd.append("ashramImage", ashramFile);
 
-      certCards.forEach((c, i) => { if (c.imgFile) fd.append(`certCardImage_${i}`, c.imgFile); });
+      certCards.forEach((c, i) => {
+        if (c.imgFile) fd.append(`certCardImage_${i}`, c.imgFile);
+      });
 
       if (isEdit) {
-        await api.put("/hatha-yoga/update", fd, { headers: { "Content-Type": "multipart/form-data" } });
+        await api.put("/hatha-yoga/update", fd, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
         toast.success("Page updated successfully");
       } else {
-        await api.post("/hatha-yoga/create", fd, { headers: { "Content-Type": "multipart/form-data" } });
+        await api.post("/hatha-yoga/create", fd, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
         toast.success("Page created successfully");
       }
       setSubmitted(true);
-      setTimeout(() => router.push("/admin/yogacourse/hatha-yoga-teacher-training/hatha-yoga-teacher-training-content"), 1500);
+      setTimeout(
+        () =>
+          router.push(
+            "/admin/yogacourse/hatha-yoga-teacher-training/hatha-yoga-teacher-training-content",
+          ),
+        1500,
+      );
     } catch (e: any) {
-      toast.error(e?.response?.data?.message || e?.message || "Something went wrong");
+      toast.error(
+        e?.response?.data?.message || e?.message || "Something went wrong",
+      );
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  /* ── Loading / Success screens ── */
+  /* ── Loading / Success ── */
   if (loadingData)
     return (
       <div className={styles.loadingWrap}>
@@ -600,7 +1151,9 @@ export default function AddEditHathaYogaPage() {
         <div className={styles.successCard}>
           <div className={styles.successOm}>ॐ</div>
           <div className={styles.successCheck}>✓</div>
-          <h2 className={styles.successTitle}>Hatha Yoga Page {isEdit ? "Updated" : "Saved"}!</h2>
+          <h2 className={styles.successTitle}>
+            Hatha Yoga Page {isEdit ? "Updated" : "Saved"}!
+          </h2>
           <p className={styles.successText}>Redirecting to list…</p>
         </div>
       </div>
@@ -609,398 +1162,925 @@ export default function AddEditHathaYogaPage() {
   /* ══ RENDER ══ */
   return (
     <div className={styles.formPage}>
-
       {/* Breadcrumb */}
       <div className={styles.breadcrumb}>
-        <button className={styles.breadcrumbLink} onClick={() => router.push("/admin/yogacourse/hatha-yoga-teacher-training/hatha-yoga-teacher-training-content")}>
+        <button
+          className={styles.breadcrumbLink}
+          onClick={() =>
+            router.push(
+              "/admin/yogacourse/hatha-yoga-teacher-training/hatha-yoga-teacher-training-content",
+            )
+          }
+        >
           Hatha Yoga
         </button>
         <span className={styles.breadcrumbSep}>›</span>
-        <span className={styles.breadcrumbCurrent}>{isEdit ? "Edit Page" : "Add New Page"}</span>
+        <span className={styles.breadcrumbCurrent}>
+          {isEdit ? "Edit Page" : "Add New Page"}
+        </span>
       </div>
 
       {/* Page Header */}
       <div className={styles.pageHeader}>
         <div className={styles.pageHeaderText}>
-          <h1 className={styles.pageTitle}>{isEdit ? "Edit Hatha Yoga Page" : "Add New Hatha Yoga Page"}</h1>
+          <h1 className={styles.pageTitle}>
+            {isEdit ? "Edit Hatha Yoga Page" : "Add New Hatha Yoga Page"}
+          </h1>
           <p className={styles.pageSubtitle}>
-            Hero · Intro · What is Hatha · Benefits · Certification · Ashram · Curriculum · Pricing · Footer CTA
+            Hero · Course Card · Intro · What is Hatha · Benefits ·
+            Certification · Ashram · Curriculum · Seat Booking · Pricing ·
+            Footer CTA
           </p>
         </div>
       </div>
 
       <div className={styles.ornament}>
-        <span>❧</span><div className={styles.ornamentLine} /><span>ॐ</span><div className={styles.ornamentLine} /><span>❧</span>
+        <span>❧</span>
+        <div className={styles.ornamentLine} />
+        <span>ॐ</span>
+        <div className={styles.ornamentLine} />
+        <span>❧</span>
       </div>
 
       <div className={styles.formCard}>
-
-        {/* ══ 1. HERO SECTION ══ */}
+        {/* ══ 1. HERO ══ */}
         <Sec title="Hero Section" badge="Top Banner Image">
           <F label="Hero Image" req hint="Recommended 1180×540px">
             <SingleImg
-              preview={heroPrev} badge="Hero" hint="JPG/PNG/WEBP · 1180×540px" error={heroErr}
-              onSelect={(f, p) => { setHeroFile(f); setHeroPrev(p); setHeroErr(""); }}
-              onRemove={() => { setHeroFile(null); setHeroPrev(""); setHeroErr("Hero image is required"); }}
+              preview={heroPrev}
+              badge="Hero"
+              hint="JPG/PNG/WEBP · 1180×540px"
+              error={heroErr}
+              onSelect={(f, p) => {
+                setHeroFile(f);
+                setHeroPrev(p);
+                setHeroErr("");
+              }}
+              onRemove={() => {
+                setHeroFile(null);
+                setHeroPrev("");
+                setHeroErr("Hero image is required");
+              }}
             />
           </F>
           <F label="Hero Image Alt Text">
             <div className={styles.inputWrap}>
-              <input className={`${styles.input} ${styles.inputNoCount}`} placeholder="Yoga Students Group" {...register("heroImgAlt")} />
+              <input
+                className={`${styles.input} ${styles.inputNoCount}`}
+                placeholder="Yoga Students Group"
+                {...register("heroImgAlt")}
+              />
             </div>
           </F>
         </Sec>
         <D />
 
-        {/* ══ 2. INTRO SECTION ══ */}
+        {/* ══ 2. COURSE INFO CARD ══ (NEW SECTION) */}
+        <Sec title="Course Info Card" badge="Details shown below hero image">
+          <F
+            label="Card Header Label"
+            hint='Displayed as the card heading, e.g. "COURSE DETAILS"'
+          >
+            <div className={styles.inputWrap}>
+              <input
+                className={`${styles.input} ${styles.inputNoCount}`}
+                placeholder="COURSE DETAILS"
+                {...register("courseInfoTitle")}
+              />
+            </div>
+          </F>
+          <div className={styles.grid2}>
+            <F label="Duration" hint='e.g. "13 Days"'>
+              <div className={styles.inputWrap}>
+                <input
+                  className={`${styles.input} ${styles.inputNoCount}`}
+                  placeholder="13 Days"
+                  {...register("courseDuration")}
+                />
+              </div>
+            </F>
+            <F label="Level" hint='e.g. "Beginner"'>
+              <div className={styles.inputWrap}>
+                <input
+                  className={`${styles.input} ${styles.inputNoCount}`}
+                  placeholder="Beginner"
+                  {...register("courseLevel")}
+                />
+              </div>
+            </F>
+            <F
+              label="Certification Row Value"
+              hint='Value shown in the Certification row, e.g. "Hatha Yoga"'
+            >
+              <div className={styles.inputWrap}>
+                <input
+                  className={`${styles.input} ${styles.inputNoCount}`}
+                  placeholder="Hatha Yoga"
+                  {...register("courseCertLabel")}
+                />
+              </div>
+            </F>
+            <F label="Yoga Style" hint='Primary style label, e.g. "Hatha Yoga"'>
+              <div className={styles.inputWrap}>
+                <input
+                  className={`${styles.input} ${styles.inputNoCount}`}
+                  placeholder="Hatha Yoga"
+                  {...register("courseYogaStyle")}
+                />
+              </div>
+            </F>
+            <F
+              label="Yoga Style Sub-text"
+              hint='e.g. "Traditional & Classical"'
+            >
+              <div className={styles.inputWrap}>
+                <input
+                  className={`${styles.input} ${styles.inputNoCount}`}
+                  placeholder="Traditional & Classical"
+                  {...register("courseYogaStyleSub")}
+                />
+              </div>
+            </F>
+            <F label="Language" hint='e.g. "English & Hindi"'>
+              <div className={styles.inputWrap}>
+                <input
+                  className={`${styles.input} ${styles.inputNoCount}`}
+                  placeholder="English & Hindi"
+                  {...register("courseLanguage")}
+                />
+              </div>
+            </F>
+            <F label="Date Info" hint='e.g. "1st to 13th of every month"'>
+              <div className={styles.inputWrap}>
+                <input
+                  className={`${styles.input} ${styles.inputNoCount}`}
+                  placeholder="1st to 13th of every month"
+                  {...register("courseDates")}
+                />
+              </div>
+            </F>
+          </div>
+        </Sec>
+        <D />
+
+        {/* ══ 3. INTRO ══ */}
         <Sec title="Intro Section" badge="'A Sacred Path to Mastery'">
           <F label="Section Title" req>
-            <div className={`${styles.inputWrap} ${errors.introSectionTitle ? styles.inputError : ""}`}>
-              <input className={`${styles.input} ${styles.inputNoCount}`} placeholder="A Sacred Path to Mastery" {...register("introSectionTitle", { required: "Required" })} />
+            <div
+              className={`${styles.inputWrap} ${errors.introSectionTitle ? styles.inputError : ""}`}
+            >
+              <input
+                className={`${styles.input} ${styles.inputNoCount}`}
+                placeholder="A Sacred Path to Mastery"
+                {...register("introSectionTitle", { required: "Required" })}
+              />
             </div>
-            {errors.introSectionTitle && <p className={styles.errorMsg}>⚠ {errors.introSectionTitle.message}</p>}
+            {errors.introSectionTitle && (
+              <p className={styles.errorMsg}>
+                ⚠ {errors.introSectionTitle.message}
+              </p>
+            )}
           </F>
-
-          <F label="Intro Paragraphs" hint="Add all paragraphs for the left-side intro text block">
+          <F
+            label="Intro Paragraphs"
+            hint="Add all paragraphs for the left-side intro text block"
+          >
             {introParaList.ids.map((id, i) => (
-              <RichListItem key={id} id={id} index={i} total={introParaList.ids.length}
-                onSave={introParaList.save} onRemove={introParaList.remove}
+              <RichListItem
+                key={id}
+                id={id}
+                index={i}
+                total={introParaList.ids.length}
+                onSave={introParaList.save}
+                onRemove={introParaList.remove}
                 value={introParaList.ref.current[id]}
                 ph="India, the birthplace of yoga, has shared its timeless yogic wisdom with the world…"
               />
             ))}
-            <button type="button" className={styles.addItemBtn} onClick={introParaList.add}>＋ Add Paragraph</button>
+            <button
+              type="button"
+              className={styles.addItemBtn}
+              onClick={introParaList.add}
+            >
+              ＋ Add Paragraph
+            </button>
           </F>
-
           <div className={styles.grid2}>
-            <F label="Side Image" hint="Right-side classroom/group photo · 900×600px">
+            <F
+              label="Side Image"
+              hint="Right-side classroom/group photo · 900×600px"
+            >
               <SingleImg
-                preview={introSidePrev} badge="Intro Side" hint="JPG/PNG/WEBP · 900×600px" error=""
-                onSelect={(f, p) => { setIntroSideFile(f); setIntroSidePrev(p); }}
-                onRemove={() => { setIntroSideFile(null); setIntroSidePrev(""); }}
+                preview={introSidePrev}
+                badge="Intro Side"
+                hint="JPG/PNG/WEBP · 900×600px"
+                error=""
+                onSelect={(f, p) => {
+                  setIntroSideFile(f);
+                  setIntroSidePrev(p);
+                }}
+                onRemove={() => {
+                  setIntroSideFile(null);
+                  setIntroSidePrev("");
+                }}
               />
             </F>
             <F label="Side Image Alt Text">
               <div className={styles.inputWrap}>
-                <input className={`${styles.input} ${styles.inputNoCount}`} placeholder="Yoga class in Rishikesh" {...register("introSideImgAlt")} />
+                <input
+                  className={`${styles.input} ${styles.inputNoCount}`}
+                  placeholder="Yoga class in Rishikesh"
+                  {...register("introSideImgAlt")}
+                />
               </div>
             </F>
           </div>
-
-          <F label="Accreditation Badges (text list)" hint="Displayed in the accred box below the side image">
+          <F
+            label="Accreditation Badges (text list)"
+            hint="Displayed in the accred box below the side image"
+          >
             <StrList
-              items={accreditations} label="Accreditation"
+              items={accreditations}
+              label="Accreditation"
               ph="✓ Yoga Alliance USA — RYS 200 / 300 / 500"
               onAdd={() => setAccreditations((p) => [...p, ""])}
-              onRemove={(i) => { if (accreditations.length <= 1) return; setAccreditations((p) => p.filter((_, idx) => idx !== i)); }}
-              onUpdate={(i, v) => { const n = [...accreditations]; n[i] = v; setAccreditations(n); }}
+              onRemove={(i) => {
+                if (accreditations.length <= 1) return;
+                setAccreditations((p) => p.filter((_, idx) => idx !== i));
+              }}
+              onUpdate={(i, v) => {
+                const n = [...accreditations];
+                n[i] = v;
+                setAccreditations(n);
+              }}
             />
           </F>
         </Sec>
         <D />
 
-        {/* ══ 3. WHAT IS HATHA YOGA ══ */}
+        {/* ══ 4. WHAT IS HATHA ══ */}
         <Sec title="What is Hatha Yoga?" badge="Ancient Wisdom Section">
           <div className={styles.grid2}>
-            <F label="Super Label (small text above title)">
+            <F label="Super Label">
               <div className={styles.inputWrap}>
-                <input className={`${styles.input} ${styles.inputNoCount}`} placeholder="Ancient Wisdom" {...register("whatSuperLabel")} />
+                <input
+                  className={`${styles.input} ${styles.inputNoCount}`}
+                  placeholder="Ancient Wisdom"
+                  {...register("whatSuperLabel")}
+                />
               </div>
             </F>
             <F label="Section Title" req>
-              <div className={`${styles.inputWrap} ${errors.whatTitle ? styles.inputError : ""}`}>
-                <input className={`${styles.input} ${styles.inputNoCount}`} placeholder="What is Hatha Yoga?" {...register("whatTitle", { required: "Required" })} />
+              <div
+                className={`${styles.inputWrap} ${errors.whatTitle ? styles.inputError : ""}`}
+              >
+                <input
+                  className={`${styles.input} ${styles.inputNoCount}`}
+                  placeholder="What is Hatha Yoga?"
+                  {...register("whatTitle", { required: "Required" })}
+                />
               </div>
-              {errors.whatTitle && <p className={styles.errorMsg}>⚠ {errors.whatTitle.message}</p>}
+              {errors.whatTitle && (
+                <p className={styles.errorMsg}>⚠ {errors.whatTitle.message}</p>
+              )}
             </F>
           </div>
-
-          <F label="Section Paragraphs" hint="All body text paragraphs for this section">
+          <F
+            label="Section Paragraphs"
+            hint="All body text paragraphs for this section"
+          >
             {whatParaList.ids.map((id, i) => (
-              <RichListItem key={id} id={id} index={i} total={whatParaList.ids.length}
-                onSave={whatParaList.save} onRemove={whatParaList.remove}
+              <RichListItem
+                key={id}
+                id={id}
+                index={i}
+                total={whatParaList.ids.length}
+                onSave={whatParaList.save}
+                onRemove={whatParaList.remove}
                 value={whatParaList.ref.current[id]}
                 ph="Hatha yoga can be understood as a traditional and classical yoga form…"
               />
             ))}
-            <button type="button" className={styles.addItemBtn} onClick={whatParaList.add}>＋ Add Paragraph</button>
+            <button
+              type="button"
+              className={styles.addItemBtn}
+              onClick={whatParaList.add}
+            >
+              ＋ Add Paragraph
+            </button>
+          </F>
+          {/* ── NEW: What feature cards ── */}
+          <F
+            label="Feature Cards (right column)"
+            hint="The 4 info cards on the right side of this section — icon, title and description"
+          >
+            <p className={styles.fieldHint} style={{ marginBottom: "0.8rem" }}>
+              ℹ Default 4 cards. Add / remove as needed. Use a single emoji for
+              the icon field.
+            </p>
+            <WhatCardsManager items={whatCards} onChange={setWhatCards} />
           </F>
         </Sec>
         <D />
 
-        {/* ══ 4. BENEFITS SECTION ══ */}
+        {/* ══ 5. BENEFITS ══ */}
         <Sec title="Benefits of Hatha Yoga" badge="Transformation Section">
           <div className={styles.grid2}>
             <F label="Super Label">
               <div className={styles.inputWrap}>
-                <input className={`${styles.input} ${styles.inputNoCount}`} placeholder="Transformation" {...register("benefitsSuperLabel")} />
+                <input
+                  className={`${styles.input} ${styles.inputNoCount}`}
+                  placeholder="Transformation"
+                  {...register("benefitsSuperLabel")}
+                />
               </div>
             </F>
             <F label="Section Title" req>
-              <div className={`${styles.inputWrap} ${errors.benefitsTitle ? styles.inputError : ""}`}>
-                <input className={`${styles.input} ${styles.inputNoCount}`} placeholder="Benefits of Hatha Yoga" {...register("benefitsTitle", { required: "Required" })} />
+              <div
+                className={`${styles.inputWrap} ${errors.benefitsTitle ? styles.inputError : ""}`}
+              >
+                <input
+                  className={`${styles.input} ${styles.inputNoCount}`}
+                  placeholder="Benefits of Hatha Yoga"
+                  {...register("benefitsTitle", { required: "Required" })}
+                />
               </div>
-              {errors.benefitsTitle && <p className={styles.errorMsg}>⚠ {errors.benefitsTitle.message}</p>}
+              {errors.benefitsTitle && (
+                <p className={styles.errorMsg}>
+                  ⚠ {errors.benefitsTitle.message}
+                </p>
+              )}
             </F>
           </div>
-
-          <F label="Intro Paragraph" hint="Short text above the numbered benefits list">
+          <F
+            label="Intro Paragraph"
+            hint="Short text above the numbered benefits list"
+          >
             <StableJodit
-              onSave={(v) => { benefitsIntroParaRef.current = v; }}
-              value={benefitsIntroParaRef.current} h={160}
+              onSave={(v) => {
+                benefitsIntroParaRef.current = v;
+              }}
+              value={benefitsIntroParaRef.current}
+              h={160}
               ph="It may not always be the right decision to learn yoga. Before you decide to take up the Hatha yoga teacher training course…"
             />
           </F>
-
-          <F label="Benefits List" hint="Numbered list items (displayed as numbered bullets on page)">
+          <F
+            label="Benefits List"
+            hint="Numbered list items (displayed as numbered bullets on page)"
+          >
             <StrList
-              items={benefitsList} label="Benefit"
+              items={benefitsList}
+              label="Benefit"
               ph="Promotes physical strength and flexibility"
               onAdd={() => setBenefitsList((p) => [...p, ""])}
-              onRemove={(i) => { if (benefitsList.length <= 1) return; setBenefitsList((p) => p.filter((_, idx) => idx !== i)); }}
-              onUpdate={(i, v) => { const n = [...benefitsList]; n[i] = v; setBenefitsList(n); }}
+              onRemove={(i) => {
+                if (benefitsList.length <= 1) return;
+                setBenefitsList((p) => p.filter((_, idx) => idx !== i));
+              }}
+              onUpdate={(i, v) => {
+                const n = [...benefitsList];
+                n[i] = v;
+                setBenefitsList(n);
+              }}
             />
           </F>
-
           <div className={styles.grid2}>
-            <F label="Side Image" hint="Right column ashram/yoga image · 1200×800px">
+            <F
+              label="Side Image"
+              hint="Right column ashram/yoga image · 1200×800px"
+            >
               <SingleImg
-                preview={benefitsSidePrev} badge="Benefits Side" hint="JPG/PNG/WEBP · 1200×800px" error=""
-                onSelect={(f, p) => { setBenefitsSideFile(f); setBenefitsSidePrev(p); }}
-                onRemove={() => { setBenefitsSideFile(null); setBenefitsSidePrev(""); }}
+                preview={benefitsSidePrev}
+                badge="Benefits Side"
+                hint="JPG/PNG/WEBP · 1200×800px"
+                error=""
+                onSelect={(f, p) => {
+                  setBenefitsSideFile(f);
+                  setBenefitsSidePrev(p);
+                }}
+                onRemove={() => {
+                  setBenefitsSideFile(null);
+                  setBenefitsSidePrev("");
+                }}
               />
             </F>
             <F label="Side Image Alt Text">
               <div className={styles.inputWrap}>
-                <input className={`${styles.input} ${styles.inputNoCount}`} placeholder="Yoga Ashram Rishikesh" {...register("benefitsSideImgAlt")} />
+                <input
+                  className={`${styles.input} ${styles.inputNoCount}`}
+                  placeholder="Yoga Ashram Rishikesh"
+                  {...register("benefitsSideImgAlt")}
+                />
               </div>
             </F>
           </div>
-
-          <F label="Pull Quote" hint="Displayed as a decorative blockquote below the side image">
+          <F
+            label="Pull Quote"
+            hint="Displayed as a decorative blockquote below the side image"
+          >
             <div className={styles.inputWrap}>
-              <input className={`${styles.input} ${styles.inputNoCount}`} placeholder="Yoga is not about touching your toes. It is what you learn on the way down." {...register("pullQuote")} />
+              <input
+                className={`${styles.input} ${styles.inputNoCount}`}
+                placeholder="Yoga is not about touching your toes…"
+                {...register("pullQuote")}
+              />
             </div>
           </F>
         </Sec>
         <D />
 
-        {/* ══ 5. CERTIFICATION SECTION ══ */}
+        {/* ══ 6. CERTIFICATION ══ */}
         <Sec title="Hatha Yoga Certification" badge="Recognition Section">
           <div className={styles.grid2}>
             <F label="Super Label">
               <div className={styles.inputWrap}>
-                <input className={`${styles.input} ${styles.inputNoCount}`} placeholder="Recognition" {...register("certSuperLabel")} />
+                <input
+                  className={`${styles.input} ${styles.inputNoCount}`}
+                  placeholder="Recognition"
+                  {...register("certSuperLabel")}
+                />
               </div>
             </F>
             <F label="Section Title" req>
-              <div className={`${styles.inputWrap} ${errors.certTitle ? styles.inputError : ""}`}>
-                <input className={`${styles.input} ${styles.inputNoCount}`} placeholder="Hatha Yoga Certification" {...register("certTitle", { required: "Required" })} />
+              <div
+                className={`${styles.inputWrap} ${errors.certTitle ? styles.inputError : ""}`}
+              >
+                <input
+                  className={`${styles.input} ${styles.inputNoCount}`}
+                  placeholder="Hatha Yoga Certification"
+                  {...register("certTitle", { required: "Required" })}
+                />
               </div>
-              {errors.certTitle && <p className={styles.errorMsg}>⚠ {errors.certTitle.message}</p>}
+              {errors.certTitle && (
+                <p className={styles.errorMsg}>⚠ {errors.certTitle.message}</p>
+              )}
             </F>
           </div>
-
-          <F label="Certification Body Paragraph">
-            <StableJodit
-              onSave={(v) => { certParaRef.current = v; }}
-              value={certParaRef.current} h={200}
-              ph="At AYM, regardless of the type of course programme the students might have chosen, they are provided with the certification at the end…"
-            />
+          <F
+            label="Certification Body Paragraphs"
+            hint="Add one or more paragraphs for the certification section"
+          >
+            {certParaList.ids.map((id, i) => (
+              <RichListItem
+                key={id}
+                id={id}
+                index={i}
+                total={certParaList.ids.length}
+                onSave={certParaList.save}
+                onRemove={certParaList.remove}
+                value={certParaList.ref.current[id]}
+                ph="At AYM, regardless of the type of course programme the students might have chosen, they are provided with the certification at the end…"
+              />
+            ))}
+            <button
+              type="button"
+              className={styles.addItemBtn}
+              onClick={certParaList.add}
+            >
+              ＋ Add Paragraph
+            </button>
           </F>
-
-          <F label="Certification Cards (200 / 300 / 500 Hr)" hint="Cards displayed in a row linking to each programme">
-            <p className={styles.fieldHint} style={{ marginBottom: "0.8rem" }}>ℹ Default 3 cards: 200 Hr, 300 Hr, 500 Hr. You can add more or remove as needed.</p>
+          <F
+            label="Certification Cards (200 / 300 / 500 Hr)"
+            hint="Cards displayed in a row linking to each programme"
+          >
+            <p className={styles.fieldHint} style={{ marginBottom: "0.8rem" }}>
+              ℹ Default 3 cards: 200 Hr, 300 Hr, 500 Hr.
+            </p>
             <CertCardsManager items={certCards} onChange={setCertCards} />
           </F>
         </Sec>
         <D />
 
-        {/* ══ 6. ASHRAM SECTION ══ */}
+        {/* ══ 7. ASHRAM ══ */}
         <Sec title="Hatha Yoga Ashram" badge="Sacred Space Section">
           <div className={styles.grid2}>
             <F label="Super Label">
               <div className={styles.inputWrap}>
-                <input className={`${styles.input} ${styles.inputNoCount}`} placeholder="Sacred Space" {...register("ashramSuperLabel")} />
+                <input
+                  className={`${styles.input} ${styles.inputNoCount}`}
+                  placeholder="Sacred Space"
+                  {...register("ashramSuperLabel")}
+                />
               </div>
             </F>
             <F label="Section Title" req>
-              <div className={`${styles.inputWrap} ${errors.ashramTitle ? styles.inputError : ""}`}>
-                <input className={`${styles.input} ${styles.inputNoCount}`} placeholder="Hatha Yoga Ashram, Rishikesh, India" {...register("ashramTitle", { required: "Required" })} />
+              <div
+                className={`${styles.inputWrap} ${errors.ashramTitle ? styles.inputError : ""}`}
+              >
+                <input
+                  className={`${styles.input} ${styles.inputNoCount}`}
+                  placeholder="Hatha Yoga Ashram, Rishikesh, India"
+                  {...register("ashramTitle", { required: "Required" })}
+                />
               </div>
-              {errors.ashramTitle && <p className={styles.errorMsg}>⚠ {errors.ashramTitle.message}</p>}
+              {errors.ashramTitle && (
+                <p className={styles.errorMsg}>
+                  ⚠ {errors.ashramTitle.message}
+                </p>
+              )}
             </F>
           </div>
-
-          <F label="Ashram Paragraphs" hint="All body text paragraphs for the ashram section">
+          <F
+            label="Ashram Paragraphs"
+            hint="All body text paragraphs for the ashram section"
+          >
             {ashramParaList.ids.map((id, i) => (
-              <RichListItem key={id} id={id} index={i} total={ashramParaList.ids.length}
-                onSave={ashramParaList.save} onRemove={ashramParaList.remove}
+              <RichListItem
+                key={id}
+                id={id}
+                index={i}
+                total={ashramParaList.ids.length}
+                onSave={ashramParaList.save}
+                onRemove={ashramParaList.remove}
                 value={ashramParaList.ref.current[id]}
                 ph="At AYM, we are located in the world's most serene and beautiful place…"
               />
             ))}
-            <button type="button" className={styles.addItemBtn} onClick={ashramParaList.add}>＋ Add Paragraph</button>
+            <button
+              type="button"
+              className={styles.addItemBtn}
+              onClick={ashramParaList.add}
+            >
+              ＋ Add Paragraph
+            </button>
           </F>
-
           <div className={styles.grid2}>
-            <F label="Ashram Side Image" hint="Right column ashram photo · 1200×800px">
+            <F
+              label="Ashram Side Image"
+              hint="Right column ashram photo · 1200×800px"
+            >
               <SingleImg
-                preview={ashramPrev} badge="Ashram" hint="JPG/PNG/WEBP · 1200×800px" error=""
-                onSelect={(f, p) => { setAshramFile(f); setAshramPrev(p); }}
-                onRemove={() => { setAshramFile(null); setAshramPrev(""); }}
+                preview={ashramPrev}
+                badge="Ashram"
+                hint="JPG/PNG/WEBP · 1200×800px"
+                error=""
+                onSelect={(f, p) => {
+                  setAshramFile(f);
+                  setAshramPrev(p);
+                }}
+                onRemove={() => {
+                  setAshramFile(null);
+                  setAshramPrev("");
+                }}
               />
             </F>
             <F label="Ashram Image Alt Text">
               <div className={styles.inputWrap}>
-                <input className={`${styles.input} ${styles.inputNoCount}`} placeholder="AYM Yoga Ashram" {...register("ashramImgAlt")} />
+                <input
+                  className={`${styles.input} ${styles.inputNoCount}`}
+                  placeholder="AYM Yoga Ashram"
+                  {...register("ashramImgAlt")}
+                />
               </div>
             </F>
           </div>
         </Sec>
         <D />
 
-        {/* ══ 7. CURRICULUM / COURSE DETAILS ══ */}
+        {/* ══ 8. CURRICULUM ══ */}
         <Sec title="Course Details / Curriculum" badge="Syllabus Section">
           <div className={styles.grid2}>
             <F label="Super Label">
               <div className={styles.inputWrap}>
-                <input className={`${styles.input} ${styles.inputNoCount}`} placeholder="Syllabus" {...register("curriculumSuperLabel")} />
+                <input
+                  className={`${styles.input} ${styles.inputNoCount}`}
+                  placeholder="Syllabus"
+                  {...register("curriculumSuperLabel")}
+                />
               </div>
             </F>
             <F label="Section Title" req>
-              <div className={`${styles.inputWrap} ${errors.curriculumTitle ? styles.inputError : ""}`}>
-                <input className={`${styles.input} ${styles.inputNoCount}`} placeholder="Course Details of Hatha Yoga Teacher Training in India" {...register("curriculumTitle", { required: "Required" })} />
+              <div
+                className={`${styles.inputWrap} ${errors.curriculumTitle ? styles.inputError : ""}`}
+              >
+                <input
+                  className={`${styles.input} ${styles.inputNoCount}`}
+                  placeholder="Course Details of Hatha Yoga Teacher Training in India"
+                  {...register("curriculumTitle", { required: "Required" })}
+                />
               </div>
-              {errors.curriculumTitle && <p className={styles.errorMsg}>⚠ {errors.curriculumTitle.message}</p>}
+              {errors.curriculumTitle && (
+                <p className={styles.errorMsg}>
+                  ⚠ {errors.curriculumTitle.message}
+                </p>
+              )}
             </F>
           </div>
-
-          <F label="Course Details List" hint="Displayed as a numbered grid on the page">
+          <F
+            label="Course Details List"
+            hint="Displayed as a numbered grid on the page"
+          >
             <StrList
-              items={courseDetailsList} label="Detail Item"
+              items={courseDetailsList}
+              label="Detail Item"
               ph="Upa Yoga, Yogasana, Surya Kriya, Pranayama, Mantra Yoga and more"
               onAdd={() => setCourseDetailsList((p) => [...p, ""])}
-              onRemove={(i) => { if (courseDetailsList.length <= 1) return; setCourseDetailsList((p) => p.filter((_, idx) => idx !== i)); }}
-              onUpdate={(i, v) => { const n = [...courseDetailsList]; n[i] = v; setCourseDetailsList(n); }}
+              onRemove={(i) => {
+                if (courseDetailsList.length <= 1) return;
+                setCourseDetailsList((p) => p.filter((_, idx) => idx !== i));
+              }}
+              onUpdate={(i, v) => {
+                const n = [...courseDetailsList];
+                n[i] = v;
+                setCourseDetailsList(n);
+              }}
             />
           </F>
         </Sec>
         <D />
 
-        {/* ══ 8. PRICING / ENROLMENT SECTION ══ */}
-        <Sec title="How to Apply / Pricing" badge="Enrolment Section">
-          <div className={styles.grid2}>
-            <F label="Super Label">
-              <div className={styles.inputWrap}>
-                <input className={`${styles.input} ${styles.inputNoCount}`} placeholder="Enrolment" {...register("pricingSuperLabel")} />
-              </div>
-            </F>
-            <F label="Section Title" req>
-              <div className={`${styles.inputWrap} ${errors.pricingTitle ? styles.inputError : ""}`}>
-                <input className={`${styles.input} ${styles.inputNoCount}`} placeholder="How to Apply for Hatha Yoga Course" {...register("pricingTitle", { required: "Required" })} />
-              </div>
-              {errors.pricingTitle && <p className={styles.errorMsg}>⚠ {errors.pricingTitle.message}</p>}
-            </F>
-          </div>
-
-          <div className={styles.grid2}>
-            <F label="Intro Paragraph">
-              <div className={styles.inputWrap}>
-                <textarea className={`${styles.input} ${styles.textarea}`} rows={3} placeholder="To apply, fill the Registration Form and Deposit Advance Fee…" {...register("pricingIntroPara")} />
-              </div>
-            </F>
-            <F label="Registration Form Link (href)">
-              <div className={styles.inputWrap}>
-                <input className={`${styles.input} ${styles.inputNoCount}`} placeholder="/yoga-registration?type=hatha" {...register("registrationFormLink")} />
-              </div>
-            </F>
-          </div>
-
-        
-
-          <div className={styles.grid2}>
-            <F label="Table Note">
-              <div className={styles.inputWrap}>
-                <input className={`${styles.input} ${styles.inputNoCount}`} placeholder="Note: Register your spot by paying $110 only as advance deposit." {...register("tableNote")} />
-              </div>
-            </F>
-          </div>
-
-          <div className={styles.grid2}>
-            <F label="Join Button Label">
-              <div className={styles.inputWrap}>
-                <input className={`${styles.input} ${styles.inputNoCount}`} placeholder="Join Your Yoga Journey" {...register("joinBtnLabel")} />
-              </div>
-            </F>
-            <F label="Join Button Link (href)">
-              <div className={styles.inputWrap}>
-                <input className={`${styles.input} ${styles.inputNoCount}`} placeholder="#" {...register("joinBtnHref")} />
-              </div>
-            </F>
-          </div>
-
-          <F label="Programme Overview Paragraphs" hint="Text block displayed below the pricing table">
-            {programmeParaList.ids.map((id, i) => (
-              <RichListItem key={id} id={id} index={i} total={programmeParaList.ids.length}
-                onSave={programmeParaList.save} onRemove={programmeParaList.remove}
-                value={programmeParaList.ref.current[id]}
-                ph="Our Hatha Yoga Teacher Training in India is available in three distinctive programmes…"
+        {/* ══ 9. SEAT BOOKING SECTION LABELS ══ (NEW SECTION) */}
+        <Sec
+          title="Seat Booking Section Labels"
+          badge="'Upcoming Batches' area text"
+        >
+          <F
+            label="Section Tag / Badge"
+            hint='Small label at top, e.g. "Upcoming Batches · 2026–2027"'
+          >
+            <div className={styles.inputWrap}>
+              <input
+                className={`${styles.input} ${styles.inputNoCount}`}
+                placeholder="Upcoming Batches · 2026–2027"
+                {...register("seatSectionTag")}
               />
-            ))}
-            <button type="button" className={styles.addItemBtn} onClick={programmeParaList.add}>＋ Add Paragraph</button>
+            </div>
+          </F>
+          <div className={styles.grid2}>
+            <F
+              label="Section Heading (Vintage Heading)"
+              hint='e.g. "Hatha Yoga Training in Rishikesh"'
+              req
+            >
+              <div
+                className={`${styles.inputWrap} ${errors.seatSectionTitle ? styles.inputError : ""}`}
+              >
+                <input
+                  className={`${styles.input} ${styles.inputNoCount}`}
+                  placeholder="Hatha Yoga Training in Rishikesh"
+                  {...register("seatSectionTitle", { required: "Required" })}
+                />
+              </div>
+              {errors.seatSectionTitle && (
+                <p className={styles.errorMsg}>
+                  ⚠ {errors.seatSectionTitle.message}
+                </p>
+              )}
+            </F>
+            <F
+              label="Duration + Location (right panel)"
+              hint='Shown below course name, e.g. "13 Days · Rishikesh, India"'
+            >
+              <div className={styles.inputWrap}>
+                <input
+                  className={`${styles.input} ${styles.inputNoCount}`}
+                  placeholder="13 Days · Rishikesh, India"
+                  {...register("seatDurationLocation")}
+                />
+              </div>
+            </F>
+          </div>
+          <F
+            label="Subtitle / Description"
+            hint='Text below the heading, e.g. "Choose your dates & preferred accommodation — prices include tuition and meals"'
+          >
+            <div className={styles.inputWrap}>
+              <textarea
+                className={`${styles.input} ${styles.textarea}`}
+                rows={2}
+                placeholder="Choose your dates & preferred accommodation — prices include tuition and meals"
+                {...register("seatSectionSubtitle")}
+              />
+            </div>
           </F>
         </Sec>
         <D />
 
-        {/* ══ 9. FOOTER CTA SECTION ══ */}
+        {/* ══ 10. PRICING / ENROLMENT ══ */}
+        <Sec title="How to Apply / Pricing" badge="Enrolment Section">
+          <div className={styles.grid2}>
+            <F label="Super Label">
+              <div className={styles.inputWrap}>
+                <input
+                  className={`${styles.input} ${styles.inputNoCount}`}
+                  placeholder="Enrolment"
+                  {...register("pricingSuperLabel")}
+                />
+              </div>
+            </F>
+            <F label="Section Title" req>
+              <div
+                className={`${styles.inputWrap} ${errors.pricingTitle ? styles.inputError : ""}`}
+              >
+                <input
+                  className={`${styles.input} ${styles.inputNoCount}`}
+                  placeholder="How to Apply for Hatha Yoga Course"
+                  {...register("pricingTitle", { required: "Required" })}
+                />
+              </div>
+              {errors.pricingTitle && (
+                <p className={styles.errorMsg}>
+                  ⚠ {errors.pricingTitle.message}
+                </p>
+              )}
+            </F>
+          </div>
+          <div className={styles.grid2}>
+            <F label="Intro Paragraph">
+              <div className={styles.inputWrap}>
+                <textarea
+                  className={`${styles.input} ${styles.textarea}`}
+                  rows={3}
+                  placeholder="To apply, fill the Registration Form and Deposit Advance Fee…"
+                  {...register("pricingIntroPara")}
+                />
+              </div>
+            </F>
+            <F label="Registration Form Link (href)">
+              <div className={styles.inputWrap}>
+                <input
+                  className={`${styles.input} ${styles.inputNoCount}`}
+                  placeholder="/yoga-registration?type=hatha"
+                  {...register("registrationFormLink")}
+                />
+              </div>
+            </F>
+          </div>
+          <div className={styles.grid2}>
+            <F label="Table Note">
+              <div className={styles.inputWrap}>
+                <input
+                  className={`${styles.input} ${styles.inputNoCount}`}
+                  placeholder="Note: Register your spot by paying $110 only as advance deposit."
+                  {...register("tableNote")}
+                />
+              </div>
+            </F>
+          </div>
+          <div className={styles.grid2}>
+            <F label="Join Button Label">
+              <div className={styles.inputWrap}>
+                <input
+                  className={`${styles.input} ${styles.inputNoCount}`}
+                  placeholder="Join Your Yoga Journey"
+                  {...register("joinBtnLabel")}
+                />
+              </div>
+            </F>
+            <F label="Join Button Link (href)">
+              <div className={styles.inputWrap}>
+                <input
+                  className={`${styles.input} ${styles.inputNoCount}`}
+                  placeholder="#"
+                  {...register("joinBtnHref")}
+                />
+              </div>
+            </F>
+          </div>
+
+          {/* ── NEW: Programme section labels ── */}
+          <div className={styles.grid2} style={{ marginTop: "1rem" }}>
+            <F
+              label="Programme Super Label"
+              hint='Small text above the programme heading, e.g. "Programme Overview"'
+            >
+              <div className={styles.inputWrap}>
+                <input
+                  className={`${styles.input} ${styles.inputNoCount}`}
+                  placeholder="Programme Overview"
+                  {...register("programmeSuperLabel")}
+                />
+              </div>
+            </F>
+            <F
+              label="Programme Section Title"
+              hint='e.g. "Our Hatha Yoga Programmes"'
+            >
+              <div className={styles.inputWrap}>
+                <input
+                  className={`${styles.input} ${styles.inputNoCount}`}
+                  placeholder="Our Hatha Yoga Programmes"
+                  {...register("programmeTitle")}
+                />
+              </div>
+            </F>
+          </div>
+
+          <F
+            label="Programme Overview Paragraphs"
+            hint="Text block displayed below the pricing table"
+          >
+            {programmeParaList.ids.map((id, i) => (
+              <RichListItem
+                key={id}
+                id={id}
+                index={i}
+                total={programmeParaList.ids.length}
+                onSave={programmeParaList.save}
+                onRemove={programmeParaList.remove}
+                value={programmeParaList.ref.current[id]}
+                ph="Our Hatha Yoga Teacher Training in India is available in three distinctive programmes…"
+              />
+            ))}
+            <button
+              type="button"
+              className={styles.addItemBtn}
+              onClick={programmeParaList.add}
+            >
+              ＋ Add Paragraph
+            </button>
+          </F>
+        </Sec>
+        <D />
+
+        {/* ══ 11. FOOTER CTA ══ */}
         <Sec title="Footer CTA Section" badge="Begin Your Sacred Journey">
           <div className={styles.grid2}>
             <F label="CTA Title" req>
-              <div className={`${styles.inputWrap} ${errors.footerTitle ? styles.inputError : ""}`}>
-                <input className={`${styles.input} ${styles.inputNoCount}`} placeholder="Begin Your Sacred Journey" {...register("footerTitle", { required: "Required" })} />
+              <div
+                className={`${styles.inputWrap} ${errors.footerTitle ? styles.inputError : ""}`}
+              >
+                <input
+                  className={`${styles.input} ${styles.inputNoCount}`}
+                  placeholder="Begin Your Sacred Journey"
+                  {...register("footerTitle", { required: "Required" })}
+                />
               </div>
-              {errors.footerTitle && <p className={styles.errorMsg}>⚠ {errors.footerTitle.message}</p>}
+              {errors.footerTitle && (
+                <p className={styles.errorMsg}>
+                  ⚠ {errors.footerTitle.message}
+                </p>
+              )}
             </F>
             <F label="CTA Subtitle">
               <div className={styles.inputWrap}>
-                <input className={`${styles.input} ${styles.inputNoCount}`} placeholder="Join thousands of students who have transformed their lives at AYM Yoga School" {...register("footerSubtitle")} />
+                <input
+                  className={`${styles.input} ${styles.inputNoCount}`}
+                  placeholder="Join thousands of students who have transformed their lives at AYM Yoga School"
+                  {...register("footerSubtitle")}
+                />
               </div>
             </F>
           </div>
           <div className={styles.grid2}>
             <F label="Primary Button Label">
               <div className={styles.inputWrap}>
-                <input className={`${styles.input} ${styles.inputNoCount}`} placeholder="Apply Now" {...register("applyBtnLabel")} />
+                <input
+                  className={`${styles.input} ${styles.inputNoCount}`}
+                  placeholder="Apply Now"
+                  {...register("applyBtnLabel")}
+                />
               </div>
             </F>
             <F label="Primary Button Link (href)">
               <div className={styles.inputWrap}>
-                <input className={`${styles.input} ${styles.inputNoCount}`} placeholder="#apply" {...register("applyBtnHref")} />
+                <input
+                  className={`${styles.input} ${styles.inputNoCount}`}
+                  placeholder="#apply"
+                  {...register("applyBtnHref")}
+                />
               </div>
             </F>
             <F label="Secondary Button Label">
               <div className={styles.inputWrap}>
-                <input className={`${styles.input} ${styles.inputNoCount}`} placeholder="Contact Us" {...register("contactBtnLabel")} />
+                <input
+                  className={`${styles.input} ${styles.inputNoCount}`}
+                  placeholder="Contact Us"
+                  {...register("contactBtnLabel")}
+                />
               </div>
             </F>
             <F label="Contact Email / href">
               <div className={styles.inputWrap}>
-                <input className={`${styles.input} ${styles.inputNoCount}`} placeholder="mailto:info@aymyogaschool.com" {...register("contactEmail")} />
+                <input
+                  className={`${styles.input} ${styles.inputNoCount}`}
+                  placeholder="mailto:info@aymyogaschool.com"
+                  {...register("contactEmail")}
+                />
               </div>
             </F>
           </div>
         </Sec>
         <D />
 
-        {/* ══ 10. PAGE SETTINGS ══ */}
+        {/* ══ 12. PAGE SETTINGS ══ */}
         <Sec title="Page Settings" badge="SEO & Status">
           <div className={styles.grid2}>
             <F label="Slug" req>
-              <div className={`${styles.inputWrap} ${errors.slug ? styles.inputError : ""}`}>
-                <input className={`${styles.input} ${styles.inputNoCount}`} placeholder="hatha-yoga-teacher-training-india" {...register("slug", { required: "Slug is required" })} />
+              <div
+                className={`${styles.inputWrap} ${errors.slug ? styles.inputError : ""}`}
+              >
+                <input
+                  className={`${styles.input} ${styles.inputNoCount}`}
+                  placeholder="hatha-yoga-teacher-training-india"
+                  {...register("slug", { required: "Slug is required" })}
+                />
               </div>
-              {errors.slug && <p className={styles.errorMsg}>⚠ {errors.slug.message}</p>}
+              {errors.slug && (
+                <p className={styles.errorMsg}>⚠ {errors.slug.message}</p>
+              )}
             </F>
             <F label="Status">
               <div className={styles.selectWrap}>
@@ -1013,13 +2093,16 @@ export default function AddEditHathaYogaPage() {
             </F>
           </div>
         </Sec>
-
       </div>
-      {/* /formCard */}
 
       {/* ── Actions ── */}
       <div className={styles.formActions}>
-        <Link href="/admin/yogacourse/hatha-yoga-teacher-training/hatha-yoga-teacher-training-content" className={styles.cancelBtn}>← Cancel</Link>
+        <Link
+          href="/admin/yogacourse/hatha-yoga-teacher-training/hatha-yoga-teacher-training-content"
+          className={styles.cancelBtn}
+        >
+          ← Cancel
+        </Link>
         <button
           type="button"
           className={`${styles.submitBtn} ${isSubmitting ? styles.submitBtnLoading : ""}`}
@@ -1027,9 +2110,13 @@ export default function AddEditHathaYogaPage() {
           disabled={isSubmitting}
         >
           {isSubmitting ? (
-            <><span className={styles.spinner} /> Saving…</>
+            <>
+              <span className={styles.spinner} /> Saving…
+            </>
           ) : (
-            <><span>✦</span> {isEdit ? "Update" : "Save"} Hatha Yoga Page</>
+            <>
+              <span>✦</span> {isEdit ? "Update" : "Save"} Hatha Yoga Page
+            </>
           )}
         </button>
       </div>
