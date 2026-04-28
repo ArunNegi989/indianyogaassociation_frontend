@@ -79,8 +79,6 @@ function F({ label, hint, req, children }: { label: string; hint?: string; req?:
 
 /* ────────────────────────────────────────
    LazyJodit — ref-based, uncontrolled
-   FIX: initialValueRef prevents Jodit from
-   resetting on parent re-renders.
 ──────────────────────────────────────── */
 function LazyJodit({
   label, hint, cr, err, clr, ph = "Start typing…", h = 200, required = false,
@@ -90,7 +88,6 @@ function LazyJodit({
 }) {
   const [visible, setVisible] = useState(false);
   const wrapRef = useRef<HTMLDivElement>(null);
-  // KEY FIX: capture initial value once — never re-pass to Jodit
   const initialValueRef = useRef(cr.current);
 
   useEffect(() => {
@@ -112,7 +109,6 @@ function LazyJodit({
     [cr, clr]
   );
 
-  // KEY FIX: memoize config so Jodit never remounts due to object identity change
   const config = useMemo(() => ({ ...joditConfig, placeholder: ph, height: h }), [ph, h]);
 
   return (
@@ -142,9 +138,6 @@ function LazyJodit({
 
 /* ────────────────────────────────────────
    InlineJodit — fully uncontrolled
-   FIX: initialValueRef.current passed as
-   `value` so Jodit NEVER gets a new value
-   after mount → no reset, no focus loss.
 ──────────────────────────────────────── */
 const InlineJodit = ({
   onChange,
@@ -160,10 +153,8 @@ const InlineJodit = ({
   const [visible, setVisible] = useState(false);
   const wrapRef = useRef<HTMLDivElement>(null);
   const onChangeRef = useRef(onChange);
-  // KEY FIX: capture initial value in ref — never changes after mount
   const initialValueRef = useRef(initialValue);
 
-  // Always keep ref pointing at latest onChange
   useEffect(() => { onChangeRef.current = onChange; });
 
   useEffect(() => {
@@ -177,12 +168,10 @@ const InlineJodit = ({
     return () => obs.disconnect();
   }, []);
 
-  // Stable callback — always reads latest onChange from ref
   const stableOnChange = useCallback((v: string) => {
     onChangeRef.current(v);
   }, []);
 
-  // KEY FIX: memoize config to prevent Jodit remount
   const config = useMemo(() => ({ ...joditConfig, placeholder: ph, height: h }), [ph, h]);
 
   return (
@@ -392,6 +381,9 @@ interface YouTubeItem {
 interface FormData {
   slug: string; status: "Active" | "Inactive";
   evolutionH2: string;
+  evolutionRightImageAlt: string;
+  evolutionBadgeText: string;
+  evolutionBadgeSubtext: string;
   markDistH3: string; markDistSubText: string;
   markTotalLabel: string; markTotalText: string;
   markTheoryLabel: string; markTheoryText: string;
@@ -420,6 +412,11 @@ export default function Edit300hrContent2() {
   const [fetchError, setFetchError] = useState("");
 
   const markPracticalDetailRef = useRef("");
+
+  // ===== EVOLUTION RIGHT SIDE IMAGE (NEW) =====
+  const [evolutionRightFile, setEvolutionRightFile] = useState<File | null>(null);
+  const [evolutionRightPreview, setEvolutionRightPreview] = useState("");
+  const [evolutionRightExisting, setEvolutionRightExisting] = useState("");
 
   const [evolutionParas, setEvolutionParas] = useState<ParaItem[]>([{ id: "ep1", content: "" }]);
   const [eligibilityParas, setEligibilityParas] = useState<ParaItem[]>([{ id: "elp1", content: "" }]);
@@ -492,6 +489,9 @@ export default function Edit300hrContent2() {
           slug: d.slug ?? "",
           status: d.status ?? "Active",
           evolutionH2: d.evolutionH2 ?? "",
+          evolutionRightImageAlt: d.evolutionRightImageAlt ?? "",
+          evolutionBadgeText: d.evolutionBadgeText ?? "Yoga Alliance",
+          evolutionBadgeSubtext: d.evolutionBadgeSubtext ?? "RYT 500 Certified",
           markDistH3: d.markDistH3 ?? "",
           markDistSubText: d.markDistSubText ?? "",
           markTotalLabel: d.markTotalLabel ?? "",
@@ -521,7 +521,10 @@ export default function Edit300hrContent2() {
           reviewsSubtext: d.reviewsSubtext ?? "",
         });
 
-        // LazyJodit ref pre-fill — must happen before render, loading guard ensures this
+        // Evolution right side image
+        if (d.evolutionRightImage) setEvolutionRightExisting(d.evolutionRightImage);
+
+        // LazyJodit ref pre-fill
         if (d.markPracticalDetail) markPracticalDetailRef.current = d.markPracticalDetail;
 
         // Paragraph arrays → ParaItem[]
@@ -631,6 +634,10 @@ export default function Edit300hrContent2() {
       fd.append("youtubeVideosMeta", JSON.stringify(ytMeta));
       youtubeVideos.forEach((yt) => { if (yt.sourceType === "file" && yt.file) fd.append(`ytFile_${yt.id}`, yt.file); });
 
+      // ===== EVOLUTION RIGHT SIDE IMAGE =====
+      if (evolutionRightFile) fd.append("evolutionRightImage", evolutionRightFile);
+      else if (evolutionRightExisting && !evolutionRightPreview) fd.append("evolutionRightImageKeep", "true");
+
       // Single images
       if (diplomaFile) fd.append("diplomaImage", diplomaFile);
       else if (diplomaExisting && !diplomaPrev) fd.append("diplomaImageKeep", "true");
@@ -710,7 +717,7 @@ export default function Edit300hrContent2() {
       <div className={styles.pageHeader}>
         <div className={styles.pageHeaderText}>
           <h1 className={styles.pageTitle}>Edit — 300hr Content Part 2</h1>
-          <p className={styles.pageSubtitle}>Evolution · FAQ · Accommodation · Schedule · Reviews</p>
+          <p className={styles.pageSubtitle}>Evolution · Right Image · FAQ · Schedule · Reviews</p>
         </div>
       </div>
       <div className={styles.ornament}>
@@ -719,11 +726,38 @@ export default function Edit300hrContent2() {
 
       <div className={styles.formCard}>
 
-        {/* ════ 1. EVOLUTION & CERTIFICATION ════ */}
-        <Sec title="Evolution and Certification">
+        {/* ════ 1. EVOLUTION & CERTIFICATION with DYNAMIC RIGHT IMAGE ════ */}
+        <Sec title="Evolution and Certification" badge="Dynamic Right Image">
           <F label="Section H2 Heading">
             <div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("evolutionH2")} /></div>
           </F>
+          
+          {/* DYNAMIC RIGHT SIDE IMAGE UPLOAD - NEW */}
+          <div style={{ marginBottom: "1.5rem", padding: "1rem", background: "#faf8f4", borderRadius: 10, border: "1px solid #e8d5b5" }}>
+            <p style={{ fontFamily: "Cormorant Garamond,serif", fontWeight: 600, color: "#5a3a1a", fontSize: "0.95rem", marginBottom: "1rem" }}>✦ Right Side Image (Replaces the hardcoded image)</p>
+            <SingleImg
+              preview={evolutionRightPreview}
+              existingUrl={evolutionRightExisting}
+              badge="Evolution Image"
+              hint="Recommended 600×500px · JPG/PNG/WEBP"
+              onSelect={(f, p) => { setEvolutionRightFile(f); setEvolutionRightPreview(p); }}
+              onRemove={() => { setEvolutionRightFile(null); setEvolutionRightPreview(""); setEvolutionRightExisting(""); }}
+            />
+            <div className={styles.grid2} style={{ marginTop: "1rem" }}>
+              <F label="Image Alt Text">
+                <div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("evolutionRightImageAlt")} placeholder="Yoga meditation in Rishikesh" /></div>
+              </F>
+            </div>
+            <div className={styles.grid2}>
+              <F label="Badge Text">
+                <div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("evolutionBadgeText")} placeholder="Yoga Alliance" /></div>
+              </F>
+              <F label="Badge Subtext">
+                <div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("evolutionBadgeSubtext")} placeholder="RYT 500 Certified" /></div>
+              </F>
+            </div>
+          </div>
+
           <F label="Introduction Paragraphs" hint="Add as many paragraphs as needed." req>
             <DynamicParaList
               items={evolutionParas}
@@ -734,12 +768,13 @@ export default function Edit300hrContent2() {
               ph="The primary purpose of an examination is to prepare students…"
             />
           </F>
+
           <div style={{ marginTop: "1.5rem", padding: "1.2rem", background: "#faf8f4", borderRadius: 10, border: "1px solid #e8d5b5" }}>
             <p style={{ fontFamily: "Cormorant Garamond,serif", fontWeight: 600, color: "#5a3a1a", fontSize: "0.95rem", marginBottom: "1rem" }}>✦ Mark Distribution Block</p>
             <F label="Mark Distribution H3 Label">
               <div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("markDistH3")} /></div>
             </F>
-            <F label="Mark Distribution Sub-text / Intro Line" hint="Short description shown below the H3 (optional)">
+            <F label="Mark Distribution Sub-text / Intro Line">
               <div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("markDistSubText")} placeholder="e.g. The examination is divided as follows…" /></div>
             </F>
             <div className={styles.grid2} style={{ marginTop: "0.8rem" }}>
@@ -997,7 +1032,7 @@ export default function Edit300hrContent2() {
           <F label="Section H2">
             <div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("ethicsH2")} /></div>
           </F>
-          <F label="Additional Ethics Introduction Paragraphs (optional)" hint="Any extra paragraphs before the guidelines list.">
+          <F label="Additional Ethics Introduction Paragraphs (optional)">
             <DynamicParaList
               items={ethicsParas}
               onAdd={() => addPara(setEthicsParas)}
@@ -1012,7 +1047,7 @@ export default function Edit300hrContent2() {
               <textarea className={`${styles.input} ${styles.textarea} ${styles.inputNoCount}`} rows={2} {...register("ethicsQuote")} />
             </div>
           </F>
-          <F label="Naturalistic Power of Yoga — Intro Paragraph" hint="The paragraph starting 'According to yoga gurus…'">
+          <F label="Naturalistic Power of Yoga — Intro Paragraph">
             <div className={styles.inputWrap}>
               <textarea className={`${styles.input} ${styles.textarea} ${styles.inputNoCount}`} rows={3} {...register("ethicsNaturalisticPara")} />
             </div>
@@ -1039,7 +1074,7 @@ export default function Edit300hrContent2() {
           <F label="Section H2">
             <div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("misconH2")} /></div>
           </F>
-          <F label="Shake Your Myths — Intro Paragraphs (optional)" hint="Add introductory paragraphs before the misconception list.">
+          <F label="Shake Your Myths — Intro Paragraphs (optional)">
             <DynamicParaList
               items={misconParas}
               onAdd={() => addPara(setMisconParas)}

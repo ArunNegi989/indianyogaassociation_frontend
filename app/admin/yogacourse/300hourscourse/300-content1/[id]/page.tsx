@@ -13,14 +13,13 @@ const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "";
 
 const isEmpty = (html: string) => html.replace(/<[^>]*>/g, "").trim() === "";
 
-// ── Stable config factory — component ke bahar, ek baar banao
 function makeConfig(ph: string, h: number) {
   return {
     readonly: false,
     toolbar: true,
     spellcheck: true,
     language: "en",
-    toolbarButtonSize: "middle" as const,        // ✅ "middle" not "medium"
+    toolbarButtonSize: "middle" as const,
     toolbarAdaptive: false,
     showCharsCounter: false,
     showWordsCounter: false,
@@ -40,11 +39,10 @@ function makeConfig(ph: string, h: number) {
     uploader: { insertImageAsBase64URI: true },
     height: h,
     placeholder: ph,
-    enter: "p" as const,                         // ✅ "p" not "P"
+    enter: "p" as const,
   };
 }
 
-/* ── Divider ── */
 function D() {
   return (
     <div style={{
@@ -55,7 +53,6 @@ function D() {
   );
 }
 
-/* ── Section wrapper ── */
 function Sec({ title, badge, children }: { title: string; badge?: string; children: React.ReactNode }) {
   return (
     <div className={styles.sectionBlock}>
@@ -69,7 +66,6 @@ function Sec({ title, badge, children }: { title: string; badge?: string; childr
   );
 }
 
-/* ── Field wrapper ── */
 function F({ label, hint, req, children }: { label: string; hint?: string; req?: boolean; children: React.ReactNode }) {
   return (
     <div className={styles.fieldGroup}>
@@ -84,13 +80,6 @@ function F({ label, hint, req, children }: { label: string; hint?: string; req?:
   );
 }
 
-/* ════════════════════════════════════════
-   StableJodit — FULLY UNCONTROLLED
-   - NO value prop  → editor never re-mounts on parent re-render
-   - config memoized with [] deps → stable forever
-   - onChange via ref → zero state updates while typing
-   - defaultValue via initialValues (Jodit internal) → prefill on mount only
-════════════════════════════════════════ */
 const StableJodit = memo(function StableJodit({
   onSave,
   defaultValue = "",
@@ -109,8 +98,6 @@ const StableJodit = memo(function StableJodit({
   const onSaveRef = useRef(onSave);
   onSaveRef.current = onSave;
 
-  // config once, never changes — editor never re-mounts
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const config = useMemo(() => makeConfig(ph, h), []);
 
   const handleChange = useCallback((val: string) => {
@@ -138,8 +125,6 @@ const StableJodit = memo(function StableJodit({
         <JoditEditor
           config={config}
           onChange={handleChange}
-          // ✅ KEY FIX: No `value` prop — uncontrolled
-          // defaultValue only sets initial content, never causes re-render
           {...(defaultValue ? { value: defaultValue } : {})}
         />
       ) : (
@@ -156,9 +141,6 @@ const StableJodit = memo(function StableJodit({
   );
 });
 
-/* ════════════════════════════════════════
-   LazyJodit — label wrapper, ref-based, with defaultValue support
-════════════════════════════════════════ */
 const LazyJodit = memo(function LazyJodit({
   label, hint, cr, err, clr,
   ph = "Start typing…", h = 200, required = false, defaultValue = "",
@@ -192,10 +174,6 @@ const LazyJodit = memo(function LazyJodit({
   );
 });
 
-/* ════════════════════════════════════════
-   RichListItem — ref-based para, memo wrapped
-   Para content stored in ref map, NOT in state
-════════════════════════════════════════ */
 const RichListItem = memo(function RichListItem({
   id, index, total, onSave, onRemove, ph, defaultValue = "",
 }: {
@@ -229,7 +207,6 @@ const RichListItem = memo(function RichListItem({
   );
 });
 
-/* ── String list ── */
 function StrList({ items, onAdd, onRemove, onUpdate, max = 30, ph, label }: {
   items: string[]; onAdd: () => void; onRemove: (i: number) => void;
   onUpdate: (i: number, v: string) => void; max?: number; ph?: string; label: string;
@@ -262,7 +239,6 @@ function StrList({ items, onAdd, onRemove, onUpdate, max = 30, ph, label }: {
   );
 }
 
-/* ── Single image uploader ── */
 function SingleImg({ preview, badge, hint, error, onSelect, onRemove }: {
   preview: string; badge?: string; hint: string; error?: string;
   onSelect: (f: File, p: string) => void; onRemove: () => void;
@@ -300,6 +276,104 @@ function SingleImg({ preview, badge, hint, error, onSelect, onRemove }: {
         )}
       </div>
       {error && <p className={styles.errorMsg}>⚠ {error}</p>}
+    </div>
+  );
+}
+
+/* ════════════════════════════════════════
+   THUMBNAIL ITEM COMPONENT
+════════════════════════════════════════ */
+interface ThumbnailItem {
+  id: string;
+  src: string;
+  alt: string;
+  file: File | null;
+  preview: string;
+}
+
+function ThumbnailItemComponent({ thumb, index, total, onUpdate, onRemove }: {
+  thumb: ThumbnailItem;
+  index: number;
+  total: number;
+  onUpdate: (id: string, file: File | null, preview: string, alt: string) => void;
+  onRemove: (id: string) => void;
+}) {
+  return (
+    <div className={styles.nestedCard} style={{ marginBottom: "0.8rem" }}>
+      <div className={styles.nestedCardHeader}>
+        <span className={styles.nestedCardNum}>Thumbnail {index + 1}</span>
+        {total > 1 && (
+          <button type="button" className={styles.removeNestedBtn} onClick={() => onRemove(thumb.id)}>
+            ✕ Remove
+          </button>
+        )}
+      </div>
+      <div className={styles.nestedCardBody}>
+        <div className={styles.grid2}>
+          <div className={styles.fieldGroup}>
+            <label className={styles.label}>Thumbnail Image</label>
+            <div className={`${styles.imageUploadZone} ${thumb.preview ? styles.hasImage : ""}`}>
+              {!thumb.preview ? (
+                <>
+                  <input 
+                    type="file" 
+                    accept="image/*" 
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (file) {
+                        onUpdate(thumb.id, file, URL.createObjectURL(file), thumb.alt);
+                      }
+                      e.target.value = "";
+                    }} 
+                  />
+                  <div className={styles.imageUploadPlaceholder}>
+                    <span className={styles.imageUploadIcon}>🖼️</span>
+                    <span className={styles.imageUploadText}>Click to Upload</span>
+                    <span className={styles.imageUploadSub}>Recommended 400×300px</span>
+                  </div>
+                </>
+              ) : (
+                <div className={styles.imagePreviewWrap}>
+                  <img src={thumb.preview} alt="" className={styles.imagePreview} />
+                  <div className={styles.imagePreviewOverlay}>
+                    <span className={styles.imagePreviewAction}>✎ Change</span>
+                    <input 
+                      type="file" 
+                      accept="image/*" 
+                      className={styles.imagePreviewOverlayInput}
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (file) {
+                          onUpdate(thumb.id, file, URL.createObjectURL(file), thumb.alt);
+                        }
+                        e.target.value = "";
+                      }} 
+                    />
+                  </div>
+                  <button 
+                    type="button" 
+                    className={styles.removeImageBtn}
+                    onClick={() => onUpdate(thumb.id, null, "", thumb.alt)}
+                  >
+                    ✕
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+          <div className={styles.fieldGroup}>
+            <label className={styles.label}>Alt Text</label>
+            <div className={styles.inputWrap}>
+              <input
+                className={styles.input}
+                value={thumb.alt}
+                onChange={(e) => onUpdate(thumb.id, thumb.file, thumb.preview, e.target.value)}
+                placeholder="Image description"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
@@ -412,10 +486,6 @@ const renumber = (mods: ModuleState[]): ModuleState[] =>
     label: m.label.match(/^Module \d+$/) ? `Module ${i + 1}` : m.label,
   }));
 
-/* ════════════════════════════════════════
-   ModuleCard — fully memo'd
-   content stored via ref in parent, NOT re-passed as value prop
-════════════════════════════════════════ */
 const ModuleCard = memo(function ModuleCard({
   mod, idx, total,
   onMove, onRemove, onUpdate, onAddItem, onRemoveItem, onUpdateItem,
@@ -428,7 +498,6 @@ const ModuleCard = memo(function ModuleCard({
   onRemoveItem: (id: string, ii: number) => void;
   onUpdateItem: (id: string, ii: number, val: string) => void;
 }) {
-  // content changes go directly to state without causing re-render of THIS card
   const handleContentSave = useCallback((v: string) => {
     onUpdate(mod.id, "content", v);
   }, [mod.id, onUpdate]);
@@ -473,7 +542,6 @@ const ModuleCard = memo(function ModuleCard({
           </F>
         </div>
 
-        {/* ✅ StableJodit — uncontrolled, defaultValue only on mount */}
         <F label="Module Rich Content (Body Text)">
           <StableJodit
             onSave={handleContentSave}
@@ -522,6 +590,7 @@ interface FormData {
   upcomingDatesH3: string; upcomingDatesSubtext: string;
   feeIncludedTitle: string; feeNotIncludedTitle: string;
   syllabusH2: string;
+  rightSideImageAlt: string;
 }
 
 /* ════════════════════════════════════════
@@ -538,13 +607,25 @@ export default function Edit300hrContent1({ params }: { params: Promise<{ id: st
   const [heroFile, setHeroFile] = useState<File | null>(null);
   const [heroPrev, setHeroPrev] = useState("");
 
+  /* RIGHT SIDE IMAGE */
+  const [rightSideFile, setRightSideFile] = useState<File | null>(null);
+  const [rightSidePrev, setRightSidePrev] = useState("");
+  const [rightSideErr, setRightSideErr] = useState("");
+
+  /* BOTTOM THUMBNAILS - 3 images */
+  const [thumbnails, setThumbnails] = useState<ThumbnailItem[]>([
+    { id: "thumb-1", src: "", alt: "Yoga practice at sunrise", file: null, preview: "" },
+    { id: "thumb-2", src: "", alt: "Meditation session", file: null, preview: "" },
+    { id: "thumb-3", src: "", alt: "Teacher training class", file: null, preview: "" },
+  ]);
+
   /* ── Para: IDs in state, content in ref map ── */
   const [introIds, setIntroIds] = useState<string[]>(["ip1", "ip2"]);
  const introRef = useRef<Record<string, string>>({
   ip1: "",
   ip2: "",
 });
-  const introDefaults = useRef<Record<string, string>>({});   // prefill defaults
+  const introDefaults = useRef<Record<string, string>>({});
 
   const [topIds, setTopIds] = useState<string[]>(["tp1"]);
   const topRef    = useRef<Record<string, string>>({ tp1: "" });
@@ -564,6 +645,22 @@ export default function Edit300hrContent1({ params }: { params: Promise<{ id: st
   /* fee */
   const [inclFee, setInclFee]       = useState<string[]>([""]);
   const [notInclFee, setNotInclFee] = useState<string[]>([""]);
+
+  /* ── Thumbnail handlers ── */
+  const addThumbnail = useCallback(() => {
+    const newId = `thumb-${Date.now()}`;
+    setThumbnails(prev => [...prev, { id: newId, src: "", alt: "", file: null, preview: "" }]);
+  }, []);
+
+  const removeThumbnail = useCallback((id: string) => {
+    setThumbnails(prev => prev.filter(t => t.id !== id));
+  }, []);
+
+  const updateThumbnail = useCallback((id: string, file: File | null, preview: string, alt: string) => {
+    setThumbnails(prev => prev.map(t => 
+      t.id === id ? { ...t, file, preview, alt, src: preview } : t
+    ));
+  }, []);
 
   /* ── Stable para handlers ── */
   const addIntroPara = useCallback(() => {
@@ -642,6 +739,7 @@ export default function Edit300hrContent1({ params }: { params: Promise<{ id: st
         reset({
           slug: d.slug, status: d.status,
           pageMainH1: d.pageMainH1, heroImgAlt: d.heroImgAlt,
+          rightSideImageAlt: d.rightSideImageAlt || "",
           topSectionH2: d.topSectionH2 || "",
           overviewH2: d.overview?.h2 || d.overviewH2 || "",
           upcomingDatesH3: d.upcomingDatesH3 || "",
@@ -651,38 +749,45 @@ export default function Edit300hrContent1({ params }: { params: Promise<{ id: st
           syllabusH2: d.syllabusH2 || "",
         });
 
-        /* intro paragraphs — populate ids + ref map + defaults */
-       if (d.introParagraphs?.length) {
-  const limitedParas = d.introParagraphs.slice(0, 2); // 👈 sirf 2 lo
+        /* right side image preview */
+        if (d.rightSideImage) setRightSidePrev(`${BASE_URL}${d.rightSideImage}`);
 
-  const ids = limitedParas.map((_: string, i: number) => `ip-api-${i}`);
+        /* thumbnails */
+        if (d.bottomThumbnails && Array.isArray(d.bottomThumbnails)) {
+          const loadedThumbs = d.bottomThumbnails.map((t: any, i: number) => ({
+            id: `thumb-${i}`,
+            src: t.src || "",
+            alt: t.alt || "",
+            file: null,
+            preview: t.src ? `${BASE_URL}${t.src}` : "",
+          }));
+          if (loadedThumbs.length) setThumbnails(loadedThumbs);
+        }
 
-  introRef.current = {};
-  introDefaults.current = {};
-
-  limitedParas.forEach((c: string, i: number) => {
-    introRef.current[ids[i]] = c;
-    introDefaults.current[ids[i]] = c;
-  });
-
-  setIntroIds(ids);
-}
+        /* intro paragraphs */
+        if (d.introParagraphs?.length) {
+          const limitedParas = d.introParagraphs.slice(0, 2);
+          const ids = limitedParas.map((_: string, i: number) => `ip-api-${i}`);
+          introRef.current = {};
+          introDefaults.current = {};
+          limitedParas.forEach((c: string, i: number) => {
+            introRef.current[ids[i]] = c;
+            introDefaults.current[ids[i]] = c;
+          });
+          setIntroIds(ids);
+        }
         /* top paragraphs */
-       if (d.topParagraphs?.length) {
-  const limitedParas = d.topParagraphs.slice(0, 2); // 👈 sirf 2 lo
-
-  const ids = limitedParas.map((_: string, i: number) => `tp-api-${i}`);
-
-  topRef.current = {};
-  topDefaults.current = {};
-
-  limitedParas.forEach((c: string, i: number) => {
-    topRef.current[ids[i]] = c;
-    topDefaults.current[ids[i]] = c;
-  });
-
-  setTopIds(ids);
-}
+        if (d.topParagraphs?.length) {
+          const limitedParas = d.topParagraphs.slice(0, 2);
+          const ids = limitedParas.map((_: string, i: number) => `tp-api-${i}`);
+          topRef.current = {};
+          topDefaults.current = {};
+          limitedParas.forEach((c: string, i: number) => {
+            topRef.current[ids[i]] = c;
+            topDefaults.current[ids[i]] = c;
+          });
+          setTopIds(ids);
+        }
 
         /* syllabus */
         syllabusIntroRef.current = d.syllabusIntro || "";
@@ -721,11 +826,14 @@ export default function Edit300hrContent1({ params }: { params: Promise<{ id: st
 
         /* hero */
         if (d.heroImage) setHeroPrev(`${BASE_URL}${d.heroImage}`);
-      } catch { alert("Failed to load record."); }
+      } catch (err) { 
+        console.error("Failed to load record:", err);
+        alert("Failed to load record.");
+      }
       finally { setPageLoading(false); }
     };
     load();
-  }, [id]);
+  }, [id, reset]);
 
   /* ── Submit ── */
   const onSubmit = async (data: FormData) => {
@@ -736,32 +844,73 @@ export default function Edit300hrContent1({ params }: { params: Promise<{ id: st
     try {
       setIsSubmitting(true);
       const fd = new FormData();
-      Object.entries(data).forEach(([k, v]) => fd.append(k, v as string));
+      
+      // Basic form data
+      fd.append("slug", data.slug);
+      fd.append("status", data.status);
+      fd.append("pageMainH1", data.pageMainH1);
+      fd.append("heroImgAlt", data.heroImgAlt);
+      fd.append("rightSideImageAlt", data.rightSideImageAlt || "");
+      fd.append("topSectionH2", data.topSectionH2);
+      fd.append("overviewH2", data.overviewH2);
+      fd.append("upcomingDatesH3", data.upcomingDatesH3);
+      fd.append("upcomingDatesSubtext", data.upcomingDatesSubtext);
+      fd.append("feeIncludedTitle", data.feeIncludedTitle);
+      fd.append("feeNotIncludedTitle", data.feeNotIncludedTitle);
+      fd.append("syllabusH2", data.syllabusH2);
 
+      // Intro paragraphs
       introIds.forEach((pid, i) => fd.append(`introPara${i + 1}`, introRef.current[pid] || ""));
       fd.append("introParagraphCount", String(introIds.length));
 
+      // Top paragraphs
       topIds.forEach((pid, i) => fd.append(`topPara${i + 1}`, topRef.current[pid] || ""));
       fd.append("topParagraphCount", String(topIds.length));
 
+      // Syllabus
       fd.append("syllabusIntro", syllabusIntroRef.current);
+      
+      // Overview fields
       fd.append("overviewFields", JSON.stringify(overviewFields));
 
-      inclFee.forEach(v    => fd.append("includedFee", v));
+      // Fees
+      inclFee.forEach(v => fd.append("includedFee", v));
       notInclFee.forEach(v => fd.append("notIncludedFee", v));
 
+      // Modules
       fd.append("modules", JSON.stringify(modules));
 
+      // Hero image
       if (heroFile) fd.append("heroImage", heroFile);
+      
+      // Right side image
+      if (rightSideFile) fd.append("rightSideImage", rightSideFile);
 
-      await api.put(`/yoga-300hr/content1/update/${id}`, fd, {
+      // Thumbnails - ONLY send files that have been uploaded
+      const thumbnailsToSave = thumbnails.map(t => ({ src: t.src, alt: t.alt }));
+      fd.append("bottomThumbnails", JSON.stringify(thumbnailsToSave));
+      
+      // Append thumbnail files that have new uploads
+      thumbnails.forEach((thumb, idx) => {
+        if (thumb.file) {
+          fd.append(`thumbnail_${idx}`, thumb.file);
+        }
+      });
+
+      const response = await api.put(`/yoga-300hr/content1/update/${id}`, fd, {
         headers: { "Content-Type": "multipart/form-data" },
       });
-      setSubmitted(true);
-      setTimeout(() => router.push("/admin/yogacourse/300hourscourse/300-content1"), 1500);
+      
+      if (response.data.success) {
+        setSubmitted(true);
+        setTimeout(() => router.push("/admin/yogacourse/300hourscourse/300-content1"), 1500);
+      }
     } catch (e: any) {
+      console.error("Submit error:", e);
       alert(e?.response?.data?.message || e?.message || "Something went wrong");
-    } finally { setIsSubmitting(false); }
+    } finally { 
+      setIsSubmitting(false); 
+    }
   };
 
   /* ── Loading / Success screens ── */
@@ -797,7 +946,7 @@ export default function Edit300hrContent1({ params }: { params: Promise<{ id: st
       <div className={styles.pageHeader}>
         <div className={styles.pageHeaderText}>
           <h1 className={styles.pageTitle}>Edit — 300hr Content Part 1</h1>
-          <p className={styles.pageSubtitle}>Hero → Syllabus · Modules (Dynamic)</p>
+          <p className={styles.pageSubtitle}>Hero → Right Image → Thumbnails → Syllabus → Modules</p>
         </div>
       </div>
 
@@ -829,7 +978,52 @@ export default function Edit300hrContent1({ params }: { params: Promise<{ id: st
         </Sec>
         <D />
 
-        {/* ════ 2. INTRO PARAGRAPHS ════ */}
+        {/* ════ 2. RIGHT SIDE IMAGE SECTION ════ */}
+        <Sec title="Right Side Image (Replaces Video)" badge="NEW">
+          <F label="Right Side Image" hint="This image replaces the video on the right side. Recommended 600×400px">
+            <SingleImg 
+              preview={rightSidePrev} 
+              badge="Right Side" 
+              hint="JPG/PNG/WEBP · 600×400px"
+              error={rightSideErr}
+              onSelect={(f, p) => { setRightSideFile(f); setRightSidePrev(p); setRightSideErr(""); }}
+              onRemove={() => { setRightSideFile(null); setRightSidePrev(""); setRightSideErr(""); }} 
+            />
+          </F>
+          <F label="Right Side Image Alt Text">
+            <div className={styles.inputWrap}>
+              <input 
+                className={`${styles.input} ${styles.inputNoCount}`}
+                placeholder="Yoga students practicing in Rishikesh"
+                {...register("rightSideImageAlt")} 
+              />
+            </div>
+          </F>
+        </Sec>
+        <D />
+
+        {/* ════ 3. BOTTOM THUMBNAILS GALLERY (3 IMAGES) ════ */}
+        <Sec title="Bottom Thumbnails Gallery" badge="3 Images">
+          <p className={styles.fieldHint}>These 3 thumbnails appear at the bottom of the hero section. Upload or replace images below.</p>
+          {thumbnails.map((thumb, idx) => (
+            <ThumbnailItemComponent
+              key={thumb.id}
+              thumb={thumb}
+              index={idx}
+              total={thumbnails.length}
+              onUpdate={updateThumbnail}
+              onRemove={removeThumbnail}
+            />
+          ))}
+          {thumbnails.length < 6 && (
+            <button type="button" className={styles.addItemBtn} onClick={addThumbnail}>
+              ＋ Add Thumbnail
+            </button>
+          )}
+        </Sec>
+        <D />
+
+        {/* ════ 4. INTRO PARAGRAPHS ════ */}
         <Sec title="Introduction Paragraphs" badge="Expandable">
           <p className={styles.fieldHint}>
             Main body text below the hero section.
@@ -849,7 +1043,7 @@ export default function Edit300hrContent1({ params }: { params: Promise<{ id: st
         </Sec>
         <D />
 
-        {/* ════ 3. TOP SECTION ════ */}
+        {/* ════ 5. TOP SECTION ════ */}
         <Sec title="Top Section — Second Heading & Paragraphs" badge="Expandable">
           <F label="Section H2 Heading">
             <div className={styles.inputWrap}>
@@ -873,7 +1067,7 @@ export default function Edit300hrContent1({ params }: { params: Promise<{ id: st
         </Sec>
         <D />
 
-        {/* ════ 4. OVERVIEW ════ */}
+        {/* ════ 6. OVERVIEW ════ */}
         <Sec title="Course Overview Box" badge="Dynamic Fields">
           <F label="Overview H2 Heading">
             <div className={styles.inputWrap}>
@@ -887,7 +1081,7 @@ export default function Edit300hrContent1({ params }: { params: Promise<{ id: st
         </Sec>
         <D />
 
-        {/* ════ 5. UPCOMING DATES ════ */}
+        {/* ════ 7. UPCOMING DATES ════ */}
         <Sec title="Upcoming Course Dates — Headings" badge="Data from DB">
           <div className={styles.grid2}>
             <F label="Section H3">
@@ -904,7 +1098,7 @@ export default function Edit300hrContent1({ params }: { params: Promise<{ id: st
         </Sec>
         <D />
 
-        {/* ════ 6. FEE ════ */}
+        {/* ════ 8. FEE ════ */}
         <Sec title="Fee — Included & Not Included">
           <F label="Included Section Title">
             <div className={styles.inputWrap}>
@@ -933,7 +1127,7 @@ export default function Edit300hrContent1({ params }: { params: Promise<{ id: st
         </Sec>
         <D />
 
-        {/* ════ 7. SYLLABUS ════ */}
+        {/* ════ 9. SYLLABUS ════ */}
         <Sec title="Syllabus Section">
           <F label="Syllabus H2 Heading">
             <div className={styles.inputWrap}>
@@ -953,7 +1147,7 @@ export default function Edit300hrContent1({ params }: { params: Promise<{ id: st
         </Sec>
         <D />
 
-        {/* ════ 8. MODULES ════ */}
+        {/* ════ 10. MODULES ════ */}
         <Sec title="Course Modules" badge="Dynamic — Add / Remove / Reorder">
           <p className={styles.fieldHint} style={{ marginBottom: "1rem" }}>
             Modules are automatically renumbered when you add, remove, or reorder them.
