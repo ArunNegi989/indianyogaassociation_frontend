@@ -145,7 +145,37 @@ interface Content2 {
   evolutionH2: string;
   evolutionParas: string[];
 
- 
+   // Yoga Ethics Section - Dynamic Images
+   ethicsImage1: string;
+   ethicsImage1Alt: string;
+   ethicsImage1Label: string;
+   ethicsImage2: string;
+   ethicsImage2Alt: string;
+   ethicsImage2Label: string;
+   diplomaBadgeLine1: string;
+   diplomaBadgeLine2: string;
+
+  learningImage1: string;
+  learningImage1Alt: string;
+  learningImage1Label: string;
+  learningImage2: string;
+  learningImage2Alt: string;
+  learningImage2Label: string;
+  learningImage3: string;
+  learningImage3Alt: string;
+  learningImage3Label: string;
+  
+  // Eligibility Section Image
+  eligibilityImage: string;
+  eligibilityImageAlt: string;
+  
+  // Evaluation Section Images (2 images)
+  evaluationMainImage: string;
+  evaluationMainImageAlt: string;
+  evaluationSmallImage: string;
+  evaluationSmallImageAlt: string;
+  evaluationBadgeLine1: string;
+  evaluationBadgeLine2: string;
   evolutionRightImage: string;        // NEW - Dynamic right side image
   evolutionRightImageAlt: string;     // NEW - Alt text for image
   evolutionBadgeText: string;         // NEW - Badge text (e.g., "Yoga Alliance")
@@ -1708,239 +1738,399 @@ export default function YogaTTC300() {
         </section>
       )}
 
-      {/* ══════════════════════════════════════
-          SECTION 9 — LEARNING OUTCOMES + ELIGIBILITY + EVALUATION
-      ══════════════════════════════════════ */}
-      {content2 && (
-        <section className={styles.section}>
-          <div className={`container ${styles.facilityContainer}`}>
-            <div className={styles.s9HeaderWrap}>
-              <div className={styles.s9OmRow}>
-                <span className={styles.s9OmLine} />
-                <span className={styles.s9OmGlyph}>ॐ</span>
-                <span className={styles.s9OmLine} />
+     {/* ══════════════════════════════════════
+   SECTION 9 — LEARNING OUTCOMES + ELIGIBILITY + EVALUATION
+══════════════════════════════════════ */}
+{content2 && (
+  <section className={styles.section}>
+    <div className={`container ${styles.facilityContainer}`}>
+      <div className={styles.s9HeaderWrap}>
+        <div className={styles.s9OmRow}>
+          <span className={styles.s9OmLine} />
+          <span className={styles.s9OmGlyph}>ॐ</span>
+          <span className={styles.s9OmLine} />
+        </div>
+        {content2.learningH2 && (
+          <h2 className={styles.sectionTitleOrange}>{content2.learningH2}</h2>
+        )}
+        <div className={styles.sectionUnderline} />
+      </div>
+      <div className={styles.s9OutcomesSplit}>
+        <div className={styles.s9OutcomesLeft}>
+          {content2.learningItems && content2.learningItems.length > 0 && (
+            <div className={styles.s9OutcomesGrid}>
+              {content2.learningItems.map((item, i) => (
+                <div key={i} className={styles.s9OutcomeChip}>
+                  <span className={styles.s9ChipNum}>
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <span className={styles.s9ChipTxt}>{item}</span>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+        
+        {/* DYNAMIC 3 IMAGES - MOSAIC GALLERY */}
+        <div className={styles.s9ImageMosaic}>
+          {/* Image 1 - Tall Image */}
+          <div className={`${styles.s9ImgBlock} ${styles.s9ImgTall}`}>
+            {content2?.learningImage1 ? (
+              <img 
+                src={imgUrl(content2.learningImage1)} 
+                alt={content2.learningImage1Alt || "Advanced yoga practice in Rishikesh"} 
+                className={styles.s9Img} 
+                loading="lazy" 
+              />
+            ) : (
+              <img 
+                src="/images/s9-outcomes-1.jpg" 
+                alt="Advanced yoga practice in Rishikesh" 
+                className={styles.s9Img} 
+                loading="lazy" 
+              />
+            )}
+            <div className={styles.s9ImgOverlay}>
+              <span className={styles.s9ImgLabel}>
+                {content2.learningImage1Label || "Advanced Practice"}
+              </span>
+            </div>
+          </div>
+          
+          {/* Image 2 */}
+          <div className={styles.s9ImgBlock}>
+            {content2?.learningImage2 ? (
+              <img 
+                src={imgUrl(content2.learningImage2)} 
+                alt={content2.learningImage2Alt || "Yoga certification ceremony"} 
+                className={styles.s9Img} 
+                loading="lazy" 
+              />
+            ) : (
+              <img 
+                src="/images/s9-outcomes-2.jpg" 
+                alt="Yoga certification ceremony" 
+                className={styles.s9Img} 
+                loading="lazy" 
+              />
+            )}
+            <div className={styles.s9ImgOverlay}>
+              <span className={styles.s9ImgLabel}>
+                {content2.learningImage2Label || "Certification"}
+              </span>
+            </div>
+          </div>
+          
+          {/* Image 3 */}
+          <div className={styles.s9ImgBlock}>
+            {content2?.learningImage3 ? (
+              <img 
+                src={imgUrl(content2.learningImage3)} 
+                alt={content2.learningImage3Alt || "Graduation at AYM School"} 
+                className={styles.s9Img} 
+                loading="lazy" 
+              />
+            ) : (
+              <img 
+                src="/images/s9-outcomes-3.jpg" 
+                alt="Graduation at AYM School" 
+                className={styles.s9Img} 
+                loading="lazy" 
+              />
+            )}
+            <div className={styles.s9ImgOverlay}>
+              <span className={styles.s9ImgLabel}>
+                {content2.learningImage3Label || "Graduation"}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      {/* Eligibility Section */}
+      {content2.eligibilityH2 && (
+        <div className={styles.s9Card}>
+          <div className={styles.s9CardHeader}>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFF8EE" strokeWidth="1.6" strokeLinecap="round">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+            </svg>
+            <h2 className={styles.s9CardTitle}>{content2.eligibilityH2}</h2>
+          </div>
+          <div className={styles.s9CardBody}>
+            <div className={styles.s9EligSplit}>
+              <div className={styles.s9EligLeft}>
+                {content2.eligibilityTag && (<div className={styles.s9EligTag}>{content2.eligibilityTag}</div>)}
+                {content2.eligibilityParas && content2.eligibilityParas.length > 0 && (
+                  <div className={styles.s9EligText}>
+                    {content2.eligibilityParas.map((para, i) => (<SafeHtml key={i} html={para} />))}
+                  </div>
+                )}
               </div>
-              {content2.learningH2 && (
-                <h2 className={styles.sectionTitleOrange}>{content2.learningH2}</h2>
+              <div className={styles.s9EligRight}>
+                <div className={styles.s9CertBadge}>
+                  <div className={styles.s9CertBig}>RYT 500</div>
+                  <div className={styles.s9CertSub}>Yoga Alliance Certified</div>
+                </div>
+                <div className={styles.s9PrereqBox}>
+                  <div className={styles.s9PrereqLabel}>Prerequisite</div>
+                  <div className={styles.s9PrereqVal}>200 Hour YTT</div>
+                </div>
+                <div className={styles.s9EligImgWrap}>
+                  {content2?.eligibilityImage ? (
+                    <img 
+                      src={imgUrl(content2.eligibilityImage)} 
+                      alt={content2.eligibilityImageAlt || "Yoga eligibility — student in practice"} 
+                      className={styles.s9EligImg} 
+                      loading="lazy" 
+                    />
+                  ) : (
+                    <img 
+                      src="/images/s9-eligibility.jpg" 
+                      alt="Yoga eligibility — student in practice" 
+                      className={styles.s9EligImg} 
+                      loading="lazy" 
+                    />
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+      
+      {/* Evaluation Section */}
+      {content2.evaluationH2 && (
+        <div className={styles.s9Card}>
+          <div className={styles.s9CardHeader}>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFF8EE" strokeWidth="1.6" strokeLinecap="round">
+              <rect x="2" y="3" width="20" height="14" rx="2"/>
+              <path d="M8 17v4M16 17v4M8 21h8"/>
+              <path d="M9 10l2 2 4-4"/>
+            </svg>
+            <h2 className={styles.s9CardTitle}>{content2.evaluationH2}</h2>
+          </div>
+          <div className={styles.s9CardBody}>
+            <div className={styles.s9EvalLayout}>
+              <div className={styles.s9EvalLeft}>
+                {content2.evaluationParas?.map((para, i) => (<div key={i} className={styles.s9EvalPara}><SafeHtml html={para} /></div>))}
+                <div className={styles.s9EvalIconGrid}>
+                  <div className={styles.s9EvalItem}>
+                    <div className={styles.s9EvalIconWrap}><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F15505" strokeWidth="1.6" strokeLinecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div>
+                    <div className={styles.s9EvalItemTitle}>4-Week Course</div>
+                    <div className={styles.s9EvalItemDesc}>24 days residential</div>
+                  </div>
+                  <div className={styles.s9EvalItem}>
+                    <div className={styles.s9EvalIconWrap}><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F15505" strokeWidth="1.6" strokeLinecap="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></div>
+                    <div className={styles.s9EvalItemTitle}>Written Exam</div>
+                    <div className={styles.s9EvalItemDesc}>Theory & philosophy</div>
+                  </div>
+                  <div className={styles.s9EvalItem}>
+                    <div className={styles.s9EvalIconWrap}><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F15505" strokeWidth="1.6" strokeLinecap="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+                    <div className={styles.s9EvalItemTitle}>Practical Demo</div>
+                    <div className={styles.s9EvalItemDesc}>Teaching assessment</div>
+                  </div>
+                </div>
+              </div>
+              <div className={styles.s9EvalRight}>
+                <div className={styles.s9EvalImgStack}>
+                  {/* Main Evaluation Image */}
+                  {content2?.evaluationMainImage ? (
+                    <img 
+                      src={imgUrl(content2.evaluationMainImage)} 
+                      alt={content2.evaluationMainImageAlt || "Evaluation and certification ceremony"} 
+                      className={styles.s9EvalMainImg} 
+                      loading="lazy" 
+                    />
+                  ) : (
+                    <img 
+                      src="/images/s9-eval-main.jpg" 
+                      alt="Evaluation and certification ceremony" 
+                      className={styles.s9EvalMainImg} 
+                      loading="lazy" 
+                    />
+                  )}
+                  <div className={styles.s9EvalImgBadge}>
+                    <div className={styles.s9EvalBadgeLine1}>
+                      {content2.evaluationBadgeLine1 || "Yoga Alliance USA"}
+                    </div>
+                    <div className={styles.s9EvalBadgeLine2}>
+                      {content2.evaluationBadgeLine2 || "Certification Awarded"}
+                    </div>
+                  </div>
+                  {/* Small Evaluation Image */}
+                  {content2?.evaluationSmallImage ? (
+                    <img 
+                      src={imgUrl(content2.evaluationSmallImage)} 
+                      alt={content2.evaluationSmallImageAlt || "Students receiving certificates"} 
+                      className={styles.s9EvalSmallImg} 
+                      loading="lazy" 
+                    />
+                  ) : (
+                    <img 
+                      src="/images/s9-eval-small.jpg" 
+                      alt="Students receiving certificates" 
+                      className={styles.s9EvalSmallImg} 
+                      loading="lazy" 
+                    />
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  </section>
+)}
+{/* ══════════════════════════════════════
+   SECTION 10 — YOGA ETHICS
+══════════════════════════════════════ */}
+{content2 && (
+  <section className={`${styles.section} ${styles.sectionLight}`}>
+    <div className={`container ${styles.facilityContainer}`}>
+      <div className={styles.s10HeaderWrap}>
+        <div className={styles.s10OmRow}>
+          <span className={styles.s10OmLine} />
+          <span className={styles.s10OmGlyph}>ॐ</span>
+          <span className={styles.s10OmLine} />
+        </div>
+        {content2.ethicsH2 && (<h2 className={styles.sectionTitleOrange}>{content2.ethicsH2}</h2>)}
+        <div className={styles.sectionUnderline} />
+      </div>
+      <div className={styles.s10HeroSplit}>
+        <div className={styles.s10Left}>
+          {content2.ethicsParas && content2.ethicsParas.length > 0 && (
+            <div className={styles.s10IntroParas}>
+              {content2.ethicsParas.map((para, i) => (<div key={i} className={styles.s10Para}><SafeHtml html={para} /></div>))}
+            </div>
+          )}
+          <div className={styles.s10YnRow}>
+            <div className={styles.s10YnChip}>
+              <div className={styles.s10YnChipAccent} />
+              <div className={styles.s10YnChipBody}>
+                <div className={styles.s10YnChipTitle}>Yama</div>
+                <div className={styles.s10YnChipDesc}>Ethical disciplines — our relationship with the outer world</div>
+              </div>
+            </div>
+            <div className={styles.s10YnChip}>
+              <div className={styles.s10YnChipAccent} />
+              <div className={styles.s10YnChipBody}>
+                <div className={styles.s10YnChipTitle}>Niyama</div>
+                <div className={styles.s10YnChipDesc}>Self-observances — our relationship with our inner world</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        {/* RIGHT SIDE - DYNAMIC PAIR OF IMAGES */}
+        <div className={styles.s10Right}>
+          {content2.ethicsQuote && (
+            <div className={styles.s10QuoteBlock}>
+              <div className={styles.s10QuoteMark}>&ldquo;</div>
+              <p className={styles.s10QuoteText}>{content2.ethicsQuote}</p>
+              <div className={styles.s10QuoteAttrib}>— Yoga Philosophy</div>
+            </div>
+          )}
+          <div className={styles.s10ImgPair}>
+            {/* Image 1 - Left */}
+            <div className={styles.s10ImgWrap}>
+              {content2?.ethicsImage1 ? (
+                <img 
+                  src={imgUrl(content2.ethicsImage1)} 
+                  alt={content2.ethicsImage1Alt || "Yoga ethics in practice"} 
+                  className={styles.s10Img} 
+                  loading="lazy" 
+                />
+              ) : (
+                <img 
+                  src="/images/s10-ethics-1.jpg" 
+                  alt="Yoga ethics in practice" 
+                  className={styles.s10Img} 
+                  loading="lazy" 
+                />
               )}
-              <div className={styles.sectionUnderline} />
-            </div>
-            <div className={styles.s9OutcomesSplit}>
-              <div className={styles.s9OutcomesLeft}>
-                {content2.learningItems && content2.learningItems.length > 0 && (
-                  <div className={styles.s9OutcomesGrid}>
-                    {content2.learningItems.map((item, i) => (
-                      <div key={i} className={styles.s9OutcomeChip}>
-                        <span className={styles.s9ChipNum}>
-                          {String(i + 1).padStart(2, "0")}
-                        </span>
-                        <span className={styles.s9ChipTxt}>{item}</span>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-              <div className={styles.s9ImageMosaic}>
-                <div className={`${styles.s9ImgBlock} ${styles.s9ImgTall}`}>
-                  <img src="/images/s9-outcomes-1.jpg" alt="Advanced yoga practice in Rishikesh" className={styles.s9Img} loading="lazy" />
-                  <div className={styles.s9ImgOverlay}><span className={styles.s9ImgLabel}>Advanced Practice</span></div>
-                </div>
-                <div className={styles.s9ImgBlock}>
-                  <img src="/images/s9-outcomes-2.jpg" alt="Yoga certification ceremony" className={styles.s9Img} loading="lazy" />
-                  <div className={styles.s9ImgOverlay}><span className={styles.s9ImgLabel}>Certification</span></div>
-                </div>
-                <div className={styles.s9ImgBlock}>
-                  <img src="/images/s9-outcomes-3.jpg" alt="Graduation at AYM School" className={styles.s9Img} loading="lazy" />
-                  <div className={styles.s9ImgOverlay}><span className={styles.s9ImgLabel}>Graduation</span></div>
-                </div>
+              <div className={styles.s10ImgOverlay}>
+                <span className={styles.s10ImgLabel}>
+                  {content2.ethicsImage1Label || "Discipline in Practice"}
+                </span>
               </div>
             </div>
-            {content2.eligibilityH2 && (
-              <div className={styles.s9Card}>
-                <div className={styles.s9CardHeader}>
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFF8EE" strokeWidth="1.6" strokeLinecap="round">
-                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                  </svg>
-                  <h2 className={styles.s9CardTitle}>{content2.eligibilityH2}</h2>
-                </div>
-                <div className={styles.s9CardBody}>
-                  <div className={styles.s9EligSplit}>
-                    <div className={styles.s9EligLeft}>
-                      {content2.eligibilityTag && (<div className={styles.s9EligTag}>{content2.eligibilityTag}</div>)}
-                      {content2.eligibilityParas && content2.eligibilityParas.length > 0 && (
-                        <div className={styles.s9EligText}>
-                          {content2.eligibilityParas.map((para, i) => (<SafeHtml key={i} html={para} />))}
-                        </div>
-                      )}
-                    </div>
-                    <div className={styles.s9EligRight}>
-                      <div className={styles.s9CertBadge}>
-                        <div className={styles.s9CertBig}>RYT 500</div>
-                        <div className={styles.s9CertSub}>Yoga Alliance Certified</div>
-                      </div>
-                      <div className={styles.s9PrereqBox}>
-                        <div className={styles.s9PrereqLabel}>Prerequisite</div>
-                        <div className={styles.s9PrereqVal}>200 Hour YTT</div>
-                      </div>
-                      <div className={styles.s9EligImgWrap}>
-                        <img src="/images/s9-eligibility.jpg" alt="Yoga eligibility — student in practice" className={styles.s9EligImg} loading="lazy" />
-                      </div>
-                    </div>
-                  </div>
-                </div>
+            
+            {/* Image 2 - Right */}
+            <div className={styles.s10ImgWrap}>
+              {content2?.ethicsImage2 ? (
+                <img 
+                  src={imgUrl(content2.ethicsImage2)} 
+                  alt={content2.ethicsImage2Alt || "AYM campus — yoga shala"} 
+                  className={styles.s10Img} 
+                  loading="lazy" 
+                />
+              ) : (
+                <img 
+                  src="/images/s10-ethics-2.jpg" 
+                  alt="AYM campus — yoga shala" 
+                  className={styles.s10Img} 
+                  loading="lazy" 
+                />
+              )}
+              <div className={styles.s10ImgOverlay}>
+                <span className={styles.s10ImgLabel}>
+                  {content2.ethicsImage2Label || "AYM Yoga Shala"}
+                </span>
               </div>
-            )}
-            {content2.evaluationH2 && (
-              <div className={styles.s9Card}>
-                <div className={styles.s9CardHeader}>
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFF8EE" strokeWidth="1.6" strokeLinecap="round">
-                    <rect x="2" y="3" width="20" height="14" rx="2"/>
-                    <path d="M8 17v4M16 17v4M8 21h8"/>
-                    <path d="M9 10l2 2 4-4"/>
-                  </svg>
-                  <h2 className={styles.s9CardTitle}>{content2.evaluationH2}</h2>
-                </div>
-                <div className={styles.s9CardBody}>
-                  <div className={styles.s9EvalLayout}>
-                    <div className={styles.s9EvalLeft}>
-                      {content2.evaluationParas?.map((para, i) => (<div key={i} className={styles.s9EvalPara}><SafeHtml html={para} /></div>))}
-                      <div className={styles.s9EvalIconGrid}>
-                        <div className={styles.s9EvalItem}>
-                          <div className={styles.s9EvalIconWrap}><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F15505" strokeWidth="1.6" strokeLinecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div>
-                          <div className={styles.s9EvalItemTitle}>4-Week Course</div>
-                          <div className={styles.s9EvalItemDesc}>24 days residential</div>
-                        </div>
-                        <div className={styles.s9EvalItem}>
-                          <div className={styles.s9EvalIconWrap}><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F15505" strokeWidth="1.6" strokeLinecap="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></div>
-                          <div className={styles.s9EvalItemTitle}>Written Exam</div>
-                          <div className={styles.s9EvalItemDesc}>Theory & philosophy</div>
-                        </div>
-                        <div className={styles.s9EvalItem}>
-                          <div className={styles.s9EvalIconWrap}><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F15505" strokeWidth="1.6" strokeLinecap="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
-                          <div className={styles.s9EvalItemTitle}>Practical Demo</div>
-                          <div className={styles.s9EvalItemDesc}>Teaching assessment</div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className={styles.s9EvalRight}>
-                      <div className={styles.s9EvalImgStack}>
-                        <img src="/images/s9-eval-main.jpg" alt="Evaluation and certification ceremony" className={styles.s9EvalMainImg} loading="lazy" />
-                        <div className={styles.s9EvalImgBadge}>
-                          <div className={styles.s9EvalBadgeLine1}>Yoga Alliance USA</div>
-                          <div className={styles.s9EvalBadgeLine2}>Certification Awarded</div>
-                        </div>
-                        <img src="/images/s9-eval-small.jpg" alt="Students receiving certificates" className={styles.s9EvalSmallImg} loading="lazy" />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
+            </div>
           </div>
-        </section>
-      )}
-
-      {/* ══════════════════════════════════════
-          SECTION 10 — YOGA ETHICS
-      ══════════════════════════════════════ */}
-      {content2 && (
-        <section className={`${styles.section} ${styles.sectionLight}`}>
-          <div className={`container ${styles.facilityContainer}`}>
-            <div className={styles.s10HeaderWrap}>
-              <div className={styles.s10OmRow}>
-                <span className={styles.s10OmLine} />
-                <span className={styles.s10OmGlyph}>ॐ</span>
-                <span className={styles.s10OmLine} />
-              </div>
-              {content2.ethicsH2 && (<h2 className={styles.sectionTitleOrange}>{content2.ethicsH2}</h2>)}
-              <div className={styles.sectionUnderline} />
-            </div>
-            <div className={styles.s10HeroSplit}>
-              <div className={styles.s10Left}>
-                {content2.ethicsParas && content2.ethicsParas.length > 0 && (
-                  <div className={styles.s10IntroParas}>
-                    {content2.ethicsParas.map((para, i) => (<div key={i} className={styles.s10Para}><SafeHtml html={para} /></div>))}
-                  </div>
-                )}
-                <div className={styles.s10YnRow}>
-                  <div className={styles.s10YnChip}>
-                    <div className={styles.s10YnChipAccent} />
-                    <div className={styles.s10YnChipBody}>
-                      <div className={styles.s10YnChipTitle}>Yama</div>
-                      <div className={styles.s10YnChipDesc}>Ethical disciplines — our relationship with the outer world</div>
-                    </div>
-                  </div>
-                  <div className={styles.s10YnChip}>
-                    <div className={styles.s10YnChipAccent} />
-                    <div className={styles.s10YnChipBody}>
-                      <div className={styles.s10YnChipTitle}>Niyama</div>
-                      <div className={styles.s10YnChipDesc}>Self-observances — our relationship with our inner world</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className={styles.s10Right}>
-                {content2.ethicsQuote && (
-                  <div className={styles.s10QuoteBlock}>
-                    <div className={styles.s10QuoteMark}>&ldquo;</div>
-                    <p className={styles.s10QuoteText}>{content2.ethicsQuote}</p>
-                    <div className={styles.s10QuoteAttrib}>— Yoga Philosophy</div>
-                  </div>
-                )}
-                <div className={styles.s10ImgPair}>
-                  <div className={styles.s10ImgWrap}>
-                    <img src="/images/s10-ethics-1.jpg" alt="Yoga ethics in practice" className={styles.s10Img} loading="lazy" />
-                    <div className={styles.s10ImgOverlay}><span className={styles.s10ImgLabel}>Discipline in Practice</span></div>
-                  </div>
-                  <div className={styles.s10ImgWrap}>
-                    <img src="/images/s10-ethics-2.jpg" alt="AYM campus — yoga shala" className={styles.s10Img} loading="lazy" />
-                    <div className={styles.s10ImgOverlay}><span className={styles.s10ImgLabel}>AYM Yoga Shala</span></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            {content2.ethicsNaturalisticPara && (
-              <div className={styles.s10NaturePara}>
-                <div className={styles.s10NatureIcon}>
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F15505" strokeWidth="1.5" strokeLinecap="round">
-                    <path d="M12 2a10 10 0 0 1 10 10c0 5.52-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2z"/>
-                    <path d="M12 6v6l4 2"/>
-                  </svg>
-                </div>
-                <p className={styles.s10NatureText}>{content2.ethicsNaturalisticPara}</p>
-              </div>
-            )}
-            {content2.ethicsRules && content2.ethicsRules.length > 0 && (
-              <div className={styles.s10RulesWrap}>
-                <div className={styles.s10RulesHeader}>
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFF8EE" strokeWidth="1.6" strokeLinecap="round">
-                    <path d="M9 11l3 3L22 4"/>
-                    <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
-                  </svg>
-                  <span className={styles.s10RulesHeaderTxt}>Student Code of Conduct</span>
-                </div>
-                <div className={styles.s10RulesGrid}>
-                  {content2.ethicsRules.map((rule, i) => (
-                    <div key={i} className={styles.s10RuleCard}>
-                      <div className={styles.s10RuleNum}>{String(i + 1).padStart(2, "0")}</div>
-                      <p className={styles.s10RuleTxt}>{rule}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-            {content2.diplomaImage && (
-              <div className={styles.s10DiplomaWrap}>
-                <img src={imgUrl(content2.diplomaImage)} alt="Students with Diploma certificates — AYM School" className={styles.s10DiplomaImg} loading="lazy" />
-                <div className={styles.s10DiplomaBadge}>
-                  <div className={styles.s10DiplomaBadgeLine1}>Yoga Alliance USA</div>
-                  <div className={styles.s10DiplomaBadgeLine2}>Certified Graduates</div>
-                </div>
-              </div>
-            )}
+        </div>
+      </div>
+      
+      {content2.ethicsNaturalisticPara && (
+        <div className={styles.s10NaturePara}>
+          <div className={styles.s10NatureIcon}>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F15505" strokeWidth="1.5" strokeLinecap="round">
+              <path d="M12 2a10 10 0 0 1 10 10c0 5.52-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2z"/>
+              <path d="M12 6v6l4 2"/>
+            </svg>
           </div>
-        </section>
+          <p className={styles.s10NatureText}>{content2.ethicsNaturalisticPara}</p>
+        </div>
       )}
+      
+      {content2.ethicsRules && content2.ethicsRules.length > 0 && (
+        <div className={styles.s10RulesWrap}>
+          <div className={styles.s10RulesHeader}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFF8EE" strokeWidth="1.6" strokeLinecap="round">
+              <path d="M9 11l3 3L22 4"/>
+              <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+            </svg>
+            <span className={styles.s10RulesHeaderTxt}>Student Code of Conduct</span>
+          </div>
+          <div className={styles.s10RulesGrid}>
+            {content2.ethicsRules.map((rule, i) => (
+              <div key={i} className={styles.s10RuleCard}>
+                <div className={styles.s10RuleNum}>{String(i + 1).padStart(2, "0")}</div>
+                <p className={styles.s10RuleTxt}>{rule}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+      
+      {content2.diplomaImage && (
+        <div className={styles.s10DiplomaWrap}>
+          <img src={imgUrl(content2.diplomaImage)} alt="Students with Diploma certificates — AYM School" className={styles.s10DiplomaImg} loading="lazy" />
+          <div className={styles.s10DiplomaBadge}>
+            <div className={styles.s10DiplomaBadgeLine1}>
+              {content2.diplomaBadgeLine1 || "Yoga Alliance USA"}
+            </div>
+            <div className={styles.s10DiplomaBadgeLine2}>
+              {content2.diplomaBadgeLine2 || "Certified Graduates"}
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  </section>
+)}
 
       {/* ══════════════════════════════════════
           SECTION 11 — MISCONCEPTIONS
