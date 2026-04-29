@@ -309,12 +309,10 @@ const AccreditationSection: React.FC = () => {
           <div className={styles.highlightBox}>
             <h4 className={styles.highlightTitle}>📋 Register with Yoga Alliance USA</h4>
             <p className={styles.highlightText}>
-              AYM is a Registered Yoga Alliance Yoga Teacher Training School offering 200-hour, 
-              300-hour and 500-hour yoga alliance certification in Rishikesh, India. Graduates can 
-              register with Yoga Alliance USA as RYT 200 and RYT 500 after graduation.
+            AYM is a Registered Yoga Alliance Yoga Teacher Training School offers 200 hour, 300 hour and 500 hour yoga alliance certification in rishikesh India and graduates can register them with Yoga Alliance USA as RYT 200 and RYT 500 after graduation from AYM yoga alliance yoga school. To register you need to login to yoga alliance website – www.yogaalliance.org and make your account and fill required information. After verification of your graduation certification from AYM yoga alliance ttc in rishikesh, you will get registered.
             </p>
             <p className={styles.highlightText}>
-              To register, visit{" "}
+              To register, you need to login to yoga alliance website –{" "}
               <a
                 href="https://www.yogaalliance.org"
                 target="_blank"
@@ -323,7 +321,7 @@ const AccreditationSection: React.FC = () => {
               >
                 www.yogaalliance.org
               </a>{" "}
-              and create your account with your graduation certification from AYM.
+              and make your account and fill required information. After verification of your graduation certification from AYM yoga alliance ttc in rishikesh, you will get registered.
             </p>
           </div>
         </div>
@@ -377,9 +375,9 @@ const AccreditationSection: React.FC = () => {
 
 With this accreditation, students can be confident that they are receiving structured, credible, and globally respected training. The courses are thoughtfully designed to blend ancient yogic wisdom with contemporary teaching techniques, allowing practitioners not only to deepen their personal practice but also to become skilled and confident yoga instructors. <br />
 
-AYM Yoga School emphasizes holistic development—covering physical postures (asanas), breath control (pranayama), meditation, philosophy, anatomy, and teaching methodology. The experienced faculty, serene learning environment, and well-structured programs create an ideal space for transformation and growth.<br />
+{/* AYM Yoga School emphasizes holistic development—covering physical postures (asanas), breath control (pranayama), meditation, philosophy, anatomy, and teaching methodology. The experienced faculty, serene learning environment, and well-structured programs create an ideal space for transformation and growth.<br />
 
-Moreover, certification from a recognized institution like AYM enhances career opportunities worldwide, as it adds authenticity and credibility to a yoga teacher’s profile. Whether your goal is self-growth, spiritual exploration, or building a professional teaching career, AYM Yoga School provides a strong and trusted foundation for your journey in yoga.
+Moreover, certification from a recognized institution like AYM enhances career opportunities worldwide, as it adds authenticity and credibility to a yoga teacher’s profile. Whether your goal is self-growth, spiritual exploration, or building a professional teaching career, AYM Yoga School provides a strong and trusted foundation for your journey in yoga. */}
               </p>
             </div>
           </div>

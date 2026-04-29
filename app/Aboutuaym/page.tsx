@@ -291,9 +291,7 @@ const AboutUs: React.FC = () => {
               <div className={styles.timelineContent}>
                 <h3 className={styles.timelineTitle}>Foundation Year</h3>
                 <p className={styles.para}>
-                  In September 2005, Yogi Chetan Mahesh and other well-known yoga experts
-                  decided to establish a standard for yoga teacher training. They registered
-                  &apos;The Association for Yoga and Meditation&apos; with the government of India.
+                In September 2005, it became apparent that a standard for yoga teacher training at the national level (in India) was necessary. Yogi Chetan Mahesh and other well-known yoga experts and great yoga Gurus decided to make a foundation to solve the matter. They registered an organization named 'The Association for Yoga and Meditation' with the government of India.
                 </p>
               </div>
               <div className={styles.timelineImageWrapper}>
@@ -312,9 +310,7 @@ const AboutUs: React.FC = () => {
               <div className={styles.timelineContent}>
                 <h3 className={styles.timelineTitle}>National Recognition</h3>
                 <p className={styles.para}>
-                  AYM Yoga School achieved the status as a National Organization of India
-                  and became a member of the International Yoga Federation (IYF). AYM set
-                  standards for yoga study centres according to IYF guidelines.
+                The AYM YOGA SCHOOL in Rishikesh and other training institutes follow traditional and ancient yoga practices with a scientific approach. In 2005, AYM Yoga School of India also got the status as a National Organization of India and became a member of the (IYF) International Yoga Federation. AYM also sets standards for yoga study centres in India according to the IYF guidelines.
                 </p>
               </div>
               <div className={styles.timelineImageWrapper}>
@@ -333,9 +329,7 @@ const AboutUs: React.FC = () => {
               <div className={styles.timelineContent}>
                 <h3 className={styles.timelineTitle}>Global Expansion</h3>
                 <p className={styles.para}>
-                  AYM established the Indian Yoga Alliance (IYA) to maintain international
-                  standards. Graduates can register with IYF and Yoga Alliance USA as RYT 200
-                  and RYT 500, spreading yoga globally.
+                Graduates from AYM can register at IYF and the Yoga Alliance USA. National yoga associations organize yoga activities and sports nationally in most countries. The winners of national-level sports activities in India can be represented at international levels by IYF. In 2006, AYM passed a resolution to establish an administering body to maintain the international standards of yoga in the name of the Indian Yoga Alliance (IYA).
                 </p>
               </div>
               <div className={styles.timelineImageWrapper}>

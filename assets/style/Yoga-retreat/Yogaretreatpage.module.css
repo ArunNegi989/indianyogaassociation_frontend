@@ -596,7 +596,7 @@
 .photoStrip {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  height: clamp(180px, 24vw, 450px);
+  height: clamp(180px, 28vw, 450px);
   width: 100%;
 }
 
@@ -1381,3 +1381,83 @@
     margin-top: 0;
   }
 }
+
+/* ════════════════════════════════════════════════
+   INFO BLOCKS — Schedule / Book / Refund
+   Full-width section, no max-width cap
+   ════════════════════════════════════════════════ */
+   .infoBlocksSection {
+    width: 100%;
+    background: #fff;
+    padding: 0 4rem;
+    box-sizing: border-box;
+  }
+  
+  .infoBlocksWrap {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .infoBlock {
+    width: 100%;
+    padding: 2.5rem 0;
+    border-bottom: 1px solid rgba(241, 85, 5, 0.12);
+    box-sizing: border-box;
+  }
+  
+  .infoBlock:last-child {
+    border-bottom: none;
+    padding-bottom: 3rem;
+  }
+  
+  .infoBlock .secTitle {
+    text-align: center;
+    margin-bottom: 0.25rem;
+  }
+  
+  .infoBlock .bodyPara {
+    text-align: left;
+    max-width: 100%;
+    margin: 0.6rem 0 0;
+    line-height: 1.85;
+  }
+  
+  .infoLink {
+    color: #f15505;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s ease;
+  }
+  
+  .infoLink:hover {
+    color: #c44400;
+    text-decoration: underline;
+  }
+  
+  /* ── Responsive ── */
+  @media (max-width: 1024px) {
+    .infoBlocksSection {
+      padding: 0 2.5rem;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .infoBlocksSection {
+      padding: 0 1.5rem;
+    }
+  
+    .infoBlock {
+      padding: 2rem 0;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .infoBlocksSection {
+      padding: 0 1rem;
+    }
+  
+    .infoBlock {
+      padding: 1.5rem 0;
+    }
+  }

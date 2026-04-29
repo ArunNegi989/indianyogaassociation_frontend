@@ -8,15 +8,15 @@ import PremiumGallerySection from "@/components/PremiumGallerySection";
 
 const IMAGES = {
   banner:
-    "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=1200&q=80",
+    "img1.jpg",
 
   // Photo strip (3 images)
   strip1:
-    "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=600&q=80",
+    "morning.jpg",
   strip2:
-    "https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?w=600&q=80",
+    "meditation.jpg",
   strip3:
-    "https://images.unsplash.com/photo-1532798442725-41036acc7489?w=600&q=80",
+    "healing.jpg",
 
   // Accommodation collage
   accomMain:
@@ -288,7 +288,7 @@ export default function YogaRetreatPage() {
           </h2>
           <OmDivider />
           <p className={styles.bodyPara}>
-            One of our shortest <strong>yoga and meditation Rishikesh</strong>{" "}
+           This is one of our shortest <strong>yoga and meditation Rishikesh</strong>{" "}
             programs. Take a small break from your busy work life and
             rejuvenate your body, mind, and soul. Join us every month and
             attend morning yoga classes focused on meditation,
@@ -320,8 +320,8 @@ export default function YogaRetreatPage() {
             mind, and soul.
           </p>
           <p className={styles.bodyPara}>
-            The schedule includes three yoga classes and one Ayurvedic
-            treatment daily.
+            The course schedule includes three yoga classes and one Ayurvedic
+            treatment process daily.
           </p>
           <div className={styles.pricePill}>
             <span className={styles.priceLabel}>From</span>
@@ -345,10 +345,10 @@ export default function YogaRetreatPage() {
           <OmDivider />
           <p className={styles.bodyPara}>
             Experience a transformative journey in the serene Tapovan area
-            of Rishikesh. At AYM, we offer 7 to 14-day immersive yoga
+            of Rishikesh. At AYM, one of the best yoga training centres in Rishikesh, we offer 7 to 14-day immersive yoga
             retreats that empower you to continue your personal practice
             after you leave. Our experienced teachers guide you through each
-            technique with clarity and depth, ensuring a solid foundation.
+            technique with clarity and depth, ensuring you gain a solid foundation.
           </p>
           <p className={styles.bodyPara}>
             Three classes are held daily along with early morning
@@ -381,7 +381,7 @@ export default function YogaRetreatPage() {
             nutrition, and a healthy lifestyle in two weeks. The{" "}
             <strong>Ayurveda retreats in Rishikesh</strong> are ideal for
             those with extended breaks who wish to devote time to deep
-            cleansing.
+            cleansing or detoxification.
           </p>
           <p className={styles.bodyPara}>
             The schedule begins early morning with three yoga classes and
@@ -399,6 +399,64 @@ export default function YogaRetreatPage() {
         </div>
       </div>
     </div>
+
+{/* ── Schedule / Book / Refund — Full Width ── */}
+<section className={styles.infoBlocksSection}>
+  <div className={styles.infoBlocksWrap}>
+    <div className={styles.infoBlock}>
+      <h2 className={styles.secTitle}>
+        Schedule of yoga classes in Yoga Retreat India ( Rishikesh &amp; Goa )
+      </h2>
+      <OmDivider />
+      <p className={styles.bodyPara}>
+        Our <strong>Rishikesh yoga courses</strong> offer a flexible schedule.
+        Depending on your area of interest, you can opt for several courses,
+        such as{" "}
+        <strong>
+          yoga and Ayurveda detox, Hatha yoga retreats, yoga and meditation,
+          or Ashtanga yoga classes
+        </strong>
+        . Most of them are great options for spiritual improvement in yoga,
+        teaching different aspects related to yoga in Rishikesh.
+      </p>
+      <p className={styles.bodyPara}>
+        It is possible to attend multiple options simultaneously by
+        participating in different individual yoga classes.
+      </p>
+    </div>
+
+    <div className={styles.infoBlock}>
+      <h2 className={styles.secTitle}>
+        How to Book Yoga Retreat in Rishikesh?
+      </h2>
+      <OmDivider />
+      <p className={styles.bodyPara}>
+        <a href="#" className={styles.infoLink}>
+          AYM&apos;s yoga ashram in Rishikesh
+        </a>{" "}
+        tends to fill up quickly, with bookings made one to two months in
+        advance. We recommend pre-booking your yoga retreat by filling out
+        the registration form and paying an advance deposit fee of 55 USD.
+      </p>
+    </div>
+
+    <div className={styles.infoBlock}>
+      <h2 className={styles.secTitle}>Refund Rules</h2>
+      <OmDivider />
+      <p className={styles.bodyPara}>
+        Please note that no refunds are issued if you are unable to attend
+        due to unforeseen circumstances. However, we are happy to accommodate
+        you for your next available date within one year.
+      </p>
+      <p className={styles.bodyPara}>
+        <strong>For more details, check out our </strong>
+        <a href="#" className={styles.infoLink}>
+          Rule and Regulation - AYM YOGA SCHOOL
+        </a>
+      </p>
+    </div>
+  </div>
+</section>
 
     <div className={styles.s4Divider}>
       <span className={styles.s4DivLine} />
@@ -431,7 +489,7 @@ export default function YogaRetreatPage() {
         </p>
         <p className={styles.bodyPara}>
           Located in the Tapovan area, you can also head out for quick
-          sightseeing and marvel at the stunning Himalayan surroundings.
+          sightseeing and marvel at the stunning surroundings.
         </p>
       </div>
 

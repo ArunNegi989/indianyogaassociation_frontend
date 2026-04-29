@@ -2,8 +2,8 @@
 import React from "react";
 import Image from "next/image";
 import styles from "@/assets/style/yoga-holidays-in-india/Yogaholidays.module.css";
-import image1 from "@/assets/images/Laxman-Jhula--rishikesh.jpg";
-import image2 from "@/assets/images/Yoga-Camp-in-Rishikesh.jpg";
+import image1 from "@/assets/images/hday.jpg";
+import image2 from "@/assets/images/hday3.jpg";
 import HowToReach from "@/components/home/Howtoreach";
 import heroImg from "@/assets/images/36.png";
 // ===================== MAIN COMPONENT =====================
@@ -83,22 +83,23 @@ const YogaHolidays: React.FC = () => {
       {/* Video block — swap src for your YouTube/Vimeo embed URL */}
       <div className={styles.videoBlock}>
         {/* Option A: embed an iframe */}
-        {/* <iframe
-          src="https://www.youtube.com/embed/YOUR_VIDEO_ID?rel=0"
-          title="Life at AYM Rishikesh"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-        /> */}
+        <iframe
+  src="https://www.youtube.com/embed/EJ6K-rhqevE?autoplay=1&loop=1&playlist=EJ6K-rhqevE&mute=1&controls=0&modestbranding=1&rel=0"
+  title="Life at AYM Rishikesh"
+  frameBorder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+  allowFullScreen
+></iframe>
 
         {/* Option B: placeholder until you have a video URL */}
-        <div className={styles.videoPlaceholder}>
+        {/* <div className={styles.videoPlaceholder}>
           <div className={styles.playBtn}>
             <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
               <polygon points="5,2 16,9 5,16" fill="white" />
             </svg>
           </div>
           <span className={styles.videoLabel}>Watch: Life at AYM Rishikesh</span>
-        </div>
+        </div> */}
       </div>
     </div>
   </div>

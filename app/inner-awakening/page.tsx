@@ -330,7 +330,7 @@ const InnerTransformation: React.FC = () => {
     <div className={styles.triImageGrid}>
       <div className={styles.triImageItem}>
         <Image
-          src="/images/inner-transformation/woman-prayer.jpg"
+          src="wmn2.jpg"
           alt="Woman in prayer"
           fill
           sizes="(max-width: 575px) 100vw, (max-width: 991px) 50vw, 400px"
@@ -346,7 +346,7 @@ const InnerTransformation: React.FC = () => {
       </div>
       <div className={styles.triImageItem}>
         <Image
-          src="/images/inner-transformation/guru-meditation.jpg"
+          src="medi.jpg"
           alt="Guru in meditation"
           fill
           sizes="(max-width: 575px) 100vw, (max-width: 991px) 50vw, 400px"
@@ -362,7 +362,7 @@ const InnerTransformation: React.FC = () => {
       </div>
       <div className={styles.triImageItem}>
         <Image
-          src="/images/inner-transformation/woman-garland.jpg"
+          src="ofr.jpg"
           alt="Woman with garland"
           fill
           sizes="(max-width: 575px) 100vw, (max-width: 991px) 50vw, 400px"
