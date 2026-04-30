@@ -620,6 +620,9 @@ export default function SoundHealingPage() {
                   your lifestyle. Therefore, today sound healing is the growing trend
                   used for healing.
                 </p>
+                <p className={styles.bodyPara}>
+                  Sound healing works on the principle of vibration and frequency, helping to restore balance within the body and mind. Through the use of instruments like singing bowls, gongs, and मंत्र (mantras), this practice allows you to release stress, calm your nervous system, and experience deep relaxation. At AYM Yoga School, our sound healing course is designed to guide you step-by-step, whether you are a beginner or someone looking to deepen your spiritual journey. By the end of the course, you not only understand the science behind sound but also learn how to use it as a powerful tool for personal healing and transformation.
+                </p>
                 <div className={styles.introSignature}>
                   <span className={styles.signatureLine}></span>
                   <span className={styles.signatureText}>Heal through vibrations</span>
@@ -672,6 +675,9 @@ export default function SoundHealingPage() {
                 cure humanity. Therefore, keeping in mind the well-being of humans
                 and how badly stress can affect their lives, we at AYM have come up
                 with a sound healing course in Rishikesh.
+              </p>
+              <p className={styles.bodyPara}>
+                This course not only focuses on healing others but also encourages deep personal transformation within yourself. As you progress, you begin to notice a shift in your emotional balance, mental clarity, and overall energy levels. The structured practices and guided sessions at AYM Yoga School help you develop a strong connection between mind, body, and soul. With consistent practice, sound healing becomes more than just a technique—it turns into a lifestyle that supports inner harmony, mindfulness, and lasting peace.
               </p>
               <span className={styles.pillsLabel}>What it restores</span>
               <div className={styles.pillsWrap}>

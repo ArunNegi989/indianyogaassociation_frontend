@@ -61,7 +61,7 @@
 }
 
 .heroTitle {
-  font-family: 'Cinzel', serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: clamp(2rem, 5vw, 3.5rem);
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -71,7 +71,7 @@
 }
 
 .heroSubtitle {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: clamp(1rem, 2.5vw, 1.5rem);
   font-weight: 300;
   letter-spacing: 0.05em;
@@ -147,11 +147,11 @@
    ================================================================ */
 .blockHeader {
   text-align: center;
-  margin-bottom: clamp(1.8rem, 3.5vw, 3rem);
+  
 }
 
 .blockTitle {
-  font-family: 'Cinzel', serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: clamp(1.25rem, 3vw, 1.85rem);
   font-weight: 600;
   color: var(--brown-ink);
@@ -205,7 +205,7 @@
 }
 
 .omSymbol {
-  font-family: 'Cinzel', serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: 1.6rem;
   color: var(--orange-accent);
   line-height: 1;
@@ -266,7 +266,7 @@
 }
 
 .logoAbbr {
-  font-family: 'Cinzel', serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: clamp(1rem, 2.2vw, 1.3rem);
   font-weight: 700;
   color: #8b1a1a;
@@ -275,7 +275,7 @@
 }
 
 .logoFull {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: clamp(0.42rem, 0.9vw, 0.56rem);
   color: var(--brown-sub);
   letter-spacing: 0.06em;
@@ -285,7 +285,7 @@
 }
 
 .logoIndia {
-  font-family: 'Cinzel', serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: clamp(0.4rem, 0.85vw, 0.52rem);
   color: var(--gold);
   letter-spacing: 0.2em;
@@ -318,7 +318,7 @@
 
 .schoolContentLeft .blockHeader {
   text-align: left;
-  margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
+
 }
 
 .schoolContentLeft .blockTitle {
@@ -373,7 +373,7 @@
 
 .schoolGalleryFill::before {
   content: attr(data-label);
-  font-family: 'Cormorant Garamond', serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: 0.9rem;
   font-style: italic;
   color: rgba(255, 255, 255, 0.9);
@@ -437,7 +437,7 @@
 
 .galleryFill::before {
   content: attr(data-label);
-  font-family: 'Cormorant Garamond', serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: 0.82rem;
   font-style: italic;
   color: rgba(255, 255, 255, 0.88);
@@ -490,7 +490,7 @@
 }
 
 .highlightTitle {
-  font-family: 'Cinzel', serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: clamp(1rem, 2vw, 1.25rem);
   font-weight: 600;
   color: var(--brown-ink);
@@ -499,7 +499,7 @@
 }
 
 .highlightDesc {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: clamp(0.9rem, 1.5vw, 1rem);
   color: var(--brown-sub);
   margin: 0;
@@ -556,7 +556,7 @@
 }
 
 .vmTitle {
-  font-family: 'Cinzel', serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: clamp(1.1rem, 2.2vw, 1.4rem);
   font-weight: 600;
   color: var(--brown-ink);
@@ -601,13 +601,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: 'Cinzel', serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-weight: 700;
   font-size: 1.1rem;
 }
 
 .objectiveText {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: clamp(0.95rem, 1.6vw, 1.05rem);
   line-height: 1.7;
   color: var(--brown-body);
@@ -652,8 +652,8 @@
 }
 
 .timelineMarker {
-  font-family: 'Cinzel', serif;
-  font-size: 18px;
+  font-family: "Montserrat", Arial, sans-serif;
+  font-size: 14px;
   font-weight: 700;
   color: white;
   background: linear-gradient(135deg, var(--orange-accent), var(--gold));
@@ -691,7 +691,7 @@
 }
 
 .timelineTitle {
-  font-family: 'Cinzel', serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: clamp(1.15rem, 2.2vw, 1.5rem);
   font-weight: 600;
   color: var(--brown-ink);
@@ -766,7 +766,7 @@ background: linear-gradient(135deg, #f155050d 0%, #c8860a00 100%);;
 }
 
 .activityTitle {
-  font-family: 'Cinzel', serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: clamp(1rem, 1.8vw, 1.2rem);
   font-weight: 600;
   color: var(--brown-ink);
@@ -775,7 +775,7 @@ background: linear-gradient(135deg, #f155050d 0%, #c8860a00 100%);;
 }
 
 .activityDesc {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: clamp(0.9rem, 1.5vw, 1rem);
   color: var(--brown-sub);
   margin: 0;
@@ -786,7 +786,7 @@ background: linear-gradient(135deg, #f155050d 0%, #c8860a00 100%);;
    PARAGRAPH
    ================================================================ */
 .para {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: clamp(1rem, 1.7vw, 1.12rem);
   font-weight: 400;
   line-height: 1.88;

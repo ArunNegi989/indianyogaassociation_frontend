@@ -1568,7 +1568,7 @@ export default function PregnancyYogaTTC() {
 
       {/* ── Costs Section ── */}
       {pageData.costsSectionTitle && (
-        <section id="costs" className={styles.costsBlock}>
+        <section id="costs" className={`container ${styles.costsBlock}`}>
           <h2 className={styles.sectionTitle}>{pageData.costsSectionTitle}</h2>
           <div className={styles.titleUnderline} />
 
@@ -1629,7 +1629,7 @@ export default function PregnancyYogaTTC() {
     )}
 
     {/* Curriculum and Hours Summary - Side by Side */}
-    <div className={styles.s3TablesRow}>
+    <div className={`container ${styles.s3TablesRow} ${styles.maxx}`}>
       {/* Curriculum Table */}
       {pageData.curriculum?.length > 0 && (
         <div className={styles.s3CurrWrap}>
@@ -1713,7 +1713,7 @@ export default function PregnancyYogaTTC() {
     </div>
 
     {/* Highlights and Video Section */}
-    <div className={styles.s3BottomRow}>
+    <div className={`container ${styles.s3BottomRow} ${styles.maxx}`   }>
       {/* Highlights Card */}
       <div className={styles.s3HighlightsWrap}>
         <div className={styles.s3HighlightsHeader}>
@@ -1813,7 +1813,7 @@ export default function PregnancyYogaTTC() {
 </div>
     </div>
 
-    <div className={styles.s3Cta}>
+    <div className={`container ${styles.s3Cta} ${styles.maxx}` }>
       <div className={styles.s3CtaLeft}>
         <span className={styles.s3CtaLabel}>
           {pageData.onlineCtaLabel || "Ready to begin your journey?"}

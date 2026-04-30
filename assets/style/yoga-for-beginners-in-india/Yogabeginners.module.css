@@ -32,7 +32,7 @@
 
 
 .pageWrapper {
-  font-family: 'DM Sans', sans-serif;
+   font-family: "Montserrat", Arial, sans-serif;
   background: var(--off-white);
   color: var(--text-body);
   overflow-x: hidden;
@@ -133,8 +133,8 @@
    MAIN TITLE
 ==================================================== */
 .mainTitle {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(1.6rem, 3.5vw, 2.6rem);
+   font-family: "Montserrat", Arial, sans-serif;
+  font-size: clamp(1.6rem, 3.5vw, 2rem);
   font-weight: 700;
   color: var(--orange);
   text-align: center;
@@ -145,7 +145,7 @@
 }
 
 .orangeTitle {
-  font-family: 'Cormorant Garamond', serif;
+   font-family: "Montserrat", Arial, sans-serif;
   font-size: clamp(1.3rem, 2.8vw, 2rem);
   font-weight: 700;
   color: var(--orange);
@@ -180,7 +180,7 @@
 }
 
 .questionText {
-  font-family: 'Cormorant Garamond', serif;
+   font-family: "Montserrat", Arial, sans-serif;
   font-size: clamp(1.1rem, 2vw, 1.45rem);
   line-height: 1.7;
   color: var(--text-dark);
@@ -188,11 +188,10 @@
   font-weight: 600;
   padding-bottom: 20px;
   border-bottom: 1px solid var(--border-light);
-  font-style: italic;
 }
 
 .bodyText {
-  font-size: clamp(0.88rem, 1.4vw, 1.05rem);
+  font-size: clamp(0.88rem, 1.4vw, 1.20rem);
   line-height: 1.9;
   color: var(--text-body);
   margin-bottom: 18px;
@@ -200,7 +199,7 @@
 
 .bodyText:last-of-type { margin-bottom: 28px; }
 .bodyText strong { font-weight: 700; color: var(--text-dark); }
-.bodyText em { font-style: italic; color: var(--orange-dark); }
+.bodyText em { color: var(--orange-dark); }
 
 /* ====================================================
    INFO ROW (stats strip)
@@ -228,7 +227,7 @@
 
 .infoNumber {
   display: block;
-  font-family: 'Cormorant Garamond', serif;
+   font-family: "Montserrat", Arial, sans-serif;
   font-size: clamp(1.6rem, 3vw, 2.2rem);
   font-weight: 700;
   color: var(--orange);
@@ -237,7 +236,7 @@
 }
 
 .infoLabel {
-  font-size: clamp(0.62rem, 1vw, 0.75rem);
+  font-size: clamp(0.62rem, 1vw, 0.85rem);
   color: var(--text-muted);
   letter-spacing: 1.5px;
   text-transform: uppercase;
@@ -254,7 +253,7 @@
 }
 
 .sectionTitle {
-  font-family: 'Cormorant Garamond', serif;
+   font-family: "Montserrat", Arial, sans-serif;
   font-size: clamp(1.4rem, 3vw, 2rem);
   font-weight: 700;
   color: var(--orange);
@@ -293,7 +292,7 @@
 }
 
 .benefitsFullTitle {
-  font-family: 'Cormorant Garamond', serif;
+   font-family: "Montserrat", Arial, sans-serif;
   font-size: clamp(1.4rem, 3vw, 2rem);
   font-weight: 700;
   color: var(--orange);
@@ -346,7 +345,7 @@
 .benefitFullCard:hover::after { transform: scaleX(1); }
 
 .benefitFullNumber {
-  font-family: 'Cormorant Garamond', serif;
+   font-family: "Montserrat", Arial, sans-serif;
   font-size: 2.8rem;
   font-weight: 700;
   color: var(--orange);
@@ -365,7 +364,7 @@
 }
 
 .benefitFullDesc {
-  font-size: clamp(0.8rem, 1.2vw, 0.88rem);
+  font-size: clamp(0.8rem, 1.2vw, 1.1rem);
   line-height: 1.65;
   color: var(--text-muted);
   margin: 0;
@@ -428,7 +427,7 @@
 }
 
 .infoDesc {
-  font-size: clamp(0.78rem, 1.1vw, 0.85rem);
+  font-size: clamp(0.78rem, 1.1vw, 1rem);
   line-height: 1.55;
   color: var(--text-muted);
   margin: 0;
@@ -444,7 +443,7 @@
 }
 
 .noteText {
-  font-size: clamp(0.88rem, 1.3vw, 0.98rem);
+  font-size: clamp(0.88rem, 1.3vw, 1.1rem);
   line-height: 1.75;
   color: #555;
   margin: 0;
@@ -462,7 +461,7 @@
 }
 
 .pricingIntro {
-  font-size: clamp(0.85rem, 1.3vw, 0.98rem);
+  font-size: clamp(0.85rem, 1.3vw, 1.1rem);
   line-height: 1.75;
   color: #555;
   text-align: center;
@@ -470,7 +469,6 @@
 }
 
 .pricingIntro strong { color: var(--orange); }
-.pricingIntro em { font-style: italic; }
 
 .tableWrapper {
   overflow: visible;
@@ -548,8 +546,8 @@
   flex-wrap: wrap;
 }
 
-.bookInfo strong { font-size: clamp(0.82rem, 1.2vw, 0.98rem); color: var(--text-dark); }
-.bookInfo span   { font-size: clamp(0.75rem, 1vw, 0.85rem); color: var(--text-muted); }
+.bookInfo strong { font-size: clamp(0.82rem, 1.2vw, 1.2rem); color: var(--text-dark); }
+.bookInfo span   { font-size: clamp(0.75rem, 1vw, 1.1rem); color: var(--text-muted); }
 
 .paymentsBtn {
   display: inline-block;

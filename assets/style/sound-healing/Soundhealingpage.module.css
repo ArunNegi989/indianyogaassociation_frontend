@@ -73,14 +73,13 @@
   font-weight: 700;
   color: var(--saffron);
   text-align: center;
-  font-style: italic;
   line-height: 1.4;
   margin: 0 auto 0.5rem;
   letter-spacing: 0.01em;
 }
 
 .bodyPara {
-  font-family: 'Lato', serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: clamp(0.92rem, 1.6vw, 1.05rem);
   line-height: 1.9;
   color: var(--ink-mid);
@@ -265,7 +264,6 @@
   font-family: 'Poppins', cursive;
   font-size: 1rem;
   color: var(--saffron);
-  font-style: italic;
   letter-spacing: 0.5px;
 }
 
@@ -500,9 +498,8 @@
 }
 
 .aimQuoteText {
-  font-family: 'Lato', serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: 1rem;
-  font-style: italic;
   line-height: 1.7;
   color: var(--ink-mid);
   margin: 0 0 0.5rem;
@@ -574,7 +571,7 @@
 }
 
 .benCardTxt {
-  font-family: 'Lato', serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: 0.85rem;
   line-height: 1.6;
   color: var(--ink-mid);
@@ -653,7 +650,7 @@
 }
 
 .expectCardTxt {
-  font-family: 'Lato', serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: 1rem;
   line-height: 1.5;
   color: var(--ink-mid);
@@ -682,7 +679,7 @@
   background: white;
   border: 1px solid var(--border);
   border-radius: 30px;
-  font-family: 'Lato', serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: 0.8rem;
   font-weight: 600;
   color: var(--ink-mid);
@@ -735,8 +732,8 @@
 }
 
 .whyTxt {
-  font-family: 'Lato', serif;
-  font-size: 0.8rem;
+  font-family: "Montserrat", Arial, sans-serif;
+  font-size: 1rem;
   line-height: 1.5;
   color: var(--ink-mid);
   margin: 0;
@@ -758,8 +755,8 @@
 }
 
 .certTxt {
-  font-family: 'Lato', serif;
-  font-size: 0.9rem;
+  font-family: "Montserrat", Arial, sans-serif;
+  font-size: 1.1rem;
   line-height: 1.6;
   color: var(--ink-mid);
   margin: 0;

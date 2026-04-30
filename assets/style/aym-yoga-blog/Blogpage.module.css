@@ -6,7 +6,7 @@
 .pageRoot {
   min-height: 100vh;
   background: #ffffff;
-  font-family: 'Cormorant Garamond', serif;
+   font-family: "Montserrat", Arial, sans-serif;
 }
 
 /* ================================================================
@@ -76,7 +76,7 @@
 }
 
 .headerSuper {
-  font-family: 'Cormorant Garamond', serif;
+   font-family: "Montserrat", Arial, sans-serif;
   font-size: clamp(0.75rem, 1.5vw, 0.95rem);
   font-style: italic;
   color: #f5b800;
@@ -86,8 +86,8 @@
 }
 
 .headerTitle {
-  font-family: 'Cinzel', serif;
-  font-size: clamp(1.5rem, 4vw, 3rem);
+  font-family: "Montserrat", Arial, sans-serif;
+  font-size: clamp(1.5rem, 4vw, 3.5rem);
   font-weight: 700;
   color: #fff8ee;
   line-height: 1.2;
@@ -112,7 +112,7 @@
 }
 
 .omSym {
-  font-family: 'Cinzel', serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: 1.5rem;
   color: #f5b800;
   line-height: 1;
@@ -120,7 +120,7 @@
 }
 
 .headerSub {
-  font-family: 'Cormorant Garamond', serif;
+   font-family: "Montserrat", Arial, sans-serif;
   font-style: italic;
   font-size: clamp(0.85rem, 1.8vw, 1.05rem);
   color: rgba(255, 248, 238, 0.75);
@@ -260,7 +260,7 @@
   top: 10px;
   right: 10px;
   z-index: 2;
-  font-family: 'Cinzel', serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: 0.6rem;
   font-weight: 600;
   letter-spacing: 0.12em;
@@ -289,7 +289,7 @@
 }
 
 .cardDate {
-  font-family: 'Cormorant Garamond', serif;
+   font-family: "Montserrat", Arial, sans-serif;
   font-size: 0.72rem;
   color: #9a7040;
   letter-spacing: 0.04em;
@@ -299,14 +299,14 @@
 }
 
 .cardAuthor {
-  font-family: 'Cormorant Garamond', serif;
+   font-family: "Montserrat", Arial, sans-serif;
   font-size: 0.72rem;
   color: #f15505;
   font-style: italic;
 }
 
 .cardTitle {
-  font-family: 'Cinzel', serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: clamp(0.75rem, 1.2vw, 0.9rem);
   font-weight: 600;
   color: #3d1d00;
@@ -324,7 +324,7 @@
 }
 
 .cardExcerpt {
-  font-family: 'Cormorant Garamond', serif;
+   font-family: "Montserrat", Arial, sans-serif;
   font-size: 0.82rem;
   line-height: 1.65;
   color: #6b4c2a;
@@ -343,7 +343,7 @@
 }
 
 .readMore {
-  font-family: 'Cinzel', serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: 0.65rem;
   font-weight: 600;
   letter-spacing: 0.1em;
@@ -383,7 +383,7 @@
 }
 
 .loadMoreOm {
-  font-family: 'Cinzel', serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: 1.2rem;
   color: #F15505;
 }
@@ -392,7 +392,7 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-family: 'Cinzel', serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: 0.78rem;
   font-weight: 600;
   letter-spacing: 0.1em;
@@ -436,7 +436,7 @@
 }
 
 .loadMoreCount {
-  font-family: 'Cormorant Garamond', serif;
+   font-family: "Montserrat", Arial, sans-serif;
   font-size: 0.82rem;
   color: #9a7040;
   font-style: italic;
@@ -454,7 +454,7 @@
 }
 
 .endOm {
-  font-family: 'Cinzel', serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: 1.4rem;
   color: #F15505;
 }
@@ -487,13 +487,13 @@
 }
 
 .sideWidgetOm {
-  font-family: 'Cinzel', serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: 1rem;
   color: #f5b800;
 }
 
 .sideWidgetTitle {
-  font-family: 'Cinzel', serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: 0.72rem;
   font-weight: 600;
   letter-spacing: 0.12em;
@@ -539,7 +539,7 @@
 }
 
 .sidePostTitle {
-  font-family: 'Cormorant Garamond', serif;
+   font-family: "Montserrat", Arial, sans-serif;
   font-size: 0.8rem;
   color: #4a2e10;
   line-height: 1.4;
@@ -578,7 +578,7 @@
 }
 
 .sideCtaTitle {
-  font-family: 'Cinzel', serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: 0.88rem;
   font-weight: 700;
   color: #fff8ee;
@@ -589,7 +589,7 @@
 }
 
 .sideCtaText {
-  font-family: 'Cormorant Garamond', serif;
+   font-family: "Montserrat", Arial, sans-serif;
   font-style: italic;
   font-size: 0.82rem;
   color: rgba(255, 248, 238, 0.8);
@@ -610,7 +610,7 @@
 
 .sideCtaBtn {
   display: block;
-  font-family: 'Cinzel', serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: 0.65rem;
   font-weight: 600;
   letter-spacing: 0.08em;
@@ -630,7 +630,7 @@
 
 .sideCtaRegister {
   display: inline-block;
-  font-family: 'Cinzel', serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -660,7 +660,7 @@
 }
 
 .tag {
-  font-family: 'Cormorant Garamond', serif;
+   font-family: "Montserrat", Arial, sans-serif;
   font-size: 0.78rem;
   font-weight: 600;
   color: #7a3f00;
@@ -737,13 +737,13 @@
 }
 
 .emptyOm {
-  font-family: 'Cinzel', serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: 3rem;
   color: rgba(224, 123, 0, 0.3);
 }
 
 .emptyText {
-  font-family: 'Cormorant Garamond', serif;
+   font-family: "Montserrat", Arial, sans-serif;
   font-size: 1.1rem;
   font-style: italic;
   color: #9a7040;

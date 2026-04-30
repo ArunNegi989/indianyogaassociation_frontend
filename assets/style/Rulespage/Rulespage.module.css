@@ -84,7 +84,7 @@
 }
 
 .cLabel {
-  font-family: 'Noto Serif Devanagari', serif;
+   font-family: "Montserrat", Arial, sans-serif;
   font-size: 0.62rem;
   font-weight: 600;
   text-align: center;
@@ -94,7 +94,7 @@
 
 .cLabel em {
   display: block;
-  font-family: 'Cormorant Garamond', serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-style: italic;
   font-size: 0.56rem;
   opacity: 0.85;
@@ -151,10 +151,9 @@
 }
 
 .pageTitle {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(1rem, 2.3vw, 1.5rem);
-  font-style: italic;
-  font-weight: 400;
+  font-family: "Montserrat", Arial, sans-serif;
+  font-size: clamp(1rem, 2.3vw, 1.6rem);
+  font-weight: 500;
   color: var(--dark);
   letter-spacing: 0.02em;
   line-height: 1.45;
@@ -177,7 +176,7 @@
 }
 
 .omSymbol {
-  font-family: 'Cinzel', serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: 1.6rem;
   color: #F15505;
   line-height: 1;
@@ -217,13 +216,17 @@
   gap: 0.6rem;
   background: linear-gradient(90deg, #8B3A10 0%, #A84412 35%, #9C3E10 70%, #8B3A10 100%);
   padding: 0.7rem 1.4rem;
-  font-family: 'Cinzel', serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: clamp(0.68rem, 1.3vw, 0.85rem);
   font-weight: 700;
   color: #fff;
   letter-spacing: 0.07em;
   text-transform: uppercase;
   position: relative;
+}
+
+.brownBar span {
+ font-family: "Montserrat", Arial, sans-serif;
 }
 
 .brownBar::after {
@@ -266,7 +269,7 @@
   background: transparent;
   border: 2px solid transparent;
   border-radius: 6px;
-  font-family: 'Cinzel', serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: clamp(0.8rem, 1.4vw, 1rem);
   font-weight: 600;
   color: var(--brown);
@@ -339,7 +342,7 @@
 }
 
 .ruleNum {
-  font-family: 'Cinzel', serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: clamp(0.7rem, 1.2vw, 0.85rem);
   font-weight: 700;
   color: var(--saffron);
@@ -348,7 +351,7 @@
 }
 
 .ruleBoxTitle {
-  font-family: 'Cinzel', serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: clamp(1rem, 1.8vw, 1.3rem);
   font-weight: 700;
   color: var(--dark);
@@ -357,7 +360,7 @@
 }
 
 .ruleBoxContent {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: clamp(0.9rem, 1.5vw, 1.05rem);
   line-height: 1.8;
   color: #1e1000;
@@ -376,7 +379,7 @@
 }
 
 .agreementTitle {
-  font-family: 'Cinzel', serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: clamp(1.2rem, 2.2vw, 1.5rem);
   font-weight: 700;
   color: var(--dark);
@@ -392,7 +395,7 @@
 }
 
 .agreePara {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: clamp(0.9rem, 1.5vw, 1.05rem);
   line-height: 1.85;
   color: #1e1000;
@@ -400,7 +403,7 @@
 }
 
 .boldKey {
-  font-family: 'Cinzel', serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: 0.95em;
   font-weight: 700;
   color: var(--dark);
@@ -426,7 +429,7 @@
   padding: 0.85rem 1rem;
   background: linear-gradient(90deg, #fdf0dc, var(--warm), #fdf0dc);
   border-top: 1px solid var(--border);
-  font-family: 'Cormorant Garamond', serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: clamp(0.67rem, 1.1vw, 0.78rem);
   font-style: italic;
   color: var(--brown);

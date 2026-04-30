@@ -14,7 +14,7 @@
   --ink-light: #7a5c2e;
   --border: #e8d5b5;
 
-  font-family: 'Lato', Arial, sans-serif;
+   font-family: "Montserrat", Arial, sans-serif;
   color: var(--ink);
   background-image: url("../../images/backgroundimage/18.png") !important;
   overflow-x: hidden;
@@ -72,7 +72,7 @@
   font-weight: 700;
   color: var(--saffron);
   text-align: center;
-  font-style: italic;
+ 
   line-height: 1.35;
   margin: 0 auto 0.5rem;
   letter-spacing: 0.01em;
@@ -84,7 +84,7 @@
   font-weight: 700;
   color: var(--saffron);
   text-align: center;
-  font-style: italic;
+  
   line-height: 1.4;
   margin: 0 auto 0.5rem;
   letter-spacing: 0.01em;
@@ -115,8 +115,8 @@
 }
 
 .bodyPara {
-  font-family: 'Lato', serif;
-  font-size: clamp(0.93rem, 1.65vw, 1.06rem);
+   font-family: "Montserrat", Arial, sans-serif;
+  font-size: clamp(0.93rem, 1.65vw, 1.18rem);
   line-height: 1.9;
   color: var(--ink-mid);
   margin: 0;
@@ -214,7 +214,7 @@
 }
 
 .s1StatLbl {
-  font-family: 'Lato', serif;
+   font-family: "Montserrat", Arial, sans-serif;
   font-size: clamp(0.64rem, 0.95vw, 0.74rem);
   color: var(--ink-light);
   letter-spacing: 0.04em;
@@ -375,12 +375,12 @@
 }
 
 .scheduleIntro {
-  font-family: 'Lato', serif;
-  font-size: clamp(0.92rem, 1.55vw, 1.05rem);
+   font-family: "Montserrat", Arial, sans-serif;
+  font-size: clamp(0.92rem, 1.55vw, 1.25rem);
   line-height: 1.9;
   color: var(--ink-mid);
   text-align: center;
-  max-width: 820px;
+  max-width: 1320px;
   margin: 0 auto 2.8rem;
 }
 
@@ -417,7 +417,7 @@
 
 .cardHeadTitle {
   font-family: 'Montserrat', serif;
-  font-size: clamp(0.82rem, 1.4vw, 1rem);
+  font-size: clamp(0.82rem, 1.4vw, 1.2rem);
   font-weight: 600;
   color: #fff;
   letter-spacing: 0.04em;
@@ -426,12 +426,13 @@
 }
 
 .cardHeadSub {
-  font-family: 'Lato', serif;
-  font-size: 0.72rem;
+   font-family: "Montserrat", Arial, sans-serif;
+  font-size: 0.92rem;
   color: rgba(255, 255, 255, 0.55);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   margin: 0.15rem 0 0;
+  font-weight: 500;
 }
 
 .cardBody {
@@ -474,8 +475,8 @@
 }
 
 .pkgName {
-  font-family: 'Lato', serif;
-  font-size: clamp(0.82rem, 1.3vw, 0.97rem);
+   font-family: "Montserrat", Arial, sans-serif;
+  font-size: clamp(0.82rem, 1.3vw, 1.1rem);
   color: var(--ink-mid);
   line-height: 1.35;
 }
@@ -514,7 +515,7 @@
 
 .ovLabel {
   font-family: 'Montserrat', serif;
-  font-size: clamp(0.68rem, 1vw, 0.78rem);
+  font-size: clamp(0.68rem, 1vw, 0.98rem);
   font-weight: 600;
   color: var(--ink);
   letter-spacing: 0.04em;
@@ -523,7 +524,7 @@
 }
 
 .ovValue {
-  font-family: 'Lato', serif;
+   font-family: "Montserrat", Arial, sans-serif;
   font-size: clamp(0.84rem, 1.3vw, 0.97rem);
   color: var(--ink-mid);
   line-height: 1.45;
@@ -678,7 +679,7 @@
 }
 
 .priceLabel {
-  font-family: 'Lato', serif;
+   font-family: "Montserrat", Arial, sans-serif;
   font-size: 0.85rem;
   color: var(--ink-light);
 }
@@ -691,7 +692,7 @@
 }
 
 .priceNote {
-  font-family: 'Lato', serif;
+   font-family: "Montserrat", Arial, sans-serif;
   font-size: 0.82rem;
   color: var(--ink-light);
   margin: 0;
@@ -799,7 +800,7 @@
 }
 
 .affordableCardHeadSub {
-  font-family: 'Lato', serif;
+   font-family: "Montserrat", Arial, sans-serif;
   font-size: 0.68rem;
   color: rgba(255, 255, 255, 0.5);
   letter-spacing: 0.08em;
@@ -837,7 +838,7 @@
 }
 
 .featText {
-  font-family: 'Lato', serif;
+   font-family: "Montserrat", Arial, sans-serif;
   font-size: clamp(0.82rem, 1.25vw, 0.95rem);
   color: var(--ink-mid);
   line-height: 1.4;
@@ -1097,7 +1098,7 @@
 }
 
 .routeDesc {
-  font-family: 'Lato', serif;
+   font-family: "Montserrat", Arial, sans-serif;
   font-size: clamp(0.82rem, 1.25vw, 0.94rem);
   color: var(--ink-mid);
   line-height: 1.65;

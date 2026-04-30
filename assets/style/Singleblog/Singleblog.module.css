@@ -6,7 +6,7 @@
 .pageRoot {
   min-height: 100vh;
   background: #ffffff;
-  font-family: 'Lato', Arial, sans-serif;
+   font-family: "Montserrat", Arial, sans-serif;
 }
 
 /* ================================================================
@@ -14,7 +14,7 @@
    ================================================================ */
 .hero {
   position: relative;
-  height: clamp(380px, 55vw, 560px);
+  height: clamp(380px, 55vw, 620px);
   overflow: hidden;
 }
 
@@ -136,7 +136,7 @@
   display: flex;
   align-items: center;
   gap: 5px;
-  font-family: 'Lato', Arial, sans-serif;
+   font-family: "Montserrat", Arial, sans-serif;
   font-size: 0.99rem;
   color: rgba(255,248,238,0.8);
   letter-spacing: 0.03em;
@@ -156,7 +156,7 @@
    LAYOUT
    ================================================================ */
 .layout {
-  max-width: 1500px;
+  max-width: 1560px;
   margin: 0 auto;
   padding: clamp(1.5rem, 3vw, 2.5rem) clamp(1rem, 3vw, 2rem) clamp(2rem, 4vw, 4rem);
   display: grid;
@@ -201,13 +201,14 @@
 
 .ornamentTop {
   width: 100%;
-  height: 40px;
+  height: 80px;
   margin-bottom: 1.5rem;
   opacity: 0.6;
+  display: none;
 }
 
 .lead {
-  font-family: 'Lato', Arial, sans-serif;
+   font-family: "Montserrat", Arial, sans-serif;
   font-size: clamp(1.05rem, 1.8vw, 1.2rem);
   line-height: 1.85;
   color: #3d1d00;
@@ -241,7 +242,7 @@
    CONTENT AREA
    ================================================================ */
 .content {
-  font-family: 'Lato', Arial, sans-serif;
+   font-family: "Montserrat", Arial, sans-serif;
 }
 
 /* ── Headings ── */
@@ -270,7 +271,7 @@
 
 /* ── Paragraph (dangerouslySetInnerHTML) ── */
 .contentPara {
-  font-family: 'Lato', Arial, sans-serif;
+   font-family: "Montserrat", Arial, sans-serif;
   font-size: clamp(0.97rem, 1.5vw, 1.08rem);
   line-height: 1.9;
   color: #3d2b10;
@@ -302,7 +303,7 @@
   border: 1px dashed #e8d5b5;
   border-radius: 4px;
   padding: 1.5rem;
-  font-family: 'Lato', Arial, sans-serif;
+   font-family: "Montserrat", Arial, sans-serif;
   font-size: 1rem;
   line-height: 1.7;
 }
@@ -315,7 +316,7 @@
 }
 
 .contentListItem {
-  font-family: 'Lato', Arial, sans-serif;
+   font-family: "Montserrat", Arial, sans-serif;
   font-size: clamp(0.97rem, 1.5vw, 1.08rem);
   line-height: 1.8;
   color: #3d2b10;
@@ -378,7 +379,7 @@ ol.contentList .contentListItem::before {
 }
 
 .quoteText {
-  font-family: 'Lato', Arial, sans-serif;
+   font-family: "Montserrat", Arial, sans-serif;
   font-size: clamp(1.05rem, 1.8vw, 1.2rem);
   font-style: italic;
   font-weight: 400;
@@ -452,7 +453,7 @@ ol.contentList .contentListItem::before {
 }
 
 .contentVideoCaption {
-  font-family: 'Lato', Arial, sans-serif;
+   font-family: "Montserrat", Arial, sans-serif;
   font-style: italic;
   font-size: 0.8rem;
   color: #9a7040;
@@ -472,7 +473,7 @@ ol.contentList .contentListItem::before {
 .contentTable {
   width: 100%;
   border-collapse: collapse;
-  font-family: 'Lato', Arial, sans-serif;
+   font-family: "Montserrat", Arial, sans-serif;
   font-size: clamp(0.85rem, 1.3vw, 0.95rem);
 }
 
@@ -536,7 +537,7 @@ ol.contentList .contentListItem::before {
 .calloutText {
   margin: 0;
   padding: 0.75rem 1rem 0.9rem;
-  font-family: 'Lato', Arial, sans-serif;
+   font-family: "Montserrat", Arial, sans-serif;
   font-size: clamp(0.95rem, 1.4vw, 1.05rem);
   line-height: 1.75;
 }
@@ -618,7 +619,7 @@ ol.contentList .contentListItem::before {
 /* ── HTML Block ── */
 .contentHtml {
   margin: 1rem 0;
-  font-family: 'Lato', Arial, sans-serif;
+   font-family: "Montserrat", Arial, sans-serif;
   font-size: clamp(0.97rem, 1.5vw, 1.08rem);
   line-height: 1.8;
   color: #3d2b10;
@@ -669,7 +670,7 @@ ol.contentList .contentListItem::before {
 }
 
 .articleImgCaption {
-  font-family: 'Lato', Arial, sans-serif;
+   font-family: "Montserrat", Arial, sans-serif;
   font-style: italic;
   font-size: 0.75rem;
   color: #9a7040;
@@ -704,7 +705,7 @@ ol.contentList .contentListItem::before {
 }
 
 .articleTag {
-  font-family: 'Lato', Arial, sans-serif;
+   font-family: "Montserrat", Arial, sans-serif;
   font-size: 0.8rem;
   font-weight: 700;
   color: #7a3f00;
@@ -856,7 +857,7 @@ ol.contentList .contentListItem::before {
 }
 
 .recentTitle {
-  font-family: 'Lato', Arial, sans-serif;
+   font-family: "Montserrat", Arial, sans-serif;
   font-size: 0.9rem;
   font-weight: 700;
   color: #4a2e10;
@@ -875,7 +876,7 @@ ol.contentList .contentListItem::before {
   display: flex;
   align-items: center;
   gap: 4px;
-  font-family: 'Lato', Arial, sans-serif;
+   font-family: "Montserrat", Arial, sans-serif;
   font-size: 0.82rem;
   color: #9a7040;
 }
@@ -938,7 +939,7 @@ ol.contentList .contentListItem::before {
 .relatedInfo { flex: 1; min-width: 0; }
 
 .relatedTitle {
-  font-family: 'Lato', Arial, sans-serif;
+   font-family: "Montserrat", Arial, sans-serif;
   font-size: 0.82rem;
   color: #4a2e10;
   line-height: 1.35;
@@ -953,7 +954,7 @@ ol.contentList .contentListItem::before {
 .relatedLink:hover .relatedTitle { color: #F15505; }
 
 .relatedDate {
-  font-family: 'Lato', Arial, sans-serif;
+   font-family: "Montserrat", Arial, sans-serif;
   font-size: 0.72rem;
   color: #9a7040;
 }
@@ -989,7 +990,7 @@ ol.contentList .contentListItem::before {
 }
 
 .ctaText {
-  font-family: 'Lato', Arial, sans-serif;
+   font-family: "Montserrat", Arial, sans-serif;
   font-style: italic;
   font-size: 0.82rem;
   color: rgba(255,248,238,0.75);
@@ -1044,7 +1045,7 @@ ol.contentList .contentListItem::before {
 }
 
 .batchDates {
-  font-family: 'Lato', Arial, sans-serif;
+   font-family: "Montserrat", Arial, sans-serif;
   font-size: 0.82rem;
   color: #9a7040;
   margin: 0;
@@ -1052,7 +1053,7 @@ ol.contentList .contentListItem::before {
 }
 
 .batchPrice {
-  font-family: 'Lato', Arial, sans-serif;
+   font-family: "Montserrat", Arial, sans-serif;
   font-size: 0.88rem;
   font-weight: 700;
   color: #F15505;

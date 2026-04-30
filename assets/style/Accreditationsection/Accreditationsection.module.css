@@ -89,7 +89,7 @@
   font-family: "Montserrat", Arial, sans-serif;
   color: #f15505;
   letter-spacing: 0.02em;
-  font-size: clamp(1.1rem, 2.5vw, 1.45rem);
+  font-size: clamp(1.1rem, 2.5vw, 1.85rem);
   font-weight: 700;
   line-height: 1.4;
   margin: 0;
@@ -98,18 +98,20 @@
 }
 
 .sectionSubtitle {
-  font-size: clamp(0.85rem, 1.5vw, 1rem);
-  color: #666;
+  font-size: clamp(0.85rem, 1.5vw, 1.05rem);
+ color: #555;
   margin-top: 0.4rem;
-  font-weight: 400;
+  font-weight: 500;
+  font-family: "Montserrat", Arial, sans-serif;
 }
 
 .sectionDescription {
   text-align: center;
-  font-size: clamp(0.85rem, 1.5vw, 1rem);
-  color: #666;
+  font-size: clamp(0.85rem, 1.5vw, 1.15rem);
+  color: #555;
   margin-bottom: 1.5rem;
   font-weight: 500;
+   font-family: "Montserrat", Arial, sans-serif;
 }
 
 /* ── Paragraphs ── */
@@ -119,8 +121,12 @@
   gap: 1rem;
   line-height: 1.7;
   font-size: clamp(0.88rem, 1.4vw, 1rem);
+  font-family: "Montserrat", Arial, sans-serif;
 }
-
+.introParagraphs p{
+  font-size: clamp(0.88rem, 1.4vw, 1.1rem);
+  font-family: "Montserrat", Arial, sans-serif;
+}
 /* ── Accreditation Cards Grid ── */
 .accreditationCardsGrid {
   display: grid;
@@ -153,15 +159,16 @@
 .cardTitle {
   font-family: "Montserrat", Arial, sans-serif;
   color: #f15505;
-  font-size: clamp(0.95rem, 1.8vw, 1.2rem);
+  font-size: clamp(0.95rem, 1.8vw, 1.3rem);
   font-weight: 700;
   margin-bottom: 0.6rem;
 }
 
 .cardDescription {
-  font-size: clamp(0.82rem, 1.3vw, 0.95rem);
-  color: #666;
+  font-size: clamp(0.82rem, 1.3vw, 1.1rem);
+ color: #555;
   line-height: 1.6;
+  font-family: "Montserrat", Arial, sans-serif;
 }
 
 /* ── Intro Card ── */
@@ -184,7 +191,7 @@
 .introCardTitle {
   font-family: "Montserrat", Arial, sans-serif;
   color: #f15505;
-  font-size: clamp(1rem, 2vw, 1.3rem);
+  font-size: clamp(1rem, 2vw, 1.5rem);
   font-weight: 700;
   margin-bottom: 0.4rem;
 }
@@ -202,7 +209,7 @@
 .highlightTitle {
   font-family: "Montserrat", Arial, sans-serif;
   color: #f15505;
-  font-size: clamp(0.95rem, 1.8vw, 1.2rem);
+  font-size: clamp(0.95rem, 1.8vw, 1.5rem);
   font-weight: 700;
   margin-bottom: 0.8rem;
 }
@@ -211,7 +218,8 @@
   color: #333;
   line-height: 1.7;
   margin-bottom: 0.8rem;
-  font-size: clamp(0.85rem, 1.4vw, 0.98rem);
+  font-size: clamp(0.85rem, 1.4vw, 1.08rem);
+   font-family: "Montserrat", Arial, sans-serif;
 }
 
 .highlightText:last-child {
@@ -265,7 +273,6 @@
 .imgWrap1 {
   display: grid;
   gap: 1.5rem;
-  margin: 2rem 0;
   width: 100%;
   box-sizing: border-box;
 }
@@ -487,9 +494,10 @@
 }
 
 .certDescription {
-  font-size: clamp(0.78rem, 1.2vw, 0.9rem);
-  color: #666;
+  font-size: clamp(0.78rem, 1.2vw, 1.06rem);
+  color: #555;
   line-height: 1.5;
+  font-family: "Montserrat", Arial, sans-serif;
 }
 
 /* ════════════════════════════════════════════════
@@ -516,7 +524,7 @@
 .certBoardInfo h4 {
   font-family: "Montserrat", Arial, sans-serif;
   color: #f15505;
-  font-size: clamp(1rem, 1.8vw, 1.2rem);
+  font-size: clamp(1rem, 1.8vw, 1.6rem);
   font-weight: 700;
   margin: 0;
 }
@@ -524,8 +532,9 @@
 .certBoardInfo p {
   color: #555;
   line-height: 1.75;
-  font-size: clamp(0.82rem, 1.3vw, 0.95rem);
+  font-size: clamp(0.82rem, 1.3vw, 1.05rem);
   margin: 0;
+  font-family: "Montserrat", Arial, sans-serif;
 }
 
 /* ════════════════════════════════════════════════
@@ -599,7 +608,8 @@
   color: #333;
   margin: 0;
   line-height: 1.6;
-  font-size: clamp(0.82rem, 1.3vw, 0.93rem);
+  font-size: clamp(0.82rem, 1.3vw, 1.05rem);
+  font-family: "Montserrat", Arial, sans-serif;
 }
 
 /* ── Animation ── */

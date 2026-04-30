@@ -8,8 +8,8 @@
   --brown-deep: #3d1d00;
   --brown-mid: #5c2d00;
   --brown-warm: #7a5c2e;
-  --parchment: #fff9f0;
-  --parchment-mid: #fdf0dc;
+  --parchment: #ffffff;
+  --parchment-mid: #ffffff;
   --parchment-dark: #ffefd4;
   --border-color: #e8d5b5;
   --text-body: #3d2b10;
@@ -37,11 +37,11 @@
 
 /* ── Section ── */
 .section {
-  background-image: url("../../images/1905x4862.webp");
+  background-image: url("../../images/backgroundimage/44.png");
   background-size: contain;
 
   isolation: isolate;
-  font-family: 'Cormorant Garamond', serif;
+   font-family: "Montserrat", Arial, sans-serif;
 }
 
 /* ── Mandala decorations ── */
@@ -111,7 +111,7 @@
 .container {
   position: relative;
   z-index: 1;
-  max-width: 1450px;
+  max-width: 1600px;
   margin: 0 auto;
   padding: clamp(2.5rem, 5vw, 5rem) clamp(1.2rem, 5vw, 3rem);
 }
@@ -125,23 +125,22 @@
 }
 
 .superTitle {
-  font-family: 'Cormorant Garamond', serif;
+   font-family: "Montserrat", Arial, sans-serif;
   font-size: clamp(0.9rem, 2vw, 1.2rem);
-  font-style: italic;
   color: var(--brown-warm);
   letter-spacing: 0.08em;
   margin-bottom: 0.5rem;
 }
 
 .mainTitle {
-  font-family: 'Cinzel', serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: clamp(1.3rem, 3.5vw, 2.2rem);
   font-weight: 700;
   color: var(--brown-deep);
   line-height: 1.35;
   margin: 0 auto 1.5rem;
   letter-spacing: 0.02em;
-  max-width: 700px;
+  max-width: 900px;
 }
 
 .omDivider {
@@ -161,7 +160,7 @@
 }
 
 .omSymbol {
-  font-family: 'Cinzel', serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: 1.8rem;
   color: var(--saffron);
   line-height: 1;
@@ -172,8 +171,9 @@
   font-size: clamp(0.88rem, 1.6vw, 1rem);
   color: var(--text-body);
   line-height: 1.7;
-  max-width: 700px;
+  max-width: 900px;
   margin: 0 auto;
+  font-family: "Montserrat", Arial, sans-serif;
 }
 
 .inlineLink {
@@ -194,7 +194,7 @@
 .regFeeBlock {
   margin-bottom: 3.5rem;
   padding: clamp(1.5rem, 3vw, 2.5rem);
-  background: linear-gradient(135deg, rgba(255, 249, 240, 0.9) 0%, rgba(253, 240, 220, 0.85) 100%);
+  background: #ffffff;
   border: 1px solid var(--border-color);
   border-radius: 12px;
   box-shadow: 0 6px 30px var(--shadow-warm), 0 1px 0 rgba(255, 255, 255, 0.8) inset;
@@ -234,7 +234,7 @@
 }
 
 .sectionTitle {
-  font-family: 'Cinzel', serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: clamp(1rem, 2.2vw, 1.4rem);
   font-weight: 700;
   color: var(--saffron-dark);
@@ -253,12 +253,13 @@
 
 /* ── Registration Fee ── */
 .regFeeText {
-  font-size: clamp(0.9rem, 1.6vw, 1rem);
+  font-size: clamp(0.9rem, 1.6vw, 1.1rem);
   color: var(--text-body);
   line-height: 1.8;
   text-align: center;
-  max-width: 850px;
+  
   margin: 0 auto;
+  font-family: "Montserrat", Arial, sans-serif;
 }
 
 .regFeeText strong {
@@ -301,8 +302,8 @@
 }
 
 .paypalCardTitle {
-  font-family: 'Cinzel', serif;
-  font-size: clamp(0.68rem, 1.2vw, 0.8rem);
+  font-family: "Montserrat", Arial, sans-serif;
+  font-size: clamp(0.68rem, 1.2vw, 1.1rem);
   font-weight: 600;
   color: var(--saffron-dark);
   text-align: center;
@@ -353,12 +354,11 @@
 }
 
 .upiCardBranded {
-  background: linear-gradient(160deg, #fff3d0 0%, #ffe4a0 100%);
   border-color: var(--saffron);
 }
 
 .upiCardHeader {
-  font-family: 'Cinzel', serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: 0.78rem;
   font-weight: 600;
   color: var(--brown-mid);
@@ -388,11 +388,10 @@
 .upiScanText {
   font-size: 0.8rem;
   color: var(--brown-warm);
-  font-style: italic;
 }
 
 .copyBtn {
-  font-family: 'Cinzel', serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: 0.7rem;
   font-weight: 600;
   letter-spacing: 0.08em;
@@ -424,7 +423,7 @@
 }
 
 .aymBannerText {
-  font-family: 'Cinzel', serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: 0.82rem;
   font-weight: 700;
   color: #fff;
@@ -459,7 +458,7 @@
 }
 
 .cardPayBadge {
-  font-family: 'Cinzel', serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: 0.72rem;
   font-weight: 700;
   color: #fff;
@@ -470,8 +469,8 @@
 }
 
 .cardPayTitle {
-  font-family: 'Cinzel', serif;
-  font-size: clamp(0.72rem, 1.3vw, 0.85rem);
+  font-family: "Montserrat", Arial, sans-serif;
+  font-size: clamp(0.72rem, 1.3vw, 1rem);
   font-weight: 600;
   color: var(--saffron-dark);
   line-height: 1.4;
@@ -485,15 +484,16 @@
 }
 
 .cardPayDesc {
-  font-size: 0.88rem;
+  font-size: 1rem;
   color: var(--text-body);
   line-height: 1.6;
   flex: 1;
+  font-family: "Montserrat", Arial, sans-serif;
 }
 
 .bookNowBtn {
   display: inline-block;
-  font-family: 'Cinzel', serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -544,7 +544,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: 'Cinzel', serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: 0.78rem;
   font-weight: 700;
   color: #fff;
@@ -552,7 +552,7 @@
 }
 
 .bankCardTitle {
-  font-family: 'Cinzel', serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: clamp(0.72rem, 1.2vw, 0.85rem);
   font-weight: 700;
   color: #fff;
@@ -582,19 +582,21 @@
 .bankFieldLabel {
   color: var(--brown-warm);
   font-weight: 600;
-  font-style: italic;
+  font-family: "Montserrat", Arial, sans-serif;
+  
 }
 
 .bankFieldValue {
   color: var(--text-body);
   font-weight: 600;
   word-break: break-word;
+  font-family: "Montserrat", Arial, sans-serif;
 }
 
 .copyBankBtn {
   width: 100%;
-  font-family: 'Cinzel', serif;
-  font-size: 0.72rem;
+  font-family: "Montserrat", Arial, sans-serif;
+  font-size: 0.92rem;
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -613,22 +615,21 @@
 }
 
 .gstNote {
-  font-size: 0.82rem;
+  font-size: 0.92rem;
   color: var(--brown-mid);
-  font-style: italic;
   text-align: center;
   margin-top: 1.2rem;
   padding: 0.7rem 1rem;
   background: rgba(224, 123, 0, 0.07);
   border-radius: 6px;
   border-left: 3px solid var(--saffron);
+  font-family: "Montserrat", Arial, sans-serif;
 }
 
 /* ================================================================
    WESTERN UNION
    ================================================================ */
 .westernCard {
-  max-width: 700px;
   margin: 0 auto;
   text-align: center;
 }
@@ -639,10 +640,11 @@
 }
 
 .westernText {
-  font-size: clamp(0.88rem, 1.5vw, 1rem);
+  font-size: clamp(0.88rem, 1.5vw, 1.1rem);
   color: var(--text-body);
   line-height: 1.7;
   margin-bottom: 1.2rem;
+  font-family: "Montserrat", Arial, sans-serif;
 }
 
 .westernDetails {
@@ -667,23 +669,23 @@
 .westernLabel {
   font-size: 0.78rem;
   color: var(--brown-warm);
-  font-style: italic;
+  font-family: "Montserrat", Arial, sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.06em;
 }
 
 .westernValue {
-  font-family: 'Cinzel', serif;
-  font-size: 0.9rem;
+  font-family: "Montserrat", Arial, sans-serif;
+  font-size: 1rem;
   font-weight: 700;
   color: var(--brown-deep);
 }
 
 .westernNote {
-  font-size: 0.85rem;
+  font-size: 1rem;
   color: var(--text-muted);
   line-height: 1.65;
-  font-style: italic;
+  font-family: "Montserrat", Arial, sans-serif;
 }
 
 /* ================================================================
@@ -695,6 +697,7 @@
   line-height: 1.7;
   margin-bottom: 1.5rem;
   text-align: center;
+  font-family: "Montserrat", Arial, sans-serif;
 }
 
 .arrivalGrid {
@@ -727,7 +730,7 @@
 }
 
 .arrivalCharge {
-  font-family: 'Cinzel', serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.06em;
@@ -791,8 +794,8 @@
 }
 
 .policyTitle {
-  font-family: 'Cinzel', serif;
-  font-size: clamp(0.78rem, 1.3vw, 0.92rem);
+  font-family: "Montserrat", Arial, sans-serif;
+  font-size: clamp(0.78rem, 1.3vw, 1rem);
   font-weight: 700;
   color: var(--saffron-dark);
   letter-spacing: 0.04em;
@@ -808,9 +811,10 @@
 }
 
 .policyText {
-  font-size: clamp(0.8rem, 1.3vw, 0.9rem);
+  font-size: clamp(0.8rem, 1.3vw, 1rem);
   color: var(--text-body);
   line-height: 1.7;
+  font-family: "Montserrat", Arial, sans-serif;
 }
 
 /* ── Footer divider ── */

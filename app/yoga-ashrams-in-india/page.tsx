@@ -244,6 +244,9 @@ const YogaAshrams: React.FC = () => {
         life. It is a place usually located amidst a calm and peaceful
         environment ranging from hills to forests to riverside. an ashram is a spiritual hermitage or a secluded community where students (sometimes called sadhakas or brahmacharins) live together under the direct guidance of a guru (spiritual teacher). The primary purpose of an ashram is to provide a disciplined, supportive environment for the intensive practice of yoga—not just physical postures (asana), but the full scope of yogic life.
       </p>
+      <p className={styles.bodyText}>
+        Living in an ashram offers a structured daily routine that nurtures both inner growth and outer discipline. From early morning meditation and yoga practices to mindful meals and self-reflection, every aspect of ashram life is designed to cultivate awareness and simplicity. Away from distractions, students develop a deeper understanding of yogic principles such as self-discipline, compassion, and detachment. This immersive environment not only enhances spiritual learning but also helps individuals reconnect with their true purpose and lead a more balanced and meaningful life.
+      </p>
       <blockquote className={styles.pullquote}>
         The ashram is a home away from home — where students can stay, read,
         study and practice yoga in a peaceful, undisturbed environment.

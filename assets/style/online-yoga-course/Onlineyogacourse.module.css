@@ -26,7 +26,7 @@
   --shadow-warm: rgba(80, 40, 5, 0.15);
 
   --font-display: 'Montserrat', Arial, sans-serif;
-  --font-body: 'Lato', Arial, sans-serif;
+  --font-body: 'Montserrat', Arial, sans-serif;
   --font-fell: 'Montserrat', Arial, sans-serif;
   --font-script: 'Poppins', Arial, sans-serif;
   --font-menu: 'Montserrat', Arial, sans-serif;
@@ -349,7 +349,7 @@
 
 .whyCardDesc {
   font-family: var(--font-body);
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   line-height: 1.6;
   color: var(--ink-soft);
 }
@@ -579,7 +579,7 @@
 
 .benefitDesc {
   font-family: var(--font-body);
-  font-size: 0.88rem;
+  font-size: 1rem;
   line-height: 1.65;
   color: var(--ink-soft);
 }
@@ -1019,7 +1019,7 @@
 
 .faqA {
   font-family: var(--font-body);
-  font-size: clamp(0.84rem, 1.3vw, 0.93rem);
+  font-size: clamp(0.84rem, 1.3vw, 1rem);
   line-height: 1.8;
   color: var(--ink-soft);
   margin: 0;
@@ -1119,7 +1119,7 @@
 
 .chakraLine {
   font-family: var(--font-body);
-  font-size: clamp(0.78rem, 1.15vw, 0.87rem);
+  font-size: clamp(0.78rem, 1.15vw, 1rem);
   color: var(--ink-soft);
   margin: 0.15rem 0;
   line-height: 1.55;

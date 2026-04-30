@@ -22,7 +22,7 @@
    GLOBAL WRAPPER
 ==================================================== */
 .pageWrapper {
-  font-family: 'Lato', sans-serif;
+   font-family: "Montserrat", Arial, sans-serif;
   color: var(--text-body);
   overflow-x: hidden;
   background: #fff;
@@ -350,7 +350,7 @@
   font-weight: 600;
   color: var(--table-text);
   line-height: 1.6;
-  font-family: 'Lato', sans-serif;
+   font-family: "Montserrat", Arial, sans-serif;
 }
 
 .timetableRow span:first-child {
@@ -816,7 +816,8 @@
 
 .activity {
   color: #333;
-  font-size: 0.85rem;
+  font-size: 1rem;
+  font-family: "Montserrat", Arial, sans-serif;
 }
 
 /* Pricing Grid */
@@ -907,7 +908,8 @@
 
 .step p {
   margin: 0;
-  font-size: 0.85rem;
+  font-size: 1rem;
+  font-family: "Montserrat", Arial, sans-serif;
 }
 
 .seatsNote {
@@ -962,6 +964,7 @@
   padding: 10px 12px;
   background: #fafaf9;
   border-radius: 6px;
+  font-family: "Montserrat", Arial, sans-serif;
 }
 
 .guidelineDot {
@@ -976,6 +979,7 @@
   margin: 0;
   font-size: 1rem;
   color: #444;
+  font-family: "Montserrat", Arial, sans-serif;
 }
 
 /* Reach Section */

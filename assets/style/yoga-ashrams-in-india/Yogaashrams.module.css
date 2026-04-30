@@ -8,32 +8,21 @@
   --text-body: #333333;
   --white: #ffffff;
   --link-color: #1a5276;
+  background-image: url("../../images/backgroundimage/24.png") !important;
 }
 
 /* ====================================================
    GLOBAL
 ==================================================== */
 .pageWrapper {
-  font-family: 'Lato', sans-serif;
-  background: #fff;
+   font-family: "Montserrat", Arial, sans-serif;
+ background-image: url("../../images/backgroundimage/24.png") ;
   color: var(--text-body);
   overflow-x: hidden;
   margin: 0 auto;
 }
 
-/* All sections inherit white background */
-.heroSection,
-.titleSection,
-.featureSection,
-.welcomeSection,
-.experienceSection,
-.bestSection,
-.photoSection,
-.whatSection,
-.whySection,
-.actSection {
-  background: #fff;
-}
+
 
 /* ====================================================
    HERO
@@ -65,7 +54,6 @@
   font-family: 'Montserrat', serif;
   font-size: clamp(1.6rem, 4vw, 2.4rem);
   font-weight: 700;
-  font-style: italic;
   color: var(--text-dark);
   margin-bottom: 0;
   letter-spacing: 0.02em;
@@ -207,10 +195,11 @@
 }
 
 .bodyText {
-  font-size: clamp(0.85rem, 1.5vw, 0.95rem);
+  font-size: clamp(0.85rem, 1.5vw, 1.1rem);
   line-height: 1.85;
   color: var(--text-body);
   margin-bottom: 1.2rem;
+  font-weight: 500;
 }
 
 .bodyText a {
@@ -434,7 +423,6 @@
   font-family: 'Montserrat', serif;
   font-size: clamp(1.6rem, 4vw, 2.4rem);
   font-weight: 700;
-  font-style: italic;
   color: #f15505;
   margin-bottom: 0.5rem;
 }
@@ -502,7 +490,6 @@
   color: white;
   font-family: 'Montserrat', serif;
   font-size: 0.85rem;
-  font-style: italic;
   margin: 0;
 }
 
@@ -559,8 +546,8 @@
 }
 
 .statLabel {
-  font-family: 'Lato', sans-serif;
-  font-size: 0.8rem;
+   font-family: "Montserrat", Arial, sans-serif;
+  font-size: 1.1rem;
   color: #666;
 }
 
@@ -572,10 +559,11 @@
 }
 
 .welcomeText {
-  font-size: 0.92rem;
+  font-size: 1.1rem;
   line-height: 1.8;
   color: #444;
   margin-bottom: 1rem;
+  font-weight: 500;
 }
 
 .welcomeText strong {
@@ -644,14 +632,14 @@
 
 .timelineContent h3 {
   font-family: 'Montserrat', serif;
-  font-size: 1rem;
+  font-size: 1.2rem;
   font-weight: 700;
   color: #2c1a08;
   margin-bottom: 0.3rem;
 }
 
 .timelineContent p {
-  font-size: 0.85rem;
+  font-size: 1.05rem;
   line-height: 1.5;
   color: #666;
   margin: 0;
@@ -764,11 +752,12 @@
 
 .highlightCardTitle {
   font-family: 'Montserrat', serif;
-  font-size: 0.8rem;
+  font-size: 1rem;
   letter-spacing: 0.12em;
   color: var(--orange-primary);
   text-transform: uppercase;
   margin-bottom: 0.7rem;
+  font-weight: 600;
 }
 
 .certBadges {
@@ -805,9 +794,10 @@
   background: #fdfaf6;
   border: 1px solid rgba(200, 168, 75, 0.2);
   text-decoration: none;
-  font-size: 0.82rem;
+  font-size: 1rem;
   color: var(--link-color);
   transition: all 0.2s ease;
+  font-weight: 600;
 }
 
 .pillLink:hover {
@@ -929,7 +919,6 @@
   border-radius: 0 10px 10px 0;
   margin: 1rem 0;
   font-family: 'Montserrat', serif;
-  font-style: italic;
   font-size: 0.9rem;
   color: var(--text-dark);
 }
@@ -1013,7 +1002,7 @@
 
 .whyBody {
   margin-top: 1.5rem;
-  font-size: 0.88rem;
+  font-size: 1.1rem;
   line-height: 1.9;
   color: #333333;
 }
@@ -1055,9 +1044,10 @@
 }
 
 .actCard p {
-  font-size: 0.78rem;
+  font-size: 1rem;
   color: var(--text-body);
   line-height: 1.5;
+  font-weight: 600;
 }
 
 /* Override courses block for new 2-col grid */

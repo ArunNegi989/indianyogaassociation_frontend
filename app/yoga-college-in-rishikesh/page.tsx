@@ -49,7 +49,8 @@ const tabs = [
     label: "Yoga Protocol Instructor",
     hours: "200 HRS",
     content: {
-      intro: `Yoga protocol instructor is a basic level of certification provided by AYM yoga school in Rishikesh for practitioners seeking a basic knowledge of yoga and its practices (yoga asanas) under the guidance of experienced yoga teachers. It is the best foundational yoga course for the practitioner who wants to teach yoga at the group level or an individual class.`,
+      intro: `Yoga protocol instructor is a basic level of certification provided by AYM yoga school in Rishikesh for practitioners seeking a basic knowledge of yoga and its practices (yoga asanas) under the guidance of experienced yoga teachers. It is the best foundational yoga course for the practitioner who wants to teach yoga at the group level or an individual class. `,
+       extra: `Additionally, this certification focuses on enhancing teaching skills, including class sequencing, communication, and student handling. Participants learn how to create a safe and supportive environment for beginners, making yoga accessible to people of all age groups. By the end of the course, students not only gain essential knowledge but also develop the ability to conduct group sessions effectively with clarity and confidence. The program also encourages personal growth by fostering discipline, consistency, and a deeper awareness of one’s physical and mental well-being. This holistic approach helps individuals not only become better instructors but also lead a more balanced and mindful lifestyle.`,
       affiliation: `The yoga certification board accredits this 200-hour level-1 instructional yoga course by AYM yoga school in rishikesh.`,
       sections: [
         {
@@ -112,7 +113,10 @@ const tabs = [
     label: "Yoga Wellness Instructor",
     hours: "400 HRS",
     content: {
-      intro: `Yoga wellness instructor is a Level-2 yoga instructor course for those practitioners who wants to start their career as a professional yoga instructor and want to teach yoga in groups or a school or a wellness center. This instructional yoga course is best for those who wish to impart yoga to individuals or in mass to promote health and wellness.`,
+      intro: `Yoga wellness instructor is a Level-2 yoga instructor course for those practitioners who wants to start their career as a professional yoga instructor and want to teach yoga in groups or a school or a wellness center. This instructional yoga course is best for those who wish to impart yoga to individuals or in mass to promote health and wellness.` ,
+      extra: `Additionally, this course deepens the understanding of yoga by introducing advanced asanas, pranayama techniques, and meditation practices. It helps practitioners refine their alignment, improve teaching methodology, and gain confidence in handling diverse groups of students with different needs and abilities.
+
+The program also focuses on lifestyle management and the therapeutic aspects of yoga, enabling instructors to guide individuals toward better physical and mental well-being. By the end of the course, participants are well-prepared to teach professionally in studios, wellness centers, or community settings with clarity, confidence, and authenticity.`,
       affiliation: `This 400 hour level-2 yoga wellness instructor is a course registered with the yoga certification board, Government of India.`,
       sections: [
         {

@@ -27,7 +27,7 @@
   --shadow-warm: rgba(80, 40, 5, .15);
   --glow: rgba(224, 123, 0, .22);
   --font-display: 'Montserrat', Arial, sans-serif;
-  --font-body: 'Lato', Arial, sans-serif;
+  --font-body: 'Montserrat', Arial, sans-serif;
   --font-fell: 'Montserrat', Arial, sans-serif;
   --font-menu: 'Montserrat', Arial, sans-serif;
 }
@@ -799,7 +799,7 @@
 
 .eligibilityLabel {
   font-family: var(--font-menu);
-  font-size: .65rem;
+  font-size: .95rem;
   font-weight: 700;
   letter-spacing: .1em;
   text-transform: uppercase;
@@ -809,7 +809,7 @@
 
 .eligibilityText {
   font-family: var(--font-body);
-  font-size: clamp(.82rem, 1.25vw, .92rem);
+  font-size: clamp(.82rem, 1.25vw, 1.05rem);
   line-height: 1.65;
   color: var(--ink-md);
 }
@@ -1378,7 +1378,7 @@
 
 .courseCardDetailLabel {
   font-family: var(--font-menu);
-  font-size: .62rem;
+  font-size: .72rem;
   font-weight: 700;
   letter-spacing: .08em;
   text-transform: uppercase;
@@ -1390,7 +1390,7 @@
 
 .courseCardDetailVal {
   font-family: var(--font-body);
-  font-size: clamp(.84rem, 1.3vw, .94rem);
+  font-size: clamp(.84rem, 1.3vw, 1rem);
   color: var(--ink-md);
   line-height: 1.4;
 }
@@ -1453,7 +1453,7 @@
   align-items: center;
   gap: .4rem;
   font-family: var(--font-menu);
-  font-size: .62rem;
+  font-size: .82rem;
   font-weight: 700;
   letter-spacing: .08em;
   text-transform: uppercase;
@@ -1649,7 +1649,7 @@
   align-items: center;
   gap: .4rem;
   font-family: var(--font-menu);
-  font-size: .62rem;
+  font-size: .82rem;
   font-weight: 700;
   letter-spacing: .07em;
   text-transform: uppercase;
