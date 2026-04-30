@@ -87,7 +87,7 @@
   padding: 0 0.85rem;
   color: #652d04;
   text-decoration: none;
-  font-family: 'Georgia', 'Times New Roman', serif;
+  font-family:'Montserrat', Arial, sans-serif;
   font-size: 0.8rem;
   font-weight: 600;
   letter-spacing: 0.03em;
@@ -125,7 +125,7 @@
   position: absolute;
   top: 100%;
   left: 0;
-  min-width: 260px;
+  min-width: 290px;
   background: #fff;
   border-top: 3px solid #F15505;
   border-radius: 0 0 8px 8px;
@@ -158,7 +158,7 @@
 .dropdownHeader {
   background: linear-gradient(135deg, #F15505 0%, #f59500 100%);
   color: #fff;
-  font-family: 'Georgia', serif;
+  font-family: 'Montserrat', Arial, sans-serif;
   font-size: 0.78rem;
   font-weight: 700;
   letter-spacing: 0.06em;
@@ -181,10 +181,10 @@
   align-items: center;
   gap: 8px;
   padding: 0.6rem 1rem;
-  color: #333;
+  color: #151515;
   text-decoration: none;
-  font-family: 'Georgia', 'Times New Roman', serif;
-  font-size: 0.82rem;
+  font-family: 'Montserrat', Arial, sans-serif;
+  font-size: 0.88rem;
   transition: background 0.15s ease, color 0.15s ease, padding-left 0.15s ease;
 }
 
@@ -483,7 +483,7 @@
   }
 
   .dropdown {
-    min-width: 280px;
+    min-width: 320px;
   }
 }
 

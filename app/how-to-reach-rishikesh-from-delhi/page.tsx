@@ -259,6 +259,7 @@ const HowToReach: React.FC = () => {
         </div>
 
       </section>
+      
     </div>
   );
 };

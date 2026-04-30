@@ -31,8 +31,7 @@
 .outerPad {
   max-width: 1500px;
   margin: 0 auto;
-  padding-left: clamp(1.25rem, 5vw, 5rem);
-  padding-right: clamp(1.25rem, 5vw, 5rem);
+ 
 }
 
 .a {
