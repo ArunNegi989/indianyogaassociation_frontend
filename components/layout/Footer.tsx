@@ -12,7 +12,7 @@ const quickLinks = [
   { label: "Yoga Competition", href: "/international-yoga-competition" },
   { label: "Blog", href: "/blog/aym-yoga-blog" },
   { label: "Payment", href: "/200-hour-yoga-ttc-fees" },
-  { label: "How to Reach", href: "#how-to-reach" },
+  { label: "How to Reach", href: "/how-to-reach-rishikesh-from-delhi" },
   { label: "Contact", href: "/contact" },
   { label: "Yoga Teacher Training", href: "/yoga-teacher-training" },
 ];
