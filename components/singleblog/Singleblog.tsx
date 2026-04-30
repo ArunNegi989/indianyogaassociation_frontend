@@ -489,7 +489,7 @@ export default function SingleBlog({
           <nav className={styles.breadcrumb} aria-label="Breadcrumb">
             <Link href="/" className={styles.breadLink}>Home</Link>
             <span className={styles.breadSep}>›</span>
-            <Link href="/aym-yoga-blog" className={styles.breadLink}>Blog</Link>
+            <Link href="/blog/aym-yoga-blog" className={styles.breadLink}>Blog</Link>
             <span className={styles.breadSep}>›</span>
             <span className={styles.breadCurrent}>{blog.category}</span>
           </nav>
@@ -577,7 +577,7 @@ export default function SingleBlog({
 
           {/* Back button */}
           <div className={styles.backRow}>
-            <Link href="/aym-yoga-blog" className={styles.backBtn}>
+            <Link href="/blog/aym-yoga-blog" className={styles.backBtn}>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                 <path d="M19 12H5M12 19l-7-7 7-7" />
               </svg>
@@ -604,7 +604,7 @@ export default function SingleBlog({
                     : "";
                   return (
                     <li key={post._id || post.id} className={styles.recentItem}>
-                      <Link href={`/aym-yoga-blog/${post.slug}`} className={styles.recentLink}>
+                      <Link href={`/blog/aym-yoga-blog/${post.slug}`} className={styles.recentLink}>
                         <div className={styles.recentImgWrap}>
                           <Image src={postImg} alt={post.title} fill sizes="72px" className={styles.recentImg} unoptimized />
                           <div className={styles.recentImgSheen} />
@@ -628,7 +628,7 @@ export default function SingleBlog({
                 })}
               </ul>
               <div className={styles.recentViewAll}>
-                <Link href="/aym-yoga-blog" className={styles.recentViewAllLink}>View All Articles →</Link>
+                <Link href="/blog/aym-yoga-blog" className={styles.recentViewAllLink}>View All Articles →</Link>
               </div>
             </div>
           )}
@@ -648,7 +648,7 @@ export default function SingleBlog({
                     : "";
                   return (
                     <li key={post._id || post.id} className={styles.relatedItem}>
-                      <Link href={`/aym-yoga-blog/${post.slug}`} className={styles.relatedLink}>
+                      <Link href={`/blog/aym-yoga-blog/${post.slug}`} className={styles.relatedLink}>
                         <div className={styles.relatedImgWrap}>
                           <Image src={relImg} alt={post.title} fill sizes="56px" className={styles.relatedImg} unoptimized />
                         </div>

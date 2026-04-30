@@ -303,7 +303,7 @@ export default function BlogPage({
               <div className={styles.grid}>
                 {visibleBlogs.map((blog, idx) => (
                   <Link
-                    href={`/aym-yoga-blog/${blog.slug}`}
+                    href={`/blog/aym-yoga-blog/${blog.slug}`}
                     key={blog.id}
                     className={styles.card}
                     style={{
@@ -428,7 +428,7 @@ export default function BlogPage({
               {latestPosts.map((post) => (
                 <li key={post.id} className={styles.sidePostItem}>
                   <Link
-                    href={`/aym-yoga-blog/${post.slug}`}
+                    href={`/blog/aym-yoga-blog/${post.slug}`}
                     className={styles.sidePostLink}
                   >
                     <span className={styles.sidePostDot}>›</span>

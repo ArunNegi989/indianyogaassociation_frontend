@@ -146,7 +146,7 @@ export const BlogSection: React.FC = () => {
 
         {/* View All Button */}
         <div className={styles.viewAllContainer}>
-          <Link href="/aym-yoga-blog" className={styles.viewAllBtn}>
+          <Link href="/blog/aym-yoga-blog" className={styles.viewAllBtn}>
             View All Articles
           </Link>
         </div>
