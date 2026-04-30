@@ -7,17 +7,13 @@ import logo from "../../assets/icons/aym-yoga-school-logo.png";
 const quickLinks = [
   { label: "Online Yoga Course", href: "/online-yoga-course" },
   { label: "AYUSH Course", href: "/yoga-college-in-rishikesh" },
-  { label: "Student Reviews", href: "#testimonials" },
-  { label: "FAQ", href: "/yoga-ttc-faq" },
-  { label: "Yoga Competition", href: "/yoga-competition" },
-  { label: "Blog", href: "/aym-yoga-blog" },
-  { label: "Payment", href: "/ttc-payment" },
+  { label: "Student Reviews", href: "/testimonials" },
+  { label: "FAQ", href: "/yoga-ttc-rishikesh" },
+  { label: "Yoga Competition", href: "/international-yoga-competition" },
+  { label: "Blog", href: "/blog/aym-yoga-blog" },
+  { label: "Payment", href: "/200-hour-yoga-ttc-fees" },
   { label: "How to Reach", href: "#how-to-reach" },
-  { label: "Contact", href: "/Contact-us" },
-  {
-    label: "International Yoga Competition",
-    href: "/international-yoga-competition",
-  },
+  { label: "Contact", href: "/contact" },
   { label: "Yoga Teacher Training", href: "/yoga-teacher-training" },
 ];
 
@@ -55,7 +51,7 @@ const courseLinks = [
 const socialLinks = [
   {
     label: "Facebook",
-    href: "https://facebook.com",
+    href: "https://www.facebook.com/aymindia",
     color: "#1877F2",
     icon: (
       <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
@@ -65,7 +61,7 @@ const socialLinks = [
   },
   {
     label: "Twitter / X",
-    href: "https://twitter.com",
+    href: "https://x.com/aymindia",
     color: "#000000",
     icon: (
       <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
@@ -75,7 +71,7 @@ const socialLinks = [
   },
   {
     label: "Instagram",
-    href: "https://instagram.com",
+    href: "https://www.instagram.com/indianyogaassociation/",
     color: "#E1306C",
     icon: (
       <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
@@ -104,7 +100,7 @@ const socialLinks = [
   },
   {
     label: "YouTube",
-    href: "https://youtube.com",
+    href: "https://www.youtube.com/user/aymindia1/",
     color: "#FF0000",
     icon: (
       <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
@@ -299,23 +295,7 @@ export const Footer = () => {
         <p className={styles.copyright}>
           © {new Date().getFullYear()} AYM Yoga School. All rights reserved.
         </p>
-        <nav className={styles.bottomNav}>
-          <Link href="/sitemap" className={styles.bottomLink}>
-            Sitemap
-          </Link>
-          <span className={styles.dot}>·</span>
-          <Link href="/faq" className={styles.bottomLink}>
-            FAQ
-          </Link>
-          <span className={styles.dot}>·</span>
-          <Link href="/Contact-us" className={styles.bottomLink}>
-            Contact
-          </Link>
-          <span className={styles.dot}>·</span>
-          <Link href="/payment" className={styles.bottomLink}>
-            Payment
-          </Link>
-        </nav>
+       
       </div>
     </footer>
   );
