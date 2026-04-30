@@ -9,7 +9,7 @@ const IMG = {
 
   c1: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=400&q=80",
   c2: "https://images.unsplash.com/photo-1593811167562-9cef47bfc4d7?w=400&q=80",
-  c3: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=400&q=80",
+  c3: "sound4.jpg",
   c4: "https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?w=400&q=80",
   c5: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&q=80",
   c6: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&q=80",
@@ -19,12 +19,12 @@ const IMG = {
   bowl1:
     "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=600&q=85",
   bowl2:
-    "https://images.unsplash.com/photo-1593811167562-9cef47bfc4d7?w=600&q=85",
+    "sound3.jpg",
   bowl3: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=600&q=85",
 
   /* Benefits side image */
   benefits:
-    "https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?w=700&q=85",
+    "sound1.jpg",
 };
 
 /* ─── Level cards data ─── */

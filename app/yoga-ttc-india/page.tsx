@@ -235,12 +235,12 @@ const rulesCategories = [
       {
         num: 1,
         title: "Respectful Behavior",
-        content: "Yoga TTC student's behavior and attitude, both private and public while at the venue, should be respectful."
+        content: "Students enrolled in a Yoga Teacher Training Course (TTC) are expected to conduct themselves with respect, mindfulness, and integrity at all times. This applies equally to their public interactions and private behavior while at the venue. They should demonstrate courtesy toward fellow participants, instructors, and staff, maintain a positive and cooperative attitude, and uphold the values of discipline, humility, and self-awareness that are central to yoga practice. In addition, students are encouraged to communicate thoughtfully, avoid disruptive or inappropriate behavior, and resolve any differences with patience and understanding. Respect for cultural diversity, personal boundaries, and the learning environment is essential. Maintaining cleanliness in personal and shared spaces, adhering to the schedule, and following the guidance of instructors are also important aspects of responsible conduct."
       },
       {
         num: 2,
         title: "Mutual Respect",
-        content: "Student's Yoga TTC in India should maintain an atmosphere encouraging mutual respect, civil and congenial relationships and free from all forms of harassment and violence, where everyone can discuss their differences and exchange ideas openly, honestly and respectfully. -Use respectful language without using vulgarity, insults, abusive language, and verbal threats, will make the Yoga TTC course a memorable event."
+        content: "Student's Yoga TTC in India should maintain an atmosphere encouraging mutual respect, civil and congenial relationships and free from all forms of harassment and violence, where everyone can discuss their differences and exchange ideas openly, honestly and respectfully. -Use respectful language without using vulgarity, insults, abusive language, and verbal threats, will make the Yoga TTC course a memorable event. To create a truly enriching and transformative experience during the Yoga Teacher Training Course (TTC) in India, it is essential that the atmosphere is not only built on mutual respect, but also on inclusivity, compassion, and understanding. A safe and supportive environment encourages the free flow of ideas and opinions, fostering growth, learning, and personal development. Every participant should feel valued for their unique perspective, background, and experiences. In addition to maintaining respect in language and behavior, it is important to cultivate emotional intelligence and empathy, ensuring that all interactions contribute to positive energy and a sense of community."
       },
       {
         num: 3,

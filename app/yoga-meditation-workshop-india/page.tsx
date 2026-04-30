@@ -570,18 +570,15 @@ const MeditationPage: React.FC = () => {
 
       {/* Right - Video (autoplay, looped) */}
       <div className={styles.splitVideo}>
-        <video
-          src="https://cdn.pixabay.com/video/2023/06/26/170521-837432158_large.mp4"
-          className={styles.meditationVideo}
-          autoPlay
-          loop
-          muted
-          playsInline
-          controlsList="nodownload"
-        >
-          Your browser does not support the video tag.
-        </video>
-      </div>
+  <iframe
+    src="https://www.youtube.com/embed/jXMRM9kjtRY?autoplay=1&loop=1&playlist=jXMRM9kjtRY&mute=1&controls=0&modestbranding=1&rel=0"
+    className={styles.meditationVideo}
+    title="YouTube video player"
+    frameBorder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    allowFullScreen
+  ></iframe>
+</div>
     </div>
   </div>
 </section>
@@ -616,7 +613,7 @@ const MeditationPage: React.FC = () => {
       </div>
       <div className={styles.methodImage}>
         <img 
-          src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=500&q=85"
+          src="medi2.jpg"
           alt="Person practicing Vipassana meditation"
           className={styles.methodImg}
         />
@@ -647,7 +644,7 @@ const MeditationPage: React.FC = () => {
       </div>
       <div className={styles.methodImage}>
         <img 
-          src="https://images.unsplash.com/photo-1593811167562-9cef47bfc4d7?w=500&q=85"
+          src="medi3.jpg"
           alt="Active meditation practice"
           className={styles.methodImg}
         />
@@ -678,7 +675,7 @@ const MeditationPage: React.FC = () => {
       </div>
       <div className={styles.methodImage}>
         <img 
-          src="https://images.unsplash.com/photo-1545389336-cf090694435e?w=500&q=85"
+          src="medi4.jpg"
           alt="Person in deep static meditation"
           className={styles.methodImg}
         />
@@ -723,7 +720,7 @@ const MeditationPage: React.FC = () => {
       </div>
       <div className={styles.elevateImage}>
         <img 
-          src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=600&q=85"
+          src="medi6.jpg"
           alt="Yoga teacher training session"
           className={styles.elevateImg}
         />
@@ -910,7 +907,7 @@ const MeditationPage: React.FC = () => {
       
       <div className={styles.ctaImage}>
         <img 
-          src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=500&q=85"
+          src="learn.jpg"
           alt="Peaceful meditation"
           className={styles.ctaImg}
         />
