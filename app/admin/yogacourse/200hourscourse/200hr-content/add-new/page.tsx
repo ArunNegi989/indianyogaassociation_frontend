@@ -9,6 +9,12 @@ import api from "@/lib/api";
 
 const JoditEditor = dynamic(() => import("jodit-react"), { ssr: false });
 
+const safeHTML = (v: any): string => {
+  if (typeof v !== "string") return "";
+  const decoded = decodeJoditHTML(v);
+  return typeof decoded === "string" ? decoded.trim() : "";
+};
+
 /* ─────────────────────────── Constants ─────────────────────────── */
 const joditConfig = {
   readonly: false,
@@ -1472,6 +1478,7 @@ export default function Yoga200HourCombinedForm() {
      🔥 FIXED SUBMIT — all rich text sent as plain HTML (no JSON.stringify),
         existing images preserved, validation relaxed in edit mode
   ══════════════════════════════════════════════════════════ */
+  
   const runSubmit = async (data: any) => {
     let hasErr = false;
 
@@ -1529,47 +1536,64 @@ export default function Yoga200HourCombinedForm() {
       const fd = new globalThis.FormData();
 
       /* ── All registered form fields ── */
-      Object.entries(data).forEach(([k, v]) => {
-        if (v !== undefined && v !== null) fd.append(k, String(v));
-      });
+     for (const key in data) {
+  const val = data[key];
+
+  if (Array.isArray(val)) {
+    val.forEach((v) => fd.append(key, String(v)));
+  } else if (typeof val === "object" && val !== null) {
+    fd.set(key, JSON.stringify(val)); // 🔥 IMPORTANT
+  } else {
+    fd.set(key, val ?? "");
+  }
+}
 
       /* ── Programs H2 / Subtext ── */
       fd.set("newProgramsH2", programsH2);
       fd.set("newProgramsSubtext", programsSubtext);
 
       /* ── Dynamic paragraphs ── */
-      introParas.forEach((v, i) =>
-        fd.append(`introPara${i + 1}`, decodeJoditHTML(v)),
-      );
+     introParas.forEach((v, i) =>
+  fd.append(`introPara${i + 1}`, safeHTML(v))
+);
       fd.append("introParaCount", String(introParas.length));
-      aimsIntroPars.forEach((v, i) =>
-        fd.append(`aimsIntro${i + 1}`, decodeJoditHTML(v)),
-      );
+     aimsIntroPars.forEach((v, i) =>
+  fd.append(`aimsIntro${i + 1}`, safeHTML(v))
+);
       fd.append("aimsIntroCount", String(aimsIntroPars.length));
       syllabusParas.forEach((v, i) =>
-        fd.append(`syllabusIntro${i + 1}`, decodeJoditHTML(v)),
-      );
+  fd.append(`syllabusIntro${i + 1}`, safeHTML(v))
+);
       fd.append("syllabusIntroCount", String(syllabusParas.length));
 
       /* ── 🔥 FIX: ALL rich text as plain HTML — NO JSON.stringify ── */
-      fd.set("aimsOutro", decodeJoditHTML(aimsOutro));
-      fd.set("ashtangaDesc", decodeJoditHTML(ashtangaDesc));
-      fd.set("primaryIntro", decodeJoditHTML(primaryIntro));
-      fd.set("hathaDesc", decodeJoditHTML(hathaDesc));
-      fd.set("evalDesc", decodeJoditHTML(evalDesc));
-      fd.set("schedDesc", decodeJoditHTML(schedDesc));
-      fd.set("visaPassportDesc", decodeJoditHTML(visaDesc));
-      fd.set("globalCert1", decodeJoditHTML(globalCert1));
-      fd.set("globalCert2", decodeJoditHTML(globalCert2));
-      fd.set("req1", decodeJoditHTML(req1));
-      fd.set("req2", decodeJoditHTML(req2));
-      fd.set("req3", decodeJoditHTML(req3));
-      fd.set("req4", decodeJoditHTML(req4));
-      fd.set("best200Hr", decodeJoditHTML(best200Hr)); // ← was JSON.stringify'd before
-      fd.set("bookingStep1Desc", decodeJoditHTML(step1Desc)); // ← was JSON.stringify'd before
-      fd.set("bookingStep2Desc", decodeJoditHTML(step2Desc));
-      fd.set("bookingStep3Desc", decodeJoditHTML(step3Desc));
-      fd.set("bookingStep4Desc", decodeJoditHTML(step4Desc));
+     /* ── ALL RICH TEXT (SAFE VERSION) ── */
+
+fd.set("aimsOutro", safeHTML(aimsOutro));
+
+fd.set("ashtangaDesc", safeHTML(ashtangaDesc));
+fd.set("primaryIntro", safeHTML(primaryIntro));
+
+fd.set("hathaDesc", safeHTML(hathaDesc));
+fd.set("evalDesc", safeHTML(evalDesc));
+fd.set("schedDesc", safeHTML(schedDesc));
+
+fd.set("visaPassportDesc", safeHTML(visaDesc));
+
+fd.set("globalCert1", safeHTML(globalCert1));
+fd.set("globalCert2", safeHTML(globalCert2));
+
+fd.set("req1", safeHTML(req1));
+fd.set("req2", safeHTML(req2));
+fd.set("req3", safeHTML(req3));
+fd.set("req4", safeHTML(req4));
+
+fd.set("best200Hr", safeHTML(best200Hr));
+
+fd.set("bookingStep1Desc", safeHTML(step1Desc));
+fd.set("bookingStep2Desc", safeHTML(step2Desc));
+fd.set("bookingStep3Desc", safeHTML(step3Desc));
+fd.set("bookingStep4Desc", safeHTML(step4Desc));
 
       /* ── Stats ── */
       for (let i = 1; i <= 4; i++) {
@@ -1600,7 +1624,7 @@ export default function Yoga200HourCombinedForm() {
             title: m.title,
             intro: m.intro,
             items: m.items,
-            body: decodeJoditHTML(m.body),
+           body: safeHTML(m.body),
           })),
         ),
       );
@@ -1617,7 +1641,7 @@ export default function Yoga200HourCombinedForm() {
             start: p.start,
             oldPrice: p.oldPrice,
             price: p.price,
-            desc: decodeJoditHTML(p.desc),
+           desc: safeHTML(p.desc),
             image: p.imageFile ? "" : p.imagePreview,
           })),
         ),
