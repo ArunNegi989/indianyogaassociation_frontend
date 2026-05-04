@@ -268,7 +268,16 @@ function F({
   );
 }
 
-/* ─────────────────────────── Controlled Jodit Editor ─────────────────────────── */
+/* ═══════════════════════════════════════════════════════════
+   ✅ FIXED ControlledJodit
+   
+   KEY FIXES:
+   1. `onChange` callback uses `useRef` to hold latest setter — avoids stale closure
+   2. Removed `value` from handleChange dependency array (was causing freeze)
+   3. Mount guard uses ref properly — doesn't re-run on every render
+   4. Removed `if (decoded === value) return` — this was causing freeze when
+      user typed same char that was already there (e.g. spaces, same letters)
+═══════════════════════════════════════════════════════════ */
 function ControlledJodit({
   label,
   hint,
@@ -293,6 +302,16 @@ function ControlledJodit({
   const [visible, setVisible] = useState(false);
   const wrapRef = useRef<HTMLDivElement>(null);
 
+  // ✅ FIX 1: Store onChange in ref so handleChange never becomes stale
+  const onChangeRef = useRef(onChange);
+  useEffect(() => {
+    onChangeRef.current = onChange;
+  });
+
+  // ✅ FIX 2: Mount guard — ignore first empty fire from Jodit on mount
+  const isMountedRef = useRef(false);
+  const mountValueRef = useRef(value);
+
   useEffect(() => {
     const el = wrapRef.current;
     if (!el) return;
@@ -309,10 +328,29 @@ function ControlledJodit({
     return () => obs.disconnect();
   }, []);
 
-  const handleChange = useCallback(
-    (v: string) => onChange(decodeJoditHTML(v)),
-    [onChange],
-  );
+  // ✅ FIX 3: Reset mount guard when editorKey changes (editor remounts with new data)
+  useEffect(() => {
+    isMountedRef.current = false;
+    mountValueRef.current = value;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [editorKey]);
+
+  // ✅ FIX 4: No dependencies on `value` or `onChange` — use refs instead
+  // This prevents the callback from changing on every render (freeze root cause)
+  const handleChange = useCallback((v: string) => {
+    const decoded = decodeJoditHTML(v);
+
+    if (!isMountedRef.current) {
+      isMountedRef.current = true;
+      const stripped = decoded.replace(/<[^>]*>/g, "").trim();
+      // Only ignore if: first fire is empty AND we had actual content loaded
+      if (!stripped && mountValueRef.current) return;
+    }
+
+    // ✅ FIX 5: REMOVED `if (decoded === value) return`
+    // That line caused freeze when user typed same characters
+    onChangeRef.current(decoded);
+  }, []); // Empty deps = stable callback = no freeze
 
   return (
     <div className={styles.fieldGroup}>
@@ -357,6 +395,7 @@ function ControlledJodit({
   );
 }
 
+/* ✅ FIXED DynamicParaEditor — same fixes applied */
 function DynamicParaEditor({
   value,
   onChange,
@@ -370,6 +409,15 @@ function DynamicParaEditor({
 }) {
   const [visible, setVisible] = useState(false);
   const wrapRef = useRef<HTMLDivElement>(null);
+
+  // ✅ FIX: Store onChange in ref
+  const onChangeRef = useRef(onChange);
+  useEffect(() => {
+    onChangeRef.current = onChange;
+  });
+
+  const isMountedRef = useRef(false);
+  const mountValueRef = useRef(value);
 
   useEffect(() => {
     const el = wrapRef.current;
@@ -387,10 +435,22 @@ function DynamicParaEditor({
     return () => obs.disconnect();
   }, []);
 
-  const handleChange = useCallback(
-    (v: string) => onChange(decodeJoditHTML(v)),
-    [onChange],
-  );
+  useEffect(() => {
+    isMountedRef.current = false;
+    mountValueRef.current = value;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [editorKey]);
+
+  // ✅ FIX: Empty deps array — stable callback via ref
+  const handleChange = useCallback((v: string) => {
+    const decoded = decodeJoditHTML(v);
+    if (!isMountedRef.current) {
+      isMountedRef.current = true;
+      const stripped = decoded.replace(/<[^>]*>/g, "").trim();
+      if (!stripped && mountValueRef.current) return;
+    }
+    onChangeRef.current(decoded);
+  }, []); // Empty deps = no freeze
 
   return (
     <div ref={wrapRef} style={{ minHeight: 200 }}>
@@ -418,6 +478,103 @@ function DynamicParaEditor({
           ✦ Scroll to load editor…
         </div>
       )}
+    </div>
+  );
+}
+
+/* ─────────────────────────── Module Body Editor ─────────────────────────── */
+function ModuleBodyEditor({
+  value,
+  onChange,
+  idx,
+  editorKey = "mod",
+}: {
+  value: string;
+  onChange: (v: string) => void;
+  idx: number;
+  editorKey?: string;
+}) {
+  const [visible, setVisible] = useState(false);
+  const wrapRef = useRef<HTMLDivElement>(null);
+
+  // ✅ FIX: Store onChange in ref
+  const onChangeRef = useRef(onChange);
+  useEffect(() => {
+    onChangeRef.current = onChange;
+  });
+
+  const isMountedRef = useRef(false);
+  const mountValueRef = useRef(value);
+
+  useEffect(() => {
+    const el = wrapRef.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([e]) => {
+        if (e.isIntersecting) {
+          setVisible(true);
+          obs.disconnect();
+        }
+      },
+      { rootMargin: "300px" },
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+
+  useEffect(() => {
+    isMountedRef.current = false;
+    mountValueRef.current = value;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [editorKey]);
+
+  // ✅ FIX: Empty deps array
+  const handleChange = useCallback((v: string) => {
+    const decoded = decodeJoditHTML(v);
+    if (!isMountedRef.current) {
+      isMountedRef.current = true;
+      const stripped = decoded.replace(/<[^>]*>/g, "").trim();
+      if (!stripped && mountValueRef.current) return;
+    }
+    onChangeRef.current(decoded);
+  }, []); // Empty deps = no freeze
+
+  return (
+    <div className={styles.fieldGroup}>
+      <label className={styles.label}>
+        <span className={styles.labelIcon}>✦</span>Module Extra Rich Text
+        (optional)
+      </label>
+      <div ref={wrapRef} style={{ minHeight: 160 }}>
+        {visible ? (
+          <JoditEditor
+            key={editorKey}
+            value={value}
+            config={{
+              ...joditConfig,
+              placeholder: "Additional description…",
+              height: 160,
+            }}
+            onChange={handleChange}
+          />
+        ) : (
+          <div
+            style={{
+              height: 160,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              background: "#faf8f4",
+              border: "1px solid #e8d5b5",
+              borderRadius: 8,
+              color: "#bbb",
+              fontSize: 13,
+            }}
+          >
+            ✦ Scroll to load editor…
+          </div>
+        )}
+      </div>
     </div>
   );
 }
@@ -1377,7 +1534,6 @@ export default function Yoga200HourCombinedForm() {
         if (d.primarySeriesImage) setPrimaryImgPrev(d.primarySeriesImage);
         if (d.videoUrl) setVideoUrl(d.videoUrl);
 
-        /* Dynamic intro paragraphs */
         const introPArr: string[] = [];
         for (let i = 1; i <= 10; i++) {
           if (d[`introPara${i}`])
@@ -1390,30 +1546,34 @@ export default function Yoga200HourCombinedForm() {
         if (d.syllabusIntro?.length)
           setSyllabusParas(d.syllabusIntro.map(decodeJoditHTML));
 
-        /* Rich text fields */
-        if (d.aimsOutro) setAimsOutro(decodeJoditHTML(d.aimsOutro));
-        if (d.ashtangaDesc) setAshtangaDesc(decodeJoditHTML(d.ashtangaDesc));
-        if (d.primaryIntro) setPrimaryIntro(decodeJoditHTML(d.primaryIntro));
-        if (d.hathaDesc) setHathaDesc(decodeJoditHTML(d.hathaDesc));
-        if (d.evalDesc) setEvalDesc(decodeJoditHTML(d.evalDesc));
-        if (d.schedDesc) setSchedDesc(decodeJoditHTML(d.schedDesc));
-        if (d.visaPassportDesc)
-          setVisaDesc(decodeJoditHTML(d.visaPassportDesc));
-        if (d.globalCert1) setGlobalCert1(decodeJoditHTML(d.globalCert1));
-        if (d.globalCert2) setGlobalCert2(decodeJoditHTML(d.globalCert2));
-        if (d.req1) setReq1(decodeJoditHTML(d.req1));
-        if (d.req2) setReq2(decodeJoditHTML(d.req2));
-        if (d.req3) setReq3(decodeJoditHTML(d.req3));
-        if (d.req4) setReq4(decodeJoditHTML(d.req4));
-        if (d.best200Hr) setBest200Hr(decodeJoditHTML(d.best200Hr));
-        if (d.bookingStep1Desc)
-          setStep1Desc(decodeJoditHTML(d.bookingStep1Desc));
-        if (d.bookingStep2Desc)
-          setStep2Desc(decodeJoditHTML(d.bookingStep2Desc));
-        if (d.bookingStep3Desc)
-          setStep3Desc(decodeJoditHTML(d.bookingStep3Desc));
-        if (d.bookingStep4Desc)
-          setStep4Desc(decodeJoditHTML(d.bookingStep4Desc));
+        setAimsOutro(d.aimsOutro ? decodeJoditHTML(d.aimsOutro) : "");
+        setAshtangaDesc(d.ashtangaDesc ? decodeJoditHTML(d.ashtangaDesc) : "");
+        setPrimaryIntro(d.primaryIntro ? decodeJoditHTML(d.primaryIntro) : "");
+        setHathaDesc(d.hathaDesc ? decodeJoditHTML(d.hathaDesc) : "");
+        setEvalDesc(d.evalDesc ? decodeJoditHTML(d.evalDesc) : "");
+        setSchedDesc(d.schedDesc ? decodeJoditHTML(d.schedDesc) : "");
+        setVisaDesc(
+          d.visaPassportDesc ? decodeJoditHTML(d.visaPassportDesc) : "",
+        );
+        setGlobalCert1(d.globalCert1 ? decodeJoditHTML(d.globalCert1) : "");
+        setGlobalCert2(d.globalCert2 ? decodeJoditHTML(d.globalCert2) : "");
+        setReq1(d.req1 ? decodeJoditHTML(d.req1) : "");
+        setReq2(d.req2 ? decodeJoditHTML(d.req2) : "");
+        setReq3(d.req3 ? decodeJoditHTML(d.req3) : "");
+        setReq4(d.req4 ? decodeJoditHTML(d.req4) : "");
+        setBest200Hr(d.best200Hr ? decodeJoditHTML(d.best200Hr) : "");
+        setStep1Desc(
+          d.bookingStep1Desc ? decodeJoditHTML(d.bookingStep1Desc) : "",
+        );
+        setStep2Desc(
+          d.bookingStep2Desc ? decodeJoditHTML(d.bookingStep2Desc) : "",
+        );
+        setStep3Desc(
+          d.bookingStep3Desc ? decodeJoditHTML(d.bookingStep3Desc) : "",
+        );
+        setStep4Desc(
+          d.bookingStep4Desc ? decodeJoditHTML(d.bookingStep4Desc) : "",
+        );
 
         if (d.aimsBullets?.length) setAimsBullets(d.aimsBullets);
         if (d.includedFee?.length) setInclFee(d.includedFee);
@@ -1456,6 +1616,7 @@ export default function Yoga200HourCombinedForm() {
         if (d.hatha43?.length) setHatha43(d.hatha43);
         if (d.weekGrid?.length) setWeekGrid(d.weekGrid);
 
+        // ✅ Set editorKey last — triggers all editors to remount with fresh data
         setEditorKey(`loaded-${Date.now()}`);
       } catch (err) {
         console.error("Error fetching data:", err);
@@ -1475,14 +1636,11 @@ export default function Yoga200HourCombinedForm() {
   };
 
   /* ══════════════════════════════════════════════════════════
-     🔥 FIXED SUBMIT — all rich text sent as plain HTML (no JSON.stringify),
-        existing images preserved, validation relaxed in edit mode
+     SUBMIT — ✅ All fields properly sent to backend
   ══════════════════════════════════════════════════════════ */
-  
   const runSubmit = async (data: any) => {
     let hasErr = false;
 
-    /* ── Hero image: only required for new create ── */
     if (!isEditMode && !heroFile && !heroPrev) {
       setHeroErr("Hero image is required");
       hasErr = true;
@@ -1490,23 +1648,19 @@ export default function Yoga200HourCombinedForm() {
       setHeroErr("");
     }
 
-    /* ── Rich text validation: only strict for new creates ── */
     if (!isEditMode) {
       if (!introParas.some((r) => !isEmptyHtml(r))) {
         setIntroErr("At least one paragraph is required");
         hasErr = true;
       } else setIntroErr("");
-
       if (!aimsIntroPars.some((r) => !isEmptyHtml(r))) {
         setAimsErr("At least one aims paragraph is required");
         hasErr = true;
       } else setAimsErr("");
-
       if (!syllabusParas.some((r) => !isEmptyHtml(r))) {
         setSylErr("At least one syllabus paragraph is required");
         hasErr = true;
       } else setSylErr("");
-
       if (isEmptyHtml(ashtangaDesc)) {
         setAstErr("Required");
         hasErr = true;
@@ -1520,7 +1674,6 @@ export default function Yoga200HourCombinedForm() {
         hasErr = true;
       } else setEvErr("");
     } else {
-      /* In edit mode — clear any stale errors */
       setIntroErr("");
       setAimsErr("");
       setSylErr("");
@@ -1535,67 +1688,80 @@ export default function Yoga200HourCombinedForm() {
       setIsSubmitting(true);
       const fd = new globalThis.FormData();
 
-      /* ── All registered form fields ── */
-     for (const key in data) {
-  const val = data[key];
+      // ✅ Stats fields — handled separately, skip in main loop
+      const skipInLoop = new Set([
+        "stat1Icon",
+        "stat1Val",
+        "stat1Title",
+        "stat1Desc",
+        "stat2Icon",
+        "stat2Val",
+        "stat2Title",
+        "stat2Desc",
+        "stat3Icon",
+        "stat3Val",
+        "stat3Title",
+        "stat3Desc",
+        "stat4Icon",
+        "stat4Val",
+        "stat4Title",
+        "stat4Desc",
+      ]);
 
-  if (Array.isArray(val)) {
-    val.forEach((v) => fd.append(key, String(v)));
-  } else if (typeof val === "object" && val !== null) {
-    fd.set(key, JSON.stringify(val)); // 🔥 IMPORTANT
-  } else {
-    fd.set(key, val ?? "");
-  }
-}
+      // ✅ All react-hook-form scalar fields
+      for (const key in data) {
+        if (skipInLoop.has(key)) continue;
+        const val = data[key];
+        if (val === undefined || val === null) {
+          fd.set(key, "");
+          continue;
+        }
+        if (Array.isArray(val)) {
+          val.forEach((v) => fd.append(key, String(v)));
+        } else if (typeof val === "object") {
+          fd.set(key, JSON.stringify(val));
+        } else {
+          fd.set(key, String(val));
+        }
+      }
 
-      /* ── Programs H2 / Subtext ── */
+      // ✅ Programs H2/Subtext
       fd.set("newProgramsH2", programsH2);
       fd.set("newProgramsSubtext", programsSubtext);
 
-      /* ── Dynamic paragraphs ── */
-     introParas.forEach((v, i) =>
-  fd.append(`introPara${i + 1}`, safeHTML(v))
-);
+      // ✅ Dynamic intro paragraphs
+      introParas.forEach((v, i) => fd.append(`introPara${i + 1}`, safeHTML(v)));
       fd.append("introParaCount", String(introParas.length));
-     aimsIntroPars.forEach((v, i) =>
-  fd.append(`aimsIntro${i + 1}`, safeHTML(v))
-);
+      aimsIntroPars.forEach((v, i) =>
+        fd.append(`aimsIntro${i + 1}`, safeHTML(v)),
+      );
       fd.append("aimsIntroCount", String(aimsIntroPars.length));
       syllabusParas.forEach((v, i) =>
-  fd.append(`syllabusIntro${i + 1}`, safeHTML(v))
-);
+        fd.append(`syllabusIntro${i + 1}`, safeHTML(v)),
+      );
       fd.append("syllabusIntroCount", String(syllabusParas.length));
 
-      /* ── 🔥 FIX: ALL rich text as plain HTML — NO JSON.stringify ── */
-     /* ── ALL RICH TEXT (SAFE VERSION) ── */
+      // ✅ All rich text fields
+      fd.set("aimsOutro", safeHTML(aimsOutro));
+      fd.set("ashtangaDesc", safeHTML(ashtangaDesc));
+      fd.set("primaryIntro", safeHTML(primaryIntro));
+      fd.set("hathaDesc", safeHTML(hathaDesc));
+      fd.set("evalDesc", safeHTML(evalDesc));
+      fd.set("schedDesc", safeHTML(schedDesc));
+      fd.set("visaPassportDesc", safeHTML(visaDesc));
+      fd.set("globalCert1", safeHTML(globalCert1));
+      fd.set("globalCert2", safeHTML(globalCert2));
+      fd.set("req1", safeHTML(req1));
+      fd.set("req2", safeHTML(req2));
+      fd.set("req3", safeHTML(req3));
+      fd.set("req4", safeHTML(req4));
+      fd.set("best200Hr", safeHTML(best200Hr));
+      fd.set("bookingStep1Desc", safeHTML(step1Desc));
+      fd.set("bookingStep2Desc", safeHTML(step2Desc));
+      fd.set("bookingStep3Desc", safeHTML(step3Desc));
+      fd.set("bookingStep4Desc", safeHTML(step4Desc));
 
-fd.set("aimsOutro", safeHTML(aimsOutro));
-
-fd.set("ashtangaDesc", safeHTML(ashtangaDesc));
-fd.set("primaryIntro", safeHTML(primaryIntro));
-
-fd.set("hathaDesc", safeHTML(hathaDesc));
-fd.set("evalDesc", safeHTML(evalDesc));
-fd.set("schedDesc", safeHTML(schedDesc));
-
-fd.set("visaPassportDesc", safeHTML(visaDesc));
-
-fd.set("globalCert1", safeHTML(globalCert1));
-fd.set("globalCert2", safeHTML(globalCert2));
-
-fd.set("req1", safeHTML(req1));
-fd.set("req2", safeHTML(req2));
-fd.set("req3", safeHTML(req3));
-fd.set("req4", safeHTML(req4));
-
-fd.set("best200Hr", safeHTML(best200Hr));
-
-fd.set("bookingStep1Desc", safeHTML(step1Desc));
-fd.set("bookingStep2Desc", safeHTML(step2Desc));
-fd.set("bookingStep3Desc", safeHTML(step3Desc));
-fd.set("bookingStep4Desc", safeHTML(step4Desc));
-
-      /* ── Stats ── */
+      // ✅ Stats (4 cards)
       for (let i = 1; i <= 4; i++) {
         fd.set(`stat${i}Icon`, data[`stat${i}Icon`] || "");
         fd.set(`stat${i}Val`, data[`stat${i}Val`] || "");
@@ -1603,12 +1769,13 @@ fd.set("bookingStep4Desc", safeHTML(step4Desc));
         fd.set(`stat${i}Desc`, data[`stat${i}Desc`] || "");
       }
 
-      /* ── Array / JSON fields ── */
+      // ✅ Array fields
       aimsBullets.forEach((v) => fd.append("aimsBullets", v));
       inclFee.forEach((v) => fd.append("includedFee", v));
       notInclFee.forEach((v) => fd.append("notIncludedFee", v));
       foundItems.forEach((v) => fd.append("foundationItems", v));
 
+      // ✅ JSON fields
       fd.set("luxFeatures", JSON.stringify(luxFeatures));
       fd.set("whatIncl", JSON.stringify(whatIncl));
       fd.set("instrLangs", JSON.stringify(instrLangs));
@@ -1617,6 +1784,7 @@ fd.set("bookingStep4Desc", safeHTML(step4Desc));
       fd.set("faqItems", JSON.stringify(faqItems));
       fd.set("knowQA", JSON.stringify(knowQA));
 
+      // ✅ Modules with rich text body
       fd.set(
         "modules",
         JSON.stringify(
@@ -1624,35 +1792,35 @@ fd.set("bookingStep4Desc", safeHTML(step4Desc));
             title: m.title,
             intro: m.intro,
             items: m.items,
-           body: safeHTML(m.body),
+            body: safeHTML(m.body),
           })),
         ),
       );
 
+      // ✅ Hatha asanas & week grid
       fd.set("hatha43", JSON.stringify(hatha43));
       fd.set("weekGrid", JSON.stringify(weekGrid));
 
+      // ✅ Programs with desc
       fd.set(
         "programs",
         JSON.stringify(
-          programs.map((p, i) => ({
+          programs.map((p) => ({
             title: p.title,
             duration: p.duration,
             start: p.start,
             oldPrice: p.oldPrice,
             price: p.price,
-           desc: safeHTML(p.desc),
+            desc: safeHTML(p.desc),
             image: p.imageFile ? "" : p.imagePreview,
           })),
         ),
       );
-
       programs.forEach((p, i) => {
         if (p.imageFile) fd.append(`programImage${i}`, p.imageFile);
       });
 
-      /* ── 🔥 FIX: Send existing image URLs so backend can preserve them on edit ── */
-      // Only send the server-side paths (not blob: URLs which are temporary)
+      // ✅ Existing image URLs for edit mode (preserve images not changed)
       const existingLux = luxImgPrevs.filter(
         (p) => p && !p.startsWith("blob:"),
       );
@@ -1678,11 +1846,11 @@ fd.set("bookingStep4Desc", safeHTML(step4Desc));
       )
         fd.set("existingPrimaryImage", primaryImgPrev);
 
-      /* ── Video ── */
+      // ✅ Video
       if (videoFile) fd.set("videoFile", videoFile);
       else if (videoUrl?.trim()) fd.set("videoUrl", videoUrl.trim());
 
-      /* ── New image files ── */
+      // ✅ New image files
       if (heroFile) fd.set("heroImage", heroFile);
       if (ashtangaFile) fd.set("ashtangaImage", ashtangaFile);
       if (hathaFile) fd.set("hathaImage", hathaFile);
@@ -3963,46 +4131,139 @@ fd.set("bookingStep4Desc", safeHTML(step4Desc));
                     />
                   </div>
                 </F>
-                {[
-                  { n: 1, val: step1Desc, set: setStep1Desc },
-                  { n: 2, val: step2Desc, set: setStep2Desc },
-                  { n: 3, val: step3Desc, set: setStep3Desc },
-                  { n: 4, val: step4Desc, set: setStep4Desc },
-                ].map(({ n, val, set }) => (
-                  <div key={n} className={styles.nestedCard}>
-                    <div className={styles.nestedCardHeader}>
-                      <span className={styles.nestedCardNum}>Step {n}</span>
-                    </div>
-                    <div className={styles.nestedCardBody}>
-                      <div className={styles.grid2}>
-                        <F label="Icon">
-                          <div className={styles.inputWrap}>
-                            <input
-                              className={`${styles.input} ${styles.inputNoCount}`}
-                              {...register(`step${n}Icon`)}
-                            />
-                          </div>
-                        </F>
-                        <F label="Title">
-                          <div className={styles.inputWrap}>
-                            <input
-                              className={`${styles.input} ${styles.inputNoCount}`}
-                              {...register(`step${n}Title`)}
-                            />
-                          </div>
-                        </F>
-                      </div>
-                      <ControlledJodit
-                        label="Step Description"
-                        value={val}
-                        onChange={set}
-                        ph="Step description…"
-                        h={130}
-                        editorKey={`step${n}-${editorKey}`}
-                      />
-                    </div>
+                {/* Steps rendered individually for stable editorKey isolation */}
+                <div className={styles.nestedCard}>
+                  <div className={styles.nestedCardHeader}>
+                    <span className={styles.nestedCardNum}>Step 1</span>
                   </div>
-                ))}
+                  <div className={styles.nestedCardBody}>
+                    <div className={styles.grid2}>
+                      <F label="Icon">
+                        <div className={styles.inputWrap}>
+                          <input
+                            className={`${styles.input} ${styles.inputNoCount}`}
+                            {...register("step1Icon")}
+                          />
+                        </div>
+                      </F>
+                      <F label="Title">
+                        <div className={styles.inputWrap}>
+                          <input
+                            className={`${styles.input} ${styles.inputNoCount}`}
+                            {...register("step1Title")}
+                          />
+                        </div>
+                      </F>
+                    </div>
+                    <ControlledJodit
+                      label="Step Description"
+                      value={step1Desc}
+                      onChange={setStep1Desc}
+                      ph="Step 1 description…"
+                      h={130}
+                      editorKey={`step1-${editorKey}`}
+                    />
+                  </div>
+                </div>
+                <div className={styles.nestedCard}>
+                  <div className={styles.nestedCardHeader}>
+                    <span className={styles.nestedCardNum}>Step 2</span>
+                  </div>
+                  <div className={styles.nestedCardBody}>
+                    <div className={styles.grid2}>
+                      <F label="Icon">
+                        <div className={styles.inputWrap}>
+                          <input
+                            className={`${styles.input} ${styles.inputNoCount}`}
+                            {...register("step2Icon")}
+                          />
+                        </div>
+                      </F>
+                      <F label="Title">
+                        <div className={styles.inputWrap}>
+                          <input
+                            className={`${styles.input} ${styles.inputNoCount}`}
+                            {...register("step2Title")}
+                          />
+                        </div>
+                      </F>
+                    </div>
+                    <ControlledJodit
+                      label="Step Description"
+                      value={step2Desc}
+                      onChange={setStep2Desc}
+                      ph="Step 2 description…"
+                      h={130}
+                      editorKey={`step2-${editorKey}`}
+                    />
+                  </div>
+                </div>
+                <div className={styles.nestedCard}>
+                  <div className={styles.nestedCardHeader}>
+                    <span className={styles.nestedCardNum}>Step 3</span>
+                  </div>
+                  <div className={styles.nestedCardBody}>
+                    <div className={styles.grid2}>
+                      <F label="Icon">
+                        <div className={styles.inputWrap}>
+                          <input
+                            className={`${styles.input} ${styles.inputNoCount}`}
+                            {...register("step3Icon")}
+                          />
+                        </div>
+                      </F>
+                      <F label="Title">
+                        <div className={styles.inputWrap}>
+                          <input
+                            className={`${styles.input} ${styles.inputNoCount}`}
+                            {...register("step3Title")}
+                          />
+                        </div>
+                      </F>
+                    </div>
+                    <ControlledJodit
+                      label="Step Description"
+                      value={step3Desc}
+                      onChange={setStep3Desc}
+                      ph="Step 3 description…"
+                      h={130}
+                      editorKey={`step3-${editorKey}`}
+                    />
+                  </div>
+                </div>
+                <div className={styles.nestedCard}>
+                  <div className={styles.nestedCardHeader}>
+                    <span className={styles.nestedCardNum}>Step 4</span>
+                  </div>
+                  <div className={styles.nestedCardBody}>
+                    <div className={styles.grid2}>
+                      <F label="Icon">
+                        <div className={styles.inputWrap}>
+                          <input
+                            className={`${styles.input} ${styles.inputNoCount}`}
+                            {...register("step4Icon")}
+                          />
+                        </div>
+                      </F>
+                      <F label="Title">
+                        <div className={styles.inputWrap}>
+                          <input
+                            className={`${styles.input} ${styles.inputNoCount}`}
+                            {...register("step4Title")}
+                          />
+                        </div>
+                      </F>
+                    </div>
+                    <ControlledJodit
+                      label="Step Description"
+                      value={step4Desc}
+                      onChange={setStep4Desc}
+                      ph="Step 4 description…"
+                      h={130}
+                      editorKey={`step4-${editorKey}`}
+                    />
+                  </div>
+                </div>
               </Sec>
               <D />
 
@@ -4262,82 +4523,6 @@ fd.set("bookingStep4Desc", safeHTML(step4Desc));
             </div>
           </div>
         </form>
-      </div>
-    </div>
-  );
-}
-
-/* ─────────────────────────── Module Body Editor ─────────────────────────── */
-function ModuleBodyEditor({
-  value,
-  onChange,
-  idx,
-  editorKey = "mod",
-}: {
-  value: string;
-  onChange: (v: string) => void;
-  idx: number;
-  editorKey?: string;
-}) {
-  const [visible, setVisible] = useState(false);
-  const wrapRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const el = wrapRef.current;
-    if (!el) return;
-    const obs = new IntersectionObserver(
-      ([e]) => {
-        if (e.isIntersecting) {
-          setVisible(true);
-          obs.disconnect();
-        }
-      },
-      { rootMargin: "300px" },
-    );
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, []);
-
-  const handleChange = useCallback(
-    (v: string) => onChange(decodeJoditHTML(v)),
-    [onChange],
-  );
-
-  return (
-    <div className={styles.fieldGroup}>
-      <label className={styles.label}>
-        <span className={styles.labelIcon}>✦</span>Module Extra Rich Text
-        (optional)
-      </label>
-      <div ref={wrapRef} style={{ minHeight: 160 }}>
-        {visible ? (
-          <JoditEditor
-            key={editorKey}
-            value={value}
-            config={{
-              ...joditConfig,
-              placeholder: "Additional description…",
-              height: 160,
-            }}
-            onChange={handleChange}
-          />
-        ) : (
-          <div
-            style={{
-              height: 160,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              background: "#faf8f4",
-              border: "1px solid #e8d5b5",
-              borderRadius: 8,
-              color: "#bbb",
-              fontSize: 13,
-            }}
-          >
-            ✦ Scroll to load editor…
-          </div>
-        )}
       </div>
     </div>
   );
