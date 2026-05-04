@@ -52,11 +52,8 @@ const joditConfig = {
   uploader: { insertImageAsBase64URI: true },
   height: 220,
   placeholder: "",
-  // 🔥 KEY FIX: Disable Jodit's internal HTML encoding
   processPasteHTML: false,
-  cleanHTML: {
-    fillEmptyParagraph: false,
-  },
+  cleanHTML: { fillEmptyParagraph: false },
 } as any;
 
 const FILTER_OPTIONS = [
@@ -67,14 +64,9 @@ const FILTER_OPTIONS = [
   "Balancing",
 ] as const;
 
-/* ─────────────────────────────────────────────────────────────────
-   🔥 CORE FIX: Decode Jodit's __HTML__:base64:__HTML__ encoding
-   Jodit sometimes encodes HTML as __HTML__:base64data:__HTML__
-   This function safely decodes it back to plain HTML.
-───────────────────────────────────────────────────────────────── */
+/* ─────────────────────────── Decode Jodit HTML ─────────────────────────── */
 function decodeJoditHTML(value: string): string {
   if (!value) return value;
-  // Pattern: __HTML__:BASE64DATA:__HTML__
   const pattern = /__HTML__:([\w+/=]+):__HTML__/g;
   return value.replace(pattern, (_, b64) => {
     try {
@@ -85,14 +77,9 @@ function decodeJoditHTML(value: string): string {
   });
 }
 
-/* Wrap onChange to always decode before storing */
-function safeOnChange(setter: (v: string) => void) {
-  return (v: string) => setter(decodeJoditHTML(v));
-}
-
 function isEmptyHtml(html: string) {
   return (
-    decodeJoditHTML(html)
+    decodeJoditHTML(html || "")
       .replace(/<[^>]*>/g, "")
       .trim() === ""
   );
@@ -316,7 +303,6 @@ function ControlledJodit({
     return () => obs.disconnect();
   }, []);
 
-  // 🔥 FIX: Always decode before passing up
   const handleChange = useCallback(
     (v: string) => onChange(decodeJoditHTML(v)),
     [onChange],
@@ -365,7 +351,6 @@ function ControlledJodit({
   );
 }
 
-/* Dynamic para editor — also controlled */
 function DynamicParaEditor({
   value,
   onChange,
@@ -396,7 +381,6 @@ function DynamicParaEditor({
     return () => obs.disconnect();
   }, []);
 
-  // 🔥 FIX: Always decode before passing up
   const handleChange = useCallback(
     (v: string) => onChange(decodeJoditHTML(v)),
     [onChange],
@@ -1047,7 +1031,7 @@ export default function Yoga200HourCombinedForm() {
   const [videoFile, setVideoFile] = useState<File | null>(null);
   const [videoPrev, setVideoPrev] = useState("");
 
-  /* ── All rich text — controlled state ── */
+  /* ── Rich text — controlled state ── */
   const [introParas, setIntroParas] = useState<string[]>(["", "", "", ""]);
   const [aimsIntroPars, setAimsIntroPars] = useState<string[]>([""]);
   const [syllabusParas, setSyllabusParas] = useState<string[]>([""]);
@@ -1080,11 +1064,11 @@ export default function Yoga200HourCombinedForm() {
 
   /* ── String Lists ── */
   const [aimsBullets, setAimsBullets] = useState<string[]>([""]);
-  const [inclFee, setInclFee] = useState<string[]>(["", "", ""]);
+  const [inclFee, setInclFee] = useState<string[]>(["", ""]);
   const [notInclFee, setNotInclFee] = useState<string[]>(["", ""]);
   const [foundItems, setFoundItems] = useState<string[]>([""]);
-  const [luxFeatures, setLuxFeatures] = useState<string[]>(["", "", ""]);
-  const [whatIncl, setWhatIncl] = useState<string[]>(["", "", ""]);
+  const [luxFeatures, setLuxFeatures] = useState<string[]>(["", ""]);
+  const [whatIncl, setWhatIncl] = useState<string[]>(["", ""]);
   const [instrLangs, setInstrLangs] = useState([
     { lang: "", note: "" },
     { lang: "", note: "" },
@@ -1387,7 +1371,7 @@ export default function Yoga200HourCombinedForm() {
         if (d.primarySeriesImage) setPrimaryImgPrev(d.primarySeriesImage);
         if (d.videoUrl) setVideoUrl(d.videoUrl);
 
-        /* Dynamic intro paragraphs — decode each */
+        /* Dynamic intro paragraphs */
         const introPArr: string[] = [];
         for (let i = 1; i <= 10; i++) {
           if (d[`introPara${i}`])
@@ -1400,7 +1384,7 @@ export default function Yoga200HourCombinedForm() {
         if (d.syllabusIntro?.length)
           setSyllabusParas(d.syllabusIntro.map(decodeJoditHTML));
 
-        /* Decode all rich text fields on load */
+        /* Rich text fields */
         if (d.aimsOutro) setAimsOutro(decodeJoditHTML(d.aimsOutro));
         if (d.ashtangaDesc) setAshtangaDesc(decodeJoditHTML(d.ashtangaDesc));
         if (d.primaryIntro) setPrimaryIntro(decodeJoditHTML(d.primaryIntro));
@@ -1466,7 +1450,6 @@ export default function Yoga200HourCombinedForm() {
         if (d.hatha43?.length) setHatha43(d.hatha43);
         if (d.weekGrid?.length) setWeekGrid(d.weekGrid);
 
-        /* Force re-mount all editors with loaded data */
         setEditorKey(`loaded-${Date.now()}`);
       } catch (err) {
         console.error("Error fetching data:", err);
@@ -1485,51 +1468,76 @@ export default function Yoga200HourCombinedForm() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  /* ── Submit Logic ── */
+  /* ══════════════════════════════════════════════════════════
+     🔥 FIXED SUBMIT — all rich text sent as plain HTML (no JSON.stringify),
+        existing images preserved, validation relaxed in edit mode
+  ══════════════════════════════════════════════════════════ */
   const runSubmit = async (data: any) => {
     let hasErr = false;
+
+    /* ── Hero image: only required for new create ── */
     if (!isEditMode && !heroFile && !heroPrev) {
       setHeroErr("Hero image is required");
       hasErr = true;
-    } else setHeroErr("");
-    if (!introParas.some((r) => !isEmptyHtml(r))) {
-      setIntroErr("At least one paragraph is required");
-      hasErr = true;
+    } else {
+      setHeroErr("");
     }
-    if (!aimsIntroPars.some((r) => !isEmptyHtml(r))) {
-      setAimsErr("At least one aims paragraph is required");
-      hasErr = true;
+
+    /* ── Rich text validation: only strict for new creates ── */
+    if (!isEditMode) {
+      if (!introParas.some((r) => !isEmptyHtml(r))) {
+        setIntroErr("At least one paragraph is required");
+        hasErr = true;
+      } else setIntroErr("");
+
+      if (!aimsIntroPars.some((r) => !isEmptyHtml(r))) {
+        setAimsErr("At least one aims paragraph is required");
+        hasErr = true;
+      } else setAimsErr("");
+
+      if (!syllabusParas.some((r) => !isEmptyHtml(r))) {
+        setSylErr("At least one syllabus paragraph is required");
+        hasErr = true;
+      } else setSylErr("");
+
+      if (isEmptyHtml(ashtangaDesc)) {
+        setAstErr("Required");
+        hasErr = true;
+      } else setAstErr("");
+      if (isEmptyHtml(hathaDesc)) {
+        setHtErr("Required");
+        hasErr = true;
+      } else setHtErr("");
+      if (isEmptyHtml(evalDesc)) {
+        setEvErr("Required");
+        hasErr = true;
+      } else setEvErr("");
+    } else {
+      /* In edit mode — clear any stale errors */
+      setIntroErr("");
+      setAimsErr("");
+      setSylErr("");
+      setAstErr("");
+      setHtErr("");
+      setEvErr("");
     }
-    if (!syllabusParas.some((r) => !isEmptyHtml(r))) {
-      setSylErr("At least one syllabus paragraph is required");
-      hasErr = true;
-    }
-    if (isEmptyHtml(ashtangaDesc)) {
-      setAstErr("Required");
-      hasErr = true;
-    }
-    if (isEmptyHtml(hathaDesc)) {
-      setHtErr("Required");
-      hasErr = true;
-    }
-    if (isEmptyHtml(evalDesc)) {
-      setEvErr("Required");
-      hasErr = true;
-    }
+
     if (hasErr) return;
 
     try {
       setIsSubmitting(true);
       const fd = new globalThis.FormData();
 
+      /* ── All registered form fields ── */
       Object.entries(data).forEach(([k, v]) => {
         if (v !== undefined && v !== null) fd.append(k, String(v));
       });
 
+      /* ── Programs H2 / Subtext ── */
       fd.set("newProgramsH2", programsH2);
       fd.set("newProgramsSubtext", programsSubtext);
 
-      /* Dynamic paragraphs — always decode before sending */
+      /* ── Dynamic paragraphs ── */
       introParas.forEach((v, i) =>
         fd.append(`introPara${i + 1}`, decodeJoditHTML(v)),
       );
@@ -1543,48 +1551,49 @@ export default function Yoga200HourCombinedForm() {
       );
       fd.append("syllabusIntroCount", String(syllabusParas.length));
 
-      /* All standalone rich text — decode before sending */
-      fd.append("aimsOutro", decodeJoditHTML(aimsOutro));
-      fd.append("ashtangaDesc", decodeJoditHTML(ashtangaDesc));
-      fd.append("primaryIntro", decodeJoditHTML(primaryIntro));
-      fd.append("hathaDesc", decodeJoditHTML(hathaDesc));
-      fd.append("evalDesc", decodeJoditHTML(evalDesc));
-      fd.append("schedDesc", decodeJoditHTML(schedDesc));
-      fd.append("visaPassportDesc", decodeJoditHTML(visaDesc));
-      fd.append("globalCert1", decodeJoditHTML(globalCert1));
-      fd.append("globalCert2", decodeJoditHTML(globalCert2));
-      fd.append("req1", decodeJoditHTML(req1));
-      fd.append("req2", decodeJoditHTML(req2));
-      fd.append("req3", decodeJoditHTML(req3));
-      fd.append("req4", decodeJoditHTML(req4));
-      fd.append("best200Hr", JSON.stringify(decodeJoditHTML(best200Hr)));
+      /* ── 🔥 FIX: ALL rich text as plain HTML — NO JSON.stringify ── */
+      fd.set("aimsOutro", decodeJoditHTML(aimsOutro));
+      fd.set("ashtangaDesc", decodeJoditHTML(ashtangaDesc));
+      fd.set("primaryIntro", decodeJoditHTML(primaryIntro));
+      fd.set("hathaDesc", decodeJoditHTML(hathaDesc));
+      fd.set("evalDesc", decodeJoditHTML(evalDesc));
+      fd.set("schedDesc", decodeJoditHTML(schedDesc));
+      fd.set("visaPassportDesc", decodeJoditHTML(visaDesc));
+      fd.set("globalCert1", decodeJoditHTML(globalCert1));
+      fd.set("globalCert2", decodeJoditHTML(globalCert2));
+      fd.set("req1", decodeJoditHTML(req1));
+      fd.set("req2", decodeJoditHTML(req2));
+      fd.set("req3", decodeJoditHTML(req3));
+      fd.set("req4", decodeJoditHTML(req4));
+      fd.set("best200Hr", decodeJoditHTML(best200Hr)); // ← was JSON.stringify'd before
+      fd.set("bookingStep1Desc", decodeJoditHTML(step1Desc)); // ← was JSON.stringify'd before
+      fd.set("bookingStep2Desc", decodeJoditHTML(step2Desc));
+      fd.set("bookingStep3Desc", decodeJoditHTML(step3Desc));
+      fd.set("bookingStep4Desc", decodeJoditHTML(step4Desc));
 
-fd.append("bookingStep1Desc", JSON.stringify(decodeJoditHTML(step1Desc)));
-fd.append("bookingStep2Desc", JSON.stringify(decodeJoditHTML(step2Desc)));
-fd.append("bookingStep3Desc", JSON.stringify(decodeJoditHTML(step3Desc)));
-fd.append("bookingStep4Desc", JSON.stringify(decodeJoditHTML(step4Desc)));
+      /* ── Stats ── */
+      for (let i = 1; i <= 4; i++) {
+        fd.set(`stat${i}Icon`, data[`stat${i}Icon`] || "");
+        fd.set(`stat${i}Val`, data[`stat${i}Val`] || "");
+        fd.set(`stat${i}Title`, data[`stat${i}Title`] || "");
+        fd.set(`stat${i}Desc`, data[`stat${i}Desc`] || "");
+      }
 
+      /* ── Array / JSON fields ── */
       aimsBullets.forEach((v) => fd.append("aimsBullets", v));
       inclFee.forEach((v) => fd.append("includedFee", v));
       notInclFee.forEach((v) => fd.append("notIncludedFee", v));
       foundItems.forEach((v) => fd.append("foundationItems", v));
 
-      for (let i = 1; i <= 4; i++) {
-        fd.append(`stat${i}Icon`, data[`stat${i}Icon`] || "");
-        fd.append(`stat${i}Val`, data[`stat${i}Val`] || "");
-        fd.append(`stat${i}Title`, data[`stat${i}Title`] || "");
-        fd.append(`stat${i}Desc`, data[`stat${i}Desc`] || "");
-      }
+      fd.set("luxFeatures", JSON.stringify(luxFeatures));
+      fd.set("whatIncl", JSON.stringify(whatIncl));
+      fd.set("instrLangs", JSON.stringify(instrLangs));
+      fd.set("indianFees", JSON.stringify(indianFees));
+      fd.set("schedRows", JSON.stringify(schedRows));
+      fd.set("faqItems", JSON.stringify(faqItems));
+      fd.set("knowQA", JSON.stringify(knowQA));
 
-      fd.append("luxFeatures", JSON.stringify(luxFeatures));
-      fd.append("whatIncl", JSON.stringify(whatIncl));
-      fd.append("instrLangs", JSON.stringify(instrLangs));
-      fd.append("indianFees", JSON.stringify(indianFees));
-      fd.append("schedRows", JSON.stringify(schedRows));
-      fd.append("faqItems", JSON.stringify(faqItems));
-      fd.append("knowQA", JSON.stringify(knowQA));
-
-      fd.append(
+      fd.set(
         "modules",
         JSON.stringify(
           modules.map((m) => ({
@@ -1596,13 +1605,13 @@ fd.append("bookingStep4Desc", JSON.stringify(decodeJoditHTML(step4Desc)));
         ),
       );
 
-      fd.append("hatha43", JSON.stringify(hatha43));
-      fd.append("weekGrid", JSON.stringify(weekGrid));
+      fd.set("hatha43", JSON.stringify(hatha43));
+      fd.set("weekGrid", JSON.stringify(weekGrid));
 
-      fd.append(
+      fd.set(
         "programs",
         JSON.stringify(
-          programs.map((p) => ({
+          programs.map((p, i) => ({
             title: p.title,
             duration: p.duration,
             start: p.start,
@@ -1618,15 +1627,44 @@ fd.append("bookingStep4Desc", JSON.stringify(decodeJoditHTML(step4Desc)));
         if (p.imageFile) fd.append(`programImage${i}`, p.imageFile);
       });
 
-      if (videoFile) fd.append("videoFile", videoFile);
-      else if (videoUrl?.trim()) fd.append("videoUrl", videoUrl.trim());
+      /* ── 🔥 FIX: Send existing image URLs so backend can preserve them on edit ── */
+      // Only send the server-side paths (not blob: URLs which are temporary)
+      const existingLux = luxImgPrevs.filter(
+        (p) => p && !p.startsWith("blob:"),
+      );
+      const existingSched = schedImgPrevs.filter(
+        (p) => p && !p.startsWith("blob:"),
+      );
+      fd.set("existingLuxImages", JSON.stringify(existingLux));
+      fd.set("existingSchedImages", JSON.stringify(existingSched));
+      if (!heroFile && heroPrev && !heroPrev.startsWith("blob:"))
+        fd.set("existingHeroImage", heroPrev);
+      if (!ashtangaFile && ashtangaPrev && !ashtangaPrev.startsWith("blob:"))
+        fd.set("existingAshtangaImage", ashtangaPrev);
+      if (!hathaFile && hathaPrev && !hathaPrev.startsWith("blob:"))
+        fd.set("existingHathaImage", hathaPrev);
+      if (!reqImgFile && reqImgPrev && !reqImgPrev.startsWith("blob:"))
+        fd.set("existingReqImage", reqImgPrev);
+      if (!aimsImgFile && aimsImgPrev && !aimsImgPrev.startsWith("blob:"))
+        fd.set("existingAimsImage", aimsImgPrev);
+      if (
+        !primaryImgFile &&
+        primaryImgPrev &&
+        !primaryImgPrev.startsWith("blob:")
+      )
+        fd.set("existingPrimaryImage", primaryImgPrev);
 
-      if (heroFile) fd.append("heroImage", heroFile);
-      if (ashtangaFile) fd.append("ashtangaImage", ashtangaFile);
-      if (hathaFile) fd.append("hathaImage", hathaFile);
-      if (reqImgFile) fd.append("reqImage", reqImgFile);
-      if (aimsImgFile) fd.append("aimsImage", aimsImgFile);
-      if (primaryImgFile) fd.append("primarySeriesImage", primaryImgFile);
+      /* ── Video ── */
+      if (videoFile) fd.set("videoFile", videoFile);
+      else if (videoUrl?.trim()) fd.set("videoUrl", videoUrl.trim());
+
+      /* ── New image files ── */
+      if (heroFile) fd.set("heroImage", heroFile);
+      if (ashtangaFile) fd.set("ashtangaImage", ashtangaFile);
+      if (hathaFile) fd.set("hathaImage", hathaFile);
+      if (reqImgFile) fd.set("reqImage", reqImgFile);
+      if (aimsImgFile) fd.set("aimsImage", aimsImgFile);
+      if (primaryImgFile) fd.set("primarySeriesImage", primaryImgFile);
       luxImgFiles.forEach((f) => fd.append("luxImages", f));
       schedImgFiles.forEach((f) => fd.append("schedImages", f));
 
@@ -1793,7 +1831,11 @@ fd.append("bookingStep4Desc", JSON.stringify(decodeJoditHTML(step4Desc)));
                     </p>
                   )}
                 </F>
-                <F label="Hero Image" req hint="Recommended 1180×540px">
+                <F
+                  label="Hero Image"
+                  req={!isEditMode}
+                  hint="Recommended 1180×540px"
+                >
                   <SingleImg
                     preview={heroPrev}
                     badge="Hero"
@@ -3153,7 +3195,7 @@ fd.append("bookingStep4Desc", JSON.stringify(decodeJoditHTML(step4Desc)));
             </>
           )}
 
-          {/* ════════ STEP 7 — PROGRAMS ════════ */}
+          {/* ════════ STEP 7 ════════ */}
           {currentStep === 7 && (
             <>
               <Sec title="16. Programs" badge={`${programs.length} programs`}>
@@ -4132,9 +4174,7 @@ fd.append("bookingStep4Desc", JSON.stringify(decodeJoditHTML(step4Desc)));
             </>
           )}
 
-          {/* ══════════════════════════════════════════════════════════
-              Navigation Bar
-          ══════════════════════════════════════════════════════════ */}
+          {/* ── Navigation Bar ── */}
           <div
             className={styles.formActions}
             style={{
@@ -4203,7 +4243,7 @@ fd.append("bookingStep4Desc", JSON.stringify(decodeJoditHTML(step4Desc)));
   );
 }
 
-/* ─────────────────────────── Module Body Editor (Controlled) ─────────────────────────── */
+/* ─────────────────────────── Module Body Editor ─────────────────────────── */
 function ModuleBodyEditor({
   value,
   onChange,
@@ -4234,7 +4274,6 @@ function ModuleBodyEditor({
     return () => obs.disconnect();
   }, []);
 
-  // 🔥 FIX: Decode before passing up
   const handleChange = useCallback(
     (v: string) => onChange(decodeJoditHTML(v)),
     [onChange],

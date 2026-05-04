@@ -37,10 +37,18 @@ interface CombinedContent {
   heroImage: string;
   heroImgAlt: string;
 
-  introPara1: string;
-  introPara2: string;
-  introPara3: string;
-  introPara4: string;
+  /* intro paras — backend sends both individual fields AND no array */
+  introPara1?: string;
+  introPara2?: string;
+  introPara3?: string;
+  introPara4?: string;
+  introPara5?: string;
+  introPara6?: string;
+  introPara7?: string;
+  introPara8?: string;
+  introPara9?: string;
+  introPara10?: string;
+  introParaCount?: number;
 
   courseCardHeaderLabel: string;
   courseCardItem1Label: string;
@@ -64,49 +72,89 @@ interface CombinedContent {
   courseCardBookBtnText: string;
   courseCardBookBtnUrl: string;
 
-  videoUrl: string;
-  videoFile: string;
-  videoBadgeText: string;
+  videoUrl?: string;
+  videoFile?: string;
+  videoBadgeText?: string;
 
   stats: StatItem[];
 
+  /* aims */
+  aimsH3?: string;
+  aimsKeyObjLabel?: string;
   aimsIntro: string[];
   aimsBullets: string[];
-  aimsOutro: string;
-  aimsImage: string;
-  aimsH3?: string;
+  aimsOutro?: string;
+  aimsImage?: string;
 
-  syllabusIntro: string[];
+  /* overview */
+  overviewH2?: string;
+  overviewSubPara?: string;
+  overviewCertLabel?: string;
+  overviewCertName?: string;
+  overviewLevelLabel?: string;
+  overviewLevel?: string;
+  overviewEligLabel?: string;
+  overviewEligibility?: string;
+  overviewAgeLabel?: string;
+  overviewMinAge?: string;
+  overviewCreditsLabel?: string;
+  overviewCredits?: string;
+  overviewLangLabel?: string;
+  overviewLanguage?: string;
+
+  /* syllabus */
   syllabusH3?: string;
+  syllabusIntro: string[];
 
+  /* inclusions */
+  feeIncludedTitle?: string;
+  feeNotIncludedTitle?: string;
   includedFee: string[];
   notIncludedFee: string[];
 
   modules: ModuleItem[];
 
-  ashtangaDesc: string;
-  ashtangaImage: string;
+  /* ashtanga */
   ashtangaH2?: string;
-   asanasH2?: string;
-  asanasSubtext?: string;
-  newProgramsSubtext?: string;
+  ashtangaSubtitle?: string;
+  ashtangaImgAlt?: string;
+  ashtangaDesc?: string;
+  ashtangaImage?: string;
+  ashtangaPill1?: string;
+  ashtangaPill2?: string;
+  ashtangaPill3?: string;
 
-  primaryIntro: string;
-  primarySeriesImage: string;
+  /* primary series */
   primarySeriesH3?: string;
+  primarySeriesSubtext?: string;
+  primaryIntro?: string;
+  primarySeriesImage?: string;
   foundationItems: string[];
-  weekGrid: Array<{
-    week: string;
-    icon: string;
-    [key: string]: any;
+  weekGrid: Array<{ week: string; icon: string; [key: string]: any }>;
+
+  /* hatha */
+  hathaH2?: string;
+  hathaSubtitle?: string;
+  hathaImgAlt?: string;
+  hathaDesc?: string;
+  hathaImage?: string;
+  hathaPill1?: string;
+  hathaPill2?: string;
+  hathaPill3?: string;
+
+  /* asanas */
+  asanasH2?: string;
+  asanasSubtext?: string;
+  hatha43: Array<{
+    n: number | string;
+    name: string;
+    sub: string;
+    filter?: string;
   }>;
 
-  hathaDesc: string;
-  hathaImage: string;
-  hathaH2?: string;
-
-  hatha43: Array<{ n: number; name: string; sub: string; filter?: string }>;
-
+  /* programs */
+  newProgramsH2?: string;
+  newProgramsSubtext?: string;
   programs: Array<{
     title: string;
     desc: string;
@@ -116,49 +164,79 @@ interface CombinedContent {
     price: string;
     image?: string;
   }>;
-  newProgramsH2?: string;
 
-  evalDesc: string;
-  schedDesc: string;
-  visaPassportDesc: string;
-  visaPassportTitle?: string;
-  globalCert1: string;
-  globalCert2: string;
-  req1: string;
-  req2: string;
-  req3: string;
-  req4: string;
-  best200Hr: string;
+  /* eval */
+  evalH2?: string;
+  evalDesc?: string;
 
-  luxFeatures: string[];
+  /* luxury */
   luxuryH2?: string;
-  whatIncl: string[];
-  instrLangs: Array<{ lang: string } | string>;
-  indianFees: Array<{ label: string; price: string }>;
-  indianFeeH2?: string;
-  schedRows: Array<{ time: string; activity: string }>;
-  scheduleH2?: string;
-  faqItems: Array<{ q: string; a: string }>;
-  faqH2?: string;
-  knowQA: Array<{ q: string; a: string }>;
-  whatYouNeedH2?: string;
-
-  reqImage: string;
+  luxFeatures: string[];
   luxImages: string[];
+
+  /* indian fees */
+  indianFeeH2?: string;
+  indianFees: Array<{ label: string; price: string }>;
+
+  /* schedule */
+  scheduleH2?: string;
+  schedDesc?: string;
+  schedRows: Array<{ time: string; activity: string }>;
   schedImages: string[];
 
-  // Booking steps
+  /* more info */
+  moreInfoH2?: string;
+  instrLangs: Array<{ lang: string; note?: string } | string>;
+  spanishChineseNote?: string;
+  visaPassportTitle?: string;
+  visaPassportDesc?: string;
+
+  /* global cert */
+  globalCertH2?: string;
+  globalCert1?: string;
+  globalCert2?: string;
+
+  /* requirements */
+  requirementsH2?: string;
+  requirementsImgAlt?: string;
+  reqImage?: string;
+  req1?: string;
+  req2?: string;
+  req3?: string;
+  req4?: string;
+
+  /* what you need */
+  whatYouNeedH2?: string;
+  knowQA: Array<{ q: string; a: string }>;
+
+  /* why AYM */
+  best200HrH4?: string;
+  best200Hr?: string;
+
+  /* whats included */
+  whatsIncludedH4?: string;
+  whatIncl: string[];
+
+  /* booking steps */
   bookingH2?: string;
-  bookingStep1Title?: string;
+  step1Icon?: string;
+  step1Title?: string;
   bookingStep1Desc?: string;
-  bookingStep2Title?: string;
+  step2Icon?: string;
+  step2Title?: string;
   bookingStep2Desc?: string;
-  bookingStep3Title?: string;
+  step3Icon?: string;
+  step3Title?: string;
   bookingStep3Desc?: string;
-  bookingStep4Title?: string;
+  step4Icon?: string;
+  step4Title?: string;
   bookingStep4Desc?: string;
 
-  // CTA
+  /* faq */
+  faqH2?: string;
+  faqItems: Array<{ q: string; a: string }>;
+
+  /* cta */
   ctaTitle?: string;
   ctaSubtitle?: string;
   ctaApplyBtnText?: string;
@@ -167,14 +245,19 @@ interface CombinedContent {
   whatsappBtnText?: string;
   whatsappNumber?: string;
 
-  // Batch section
+  /* batch */
   batchSectionTag?: string;
   upcomingDatesH2?: string;
   upcomingDatesSubtext?: string;
 
-  // Meta
+  /* seo */
   metaTitle?: string;
   metaDesc?: string;
+  metaKeywords?: string;
+
+  /* eligibility */
+  eligibilityInfoTitle?: string;
+  eligibilityInfoText?: string;
 }
 
 interface Batch {
@@ -224,6 +307,17 @@ function getYoutubeEmbed(url?: string): string {
     return `https://www.youtube.com/embed/${id}?autoplay=1&mute=1&loop=1&playlist=${id}&controls=1&rel=0`;
   }
   return url;
+}
+
+/** Collect intro paras from numbered fields (introPara1…introPara10) */
+function collectIntroParas(c: CombinedContent): string[] {
+  const count = c.introParaCount || 10;
+  const result: string[] = [];
+  for (let i = 1; i <= count; i++) {
+    const val = (c as any)[`introPara${i}`];
+    if (val) result.push(val);
+  }
+  return result;
 }
 
 const shortDateRange = (start: string, end: string) => {
@@ -380,9 +474,9 @@ function VintageHeading({
         <div className={styles.vintageHeadingLeft}>
           <h2 className={styles.vintageHeading}>{children}</h2>
           <div className={styles.omDivider}>
-            <span className={styles.dividerLine}></span>
+            <span className={styles.dividerLine} />
             <span className={styles.omSymbol}>ॐ</span>
-            <span className={styles.dividerLine}></span>
+            <span className={styles.dividerLine} />
           </div>
         </div>
         <div className={styles.vintageHeadingPara}>{para}</div>
@@ -393,17 +487,17 @@ function VintageHeading({
     <div className={styles.vintageHeadingWrap}>
       <h2 className={styles.vintageHeading}>{children}</h2>
       <div className={styles.omDivider}>
-        <span className={styles.dividerLine}></span>
+        <span className={styles.dividerLine} />
         <span className={styles.omSymbol}>ॐ</span>
-        <span className={styles.dividerLine}></span>
+        <span className={styles.dividerLine} />
       </div>
     </div>
   );
 }
 
-/* ══════════════════════════════════════════════════
-   VIDEO SECTION — Fixed with autoplay
-══════════════════════════════════════════════════ */
+/* ══════════════════════════════
+   VIDEO SECTION
+══════════════════════════════ */
 function VideoSection({
   videoUrl,
   videoFile,
@@ -413,7 +507,6 @@ function VideoSection({
   videoFile?: string;
   badgeText?: string;
 }) {
-  // Priority: videoFile (uploaded mp4) > videoUrl (YouTube)
   if (videoFile) {
     return (
       <div className={styles.videoSection}>
@@ -439,15 +532,12 @@ function VideoSection({
       </div>
     );
   }
-
   if (videoUrl) {
     return (
       <div className={styles.videoSection}>
         <div className={styles.videoCard}>
           <iframe
             src={getYoutubeEmbed(videoUrl)}
-            width="100%"
-            height="400"
             style={{
               border: "0",
               position: "absolute",
@@ -470,7 +560,6 @@ function VideoSection({
       </div>
     );
   }
-
   return null;
 }
 
@@ -509,7 +598,7 @@ function CourseInfoCard({
       icon: <StyleIcon />,
       label: content?.courseCardItem4Label || "YOGA STYLE",
       value: content?.courseCardItem4Value || "Multistyle",
-      sub: content?.courseCardItem4Sub || "Ashtanga, Vinyasa & Hatha",
+      sub: content?.courseCardItem4Sub || "",
     },
     {
       icon: <LangIcon />,
@@ -523,7 +612,6 @@ function CourseInfoCard({
     },
   ];
 
-  // Use backend prices directly if available, else compute from batches
   const displayOldPrice = content?.courseCardOldPrice
     ? content.courseCardOldPrice.startsWith("$")
       ? content.courseCardOldPrice
@@ -554,7 +642,9 @@ function CourseInfoCard({
                 <div className={styles.icBody}>
                   <div className={styles.icLbl}>{d.label}</div>
                   <div className={styles.icVal}>{d.value}</div>
-                  {d.sub && <div className={styles.icSub}>{d.sub}</div>}
+                  {(d as any).sub && (
+                    <div className={styles.icSub}>{(d as any).sub}</div>
+                  )}
                 </div>
               </div>
             ))}
@@ -651,9 +741,13 @@ function ModuleCard({
 function IncludeExcludeTabs({
   includedFee,
   notIncludedFee,
+  includedTitle,
+  notIncludedTitle,
 }: {
   includedFee: string[];
   notIncludedFee: string[];
+  includedTitle?: string;
+  notIncludedTitle?: string;
 }) {
   const [activeTab, setActiveTab] = useState<"include" | "exclude">("include");
   return (
@@ -663,13 +757,13 @@ function IncludeExcludeTabs({
           className={`${styles.incTab} ${activeTab === "include" ? styles.active : ""}`}
           onClick={() => setActiveTab("include")}
         >
-          ✓ What Is Included?
+          ✓ {includedTitle || "What Is Included?"}
         </button>
         <button
           className={`${styles.incTab} ${activeTab === "exclude" ? styles.active : ""}`}
           onClick={() => setActiveTab("exclude")}
         >
-          ✕ What Is Not Included?
+          ✕ {notIncludedTitle || "What Is Not Included?"}
         </button>
       </div>
       <div className={styles.incContent}>
@@ -800,22 +894,19 @@ function PremiumSeatBooking({
   content: CombinedContent | null;
 }) {
   const [selectedId, setSelectedId] = useState<string | null>(null);
-
   useEffect(() => {
     if (seats.length === 0) return;
-    const firstAvailable = seats.find((s) => s.totalSeats - s.bookedSeats > 0);
-    if (firstAvailable) setSelectedId(firstAvailable._id);
+    const first = seats.find((s) => s.totalSeats - s.bookedSeats > 0);
+    if (first) setSelectedId(first._id);
   }, [seats]);
-
   const selected = seats.find((s) => s._id === selectedId) ?? null;
 
-  const fmtPriceAdvanced = (
+  const fmtPrice = (
     batch: Batch | null,
     overrideUsd?: number,
   ): { amount: string; cur: string } => {
     if (!batch && overrideUsd === undefined)
       return { amount: "—", cur: currency };
-
     if (currency === "INR") {
       if (batch?.inrFee) {
         const num = parseFloat(batch.inrFee.replace(/[₹,]/g, "").trim());
@@ -825,10 +916,11 @@ function PremiumSeatBooking({
       const usdNum = batch
         ? parseFloat(batch.usdFee.replace(/[$,]/g, "")) || batch.dormPrice
         : (overrideUsd ?? 0);
-      const inr = Math.round(usdNum * rate);
-      return { amount: `₹${inr.toLocaleString("en-IN")}`, cur: "INR" };
+      return {
+        amount: `₹${Math.round(usdNum * rate).toLocaleString("en-IN")}`,
+        cur: "INR",
+      };
     }
-
     if (batch?.usdFee) {
       const raw = batch.usdFee.trim();
       return { amount: raw.startsWith("$") ? raw : `$${raw}`, cur: "USD" };
@@ -837,21 +929,18 @@ function PremiumSeatBooking({
     return { amount: `$${fallback}`, cur: "USD" };
   };
 
-  const batchCardPrice = (batch: Batch) => fmtPriceAdvanced(batch);
-
-  // Use backend strings if present
-  const sectionTag = content?.batchSectionTag || "Upcoming Batches · 2026–2027";
-  const sectionH2 =
-    content?.upcomingDatesH2 || "200 Hour Yoga Teacher Training India";
-  const sectionSub =
-    content?.upcomingDatesSubtext ||
-    "Choose your dates & preferred accommodation — prices include tuition and meals";
-
   return (
     <section className={styles.datesSection} id="dates-fees">
-      <div className={styles.psbSecTag}>{sectionTag}</div>
-      <VintageHeading>{sectionH2}</VintageHeading>
-      <p className={styles.psbSecSub}>{sectionSub}</p>
+      <div className={styles.psbSecTag}>
+        {content?.batchSectionTag || "Upcoming Batches · 2026–2027"}
+      </div>
+      <VintageHeading>
+        {content?.upcomingDatesH2 || "200 Hour Yoga Teacher Training India"}
+      </VintageHeading>
+      <p className={styles.psbSecSub}>
+        {content?.upcomingDatesSubtext ||
+          "Choose your dates & preferred accommodation — prices include tuition and meals"}
+      </p>
       <div className={styles.psbOrnLine}>
         <div className={styles.psbOrnL} />
         <div className={styles.psbOrnDiamond} />
@@ -923,7 +1012,7 @@ function PremiumSeatBooking({
                   (rem / batch.totalSeats) * 100,
                 );
                 const isSelected = selectedId === batch._id;
-                const cardPrice = batchCardPrice(batch);
+                const cardPrice = fmtPrice(batch);
                 return (
                   <div
                     key={batch._id}
@@ -994,7 +1083,6 @@ function PremiumSeatBooking({
             </div>
           )}
         </div>
-
         {/* RIGHT PANEL */}
         <div className={styles.psbRightPanel}>
           <div className={`${styles.psbCn} ${styles.psbCnTl}`} />
@@ -1070,36 +1158,6 @@ function PremiumSeatBooking({
               </div>
               <span className={styles.psbFoodBadge}>Food Included</span>
             </div>
-            {selected && currency === "USD" && (
-              <div className={styles.psbInrRow}>
-                <span className={styles.psbInrLbl}>USD Price</span>
-                <span className={styles.psbInrAmt}>
-                  {selected.usdFee.startsWith("$")
-                    ? selected.usdFee
-                    : `$${selected.usdFee}`}
-                </span>
-              </div>
-            )}
-            {selected && currency === "INR" && (
-              <div className={styles.psbInrRow}>
-                <span className={styles.psbInrLbl}>Indian Price</span>
-                <span className={styles.psbInrAmt}>
-                  {(() => {
-                    if (selected.inrFee) {
-                      const num = parseFloat(
-                        selected.inrFee.replace(/[₹,]/g, "").trim(),
-                      );
-                      if (!isNaN(num) && num > 100)
-                        return `₹${num.toLocaleString("en-IN")}`;
-                    }
-                    const usdNum =
-                      parseFloat(selected.usdFee.replace(/[$,]/g, "")) ||
-                      selected.dormPrice;
-                    return `₹${Math.round(usdNum * rate).toLocaleString("en-IN")}`;
-                  })()}
-                </span>
-              </div>
-            )}
             <div className={styles.psbDivider} />
             {selected &&
               (() => {
@@ -1169,7 +1227,7 @@ function PremiumSeatBooking({
                 href={`/yoga-registration?batchId=${selected._id}&type=200hr`}
                 className={styles.psbBookBtn}
               >
-                Book Now — {fmtPriceAdvanced(selected).amount} {currency}
+                Book Now — {fmtPrice(selected).amount} {currency}
                 <svg
                   className={styles.psbArrowIcon}
                   viewBox="0 0 16 16"
@@ -1198,6 +1256,35 @@ function PremiumSeatBooking({
         </div>
       </div>
     </section>
+  );
+}
+
+/* ══════════════════════════════
+   OVERVIEW TABLE
+══════════════════════════════ */
+function OverviewTable({ content }: { content: CombinedContent }) {
+  const rows = [
+    { label: content.overviewCertLabel, value: content.overviewCertName },
+    { label: content.overviewLevelLabel, value: content.overviewLevel },
+    { label: content.overviewEligLabel, value: content.overviewEligibility },
+    { label: content.overviewAgeLabel, value: content.overviewMinAge },
+    { label: content.overviewCreditsLabel, value: content.overviewCredits },
+    { label: content.overviewLangLabel, value: content.overviewLanguage },
+  ].filter((r) => r.label && r.value);
+
+  if (!rows.length) return null;
+  return (
+    <div className={styles.overviewGrid}>
+      {rows.map((r, i) => (
+        <div key={i} className={styles.overviewItem}>
+          <div className={styles.overviewItemIcon}>✦</div>
+          <div className={styles.overviewItemText}>
+            <strong>{r.label}</strong>
+            {r.value}
+          </div>
+        </div>
+      ))}
+    </div>
   );
 }
 
@@ -1268,7 +1355,6 @@ export default function TwoHundredHourYoga() {
           api.get("/yoga-200hr/content"),
           api.get("/200hr-seats/getAllBatches"),
         ]);
-
         const list: CombinedContent[] = contentRes.data?.data || [];
         const active =
           list.find((c) => c.status === "Active") || list[0] || null;
@@ -1295,6 +1381,7 @@ export default function TwoHundredHourYoga() {
       </div>
     );
 
+  const introParas = content ? collectIntroParas(content) : [];
   const allAsanas = content?.hatha43 || [];
   const modules = content?.modules || [];
   const filteredAsanas =
@@ -1302,11 +1389,8 @@ export default function TwoHundredHourYoga() {
       ? allAsanas
       : allAsanas.filter((a) => (a.filter || "All Poses") === asanaFilter);
 
-  // WhatsApp number from backend or fallback
   const whatsappNumber =
     content?.whatsappNumber || content?.ctaPhone || "919528023390";
-
-  // CTA texts from backend
   const ctaTitle =
     content?.ctaTitle ||
     "We welcome you to AYM School for a wonderful yogic experience!";
@@ -1316,6 +1400,30 @@ export default function TwoHundredHourYoga() {
   const ctaApplyUrl = content?.ctaApplyUrl || "/yoga-registration?type=200hr";
   const ctaApplyBtnText = content?.ctaApplyBtnText || "Apply Now";
   const whatsappBtnText = content?.whatsappBtnText || "💬 WhatsApp Us";
+
+  /* booking steps */
+  const bookingSteps = [
+    {
+      icon: content?.step1Icon || "📝",
+      title: content?.step1Title,
+      desc: content?.bookingStep1Desc,
+    },
+    {
+      icon: content?.step2Icon || "💳",
+      title: content?.step2Title,
+      desc: content?.bookingStep2Desc,
+    },
+    {
+      icon: content?.step3Icon || "📩",
+      title: content?.step3Title,
+      desc: content?.bookingStep3Desc,
+    },
+    {
+      icon: content?.step4Icon || "🧘",
+      title: content?.step4Title,
+      desc: content?.bookingStep4Desc,
+    },
+  ].filter((s) => s.title || s.desc);
 
   return (
     <div className={styles.root}>
@@ -1344,32 +1452,32 @@ export default function TwoHundredHourYoga() {
       <section className={styles.heroSection2}>
         <VintageHeading
           para={
-            content?.introPara1 ? (
-              <span className={styles.bodyText}>
-                {stripHtml(content.introPara1)}
-              </span>
+            introParas[0] ? (
+              <span
+                className={styles.bodyText}
+                dangerouslySetInnerHTML={{ __html: introParas[0] }}
+              />
             ) : undefined
           }
         >
           {content?.pageMainH1 || "200 Hour Yoga Teacher Training in Rishikesh"}
         </VintageHeading>
 
-        {/* ════ VIDEO ════ */}
         <VideoSection
           videoUrl={content?.videoUrl}
           videoFile={content?.videoFile}
           badgeText={content?.videoBadgeText}
         />
 
-        {[content?.introPara2, content?.introPara3, content?.introPara4]
-          .filter(Boolean)
-          .map((para, i) => (
-            <p key={i} className={styles.bodyText}>
-              {stripHtml(para!)}
-            </p>
-          ))}
+        {introParas.slice(1).map((para, i) => (
+          <p
+            key={i}
+            className={styles.bodyText}
+            dangerouslySetInnerHTML={{ __html: para }}
+          />
+        ))}
 
-        {/* ════ STAT CARDS ════ */}
+        {/* STATS */}
         {content?.stats?.length ? (
           <div className={styles.statsRow}>
             {content.stats.map((s, i) => (
@@ -1397,10 +1505,17 @@ export default function TwoHundredHourYoga() {
                 {content?.aimsH3 || "Aims & Objectives"}
               </h3>
               <div className={styles.underlineBar} />
-              {content?.aimsIntro?.map((para, i) => (
-                <p key={i} className={styles.bodyText}>
-                  {stripHtml(para)}
+              {content?.aimsKeyObjLabel && (
+                <p className={styles.bodyText}>
+                  <strong>{content.aimsKeyObjLabel}</strong>
                 </p>
+              )}
+              {content?.aimsIntro?.map((para, i) => (
+                <p
+                  key={i}
+                  className={styles.bodyText}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
               ))}
               {content?.aimsBullets?.length ? (
                 <ul className={styles.bulletList}>
@@ -1410,16 +1525,17 @@ export default function TwoHundredHourYoga() {
                 </ul>
               ) : null}
               {content?.aimsOutro && (
-                <p className={styles.bodyText}>
-                  {stripHtml(content.aimsOutro)}
-                </p>
+                <p
+                  className={styles.bodyText}
+                  dangerouslySetInnerHTML={{ __html: content.aimsOutro }}
+                />
               )}
             </div>
             <div className={styles.h3LeftImageWrap}>
               {content?.aimsImage ? (
                 <img
                   src={imgUrl(content.aimsImage)}
-                  alt="Yoga practice Rishikesh"
+                  alt="Yoga practice"
                   className={styles.h3LeftImg}
                 />
               ) : null}
@@ -1427,6 +1543,24 @@ export default function TwoHundredHourYoga() {
           </div>
         )}
       </section>
+
+      {/* ════ OVERVIEW ════ */}
+      {content && (content.overviewH2 || content.overviewCertLabel) && (
+        <section className={styles.contentSection}>
+          <VintageHeading
+            para={
+              content.overviewSubPara ? (
+                <span className={styles.bodyText}>
+                  {content.overviewSubPara}
+                </span>
+              ) : undefined
+            }
+          >
+            {content.overviewH2 || "Course Overview"}
+          </VintageHeading>
+          <OverviewTable content={content} />
+        </section>
+      )}
 
       {/* ════ PREMIUM SEAT BOOKING ════ */}
       <PremiumSeatBooking
@@ -1446,9 +1580,11 @@ export default function TwoHundredHourYoga() {
           </h3>
           <div className={styles.underlineBar} />
           {content?.syllabusIntro?.map((para, i) => (
-            <p key={i} className={styles.bodyText}>
-              {stripHtml(para)}
-            </p>
+            <p
+              key={i}
+              className={styles.bodyText}
+              dangerouslySetInnerHTML={{ __html: para }}
+            />
           ))}
         </div>
         <div className={styles.moduleGrid}>
@@ -1468,7 +1604,15 @@ export default function TwoHundredHourYoga() {
       <section id="inclusions" className={styles.contentSection}>
         {content?.ashtangaDesc && (
           <>
-            <VintageHeading>
+            <VintageHeading
+              para={
+                content.ashtangaSubtitle ? (
+                  <span className={styles.centerSubtext}>
+                    {content.ashtangaSubtitle}
+                  </span>
+                ) : undefined
+              }
+            >
               {content?.ashtangaH2 || "Module 8.1: Ashtanga Vinyasa Yoga"}
             </VintageHeading>
             <div className={styles.moduleDetailGrid}>
@@ -1476,15 +1620,34 @@ export default function TwoHundredHourYoga() {
                 {content.ashtangaImage ? (
                   <img
                     src={imgUrl(content.ashtangaImage)}
-                    alt="Ashtanga"
+                    alt={content.ashtangaImgAlt || "Ashtanga"}
                     className={styles.modImg}
                   />
                 ) : null}
               </div>
               <div>
-                <p className={styles.bodyText}>
-                  {stripHtml(content.ashtangaDesc)}
-                </p>
+                <p
+                  className={styles.bodyText}
+                  dangerouslySetInnerHTML={{ __html: content.ashtangaDesc }}
+                />
+                {/* ── PILLS ── */}
+                {(content.ashtangaPill1 ||
+                  content.ashtangaPill2 ||
+                  content.ashtangaPill3) && (
+                  <div className={styles.featurePills}>
+                    {[
+                      content.ashtangaPill1,
+                      content.ashtangaPill2,
+                      content.ashtangaPill3,
+                    ]
+                      .filter(Boolean)
+                      .map((pill, i) => (
+                        <span key={i} className={styles.pill}>
+                          {pill}
+                        </span>
+                      ))}
+                  </div>
+                )}
               </div>
             </div>
           </>
@@ -1505,9 +1668,15 @@ export default function TwoHundredHourYoga() {
                   {content?.primarySeriesH3 || "Primary Series Curriculum"}
                 </h3>
                 <div className={styles.underlineBar} />
-                <p className={styles.bodyText}>
-                  {stripHtml(content.primaryIntro)}
-                </p>
+                {content.primarySeriesSubtext && (
+                  <p className={styles.bodyText}>
+                    <em>{content.primarySeriesSubtext}</em>
+                  </p>
+                )}
+                <p
+                  className={styles.bodyText}
+                  dangerouslySetInnerHTML={{ __html: content.primaryIntro }}
+                />
                 {content.foundationItems?.length ? (
                   <div className={styles.foundationBox}>
                     <div className={styles.foundationHeader}>
@@ -1532,8 +1701,8 @@ export default function TwoHundredHourYoga() {
                             Number(b.replace("t", "")),
                         )
                         .map((key) => {
-                          const index = key.replace("t", "");
-                          return { t: w[key], d: w[`d${index}`] };
+                          const idx = key.replace("t", "");
+                          return { t: w[key], d: w[`d${idx}`] };
                         })
                         .filter((item) => item.t && item.d);
                       return (
@@ -1575,7 +1744,15 @@ export default function TwoHundredHourYoga() {
 
         {content?.hathaDesc && (
           <>
-            <VintageHeading>
+            <VintageHeading
+              para={
+                content.hathaSubtitle ? (
+                  <span className={styles.centerSubtext}>
+                    {content.hathaSubtitle}
+                  </span>
+                ) : undefined
+              }
+            >
               {content?.hathaH2 || "Module 8.2: Hatha Yoga"}
             </VintageHeading>
             <div className={styles.moduleDetailGrid}>
@@ -1583,15 +1760,34 @@ export default function TwoHundredHourYoga() {
                 {content.hathaImage ? (
                   <img
                     src={imgUrl(content.hathaImage)}
-                    alt="Hatha"
+                    alt={content.hathaImgAlt || "Hatha"}
                     className={styles.modImg}
                   />
                 ) : null}
               </div>
               <div>
-                <p className={styles.bodyText}>
-                  {stripHtml(content.hathaDesc)}
-                </p>
+                <p
+                  className={styles.bodyText}
+                  dangerouslySetInnerHTML={{ __html: content.hathaDesc }}
+                />
+                {/* ── HATHA PILLS ── */}
+                {(content.hathaPill1 ||
+                  content.hathaPill2 ||
+                  content.hathaPill3) && (
+                  <div className={styles.featurePills}>
+                    {[
+                      content.hathaPill1,
+                      content.hathaPill2,
+                      content.hathaPill3,
+                    ]
+                      .filter(Boolean)
+                      .map((pill, i) => (
+                        <span key={i} className={styles.pill}>
+                          {pill}
+                        </span>
+                      ))}
+                  </div>
+                )}
               </div>
             </div>
           </>
@@ -1604,9 +1800,8 @@ export default function TwoHundredHourYoga() {
           <VintageHeading
             para={
               <span className={styles.centerSubtext}>
-                {content?.asanasSubtext
-                  ? content.asanasSubtext
-                  : `Master these ${allAsanas.length} essential postures as part of your comprehensive training`}
+                {content?.asanasSubtext ||
+                  `Master these ${allAsanas.length} essential postures as part of your comprehensive training`}
               </span>
             }
           >
@@ -1641,8 +1836,8 @@ export default function TwoHundredHourYoga() {
             </p>
           ) : (
             <div className={styles.asanaGrid}>
-              {filteredAsanas.map((a) => (
-                <div key={a.n} className={styles.asanaCard}>
+              {filteredAsanas.map((a, idx) => (
+                <div key={idx} className={styles.asanaCard}>
                   <span className={styles.asanaNum}>{a.n}</span>
                   <div>
                     <div className={styles.asanaName}>{stripHtml(a.name)}</div>
@@ -1652,6 +1847,19 @@ export default function TwoHundredHourYoga() {
               ))}
             </div>
           )}
+        </section>
+      )}
+
+      {/* ════ EVALUATION & CERTIFICATION ════ */}
+      {content?.evalDesc && (
+        <section className={styles.contentSection}>
+          <VintageHeading>
+            {content?.evalH2 || "Evaluation & Certification"}
+          </VintageHeading>
+          <p
+            className={styles.bodyText}
+            dangerouslySetInnerHTML={{ __html: content.evalDesc }}
+          />
         </section>
       )}
 
@@ -1667,7 +1875,7 @@ export default function TwoHundredHourYoga() {
                 </span>
               }
             >
-              {content?.luxuryH2 || "Luxury Facilities"}
+              {content?.luxuryH2 || "Luxury Room & Facilities"}
             </VintageHeading>
             <div className={styles.luxuryLayout}>
               <div className={styles.luxuryItemsLeft}>
@@ -1713,7 +1921,28 @@ export default function TwoHundredHourYoga() {
           </>
         ) : null}
 
-        {/* INDIAN FEE */}
+        {/* ════ GLOBAL CERTIFICATION ════ */}
+        {(content?.globalCert1 || content?.globalCert2) && (
+          <>
+            <VintageHeading>
+              {content?.globalCertH2 || "Get Globally Certified"}
+            </VintageHeading>
+            {content.globalCert1 && (
+              <p
+                className={styles.bodyText}
+                dangerouslySetInnerHTML={{ __html: content.globalCert1 }}
+              />
+            )}
+            {content.globalCert2 && (
+              <p
+                className={styles.bodyText}
+                dangerouslySetInnerHTML={{ __html: content.globalCert2 }}
+              />
+            )}
+          </>
+        )}
+
+        {/* ════ INDIAN FEE ════ */}
         {content?.indianFees?.length ? (
           <>
             <VintageHeading>
@@ -1740,15 +1969,16 @@ export default function TwoHundredHourYoga() {
           </>
         ) : null}
 
-        {/* SCHEDULE */}
+        {/* ════ SCHEDULE ════ */}
         {content?.schedRows?.length ? (
           <>
             <VintageHeading
               para={
                 content.schedDesc ? (
-                  <span className={styles.bodyText}>
-                    {stripHtml(content.schedDesc)}
-                  </span>
+                  <span
+                    className={styles.bodyText}
+                    dangerouslySetInnerHTML={{ __html: content.schedDesc }}
+                  />
                 ) : undefined
               }
             >
@@ -1799,10 +2029,16 @@ export default function TwoHundredHourYoga() {
         <IncludeExcludeTabs
           includedFee={content?.includedFee || []}
           notIncludedFee={content?.notIncludedFee || []}
+          includedTitle={content?.feeIncludedTitle}
+          notIncludedTitle={content?.feeNotIncludedTitle}
         />
 
+        {/* ════ MORE INFO ════ */}
         {content?.instrLangs?.length ? (
           <div className={styles.infoBlock}>
+            <p className={styles.bodyText}>
+              <strong>{content?.moreInfoH2 || "More Information"}</strong>
+            </p>
             <p className={styles.bodyText}>
               <strong>The medium of instruction:</strong>
             </p>
@@ -1811,13 +2047,19 @@ export default function TwoHundredHourYoga() {
                 <li key={i}>
                   {typeof l === "string"
                     ? stripHtml(l)
-                    : stripHtml((l as any).lang)}
+                    : `${stripHtml((l as any).lang)}${(l as any).note ? " — " + stripHtml((l as any).note) : ""}`}
                 </li>
               ))}
             </ol>
+            {content.spanishChineseNote && (
+              <p className={styles.bodyText}>
+                <em>{content.spanishChineseNote}</em>
+              </p>
+            )}
           </div>
         ) : null}
 
+        {/* VISA */}
         {content?.visaPassportDesc && (
           <div className={styles.infoBlock}>
             <p className={styles.bodyText}>
@@ -1825,9 +2067,135 @@ export default function TwoHundredHourYoga() {
                 {content?.visaPassportTitle || "Visa And Passport:"}
               </strong>
             </p>
-            <p className={styles.bodyText}>
-              {stripHtml(content.visaPassportDesc)}
-            </p>
+            <p
+              className={styles.bodyText}
+              dangerouslySetInnerHTML={{ __html: content.visaPassportDesc }}
+            />
+          </div>
+        )}
+
+        {/* ════ REQUIREMENTS ════ */}
+        {(content?.req1 || content?.req2 || content?.req3 || content?.req4) && (
+          <div className={styles.infoBlock}>
+            <h3 className={styles.h3Left}>
+              {content?.requirementsH2 || "Requirements for Enrollment"}
+            </h3>
+            <div className={styles.underlineBar} />
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "1fr 1fr",
+                gap: "1.5rem",
+                alignItems: "start",
+                marginTop: "1.5rem",
+              }}
+            >
+              <div>
+                {content.req1 && (
+                  <p
+                    className={styles.bodyText}
+                    dangerouslySetInnerHTML={{ __html: content.req1 }}
+                  />
+                )}
+                {content.req2 && (
+                  <p
+                    className={styles.bodyText}
+                    dangerouslySetInnerHTML={{ __html: content.req2 }}
+                  />
+                )}
+                {content.req3 && (
+                  <p
+                    className={styles.bodyText}
+                    dangerouslySetInnerHTML={{ __html: content.req3 }}
+                  />
+                )}
+                {content.req4 && (
+                  <p
+                    className={styles.bodyText}
+                    dangerouslySetInnerHTML={{ __html: content.req4 }}
+                  />
+                )}
+              </div>
+              {content?.reqImage && (
+                <div
+                  style={{
+                    borderRadius: "12px",
+                    overflow: "hidden",
+                    boxShadow: "0 8px 32px rgba(80,40,5,0.14)",
+                  }}
+                >
+                  <img
+                    src={imgUrl(content.reqImage)}
+                    alt={content.requirementsImgAlt || "Requirements"}
+                    style={{ width: "100%", height: "auto", display: "block" }}
+                  />
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* ════ WHY AYM + WHATS INCLUDED ════ */}
+        {(content?.best200Hr || content?.whatIncl?.length) && (
+          <div className={styles.infoBlock}>
+            {content.best200HrH4 && (
+              <h4
+                style={{
+                  fontFamily: "var(--font-fell)",
+                  fontSize: "1.15rem",
+                  color: "var(--saffron-bright)",
+                  marginBottom: "0.5rem",
+                }}
+              >
+                {content.best200HrH4}
+              </h4>
+            )}
+            {content.best200Hr && (
+              <p
+                className={styles.bodyText}
+                dangerouslySetInnerHTML={{ __html: content.best200Hr }}
+              />
+            )}
+            {content?.whatIncl?.length ? (
+              <>
+                {content.whatsIncludedH4 && (
+                  <h4
+                    style={{
+                      fontFamily: "var(--font-fell)",
+                      fontSize: "1.05rem",
+                      color: "var(--saffron-bright)",
+                      margin: "1.2rem 0 0.5rem",
+                    }}
+                  >
+                    {content.whatsIncludedH4}
+                  </h4>
+                )}
+                <ul className={styles.numberedListSimple}>
+                  {content.whatIncl.map((item, i) => (
+                    <li key={i}>{stripHtml(item)}</li>
+                  ))}
+                </ul>
+              </>
+            ) : null}
+          </div>
+        )}
+
+        {/* ════ ELIGIBILITY ════ */}
+        {content?.eligibilityInfoTitle && (
+          <div className={styles.infoBlock}>
+            <h4
+              style={{
+                fontFamily: "var(--font-fell)",
+                fontSize: "1.05rem",
+                color: "var(--saffron-bright)",
+                marginBottom: "0.4rem",
+              }}
+            >
+              {content.eligibilityInfoTitle}
+            </h4>
+            {content.eligibilityInfoText && (
+              <p className={styles.bodyText}>{content.eligibilityInfoText}</p>
+            )}
           </div>
         )}
 
@@ -1846,7 +2214,6 @@ export default function TwoHundredHourYoga() {
             <a href={ctaApplyUrl} className={styles.applyNowBtn}>
               {ctaApplyBtnText}
             </a>
-
             <a
               href={`https://wa.me/${whatsappNumber}?text=Hi%2C%20I%20am%20interested%20in%20the%20200%20Hour%20Yoga%20Teacher%20Training%20in%20Rishikesh.%20Please%20share%20details.`}
               target="_blank"
@@ -1886,7 +2253,10 @@ export default function TwoHundredHourYoga() {
                 )}
                 <div className={styles.programCardBody}>
                   <h3 className={styles.programTitle}>{stripHtml(p.title)}</h3>
-                  <p className={styles.programDesc}>{stripHtml(p.desc)}</p>
+                  <p
+                    className={styles.programDesc}
+                    dangerouslySetInnerHTML={{ __html: p.desc }}
+                  />
                   <div className={styles.programMeta}>
                     <div>
                       <span className={styles.metaLabel}>Duration:</span>{" "}
@@ -1904,7 +2274,7 @@ export default function TwoHundredHourYoga() {
                       </strong>
                     </div>
                   </div>
-                  <a href="#" className={styles.learnMoreBtn}>
+                  <a href="#dates-fees" className={styles.learnMoreBtn}>
                     Learn More →
                   </a>
                 </div>
@@ -1914,11 +2284,11 @@ export default function TwoHundredHourYoga() {
         </section>
       ) : null}
 
-      {/* ════ REQUIREMENTS / KNOW QA ════ */}
+      {/* ════ WHAT YOU NEED TO KNOW ════ */}
       {content?.knowQA?.length ? (
         <section className={styles.contentSection}>
           <VintageHeading>
-            {content?.whatYouNeedH2 || "Requirements & Information"}
+            {content?.whatYouNeedH2 || "What You Need to Know"}
           </VintageHeading>
           <div className={styles.requirementsTextFull}>
             {content.knowQA.map((item, i) => (
@@ -1937,42 +2307,36 @@ export default function TwoHundredHourYoga() {
         </section>
       ) : null}
 
-      {/* ════ HOW TO BOOK + FAQ ════ */}
+      {/* ════ HOW TO BOOK ════ */}
       <section className={styles.contentSection}>
-        {/* Booking Steps heading from backend */}
         {content?.bookingH2 && (
           <VintageHeading>{content.bookingH2}</VintageHeading>
         )}
-
-        <div className={styles.bookingSteps}>
-          {[1, 2, 3, 4].map((i) => {
-            const title =
-              (content as any)?.[`bookingStep${i}Title`] ||
-              (content as any)?.[`step${i}Title`];
-            const desc = (content as any)?.[`bookingStep${i}Desc`];
-
-            if (!title && !desc) return null;
-
-            return (
+        {bookingSteps.length > 0 && (
+          <div className={styles.bookingSteps}>
+            {bookingSteps.map((step, i) => (
               <div key={i} className={styles.bookingStep}>
                 <div className={styles.bookingStepIconWrap}>
-                  <span className={styles.bookingStepIcon}>
-                    {["📝", "💳", "📩", "🧘"][i - 1]}
-                  </span>
+                  <span className={styles.bookingStepIcon}>{step.icon}</span>
                 </div>
                 <div className={styles.bookingStepCard}>
-                  <div className={styles.bookingStepNum}>Step {i}</div>
-                  <div className={styles.bookingStepTitle}>{title}</div>
-                  <div
-                    className={styles.bookingStepText}
-                    dangerouslySetInnerHTML={{ __html: desc || "" }}
-                  />
+                  <div className={styles.bookingStepNum}>Step {i + 1}</div>
+                  {step.title && (
+                    <div className={styles.bookingStepTitle}>{step.title}</div>
+                  )}
+                  {step.desc && (
+                    <div
+                      className={styles.bookingStepText}
+                      dangerouslySetInnerHTML={{ __html: step.desc }}
+                    />
+                  )}
                 </div>
               </div>
-            );
-          })}
-        </div>
+            ))}
+          </div>
+        )}
 
+        {/* ════ FAQ ════ */}
         {content?.faqItems?.length ? (
           <>
             <VintageHeading>
