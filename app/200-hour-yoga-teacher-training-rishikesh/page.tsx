@@ -2084,7 +2084,7 @@ export default function TwoHundredHourYoga() {
             <div
               style={{
                 display: "grid",
-                gridTemplateColumns: "1fr 1fr",
+                gridTemplateColumns: "3fr 1fr",
                 gap: "1.5rem",
                 alignItems: "start",
                 marginTop: "1.5rem",
