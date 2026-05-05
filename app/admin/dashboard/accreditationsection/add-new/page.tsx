@@ -20,7 +20,6 @@ interface CertItem {
   alt: string;
   imagePreview?: string;
   image?: File | string;
-  // Award-specific fields
   descPara1?: string;
   descPara2?: string;
   metaPoint1?: string;
@@ -113,14 +112,10 @@ export default function AddAccreditationSectionPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [mainImageFile, setMainImageFile] = useState<File | null>(null);
-
   const [courseCertFiles, setCourseCertFiles] = useState<(File | null)[]>([
     null,
   ]);
-  const [awardCertFiles, setAwardCertFiles] = useState<(File | null)[]>([
-    null,
-  ]);
-
+  const [awardCertFiles, setAwardCertFiles] = useState<(File | null)[]>([null]);
   const [activeTab, setActiveTab] = useState<
     "auth" | "video" | "recognition" | "certs"
   >("auth");
@@ -146,6 +141,7 @@ export default function AddAccreditationSectionPage() {
     append: appendCourseCert,
     remove: removeCourseCert,
   } = useFieldArray({ control, name: "courseCerts" });
+
   const {
     fields: awardCertFields,
     append: appendAwardCert,
@@ -177,8 +173,8 @@ export default function AddAccreditationSectionPage() {
         current.map((cert, i) =>
           i === index
             ? { ...cert, imagePreview: e.target?.result as string }
-            : cert
-        )
+            : cert,
+        ),
       );
     };
     reader.readAsDataURL(file);
@@ -199,8 +195,8 @@ export default function AddAccreditationSectionPage() {
         current.map((cert, i) =>
           i === index
             ? { ...cert, imagePreview: e.target?.result as string }
-            : cert
-        )
+            : cert,
+        ),
       );
     };
     reader.readAsDataURL(file);
@@ -230,13 +226,29 @@ export default function AddAccreditationSectionPage() {
     setAwardCertFiles((prev) => prev.filter((_, i) => i !== index));
   };
 
+  /* ─────────────────────── Tab Navigation ─────────────────────── */
+  const tabOrder = ["auth", "video", "recognition", "certs"] as const;
+
+  const goNext = () => {
+    const currentIndex = tabOrder.indexOf(activeTab);
+    if (currentIndex < tabOrder.length - 1) {
+      setActiveTab(tabOrder[currentIndex + 1]);
+    }
+  };
+
+  const goPrev = () => {
+    const currentIndex = tabOrder.indexOf(activeTab);
+    if (currentIndex > 0) {
+      setActiveTab(tabOrder[currentIndex - 1]);
+    }
+  };
+
   /* ─────────────────────── Submit ─────────────────────── */
   const onSubmit = async (data: FormData) => {
     try {
       setIsSubmitting(true);
       const formData = new FormData();
 
-      // Text fields
       Object.entries(data).forEach(([key, value]) => {
         if (
           ![
@@ -250,15 +262,13 @@ export default function AddAccreditationSectionPage() {
         }
       });
 
-      // Certs as JSON (strip imagePreview)
       formData.append(
         "courseCerts",
         JSON.stringify(
-          data.courseCerts.map(({ label, tag, alt }) => ({ label, tag, alt }))
-        )
+          data.courseCerts.map(({ label, tag, alt }) => ({ label, tag, alt })),
+        ),
       );
 
-      // Awards as JSON (include all award-specific fields, strip imagePreview)
       formData.append(
         "awardCerts",
         JSON.stringify(
@@ -291,15 +301,13 @@ export default function AddAccreditationSectionPage() {
               ayushSubtitle,
               ayushCourses,
               ayushFooter,
-            })
-          )
-        )
+            }),
+          ),
+        ),
       );
 
-      // Main image
       if (mainImageFile) formData.append("mainImage", mainImageFile);
 
-      // Course cert images
       const courseCertIndexList: number[] = [];
       courseCertFiles.forEach((file, idx) => {
         if (file) {
@@ -310,11 +318,10 @@ export default function AddAccreditationSectionPage() {
       if (courseCertIndexList.length > 0) {
         formData.append(
           "courseCertImageIndexes",
-          courseCertIndexList.join(",")
+          courseCertIndexList.join(","),
         );
       }
 
-      // Award cert images
       const awardCertIndexList: number[] = [];
       awardCertFiles.forEach((file, idx) => {
         if (file) {
@@ -327,11 +334,10 @@ export default function AddAccreditationSectionPage() {
       }
 
       await api.post("/accreditation", formData);
-
       setSubmitted(true);
       setTimeout(
         () => router.push("/admin/dashboard/accreditationsection"),
-        1500
+        1500,
       );
     } catch (error: any) {
       alert(error?.response?.data?.message || "Failed to save");
@@ -374,15 +380,13 @@ export default function AddAccreditationSectionPage() {
     certs: !!(errors.courseCerts || errors.awardCerts),
   };
 
-  /* ─────────────────────── Reusable Course Cert Cards Block ─────────────────────── */
+  /* ─────────────────────── Course Cert Cards ─────────────────────── */
   const renderCourseCertCards = () => (
     <div className={styles.sectionBlock}>
       <div className={styles.sectionHeader}>
         <span className={styles.sectionIcon}>✦</span>
         <h3 className={styles.sectionTitle}>Course Certificates</h3>
-        <span className={styles.sectionBadge}>
-          {courseCertFields.length}/4
-        </span>
+        <span className={styles.sectionBadge}>{courseCertFields.length}/4</span>
       </div>
       <p className={styles.fieldHint} style={{ marginBottom: "1rem" }}>
         Clickable course certificate cards shown in the recognition grid (max 4)
@@ -467,7 +471,9 @@ export default function AddAccreditationSectionPage() {
                       <span className={styles.labelIcon}>✦</span>Tag
                       <span className={styles.required}>*</span>
                     </label>
-                    <p className={styles.fieldHint}>Small tag chip above label</p>
+                    <p className={styles.fieldHint}>
+                      Small tag chip above label
+                    </p>
                     <div className={styles.inputWrap}>
                       <input
                         type="text"
@@ -510,18 +516,14 @@ export default function AddAccreditationSectionPage() {
       </div>
 
       {courseCertFields.length < 4 && (
-        <button
-          type="button"
-          className={styles.addBtn}
-          onClick={addCourseCert}
-        >
+        <button type="button" className={styles.addBtn} onClick={addCourseCert}>
           + Add Course Certificate
         </button>
       )}
     </div>
   );
 
-  /* ─────────────────────── Award Cert Cards Block (with all static fields) ─────────────────────── */
+  /* ─────────────────────── Award Cert Cards ─────────────────────── */
   const renderAwardCertCards = () => (
     <div className={styles.sectionBlock}>
       <div className={styles.sectionHeader}>
@@ -551,7 +553,6 @@ export default function AddAccreditationSectionPage() {
             </div>
 
             <div className={styles.certCardBody}>
-              {/* Image upload */}
               <div className={styles.certImageUpload}>
                 <label
                   className={`${styles.uploadArea} ${styles.uploadAreaSm}`}
@@ -583,7 +584,6 @@ export default function AddAccreditationSectionPage() {
               </div>
 
               <div className={styles.certFields}>
-                {/* Label & Tag */}
                 <div className={styles.twoCol}>
                   <div className={styles.fieldGroup}>
                     <label className={styles.label}>
@@ -613,7 +613,9 @@ export default function AddAccreditationSectionPage() {
                       <span className={styles.labelIcon}>✦</span>Tag
                       <span className={styles.required}>*</span>
                     </label>
-                    <p className={styles.fieldHint}>Badge chip (e.g. Govt. Accredited)</p>
+                    <p className={styles.fieldHint}>
+                      Badge chip (e.g. Govt. Accredited)
+                    </p>
                     <div className={styles.inputWrap}>
                       <input
                         type="text"
@@ -632,7 +634,6 @@ export default function AddAccreditationSectionPage() {
                   </div>
                 </div>
 
-                {/* Alt Text */}
                 <div className={styles.fieldGroup}>
                   <label className={styles.label}>
                     <span className={styles.labelIcon}>✦</span>Alt Text
@@ -665,8 +666,7 @@ export default function AddAccreditationSectionPage() {
               <div className={styles.fieldGroup}>
                 <label className={styles.label}>
                   <span className={styles.labelIcon}>✦</span>Description
-                  Paragraph 1
-                  <span className={styles.required}>*</span>
+                  Paragraph 1<span className={styles.required}>*</span>
                 </label>
                 <p className={styles.fieldHint}>
                   Main recognition description shown beside the award image
@@ -688,8 +688,7 @@ export default function AddAccreditationSectionPage() {
                   <span
                     className={`${styles.charCount} ${styles.charCountBottom}`}
                   >
-                    {watchAllFields.awardCerts?.[index]?.descPara1?.length ||
-                      0}
+                    {watchAllFields.awardCerts?.[index]?.descPara1?.length || 0}
                     /400
                   </span>
                 </div>
@@ -719,65 +718,77 @@ export default function AddAccreditationSectionPage() {
                   <span
                     className={`${styles.charCount} ${styles.charCountBottom}`}
                   >
-                    {watchAllFields.awardCerts?.[index]?.descPara2?.length ||
-                      0}
+                    {watchAllFields.awardCerts?.[index]?.descPara2?.length || 0}
                     /400
                   </span>
                 </div>
               </div>
 
               {/* ── META POINTS ── */}
-              <div className={styles.awardExtraHeader} style={{ marginTop: "1.2rem" }}>
+              <div
+                className={styles.awardExtraHeader}
+                style={{ marginTop: "1.2rem" }}
+              >
                 <span className={styles.awardExtraIcon}>✅</span>
                 <h4 className={styles.awardExtraTitle}>
                   Meta Points (Bullet List)
                 </h4>
               </div>
-              <p className={styles.fieldHint} style={{ marginBottom: "0.8rem" }}>
+              <p
+                className={styles.fieldHint}
+                style={{ marginBottom: "0.8rem" }}
+              >
                 4 bullet points shown as key highlights below the description
               </p>
 
-              {(["metaPoint1", "metaPoint2", "metaPoint3", "metaPoint4"] as const).map(
-                (pointKey, pi) => (
-                  <div className={styles.fieldGroup} key={pointKey}>
-                    <label className={styles.label}>
-                      <span className={styles.labelIcon}>✦</span>Point{" "}
-                      {pi + 1}
-                      <span className={styles.required}>*</span>
-                    </label>
-                    <div className={styles.inputWrap}>
-                      <input
-                        type="text"
-                        className={styles.input}
-                        placeholder={
-                          [
-                            "e.g. Accredited by the Ministry of AYUSH, Govt. of India",
-                            "e.g. Courses aligned with National Curriculum Framework for Yoga",
-                            "e.g. Certifications recognized across India & internationally",
-                            "e.g. Over 5,000+ certified yoga professionals trained",
-                          ][pi]
-                        }
-                        maxLength={120}
-                        {...register(`awardCerts.${index}.${pointKey}`, {
-                          required: `Meta point ${pi + 1} is required`,
-                          maxLength: {
-                            value: 120,
-                            message: "Maximum 120 characters",
-                          },
-                        })}
-                      />
-                      <span className={styles.charCount}>
-                        {watchAllFields.awardCerts?.[index]?.[pointKey]
-                          ?.length || 0}
-                        /120
-                      </span>
-                    </div>
+              {(
+                [
+                  "metaPoint1",
+                  "metaPoint2",
+                  "metaPoint3",
+                  "metaPoint4",
+                ] as const
+              ).map((pointKey, pi) => (
+                <div className={styles.fieldGroup} key={pointKey}>
+                  <label className={styles.label}>
+                    <span className={styles.labelIcon}>✦</span>Point {pi + 1}
+                    <span className={styles.required}>*</span>
+                  </label>
+                  <div className={styles.inputWrap}>
+                    <input
+                      type="text"
+                      className={styles.input}
+                      placeholder={
+                        [
+                          "e.g. Accredited by the Ministry of AYUSH, Govt. of India",
+                          "e.g. Courses aligned with National Curriculum Framework for Yoga",
+                          "e.g. Certifications recognized across India & internationally",
+                          "e.g. Over 5,000+ certified yoga professionals trained",
+                        ][pi]
+                      }
+                      maxLength={120}
+                      {...register(`awardCerts.${index}.${pointKey}`, {
+                        required: `Meta point ${pi + 1} is required`,
+                        maxLength: {
+                          value: 120,
+                          message: "Maximum 120 characters",
+                        },
+                      })}
+                    />
+                    <span className={styles.charCount}>
+                      {watchAllFields.awardCerts?.[index]?.[pointKey]?.length ||
+                        0}
+                      /120
+                    </span>
                   </div>
-                )
-              )}
+                </div>
+              ))}
 
               {/* ── PULL QUOTE ── */}
-              <div className={styles.fieldGroup} style={{ marginTop: "0.5rem" }}>
+              <div
+                className={styles.fieldGroup}
+                style={{ marginTop: "0.5rem" }}
+              >
                 <label className={styles.label}>
                   <span className={styles.labelIcon}>✦</span>Pull Quote
                   <span className={styles.required}>*</span>
@@ -848,8 +859,10 @@ export default function AddAccreditationSectionPage() {
                 </div>
               </div>
 
-              {/* 6 AYUSH Courses */}
-              <p className={styles.fieldHint} style={{ marginBottom: "0.8rem" }}>
+              <p
+                className={styles.fieldHint}
+                style={{ marginBottom: "0.8rem" }}
+              >
                 6 AYUSH course boxes — each has an icon (emoji), level label,
                 and course name
               </p>
@@ -875,7 +888,7 @@ export default function AddAccreditationSectionPage() {
                           placeholder="🧘"
                           maxLength={4}
                           {...register(
-                            `awardCerts.${index}.ayushCourses.${courseIndex}.icon`
+                            `awardCerts.${index}.ayushCourses.${courseIndex}.icon`,
                           )}
                         />
                       </div>
@@ -894,13 +907,18 @@ export default function AddAccreditationSectionPage() {
                           maxLength={20}
                           {...register(
                             `awardCerts.${index}.ayushCourses.${courseIndex}.level`,
-                            { required: "Level is required" }
+                            {
+                              required: "Level is required",
+                            },
                           )}
                         />
                       </div>
                     </div>
 
-                    <div className={styles.fieldGroup} style={{ marginBottom: 0 }}>
+                    <div
+                      className={styles.fieldGroup}
+                      style={{ marginBottom: 0 }}
+                    >
                       <label className={styles.label}>
                         <span className={styles.labelIcon}>✦</span>Course Name
                         <span className={styles.required}>*</span>
@@ -913,7 +931,9 @@ export default function AddAccreditationSectionPage() {
                           maxLength={60}
                           {...register(
                             `awardCerts.${index}.ayushCourses.${courseIndex}.name`,
-                            { required: "Course name is required" }
+                            {
+                              required: "Course name is required",
+                            },
                           )}
                         />
                       </div>
@@ -922,15 +942,16 @@ export default function AddAccreditationSectionPage() {
                 ))}
               </div>
 
-              {/* AYUSH Footer */}
-              <div className={styles.fieldGroup} style={{ marginTop: "1.2rem" }}>
+              <div
+                className={styles.fieldGroup}
+                style={{ marginTop: "1.2rem" }}
+              >
                 <label className={styles.label}>
                   <span className={styles.labelIcon}>✦</span>AYUSH Footer Text
                   <span className={styles.required}>*</span>
                 </label>
                 <p className={styles.fieldHint}>
-                  Text shown at the bottom of the AYUSH courses column (e.g.
-                  global recognition note)
+                  Text shown at the bottom of the AYUSH courses column
                 </p>
                 <div className={styles.inputWrap}>
                   <textarea
@@ -956,7 +977,6 @@ export default function AddAccreditationSectionPage() {
                 </div>
               </div>
             </div>
-            {/* END AYUSH BLOCK */}
           </div>
         ))}
       </div>
@@ -969,14 +989,13 @@ export default function AddAccreditationSectionPage() {
     </div>
   );
 
+  /* ─────────────────────── RENDER ─────────────────────── */
   return (
     <div className={styles.page}>
       <div className={styles.breadcrumb}>
         <button
           className={styles.breadcrumbLink}
-          onClick={() =>
-            router.push("/admin/dashboard/accreditationsection")
-          }
+          onClick={() => router.push("/admin/dashboard/accreditationsection")}
         >
           Accreditation
         </button>
@@ -1012,6 +1031,7 @@ export default function AddAccreditationSectionPage() {
           return (
             <button
               key={tab}
+              type="button"
               className={`${styles.tabBtn} ${activeTab === tab ? styles.tabBtnActive : ""} ${tabErrors[tab] ? styles.tabBtnError : ""}`}
               onClick={() => setActiveTab(tab)}
             >
@@ -1022,8 +1042,10 @@ export default function AddAccreditationSectionPage() {
         })}
       </div>
 
+      {/* ── KEY FIX: form kabhi khud submit nahi hoga ── */}
+      {/* ── Sirf "Save Section" button ke onClick se API call hogi ── */}
       <div className={styles.formCard}>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={(e) => e.preventDefault()}>
           {/* ══════════ TAB 1 — AUTH SECTION ══════════ */}
           {activeTab === "auth" && (
             <>
@@ -1418,8 +1440,7 @@ export default function AddAccreditationSectionPage() {
                 <div className={styles.twoCol}>
                   <div className={styles.fieldGroup}>
                     <label className={styles.label}>
-                      <span className={styles.labelIcon}>✦</span>CTA Button
-                      Text
+                      <span className={styles.labelIcon}>✦</span>CTA Button Text
                       <span className={styles.required}>*</span>
                     </label>
                     <p className={styles.fieldHint}>
@@ -1454,8 +1475,7 @@ export default function AddAccreditationSectionPage() {
 
                   <div className={styles.fieldGroup}>
                     <label className={styles.label}>
-                      <span className={styles.labelIcon}>✦</span>CTA Button
-                      Link
+                      <span className={styles.labelIcon}>✦</span>CTA Button Link
                       <span className={styles.required}>*</span>
                     </label>
                     <p className={styles.fieldHint}>URL or path</p>
@@ -1612,7 +1632,7 @@ export default function AddAccreditationSectionPage() {
 
           <div className={styles.formDivider} />
 
-          {/* Actions */}
+          {/* ── Actions ── */}
           <div className={styles.formActions}>
             <Link
               href="/admin/dashboard/accreditationsection"
@@ -1620,39 +1640,34 @@ export default function AddAccreditationSectionPage() {
             >
               ← Cancel
             </Link>
+
             <div className={styles.actionsRight}>
               {activeTab !== "auth" && (
                 <button
                   type="button"
                   className={styles.prevBtn}
-                  onClick={() => {
-                    const order = ["auth", "video", "recognition", "certs"];
-                    setActiveTab(
-                      order[order.indexOf(activeTab) - 1] as any
-                    );
-                  }}
+                  onClick={goPrev}
                 >
                   ← Previous
                 </button>
               )}
+
               {activeTab !== "certs" ? (
+                /* ── NEXT button — sirf tab change karta hai, submit nahi ── */
                 <button
                   type="button"
                   className={styles.nextBtn}
-                  onClick={() => {
-                    const order = ["auth", "video", "recognition", "certs"];
-                    setActiveTab(
-                      order[order.indexOf(activeTab) + 1] as any
-                    );
-                  }}
+                  onClick={goNext}
                 >
                   Next →
                 </button>
               ) : (
+                /* ── SUBMIT button — sirf yahan click karne par hi API call hogi ── */
                 <button
-                  type="submit"
+                  type="button"
                   className={`${styles.submitBtn} ${isSubmitting ? styles.submitBtnLoading : ""}`}
                   disabled={isSubmitting}
+                  onClick={handleSubmit(onSubmit)}
                 >
                   {isSubmitting ? (
                     <>

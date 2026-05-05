@@ -26,7 +26,6 @@ interface CertItem {
   alt: string;
   image?: string;
   imagePreview?: string;
-  // Award-specific fields
   descPara1?: string;
   descPara2?: string;
   metaPoint1?: string;
@@ -105,7 +104,6 @@ export default function EditAccreditationSectionPage() {
     "auth" | "video" | "recognition" | "certs"
   >("auth");
   const [mainImageFile, setMainImageFile] = useState<File | null>(null);
-
   const [courseCertFiles, setCourseCertFiles] = useState<(File | null)[]>([]);
   const [awardCertFiles, setAwardCertFiles] = useState<(File | null)[]>([]);
 
@@ -150,6 +148,7 @@ export default function EditAccreditationSectionPage() {
     append: appendCourseCert,
     remove: removeCourseCert,
   } = useFieldArray({ control, name: "courseCerts" });
+
   const {
     fields: awardCertFields,
     append: appendAwardCert,
@@ -171,7 +170,6 @@ export default function EditAccreditationSectionPage() {
             imagePreview: cert.image ? getImageUrl(cert.image) : "",
           }));
 
-        // For award certs, also merge default AYUSH structure if missing
         const mapAwardCerts = (arr: CertItem[]) =>
           (arr || []).map((cert) => ({
             ...EMPTY_AWARD_CERT,
@@ -314,7 +312,6 @@ export default function EditAccreditationSectionPage() {
       setIsSubmitting(true);
       const formData = new FormData();
 
-      // Text fields
       const textFields: (keyof FormData)[] = [
         "sectionTitle",
         "authPara1",
@@ -339,7 +336,6 @@ export default function EditAccreditationSectionPage() {
           formData.append(field, String(val));
       });
 
-      // Course certs — keep existing image path, strip imagePreview
       const mapCourseCertsForSave = (arr: CertItem[]) =>
         arr.map(({ label, tag, alt, image }) => ({
           label,
@@ -348,7 +344,6 @@ export default function EditAccreditationSectionPage() {
           image: image || "",
         }));
 
-      // Award certs — include all award-specific fields, strip imagePreview
       const mapAwardCertsForSave = (arr: CertItem[]) =>
         arr.map(
           ({
@@ -393,10 +388,8 @@ export default function EditAccreditationSectionPage() {
         JSON.stringify(mapAwardCertsForSave(data.awardCerts))
       );
 
-      // Main image
       if (mainImageFile) formData.append("mainImage", mainImageFile);
 
-      // Course cert images
       const courseCertIndexList: number[] = [];
       courseCertFiles.forEach((file, idx) => {
         if (file) {
@@ -405,13 +398,9 @@ export default function EditAccreditationSectionPage() {
         }
       });
       if (courseCertIndexList.length > 0) {
-        formData.append(
-          "courseCertImageIndexes",
-          courseCertIndexList.join(",")
-        );
+        formData.append("courseCertImageIndexes", courseCertIndexList.join(","));
       }
 
-      // Award cert images
       const awardCertIndexList: number[] = [];
       awardCertFiles.forEach((file, idx) => {
         if (file) {
@@ -420,10 +409,7 @@ export default function EditAccreditationSectionPage() {
         }
       });
       if (awardCertIndexList.length > 0) {
-        formData.append(
-          "awardCertImageIndexes",
-          awardCertIndexList.join(",")
-        );
+        formData.append("awardCertImageIndexes", awardCertIndexList.join(","));
       }
 
       await api.put(`/accreditation/${id}`, formData);
@@ -442,6 +428,23 @@ export default function EditAccreditationSectionPage() {
     }
   };
 
+  /* ─────────────────────── Tab Navigation ─────────────────────── */
+  const tabOrder = ["auth", "video", "recognition", "certs"] as const;
+
+  const goNext = () => {
+    const currentIndex = tabOrder.indexOf(activeTab);
+    if (currentIndex < tabOrder.length - 1) {
+      setActiveTab(tabOrder[currentIndex + 1]);
+    }
+  };
+
+  const goPrev = () => {
+    const currentIndex = tabOrder.indexOf(activeTab);
+    if (currentIndex > 0) {
+      setActiveTab(tabOrder[currentIndex - 1]);
+    }
+  };
+
   /* ─────────────────────── Loading / Success ─────────────────────── */
   if (loading) {
     return (
@@ -449,9 +452,7 @@ export default function EditAccreditationSectionPage() {
         <div className={styles.breadcrumb}>
           <button
             className={styles.breadcrumbLink}
-            onClick={() =>
-              router.push("/admin/dashboard/accreditationsection")
-            }
+            onClick={() => router.push("/admin/dashboard/accreditationsection")}
           >
             Accreditation
           </button>
@@ -514,9 +515,7 @@ export default function EditAccreditationSectionPage() {
       <div className={styles.sectionHeader}>
         <span className={styles.sectionIcon}>✦</span>
         <h3 className={styles.sectionTitle}>Course Certificates</h3>
-        <span className={styles.sectionBadge}>
-          {courseCertFields.length}/4
-        </span>
+        <span className={styles.sectionBadge}>{courseCertFields.length}/4</span>
       </div>
       <p className={styles.fieldHint} style={{ marginBottom: "1rem" }}>
         Clickable course certificate cards shown in the recognition grid (max 4)
@@ -542,9 +541,7 @@ export default function EditAccreditationSectionPage() {
 
             <div className={styles.certCardBody}>
               <div className={styles.certImageUpload}>
-                <label
-                  className={`${styles.uploadArea} ${styles.uploadAreaSm}`}
-                >
+                <label className={`${styles.uploadArea} ${styles.uploadAreaSm}`}>
                   <input
                     type="file"
                     accept="image/*"
@@ -562,12 +559,8 @@ export default function EditAccreditationSectionPage() {
                   ) : (
                     <>
                       <span className={styles.uploadIcon}>🏅</span>
-                      <span className={styles.uploadText}>
-                        Upload / Replace Image
-                      </span>
-                      <span className={styles.uploadSubtext}>
-                        JPG, PNG, WEBP
-                      </span>
+                      <span className={styles.uploadText}>Upload / Replace Image</span>
+                      <span className={styles.uploadSubtext}>JPG, PNG, WEBP</span>
                     </>
                   )}
                 </label>
@@ -636,18 +629,14 @@ export default function EditAccreditationSectionPage() {
       </div>
 
       {courseCertFields.length < 4 && (
-        <button
-          type="button"
-          className={styles.addBtn}
-          onClick={addCourseCert}
-        >
+        <button type="button" className={styles.addBtn} onClick={addCourseCert}>
           + Add Course Certificate
         </button>
       )}
     </div>
   );
 
-  /* ─────────────────────── Award Cert Cards (with all static fields) ─────────────────────── */
+  /* ─────────────────────── Award Cert Cards ─────────────────────── */
   const renderAwardCertCards = () => (
     <div className={styles.sectionBlock}>
       <div className={styles.sectionHeader}>
@@ -656,8 +645,7 @@ export default function EditAccreditationSectionPage() {
         <span className={styles.sectionBadge}>{awardCertFields.length}/4</span>
       </div>
       <p className={styles.fieldHint} style={{ marginBottom: "1rem" }}>
-        Award cards with full description, AYUSH courses grid and meta points
-        (max 4)
+        Award cards with full description, AYUSH courses grid and meta points (max 4)
       </p>
 
       <div className={styles.certsList}>
@@ -676,12 +664,9 @@ export default function EditAccreditationSectionPage() {
               </button>
             </div>
 
-            {/* Image + Label/Tag/Alt */}
             <div className={styles.certCardBody}>
               <div className={styles.certImageUpload}>
-                <label
-                  className={`${styles.uploadArea} ${styles.uploadAreaSm}`}
-                >
+                <label className={`${styles.uploadArea} ${styles.uploadAreaSm}`}>
                   <input
                     type="file"
                     accept="image/*"
@@ -699,12 +684,8 @@ export default function EditAccreditationSectionPage() {
                   ) : (
                     <>
                       <span className={styles.uploadIcon}>🏅</span>
-                      <span className={styles.uploadText}>
-                        Upload / Replace Image
-                      </span>
-                      <span className={styles.uploadSubtext}>
-                        JPG, PNG, WEBP
-                      </span>
+                      <span className={styles.uploadText}>Upload / Replace Image</span>
+                      <span className={styles.uploadSubtext}>JPG, PNG, WEBP</span>
                     </>
                   )}
                 </label>
@@ -736,9 +717,7 @@ export default function EditAccreditationSectionPage() {
                       <span className={styles.labelIcon}>✦</span>Tag
                       <span className={styles.required}>*</span>
                     </label>
-                    <p className={styles.fieldHint}>
-                      Badge chip (e.g. Govt. Accredited)
-                    </p>
+                    <p className={styles.fieldHint}>Badge chip (e.g. Govt. Accredited)</p>
                     <div className={styles.inputWrap}>
                       <input
                         type="text"
@@ -757,9 +736,7 @@ export default function EditAccreditationSectionPage() {
                   <label className={styles.label}>
                     <span className={styles.labelIcon}>✦</span>Alt Text
                   </label>
-                  <p className={styles.fieldHint}>
-                    Accessibility & SEO description
-                  </p>
+                  <p className={styles.fieldHint}>Accessibility & SEO description</p>
                   <div className={styles.inputWrap}>
                     <input
                       type="text"
@@ -777,15 +754,12 @@ export default function EditAccreditationSectionPage() {
             <div className={styles.awardExtraBlock}>
               <div className={styles.awardExtraHeader}>
                 <span className={styles.awardExtraIcon}>📝</span>
-                <h4 className={styles.awardExtraTitle}>
-                  Description (Middle Column)
-                </h4>
+                <h4 className={styles.awardExtraTitle}>Description (Middle Column)</h4>
               </div>
 
               <div className={styles.fieldGroup}>
                 <label className={styles.label}>
-                  <span className={styles.labelIcon}>✦</span>Description
-                  Paragraph 1
+                  <span className={styles.labelIcon}>✦</span>Description Paragraph 1
                   <span className={styles.required}>*</span>
                 </label>
                 <p className={styles.fieldHint}>
@@ -799,26 +773,18 @@ export default function EditAccreditationSectionPage() {
                     rows={3}
                     {...register(`awardCerts.${index}.descPara1`, {
                       required: "Description paragraph 1 is required",
-                      maxLength: {
-                        value: 400,
-                        message: "Maximum 400 characters",
-                      },
+                      maxLength: { value: 400, message: "Maximum 400 characters" },
                     })}
                   />
-                  <span
-                    className={`${styles.charCount} ${styles.charCountBottom}`}
-                  >
-                    {watchAllFields.awardCerts?.[index]?.descPara1?.length ||
-                      0}
-                    /400
+                  <span className={`${styles.charCount} ${styles.charCountBottom}`}>
+                    {watchAllFields.awardCerts?.[index]?.descPara1?.length || 0}/400
                   </span>
                 </div>
               </div>
 
               <div className={styles.fieldGroup}>
                 <label className={styles.label}>
-                  <span className={styles.labelIcon}>✦</span>Description
-                  Paragraph 2
+                  <span className={styles.labelIcon}>✦</span>Description Paragraph 2
                 </label>
                 <p className={styles.fieldHint}>
                   Supporting paragraph about commitment and certification
@@ -830,81 +796,56 @@ export default function EditAccreditationSectionPage() {
                     maxLength={400}
                     rows={3}
                     {...register(`awardCerts.${index}.descPara2`, {
-                      maxLength: {
-                        value: 400,
-                        message: "Maximum 400 characters",
-                      },
+                      maxLength: { value: 400, message: "Maximum 400 characters" },
                     })}
                   />
-                  <span
-                    className={`${styles.charCount} ${styles.charCountBottom}`}
-                  >
-                    {watchAllFields.awardCerts?.[index]?.descPara2?.length ||
-                      0}
-                    /400
+                  <span className={`${styles.charCount} ${styles.charCountBottom}`}>
+                    {watchAllFields.awardCerts?.[index]?.descPara2?.length || 0}/400
                   </span>
                 </div>
               </div>
 
               {/* ── META POINTS ── */}
-              <div
-                className={styles.awardExtraHeader}
-                style={{ marginTop: "1.2rem" }}
-              >
+              <div className={styles.awardExtraHeader} style={{ marginTop: "1.2rem" }}>
                 <span className={styles.awardExtraIcon}>✅</span>
-                <h4 className={styles.awardExtraTitle}>
-                  Meta Points (Bullet List)
-                </h4>
+                <h4 className={styles.awardExtraTitle}>Meta Points (Bullet List)</h4>
               </div>
-              <p
-                className={styles.fieldHint}
-                style={{ marginBottom: "0.8rem" }}
-              >
+              <p className={styles.fieldHint} style={{ marginBottom: "0.8rem" }}>
                 4 bullet points shown as key highlights below the description
               </p>
 
-              {(
-                [
-                  "metaPoint1",
-                  "metaPoint2",
-                  "metaPoint3",
-                  "metaPoint4",
-                ] as const
-              ).map((pointKey, pi) => (
-                <div className={styles.fieldGroup} key={pointKey}>
-                  <label className={styles.label}>
-                    <span className={styles.labelIcon}>✦</span>Point {pi + 1}
-                    <span className={styles.required}>*</span>
-                  </label>
-                  <div className={styles.inputWrap}>
-                    <input
-                      type="text"
-                      className={styles.input}
-                      placeholder={
-                        [
-                          "e.g. Accredited by the Ministry of AYUSH, Govt. of India",
-                          "e.g. Courses aligned with National Curriculum Framework for Yoga",
-                          "e.g. Certifications recognized across India & internationally",
-                          "e.g. Over 5,000+ certified yoga professionals trained",
-                        ][pi]
-                      }
-                      maxLength={120}
-                      {...register(`awardCerts.${index}.${pointKey}`, {
-                        required: `Meta point ${pi + 1} is required`,
-                        maxLength: {
-                          value: 120,
-                          message: "Maximum 120 characters",
-                        },
-                      })}
-                    />
-                    <span className={styles.charCount}>
-                      {watchAllFields.awardCerts?.[index]?.[pointKey]
-                        ?.length || 0}
-                      /120
-                    </span>
+              {(["metaPoint1", "metaPoint2", "metaPoint3", "metaPoint4"] as const).map(
+                (pointKey, pi) => (
+                  <div className={styles.fieldGroup} key={pointKey}>
+                    <label className={styles.label}>
+                      <span className={styles.labelIcon}>✦</span>Point {pi + 1}
+                      <span className={styles.required}>*</span>
+                    </label>
+                    <div className={styles.inputWrap}>
+                      <input
+                        type="text"
+                        className={styles.input}
+                        placeholder={
+                          [
+                            "e.g. Accredited by the Ministry of AYUSH, Govt. of India",
+                            "e.g. Courses aligned with National Curriculum Framework for Yoga",
+                            "e.g. Certifications recognized across India & internationally",
+                            "e.g. Over 5,000+ certified yoga professionals trained",
+                          ][pi]
+                        }
+                        maxLength={120}
+                        {...register(`awardCerts.${index}.${pointKey}`, {
+                          required: `Meta point ${pi + 1} is required`,
+                          maxLength: { value: 120, message: "Maximum 120 characters" },
+                        })}
+                      />
+                      <span className={styles.charCount}>
+                        {watchAllFields.awardCerts?.[index]?.[pointKey]?.length || 0}/120
+                      </span>
+                    </div>
                   </div>
-                </div>
-              ))}
+                )
+              )}
 
               {/* ── PULL QUOTE ── */}
               <div className={styles.fieldGroup} style={{ marginTop: "0.5rem" }}>
@@ -923,16 +864,11 @@ export default function EditAccreditationSectionPage() {
                     maxLength={200}
                     {...register(`awardCerts.${index}.pullQuote`, {
                       required: "Pull quote is required",
-                      maxLength: {
-                        value: 200,
-                        message: "Maximum 200 characters",
-                      },
+                      maxLength: { value: 200, message: "Maximum 200 characters" },
                     })}
                   />
                   <span className={styles.charCount}>
-                    {watchAllFields.awardCerts?.[index]?.pullQuote?.length ||
-                      0}
-                    /200
+                    {watchAllFields.awardCerts?.[index]?.pullQuote?.length || 0}/200
                   </span>
                 </div>
               </div>
@@ -942,15 +878,12 @@ export default function EditAccreditationSectionPage() {
             <div className={styles.awardExtraBlock}>
               <div className={styles.awardExtraHeader}>
                 <span className={styles.awardExtraIcon}>🏛️</span>
-                <h4 className={styles.awardExtraTitle}>
-                  AYUSH Courses (Right Column)
-                </h4>
+                <h4 className={styles.awardExtraTitle}>AYUSH Courses (Right Column)</h4>
               </div>
 
               <div className={styles.fieldGroup}>
                 <label className={styles.label}>
-                  <span className={styles.labelIcon}>✦</span>AYUSH Section
-                  Subtitle
+                  <span className={styles.labelIcon}>✦</span>AYUSH Section Subtitle
                   <span className={styles.required}>*</span>
                 </label>
                 <p className={styles.fieldHint}>
@@ -964,35 +897,22 @@ export default function EditAccreditationSectionPage() {
                     maxLength={80}
                     {...register(`awardCerts.${index}.ayushSubtitle`, {
                       required: "AYUSH subtitle is required",
-                      maxLength: {
-                        value: 80,
-                        message: "Maximum 80 characters",
-                      },
+                      maxLength: { value: 80, message: "Maximum 80 characters" },
                     })}
                   />
                   <span className={styles.charCount}>
-                    {watchAllFields.awardCerts?.[index]?.ayushSubtitle
-                      ?.length || 0}
-                    /80
+                    {watchAllFields.awardCerts?.[index]?.ayushSubtitle?.length || 0}/80
                   </span>
                 </div>
               </div>
 
-              {/* 6 AYUSH Courses */}
-              <p
-                className={styles.fieldHint}
-                style={{ marginBottom: "0.8rem" }}
-              >
-                6 AYUSH course boxes — each has an icon (emoji), level label,
-                and course name
+              <p className={styles.fieldHint} style={{ marginBottom: "0.8rem" }}>
+                6 AYUSH course boxes — each has an icon (emoji), level label, and course name
               </p>
 
               <div className={styles.ayushCoursesGrid}>
                 {[0, 1, 2, 3, 4, 5].map((courseIndex) => (
-                  <div
-                    key={courseIndex}
-                    className={styles.ayushCourseInputCard}
-                  >
+                  <div key={courseIndex} className={styles.ayushCourseInputCard}>
                     <div className={styles.ayushCourseInputNum}>
                       Course {courseIndex + 1}
                     </div>
@@ -1033,10 +953,7 @@ export default function EditAccreditationSectionPage() {
                       </div>
                     </div>
 
-                    <div
-                      className={styles.fieldGroup}
-                      style={{ marginBottom: 0 }}
-                    >
+                    <div className={styles.fieldGroup} style={{ marginBottom: 0 }}>
                       <label className={styles.label}>
                         <span className={styles.labelIcon}>✦</span>Course Name
                         <span className={styles.required}>*</span>
@@ -1058,18 +975,13 @@ export default function EditAccreditationSectionPage() {
                 ))}
               </div>
 
-              {/* AYUSH Footer */}
-              <div
-                className={styles.fieldGroup}
-                style={{ marginTop: "1.2rem" }}
-              >
+              <div className={styles.fieldGroup} style={{ marginTop: "1.2rem" }}>
                 <label className={styles.label}>
                   <span className={styles.labelIcon}>✦</span>AYUSH Footer Text
                   <span className={styles.required}>*</span>
                 </label>
                 <p className={styles.fieldHint}>
-                  Text at the bottom of the AYUSH courses column (global
-                  recognition note)
+                  Text at the bottom of the AYUSH courses column (global recognition note)
                 </p>
                 <div className={styles.inputWrap}>
                   <textarea
@@ -1079,23 +991,15 @@ export default function EditAccreditationSectionPage() {
                     rows={2}
                     {...register(`awardCerts.${index}.ayushFooter`, {
                       required: "AYUSH footer text is required",
-                      maxLength: {
-                        value: 200,
-                        message: "Maximum 200 characters",
-                      },
+                      maxLength: { value: 200, message: "Maximum 200 characters" },
                     })}
                   />
-                  <span
-                    className={`${styles.charCount} ${styles.charCountBottom}`}
-                  >
-                    {watchAllFields.awardCerts?.[index]?.ayushFooter?.length ||
-                      0}
-                    /200
+                  <span className={`${styles.charCount} ${styles.charCountBottom}`}>
+                    {watchAllFields.awardCerts?.[index]?.ayushFooter?.length || 0}/200
                   </span>
                 </div>
               </div>
             </div>
-            {/* END AYUSH BLOCK */}
           </div>
         ))}
       </div>
@@ -1108,14 +1012,13 @@ export default function EditAccreditationSectionPage() {
     </div>
   );
 
+  /* ─────────────────────── RENDER ─────────────────────── */
   return (
     <div className={styles.page}>
       <div className={styles.breadcrumb}>
         <button
           className={styles.breadcrumbLink}
-          onClick={() =>
-            router.push("/admin/dashboard/accreditationsection")
-          }
+          onClick={() => router.push("/admin/dashboard/accreditationsection")}
         >
           Accreditation
         </button>
@@ -1150,6 +1053,7 @@ export default function EditAccreditationSectionPage() {
           return (
             <button
               key={tab}
+              type="button"
               className={`${styles.tabBtn} ${activeTab === tab ? styles.tabBtnActive : ""} ${tabErrors[tab] ? styles.tabBtnError : ""}`}
               onClick={() => setActiveTab(tab)}
             >
@@ -1160,8 +1064,11 @@ export default function EditAccreditationSectionPage() {
         })}
       </div>
 
+      {/* ── KEY FIX: form ka onSubmit sirf e.preventDefault() karta hai ── */}
+      {/* ── Actual submit sirf "Update Section" button ke onClick se hoga ── */}
       <div className={styles.formCard}>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={(e) => e.preventDefault()}>
+
           {/* ══════════ TAB 1 — AUTH SECTION ══════════ */}
           {activeTab === "auth" && (
             <>
@@ -1173,8 +1080,7 @@ export default function EditAccreditationSectionPage() {
 
                 <div className={styles.fieldGroup}>
                   <label className={styles.label}>
-                    <span className={styles.labelIcon}>✦</span>Section Title
-                    (H2)
+                    <span className={styles.labelIcon}>✦</span>Section Title (H2)
                     <span className={styles.required}>*</span>
                   </label>
                   <p className={styles.fieldHint}>
@@ -1190,22 +1096,15 @@ export default function EditAccreditationSectionPage() {
                       placeholder="e.g. Authentic, Internationally recognized Yoga Teacher Training Certification School in Rishikesh"
                       {...register("sectionTitle", {
                         required: "Section title is required",
-                        maxLength: {
-                          value: 200,
-                          message: "Maximum 200 characters",
-                        },
+                        maxLength: { value: 200, message: "Maximum 200 characters" },
                       })}
                     />
-                    <span
-                      className={`${styles.charCount} ${styles.charCountBottom}`}
-                    >
+                    <span className={`${styles.charCount} ${styles.charCountBottom}`}>
                       {watchAllFields.sectionTitle?.length || 0}/200
                     </span>
                   </div>
                   {errors.sectionTitle && (
-                    <p className={styles.errorMsg}>
-                      ⚠ {errors.sectionTitle.message}
-                    </p>
+                    <p className={styles.errorMsg}>⚠ {errors.sectionTitle.message}</p>
                   )}
                 </div>
               </div>
@@ -1215,9 +1114,7 @@ export default function EditAccreditationSectionPage() {
               <div className={styles.sectionBlock}>
                 <div className={styles.sectionHeader}>
                   <span className={styles.sectionIcon}>✦</span>
-                  <h3 className={styles.sectionTitle}>
-                    Left Column — Body Paragraphs
-                  </h3>
+                  <h3 className={styles.sectionTitle}>Left Column — Body Paragraphs</h3>
                 </div>
 
                 {(
@@ -1265,22 +1162,15 @@ export default function EditAccreditationSectionPage() {
                         rows={3}
                         {...register(name, {
                           required: `${label} is required`,
-                          maxLength: {
-                            value: 600,
-                            message: "Maximum 600 characters",
-                          },
+                          maxLength: { value: 600, message: "Maximum 600 characters" },
                         })}
                       />
-                      <span
-                        className={`${styles.charCount} ${styles.charCountBottom}`}
-                      >
+                      <span className={`${styles.charCount} ${styles.charCountBottom}`}>
                         {watchAllFields[name]?.length || 0}/600
                       </span>
                     </div>
                     {errors[name] && (
-                      <p className={styles.errorMsg}>
-                        ⚠ {errors[name].message}
-                      </p>
+                      <p className={styles.errorMsg}>⚠ {errors[name].message}</p>
                     )}
                   </div>
                 ))}
@@ -1291,28 +1181,22 @@ export default function EditAccreditationSectionPage() {
               <div className={styles.sectionBlock}>
                 <div className={styles.sectionHeader}>
                   <span className={styles.sectionIcon}>✦</span>
-                  <h3 className={styles.sectionTitle}>
-                    Right Column — Image &amp; Quote
-                  </h3>
+                  <h3 className={styles.sectionTitle}>Right Column — Image &amp; Quote</h3>
                 </div>
 
                 <div className={styles.fieldGroup}>
                   <label className={styles.label}>
-                    <span className={styles.labelIcon}>✦</span>Main Section
-                    Image
+                    <span className={styles.labelIcon}>✦</span>Main Section Image
                   </label>
                   <p className={styles.fieldHint}>
-                    Upload new image to replace existing (leave empty to keep
-                    current)
+                    Upload new image to replace existing (leave empty to keep current)
                   </p>
                   <label className={styles.uploadArea}>
                     <input
                       type="file"
                       accept="image/*"
                       className={styles.fileInput}
-                      onChange={(e) =>
-                        handleMainImage(e.target.files?.[0] || null)
-                      }
+                      onChange={(e) => handleMainImage(e.target.files?.[0] || null)}
                     />
                     {watchAllFields._mainImagePreview ? (
                       <img
@@ -1323,9 +1207,7 @@ export default function EditAccreditationSectionPage() {
                     ) : (
                       <>
                         <span className={styles.uploadIcon}>📷</span>
-                        <span className={styles.uploadText}>
-                          Click to upload new image
-                        </span>
+                        <span className={styles.uploadText}>Click to upload new image</span>
                         <span className={styles.uploadSubtext}>
                           Leave empty to keep existing — JPG, PNG, WEBP
                         </span>
@@ -1338,9 +1220,7 @@ export default function EditAccreditationSectionPage() {
                   <label className={styles.label}>
                     <span className={styles.labelIcon}>✦</span>Image Caption
                   </label>
-                  <p className={styles.fieldHint}>
-                    Small caption displayed below the image
-                  </p>
+                  <p className={styles.fieldHint}>Small caption displayed below the image</p>
                   <div className={styles.inputWrap}>
                     <input
                       type="text"
@@ -1373,10 +1253,7 @@ export default function EditAccreditationSectionPage() {
                       maxLength={120}
                       {...register("pullQuote", {
                         required: "Pull quote is required",
-                        maxLength: {
-                          value: 120,
-                          message: "Maximum 120 characters",
-                        },
+                        maxLength: { value: 120, message: "Maximum 120 characters" },
                       })}
                     />
                     <span className={styles.charCount}>
@@ -1384,9 +1261,7 @@ export default function EditAccreditationSectionPage() {
                     </span>
                   </div>
                   {errors.pullQuote && (
-                    <p className={styles.errorMsg}>
-                      ⚠ {errors.pullQuote.message}
-                    </p>
+                    <p className={styles.errorMsg}>⚠ {errors.pullQuote.message}</p>
                   )}
                 </div>
               </div>
@@ -1408,8 +1283,7 @@ export default function EditAccreditationSectionPage() {
                     <span className={styles.required}>*</span>
                   </label>
                   <p className={styles.fieldHint}>
-                    YouTube link (youtu.be or youtube.com/watch) or direct MP4
-                    URL
+                    YouTube link (youtu.be or youtube.com/watch) or direct MP4 URL
                   </p>
                   <div
                     className={`${styles.inputWrap} ${styles.inputWithPrefix} ${errors.videoSrc ? styles.inputError : ""} ${watchAllFields.videoSrc && !errors.videoSrc ? styles.inputSuccess : ""}`}
@@ -1421,17 +1295,12 @@ export default function EditAccreditationSectionPage() {
                       placeholder="https://youtu.be/... or https://…/video.mp4"
                       {...register("videoSrc", {
                         required: "Video URL is required",
-                        pattern: {
-                          value: /^https?:\/\/.+/,
-                          message: "Enter a valid URL",
-                        },
+                        pattern: { value: /^https?:\/\/.+/, message: "Enter a valid URL" },
                       })}
                     />
                   </div>
                   {errors.videoSrc && (
-                    <p className={styles.errorMsg}>
-                      ⚠ {errors.videoSrc.message}
-                    </p>
+                    <p className={styles.errorMsg}>⚠ {errors.videoSrc.message}</p>
                   )}
                   {watchAllFields.videoSrc && !errors.videoSrc && (
                     <div className={styles.videoPreviewBadge}>
@@ -1454,13 +1323,10 @@ export default function EditAccreditationSectionPage() {
 
                 <div className={styles.fieldGroup}>
                   <label className={styles.label}>
-                    <span className={styles.labelIcon}>✦</span>Immerse Title
-                    (H3)
+                    <span className={styles.labelIcon}>✦</span>Immerse Title (H3)
                     <span className={styles.required}>*</span>
                   </label>
-                  <p className={styles.fieldHint}>
-                    Heading displayed beside the video
-                  </p>
+                  <p className={styles.fieldHint}>Heading displayed beside the video</p>
                   <div
                     className={`${styles.inputWrap} ${errors.immerseTitle ? styles.inputError : ""} ${watchAllFields.immerseTitle && !errors.immerseTitle ? styles.inputSuccess : ""}`}
                   >
@@ -1471,10 +1337,7 @@ export default function EditAccreditationSectionPage() {
                       maxLength={120}
                       {...register("immerseTitle", {
                         required: "Immerse title is required",
-                        maxLength: {
-                          value: 120,
-                          message: "Maximum 120 characters",
-                        },
+                        maxLength: { value: 120, message: "Maximum 120 characters" },
                       })}
                     />
                     <span className={styles.charCount}>
@@ -1482,9 +1345,7 @@ export default function EditAccreditationSectionPage() {
                     </span>
                   </div>
                   {errors.immerseTitle && (
-                    <p className={styles.errorMsg}>
-                      ⚠ {errors.immerseTitle.message}
-                    </p>
+                    <p className={styles.errorMsg}>⚠ {errors.immerseTitle.message}</p>
                   )}
                 </div>
 
@@ -1504,22 +1365,15 @@ export default function EditAccreditationSectionPage() {
                       placeholder="Rishikesh, the Yoga Capital of the World, invites you to embark…"
                       {...register("immersePara1", {
                         required: "Paragraph 1 is required",
-                        maxLength: {
-                          value: 500,
-                          message: "Maximum 500 characters",
-                        },
+                        maxLength: { value: 500, message: "Maximum 500 characters" },
                       })}
                     />
-                    <span
-                      className={`${styles.charCount} ${styles.charCountBottom}`}
-                    >
+                    <span className={`${styles.charCount} ${styles.charCountBottom}`}>
                       {watchAllFields.immersePara1?.length || 0}/500
                     </span>
                   </div>
                   {errors.immersePara1 && (
-                    <p className={styles.errorMsg}>
-                      ⚠ {errors.immersePara1.message}
-                    </p>
+                    <p className={styles.errorMsg}>⚠ {errors.immersePara1.message}</p>
                   )}
                 </div>
 
@@ -1527,9 +1381,7 @@ export default function EditAccreditationSectionPage() {
                   <label className={styles.label}>
                     <span className={styles.labelIcon}>✦</span>Paragraph 2
                   </label>
-                  <p className={styles.fieldHint}>
-                    Breathwork, asanas, meditation — optional
-                  </p>
+                  <p className={styles.fieldHint}>Breathwork, asanas, meditation — optional</p>
                   <div className={styles.inputWrap}>
                     <textarea
                       className={`${styles.input} ${styles.textarea}`}
@@ -1538,9 +1390,7 @@ export default function EditAccreditationSectionPage() {
                       placeholder="From mastering breathwork and asanas to exploring meditation…"
                       {...register("immersePara2")}
                     />
-                    <span
-                      className={`${styles.charCount} ${styles.charCountBottom}`}
-                    >
+                    <span className={`${styles.charCount} ${styles.charCountBottom}`}>
                       {watchAllFields.immersePara2?.length || 0}/500
                     </span>
                   </div>
@@ -1549,13 +1399,10 @@ export default function EditAccreditationSectionPage() {
                 <div className={styles.twoCol}>
                   <div className={styles.fieldGroup}>
                     <label className={styles.label}>
-                      <span className={styles.labelIcon}>✦</span>CTA Button
-                      Text
+                      <span className={styles.labelIcon}>✦</span>CTA Button Text
                       <span className={styles.required}>*</span>
                     </label>
-                    <p className={styles.fieldHint}>
-                      Text on the Know More button
-                    </p>
+                    <p className={styles.fieldHint}>Text on the Know More button</p>
                     <div
                       className={`${styles.inputWrap} ${errors.immerseCtaText ? styles.inputError : ""} ${watchAllFields.immerseCtaText && !errors.immerseCtaText ? styles.inputSuccess : ""}`}
                     >
@@ -1566,10 +1413,7 @@ export default function EditAccreditationSectionPage() {
                         maxLength={60}
                         {...register("immerseCtaText", {
                           required: "CTA text is required",
-                          maxLength: {
-                            value: 60,
-                            message: "Maximum 60 characters",
-                          },
+                          maxLength: { value: 60, message: "Maximum 60 characters" },
                         })}
                       />
                       <span className={styles.charCount}>
@@ -1577,16 +1421,13 @@ export default function EditAccreditationSectionPage() {
                       </span>
                     </div>
                     {errors.immerseCtaText && (
-                      <p className={styles.errorMsg}>
-                        ⚠ {errors.immerseCtaText.message}
-                      </p>
+                      <p className={styles.errorMsg}>⚠ {errors.immerseCtaText.message}</p>
                     )}
                   </div>
 
                   <div className={styles.fieldGroup}>
                     <label className={styles.label}>
-                      <span className={styles.labelIcon}>✦</span>CTA Button
-                      Link
+                      <span className={styles.labelIcon}>✦</span>CTA Button Link
                       <span className={styles.required}>*</span>
                     </label>
                     <p className={styles.fieldHint}>URL or path</p>
@@ -1608,9 +1449,7 @@ export default function EditAccreditationSectionPage() {
                       />
                     </div>
                     {errors.immerseCtaLink && (
-                      <p className={styles.errorMsg}>
-                        ⚠ {errors.immerseCtaLink.message}
-                      </p>
+                      <p className={styles.errorMsg}>⚠ {errors.immerseCtaLink.message}</p>
                     )}
                   </div>
                 </div>
@@ -1623,20 +1462,15 @@ export default function EditAccreditationSectionPage() {
             <div className={styles.sectionBlock}>
               <div className={styles.sectionHeader}>
                 <span className={styles.sectionIcon}>✦</span>
-                <h3 className={styles.sectionTitle}>
-                  Recognition &amp; Endorsements
-                </h3>
+                <h3 className={styles.sectionTitle}>Recognition &amp; Endorsements</h3>
               </div>
 
               <div className={styles.fieldGroup}>
                 <label className={styles.label}>
-                  <span className={styles.labelIcon}>✦</span>Recognition Title
-                  (H2)
+                  <span className={styles.labelIcon}>✦</span>Recognition Title (H2)
                   <span className={styles.required}>*</span>
                 </label>
-                <p className={styles.fieldHint}>
-                  Section heading for the recognition block
-                </p>
+                <p className={styles.fieldHint}>Section heading for the recognition block</p>
                 <div
                   className={`${styles.inputWrap} ${errors.recognitionTitle ? styles.inputError : ""} ${watchAllFields.recognitionTitle && !errors.recognitionTitle ? styles.inputSuccess : ""}`}
                 >
@@ -1647,10 +1481,7 @@ export default function EditAccreditationSectionPage() {
                     maxLength={120}
                     {...register("recognitionTitle", {
                       required: "Recognition title is required",
-                      maxLength: {
-                        value: 120,
-                        message: "Maximum 120 characters",
-                      },
+                      maxLength: { value: 120, message: "Maximum 120 characters" },
                     })}
                   />
                   <span className={styles.charCount}>
@@ -1658,9 +1489,7 @@ export default function EditAccreditationSectionPage() {
                   </span>
                 </div>
                 {errors.recognitionTitle && (
-                  <p className={styles.errorMsg}>
-                    ⚠ {errors.recognitionTitle.message}
-                  </p>
+                  <p className={styles.errorMsg}>⚠ {errors.recognitionTitle.message}</p>
                 )}
               </div>
 
@@ -1669,9 +1498,7 @@ export default function EditAccreditationSectionPage() {
                   <span className={styles.labelIcon}>✦</span>Paragraph 1
                   <span className={styles.required}>*</span>
                 </label>
-                <p className={styles.fieldHint}>
-                  YCB & Yoga Alliance + registration info
-                </p>
+                <p className={styles.fieldHint}>YCB & Yoga Alliance + registration info</p>
                 <div
                   className={`${styles.inputWrap} ${errors.recognitionPara1 ? styles.inputError : ""} ${watchAllFields.recognitionPara1 && !errors.recognitionPara1 ? styles.inputSuccess : ""}`}
                 >
@@ -1682,22 +1509,15 @@ export default function EditAccreditationSectionPage() {
                     placeholder="At AYM Yoga School in Rishikesh, all our programs are accredited by…"
                     {...register("recognitionPara1", {
                       required: "Paragraph 1 is required",
-                      maxLength: {
-                        value: 600,
-                        message: "Maximum 600 characters",
-                      },
+                      maxLength: { value: 600, message: "Maximum 600 characters" },
                     })}
                   />
-                  <span
-                    className={`${styles.charCount} ${styles.charCountBottom}`}
-                  >
+                  <span className={`${styles.charCount} ${styles.charCountBottom}`}>
                     {watchAllFields.recognitionPara1?.length || 0}/600
                   </span>
                 </div>
                 {errors.recognitionPara1 && (
-                  <p className={styles.errorMsg}>
-                    ⚠ {errors.recognitionPara1.message}
-                  </p>
+                  <p className={styles.errorMsg}>⚠ {errors.recognitionPara1.message}</p>
                 )}
               </div>
 
@@ -1705,9 +1525,7 @@ export default function EditAccreditationSectionPage() {
                 <label className={styles.label}>
                   <span className={styles.labelIcon}>✦</span>Paragraph 2
                 </label>
-                <p className={styles.fieldHint}>
-                  Best yoga TTC pitch — optional
-                </p>
+                <p className={styles.fieldHint}>Best yoga TTC pitch — optional</p>
                 <div className={styles.inputWrap}>
                   <textarea
                     className={`${styles.input} ${styles.textarea}`}
@@ -1716,9 +1534,7 @@ export default function EditAccreditationSectionPage() {
                     placeholder="If you're looking for the best Yoga TTC in Rishikesh…"
                     {...register("recognitionPara2")}
                   />
-                  <span
-                    className={`${styles.charCount} ${styles.charCountBottom}`}
-                  >
+                  <span className={`${styles.charCount} ${styles.charCountBottom}`}>
                     {watchAllFields.recognitionPara2?.length || 0}/600
                   </span>
                 </div>
@@ -1737,47 +1553,39 @@ export default function EditAccreditationSectionPage() {
 
           <div className={styles.formDivider} />
 
-          {/* Actions */}
+          {/* ── Actions ── */}
           <div className={styles.formActions}>
-            <Link
-              href="/admin/dashboard/accreditationsection"
-              className={styles.cancelBtn}
-            >
+            <Link href="/admin/dashboard/accreditationsection" className={styles.cancelBtn}>
               ← Cancel
             </Link>
+
             <div className={styles.actionsRight}>
               {activeTab !== "auth" && (
                 <button
                   type="button"
                   className={styles.prevBtn}
-                  onClick={() => {
-                    const order = ["auth", "video", "recognition", "certs"];
-                    setActiveTab(
-                      order[order.indexOf(activeTab) - 1] as any
-                    );
-                  }}
+                  onClick={goPrev}
                 >
                   ← Previous
                 </button>
               )}
+
               {activeTab !== "certs" ? (
+                /* ── NEXT button — sirf tab change karta hai, submit nahi ── */
                 <button
                   type="button"
                   className={styles.nextBtn}
-                  onClick={() => {
-                    const order = ["auth", "video", "recognition", "certs"];
-                    setActiveTab(
-                      order[order.indexOf(activeTab) + 1] as any
-                    );
-                  }}
+                  onClick={goNext}
                 >
                   Next →
                 </button>
               ) : (
+                /* ── SUBMIT button — sirf yahan click karne par hi API call hogi ── */
                 <button
-                  type="submit"
+                  type="button"
                   className={`${styles.submitBtn} ${isSubmitting ? styles.submitBtnLoading : ""}`}
                   disabled={isSubmitting}
+                  onClick={handleSubmit(onSubmit)}
                 >
                   {isSubmitting ? (
                     <>
@@ -1792,6 +1600,7 @@ export default function EditAccreditationSectionPage() {
               )}
             </div>
           </div>
+
         </form>
       </div>
     </div>
