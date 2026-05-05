@@ -488,7 +488,9 @@
   margin-bottom: 0.6rem;
   line-height: 1.4;
 }
-
+.promoTitle h3{
+  font-size: clamp(1.15rem, 2vw, 1.55rem);
+}
 .promoUnderline {
   width: 50px;
   height: 2px;
