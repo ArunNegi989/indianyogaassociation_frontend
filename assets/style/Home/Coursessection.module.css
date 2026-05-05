@@ -609,7 +609,7 @@
 /* ── 420px ── */
 @media (max-width: 420px) {
   .imageWrapper {
-    min-height: 150px;
+    min-height: 362px;
     max-height: 170px;
   }
 
@@ -660,7 +660,7 @@
   }
 
   .imageWrapper {
-    min-height: 140px;
+    min-height: 362px;
     max-height: 155px;
   }
 
