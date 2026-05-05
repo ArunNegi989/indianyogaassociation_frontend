@@ -155,7 +155,6 @@
 /* ── Body text wrapper ── */
 .missionBody {
   text-align: left;
-  max-width: 920px;
   margin: 0 auto;
 }
 
@@ -226,7 +225,6 @@
 /* ── Why body text ── */
 .whyBody {
   text-align: left;
-  max-width: 920px;
   margin: 0 auto;
 }
 
