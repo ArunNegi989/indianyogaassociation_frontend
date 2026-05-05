@@ -3,7 +3,8 @@
 import React, { useEffect, useState } from "react";
 import styles from "../../assets/style/Home/Aymfullpage.module.css";
 import api from "@/lib/api";
-import Image1 from "../../assets/images/_DSC5018.JPG.jpeg";
+import Image1 from "../../assets/images/mainimages/41592874560_6470157aa8_b.jpg";
+import Image2 from "../../assets/images/mainimages/43290572152_f2f8ffa96a_b.jpg"
 import Image from "next/image";
 
 /* ══════════════════════════════════════════════
@@ -425,7 +426,7 @@ const AYMFullPage: React.FC = () => {
 
     <div className={styles.promoImageWrap}>
       <Image
-        src={Image1}
+        src={Image2}
         alt="image"
         className={styles.promoImage}
         width={300}
