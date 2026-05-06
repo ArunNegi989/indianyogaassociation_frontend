@@ -242,7 +242,7 @@
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     margin: 0 0 .55rem;
-    font-family: Cinzel, serif;
+    font-family: 'Montserrat', Arial, sans-serif;
     font-size: clamp(.75rem, 1.2vw, .9rem);
     font-weight: 600;
     line-height: 1.45;
