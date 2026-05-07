@@ -413,7 +413,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
                 <Link href="/admin/profile"         className={styles.profileDropdownItem} onClick={() => setProfileOpen(false)}><span className={styles.profileDropdownIcon}>◉</span>My Profile</Link>
                 <Link href="/admin/settings"        className={styles.profileDropdownItem} onClick={() => setProfileOpen(false)}><span className={styles.profileDropdownIcon}>⚙</span>Settings</Link>
-                <Link href="/admin/change-password" className={styles.profileDropdownItem} onClick={() => setProfileOpen(false)}><span className={styles.profileDropdownIcon}>🔑</span>Change Password</Link>
+                <Link href="/auth/change-password" className={styles.profileDropdownItem} onClick={() => setProfileOpen(false)}><span className={styles.profileDropdownIcon}>🔑</span>Change Password</Link>
 
                 <div className={styles.profileDropdownDivider} />
 

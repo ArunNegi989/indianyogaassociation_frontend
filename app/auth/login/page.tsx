@@ -6,6 +6,7 @@ import styles from "@/assets/style/Auth/login.module.css";
 import api from "@/lib/api";
 import { setAccessToken } from "@/lib/auth";
 import { useAuth } from "@/context/AuthContext";
+import Link from "next/link";
 
 export default function LoginPage() {
   const [isActive, setIsActive] = useState(false);
@@ -179,7 +180,7 @@ export default function LoginPage() {
               }
             />
 
-            <a href="#">Forgot your password?</a>
+           <Link href="/auth/forgot-password">Forgot your password?</Link>
 
             {loginError && <p className={styles.errorMsg}>{loginError}</p>}
 
