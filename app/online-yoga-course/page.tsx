@@ -12,7 +12,6 @@ import HowToReach from "@/components/home/Howtoreach";
 import heroImg from "@/assets/images/30.webp";
 import Link from "next/link";
 
-
 /* ── Video embed ── */
 const HERO_VIDEO_URL =
   "https://www.youtube.com/embed/EJ6K-rhqevE?autoplay=1&mute=1&loop=1&playlist=EJ6K-rhqevE&controls=0&modestbranding=1&showinfo=0&rel=0&iv_load_policy=3&disablekb=1&playsinline=1";
