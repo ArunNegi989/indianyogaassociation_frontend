@@ -200,6 +200,7 @@
   color: var(--text-body);
   margin-bottom: 1.2rem;
   font-weight: 500;
+   font-family: "Montserrat", Arial, sans-serif;
 }
 
 .bodyText a {
@@ -564,6 +565,7 @@
   color: #444;
   margin-bottom: 1rem;
   font-weight: 500;
+  font-family: "Montserrat", Arial, sans-serif;
 }
 
 .welcomeText strong {
@@ -637,9 +639,13 @@
   color: var(--text-body);
   margin-bottom: 1.2rem;
   font-weight: 500;
+  font-family: "Montserrat", Arial, sans-serif;
 }
 .experienceBody strong {
   color: #e8600a;
+}
+.experienceBody p{
+  font-family: "Montserrat", Arial, sans-serif;
 }
 .timelineContent h3 {
   font-family: 'Montserrat', serif;
@@ -809,6 +815,7 @@
   color: var(--link-color);
   transition: all 0.2s ease;
   font-weight: 600;
+   font-family: "Montserrat", Arial, sans-serif;
 }
 
 .pillLink:hover {
@@ -1016,6 +1023,10 @@
   font-size: 1.1rem;
   line-height: 1.9;
   color: #333333;
+   font-family: "Montserrat", Arial, sans-serif;
+}
+.whyBody p{
+  font-family: "Montserrat", Arial, sans-serif;
 }
 
 /* ── ACTIVITIES ── */
@@ -1031,6 +1042,9 @@
   grid-template-columns: repeat(3, 1fr);
   gap: 1rem;
   margin: 1.5rem 0;
+}
+.actGrid p{
+  font-family: "Montserrat", Arial, sans-serif;
 }
 
 .actCard {
@@ -1092,6 +1106,7 @@
   background: #fdfaf6;
   transition: all 0.2s ease;
   font-weight: 500;
+  font-family: "Montserrat", Arial, sans-serif;
 }
 
 .coursesList li a::before {
