@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "../../assets/style/Home/Homeaboutsection.module.css";
 import api from "@/lib/api";
+import Link from "next/link";
 
 interface Stat {
   value: string;
@@ -143,10 +144,10 @@ export const HomeaboutSection = () => {
             dangerouslySetInnerHTML={{ __html: data.ctaText }}
           />
 
-          <a href={data.ctaLink} className={styles.ctaBtn}>
+          <Link href={data.ctaLink} className={styles.ctaBtn}>
             Explore All Courses
             <span className={styles.ctaArrow}>→</span>
-          </a>
+          </Link>
         </div>
       </div>
 

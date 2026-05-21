@@ -9,6 +9,7 @@ import api from "@/lib/api";
 import RatingsSummarySection from "@/components/home/RatingsSummarySection";
 import ReviewSection from "@/components/common/Reviewsection";
 import PremiumGallerySection from "@/components/PremiumGallerySection";
+import Link from "next/link";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "";
 
@@ -669,7 +670,7 @@ function CourseInfoCard({
             </span>
             <span className={styles.icPriceCur}>{currency}</span>
           </div>
-          <a
+          <Link
             href={content.bookNowLink || "#dates-fees"}
             className={styles.icBookBtn}
           >
@@ -683,7 +684,7 @@ function CourseInfoCard({
                 strokeLinejoin="round"
               />
             </svg>
-          </a>
+          </Link>
         </div>
       </div>
     </div>
@@ -1346,7 +1347,7 @@ export function PremiumSeatBooking({
               )}
             </div>
             {selected ? (
-              <a
+              <Link 
                 href={`/yoga-registration?batchId=${selected._id}&type=100hr`}
                 className={styles.psbBookBtn}
               >
@@ -1364,7 +1365,7 @@ export function PremiumSeatBooking({
                     strokeLinejoin="round"
                   />
                 </svg>
-              </a>
+              </Link>
             ) : (
               <span className={`${styles.psbBookBtn} ${styles.psbBookBtnDis}`}>
                 Book Now

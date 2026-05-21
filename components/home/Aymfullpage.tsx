@@ -6,6 +6,7 @@ import api from "@/lib/api";
 import Image1 from "../../assets/images/mainimages/41592874560_6470157aa8_b.jpg";
 import Image2 from "../../assets/images/mainimages/43290572152_f2f8ffa96a_b.jpg"
 import Image from "next/image";
+import Link from "next/link";
 
 /* ══════════════════════════════════════════════
    TYPES
@@ -419,9 +420,9 @@ const AYMFullPage: React.FC = () => {
         dangerouslySetInnerHTML={{ __html: data.promoCard2.text }}
       />
 
-      <a href={data.promoCard2.link} className={styles.promoLink}>
+      <Link href={data.promoCard2.link} className={styles.promoLink}>
         More information →
-      </a>
+      </Link>
     </div>
 
     <div className={styles.promoImageWrap}>

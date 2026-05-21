@@ -8,6 +8,7 @@ import api from "@/lib/api";
 import PremiumGallerySection from "@/components/PremiumGallerySection";
 import ReviewSection from "@/components/common/Reviewsection";
 import RatingsSummarySection from "@/components/home/RatingsSummarySection";
+import Link from "next/link";
 
 /* ─────────────────────────────────────────
    TYPES
@@ -557,12 +558,12 @@ function PremiumSeatBooking({
             </div>
             {/* ✅ Book Now button uses fmtPriceAdvanced(selected) — same as Kundalini */}
             {selected ? (
-              <a href={`/yoga-registration?batchId=${selected._id}&type=300hr`} className={styles.psbBookBtn}>
+              <Link href={`/yoga-registration?batchId=${selected._id}&type=300hr`} className={styles.psbBookBtn}>
                 Book Now — {fmtPriceAdvanced(selected).amount} {currency}
                 <svg className={styles.psbArrowIcon} viewBox="0 0 16 16" fill="none">
                   <path d="M3 8h10M9 4l4 4-4 4" stroke="#fff3d2" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
-              </a>
+              </Link>
             ) : (
               <span className={`${styles.psbBookBtn} ${styles.psbBookBtnDis}`}>Book Now</span>
             )}
@@ -755,12 +756,12 @@ function CourseInfoCard({
             </span>
             <span className={styles.icPriceCur}>{currency}</span>
           </div>
-          <a href="#dates-fees" className={styles.icBookBtn}>
+          <Link href="#dates-fees" className={styles.icBookBtn}>
             BOOK NOW
             <svg viewBox="0 0 20 20" fill="none" className={styles.icBtnArrow}>
               <path d="M4 10h12M11 5l5 5-5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
-          </a>
+          </Link>
         </div>
       </div>
     </div>
@@ -2250,12 +2251,12 @@ export default function YogaTTC300() {
                   the 300 hours yoga teacher training — not just as a certification, but as a
                   meaningful path toward self-discovery, community, and lifelong learning.
                 </p>
-                <a href="#dates-fees" className={styles.s11FooterBtn}>
+                <Link href="#dates-fees" className={styles.s11FooterBtn}>
                   Begin Your Journey
                   <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
                     <path d="M3 8h10M9 4l4 4-4 4" stroke="#FFF8EE" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
-                </a>
+                </Link>
               </div>
             </div>
           </section>

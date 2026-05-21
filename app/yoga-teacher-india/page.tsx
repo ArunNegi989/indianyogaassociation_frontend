@@ -3,6 +3,40 @@
 import React, { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import styles from "@/assets/style/yoga-teacher-india/yogateacherindia.module.css";
+import mainimage from "@/assets/images/teachers/44133566300_038197c449_b.jpg"
+import image1 from "@/assets/images/teachers/Ekapada-Koundinyasana-(Twisted-One-Leg-Arm-Balance-Pose).jpg";
+import image2 from "@/assets/images/teachers/Dragon-Fly-Pose.jpg";
+import image3 from "@/assets/images/teachers/Ekapada-Galvasana-(Flying-Pegion-Pose).jpg";
+import image4 from "@/assets/images/teachers/Hanumanasana-(Monkey-Pose).jpg";
+import image5 from "@/assets/images/teachers/Purna-Natrajasana-(Lord-of-Dance-Pose).jpg";
+import image6 from "@/assets/images/teachers/Urdhva-Dhanurasana-or-Chakrasana-(Wheel-Pose).jpg";
+import image7 from "@/assets/images/teachers/Vrischikasana-(Scorpion-Pose).jpg";
+import image8 from "@/assets/images/teachers/Advance-Purna-Natraj-Asana-(Lord-of-Dance-Pose).jpg";
+import image9 from "@/assets/images/teachers/eka-pada-chakrasana-one-leg-wheel-pose.jpg";
+import image10 from "@/assets/images/teachers/purna-kapotasana-perfect-pigion-pose.jpg";
+import image11 from "@/assets/images/teachers/a1.jpg";
+import image12 from "@/assets/images/teachers/a5.jpg";
+import image13 from "@/assets/images/teachers/yoga-acharya-(1).jpg";
+import image14 from "@/assets/images/teachers/yoga-acharya-(2).jpg";
+import image15 from "@/assets/images/teachers/yoga-acharya-(3).jpg";
+import image16 from "@/assets/images/teachers/yoga-acharya-(4).jpg";
+import cert1 from "@/assets/images/teachers/certificate.jpg";
+import cert2 from "@/assets/images/teachers/morar-ji-desai-certificate.jpg";
+import cert3 from "@/assets/images/teachers/ture-fitness.jpg";
+import cert4 from "@/assets/images/teachers/certificate-of-teaching.jpg";
+import cert5 from "@/assets/images/teachers/maharashi-dayanand-university-.jpg";
+import cert6 from "@/assets/images/teachers/germany-certificate.jpg";
+import cert7 from "@/assets/images/teachers/certificate-of-china.jpg";
+import cert8 from "@/assets/images/teachers/maharashi-dayanand-2nd-part.jpg";
+import sk1 from "@/assets/images/teachers/yoga-asana.jpg";
+import sk2 from "@/assets/images/teachers/yoga-classes-in-korea.jpg";
+import sk3 from "@/assets/images/teachers/yoga-course-in-korea.jpg";
+import sk4 from "@/assets/images/teachers/yog--mahesh-in-korea.jpg";
+import my1 from "@/assets/images/teachers/out-door-yoga.jpg";
+import my2 from "@/assets/images/teachers/yoga-classes-in-malaysia.jpg";
+import my3 from "@/assets/images/teachers/yoga-training-in-malaysia.jpg";
+import my4 from "@/assets/images/teachers/yoga-retreats-in-malaysia.jpg";
+import Link from "next/link";
 interface ImgItem {
   src: string;
   label: string;
@@ -34,19 +68,19 @@ const ACCREDITATIONS = [
 /* ── Postures Row 1 (Image 2) ── */
 const POSTURES_ROW1: ImgItem[] = [
   {
-    src: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=1200&q=95&auto=format&fit=crop",
+    src: image1.src,
     label: "Ekapada Koundinyasana",
   },
   {
-    src: "https://images.unsplash.com/photo-1552196563-55cd4e45efb3?w=1200&q=95&auto=format&fit=crop",
+    src: image2.src,
     label: "Dragon Fly Pose",
   },
   {
-    src: "https://images.unsplash.com/photo-1588286840104-8957b019727f?w=1200&q=95&auto=format&fit=crop",
+    src: image3.src,
     label: "Ekapada Galvasana (Flying Pigeon Pose)",
   },
   {
-    src: "https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?w=1200&q=95&auto=format&fit=crop",
+    src: image4.src,
     label: "Hanumanasana",
   },
 ];
@@ -54,19 +88,19 @@ const POSTURES_ROW1: ImgItem[] = [
 /* ── Postures Row 2 (Image 3) ── */
 const POSTURES_ROW2: ImgItem[] = [
   {
-    src: "https://images.unsplash.com/photo-1603988363607-e1e4a66962c6?w=1200&q=95&auto=format&fit=crop",
+    src: image5.src,
     label: "Purna Natrajasana",
   },
   {
-    src: "https://images.unsplash.com/photo-1574680178050-55c6a6a96e0a?w=1200&q=95&auto=format&fit=crop",
+    src: image6.src,
     label: "Urdhva Dhanurasana or Chakrasana",
   },
   {
-    src: "https://images.unsplash.com/photo-1575052814086-f385e2e2ad1b?w=1200&q=95&auto=format&fit=crop",
+    src: image7.src,
     label: "Vrischikasana",
   },
   {
-    src: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=1200&q=95&auto=format&fit=crop",
+    src: image8.src,
     label: "Advance Purna Natraj Asana",
   },
 ];
@@ -74,35 +108,35 @@ const POSTURES_ROW2: ImgItem[] = [
 /* ── Gallery / Teaching photos (Image 4) ── */
 const GALLERY_IMAGES: ImgItem[] = [
   {
-    src: "https://images.unsplash.com/photo-1593811167562-9cef47bfc4d7?w=1200&q=95&auto=format&fit=crop",
+    src: image9.src,
     label: "Eka Pada Chakrasana",
   },
   {
-    src: "https://images.unsplash.com/photo-1545205597-3d9d02c29597?w=1200&q=95&auto=format&fit=crop",
+    src: image10.src,
     label: "Purna Kapotasan",
   },
   {
-    src: "https://images.unsplash.com/photo-1510894347713-fc3dc6166b26?w=1200&q=95&auto=format&fit=crop",
+    src: image11.src,
     label: "Virabhadrasana (Traditional)",
   },
   {
-    src: "https://images.unsplash.com/photo-1588286840104-8957b019727f?w=1200&q=95&auto=format&fit=crop",
+    src: image12.src,
     label: "Eka Pada Bakasana",
   },
   {
-    src: "https://images.unsplash.com/photo-1601925228847-f3f38c47b0e2?w=1200&q=95&auto=format&fit=crop",
+    src: image13.src,
     label: "Yoga with Retreat's Students",
   },
   {
-    src: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=1200&q=95&auto=format&fit=crop",
+    src: image14.src,
     label: "Yoga Postures",
   },
   {
-    src: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=1200&q=95&auto=format&fit=crop",
+    src: image15.src,
     label: "Meditation in India",
   },
   {
-    src: "https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?w=1200&q=95&auto=format&fit=crop",
+    src: image16.src,
     label: "Asana in Water",
   },
 ];
@@ -110,19 +144,19 @@ const GALLERY_IMAGES: ImgItem[] = [
 /* ── Certificates Row 1 (Image 5) ── */
 const CERTS_ROW1: ImgItem[] = [
   {
-    src: "https://images.unsplash.com/photo-1589998059171-988d887df646?w=1000&q=90&auto=format&fit=crop",
+    src: cert1.src,
     label: "By Japan Fitness Yoga Association",
   },
   {
-    src: "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=1000&q=90&auto=format&fit=crop",
+    src: cert2.src,
     label: "By Morarji Desai National Inst.",
   },
   {
-    src: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=1000&q=90&auto=format&fit=crop",
+    src: cert3.src,
     label: "By True Fitness",
   },
   {
-    src: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1000&q=90&auto=format&fit=crop",
+    src: cert4.src,
     label: "By Yoga Corea Corp.",
   },
 ];
@@ -130,19 +164,19 @@ const CERTS_ROW1: ImgItem[] = [
 /* ── Certificates Row 2 (Image 6) ── */
 const CERTS_ROW2: ImgItem[] = [
   {
-    src: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=1000&q=90&auto=format&fit=crop",
+    src: cert5.src,
     label: "By Maharashi Dayanand University",
   },
   {
-    src: "https://images.unsplash.com/photo-1562654501-a0ccc0fc3fb1?w=1000&q=90&auto=format&fit=crop",
+    src: cert6.src,
     label: "By India Trade Promotion Org.",
   },
   {
-    src: "https://images.unsplash.com/photo-1546519638-68e109498ffc?w=1000&q=90&auto=format&fit=crop",
+    src: cert7.src,
     label: "By Yoga School, China",
   },
   {
-    src: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=1000&q=90&auto=format&fit=crop",
+    src: cert8.src,
     label: "By Maharashi Dayanand University",
   },
 ];
@@ -150,19 +184,19 @@ const CERTS_ROW2: ImgItem[] = [
 /* ── South Korea (Image 7) ── */
 const SOUTH_KOREA: ImgItem[] = [
   {
-    src: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=1000&q=90&auto=format&fit=crop",
+    src: sk1.src,
     label: "South Korea",
   },
   {
-    src: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=1000&q=90&auto=format&fit=crop",
+    src: sk2.src,
     label: "South Korea",
   },
   {
-    src: "https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?w=1000&q=90&auto=format&fit=crop",
+    src: sk3.src,
     label: "South Korea",
   },
   {
-    src: "https://images.unsplash.com/photo-1552196563-55cd4e45efb3?w=1000&q=90&auto=format&fit=crop",
+    src: sk4.src,
     label: "South Korea",
   },
 ];
@@ -170,19 +204,19 @@ const SOUTH_KOREA: ImgItem[] = [
 /* ── Malaysia (Image 8) ── */
 const MALAYSIA: ImgItem[] = [
   {
-    src: "https://images.unsplash.com/photo-1545205597-3d9d02c29597?w=1000&q=90&auto=format&fit=crop",
+    src: my1.src,
     label: "Malaysia",
   },
   {
-    src: "https://images.unsplash.com/photo-1593811167562-9cef47bfc4d7?w=1000&q=90&auto=format&fit=crop",
+    src: my2.src,
     label: "Malaysia",
   },
   {
-    src: "https://images.unsplash.com/photo-1574680178050-55c6a6a96e0a?w=1000&q=90&auto=format&fit=crop",
+    src: my3.src,
     label: "Malaysia",
   },
   {
-    src: "https://images.unsplash.com/photo-1510894347713-fc3dc6166b26?w=1000&q=90&auto=format&fit=crop",
+    src: my4.src,
     label: "Malaysia",
   },
 ];
@@ -312,9 +346,9 @@ const ClickCard: React.FC<ClickCardProps> = ({
         className={imgCls}
         loading="lazy"
       />
-      <div className={styles.cardHover}>
+      {/* <div className={styles.cardHover}>
         <span className={styles.cardZoom}>⊕</span>
-      </div>
+      </div> */}
       <div className={lblCls}>{item.label}</div>
     </button>
   );
@@ -413,7 +447,7 @@ const YogiChetanMaheshPage: React.FC = () => {
           <div className={styles.profileWrap}>
             <div className={styles.profileFrame}>
               <Image
-                src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=900&q=90&auto=format&fit=crop"
+                src={mainimage}
                 alt="Yogi Chetan Mahesh Ji – Spiritual Yoga Master, AYM Yoga School Rishikesh"
                 width={900}
                 height={560}
@@ -599,10 +633,10 @@ const YogiChetanMaheshPage: React.FC = () => {
               Join the legacy of 15,000+ certified yoga teachers. Transform your
               life through authentic yogic wisdom at AYM Yoga School, Rishikesh.
             </p>
-            <a href="#" className={styles.ctaBtn}>
+            <Link href="/yoga-teacher-in-rishikesh" className={styles.ctaBtn}>
               Explore Teacher Training
               <span className={styles.ctaArrow}>→</span>
-            </a>
+            </Link>
           </div>
         </div>
       </section>

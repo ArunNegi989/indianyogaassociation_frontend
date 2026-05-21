@@ -10,6 +10,8 @@ import chakra5 from "@/assets/images/heart-chakra.png";
 import chakra6 from "@/assets/images/throat-chakra.png";
 import HowToReach from "@/components/home/Howtoreach";
 import heroImg from "@/assets/images/30.webp";
+import Link from "next/link";
+
 
 /* ── Video embed ── */
 const HERO_VIDEO_URL =
@@ -436,8 +438,8 @@ function CourseCard({ title, duration, style, sessions, cert, fee, benefits }: {
             </li>
           </ul>
           <div className={styles.courseActions}>
-            <a href="#" className={styles.btnPrimary}>Apply Now</a>
-            <a href="#" className={styles.btnOutline}>Book Now</a>
+            <Link href="#" className={styles.btnPrimary}>Apply Now</Link>
+            <Link href="#" className={styles.btnOutline}>Book Now</Link>
           </div>
         </div>
         <div className={styles.courseCardRight}>
@@ -650,9 +652,9 @@ export default function OnlineYogaCourse() {
                     <td><span className={styles.tablePrice}>{row.h200}</span></td>
                     <td><span className={styles.tablePrice}>{row.h300}</span></td>
                     <td>
-                      <a href="#" className={styles.tableApplyBtn}>
+                      <Link href="/yoga-registration" className={styles.tableApplyBtn}>
                         Open for Registration
-                      </a>
+                      </Link>
                     </td>
                   </tr>
                 ))}
@@ -753,12 +755,12 @@ export default function OnlineYogaCourse() {
                       </li>
                     ))}
                   </ul>
-                  <a href="#" className={styles.recordedApplyBtn}>
+                  <Link href="/yoga-registration" className={styles.recordedApplyBtn}>
                     Apply Now
                     <svg viewBox="0 0 16 16" fill="none" style={{ width: 14, height: 14 }}>
                       <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
-                  </a>
+                  </Link>
                 </div>
               </div>
             ))}
@@ -827,12 +829,12 @@ export default function OnlineYogaCourse() {
                 <div className={styles.otherCardBody}>
                   <h4 className={styles.otherTitle}>{oc.title}</h4>
                   <p className={styles.otherMeta}>{oc.hours} · {oc.price}</p>
-                  <a href="#" className={styles.otherCardBtn}>
+                  <Link href="/contact" className={styles.otherCardBtn}>
                     Enquire Now
                     <svg viewBox="0 0 16 16" fill="none" style={{ width: 12, height: 12 }}>
                       <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
-                  </a>
+                  </Link>
                 </div>
               </div>
             ))}

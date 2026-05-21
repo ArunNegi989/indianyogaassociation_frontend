@@ -8,6 +8,7 @@ import api from "@/lib/api";
 import ReviewSection from "@/components/common/Reviewsection";
 import RatingsSummarySection from "@/components/home/RatingsSummarySection";
 import PremiumGallerySection from "@/components/PremiumGallerySection";
+import Link from "next/link";
 
 /* ══════════════════════════════════════════════════
    TYPES
@@ -665,7 +666,7 @@ function CourseInfoCard({
             <span className={styles.icPriceNew}>{displayNewPrice}</span>
             <span className={styles.icPriceCur}>{displayCurrency}</span>
           </div>
-          <a href={bookBtnUrl} className={styles.icBookBtn}>
+          <Link href={bookBtnUrl} className={styles.icBookBtn}>
             {bookBtnText}
             <svg viewBox="0 0 20 20" fill="none" className={styles.icBtnArrow}>
               <path
@@ -676,7 +677,7 @@ function CourseInfoCard({
                 strokeLinejoin="round"
               />
             </svg>
-          </a>
+          </Link>
         </div>
       </div>
     </div>
@@ -1223,7 +1224,7 @@ function PremiumSeatBooking({
               )}
             </div>
             {selected ? (
-              <a
+              <Link
                 href={`/yoga-registration?batchId=${selected._id}&type=200hr`}
                 className={styles.psbBookBtn}
               >
@@ -1241,7 +1242,7 @@ function PremiumSeatBooking({
                     strokeLinejoin="round"
                   />
                 </svg>
-              </a>
+              </Link>
             ) : (
               <span className={`${styles.psbBookBtn} ${styles.psbBookBtnDis}`}>
                 Book Now
@@ -1960,9 +1961,9 @@ export default function TwoHundredHourYoga() {
                   <span className={styles.indianFeePrice}>
                     {stripHtml(f.price)}
                   </span>
-                  <a href="#dates-fees" className={styles.indianFeeBtn}>
+                  <Link href="#dates-fees" className={styles.indianFeeBtn}>
                     Book Now
-                  </a>
+                  </Link>
                 </div>
               ))}
             </div>
@@ -2211,17 +2212,17 @@ export default function TwoHundredHourYoga() {
           </div>
           <div className={styles.ctaBannerRight}>
             <p className={styles.ctaBannerBook}>Book Your Spot Today!</p>
-            <a href={ctaApplyUrl} className={styles.applyNowBtn}>
+            <Link href={ctaApplyUrl} className={styles.applyNowBtn}>
               {ctaApplyBtnText}
-            </a>
-            <a
+            </Link>
+            <Link
               href={`https://wa.me/${whatsappNumber}?text=Hi%2C%20I%20am%20interested%20in%20the%20200%20Hour%20Yoga%20Teacher%20Training%20in%20Rishikesh.%20Please%20share%20details.`}
               target="_blank"
               rel="noopener noreferrer"
               className={styles.phoneBtn}
             >
               {whatsappBtnText}
-            </a>
+            </Link>
           </div>
         </div>
       </section>
@@ -2274,9 +2275,9 @@ export default function TwoHundredHourYoga() {
                       </strong>
                     </div>
                   </div>
-                  <a href="#dates-fees" className={styles.learnMoreBtn}>
+                  <Link href="#dates-fees" className={styles.learnMoreBtn}>
                     Learn More →
-                  </a>
+                  </Link>
                 </div>
               </div>
             ))}

@@ -8,6 +8,7 @@ import ReviewSection from "@/components/common/Reviewsection";
 import RatingsSummarySection from "@/components/home/RatingsSummarySection";
 import PremiumGallerySection from "@/components/PremiumGallerySection";
 import StickySectionNav from "@/components/common/StickySectionNav";
+import Link from "next/link";
 
 /* ─────────────────────────────────────────
    TYPES
@@ -351,7 +352,7 @@ function CourseInfoCard({
             <span className={styles.icPriceNew}>{displayPrice()}</span>
             <span className={styles.icPriceCur}>{currency}</span>
           </div>
-          <a href="#dates-fees" className={styles.icBookBtn}>
+          <Link href="#dates-fees" className={styles.icBookBtn}>
             {content.courseInfoBookBtnText || "BOOK NOW"}
             <svg viewBox="0 0 20 20" fill="none" className={styles.icBtnArrow}>
               <path
@@ -362,7 +363,7 @@ function CourseInfoCard({
                 strokeLinejoin="round"
               />
             </svg>
-          </a>
+          </Link>
         </div>
       </div>
     </div>
@@ -902,7 +903,7 @@ function PremiumSeatBooking({
               )}
             </div>
             {selected ? (
-              <a
+              <Link
               href={`/yoga-registration?batchId=${selected._id}&type=500hr`}
               className={styles.psbBookBtn}
             >
@@ -920,7 +921,7 @@ function PremiumSeatBooking({
                     strokeLinejoin="round"
                   />
                 </svg>
-              </a>
+              </Link>
             ) : (
               <span className={`${styles.psbBookBtn} ${styles.psbBookBtnDis}`}>
                 Book Now

@@ -251,9 +251,9 @@ const handleAddClick = () => {
                   </td>
                   <td className={styles.td}>
                     {rec.videoSrc ? (
-                      <a href={rec.videoSrc} target="_blank" rel="noopener noreferrer" className={styles.videoLink} title={rec.videoSrc}>
+                      <Link href={rec.videoSrc} target="_blank" rel="noopener noreferrer" className={styles.videoLink} title={rec.videoSrc}>
                         🎬 {rec.videoSrc.includes("youtu") ? "YouTube" : "Direct"}
-                      </a>
+                      </Link>
                     ) : <span className={styles.naText}>—</span>}
                   </td>
                   <td className={styles.td}>

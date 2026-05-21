@@ -5,6 +5,7 @@ import styles from "@/assets/style/ttc-payment/Paymentsection.module.css";
 import HowToReach from "@/components/home/Howtoreach";
 import Image from "next/image";
 import heroImg from "@/assets/images/32.webp";
+import Link from "next/link";
 
 const PaymentSection = () => {
   const [copiedField, setCopiedField] = useState<string | null>(null);
@@ -93,13 +94,13 @@ const PaymentSection = () => {
             </div>
             <p className={styles.headerDesc}>
               Payment option to pay advance fee to reserve your spot for{" "}
-              <a href="#" className={styles.inlineLink}>
+              <Link href="#" className={styles.inlineLink}>
                 200-hour yoga ttc
-              </a>{" "}
+              </Link>{" "}
               or{" "}
-              <a href="#" className={styles.inlineLink}>
+              <Link href="#" className={styles.inlineLink}>
                 300-hour yoga ttc
-              </a>{" "}
+              </Link>{" "}
               or 500-hour yoga ttc at AYM Yoga School in Rishikesh India.
             </p>
           </header>
@@ -133,7 +134,7 @@ const PaymentSection = () => {
                   <div className={styles.paypalCardInner}>
                     <span className={styles.paypalCardIcon}>{opt.icon}</span>
                     <h3 className={styles.paypalCardTitle}>{opt.title}</h3>
-                    <a
+                    <Link
                       href="https://www.paypal.com"
                       target="_blank"
                       rel="noopener noreferrer"
@@ -144,7 +145,7 @@ const PaymentSection = () => {
                         alt="PayPal"
                         className={styles.paypalLogo}
                       />
-                    </a>
+                    </Link>
                   </div>
                 </div>
               ))}
@@ -234,9 +235,9 @@ const PaymentSection = () => {
                   <h3 className={styles.cardPayTitle}>{card.title}</h3>
                   <div className={styles.cardPayDivider} />
                   <p className={styles.cardPayDesc}>{card.desc}</p>
-                  <a href="#" className={styles.bookNowBtn}>
+                  <Link href="#" className={styles.bookNowBtn}>
                     Book Now
-                  </a>
+                  </Link>
                 </div>
               ))}
             </div>

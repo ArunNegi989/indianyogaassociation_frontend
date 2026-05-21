@@ -8,6 +8,7 @@ import ReviewSection from "@/components/common/Reviewsection";
 import RatingsSummarySection from "@/components/home/RatingsSummarySection";
 import PremiumGallerySection from "@/components/PremiumGallerySection";
 import StickySectionNav from "@/components/common/StickySectionNav";
+import Link from "next/link";
 
 /* ─────────────────────────────────────────
    TYPES
@@ -948,7 +949,7 @@ function PremiumSeatBooking({
             </div>
             {/* ✅ Book Now button uses fmtPriceAdvanced(selected) — same as Kundalini */}
             {selected ? (
-              <a
+              <Link
                 href={`/yoga-registration?batchId=${selected._id}&type=prenatal`}
                 className={styles.psbBookBtn}
               >
@@ -966,7 +967,7 @@ function PremiumSeatBooking({
                     strokeLinejoin="round"
                   />
                 </svg>
-              </a>
+              </Link>
             ) : (
               <span className={`${styles.psbBookBtn} ${styles.psbBookBtnDis}`}>
                 Book Now
@@ -1111,12 +1112,12 @@ function CourseInfoCard({ data }: { data: PageData }) {
             <span className={styles.icPriceNew}>{displayPrice("USD", false)}</span>
             <span className={styles.icPriceCur}>USD</span>
           </div>
-          <a href="#dates-fees" className={styles.icBookBtn}>
+          <Link href="/yoga-registration" className={styles.icBookBtn}>
             {data.courseInfoBookBtnText || "BOOK NOW"}
             <svg viewBox="0 0 20 20" fill="none" className={styles.icBtnArrow}>
               <path d="M4 10h12M11 5l5 5-5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
-          </a>
+          </Link>
         </div>
       </div>
     </div>
@@ -1822,7 +1823,7 @@ export default function PregnancyYogaTTC() {
           {pageData.onlineCtaSub || "Join our next online batch · Flexible schedule · Globally certified"}
         </span>
       </div>
-      <a href={pageData.onlineCtaBtnUrl || "#batch-section"} className={styles.s3CtaBtn}>
+      <Link href={pageData.onlineCtaBtnUrl || "#batch-section"} className={styles.s3CtaBtn}>
         {pageData.onlineCtaBtnText || "Enrol Now"}
         <svg viewBox="0 0 20 20" fill="none" className={styles.s3CtaBtnArrow}>
           <path
@@ -1833,7 +1834,7 @@ export default function PregnancyYogaTTC() {
             strokeLinejoin="round"
           />
         </svg>
-      </a>
+      </Link>
     </div>
   </section>
 )}

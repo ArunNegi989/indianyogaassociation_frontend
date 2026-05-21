@@ -6,6 +6,7 @@ import api from "@/lib/api";
 import PremiumGallerySection from "@/components/PremiumGallerySection";
 import ReviewSection from "@/components/common/Reviewsection";
 import RatingsSummarySection from "@/components/home/RatingsSummarySection";
+import Link from "next/link";
 
 /* ══════════════════════════════════════
    TYPES
@@ -480,7 +481,7 @@ function CourseInfoCard({
             </span>
             <span className={styles.icPriceCur}>{currency}</span>
           </div>
-          <a href="#dates-fees" className={styles.icBookBtn}>
+          <Link href="#dates-fees" className={styles.icBookBtn}>
             BOOK NOW
             <svg viewBox="0 0 20 20" fill="none" className={styles.icBtnArrow}>
               <path
@@ -491,7 +492,7 @@ function CourseInfoCard({
                 strokeLinejoin="round"
               />
             </svg>
-          </a>
+          </Link>
         </div>
       </div>
     </div>
@@ -1075,7 +1076,7 @@ export function PremiumSeatBooking({
               )}
             </div>
             {selected ? (
-              <a
+              <Link
                 href={`/yoga-registration?batchId=${selected._id}&type=hatha`}
                 className={styles.psbBookBtn}
               >
@@ -1093,7 +1094,7 @@ export function PremiumSeatBooking({
                     strokeLinejoin="round"
                   />
                 </svg>
-              </a>
+              </Link>
             ) : (
               <span className={`${styles.psbBookBtn} ${styles.psbBookBtnDis}`}>
                 Book Now
@@ -1428,7 +1429,7 @@ export default function HathaYogaPage() {
                   ][i] || "",
                 );
                 return (
-                  <a
+                  <Link
                     key={c._id || i}
                     href={c.href || "#"}
                     className={styles.certCard}
@@ -1444,7 +1445,7 @@ export default function HathaYogaPage() {
                       <p className={styles.certCardProg}>{c.sub}</p>
                       <span className={styles.certCardLink}>Explore →</span>
                     </div>
-                  </a>
+                  </Link>
                 );
               })}
             </div>
@@ -1581,19 +1582,19 @@ export default function HathaYogaPage() {
               <p className={styles.footerSub}>{d.footerSubtitle}</p>
             )}
             <div className={styles.heroBtns}>
-              <a
+              <Link
                 href={d.applyBtnHref || "#apply"}
                 className={styles.btnPrimary}
               >
                 {d.applyBtnLabel || "Apply Now"}
-              </a>
+              </Link>
               {d.contactEmail && (
-                <a
+                <Link
                   href={`mailto:${d.contactEmail}`}
                   className={styles.btnOutline}
                 >
                   {d.contactBtnLabel || "Contact Us"}
-                </a>
+                </Link>
               )}
             </div>
           </div>

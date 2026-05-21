@@ -325,7 +325,7 @@ export default function TestimonialsSection() {
               <p className={styles.ratingCount}>Based on the opinion of 90 people</p>
               <StarRating score={4.8} />
               <a
-                href="https://www.facebook.com/AYMYogaSchool"
+                href="https://www.facebook.com/aymindia"
                 target="_blank"
                 rel="noopener noreferrer"
                 className={styles.exploreLink}
