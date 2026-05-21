@@ -6,6 +6,7 @@ import tripIcon from "../../assets/icons/showcase1.png";
 import googleIcon from "../../assets/icons/showcase2.png";
 import trustpilotIcon from "../../assets/icons/showcase3.png";
 import truststar from "../../assets/icons/showcase4.png";
+import Link from "next/link";
 
 /* ── Platform Rating Data ── */
 const PLATFORM_RATINGS = [
@@ -147,9 +148,9 @@ function RatingsSummarySection() {
               Instructors — who are now successfully teaching on all 6
               continents.
             </p>
-            <a href="#reviews" className={styles.overallBtn}>
+            <Link href="/https://indianyogaassociation.dreambytesolution.com/testimonials" className={styles.overallBtn}>
               See Our Other Reviews
-            </a>
+            </Link>
           </div>
         </div>
 
