@@ -27,7 +27,7 @@
   position: relative;
   overflow: hidden;
   isolation: isolate;
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Montserrat', Arial, sans-serif;
   background: var(--parchment);
 }
 
@@ -72,7 +72,7 @@
 .container {
   position: relative;
   z-index: 1;
-  max-width: 1460px;
+  max-width: 1600px;
   margin: 0 auto;
   padding: clamp(2.5rem, 5vw, 5rem) clamp(1rem, 5vw, 3rem);
 }
@@ -96,7 +96,7 @@
   background: linear-gradient(90deg, transparent, var(--saffron), transparent);
 }
 .superTitle {
-  font-family: 'Cormorant Garamond', serif;
+  font-family:'Montserrat', Arial, sans-serif;
   font-size: clamp(0.85rem, 1.8vw, 1.1rem);
   font-style: italic;
   color: var(--brown-warm);
@@ -104,7 +104,7 @@
   margin-bottom: 0.5rem;
 }
 .mainTitle {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', Arial, sans-serif;
   font-size: clamp(1.25rem, 3vw, 2.1rem);
   font-weight: 700;
   color: var(--brown-deep);
@@ -128,7 +128,7 @@
   display: block;
 }
 .omGlyph {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', Arial, sans-serif;
   font-size: 1.9rem;
   color: var(--saffron);
   line-height: 1;
@@ -174,7 +174,7 @@
   text-align: center;
 }
 .blockTitle {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', Arial, sans-serif;
   font-size: clamp(0.92rem, 2vw, 1.32rem);
   font-weight: 700;
   color: var(--saffron-dark);
@@ -211,7 +211,7 @@
 }
 .ratingCard:hover { transform: translateY(-4px); box-shadow: 0 12px 32px var(--shadow-s); }
 .ratingPlatform {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', Arial, sans-serif;
   font-size: clamp(0.82rem, 1.5vw, 1rem);
   font-weight: 700;
   color: var(--saffron-dark);
@@ -219,7 +219,7 @@
 }
 .ratingUnderline { width: 50px; height: 2px; background: var(--saffron); border-radius: 2px; }
 .ratingScore {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', Arial, sans-serif;
   font-size: clamp(1.4rem, 2.4vw, 2rem);
   font-weight: 700;
   color: var(--brown-deep);
@@ -241,7 +241,7 @@
   white-space: nowrap;
 }
 .exploreLink {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Montserrat', Arial, sans-serif;
   font-size: 0.95rem;
   font-style: italic;
   color: var(--brown-mid);
@@ -339,7 +339,7 @@
 
 /* Slider section labels */
 .sliderSectionLabel {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', Arial, sans-serif;
   font-size: 0.78rem;
   font-weight: 600;
   color: var(--brown-warm);
@@ -408,7 +408,7 @@
   background: linear-gradient(transparent, rgba(44,21,0,0.85));
   padding: 1rem 0.55rem 0.65rem;
   color: #fff;
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Montserrat', Arial, sans-serif;
   pointer-events: none;
 }
 .reelTitle    { font-size: 0.72rem; font-style: italic; line-height: 1.35; }
@@ -473,14 +473,14 @@
   color: #fff;
 }
 .gridLabelText {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Montserrat', Arial, sans-serif;
   font-size: clamp(0.76rem, 1.2vw, 0.88rem);
   font-style: italic;
   line-height: 1.4;
   margin-bottom: 0.18rem;
 }
 .gridLabelSub {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', Arial, sans-serif;
   font-size: 0.68rem;
   color: var(--saffron-light);
   letter-spacing: 0.06em;
@@ -537,7 +537,7 @@
   gap: 0.18rem;
 }
 .textReviewName {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', Arial, sans-serif;
   font-size: 0.86rem;
   font-weight: 700;
   color: var(--brown-deep);
@@ -549,7 +549,7 @@
   font-style: italic;
 }
 .textReviewBadge {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', Arial, sans-serif;
   font-size: 0.64rem;
   font-weight: 700;
   color: var(--saffron-dark);
@@ -563,7 +563,7 @@
 }
 .textReviewRating { margin-left: auto; }
 .textReviewBody {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Montserrat', Arial, sans-serif;
   font-size: clamp(0.88rem, 1.3vw, 1rem);
   line-height: 1.85;
   color: var(--text);
@@ -571,7 +571,7 @@
   flex: 1;
 }
 .openQuoteMark {
-  font-family: 'Dancing Script', cursive;
+  font-family: 'Montserrat', Arial, sans-serif;
   font-size: 2.8rem;
   color: var(--saffron);
   opacity: 0.3;
@@ -641,7 +641,7 @@
   align-items: center;
   justify-content: center;
   color: rgba(255,255,255,0.6);
-  font-family: 'Cormorant Garamond', serif;
+  font-family:'Montserrat', Arial, sans-serif;
   font-size: 1rem;
   font-style: italic;
 }
@@ -649,7 +649,7 @@
 .modalIframe { width: 100%; height: 100%; border: none; display: block; }
 .modalTitle {
   color: rgba(255,255,255,0.78);
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Montserrat', Arial, sans-serif;
   font-style: italic;
   font-size: 1rem;
   margin-top: 1rem;
@@ -695,7 +695,7 @@
 
 .emptyMsg {
   text-align: center;
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Montserrat', Arial, sans-serif;
   font-style: italic;
   color: var(--text-muted);
   padding: 2rem 0;
