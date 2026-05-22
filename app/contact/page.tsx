@@ -3,6 +3,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import styles from "../../assets/style/Contact-us/ContactPage.module.css";
 import HowToReach from "@/components/home/Howtoreach";
+import { FaFacebookF, FaInstagram, FaTwitter, FaWhatsapp, FaYoutube } from "react-icons/fa";
 
 /* ─── Types ─── */
 interface FormState {
@@ -40,10 +41,31 @@ const INFO_ITEMS = [
 
 /* ─── Social links ─── */
 const SOCIALS = [
-  { label: "Facebook", href: "https://facebook.com", icon: "f" },
-  { label: "Instagram", href: "https://instagram.com", icon: "✦" },
-  { label: "YouTube", href: "https://youtube.com", icon: "▶" },
-  { label: "WhatsApp", href: "https://wa.me/917500277709", icon: "W" },
+  {
+    label: "Facebook",
+    href: "https://www.facebook.com/aymindia",
+    icon: <FaFacebookF />,
+  },
+  {
+    label: "Instagram",
+    href: "https://www.instagram.com/indianyogaassociation/",
+    icon: <FaInstagram />,
+  },
+  {
+    label: "YouTube",
+    href: "https://www.youtube.com/user/aymindia1/",
+    icon: <FaYoutube />,
+  },
+  {
+    label: "Twitter",
+    href: "https://x.com/aymindia",
+    icon: <FaTwitter />,
+  },
+  {
+    label: "WhatsApp",
+    href: "https://wa.me/917500277709",
+    icon: <FaWhatsapp />,
+  },
 ];
 
 /* ─── Course options ─── */

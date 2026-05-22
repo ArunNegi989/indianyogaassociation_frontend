@@ -388,9 +388,9 @@ const AYMFullPage: React.FC = () => {
         dangerouslySetInnerHTML={{ __html: data.promoCard1.text }}
       />
 
-      <a href={data.promoCard1.link} className={styles.promoLink}>
+      <Link href={data.promoCard1.link} className={styles.promoLink}>
         More information →
-      </a>
+      </Link>
     </div>
 
     <div className={styles.promoImageWrap}>
@@ -458,9 +458,14 @@ const AYMFullPage: React.FC = () => {
             dangerouslySetInnerHTML={{ __html: data.ctaSubtext }}
           />
 
-          <a href={data.whatsappLink} className={styles.whatsappBtn}>
-            <span className={styles.waIcon}>💬</span> Chat with Us on WhatsApp
-          </a>
+        <Link 
+  href={`https://wa.me/918476898395?text=${encodeURIComponent("Hello, I want to know more about your training course.")}`}
+  className={styles.whatsappBtn}
+  target="_blank"
+  rel="noopener noreferrer"
+>
+  <span className={styles.waIcon}>💬</span> Chat with Us on WhatsApp
+</Link>
         </div>
 
         {/* Master quote block */}

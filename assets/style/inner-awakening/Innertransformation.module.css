@@ -21,7 +21,7 @@
 ==================================================== */
 .pageWrapper {
    font-family: "Montserrat", Arial, sans-serif;
-  background-image: url("../../images/1905x4451.png");
+  background-image: url("../../images/backgroundimage/28.png");
   color: var(--text-body);
   overflow-x: hidden;
 }

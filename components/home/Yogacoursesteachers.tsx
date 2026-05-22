@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import styles from "../../assets/style/Home/Yogacoursesteachers.module.css";
 import api from "@/lib/api";
+import Link from "next/link";
 
 /* ══════════════════════════════════════════════════════
    IMAGE URL HELPER
@@ -359,12 +360,12 @@ function CourseSlider({
                     </div>
                   </div>
                   <div className={styles.cardActions}>
-                    <a href={course.detailsLink || "#"} className={styles.detailsBtn}>
+                    <Link href={course.detailsLink || "#"} className={styles.detailsBtn}>
                       More Details
-                    </a>
-                    <a href={course.bookLink || "#"} className={styles.bookBtn}>
+                    </Link>
+                    <Link href={course.bookLink || "#"} className={styles.bookBtn}>
                       Book Now
-                    </a>
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -840,12 +841,12 @@ export const YogaCoursesTeachers: React.FC = () => {
                 className={styles.para}
               />
               <div className={styles.founderActions}>
-                <a href={founder.detailsBtnLink || "#"} className={styles.detailsBtn}>
+                <Link href={founder.detailsBtnLink || "#"} className={styles.detailsBtn}>
                   {founder.detailsBtnText}
-                </a>
-                <a href={founder.bookBtnLink || "#"} className={styles.bookBtn}>
+                </Link>
+                <Link href={founder.bookBtnLink || "#"} className={styles.bookBtn}>
                   {founder.bookBtnText}
-                </a>
+                </Link>
               </div>
             </div>
           </div>
@@ -855,12 +856,12 @@ export const YogaCoursesTeachers: React.FC = () => {
           )}
 
           <div className={styles.teachersCta}>
-            <a
+            <Link
               href={teachersHeader.ctaBtnLink || "#"}
               className={styles.teachersCtaBtn}
             >
               {teachersHeader.ctaBtnText} <span>→</span>
-            </a>
+            </Link>
           </div>
         </div>
         <div className={styles.bottomBorder} />

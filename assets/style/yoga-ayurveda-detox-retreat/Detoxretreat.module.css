@@ -14,7 +14,7 @@
 ==================================================== */
 .pageWrapper {
    font-family: "Montserrat", Arial, sans-serif;
-  background-image: url("../../images/1905x3772.png");
+  background-image: url("../../images/backgroundimage/detox.png");
   color: var(--text-body);
   overflow-x: hidden;
 }
@@ -272,9 +272,7 @@
   }
 }
 
-.section{
-  background: white;
-}
+
 
 /* XL: ≥ 1200px */
 @media (min-width: 1200px) {
@@ -376,7 +374,6 @@
 
 /* Highlight Box */
 .highlightBox {
-  background: linear-gradient(135deg, #fff5eb 0%, #ffe8d6 100%);
   padding: 16px 20px;
   border-radius: 12px;
   border-left: 4px solid #f15505;
@@ -505,9 +502,7 @@
 /* ====================================================
    SECTION 2 — CORRECT / BENEFITS
 ==================================================== */
-.correctSection {
-  background: #ffffff;
-}
+
 
 .benefitGrid {
   display: grid;
@@ -517,7 +512,6 @@
 }
 
 .benefitCard {
-  background: #fff;
   border: 0.5px solid #e5e5e5;
   border-radius: 14px;
   padding: 24px 20px;
@@ -563,9 +557,7 @@
 /* ====================================================
    SECTION 3 — STEPS
 ==================================================== */
-.methodSection {
-  background: white;
-}
+
 
 .stepsGrid {
   display: grid;
@@ -633,9 +625,7 @@
 /* ====================================================
    SECTION 4 — MASSAGE IMAGE
 ==================================================== */
-.massageSection {
-  background: #fff;
-}
+
 
 .mediaTabRow {
   display: flex;
@@ -722,7 +712,7 @@
 /* ====================================================
    SECTION 5 — TWO SYSTEMS
 ==================================================== */
-.systemsSection { background: white; }
+
 
 .systemsGrid {
   display: grid;
@@ -820,7 +810,7 @@
 /* ====================================================
    SECTION 6 — PACKAGES
 ==================================================== */
-.packagesSection { background: #fff; }
+
 
 .packagesGrid {
   display: grid;

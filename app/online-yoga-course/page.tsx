@@ -11,6 +11,10 @@ import chakra6 from "@/assets/images/throat-chakra.png";
 import HowToReach from "@/components/home/Howtoreach";
 import heroImg from "@/assets/images/30.webp";
 import Link from "next/link";
+import whyimage from "@/assets/images/mainimages/43359738790_ce28a4c5c7_b.jpg"
+import othercourseimage1 from "@/assets/images/mainimages/45840430941_d5eb250540_b.jpg"
+import othercourseimage2 from "@/assets/images/mainimages/45676882141_bfeb9bd204_b.jpg"
+import othercourseimage3 from "@/assets/images/mainimages/45840433241_d34be93857_b.jpg"
 
 /* ── Video embed ── */
 const HERO_VIDEO_URL =
@@ -18,14 +22,11 @@ const HERO_VIDEO_URL =
 
 /* ── Other course images ── */
 const otherCourseImages = [
-  "https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?w=600&q=80",
-  "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=600&q=80",
-  "https://images.unsplash.com/photo-1558017487-06bf9f82613a?w=600&q=80",
+  { src: othercourseimage1, alt: "Other Course 1", width: 600, height: 400 },
+  { src: othercourseimage2, alt: "Other Course 2", width: 600, height: 400 },
+  { src: othercourseimage3, alt: "Other Course 3", width: 600, height: 400 },
 ];
 
-/* ── Why Choose image ── */
-const WHY_IMAGE =
-  "https://images.unsplash.com/photo-1545389336-cf090694435e?w=800&q=80";
 
 /* ─────────────────────────────────────────────
    DATA
@@ -560,7 +561,7 @@ export default function OnlineYogaCourse() {
             {/* Right: image stacked with video */}
             <div className={styles.whyRight}>
               <div className={styles.whyImageBox}>
-                <img src={WHY_IMAGE} alt="Online yoga practice" />
+                <img src={whyimage.src}  width={whyimage.width} height={whyimage.height} />
                 <div className={styles.whyCornerTl} />
                 <div className={styles.whyCornerBr} />
                 <div className={styles.whyImageBadge}>Since 2010 · Rishikesh</div>
@@ -819,10 +820,12 @@ export default function OnlineYogaCourse() {
                 style={{ "--oi": i } as React.CSSProperties}
               >
                 <div className={styles.otherCardImage}>
-                  <img
-                    src={otherCourseImages[i]}
-                    alt={oc.title}
-                  />
+                 <Image
+  src={otherCourseImages[i].src}
+  alt={otherCourseImages[i].alt}
+  width={otherCourseImages[i].width}
+  height={otherCourseImages[i].height}
+/>
                   <div className={styles.otherCardImageOverlay} />
                 </div>
                 <div className={styles.otherCardBody}>

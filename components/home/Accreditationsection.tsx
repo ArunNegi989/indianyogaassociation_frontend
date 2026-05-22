@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import styles from "../../assets/style/Home/Accreditationsection.module.css";
 import api from "@/lib/api";
+import Link from "next/link";
 
 const getImageUrl = (path: string) => {
   if (!path) return "";
@@ -426,10 +427,10 @@ export const AccreditationSection: React.FC = () => {
               <div className={styles.immerseDivider} />
               <p className={styles.para}>{data.immersePara1}</p>
               <p className={styles.para}>{data.immersePara2}</p>
-              <a href={data.immerseCtaLink} className={styles.knowMoreBtn}>
+              <Link href={data.immerseCtaLink} className={styles.knowMoreBtn}>
                 {data.immerseCtaText}{" "}
                 <span className={styles.btnArrow}>→</span>
-              </a>
+              </Link>
             </div>
           </div>
         </div>

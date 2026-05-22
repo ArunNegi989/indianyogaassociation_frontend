@@ -177,6 +177,7 @@ const YogaAshrams: React.FC = () => {
         <Link href="/hatha-yoga-teacher-training-Rishikesh">Hatha Yoga</Link>, <Link href="/vinyasa-teacher-training-india">Ashtanga</Link>, Vinyasa,
         Vinyasa Flow, Iyengar, Kundalini and Power Yoga.
       </p>
+      <p>AYM Yoga Ashram provides a peaceful and traditional environment where students from all over the world come together to learn authentic yoga practices. Surrounded by the beautiful Himalayas and the sacred river Ganga, the ashram offers a perfect atmosphere for spiritual growth, self-discovery, and inner peace.</p>
       <div className={styles.certBadges}>
         <span className={styles.badge}>Yoga Alliance USA</span>
         <span className={styles.badge}>Intl. Yoga Federation</span>
@@ -272,7 +273,8 @@ const YogaAshrams: React.FC = () => {
       Once at our ashram, people can focus on themselves and find who they are and what they want to do. Also, at AYM Yoga Ashram, people find the true meaning of life and find out how they can serve themselves by serving others. Once they have become well-versed in one or more styles of yoga and have learned to meditate, they can get back to their lives and work better and more efficiently. By doing so, they are equipped with life skills to start progressing.
     </p>
   </div>
-  <div className={styles.whyGrid}>
+
+  <div className={`${styles.whyGrid} container`}>
       {[
         { num: "01", label: "Location", title: "Free from distraction", desc: "Located away from the hustle of daily life, free from interruptions, with full focus on your practice." },
         { num: "02", label: "Teachers", title: "Experienced masters", desc: "Qualified teachers who teach different styles and aspects of yoga with heart, mind, and soul." },
