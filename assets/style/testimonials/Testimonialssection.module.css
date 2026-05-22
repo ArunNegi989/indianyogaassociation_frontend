@@ -275,7 +275,7 @@
 .sliderTrack {
   display: flex;
   align-items: stretch;
-  gap: 46px;
+  gap: 50px;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
