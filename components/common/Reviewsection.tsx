@@ -162,7 +162,7 @@ const getYouTubeEmbed = (url: string) => {
   else if (url.includes("shorts")) videoId = url.split("shorts/")[1]?.split("?")[0];
   else if (url.includes("watch?v=")) videoId = url.split("watch?v=")[1]?.split("&")[0];
   return videoId
-    ? `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}&controls=0&modestbranding=1&showinfo=0&rel=0&iv_load_policy=3&disablekb=1&playsinline=1`
+    ? `https://www.youtube.com/embed/${videoId}?autoplay=1&loop=1&playlist=${videoId}&controls=0&modestbranding=1&showinfo=0&rel=0&iv_load_policy=3&disablekb=1&playsinline=1`
     : "";
 };
 
