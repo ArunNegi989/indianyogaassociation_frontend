@@ -275,7 +275,7 @@
 .sliderTrack {
   display: flex;
   align-items: stretch;
-  gap: 16px;
+  gap: 46px;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
@@ -317,7 +317,7 @@
 .sliderArrowRight { right: 0; }
 
 .sliderDots {
-  display: flex;
+  display: none;
   justify-content: center;
   gap: 6px;
   margin-top: 12px;
