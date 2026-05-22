@@ -1739,8 +1739,13 @@ export default function Yoga200HourCombinedForm() {
       }
 
       aimsBullets.forEach((v) => fd.append("aimsBullets", v));
-      inclFee.forEach((v) => fd.append("includedFee", v));
-      notInclFee.forEach((v) => fd.append("notIncludedFee", v));
+      
+      // ========== FIXED: Fees as JSON strings ==========
+      // Send fees as JSON strings instead of multiple entries
+      fd.append("includedFee", JSON.stringify(inclFee.filter(v => v.trim() !== "")));
+      fd.append("notIncludedFee", JSON.stringify(notInclFee.filter(v => v.trim() !== "")));
+      // =================================================
+      
       foundItems.forEach((v) => fd.append("foundationItems", v));
 
       fd.set("luxFeatures", JSON.stringify(luxFeatures));
