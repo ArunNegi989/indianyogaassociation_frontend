@@ -1,11 +1,18 @@
-"use client";
+
 import React from "react";
+import type { Metadata } from "next";
 import styles from "@/assets/style/Yoga-retreat/Yogaretreatpage.module.css";
 import HowToReach from "@/components/home/Howtoreach";
 import Image from "next/image";
 import heroImg from "@/assets/images/33.webp";
 import PremiumGallerySection from "@/components/PremiumGallerySection";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "Yoga Retreat Rishikesh | Wellness & Meditation | AYM Yoga",
+  description:
+    "Discover the best yoga retreat in Rishikesh at AYM Yoga School. Reconnect through yoga, meditation, pranayama, healthy meals, and serene surroundings.",
+}
 
 const IMAGES = {
   banner:

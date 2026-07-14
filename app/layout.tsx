@@ -37,9 +37,9 @@ const montserrat = Montserrat({
 });
 
 export const metadata: Metadata = {
-  title: "Yoga Teacher Training in Rishikesh - Best Yoga School in Rishikesh",
+  title: "Yoga School in Rishikesh | Certified Courses | AYM Yoga School",
   description:
-    "Yoga Teacher Training in Rishikesh - Best Yoga School in Rishikesh",
+    "Join AYM yoga school in Rishikesh for authentic Yoga Teacher Training Courses. We offer Yoga Alliance-certified teacher training, yoga retreats, and meditation.",
 };
 
 export default function RootLayout({
