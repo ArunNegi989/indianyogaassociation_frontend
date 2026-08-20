@@ -1,7 +1,6 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import styles from "@/assets/style/Auth/login.module.css";
 import api from "@/lib/api";
 import { setAccessToken } from "@/lib/auth";
@@ -11,7 +10,18 @@ import Link from "next/link";
 export default function LoginPage() {
   const [isActive, setIsActive] = useState(false);
   const { setUser } = useAuth();
-  const router = useRouter();
+const [adminExists, setAdminExists] = useState(false);
+
+  useEffect(() => {
+    api
+      .get("/auth/check-admin")
+      .then((res) => setAdminExists(res.data.adminExists))
+      .catch(() => setAdminExists(false));
+  }, []);
+  // ── Modals ──────────────────────────────────────────────────
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showAccessModal, setShowAccessModal] = useState(false);
+  const [accessModalMsg, setAccessModalMsg] = useState("");
 
   // ── Register State ──────────────────────────────────────────
   const [registerData, setRegisterData] = useState({
@@ -24,7 +34,6 @@ export default function LoginPage() {
 
   // ── Login State ─────────────────────────────────────────────
   const [loginData, setLoginData] = useState({ email: "", password: "" });
-  const [loginError, setLoginError] = useState("");
   const [loginLoading, setLoginLoading] = useState(false);
 
   // ── Handlers ────────────────────────────────────────────────
@@ -34,10 +43,9 @@ export default function LoginPage() {
     setRegisterLoading(true);
 
     try {
-      const res = await api.post("/auth/register", registerData);
-      setAccessToken(res.data.accessToken);
-      setUser(res.data.user);
-      router.push("/admin");
+      await api.post("/auth/register", registerData);
+      setRegisterData({ name: "", email: "", password: "" });
+      setShowSuccessModal(true); // ✅ success modal
     } catch (err: any) {
       setRegisterError(
         err?.response?.data?.message || "Registration failed. Try again.",
@@ -49,18 +57,21 @@ export default function LoginPage() {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoginError("");
     setLoginLoading(true);
 
     try {
       const res = await api.post("/auth/login", loginData);
       setAccessToken(res.data.accessToken);
       setUser(res.data.user);
-      router.push("/admin");
+      window.location.href = "/admin"; // ✅ full reload — cookie middleware ko milegi
     } catch (err: any) {
-      setLoginError(
-        err?.response?.data?.message || "Invalid credentials. Try again.",
-      );
+      const status = err?.response?.status;
+      if (status === 403) {
+        setAccessModalMsg("Only Admin can access the Admin Dashboard.");
+      } else {
+        setAccessModalMsg("Invalid email or password. Please try again.");
+      }
+      setShowAccessModal(true);
     } finally {
       setLoginLoading(false);
     }
@@ -68,6 +79,46 @@ export default function LoginPage() {
 
   return (
     <main className={styles.pageWrapper}>
+      {/* ── Account Created Success Modal ───────────────────── */}
+      {showSuccessModal && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.modalBox}>
+            <div className={styles.modalIcon}>✅</div>
+            <h2>Account Created!</h2>
+            <p>
+              Your account has been created successfully. Please sign in to
+              continue your spiritual journey.
+            </p>
+            <button
+              className={styles.modalCloseBtn}
+              onClick={() => {
+                setShowSuccessModal(false);
+                setIsActive(false); // ✅ login panel pe le jao
+              }}
+            >
+              Sign In
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* ── Access Denied Modal ──────────────────────────────── */}
+      {showAccessModal && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.modalBox}>
+            <div className={styles.modalIcon}>🔒</div>
+            <h2>Access Denied</h2>
+            <p>{accessModalMsg}</p>
+            <button
+              className={styles.modalCloseBtn}
+              onClick={() => setShowAccessModal(false)}
+            >
+              Okay, Got It
+            </button>
+          </div>
+        </div>
+      )}
+
       <div
         className={`${styles.authWrapper} ${isActive ? styles.panelActive : ""}`}
         id="authWrapper"
@@ -92,7 +143,7 @@ export default function LoginPage() {
                 <i className="fab fa-linkedin-in" />
               </a>
             </div>
-            <span>or use your email for registration</span>
+            <span>Our Social Media</span>
 
             <input
               type="text"
@@ -159,7 +210,7 @@ export default function LoginPage() {
                 <i className="fab fa-linkedin-in" />
               </a>
             </div>
-            <span>or use your account</span>
+            <span>Our Social Media</span>
 
             <input
               type="email"
@@ -180,9 +231,7 @@ export default function LoginPage() {
               }
             />
 
-           <Link href="/auth/forgot-password">Forgot your password?</Link>
-
-            {loginError && <p className={styles.errorMsg}>{loginError}</p>}
+            <Link href="/auth/forgot-password">Forgot your password?</Link>
 
             <button type="submit" disabled={loginLoading}>
               {loginLoading ? "Signing In..." : "Sign In"}
@@ -216,22 +265,25 @@ export default function LoginPage() {
                 Sign In
               </button>
             </div>
-            <div
-              className={`${styles.panelContent} ${styles.panelContentRight}`}
-            >
-              <h1>Namaste!</h1>
-              <p>
-                Begin your amazing yoga journey by creating an account with us
-                today
-              </p>
-              <button
-                className={styles.transparentBtn}
-                type="button"
-                onClick={() => setIsActive(true)}
-              >
-                Sign Up
-              </button>
-            </div>
+            <div className={`${styles.panelContent} ${styles.panelContentRight}`}>
+  <h1>Namaste!</h1>
+  <p>
+    "Yoga is not about touching your toes,
+    it is about what you learn on the way down.
+    It is the art of living — breathing, moving,
+    and awakening the soul within."
+  </p>
+  {/* ✅ Admin hai to button hide, nahi hai to show */}
+  {!adminExists && (
+    <button
+      className={styles.transparentBtn}
+      type="button"
+      onClick={() => setIsActive(true)}
+    >
+      Sign Up
+    </button>
+  )}
+</div>
           </div>
         </div>
       </div>
