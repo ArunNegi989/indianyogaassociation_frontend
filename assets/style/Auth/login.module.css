@@ -338,8 +338,7 @@
 }
 
 .panelContent p {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(0.95rem, 1.5vw, 1.05rem);
+  font-size: clamp(1.2rem, 1.5vw, 1.05rem);
   line-height: 1.7;
   margin: 0 0 28px;
   color: rgba(255, 255, 255, 0.88);
@@ -598,4 +597,72 @@
     width: 100%;
     text-align: center;
   }
+}
+
+/* ── Access Denied Modal ────────────────────────────────────── */
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  backdrop-filter: blur(4px);
+}
+
+.modalBox {
+  background: #fff;
+  border-radius: 16px;
+  padding: 40px 32px;
+  max-width: 360px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: modalPop 0.25s ease;
+}
+
+@keyframes modalPop {
+  from {
+    transform: scale(0.85);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.modalIcon {
+  font-size: 3rem;
+  margin-bottom: 12px;
+}
+
+.modalBox h2 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 10px;
+}
+
+.modalBox p {
+  font-size: 0.95rem;
+  color: #555;
+  margin-bottom: 24px;
+  line-height: 1.5;
+}
+
+.modalCloseBtn {
+  background: #1a1a1a;
+  color: #fff;
+  border: none;
+  padding: 12px 28px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.modalCloseBtn:hover {
+  background: #444;
 }
