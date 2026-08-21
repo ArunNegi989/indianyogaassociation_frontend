@@ -192,17 +192,20 @@ export const CoursesSection: React.FC = () => {
 
                   {/* ✅ Enroll Now — courseId pass hoga, enrollHref ignore */}
                   {isFull ? (
-                    <span className={`${styles.btnEnroll} ${styles.btnEnrollDisabled}`}>
-                      Fully Booked
-                    </span>
-                  ) : (
-                    <Link
-                      href={`/yoga-registration?courseId=${course._id}`}
-                      className={styles.btnEnroll}
-                    >
-                      Enroll Now
-                    </Link>
-                  )}
+  <span className={`${styles.btnEnroll} ${styles.btnEnrollDisabled}`}>
+    Fully Booked
+  </span>
+) : (
+  <Link
+    href={{
+      pathname: "/yoga-registration",
+      query: { courseId: String(course._id) },
+    }}
+    className={styles.btnEnroll}
+  >
+    Enroll Now
+  </Link>
+)}
 
                   <Link href={course.exploreHref} className={styles.btnExplore}>
                     {course.exploreLabel}

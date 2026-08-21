@@ -190,6 +190,15 @@ export default function RegisterForm() {
   const batchId  = searchParams.get("batchId");   // 100hr/200hr/300hr flow
   const courseId = searchParams.get("courseId");  // CoursesSection flow ✅
 
+  // 🔍 TEMP DEBUG — remove once confirmed working
+  useEffect(() => {
+    console.log("URL params →", {
+      full: searchParams.toString(),
+      batchId,
+      courseId,
+    });
+  }, [searchParams, batchId, courseId]);
+
   type CourseType = "100hr" | "200hr" | "300hr";
   const rawType = searchParams.get("type");
   const type = rawType as CourseType;
@@ -248,6 +257,7 @@ export default function RegisterForm() {
       try {
         const res = await api.get(`/courses-section/${courseId}`);
         const course = res.data.data;
+        console.log("Fetched course for courseId:", courseId, course); // 🔍 TEMP DEBUG
         setFormData((prev) => ({
           ...prev,
           course: course.title, // ✅ course name auto-fill
@@ -279,36 +289,45 @@ export default function RegisterForm() {
         type:     type     ?? null,
       });
 
-      // Step 2: Email bhejo
-      const res = await api.post("/email/send-email", {
-        ...formData,
-        gender,
-        batchId,
-        type,
-      });
-
-      if (res?.data?.success) {
-        // Step 3a: Batch seat book karo (100hr/200hr/300hr)
+      // Step 2: Seat booking — now decoupled from email success,
+      // so a slow/flaky mail server can never block a real seat decrement.
+      try {
         if (batchId && type && API_MAP[type]) {
           await api.patch(`${API_MAP[type].bookSeat}/${batchId}`);
         }
-
-        // Step 3b: CoursesSection seat book karo ✅
         if (courseId) {
+          console.log("Booking seat for courseId:", courseId); // 🔍 TEMP DEBUG
           await api.patch(`/courses-section/${courseId}/book-seat`);
         }
-
-        setSubmitSuccess(true);
-
-        setTimeout(() => {
-          setSubmitSuccess(false);
-          setGender("Male");
-          setFormData(INITIAL_FORM);
-          setIsCaptchaVerified(false);
-        }, 2800);
-      } else {
-        alert("Email failed ❌");
+      } catch (seatErr) {
+        console.log("Seat booking error:", seatErr);
+        // Registration already saved — don't block the success flow on this,
+        // but surface it so you notice if it's failing silently.
       }
+
+      // Step 3: Email — best-effort, doesn't gate seat booking anymore
+      try {
+        const res = await api.post("/email/send-email", {
+          ...formData,
+          gender,
+          batchId,
+          type,
+        });
+        if (!res?.data?.success) {
+          console.log("Email send returned non-success:", res?.data);
+        }
+      } catch (emailErr) {
+        console.log("Email send error:", emailErr);
+      }
+
+      setSubmitSuccess(true);
+
+      setTimeout(() => {
+        setSubmitSuccess(false);
+        setGender("Male");
+        setFormData(INITIAL_FORM);
+        setIsCaptchaVerified(false);
+      }, 2800);
     } catch (err) {
       console.log("ERROR:", err);
       alert("Server error ❌");
