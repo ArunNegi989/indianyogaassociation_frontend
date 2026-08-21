@@ -134,10 +134,12 @@ const HomepageSlider = () => {
           <div className={styles.slideContent}>
             <h2 className={styles.slideTitle}>{slide.bannerName}</h2>
 
-            <Link href={slide.link} className={styles.slideCta}>
-              Explore
-              <span className={styles.arrow}>→</span>
-            </Link>
+            {slide.link && slide.link.trim() !== "" && (
+              <Link href={slide.link} className={styles.slideCta}>
+                Explore
+                <span className={styles.arrow}>→</span>
+              </Link>
+            )}
           </div>
         </div>
       ))}

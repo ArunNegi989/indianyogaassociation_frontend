@@ -38,13 +38,18 @@ export default function AddBannerPage() {
   /* ── Validation ── */
   const validate = (): boolean => {
     const e: FormErrors = {};
-    if (!form.bannerName.trim()) e.bannerName = "Banner name is required";
-    else if (form.bannerName.trim().length < 3)
-      e.bannerName = "Name must be at least 3 characters";
-    if (!form.link.trim()) e.link = "Link is required";
-    else if (!/^https?:\/\/.+\..+/.test(form.link.trim()))
-      e.link = "Enter a valid URL (e.g. https://example.com)";
-    if (!form.image) e.image = "Please upload a banner image";
+    // Only validate image if one is being uploaded
+    if (form.image) {
+      if (!form.image.type.startsWith("image/")) {
+        e.image = "Only image files are allowed (JPG, PNG, WEBP)";
+      }
+      if (form.image.size > 5 * 1024 * 1024) {
+        e.image = "Image must be smaller than 5MB";
+      }
+    } else {
+      // Image is required for new banner
+      e.image = "Please upload a banner image";
+    }
     setErrors(e);
     return Object.keys(e).length === 0;
   };
@@ -104,43 +109,44 @@ export default function AddBannerPage() {
   };
 
   /* ── Submit ── */
- const handleSubmit = async () => {
-  if (!validate()) return;
+  const handleSubmit = async () => {
+    if (!validate()) return;
 
-  try {
-    setIsSubmitting(true);
+    try {
+      setIsSubmitting(true);
 
-    const formData = new FormData();
+      const formData = new FormData();
 
-    formData.append("bannerName", form.bannerName);
-    formData.append("link", form.link);
+      // Send empty strings - let them be empty
+      formData.append("bannerName", form.bannerName);
+      formData.append("link", form.link);
 
-    if (form.image) {
-      formData.append("image", form.image);
+      if (form.image) {
+        formData.append("image", form.image);
+      }
+
+      const res = await api.post("/banners/create", formData);
+
+      if (res.data.success) {
+        setSubmitted(true);
+
+        setTimeout(() => {
+          router.push("/admin/dashboard/homebanner");
+        }, 1500);
+      }
+
+    } catch (error: any) {
+      console.error(error);
+      const message =
+    error?.response?.data?.message ||
+    error?.message ||
+    "Failed to add banner";
+
+  alert(message);
+    } finally {
+      setIsSubmitting(false);
     }
-
-    const res = await api.post("/banners/create", formData);
-
-    if (res.data.success) {
-      setSubmitted(true);
-
-      setTimeout(() => {
-        router.push("/admin/dashboard/homebanner");
-      }, 1500);
-    }
-
-  } catch (error: any) {
-    console.error(error);
-    const message =
-  error?.response?.data?.message ||
-  error?.message ||
-  "Failed to add banner";
-
-alert(message);
-  } finally {
-    setIsSubmitting(false);
-  }
-};
+  };
 
   /* ── Success screen ── */
   if (submitted) {
@@ -196,13 +202,12 @@ alert(message);
           <label className={styles.label}>
             <span className={styles.labelIcon}>✦</span>
             Banner Name
-            <span className={styles.required}>*</span>
           </label>
           <p className={styles.fieldHint}>
             This name is for internal reference only
           </p>
           <div
-            className={`${styles.inputWrap} ${errors.bannerName ? styles.inputError : ""} ${form.bannerName && !errors.bannerName ? styles.inputSuccess : ""}`}
+            className={`${styles.inputWrap} ${form.bannerName && !errors.bannerName ? styles.inputSuccess : ""}`}
           >
             <input
               type="text"
@@ -318,17 +323,16 @@ alert(message);
           <label className={styles.label}>
             <span className={styles.labelIcon}>✦</span>
             Banner Link
-            <span className={styles.required}>*</span>
           </label>
           <p className={styles.fieldHint}>
             Page that opens when user clicks this banner
           </p>
           <div
-            className={`${styles.inputWrap} ${styles.inputWithPrefix} ${errors.link ? styles.inputError : ""} ${form.link && !errors.link ? styles.inputSuccess : ""}`}
+            className={`${styles.inputWrap} ${styles.inputWithPrefix} ${form.link && !errors.link ? styles.inputSuccess : ""}`}
           >
             <span className={styles.inputPrefix}>🔗</span>
             <input
-              type="url"
+              type="text"
               className={`${styles.input} ${styles.inputPrefixed}`}
               placeholder="https://aymyoga.com/courses/200hr"
               value={form.link}

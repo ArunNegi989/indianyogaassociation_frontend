@@ -68,15 +68,15 @@ if (b.image) {
 }
 
           setForm({
-            bannerName:   b.bannerName,
-            link:         b.link,
+            bannerName:   b.bannerName || "",
+            link:         b.link || "",
             image:        null,
             imagePreview: imagePreview || null,
           });
           setOriginalData({
-            bannerName:   b.bannerName,
-            link:         b.link,
-            imagePreview: imagePreview,
+            bannerName:   b.bannerName || "",
+            link:         b.link || "",
+            imagePreview: imagePreview || "",
           });
         } else {
           setNotFound(true);
@@ -100,13 +100,18 @@ if (b.image) {
     );
   }, [form, originalData]);
 
-  // ── Validation ──
+  // ── Image validation only ──
   const validate = (): boolean => {
     const e: FormErrors = {};
-    if (!form.bannerName.trim())                e.bannerName = "Banner name is required";
-    else if (form.bannerName.trim().length < 3) e.bannerName = "Minimum 3 characters required";
-    if (!form.link.trim())                      e.link = "Link is required";
-    else if (!/^https?:\/\/.+/.test(form.link.trim())) e.link = "Enter a valid URL starting with https://";
+    // Only validate image if a new one is being uploaded
+    if (form.image) {
+      if (!form.image.type.startsWith("image/")) {
+        e.image = "Only image files allowed (JPG, PNG, WEBP)";
+      }
+      if (form.image.size > 5 * 1024 * 1024) {
+        e.image = "Image must be under 5MB";
+      }
+    }
     setErrors(e);
     return Object.keys(e).length === 0;
   };
@@ -154,8 +159,8 @@ if (b.image) {
     try {
       // FormData use karo kyunki image bhi bhejni hai
       const formData = new FormData();
-      formData.append("bannerName", form.bannerName);
-      formData.append("link", form.link);
+      formData.append("bannerName", form.bannerName || "");
+      formData.append("link", form.link || "");
       if (form.image) {
         formData.append("image", form.image);
       }
@@ -286,10 +291,9 @@ if (b.image) {
           <label className={styles.label}>
             <span className={styles.labelIcon}>✦</span>
             Banner Name
-            <span className={styles.required}>*</span>
           </label>
           <p className={styles.fieldHint}>Internal reference name for this banner</p>
-          <div className={`${styles.inputWrap} ${errors.bannerName ? styles.inputError : ""} ${form.bannerName && !errors.bannerName ? styles.inputSuccess : ""}`}>
+          <div className={`${styles.inputWrap} ${form.bannerName && !errors.bannerName ? styles.inputSuccess : ""}`}>
             <input
               type="text"
               className={styles.input}
@@ -371,13 +375,12 @@ if (b.image) {
           <label className={styles.label}>
             <span className={styles.labelIcon}>✦</span>
             Banner Link
-            <span className={styles.required}>*</span>
           </label>
           <p className={styles.fieldHint}>Page that opens when user clicks this banner</p>
-          <div className={`${styles.inputWrap} ${styles.inputWithPrefix} ${errors.link ? styles.inputError : ""} ${form.link && !errors.link ? styles.inputSuccess : ""}`}>
+          <div className={`${styles.inputWrap} ${styles.inputWithPrefix} ${form.link && !errors.link ? styles.inputSuccess : ""}`}>
             <span className={styles.inputPrefix}>🔗</span>
             <input
-              type="url"
+              type="text"
               className={`${styles.input} ${styles.inputPrefixed}`}
               placeholder="https://aymyoga.com/courses/200hr"
               value={form.link}
