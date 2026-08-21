@@ -927,13 +927,18 @@ export default function AddEditAshtangaVinyasaPage() {
 
         setIsEdit(true);
 
+        // ✅ FIX: removed "courseDetailsImageAlt", "certTeachersImageAlt",
+        // "communityImageAlt", "accommodationImageAlt" from this list.
+        // They are controlled by separate useState below and were being
+        // double-appended to FormData on submit (RHF data + manual append),
+        // causing Mongoose CastError (array instead of string).
         const fields: (keyof PageFormValues)[] = [
           "slug", "status", "heroImgAlt", "pageH1Title", "courseDetailsTitle",
-          "courseDetailsImageAlt", "whoCanApplyTitle",
+          "whoCanApplyTitle",
           "promoSchoolLabel", "promoHeading", "promoLocation", "promoFeeLabel",
           "promoFeeAmount", "promoBtnLabel", "promoBtnHref", "certTeachersTitle",
-          "certTeachersImageAlt", "communityTitle", "communityImageAlt",
-          "accommodationTitle", "accommodationImageAlt", "certCardTitle", "certDeepTitle",
+          "communityTitle",
+          "accommodationTitle", "certCardTitle", "certDeepTitle",
           "schedBookLabel", "schedRegisterText", "schedPayText", "schedDepositAmount",
           "schedPayBtnLabel", "schedPayBtnHref", "testimSectionTitle", "testimIntroText",
           "courseInfoCardTitle", "courseInfoFeeLabel", "courseInfoFeeFromText",
@@ -1009,7 +1014,18 @@ export default function AddEditAshtangaVinyasaPage() {
       setIsSubmitting(true);
       const fd = new window.FormData();
 
+      // ✅ FIX: skip the 4 *ImageAlt keys here — they are appended manually
+      // below from their own useState. Appending them here too caused
+      // duplicate FormData entries → array instead of string → CastError.
+      const skipKeys = [
+        "courseDetailsImageAlt",
+        "certTeachersImageAlt",
+        "communityImageAlt",
+        "accommodationImageAlt",
+      ];
+
       Object.entries(data).forEach(([k, v]) => {
+        if (skipKeys.includes(k)) return;
         if (v !== undefined && v !== null) fd.append(k, v as string);
       });
 
