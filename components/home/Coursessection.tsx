@@ -160,8 +160,8 @@ export const CoursesSection: React.FC = () => {
                 <div className={styles.ctaColumn}>
                   {/* Price */}
                   <div className={styles.priceBlock}>
-                    <span className={styles.priceINR}>{course.priceINR}</span>
-                    <span className={styles.priceUSD}>{course.priceUSD}</span>
+                    <span className={styles.priceINR}>{course.priceUSD}</span>
+                    <span className={styles.priceUSD}>{course.priceINR}</span>
                   </div>
 
                   {/* Seats */}

@@ -11,7 +11,6 @@ interface FormData {
   startDate: string;
   endDate: string;
   usdFee: string;
-  inrFee: string;
   dormPrice: string;
   twinPrice: string;
   privatePrice: string;
@@ -23,7 +22,6 @@ interface FormErrors {
   startDate?: string;
   endDate?: string;
   usdFee?: string;
-  inrFee?: string;
   dormPrice?: string;
   twinPrice?: string;
   privatePrice?: string;
@@ -34,7 +32,6 @@ const EMPTY: FormData = {
   startDate: "",
   endDate: "",
   usdFee: "",
-  inrFee: "",
   dormPrice: "",
   twinPrice: "",
   privatePrice: "",
@@ -73,7 +70,6 @@ export default function SeatsAddPage() {
     if (form.startDate && form.endDate && form.endDate <= form.startDate)
       e.endDate = "End date must be after start date";
     if (!form.usdFee.trim())        e.usdFee       = "USD fee is required";
-    if (!form.inrFee.trim())        e.inrFee       = "INR fee is required";
     if (!form.dormPrice.trim())     e.dormPrice    = "Dorm price is required";
     if (!form.twinPrice.trim())     e.twinPrice    = "Twin price is required";
     if (!form.privatePrice.trim())  e.privatePrice = "Private price is required";
@@ -91,7 +87,6 @@ export default function SeatsAddPage() {
   startDate: form.startDate,
   endDate: form.endDate,
   usdFee: form.usdFee,
-  inrFee: form.inrFee,
   dormPrice: form.dormPrice,
   twinPrice: form.twinPrice,
   privatePrice: form.privatePrice,
@@ -202,34 +197,18 @@ export default function SeatsAddPage() {
             <span className={styles.sectionIcon}>✦</span>
             <h3 className={styles.sectionTitle}>Course Fees</h3>
           </div>
-          <div className={styles.twoCol}>
-            <div className={styles.fieldGroup}>
-              <label className={styles.label}>
-                <span className={styles.labelIcon}>✦</span>
-                Fee (USD)<span className={styles.required}>*</span>
-              </label>
-              <p className={styles.fieldHint}>e.g. 550 USD</p>
-              <div className={`${styles.inputWrap} ${errors.usdFee ? styles.inputError : ""} ${form.usdFee && !errors.usdFee ? styles.inputSuccess : ""}`}>
-                <input type="text" className={styles.input} placeholder="550 USD"
-                  value={form.usdFee} maxLength={30}
-                  onChange={e => set("usdFee", e.target.value)} />
-              </div>
-              {errors.usdFee && <p className={styles.errorMsg}>⚠ {errors.usdFee}</p>}
+          <div className={styles.fieldGroup}>
+            <label className={styles.label}>
+              <span className={styles.labelIcon}>✦</span>
+              Fee (USD)<span className={styles.required}>*</span>
+            </label>
+            <p className={styles.fieldHint}>e.g. 550 USD</p>
+            <div className={`${styles.inputWrap} ${styles.inputWrapNarrow} ${errors.usdFee ? styles.inputError : ""} ${form.usdFee && !errors.usdFee ? styles.inputSuccess : ""}`}>
+              <input type="text" className={styles.input} placeholder="550 USD"
+                value={form.usdFee} maxLength={30}
+                onChange={e => set("usdFee", e.target.value)} />
             </div>
-
-            <div className={styles.fieldGroup}>
-              <label className={styles.label}>
-                <span className={styles.labelIcon}>✦</span>
-                Fee (INR)<span className={styles.required}>*</span>
-              </label>
-              <p className={styles.fieldHint}>e.g. 22,500 INR</p>
-              <div className={`${styles.inputWrap} ${errors.inrFee ? styles.inputError : ""} ${form.inrFee && !errors.inrFee ? styles.inputSuccess : ""}`}>
-                <input type="text" className={styles.input} placeholder="22,500 INR"
-                  value={form.inrFee} maxLength={30}
-                  onChange={e => set("inrFee", e.target.value)} />
-              </div>
-              {errors.inrFee && <p className={styles.errorMsg}>⚠ {errors.inrFee}</p>}
-            </div>
+            {errors.usdFee && <p className={styles.errorMsg}>⚠ {errors.usdFee}</p>}
           </div>
         </div>
 
