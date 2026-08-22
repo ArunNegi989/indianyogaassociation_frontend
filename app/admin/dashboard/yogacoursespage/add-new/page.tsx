@@ -30,6 +30,11 @@ const STYLE_OPTIONS = [
   "Kundalini Yoga",
   "Yin Yoga",
   "Vinyasa Flow",
+  "Prenatal Yoga",
+  "Meditation",
+  "Sound Healing",
+  "Ayurveda (Beginner, Intermediate, Advanced)",
+  "Aerial Yoga"
 ];
 
 type TabId = "courses" | "who" | "teachersHeader" | "founder" | "teachers";
