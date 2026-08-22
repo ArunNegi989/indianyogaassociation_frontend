@@ -12,8 +12,7 @@ interface FormData {
   startDate: string;
   endDate: string;
   usdFee: string;
-  inrFee: string;
-  dormPrice: string;   // ✅ fixed
+  dormPrice: string;
   twinPrice: string;
   privatePrice: string;
   totalSeats: string;
@@ -25,7 +24,6 @@ interface FormErrors {
   startDate?: string;
   endDate?: string;
   usdFee?: string;
-  inrFee?: string;
   dormPrice?: string;
   twinPrice?: string;
   privatePrice?: string;
@@ -39,7 +37,7 @@ export default function SeatsEditPage() {
 
   const [form, setForm] = useState<FormData>({
     startDate: "", endDate: "",
-    usdFee: "", inrFee: "",
+    usdFee: "",
     dormPrice: "", twinPrice: "", privatePrice: "",
     totalSeats: "50", bookedSeats: "0",
     note: "",
@@ -67,7 +65,6 @@ export default function SeatsEditPage() {
           startDate:    toDateInput(d.startDate),
           endDate:      toDateInput(d.endDate),
           usdFee:       d.usdFee       ?? "",
-          inrFee:       d.inrFee       ?? "",
           dormPrice:    String(d.dormPrice    ?? ""),
           twinPrice:    String(d.twinPrice    ?? ""),
           privatePrice: String(d.privatePrice ?? ""),
@@ -110,7 +107,6 @@ export default function SeatsEditPage() {
     if (form.startDate && form.endDate && form.endDate <= form.startDate)
       e.endDate = "End date must be after start date";
     if (!form.usdFee.trim())        e.usdFee       = "USD fee is required";
-    if (!form.inrFee.trim())        e.inrFee       = "INR fee is required";
     if (!form.dormPrice.trim())     e.dormPrice    = "Dorm price is required";
     if (!form.twinPrice.trim())     e.twinPrice    = "Twin price is required";
     if (!form.privatePrice.trim())  e.privatePrice = "Private price is required";
@@ -128,17 +124,16 @@ export default function SeatsEditPage() {
     try {
       setIsSubmitting(true);
       await api.put(`/200hr-seats/updateBatch/${id}`, {
-  startDate: form.startDate,
-  endDate: form.endDate,
-  usdFee: form.usdFee,
-  inrFee: form.inrFee,
-  dormPrice: Number(form.dormPrice),
-  twinPrice: Number(form.twinPrice),
-  privatePrice: Number(form.privatePrice),
-  totalSeats: Number(form.totalSeats),
-  bookedSeats: Number(form.bookedSeats),
-  note: form.note,
-});
+        startDate: form.startDate,
+        endDate: form.endDate,
+        usdFee: form.usdFee,
+        dormPrice: Number(form.dormPrice),
+        twinPrice: Number(form.twinPrice),
+        privatePrice: Number(form.privatePrice),
+        totalSeats: Number(form.totalSeats),
+        bookedSeats: Number(form.bookedSeats),
+        note: form.note,
+      });
       setSubmitted(true);
       setTimeout(() => router.push("/admin/yogacourse/200hourscourse/200hr-seats"), 1500);
     } catch (err: any) {
@@ -266,34 +261,18 @@ export default function SeatsEditPage() {
             <span className={styles.sectionIcon}>✦</span>
             <h3 className={styles.sectionTitle}>Course Fees</h3>
           </div>
-          <div className={styles.twoCol}>
-            <div className={styles.fieldGroup}>
-              <label className={styles.label}>
-                <span className={styles.labelIcon}>✦</span>
-                Fee (USD)<span className={styles.required}>*</span>
-              </label>
-              <p className={styles.fieldHint}>e.g. 950 USD</p>
-              <div className={`${styles.inputWrap} ${errors.usdFee ? styles.inputError : ""} ${form.usdFee && !errors.usdFee ? styles.inputSuccess : ""}`}>
-                <input type="text" className={styles.input} placeholder="950 USD"
-                  value={form.usdFee} maxLength={30}
-                  onChange={e => set("usdFee", e.target.value)} />
-              </div>
-              {errors.usdFee && <p className={styles.errorMsg}>⚠ {errors.usdFee}</p>}
+          <div className={styles.fieldGroup}>
+            <label className={styles.label}>
+              <span className={styles.labelIcon}>✦</span>
+              Fee (USD)<span className={styles.required}>*</span>
+            </label>
+            <p className={styles.fieldHint}>e.g. 950 USD</p>
+            <div className={`${styles.inputWrap} ${styles.inputWrapNarrow} ${errors.usdFee ? styles.inputError : ""} ${form.usdFee && !errors.usdFee ? styles.inputSuccess : ""}`}>
+              <input type="text" className={styles.input} placeholder="950 USD"
+                value={form.usdFee} maxLength={30}
+                onChange={e => set("usdFee", e.target.value)} />
             </div>
-
-            <div className={styles.fieldGroup}>
-              <label className={styles.label}>
-                <span className={styles.labelIcon}>✦</span>
-                Fee (INR)<span className={styles.required}>*</span>
-              </label>
-              <p className={styles.fieldHint}>e.g. 38,000 INR</p>
-              <div className={`${styles.inputWrap} ${errors.inrFee ? styles.inputError : ""} ${form.inrFee && !errors.inrFee ? styles.inputSuccess : ""}`}>
-                <input type="text" className={styles.input} placeholder="38,000 INR"
-                  value={form.inrFee} maxLength={30}
-                  onChange={e => set("inrFee", e.target.value)} />
-              </div>
-              {errors.inrFee && <p className={styles.errorMsg}>⚠ {errors.inrFee}</p>}
-            </div>
+            {errors.usdFee && <p className={styles.errorMsg}>⚠ {errors.usdFee}</p>}
           </div>
         </div>
 
@@ -383,25 +362,25 @@ export default function SeatsEditPage() {
               {errors.totalSeats && <p className={styles.errorMsg}>⚠ {errors.totalSeats}</p>}
             </div>
 
-           <div className={styles.fieldGroup}>
-  <label className={styles.label}>
-    <span className={styles.labelIcon}>✦</span>
-    Booked Seats
-  </label>
+            <div className={styles.fieldGroup}>
+              <label className={styles.label}>
+                <span className={styles.labelIcon}>✦</span>
+                Booked Seats
+              </label>
 
-  <p className={styles.fieldHint}>
-    Auto-managed (based on registrations)
-  </p>
+              <p className={styles.fieldHint}>
+                Auto-managed (based on registrations)
+              </p>
 
-  <div className={`${styles.inputWrap} ${styles.inputDisabled}`}>
-    <input
-      type="number"
-      className={styles.input}
-      value={form.bookedSeats}
-      disabled
-    />
-  </div>
-</div>
+              <div className={`${styles.inputWrap} ${styles.inputDisabled}`}>
+                <input
+                  type="number"
+                  className={styles.input}
+                  value={form.bookedSeats}
+                  disabled
+                />
+              </div>
+            </div>
           </div>
 
           {form.totalSeats && form.bookedSeats && (

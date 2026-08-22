@@ -177,12 +177,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   // ✅ ALL hooks inside the component
   const { user, logout, loading } = useAuth();
   const router                    = useRouter();
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [openMenu, setOpenMenu]       = useState<string | null>(null);
-  const [openSubMenu, setOpenSubMenu] = useState<string | null>(null);
-  const [profileOpen, setProfileOpen] = useState(false);
-  const profileRef                    = useRef<HTMLDivElement>(null);
-  const pathname                      = usePathname();
+  const [sidebarOpen, setSidebarOpen]     = useState(false);
+  const [openMenu, setOpenMenu]           = useState<string | null>(null);
+  const [openSubMenu, setOpenSubMenu]     = useState<string | null>(null);
+  const [profileOpen, setProfileOpen]     = useState(false);
+  const [settingsSubOpen, setSettingsSubOpen] = useState(false);
+  const profileRef                        = useRef<HTMLDivElement>(null);
+  const pathname                          = usePathname();
 
   // ✅ Redirect if not authenticated
   useEffect(() => {
@@ -191,11 +192,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     }
   }, [user, loading, router]);
 
-  // Close profile on outside click
+  // Close profile (and its settings sub-panel) on outside click
   useEffect(() => {
     function handler(e: MouseEvent) {
-      if (profileRef.current && !profileRef.current.contains(e.target as Node))
+      if (profileRef.current && !profileRef.current.contains(e.target as Node)) {
         setProfileOpen(false);
+        setSettingsSubOpen(false);
+      }
     }
     document.addEventListener("mousedown", handler);
     return () => document.removeEventListener("mousedown", handler);
@@ -411,18 +414,44 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
                 <div className={styles.profileDropdownDivider} />
 
-                <Link href="/admin/profile"         className={styles.profileDropdownItem} onClick={() => setProfileOpen(false)}><span className={styles.profileDropdownIcon}>◉</span>My Profile</Link>
-                <Link href="/admin/settings"        className={styles.profileDropdownItem} onClick={() => setProfileOpen(false)}><span className={styles.profileDropdownIcon}>⚙</span>Settings</Link>
-                <Link href="/auth/change-password" className={styles.profileDropdownItem} onClick={() => setProfileOpen(false)}><span className={styles.profileDropdownIcon}>🔑</span>Change Password</Link>
-
-                <div className={styles.profileDropdownDivider} />
-
-                <button
-                  className={`${styles.profileDropdownItem} ${styles.profileDropdownLogout}`}
-                  onClick={logout}
+                {/* <Link
+                  href="/admin/profile"
+                  className={styles.profileDropdownItem}
+                  onClick={() => setProfileOpen(false)}
                 >
-                  <span className={styles.profileDropdownIcon}>⏻</span>Logout
+                  <span className={styles.profileDropdownIcon}>◉</span>My Profile
+                </Link> */}
+
+                {/* ── Settings toggle: reveals Change Password + Logout ── */}
+                <button
+                  className={`${styles.profileDropdownItem} ${styles.settingsToggleBtn} ${settingsSubOpen ? styles.settingsToggleBtnOpen : ""}`}
+                  onClick={() => setSettingsSubOpen(p => !p)}
+                  aria-expanded={settingsSubOpen}
+                >
+                  <span className={styles.profileDropdownIcon}>⚙</span>
+                  <span style={{ flex: 1 }}>Settings</span>
+                  <span className={`${styles.settingsChevron} ${settingsSubOpen ? styles.settingsChevronOpen : ""}`}>›</span>
                 </button>
+
+                <div className={`${styles.settingsSubPanel} ${settingsSubOpen ? styles.settingsSubPanelOpen : ""}`}>
+                  <Link
+                    href="/auth/change-password"
+                    className={styles.settingsSubItem}
+                    onClick={() => {
+                      setProfileOpen(false);
+                      setSettingsSubOpen(false);
+                    }}
+                  >
+                    <span className={styles.profileDropdownIcon}>🔑</span>Change Password
+                  </Link>
+
+                  <button
+                    className={`${styles.settingsSubItem} ${styles.profileDropdownLogout}`}
+                    onClick={logout}
+                  >
+                    <span className={styles.profileDropdownIcon}>⏻</span>Logout
+                  </button>
+                </div>
               </div>
             </div>
           </div>
