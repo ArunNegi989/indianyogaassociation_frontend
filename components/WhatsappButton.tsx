@@ -4,7 +4,7 @@ import { FaWhatsapp } from "react-icons/fa";
 import styles from "../assets/style/WhatsappButton.module.css";
 
 const WhatsappButton: React.FC = () => {
-  const phoneNumber: string = "918476898395";
+  const phoneNumber: string = "919528023390";
   const message: string =
     "Hello, I want to know more about your traning course.";
 
