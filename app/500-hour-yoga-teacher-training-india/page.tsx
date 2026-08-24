@@ -786,7 +786,7 @@ function PremiumSeatBooking({
               </div>
             </div>
 
-            <div className={styles.psbPriceLbl}>Without Accommodation</div>
+            <div className={styles.psbPriceLbl}>Dormitory</div>
             <div className={styles.psbPriceWide}>
               <div className={styles.psbPwLeft}>
                 {/* ✅ FIX: right panel also uses fmtPrice(selected) = usdFee-based */}
@@ -802,7 +802,7 @@ function PremiumSeatBooking({
               <span className={styles.psbFoodBadge}>Food Included</span>
             </div>
 
-            {/* Info row below "Without Accommodation" */}
+            {/* Info row below "Dormitory" */}
             {selected && currency === "USD" && (
               <div className={styles.psbInrRow}>
                 <span className={styles.psbInrLbl}>USD Price</span>

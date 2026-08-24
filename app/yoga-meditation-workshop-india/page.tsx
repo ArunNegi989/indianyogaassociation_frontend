@@ -409,7 +409,7 @@ function PremiumSeatBookingMeditation({
                 <div className={styles.psbPcLbl}>Twin / Shared</div>
               </div>
             </div>
-            <div className={styles.psbPriceLbl}>Without Accommodation</div>
+            <div className={styles.psbPriceLbl}>Dormitory</div>
             <div className={styles.psbPriceWide}>
               <div className={styles.psbPwLeft}>
                 <span className={styles.psbPcAmt} style={{ fontSize: "1rem" }}>{selected ? fmtPrice(selected.dormPrice).amount : "—"}</span>
