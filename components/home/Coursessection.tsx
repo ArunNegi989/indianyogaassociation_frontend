@@ -21,7 +21,6 @@ interface Course {
   enrollHref: string;
   exploreLabel: string;
   exploreHref: string;
-  priceINR: string;
   priceUSD: string;
   totalSeats: number;
   availableSeats: number;
@@ -34,9 +33,48 @@ const getImageUrl = (path: string) => {
   return `${process.env.NEXT_PUBLIC_API_URL}${path}`;
 };
 
+/* ══════════════════════════════
+   CURRENCY RATE HOOK (same as 100hr page)
+══════════════════════════════ */
+function useCurrencyRate() {
+  const [rate, setRate] = useState<number>(83);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch(
+      "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.json"
+    )
+      .then((r) => r.json())
+      .then((data) => {
+        if (data?.usd?.inr) setRate(data.usd.inr);
+      })
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, []);
+
+  return { rate, loading };
+}
+
+/* ══════════════════════════════
+   priceUSD string ("$499" ya "499") se numeric nikal ke INR banao
+══════════════════════════════ */
+const usdStringToNumber = (usd: string): number => {
+  if (!usd) return 0;
+  const num = parseFloat(usd.replace(/[^0-9.]/g, ""));
+  return isNaN(num) ? 0 : num;
+};
+
+const formatINRFromUSD = (usd: string, rate: number): string => {
+  const usdNum = usdStringToNumber(usd);
+  if (!usdNum) return "";
+  const inr = Math.round(usdNum * rate);
+  return `₹${inr.toLocaleString("en-IN")}`;
+};
+
 export const CoursesSection: React.FC = () => {
   const [courses, setCourses] = useState<Course[]>([]);
   const [loading, setLoading] = useState(true);
+  const { rate } = useCurrencyRate();
 
   useEffect(() => {
     const fetchCourses = async () => {
@@ -158,10 +196,12 @@ export const CoursesSection: React.FC = () => {
 
                 {/* CTA Column */}
                 <div className={styles.ctaColumn}>
-                  {/* Price */}
+                  {/* Price — ab sirf USD + auto-converted INR (live rate) */}
                   <div className={styles.priceBlock}>
                     <span className={styles.priceINR}>{course.priceUSD}</span>
-                    <span className={styles.priceUSD}>{course.priceINR}</span>
+                    <span className={styles.priceUSD}>
+                      {formatINRFromUSD(course.priceUSD, rate)}
+                    </span>
                   </div>
 
                   {/* Seats */}
@@ -190,22 +230,21 @@ export const CoursesSection: React.FC = () => {
 
                   <div className={styles.ctaDivider} />
 
-                  {/* ✅ Enroll Now — courseId pass hoga, enrollHref ignore */}
                   {isFull ? (
-  <span className={`${styles.btnEnroll} ${styles.btnEnrollDisabled}`}>
-    Fully Booked
-  </span>
-) : (
-  <Link
-    href={{
-      pathname: "/yoga-registration",
-      query: { courseId: String(course._id) },
-    }}
-    className={styles.btnEnroll}
-  >
-    Enroll Now
-  </Link>
-)}
+                    <span className={`${styles.btnEnroll} ${styles.btnEnrollDisabled}`}>
+                      Fully Booked
+                    </span>
+                  ) : (
+                    <Link
+                      href={{
+                        pathname: "/yoga-registration",
+                        query: { courseId: String(course._id) },
+                      }}
+                      className={styles.btnEnroll}
+                    >
+                      Enroll Now
+                    </Link>
+                  )}
 
                   <Link href={course.exploreHref} className={styles.btnExplore}>
                     {course.exploreLabel}
