@@ -28,13 +28,13 @@ interface CourseRecord {
   priceINR: string;
   priceUSD: string;
   totalSeats: number;
-  seatsLeft: number;
+  availableSeats: number;
   order: number;
   createdAt: string;
   updatedAt: string;
 }
 
-type SortField = "title" | "level" | "seatsLeft" | "updatedAt" | "order";
+type SortField = "title" | "level" | "availableSeats" | "updatedAt" | "order";
 type SortDir = "asc" | "desc";
 
 const getImageUrl = (path: string) => {
@@ -140,7 +140,7 @@ export default function CoursesSectionListPage() {
   }
 
   const totalSeats = records.reduce((s, r) => s + (r.totalSeats || 0), 0);
-  const totalSeatsLeft = records.reduce((s, r) => s + (r.seatsLeft || 0), 0);
+  const totalSeatsLeft = records.reduce((s, r) => s + (r.availableSeats || 0), 0);
 
   return (
     <div className={styles.page}>
@@ -233,8 +233,8 @@ export default function CoursesSectionListPage() {
                   Level <SortIcon field="level" />
                 </th>
                 <th className={styles.th}>Price</th>
-                <th className={`${styles.th} ${styles.thSortable}`} onClick={() => toggleSort("seatsLeft")}>
-                  Seats <SortIcon field="seatsLeft" />
+                <th className={`${styles.th} ${styles.thSortable}`} onClick={() => toggleSort("availableSeats")}>
+                  Seats <SortIcon field="availableSeats" />
                 </th>
                 <th className={styles.th}>Links</th>
                 <th className={`${styles.th} ${styles.thSortable}`} onClick={() => toggleSort("updatedAt")}>
@@ -245,7 +245,7 @@ export default function CoursesSectionListPage() {
             </thead>
             <tbody>
               {filtered.map((rec, i) => {
-                const filled = rec.totalSeats - rec.seatsLeft;
+                const filled = rec.totalSeats - rec.availableSeats;
                 const pct = rec.totalSeats > 0 ? (filled / rec.totalSeats) * 100 : 0;
                 return (
                   <tr key={rec._id} className={styles.tr}>
@@ -282,8 +282,8 @@ export default function CoursesSectionListPage() {
                     </td>
                     <td className={styles.td}>
                       <div className={styles.seatsCell}>
-                        <span className={`${styles.seatsText} ${rec.seatsLeft <= 5 ? styles.seatsUrgent : ""}`}>
-                          {rec.seatsLeft} / {rec.totalSeats} left
+                        <span className={`${styles.seatsText} ${rec.availableSeats <= 5 ? styles.seatsUrgent : ""}`}>
+                          {rec.availableSeats} / {rec.totalSeats} left
                         </span>
                         <div className={styles.seatsBar}>
                           <div className={styles.seatsBarFill} style={{ width: `${pct}%` }} />
