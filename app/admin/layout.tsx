@@ -46,6 +46,8 @@ const navItems: NavItem[] = [
   { href: "/admin/dashboard/Affiliation", label: "Affiliation",icon: "🖼" },
   { href: "/admin/dashboard/about-aym",  label: "About Aym", icon: "📋" },
   { href: "/admin/dashboard/yoga-rules",    label: "Yoga Rules",icon: "✏" },
+  { href: "/admin/dashboard/yoga-retreat", label: "Yoga Retreat",icon: "🖼" },
+  { href: "/admin/dashboard/yoga-ashram",  label: "Yoga Ashram", icon: "📋" },
   {
     label: "Courses",
     icon: "📜",
