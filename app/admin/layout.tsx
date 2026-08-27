@@ -43,8 +43,9 @@ const navItems: NavItem[] = [
       { href: "/admin/dashboard/whyaymschool",         label: "Why Aym School" },
     ],
   },
-  { href: "/admin/dashboard/Affiliation", label: "Affiliation",           icon: "🖼" },
+  { href: "/admin/dashboard/Affiliation", label: "Affiliation",icon: "🖼" },
   { href: "/admin/dashboard/about-aym",  label: "About Aym", icon: "📋" },
+  { href: "/admin/dashboard/yoga-rules",    label: "Yoga Rules",icon: "✏" },
   {
     label: "Courses",
     icon: "📜",
@@ -162,10 +163,10 @@ const navItems: NavItem[] = [
       { href: "/admin/dashboard/testimonialstext",  label: "Testimonials Review Text" },
     ],
   },
-  { href: "/admin/dashboard/gallery", label: "Gallery",           icon: "🖼" },
-  { href: "/admin/dashboard/blog",    label: "Blog",              icon: "✏" },
+  { href: "/admin/dashboard/gallery", label: "Gallery",icon: "🖼" },
+  { href: "/admin/dashboard/blog",    label: "Blog",icon: "✏" },
   { href: "/admin/Registrationlist",  label: "Registration List", icon: "📋" },
-  { href: "/admin/accommodation",     label: "Accommodation",     icon: "🏠" },
+  { href: "/admin/accommodation",     label: "Accommodation",icon: "🏠" },
   {
     label: "Testimonials", icon: "✦",
     children: [
