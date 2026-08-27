@@ -72,6 +72,8 @@ interface FormData {
   s2Intro: string;
   packages: PackageItem[];
   overview: OverviewItem[];
+  applyButtonText: string;
+  applyButtonLink: string;
 
   // Section 3 — Photo strip + blocks
   photoStrip: StripItem[];
@@ -91,6 +93,10 @@ interface FormData {
   reachTitle: string;
   reachParagraphs: ParagraphItem[];
   routes: RouteItem[];
+  bookNowText: string;
+  bookNowLink: string;
+  paypalText: string;
+  paypalLink: string;
 }
 
 const INITIAL: FormData = {
@@ -124,6 +130,8 @@ const INITIAL: FormData = {
     { label: "Duration", value: "3, 7, 14 Days." },
     { label: "Accommodation & Food", value: "Private / 3 Vegetarian meals." },
   ],
+  applyButtonText: "Apply Now",
+  applyButtonLink: "/yoga-registration",
 
   photoStrip: [
     { label: "Morning Practice" },
@@ -170,6 +178,10 @@ const INITIAL: FormData = {
     { icon: "🚗", title: "Direct Pick-up from Delhi", badge: "Extra Fee", desc: "" },
     { icon: "🚂", title: "By Train or Bus", badge: "Budget", desc: "" },
   ],
+  bookNowText: "Yoga Retreats — Book Now",
+  bookNowLink: "/yoga-registration",
+  paypalText: "PayPal",
+  paypalLink: "/200-hour-yoga-ttc-fees",
 };
 
 const getImageUrl = (path: string) => {
@@ -556,6 +568,8 @@ export default function RetreatAddEditPage() {
           s2Intro: d.s2Intro ?? INITIAL.s2Intro,
           packages: d.packages?.length ? d.packages : INITIAL.packages,
           overview: d.overview?.length ? d.overview : INITIAL.overview,
+          applyButtonText: d.applyButtonText ?? INITIAL.applyButtonText,
+          applyButtonLink: d.applyButtonLink ?? INITIAL.applyButtonLink,
           photoStrip: d.photoStrip?.length
             ? d.photoStrip.map((s: any) => ({ label: s.label, image: s.image, _preview: s.image ? getImageUrl(s.image) : "" }))
             : INITIAL.photoStrip,
@@ -583,6 +597,10 @@ export default function RetreatAddEditPage() {
             ? d.reachParagraphs.map((t: string) => ({ text: t }))
             : INITIAL.reachParagraphs,
           routes: d.routes?.length ? d.routes : INITIAL.routes,
+          bookNowText: d.bookNowText ?? INITIAL.bookNowText,
+          bookNowLink: d.bookNowLink ?? INITIAL.bookNowLink,
+          paypalText: d.paypalText ?? INITIAL.paypalText,
+          paypalLink: d.paypalLink ?? INITIAL.paypalLink,
         });
         setStripFiles((d.photoStrip?.length ? d.photoStrip : INITIAL.photoStrip).map(() => null));
       } catch {
@@ -642,6 +660,8 @@ export default function RetreatAddEditPage() {
       formData.append("s2Intro", data.s2Intro);
       formData.append("packages", JSON.stringify(data.packages));
       formData.append("overview", JSON.stringify(data.overview));
+      formData.append("applyButtonText", data.applyButtonText);
+      formData.append("applyButtonLink", data.applyButtonLink);
       formData.append(
         "photoStrip",
         JSON.stringify(data.photoStrip.map((s) => ({ label: s.label, image: s.image })))
@@ -667,6 +687,10 @@ export default function RetreatAddEditPage() {
       formData.append("reachTitle", data.reachTitle);
       formData.append("reachParagraphs", JSON.stringify(data.reachParagraphs.map((p) => p.text)));
       formData.append("routes", JSON.stringify(data.routes));
+      formData.append("bookNowText", data.bookNowText);
+      formData.append("bookNowLink", data.bookNowLink);
+      formData.append("paypalText", data.paypalText);
+      formData.append("paypalLink", data.paypalLink);
 
       if (heroFile) formData.append("heroImage", heroFile);
       if (s1ImageFile) formData.append("s1Image", s1ImageFile);
@@ -724,10 +748,10 @@ export default function RetreatAddEditPage() {
   const tabErrors = {
     hero: !!(errors.heroImageAlt || errors.pageTitle),
     intro: !!(errors.s1Paragraphs || errors.s1Stats || errors.s1PanelTags || errors.s1Caption),
-    schedule: !!(errors.s2Title || errors.s2Intro || errors.packages || errors.overview),
+    schedule: !!(errors.s2Title || errors.s2Intro || errors.packages || errors.overview || errors.applyButtonText || errors.applyButtonLink),
     blocks: !!(errors.photoStrip || errors.s3Blocks || errors.s4Blocks || errors.infoBlocks),
     why: !!(errors.whyChooseText || errors.affordableTitle || errors.affordableParagraphs || errors.affordableFeatures),
-    reach: !!(errors.reachTitle || errors.reachParagraphs || errors.routes),
+    reach: !!(errors.reachTitle || errors.reachParagraphs || errors.routes || errors.bookNowText || errors.bookNowLink || errors.paypalText || errors.paypalLink),
   };
 
   const tabLabels = {
@@ -1087,6 +1111,37 @@ export default function RetreatAddEditPage() {
                   + Add Overview Item
                 </button>
               )}
+
+              <div className={styles.formDivider} />
+
+              <div className={styles.sectionHeader} style={{ marginBottom: "0.6rem" }}>
+                <span className={styles.labelIcon}>✦</span>
+                <h3 className={styles.sectionTitle} style={{ fontSize: "0.72rem" }}>Apply Now Button</h3>
+              </div>
+              <div className={styles.twoCol}>
+                <div className={styles.fieldGroup}>
+                  <label className={styles.label}>Button Text</label>
+                  <div className={styles.inputWrap}>
+                    <input
+                      type="text"
+                      className={styles.input}
+                      placeholder="e.g. Apply Now"
+                      {...register("applyButtonText", { required: "Required" })}
+                    />
+                  </div>
+                </div>
+                <div className={styles.fieldGroup}>
+                  <label className={styles.label}>Button Link</label>
+                  <div className={styles.inputWrap}>
+                    <input
+                      type="text"
+                      className={styles.input}
+                      placeholder="e.g. /yoga-registration"
+                      {...register("applyButtonLink", { required: "Required" })}
+                    />
+                  </div>
+                </div>
+              </div>
             </div>
           )}
 
@@ -1325,6 +1380,61 @@ export default function RetreatAddEditPage() {
               </div>
 
               <ParagraphList control={control} name="reachParagraphs" label="Reach Paragraphs" max={5} />
+
+              <div className={styles.formDivider} />
+
+              <div className={styles.sectionHeader} style={{ marginBottom: "0.6rem" }}>
+                <span className={styles.labelIcon}>✦</span>
+                <h3 className={styles.sectionTitle} style={{ fontSize: "0.72rem" }}>CTA Buttons</h3>
+              </div>
+              <div className={styles.twoCol}>
+                <div className={styles.fieldGroup}>
+                  <label className={styles.label}>Book Now Button Text</label>
+                  <div className={styles.inputWrap}>
+                    <input
+                      type="text"
+                      className={styles.input}
+                      placeholder="e.g. Yoga Retreats — Book Now"
+                      {...register("bookNowText", { required: "Required" })}
+                    />
+                  </div>
+                </div>
+                <div className={styles.fieldGroup}>
+                  <label className={styles.label}>Book Now Button Link</label>
+                  <div className={styles.inputWrap}>
+                    <input
+                      type="text"
+                      className={styles.input}
+                      placeholder="e.g. /yoga-registration"
+                      {...register("bookNowLink", { required: "Required" })}
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className={styles.twoCol}>
+                <div className={styles.fieldGroup}>
+                  <label className={styles.label}>PayPal Button Text</label>
+                  <div className={styles.inputWrap}>
+                    <input
+                      type="text"
+                      className={styles.input}
+                      placeholder="e.g. PayPal"
+                      {...register("paypalText", { required: "Required" })}
+                    />
+                  </div>
+                </div>
+                <div className={styles.fieldGroup}>
+                  <label className={styles.label}>PayPal Button Link</label>
+                  <div className={styles.inputWrap}>
+                    <input
+                      type="text"
+                      className={styles.input}
+                      placeholder="e.g. /200-hour-yoga-ttc-fees"
+                      {...register("paypalLink", { required: "Required" })}
+                    />
+                  </div>
+                </div>
+              </div>
 
               <div className={styles.formDivider} />
 
