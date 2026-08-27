@@ -44,6 +44,7 @@ const navItems: NavItem[] = [
     ],
   },
   { href: "/admin/dashboard/Affiliation", label: "Affiliation",           icon: "🖼" },
+  { href: "/admin/dashboard/about-aym",  label: "About Aym", icon: "📋" },
   {
     label: "Courses",
     icon: "📜",
