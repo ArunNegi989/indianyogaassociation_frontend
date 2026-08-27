@@ -43,6 +43,7 @@ const navItems: NavItem[] = [
       { href: "/admin/dashboard/whyaymschool",         label: "Why Aym School" },
     ],
   },
+  { href: "/admin/dashboard/Affiliation", label: "Affiliation",           icon: "🖼" },
   {
     label: "Courses",
     icon: "📜",
