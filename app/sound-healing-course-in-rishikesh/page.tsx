@@ -92,6 +92,26 @@ const getImageUrl = (p?: string) => {
   return `${process.env.NEXT_PUBLIC_API_URL}${p}`;
 };
 
+/* Strip any stray HTML tags from CMS text so raw markup never leaks into
+   the UI as visible text (e.g. a rich-text editor saving "<p>...</p>"
+   into a plain field). Also collapses HTML entities for &nbsp; etc. */
+const stripHtml = (s?: string) => {
+  if (!s) return "";
+  return s
+    .replace(/<[^>]*>/g, "")
+    .replace(/&nbsp;/g, " ")
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/\s+/g, " ")
+    .trim();
+};
+
+/* Apply stripHtml across an array of strings (e.g. paragraphs, pills, instruments) */
+const stripHtmlArray = (arr?: string[]) => (arr ?? []).map((s) => stripHtml(s));
+
 /* ══════════════════════════════
    SEAT BATCH — fetched from the dedicated Sound Healing seats API
 ══════════════════════════════ */
@@ -278,9 +298,9 @@ function PremiumSeatBookingSoundHealing({
 
   return (
     <div className={styles.datesSection} id="dates-fees">
-      <div className={styles.psbSecTag}>{batchSectionTag}</div>
+      <div className={styles.psbSecTag}>{stripHtml(batchSectionTag)}</div>
       <div className={styles.vintageHeadingWrap}>
-        <h2 className={styles.vintageHeading}>{batchSectionTitle}</h2>
+        <h2 className={styles.vintageHeading}>{stripHtml(batchSectionTitle)}</h2>
         <div className={styles.vintageHeadingUnderline}>
           <svg viewBox="0 0 200 8" xmlns="http://www.w3.org/2000/svg" className={styles.headingUndSvg}>
             <path d="M0,4 Q50,0 100,4 Q150,8 200,4" stroke="#F15505" strokeWidth="1.2" fill="none" />
@@ -290,7 +310,7 @@ function PremiumSeatBookingSoundHealing({
           </svg>
         </div>
       </div>
-      <p className={styles.psbSecSub}>{batchSectionSub}</p>
+      <p className={styles.psbSecSub}>{stripHtml(batchSectionSub)}</p>
       <div className={styles.psbOrnLine}>
         <div className={styles.psbOrnL} />
         <div className={styles.psbOrnDiamond} />
@@ -486,7 +506,7 @@ function PremiumSeatBookingSoundHealing({
             ) : (
               <span className={`${styles.psbBookBtn} ${styles.psbBookBtnDis}`}>Book Now</span>
             )}
-            {selected?.note && <p className={styles.psbNote}><strong>Note:</strong> {selected.note}</p>}
+            {selected?.note && <p className={styles.psbNote}><strong>Note:</strong> {stripHtml(selected.note)}</p>}
           </div>
         </div>
       </div>
@@ -575,7 +595,7 @@ export default function SoundHealingPage() {
       <section className={styles.heroBanner}>
         <img
           src={getImageUrl(data.heroImage)}
-          alt={data.heroImageAlt}
+          alt={stripHtml(data.heroImageAlt)}
           className={styles.heroImg}
         />
       </section>
@@ -590,19 +610,19 @@ export default function SoundHealingPage() {
                 <span className={styles.introDecorDot}>✧</span>
                 <span className={styles.introDecorLine}></span>
               </div>
-              <h2 className={styles.secTitleOrange}>{data.introTitle}</h2>
+              <h2 className={styles.secTitleOrange}>{stripHtml(data.introTitle)}</h2>
               <div className={styles.omDivider}>
                 <span className={styles.divLine} />
                 <span className={styles.omGlyph}>ॐ</span>
                 <span className={styles.divLine} />
               </div>
               <div className={styles.introTextCard}>
-                {data.introParagraphs.map((p, i) => (
+                {stripHtmlArray(data.introParagraphs).map((p, i) => (
                   <p key={i} className={styles.bodyPara}>{p}</p>
                 ))}
                 <div className={styles.introSignature}>
                   <span className={styles.signatureLine}></span>
-                  <span className={styles.signatureText}>{data.introSignatureText}</span>
+                  <span className={styles.signatureText}>{stripHtml(data.introSignatureText)}</span>
                   <span className={styles.signatureLine}></span>
                 </div>
               </div>
@@ -611,12 +631,12 @@ export default function SoundHealingPage() {
               <div className={styles.introImageCard}>
                 <img
                   src={getImageUrl(data.introImage)}
-                  alt={data.introImageAlt}
+                  alt={stripHtml(data.introImageAlt)}
                   className={styles.introSideImage}
                 />
                 <div className={styles.introImageOverlay}>
                   <div className={styles.introImageBadge}>
-                    <span>{data.introImageBadge}</span>
+                    <span>{stripHtml(data.introImageBadge)}</span>
                   </div>
                 </div>
               </div>
@@ -628,25 +648,25 @@ export default function SoundHealingPage() {
       {/* ══ WHAT IS SOUND HEALING SECTION ══ */}
       <section className={styles.whatIsSection}>
         <div className={styles.container}>
-          <h2 className={styles.secTitleOrange}>{data.whatIsTitle}</h2>
+          <h2 className={styles.secTitleOrange}>{stripHtml(data.whatIsTitle)}</h2>
           <div className={styles.omDivider}>
             <span className={styles.divLine} />
             <span className={styles.omGlyph}>ॐ</span>
             <span className={styles.divLine} />
           </div>
 
-          <p className={styles.bodyPara}>{data.whatIsIntro}</p>
+          <p className={styles.bodyPara}>{stripHtml(data.whatIsIntro)}</p>
 
           {/* Level Cards */}
           <div className={styles.levelsGrid}>
             {data.levels.map((level, idx) => (
               <div key={idx} className={styles.levelCard}>
                 <div className={styles.levelCardHeader}>
-                  <h3 className={styles.levelCardTitle}>{level.title}</h3>
+                  <h3 className={styles.levelCardTitle}>{stripHtml(level.title)}</h3>
                 </div>
                 <div className={styles.levelCardDivider} />
                 <ol className={styles.levelCardList}>
-                  {level.items.map((item, i) => (
+                  {stripHtmlArray(level.items).map((item, i) => (
                     <li key={i} className={styles.levelCardItem}>
                       <span className={styles.levelCardNum}>{i + 1}.</span>
                       <span>{item}</span>
@@ -660,13 +680,13 @@ export default function SoundHealingPage() {
           {/* Three-photo row */}
           <div className={styles.bowlPhotoRow}>
             <div className={styles.bowlPhotoItem}>
-              <img src={getImageUrl(data.bowl1Image)} alt={data.bowl1Alt} className={styles.bowlPhoto} />
+              <img src={getImageUrl(data.bowl1Image)} alt={stripHtml(data.bowl1Alt)} className={styles.bowlPhoto} />
             </div>
             <div className={styles.bowlPhotoItem}>
-              <img src={getImageUrl(data.bowl2Image)} alt={data.bowl2Alt} className={styles.bowlPhoto} />
+              <img src={getImageUrl(data.bowl2Image)} alt={stripHtml(data.bowl2Alt)} className={styles.bowlPhoto} />
             </div>
             <div className={styles.bowlPhotoItem}>
-              <img src={getImageUrl(data.bowl3Image)} alt={data.bowl3Alt} className={styles.bowlPhoto} />
+              <img src={getImageUrl(data.bowl3Image)} alt={stripHtml(data.bowl3Alt)} className={styles.bowlPhoto} />
             </div>
           </div>
         </div>
@@ -676,8 +696,8 @@ export default function SoundHealingPage() {
       <section className={styles.aimSection}>
         <div className={styles.aimInner}>
           <div className={styles.aimTitleBlock}>
-            <span className={styles.aimEyebrow}>{data.aimEyebrow}</span>
-            <h2 className={styles.secTitleOrange}>{data.aimTitle}</h2>
+            <span className={styles.aimEyebrow}>{stripHtml(data.aimEyebrow)}</span>
+            <h2 className={styles.secTitleOrange}>{stripHtml(data.aimTitle)}</h2>
             <div className={styles.omDivider}>
               <span className={styles.divLine} />
               <span className={styles.omGlyph}>ॐ</span>
@@ -688,12 +708,12 @@ export default function SoundHealingPage() {
           <div className={styles.aimGrid}>
             {/* LEFT */}
             <div className={styles.aimLeft}>
-              {data.aimParagraphs.map((p, i) => (
+              {stripHtmlArray(data.aimParagraphs).map((p, i) => (
                 <p key={i} className={styles.bodyPara}>{p}</p>
               ))}
-              <span className={styles.pillsLabel}>{data.pillsLabel}</span>
+              <span className={styles.pillsLabel}>{stripHtml(data.pillsLabel)}</span>
               <div className={styles.pillsWrap}>
-                {data.pills.map((t) => (
+                {stripHtmlArray(data.pills).map((t) => (
                   <div key={t} className={styles.pill}>
                     <span className={styles.pillDot} />
                     <span className={styles.pillTxt}>{t}</span>
@@ -707,15 +727,15 @@ export default function SoundHealingPage() {
               <div className={styles.aimPhotoWrap}>
                 <img
                   src={getImageUrl(data.aimImage)}
-                  alt={data.aimImageAlt}
+                  alt={stripHtml(data.aimImageAlt)}
                   className={styles.aimPhoto}
                 />
-                <span className={styles.aimPhotoBadge}>{data.aimImageBadge}</span>
+                <span className={styles.aimPhotoBadge}>{stripHtml(data.aimImageBadge)}</span>
               </div>
               <div className={styles.aimQuote}>
                 <span className={styles.aimQuoteMark}>"</span>
-                <p className={styles.aimQuoteText}>{data.aimQuoteText}</p>
-                <span className={styles.aimQuoteAttr}>{data.aimQuoteAttribution}</span>
+                <p className={styles.aimQuoteText}>{stripHtml(data.aimQuoteText)}</p>
+                <span className={styles.aimQuoteAttr}>{stripHtml(data.aimQuoteAttribution)}</span>
               </div>
             </div>
           </div>
@@ -725,27 +745,27 @@ export default function SoundHealingPage() {
       {/* ══ BENEFITS ══ */}
       <section className={styles.benefitsSection}>
         <div className={styles.container}>
-          <h2 className={styles.secTitleOrange}>{data.benefitsTitle}</h2>
+          <h2 className={styles.secTitleOrange}>{stripHtml(data.benefitsTitle)}</h2>
           <div className={styles.omDivider}>
             <span className={styles.divLine} /><span className={styles.omGlyph}>ॐ</span><span className={styles.divLine} />
           </div>
           <div className={styles.benefitsGrid}>
             <div className={styles.benefitsText}>
-              <p className={styles.bodyPara}>{data.benefitsIntro}</p>
+              <p className={styles.bodyPara}>{stripHtml(data.benefitsIntro)}</p>
               <div className={styles.benCards}>
                 {data.benCards.map((b, i) => (
                   <div key={i} className={styles.benCard}>
                     <div className={styles.benIcon}>{b.icon}</div>
                     <div>
-                      <p className={styles.benCardTitle}>{b.title}</p>
-                      <p className={styles.benCardTxt}>{b.text}</p>
+                      <p className={styles.benCardTitle}>{stripHtml(b.title)}</p>
+                      <p className={styles.benCardTxt}>{stripHtml(b.text)}</p>
                     </div>
                   </div>
                 ))}
               </div>
             </div>
             <div className={styles.benefitsImgWrap}>
-              <img src={getImageUrl(data.benefitsImage)} alt={data.benefitsImageAlt} className={styles.benefitsImg} />
+              <img src={getImageUrl(data.benefitsImage)} alt={stripHtml(data.benefitsImageAlt)} className={styles.benefitsImg} />
             </div>
           </div>
         </div>
@@ -754,33 +774,33 @@ export default function SoundHealingPage() {
       {/* ══ EXPECT + WHY JOIN + PREMIUM SEAT BOOKING ══ */}
       <section className={styles.expectSection}>
         <div className={styles.container}>
-          <h2 className={styles.secTitleOrange}>{data.expectTitle}</h2>
+          <h2 className={styles.secTitleOrange}>{stripHtml(data.expectTitle)}</h2>
           <div className={styles.omDivider}>
             <span className={styles.divLine} /><span className={styles.omGlyph}>ॐ</span><span className={styles.divLine} />
           </div>
 
-          <p className={styles.bodyPara}>{data.expectIntro}</p>
+          <p className={styles.bodyPara}>{stripHtml(data.expectIntro)}</p>
 
           <div className={styles.expectGrid}>
             {data.expectCards.map((c, i) => (
               <div key={i} className={styles.expectCard}>
                 <span className={styles.expectCardIcon}>{c.icon}</span>
-                <p className={styles.expectCardLabel}>{c.label}</p>
-                <p className={styles.expectCardTxt}>{c.text}</p>
+                <p className={styles.expectCardLabel}>{stripHtml(c.label)}</p>
+                <p className={styles.expectCardTxt}>{stripHtml(c.text)}</p>
               </div>
             ))}
           </div>
 
-          <p className={styles.instrLabel}>{data.instrLabel}</p>
+          <p className={styles.instrLabel}>{stripHtml(data.instrLabel)}</p>
           <div className={styles.instrRow}>
-            {data.instruments.map((t) => (
+            {stripHtmlArray(data.instruments).map((t) => (
               <span key={t} className={styles.instrPill}>{t}</span>
             ))}
           </div>
 
           {/* WHY JOIN */}
           <h2 className={styles.secTitleOrange} style={{ marginTop: "2.8rem" }}>
-            {data.whyJoinTitle}
+            {stripHtml(data.whyJoinTitle)}
           </h2>
           <div className={styles.omDivider}>
             <span className={styles.divLine} /><span className={styles.omGlyph}>ॐ</span><span className={styles.divLine} />
@@ -791,8 +811,8 @@ export default function SoundHealingPage() {
               <div key={i} className={styles.whyCard}>
                 <span className={styles.whyNum}>{w.n}</span>
                 <div>
-                  <p className={styles.whyTitle}>{w.title}</p>
-                  <p className={styles.whyTxt}>{w.text}</p>
+                  <p className={styles.whyTitle}>{stripHtml(w.title)}</p>
+                  <p className={styles.whyTxt}>{stripHtml(w.text)}</p>
                 </div>
               </div>
             ))}
@@ -800,6 +820,10 @@ export default function SoundHealingPage() {
 
           <div className={styles.certBanner}>
             <div className={styles.certBadge}>{data.certBannerIcon}</div>
+            {/* certBannerText is rendered as real HTML on purpose (bold/links etc.
+                come from the CMS), so it is NOT passed through stripHtml here.
+                Make sure this field is sanitized server-side before it reaches
+                the client, since dangerouslySetInnerHTML trusts it as-is. */}
             <p
               className={styles.certTxt}
               dangerouslySetInnerHTML={{ __html: data.certBannerText }}
