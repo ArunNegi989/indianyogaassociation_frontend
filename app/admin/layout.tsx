@@ -59,6 +59,13 @@ const navItems: NavItem[] = [
     ],
   },
   {
+    label: "Yoga Work Shop", icon: "✦",
+    children: [
+      { href: "/admin/dashboard/yoga-workshop/yoga-workshop-content",  label: "yoga-workshop-content" },
+      { href: "/admin/dashboard/yoga-workshop/yoga-workshop-seat", label: "yoga-workshop-seats" },
+    ],
+  },
+  {
     label: "Yoga beginners", icon: "✦",
     children: [
       { href: "/admin/dashboard/yoga-for-beginners/yoga-beginners-content",  label: "yoga-beginners-content" },
