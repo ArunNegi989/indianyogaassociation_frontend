@@ -47,31 +47,34 @@ const navItems: NavItem[] = [
   { href: "/admin/dashboard/about-aym",  label: "About Aym", icon: "📋" },
   { href: "/admin/dashboard/yoga-rules",    label: "Yoga Rules",icon: "✏" },
   { href: "/admin/dashboard/yoga-retreat", label: "Yoga Retreat",icon: "🖼" },
-  { href: "/admin/dashboard/yoga-ashram",  label: "Yoga Ashram", icon: "📋" },
-  { href: "/admin/dashboard/yoga-holidays",  label: "Yoga Holidays", icon: "🖼" },
-  { href: "/admin/dashboard/inner-awakening",  label: "Inner Awakning", icon: "📋" },
-  { href: "/admin/dashboard/detox-retreat",  label: "Yoga Detox", icon: "🖼" },
-  {
+    {
     label: "Sound Healing", icon: "✦",
     children: [
       { href: "/admin/dashboard/sound-healing-course/sound-healing-content",  label: "sound-healing-content" },
       { href: "/admin/dashboard/sound-healing-course/sound-healing-course-seat", label: "sound-healing-seats" },
     ],
   },
-  {
+   {
     label: "Yoga Work Shop", icon: "✦",
     children: [
       { href: "/admin/dashboard/yoga-workshop/yoga-workshop-content",  label: "yoga-workshop-content" },
       { href: "/admin/dashboard/yoga-workshop/yoga-workshop-seat", label: "yoga-workshop-seats" },
     ],
   },
-  {
+  { href: "/admin/dashboard/yoga-ashram",  label: "Yoga Ashram", icon: "📋" },
+  { href: "/admin/dashboard/yoga-holidays",  label: "Yoga Holidays", icon: "🖼" },
+  { href: "/admin/dashboard/inner-awakening",  label: "Inner Awakning", icon: "📋" },
+    {
     label: "Yoga beginners", icon: "✦",
     children: [
       { href: "/admin/dashboard/yoga-for-beginners/yoga-beginners-content",  label: "yoga-beginners-content" },
       { href: "/admin/dashboard/yoga-for-beginners/yoga-beginners-seats", label: "yoga-beginners-seats" },
     ],
   },
+  { href: "/admin/dashboard/detox-retreat",  label: "Yoga Detox", icon: "🖼" },
+
+ 
+
   {
     label: "Courses",
     icon: "📜",
