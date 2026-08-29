@@ -3,135 +3,113 @@ import React, { useState, useEffect, useRef } from "react";
 import styles from "@/assets/style/sound-healing/Soundhealingpage.module.css";
 import HowToReach from "@/components/home/Howtoreach";
 import Link from "next/link";
+import api from "@/lib/api";
 
-const IMG = {
-  hero: "34.webp",
+/* ══════════════════════════════
+   TYPES — mirror the backend schema exactly
+══════════════════════════════ */
+interface LevelItem {
+  title: string;
+  items: string[];
+}
+interface BenCardItem {
+  icon: string;
+  title: string;
+  text: string;
+}
+interface ExpectCardItem {
+  icon: string;
+  label: string;
+  text: string;
+}
+interface WhyCardItem {
+  n: string;
+  title: string;
+  text: string;
+}
 
-  c1: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=400&q=80",
-  c2: "https://images.unsplash.com/photo-1593811167562-9cef47bfc4d7?w=400&q=80",
-  c3: "sound4.jpg",
-  c4: "https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?w=400&q=80",
-  c5: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&q=80",
-  c6: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&q=80",
-  c7: "https://images.unsplash.com/photo-1545389336-cf090694435e?w=400&q=80",
+interface SoundHealingData {
+  _id: string;
 
-  /* Three-photo row */
-  bowl1:
-    "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=600&q=85",
-  bowl2:
-    "sound3.jpg",
-  bowl3: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=600&q=85",
+  heroImage: string;
+  heroImageAlt: string;
 
-  /* Benefits side image */
-  benefits:
-    "sound1.jpg",
+  introTitle: string;
+  introParagraphs: string[];
+  introSignatureText: string;
+  introImage: string;
+  introImageAlt: string;
+  introImageBadge: string;
+
+  whatIsTitle: string;
+  whatIsIntro: string;
+  levels: LevelItem[];
+  bowl1Image: string;
+  bowl1Alt: string;
+  bowl2Image: string;
+  bowl2Alt: string;
+  bowl3Image: string;
+  bowl3Alt: string;
+
+  aimEyebrow: string;
+  aimTitle: string;
+  aimParagraphs: string[];
+  pillsLabel: string;
+  pills: string[];
+  aimImage: string;
+  aimImageAlt: string;
+  aimImageBadge: string;
+  aimQuoteText: string;
+  aimQuoteAttribution: string;
+
+  benefitsTitle: string;
+  benefitsIntro: string;
+  benCards: BenCardItem[];
+  benefitsImage: string;
+  benefitsImageAlt: string;
+
+  expectTitle: string;
+  expectIntro: string;
+  expectCards: ExpectCardItem[];
+  instrLabel: string;
+  instruments: string[];
+
+  whyJoinTitle: string;
+  whyCards: WhyCardItem[];
+  certBannerIcon: string;
+  certBannerText: string;
+
+  batchSectionTag: string;
+  batchSectionTitle: string;
+  batchSectionSub: string;
+}
+
+/* Resolve a stored path (e.g. "/uploads/xxx.jpg") into a full URL.
+   Leaves absolute http(s)/data URLs untouched. */
+const getImageUrl = (p?: string) => {
+  if (!p) return "";
+  if (p.startsWith("http") || p.startsWith("data:")) return p;
+  return `${process.env.NEXT_PUBLIC_API_URL}${p}`;
 };
 
-/* ─── Level cards data ─── */
-const levels = [
-  {
-    title: "Level 1 — 2 Days · 3 Hours/Day",
-    items: [
-      "Introduction & History of Sound Healing.",
-      "How to play the bowls.",
-      "Intro Drum Stick, Leather sticks & getting Creative with Sounds.",
-      "Intensity of Sound.",
-      "Charged water therapy.",
-      "Tingsha Aura Cleansing.",
-      "Bowl notes, Chakra notes.",
-      "Metals used and benefits.",
-      "Planet Connection.",
-    ],
-  },
-  {
-    title: "Level 2 — 3 Days · 3 Hours/Day",
-    items: [
-      "Understanding Signals of body.",
-      "Sound Healing with intensity.",
-      "Group Healing Session.",
-      "Hot water Massage.",
-      "Stick Massage.",
-      "Sounds on herbs & Potli Sound.",
-    ],
-  },
-  {
-    title: "Level 3 — 5 Days · 3 Hours/Day",
-    items: [
-      "Chakra theory & 5 body element.",
-      "Chakra balancing.",
-      "Diseases therapies.",
-      "Body Sound Massage.",
-      "Distance Healing.",
-      "Gong Therapy, Happy Pan, Rain stick, Shamanic Drum.",
-      "Herb information.",
-      "Brain Wave theory.",
-      "Nada Yoga.",
-    ],
-  },
-];
-
-const scheduleRows = [
-  {
-    id: "sh-1",
-    date: "Every Monday (Ongoing)",
-    usdFee: "$100 / $180 / $250",
-    inrFee: "₹8,999 / ₹14,999 / ₹19,999",
-    roomPrice: { shared: 500, twin: 800, private: 1200 },
-    totalSeats: 20,
-    bookedSeats: 6,
-    note: "Fees are for Level 1 / Level 2 / Level 3 respectively.",
-  },
-  {
-    id: "sh-2",
-    date: "05 May 2025 – 06 May 2025",
-    usdFee: "$100 / — / —",
-    inrFee: "₹8,999 / — / —",
-    roomPrice: { shared: 500, twin: 800, private: 1200 },
-    totalSeats: 15,
-    bookedSeats: 10,
-    note: "",
-  },
-  {
-    id: "sh-3",
-    date: "12 May 2025 – 16 May 2025",
-    usdFee: "— / — / $250",
-    inrFee: "— / — / ₹19,999",
-    roomPrice: { shared: 500, twin: 800, private: 1200 },
-    totalSeats: 12,
-    bookedSeats: 5,
-    note: "",
-  },
-  {
-    id: "sh-4",
-    date: "02 Jun 2025 – 04 Jun 2025",
-    usdFee: "— / $180 / —",
-    inrFee: "— / ₹14,999 / —",
-    roomPrice: { shared: 500, twin: 800, private: 1200 },
-    totalSeats: 10,
-    bookedSeats: 10,
-    note: "",
-  },
-  {
-    id: "sh-5",
-    date: "16 Jun 2025 – 20 Jun 2025",
-    usdFee: "$100 / $180 / $250",
-    inrFee: "₹8,999 / ₹14,999 / ₹19,999",
-    roomPrice: { shared: 500, twin: 800, private: 1200 },
-    totalSeats: 20,
-    bookedSeats: 3,
-    note: "",
-  },
-];
+/* ══════════════════════════════
+   SEAT BATCH — fetched from the dedicated Sound Healing seats API
+══════════════════════════════ */
+interface SeatBatch {
+  _id: string;
+  startDate: string;
+  endDate: string;
+  usdFee: string;
+  inrFee: string;
+  dormPrice: number;
+  twinPrice: number;
+  privatePrice: number;
+  totalSeats: number;
+  bookedSeats: number;
+  note: string;
+}
 
 type Currency = "USD" | "INR";
-
-function formatPrice(usdAmount: number, currency: Currency, rate: number): string {
-  if (currency === "USD") {
-    return `$${usdAmount}`;
-  }
-  const inr = Math.round((usdAmount * rate) / 100) * 100;
-  return `₹${inr.toLocaleString("en-IN")}`;
-}
 
 function shortDateRange(start: string, end: string) {
   const s = new Date(start);
@@ -145,60 +123,6 @@ const monthYear = (start: string) => {
   const s = new Date(start);
   return s.toLocaleDateString("en-IN", { month: "short", year: "numeric" });
 };
-
-/* ══════════════════════════════════════════════════
-   SHARED COMPONENTS
-══════════════════════════════════════════════════ */
-
-type CornerPos = "tl" | "tr" | "bl" | "br";
-
-function CornerOrnament({ pos }: { pos: CornerPos }) {
-  const flip = {
-    tl: "scale(1,1)",
-    tr: "scale(-1,1)",
-    bl: "scale(1,-1)",
-    br: "scale(-1,-1)",
-  }[pos];
-
-  return (
-    <svg
-      viewBox="0 0 40 40"
-      className={styles.shCornerOrn}
-      style={{ transform: flip }}
-      aria-hidden="true"
-    >
-      <path
-        d="M2,2 L2,18 M2,2 L18,2"
-        stroke="#b8860b"
-        strokeWidth="1.5"
-        fill="none"
-      />
-      <path
-        d="M2,2 Q8,8 16,2 Q8,8 2,16"
-        stroke="#b8860b"
-        strokeWidth="0.7"
-        fill="none"
-      />
-      <circle cx="2" cy="2" r="2" fill="#b8860b" opacity="0.7" />
-      <circle cx="10" cy="10" r="1.5" fill="#b8860b" opacity="0.4" />
-    </svg>
-  );
-}
-
-function SeatsCell({ booked, total }: { booked: number; total: number }) {
-  const isFull = booked >= total;
-  const remaining = total - booked;
-
-  if (isFull) {
-    return <span className={styles.shFullyBooked}>Fully Booked</span>;
-  }
-
-  return (
-    <span className={styles.shSeatsAvailable}>
-      {remaining} / {total} Seats
-    </span>
-  );
-}
 
 /* ══════════════════════════════════════════════════
    CURRENCY DROPDOWN
@@ -234,9 +158,9 @@ function CurrencyDropdown({
         <span className={styles.currDropFlag}>
           {currency === "USD" ? "🇺🇸" : "🇮🇳"}
         </span>
-       <span className={styles.currDropLabel}>
-  {currency === "USD" ? "English" : "हिन्दी"}
-</span>
+        <span className={styles.currDropLabel}>
+          {currency === "USD" ? "English" : "हिन्दी"}
+        </span>
         <svg
           className={`${styles.currDropArrow} ${open ? styles.currDropArrowOpen : ""}`}
           viewBox="0 0 12 8"
@@ -269,12 +193,12 @@ function CurrencyDropdown({
                 {c === "USD" ? "🇺🇸" : "🇮🇳"}
               </span>
               <div className={styles.currDropItemText}>
-              <span className={styles.currDropItemCode}>
-  {c === "USD" ? "English" : "हिन्दी"}
-</span>
-<span className={styles.currDropItemName}>
-  {c === "USD" ? "US Dollar" : "Indian Rupee"}
-</span>
+                <span className={styles.currDropItemCode}>
+                  {c === "USD" ? "English" : "हिन्दी"}
+                </span>
+                <span className={styles.currDropItemName}>
+                  {c === "USD" ? "US Dollar" : "Indian Rupee"}
+                </span>
               </div>
               {currency === c && (
                 <svg
@@ -300,7 +224,9 @@ function CurrencyDropdown({
 }
 
 /* ══════════════════════════════════════════════════
-   PREMIUM SEAT BOOKING — from 500hr page
+   PREMIUM SEAT BOOKING — driven by the API (SeatBatch[]).
+   batchSectionTag / batchSectionTitle / batchSectionSub now come
+   from the main section data instead of being hardcoded.
 ══════════════════════════════════════════════════ */
 function PremiumSeatBookingSoundHealing({
   seats,
@@ -308,39 +234,53 @@ function PremiumSeatBookingSoundHealing({
   onCurrencyChange,
   rate,
   rateLoading,
+  batchSectionTag,
+  batchSectionTitle,
+  batchSectionSub,
 }: {
-  seats: typeof scheduleRows;
+  seats: SeatBatch[];
   currency: Currency;
   onCurrencyChange: (c: Currency) => void;
   rate: number;
   rateLoading: boolean;
+  batchSectionTag: string;
+  batchSectionTitle: string;
+  batchSectionSub: string;
 }) {
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
   useEffect(() => {
     if (seats.length === 0) return;
     const firstAvailable = seats.find((s) => s.totalSeats - s.bookedSeats > 0);
-    if (firstAvailable) setSelectedId(firstAvailable.id);
+    if (firstAvailable) setSelectedId(firstAvailable._id);
   }, [seats]);
 
-  const selected = seats.find((s) => s.id === selectedId) ?? null;
+  const selected = seats.find((s) => s._id === selectedId) ?? null;
 
-  const fmtPrice = (usd: number) => {
+  const fmtPrice = (batch: SeatBatch | null) => {
+    if (!batch) return { amount: "—", cur: currency };
     if (currency === "INR") {
-      const inr = Math.round((usd * rate) / 100) * 100;
-      return { amount: `₹${inr.toLocaleString("en-IN")}`, cur: "INR" };
+      if (batch.inrFee) {
+        const num = parseFloat(batch.inrFee.replace(/[₹,]/g, "").trim());
+        if (!isNaN(num) && num > 100) {
+          return { amount: `₹${num.toLocaleString("en-IN")}`, cur: "INR" };
+        }
+      }
+      const usdNum = parseFloat(batch.usdFee?.replace(/[$,]/g, "") || "") || batch.dormPrice;
+      return { amount: `₹${Math.round(usdNum * rate).toLocaleString("en-IN")}`, cur: "INR" };
     }
-    return { amount: `$${usd}`, cur: "USD" };
+    if (batch.usdFee) {
+      const raw = batch.usdFee.trim();
+      return { amount: raw.startsWith("$") ? raw : `$${raw}`, cur: "USD" };
+    }
+    return { amount: `$${batch.dormPrice}`, cur: "USD" };
   };
-
-  // Convert room prices to USD equivalent (assuming 1 USD = 85 INR roughly)
-  const getUsdPrice = (inr: number) => Math.round(inr / 85);
 
   return (
     <div className={styles.datesSection} id="dates-fees">
-      <div className={styles.psbSecTag}>Upcoming Batches · 2026–2027</div>
+      <div className={styles.psbSecTag}>{batchSectionTag}</div>
       <div className={styles.vintageHeadingWrap}>
-        <h2 className={styles.vintageHeading}>Sound Healing Teacher Training India</h2>
+        <h2 className={styles.vintageHeading}>{batchSectionTitle}</h2>
         <div className={styles.vintageHeadingUnderline}>
           <svg viewBox="0 0 200 8" xmlns="http://www.w3.org/2000/svg" className={styles.headingUndSvg}>
             <path d="M0,4 Q50,0 100,4 Q150,8 200,4" stroke="#F15505" strokeWidth="1.2" fill="none" />
@@ -350,10 +290,7 @@ function PremiumSeatBookingSoundHealing({
           </svg>
         </div>
       </div>
-      <p className={styles.psbSecSub}>
-        Choose your dates &amp; preferred accommodation — prices include tuition
-        and meals
-      </p>
+      <p className={styles.psbSecSub}>{batchSectionSub}</p>
       <div className={styles.psbOrnLine}>
         <div className={styles.psbOrnL} />
         <div className={styles.psbOrnDiamond} />
@@ -407,23 +344,22 @@ function PremiumSeatBookingSoundHealing({
                 const txtCls = full ? styles.psbSRed : low ? styles.psbSOrange : styles.psbSGreen;
                 const statusTxt = full ? "Fully Booked" : low ? "Limited" : "Available";
                 const seatsPercent = Math.max(5, (rem / batch.totalSeats) * 100);
-                const isSelected = selectedId === batch.id;
-                const dormPriceUsd = getUsdPrice(batch.roomPrice.shared);
-                const dormFmt = fmtPrice(dormPriceUsd);
+                const isSelected = selectedId === batch._id;
+                const cardPrice = fmtPrice(batch);
                 return (
                   <div
-                    key={batch.id}
+                    key={batch._id}
                     className={[styles.psbBc, full ? styles.psbBcFull : "", isSelected ? styles.psbBcSel : ""].filter(Boolean).join(" ")}
-                    onClick={() => { if (!full) setSelectedId(batch.id); }}
+                    onClick={() => { if (!full) setSelectedId(batch._id); }}
                   >
                     <div className={styles.psbBcTick}>
                       <svg viewBox="0 0 10 10" fill="none">
                         <polyline points="1.5,5 4,7.5 8.5,2.5" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </div>
-                    <div className={styles.psbBcMonth}>{batch.date.includes("Every") ? "Weekly" : monthYear(batch.date.split(" – ")[0])}</div>
-                    <div className={styles.psbBcDates}>{batch.date}</div>
-                    <div className={styles.psbBcPrice}>{dormFmt.amount} <span>{dormFmt.cur}</span></div>
+                    <div className={styles.psbBcMonth}>{monthYear(batch.startDate)}</div>
+                    <div className={styles.psbBcDates}>{shortDateRange(batch.startDate, batch.endDate)}</div>
+                    <div className={styles.psbBcPrice}>{cardPrice.amount} <span>{cardPrice.cur}</span></div>
                     <div className={styles.psbBcStatus}>
                       <div className={`${styles.psbBcDot} ${dotCls}`} />
                       <span className={`${styles.psbBcStxt} ${txtCls}`}>{statusTxt}</span>
@@ -467,35 +403,42 @@ function PremiumSeatBookingSoundHealing({
             <div className={styles.psbPriceLbl}>With Accommodation</div>
             <div className={styles.psbPriceRow}>
               <div className={styles.psbPriceCard}>
-                <div className={styles.psbPcAmt}>{selected ? fmtPrice(getUsdPrice(selected.roomPrice.private)).amount : "—"}<span className={styles.psbPcCur}>{currency}</span></div>
+                <div className={styles.psbPcAmt}>
+                  {selected
+                    ? currency === "INR"
+                      ? `₹${Math.round(selected.privatePrice * rate)}`
+                      : `$${selected.privatePrice}`
+                    : "—"}
+                  <span className={styles.psbPcCur}>{currency}</span>
+                </div>
                 <div className={styles.psbPcLbl}>Private Room</div>
               </div>
               <div className={styles.psbPriceCard}>
-                <div className={styles.psbPcAmt}>{selected ? fmtPrice(getUsdPrice(selected.roomPrice.twin)).amount : "—"}<span className={styles.psbPcCur}>{currency}</span></div>
+                <div className={styles.psbPcAmt}>
+                  {selected
+                    ? currency === "INR"
+                      ? `₹${Math.round(selected.twinPrice * rate)}`
+                      : `$${selected.twinPrice}`
+                    : "—"}
+                  <span className={styles.psbPcCur}>{currency}</span>
+                </div>
                 <div className={styles.psbPcLbl}>Twin / Shared</div>
               </div>
             </div>
             <div className={styles.psbPriceLbl}>Dormitory</div>
             <div className={styles.psbPriceWide}>
               <div className={styles.psbPwLeft}>
-                <span className={styles.psbPcAmt} style={{ fontSize: "1rem" }}>{selected ? fmtPrice(getUsdPrice(selected.roomPrice.shared)).amount : "—"}</span>
+                <span className={styles.psbPcAmt} style={{ fontSize: "1rem" }}>
+                  {selected
+                    ? currency === "INR"
+                      ? `₹${Math.round(selected.dormPrice * rate)}`
+                      : `$${selected.dormPrice}`
+                    : "—"}
+                </span>
                 <span className={styles.psbPcCur}>{currency}</span>
               </div>
               <span className={styles.psbFoodBadge}>Food Included</span>
             </div>
-
-            {selected && currency === "USD" && (
-              <div className={styles.psbInrRow}>
-                <span className={styles.psbInrLbl}>Indian Price</span>
-                <span className={styles.psbInrAmt}>₹{selected.roomPrice.shared} / day</span>
-              </div>
-            )}
-            {selected && currency === "INR" && (
-              <div className={styles.psbInrRow}>
-                <span className={styles.psbInrLbl}>USD Price</span>
-                <span className={styles.psbInrAmt}>${getUsdPrice(selected.roomPrice.shared)} USD</span>
-              </div>
-            )}
 
             <div className={styles.psbDivider} />
             {selected && (
@@ -525,15 +468,17 @@ function PremiumSeatBookingSoundHealing({
               {selected ? (
                 <>
                   <div className={styles.psbSelLabel}>Selected Batch</div>
-                  <div className={styles.psbSelDate}>{selected.date}</div>
+                  <div className={styles.psbSelDate}>
+                    {shortDateRange(selected.startDate, selected.endDate)}, {monthYear(selected.startDate)}
+                  </div>
                 </>
               ) : (
                 <span className={styles.psbSelHint}>← Select a batch to continue</span>
               )}
             </div>
-            {selected && !(selected.bookedSeats >= selected.totalSeats) ? (
-              <Link href="/yoga-registration?type=sound-healing" className={styles.psbBookBtn}>
-                Book Now — {fmtPrice(getUsdPrice(selected.roomPrice.shared)).amount} {currency}
+            {selected ? (
+              <Link href={`/yoga-registration?batchId=${selected._id}&type=sound-healing`} className={styles.psbBookBtn}>
+                Book Now — {fmtPrice(selected).amount} {currency}
                 <svg className={styles.psbArrowIcon} viewBox="0 0 16 16" fill="none">
                   <path d="M3 8h10M9 4l4 4-4 4" stroke="#fff3d2" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
@@ -577,18 +522,62 @@ export default function SoundHealingPage() {
   const [currency, setCurrency] = useState<Currency>("USD");
   const { rate, loading: rateLoading } = useCurrencyRate();
 
+  const [seats, setSeats] = useState<SeatBatch[]>([]);
+  const [data, setData] = useState<SoundHealingData | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  // Main section content — singleton stored as an array, take the first entry
+  useEffect(() => {
+    api
+      .get("/sound-healing-section")
+      .then((res) => {
+        const list = res.data?.data ?? [];
+        setData(list[0] ?? null);
+      })
+      .catch((err) => console.error("Failed to fetch sound healing content:", err))
+      .finally(() => setLoading(false));
+  }, []);
+
+  // Seat batches — dedicated Sound Healing seats API
+  useEffect(() => {
+    api
+      .get("/sound-healing-seats/get-all-batches")
+      .then((res) => setSeats(res.data.data ?? []))
+      .catch((err) => console.error("Failed to fetch seat batches:", err));
+  }, []);
+
+  if (loading) {
+    return (
+      <div className={styles.page}>
+        <section className={styles.heroBanner} style={{ background: "#f2ede4" }} />
+        <div className={styles.container} style={{ padding: "3rem 0" }}>
+          <p style={{ textAlign: "center", opacity: 0.6 }}>Loading…</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!data) {
+    return (
+      <div className={styles.page}>
+        <div className={styles.container} style={{ padding: "3rem 0" }}>
+          <p style={{ textAlign: "center", opacity: 0.6 }}>
+            Sound Healing content is not available right now.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className={styles.page}>
       {/* ══ HERO BANNER ══ */}
       <section className={styles.heroBanner}>
         <img
-          src={IMG.hero}
-          alt="Singing bowl on mandala cloth"
+          src={getImageUrl(data.heroImage)}
+          alt={data.heroImageAlt}
           className={styles.heroImg}
         />
-        {/* <div className={styles.heroTextOverlay}>
-          <h1 className={styles.heroTitle}>SOUND HEALING COURSE</h1>
-        </div> */}
       </section>
 
       {/* ══ INTRO SECTION WITH SIDE IMAGE ══ */}
@@ -601,31 +590,19 @@ export default function SoundHealingPage() {
                 <span className={styles.introDecorDot}>✧</span>
                 <span className={styles.introDecorLine}></span>
               </div>
-              <h2 className={styles.secTitleOrange}>
-                Best Sound Healing Therapy Training Courses in Rishikesh, India
-              </h2>
+              <h2 className={styles.secTitleOrange}>{data.introTitle}</h2>
               <div className={styles.omDivider}>
                 <span className={styles.divLine} />
                 <span className={styles.omGlyph}>ॐ</span>
                 <span className={styles.divLine} />
               </div>
               <div className={styles.introTextCard}>
-                <p className={styles.bodyPara}>
-                  Are you someone looking for inner peace? Every person has a unique
-                  path they take to find the inner peace where their true selves
-                  reside. The sound healing course is the best solution for you. At
-                  AYM yoga school, we are the best centers that help you learn the
-                  best yoga sound healing. Be it self-realization or spiritual
-                  explorations. Sound healing yoga courses are a way of adding life to
-                  your lifestyle. Therefore, today sound healing is the growing trend
-                  used for healing.
-                </p>
-                <p className={styles.bodyPara}>
-                  Sound healing works on the principle of vibration and frequency, helping to restore balance within the body and mind. Through the use of instruments like singing bowls, gongs, and मंत्र (mantras), this practice allows you to release stress, calm your nervous system, and experience deep relaxation. At AYM Yoga School, our sound healing course is designed to guide you step-by-step, whether you are a beginner or someone looking to deepen your spiritual journey. By the end of the course, you not only understand the science behind sound but also learn how to use it as a powerful tool for personal healing and transformation.
-                </p>
+                {data.introParagraphs.map((p, i) => (
+                  <p key={i} className={styles.bodyPara}>{p}</p>
+                ))}
                 <div className={styles.introSignature}>
                   <span className={styles.signatureLine}></span>
-                  <span className={styles.signatureText}>Heal through vibrations</span>
+                  <span className={styles.signatureText}>{data.introSignatureText}</span>
                   <span className={styles.signatureLine}></span>
                 </div>
               </div>
@@ -633,13 +610,13 @@ export default function SoundHealingPage() {
             <div className={styles.introImageWrapper}>
               <div className={styles.introImageCard}>
                 <img
-                  src={IMG.c3}
-                  alt="Sound healing with singing bowls"
+                  src={getImageUrl(data.introImage)}
+                  alt={data.introImageAlt}
                   className={styles.introSideImage}
                 />
                 <div className={styles.introImageOverlay}>
                   <div className={styles.introImageBadge}>
-                    <span>Vibrational Healing</span>
+                    <span>{data.introImageBadge}</span>
                   </div>
                 </div>
               </div>
@@ -651,22 +628,18 @@ export default function SoundHealingPage() {
       {/* ══ WHAT IS SOUND HEALING SECTION ══ */}
       <section className={styles.whatIsSection}>
         <div className={styles.container}>
-          <h2 className={styles.secTitleOrange}>
-            What is a Sound Healing Course?
-          </h2>
+          <h2 className={styles.secTitleOrange}>{data.whatIsTitle}</h2>
           <div className={styles.omDivider}>
             <span className={styles.divLine} />
             <span className={styles.omGlyph}>ॐ</span>
             <span className={styles.divLine} />
           </div>
 
-          <p className={styles.bodyPara}>
-            Sound healing is a process that helps in releasing stress from the body. It has been demonstrated to be a successful process as this approach makes it simple to remove toxins from the body. The sound healing course relies on vibrational effects to reduce physical and mental stress. Overall, it profoundly affects a person&apos;s body and soul in addition to restoring mental equilibrium.
-          </p>
+          <p className={styles.bodyPara}>{data.whatIsIntro}</p>
 
           {/* Level Cards */}
           <div className={styles.levelsGrid}>
-            {levels.map((level, idx) => (
+            {data.levels.map((level, idx) => (
               <div key={idx} className={styles.levelCard}>
                 <div className={styles.levelCardHeader}>
                   <h3 className={styles.levelCardTitle}>{level.title}</h3>
@@ -687,13 +660,13 @@ export default function SoundHealingPage() {
           {/* Three-photo row */}
           <div className={styles.bowlPhotoRow}>
             <div className={styles.bowlPhotoItem}>
-              <img src={IMG.bowl1} alt="Singing bowls arrangement" className={styles.bowlPhoto} />
+              <img src={getImageUrl(data.bowl1Image)} alt={data.bowl1Alt} className={styles.bowlPhoto} />
             </div>
             <div className={styles.bowlPhotoItem}>
-              <img src={IMG.bowl2} alt="Sound healing session" className={styles.bowlPhoto} />
+              <img src={getImageUrl(data.bowl2Image)} alt={data.bowl2Alt} className={styles.bowlPhoto} />
             </div>
             <div className={styles.bowlPhotoItem}>
-              <img src={IMG.bowl3} alt="Tibetan singing bowls" className={styles.bowlPhoto} />
+              <img src={getImageUrl(data.bowl3Image)} alt={data.bowl3Alt} className={styles.bowlPhoto} />
             </div>
           </div>
         </div>
@@ -703,8 +676,8 @@ export default function SoundHealingPage() {
       <section className={styles.aimSection}>
         <div className={styles.aimInner}>
           <div className={styles.aimTitleBlock}>
-            <span className={styles.aimEyebrow}>AYM · Rishikesh</span>
-            <h2 className={styles.secTitleOrange}>What Does Sound Healing Aim at?</h2>
+            <span className={styles.aimEyebrow}>{data.aimEyebrow}</span>
+            <h2 className={styles.secTitleOrange}>{data.aimTitle}</h2>
             <div className={styles.omDivider}>
               <span className={styles.divLine} />
               <span className={styles.omGlyph}>ॐ</span>
@@ -715,26 +688,12 @@ export default function SoundHealingPage() {
           <div className={styles.aimGrid}>
             {/* LEFT */}
             <div className={styles.aimLeft}>
-              <p className={styles.bodyPara}>
-                Stress is a major reason behind every toxicity and negativity. And
-                this is what yoga sound healing course aims at. It helps in improving
-                the health and well-being of a person. Used over the years, it has
-                successfully achieved a place in the modern industry.
-              </p>
-              <p className={styles.bodyPara}>
-                Sound healing aims to restore the body's natural frequencies and to
-                cure humanity. Therefore, keeping in mind the well-being of humans
-                and how badly stress can affect their lives, we at AYM have come up
-                with a sound healing course in Rishikesh.
-              </p>
-              <p className={styles.bodyPara}>
-                This course not only focuses on healing others but also encourages deep personal transformation within yourself. As you progress, you begin to notice a shift in your emotional balance, mental clarity, and overall energy levels. The structured practices and guided sessions at AYM Yoga School help you develop a strong connection between mind, body, and soul. With consistent practice, sound healing becomes more than just a technique—it turns into a lifestyle that supports inner harmony, mindfulness, and lasting peace.
-              </p>
-              <span className={styles.pillsLabel}>What it restores</span>
+              {data.aimParagraphs.map((p, i) => (
+                <p key={i} className={styles.bodyPara}>{p}</p>
+              ))}
+              <span className={styles.pillsLabel}>{data.pillsLabel}</span>
               <div className={styles.pillsWrap}>
-                {["Natural Frequencies","Mental Equilibrium","Chakra Alignment",
-                  "Stress Release","Spiritual Clarity","Emotional Balance","Inner Peace"
-                ].map((t) => (
+                {data.pills.map((t) => (
                   <div key={t} className={styles.pill}>
                     <span className={styles.pillDot} />
                     <span className={styles.pillTxt}>{t}</span>
@@ -747,19 +706,16 @@ export default function SoundHealingPage() {
             <div className={styles.aimRight}>
               <div className={styles.aimPhotoWrap}>
                 <img
-                  src={IMG.bowl2}
-                  alt="Sound healing bowl"
+                  src={getImageUrl(data.aimImage)}
+                  alt={data.aimImageAlt}
                   className={styles.aimPhoto}
                 />
-                <span className={styles.aimPhotoBadge}>Singing Bowl Therapy</span>
+                <span className={styles.aimPhotoBadge}>{data.aimImageBadge}</span>
               </div>
               <div className={styles.aimQuote}>
                 <span className={styles.aimQuoteMark}>"</span>
-                <p className={styles.aimQuoteText}>
-                  Sound is the medicine of the future — it works at the cellular level
-                  to restore what stress quietly takes away.
-                </p>
-                <span className={styles.aimQuoteAttr}>— Ancient Vedic Wisdom</span>
+                <p className={styles.aimQuoteText}>{data.aimQuoteText}</p>
+                <span className={styles.aimQuoteAttr}>{data.aimQuoteAttribution}</span>
               </div>
             </div>
           </div>
@@ -769,27 +725,16 @@ export default function SoundHealingPage() {
       {/* ══ BENEFITS ══ */}
       <section className={styles.benefitsSection}>
         <div className={styles.container}>
-          <h2 className={styles.secTitleOrange}>
-            What are the Benefits of a Sound Healing Course?
-          </h2>
+          <h2 className={styles.secTitleOrange}>{data.benefitsTitle}</h2>
           <div className={styles.omDivider}>
             <span className={styles.divLine} /><span className={styles.omGlyph}>ॐ</span><span className={styles.divLine} />
           </div>
           <div className={styles.benefitsGrid}>
             <div className={styles.benefitsText}>
-              <p className={styles.bodyPara}>
-                Why is sound healing so popular among youths? Sound healing has been growing,
-                especially because of the benefits it offers — physical, mental, and emotional.
-                Here are the most highly recognised benefits of our Sound Healing Courses in Rishikesh:
-              </p>
+              <p className={styles.bodyPara}>{data.benefitsIntro}</p>
               <div className={styles.benCards}>
-                {[
-                  { icon: "🧘", title: "Relaxing", text: "One of the greatest benefits of sound healing is deep relaxation. The noises penetrate our system, which as a result, helps in restoring it to balance." },
-                  { icon: "✨", title: "Eliminates Energetic Blockages", text: "The music's vibrations heal, open, clear, and balance the chakras before releasing trapped energy — acting as a deep tissue massage for the soul." },
-                  { icon: "🌿", title: "Improves Lifestyle", text: "Be it depression, anxiety, or tension — all are decreased by sound healing. It restores mental equilibrium and clarity, resulting in a greater sensation of well-being." },
-                  { icon: "❤️", title: "Improves Health", text: "From better sleep and lowered cholesterol to a decrease in chronic pain, blood pressure, and a lower risk of heart disease — all improved with sound healing." },
-                ].map((b) => (
-                  <div key={b.title} className={styles.benCard}>
+                {data.benCards.map((b, i) => (
+                  <div key={i} className={styles.benCard}>
                     <div className={styles.benIcon}>{b.icon}</div>
                     <div>
                       <p className={styles.benCardTitle}>{b.title}</p>
@@ -800,7 +745,7 @@ export default function SoundHealingPage() {
               </div>
             </div>
             <div className={styles.benefitsImgWrap}>
-              <img src={IMG.benefits} alt="Sound healing teacher with bowls" className={styles.benefitsImg} />
+              <img src={getImageUrl(data.benefitsImage)} alt={data.benefitsImageAlt} className={styles.benefitsImg} />
             </div>
           </div>
         </div>
@@ -809,31 +754,16 @@ export default function SoundHealingPage() {
       {/* ══ EXPECT + WHY JOIN + PREMIUM SEAT BOOKING ══ */}
       <section className={styles.expectSection}>
         <div className={styles.container}>
-          <h2 className={styles.secTitleOrange}>
-            What can you Expect at AYM for Sound Healing Teacher Training Course?
-          </h2>
+          <h2 className={styles.secTitleOrange}>{data.expectTitle}</h2>
           <div className={styles.omDivider}>
             <span className={styles.divLine} /><span className={styles.omGlyph}>ॐ</span><span className={styles.divLine} />
           </div>
 
-          <p className={styles.bodyPara}>
-            When looking for the best sound healing training course, you'll surely come across the
-            Association for Yoga and Meditation. Whether you have past experience or are new in this
-            field, you can acquire full knowledge and different forms of sound healing training courses.
-            We place a lot of emphasis during training sessions on students deepening their own practice
-            — cultivating skills and helping you create your distinctive teaching methods.
-          </p>
+          <p className={styles.bodyPara}>{data.expectIntro}</p>
 
           <div className={styles.expectGrid}>
-            {[
-              { icon: "🎓", label: "All Levels Welcome", text: "Beginners and experienced practitioners alike — complete knowledge from ground up." },
-              { icon: "🧑‍🏫", label: "Expert Teachers", text: "Highly skilled, reputed instructors trained to teach in the most effective, friendly environment." },
-              { icon: "📋", label: "Self-Assessment Skills", text: "Develop self-deepened evaluation and the ability to gauge your own instructional effectiveness." },
-              { icon: "🍽️", label: "Meals & Amenities", text: "Top-notch meals and comfortable amenities available at an additional cost." },
-              { icon: "📅", label: "Flexible Programs", text: "3-day and 7-day programs that fit your schedule and deepen your practice at your pace." },
-              { icon: "🏔️", label: "Rishikesh Setting", text: "Learn in the spiritual capital of yoga, surrounded by the Himalayas and the sacred Ganges." },
-            ].map((c) => (
-              <div key={c.label} className={styles.expectCard}>
+            {data.expectCards.map((c, i) => (
+              <div key={i} className={styles.expectCard}>
                 <span className={styles.expectCardIcon}>{c.icon}</span>
                 <p className={styles.expectCardLabel}>{c.label}</p>
                 <p className={styles.expectCardTxt}>{c.text}</p>
@@ -841,30 +771,24 @@ export default function SoundHealingPage() {
             ))}
           </div>
 
-          <p className={styles.instrLabel}>Instruments & Therapies You Will Learn</p>
+          <p className={styles.instrLabel}>{data.instrLabel}</p>
           <div className={styles.instrRow}>
-            {["Singing Bowls","Gong Therapy","Shamanic Drum","Tingsha","Happy Pan",
-              "Rain Stick","Sound Baths","Magnets","Nada Yoga","Brain Wave Theory"].map((t) => (
+            {data.instruments.map((t) => (
               <span key={t} className={styles.instrPill}>{t}</span>
             ))}
           </div>
 
           {/* WHY JOIN */}
           <h2 className={styles.secTitleOrange} style={{ marginTop: "2.8rem" }}>
-            Why Should You Join AYM?
+            {data.whyJoinTitle}
           </h2>
           <div className={styles.omDivider}>
             <span className={styles.divLine} /><span className={styles.omGlyph}>ॐ</span><span className={styles.divLine} />
           </div>
 
           <div className={styles.whyGrid}>
-            {[
-              { n: "01", title: "Licensed Courses", text: "We offer licensed sound healing yoga training courses recognised internationally, at highly affordable prices." },
-              { n: "02", title: "Yoga Alliance Certified", text: "Graduates receive a Yoga Alliance, USA certificate — globally recognised and career-defining." },
-              { n: "03", title: "Start Teaching Immediately", text: "Our certification lets you begin your own teaching journey the moment your course ends." },
-              { n: "04", title: "Best Choice for Students", text: "Among the many YTT centres in Rishikesh, AYM stands apart for its quality, care, and community." },
-            ].map((w) => (
-              <div key={w.n} className={styles.whyCard}>
+            {data.whyCards.map((w, i) => (
+              <div key={i} className={styles.whyCard}>
                 <span className={styles.whyNum}>{w.n}</span>
                 <div>
                   <p className={styles.whyTitle}>{w.title}</p>
@@ -875,21 +799,23 @@ export default function SoundHealingPage() {
           </div>
 
           <div className={styles.certBanner}>
-            <div className={styles.certBadge}>🏅</div>
-            <p className={styles.certTxt}>
-              Students who successfully complete the <strong>sound healing certification program</strong> will
-              receive a certificate from <strong>Yoga Alliance, USA</strong> — helping you start your
-              own journey immediately after course completion.
-            </p>
+            <div className={styles.certBadge}>{data.certBannerIcon}</div>
+            <p
+              className={styles.certTxt}
+              dangerouslySetInnerHTML={{ __html: data.certBannerText }}
+            />
           </div>
 
-          {/* PREMIUM SEAT BOOKING - EXACT UI FROM 500hr PAGE */}
+          {/* PREMIUM SEAT BOOKING — dynamic, dedicated Sound Healing seats API */}
           <PremiumSeatBookingSoundHealing
-            seats={scheduleRows}
+            seats={seats}
             currency={currency}
             onCurrencyChange={setCurrency}
             rate={rate}
             rateLoading={rateLoading}
+            batchSectionTag={data.batchSectionTag}
+            batchSectionTitle={data.batchSectionTitle}
+            batchSectionSub={data.batchSectionSub}
           />
         </div>
       </section>

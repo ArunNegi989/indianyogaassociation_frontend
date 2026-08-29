@@ -52,6 +52,13 @@ const navItems: NavItem[] = [
   { href: "/admin/dashboard/inner-awakening",  label: "Inner Awakning", icon: "📋" },
   { href: "/admin/dashboard/detox-retreat",  label: "Yoga Detox", icon: "🖼" },
   {
+    label: "Sound Healing", icon: "✦",
+    children: [
+      { href: "/admin/dashboard/sound-healing-course/sound-healing-content",  label: "sound-healing-content" },
+      { href: "/admin/dashboard/sound-healing-course/sound-healing-course-seat", label: "sound-healing-seats" },
+    ],
+  },
+  {
     label: "Yoga beginners", icon: "✦",
     children: [
       { href: "/admin/dashboard/yoga-for-beginners/yoga-beginners-content",  label: "yoga-beginners-content" },
