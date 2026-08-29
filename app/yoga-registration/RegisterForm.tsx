@@ -199,7 +199,7 @@ export default function RegisterForm() {
     });
   }, [searchParams, batchId, courseId]);
 
-  type CourseType = "100hr" | "200hr" | "300hr";
+  type CourseType = "100hr" | "200hr" | "300hr" | "beginners";
   const rawType = searchParams.get("type");
   const type = rawType as CourseType;
 
@@ -218,6 +218,11 @@ export default function RegisterForm() {
       getBatch:   "/300hr-seats/getBatch",
       bookSeat:   "/300hr-seats/bookSeat",
       courseName: "300 Hour Yoga TTC",
+    },
+    "beginners": {
+      getBatch:   "/yoga-beginners-seats/getBatch",
+      bookSeat:   "/yoga-beginners-seats/bookSeat",
+      courseName: "Yoga Teacher Training Course for Beginners in Rishikesh",
     },
   };
 

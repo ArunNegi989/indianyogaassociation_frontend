@@ -52,6 +52,13 @@ const navItems: NavItem[] = [
   { href: "/admin/dashboard/inner-awakening",  label: "Inner Awakning", icon: "📋" },
   { href: "/admin/dashboard/detox-retreat",  label: "Yoga Detox", icon: "🖼" },
   {
+    label: "Yoga beginners", icon: "✦",
+    children: [
+      { href: "/admin/dashboard/yoga-for-beginners/yoga-beginners-content",  label: "yoga-beginners-content" },
+      { href: "/admin/dashboard/yoga-for-beginners/yoga-beginners-seats", label: "yoga-beginners-seats" },
+    ],
+  },
+  {
     label: "Courses",
     icon: "📜",
     subGroups: [
