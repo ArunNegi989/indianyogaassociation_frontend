@@ -43,6 +43,21 @@ const navItems: NavItem[] = [
       { href: "/admin/dashboard/whyaymschool",         label: "Why Aym School" },
     ],
   },
+  { href: "/admin/dashboard/Affiliation", label: "Affiliation",icon: "🖼" },
+  { href: "/admin/dashboard/about-aym",  label: "About Aym", icon: "📋" },
+  { href: "/admin/dashboard/yoga-rules",    label: "Yoga Rules",icon: "✏" },
+  { href: "/admin/dashboard/yoga-retreat", label: "Yoga Retreat",icon: "🖼" },
+  { href: "/admin/dashboard/yoga-ashram",  label: "Yoga Ashram", icon: "📋" },
+  { href: "/admin/dashboard/yoga-holidays",  label: "Yoga Holidays", icon: "🖼" },
+  { href: "/admin/dashboard/inner-awakening",  label: "Inner Awakning", icon: "📋" },
+  { href: "/admin/dashboard/detox-retreat",  label: "Yoga Detox", icon: "🖼" },
+  {
+    label: "Yoga beginners", icon: "✦",
+    children: [
+      { href: "/admin/dashboard/yoga-for-beginners/yoga-beginners-content",  label: "yoga-beginners-content" },
+      { href: "/admin/dashboard/yoga-for-beginners/yoga-beginners-seats", label: "yoga-beginners-seats" },
+    ],
+  },
   {
     label: "Courses",
     icon: "📜",
@@ -160,10 +175,10 @@ const navItems: NavItem[] = [
       { href: "/admin/dashboard/testimonialstext",  label: "Testimonials Review Text" },
     ],
   },
-  { href: "/admin/dashboard/gallery", label: "Gallery",           icon: "🖼" },
-  { href: "/admin/dashboard/blog",    label: "Blog",              icon: "✏" },
+  { href: "/admin/dashboard/gallery", label: "Gallery",icon: "🖼" },
+  { href: "/admin/dashboard/blog",    label: "Blog",icon: "✏" },
   { href: "/admin/Registrationlist",  label: "Registration List", icon: "📋" },
-  { href: "/admin/accommodation",     label: "Accommodation",     icon: "🏠" },
+  { href: "/admin/accommodation",     label: "Accommodation",icon: "🏠" },
   {
     label: "Testimonials", icon: "✦",
     children: [

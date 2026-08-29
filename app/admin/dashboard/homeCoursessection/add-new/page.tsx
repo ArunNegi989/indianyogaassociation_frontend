@@ -28,7 +28,6 @@ interface FormData {
   enrollHref: string;
   exploreLabel: string;
   exploreHref: string;
-  priceINR: string;
   priceUSD: string;
   totalSeats: number;
   order: number;
@@ -47,7 +46,6 @@ const INITIAL: FormData = {
   enrollHref: "",
   exploreLabel: "",
   exploreHref: "",
-  priceINR: "",
   priceUSD: "",
   totalSeats: 20,
   order: 0,
@@ -154,7 +152,6 @@ export default function CourseAddEditPage() {
           enrollHref: d.enrollHref ?? "",
           exploreLabel: d.exploreLabel ?? "",
           exploreHref: d.exploreHref ?? "",
-          priceINR: d.priceINR ?? "",
           priceUSD: d.priceUSD ?? "",
           totalSeats: d.totalSeats ?? 20,
           order: d.order ?? 0,
@@ -267,7 +264,7 @@ export default function CourseAddEditPage() {
       errors.exploreLabel ||
       errors.exploreHref
     ),
-    pricing: !!(errors.priceINR || errors.priceUSD || errors.totalSeats),
+    pricing: !!(errors.priceUSD || errors.totalSeats),
   };
 
   const tabLabels = {
@@ -768,59 +765,31 @@ export default function CourseAddEditPage() {
                   <h3 className={styles.sectionTitle}>Course Pricing</h3>
                 </div>
 
-                <div className={styles.twoCol}>
-                  <div className={styles.fieldGroup}>
-                    <label className={styles.label}>
-                      <span className={styles.labelIcon}>✦</span>
-                      Price (INR)<span className={styles.required}>*</span>
-                    </label>
-                    <p className={styles.fieldHint}>e.g. ₹58,000</p>
-                    <div
-                      className={`${styles.inputWrap} ${errors.priceINR ? styles.inputError : ""} ${watchAll.priceINR && !errors.priceINR ? styles.inputSuccess : ""}`}
-                    >
-                      <input
-                        type="text"
-                        className={styles.input}
-                        placeholder="₹58,000"
-                        maxLength={20}
-                        {...register("priceINR", {
-                          required: "INR price is required",
-                        })}
-                      />
-                    </div>
-                    {errors.priceINR && (
-                      <p className={styles.errorMsg}>
-                        ⚠ {errors.priceINR.message}
-                      </p>
-                    )}
-                  </div>
-
-                  <div className={styles.fieldGroup}>
-                    <label className={styles.label}>
-                      <span className={styles.labelIcon}>✦</span>
-                      Price (USD)<span className={styles.required}>*</span>
-                    </label>
-                    <p className={styles.fieldHint}>e.g. $699</p>
-                    <div
-                      className={`${styles.inputWrap} ${errors.priceUSD ? styles.inputError : ""} ${watchAll.priceUSD && !errors.priceUSD ? styles.inputSuccess : ""}`}
-                    >
-                      <input
-                        type="text"
-                        className={styles.input}
-                        placeholder="$699"
-                        maxLength={20}
-                        {...register("priceUSD", {
-                          required: "USD price is required",
-                        })}
-                      />
-                    </div>
-                    {errors.priceUSD && (
-                      <p className={styles.errorMsg}>
-                        ⚠ {errors.priceUSD.message}
-                      </p>
-                    )}
-                  </div>
-                </div>
+                <div className={styles.fieldGroup}>
+  <label className={styles.label}>
+    <span className={styles.labelIcon}>✦</span>
+    Price (USD)<span className={styles.required}>*</span>
+  </label>
+  <p className={styles.fieldHint}>e.g. $699</p>
+  <div
+    className={`${styles.inputWrap} ${errors.priceUSD ? styles.inputError : ""} ${watchAll.priceUSD && !errors.priceUSD ? styles.inputSuccess : ""}`}
+  >
+    <input
+      type="text"
+      className={styles.input}
+      placeholder="$699"
+      maxLength={20}
+      {...register("priceUSD", {
+        required: "USD price is required",
+      })}
+    />
+  </div>
+  {errors.priceUSD && (
+    <p className={styles.errorMsg}>
+      ⚠ {errors.priceUSD.message}
+    </p>
+  )}
+</div>
               </div>
 
               <div className={styles.formDivider} />

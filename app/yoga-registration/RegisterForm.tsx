@@ -199,7 +199,7 @@ export default function RegisterForm() {
     });
   }, [searchParams, batchId, courseId]);
 
-  type CourseType = "100hr" | "200hr" | "300hr";
+  type CourseType = "100hr" | "200hr" | "300hr" | "beginners";
   const rawType = searchParams.get("type");
   const type = rawType as CourseType;
 
@@ -218,6 +218,11 @@ export default function RegisterForm() {
       getBatch:   "/300hr-seats/getBatch",
       bookSeat:   "/300hr-seats/bookSeat",
       courseName: "300 Hour Yoga TTC",
+    },
+    "beginners": {
+      getBatch:   "/yoga-beginners-seats/getBatch",
+      bookSeat:   "/yoga-beginners-seats/bookSeat",
+      courseName: "Yoga Teacher Training Course for Beginners in Rishikesh",
     },
   };
 
@@ -474,6 +479,7 @@ export default function RegisterForm() {
 
             <div className={styles.formBody}>
               {/* Full Name */}
+                <div className={styles.fieldRow}>
               <div className={styles.fieldFull}>
                 <label className={styles.label}>Full Name</label>
                 <input type="text" name="fullName" value={formData.fullName} onChange={handleChange} placeholder="Enter full name" className={styles.input} />
@@ -483,6 +489,7 @@ export default function RegisterForm() {
               <div className={styles.fieldFull}>
                 <label className={styles.label}>Email Address</label>
                 <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="Enter email address" className={styles.input} />
+              </div>
               </div>
 
               {/* Phone + Birth Date */}
@@ -528,7 +535,7 @@ export default function RegisterForm() {
                 <label className={styles.label}>Address</label>
                 <input type="text" name="address" value={formData.address} onChange={handleChange} placeholder="Enter street address" className={styles.input} />
               </div>
-
+  <div className={styles.fieldRow}>
               {/* How did you know */}
               <div className={styles.fieldFull}>
                 <label className={styles.label}>How did you know about AYM Yoga School?</label>
@@ -553,6 +560,7 @@ export default function RegisterForm() {
                   </select>
                   <span className={styles.selectArrow}>▾</span>
                 </div>
+              </div>
               </div>
 
               {/* Start Date + End Date */}

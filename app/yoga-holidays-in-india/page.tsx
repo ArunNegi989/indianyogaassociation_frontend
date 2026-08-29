@@ -1,435 +1,377 @@
-// YogaHolidays.tsx
-import React from "react";
-import Image from "next/image";
+"use client";
+import React, { useEffect, useState } from "react";
 import styles from "@/assets/style/yoga-holidays-in-india/Yogaholidays.module.css";
-import image1 from "@/assets/images/hday.jpg";
-import image2 from "@/assets/images/hday3.jpg";
 import HowToReach from "@/components/home/Howtoreach";
-import heroImg from "@/assets/images/36.png";
 import Link from "next/link";
-// ===================== MAIN COMPONENT =====================
+import api from "@/lib/api";
+
+/* ── Types (mirror backend Holidays model) ── */
+interface TimeSlot { time: string; activity: string }
+interface PricingCard { title: string; amount: string; detail: string; includes: string[] }
+
+interface HolidaysData {
+  _id: string;
+  heroImage?: string; heroImageAlt?: string;
+
+  mainTitle?: string;
+  bodyParagraphs?: string[];
+  mediaImage?: string; mediaImageAlt?: string;
+  imageOverlayCaption?: string;
+  videoEmbedUrl?: string;
+
+  ayurvedaCalloutParagraphs?: string[];
+  benefitsHeading?: string;
+  benefits?: string[];
+  ctaText?: string;
+  ctaButtonText?: string;
+  ctaButtonLink?: string;
+
+  shivirTitle?: string;
+  shivirSubtitle?: string;
+  descriptionParagraphs?: string[];
+  campImage?: string; campImageAlt?: string;
+  campImageCaption?: string;
+
+  datesHighlight?: string;
+  durationRange?: string;
+  dateNote?: string;
+  datePeriods?: string[];
+
+  timetableTitle?: string;
+  timetableSubtitle?: string;
+  timetableRows?: TimeSlot[];
+
+  pricingCards?: PricingCard[];
+
+  enrollTitle?: string;
+  enrollSteps?: string[];
+  seatsNote?: string;
+
+  eligibilityTitle?: string;
+  eligibilityText?: string;
+
+  guidelinesTitle?: string;
+  guidelines?: string[];
+
+  moreInfoTitle?: string;
+  moreInfoParagraphs?: string[];
+  dressCodeTitle?: string;
+  dressCodeMen?: string;
+  dressCodeWomen?: string;
+  dressCodeNote?: string;
+
+  reachTitle?: string;
+  reachText?: string;
+}
+
+const getImageUrl = (path?: string) => {
+  if (!path) return "";
+  if (path.startsWith("http")) return path;
+  return `${process.env.NEXT_PUBLIC_API_URL}${path}`;
+};
+
 const YogaHolidays: React.FC = () => {
+  const [data, setData] = useState<HolidaysData | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await api.get("/holidays-section");
+        setData(res.data?.data ?? null);
+      } catch {
+        setData(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className={styles.pageWrapper}>
+        <div style={{ padding: "4rem 1rem", textAlign: "center" }}><p>Loading…</p></div>
+      </div>
+    );
+  }
+
+  if (!data) {
+    return (
+      <div className={styles.pageWrapper}>
+        <div style={{ padding: "4rem 1rem", textAlign: "center" }}><p>Content coming soon.</p></div>
+      </div>
+    );
+  }
+
+  const bodyParagraphs = data.bodyParagraphs ?? [];
+  const ayurvedaCalloutParagraphs = data.ayurvedaCalloutParagraphs ?? [];
+  const benefits = data.benefits ?? [];
+  const descriptionParagraphs = data.descriptionParagraphs ?? [];
+  const datePeriods = data.datePeriods ?? [];
+  const timetableRows = data.timetableRows ?? [];
+  const pricingCards = data.pricingCards ?? [];
+  const enrollSteps = data.enrollSteps ?? [];
+  const guidelines = data.guidelines ?? [];
+  const moreInfoParagraphs = data.moreInfoParagraphs ?? [];
+
+  // Split the single ordered timetable list into two columns
+  const half = Math.ceil(timetableRows.length / 2);
+  const timetableCol1 = timetableRows.slice(0, half);
+  const timetableCol2 = timetableRows.slice(half);
+
   return (
     <div className={styles.pageWrapper}>
-      <section className={styles.heroSection}>
-        <Image
-          src={heroImg}
-          alt="Yoga Students Group"
-          width={1180}
-          height={540}
-          className={styles.heroImage}
-          priority
-        />
-      </section>
+      {data.heroImage && (
+        <section className={styles.heroSection}>
+          <img src={getImageUrl(data.heroImage)} alt={data.heroImageAlt || "Yoga Students Group"} className={styles.heroImage} />
+        </section>
+      )}
+
       {/* ===== SECTION 1 — WHITE BG ===== */}
-     {/* ===== SECTION 1 — WHITE BG ===== */}
-<section className={styles.whiteSection}>
-  <h1 className={styles.mainTitle}>
-    Yoga Holidays in India / Yoga Vacations in India, Rishikesh at AYM
-    Yoga Holiday Retreats
-  </h1>
+      <section className={styles.whiteSection}>
+        {data.mainTitle && <h1 className={styles.mainTitle}>{data.mainTitle}</h1>}
 
-  {/* Two-column split: text left, media right */}
-  <div className={styles.splitGrid}>
-    <div className={styles.splitText}>
-      <p className={styles.bodyText}>
-        Stress and anxiety result from being caught up in a hectic work
-        schedule and rushing around daily. At AYM, we understand that it is
-        hard to remain relaxed and calm with the pressures of today&apos;s
-        society, which can leave you feeling drained, lethargic, and depleted.
-        At The <strong>Association of Yoga and Meditation</strong>, we have
-        strategically designed a one-week detoxing and invigorating programme.
-        A yoga Holiday in India will leave you feeling rejuvenated and energetic.
-        Your body will be more flexible, melting away any tension and stress — you
-        will be ready to take on the world.
-      </p>
-      <p className={styles.bodyText}>
-        AYM is one of the best places to visit if you&apos;re looking for a{" "}
-        <strong>Yoga Retreat</strong>. It is among the top yoga holiday centres
-        in India. Your yoga holiday in Rishikesh will give you tremendous,
-        noticeable results in just one week. We have a variety of holiday retreats
-        at AYM, such as Iyengar Yoga, Ashtanga Yoga, and Kundalini Yoga ranging
-        from 7 to 10 days.
-      </p>
-      <p className={styles.bodyText}>
-        These Yoga holidays are for everyone — whether you are a fitness lover,
-        a peace seeker or want an honest, authentic experience that will enhance
-        your overall health. You can expect to sweat, stretch and detoxify,
-        leaving you feeling strong, fresh, and lean.
-      </p>
-      <p className={styles.bodyText}>
-        You will practice many different styles of yoga where you will feel the
-        energy rise within and have lots of fun simultaneously. This holiday is
-        great for meeting like-minded individuals but also perfect if you want
-        some alone time to get to know yourself more.
-      </p>
-    </div>
+        <div className={styles.splitGrid}>
+          <div className={styles.splitText}>
+            {bodyParagraphs.map((html, idx) => (
+              <div key={idx} className={styles.bodyText} dangerouslySetInnerHTML={{ __html: html }} />
+            ))}
+          </div>
 
-    {/* Media stack: image + optional video */}
-    <div className={styles.mediaStack}>
-      <div className={styles.imageBox}>
-        <Image
-          src={image1}
-          alt="Stunning View of Rishikesh - AYM Yoga Center"
-          fill
-          sizes="(max-width: 767px) 100vw, 50vw"
-          style={{ objectFit: "cover" }}
-          priority
-        />
-        <div className={styles.imageOverlayCaption}>
-          Stunning View of Rishikesh — AYM Yoga Center
+          <div className={styles.mediaStack}>
+            {data.mediaImage && (
+              <div className={styles.imageBox}>
+                <img src={getImageUrl(data.mediaImage)} alt={data.mediaImageAlt || "Rishikesh"} style={{ objectFit: "cover", width: "100%", height: "100%" }} />
+                {data.imageOverlayCaption && <div className={styles.imageOverlayCaption}>{data.imageOverlayCaption}</div>}
+              </div>
+            )}
+
+            {data.videoEmbedUrl && (
+              <div className={styles.videoBlock}>
+                <iframe
+                  src={data.videoEmbedUrl}
+                  title="Life at AYM Rishikesh"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                />
+              </div>
+            )}
+          </div>
         </div>
-      </div>
 
-      {/* Video block — swap src for your YouTube/Vimeo embed URL */}
-      <div className={styles.videoBlock}>
-        {/* Option A: embed an iframe */}
-        <iframe
-  src="https://www.youtube.com/embed/EJ6K-rhqevE?autoplay=1&loop=1&playlist=EJ6K-rhqevE&mute=1&controls=0&modestbranding=1&rel=0"
-  title="Life at AYM Rishikesh"
-  frameBorder="0"
-  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-  allowFullScreen
-></iframe>
-      </div>
-    </div>
-  </div>
+        {/* Ayurveda callout */}
+        {ayurvedaCalloutParagraphs.length > 0 && (
+          <div className={styles.ayurvedaCallout}>
+            {ayurvedaCalloutParagraphs.map((html, idx) => (
+              <div key={idx} className={styles.bodyText} dangerouslySetInnerHTML={{ __html: html }} />
+            ))}
+          </div>
+        )}
 
-  {/* Ayurveda callout */}
-  <div className={styles.ayurvedaCallout}>
-    <p className={styles.bodyText}>
-      Many things can be combined with{" "}
-      <strong>Yoga Holidays in Rishikesh</strong>, such as meditation and
-      Ayurveda. Yoga and Ayurveda Spa will enhance your well-being — stimulating
-      your mind and transforming your body. Meditation will calm your mind and
-      body, reducing anxiety and tension. Practising{" "}
-      <Link href="/yoga-ayurveda-teacher-training-rishikesh" className={styles.link}>Yoga with Ayurveda</Link>{" "}
-      will restore your inner vitality and give you a healthy mind, body and soul.
-    </p>
-  </div>
+        {/* Benefits pills */}
+        {benefits.length > 0 && (
+          <div className={styles.benefitsWrap}>
+            {data.benefitsHeading && (
+              <p className={styles.benefitsHeading}><strong><u>{data.benefitsHeading}</u></strong></p>
+            )}
+            <div className={styles.pillsRow}>
+              {benefits.map((b, idx) => (
+                <span key={idx} className={styles.pill}>
+                  <span className={styles.pillDot} />
+                  {b}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
 
-  {/* Benefits pills */}
-  <div className={styles.benefitsWrap}>
-    <p className={styles.benefitsHeading}>
-      <strong><u>The benefits of our Yoga Holiday in Rishikesh :</u></strong>
-    </p>
-    <div className={styles.pillsRow}>
-      {[
-        "Peace of mind & clarity",
-        "Relaxation",
-        "Rejuvenation — Mind, Body & Soul",
-        "Flexibility",
-        "Strength — Physical & Mental",
-        "Authentic Experience",
-        "Lots of fun",
-      ].map((b) => (
-        <span key={b} className={styles.pill}>
-          <span className={styles.pillDot} />
-          {b}
-        </span>
-      ))}
-    </div>
-  </div>
-
-  {/* CTA */}
-  <div className={styles.ctaBar}>
-    <p className={styles.ctaText}>
-      For more detail about yoga holiday packages / vacations in Rishikesh, India.
-    </p>
-    <Link href="/yoga-retreats-in-rishikesh" className={styles.ctaButton}>
-      Click Here to See Yoga Holidays Packages
-    </Link>
-  </div>
-</section>
+        {/* CTA */}
+        {(data.ctaText || data.ctaButtonText) && (
+          <div className={styles.ctaBar}>
+            {data.ctaText && <p className={styles.ctaText}>{data.ctaText}</p>}
+            {data.ctaButtonText && (
+              <Link href={data.ctaButtonLink || "#"} className={styles.ctaButton}>
+                {data.ctaButtonText}
+              </Link>
+            )}
+          </div>
+        )}
+      </section>
 
       {/* ===== SECTION 2 — BEIGE BG ===== */}
-<section className={styles.beigeSection}>
-  <div className={styles.beigeInner}>
-    {/* Header with decorative element */}
-    <div className={styles.shivirHeader}>
-      <div className={styles.headerAccent}></div>
-      <h2 className={styles.shivirTitle}>Yog Shivir Haridwar, Rishikesh, India</h2>
-      <h3 className={styles.shivirSubtitle}>Yoga Camps in Rishikesh / Yoga Shivir Rishikesh</h3>
-    </div>
-
-    {/* Main description card */}
-    <div className={styles.descriptionCard}>
-      <p className={styles.beigeBodyText}>
-        AYM Yoga Ashram offers Residential Yoga Camps in lap of Himalayas,
-        under guidance of Yoga Master Yogi Chetan Mahesh. The main Aim of yoga
-        camps is to enrich general people including students with yoga
-        knowledge to maintain health and cultivate yogic life style in
-        students to avoid future coming diseases and stress. It also
-        cultivates moral values and keeps Indian traditional values in the
-        youth. Yoga Shivir is not a yoga teacher training course but it is for
-        self-training and practice. AYM will give participation certificate
-        after completion of yoga camp but not the yoga teaching certification.
-      </p>
-    </div>
-
-    {/* Yoga Camp Image with caption */}
-    <div className={styles.imageWrapper}>
-      <div className={styles.campImageBox}>
-        <Image
-          src={image2}
-          alt="Yoga Camp in Rishikesh - AYM"
-          fill
-          sizes="(max-width: 575px) 100vw, (max-width: 991px) 90vw, 700px"
-          style={{ objectFit: "cover" }}
-          loading="lazy"
-        />
-        <div className={styles.campImageCaption}>
-          <span>Morning Yoga Session at AYM Camp</span>
-        </div>
-      </div>
-    </div>
-
-    {/* Dates & Duration Section */}
-    <div className={styles.infoCard}>
-      <h2 className={styles.sectionHeading}>Dates & Duration</h2>
-      <div className={styles.datesGrid}>
-        <div className={styles.dateBlock}>
-          <p className={styles.dateHighlight}>
-            Summer Yoga camps in Rishikesh conducted during school holidays
-          </p>
-          <p className={styles.durationRange}>7 to 21 Days</p>
-          <p className={styles.dateNote}>Choose according to your convenience</p>
-        </div>
-        <div className={styles.dateBlock}>
-          <p className={styles.datePeriod}>15 May - 05 June</p>
-          <p className={styles.datePeriod}>06 June - 27 June</p>
-          <p className={styles.datePeriod}>30 June - 15 July</p>
-        </div>
-      </div>
-    </div>
-
-    {/* Timetable Section */}
-    <div className={styles.timetableCard}>
-      <div className={styles.timetableHeader}>
-        <h3 className={styles.timetableTitle}>Daily Schedule</h3>
-        <p className={styles.timetableSubtitle}>Yoga Shivir Timetable</p>
-      </div>
-      
-      <div className={styles.timetableBody}>
-        <div className={styles.timetableColumns}>
-          <div className={styles.timetableCol}>
-            <div className={styles.timetableRow}>
-              <span className={styles.timeSlot}>06:00 AM</span>
-              <span className={styles.activity}>Wake Up</span>
+      <section className={styles.beigeSection}>
+        <div className={styles.beigeInner}>
+          {(data.shivirTitle || data.shivirSubtitle) && (
+            <div className={styles.shivirHeader}>
+              <div className={styles.headerAccent}></div>
+              {data.shivirTitle && <h2 className={styles.shivirTitle}>{data.shivirTitle}</h2>}
+              {data.shivirSubtitle && <h3 className={styles.shivirSubtitle}>{data.shivirSubtitle}</h3>}
             </div>
-            <div className={styles.timetableRow}>
-              <span className={styles.timeSlot}>06:30 AM</span>
-              <span className={styles.activity}>Asana Practice</span>
-            </div>
-            <div className={styles.timetableRow}>
-              <span className={styles.timeSlot}>08:00 AM</span>
-              <span className={styles.activity}>Tea & Snacks</span>
-            </div>
-            <div className={styles.timetableRow}>
-              <span className={styles.timeSlot}>08:30 AM</span>
-              <span className={styles.activity}>Pranayama</span>
-            </div>
-            <div className={styles.timetableRow}>
-              <span className={styles.timeSlot}>10:00 AM</span>
-              <span className={styles.activity}>Breakfast</span>
-            </div>
-            <div className={styles.timetableRow}>
-              <span className={styles.timeSlot}>11:00 AM</span>
-              <span className={styles.activity}>Yoga Philosophy</span>
-            </div>
-          </div>
-          <div className={styles.timetableCol}>
-            <div className={styles.timetableRow}>
-              <span className={styles.timeSlot}>01:30 PM</span>
-              <span className={styles.activity}>Lunch</span>
-            </div>
-            <div className={styles.timetableRow}>
-              <span className={styles.timeSlot}>02:00 PM</span>
-              <span className={styles.activity}>Rest Period</span>
-            </div>
-            <div className={styles.timetableRow}>
-              <span className={styles.timeSlot}>03:30 PM</span>
-              <span className={styles.activity}>Asana & Meditation</span>
-            </div>
-            <div className={styles.timetableRow}>
-              <span className={styles.timeSlot}>06:30 PM</span>
-              <span className={styles.activity}>Dinner</span>
-            </div>
-            <div className={styles.timetableRow}>
-              <span className={styles.timeSlot}>08:00 PM</span>
-              <span className={styles.activity}>Mantra Chanting</span>
-            </div>
-            <div className={styles.timetableRow}>
-              <span className={styles.timeSlot}>10:00 PM</span>
-              <span className={styles.activity}>Lights Out</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+          )}
 
-    {/* Pricing Section */}
-    <div className={styles.pricingGrid}>
-      <div className={styles.pricingCard}>
-        <h4 className={styles.pricingTitle}>Course Fee</h4>
-        <p className={styles.pricingAmount}>1,700 INR</p>
-        <p className={styles.pricingDetail}>per day</p>
-        <div className={styles.pricingIncludes}>
-          <span>Accommodation</span>
-          <span>Meals</span>
-          <span>Yoga Classes</span>
-        </div>
-      </div>
-      <div className={styles.pricingCard}>
-        <h4 className={styles.pricingTitle}>Meals</h4>
-        <p className={styles.pricingAmount}>Satvic</p>
-        <p className={styles.pricingDetail}>Vegetarian Food</p>
-        <div className={styles.pricingIncludes}>
-          <span>Healthy</span>
-          <span>Nutritious</span>
-          <span>Traditional</span>
-        </div>
-      </div>
-      <div className={styles.pricingCard}>
-        <h4 className={styles.pricingTitle}>Accommodation</h4>
-        <p className={styles.pricingAmount}>Shared Room</p>
-        <p className={styles.pricingDetail}>Included in Package</p>
-        <div className={styles.pricingIncludes}>
-          <span>Private Room Available</span>
-          <span>Extra Charges Apply</span>
-        </div>
-      </div>
-    </div>
+          {descriptionParagraphs.length > 0 && (
+            <div className={styles.descriptionCard}>
+              {descriptionParagraphs.map((html, idx) => (
+                <div key={idx} className={styles.beigeBodyText} dangerouslySetInnerHTML={{ __html: html }} />
+              ))}
+            </div>
+          )}
 
-    {/* Enrollment Section */}
-    <div className={styles.enrollSection}>
-      <h2 className={styles.sectionHeading}>How to Enroll?</h2>
-      <div className={styles.enrollSteps}>
-        <div className={styles.step}>
-          <span className={styles.stepNumber}>01</span>
-          <p>Register 1 month in advance</p>
-        </div>
-        <div className={styles.step}>
-          <span className={styles.stepNumber}>02</span>
-          <p>Pay 5,000 INR advance booking fee</p>
-        </div>
-        <div className={styles.step}>
-          <span className={styles.stepNumber}>03</span>
-          <p>Submit personal details for registration</p>
-        </div>
-      </div>
-      <p className={styles.seatsNote}>Seats are limited and fill quickly</p>
-    </div>
+          {data.campImage && (
+            <div className={styles.imageWrapper}>
+              <div className={styles.campImageBox}>
+                <img src={getImageUrl(data.campImage)} alt={data.campImageAlt || "Yoga Camp"} style={{ objectFit: "cover", width: "100%", height: "100%" }} />
+                {data.campImageCaption && (
+                  <div className={styles.campImageCaption}><span>{data.campImageCaption}</span></div>
+                )}
+              </div>
+            </div>
+          )}
 
-    {/* Eligibility Section */}
-    <div className={styles.eligibilityCard}>
-      <h2 className={styles.sectionHeading}>Who Can Attend?</h2>
-      <p className={styles.eligibilityText}>
-        Anyone interested in learning yoga, aged <strong>15 - 60 years</strong>, provided the individual is physically fit.
-      </p>
-    </div>
+          {/* Dates & Duration */}
+          {(data.datesHighlight || datePeriods.length > 0) && (
+            <div className={styles.infoCard}>
+              <h2 className={styles.sectionHeading}>Dates & Duration</h2>
+              <div className={styles.datesGrid}>
+                <div className={styles.dateBlock}>
+                  {data.datesHighlight && <p className={styles.dateHighlight}>{data.datesHighlight}</p>}
+                  {data.durationRange && <p className={styles.durationRange}>{data.durationRange}</p>}
+                  {data.dateNote && <p className={styles.dateNote}>{data.dateNote}</p>}
+                </div>
+                <div className={styles.dateBlock}>
+                  {datePeriods.map((p, idx) => (
+                    <p key={idx} className={styles.datePeriod}>{p}</p>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
 
-    {/* Guidelines Section */}
-    <div className={styles.guidelinesSection}>
-      <h2 className={styles.sectionHeading}>Important Guidelines</h2>
-      <div className={styles.guidelinesGrid}>
-        <div className={styles.guidelineItem}>
-          <span className={styles.guidelineDot}></span>
-          <p>Bring bed sheets, mosquito coils, torch, stationery items</p>
-        </div>
-        <div className={styles.guidelineItem}>
-          <span className={styles.guidelineDot}></span>
-          <p>Dress code: Loose, light-colored clothing</p>
-        </div>
-        <div className={styles.guidelineItem}>
-          <span className={styles.guidelineDot}></span>
-          <p>No mobile phones during yoga sessions</p>
-        </div>
-        <div className={styles.guidelineItem}>
-          <span className={styles.guidelineDot}></span>
-          <p>Punctuality required for all sessions</p>
-        </div>
-        <div className={styles.guidelineItem}>
-          <span className={styles.guidelineDot}></span>
-          <p>No smoking, alcohol, or intoxicants on campus</p>
-        </div>
-        <div className={styles.guidelineItem}>
-          <span className={styles.guidelineDot}></span>
-          <p>No fast food or junk food during camp</p>
-        </div>
-        <div className={styles.guidelineItem}>
-          <span className={styles.guidelineDot}></span>
-          <p>Report by 6:00 PM day before camp starts</p>
-        </div>
-        <div className={styles.guidelineItem}>
-          <span className={styles.guidelineDot}></span>
-          <p>Stay until camp concludes after lunch</p>
-        </div>
-      </div>
-    </div>
+          {/* Timetable */}
+          {timetableRows.length > 0 && (
+            <div className={styles.timetableCard}>
+              <div className={styles.timetableHeader}>
+                {data.timetableTitle && <h3 className={styles.timetableTitle}>{data.timetableTitle}</h3>}
+                {data.timetableSubtitle && <p className={styles.timetableSubtitle}>{data.timetableSubtitle}</p>}
+              </div>
+              <div className={styles.timetableBody}>
+                <div className={styles.timetableColumns}>
+                  <div className={styles.timetableCol}>
+                    {timetableCol1.map((row, idx) => (
+                      <div key={idx} className={styles.timetableRow}>
+                        <span className={styles.timeSlot}>{row.time}</span>
+                        <span className={styles.activity}>{row.activity}</span>
+                      </div>
+                    ))}
+                  </div>
+                  <div className={styles.timetableCol}>
+                    {timetableCol2.map((row, idx) => (
+                      <div key={idx} className={styles.timetableRow}>
+                        <span className={styles.timeSlot}>{row.time}</span>
+                        <span className={styles.activity}>{row.activity}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
 
-    {/* ===== MORE RELATED INFORMATION SECTION ===== */}
-    <div className={styles.moreInfoSection}>
-      <h2 className={styles.moreInfoTitle}>
-        More related information for yog shivir Rishikesh at AYM
-      </h2>
+          {/* Pricing */}
+          {pricingCards.length > 0 && (
+            <div className={styles.pricingGrid}>
+              {pricingCards.map((card, idx) => (
+                <div key={idx} className={styles.pricingCard}>
+                  <h4 className={styles.pricingTitle}>{card.title}</h4>
+                  <p className={styles.pricingAmount}>{card.amount}</p>
+                  <p className={styles.pricingDetail}>{card.detail}</p>
+                  <div className={styles.pricingIncludes}>
+                    {(card.includes ?? []).map((inc, i) => <span key={i}>{inc}</span>)}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
 
-      <p className={styles.moreInfoText}>
-        Participants are requested to bring necessary items such as bed-sheets, mosquito coils/mats,
-        torch, stationery items (pen, pencil, rubber, sharpeners, writing pad/note book), toiletry
-        articles for the entire duration of yoga camp.
-      </p>
+          {/* Enrollment */}
+          {(data.enrollTitle || enrollSteps.length > 0) && (
+            <div className={styles.enrollSection}>
+              {data.enrollTitle && <h2 className={styles.sectionHeading}>{data.enrollTitle}</h2>}
+              <div className={styles.enrollSteps}>
+                {enrollSteps.map((step, idx) => (
+                  <div key={idx} className={styles.step}>
+                    <span className={styles.stepNumber}>{String(idx + 1).padStart(2, "0")}</span>
+                    <p>{step}</p>
+                  </div>
+                ))}
+              </div>
+              {data.seatsNote && <p className={styles.seatsNote}>{data.seatsNote}</p>}
+            </div>
+          )}
 
-      <div className={styles.dressCodeBlock}>
-        <h3 className={styles.dressCodeTitle}>Dress code for Yoga sessions</h3>
-        <p className={styles.dressCodeItem}>
-          <strong>For Men :</strong> Loose T-shirt of any light color along with pyjayama and shorts.
-        </p>
-        <p className={styles.dressCodeItem}>
-          <strong>For Women :</strong> Loosely made Salwar-Kameez (normal ladies suit) of light colour.
-        </p>
-        <p className={styles.moreInfoText}>
-          Shorts for men are allowed only in yoga sessions and not outside them.
-        </p>
-      </div>
+          {/* Eligibility */}
+          {(data.eligibilityTitle || data.eligibilityText) && (
+            <div className={styles.eligibilityCard}>
+              {data.eligibilityTitle && <h2 className={styles.sectionHeading}>{data.eligibilityTitle}</h2>}
+              {data.eligibilityText && (
+                <div className={styles.eligibilityText} dangerouslySetInnerHTML={{ __html: data.eligibilityText }} />
+              )}
+            </div>
+          )}
 
-      <div className={styles.moreInfoRules}>
-        <p className={styles.moreInfoText}>
-          Mobile phones, i-pods, i-pads, cd/dvd recorders and tape recorders are not allowed in yoga sessions.
-        </p>
-        <p className={styles.moreInfoText}>
-          All participants should report and attend yoga sessions on time.
-        </p>
-        <p className={styles.moreInfoText}>
-          Participants must report at camp&apos;s office a day before the camp, latest by 6:00 p.m. and can
-          leave after lunch on the concluding day. Students are not allowed to leave the camp before its
-          conclusion.
-        </p>
-        <p className={styles.moreInfoText}>
-          Going out of campus to smoke cigarette, cigar, for chewing paan, pan-masala, for drinking alcohol
-          or any other intoxicants, is completely banned.
-        </p>
-        <p className={styles.moreInfoText}>
-          The participants must walk 2 kilometers and must climb stairs till 2nd floor daily, within the
-          campus for various yoga and meditation sessions.
-        </p>
-        <p className={styles.moreInfoText}>
-          Participants are not allowed to eat any kind of fast food and junk food during the camp and during
-          various sessions.
-        </p>
-      </div>
-    </div>
+          {/* Guidelines */}
+          {guidelines.length > 0 && (
+            <div className={styles.guidelinesSection}>
+              {data.guidelinesTitle && <h2 className={styles.sectionHeading}>{data.guidelinesTitle}</h2>}
+              <div className={styles.guidelinesGrid}>
+                {guidelines.map((g, idx) => (
+                  <div key={idx} className={styles.guidelineItem}>
+                    <span className={styles.guidelineDot}></span>
+                    <p>{g}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
 
-    {/* How to Reach */}
-    <div className={styles.reachSection}>
-      <h2 className={styles.sectionHeading}>How to Reach?</h2>
-      <p className={styles.beigeBodyText}>
-        Rishikesh is located 300 km from Delhi and is well-connected by road, train, and air.
-        Use Google Maps and search &quot;AYM Yoga Teacher Training School Rishikesh&quot; for directions.
-      </p>
-    </div>
-  </div>
-</section>
+          {/* More Info */}
+          {(data.moreInfoTitle || moreInfoParagraphs.length > 0) && (
+            <div className={styles.moreInfoSection}>
+              {data.moreInfoTitle && <h2 className={styles.moreInfoTitle}>{data.moreInfoTitle}</h2>}
+              {moreInfoParagraphs.map((html, idx) => (
+                <div key={idx} className={styles.moreInfoText} dangerouslySetInnerHTML={{ __html: html }} />
+              ))}
+
+              {(data.dressCodeTitle || data.dressCodeMen || data.dressCodeWomen) && (
+                <div className={styles.dressCodeBlock}>
+                  {data.dressCodeTitle && <h3 className={styles.dressCodeTitle}>{data.dressCodeTitle}</h3>}
+                  {data.dressCodeMen && (
+                    <div className={styles.dressCodeItem} dangerouslySetInnerHTML={{ __html: data.dressCodeMen }} />
+                  )}
+                  {data.dressCodeWomen && (
+                    <div className={styles.dressCodeItem} dangerouslySetInnerHTML={{ __html: data.dressCodeWomen }} />
+                  )}
+                  {data.dressCodeNote && (
+                    <div className={styles.moreInfoText} dangerouslySetInnerHTML={{ __html: data.dressCodeNote }} />
+                  )}
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* How to Reach */}
+          {(data.reachTitle || data.reachText) && (
+            <div className={styles.reachSection}>
+              {data.reachTitle && <h2 className={styles.sectionHeading}>{data.reachTitle}</h2>}
+              {data.reachText && (
+                <div className={styles.beigeBodyText} dangerouslySetInnerHTML={{ __html: data.reachText }} />
+              )}
+            </div>
+          )}
+        </div>
+      </section>
 
       <HowToReach />
     </div>

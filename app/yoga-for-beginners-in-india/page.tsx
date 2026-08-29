@@ -1,14 +1,646 @@
 // YogaBeginners.tsx
-import React from "react";
-import Image from "next/image";
+"use client";
+import React, { useEffect, useState } from "react";
 import styles from "@/assets/style/yoga-for-beginners-in-india/Yogabeginners.module.css";
-import beginners from "@/assets/images/yogg.jpg";
-import yogatecherimage from "@/assets/images/yoga-techer-training-course-for-beginners.webp";
 import HowToReach from "@/components/home/Howtoreach";
-import heroImg from "@/assets/images/37.png";
 import Link from "next/link";
+import api from "@/lib/api";
 
-// ---- Om Divider ----
+/* ─────────────────────────────────────────────────────────
+   Uploaded file paths like "/uploads/xxx.jpg" are served from
+   the server root (NOT under /api), so build image URLs with
+   NEXT_PUBLIC_API_URL directly — `api` (lib/api.ts) already
+   has "/api" baked into its baseURL and is only used for the
+   JSON calls below.
+───────────────────────────────────────────────────────── */
+const ASSET_BASE = process.env.NEXT_PUBLIC_API_URL || "";
+const getImageUrl = (path?: string) => {
+  if (!path) return "";
+  if (path.startsWith("http") || path.startsWith("data:")) return path;
+  return `${ASSET_BASE}${path}`;
+};
+
+/* ══════════════════════════════
+   TYPES — seat batches (unchanged, separate API)
+══════════════════════════════ */
+interface SeatBatch {
+  _id: string;
+  startDate: string;
+  endDate: string;
+  usdFee: string;
+  inrFee: string;
+  dormPrice: number;
+  twinPrice: number;
+  privatePrice: number;
+  totalSeats: number;
+  bookedSeats: number;
+  note: string;
+}
+
+type Currency = "USD" | "INR";
+
+/* ══════════════════════════════
+   TYPES — CMS section content (mirrors the backend model)
+══════════════════════════════ */
+interface InfoRowItem {
+  number: string;
+  label: string;
+}
+interface PillarItem {
+  icon: string;
+  name: string;
+  subLabel: string;
+  desc: string;
+}
+interface BenefitItem {
+  number: string;
+  name: string;
+  desc: string;
+}
+interface QAItem {
+  question: string;
+  answers: string[];
+}
+interface InfoCardItem {
+  icon: string;
+  title: string;
+  desc: string;
+}
+
+interface BeginnersData {
+  heroImage?: string;
+  heroImageAlt?: string;
+
+  mainTitle?: string;
+  questionText?: string;
+  bodyParagraphs?: string[];
+  infoRow?: InfoRowItem[];
+
+  secondImage?: string;
+  secondImageAlt?: string;
+
+  benefitsFullTitle?: string;
+  understandingTitle?: string;
+  understandingIntro?: string;
+  pillars?: PillarItem[];
+
+  benefitsLabel?: string;
+  benefits?: BenefitItem[];
+
+  qaSectionTitle?: string;
+  qaItems?: QAItem[];
+
+  moreInfoSectionTitle?: string;
+  infoCards?: InfoCardItem[];
+  noteText?: string;
+
+  batchSectionTag?: string;
+  batchSectionTitle?: string;
+  batchSectionSub?: string;
+}
+
+/* No hardcoded copy — only safe empty defaults so the page never
+   crashes on a missing field while content is being added in the
+   admin panel. Every visible text/image comes from the backend. */
+function withSafeDefaults(d: BeginnersData | null): Required<BeginnersData> {
+  return {
+    heroImage: d?.heroImage || "",
+    heroImageAlt: d?.heroImageAlt || "",
+    mainTitle: d?.mainTitle || "",
+    questionText: d?.questionText || "",
+    bodyParagraphs: d?.bodyParagraphs || [],
+    infoRow: d?.infoRow || [],
+    secondImage: d?.secondImage || "",
+    secondImageAlt: d?.secondImageAlt || "",
+    benefitsFullTitle: d?.benefitsFullTitle || "",
+    understandingTitle: d?.understandingTitle || "",
+    understandingIntro: d?.understandingIntro || "",
+    pillars: d?.pillars || [],
+    benefitsLabel: d?.benefitsLabel || "",
+    benefits: d?.benefits || [],
+    qaSectionTitle: d?.qaSectionTitle || "",
+    qaItems: d?.qaItems || [],
+    moreInfoSectionTitle: d?.moreInfoSectionTitle || "",
+    infoCards: d?.infoCards || [],
+    noteText: d?.noteText || "",
+    batchSectionTag: d?.batchSectionTag || "",
+    batchSectionTitle: d?.batchSectionTitle || "",
+    batchSectionSub: d?.batchSectionSub || "",
+  };
+}
+
+/* ══════════════════════════════
+   DATE FORMATTERS
+══════════════════════════════ */
+const shortDateRange = (start: string, end: string) => {
+  const s = new Date(start);
+  const e = new Date(end);
+  const d = (dt: Date) =>
+    dt.toLocaleDateString("en-IN", { day: "2-digit", month: "short" });
+  return `${d(s)} – ${d(e)}`;
+};
+
+const monthYear = (start: string) =>
+  new Date(start).toLocaleDateString("en-IN", {
+    month: "short",
+    year: "numeric",
+  });
+
+/* ══════════════════════════════
+   CURRENCY HOOK
+══════════════════════════════ */
+function useCurrencyRate() {
+  const [rate, setRate] = useState<number>(83);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch(
+      "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.json"
+    )
+      .then((r) => r.json())
+      .then((data) => {
+        if (data?.usd?.inr) setRate(data.usd.inr);
+      })
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, []);
+
+  return { rate, loading };
+}
+
+/* ══════════════════════════════
+   VINTAGE HEADING
+══════════════════════════════ */
+function VintageHeading({ children }: { children: React.ReactNode }) {
+  return (
+    <div className={styles.vintageHeadingWrap}>
+      <h2 className={styles.vintageHeading}>{children}</h2>
+      <div className={styles.vintageHeadingUnderline}>
+        <svg
+          viewBox="0 0 200 8"
+          xmlns="http://www.w3.org/2000/svg"
+          className={styles.headingUndSvg}
+        >
+          <path
+            d="M0,4 Q50,0 100,4 Q150,8 200,4"
+            stroke="#F15505"
+            strokeWidth="1.2"
+            fill="none"
+          />
+          <circle cx="100" cy="4" r="3" fill="#F15505" opacity="0.7" />
+          <circle cx="10" cy="4" r="1.5" fill="#b8860b" opacity="0.5" />
+          <circle cx="190" cy="4" r="1.5" fill="#b8860b" opacity="0.5" />
+        </svg>
+      </div>
+    </div>
+  );
+}
+
+/* ══════════════════════════════
+   CURRENCY DROPDOWN
+══════════════════════════════ */
+function CurrencyDropdown({
+  currency,
+  onChange,
+}: {
+  currency: Currency;
+  onChange: (c: Currency) => void;
+}) {
+  const [open, setOpen] = useState(false);
+  const ref = React.useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node))
+        setOpen(false);
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, []);
+
+  return (
+    <div className={styles.currDrop} ref={ref}>
+      <button
+        className={styles.currDropBtn}
+        onClick={() => setOpen((p) => !p)}
+        type="button"
+      >
+        <span>{currency === "USD" ? "🇺🇸" : "🇮🇳"}</span>
+        <span>{currency === "USD" ? "English" : "हिन्दी"}</span>
+        <svg
+          className={`${styles.currDropArrow} ${open ? styles.currDropArrowOpen : ""}`}
+          viewBox="0 0 12 8"
+          fill="none"
+        >
+          <path
+            d="M1 1l5 5 5-5"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      </button>
+      {open && (
+        <div className={styles.currDropMenu}>
+          {(["USD", "INR"] as Currency[]).map((c) => (
+            <button
+              key={c}
+              className={`${styles.currDropItem} ${currency === c ? styles.currDropItemActive : ""}`}
+              onClick={() => {
+                onChange(c);
+                setOpen(false);
+              }}
+              type="button"
+            >
+              <span>{c === "USD" ? "🇺🇸" : "🇮🇳"}</span>
+              <div>
+                <span>{c === "USD" ? "English" : "हिन्दी"}</span>
+                <span>{c === "USD" ? "US Dollar" : "Indian Rupee"}</span>
+              </div>
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ══════════════════════════════════════════════════
+   PREMIUM SEAT BOOKING
+   — batches, pricing & booking logic UNCHANGED (still driven
+     by the separate seats API). Only the heading block above
+     the grid (tag/title/sub) is now passed in as props so it
+     comes from the CMS section instead of being hardcoded.
+══════════════════════════════════════════════════ */
+function PremiumSeatBooking({
+  seats,
+  currency,
+  onCurrencyChange,
+  rate,
+  rateLoading,
+  seattitle,
+  sectionTag,
+  sectionSub,
+}: {
+  seats: SeatBatch[];
+  currency: Currency;
+  onCurrencyChange: (c: Currency) => void;
+  rate: number;
+  rateLoading: boolean;
+  seattitle: string;
+  sectionTag: string;
+  sectionSub: string;
+}) {
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!seats.length) return;
+    const first = seats.find((s) => s.totalSeats - s.bookedSeats > 0);
+    if (first) setSelectedId(first._id);
+  }, [seats]);
+
+  const selected = seats.find((s) => s._id === selectedId) ?? null;
+
+  const fmtPrice = (batch: SeatBatch | null, overrideUsd?: number) => {
+    if (!batch && overrideUsd === undefined)
+      return { amount: "—", cur: currency };
+    if (currency === "INR") {
+      if (batch?.inrFee) {
+        const num = parseFloat(batch.inrFee.replace(/[₹,]/g, "").trim());
+        if (!isNaN(num) && num > 100)
+          return { amount: `₹${num.toLocaleString("en-IN")}`, cur: "INR" };
+      }
+      const usdNum = batch
+        ? parseFloat(batch.usdFee.replace(/[$,]/g, "")) || batch.dormPrice
+        : overrideUsd ?? 0;
+      return {
+        amount: `₹${Math.round(usdNum * rate).toLocaleString("en-IN")}`,
+        cur: "INR",
+      };
+    }
+    if (batch?.usdFee) {
+      const raw = batch.usdFee.trim();
+      return { amount: raw.startsWith("$") ? raw : `$${raw}`, cur: "USD" };
+    }
+    return { amount: `$${overrideUsd ?? batch?.dormPrice ?? 0}`, cur: "USD" };
+  };
+
+  return (
+    <section className={styles.datesSection} id="dates-fees">
+      {sectionTag && <div className={styles.psbSecTag}>{sectionTag}</div>}
+      <VintageHeading>{seattitle}</VintageHeading>
+      {sectionSub && <p className={styles.psbSecSub}>{sectionSub}</p>}
+      <div className={styles.psbOrnLine}>
+        <div className={styles.psbOrnL} />
+        <div className={styles.psbOrnDiamond} />
+        <div className={styles.psbOrnR} />
+      </div>
+
+      <div className={styles.psbLayout}>
+        {/* LEFT PANEL */}
+        <div className={styles.psbLeftPanel}>
+          <div className={styles.psbLph}>
+            <span className={styles.psbLphTitle}>Select Your Batch</span>
+            <div className={styles.psbLphRight}>
+              <CurrencyDropdown
+                currency={currency}
+                onChange={onCurrencyChange}
+              />
+              <div className={styles.psbLegend}>
+                <div className={styles.psbLegItem}>
+                  <div className={`${styles.psbLegDot} ${styles.psbDGreen}`} />
+                  Available
+                </div>
+                <div className={styles.psbLegItem}>
+                  <div
+                    className={`${styles.psbLegDot} ${styles.psbDOrange}`}
+                  />
+                  Limited
+                </div>
+                <div className={styles.psbLegItem}>
+                  <div className={`${styles.psbLegDot} ${styles.psbDRed}`} />
+                  Full
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {seats.length === 0 ? (
+            <p className={styles.psbNoBatches}>
+              No upcoming batches available.
+            </p>
+          ) : (
+            <div className={styles.psbBatchGrid}>
+              {seats.map((batch) => {
+                const rem = batch.totalSeats - batch.bookedSeats;
+                const full = rem <= 0;
+                const low = !full && rem <= 5;
+                const dotCls = full
+                  ? styles.psbDRed
+                  : low
+                  ? styles.psbDOrange
+                  : styles.psbDGreen;
+                const txtCls = full
+                  ? styles.psbSRed
+                  : low
+                  ? styles.psbSOrange
+                  : styles.psbSGreen;
+                const statusTxt = full
+                  ? "Fully Booked"
+                  : low
+                  ? "Limited"
+                  : "Available";
+                const cardPrice = fmtPrice(batch);
+                const isSelected = selectedId === batch._id;
+                return (
+                  <div
+                    key={batch._id}
+                    className={[
+                      styles.psbBc,
+                      full ? styles.psbBcFull : "",
+                      isSelected ? styles.psbBcSel : "",
+                    ]
+                      .filter(Boolean)
+                      .join(" ")}
+                    onClick={() => {
+                      if (!full) setSelectedId(batch._id);
+                    }}
+                  >
+                    <div className={styles.psbBcTick}>
+                      <svg viewBox="0 0 10 10" fill="none">
+                        <polyline
+                          points="1.5,5 4,7.5 8.5,2.5"
+                          stroke="white"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </div>
+                    <div className={styles.psbBcMonth}>
+                      {monthYear(batch.startDate)}
+                    </div>
+                    <div className={styles.psbBcDates}>
+                      {shortDateRange(batch.startDate, batch.endDate)}
+                    </div>
+                    <div className={styles.psbBcPrice}>
+                      {cardPrice.amount} <span>{cardPrice.cur}</span>
+                    </div>
+                    <div className={styles.psbBcStatus}>
+                      <div className={`${styles.psbBcDot} ${dotCls}`} />
+                      <span className={`${styles.psbBcStxt} ${txtCls}`}>
+                        {statusTxt}
+                      </span>
+                    </div>
+                    {!full && (
+                      <>
+                        <div className={styles.psbBcSeatsBar}>
+                          <div
+                            className={styles.psbBcSeatsBarFill}
+                            style={{
+                              width: `${Math.max(
+                                5,
+                                (rem / batch.totalSeats) * 100
+                              )}%`,
+                              background: low
+                                ? "linear-gradient(90deg,#c8700a,#e09030)"
+                                : "linear-gradient(90deg,#3d6000,#6aa000)",
+                            }}
+                          />
+                        </div>
+                        <span
+                          className={styles.psbBcSeatsBadge}
+                          style={{ color: low ? "#c8700a" : "#3d6000" }}
+                        >
+                          {rem} / {batch.totalSeats} seats left
+                        </span>
+                      </>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
+
+        {/* RIGHT PANEL */}
+        <div className={styles.psbRightPanel}>
+          <div className={styles.psbRpHead}>
+            <div className={styles.psbRpEyebrow}>Course Overview</div>
+            <div className={styles.psbRpCourse}>{seattitle}</div>
+            <div className={styles.psbRpDur}>
+              <svg width="11" height="11" viewBox="0 0 16 16" fill="none">
+                <circle
+                  cx="8"
+                  cy="8"
+                  r="7"
+                  stroke="rgba(255,243,210,0.8)"
+                  strokeWidth="1.2"
+                />
+                <path
+                  d="M8 4.5V8.5L10.5 10"
+                  stroke="rgba(255,243,210,0.8)"
+                  strokeWidth="1.2"
+                  strokeLinecap="round"
+                />
+              </svg>
+              <span className={styles.psbRpDurTxt}>
+                12 Days · Rishikesh, India
+              </span>
+            </div>
+            <div className={styles.psbCurrBadge}>
+              {currency === "USD" ? "🇺🇸 Prices in USD" : "🇮🇳 Prices in INR"}
+            </div>
+          </div>
+          <div className={styles.psbRpBody}>
+            <div className={styles.psbPriceLbl}>With Accommodation</div>
+            <div className={styles.psbPriceRow}>
+              <div className={styles.psbPriceCard}>
+                <div className={styles.psbPcAmt}>
+                  {selected
+                    ? currency === "INR"
+                      ? `₹${Math.round(selected.privatePrice * rate)}`
+                      : `$${selected.privatePrice}`
+                    : "—"}
+                  <span className={styles.psbPcCur}>{currency}</span>
+                </div>
+                <div className={styles.psbPcLbl}>Private Room</div>
+              </div>
+              <div className={styles.psbPriceCard}>
+                <div className={styles.psbPcAmt}>
+                  {selected
+                    ? currency === "INR"
+                      ? `₹${Math.round(selected.twinPrice * rate)}`
+                      : `$${selected.twinPrice}`
+                    : "—"}
+                  <span className={styles.psbPcCur}>{currency}</span>
+                </div>
+                <div className={styles.psbPcLbl}>Twin / Shared</div>
+              </div>
+            </div>
+            <div className={styles.psbPriceLbl}>Dormitory</div>
+            <div className={styles.psbPriceWide}>
+              <div className={styles.psbPwLeft}>
+                <span className={styles.psbPcAmt} style={{ fontSize: "1rem" }}>
+                  {selected
+                    ? currency === "INR"
+                      ? `₹${Math.round(selected.dormPrice * rate)}`
+                      : `$${selected.dormPrice}`
+                    : "—"}
+                </span>
+                <span className={styles.psbPcCur}>{currency}</span>
+              </div>
+              <span className={styles.psbFoodBadge}>Food Included</span>
+            </div>
+            <div className={styles.psbDivider} />
+            {selected &&
+              (() => {
+                const rem = selected.totalSeats - selected.bookedSeats;
+                const full = rem <= 0;
+                const low = !full && rem <= 5;
+                const pct = full
+                  ? 100
+                  : Math.round(
+                      (selected.bookedSeats / selected.totalSeats) * 100
+                    );
+                return (
+                  <div className={styles.psbRpSeatsWrap}>
+                    <div className={styles.psbRpSeatsRow}>
+                      <span className={styles.psbRpSeatsLbl}>
+                        Seats Availability
+                      </span>
+                      <span
+                        className={styles.psbRpSeatsBadge}
+                        style={{
+                          color: full
+                            ? "#8a2c00"
+                            : low
+                            ? "#c8700a"
+                            : "#3d6000",
+                          borderColor: full
+                            ? "#8a2c00"
+                            : low
+                            ? "#c8700a"
+                            : "#3d6000",
+                        }}
+                      >
+                        {full
+                          ? "Fully Booked"
+                          : `${rem} of ${selected.totalSeats} left`}
+                      </span>
+                    </div>
+                    <div className={styles.psbRpSeatsBar}>
+                      <div
+                        className={styles.psbRpSeatsBarFill}
+                        style={{
+                          width: `${pct}%`,
+                          background: full
+                            ? "#8a2c00"
+                            : low
+                            ? "linear-gradient(90deg,#c8700a,#e09030)"
+                            : "linear-gradient(90deg,#3d6000,#6aa000)",
+                        }}
+                      />
+                    </div>
+                  </div>
+                );
+              })()}
+            <div className={styles.psbSelDisplay}>
+              {selected ? (
+                <>
+                  <div className={styles.psbSelLabel}>Selected Batch</div>
+                  <div className={styles.psbSelDate}>
+                    {shortDateRange(selected.startDate, selected.endDate)},{" "}
+                    {monthYear(selected.startDate)}
+                  </div>
+                </>
+              ) : (
+                <span className={styles.psbSelHint}>
+                  ← Select a batch to continue
+                </span>
+              )}
+            </div>
+            {selected ? (
+              <Link
+                href={`/yoga-registration?batchId=${selected._id}&type=beginners`}
+                className={styles.psbBookBtn}
+              >
+                Book Now — {fmtPrice(selected).amount} {currency}
+                <svg
+                  className={styles.psbArrowIcon}
+                  viewBox="0 0 16 16"
+                  fill="none"
+                >
+                  <path
+                    d="M3 8h10M9 4l4 4-4 4"
+                    stroke="#fff3d2"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </Link>
+            ) : (
+              <span className={`${styles.psbBookBtn} ${styles.psbBookBtnDis}`}>
+                Book Now
+              </span>
+            )}
+            {selected?.note && (
+              <p className={styles.psbNote}>
+                <strong>Note:</strong> {selected.note}
+              </p>
+            )}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ══════════════════════════════
+   OM DIVIDER
+══════════════════════════════ */
 const OmSVG: React.FC = () => (
   <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
     <circle cx="30" cy="30" r="28" stroke="#e8600a" strokeWidth="2" fill="none" />
@@ -36,356 +668,210 @@ const Divider: React.FC = () => (
   </div>
 );
 
-// ---- Pricing table data ----
-const pricingRows = [
-  { date: "05th Jan to 16th Jan 2025", dorm: "$400", shared: "$500", private: "$550" },
-  { date: "03th Feb to 14th Feb 2025", dorm: "$400", shared: "$500", private: "$550" },
-  { date: "03th Mar to 14th Mar 2025", dorm: "$400", shared: "$500", private: "$550" },
-  { date: "03th Apr to 14th Apr 2025", dorm: "$400", shared: "$500", private: "$550" },
-  { date: "03th May to 14th Dec 2025", dorm: "$400", shared: "$500", private: "$550" },
-  { date: "03th Jun to 14th Jun 2025", dorm: "$400", shared: "$500", private: "$550" },
-  { date: "03th Jul to 14th Jul 2025", dorm: "$400", shared: "$500", private: "$550" },
-];
-
-// ---- Q&A data ----
-const qaData = [
-  {
-    question: "What will be learned in the Yoga Beginners Course at AYM?",
-    answer: [
-      "In this course, you will be learning about yoga postures (asanas), pranayamas (yogic breathing exercises), and meditation (for a peaceful and calm state of mind). There is also a yogic detox program included in the course (they are collectively known as shat kriyas), and you will also be chanting mantras during the sessions.",
-      "You will be introduced to Hatha, Iyengar, Vinyasa, and Shivananda Yoga styles for the asana practice. We focus on alignment correction of our students using appropriate props (as per the Iyengar style of yoga).",
-      "Many of you who want to start yoga might also be new to meditation. Here, you will get the beautiful experience of meditation. Our teachers will be guiding you in the process. You will also be familiarized with the correct way of yogic breathing and be made to practice the same in the session. Here, you will also learn about beginner-level yoga asanas and their benefits.",
-      "Towards the end of the yoga practice session, we do deep relaxation through Yoga Nidra in the Shavasana pose (i.e., the corpse pose), which profoundly calms the body and mind. This practice is well known for removing stress from the nervous system. Join our yoga course for beginners and experience the yogic effect in your mental, emotional, and physical realms!",
-      "Our participants said they felt more relaxed and peaceful after each yoga session.",
-    ],
-  },
-  {
-    question: "I have completed a beginner yoga course in Rishikesh. What should I do to advance my practice?",
-    answer: [
-      "That's great to hear that you've completed a beginner yoga course in Rishikesh! To advance your practice.",
-      "AYM Yoga School offers a certification program that includes a 200 hour yoga course, 300-hour yoga course, 500 hour yoga course, which are pretty intense. You may choose one of these courses which is the most appropriate for you. These advanced-level courses are beneficial for starting a career in yoga and deepening your yogic experience. These courses need commitment and dedication from the practitioners' side. And it is worth all the effort. Thousands of our ex-students have testified the same. (Our yoga teachers' training courses are approved by the Yoga Alliance, USA and YCB, Ministry of AYUSH, Govt of India.",
-    ],
-  },
-];
-
 // ===================== MAIN COMPONENT =====================
 const YogaBeginners: React.FC = () => {
-  return (
-    <div className={styles.pageWrapper}>
+  const [seats, setSeats] = useState<SeatBatch[]>([]);
+  const [currency, setCurrency] = useState<Currency>("USD");
+  const { rate, loading: rateLoading } = useCurrencyRate();
 
+  const [pageData, setPageData] = useState<BeginnersData | null>(null);
+
+  useEffect(() => {
+    // Seat batches — unchanged, separate endpoint
+    api
+      .get("/yoga-beginners-seats/get-all-batches")
+      .then((res) => setSeats(res.data.data ?? []))
+      .catch((err) => console.error("Failed to fetch seat batches:", err));
+
+    // Page content — CMS-managed singleton section
+    api
+      .get("/yoga-beginners-section")
+      .then((res) => {
+        const doc = Array.isArray(res.data?.data) ? res.data.data[0] : res.data?.data;
+        setPageData(doc || null);
+      })
+      .catch((err) => console.error("Failed to fetch yoga beginners section:", err));
+  }, []);
+
+  const data = withSafeDefaults(pageData);
+  const heroSrc = getImageUrl(data.heroImage);
+  const secondImgSrc = getImageUrl(data.secondImage);
+
+  return (
+    <div className={`${styles.pageWrapper} ${styles.psbRoot}`}>
       {/* ===== TOP HERO IMAGE ===== */}
-      <section className={styles.heroSection}>
-        <Image
-          src={heroImg}
-          alt="Yoga Students Group"
-          width={1180}
-          height={540}
-          className={styles.heroImage}
-          priority
-        />
-      </section>
+      {heroSrc && (
+        <section className={styles.heroSection}>
+          <img
+            src={heroSrc}
+            alt={data.heroImageAlt}
+            width={1180}
+            height={540}
+            className={styles.heroImage}
+          />
+        </section>
+      )}
 
       {/* ===== MAIN HEADING ===== */}
       <section className={styles.contentSection}>
         <div className={styles.contentContainer}>
-          <h1 className={styles.mainTitle}>
-            Yoga Teacher Training Course for Beginners in Rishikesh
-          </h1>
+          {data.mainTitle && <h1 className={styles.mainTitle}>{data.mainTitle}</h1>}
           <div className={styles.contentBlock}>
-            <p className={styles.questionText}>
-              Are you planning to join a beginner&apos;s yoga course in Rishikesh for the first time
-              but feel confused because you don&apos;t have much yoga experience?
-            </p>
-            <p className={styles.bodyText}>
-              Yoga is a powerful practice that blends physical movement, breath control, and meditation.
-              It offers numerous benefits for the body and mind. Although it can be daunting for beginners,
-              embracing this journey with an open heart and mind can lead to profound personal growth and well-being.
-            </p>
-            <p className={styles.bodyText}>
-              We understand you might have many questions about starting your yoga journey in Rishikesh.
-              At AYM Yoga School, we&apos;re here to guide you every step of the way. We regularly conduct
-              beginner-level courses in Rishikesh, India, each lasting around 12 days. Our school is
-              peaceful and serene, perfect for yoga and meditation practice.
-            </p>
-            <div className={styles.infoRow}>
-              <div className={styles.infoItem}>
-                <span className={styles.infoNumber}>12</span>
-                <span className={styles.infoLabel}>Days Course</span>
+            {data.questionText && <p className={styles.questionText}>{data.questionText}</p>}
+            {data.bodyParagraphs.map((para, i) => (
+              <p key={i} className={styles.bodyText} dangerouslySetInnerHTML={{ __html: para }} />
+            ))}
+            {data.infoRow.length > 0 && (
+              <div className={styles.infoRow}>
+                {data.infoRow.map((item, i) => (
+                  <div key={i} className={styles.infoItem}>
+                    <span className={styles.infoNumber}>{item.number}</span>
+                    <span className={styles.infoLabel}>{item.label}</span>
+                  </div>
+                ))}
               </div>
-              <div className={styles.infoItem}>
-                <span className={styles.infoNumber}>Beginner</span>
-                <span className={styles.infoLabel}>Friendly</span>
-              </div>
-              <div className={styles.infoItem}>
-                <span className={styles.infoNumber}>Peaceful</span>
-                <span className={styles.infoLabel}>Ashram</span>
-              </div>
-            </div>
+            )}
           </div>
         </div>
       </section>
 
       {/* ===== SECOND HERO IMAGE ===== */}
-      <section className={styles.heroSection}>
-        <div className={styles.heroContainer}>
-          <div className={styles.heroImageBox}>
-            <Image
-              src={beginners}
-              alt="Yoga Teacher Training Course for Beginners in Rishikesh"
-              fill
-              sizes="100vw"
-              style={{ objectFit: "cover" }}
-              priority
-            />
+      {secondImgSrc && (
+        <section className={styles.heroSection}>
+          <div className={styles.heroContainer}>
+            <div className={styles.heroImageBox}>
+              <img
+                src={secondImgSrc}
+                alt={data.secondImageAlt}
+                style={{ objectFit: "cover", width: "100%", height: "100%" }}
+              />
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* ===== BENEFITS SECTION ===== */}
       <section className={styles.benefitsFullSection}>
         <div className={styles.benefitsFullContainer}>
-          <div className={styles.benefitsHeader}>
-            <h3 className={styles.benefitsFullTitle}>Understanding of Yoga & Benefit for Beginners Course in Rishikesh</h3>
-            <div className={styles.benefitsUnderline}></div>
-          </div>
+          {data.benefitsFullTitle && (
+            <div className={styles.benefitsHeader}>
+              <h3 className={styles.benefitsFullTitle}>{data.benefitsFullTitle}</h3>
+              <div className={styles.benefitsUnderline}></div>
+            </div>
+          )}
 
-          {/* ── Understanding of Yoga ── */}
-          <div className={styles.understandingBlock}>
-            <h4 className={styles.understandingTitle}>Understanding of Yoga</h4>
-            <p className={styles.understandingIntro}>
-              Yoga is more than just a series of poses; it&apos;s a holistic approach to health. It originated
-              in ancient India and emphasizes the connection between the body, mind, and spirit. The practice
-              usually includes:
-            </p>
-            <div className={styles.yogaPillarsGrid}>
-              <div className={styles.yogaPillarCard}>
-                <div className={styles.yogaPillarIcon}>
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-                    <path d="M12 2C9.24 2 7 4.24 7 7c0 2.08 1.24 3.87 3.04 4.68L9 21h6l-1.04-9.32C15.76 10.87 17 9.08 17 7c0-2.76-2.24-5-5-5z" fill="#e8600a" opacity="0.85"/>
-                  </svg>
+          {(data.understandingTitle || data.understandingIntro || data.pillars.length > 0) && (
+            <div className={styles.understandingBlock}>
+              {data.understandingTitle && (
+                <h4 className={styles.understandingTitle}>{data.understandingTitle}</h4>
+              )}
+              {data.understandingIntro && (
+                <p
+                  className={styles.understandingIntro}
+                  dangerouslySetInnerHTML={{ __html: data.understandingIntro }}
+                />
+              )}
+              {data.pillars.length > 0 && (
+                <div className={styles.yogaPillarsGrid}>
+                  {data.pillars.map((pillar, i) => (
+                    <div key={i} className={styles.yogaPillarCard}>
+                      <div className={styles.yogaPillarIcon}>
+                        <span style={{ fontSize: "1.3rem" }}>{pillar.icon}</span>
+                      </div>
+                      <div>
+                        <h5 className={styles.yogaPillarName}>
+                          {pillar.name} {pillar.subLabel && <span>{pillar.subLabel}</span>}
+                        </h5>
+                        <p className={styles.yogaPillarDesc}>{pillar.desc}</p>
+                      </div>
+                    </div>
+                  ))}
                 </div>
-                <div>
-                  <h5 className={styles.yogaPillarName}>Asanas <span>(Postures)</span></h5>
-                  <p className={styles.yogaPillarDesc}>
-                    Physical positions that enhance flexibility, strength, and balance.
-                  </p>
-                </div>
-              </div>
-              <div className={styles.yogaPillarCard}>
-                <div className={styles.yogaPillarIcon}>
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-                    <path d="M12 4C9.79 4 8 5.79 8 8s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 10c-4.42 0-8 1.79-8 4v2h16v-2c0-2.21-3.58-4-8-4z" fill="#e8600a" opacity="0.85"/>
-                    <path d="M6 8c0-.34.04-.67.1-1H4.5C3.12 7 2 8.12 2 9.5S3.12 12 4.5 12H6V8z" fill="#e8600a" opacity="0.4"/>
-                    <path d="M18 8v4h1.5C20.88 12 22 10.88 22 9.5S20.88 7 19.5 7H17.9c.06.33.1.66.1 1z" fill="#e8600a" opacity="0.4"/>
-                  </svg>
-                </div>
-                <div>
-                  <h5 className={styles.yogaPillarName}>Pranayama <span>(Breath Control)</span></h5>
-                  <p className={styles.yogaPillarDesc}>
-                    Techniques that focus on breath awareness and control to promote relaxation and energy.
-                  </p>
-                </div>
-              </div>
-              <div className={styles.yogaPillarCard}>
-                <div className={styles.yogaPillarIcon}>
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-                    <circle cx="12" cy="12" r="3" fill="#e8600a" opacity="0.85"/>
-                    <path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.93 4.93l2.12 2.12M16.95 16.95l2.12 2.12M4.93 19.07l2.12-2.12M16.95 7.05l2.12-2.12" stroke="#e8600a" strokeWidth="1.8" strokeLinecap="round" opacity="0.6"/>
-                  </svg>
-                </div>
-                <div>
-                  <h5 className={styles.yogaPillarName}>Meditation</h5>
-                  <p className={styles.yogaPillarDesc}>
-                    Practices aimed at calming the mind and promoting inner peace.
-                  </p>
-                </div>
-              </div>
+              )}
             </div>
-          </div>
+          )}
 
-          {/* ── Benefit Cards ── */}
-          <h4 className={styles.understandingTitle}>Benefits of Yoga</h4>
+          {data.benefitsLabel && <h4 className={styles.understandingTitle}>{data.benefitsLabel}</h4>}
 
-          <div className={styles.benefitsGrid}>
-            <div className={styles.benefitFullCard}>
-              <div className={styles.benefitFullNumber}>01</div>
-              <div className={styles.benefitFullContent}>
-                <h4 className={styles.benefitFullName}>Increased Flexibility</h4>
-                <p className={styles.benefitFullDesc}>Regular practice helps loosen tight muscles, improving overall flexibility and range of motion</p>
-              </div>
+          {data.benefits.length > 0 && (
+            <div className={styles.benefitsGrid}>
+              {data.benefits.map((b, i) => (
+                <div key={i} className={styles.benefitFullCard}>
+                  <div className={styles.benefitFullNumber}>{b.number}</div>
+                  <div className={styles.benefitFullContent}>
+                    <h4 className={styles.benefitFullName}>{b.name}</h4>
+                    <p className={styles.benefitFullDesc}>{b.desc}</p>
+                  </div>
+                </div>
+              ))}
             </div>
-            <div className={styles.benefitFullCard}>
-              <div className={styles.benefitFullNumber}>02</div>
-              <div className={styles.benefitFullContent}>
-                <h4 className={styles.benefitFullName}>Enhanced Strength</h4>
-                <p className={styles.benefitFullDesc}>Many yoga poses require different muscle groups, helping build and tone muscles</p>
-              </div>
-            </div>
-            <div className={styles.benefitFullCard}>
-              <div className={styles.benefitFullNumber}>03</div>
-              <div className={styles.benefitFullContent}>
-                <h4 className={styles.benefitFullName}>Stress Relief</h4>
-                <p className={styles.benefitFullDesc}>Yoga encourages relaxation and helps alleviate stress through mindfulness and deep breathing</p>
-              </div>
-            </div>
-            <div className={styles.benefitFullCard}>
-              <div className={styles.benefitFullNumber}>04</div>
-              <div className={styles.benefitFullContent}>
-                <h4 className={styles.benefitFullName}>Improved Focus</h4>
-                <p className={styles.benefitFullDesc}>Mindfulness practices enhance concentration and mental clarity</p>
-              </div>
-            </div>
-            <div className={styles.benefitFullCard}>
-              <div className={styles.benefitFullNumber}>05</div>
-              <div className={styles.benefitFullContent}>
-                <h4 className={styles.benefitFullName}>Better Posture</h4>
-                <p className={styles.benefitFullDesc}>Yoga promotes awareness of body alignment, which can lead to better posture and reduce injury risk</p>
-              </div>
-            </div>
-          </div>
+          )}
         </div>
       </section>
 
       {/* ===== Q&A SECTION ===== */}
-      <section className={styles.qaSection}>
-        <div className={styles.sectionContainer}>
-          <h2 className={styles.sectionTitle}>Yoga Beginners Course in Rishikesh - Students Questions</h2>
-          <Divider />
-          <div className={styles.qaGrid}>
-            {qaData.map((item, idx) => (
-              <div key={idx} className={styles.qaCard}>
-                <h4 className={styles.qaQuestion}>{item.question}</h4>
-                <div className={styles.qaAnswerBlock}>
-                  {item.answer.map((para, i) => (
-                    <p key={i} className={styles.qaAnswer}>{para}</p>
-                  ))}
+      {data.qaItems.length > 0 && (
+        <section className={styles.qaSection}>
+          <div className={styles.sectionContainer}>
+            {data.qaSectionTitle && <h2 className={styles.sectionTitle}>{data.qaSectionTitle}</h2>}
+            <Divider />
+            <div className={styles.qaGrid}>
+              {data.qaItems.map((item, idx) => (
+                <div key={idx} className={styles.qaCard}>
+                  <h4 className={styles.qaQuestion}>{item.question}</h4>
+                  <div className={styles.qaAnswerBlock}>
+                    {item.answers.map((para, i) => (
+                      <p key={i} className={styles.qaAnswer}>
+                        {para}
+                      </p>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* ===== MORE INFORMATION ===== */}
       <section className={styles.moreInfoSection}>
         <div className={styles.sectionContainer}>
-          <h2 className={styles.sectionTitle}>More Information on Beginners&apos; Yoga Course</h2>
+          {data.moreInfoSectionTitle && <h2 className={styles.sectionTitle}>{data.moreInfoSectionTitle}</h2>}
           <Divider />
-          <div className={styles.infoGrid}>
-            <div className={styles.infoCard}>
-              <div className={styles.infoIcon}>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15h-2v-2h2v2zm0-4h-2V7h2v6z" fill="#e8600a"/>
-                </svg>
-              </div>
-              <div className={styles.infoContent}>
-                <h4 className={styles.infoTitle}>Ayurvedic Massage</h4>
-                <p className={styles.infoDesc}>Course participants can avail one ayurvedic massage per week</p>
-              </div>
+          {data.infoCards.length > 0 && (
+            <div className={styles.infoGrid}>
+              {data.infoCards.map((card, i) => (
+                <div key={i} className={styles.infoCard}>
+                  <div className={styles.infoIcon}>
+                    <span style={{ fontSize: "1.4rem" }}>{card.icon}</span>
+                  </div>
+                  <div className={styles.infoContent}>
+                    <h4 className={styles.infoTitle}>{card.title}</h4>
+                    <p className={styles.infoDesc}>{card.desc}</p>
+                  </div>
+                </div>
+              ))}
             </div>
-            <div className={styles.infoCard}>
-              <div className={styles.infoIcon}>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 4c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm0 13c-2.33 0-4.31-1.46-5.11-3.5h10.22c-.8 2.04-2.78 3.5-5.11 3.5z" fill="#e8600a"/>
-                </svg>
-              </div>
-              <div className={styles.infoContent}>
-                <h4 className={styles.infoTitle}>Three Meals Daily</h4>
-                <p className={styles.infoDesc}>Nutritious and healthy meals provided throughout the course</p>
-              </div>
+          )}
+          {data.noteText && (
+            <div className={styles.noteBox}>
+              <p className={styles.noteText}>{data.noteText}</p>
             </div>
-            <div className={styles.infoCard}>
-              <div className={styles.infoIcon}>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                  <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-8 2h6v2h-6V6zm0 4h6v2h-6v-2zm-6 8h-2v-2h2v2zm0-4h-2v-2h2v2zm0-4h-2V8h2v2z" fill="#e8600a"/>
-                </svg>
-              </div>
-              <div className={styles.infoContent}>
-                <h4 className={styles.infoTitle}>Private Rooms</h4>
-                <p className={styles.infoDesc}>Private rooms with free WiFi and attached bathrooms available</p>
-              </div>
-            </div>
-            <div className={styles.infoCard}>
-              <div className={styles.infoIcon}>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 4c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm0 13c-2.33 0-4.31-1.46-5.11-3.5h10.22c-.8 2.04-2.78 3.5-5.11 3.5z" fill="#e8600a"/>
-                </svg>
-              </div>
-              <div className={styles.infoContent}>
-                <h4 className={styles.infoTitle}>Class Schedule</h4>
-                <p className={styles.infoDesc}>Classes conducted Monday to Saturday, Sundays off</p>
-              </div>
-            </div>
-            <div className={styles.infoCard}>
-              <div className={styles.infoIcon}>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                  <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" fill="#e8600a"/>
-                </svg>
-              </div>
-              <div className={styles.infoContent}>
-                <h4 className={styles.infoTitle}>Tours & Excursions</h4>
-                <p className={styles.infoDesc}>Tours in and around Rishikesh planned (at course director&apos;s discretion)</p>
-              </div>
-            </div>
-          </div>
-          <div className={styles.noteBox}>
-            <p className={styles.noteText}>
-              You may refer to the course start dates and end dates for each month, as well as the fee structure
-              in the table below. Please reach out to us to confirm your seats for the yoga course for beginners.
-              We welcome you to be part of this course. <strong>Namaste.</strong>
-            </p>
-          </div>
+          )}
         </div>
       </section>
 
-      {/* ===== PRICING TABLE ===== */}
-      <section className={styles.pricingSection}>
-        <div className={styles.sectionContainer}>
-          <h2 className={styles.sectionTitle}>Yoga for Beginners in India 2025</h2>
-          <Divider />
-          <p className={styles.pricingIntro}>
-            Residential Hatha and Ashtanga <strong>Yoga Courses for beginners in Rishikesh India</strong> - 2025
-            at <em>AYM Yoga School</em> in India.
-          </p>
-          <div className={styles.tableWrapper}>
-            <table className={styles.pricingTable}>
-              <thead>
-                <tr>
-                  <th>Date</th>
-                  <th>Dormitory</th>
-                  <th>Shared Room</th>
-                  <th>Private Room</th>
-                  <th>Availability</th>
-                </tr>
-              </thead>
-              <tbody>
-                {pricingRows.map((row, idx) => (
-                  <tr key={idx}>
-                    <td className={styles.dateCell}>{row.date}</td>
-                    <td>{row.dorm}</td>
-                    <td>{row.shared}</td>
-                    <td>{row.private}</td>
-                    <td className={styles.availableCell}>Available</td>
-                  </tr>
-                ))}
-                <tr className={styles.bookRow}>
-                  <td colSpan={5}>
-                    <div className={styles.bookContent}>
-                      <div className={styles.bookInfo}>
-                        <strong>Book Your Spot</strong>
-                        <span>Register your spot by paying $110 only</span>
-                      </div>
-                      <Link href="/200-hour-yoga-ttc-fees" className={styles.paymentsBtn}>
-                        Payments Page
-                      </Link>
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </section>
+      {/* ===== PREMIUM SEAT BOOKING (batches/pricing unchanged; heading text from CMS) ===== */}
+      <PremiumSeatBooking
+        seats={seats}
+        currency={currency}
+        onCurrencyChange={setCurrency}
+        rate={rate}
+        rateLoading={rateLoading}
+        seattitle={data.batchSectionTitle || "Yoga for Beginners in Rishikesh"}
+        sectionTag={data.batchSectionTag}
+        sectionSub={data.batchSectionSub}
+      />
 
       <HowToReach />
     </div>
