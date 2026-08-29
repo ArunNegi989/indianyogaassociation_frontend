@@ -15,7 +15,7 @@
   width: 100%;
   min-height: 100vh;
   background: linear-gradient(160deg, #ffffff 0%, #ffffff 100%);
-  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-family:'Montserrat', Arial, sans-serif;
   color: var(--text);
   display: flex;
   align-items: stretch;
@@ -149,7 +149,7 @@
 }
 
 .leftTitle {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', Arial, sans-serif;
   font-size: clamp(1.2rem, 2.2vw, 1.9rem);
   font-weight: 700;
   color: #fff;
@@ -160,7 +160,7 @@
 
 .leftTitleAccent {
   color: var(--saffron-light);
-  font-family: 'Dancing Script', cursive;
+  font-family: 'Montserrat', Arial, sans-serif;
   font-size: 1.3em;
   font-weight: 700;
   display: block;
@@ -271,7 +271,7 @@
 }
 
 .chakraLabel {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', Arial, sans-serif;
   font-size: clamp(0.6rem, 0.95vw, 0.74rem);
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -286,7 +286,7 @@
 }
 
 .leftBadge {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', Arial, sans-serif;
   font-size: clamp(0.5rem, 0.8vw, 0.62rem);
   font-weight: 600;
   letter-spacing: 0.1em;
@@ -345,7 +345,7 @@
 }
 
 .formTitle {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Montserrat', Arial, sans-serif;
   font-size: clamp(1.1rem, 2.1vw, 1.55rem);
   font-weight: 600;
   font-style: italic;
@@ -353,7 +353,7 @@
   text-align: center;
   margin: 0 0 0.5rem;
   line-height: 1.35;
-  padding: 0 50px;
+ 
 }
 
 .formTitleUnderline {
@@ -369,6 +369,8 @@
   line-height: 1.8;
   color: var(--text-muted);
   margin: 0 0 1.2rem;
+  font-family: 'Montserrat', Arial, sans-serif;
+  text-align: center;
 }
 
 /* Form body */
@@ -401,7 +403,7 @@
 }
 
 .label {
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', Arial, sans-serif;
   font-size: clamp(0.58rem, 0.9vw, 0.7rem);
   font-weight: 600;
   letter-spacing: 0.07em;
@@ -410,7 +412,7 @@
 }
 
 .input {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Montserrat', Arial, sans-serif;
   font-size: clamp(0.9rem, 1.3vw, 1rem);
   color: var(--text);
   background: var(--cream);
@@ -453,6 +455,7 @@
   color: var(--text);
   cursor: pointer;
   user-select: none;
+  font-family: 'Montserrat', Arial, sans-serif;;
 }
 
 .radioInput {
@@ -484,7 +487,7 @@
 }
 
 .select {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Montserrat', Arial, sans-serif;
   font-size: clamp(0.9rem, 1.3vw, 1rem);
   color: var(--text);
   background: var(--cream);
@@ -522,7 +525,7 @@
   justify-content: center;
   gap: 0.65rem;
   width: 100%;
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', Arial, sans-serif;
   font-size: clamp(0.82rem, 1.2vw, 0.95rem);
   font-weight: 700;
   letter-spacing: 0.14em;
@@ -713,7 +716,7 @@
 .successTitle {
   position: relative;
   z-index: 1;
-  font-family: 'Cinzel', serif;
+  font-family: 'Montserrat', Arial, sans-serif;
   font-size: clamp(0.85rem, 1.3vw, 1rem);
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -726,7 +729,7 @@
 .successSub {
   position: relative;
   z-index: 1;
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Montserrat', Arial, sans-serif;
   font-size: clamp(0.95rem, 1.4vw, 1.05rem);
   color: #8a6a3a;
   margin: 0;
@@ -736,7 +739,7 @@
 .successQuote {
   position: relative;
   z-index: 1;
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Montserrat', Arial, sans-serif;
   font-size: clamp(0.8rem, 1.1vw, 0.88rem);
   color: #b09060;
   font-style: italic;
