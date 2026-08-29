@@ -50,6 +50,7 @@ const navItems: NavItem[] = [
   { href: "/admin/dashboard/yoga-ashram",  label: "Yoga Ashram", icon: "📋" },
   { href: "/admin/dashboard/yoga-holidays",  label: "Yoga Holidays", icon: "🖼" },
   { href: "/admin/dashboard/inner-awakening",  label: "Inner Awakning", icon: "📋" },
+  { href: "/admin/dashboard/detox-retreat",  label: "Yoga Detox", icon: "🖼" },
   {
     label: "Courses",
     icon: "📜",
