@@ -18,8 +18,11 @@ interface SeatBatch {
   usdFee: string;
   inrFee: string;
   dormPrice: number;
+  inrDormPrice: number;
   twinPrice: number;
+  inrTwinPrice: number;
   privatePrice: number;
+  inrPrivatePrice: number;
   totalSeats: number;
   bookedSeats: number;
   note: string;
@@ -33,77 +36,6 @@ interface Testimonial {
   quote: string;
 }
 
-// interface PageData {
-//   heroImage: string;
-//   heroImgAlt: string;
-//   promoImage: string;
-//   pageH1Title: string;
-//   introMainPara: string;
-
-//   courseDetailsTitle: string;
-//   courseDetailsIntro1: string;
-//   courseDetailsIntro2: string;
-//   learnItems: string[];
-
-//   whoCanApplyTitle: string;
-//   whoCanApplyPara1: string;
-//   whoCanApplyPara2: string;
-//   whoItems: string[];
-
-//   promoSchoolLabel: string;
-//   promoHeading: string;
-//   promoLocation: string;
-//   promoFeeLabel: string;
-//   promoFeeAmount: string;
-//   promoBtnLabel: string;
-//   promoBtnHref: string;
-
-//   certTeachersTitle: string;
-//   certTeachersPara: string;
-//   certTeachersPara2: string;
-//   certTeachersParagraphs: string[];
-
-//   communityTitle: string;
-//   communityPara: string;
-//   communityParagraphs: string[];
-
-//   accommodationTitle: string;
-//   accommodationPara1: string;
-//   accommodationParagraphs: string[];
-
-//   certCardTitle: string;
-//   certCardPara: string;
-//   certDeepTitle: string;
-//   certDeepPara: string;
-
-//   schedBookLabel: string;
-//   schedRegisterText: string;
-//   schedPayText: string;
-//   schedDepositAmount: string;
-//   schedPayBtnLabel: string;
-//   schedPayBtnHref: string;
-
-//   testimSectionTitle: string;
-//   testimIntroText: string;
-//   testimonials: Testimonial[];
-
-//   courseInfoCardTitle: string;
-//   courseInfoFeeLabel: string;
-//   courseInfoFeeFromText: string;
-//   courseInfoBookBtnText: string;
-//   courseInfoUsdPrice: number;
-//   courseInfoInrPrice: number;
-//   courseInfoOriginalUsdPrice: number;
-//   courseInfoOriginalInrPrice: number;
-//   courseInfoDetails: Array<{
-//     label: string;
-//     value: string;
-//     sub: string;
-//   }>;
-//   courseDetailsImage: string;
-//   courseDetailsImageAlt: string;
-//   whoCanApplyVideo: string;
-// }
 interface PageData {
   // Hero Section
   heroImage: string;
@@ -113,11 +45,9 @@ interface PageData {
   pageH1Title: string;
   introMainPara: string;
 
-
   certTeachersPlaceholderImage?: string;  // Optional fallback
 
   accommodationPlaceholderImage?: string;  // Optional fallback
-
 
   // Course Details Section
   courseDetailsTitle: string;
@@ -1014,7 +944,7 @@ function TextVideoRow({
 }
 
 /* ═══════════════════════════════════════════
-   PREMIUM SEAT BOOKING
+   PREMIUM SEAT BOOKING — with Direct INR Pricing (NO CONVERSION)
 ═══════════════════════════════════════════ */
 function PremiumSeatBooking({
   seats,
@@ -1039,6 +969,9 @@ function PremiumSeatBooking({
 
   const selected = seats.find((s) => s._id === selectedId) ?? null;
 
+  /**
+   * Core price formatter — uses stored INR price directly (NO CONVERSION).
+   */
   const fmtPrice = (
     batch: SeatBatch | null,
     overrideUsd?: number,
@@ -1046,19 +979,17 @@ function PremiumSeatBooking({
     if (!batch && overrideUsd === undefined) return { amount: "—", cur: currency };
 
     if (currency === "INR") {
+      // Use stored INR price directly - NO CONVERSION
       if (batch?.inrFee) {
         const num = parseFloat(batch.inrFee.replace(/[₹,]/g, "").trim());
-        if (!isNaN(num) && num > 100) {
+        if (!isNaN(num) && num > 0) {
           return { amount: `₹${num.toLocaleString("en-IN")}`, cur: "INR" };
         }
       }
-      const usdNum = batch
-        ? parseFloat(batch.usdFee.replace(/[$,]/g, "")) || batch.dormPrice
-        : overrideUsd ?? 0;
-      const inr = Math.round(usdNum * rate);
-      return { amount: `₹${inr.toLocaleString("en-IN")}`, cur: "INR" };
+      return { amount: "—", cur: "INR" };
     }
 
+    // USD: use usdFee string directly
     if (batch?.usdFee) {
       const raw = batch.usdFee.trim();
       return { amount: raw.startsWith("$") ? raw : `$${raw}`, cur: "USD" };
@@ -1067,6 +998,35 @@ function PremiumSeatBooking({
     return { amount: `$${fallback}`, cur: "USD" };
   };
 
+  /**
+   * Get room price based on currency using stored values - NO CONVERSION
+   */
+  const getRoomPrice = (batch: SeatBatch | null, roomType: 'dorm' | 'twin' | 'private') => {
+    if (!batch) return "—";
+    
+    if (currency === "INR") {
+      // Use stored INR price directly - NO CONVERSION
+      let inrPrice: number | undefined;
+      if (roomType === 'dorm') inrPrice = batch.inrDormPrice;
+      else if (roomType === 'twin') inrPrice = batch.inrTwinPrice;
+      else inrPrice = batch.inrPrivatePrice;
+      
+      if (inrPrice && inrPrice > 0) {
+        return `₹${inrPrice.toLocaleString("en-IN")}`;
+      }
+      return "—";
+    }
+    
+    // USD
+    const usdPrice = roomType === 'dorm' ? batch.dormPrice : 
+                     roomType === 'twin' ? batch.twinPrice : 
+                     batch.privatePrice;
+    return `$${usdPrice}`;
+  };
+
+  /**
+   * Price shown on each batch card in the LEFT panel.
+   */
   const batchCardPrice = (batch: SeatBatch): { amount: string; cur: string } =>
     fmtPrice(batch);
 
@@ -1245,22 +1205,14 @@ function PremiumSeatBooking({
               <div className={styles.psbPriceRow}>
                 <div className={styles.psbPriceCard}>
                   <div className={styles.psbPcAmt}>
-                    {selected
-                      ? currency === "INR"
-                        ? `₹${Math.round(selected.privatePrice * rate)}`
-                        : `$${selected.privatePrice}`
-                      : "—"}
+                    {selected ? getRoomPrice(selected, 'private') : "—"}
                     <span className={styles.psbPcCur}>{currency}</span>
                   </div>
                   <div className={styles.psbPcLbl}>Private Room</div>
                 </div>
                 <div className={styles.psbPriceCard}>
                   <div className={styles.psbPcAmt}>
-                    {selected
-                      ? currency === "INR"
-                        ? `₹${Math.round(selected.twinPrice * rate)}`
-                        : `$${selected.twinPrice}`
-                      : "—"}
+                    {selected ? getRoomPrice(selected, 'twin') : "—"}
                     <span className={styles.psbPcCur}>{currency}</span>
                   </div>
                   <div className={styles.psbPcLbl}>Twin / Shared</div>
@@ -1271,11 +1223,7 @@ function PremiumSeatBooking({
               <div className={styles.psbPriceWide}>
                 <div className={styles.psbPwLeft}>
                   <span className={styles.psbPcAmt} style={{ fontSize: "1rem" }}>
-                    {selected
-                      ? currency === "INR"
-                        ? `₹${Math.round(selected.dormPrice * rate)}`
-                        : `$${selected.dormPrice}`
-                      : "—"}
+                    {selected ? getRoomPrice(selected, 'dorm') : "—"}
                   </span>
                   <span className={styles.psbPcCur}>{currency}</span>
                 </div>
@@ -1297,12 +1245,10 @@ function PremiumSeatBooking({
                     {(() => {
                       if (selected.inrFee) {
                         const num = parseFloat(selected.inrFee.replace(/[₹,]/g, "").trim());
-                        if (!isNaN(num) && num > 100)
+                        if (!isNaN(num) && num > 0)
                           return `₹${num.toLocaleString("en-IN")}`;
                       }
-                      const usdNum = parseFloat(selected.usdFee.replace(/[$,]/g, "")) || selected.dormPrice;
-                      const inr = Math.round(usdNum * rate);
-                      return `₹${inr.toLocaleString("en-IN")}`;
+                      return "—";
                     })()}
                   </span>
                 </div>
@@ -1479,86 +1425,86 @@ export default function AshtangaVinyasaTTC() {
       </section>
 
       <section className={styles.section + " " + styles.sectionWarm}>
-  <div className="container px-3 px-md-4">
-    <OmDivider />
+        <div className="container px-3 px-md-4">
+          <OmDivider />
 
-    {/* Promo Banner - already dynamic */}
-    <div className={styles.promoBanner}>
-      <div className={styles.promoImgSide}>
-        {pageData.promoImage && (
-          <img
-            src={getFullUrl(pageData.promoImage)}
-            alt="Vinyasa Yoga Teacher Training Rishikesh class"
-            className={styles.promoImg}
-            loading="lazy"
-          />
-        )}
-        <div className={styles.promoImgOverlay} />
-      </div>
-      <div className={styles.promoTextSide}>
-        <p className={styles.promoSmall}>{pageData.promoSchoolLabel}</p>
-        <h2 className={styles.promoHeading}>{pageData.promoHeading}</h2>
-        <p className={styles.promoLocation}>{pageData.promoLocation}</p>
-        <div className={styles.promoDivLine} />
-        <p className={styles.promoFee}>
-          {pageData.promoFeeLabel} <strong>{pageData.promoFeeAmount}</strong>
-        </p>
-        <a href={pageData.promoBtnHref || "#dates-fees"} className={styles.promoBtn}>
-          {pageData.promoBtnLabel}
-        </a>
-      </div>
-    </div>
+          {/* Promo Banner - already dynamic */}
+          <div className={styles.promoBanner}>
+            <div className={styles.promoImgSide}>
+              {pageData.promoImage && (
+                <img
+                  src={getFullUrl(pageData.promoImage)}
+                  alt="Vinyasa Yoga Teacher Training Rishikesh class"
+                  className={styles.promoImg}
+                  loading="lazy"
+                />
+              )}
+              <div className={styles.promoImgOverlay} />
+            </div>
+            <div className={styles.promoTextSide}>
+              <p className={styles.promoSmall}>{pageData.promoSchoolLabel}</p>
+              <h2 className={styles.promoHeading}>{pageData.promoHeading}</h2>
+              <p className={styles.promoLocation}>{pageData.promoLocation}</p>
+              <div className={styles.promoDivLine} />
+              <p className={styles.promoFee}>
+                {pageData.promoFeeLabel} <strong>{pageData.promoFeeAmount}</strong>
+              </p>
+              <a href={pageData.promoBtnHref || "#dates-fees"} className={styles.promoBtn}>
+                {pageData.promoBtnLabel}
+              </a>
+            </div>
+          </div>
 
-    <OmDivider />
+          <OmDivider />
 
-    {/* Certified Teachers — text left, dynamic image right */}
-    <TextImageRow
-      title={pageData.certTeachersTitle}
-      imageUrl={pageData.certTeachersImage || pageData.certTeachersPlaceholderImage || ""}
-      imageAlt={pageData.certTeachersImageAlt || "Certified Yoga Teachers Rishikesh"}
-      badge="Expert Teachers"
-    >
-      <RenderParas
-        paragraphs={pageData.certTeachersParagraphs}
-        fallbacks={[pageData.certTeachersPara, pageData.certTeachersPara2]}
-        className={styles.bodyPara}
-      />
-    </TextImageRow>
+          {/* Certified Teachers — text left, dynamic image right */}
+          <TextImageRow
+            title={pageData.certTeachersTitle}
+            imageUrl={pageData.certTeachersImage || pageData.certTeachersPlaceholderImage || ""}
+            imageAlt={pageData.certTeachersImageAlt || "Certified Yoga Teachers Rishikesh"}
+            badge="Expert Teachers"
+          >
+            <RenderParas
+              paragraphs={pageData.certTeachersParagraphs}
+              fallbacks={[pageData.certTeachersPara, pageData.certTeachersPara2]}
+              className={styles.bodyPara}
+            />
+          </TextImageRow>
 
-    <div className={styles.sectionSpacer} />
+          <div className={styles.sectionSpacer} />
 
-    {/* Community — text right, dynamic image left */}
-    <TextImageRow
-      title={pageData.communityTitle}
-      imageUrl={pageData.communityImage || pageData.communityPlaceholderImage || ""}
-      imageAlt={pageData.communityImageAlt || "Yoga Community Rishikesh"}
-      badge="Global Community"
-      reverse={true}
-    >
-      <RenderParas
-        paragraphs={pageData.communityParagraphs}
-        fallbacks={[pageData.communityPara]}
-        className={styles.bodyPara}
-      />
-    </TextImageRow>
+          {/* Community — text right, dynamic image left */}
+          <TextImageRow
+            title={pageData.communityTitle}
+            imageUrl={pageData.communityImage || pageData.communityPlaceholderImage || ""}
+            imageAlt={pageData.communityImageAlt || "Yoga Community Rishikesh"}
+            badge="Global Community"
+            reverse={true}
+          >
+            <RenderParas
+              paragraphs={pageData.communityParagraphs}
+              fallbacks={[pageData.communityPara]}
+              className={styles.bodyPara}
+            />
+          </TextImageRow>
 
-    <div className={styles.sectionSpacer} />
+          <div className={styles.sectionSpacer} />
 
-    {/* Accommodation — text left, dynamic image right */}
-    <TextImageRow
-      title={pageData.accommodationTitle}
-      imageUrl={pageData.accommodationImage || pageData.accommodationPlaceholderImage || ""}
-      imageAlt={pageData.accommodationImageAlt || "Yoga Accommodation Rishikesh"}
-      badge="Comfortable Stay"
-    >
-      <Html html={pageData.accommodationPara1} className={styles.bodyPara} />
-      <RenderParas
-        paragraphs={pageData.accommodationParagraphs}
-        className={styles.bodyPara}
-      />
-    </TextImageRow>
-  </div>
-</section>
+          {/* Accommodation — text left, dynamic image right */}
+          <TextImageRow
+            title={pageData.accommodationTitle}
+            imageUrl={pageData.accommodationImage || pageData.accommodationPlaceholderImage || ""}
+            imageAlt={pageData.accommodationImageAlt || "Yoga Accommodation Rishikesh"}
+            badge="Comfortable Stay"
+          >
+            <Html html={pageData.accommodationPara1} className={styles.bodyPara} />
+            <RenderParas
+              paragraphs={pageData.accommodationParagraphs}
+              className={styles.bodyPara}
+            />
+          </TextImageRow>
+        </div>
+      </section>
 
       <section className={styles.section + " " + styles.sectionDeep}>
         <div className="container px-3 px-md-4">
@@ -1583,7 +1529,7 @@ export default function AshtangaVinyasaTTC() {
       />
 
       <PremiumGallerySection type="both" backgroundColor="warm" />
-      <ReviewSection  courseType="vinyasa-yoga-teacher-training" RatingsSummaryComponent={<RatingsSummarySection />} />
+      <ReviewSection courseType="vinyasa-yoga-teacher-training" RatingsSummaryComponent={<RatingsSummarySection />} />
       <HowToReach />
     </div>
   );

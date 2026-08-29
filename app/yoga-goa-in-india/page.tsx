@@ -19,8 +19,11 @@ interface Batch {
   usdFee: string;
   inrFee: string;
   dormPrice: number;
+  inrDormPrice: number;
   twinPrice: number;
+  inrTwinPrice: number;
   privatePrice: number;
+  inrPrivatePrice: number;
   totalSeats: number;
   bookedSeats: number;
   note?: string;
@@ -67,8 +70,8 @@ interface ApplyField {
 
 interface ReelVideo {
   _id: string;
-  videoUrl: string; // YouTube embed URL OR direct video URL (mp4/webm/etc.)
-  videoFile: string; // uploaded file path e.g. /uploads/reel.mp4
+  videoUrl: string;
+  videoFile: string;
   label?: string;
 }
 
@@ -178,16 +181,13 @@ function resolveImg(path: string, base: string): string {
   return `${base}${path}`;
 }
 
-/* ─── Check if a URL is a direct video file (not YouTube/Vimeo embed) ─── */
+/* ─── Check if a URL is a direct video file ─── */
 function isDirectVideoUrl(url: string): boolean {
   if (!url) return false;
-  // Check for common video file extensions
   const videoExtensions = /\.(mp4|webm|ogg|mov|avi|mkv|m4v)(\?.*)?$/i;
   if (videoExtensions.test(url)) return true;
-  // Not a YouTube/Vimeo embed URL pattern
   const embedPatterns = /youtube\.com\/embed|vimeo\.com\/video|youtu\.be/i;
   if (embedPatterns.test(url)) return false;
-  // If it's a blob or data URL treat as video
   if (url.startsWith("blob:") || url.startsWith("data:video")) return true;
   return false;
 }
@@ -228,18 +228,18 @@ function fmtPriceAdvanced(
 ): { amount: string; cur: string } {
   if (!batch && overrideUsd === undefined)
     return { amount: "—", cur: currency };
+  
   if (currency === "INR") {
+    // Use stored INR price directly - NO CONVERSION
     if (batch?.inrFee) {
       const num = parseFloat(batch.inrFee.replace(/[₹,]/g, "").trim());
-      if (!isNaN(num) && num > 100)
+      if (!isNaN(num) && num > 0) {
         return { amount: `₹${num.toLocaleString("en-IN")}`, cur: "INR" };
+      }
     }
-    const usdNum = batch
-      ? parseFloat(batch.usdFee.replace(/[$,]/g, "")) || batch.dormPrice
-      : (overrideUsd ?? 0);
-    const inr = Math.round(usdNum * rate);
-    return { amount: `₹${inr.toLocaleString("en-IN")}`, cur: "INR" };
+    return { amount: "—", cur: "INR" };
   }
+  
   if (batch?.usdFee) {
     const raw = batch.usdFee.trim();
     return { amount: raw.startsWith("$") ? raw : `$${raw}`, cur: "USD" };
@@ -252,6 +252,32 @@ function fmtPrice(usd: number, currency: Currency, rate: number) {
   if (currency === "USD") return { amount: `$${usd}`, cur: "USD" };
   const inr = Math.round((usd * rate) / 100) * 100;
   return { amount: `₹${inr.toLocaleString("en-IN")}`, cur: "INR" };
+}
+
+/**
+ * Get room price based on currency using stored values - NO CONVERSION
+ */
+function getRoomPrice(batch: Batch | null, roomType: 'dorm' | 'twin' | 'private', currency: Currency) {
+  if (!batch) return "—";
+  
+  if (currency === "INR") {
+    // Use stored INR price directly - NO CONVERSION
+    let inrPrice: number | undefined;
+    if (roomType === 'dorm') inrPrice = batch.inrDormPrice;
+    else if (roomType === 'twin') inrPrice = batch.inrTwinPrice;
+    else inrPrice = batch.inrPrivatePrice;
+    
+    if (inrPrice && inrPrice > 0) {
+      return `₹${inrPrice.toLocaleString("en-IN")}`;
+    }
+    return "—";
+  }
+  
+  // USD
+  const usdPrice = roomType === 'dorm' ? batch.dormPrice : 
+                   roomType === 'twin' ? batch.twinPrice : 
+                   batch.privatePrice;
+  return `$${usdPrice}`;
 }
 
 /* ─── CURRENCY DROPDOWN ─── */
@@ -783,22 +809,14 @@ function PremiumSeatBooking() {
             <div className={styles.psbPriceRow}>
               <div className={styles.psbPriceCard}>
                 <div className={styles.psbPcAmt}>
-                  {selected
-                    ? currency === "INR"
-                      ? `₹${Math.round(selected.privatePrice * rate)}`
-                      : `$${selected.privatePrice}`
-                    : "—"}
+                  {selected ? getRoomPrice(selected, 'private', currency) : "—"}
                   <span className={styles.psbPcCur}>{currency}</span>
                 </div>
                 <div className={styles.psbPcLbl}>Private Room</div>
               </div>
               <div className={styles.psbPriceCard}>
                 <div className={styles.psbPcAmt}>
-                  {selected
-                    ? currency === "INR"
-                      ? `₹${Math.round(selected.twinPrice * rate)}`
-                      : `$${selected.twinPrice}`
-                    : "—"}
+                  {selected ? getRoomPrice(selected, 'twin', currency) : "—"}
                   <span className={styles.psbPcCur}>{currency}</span>
                 </div>
                 <div className={styles.psbPcLbl}>Twin / Shared</div>
@@ -808,11 +826,7 @@ function PremiumSeatBooking() {
             <div className={styles.psbPriceWide}>
               <div className={styles.psbPwLeft}>
                 <span className={styles.psbPcAmt} style={{ fontSize: "1rem" }}>
-                  {selected
-                    ? currency === "INR"
-                      ? `₹${Math.round(selected.dormPrice * rate)}`
-                      : `$${selected.dormPrice}`
-                    : "—"}
+                  {selected ? getRoomPrice(selected, 'dorm', currency) : "—"}
                 </span>
                 <span className={styles.psbPcCur}>{currency}</span>
               </div>
@@ -834,16 +848,10 @@ function PremiumSeatBooking() {
                 <span className={styles.psbInrAmt}>
                   {(() => {
                     if (selected.inrFee) {
-                      const num = parseFloat(
-                        selected.inrFee.replace(/[₹,]/g, "").trim(),
-                      );
-                      if (!isNaN(num) && num > 100)
-                        return `₹${num.toLocaleString("en-IN")}`;
+                      const num = parseFloat(selected.inrFee.replace(/[₹,]/g, "").trim());
+                      if (!isNaN(num) && num > 0) return `₹${num.toLocaleString("en-IN")}`;
                     }
-                    const usdNum =
-                      parseFloat(selected.usdFee.replace(/[$,]/g, "")) ||
-                      selected.dormPrice;
-                    return `₹${Math.round(usdNum * rate).toLocaleString("en-IN")}`;
+                    return "—";
                   })()}
                 </span>
               </div>
@@ -950,17 +958,136 @@ function PremiumSeatBooking() {
   );
 }
 
-/* ═══════════════════════════════════════════════════════
-   REEL VIDEO GRID — fully dynamic, lazy-loaded
+/* ─── OM DIVIDER ─── */
+function OmDivider({ align = "center" }: { align?: "center" | "left" }) {
+  return (
+    <div
+      className={styles.omDivider}
+      style={{ justifyContent: align === "left" ? "flex-start" : "center" }}
+    >
+      <span className={styles.omLine} />
+      <span className={styles.omGlyph}>ॐ</span>
+      <span className={styles.omLine} />
+    </div>
+  );
+}
 
-   Priority logic (per card):
-   1. videoFile (uploaded mp4/webm) → <video autoPlay muted loop playsInline>
-   2. videoUrl that is a direct video URL (.mp4 etc.) → <video autoPlay muted loop playsInline>
-   3. videoUrl that is a YouTube/embed URL → <iframe> with autoplay params
+/* ─── MANDALA SVGS ─── */
+function MandalaRing({
+  size = 300,
+  opacity = 0.08,
+}: {
+  size?: number;
+  opacity?: number;
+}) {
+  const c = size / 2;
+  const rings = [0.46, 0.36, 0.26, 0.14].map((r) => r * size);
+  const spokes = 24;
+  const petals = 12;
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox={`0 0 ${size} ${size}`}
+      style={{ opacity }}
+      aria-hidden
+    >
+      <g stroke="#f15505" strokeWidth="0.7" fill="none">
+        {rings.map((r, i) => (
+          <circle key={i} cx={c} cy={c} r={r} />
+        ))}
+        {Array.from({ length: spokes }).map((_, i) => {
+          const a = (i / spokes) * 2 * Math.PI;
+          return (
+            <line
+              key={i}
+              x1={c + rings[2] * Math.cos(a)}
+              y1={c + rings[2] * Math.sin(a)}
+              x2={c + rings[0] * Math.cos(a)}
+              y2={c + rings[0] * Math.sin(a)}
+            />
+          );
+        })}
+        {Array.from({ length: petals }).map((_, i) => {
+          const a = (i / petals) * 2 * Math.PI;
+          const r = rings[1];
+          return (
+            <ellipse
+              key={i}
+              cx={c + r * Math.cos(a)}
+              cy={c + r * Math.sin(a)}
+              rx={size * 0.07}
+              ry={size * 0.025}
+              transform={`rotate(${(i / petals) * 360} ${c + r * Math.cos(a)} ${c + r * Math.sin(a)})`}
+            />
+          );
+        })}
+      </g>
+    </svg>
+  );
+}
 
-   All videos: no controls shown, autoplay muted loop.
-═══════════════════════════════════════════════════════ */
+function MandalaFull({
+  size = 600,
+  opacity = 0.05,
+}: {
+  size?: number;
+  opacity?: number;
+}) {
+  const c = size / 2;
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox={`0 0 ${size} ${size}`}
+      style={{ opacity }}
+      aria-hidden
+    >
+      <g
+        stroke="#f15505"
+        strokeWidth="0.6"
+        fill="none"
+        transform={`translate(${c},${c})`}
+      >
+        {[0.46, 0.38, 0.3, 0.22, 0.14, 0.07].map((r, i) => (
+          <circle key={i} cx={0} cy={0} r={r * size} />
+        ))}
+        {Array.from({ length: 36 }).map((_, i) => {
+          const a = (i / 36) * 2 * Math.PI;
+          const r0 = size * 0.07,
+            r1 = size * 0.46;
+          return (
+            <line
+              key={i}
+              x1={r0 * Math.cos(a)}
+              y1={r0 * Math.sin(a)}
+              x2={r1 * Math.cos(a)}
+              y2={r1 * Math.sin(a)}
+            />
+          );
+        })}
+        {[8, 16].map((n, ni) =>
+          Array.from({ length: n }).map((_, i) => {
+            const a = (i / n) * 2 * Math.PI;
+            const r = size * (ni === 0 ? 0.32 : 0.2);
+            return (
+              <ellipse
+                key={`${ni}-${i}`}
+                cx={r * Math.cos(a)}
+                cy={r * Math.sin(a)}
+                rx={size * (ni === 0 ? 0.065 : 0.04)}
+                ry={size * 0.02}
+                transform={`rotate(${(i / n) * 360} ${r * Math.cos(a)} ${r * Math.sin(a)})`}
+              />
+            );
+          }),
+        )}
+      </g>
+    </svg>
+  );
+}
 
+/* ─── REEL VIDEO GRID ─── */
 const ReelPlaceholder = () => (
   <div
     style={{
@@ -1005,16 +1132,13 @@ function LazyReelCard({
     return () => obs.disconnect();
   }, []);
 
-  // Resolve file src (uploaded file takes top priority)
   const fileSrc = reel.videoFile ? resolveImg(reel.videoFile, API_BASE) : "";
   const urlSrc = reel.videoUrl || "";
 
-  // Decide render mode
   const useFileSrc = !!fileSrc;
   const useDirectUrl = !useFileSrc && !!urlSrc && isDirectVideoUrl(urlSrc);
   const useIframe = !useFileSrc && !useDirectUrl && !!urlSrc;
 
-  // Ensure YouTube embeds have autoplay + mute params
   const safeIframeSrc = (() => {
     if (!useIframe) return urlSrc;
     try {
@@ -1040,8 +1164,6 @@ function LazyReelCard({
         {!visible ? (
           <ReelPlaceholder />
         ) : useFileSrc || useDirectUrl ? (
-          // ── Uploaded file OR direct video URL ──
-          // eslint-disable-next-line jsx-a11y/media-has-caption
           <video
             src={useFileSrc ? fileSrc : urlSrc}
             className={styles.reelIframe}
@@ -1050,10 +1172,8 @@ function LazyReelCard({
             loop
             playsInline
             style={{ objectFit: "cover" }}
-            // No controls prop → hides play/pause button
           />
         ) : useIframe ? (
-          // ── YouTube embed / external embed URL ──
           <iframe
             src={safeIframeSrc}
             className={styles.reelIframe}
@@ -1062,7 +1182,6 @@ function LazyReelCard({
             allowFullScreen
             title={reel.label || `Reel ${index + 1}`}
             loading="lazy"
-            // pointer-events none prevents user clicking pause on iframe
             style={{ pointerEvents: "none" }}
           />
         ) : (
@@ -1266,135 +1385,6 @@ function CurriculumSection({
         </div>
       </div>
     </section>
-  );
-}
-
-/* ─── OM DIVIDER ─── */
-function OmDivider({ align = "center" }: { align?: "center" | "left" }) {
-  return (
-    <div
-      className={styles.omDivider}
-      style={{ justifyContent: align === "left" ? "flex-start" : "center" }}
-    >
-      <span className={styles.omLine} />
-      <span className={styles.omGlyph}>ॐ</span>
-      <span className={styles.omLine} />
-    </div>
-  );
-}
-
-/* ─── MANDALA SVGS ─── */
-function MandalaRing({
-  size = 300,
-  opacity = 0.08,
-}: {
-  size?: number;
-  opacity?: number;
-}) {
-  const c = size / 2;
-  const rings = [0.46, 0.36, 0.26, 0.14].map((r) => r * size);
-  const spokes = 24;
-  const petals = 12;
-  return (
-    <svg
-      width={size}
-      height={size}
-      viewBox={`0 0 ${size} ${size}`}
-      style={{ opacity }}
-      aria-hidden
-    >
-      <g stroke="#f15505" strokeWidth="0.7" fill="none">
-        {rings.map((r, i) => (
-          <circle key={i} cx={c} cy={c} r={r} />
-        ))}
-        {Array.from({ length: spokes }).map((_, i) => {
-          const a = (i / spokes) * 2 * Math.PI;
-          return (
-            <line
-              key={i}
-              x1={c + rings[2] * Math.cos(a)}
-              y1={c + rings[2] * Math.sin(a)}
-              x2={c + rings[0] * Math.cos(a)}
-              y2={c + rings[0] * Math.sin(a)}
-            />
-          );
-        })}
-        {Array.from({ length: petals }).map((_, i) => {
-          const a = (i / petals) * 2 * Math.PI;
-          const r = rings[1];
-          return (
-            <ellipse
-              key={i}
-              cx={c + r * Math.cos(a)}
-              cy={c + r * Math.sin(a)}
-              rx={size * 0.07}
-              ry={size * 0.025}
-              transform={`rotate(${(i / petals) * 360} ${c + r * Math.cos(a)} ${c + r * Math.sin(a)})`}
-            />
-          );
-        })}
-      </g>
-    </svg>
-  );
-}
-
-function MandalaFull({
-  size = 600,
-  opacity = 0.05,
-}: {
-  size?: number;
-  opacity?: number;
-}) {
-  const c = size / 2;
-  return (
-    <svg
-      width={size}
-      height={size}
-      viewBox={`0 0 ${size} ${size}`}
-      style={{ opacity }}
-      aria-hidden
-    >
-      <g
-        stroke="#f15505"
-        strokeWidth="0.6"
-        fill="none"
-        transform={`translate(${c},${c})`}
-      >
-        {[0.46, 0.38, 0.3, 0.22, 0.14, 0.07].map((r, i) => (
-          <circle key={i} cx={0} cy={0} r={r * size} />
-        ))}
-        {Array.from({ length: 36 }).map((_, i) => {
-          const a = (i / 36) * 2 * Math.PI;
-          const r0 = size * 0.07,
-            r1 = size * 0.46;
-          return (
-            <line
-              key={i}
-              x1={r0 * Math.cos(a)}
-              y1={r0 * Math.sin(a)}
-              x2={r1 * Math.cos(a)}
-              y2={r1 * Math.sin(a)}
-            />
-          );
-        })}
-        {[8, 16].map((n, ni) =>
-          Array.from({ length: n }).map((_, i) => {
-            const a = (i / n) * 2 * Math.PI;
-            const r = size * (ni === 0 ? 0.32 : 0.2);
-            return (
-              <ellipse
-                key={`${ni}-${i}`}
-                cx={r * Math.cos(a)}
-                cy={r * Math.sin(a)}
-                rx={size * (ni === 0 ? 0.065 : 0.04)}
-                ry={size * 0.02}
-                transform={`rotate(${(i / n) * 360} ${r * Math.cos(a)} ${r * Math.sin(a)})`}
-              />
-            );
-          }),
-        )}
-      </g>
-    </svg>
   );
 }
 

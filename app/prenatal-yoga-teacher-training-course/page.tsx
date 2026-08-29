@@ -94,8 +94,11 @@ interface Batch {
   usdFee: string;
   inrFee: string;
   dormPrice: number;
+  inrDormPrice: number;
   twinPrice: number;
+  inrTwinPrice: number;
   privatePrice: number;
+  inrPrivatePrice: number;
   totalSeats: number;
   bookedSeats: number;
   note?: string;
@@ -125,36 +128,9 @@ interface HoursSummaryItem {
   value: string;
 }
 
-interface HeroGridImage {
-  _id: string;
-  url: string;
-  alt: string;
-}
-
-interface ScheduleItem {
-  _id: string;
-  time: string;
-  activity: string;
-}
-
-
-
 interface FeatureStat {
   num: string;
   label: string;
-}
-
-
-interface CurriculumItem {
-  _id: string;
-  title: string;
-  hours: string;
-}
-
-interface HoursSummaryItem {
-  _id: string;
-  label: string;
-  value: string;
 }
 
 interface PageData {
@@ -521,7 +497,7 @@ function CurrencyDropdown({
 }
 
 /* ═══════════════════════════════════════════
-   PREMIUM SEAT BOOKING — with Kundalini pricing logic
+   PREMIUM SEAT BOOKING — with Direct INR Pricing (NO CONVERSION)
 ═══════════════════════════════════════════ */
 function PremiumSeatBooking({
   seats,
@@ -547,9 +523,7 @@ function PremiumSeatBooking({
   const selected = seats.find((s) => s._id === selectedId) ?? null;
 
   /**
-   * Core price formatter — mirrors Kundalini logic exactly.
-   * Priority for INR: stored inrFee → usdFee * rate → fallback dormPrice.
-   * For USD: use usdFee string directly → fallback dormPrice.
+   * Core price formatter — uses stored INR price directly (NO CONVERSION).
    */
   const fmtPriceAdvanced = (
     batch: Batch | null,
@@ -558,19 +532,14 @@ function PremiumSeatBooking({
     if (!batch && overrideUsd === undefined) return { amount: "—", cur: currency };
 
     if (currency === "INR") {
-      // Priority 1: stored inrFee
+      // Use stored INR price directly - NO CONVERSION
       if (batch?.inrFee) {
         const num = parseFloat(batch.inrFee.replace(/[₹,]/g, "").trim());
-        if (!isNaN(num) && num > 100) {
+        if (!isNaN(num) && num > 0) {
           return { amount: `₹${num.toLocaleString("en-IN")}`, cur: "INR" };
         }
       }
-      // Priority 2: usdFee * live rate
-      const usdNum = batch
-        ? parseFloat(batch.usdFee.replace(/[$,]/g, "")) || batch.dormPrice
-        : overrideUsd ?? 0;
-      const inr = Math.round(usdNum * rate);
-      return { amount: `₹${inr.toLocaleString("en-IN")}`, cur: "INR" };
+      return { amount: "—", cur: "INR" };
     }
 
     // USD: use usdFee string directly
@@ -578,14 +547,38 @@ function PremiumSeatBooking({
       const raw = batch.usdFee.trim();
       return { amount: raw.startsWith("$") ? raw : `$${raw}`, cur: "USD" };
     }
-    // Fallback
     const fallback = overrideUsd ?? batch?.dormPrice ?? 0;
     return { amount: `$${fallback}`, cur: "USD" };
   };
 
   /**
+   * Get room price based on currency using stored values - NO CONVERSION
+   */
+  const getRoomPrice = (batch: Batch | null, roomType: 'dorm' | 'twin' | 'private') => {
+    if (!batch) return "—";
+    
+    if (currency === "INR") {
+      // Use stored INR price directly - NO CONVERSION
+      let inrPrice: number | undefined;
+      if (roomType === 'dorm') inrPrice = batch.inrDormPrice;
+      else if (roomType === 'twin') inrPrice = batch.inrTwinPrice;
+      else inrPrice = batch.inrPrivatePrice;
+      
+      if (inrPrice && inrPrice > 0) {
+        return `₹${inrPrice.toLocaleString("en-IN")}`;
+      }
+      return "—";
+    }
+    
+    // USD
+    const usdPrice = roomType === 'dorm' ? batch.dormPrice : 
+                     roomType === 'twin' ? batch.twinPrice : 
+                     batch.privatePrice;
+    return `$${usdPrice}`;
+  };
+
+  /**
    * Price shown on each batch card in the LEFT panel.
-   * Uses usdFee-based pricing (same as Kundalini batchCardPrice).
    */
   const batchCardPrice = (batch: Batch): { amount: string; cur: string } =>
     fmtPriceAdvanced(batch);
@@ -693,7 +686,6 @@ function PremiumSeatBooking({
                   (rem / batch.totalSeats) * 100,
                 );
                 const isSelected = selectedId === batch._id;
-                // ✅ uses usdFee-based price, not dormPrice
                 const cardPrice = batchCardPrice(batch);
                 return (
                   <div
@@ -726,7 +718,6 @@ function PremiumSeatBooking({
                     <div className={styles.psbBcDates}>
                       {shortDateRange(batch.startDate, batch.endDate)}
                     </div>
-                    {/* ✅ shows usdFee or usdFee*rate, not dormPrice */}
                     <div className={styles.psbBcPrice}>
                       {cardPrice.amount} <span>{cardPrice.cur}</span>
                     </div>
@@ -805,11 +796,7 @@ function PremiumSeatBooking({
               {/* Private Room */}
               <div className={styles.psbPriceCard}>
                 <div className={styles.psbPcAmt}>
-                  {selected
-                    ? currency === "INR"
-                      ? `₹${Math.round(selected.privatePrice * rate)}`
-                      : `$${selected.privatePrice}`
-                    : "—"}
+                  {selected ? getRoomPrice(selected, 'private') : "—"}
                   <span className={styles.psbPcCur}>{currency}</span>
                 </div>
                 <div className={styles.psbPcLbl}>Private Room</div>
@@ -817,11 +804,7 @@ function PremiumSeatBooking({
               {/* Twin Room */}
               <div className={styles.psbPriceCard}>
                 <div className={styles.psbPcAmt}>
-                  {selected
-                    ? currency === "INR"
-                      ? `₹${Math.round(selected.twinPrice * rate)}`
-                      : `$${selected.twinPrice}`
-                    : "—"}
+                  {selected ? getRoomPrice(selected, 'twin') : "—"}
                   <span className={styles.psbPcCur}>{currency}</span>
                 </div>
                 <div className={styles.psbPcLbl}>Twin / Shared</div>
@@ -832,18 +815,14 @@ function PremiumSeatBooking({
             <div className={styles.psbPriceWide}>
               <div className={styles.psbPwLeft}>
                 <span className={styles.psbPcAmt} style={{ fontSize: "1rem" }}>
-                  {selected
-                    ? currency === "INR"
-                      ? `₹${Math.round(selected.dormPrice * rate)}`
-                      : `$${selected.dormPrice}`
-                    : "—"}
+                  {selected ? getRoomPrice(selected, 'dorm') : "—"}
                 </span>
                 <span className={styles.psbPcCur}>{currency}</span>
               </div>
               <span className={styles.psbFoodBadge}>Food Included</span>
             </div>
 
-            {/* ✅ Info row — mirrors Kundalini logic exactly */}
+            {/* Info row below "Dormitory" */}
             {selected && currency === "USD" && (
               <div className={styles.psbInrRow}>
                 <span className={styles.psbInrLbl}>USD Price</span>
@@ -860,17 +839,10 @@ function PremiumSeatBooking({
                 <span className={styles.psbInrAmt}>
                   {(() => {
                     if (selected.inrFee) {
-                      const num = parseFloat(
-                        selected.inrFee.replace(/[₹,]/g, "").trim(),
-                      );
-                      if (!isNaN(num) && num > 100)
-                        return `₹${num.toLocaleString("en-IN")}`;
+                      const num = parseFloat(selected.inrFee.replace(/[₹,]/g, "").trim());
+                      if (!isNaN(num) && num > 0) return `₹${num.toLocaleString("en-IN")}`;
                     }
-                    const usdNum =
-                      parseFloat(selected.usdFee.replace(/[$,]/g, "")) ||
-                      selected.dormPrice;
-                    const inr = Math.round(usdNum * rate);
-                    return `₹${inr.toLocaleString("en-IN")}`;
+                    return "—";
                   })()}
                 </span>
               </div>
@@ -947,7 +919,6 @@ function PremiumSeatBooking({
                 </span>
               )}
             </div>
-            {/* ✅ Book Now button uses fmtPriceAdvanced(selected) — same as Kundalini */}
             {selected ? (
               <Link
                 href={`/yoga-registration?batchId=${selected._id}&type=prenatal`}
@@ -987,9 +958,6 @@ function PremiumSeatBooking({
 
 /* ═══════════════════════════════════════════
    COURSE INFO CARD
-═══════════════════════════════════════════ */
-/* ═══════════════════════════════════════════
-   COURSE INFO CARD (DYNAMIC)
 ═══════════════════════════════════════════ */
 const DurationIcon = () => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -1590,7 +1558,6 @@ export default function PregnancyYogaTTC() {
       )}
 
       {/* ── Online Section ── */}
-      {/* ── Online Section ── */}
 {pageData.onlineSectionTitle && (
   <section id="online" className={styles.s3Card}>
     <div className={styles.s3CardAccent} />
@@ -1740,8 +1707,6 @@ export default function PregnancyYogaTTC() {
       </div>
 
       {/* Video and Bonus */}
-   {/* Video and Bonus */}
-{/* Video and Bonus */}
 <div className={styles.s3RightCol}>
   <div className={styles.s3VideoWrap}>
     {/* Check for local video file */}

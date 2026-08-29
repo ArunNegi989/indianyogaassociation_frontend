@@ -101,8 +101,11 @@ interface Batch {
   usdFee: string;
   inrFee: string;
   dormPrice: number;
+  inrDormPrice: number;
   twinPrice: number;
+  inrTwinPrice: number;
   privatePrice: number;
+  inrPrivatePrice: number;
   totalSeats: number;
   bookedSeats: number;
   note?: string;
@@ -115,8 +118,11 @@ interface SeatBatch {
   usdFee: string;
   inrFee: string;
   dormPrice: number;
+  inrDormPrice: number;
   twinPrice: number;
+  inrTwinPrice: number;
   privatePrice: number;
+  inrPrivatePrice: number;
   totalSeats: number;
   bookedSeats: number;
   note: string;
@@ -691,7 +697,7 @@ function LoadingSpinner() {
 }
 
 /* ══════════════════════════════════════════════════
-   PREMIUM SEAT BOOKING — now uses dynamic labels
+   PREMIUM SEAT BOOKING — with Direct INR Pricing (NO CONVERSION)
 ══════════════════════════════════════════════════ */
 export function PremiumSeatBooking({
   seats,
@@ -724,24 +730,28 @@ export function PremiumSeatBooking({
 
   const selected = seats.find((s) => s._id === selectedId) ?? null;
 
+  /**
+   * Core price formatter — uses stored INR price directly (NO CONVERSION).
+   */
   const fmtPriceAdvanced = (
     batch: SeatBatch | null,
     overrideUsd?: number,
   ): { amount: string; cur: string } => {
     if (!batch && overrideUsd === undefined)
       return { amount: "—", cur: currency };
+    
     if (currency === "INR") {
+      // Use stored INR price directly - NO CONVERSION
       if (batch?.inrFee) {
         const num = parseFloat(batch.inrFee.replace(/[₹,]/g, "").trim());
-        if (!isNaN(num) && num > 100)
+        if (!isNaN(num) && num > 0) {
           return { amount: `₹${num.toLocaleString("en-IN")}`, cur: "INR" };
+        }
       }
-      const usdNum = batch
-        ? parseFloat(batch.usdFee.replace(/[$,]/g, "")) || batch.dormPrice
-        : (overrideUsd ?? 0);
-      const inr = Math.round(usdNum * rate);
-      return { amount: `₹${inr.toLocaleString("en-IN")}`, cur: "INR" };
+      return { amount: "—", cur: "INR" };
     }
+    
+    // USD: use usdFee string directly
     if (batch?.usdFee) {
       const raw = batch.usdFee.trim();
       return { amount: raw.startsWith("$") ? raw : `$${raw}`, cur: "USD" };
@@ -750,6 +760,35 @@ export function PremiumSeatBooking({
     return { amount: `$${fallback}`, cur: "USD" };
   };
 
+  /**
+   * Get room price based on currency using stored values - NO CONVERSION
+   */
+  const getRoomPrice = (batch: SeatBatch | null, roomType: 'dorm' | 'twin' | 'private') => {
+    if (!batch) return "—";
+    
+    if (currency === "INR") {
+      // Use stored INR price directly - NO CONVERSION
+      let inrPrice: number | undefined;
+      if (roomType === 'dorm') inrPrice = batch.inrDormPrice;
+      else if (roomType === 'twin') inrPrice = batch.inrTwinPrice;
+      else inrPrice = batch.inrPrivatePrice;
+      
+      if (inrPrice && inrPrice > 0) {
+        return `₹${inrPrice.toLocaleString("en-IN")}`;
+      }
+      return "—";
+    }
+    
+    // USD
+    const usdPrice = roomType === 'dorm' ? batch.dormPrice : 
+                     roomType === 'twin' ? batch.twinPrice : 
+                     batch.privatePrice;
+    return `$${usdPrice}`;
+  };
+
+  /**
+   * Price shown on each batch card in the LEFT panel.
+   */
   const batchCardPrice = (batch: SeatBatch): { amount: string; cur: string } =>
     fmtPriceAdvanced(batch);
 
@@ -934,7 +973,6 @@ export function PremiumSeatBooking({
                   strokeLinecap="round"
                 />
               </svg>
-              {/* ← dynamic duration+location */}
               <span className={styles.psbRpDurTxt}>{resolvedDurLoc}</span>
             </div>
             <div className={styles.psbCurrBadge}>
@@ -946,22 +984,14 @@ export function PremiumSeatBooking({
             <div className={styles.psbPriceRow}>
               <div className={styles.psbPriceCard}>
                 <div className={styles.psbPcAmt}>
-                  {selected
-                    ? currency === "INR"
-                      ? `₹${Math.round(selected.privatePrice * rate).toLocaleString("en-IN")}`
-                      : `$${selected.privatePrice}`
-                    : "—"}
+                  {selected ? getRoomPrice(selected, 'private') : "—"}
                   <span className={styles.psbPcCur}>{currency}</span>
                 </div>
                 <div className={styles.psbPcLbl}>Private Room</div>
               </div>
               <div className={styles.psbPriceCard}>
                 <div className={styles.psbPcAmt}>
-                  {selected
-                    ? currency === "INR"
-                      ? `₹${Math.round(selected.twinPrice * rate).toLocaleString("en-IN")}`
-                      : `$${selected.twinPrice}`
-                    : "—"}
+                  {selected ? getRoomPrice(selected, 'twin') : "—"}
                   <span className={styles.psbPcCur}>{currency}</span>
                 </div>
                 <div className={styles.psbPcLbl}>Twin / Shared</div>
@@ -971,11 +1001,7 @@ export function PremiumSeatBooking({
             <div className={styles.psbPriceWide}>
               <div className={styles.psbPwLeft}>
                 <span className={styles.psbPcAmt} style={{ fontSize: "1rem" }}>
-                  {selected
-                    ? currency === "INR"
-                      ? `₹${Math.round(selected.dormPrice * rate).toLocaleString("en-IN")}`
-                      : `$${selected.dormPrice}`
-                    : "—"}
+                  {selected ? getRoomPrice(selected, 'dorm') : "—"}
                 </span>
                 <span className={styles.psbPcCur}>{currency}</span>
               </div>
@@ -1000,13 +1026,10 @@ export function PremiumSeatBooking({
                       const num = parseFloat(
                         selected.inrFee.replace(/[₹,]/g, "").trim(),
                       );
-                      if (!isNaN(num) && num > 100)
+                      if (!isNaN(num) && num > 0)
                         return `₹${num.toLocaleString("en-IN")}`;
                     }
-                    const usdNum =
-                      parseFloat(selected.usdFee.replace(/[$,]/g, "")) ||
-                      selected.dormPrice;
-                    return `₹${Math.round(usdNum * rate).toLocaleString("en-IN")}`;
+                    return "—";
                   })()}
                 </span>
               </div>

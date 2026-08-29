@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "@/assets/style/200-hour-yoga-teacher-training-rishikesh/Twohundredhouryoga.module.css";
 import HowToReach from "@/components/home/Howtoreach";
 import StickySectionNav from "@/components/common/StickySectionNav";
@@ -38,7 +38,6 @@ interface CombinedContent {
   heroImage: string;
   heroImgAlt: string;
 
-  /* intro paras — backend sends both individual fields AND no array */
   introPara1?: string;
   introPara2?: string;
   introPara3?: string;
@@ -79,7 +78,6 @@ interface CombinedContent {
 
   stats: StatItem[];
 
-  /* aims */
   aimsH3?: string;
   aimsKeyObjLabel?: string;
   aimsIntro: string[];
@@ -87,7 +85,6 @@ interface CombinedContent {
   aimsOutro?: string;
   aimsImage?: string;
 
-  /* overview */
   overviewH2?: string;
   overviewSubPara?: string;
   overviewCertLabel?: string;
@@ -103,11 +100,9 @@ interface CombinedContent {
   overviewLangLabel?: string;
   overviewLanguage?: string;
 
-  /* syllabus */
   syllabusH3?: string;
   syllabusIntro: string[];
 
-  /* inclusions */
   feeIncludedTitle?: string;
   feeNotIncludedTitle?: string;
   includedFee: string[];
@@ -115,7 +110,6 @@ interface CombinedContent {
 
   modules: ModuleItem[];
 
-  /* ashtanga */
   ashtangaH2?: string;
   ashtangaSubtitle?: string;
   ashtangaImgAlt?: string;
@@ -125,7 +119,6 @@ interface CombinedContent {
   ashtangaPill2?: string;
   ashtangaPill3?: string;
 
-  /* primary series */
   primarySeriesH3?: string;
   primarySeriesSubtext?: string;
   primaryIntro?: string;
@@ -133,7 +126,6 @@ interface CombinedContent {
   foundationItems: string[];
   weekGrid: Array<{ week: string; icon: string; [key: string]: any }>;
 
-  /* hatha */
   hathaH2?: string;
   hathaSubtitle?: string;
   hathaImgAlt?: string;
@@ -143,7 +135,6 @@ interface CombinedContent {
   hathaPill2?: string;
   hathaPill3?: string;
 
-  /* asanas */
   asanasH2?: string;
   asanasSubtext?: string;
   hatha43: Array<{
@@ -153,7 +144,6 @@ interface CombinedContent {
     filter?: string;
   }>;
 
-  /* programs */
   newProgramsH2?: string;
   newProgramsSubtext?: string;
   programs: Array<{
@@ -166,38 +156,31 @@ interface CombinedContent {
     image?: string;
   }>;
 
-  /* eval */
   evalH2?: string;
   evalDesc?: string;
 
-  /* luxury */
   luxuryH2?: string;
   luxFeatures: string[];
   luxImages: string[];
 
-  /* indian fees */
   indianFeeH2?: string;
   indianFees: Array<{ label: string; price: string }>;
 
-  /* schedule */
   scheduleH2?: string;
   schedDesc?: string;
   schedRows: Array<{ time: string; activity: string }>;
   schedImages: string[];
 
-  /* more info */
   moreInfoH2?: string;
   instrLangs: Array<{ lang: string; note?: string } | string>;
   spanishChineseNote?: string;
   visaPassportTitle?: string;
   visaPassportDesc?: string;
 
-  /* global cert */
   globalCertH2?: string;
   globalCert1?: string;
   globalCert2?: string;
 
-  /* requirements */
   requirementsH2?: string;
   requirementsImgAlt?: string;
   reqImage?: string;
@@ -206,19 +189,15 @@ interface CombinedContent {
   req3?: string;
   req4?: string;
 
-  /* what you need */
   whatYouNeedH2?: string;
   knowQA: Array<{ q: string; a: string }>;
 
-  /* why AYM */
   best200HrH4?: string;
   best200Hr?: string;
 
-  /* whats included */
   whatsIncludedH4?: string;
   whatIncl: string[];
 
-  /* booking steps */
   bookingH2?: string;
   step1Icon?: string;
   step1Title?: string;
@@ -233,11 +212,9 @@ interface CombinedContent {
   step4Title?: string;
   bookingStep4Desc?: string;
 
-  /* faq */
   faqH2?: string;
   faqItems: Array<{ q: string; a: string }>;
 
-  /* cta */
   ctaTitle?: string;
   ctaSubtitle?: string;
   ctaApplyBtnText?: string;
@@ -246,17 +223,14 @@ interface CombinedContent {
   whatsappBtnText?: string;
   whatsappNumber?: string;
 
-  /* batch */
   batchSectionTag?: string;
   upcomingDatesH2?: string;
   upcomingDatesSubtext?: string;
 
-  /* seo */
   metaTitle?: string;
   metaDesc?: string;
   metaKeywords?: string;
 
-  /* eligibility */
   eligibilityInfoTitle?: string;
   eligibilityInfoText?: string;
 }
@@ -268,8 +242,11 @@ interface Batch {
   usdFee: string;
   inrFee: string;
   dormPrice: number;
+  inrDormPrice: number;
   twinPrice: number;
+  inrTwinPrice: number;
   privatePrice: number;
+  inrPrivatePrice: number;
   totalSeats: number;
   bookedSeats: number;
   note?: string;
@@ -908,26 +885,48 @@ function PremiumSeatBooking({
   ): { amount: string; cur: string } => {
     if (!batch && overrideUsd === undefined)
       return { amount: "—", cur: currency };
+    
     if (currency === "INR") {
+      // Use stored INR price directly - NO CONVERSION
       if (batch?.inrFee) {
         const num = parseFloat(batch.inrFee.replace(/[₹,]/g, "").trim());
-        if (!isNaN(num) && num > 100)
+        if (!isNaN(num) && num > 0)
           return { amount: `₹${num.toLocaleString("en-IN")}`, cur: "INR" };
       }
-      const usdNum = batch
-        ? parseFloat(batch.usdFee.replace(/[$,]/g, "")) || batch.dormPrice
-        : (overrideUsd ?? 0);
-      return {
-        amount: `₹${Math.round(usdNum * rate).toLocaleString("en-IN")}`,
-        cur: "INR",
-      };
+      return { amount: "—", cur: "INR" };
     }
+    
+    // USD
     if (batch?.usdFee) {
       const raw = batch.usdFee.trim();
       return { amount: raw.startsWith("$") ? raw : `$${raw}`, cur: "USD" };
     }
     const fallback = overrideUsd ?? batch?.dormPrice ?? 0;
     return { amount: `$${fallback}`, cur: "USD" };
+  };
+
+  // Get room price based on currency using stored values - NO CONVERSION
+  const getRoomPrice = (batch: Batch | null, roomType: 'dorm' | 'twin' | 'private') => {
+    if (!batch) return "—";
+    
+    if (currency === "INR") {
+      // Use stored INR price directly - NO CONVERSION
+      let inrPrice: number | undefined;
+      if (roomType === 'dorm') inrPrice = batch.inrDormPrice;
+      else if (roomType === 'twin') inrPrice = batch.inrTwinPrice;
+      else inrPrice = batch.inrPrivatePrice;
+      
+      if (inrPrice && inrPrice > 0) {
+        return `₹${inrPrice.toLocaleString("en-IN")}`;
+      }
+      return "—";
+    }
+    
+    // USD
+    const usdPrice = roomType === 'dorm' ? batch.dormPrice : 
+                     roomType === 'twin' ? batch.twinPrice : 
+                     batch.privatePrice;
+    return `$${usdPrice}`;
   };
 
   return (
@@ -963,16 +962,13 @@ function PremiumSeatBooking({
               />
               <div className={styles.psbLegend}>
                 <div className={styles.psbLegItem}>
-                  <div className={`${styles.psbLegDot} ${styles.psbDGreen}`} />{" "}
-                  Available
+                  <div className={`${styles.psbLegDot} ${styles.psbDGreen}`} /> Available
                 </div>
                 <div className={styles.psbLegItem}>
-                  <div className={`${styles.psbLegDot} ${styles.psbDOrange}`} />{" "}
-                  Limited
+                  <div className={`${styles.psbLegDot} ${styles.psbDOrange}`} /> Limited
                 </div>
                 <div className={styles.psbLegItem}>
-                  <div className={`${styles.psbLegDot} ${styles.psbDRed}`} />{" "}
-                  Full
+                  <div className={`${styles.psbLegDot} ${styles.psbDRed}`} /> Full
                 </div>
               </div>
             </div>
@@ -1124,22 +1120,14 @@ function PremiumSeatBooking({
             <div className={styles.psbPriceRow}>
               <div className={styles.psbPriceCard}>
                 <div className={styles.psbPcAmt}>
-                  {selected
-                    ? currency === "INR"
-                      ? `₹${Math.round(selected.privatePrice * rate).toLocaleString("en-IN")}`
-                      : `$${selected.privatePrice}`
-                    : "—"}
+                  {selected ? getRoomPrice(selected, 'private') : "—"}
                   <span className={styles.psbPcCur}>{currency}</span>
                 </div>
                 <div className={styles.psbPcLbl}>Private Room</div>
               </div>
               <div className={styles.psbPriceCard}>
                 <div className={styles.psbPcAmt}>
-                  {selected
-                    ? currency === "INR"
-                      ? `₹${Math.round(selected.twinPrice * rate).toLocaleString("en-IN")}`
-                      : `$${selected.twinPrice}`
-                    : "—"}
+                  {selected ? getRoomPrice(selected, 'twin') : "—"}
                   <span className={styles.psbPcCur}>{currency}</span>
                 </div>
                 <div className={styles.psbPcLbl}>Twin / Shared</div>
@@ -1149,11 +1137,7 @@ function PremiumSeatBooking({
             <div className={styles.psbPriceWide}>
               <div className={styles.psbPwLeft}>
                 <span className={styles.psbPcAmt} style={{ fontSize: "1rem" }}>
-                  {selected
-                    ? currency === "INR"
-                      ? `₹${Math.round(selected.dormPrice * rate).toLocaleString("en-IN")}`
-                      : `$${selected.dormPrice}`
-                    : "—"}
+                  {selected ? getRoomPrice(selected, 'dorm') : "—"}
                 </span>
                 <span className={styles.psbPcCur}>{currency}</span>
               </div>

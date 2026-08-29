@@ -11,9 +11,13 @@ interface FormData {
   startDate: string;
   endDate: string;
   usdFee: string;
+  inrFee: string;
   dormPrice: string;
+  inrDormPrice: string;
   twinPrice: string;
+  inrTwinPrice: string;
   privatePrice: string;
+  inrPrivatePrice: string;
   totalSeats: string;
   note: string;
 }
@@ -22,9 +26,13 @@ interface FormErrors {
   startDate?: string;
   endDate?: string;
   usdFee?: string;
+  inrFee?: string;
   dormPrice?: string;
+  inrDormPrice?: string;
   twinPrice?: string;
+  inrTwinPrice?: string;
   privatePrice?: string;
+  inrPrivatePrice?: string;
   totalSeats?: string;
 }
 
@@ -32,9 +40,13 @@ const EMPTY: FormData = {
   startDate: "",
   endDate: "",
   usdFee: "",
+  inrFee: "",
   dormPrice: "",
+  inrDormPrice: "",
   twinPrice: "",
+  inrTwinPrice: "",
   privatePrice: "",
+  inrPrivatePrice: "",
   totalSeats: "50",
   note: "A $50 USD early bird discount is available on all accommodation types if booked 60 days in advance.",
 };
@@ -71,9 +83,13 @@ export default function PrenatalSeatsAddPage() {
     if (form.startDate && form.endDate && form.endDate <= form.startDate)
       e.endDate = "End date must be after start date";
     if (!form.usdFee.trim())        e.usdFee       = "USD fee is required";
-    if (!form.dormPrice.trim())     e.dormPrice    = "Dorm price is required";
-    if (!form.twinPrice.trim())     e.twinPrice    = "Twin price is required";
-    if (!form.privatePrice.trim())  e.privatePrice = "Private price is required";
+    if (!form.inrFee.trim())        e.inrFee       = "INR fee is required";
+    if (!form.dormPrice.trim())     e.dormPrice    = "USD Dorm price is required";
+    if (!form.inrDormPrice.trim())  e.inrDormPrice = "INR Dorm price is required";
+    if (!form.twinPrice.trim())     e.twinPrice    = "USD Twin price is required";
+    if (!form.inrTwinPrice.trim())  e.inrTwinPrice = "INR Twin price is required";
+    if (!form.privatePrice.trim())  e.privatePrice = "USD Private price is required";
+    if (!form.inrPrivatePrice.trim()) e.inrPrivatePrice = "INR Private price is required";
     if (
       !form.totalSeats.trim() ||
       isNaN(Number(form.totalSeats)) ||
@@ -95,15 +111,16 @@ export default function PrenatalSeatsAddPage() {
       startDate: new Date(form.startDate).toISOString(),
       endDate: new Date(form.endDate).toISOString(),
       usdFee: form.usdFee.trim(),
-
+      inrFee: form.inrFee.trim() || "",
       dormPrice: form.dormPrice ? parseFloat(form.dormPrice) : 0,
+      inrDormPrice: form.inrDormPrice ? parseFloat(form.inrDormPrice) : 0,
       twinPrice: form.twinPrice ? parseFloat(form.twinPrice) : 0,
+      inrTwinPrice: form.inrTwinPrice ? parseFloat(form.inrTwinPrice) : 0,
       privatePrice: form.privatePrice ? parseFloat(form.privatePrice) : 0,
-
+      inrPrivatePrice: form.inrPrivatePrice ? parseFloat(form.inrPrivatePrice) : 0,
       totalSeats: form.totalSeats
         ? parseInt(form.totalSeats, 10)
         : 0,
-
       note: form.note,
     });
 
@@ -228,23 +245,44 @@ export default function PrenatalSeatsAddPage() {
             <span className={styles.sectionIcon}>✦</span>
             <h3 className={styles.sectionTitle}>Course Fees</h3>
           </div>
-          <div className={styles.fieldGroup}>
-            <label className={styles.label}>
-              <span className={styles.labelIcon}>✦</span>
-              Fee (USD)<span className={styles.required}>*</span>
-            </label>
-            <p className={styles.fieldHint}>e.g. 399 USD</p>
-            <div className={`${styles.inputWrap} ${styles.inputWrapNarrow} ${errors.usdFee ? styles.inputError : ""} ${form.usdFee && !errors.usdFee ? styles.inputSuccess : ""}`}>
-              <input
-                type="text"
-                className={styles.input}
-                placeholder="399 USD"
-                value={form.usdFee}
-                maxLength={30}
-                onChange={e => set("usdFee", e.target.value)}
-              />
+          <div className={styles.twoCol}>
+            <div className={styles.fieldGroup}>
+              <label className={styles.label}>
+                <span className={styles.labelIcon}>✦</span>
+                Fee (USD)<span className={styles.required}>*</span>
+              </label>
+              <p className={styles.fieldHint}>e.g. 399 USD</p>
+              <div className={`${styles.inputWrap} ${errors.usdFee ? styles.inputError : ""} ${form.usdFee && !errors.usdFee ? styles.inputSuccess : ""}`}>
+                <input
+                  type="text"
+                  className={styles.input}
+                  placeholder="399 USD"
+                  value={form.usdFee}
+                  maxLength={30}
+                  onChange={e => set("usdFee", e.target.value)}
+                />
+              </div>
+              {errors.usdFee && <p className={styles.errorMsg}>⚠ {errors.usdFee}</p>}
             </div>
-            {errors.usdFee && <p className={styles.errorMsg}>⚠ {errors.usdFee}</p>}
+
+            <div className={styles.fieldGroup}>
+              <label className={styles.label}>
+                <span className={styles.labelIcon}>✦</span>
+                Fee (INR)<span className={styles.required}>*</span>
+              </label>
+              <p className={styles.fieldHint}>e.g. 33,000 INR</p>
+              <div className={`${styles.inputWrap} ${errors.inrFee ? styles.inputError : ""} ${form.inrFee && !errors.inrFee ? styles.inputSuccess : ""}`}>
+                <input
+                  type="text"
+                  className={styles.input}
+                  placeholder="33,000 INR"
+                  value={form.inrFee}
+                  maxLength={30}
+                  onChange={e => set("inrFee", e.target.value)}
+                />
+              </div>
+              {errors.inrFee && <p className={styles.errorMsg}>⚠ {errors.inrFee}</p>}
+            </div>
           </div>
         </div>
 
@@ -254,13 +292,15 @@ export default function PrenatalSeatsAddPage() {
         <div className={styles.sectionBlock}>
           <div className={styles.sectionHeader}>
             <span className={styles.sectionIcon}>✦</span>
-            <h3 className={styles.sectionTitle}>Room Prices (USD)</h3>
+            <h3 className={styles.sectionTitle}>Room Prices</h3>
           </div>
-          <div className={styles.threeCol}>
+          
+          {/* Dormitory */}
+          <div className={styles.twoCol}>
             <div className={styles.fieldGroup}>
               <label className={styles.label}>
                 <span className={styles.labelIcon}>✦</span>
-                Dormitory<span className={styles.required}>*</span>
+                Dormitory (USD)<span className={styles.required}>*</span>
               </label>
               <p className={styles.fieldHint}>e.g. 399</p>
               <div className={`${styles.inputWrapPrefix} ${errors.dormPrice ? styles.inputError : ""} ${form.dormPrice && !errors.dormPrice ? styles.inputSuccess : ""}`}>
@@ -279,7 +319,29 @@ export default function PrenatalSeatsAddPage() {
             <div className={styles.fieldGroup}>
               <label className={styles.label}>
                 <span className={styles.labelIcon}>✦</span>
-                Twin Sharing<span className={styles.required}>*</span>
+                Dormitory (INR)<span className={styles.required}>*</span>
+              </label>
+              <p className={styles.fieldHint}>e.g. 33,000</p>
+              <div className={`${styles.inputWrapPrefix} ${errors.inrDormPrice ? styles.inputError : ""} ${form.inrDormPrice && !errors.inrDormPrice ? styles.inputSuccess : ""}`}>
+                <span className={styles.prefix}>₹</span>
+                <input
+                  type="number"
+                  className={styles.inputPrefixed}
+                  placeholder="33,000"
+                  value={form.inrDormPrice}
+                  onChange={e => set("inrDormPrice", e.target.value)}
+                />
+              </div>
+              {errors.inrDormPrice && <p className={styles.errorMsg}>⚠ {errors.inrDormPrice}</p>}
+            </div>
+          </div>
+
+          {/* Twin Sharing */}
+          <div className={styles.twoCol}>
+            <div className={styles.fieldGroup}>
+              <label className={styles.label}>
+                <span className={styles.labelIcon}>✦</span>
+                Twin Sharing (USD)<span className={styles.required}>*</span>
               </label>
               <p className={styles.fieldHint}>e.g. 499</p>
               <div className={`${styles.inputWrapPrefix} ${errors.twinPrice ? styles.inputError : ""} ${form.twinPrice && !errors.twinPrice ? styles.inputSuccess : ""}`}>
@@ -298,7 +360,29 @@ export default function PrenatalSeatsAddPage() {
             <div className={styles.fieldGroup}>
               <label className={styles.label}>
                 <span className={styles.labelIcon}>✦</span>
-                Private Room<span className={styles.required}>*</span>
+                Twin Sharing (INR)<span className={styles.required}>*</span>
+              </label>
+              <p className={styles.fieldHint}>e.g. 41,000</p>
+              <div className={`${styles.inputWrapPrefix} ${errors.inrTwinPrice ? styles.inputError : ""} ${form.inrTwinPrice && !errors.inrTwinPrice ? styles.inputSuccess : ""}`}>
+                <span className={styles.prefix}>₹</span>
+                <input
+                  type="number"
+                  className={styles.inputPrefixed}
+                  placeholder="41,000"
+                  value={form.inrTwinPrice}
+                  onChange={e => set("inrTwinPrice", e.target.value)}
+                />
+              </div>
+              {errors.inrTwinPrice && <p className={styles.errorMsg}>⚠ {errors.inrTwinPrice}</p>}
+            </div>
+          </div>
+
+          {/* Private Room */}
+          <div className={styles.twoCol}>
+            <div className={styles.fieldGroup}>
+              <label className={styles.label}>
+                <span className={styles.labelIcon}>✦</span>
+                Private Room (USD)<span className={styles.required}>*</span>
               </label>
               <p className={styles.fieldHint}>e.g. 699</p>
               <div className={`${styles.inputWrapPrefix} ${errors.privatePrice ? styles.inputError : ""} ${form.privatePrice && !errors.privatePrice ? styles.inputSuccess : ""}`}>
@@ -312,6 +396,25 @@ export default function PrenatalSeatsAddPage() {
                 />
               </div>
               {errors.privatePrice && <p className={styles.errorMsg}>⚠ {errors.privatePrice}</p>}
+            </div>
+
+            <div className={styles.fieldGroup}>
+              <label className={styles.label}>
+                <span className={styles.labelIcon}>✦</span>
+                Private Room (INR)<span className={styles.required}>*</span>
+              </label>
+              <p className={styles.fieldHint}>e.g. 58,000</p>
+              <div className={`${styles.inputWrapPrefix} ${errors.inrPrivatePrice ? styles.inputError : ""} ${form.inrPrivatePrice && !errors.inrPrivatePrice ? styles.inputSuccess : ""}`}>
+                <span className={styles.prefix}>₹</span>
+                <input
+                  type="number"
+                  className={styles.inputPrefixed}
+                  placeholder="58,000"
+                  value={form.inrPrivatePrice}
+                  onChange={e => set("inrPrivatePrice", e.target.value)}
+                />
+              </div>
+              {errors.inrPrivatePrice && <p className={styles.errorMsg}>⚠ {errors.inrPrivatePrice}</p>}
             </div>
           </div>
         </div>

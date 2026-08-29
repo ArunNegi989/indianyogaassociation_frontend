@@ -94,8 +94,11 @@ interface SeatBatch {
   usdFee: string;
   inrFee: string;
   dormPrice: number;
+  inrDormPrice: number;
   twinPrice: number;
+  inrTwinPrice: number;
   privatePrice: number;
+  inrPrivatePrice: number;
   totalSeats: number;
   bookedSeats: number;
   note: string;
@@ -258,7 +261,7 @@ const getYouTubeEmbed = (url: string) => {
   else if (url.includes("watch?v="))
     id = url.split("watch?v=")[1]?.split("&")[0];
   return id
-    ? `https://www.youtube.com/embed/${id}?autoplay=1&mute=1&loop=1&playlist=${id}&controls=0&modestbranding=1&showinfo=0&rel=0&iv_load_policy=3&disablekb=1&playsinline=1`
+    ? `https://www.youtube.com/embed/${id}?autoplay=1&mute=1&loop=1&playlist=${id}&controls=1&modestbranding=1&showinfo=0&rel=0&iv_load_policy=3&disablekb=1&playsinline=1`
     : "";
 };
 
@@ -269,9 +272,6 @@ const getInstagramEmbed = (url: string) => {
 
 /* ══════════════════════════════════════════
    DYNAMIC VIDEO COMPONENT
-   - No loading bar shown
-   - No play/pause controls
-   - Size stays same
 ══════════════════════════════════════════ */
 function DynamicVideo({
   url,
@@ -432,7 +432,6 @@ const DateIcon = () => (
 
 /* ══════════════════════════════
    WHY CHOOSE ICON MAP
-   Fixed: React.ReactElement instead of JSX.Element
 ══════════════════════════════ */
 const WHY_ICON_MAP: Record<string, React.ReactElement> = {
   star: (
@@ -1047,6 +1046,7 @@ export function PremiumSeatBooking({
   const fmtPrice = (batch: SeatBatch | null, overrideUsd?: number) => {
     if (!batch && overrideUsd === undefined)
       return { amount: "—", cur: currency };
+    
     if (currency === "INR") {
       if (batch?.inrFee) {
         const num = parseFloat(batch.inrFee.replace(/[₹,]/g, "").trim());
@@ -1061,11 +1061,37 @@ export function PremiumSeatBooking({
         cur: "INR",
       };
     }
+    
     if (batch?.usdFee) {
       const raw = batch.usdFee.trim();
       return { amount: raw.startsWith("$") ? raw : `$${raw}`, cur: "USD" };
     }
     return { amount: `$${overrideUsd ?? batch?.dormPrice ?? 0}`, cur: "USD" };
+  };
+
+  const getRoomPrice = (batch: SeatBatch | null, roomType: 'dorm' | 'twin' | 'private') => {
+    if (!batch) return "—";
+    
+    if (currency === "INR") {
+      let inrPrice: number | undefined;
+      if (roomType === 'dorm') inrPrice = batch.inrDormPrice;
+      else if (roomType === 'twin') inrPrice = batch.inrTwinPrice;
+      else inrPrice = batch.inrPrivatePrice;
+      
+      if (inrPrice && inrPrice > 0) {
+        return `₹${inrPrice.toLocaleString("en-IN")}`;
+      }
+      
+      const usdPrice = roomType === 'dorm' ? batch.dormPrice : 
+                       roomType === 'twin' ? batch.twinPrice : 
+                       batch.privatePrice;
+      return `₹${Math.round(usdPrice * rate).toLocaleString("en-IN")}`;
+    }
+    
+    const usdPrice = roomType === 'dorm' ? batch.dormPrice : 
+                     roomType === 'twin' ? batch.twinPrice : 
+                     batch.privatePrice;
+    return `$${usdPrice}`;
   };
 
   return (
@@ -1243,22 +1269,14 @@ export function PremiumSeatBooking({
             <div className={styles.psbPriceRow}>
               <div className={styles.psbPriceCard}>
                 <div className={styles.psbPcAmt}>
-                  {selected
-                    ? currency === "INR"
-                      ? `₹${Math.round(selected.privatePrice * rate)}`
-                      : `$${selected.privatePrice}`
-                    : "—"}
+                  {selected ? getRoomPrice(selected, 'private') : "—"}
                   <span className={styles.psbPcCur}>{currency}</span>
                 </div>
                 <div className={styles.psbPcLbl}>Private Room</div>
               </div>
               <div className={styles.psbPriceCard}>
                 <div className={styles.psbPcAmt}>
-                  {selected
-                    ? currency === "INR"
-                      ? `₹${Math.round(selected.twinPrice * rate)}`
-                      : `$${selected.twinPrice}`
-                    : "—"}
+                  {selected ? getRoomPrice(selected, 'twin') : "—"}
                   <span className={styles.psbPcCur}>{currency}</span>
                 </div>
                 <div className={styles.psbPcLbl}>Twin / Shared</div>
@@ -1268,11 +1286,7 @@ export function PremiumSeatBooking({
             <div className={styles.psbPriceWide}>
               <div className={styles.psbPwLeft}>
                 <span className={styles.psbPcAmt} style={{ fontSize: "1rem" }}>
-                  {selected
-                    ? currency === "INR"
-                      ? `₹${Math.round(selected.dormPrice * rate)}`
-                      : `$${selected.dormPrice}`
-                    : "—"}
+                  {selected ? getRoomPrice(selected, 'dorm') : "—"}
                 </span>
                 <span className={styles.psbPcCur}>{currency}</span>
               </div>
@@ -1855,10 +1869,10 @@ export default function HundredHourYoga() {
       <PremiumGallerySection type="both" backgroundColor="warm" />
 
       {/* REVIEWS */}
-    <ReviewSection
-  courseType="100-hour-yoga-teacher-training"
-  RatingsSummaryComponent={<RatingsSummarySection />}
-/>
+      <ReviewSection
+        courseType="100-hour-yoga-teacher-training"
+        RatingsSummaryComponent={<RatingsSummarySection />}
+      />
 
       {/* LOCATION */}
       <div id="location">
