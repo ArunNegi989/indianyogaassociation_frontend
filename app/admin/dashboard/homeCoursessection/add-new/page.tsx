@@ -316,6 +316,7 @@ export default function CourseAddEditPage() {
         {tabOrder.map((tab) => (
           <button
             key={tab}
+            type="button"
             className={`${styles.tabBtn} ${activeTab === tab ? styles.tabBtnActive : ""} ${tabErrors[tab] ? styles.tabBtnError : ""}`}
             onClick={() => setActiveTab(tab)}
           >
@@ -887,9 +888,11 @@ export default function CourseAddEditPage() {
             <div className={styles.actionsRight}>
               {activeTab !== "basic" && (
                 <button
+                  key="prev-btn"
                   type="button"
                   className={styles.prevBtn}
-                  onClick={() => {
+                  onClick={(e) => {
+                    e.preventDefault();
                     const idx = tabOrder.indexOf(activeTab);
                     setActiveTab(tabOrder[idx - 1]);
                   }}
@@ -899,9 +902,11 @@ export default function CourseAddEditPage() {
               )}
               {activeTab !== "pricing" ? (
                 <button
+                  key="next-btn"
                   type="button"
                   className={styles.nextBtn}
-                  onClick={() => {
+                  onClick={(e) => {
+                    e.preventDefault();
                     const idx = tabOrder.indexOf(activeTab);
                     setActiveTab(tabOrder[idx + 1]);
                   }}
@@ -910,6 +915,7 @@ export default function CourseAddEditPage() {
                 </button>
               ) : (
                 <button
+                  key="submit-btn"
                   type="submit"
                   className={`${styles.submitBtn} ${isSubmitting ? styles.submitBtnLoading : ""}`}
                   disabled={isSubmitting}
