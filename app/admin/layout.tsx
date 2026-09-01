@@ -185,11 +185,19 @@ const navItems: NavItem[] = [
       { href: "/admin/our-teachers/guestteachers", label: "All Guest Teachers" },
     ],
   },
+    {
+    label: "Online Yoga", icon: "✦",
+    children: [
+      { href: "/admin/yogacourse/online-yogacourse-seatbooking", label: "Online yoga seat" },
+      { href: "/admin/yogacourse/online-yoga-course",  label: "Online yoga course" },
+    ],
+  },
+   { href: "/admin/yogacourse/ayush-course",  label: "Ayush Course", icon: "🖼" },
   {
     label: "Home Testimonials", icon: "✦",
     children: [
       { href: "/admin/dashboard/testimonialsvideo", label: "Testimonials Video" },
-      { href: "/admin/dashboard/testimonialstext",  label: "Testimonials Review Text" },
+      { href: "/admin/dashboard/online-yogacourse-seatbooking",  label: "Testimonials Review Text" },
     ],
   },
   { href: "/admin/dashboard/gallery", label: "Gallery",icon: "🖼" },

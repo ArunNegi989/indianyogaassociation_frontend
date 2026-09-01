@@ -793,7 +793,7 @@
 }
 
 /* ============================================================
-   PREMIUM SCHEDULE TABLE (UPGRADED)
+   SEAT BOOKING (PREMIUM) — fixed to match the 100hr page design
    ============================================================ */
 
 .scheduleSection {
@@ -803,142 +803,827 @@
   background: linear-gradient(to bottom, #fff, var(--parchment));
 }
 
-/* Wrapper */
-.tableWrapper {
-  overflow-x: auto;
-  border-radius: 16px;
-  border: 1px solid rgba(0,0,0,0.06);
-  box-shadow: 0 10px 40px rgba(0,0,0,0.08);
-  margin-top: 2.5rem;
-  backdrop-filter: blur(6px);
-}
-
-/* Table */
-.scheduleTable {
-  width: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
-  min-width: 600px;
-}
-
-/* HEADER */
-.scheduleTable thead tr {
-  background: linear-gradient(135deg, #F15505, #F15505);
-}
-
-.scheduleTable thead th {
-  font-family: var(--font-menu);
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: #fff;
-  padding: 1.2rem;
-  text-align: center;
-  position: sticky;
-  top: 0;
-}
-
-/* Rounded header corners */
-.scheduleTable thead th:first-child {
-  border-top-left-radius: 16px;
-}
-.scheduleTable thead th:last-child {
-  border-top-right-radius: 16px;
-}
-
-/* ROW */
-.scheduleTable tbody tr {
-  background: #fff;
-  transition: all 0.25s ease;
+.sbSection {
   position: relative;
-}
-
-/* alternate */
-.scheduleTable tbody tr:nth-child(even) {
-  background: #fffaf3;
-}
-
-/* HOVER EFFECT (premium lift) */
-.scheduleTable tbody tr:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-  background: #fff3e0;
   z-index: 2;
 }
 
-/* CELLS */
-.scheduleTable tbody td {
-  font-family: var(--font-body);
-  font-size: 0.9rem;
-  color: var(--ink-mid);
-  padding: 1rem;
+.sbSecSub {
   text-align: center;
-  border-bottom: 1px solid rgba(0,0,0,0.05);
+  font-family: var(--font-body);
+  font-size: clamp(0.86rem, 1.3vw, 0.95rem);
+  color: var(--ink-soft);
+  margin: 0 0 1.4rem;
+  position: relative;
+  z-index: 1;
 }
 
-/* LAST ROW FIX */
-.scheduleTable tbody tr:last-child td {
-  border-bottom: none;
+.sbOrnLine {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 2.2rem;
+  position: relative;
+  z-index: 1;
 }
 
-/* DATE */
-.tableDate {
-  font-weight: 700;
-  color: #5a3d2b;
-  background: #fff7ed;
-  padding: 6px 12px;
-  border-radius: 8px;
-  display: inline-block;
+.sbOrnL {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--saffron-gold));
 }
 
-/* PRICE */
-.tablePrice {
+.sbOrnR {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, var(--saffron-gold), transparent);
+}
+
+.sbOrnDiamond {
+  width: 8px;
+  height: 8px;
+  background: var(--saffron);
+  transform: rotate(45deg);
+  flex-shrink: 0;
+}
+
+/* ---- Layout ---- */
+.sbLayout {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1.4rem;
+  align-items: stretch;
+  position: relative;
+  z-index: 1;
+}
+
+/* ---- LEFT PANEL ---- */
+.sbLeftPanel {
+  background: linear-gradient(160deg, #ffffff, var(--parchment-2));
+  border: 1.5px solid var(--border-gold);
+  border-radius: 14px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 6px 24px var(--shadow);
+}
+
+.sbLph {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 1.2rem;
+  padding-bottom: 0.9rem;
+  border-bottom: 1px dashed var(--border-gold);
+  gap: 0.8rem;
+  flex-wrap: wrap;
+}
+
+.sbLphTitle {
   font-family: var(--font-menu);
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   font-weight: 700;
-  color: #00695c;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-sepia);
+  padding-top: 5px;
+  flex-shrink: 0;
 }
 
-/* BUTTON */
-.tableApplyBtn {
-  display: inline-flex;
+.sbLphRight {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.sbLegend {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.sbLegItem {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--font-menu);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: var(--ink-soft);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.sbLegDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.sbDGreen {
+  background: #3d6000;
+}
+
+.sbDOrange {
+  background: var(--saffron);
+}
+
+.sbDRed {
+  background: #8a2c00;
+}
+
+.sbSGreen {
+  color: #3d6000;
+}
+
+.sbSOrange {
+  color: #c8700a;
+}
+
+.sbSRed {
+  color: #8a2c00;
+}
+
+.sbNoBatches {
+  padding: 2.5rem;
+  text-align: center;
+  font-family: var(--font-body);
+  color: var(--saffron);
+}
+
+.sbBatchGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.85rem;
+}
+
+.sbBc {
+  position: relative;
+  border-radius: 10px;
+  padding: 0.95rem 1rem 1.05rem;
+  cursor: pointer;
+  border: 1.5px solid var(--border-gold);
+  background: rgba(255, 255, 255, 0.9);
+  transition: all 0.22s ease;
+}
+
+.sbBc:hover:not(.sbBcFull) {
+  border-color: var(--saffron);
+  background: #fff;
+  transform: translateY(-3px);
+  box-shadow: 0 10px 26px rgba(241, 85, 5, 0.14);
+}
+
+.sbBcSel {
+  border: 1.5px solid var(--saffron) !important;
+  background: linear-gradient(150deg, #fffefc, #fff7ec) !important;
+  box-shadow: 0 6px 22px rgba(241, 85, 5, 0.2) !important;
+}
+
+.sbBcFull {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.sbBcTick {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--saffron);
+  display: none;
   align-items: center;
   justify-content: center;
+}
+
+.sbBcTick svg {
+  width: 9px;
+  height: 9px;
+}
+
+.sbBcSel .sbBcTick {
+  display: flex;
+}
+
+.sbBcMonth {
+  font-family: var(--font-menu);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--saffron-gold);
+}
+
+.sbBcDates {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--ink-sepia);
+  margin: 0.15rem 0 0.65rem;
+  line-height: 1.2;
+}
+
+.sbBcPrices {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 0.6rem 0.7rem;
+  background: rgba(241, 85, 5, 0.05);
+  border: 1px dashed var(--border-gold);
+  border-radius: 8px;
+  margin-bottom: 0.7rem;
+}
+
+.sbBcPriceRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.sbBcCourseLabel {
+  font-family: var(--font-menu);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.sbBcPriceAmt {
+  font-family: var(--font-fell);
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--teal-dark);
+  white-space: nowrap;
+}
+
+.sbBcPriceCur {
+  font-size: 0.62rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+  margin-left: 1px;
+}
+
+.sbBcStatus {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.sbBcDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.sbBcStxt {
+  font-family: var(--font-menu);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.sbBcSeatsBar {
+  margin-top: 0.55rem;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(184, 134, 11, 0.15);
+  overflow: hidden;
+}
+
+.sbBcSeatsBarFill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.4s ease;
+}
+
+.sbBcSeatsBadge {
+  display: inline-block;
+  margin-top: 0.4rem;
+  font-family: var(--font-menu);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 2px 8px;
+  border-radius: 10px;
+  border: 1px solid currentColor;
+  background: rgba(255, 255, 255, 0.55);
+}
+
+/* ---- RIGHT PANEL ---- */
+.sbRightPanel {
+  border-radius: 14px;
+  border: 1.5px solid var(--border-gold);
+  overflow: hidden;
+  background: linear-gradient(160deg, #fffdf9, #fffefb);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 6px 24px var(--shadow);
+}
+
+.sbRpHead {
+  background: linear-gradient(135deg, var(--saffron) 0%, #a85800 100%);
+  padding: 1.1rem 1.3rem;
+}
+
+.sbRpEyebrow {
+  font-family: var(--font-menu);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255, 243, 210, 0.8);
+  margin-bottom: 0.3rem;
+}
+
+.sbRpCourse {
+  font-family: var(--font-fell);
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #fff3d2;
+  line-height: 1.3;
+}
+
+.sbRpDur {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 0.55rem;
+  background: rgba(255, 255, 255, 0.16);
+  border-radius: 20px;
+  padding: 0.25rem 0.75rem;
+}
+
+.sbRpDurTxt {
+  font-family: var(--font-menu);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: #fff3d2;
+}
+
+.sbCurrBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 0.55rem;
+  margin-left: 0.5rem;
+  background: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 243, 210, 0.3);
+  border-radius: 20px;
+  padding: 3px 10px;
+  font-family: var(--font-menu);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: rgba(255, 243, 210, 0.92);
+}
+
+.sbRpBody {
+  padding: 1.1rem 1.3rem 1.3rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.sbCourseTabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 1rem;
+}
+
+.sbCourseTab {
   font-family: var(--font-menu);
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #fff;
+  color: var(--saffron);
+  background: rgba(241, 85, 5, 0.06);
+  border: 1.5px solid var(--border-gold);
+  padding: 0.55rem 0.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.sbCourseTab:hover {
+  border-color: var(--saffron);
+}
+
+.sbCourseTabActive {
+  background: linear-gradient(135deg, var(--saffron) 0%, #a85800 100%) !important;
+  color: #fff3d2 !important;
+  border-color: var(--saffron) !important;
+  box-shadow: 0 4px 14px rgba(241, 85, 5, 0.3);
+}
+
+.sbCourseDetail {
+  border: 1px dashed var(--border-gold);
+  border-radius: 8px;
+  padding: 0.2rem 0.85rem;
+  margin-bottom: 0.9rem;
+  background: rgba(241, 85, 5, 0.03);
+}
+
+.sbCourseDetailRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  padding: 0.55rem 0;
+  border-bottom: 1px dashed rgba(184, 134, 11, 0.18);
+}
+
+.sbCourseDetailRow:last-child {
+  border-bottom: none;
+}
+
+.sbCdLabel {
+  font-family: var(--font-menu);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.sbCdVal {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--ink-sepia);
+  text-align: right;
+}
+
+.sbPriceLbl {
+  font-family: var(--font-menu);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--saffron-gold);
+  margin: 0 0 0.4rem;
+}
+
+.sbPriceBlock {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-bottom: 0.9rem;
+}
+
+.sbPriceAmt {
+  font-family: var(--font-fell);
+  font-size: clamp(1.7rem, 3vw, 2.1rem);
+  font-weight: 700;
+  color: var(--ink-sepia);
+  line-height: 1;
+}
+
+.sbPriceCur {
+  font-family: var(--font-menu);
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--ink-soft);
+  letter-spacing: 0.06em;
+}
+
+.sbDivider {
+  height: 1px;
+  background: rgba(184, 134, 11, 0.22);
+  margin: 0 0 0.9rem;
+}
+
+.sbRpSeatsWrap {
+  margin-bottom: 0.8rem;
+}
+
+.sbRpSeatsRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.4rem;
+}
+
+.sbRpSeatsLbl {
+  font-family: var(--font-menu);
+  font-size: 0.76rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.sbRpSeatsBadge {
+  font-family: var(--font-menu);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 2px 9px;
+  border-radius: 10px;
+  border: 1px solid currentColor;
+  background: rgba(255, 255, 255, 0.55);
+}
+
+.sbRpSeatsBar {
+  height: 5px;
+  border-radius: 3px;
+  background: rgba(184, 134, 11, 0.15);
+  overflow: hidden;
+}
+
+.sbRpSeatsBarFill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.4s ease;
+}
+
+.sbSelDisplay {
+  text-align: center;
+  padding: 0.6rem 0.7rem;
+  border-radius: 8px;
+  min-height: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0.9rem 0;
+  border: 1px dashed var(--border-gold);
+  background: rgba(241, 85, 5, 0.03);
+}
+
+.sbSelHint {
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  color: #a08050;
+}
+
+.sbSelLabel {
+  font-family: var(--font-menu);
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--saffron-gold);
+  margin-bottom: 2px;
+}
+
+.sbSelDate {
+  font-family: var(--font-body);
+  font-size: 0.96rem;
+  font-weight: 600;
+  color: var(--ink-sepia);
+}
+
+.sbBookBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  background: linear-gradient(135deg, var(--saffron) 0%, #a85800 100%);
+  color: #fff3d2;
+  font-family: var(--font-menu);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.85rem 0.7rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
   text-decoration: none;
-  background: linear-gradient(135deg, #e07b00, #ff9a1f);
-  border-radius: 30px;
-  padding: 6px 16px;
-  transition: all 0.25s ease;
-  box-shadow: 0 4px 12px rgba(224, 123, 0, 0.3);
+  transition: opacity 0.18s, transform 0.15s;
+  margin-top: auto;
+  box-shadow: 0 6px 18px rgba(241, 85, 5, 0.28);
 }
 
-/* BUTTON HOVER */
-.tableApplyBtn:hover {
-  transform: translateY(-2px) scale(1.05);
-  box-shadow: 0 8px 18px rgba(224, 123, 0, 0.4);
+.sbBookBtn:hover:not(.sbBookBtnDis) {
+  opacity: 0.9;
+  transform: translateY(-2px);
+  color: #fff3d2;
 }
 
-/* MOBILE */
-@media (max-width: 768px) {
-  .scheduleTable {
-    min-width: 520px;
+.sbBookBtnDis {
+  background: rgba(184, 134, 11, 0.15) !important;
+  color: rgba(184, 134, 11, 0.45) !important;
+  border: 1px dashed rgba(184, 134, 11, 0.3) !important;
+  cursor: not-allowed !important;
+  box-shadow: none !important;
+}
+
+.sbArrowIcon {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+.sbNote {
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+  margin-top: 0.8rem;
+}
+
+.sbNote strong {
+  color: var(--ink-mid);
+}
+
+/* ---- CURRENCY DROPDOWN ---- */
+.sbCurrDrop {
+  position: relative;
+  z-index: 50;
+  flex-shrink: 0;
+}
+
+.sbCurrDropBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: linear-gradient(135deg, #fffaf0, #fff4de);
+  border: 1.5px solid var(--border-gold);
+  border-radius: 20px;
+  padding: 6px 12px 6px 10px;
+  cursor: pointer;
+  font-family: var(--font-menu);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--ink-sepia);
+  transition: border-color 0.18s, box-shadow 0.18s, background 0.18s;
+  white-space: nowrap;
+}
+
+.sbCurrDropBtn:hover {
+  border-color: var(--saffron);
+  box-shadow: 0 3px 12px rgba(241, 85, 5, 0.18);
+  background: linear-gradient(135deg, #fff8e8, #fff0d0);
+}
+
+.sbCurrDropArrow {
+  width: 9px;
+  height: 9px;
+  color: var(--ink-soft);
+  transition: transform 0.22s ease;
+  flex-shrink: 0;
+}
+
+.sbCurrDropArrowOpen {
+  transform: rotate(180deg);
+}
+
+.sbCurrDropMenu {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  background: #ffffff;
+  border: 1.5px solid var(--border-gold);
+  border-radius: 10px;
+  box-shadow: 0 8px 30px rgba(80, 40, 5, 0.16);
+  min-width: 165px;
+  overflow: hidden;
+  z-index: 200;
+  animation: sbDropIn 0.18s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+@keyframes sbDropIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.97);
   }
 
-  .scheduleTable thead th {
-    font-size: 0.7rem;
-    padding: 0.9rem;
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.sbCurrDropItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 14px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: background 0.15s;
+  text-align: left;
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  color: var(--ink-sepia);
+}
+
+.sbCurrDropItem:hover {
+  background: rgba(241, 85, 5, 0.06);
+}
+
+.sbCurrDropItemActive {
+  background: rgba(241, 85, 5, 0.1) !important;
+}
+
+.sbCurrDropItem div {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.sbCurrDropItem div span:first-child {
+  font-weight: 700;
+  font-size: 0.8rem;
+  color: var(--ink-sepia);
+}
+
+.sbCurrDropItem div span:last-child {
+  font-size: 0.68rem;
+  color: var(--ink-soft);
+}
+
+/* ---- SEAT BOOKING RESPONSIVE ---- */
+@media (min-width: 1200px) {
+  .sbBatchGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 900px) and (max-width: 1199px) {
+  .sbLayout {
+    grid-template-columns: 1fr 0.85fr;
+    gap: 1.2rem;
   }
 
-  .scheduleTable tbody td {
-    font-size: 0.82rem;
-    padding: 0.8rem;
+  .sbBatchGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 899px) {
+  .sbLayout {
+    grid-template-columns: 1fr;
+  }
+
+  .sbRightPanel {
+    max-width: 480px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .sbLphRight {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .sbBatchGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 599px) {
+  .sbLph {
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .sbLphRight {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .sbCurrDropMenu {
+    right: auto;
+    left: 0;
+  }
+
+  .sbLeftPanel,
+  .sbRightPanel {
+    padding: 1.1rem;
+  }
+
+  .sbRpBody {
+    padding: 1rem 1.1rem 1.1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .sbBatchGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .sbCourseTabs {
+    gap: 6px;
+  }
+
+  .sbLegend {
+    gap: 8px;
   }
 }
 
@@ -1637,12 +2322,6 @@
     grid-template-columns: 1fr;
   }
 
-  .scheduleTable thead th,
-  .scheduleTable tbody td {
-    padding: 0.65rem 0.8rem;
-    font-size: 0.78rem;
-  }
-
   .infoBox {
     padding: 1.4rem 1.2rem;
   }
@@ -1664,10 +2343,6 @@
 
   .recordedPriceAmt {
     font-size: 2.2rem;
-  }
-
-  .scheduleTable {
-    min-width: 460px;
   }
 
   .benefitsGrid {
@@ -1711,7 +2386,9 @@
   .chakraCard,
   .otherCard,
   .recordedCard,
-  .courseCard {
+  .courseCard,
+  .sbBc,
+  .sbCurrDropMenu {
     animation: none;
   }
 }

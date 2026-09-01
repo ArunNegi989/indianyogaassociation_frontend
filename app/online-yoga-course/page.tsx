@@ -1,350 +1,547 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
+import api from "@/lib/api";
 import styles from "@/assets/style/online-yoga-course/Onlineyogacourse.module.css";
-import Image from "next/image";
-import chakra1 from "@/assets/images/root-chakra.png";
-import chakra2 from "@/assets/images/sacral-chakra.png";
-import chakra3 from "@/assets/images/third-eye-chakra.png";
-import chakra4 from "@/assets/images/solar-plexus-chakra.png";
-import chakra5 from "@/assets/images/heart-chakra.png";
-import chakra6 from "@/assets/images/throat-chakra.png";
-import HowToReach from "@/components/home/Howtoreach";
-import heroImg from "@/assets/images/30.webp";
 import Link from "next/link";
-import whyimage from "@/assets/images/mainimages/43359738790_ce28a4c5c7_b.jpg"
-import othercourseimage1 from "@/assets/images/mainimages/45840430941_d5eb250540_b.jpg"
-import othercourseimage2 from "@/assets/images/mainimages/45676882141_bfeb9bd204_b.jpg"
-import othercourseimage3 from "@/assets/images/mainimages/45840433241_d34be93857_b.jpg"
+import HowToReach from "@/components/home/Howtoreach";
+import Script from "next/script";
 
-/* ── Video embed ── */
-const HERO_VIDEO_URL =
-  "https://www.youtube.com/embed/EJ6K-rhqevE?autoplay=1&mute=1&loop=1&playlist=EJ6K-rhqevE&controls=0&modestbranding=1&showinfo=0&rel=0&iv_load_policy=3&disablekb=1&playsinline=1";
+/* ═══════════════════════════════════════════
+   TYPES — mirror the backend model exactly
+═══════════════════════════════════════════ */
+type Currency = "USD" | "INR";
 
-/* ── Other course images ── */
-const otherCourseImages = [
-  { src: othercourseimage1, alt: "Other Course 1", width: 600, height: 400 },
-  { src: othercourseimage2, alt: "Other Course 2", width: 600, height: 400 },
-  { src: othercourseimage3, alt: "Other Course 3", width: 600, height: 400 },
-];
+interface BatchRow {
+  _id: string;
+  startDate: string;
+  endDate: string;
+  usd200: string;
+  usd300: string;
+  inr200?: string;
+  inr300?: string;
+  totalSeats: number;
+  bookedSeats: number;
+  note?: string;
+}
 
+interface IconTextItem {
+  icon: string;
+  title: string;
+  desc: string;
+}
+
+interface CourseCardData {
+  title: string;
+  duration: string;
+  style: string;
+  sessions: string;
+  cert: string;
+  fee: string;
+  benefits: string[];
+  applyBtnText: string;
+  bookBtnText: string;
+}
+
+interface FaqItem {
+  q: string;
+  a: string;
+}
+
+interface CurriculumAreaData {
+  title: string;
+  symbol: string;
+  color: string;
+  lines: string[];
+  image?: string | null;
+}
+
+interface RecordedCourseData {
+  title: string;
+  price: string;
+  features: string[];
+  applyBtnText: string;
+}
+
+interface InfoBlockData {
+  heading: string;
+  paragraphs: string[];
+}
+
+interface OtherCourseData {
+  title: string;
+  hours: string;
+  price: string;
+  enquireBtnText: string;
+  image?: string | null;
+}
+
+interface OnlineCourseSectionData {
+  _id: string;
+  heroImage?: string | null;
+  heroImageAlt: string;
+
+  introEyebrow: string;
+  introTitle: string;
+  introParagraphs: string[];
+
+  whyEyebrow: string;
+  whyTitle: string;
+  whyReasons: IconTextItem[];
+  whyImage?: string | null;
+  whyImageAlt: string;
+  whyImageBadgeText: string;
+  whyVideoEmbedUrl: string;
+  whyVideoBadgeText: string;
+
+  benefitsEyebrow: string;
+  benefitsTitle: string;
+  keyBenefits: IconTextItem[];
+
+  coursesEyebrow: string;
+  coursesTitle: string;
+  liveCourses: CourseCardData[];
+
+  seatBookingEyebrow: string;
+  seatBookingTitle: string;
+  seatBookingSubtitle: string;
+
+  noteBoxText: string;
+  faqEyebrow: string;
+  faqTitle: string;
+  faqs: FaqItem[];
+
+  curriculumEyebrow: string;
+  curriculumTitle: string;
+  curriculumAreas: CurriculumAreaData[];
+
+  recordedEyebrow: string;
+  recordedTitle: string;
+  recordedCourses: RecordedCourseData[];
+  infoBlocks: InfoBlockData[];
+
+  otherEyebrow: string;
+  otherTitle: string;
+  otherCourses: OtherCourseData[];
+}
 
 /* ─────────────────────────────────────────────
-   DATA
+   IMAGE URL HELPER
 ───────────────────────────────────────────── */
-const liveCourses = [
-  {
-    id: 1,
-    title: "200 Hour Live Online",
-    duration: "24 Days",
-    style: "Hatha Yoga and Ashtanga Yoga",
-    sessions: "15 Days | 2 Classes Daily",
-    cert: "Yoga Alliance, USA",
-    fee: "399 USD / 20,000 INR",
-    benefits: [
-      "Expert-Led Live Training - Learn from experienced yoga masters.",
-      "Flexible & Interactive - Attend classes from anywhere in the world.",
-      "Comprehensive Curriculum - Deep dive into asanas, pranayama, meditation & philosophy.",
-      "Lifetime Access - Get recordings for future reference.",
-      "Globally Recognized Certification - Start your career as a certified yoga instructor.",
-      "Limited Seats Available! Enroll now to begin your transformational yoga journey!",
-    ],
-  },
-  {
-    id: 2,
-    title: "300 Hour Live Online",
-    duration: "28 Days",
-    style: "Hatha Yoga and Multi-Style",
-    sessions: "15 Days | 2 Classes Daily",
-    cert: "Yoga Alliance, USA",
-    fee: "499 USD / 25,000 INR",
-    benefits: [
-      "Advanced & Multi-Style Training - Expand your practice with diverse yoga styles.",
-      "Expert Guidance - Learn from seasoned yoga masters in real-time.",
-      "Interactive Learning - Engage in live sessions with personal mentorship.",
-      "Flexible & Accessible - Train from anywhere with class recordings for future access.",
-      "Globally Recognized Certification - Elevate your career as a certified yoga teacher.",
-      "Upgrade Your Yoga Journey Today! Enroll now and take your practice to the next level.",
-    ],
-  },
-];
-
-const prenatalCourse = {
-  title: "Prenatal Live Online",
-  duration: "7 Days",
-  style: "Multi-Style (Gentle Hatha, Restorative, Breathwork & More)",
-  sessions: "7 Days | 2 Classes Daily",
-  cert: "Yoga Alliance, USA",
-  fee: "399 USD / 20,000 INR",
-  benefits: [
-    "Specialized Prenatal Training - Learn safe and effective yoga techniques for expectant mothers.",
-    "Expert Guidance - Led by experienced prenatal yoga instructors.",
-    "Holistic Approach - Covers asanas, breathwork, meditation & relaxation techniques.",
-    "Flexible & Convenient - Train from home with recorded sessions for future reference.",
-    "Globally Recognized Certification - Advance your career as a certified prenatal yoga teacher.",
-    "Flexible & Convenient - Train from home with recorded sessions for future reference.",
-  ],
+const getImageUrl = (path?: string | null) => {
+  if (!path) return "";
+  if (path.startsWith("http") || path.startsWith("data:")) return path;
+  return `${process.env.NEXT_PUBLIC_API_URL}${path}`;
 };
 
-const scheduleData = [
-  { date: "01st Jun – 28th Jun 2025", h200: "20000 INR / 399 USD", h300: "25000 INR / 499 USD" },
-  { date: "01st Jul – 28th July 2025", h200: "20000 INR / 399 USD", h300: "25000 INR / 499 USD" },
-  { date: "01st Aug – 28th Aug 2025", h200: "20000 INR / 399 USD", h300: "25000 INR / 499 USD" },
-  { date: "01st Sep – 28th Sep 2025", h200: "20000 INR / 399 USD", h300: "25000 INR / 499 USD" },
-  { date: "01st Oct – 28th Oct 2025", h200: "20000 INR / 399 USD", h300: "25000 INR / 499 USD" },
-  { date: "01st Nov – 28th Nov 2025", h200: "20000 INR / 399 USD", h300: "25000 INR / 499 USD" },
-  { date: "01st Dec – 28th Dec 2025", h200: "20000 INR / 399 USD", h300: "25000 INR / 499 USD" },
-];
+/* ═══════════════════════════════════════════
+   SEAT BOOKING HELPERS
+═══════════════════════════════════════════ */
+const shortDateRange = (start: string, end: string) => {
+  const s = new Date(start);
+  const e = new Date(end);
+  const d = (dt: Date) =>
+    dt.toLocaleDateString("en-IN", { day: "2-digit", month: "short" });
+  return `${d(s)} – ${d(e)}`;
+};
 
-const curriculumAreas = [
-  {
-    title: "Philosophy of Yoga",
-    lines: ["20 hour live classes", "5 hours e-books and assignments"],
-    symbol: "☸",
-    color: "#e53935",
-    image: chakra1,
-  },
-  {
-    title: "Introduction to Yogic Anatomy",
-    lines: ["20 hour Anatomy live lectures", "5 hours e-books self-study"],
-    symbol: "ॐ",
-    color: "#F15505",
-    image: chakra2,
-  },
-  {
-    title: "Pranayama and Meditation",
-    lines: ["30 hour live lecture and practice", "Mudra, bandha, pranayama and meditation"],
-    symbol: "◉",
-    color: "#f9a825",
-    image: chakra3,
-  },
-  {
-    title: "Adjusting and Assisting Tips",
-    lines: ["10 hours with hatha yoga + alignment", "Art of adjustment through guidance"],
-    symbol: "✦",
-    color: "#f9a825",
-    image: chakra4,
-  },
-  {
-    title: "Asana Practice",
-    lines: ["35 hour Hatha yoga live classes", "35 hour Ashtanga yoga live classes"],
-    symbol: "❋",
-    color: "#43a047",
-    image: chakra5,
-  },
-  {
-    title: "Teaching Methodology",
-    lines: ["10 hours Lecture on teaching practice", "30 hours teaching practice and 10 feedback"],
-    symbol: "⬡",
-    color: "#29b6f6",
-    image: chakra6,
-  },
-];
+const monthYear = (start: string) =>
+  new Date(start).toLocaleDateString("en-IN", { month: "short", year: "numeric" });
 
-const recordedCourses = [
-  {
-    title: "200 Hour Recorded Online Yoga Course",
-    price: "$299",
-    features: [
-      "Yoga Manual",
-      "Recorded lectures on philosophy",
-      "EBooks and online resources",
-      "Few live classes",
-      "Hatha / Ashtanga Yoga",
-      "Yoga TTC Certificate",
-      "Live Exam",
-    ],
-  },
-  {
-    title: "300 Hour Recorded Online Yoga Course",
-    price: "$399",
-    features: [
-      "Yoga Manual",
-      "Recorded lectures on philosophy",
-      "EBooks and online resources",
-      "Few live classes",
-      "Multi-Style Yoga",
-      "Yoga TTC Certificate",
-      "Live Exam",
-    ],
-  },
-];
+function useCurrencyRate() {
+  const [rate, setRate] = useState<number>(83);
+  useEffect(() => {
+    fetch(
+      "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.json"
+    )
+      .then((r) => r.json())
+      .then((data) => { if (data?.usd?.inr) setRate(data.usd.inr); })
+      .catch(() => {});
+  }, []);
+  return rate;
+}
 
-const otherCourses = [
-  { title: "Hatha Yoga Alignment", hours: "35 Hour", price: "299 USD" },
-  { title: "Pranayama and Meditation", hours: "20 Hour", price: "349 USD" },
-  { title: "Ashtanga Vinyasa Primary Series", hours: "35 Hour", price: "299 USD" },
-];
+/* ═══════════════════════════════════════════
+   CURRENCY DROPDOWN
+═══════════════════════════════════════════ */
+function CurrencyDropdown({
+  currency,
+  onChange,
+}: {
+  currency: Currency;
+  onChange: (c: Currency) => void;
+}) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
 
-const faqs = [
-  {
-    q: "What are the eligibility criteria for joining this course?",
-    a: "Anyone with a sincere interest in learning yoga and who is in reasonably good physical health is welcome to apply. Whether you are a beginner or have some prior experience, you can choose a course that suits your goals and level.",
-  },
-  {
-    q: "How do I register for these courses?",
-    a: "To secure your spot, an advance payment of USD 200 is required, along with a transaction fee of USD 15 (totaling USD 215). The remaining course fee can be paid within the first two weeks of your enrollment.",
-  },
-  {
-    q: "How do I get the certification?",
-    a: "Upon successful completion of the course and final assessments, you will be awarded a recognized certification. Your certificate will be shipped to the postal address you provide; please note that shipping charges will be borne by the participant.",
-  },
-  {
-    q: "What is the group size of each class?",
-    a: "To ensure personalized attention and effective guidance, each online training batch is intentionally limited to 5 to 7 participants. This allows our instructors to focus on alignment, posture corrections, and individual progress throughout the course.",
-  },
-  {
-    q: "How are the courses designed?",
-    a: "Our programs are thoughtfully designed with 2 to 4 live online classes per day, depending on factors such as your time zone, location, and batch size. After enrollment, our team will connect with you to finalize a suitable class schedule.",
-  },
-];
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, []);
 
-const whyReasons = [
-  {
-    title: "Learn from the Best",
-    desc: "Our highly experienced yoga teachers bring years of expertise to guide you through every aspect of yoga.",
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M12 2l3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z" />
-      </svg>
-    ),
-  },
-  {
-    title: "Comprehensive Curriculum",
-    desc: "Dive deep into Hatha Yoga, Ashtanga Yoga, Vinyasa Yoga, meditation, pranayama, and yoga philosophy from home.",
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="3" y="3" width="18" height="14" rx="2" />
-        <path d="M8 17v4M16 17v4M8 21h8M9 10l2 2 4-4" />
-      </svg>
-    ),
-  },
-  {
-    title: "Globally Recognized Certification",
-    desc: "Earn an internationally accredited yoga certification recognized by Yoga Alliance, USA.",
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="12" cy="8" r="5" />
-        <path d="M6 21v-1a6 6 0 0112 0v1" />
-      </svg>
-    ),
-  },
-  {
-    title: "Interactive Live Sessions",
-    desc: "Engage in real-time classes, one-on-one mentoring, and guided practice to ensure personal attention.",
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M15 10l4.553-2.277A1 1 0 0121 8.677V15.32a1 1 0 01-1.447.894L15 14M3 8a2 2 0 012-2h10a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z" />
-      </svg>
-    ),
-  },
-  {
-    title: "Flexible Learning",
-    desc: "Balance your yoga teacher training with your daily life through a well-structured and accessible online format.",
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="12" cy="12" r="9" />
-        <path d="M12 7v5l3 3" />
-      </svg>
-    ),
-  },
-  // ── 5 new entries ──
-  {
-    title: "Lifetime Access to Recordings",
-    desc: "Every live session is recorded and made available to you forever — revisit any class, any time, at your own pace.",
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-        <path d="M10 8l6 4-6 4V8z" fill="currentColor" opacity="0.25" />
-        <path d="M10 8l6 4-6 4V8z" />
-      </svg>
-    ),
-  },
-  {
-    title: "Small Batch Sizes",
-    desc: "Classes are capped at 5–7 students per batch, ensuring every participant receives direct, personal feedback from instructors.",
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="9" cy="7" r="3" />
-        <circle cx="15" cy="7" r="3" />
-        <path d="M3 20c0-3.3 2.7-6 6-6h6c3.3 0 6 2.7 6 6" />
-      </svg>
-    ),
-  },
-  {
-    title: "Rooted in Rishikesh Tradition",
-    desc: "Our teaching lineage comes directly from the Himalayan tradition of Rishikesh — the birthplace and world capital of yoga.",
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M3 20l4-8 4 4 4-10 4 14" />
-        <path d="M3 20h18" />
-      </svg>
-    ),
-  },
-  {
-    title: "Multi-Language Support",
-    desc: "Our instructors teach in both English and Hindi, making the course accessible to a diverse global and Indian student community.",
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="12" cy="12" r="9" />
-        <path d="M2 12h20" />
-        <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z" />
-      </svg>
-    ),
-  },
-  {
-    title: "Post-Course Mentorship",
-    desc: "Your journey doesn't end at graduation. We offer continued guidance, community access, and support as you begin your teaching career.",
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M17 20h5v-1a4 4 0 00-5.5-3.7" />
-        <path d="M9 20H4v-1a4 4 0 015.5-3.7" />
-        <circle cx="12" cy="8" r="4" />
-        <path d="M12 12v8" />
-      </svg>
-    ),
-  },
-];
+  return (
+    <div className={styles.sbCurrDrop} ref={ref}>
+      <button
+        className={styles.sbCurrDropBtn}
+        onClick={() => setOpen((p) => !p)}
+        type="button"
+      >
+        <span>{currency === "USD" ? "🇺🇸" : "🇮🇳"}</span>
+        <span>{currency === "USD" ? "English" : "हिन्दी"}</span>
+        <svg
+          className={`${styles.sbCurrDropArrow} ${open ? styles.sbCurrDropArrowOpen : ""}`}
+          viewBox="0 0 12 8"
+          fill="none"
+        >
+          <path d="M1 1l5 5 5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </button>
+      {open && (
+        <div className={styles.sbCurrDropMenu}>
+          {(["USD", "INR"] as Currency[]).map((c) => (
+            <button
+              key={c}
+              className={`${styles.sbCurrDropItem} ${currency === c ? styles.sbCurrDropItemActive : ""}`}
+              onClick={() => { onChange(c); setOpen(false); }}
+              type="button"
+            >
+              <span>{c === "USD" ? "🇺🇸" : "🇮🇳"}</span>
+              <div>
+                <span>{c === "USD" ? "English" : "हिन्दी"}</span>
+                <span>{c === "USD" ? "US Dollar" : "Indian Rupee"}</span>
+              </div>
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
 
-const keyBenefits = [
-  {
-    title: "Start Anytime, From Anywhere",
-    desc: "Enroll whenever you're ready. Our courses are open year-round and accessible globally from any device.",
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" />
-        <circle cx="12" cy="9" r="2.5" />
-      </svg>
-    ),
-  },
-  {
-    title: "Yoga Alliance Certified",
-    desc: "All our teacher training programs are recognized by Yoga Alliance (USA), ensuring international credibility.",
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M9 12l2 2 4-4" />
-        <circle cx="12" cy="12" r="9" />
-      </svg>
-    ),
-  },
-  {
-    title: "Study at Your Own Pace",
-    desc: "Our flexible format allows you to study at your own pace, making it easy to balance learning with personal life.",
-    icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="3" y="4" width="18" height="18" rx="2" />
-        <path d="M16 2v4M8 2v4M3 10h18" />
-      </svg>
-    ),
-  },
-];
+/* ═══════════════════════════════════════════
+   SEAT BOOKING COMPONENT (inline)
+   — header text now comes from backend via props
+═══════════════════════════════════════════ */
+function OnlineSeatBooking({
+  batches,
+  eyebrow,
+  title,
+  subtitle,
+}: {
+  batches: BatchRow[];
+  eyebrow: string;
+  title: string;
+  subtitle: string;
+}) {
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [currency, setCurrency] = useState<Currency>("USD");
+  const [courseTab, setCourseTab] = useState<"200" | "300">("200");
+  const rate = useCurrencyRate();
+
+  useEffect(() => {
+    if (!batches.length) return;
+    const first = batches.find((b) => b.totalSeats - b.bookedSeats > 0);
+    if (first) setSelectedId(first._id);
+  }, [batches]);
+
+  const selected = batches.find((b) => b._id === selectedId) ?? null;
+
+  const fmtPrice = (batch: BatchRow | null, course: "200" | "300"): string => {
+    if (!batch) return "—";
+    const usdVal = course === "200" ? batch.usd200 : batch.usd300;
+
+    if (currency === "INR") {
+      const inrVal = course === "200" ? batch.inr200 : batch.inr300;
+
+      if (inrVal && inrVal.trim() !== "") {
+        const inrNum = parseFloat(inrVal.replace(/[₹,]/g, ""));
+        if (!isNaN(inrNum)) {
+          return `₹${inrNum.toLocaleString("en-IN")}`;
+        }
+      }
+
+      const usdNum = parseFloat(usdVal.replace(/[$,]/g, ""));
+      return `₹${Math.round(usdNum * rate).toLocaleString("en-IN")}`;
+    }
+
+    const raw = usdVal.trim();
+    return raw.startsWith("$") ? raw : `$${raw}`;
+  };
+
+  return (
+    <section className={styles.sbSection} id="seat-booking">
+      <span className={styles.sectionEyebrow}>{eyebrow}</span>
+      <div className={styles.vintageHeadingWrap} style={{ textAlign: "center" }}>
+        <h2 className={styles.vintageHeading}>{title}</h2>
+        <div className={styles.headingUnderline} style={{ justifyContent: "center" }}>
+          <div className={styles.headingDiamond} />
+        </div>
+      </div>
+      <p className={styles.sbSecSub}>{subtitle}</p>
+      <div className={styles.sbOrnLine}>
+        <div className={styles.sbOrnL} />
+        <div className={styles.sbOrnDiamond} />
+        <div className={styles.sbOrnR} />
+      </div>
+
+      <div className={styles.sbLayout}>
+        <div className={styles.sbLeftPanel}>
+          <div className={styles.sbLph}>
+            <span className={styles.sbLphTitle}>Select Your Batch</span>
+            <div className={styles.sbLphRight}>
+              <CurrencyDropdown currency={currency} onChange={setCurrency} />
+              <div className={styles.sbLegend}>
+                <div className={styles.sbLegItem}>
+                  <div className={`${styles.sbLegDot} ${styles.sbDGreen}`} />
+                  Available
+                </div>
+                <div className={styles.sbLegItem}>
+                  <div className={`${styles.sbLegDot} ${styles.sbDOrange}`} />
+                  Limited
+                </div>
+                <div className={styles.sbLegItem}>
+                  <div className={`${styles.sbLegDot} ${styles.sbDRed}`} />
+                  Full
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {batches.length === 0 ? (
+            <p className={styles.sbNoBatches}>No upcoming batches available.</p>
+          ) : (
+            <div className={styles.sbBatchGrid}>
+              {batches.map((batch) => {
+                const rem = batch.totalSeats - batch.bookedSeats;
+                const full = rem <= 0;
+                const low = !full && rem <= 3;
+                const dotCls = full ? styles.sbDRed : low ? styles.sbDOrange : styles.sbDGreen;
+                const txtCls = full ? styles.sbSRed : low ? styles.sbSOrange : styles.sbSGreen;
+                const statusTxt = full ? "Fully Booked" : low ? "Limited" : "Available";
+                const isSelected = selectedId === batch._id;
+
+                return (
+                  <div
+                    key={batch._id}
+                    className={[
+                      styles.sbBc,
+                      full ? styles.sbBcFull : "",
+                      isSelected ? styles.sbBcSel : "",
+                    ].filter(Boolean).join(" ")}
+                    onClick={() => { if (!full) setSelectedId(batch._id); }}
+                  >
+                    <div className={styles.sbBcTick}>
+                      <svg viewBox="0 0 10 10" fill="none">
+                        <polyline points="1.5,5 4,7.5 8.5,2.5" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </div>
+                    <div className={styles.sbBcMonth}>{monthYear(batch.startDate)}</div>
+                    <div className={styles.sbBcDates}>{shortDateRange(batch.startDate, batch.endDate)}</div>
+
+                    <div className={styles.sbBcPrices}>
+                      <div className={styles.sbBcPriceRow}>
+                        <span className={styles.sbBcCourseLabel}>200 Hr</span>
+                        <span className={styles.sbBcPriceAmt}>
+                          {fmtPrice(batch, "200")} <span className={styles.sbBcPriceCur}>{currency}</span>
+                        </span>
+                      </div>
+                      <div className={styles.sbBcPriceRow}>
+                        <span className={styles.sbBcCourseLabel}>300 Hr</span>
+                        <span className={styles.sbBcPriceAmt}>
+                          {fmtPrice(batch, "300")} <span className={styles.sbBcPriceCur}>{currency}</span>
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className={styles.sbBcStatus}>
+                      <div className={`${styles.sbBcDot} ${dotCls}`} />
+                      <span className={`${styles.sbBcStxt} ${txtCls}`}>{statusTxt}</span>
+                    </div>
+
+                    {!full && (
+                      <>
+                        <div className={styles.sbBcSeatsBar}>
+                          <div
+                            className={styles.sbBcSeatsBarFill}
+                            style={{
+                              width: `${Math.max(5, (rem / batch.totalSeats) * 100)}%`,
+                              background: low
+                                ? "linear-gradient(90deg,#c8700a,#e09030)"
+                                : "linear-gradient(90deg,#3d6000,#6aa000)",
+                            }}
+                          />
+                        </div>
+                        <span
+                          className={styles.sbBcSeatsBadge}
+                          style={{ color: low ? "#c8700a" : "#3d6000" }}
+                        >
+                          {rem} / {batch.totalSeats} seats left
+                        </span>
+                      </>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
+
+        <div className={styles.sbRightPanel}>
+          <div className={styles.sbRpHead}>
+            <div className={styles.sbRpEyebrow}>Course Overview</div>
+            <div className={styles.sbRpCourse}>Live Online Yoga Teacher Training</div>
+            <div className={styles.sbRpDur}>
+              <svg width="11" height="11" viewBox="0 0 16 16" fill="none">
+                <circle cx="8" cy="8" r="7" stroke="rgba(255,243,210,0.8)" strokeWidth="1.2" />
+                <path d="M8 4.5V8.5L10.5 10" stroke="rgba(255,243,210,0.8)" strokeWidth="1.2" strokeLinecap="round" />
+              </svg>
+              <span className={styles.sbRpDurTxt}>24–28 Days · Online · Rishikesh Tradition</span>
+            </div>
+            <div className={styles.sbCurrBadge}>
+              {currency === "USD" ? "🇺🇸 Prices in USD" : "🇮🇳 Prices in INR"}
+            </div>
+          </div>
+
+          <div className={styles.sbRpBody}>
+            <div className={styles.sbCourseTabs}>
+              <button
+                className={`${styles.sbCourseTab} ${courseTab === "200" ? styles.sbCourseTabActive : ""}`}
+                onClick={() => setCourseTab("200")}
+                type="button"
+              >
+                200 Hour
+              </button>
+              <button
+                className={`${styles.sbCourseTab} ${courseTab === "300" ? styles.sbCourseTabActive : ""}`}
+                onClick={() => setCourseTab("300")}
+                type="button"
+              >
+                300 Hour
+              </button>
+            </div>
+
+            <div className={styles.sbCourseDetail}>
+              <div className={styles.sbCourseDetailRow}>
+                <span className={styles.sbCdLabel}>Duration</span>
+                <span className={styles.sbCdVal}>{courseTab === "200" ? "24 Days" : "28 Days"}</span>
+              </div>
+              <div className={styles.sbCourseDetailRow}>
+                <span className={styles.sbCdLabel}>Style</span>
+                <span className={styles.sbCdVal}>
+                  {courseTab === "200" ? "Hatha + Ashtanga" : "Hatha + Multi-Style"}
+                </span>
+              </div>
+              <div className={styles.sbCourseDetailRow}>
+                <span className={styles.sbCdLabel}>Sessions</span>
+                <span className={styles.sbCdVal}>15 Days · 2 Classes/Day</span>
+              </div>
+              <div className={styles.sbCourseDetailRow}>
+                <span className={styles.sbCdLabel}>Certificate</span>
+                <span className={styles.sbCdVal}>Yoga Alliance, USA</span>
+              </div>
+            </div>
+
+            <div className={styles.sbPriceLbl}>Course Fee</div>
+            <div className={styles.sbPriceBlock}>
+              <div className={styles.sbPriceAmt}>{selected ? fmtPrice(selected, courseTab) : "—"}</div>
+              <div className={styles.sbPriceCur}>{currency}</div>
+            </div>
+
+            <div className={styles.sbDivider} />
+
+            {selected && (() => {
+              const rem = selected.totalSeats - selected.bookedSeats;
+              const full = rem <= 0;
+              const low = !full && rem <= 3;
+              const pct = full ? 100 : Math.round((selected.bookedSeats / selected.totalSeats) * 100);
+              return (
+                <div className={styles.sbRpSeatsWrap}>
+                  <div className={styles.sbRpSeatsRow}>
+                    <span className={styles.sbRpSeatsLbl}>Seats Availability</span>
+                    <span
+                      className={styles.sbRpSeatsBadge}
+                      style={{
+                        color: full ? "#8a2c00" : low ? "#c8700a" : "#3d6000",
+                        borderColor: full ? "#8a2c00" : low ? "#c8700a" : "#3d6000",
+                      }}
+                    >
+                      {full ? "Fully Booked" : `${rem} of ${selected.totalSeats} left`}
+                    </span>
+                  </div>
+                  <div className={styles.sbRpSeatsBar}>
+                    <div
+                      className={styles.sbRpSeatsBarFill}
+                      style={{
+                        width: `${pct}%`,
+                        background: full
+                          ? "#8a2c00"
+                          : low
+                          ? "linear-gradient(90deg,#c8700a,#e09030)"
+                          : "linear-gradient(90deg,#3d6000,#6aa000)",
+                      }}
+                    />
+                  </div>
+                </div>
+              );
+            })()}
+
+            <div className={styles.sbSelDisplay}>
+              {selected ? (
+                <>
+                  <div className={styles.sbSelLabel}>Selected Batch</div>
+                  <div className={styles.sbSelDate}>
+                    {shortDateRange(selected.startDate, selected.endDate)},{" "}
+                    {monthYear(selected.startDate)}
+                  </div>
+                </>
+              ) : (
+                <span className={styles.sbSelHint}>← Select a batch to continue</span>
+              )}
+            </div>
+
+            {selected ? (
+              <a
+                href={`/registration?batchId=${selected._id}&type=${courseTab}hr-online`}
+                className={styles.sbBookBtn}
+              >
+                Book Now — {fmtPrice(selected, courseTab)} {currency}
+                <svg className={styles.sbArrowIcon} viewBox="0 0 16 16" fill="none">
+                  <path d="M3 8h10M9 4l4 4-4 4" stroke="#fff3d2" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </a>
+            ) : (
+              <span className={`${styles.sbBookBtn} ${styles.sbBookBtnDis}`}>Book Now</span>
+            )}
+
+            {selected?.note && (
+              <p className={styles.sbNote}>
+                <strong>Note:</strong> {selected.note}
+              </p>
+            )}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
 
 /* ─────────────────────────────────────────────
    SHARED UI COMPONENTS
 ───────────────────────────────────────────── */
-function VintageHeading({ children, center = true }: { children: React.ReactNode; center?: boolean }) {
+function VintageHeading({
+  children,
+  center = true,
+  as: Tag = "h2",
+}: {
+  children: React.ReactNode;
+  center?: boolean;
+  as?: "h1" | "h2";
+}) {
   return (
     <div className={styles.vintageHeadingWrap} style={{ textAlign: center ? "center" : "left" }}>
-      <h2 className={styles.vintageHeading}>{children}</h2>
+      <Tag className={styles.vintageHeading}>{children}</Tag>
       <div className={styles.headingUnderline} style={{ justifyContent: center ? "center" : "flex-start" }}>
         <div className={styles.headingDiamond} />
       </div>
@@ -352,17 +549,6 @@ function VintageHeading({ children, center = true }: { children: React.ReactNode
   );
 }
 
-function OmDivider() {
-  return (
-    <div className={styles.omDivider}>
-      <div className={`${styles.divLine} ${styles.divLineLeft}`} />
-      <span className={styles.divOm}>ॐ</span>
-      <div className={`${styles.divLine} ${styles.divLineRight}`} />
-    </div>
-  );
-}
-
-/* Course detail icon helpers */
 const CalendarIcon = () => (
   <svg viewBox="0 0 16 16" fill="none">
     <rect x="1" y="2" width="14" height="13" rx="2" stroke="currentColor" strokeWidth="1.4" />
@@ -402,11 +588,11 @@ const CheckIcon = () => (
 );
 
 /* ─────────────────────────────────────────────
-   COURSE CARD COMPONENT
+   COURSE CARD COMPONENT — button texts now dynamic
 ───────────────────────────────────────────── */
-function CourseCard({ title, duration, style, sessions, cert, fee, benefits }: {
-  title: string; duration: string; style: string; sessions: string; cert: string; fee: string; benefits: string[];
-}) {
+function CourseCard({
+  title, duration, style, sessions, cert, fee, benefits, applyBtnText, bookBtnText,
+}: CourseCardData) {
   return (
     <div className={styles.courseCard}>
       <div className={styles.courseCardHeader}>
@@ -438,14 +624,14 @@ function CourseCard({ title, duration, style, sessions, cert, fee, benefits }: {
             </li>
           </ul>
           <div className={styles.courseActions}>
-            <Link href="#" className={styles.btnPrimary}>Apply Now</Link>
-            <Link href="#" className={styles.btnOutline}>Book Now</Link>
+            <Link href="/registration" className={styles.btnPrimary}>{applyBtnText || "Apply Now"}</Link>
+            <Link href="/registration" className={styles.btnOutline}>{bookBtnText || "Book Now"}</Link>
           </div>
         </div>
         <div className={styles.courseCardRight}>
           <p className={styles.benefitsListTitle}>Key Benefits</p>
           <ul className={styles.benefitsList}>
-            {benefits.map((b, j) => (
+            {(benefits || []).map((b, j) => (
               <li key={j} className={styles.benefitsListItem}>
                 <span className={styles.benefitCheck}><CheckIcon /></span>
                 <span>
@@ -463,388 +649,495 @@ function CourseCard({ title, duration, style, sessions, cert, fee, benefits }: {
 }
 
 /* ─────────────────────────────────────────────
-   PAGE COMPONENT
+   SCHEMA BUILDER — built dynamically from fetched section
+───────────────────────────────────────────── */
+function buildSchema(section: OnlineCourseSectionData) {
+  const siteUrl = "https://aymyogaschool.com";
+  const pageUrl = `${siteUrl}/online-yoga-course`;
+
+  const courseInstances = (section.liveCourses || []).map((c) => ({
+    "@type": "CourseInstance",
+    name: c.title,
+    courseMode: "online",
+    description: `${c.style}. ${c.sessions}.`,
+  }));
+
+  const recordedInstances = (section.recordedCourses || []).map((c) => ({
+    "@type": "CourseInstance",
+    name: c.title,
+    courseMode: "online",
+    description: (c.features || []).join(", "),
+  }));
+
+  const offers = [
+    ...(section.liveCourses || []).map((c) => ({
+      "@type": "Offer",
+      name: c.title,
+      priceCurrency: "USD",
+      price: (c.fee || "").match(/[\d,.]+/)?.[0]?.replace(/,/g, "") || "0",
+      availability: "https://schema.org/InStock",
+      url: `${siteUrl}/registration`,
+    })),
+    ...(section.recordedCourses || []).map((c) => ({
+      "@type": "Offer",
+      name: c.title,
+      priceCurrency: "USD",
+      price: (c.price || "").match(/[\d,.]+/)?.[0]?.replace(/,/g, "") || "0",
+      availability: "https://schema.org/InStock",
+      url: `${siteUrl}/registration`,
+    })),
+  ];
+
+  const otherCourseSchemas = (section.otherCourses || []).map((oc, i) => ({
+    "@type": "Course",
+    "@id": `${pageUrl}#other-course-${i}`,
+    name: `${oc.title} (Online)`,
+    description: `A specialized ${oc.hours} online course focused on ${oc.title}.`,
+    provider: { "@id": `${siteUrl}/#organization` },
+    offers: {
+      "@type": "Offer",
+      price: (oc.price || "").match(/[\d,.]+/)?.[0]?.replace(/,/g, "") || "0",
+      priceCurrency: "USD",
+      availability: "https://schema.org/InStock",
+      url: `${siteUrl}/contact`,
+    },
+  }));
+
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "@id": `${pageUrl}#breadcrumb`,
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Home", item: `${siteUrl}/` },
+          { "@type": "ListItem", position: 2, name: "Online Yoga Course", item: pageUrl },
+        ],
+      },
+      {
+        "@type": "WebPage",
+        "@id": `${pageUrl}#webpage`,
+        url: pageUrl,
+        name: section.introTitle,
+        description: (section.introParagraphs?.[0] || "").replace(/<[^>]*>/g, "").slice(0, 300),
+        breadcrumb: { "@id": `${pageUrl}#breadcrumb` },
+        about: { "@id": `${pageUrl}#course` },
+        mainEntity: { "@id": `${pageUrl}#faq` },
+        inLanguage: "en-IN",
+        isPartOf: { "@id": `${siteUrl}/#website` },
+      },
+      {
+        "@type": "Course",
+        "@id": `${pageUrl}#course`,
+        name: section.introTitle,
+        description: (section.introParagraphs?.[0] || "").replace(/<[^>]*>/g, ""),
+        provider: {
+          "@type": "EducationalOrganization",
+          "@id": `${siteUrl}/#organization`,
+          name: "AYM Yoga School",
+        },
+        educationalCredentialAwarded: "Yoga Alliance, USA Certificate",
+        inLanguage: ["en", "hi"],
+        teaches: (section.curriculumAreas || []).map((a) => a.title),
+        syllabusSections: (section.curriculumAreas || []).map((a) => ({
+          "@type": "Syllabus",
+          name: a.title,
+          description: (a.lines || []).join(", "),
+        })),
+        hasCourseInstance: [...courseInstances, ...recordedInstances],
+        offers,
+      },
+      ...otherCourseSchemas,
+      {
+        "@type": "FAQPage",
+        "@id": `${pageUrl}#faq`,
+        mainEntity: (section.faqs || []).map((f) => ({
+          "@type": "Question",
+          name: f.q,
+          acceptedAnswer: { "@type": "Answer", text: f.a },
+        })),
+      },
+    ],
+  };
+}
+
+/* ─────────────────────────────────────────────
+   PAGE COMPONENT — everything driven by backend data
 ───────────────────────────────────────────── */
 export default function OnlineYogaCourse() {
-  return (
-    <div className={styles.page}>
-      {/* Mandala watermark */}
-      <div className={styles.mandalaWatermark} aria-hidden="true">
-        <svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
-          <g fill="none" stroke="#F15505" strokeWidth="0.5" opacity="0.07">
-            {[30, 60, 90, 120, 150, 180, 210, 240].map((r, i) => (
-              <circle key={i} cx="250" cy="250" r={r} />
-            ))}
-            {Array.from({ length: 36 }, (_, i) => {
-              const a = (((i * 360) / 36) * Math.PI) / 180;
-              return (
-                <line key={i} x1="250" y1="250"
-                  x2={250 + 240 * Math.cos(a)} y2={250 + 240 * Math.sin(a)} />
-              );
-            })}
-            {[60, 120, 180].map((r, i) => (
-              <polygon key={i}
-                points={Array.from({ length: 8 }, (_, j) => {
-                  const a = (((j * 360) / 8) * Math.PI) / 180;
-                  return `${250 + r * Math.cos(a)},${250 + r * Math.sin(a)}`;
-                }).join(" ")}
-              />
-            ))}
-          </g>
-        </svg>
+  const [section, setSection] = useState<OnlineCourseSectionData | null>(null);
+  const [sectionLoading, setSectionLoading] = useState(true);
+
+  const [batches, setBatches] = useState<BatchRow[]>([]);
+  const [batchesLoading, setBatchesLoading] = useState(true);
+
+  useEffect(() => {
+    fetchSection();
+    fetchBatches();
+  }, []);
+
+  const fetchSection = async () => {
+    try {
+      const response = await api.get("/online-course-section");
+      if (response.data.success && response.data.data?.length) {
+        // latest section (backend returns sorted by createdAt desc)
+        setSection(response.data.data[0]);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setSectionLoading(false);
+    }
+  };
+
+  const fetchBatches = async () => {
+    try {
+      const response = await api.get("/online-seats/get-all-batches");
+      if (response.data.success) {
+        setBatches(response.data.data);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setBatchesLoading(false);
+    }
+  };
+
+  if (sectionLoading) {
+    return (
+      <div className={styles.page} style={{ minHeight: "60vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <p>Loading…</p>
       </div>
+    );
+  }
 
-      {/* ══════════════════════════════════════
-          HERO IMAGE
-      ══════════════════════════════════════ */}
-      <section className={styles.heroSection}>
-        <Image
-          src={heroImg}
-          alt="Yoga Students Group"
-          width={1460}
-          height={560}
-          className={styles.heroImage}
-          priority
-        />
-      </section>
+  if (!section) {
+    return (
+      <div className={styles.page} style={{ minHeight: "60vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <p>Content coming soon.</p>
+      </div>
+    );
+  }
 
-      {/* ══════════════════════════════════════
-          INTRO
-      ══════════════════════════════════════ */}
-      <section className={`${styles.section} ${styles.introSection}`}>
-        <div className={styles.container}>
-          <div className={styles.introText}>
-            <span className={styles.sectionEyebrow}>Rishikesh, India · Online</span>
-            <VintageHeading>
-              Online Yoga Teacher Training Course — Rishikesh, India
-            </VintageHeading>
-            <p className={styles.bodyPara}>
-              At AYM Yoga School, Rishikesh, we bring you a professionally curated{" "}
-              <strong>online Yoga Teacher Training Course</strong> designed for
-              yoga enthusiasts worldwide. Whether you're a beginner or an
-              experienced practitioner, our online yoga course offers the same
-              depth and authenticity as our in-person training in Rishikesh, the{" "}
-              <strong>Yoga Capital of the World</strong>.
-            </p>
-          </div>
-      
+  const schema = buildSchema(section);
+
+  return (
+    <>
+      <Script
+        id="online-schema"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(schema),
+        }}
+      />
+
+      <div className={styles.page}>
+        {/* Mandala watermark */}
+        <div className={styles.mandalaWatermark} aria-hidden="true">
+          <svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+            <g fill="none" stroke="#F15505" strokeWidth="0.5" opacity="0.07">
+              {[30, 60, 90, 120, 150, 180, 210, 240].map((r, i) => (
+                <circle key={i} cx="250" cy="250" r={r} />
+              ))}
+              {Array.from({ length: 36 }, (_, i) => {
+                const a = (((i * 360) / 36) * Math.PI) / 180;
+                return (
+                  <line key={i} x1="250" y1="250"
+                    x2={250 + 240 * Math.cos(a)} y2={250 + 240 * Math.sin(a)} />
+                );
+              })}
+              {[60, 120, 180].map((r, i) => (
+                <polygon key={i}
+                  points={Array.from({ length: 8 }, (_, j) => {
+                    const a = (((j * 360) / 8) * Math.PI) / 180;
+                    return `${250 + r * Math.cos(a)},${250 + r * Math.sin(a)}`;
+                  }).join(" ")}
+                />
+              ))}
+            </g>
+          </svg>
         </div>
-      </section>
 
-      {/* ══════════════════════════════════════
-          WHY CHOOSE — with image & video on right
-      ══════════════════════════════════════ */}
-      <section className={styles.whySection}>
-        <div className={styles.container}>
-          <span className={styles.sectionEyebrow}>Why Choose Us</span>
-          <VintageHeading>Why Choose AYM Yoga School's Online Yoga Teacher Training Course?</VintageHeading>
-          <div className={styles.whySplit}>
-            {/* Left: reason cards */}
-            <div className={styles.whyLeft}>
-              <div className={styles.whyGrid}>
-                {whyReasons.map((item, i) => (
-                  <div
-                    key={i}
-                    className={styles.whyCard}
-                    style={{ "--wi": i } as React.CSSProperties}
-                  >
-                    <div className={styles.whyIconBox}>{item.icon}</div>
-                    <div className={styles.whyCardBody}>
-                      <div className={styles.whyCardTitle}>{item.title}</div>
-                      <div className={styles.whyCardDesc}>{item.desc}</div>
+        {/* ══ HERO IMAGE ══ */}
+        {section.heroImage && (
+          <section className={styles.heroSection}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={getImageUrl(section.heroImage)}
+              alt={section.heroImageAlt || "Hero"}
+              className={styles.heroImage}
+            />
+          </section>
+        )}
+
+        {/* ══ INTRO ══ */}
+        <section className={`${styles.section} ${styles.introSection}`}>
+          <div className={styles.container}>
+            <div className={styles.introText}>
+              <span className={styles.sectionEyebrow}>{section.introEyebrow}</span>
+              {/* ── SINGLE H1 ON THE PAGE (SEO) ── */}
+              <VintageHeading as="h1">{section.introTitle}</VintageHeading>
+              {(section.introParagraphs || []).map((p, i) => (
+                <p key={i} className={styles.bodyPara} dangerouslySetInnerHTML={{ __html: p }} />
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ══ WHY CHOOSE ══ */}
+        <section className={styles.whySection}>
+          <div className={styles.container}>
+            <span className={styles.sectionEyebrow}>{section.whyEyebrow}</span>
+            <VintageHeading>{section.whyTitle}</VintageHeading>
+            <div className={styles.whySplit}>
+              <div className={styles.whyLeft}>
+                <div className={styles.whyGrid}>
+                  {(section.whyReasons || []).map((item, i) => (
+                    <div
+                      key={i}
+                      className={styles.whyCard}
+                      style={{ "--wi": i } as React.CSSProperties}
+                    >
+                      <div className={styles.whyIconBox}>{item.icon}</div>
+                      <div className={styles.whyCardBody}>
+                        <div className={styles.whyCardTitle}>{item.title}</div>
+                        <div className={styles.whyCardDesc}>{item.desc}</div>
+                      </div>
+                      <div className={styles.whyCardLine} />
                     </div>
-                    <div className={styles.whyCardLine} />
+                  ))}
+                </div>
+              </div>
+              <div className={styles.whyRight}>
+                {section.whyImage && (
+                  <div className={styles.whyImageBox}>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={getImageUrl(section.whyImage)} alt={section.whyImageAlt || "Why choose us"} />
+                    <div className={styles.whyCornerTl} />
+                    <div className={styles.whyCornerBr} />
+                    {section.whyImageBadgeText && (
+                      <div className={styles.whyImageBadge}>{section.whyImageBadgeText}</div>
+                    )}
                   </div>
-                ))}
+                )}
+                {section.whyVideoEmbedUrl && (
+                  <div className={styles.whyVideoBox}>
+                    <iframe
+                      src={section.whyVideoEmbedUrl}
+                      title="AYM Yoga School"
+                      allow="autoplay"
+                      allowFullScreen
+                    />
+                    {section.whyVideoBadgeText && (
+                      <div className={styles.whyVideoBadge}>
+                        <span className={styles.pulseDot} /> {section.whyVideoBadgeText}
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
             </div>
-            {/* Right: image stacked with video */}
-            <div className={styles.whyRight}>
-              <div className={styles.whyImageBox}>
-                <img src={whyimage.src}  width={whyimage.width} height={whyimage.height} />
-                <div className={styles.whyCornerTl} />
-                <div className={styles.whyCornerBr} />
-                <div className={styles.whyImageBadge}>Since 2010 · Rishikesh</div>
-              </div>
-              <div className={styles.whyVideoBox}>
-               <iframe
-  src="https://www.youtube.com/embed/EJ6K-rhqevE?autoplay=1&mute=1&controls=0&modestbranding=1&rel=0&loop=1&playlist=EJ6K-rhqevE"
-  title="AYM Yoga School"
-  allow="autoplay"
-  allowFullScreen
-/>
-                <div className={styles.whyVideoBadge}>
-                  <span className={styles.pulseDot} /> Live Classes
+          </div>
+        </section>
+
+        {/* ══ KEY BENEFITS ══ */}
+        <section className={styles.benefitsSection}>
+          <div className={styles.container}>
+            <span className={styles.sectionEyebrow}>{section.benefitsEyebrow}</span>
+            <VintageHeading>{section.benefitsTitle}</VintageHeading>
+            <div className={styles.benefitsGrid}>
+              {(section.keyBenefits || []).map((item, i) => (
+                <div
+                  key={i}
+                  className={styles.benefitCard}
+                  style={{ "--bi": i } as React.CSSProperties}
+                >
+                  <div className={styles.benefitIconWrap}>{item.icon}</div>
+                  <div className={styles.benefitCardNum}>{String(i + 1).padStart(2, "0")}</div>
+                  <div className={styles.benefitTitle}>{item.title}</div>
+                  <div className={styles.benefitDesc}>{item.desc}</div>
                 </div>
-              </div>
+              ))}
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* ══════════════════════════════════════
-          KEY BENEFITS
-      ══════════════════════════════════════ */}
-      <section className={styles.benefitsSection}>
-        <div className={styles.container}>
-          <span className={styles.sectionEyebrow}>Key Benefits</span>
-          <VintageHeading>Key Benefits of Our Online Yoga Courses</VintageHeading>
-          <div className={styles.benefitsGrid}>
-            {keyBenefits.map((item, i) => (
-              <div
-                key={i}
-                className={styles.benefitCard}
-                style={{ "--bi": i } as React.CSSProperties}
-              >
-                <div className={styles.benefitIconWrap}>{item.icon}</div>
-                <div className={styles.benefitCardNum}>{String(i + 1).padStart(2, "0")}</div>
-                <div className={styles.benefitTitle}>{item.title}</div>
-                <div className={styles.benefitDesc}>{item.desc}</div>
-              </div>
+        {/* ══ LIVE COURSES ══ */}
+        <section className={styles.coursesSection}>
+          <div className={styles.container}>
+            <span className={styles.sectionEyebrow}>{section.coursesEyebrow}</span>
+            <VintageHeading>{section.coursesTitle}</VintageHeading>
+            {(section.liveCourses || []).map((course, i) => (
+              <CourseCard key={i} {...course} />
             ))}
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* ══════════════════════════════════════
-          LIVE COURSES (200hr, 300hr, Prenatal)
-      ══════════════════════════════════════ */}
-      <section className={styles.coursesSection}>
-        <div className={styles.container}>
-          <span className={styles.sectionEyebrow}>Live Online Courses</span>
-          <VintageHeading>Our Live Online Yoga Teacher Training Courses</VintageHeading>
-          {liveCourses.map((course) => (
-            <CourseCard key={course.id} {...course} />
-          ))}
-          <CourseCard
-            title={prenatalCourse.title}
-            duration={prenatalCourse.duration}
-            style={prenatalCourse.style}
-            sessions={prenatalCourse.sessions}
-            cert={prenatalCourse.cert}
-            fee={prenatalCourse.fee}
-            benefits={prenatalCourse.benefits}
-          />
-        </div>
-      </section>
-
-      {/* ══════════════════════════════════════
-          SCHEDULE TABLE
-      ══════════════════════════════════════ */}
-      <section className={styles.scheduleSection}>
-        <div className={styles.container}>
-          <span className={styles.sectionEyebrow}>Upcoming Batches</span>
-          <VintageHeading>Live Online Yoga Teacher Training Schedule</VintageHeading>
-          <div className={styles.tableWrapper}>
-            <table className={styles.scheduleTable}>
-              <thead>
-                <tr>
-                  <th>Date</th>
-                  <th>200 Hour</th>
-                  <th>300 Hour</th>
-                  <th>Enroll</th>
-                </tr>
-              </thead>
-              <tbody>
-                {scheduleData.map((row, i) => (
-                  <tr key={i}>
-                    <td><span className={styles.tableDate}>{row.date}</span></td>
-                    <td><span className={styles.tablePrice}>{row.h200}</span></td>
-                    <td><span className={styles.tablePrice}>{row.h300}</span></td>
-                    <td>
-                      <Link href="/yoga-registration" className={styles.tableApplyBtn}>
-                        Open for Registration
-                      </Link>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+        {/* ══ SEAT BOOKING ══ */}
+        <section className={styles.scheduleSection}>
+          <div className={styles.container}>
+            {batchesLoading ? (
+              <p>Loading...</p>
+            ) : (
+              <OnlineSeatBooking
+                batches={batches}
+                eyebrow={section.seatBookingEyebrow}
+                title={section.seatBookingTitle}
+                subtitle={section.seatBookingSubtitle}
+              />
+            )}
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* ══════════════════════════════════════
-          NOTE + FAQ
-      ══════════════════════════════════════ */}
-      <section className={styles.aboutSection}>
-        <div className={styles.container}>
-          <div className={styles.noteBox}>
-            <strong>Please note:</strong> For these courses, there are a minimum of 2 live
-            online sessions planned on a daily basis (maximum number of live sessions per
-            day varies from course to course).
-          </div>
-          <span className={styles.sectionEyebrow}>FAQs</span>
-          <VintageHeading>About Live Yoga Training Course</VintageHeading>
-          <div className={styles.faqGrid}>
-            {faqs.map((item, i) => (
-              <div
-                key={i}
-                className={styles.faqCard}
-                style={{ "--fi": i } as React.CSSProperties}
-              >
-                <p className={styles.faqQ}>{item.q}</p>
-                <p className={styles.faqA}>{item.a}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ══════════════════════════════════════
-          CURRICULUM
-      ══════════════════════════════════════ */}
-      <section className={styles.curriculumSection}>
-        <div className={styles.container}>
-          <span className={styles.sectionEyebrow}>Curriculum</span>
-          <VintageHeading>The Program Covers Following Basic Areas of Yoga</VintageHeading>
-          <div className={styles.chakraGrid}>
-            {curriculumAreas.map((area, i) => (
-              <div
-                key={i}
-                className={styles.chakraCard}
-                style={{ "--ci": i } as React.CSSProperties}
-              >
-                <div className={styles.chakraCardBg}>{area.symbol}</div>
-                <div className={styles.chakraImageWrap}>
-                  <Image
-                    src={area.image}
-                    alt={area.title}
-                    width={130}
-                    height={130}
-                    className={styles.chakraImage}
-                  />
+        {/* ══ NOTE + FAQ ══ */}
+        <section className={styles.aboutSection}>
+          <div className={styles.container}>
+            {section.noteBoxText && (
+              <div className={styles.noteBox} dangerouslySetInnerHTML={{ __html: section.noteBoxText }} />
+            )}
+            <span className={styles.sectionEyebrow}>{section.faqEyebrow}</span>
+            <VintageHeading>{section.faqTitle}</VintageHeading>
+            <div className={styles.faqGrid}>
+              {(section.faqs || []).map((item, i) => (
+                <div
+                  key={i}
+                  className={styles.faqCard}
+                  style={{ "--fi": i } as React.CSSProperties}
+                >
+                  <p className={styles.faqQ}>{item.q}</p>
+                  <p className={styles.faqA}>{item.a}</p>
                 </div>
-                <h4 className={styles.chakraTitle} style={{ color: area.color }}>
-                  {area.title}
-                </h4>
-                <div className={styles.chakraCardDivider} />
-                {area.lines.map((line, j) => (
-                  <p key={j} className={styles.chakraLine}>{line}</p>
-                ))}
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* ══════════════════════════════════════
-          RECORDED COURSES
-      ══════════════════════════════════════ */}
-      <section className={styles.recordedSection}>
-        <div className={styles.container}>
-          <span className={styles.sectionEyebrow}>Self-Paced Learning</span>
-          <VintageHeading>Fully Recorded Online Yoga Teacher Training Course</VintageHeading>
-          <div className={styles.recordedGrid}>
-            {recordedCourses.map((rc, i) => (
-              <div key={i} className={styles.recordedCard}>
-                <div className={styles.recordedCardHeader}>
-                  <span className={styles.recordedCardIcon}>✎</span>
-                  <h4 className={styles.recordedCardTitle}>{rc.title}</h4>
-                  <div className={styles.recordedCardPrice}>
-                    <span className={styles.recordedPriceAmt}>{rc.price}</span>
-                    <span className={styles.recordedPriceCur}>USD</span>
+        {/* ══ CURRICULUM ══ */}
+        <section className={styles.curriculumSection}>
+          <div className={styles.container}>
+            <span className={styles.sectionEyebrow}>{section.curriculumEyebrow}</span>
+            <VintageHeading>{section.curriculumTitle}</VintageHeading>
+            <div className={styles.chakraGrid}>
+              {(section.curriculumAreas || []).map((area, i) => (
+                <div
+                  key={i}
+                  className={styles.chakraCard}
+                  style={{ "--ci": i } as React.CSSProperties}
+                >
+                  <div className={styles.chakraCardBg}>{area.symbol}</div>
+                  {area.image && (
+                    <div className={styles.chakraImageWrap}>
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={getImageUrl(area.image)}
+                        alt={area.title}
+                        width={130}
+                        height={130}
+                        className={styles.chakraImage}
+                      />
+                    </div>
+                  )}
+                  <h4 className={styles.chakraTitle} style={{ color: area.color }}>
+                    {area.title}
+                  </h4>
+                  <div className={styles.chakraCardDivider} />
+                  {(area.lines || []).map((line, j) => (
+                    <p key={j} className={styles.chakraLine}>{line}</p>
+                  ))}
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ══ RECORDED COURSES ══ */}
+        <section className={styles.recordedSection}>
+          <div className={styles.container}>
+            <span className={styles.sectionEyebrow}>{section.recordedEyebrow}</span>
+            <VintageHeading>{section.recordedTitle}</VintageHeading>
+            <div className={styles.recordedGrid}>
+              {(section.recordedCourses || []).map((rc, i) => (
+                <div key={i} className={styles.recordedCard}>
+                  <div className={styles.recordedCardHeader}>
+                    <span className={styles.recordedCardIcon}>✎</span>
+                    <h4 className={styles.recordedCardTitle}>{rc.title}</h4>
+                    <div className={styles.recordedCardPrice}>
+                      <span className={styles.recordedPriceAmt}>{rc.price}</span>
+                      <span className={styles.recordedPriceCur}>USD</span>
+                    </div>
+                  </div>
+                  <div className={styles.recordedCardBody}>
+                    <ul className={styles.recordedFeatureList}>
+                      {(rc.features || []).map((f, j) => (
+                        <li key={j} className={styles.recordedFeatureItem}>
+                          <span className={styles.featureCheckIcon}><CheckIcon /></span>
+                          {f}
+                        </li>
+                      ))}
+                    </ul>
+                    <Link href="/registration" className={styles.recordedApplyBtn}>
+                      {rc.applyBtnText || "Apply Now"}
+                      <svg viewBox="0 0 16 16" fill="none" style={{ width: 14, height: 14 }}>
+                        <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </Link>
                   </div>
                 </div>
-                <div className={styles.recordedCardBody}>
-                  <ul className={styles.recordedFeatureList}>
-                    {rc.features.map((f, j) => (
-                      <li key={j} className={styles.recordedFeatureItem}>
-                        <span className={styles.featureCheckIcon}><CheckIcon /></span>
-                        {f}
-                      </li>
+              ))}
+            </div>
+
+            {(section.infoBlocks || []).length > 0 && (
+              <div className={styles.infoBox}>
+                {section.infoBlocks.map((block, i) => (
+                  <React.Fragment key={i}>
+                    <h4 className={styles.infoBoxTitle}>{block.heading}</h4>
+                    {(block.paragraphs || []).map((p, j) => (
+                      <p key={j} className={styles.infoBoxText} dangerouslySetInnerHTML={{ __html: p }} />
                     ))}
-                  </ul>
-                  <Link href="/yoga-registration" className={styles.recordedApplyBtn}>
-                    Apply Now
-                    <svg viewBox="0 0 16 16" fill="none" style={{ width: 14, height: 14 }}>
-                      <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </Link>
-                </div>
+                  </React.Fragment>
+                ))}
               </div>
-            ))}
+            )}
           </div>
+        </section>
 
-          {/* Info / Advantages box */}
-          <div className={styles.infoBox}>
-            <h4 className={styles.infoBoxTitle}>The Advantages of Fully Online Courses</h4>
-            <p className={styles.infoBoxText}>
-              In addition to the above courses, we have fully recorded online teachers' training
-              courses for 200 hours yoga teachers' training as well as for 300 hours training program.
-            </p>
-            <ol className={styles.advantageList}>
-              <li>You can start the course any time.</li>
-              <li>These courses are recognized by Yoga Alliance, United States.</li>
-              <li>
-                The courses are based on self-paced learning modules, so you can study as per a
-                schedule that fits you.
-              </li>
-            </ol>
-            <p className={styles.infoBoxText}>
-              In the 200 hours course you will learn about various yoga aasanas aka yoga postures,
-              various breathing techniques, the yoga philosophy, alignment correction, anatomy of the
-              human body, various meditation techniques, creating your own yogic sequence, various yoga
-              teaching methodologies etc.
-            </p>
-            <h4 className={styles.infoBoxTitle}>How Do I Apply for These Courses?</h4>
-            <p className={styles.infoBoxText}>
-              Please reach out to us at{" "}
-              <strong>aymyogaschool@gmail.com</strong>, or you may click the links provided in
-              the webpage to fill the online registration and submit it. Once we receive the same,
-              our team will reach out to you for further guidance.
-            </p>
-            <h4 className={styles.infoBoxTitle}>What Should I Do After the Registration Process?</h4>
-            <p className={styles.infoBoxText}>
-              Once the registration is done, we will be sharing the training materials of the course
-              with you. It includes recorded training sessions as well as other course materials like
-              e-books and yoga manual. There is a live exam that will be conducted; once you complete
-              the same you will be provided with your certification.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* ══════════════════════════════════════
-          OTHER LIVE COURSES
-      ══════════════════════════════════════ */}
-      <section className={styles.otherSection}>
-        <div className={styles.container}>
-          <span className={styles.sectionEyebrow}>Specialised Programs</span>
-          <VintageHeading>Other Live Online Yoga Courses</VintageHeading>
-          <div className={styles.otherGrid}>
-            {otherCourses.map((oc, i) => (
-              <div
-                key={i}
-                className={styles.otherCard}
-                style={{ "--oi": i } as React.CSSProperties}
-              >
-                <div className={styles.otherCardImage}>
-                 <Image
-  src={otherCourseImages[i].src}
-  alt={otherCourseImages[i].alt}
-  width={otherCourseImages[i].width}
-  height={otherCourseImages[i].height}
-/>
-                  <div className={styles.otherCardImageOverlay} />
+        {/* ══ OTHER LIVE COURSES ══ */}
+        <section className={styles.otherSection}>
+          <div className={styles.container}>
+            <span className={styles.sectionEyebrow}>{section.otherEyebrow}</span>
+            <VintageHeading>{section.otherTitle}</VintageHeading>
+            <div className={styles.otherGrid}>
+              {(section.otherCourses || []).map((oc, i) => (
+                <div
+                  key={i}
+                  className={styles.otherCard}
+                  style={{ "--oi": i } as React.CSSProperties}
+                >
+                  {oc.image && (
+                    <div className={styles.otherCardImage}>
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={getImageUrl(oc.image)} alt={oc.title} />
+                      <div className={styles.otherCardImageOverlay} />
+                    </div>
+                  )}
+                  <div className={styles.otherCardBody}>
+                    <h4 className={styles.otherTitle}>{oc.title}</h4>
+                    <p className={styles.otherMeta}>{oc.hours} · {oc.price}</p>
+                    <Link href="/contact" className={styles.otherCardBtn}>
+                      {oc.enquireBtnText || "Enquire Now"}
+                      <svg viewBox="0 0 16 16" fill="none" style={{ width: 12, height: 12 }}>
+                        <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </Link>
+                  </div>
                 </div>
-                <div className={styles.otherCardBody}>
-                  <h4 className={styles.otherTitle}>{oc.title}</h4>
-                  <p className={styles.otherMeta}>{oc.hours} · {oc.price}</p>
-                  <Link href="/contact" className={styles.otherCardBtn}>
-                    Enquire Now
-                    <svg viewBox="0 0 16 16" fill="none" style={{ width: 12, height: 12 }}>
-                      <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </Link>
-                </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <HowToReach />
-    </div>
+        <HowToReach />
+      </div>
+    </>
   );
 }
