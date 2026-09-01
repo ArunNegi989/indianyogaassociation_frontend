@@ -39,11 +39,6 @@
   position: relative;
 }
 
-
-.whyVideoBox iframe {
-  pointer-events: none;
-}
-
 .whyVideoBox {
   position: relative;
 }
