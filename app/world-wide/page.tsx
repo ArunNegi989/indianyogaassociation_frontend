@@ -6,6 +6,9 @@ export const metadata: Metadata = {
   description:
     "Join our worldwide yoga teacher training course to become a certified yoga teacher. Deepen your practice, learn from experienced instructors, and unlock your potential as a yoga teacher.",
 
+    alternates: {
+      canonical: "https://www.indianyogaassociation.com/world-wide.html",
+    },
 };
 
 export default function Page() {
