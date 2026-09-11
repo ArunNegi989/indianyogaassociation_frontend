@@ -36,18 +36,23 @@ const montserrat = Montserrat({
   weight: ["500", "600", "700"],
 });
 
+export const metadata: Metadata = {
+  title: "Yoga Teacher Training in Rishikesh - Best Yoga School in Rishikesh",
+  description:
+    "Top Yoga Teacher Training in Rishikesh for USA & Europe students. 200-Hour YTT with Ayurveda, meditation & spiritual immersion in the birthplace of yoga.",
+
+    alternates: {
+      canonical: "https://www.indianyogaassociation.com",
+    },
+
+};
 // export const metadata: Metadata = {
 //   title: "Yoga Teacher Training in Rishikesh - Best Yoga School in Rishikesh",
 //   description:
 //     "Yoga Teacher Training in Rishikesh - Best Yoga School in Rishikesh",
 // };
 
-export const metadata: Metadata = {
-  robots: {
-    index: false,
-    follow: false,
-  },
-};
+
 export default function RootLayout({
   children,
 }: {
