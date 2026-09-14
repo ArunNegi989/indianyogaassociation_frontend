@@ -59,6 +59,16 @@ interface FormData {
   tags: string[];
   content: BlogSection[];
   status: "Published" | "Draft";
+  // SEO fields
+  metaTitle: string;
+  metaDescription: string;
+  canonicalUrl: string;
+  ogTitle: string;
+  ogDescription: string;
+  ogImage: string;
+  // Schema Markup
+  schemaType: "Article" | "BlogPosting" | "NewsArticle" | "TechArticle" | "None";
+  schemaCustomJson: string;
 }
 
 interface FormErrors {
@@ -69,6 +79,9 @@ interface FormErrors {
   category?: string;
   coverImage?: string;
   content?: string;
+  metaTitle?: string;
+  metaDescription?: string;
+  schemaCustomJson?: string;
 }
 
 /* ════════════════════════════════════════
@@ -129,6 +142,14 @@ const BLOCK_GROUPS = [
   { label: "Advanced", types: ["table", "callout", "code", "html", "divider", "spacer"] as SectionType[] },
 ];
 
+const SCHEMA_TYPES = [
+  { value: "Article", label: "Article" },
+  { value: "BlogPosting", label: "Blog Posting (Recommended)" },
+  { value: "NewsArticle", label: "News Article" },
+  { value: "TechArticle", label: "Tech Article" },
+  { value: "None", label: "None" },
+];
+
 const joditConfig = {
   readonly: false,
   height: 320,
@@ -161,6 +182,7 @@ export default function EditBlogPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState<"published" | "draft" | null>(null);
   const [errors, setErrors] = useState<FormErrors>({});
+  const [schemaPreview, setSchemaPreview] = useState("");
 
   const coverFile = useRef<File | null>(null);
   const imageFiles = useRef<Record<string, File>>({});
@@ -170,7 +192,60 @@ export default function EditBlogPage() {
   const [form, setForm] = useState<FormData>({
     title: "", slug: "", excerpt: "", date: "", author: "",
     category: "", coverImage: "", tags: [], content: [], status: "Draft",
+    // SEO fields
+    metaTitle: "",
+    metaDescription: "",
+    canonicalUrl: "",
+    ogTitle: "",
+    ogDescription: "",
+    ogImage: "",
+    // Schema Markup
+    schemaType: "BlogPosting",
+    schemaCustomJson: "",
   });
+
+  /* ─────────────────────────────────────────────
+     HELPER: Clean JSON with multi-line strings
+  ────────────────────────────────────────────── */
+  const cleanSchemaJson = (jsonString: string): string => {
+    if (!jsonString) return "";
+    
+    // Try to parse and re-stringify first
+    try {
+      // Handle multi-line description field by manually fixing it
+      let cleaned = jsonString;
+      
+      // Find the description field and fix its content
+      // Look for "description": "..." pattern
+      const descriptionMatch = cleaned.match(/"description":\s*"([\s\S]*?)"(?=\s*[,}])/);
+      if (descriptionMatch) {
+        const fullMatch = descriptionMatch[0];
+        const content = descriptionMatch[1];
+        // Escape newlines in the content
+        const escapedContent = content.replace(/\n/g, '\\n').replace(/\r/g, '');
+        const fixed = `"description": "${escapedContent}"`;
+        cleaned = cleaned.replace(fullMatch, fixed);
+      }
+      
+      const parsed = JSON.parse(cleaned);
+      return JSON.stringify(parsed);
+    } catch (e) {
+      // If parsing fails, do a more aggressive cleaning
+      try {
+        // Remove all newlines and extra spaces
+        const cleaned = jsonString
+          .replace(/\n/g, ' ')
+          .replace(/\r/g, ' ')
+          .replace(/\s+/g, ' ')
+          .trim();
+        const parsed = JSON.parse(cleaned);
+        return JSON.stringify(parsed);
+      } catch (e2) {
+        // If still failing, return the original
+        return jsonString;
+      }
+    }
+  };
 
   /* ─────────────────────────────────────────────
      FETCH
@@ -200,6 +275,17 @@ export default function EditBlogPage() {
             : undefined,
         }));
 
+        // Handle schema custom JSON - format it nicely for display
+        let schemaCustomJson = data.schemaCustomJson || "";
+        if (schemaCustomJson) {
+          try {
+            const parsed = JSON.parse(schemaCustomJson);
+            schemaCustomJson = JSON.stringify(parsed, null, 2);
+          } catch (e) {
+            // If it's not valid JSON, keep as is
+          }
+        }
+
         setForm({
           title: data.title ?? "",
           slug: data.slug ?? "",
@@ -211,6 +297,30 @@ export default function EditBlogPage() {
           tags: data.tags ?? [],
           status: data.status ?? "Draft",
           content,
+          // SEO fields
+          metaTitle: data.metaTitle || data.title || "",
+          metaDescription: data.metaDescription || data.excerpt || "",
+          canonicalUrl: data.canonicalUrl || "",
+          ogTitle: data.ogTitle || data.title || "",
+          ogDescription: data.ogDescription || data.excerpt || "",
+          ogImage: data.ogImage ? resolveImage(data.ogImage) : resolveImage(data.coverImage),
+          // Schema Markup
+          schemaType: data.schemaType || "BlogPosting",
+          schemaCustomJson: schemaCustomJson,
+        });
+
+        // Generate preview
+        generateSchemaPreview({
+          schemaType: data.schemaType || "BlogPosting",
+          schemaCustomJson: schemaCustomJson,
+          title: data.title || "",
+          excerpt: data.excerpt || "",
+          author: data.author || "",
+          date: data.date || "",
+          coverImage: data.coverImage || "",
+          tags: data.tags || [],
+          slug: data.slug || "",
+          category: data.category || "",
         });
       } catch (err) {
         console.error("Fetch blog error:", err);
@@ -222,20 +332,99 @@ export default function EditBlogPage() {
   }, [blogId]);
 
   /* ─────────────────────────────────────────────
+     GENERATE SCHEMA PREVIEW
+  ────────────────────────────────────────────── */
+  const generateSchemaPreview = (data: any) => {
+    try {
+      if (data.schemaType === "None") {
+        setSchemaPreview("");
+        return;
+      }
+
+      const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://aym-yoga.com";
+      const imageUrl = data.coverImage?.startsWith("http") 
+        ? data.coverImage 
+        : `${BASE_URL}${data.coverImage || ""}`;
+
+      const schema = {
+        "@context": "https://schema.org",
+        "@type": data.schemaType || "BlogPosting",
+        "headline": data.title || "",
+        "description": data.excerpt || "",
+        "image": imageUrl || "",
+        "datePublished": data.date ? new Date(data.date).toISOString() : new Date().toISOString(),
+        "dateModified": data.date ? new Date(data.date).toISOString() : new Date().toISOString(),
+        "author": {
+          "@type": "Person",
+          "name": data.author || "AYM Yoga School",
+          "url": siteUrl
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "AYM Yoga School",
+          "logo": {
+            "@type": "ImageObject",
+            "url": `${siteUrl}/logo.png`
+          }
+        },
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": `${siteUrl}/blog/${data.slug || ""}`
+        },
+        "keywords": (data.tags || []).join(", "),
+        "articleSection": data.category || "",
+        "inLanguage": "en-US",
+        "isAccessibleForFree": true,
+        "about": {
+          "@type": "Thing",
+          "name": data.category || "Yoga"
+        }
+      };
+
+      // Merge with custom JSON if provided
+      if (data.schemaCustomJson) {
+        try {
+          // Clean the custom JSON
+          const cleaned = cleanSchemaJson(data.schemaCustomJson);
+          const parsed = JSON.parse(cleaned);
+          Object.assign(schema, parsed);
+        } catch (e) {
+          console.warn("Custom JSON parsing failed, using base schema:", e);
+        }
+      }
+
+      setSchemaPreview(JSON.stringify(schema, null, 2));
+    } catch (e) {
+      setSchemaPreview("");
+    }
+  };
+
+  /* ─────────────────────────────────────────────
      FIELD SETTERS
   ────────────────────────────────────────────── */
   const set = (key: keyof Omit<FormData, "tags" | "content" | "status">, val: string) => {
     setForm((p) => ({ ...p, [key]: val }));
     setErrors((p) => ({ ...p, [key]: undefined }));
+    
+    // Regenerate schema preview when relevant fields change
+    if (["title", "excerpt", "author", "date", "coverImage", "tags", "slug", "category", "schemaType", "schemaCustomJson"].includes(key)) {
+      const updatedForm = { ...form, [key]: val };
+      generateSchemaPreview(updatedForm);
+    }
   };
 
   const addTag = (val: string) => {
     const t = val.trim();
     if (!t || form.tags.includes(t)) return;
-    setForm((p) => ({ ...p, tags: [...p.tags, t] }));
+    const newTags = [...form.tags, t];
+    setForm((p) => ({ ...p, tags: newTags }));
+    generateSchemaPreview({ ...form, tags: newTags });
   };
-  const removeTag = (t: string) =>
-    setForm((p) => ({ ...p, tags: p.tags.filter((x) => x !== t) }));
+  const removeTag = (t: string) => {
+    const newTags = form.tags.filter((x) => x !== t);
+    setForm((p) => ({ ...p, tags: newTags }));
+    generateSchemaPreview({ ...form, tags: newTags });
+  };
 
   /* ─────────────────────────────────────────────
      COVER IMAGE
@@ -244,7 +433,13 @@ export default function EditBlogPage() {
     const f = e.target.files?.[0];
     if (!f) return;
     coverFile.current = f;
-    set("coverImage", URL.createObjectURL(f));
+    const url = URL.createObjectURL(f);
+    set("coverImage", url);
+    // Auto-populate ogImage if empty or same as cover
+    if (!form.ogImage || form.ogImage === form.coverImage) {
+      setForm((p) => ({ ...p, ogImage: url }));
+    }
+    generateSchemaPreview({ ...form, coverImage: url });
   };
   const handleCoverDrop = (e: React.DragEvent) => {
     e.preventDefault();
@@ -252,14 +447,23 @@ export default function EditBlogPage() {
     const f = e.dataTransfer.files[0];
     if (!f || !f.type.startsWith("image/")) return;
     coverFile.current = f;
-    set("coverImage", URL.createObjectURL(f));
+    const url = URL.createObjectURL(f);
+    set("coverImage", url);
+    if (!form.ogImage || form.ogImage === form.coverImage) {
+      setForm((p) => ({ ...p, ogImage: url }));
+    }
+    generateSchemaPreview({ ...form, coverImage: url });
   };
   const handleCoverUrl = () => {
     const url = coverUrlInput.trim();
     if (!url) return;
     coverFile.current = null;
     set("coverImage", url);
+    if (!form.ogImage || form.ogImage === form.coverImage) {
+      setForm((p) => ({ ...p, ogImage: url }));
+    }
     setCoverUrlInput("");
+    generateSchemaPreview({ ...form, coverImage: url });
   };
 
   /* ─────────────────────────────────────────────
@@ -378,6 +582,19 @@ export default function EditBlogPage() {
     if (!form.category) e.category = "Category is required";
     if (!form.coverImage.trim()) e.coverImage = "Cover image is required";
     if (form.content.length === 0) e.content = "Add at least one content block";
+    if (form.metaTitle && form.metaTitle.length > 70) e.metaTitle = "Meta title should be under 70 characters";
+    if (form.metaDescription && form.metaDescription.length > 160) e.metaDescription = "Meta description should be under 160 characters";
+    
+    // Validate custom schema JSON if provided
+    if (form.schemaCustomJson && form.schemaType !== "None") {
+      try {
+        const cleaned = cleanSchemaJson(form.schemaCustomJson);
+        JSON.parse(cleaned);
+      } catch {
+        e.schemaCustomJson = "Invalid JSON format. Please check your syntax, especially multi-line text in description field.";
+      }
+    }
+    
     setErrors(e);
     return Object.keys(e).length === 0;
   };
@@ -398,6 +615,43 @@ export default function EditBlogPage() {
       fd.append("category", form.category);
       fd.append("tags", JSON.stringify(form.tags));
       fd.append("status", asDraft ? "Draft" : "Published");
+      
+      // SEO fields
+      fd.append("metaTitle", form.metaTitle || form.title);
+      fd.append("metaDescription", form.metaDescription || form.excerpt);
+      fd.append("canonicalUrl", form.canonicalUrl || "");
+      fd.append("ogTitle", form.ogTitle || form.title);
+      fd.append("ogDescription", form.ogDescription || form.excerpt);
+      fd.append("ogImage", form.ogImage || form.coverImage);
+
+      // Schema Markup - Clean and minify
+      let cleanSchemaJson = form.schemaCustomJson || "";
+      if (cleanSchemaJson) {
+        try {
+          cleanSchemaJson = cleanSchemaJson.trim();
+          const parsed = JSON.parse(cleanSchemaJson);
+          cleanSchemaJson = JSON.stringify(parsed);
+        } catch (e) {
+          // Try cleaning with the helper
+          try {
+            cleanSchemaJson = cleanSchemaJson.trim();
+            const parsed = JSON.parse(cleanSchemaJson);
+            cleanSchemaJson = JSON.stringify(parsed);
+          } catch (e2) {
+            // If still failing, try removing newlines
+            cleanSchemaJson = cleanSchemaJson
+              .replace(/\n/g, ' ')
+              .replace(/\r/g, ' ')
+              .replace(/\s+/g, ' ')
+              .trim();
+            const parsed = JSON.parse(cleanSchemaJson);
+            cleanSchemaJson = JSON.stringify(parsed);
+          }
+        }
+      }
+      
+      fd.append("schemaType", form.schemaType);
+      fd.append("schemaCustomJson", cleanSchemaJson);
 
       if (coverFile.current) {
         fd.append("coverImage", coverFile.current);
@@ -1054,6 +1308,244 @@ export default function EditBlogPage() {
               ))}
             </div>
           </div>
+        </div>
+
+        <div className={styles.formDivider} />
+
+        {/* ══ SEO & OPEN GRAPH (MOVED TO BOTTOM) ══ */}
+        <div className={styles.sectionBlock}>
+          <div className={styles.sectionHeader}>
+            <span className={styles.sectionIcon}>✦</span>
+            <h3 className={styles.sectionTitle}>SEO & Open Graph</h3>
+            <span className={styles.sectionBadge}>Search Engine Optimization</span>
+          </div>
+
+          <div className={styles.fieldGroup}>
+            <label className={styles.label}>
+              <span className={styles.labelIcon}>✦</span>Meta Title
+              <span className={styles.optional}> (optional)</span>
+            </label>
+            <p className={styles.fieldHint}>SEO title for search results. Auto-populates from blog title. Recommended: 50-60 characters.</p>
+            <div className={`${styles.inputWrap} ${errors.metaTitle ? styles.inputError : ""} ${form.metaTitle ? styles.inputSuccess : ""}`}>
+              <input
+                type="text"
+                className={styles.input}
+                placeholder={form.title || "Blog title will be used by default"}
+                value={form.metaTitle}
+                maxLength={70}
+                onChange={(e) => set("metaTitle", e.target.value)}
+              />
+              <span className={styles.charCount}>{form.metaTitle.length}/70</span>
+            </div>
+            {errors.metaTitle && <p className={styles.errorMsg}>⚠ {errors.metaTitle}</p>}
+            <div className={styles.previewHint}>
+              {form.metaTitle ? (
+                <span style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.85rem", color: "#1a0e2e" }}>
+                  <strong>Preview:</strong> {form.metaTitle} | AYM Yoga Blog
+                </span>
+              ) : (
+                <span style={{ fontFamily: "'Inter', sans-serif", fontSize: "0.8rem", color: "#b08850" }}>
+                  Preview will appear here
+                </span>
+              )}
+            </div>
+          </div>
+
+          <div className={styles.fieldGroup}>
+            <label className={styles.label}>
+              <span className={styles.labelIcon}>✦</span>Meta Description
+              <span className={styles.optional}> (optional)</span>
+            </label>
+            <p className={styles.fieldHint}>SEO description for search results. Auto-populates from excerpt. Recommended: 150-160 characters.</p>
+            <div className={`${styles.inputWrap} ${errors.metaDescription ? styles.inputError : ""} ${form.metaDescription ? styles.inputSuccess : ""}`}>
+              <textarea
+                className={`${styles.input} ${styles.textarea}`}
+                placeholder={form.excerpt || "Excerpt will be used by default"}
+                value={form.metaDescription}
+                maxLength={160}
+                rows={3}
+                onChange={(e) => set("metaDescription", e.target.value)}
+              />
+              <span className={styles.charCount}>{form.metaDescription.length}/160</span>
+            </div>
+            {errors.metaDescription && <p className={styles.errorMsg}>⚠ {errors.metaDescription}</p>}
+          </div>
+
+          <div className={styles.fieldGroup}>
+            <label className={styles.label}>
+              <span className={styles.labelIcon}>✦</span>Canonical URL
+              <span className={styles.optional}> (optional)</span>
+            </label>
+            <p className={styles.fieldHint}>Specify the canonical URL to avoid duplicate content issues.</p>
+            <div className={styles.inputWrap}>
+              <input
+                type="url"
+                className={styles.input}
+                placeholder="https://aym-yoga.com/blog/your-post-slug"
+                value={form.canonicalUrl}
+                onChange={(e) => set("canonicalUrl", e.target.value)}
+              />
+            </div>
+          </div>
+
+          <div className={styles.ornament} style={{ margin: "1.5rem 0", padding: "0 1rem" }}>
+            <span>❧</span><div className={styles.ornamentLine} />
+            <span style={{ fontSize: "0.8rem", letterSpacing: "0.1em", color: "#b08850" }}>Open Graph</span>
+            <div className={styles.ornamentLine} /><span>❧</span>
+          </div>
+
+          <div className={styles.fieldGroup}>
+            <label className={styles.label}>
+              <span className={styles.labelIcon}>✦</span>OG Title
+              <span className={styles.optional}> (optional)</span>
+            </label>
+            <p className={styles.fieldHint}>Title for social media sharing. Auto-populates from blog title.</p>
+            <div className={styles.inputWrap}>
+              <input
+                type="text"
+                className={styles.input}
+                placeholder={form.title || "Blog title will be used by default"}
+                value={form.ogTitle}
+                maxLength={200}
+                onChange={(e) => set("ogTitle", e.target.value)}
+              />
+              <span className={styles.charCount}>{form.ogTitle.length}/200</span>
+            </div>
+          </div>
+
+          <div className={styles.fieldGroup}>
+            <label className={styles.label}>
+              <span className={styles.labelIcon}>✦</span>OG Description
+              <span className={styles.optional}> (optional)</span>
+            </label>
+            <p className={styles.fieldHint}>Description for social media sharing. Auto-populates from excerpt.</p>
+            <div className={styles.inputWrap}>
+              <textarea
+                className={`${styles.input} ${styles.textarea}`}
+                placeholder={form.excerpt || "Excerpt will be used by default"}
+                value={form.ogDescription}
+                maxLength={300}
+                rows={2}
+                onChange={(e) => set("ogDescription", e.target.value)}
+              />
+              <span className={styles.charCount}>{form.ogDescription.length}/300</span>
+            </div>
+          </div>
+
+          <div className={styles.fieldGroup} style={{ marginBottom: 0 }}>
+            <label className={styles.label}>
+              <span className={styles.labelIcon}>✦</span>OG Image
+              <span className={styles.optional}> (optional)</span>
+            </label>
+            <p className={styles.fieldHint}>Image for social media sharing. Auto-populates from cover image.</p>
+            <div className={styles.inputWrap}>
+              <input
+                type="text"
+                className={styles.input}
+                placeholder={form.coverImage || "Cover image URL will be used by default"}
+                value={form.ogImage}
+                onChange={(e) => set("ogImage", e.target.value)}
+              />
+            </div>
+            {form.ogImage && (
+              <div style={{ marginTop: "0.5rem", borderRadius: "6px", overflow: "hidden", maxWidth: "200px" }}>
+                <img src={form.ogImage} alt="OG Preview" style={{ width: "100%", height: "auto", display: "block" }} />
+              </div>
+            )}
+          </div>
+        </div>
+
+        <div className={styles.formDivider} />
+
+        {/* ══ SCHEMA MARKUP (MOVED TO BOTTOM) ══ */}
+        <div className={styles.sectionBlock}>
+          <div className={styles.sectionHeader}>
+            <span className={styles.sectionIcon}>✦</span>
+            <h3 className={styles.sectionTitle}>Schema Markup</h3>
+            <span className={styles.sectionBadge}>Structured Data</span>
+          </div>
+
+          <div className={styles.fieldGroup}>
+            <label className={styles.label}>
+              <span className={styles.labelIcon}>✦</span>Schema Type
+            </label>
+            <p className={styles.fieldHint}>Select the schema type for this blog post. BlogPosting is recommended for most blog posts.</p>
+            <div className={styles.inputWrap}>
+              <select
+                className={styles.input}
+                style={{ cursor: "pointer", appearance: "none", paddingRight: "2rem" }}
+                value={form.schemaType}
+                onChange={(e) => set("schemaType", e.target.value as any)}
+              >
+                {SCHEMA_TYPES.map((type) => (
+                  <option key={type.value} value={type.value}>{type.label}</option>
+                ))}
+              </select>
+              <span className={styles.selectArrow}>▾</span>
+            </div>
+          </div>
+
+          {form.schemaType !== "None" && (
+            <>
+              <div className={styles.fieldGroup}>
+                <label className={styles.label}>
+                  <span className={styles.labelIcon}>✦</span>Custom Schema JSON
+                  <span className={styles.optional}> (optional)</span>
+                </label>
+                <p className={styles.fieldHint}>
+                  Add custom properties to the schema. Will be merged with the generated schema.
+                  <br />
+                  <span style={{ fontSize: "0.75rem", color: "#a07840" }}>
+                    💡 Multi-line text in fields like "description" will be automatically handled.
+                  </span>
+                </p>
+                <div className={`${styles.inputWrap} ${errors.schemaCustomJson ? styles.inputError : ""}`}>
+                  <textarea
+                    className={`${styles.input} ${styles.textarea}`}
+                    style={{ minHeight: "100px", fontFamily: "'Fira Code', 'Courier New', monospace", fontSize: "0.82rem" }}
+                    placeholder='{"additionalProperty": "value"}'
+                    value={form.schemaCustomJson}
+                    rows={4}
+                    onChange={(e) => {
+                      const val = e.target.value;
+                      setForm((p) => ({ ...p, schemaCustomJson: val }));
+                      setErrors((p) => ({ ...p, schemaCustomJson: undefined }));
+                      generateSchemaPreview({ ...form, schemaCustomJson: val });
+                    }}
+                  />
+                </div>
+                {errors.schemaCustomJson && <p className={styles.errorMsg}>⚠ {errors.schemaCustomJson}</p>}
+                <p className={styles.fieldHint} style={{ fontSize: "0.7rem", color: "#b08850", marginTop: "0.2rem" }}>
+                  💡 The JSON will be automatically cleaned and minified when saved.
+                </p>
+              </div>
+
+              {schemaPreview && (
+                <div className={styles.fieldGroup} style={{ marginBottom: 0 }}>
+                  <label className={styles.label}>
+                    <span className={styles.labelIcon}>✦</span>Generated Schema Preview
+                  </label>
+                  <div style={{
+                    background: "#f8f5f0",
+                    borderRadius: "8px",
+                    padding: "0.75rem",
+                    fontSize: "0.75rem",
+                    fontFamily: "'Fira Code', 'Courier New', monospace",
+                    maxHeight: "300px",
+                    overflow: "auto",
+                    border: "1px solid #e8d5b5",
+                    whiteSpace: "pre-wrap",
+                    color: "#2d1b0e",
+                  }}>
+                    {schemaPreview}
+                  </div>
+                  <p className={styles.fieldHint} style={{ marginTop: "0.3rem" }}>
+                    💡 This schema will be rendered as JSON-LD in the page head for better SEO.
+                  </p>
+                </div>
+              )}
+            </>
+          )}
         </div>
 
         <div className={styles.formDivider} />
