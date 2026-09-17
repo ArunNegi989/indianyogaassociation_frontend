@@ -3,7 +3,7 @@
 import { useState, ChangeEvent, FormEvent } from "react";
 import styles from "../../assets/style/Home/Howtoreach.module.css";
 
-const WHATSAPP_NUMBER = "918476898395";
+const WHATSAPP_NUMBER = "919528023390";
 const WHATSAPP_MSG = encodeURIComponent(
   "Namaste !! I would like to arrange a Pickup / Drop service for Indian Yoga Association, Rishikesh. Please guide me on the pickup point details.",
 );

@@ -1142,7 +1142,7 @@ export default function AddAYMFullPagePage() {
                     <div className={`${styles.inputWrap} ${errors.whatsappLink ? styles.inputError : ""} ${watchedValues.whatsappLink && !errors.whatsappLink ? styles.inputSuccess : ""}`}>
                       <input
                         type="text" className={styles.input}
-                        placeholder="e.g. https://wa.me/918476898395"
+                        placeholder="e.g. https://wa.me/919528023390"
                         maxLength={120}
                         {...register("whatsappLink", { required: "WhatsApp link is required" })}
                       />

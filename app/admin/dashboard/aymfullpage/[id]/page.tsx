@@ -1293,7 +1293,7 @@ export default function EditAYMFullPagePage() {
                       <input
                         type="text"
                         className={styles.input}
-                        placeholder="e.g. https://wa.me/918476898395"
+                        placeholder="e.g. https://wa.me/919528023390 "
                         maxLength={120}
                         {...register("whatsappLink", { required: "WhatsApp link is required" })}
                       />
