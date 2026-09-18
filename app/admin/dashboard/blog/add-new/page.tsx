@@ -588,8 +588,8 @@ export default function AddBlogPage() {
     if (!form.category) e.category = "Category is required";
     if (!form.coverImage.trim()) e.coverImage = "Cover image is required";
     if (form.content.length === 0) e.content = "Add at least one content block";
-    if (form.metaTitle && form.metaTitle.length > 70) e.metaTitle = "Meta title should be under 70 characters";
-    if (form.metaDescription && form.metaDescription.length > 160) e.metaDescription = "Meta description should be under 160 characters";
+    if (form.metaTitle && form.metaTitle.length > 100) e.metaTitle = "Meta title should be under 70 characters";
+    if (form.metaDescription && form.metaDescription.length > 200) e.metaDescription = "Meta description should be under 160 characters";
     
     // Validate custom schema JSON if provided
     if (form.schemaCustomJson && form.schemaType !== "None") {
