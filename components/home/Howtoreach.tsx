@@ -1,19 +1,57 @@
 "use client";
 
-import { useState, ChangeEvent, FormEvent } from "react";
+import { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import styles from "../../assets/style/Home/Howtoreach.module.css";
+import api from "@/lib/api";
 
-const WHATSAPP_NUMBER = "919528023390";
-const WHATSAPP_MSG = encodeURIComponent(
-  "Namaste !! I would like to arrange a Pickup / Drop service for Indian Yoga Association, Rishikesh. Please guide me on the pickup point details.",
-);
-const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${WHATSAPP_MSG}`;
-
+/* ─────────────────────── Types (match the backend model) ─────────────────────── */
 interface ScheduleRow {
   col1: string;
   col2: string;
   col3: string;
   col4: string;
+}
+
+type IconType = "plane" | "train" | "bus" | "car";
+
+interface ApiTravelCard {
+  iconType: IconType;
+  title: string;
+  subtitle: string;
+  desc: string;
+  headerCol1: string;
+  headerCol2: string;
+  headerCol3: string;
+  headerCol4: string;
+  rows: ScheduleRow[];
+  btnText: string;
+  btnHref: string;
+  linkText: string;
+  linkHref: string;
+}
+
+interface ApiHowToReachData {
+  _id: string;
+  badgeText: string;
+  mainTitle: string;
+  subTitle: string;
+
+  whatsappNumber: string;
+  whatsappMessage: string;
+
+  travelCards: ApiTravelCard[];
+
+  pickupTitle: string;
+  pickupSubtitle: string;
+  pickupDesc: string;
+  pickupHighlights: string[];
+  pickupBookBtnText: string;
+  pickupWhatsappBtnText: string;
+
+  mapLabel: string;
+  mapEmbedSrc: string;
+  mapDirectionsText: string;
+  mapDirectionsUrl: string;
 }
 
 interface ScheduleTableProps {
@@ -62,27 +100,7 @@ interface FormErrors {
   serviceType?: string;
 }
 
-const flights: ScheduleRow[] = [
-  { col1: "IndiGo", col2: "06:30 AM", col3: "07:30 AM", col4: "1h" },
-  { col1: "Air India", col2: "09:15 AM", col3: "10:20 AM", col4: "1h 5m" },
-  { col1: "Vistara", col2: "01:40 PM", col3: "02:45 PM", col4: "1h 5m" },
-  { col1: "SpiceJet", col2: "05:55 PM", col3: "07:00 PM", col4: "1h 5m" },
-];
-
-const trains: ScheduleRow[] = [
-  { col1: "Dehradun Shatabdi", col2: "06:45 AM", col3: "11:25 AM", col4: "Haridwar" },
-  { col1: "Mussoorie Express", col2: "10:00 PM", col3: "05:30 AM", col4: "Haridwar" },
-  { col1: "Jan Shatabdi Exp.", col2: "03:20 PM", col3: "09:00 PM", col4: "Haridwar" },
-  { col1: "Nanda Devi Exp.", col2: "11:50 PM", col3: "05:10 AM", col4: "Haridwar" },
-];
-
-const buses: ScheduleRow[] = [
-  { col1: "Volvo AC", col2: "06:00 AM", col3: "11:30 AM", col4: "AC" },
-  { col1: "Sleeper Coach", col2: "09:00 PM", col3: "04:00 AM", col4: "Sleeper" },
-  { col1: "AC Seater", col2: "02:00 PM", col3: "07:30 PM", col4: "AC" },
-  { col1: "Deluxe Bus", col2: "11:00 PM", col3: "05:30 AM", col4: "Deluxe" },
-];
-
+/* ─────────────────────── Icons ─────────────────────── */
 const PlaneIcon: React.FC = () => (
   <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
     <path d="M21 16v-2l-8-5V3.5A1.5 1.5 0 0 0 11.5 2 1.5 1.5 0 0 0 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z" />
@@ -113,6 +131,98 @@ const CarIcon: React.FC = () => (
   </svg>
 );
 
+const ICON_MAP: Record<IconType, React.FC> = {
+  plane: PlaneIcon,
+  train: TrainIcon,
+  bus: BusIcon,
+  car: CarIcon,
+};
+
+/* ─────────────────────── Fallback (used if the API has no data yet / fails) ─────────────────────── */
+const DEFAULT_DATA: ApiHowToReachData = {
+  _id: "",
+  badgeText: "✦ Travel Guide",
+  mainTitle: "How to Reach Us",
+  subTitle: "Easy & Comfortable Travel Options to Reach Indian Yoga Association in Rishikesh — Delhi to Rishikesh travel options by air, train & bus.",
+
+  whatsappNumber: "919528023390",
+  whatsappMessage: "Namaste !! I would like to arrange a Pickup / Drop service for Indian Yoga Association, Rishikesh. Please guide me on the pickup point details.",
+
+  travelCards: [
+    {
+      iconType: "plane",
+      title: "By Airways",
+      subtitle: "Fastest Way to Reach Rishikesh",
+      desc: "Fly from Delhi (Indira Gandhi International Airport) to <strong>Jolly Grant Airport, Dehradun</strong> — approximately 20 km from Rishikesh. Taxis and private transfers are easily available. Indian Yoga Association provides pickup &amp; drop facility on request.",
+      headerCol1: "Airline", headerCol2: "Departs", headerCol3: "Arrives", headerCol4: "Duration",
+      rows: [
+        { col1: "IndiGo", col2: "06:30 AM", col3: "07:30 AM", col4: "1h" },
+        { col1: "Air India", col2: "09:15 AM", col3: "10:20 AM", col4: "1h 5m" },
+        { col1: "Vistara", col2: "01:40 PM", col3: "02:45 PM", col4: "1h 5m" },
+        { col1: "SpiceJet", col2: "05:55 PM", col3: "07:00 PM", col4: "1h 5m" },
+      ],
+      btnText: "Check Flights on MakeMyTrip",
+      btnHref: "https://www.makemytrip.com/flights/",
+      linkText: "More Air Travel Details",
+      linkHref: "#air-details",
+    },
+    {
+      iconType: "train",
+      title: "By Train",
+      subtitle: "Affordable & Comfortable",
+      desc: "Travel from New Delhi Railway Station to Rishikesh or <strong>Haridwar Junction</strong> (25 km from Rishikesh). Taxis and auto-rickshaws are always available for the onward journey.",
+      headerCol1: "Train", headerCol2: "Departs", headerCol3: "Arrives", headerCol4: "Via",
+      rows: [
+        { col1: "Dehradun Shatabdi", col2: "06:45 AM", col3: "11:25 AM", col4: "Haridwar" },
+        { col1: "Mussoorie Express", col2: "10:00 PM", col3: "05:30 AM", col4: "Haridwar" },
+        { col1: "Jan Shatabdi Exp.", col2: "03:20 PM", col3: "09:00 PM", col4: "Haridwar" },
+        { col1: "Nanda Devi Exp.", col2: "11:50 PM", col3: "05:10 AM", col4: "Haridwar" },
+      ],
+      btnText: "Book Train on IRCTC",
+      btnHref: "https://www.irctc.co.in/",
+      linkText: "More Train Travel Details",
+      linkHref: "#train-details",
+    },
+    {
+      iconType: "bus",
+      title: "By Bus",
+      subtitle: "Budget Friendly Option",
+      desc: "Regular <strong>Volvo, AC and sleeper buses</strong> operate daily from Delhi to Rishikesh. Travel time is approximately 5–6 hours via scenic NH58, passing through the beautiful Shivalik foothills.",
+      headerCol1: "Bus", headerCol2: "Departs", headerCol3: "Arrives", headerCol4: "Type",
+      rows: [
+        { col1: "Volvo AC", col2: "06:00 AM", col3: "11:30 AM", col4: "AC" },
+        { col1: "Sleeper Coach", col2: "09:00 PM", col3: "04:00 AM", col4: "Sleeper" },
+        { col1: "AC Seater", col2: "02:00 PM", col3: "07:30 PM", col4: "AC" },
+        { col1: "Deluxe Bus", col2: "11:00 PM", col3: "05:30 AM", col4: "Deluxe" },
+      ],
+      btnText: "Book Bus on RedBus",
+      btnHref: "https://www.redbus.in/",
+      linkText: "More Bus Travel Details",
+      linkHref: "#bus-details",
+    },
+  ],
+
+  pickupTitle: "Pickup & Drop",
+  pickupSubtitle: "Comfortable transfer service",
+  pickupDesc: "Book a <strong>hassle-free pickup or drop</strong> from Jolly Grant Airport, Haridwar / Rishikesh Railway Station or Bus Stand directly to Indian Yoga Association. Enjoy a smooth, comfortable, and stress-free journey with our reliable transport service, <strong>available 24/7 on request</strong>. Our professional drivers ensure timely pickups and safe drop-offs so you can begin your yoga journey with ease.",
+  pickupHighlights: [
+    "Airport · Railway · Bus Stand Transfers",
+    "Comfortable AC vehicles for a relaxing ride",
+    "Group bookings available for batches & retreats",
+    "Instant WhatsApp confirmation & coordination",
+    "Safe and reliable door-to-door service",
+    "Experienced and professional drivers",
+  ],
+  pickupBookBtnText: "Book Pickup / Drop",
+  pickupWhatsappBtnText: "WhatsApp",
+
+  mapLabel: "AYM Yoga School, Rishikesh",
+  mapEmbedSrc: "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7440.500180811323!2d78.320039!3d30.132348!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3909165c44bab785%3A0x4119a3fa1806f00c!2sAYM%20YOGA%20SCHOOL!5e1!3m2!1sen!2sin!4v1771998100416!5m2!1sen!2sin",
+  mapDirectionsText: "↗ Get Directions",
+  mapDirectionsUrl: "https://maps.google.com/?q=Indian+Yoga+Association+Rishikesh",
+};
+
+/* ─────────────────────── Presentational pieces (unchanged) ─────────────────────── */
 function ScheduleTable({ headers, rows }: ScheduleTableProps): React.ReactElement {
   return (
     <div className={styles.scheduleTable}>
@@ -189,7 +299,20 @@ function StepIndicator({ current }: { current: number }): React.ReactElement {
   );
 }
 
-function PickupCard(): React.ReactElement {
+/* ─────────────────────── Pickup card — content is now dynamic, booking-form logic unchanged ─────────────────────── */
+interface PickupCardProps {
+  title: string;
+  subtitle: string;
+  desc: string;
+  highlights: string[];
+  bookBtnText: string;
+  whatsappBtnText: string;
+  whatsappUrl: string;
+}
+
+function PickupCard({
+  title, subtitle, desc, highlights, bookBtnText, whatsappBtnText, whatsappUrl,
+}: PickupCardProps): React.ReactElement {
   const [step, setStep] = useState<number>(0);
   const [submitted, setSubmitted] = useState<boolean>(false);
   const [errors, setErrors] = useState<FormErrors>({});
@@ -269,27 +392,18 @@ function PickupCard(): React.ReactElement {
           <CarIcon />
         </div>
         <div>
-          <h3 className={styles.travelTitle}>Pickup &amp; Drop</h3>
-          <p className={styles.travelSubtitle}>Comfortable transfer service</p>
+          <h3 className={styles.travelTitle}>{title}</h3>
+          <p className={styles.travelSubtitle}>{subtitle}</p>
         </div>
       </div>
 
-      <p className={styles.travelDesc}>
-        Book a <strong>hassle-free pickup or drop</strong> from Jolly Grant Airport,
-        Haridwar / Rishikesh Railway Station or Bus Stand directly to Indian Yoga Association.
-        Enjoy a smooth, comfortable, and stress-free journey with our reliable transport
-        service, <strong>available 24/7 on request</strong>. Our professional drivers ensure
-        timely pickups and safe drop-offs so you can begin your yoga journey with ease.
-      </p>
+      <p className={styles.travelDesc} dangerouslySetInnerHTML={{ __html: desc }} />
 
       {/* Highlights */}
       <ul className={styles.pickupHighlights}>
-        <li><span className={styles.highlightDot} />Airport · Railway · Bus Stand Transfers</li>
-        <li><span className={styles.highlightDot} />Comfortable AC vehicles for a relaxing ride</li>
-        <li><span className={styles.highlightDot} />Group bookings available for batches &amp; retreats</li>
-        <li><span className={styles.highlightDot} />Instant WhatsApp confirmation &amp; coordination</li>
-        <li><span className={styles.highlightDot} />Safe and reliable door-to-door service</li>
-        <li><span className={styles.highlightDot} />Experienced and professional drivers</li>
+        {highlights.map((h, i) => (
+          <li key={i}><span className={styles.highlightDot} />{h}</li>
+        ))}
       </ul>
 
       {/* Toggle to expand form */}
@@ -300,15 +414,15 @@ function PickupCard(): React.ReactElement {
             className={styles.btnPrimary}
             onClick={() => setExpanded(true)}
           >
-            Book Pickup / Drop
+            {bookBtnText}
           </button>
           <a
-            href={WHATSAPP_URL}
+            href={whatsappUrl}
             target="_blank"
             rel="noopener noreferrer"
             className={styles.waInlineBtn}
           >
-            <WhatsAppIcon /> WhatsApp
+            <WhatsAppIcon /> {whatsappBtnText}
           </a>
         </div>
       )}
@@ -503,7 +617,7 @@ function PickupCard(): React.ReactElement {
               <WhatsAppIcon />
               <span>Prefer to chat? Connect on WhatsApp</span>
             </div>
-            <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className={styles.waStripBtn}>
+            <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className={styles.waStripBtn}>
               Open WhatsApp
             </a>
           </div>
@@ -525,7 +639,7 @@ function PickupCard(): React.ReactElement {
             Our team will reach out on <strong>{form.phone}</strong> to confirm.
           </p>
           <div className={styles.successActions}>
-            <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className={styles.successWa}>
+            <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className={styles.successWa}>
               <WhatsAppIcon /> Follow up on WhatsApp
             </a>
             <button className={styles.successReset} onClick={handleReset}>Submit Another</button>
@@ -536,7 +650,30 @@ function PickupCard(): React.ReactElement {
   );
 }
 
-export default function HowToReach(): React.ReactElement {
+/* ─────────────────────── Main ─────────────────────── */
+export default function HowToReach(): React.ReactElement | null {
+  const [data, setData] = useState<ApiHowToReachData>(DEFAULT_DATA);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await api.get("/how-to-reach-section");
+        const doc = Array.isArray(res.data.data) ? res.data.data[0] : res.data.data;
+        if (doc) setData(doc);
+      } catch {
+        // keep DEFAULT_DATA as a safe fallback so the section never breaks
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
+
+  if (loading) return null;
+
+  const whatsappUrl = `https://wa.me/${data.whatsappNumber}?text=${encodeURIComponent(data.whatsappMessage)}`;
+
   return (
     <section
       className={styles.reachSection}
@@ -550,88 +687,74 @@ export default function HowToReach(): React.ReactElement {
 
         {/* ── Header ── */}
         <div className={styles.headerWrap}>
-          <span className={styles.badge}>✦ Travel Guide</span>
-          <h2 className={styles.mainTitle}>How to Reach Us</h2>
+          <span className={styles.badge}>{data.badgeText}</span>
+          <h2 className={styles.mainTitle}>{data.mainTitle}</h2>
           <div className={styles.omDivider}>
             <span className={styles.dividerLine} />
             <span className={styles.omSymbol}>ॐ</span>
             <span className={styles.dividerLine} />
           </div>
-          <p className={styles.subTitle}>
-            Easy &amp; Comfortable Travel Options to Reach{" "}
-            <strong>Indian Yoga Association</strong> in Rishikesh — Delhi to
-            Rishikesh travel options by air, train &amp; bus.
-          </p>
+          <p className={styles.subTitle}>{data.subTitle}</p>
         </div>
 
-        {/* ── ROW 1: 3 travel cards ── */}
+        {/* ── ROW 1: travel cards (dynamic — any number) ── */}
         <div className={styles.cardsGrid}>
-          <TravelCard
-            icon={<PlaneIcon />}
-            title="By Airways"
-            subtitle="Fastest Way to Reach Rishikesh"
-            desc="Fly from Delhi (Indira Gandhi International Airport) to <strong>Jolly Grant Airport, Dehradun</strong> — approximately 20 km from Rishikesh. Taxis and private transfers are easily available. Indian Yoga Association provides pickup &amp; drop facility on request. Smooth and comfortable journey assured. Advance booking recommended for convenience."
-            headers={["Airline", "Departs", "Arrives", "Duration"]}
-            rows={flights}
-            btnText="Check Flights on MakeMyTrip"
-            btnHref="https://www.makemytrip.com/flights/"
-            linkText="More Air Travel Details"
-            linkHref="#air-details"
-          />
-          <TravelCard
-            icon={<TrainIcon />}
-            title="By Train"
-            subtitle="Affordable & Comfortable"
-            desc="Travel from New Delhi Railway Station to Rishikesh or <strong>Haridwar Junction</strong> (25 km from Rishikesh). Taxis and auto-rickshaws are always available for the onward journey to Indian Yoga Association, Rishikesh."
-            headers={["Train", "Departs", "Arrives", "Via"]}
-            rows={trains}
-            btnText="Book Train on IRCTC"
-            btnHref="https://www.irctc.co.in/"
-            linkText="More Train Travel Details"
-            linkHref="#train-details"
-          />
-          <TravelCard
-            icon={<BusIcon />}
-            title="By Bus"
-            subtitle="Budget Friendly Option"
-            desc="Regular <strong>Volvo, AC and sleeper buses</strong> operate daily from Delhi to Rishikesh. Travel time is approximately 5–6 hours via scenic NH58, passing through the beautiful Shivalik foothills. Comfortable and budget-friendly travel option. Multiple departures available throughout the day. Easy booking options available online."
-            headers={["Bus", "Departs", "Arrives", "Type"]}
-            rows={buses}
-            btnText="Book Bus on RedBus"
-            btnHref="https://www.redbus.in/"
-            linkText="More Bus Travel Details"
-            linkHref="#bus-details"
-          />
+          {data.travelCards.map((card, i) => {
+            const Icon = ICON_MAP[card.iconType] ?? CarIcon;
+            return (
+              <TravelCard
+                key={i}
+                icon={<Icon />}
+                title={card.title}
+                subtitle={card.subtitle}
+                desc={card.desc}
+                headers={[card.headerCol1, card.headerCol2, card.headerCol3, card.headerCol4]}
+                rows={card.rows}
+                btnText={card.btnText}
+                btnHref={card.btnHref}
+                linkText={card.linkText}
+                linkHref={card.linkHref}
+              />
+            );
+          })}
         </div>
 
         {/* ── ROW 2: Pickup card (left) + Map (right) ── */}
         <div className={styles.bottomRow}>
 
           {/* Pickup & Drop card with embedded booking form */}
-          <PickupCard />
+          <PickupCard
+            title={data.pickupTitle}
+            subtitle={data.pickupSubtitle}
+            desc={data.pickupDesc}
+            highlights={data.pickupHighlights}
+            bookBtnText={data.pickupBookBtnText}
+            whatsappBtnText={data.pickupWhatsappBtnText}
+            whatsappUrl={whatsappUrl}
+          />
 
           {/* Map */}
           <div className={styles.mapCard}>
             <div className={styles.mapLabel}>
               <span className={styles.mapLabelDot} />
-              <span>AYM Yoga School, Rishikesh</span>
+              <span>{data.mapLabel}</span>
             </div>
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7440.500180811323!2d78.320039!3d30.132348!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3909165c44bab785%3A0x4119a3fa1806f00c!2sAYM%20YOGA%20SCHOOL!5e1!3m2!1sen!2sin!4v1771998100416!5m2!1sen!2sin"
+              src={data.mapEmbedSrc}
               className={styles.mapIframe}
               loading="lazy"
               allowFullScreen
               referrerPolicy="no-referrer-when-downgrade"
-              title="AYM Yoga School Location Rishikesh"
+              title={data.mapLabel}
             />
             <div className={styles.mapFooter}>
               <a
-                href="https://maps.google.com/?q=Indian+Yoga+Association+Rishikesh"
+                href={data.mapDirectionsUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className={styles.mapDirectionsBtn}
               >
-                ↗ Get Directions
+                {data.mapDirectionsText}
               </a>
             </div>
           </div>

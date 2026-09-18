@@ -6,7 +6,7 @@ import HowToReach from "@/components/home/Howtoreach";
 import Image from "next/image";
 import heroImg from "@/assets/images/32.webp";
 import Link from "next/link";
-
+import qrcode from "@/assets/images/qrcode.png"
 const PaymentSection = () => {
   const [copiedField, setCopiedField] = useState<string | null>(null);
 
@@ -186,21 +186,15 @@ const PaymentSection = () => {
               </div>
 
               <div className={styles.upiCard + " " + styles.upiCardBranded}>
-                <div className={styles.aymBanner}>
-                  <span className={styles.aymBannerText}>AYM YOGA SCHOOL</span>
-                </div>
+              
                 <div className={styles.qrWrapper}>
-                  <img
-                    src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=upi://pay?pa=aymyogaschool@upi%26pn=AYMYogaSchool&color=5c2d00&bgcolor=fff9f0"
+                  <Image
+                    src={qrcode}
                     alt="AYM Yoga School QR Code"
                     className={styles.qrImage}
                   />
                 </div>
-                <div
-                  className={styles.aymBanner + " " + styles.aymBannerBottom}
-                >
-                  <span className={styles.aymBannerText}>Scan and Pay</span>
-                </div>
+              
               </div>
             </div>
           </div>

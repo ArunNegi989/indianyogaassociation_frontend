@@ -374,7 +374,6 @@
 }
 
 .qrImage {
-  width: clamp(120px, 20vw, 180px);
   height: auto;
   display: block;
 }

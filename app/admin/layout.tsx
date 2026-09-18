@@ -211,6 +211,7 @@ const navItems: NavItem[] = [
       { href: "/admin/testimonial/video-testimonial", label: "Video Testimonials" },
     ],
   },
+   { href: "/admin/how-to-reach",     label: "How to Reach",icon: "🏠" },
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
