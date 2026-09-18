@@ -17,6 +17,12 @@ function normalise(raw: any) {
       : `${origin}${raw.coverImage}`
     : "";
 
+  const ogImage = raw.ogImage
+    ? raw.ogImage.startsWith("http")
+      ? raw.ogImage
+      : `${origin}${raw.ogImage}`
+    : image;
+
   return {
     id: raw._id ?? raw.id ?? "",
     slug: raw.slug ?? "",
@@ -34,6 +40,13 @@ function normalise(raw: any) {
     coverImage: image,
     tags: raw.tags ?? [],
     content: raw.content ?? [],
+    // SEO fields
+    metaTitle: raw.metaTitle || raw.title || "",
+    metaDescription: raw.metaDescription || raw.excerpt || "",
+    canonicalUrl: raw.canonicalUrl || "",
+    ogTitle: raw.ogTitle || raw.title || "",
+    ogDescription: raw.ogDescription || raw.excerpt || "",
+    ogImage: ogImage,
   };
 }
 
@@ -48,9 +61,80 @@ export async function generateMetadata({ params }: PageProps) {
     const data = await res.json();
     if (!data.success || !data.data) return {};
 
+    const blog = data.data;
+    const origin = process.env.NEXT_PUBLIC_API_URL ?? "";
+
+    // Normalize image URLs
+    const coverImage = blog.coverImage
+      ? blog.coverImage.startsWith("http")
+        ? blog.coverImage
+        : `${origin}${blog.coverImage}`
+      : "";
+
+    const ogImage = blog.ogImage
+      ? blog.ogImage.startsWith("http")
+        ? blog.ogImage
+        : `${origin}${blog.ogImage}`
+      : coverImage;
+
+    const metaTitle = blog.metaTitle || blog.title;
+    const metaDescription = blog.metaDescription || blog.excerpt;
+    const canonicalUrl =
+      blog.canonicalUrl ||
+      `${process.env.NEXT_PUBLIC_SITE_URL}/blog/${blog.slug}`; // TODO: apna site URL env var confirm kar lena
+
     return {
-      title: `${data.data.title} | AYM Yoga Blog`,
-      description: data.data.excerpt,
+      title: `${metaTitle} | Indian Yoga Blog`, // TODO: apna site ka naam yahan daal do
+      description: metaDescription,
+      canonical: canonicalUrl,
+      openGraph: {
+        title: blog.ogTitle || metaTitle,
+        description: blog.ogDescription || metaDescription,
+        images: ogImage
+          ? [
+              {
+                url: ogImage,
+                width: 1200,
+                height: 630,
+                alt: blog.ogTitle || metaTitle,
+              },
+            ]
+          : undefined,
+        type: "article",
+        publishedTime: blog.date ? new Date(blog.date).toISOString() : undefined,
+        modifiedTime: blog.updatedAt
+          ? new Date(blog.updatedAt).toISOString()
+          : undefined,
+        authors: blog.author ? [blog.author] : undefined,
+        tags: blog.tags || [],
+        siteName: "Indian Yoga Blog", // TODO: apna site ka naam
+        locale: "en-IN",
+      },
+      twitter: {
+        card: ogImage ? "summary_large_image" : "summary",
+        title: blog.ogTitle || metaTitle,
+        description: blog.ogDescription || metaDescription,
+        images: ogImage ? [ogImage] : undefined,
+        site: "@IndianYoga", // TODO: apna Twitter handle
+        creator: "@IndianYoga", // TODO: apna Twitter handle
+      },
+      alternates: {
+        canonical: canonicalUrl,
+      },
+      robots: {
+        index: true,
+        follow: true,
+        googleBot: {
+          index: true,
+          follow: true,
+          "max-video-preview": -1,
+          "max-image-preview": "large",
+          "max-snippet": -1,
+        },
+      },
+      verification: {
+        google: process.env.GOOGLE_SITE_VERIFICATION || "",
+      },
     };
   } catch {
     return {};
