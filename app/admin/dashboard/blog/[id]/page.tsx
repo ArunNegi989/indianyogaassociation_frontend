@@ -582,8 +582,8 @@ export default function EditBlogPage() {
     if (!form.category) e.category = "Category is required";
     if (!form.coverImage.trim()) e.coverImage = "Cover image is required";
     if (form.content.length === 0) e.content = "Add at least one content block";
-    if (form.metaTitle && form.metaTitle.length > 70) e.metaTitle = "Meta title should be under 70 characters";
-    if (form.metaDescription && form.metaDescription.length > 160) e.metaDescription = "Meta description should be under 160 characters";
+    if (form.metaTitle && form.metaTitle.length > 100) e.metaTitle = "Meta title should be under 100 characters";
+    if (form.metaDescription && form.metaDescription.length > 200) e.metaDescription = "Meta description should be under 200 characters";
     
     // Validate custom schema JSON if provided
     if (form.schemaCustomJson && form.schemaType !== "None") {
@@ -1332,7 +1332,7 @@ export default function EditBlogPage() {
                 className={styles.input}
                 placeholder={form.title || "Blog title will be used by default"}
                 value={form.metaTitle}
-                maxLength={70}
+                maxLength={100}
                 onChange={(e) => set("metaTitle", e.target.value)}
               />
               <span className={styles.charCount}>{form.metaTitle.length}/70</span>
@@ -1362,7 +1362,7 @@ export default function EditBlogPage() {
                 className={`${styles.input} ${styles.textarea}`}
                 placeholder={form.excerpt || "Excerpt will be used by default"}
                 value={form.metaDescription}
-                maxLength={160}
+                maxLength={200}
                 rows={3}
                 onChange={(e) => set("metaDescription", e.target.value)}
               />
