@@ -81,10 +81,10 @@ export async function generateMetadata({ params }: PageProps) {
     const metaDescription = blog.metaDescription || blog.excerpt;
     const canonicalUrl =
       blog.canonicalUrl ||
-      `${process.env.NEXT_PUBLIC_SITE_URL}/blog/${blog.slug}`; // TODO: apna site URL env var confirm kar lena
+      `${process.env.NEXT_PUBLIC_SITE_URL}/blog/${blog.slug}`; 
 
     return {
-      title: `${metaTitle} | Indian Yoga Blog`, // TODO: apna site ka naam yahan daal do
+      title: `${metaTitle}`, 
       description: metaDescription,
       canonical: canonicalUrl,
       openGraph: {
@@ -107,7 +107,7 @@ export async function generateMetadata({ params }: PageProps) {
           : undefined,
         authors: blog.author ? [blog.author] : undefined,
         tags: blog.tags || [],
-        siteName: "Indian Yoga Blog", // TODO: apna site ka naam
+        siteName: "Indian Yoga Blog",
         locale: "en-IN",
       },
       twitter: {
@@ -115,8 +115,8 @@ export async function generateMetadata({ params }: PageProps) {
         title: blog.ogTitle || metaTitle,
         description: blog.ogDescription || metaDescription,
         images: ogImage ? [ogImage] : undefined,
-        site: "@IndianYoga", // TODO: apna Twitter handle
-        creator: "@IndianYoga", // TODO: apna Twitter handle
+        site: "@IndianYoga",
+        creator: "@IndianYoga", 
       },
       alternates: {
         canonical: canonicalUrl,
