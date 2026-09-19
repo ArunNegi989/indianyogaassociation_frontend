@@ -42,7 +42,7 @@
 
 .logo {
   width: auto;
-  height: 56px;
+  height: 50px;
   object-fit: contain;
   filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.45));
   transition: transform 0.2s ease;
@@ -479,7 +479,7 @@
   }
 
   .logo {
-    height: 60px;
+    height: 46px;
   }
 
   .dropdown {
@@ -501,7 +501,7 @@
   }
 
   .logo {
-    height: 58px;
+    height: 50px;
   }
 }
 
@@ -535,50 +535,7 @@
         font-size: 12px;
             padding: 0px 10px;
   }
-  /* .navbar {
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-    min-height: unset;
-    gap: 0;
-  }
 
-  .logoWrapper {
-    width: 100%;
-    display: flex;
-    justify-content: flex-start;
-    padding: 8px 1.25rem 4px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-  }
-
-  .logo {
-    height: 52px;
-  }
-
-  .navList {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    flex-wrap: nowrap;
-    padding: 0 0.5rem;
-  }
-
-  .navItem {
-    flex: 1;
-    justify-content: center;
-  }
-
-  .navLink {
-    justify-content: center;
-    padding: 0 0.6rem;
-    font-size: 0.78rem;
-    min-height: 42px;
-  }
-
-  .hamburgerBtn {
-    display: none;
-  } */
 }
 
 /* ── TABLET LANDSCAPE: 901px – 1100px ── */
@@ -593,50 +550,7 @@
     .logo{
           height: 56px;
     }
-  /* .navbar {
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-    min-height: unset;
-    gap: 0;
-  }
-
-  .logoWrapper {
-    width: 100%;
-    display: flex;
-    justify-content: flex-start;
-    padding: 6px 1rem 3px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-  }
-
-  .logo {
-    height: 48px;
-  }
-
-  .navList {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    padding: 0 0.5rem;
-  }
-
-  .navItem {
-    flex: 0 1 auto;
-    justify-content: center;
-  }
-
-  .navLink {
-    justify-content: center;
-    padding: 0 0.4rem;
-    font-size: 0.7rem;
-    min-height: 38px;
-  }
-
-  .hamburgerBtn {
-    display: none;
-  } */
+ 
 }
 
 /* ── TABLET PORTRAIT: 768px – 900px ── */
