@@ -126,8 +126,11 @@ const HomepageSlider = () => {
             src={getImageUrl(slide.image)}
             alt={slide.bannerName}
             fill
-            unoptimized
+            sizes="100vw"
             className={styles.slideImage}
+            style={{ objectFit: "cover" }}
+            priority={idx === 0}
+            loading={idx === 0 ? undefined : "lazy"}
           />
           <div className={styles.slideOverlay} />
 
