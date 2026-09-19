@@ -1,6 +1,5 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import Image from "next/image";
 import styles from "../../assets/style/Home/Coursessection.module.css";
 import api from "@/lib/api";
 import Link from "next/link";
@@ -147,17 +146,19 @@ export const CoursesSection: React.FC = () => {
                 key={course._id}
                 className={`${styles.courseCard} ${idx % 2 === 1 ? styles.cardAlt : ""}`}
               >
-                {/* Image — next/image auto-serves WebP/AVIF and resizes to fit the card */}
-                <div className={styles.imageWrapper} style={{ position: "relative" }}>
-                  <Image
+                {/* Image */}
+                <div className={styles.imageWrapper}>
+                  <img
                     src={getImageUrl(course.image)}
                     alt={course.imageAlt || course.title}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 500px"
                     className={styles.courseImage}
-                    style={{ objectFit: "cover" }}
-                    loading={idx === 0 ? undefined : "lazy"}
-                    priority={idx === 0}
+                    loading="lazy"
+                    onError={(e) => {
+                      const t = e.target as HTMLImageElement;
+                      t.onerror = null;
+                      t.style.background =
+                        "linear-gradient(135deg, #fdf0dc 0%, #ffe8c2 100%)";
+                    }}
                   />
                   <div className={styles.imageOverlay} />
                 </div>

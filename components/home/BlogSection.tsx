@@ -1,6 +1,5 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import Image from "next/image";
 import styles from "../../assets/style/Home/BlogSection.module.css";
 import api from "@/lib/api";
 import Link from "next/link";
@@ -102,19 +101,19 @@ export const BlogSection: React.FC = () => {
         <div className={styles.blogGrid}>
           {blogs.map((blog, idx) => (
             <article key={blog._id} className={styles.blogCard}>
-              {/* Image Container — next/image auto WebP/AVIF + resized */}
-              <div
-                className={styles.imageContainer}
-                style={{ position: "relative" }}
-              >
-                <Image
+              {/* Image Container */}
+              <div className={styles.imageContainer}>
+                <img
                   src={getImageUrl(blog.coverImage)}
                   alt={blog.title}
-                  fill
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 320px"
                   className={styles.blogImage}
-                  style={{ objectFit: "cover" }}
                   loading="lazy"
+                  onError={(e) => {
+                    const t = e.target as HTMLImageElement;
+                    t.onerror = null;
+                    t.style.background =
+                      "linear-gradient(135deg, #fdf0dc 0%, #ffe8c2 100%)";
+                  }}
                 />
                 <div className={styles.imageOverlay} />
                 <div className={styles.categoryBadge}>{blog.category}</div>

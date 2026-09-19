@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import Image from "next/image";
 import styles from "../../assets/style/Home/Hometestimonialssection.module.css";
 import api from "@/lib/api";
 import RatingsSummarySection from "./RatingsSummarySection";
@@ -125,29 +124,18 @@ function TextReviewSlider({ reviews }: { reviews: TextReview[] }) {
             <div key={review.id} className={styles.reviewSlide}>
               <div className={styles.reviewCardInner}>
                 <div className={styles.reviewCardTop}>
-                  <div
-                    className={styles.reviewAvatar}
-                    style={{ position: "relative" }}
-                  >
-                    {review.avatar ? (
-                      <Image
-                        src={review.avatar}
-                        alt={review.name}
-                        fill
-                        sizes="56px"
-                        className={styles.reviewAvatarImg}
-                        style={{ objectFit: "cover", borderRadius: "50%" }}
-                        onError={(e) => {
-                          const img = e.target as HTMLImageElement;
-                          img.style.display = "none";
-                          const fallback =
-                            img.parentElement?.querySelector(
-                              `.${styles.reviewAvatarFallback}`,
-                            ) as HTMLElement | null;
-                          if (fallback) fallback.style.display = "flex";
-                        }}
-                      />
-                    ) : null}
+                  <div className={styles.reviewAvatar}>
+                    <img
+                      src={review.avatar}
+                      alt={review.name}
+                      className={styles.reviewAvatarImg}
+                      onError={(e) => {
+                        const img = e.target as HTMLImageElement;
+                        img.style.display = "none";
+                        const fallback = img.nextElementSibling as HTMLElement;
+                        if (fallback) fallback.style.display = "flex";
+                      }}
+                    />
                     <div className={styles.reviewAvatarFallback}>
                       {review.name.charAt(0)}
                     </div>
@@ -205,12 +193,10 @@ function VideoCard({
       aria-label={`View testimonial from ${testimonial.name}`}
     >
       <div className={styles.videoThumbWrap}>
-        {/* YouTube's own CDN already serves an optimized thumbnail here — left as plain img intentionally */}
         <img
           src={`https://img.youtube.com/vi/${vid}/mqdefault.jpg`}
           alt={testimonial.name}
           className={styles.videoThumbImg}
-          loading="lazy"
           onError={(e) => {
             (e.target as HTMLImageElement).style.opacity = "0";
           }}
@@ -403,12 +389,10 @@ const HomeTestimonialsSection: React.FC = () => {
                       />
                     ) : (
                       <>
-                        {/* YouTube's own CDN thumbnail — left as plain img intentionally */}
                         <img
                           src={`https://img.youtube.com/vi/${activeVid}/hqdefault.jpg`}
                           alt={`${active.name} video thumbnail`}
                           className={styles.videoThumbBg}
-                          loading="lazy"
                           onError={(e) => {
                             (e.target as HTMLImageElement).style.opacity = "0";
                           }}

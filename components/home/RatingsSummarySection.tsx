@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
 import styles from "../../assets/style/Home/Hometestimonialssection.module.css";
 import tripIcon from "../../assets/icons/showcase1.png";
 import googleIcon from "../../assets/icons/showcase2.png";
@@ -20,8 +19,8 @@ const PLATFORM_RATINGS = [
     halfStar: false,
     color: "#00AA6C",
     icon: (
-      <Image
-        src={tripIcon}
+      <img
+        src={tripIcon.src}
         alt="TripAdvisor"
         style={{
           width: "100%",
@@ -41,9 +40,9 @@ const PLATFORM_RATINGS = [
     halfStar: true,
     color: "#4285F4",
     icon: (
-      <Image
-        src={googleIcon}
-        alt="Google Maps"
+      <img
+        src={googleIcon.src}
+        alt="TripAdvisor"
         style={{
           width: "100%",
           height: "100%",
@@ -62,9 +61,9 @@ const PLATFORM_RATINGS = [
     halfStar: true,
     color: "#7B4F8E",
     icon: (
-      <Image
-        src={trustpilotIcon}
-        alt="Yoga Alliance"
+      <img
+        src={trustpilotIcon.src}
+        alt="TripAdvisor"
         style={{
           width: "100%",
           height: "100%",
@@ -83,9 +82,9 @@ const PLATFORM_RATINGS = [
     halfStar: true,
     color: "#00B67A",
     icon: (
-      <Image
-        src={truststar}
-        alt="Trustpilot"
+      <img
+        src={truststar.src}
+        alt="TripAdvisor"
         style={{
           width: "100%",
           height: "100%",

@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import Image from "next/image";
 import styles from "../../assets/style/Home/Classcampusamenities.module.css";
 import api from "@/lib/api";
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "";
@@ -95,19 +94,12 @@ export const ClassCampusAmenities: React.FC = () => {
             </div>
 
             <div className={styles.classImgWrap}>
-              <div
-                className={styles.classImgFrame}
-                style={{ position: "relative" }}
-              >
-                {/* next/image: auto WebP/AVIF + resized to display size */}
-                <Image
+              <div className={styles.classImgFrame}>
+                {/* FIX: wrap with getImageUrl() — backend returns /uploads/... relative path */}
+                <img
                   src={getImageUrl(data.classSizeImage)}
                   alt="AYM Yoga Class Group"
-                  fill
-                  sizes="(max-width: 768px) 100vw, 600px"
                   className={styles.classImg}
-                  style={{ objectFit: "cover" }}
-                  loading="lazy"
                 />
                 <div className={styles.classImgOverlay}>
                   <span className={styles.welcomeScript}>
@@ -143,19 +135,13 @@ export const ClassCampusAmenities: React.FC = () => {
               <div className={styles.titleBar} />
             </div>
 
+            {/* FIX: campusImages is array, use [0], wrap with getImageUrl() */}
             {data.campusImages?.[0] && (
-              <div
-                className={styles.campusThumb}
-                style={{ position: "relative" }}
-              >
-                <Image
+              <div className={styles.campusThumb}>
+                <img
                   src={getImageUrl(data.campusImages[0])}
                   alt="AYM Yoga Campus"
-                  fill
-                  sizes="(max-width: 768px) 100vw, 600px"
                   className={styles.campusThumbImg}
-                  style={{ objectFit: "cover" }}
-                  loading="lazy"
                 />
               </div>
             )}
@@ -214,18 +200,12 @@ export const ClassCampusAmenities: React.FC = () => {
             className={`${styles.amenitiesRight} ${styles.reveal}`}
             style={{ "--d": "0.12s" } as React.CSSProperties}
           >
-            <div
-              className={styles.amenityMosaic}
-              style={{ position: "relative" }}
-            >
-              <Image
+            <div className={styles.amenityMosaic}>
+              {/* FIX: wrap with getImageUrl() */}
+              <img
                 src={getImageUrl(data.amenityImage)}
                 alt="Furnished Room"
-                fill
-                sizes="(max-width: 768px) 100vw, 600px"
                 className={styles.mosaicImg}
-                style={{ objectFit: "cover" }}
-                loading="lazy"
               />
               {data.amenityMosaicTag && (
                 <div className={styles.mosaicMainOverlay}>
