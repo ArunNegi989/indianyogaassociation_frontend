@@ -274,17 +274,24 @@ function stripHtml(html: string): string {
   return html.replace(/<[^>]*>/g, "").trim();
 }
 
-function getYoutubeEmbed(url?: string): string {
+/** Extract just the YouTube video id (no query params, no autoplay flags) */
+function getYoutubeVideoId(url?: string): string {
   if (!url) return "";
   if (url.includes("youtu.be")) {
-    const id = url.split("youtu.be/")[1]?.split("?")[0];
-    return `https://www.youtube.com/embed/${id}?autoplay=1&mute=1&loop=1&playlist=${id}&controls=1&rel=0`;
+    return url.split("youtu.be/")[1]?.split("?")[0] || "";
   }
   if (url.includes("watch?v=")) {
-    const id = url.split("watch?v=")[1]?.split("&")[0];
-    return `https://www.youtube.com/embed/${id}?autoplay=1&mute=1&loop=1&playlist=${id}&controls=1&rel=0`;
+    return url.split("watch?v=")[1]?.split("&")[0] || "";
   }
-  return url;
+  if (url.includes("/embed/")) {
+    return url.split("/embed/")[1]?.split("?")[0] || "";
+  }
+  return "";
+}
+
+/** Build the real embed src — only called after the user clicks play */
+function getYoutubeEmbedSrc(id: string): string {
+  return `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&mute=1&loop=1&playlist=${id}&controls=1&rel=0`;
 }
 
 /** Collect intro paras from numbered fields (introPara1…introPara10) */
@@ -474,7 +481,7 @@ function VintageHeading({
 }
 
 /* ══════════════════════════════
-   VIDEO SECTION
+   VIDEO SECTION — lazy-loaded YouTube facade
 ══════════════════════════════ */
 function VideoSection({
   videoUrl,
@@ -485,6 +492,8 @@ function VideoSection({
   videoFile?: string;
   badgeText?: string;
 }) {
+  const [ytLoaded, setYtLoaded] = useState(false);
+
   if (videoFile) {
     return (
       <div className={styles.videoSection}>
@@ -510,12 +519,68 @@ function VideoSection({
       </div>
     );
   }
+
   if (videoUrl) {
+    const ytId = getYoutubeVideoId(videoUrl);
+
+    // Not yet clicked: thumbnail + play button only.
+    // The heavy YouTube player JS never loads until this is clicked.
+    if (!ytLoaded && ytId) {
+      return (
+        <div className={styles.videoSection}>
+          <button
+            type="button"
+            onClick={() => setYtLoaded(true)}
+            aria-label="Play video"
+            style={{
+              position: "relative",
+              width: "100%",
+              height: "100%",
+              border: "none",
+              padding: 0,
+              cursor: "pointer",
+              backgroundImage: `url(https://i.ytimg.com/vi/${ytId}/hqdefault.jpg)`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              display: "block",
+            }}
+            className={styles.videoCard}
+          >
+            <span
+              style={{
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+                width: 68,
+                height: 48,
+              }}
+            >
+              <svg viewBox="0 0 68 48" width="68" height="48">
+                <path
+                  d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.31 5.42 6.09C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.16 5.42-6.09C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z"
+                  fill="#f00"
+                />
+                <path d="M45 24 27 14v20" fill="#fff" />
+              </svg>
+            </span>
+            {badgeText && (
+              <div className={styles.videoBadge}>
+                <div className={styles.videoPulse} />
+                <span className={styles.videoBadgeTxt}>{badgeText}</span>
+              </div>
+            )}
+          </button>
+        </div>
+      );
+    }
+
+    // Clicked (or no id could be parsed — fall back to raw url): load iframe
     return (
       <div className={styles.videoSection}>
         <div className={styles.videoCard}>
           <iframe
-            src={getYoutubeEmbed(videoUrl)}
+            src={ytId ? getYoutubeEmbedSrc(ytId) : videoUrl}
             style={{
               border: "0",
               position: "absolute",
@@ -538,6 +603,7 @@ function VideoSection({
       </div>
     );
   }
+
   return null;
 }
 
@@ -885,7 +951,7 @@ function PremiumSeatBooking({
   ): { amount: string; cur: string } => {
     if (!batch && overrideUsd === undefined)
       return { amount: "—", cur: currency };
-    
+
     if (currency === "INR") {
       // Use stored INR price directly - NO CONVERSION
       if (batch?.inrFee) {
@@ -895,7 +961,7 @@ function PremiumSeatBooking({
       }
       return { amount: "—", cur: "INR" };
     }
-    
+
     // USD
     if (batch?.usdFee) {
       const raw = batch.usdFee.trim();
@@ -908,23 +974,23 @@ function PremiumSeatBooking({
   // Get room price based on currency using stored values - NO CONVERSION
   const getRoomPrice = (batch: Batch | null, roomType: 'dorm' | 'twin' | 'private') => {
     if (!batch) return "—";
-    
+
     if (currency === "INR") {
       // Use stored INR price directly - NO CONVERSION
       let inrPrice: number | undefined;
       if (roomType === 'dorm') inrPrice = batch.inrDormPrice;
       else if (roomType === 'twin') inrPrice = batch.inrTwinPrice;
       else inrPrice = batch.inrPrivatePrice;
-      
+
       if (inrPrice && inrPrice > 0) {
         return `₹${inrPrice.toLocaleString("en-IN")}`;
       }
       return "—";
     }
-    
+
     // USD
-    const usdPrice = roomType === 'dorm' ? batch.dormPrice : 
-                     roomType === 'twin' ? batch.twinPrice : 
+    const usdPrice = roomType === 'dorm' ? batch.dormPrice :
+                     roomType === 'twin' ? batch.twinPrice :
                      batch.privatePrice;
     return `$${usdPrice}`;
   };

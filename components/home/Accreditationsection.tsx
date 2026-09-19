@@ -11,7 +11,7 @@ const getImageUrl = (path: string) => {
   return `${process.env.NEXT_PUBLIC_API_URL}/${cleanPath}`;
 };
 
-function getYouTubeEmbedUrl(url: string): string | null {
+function getYouTubeVideoId(url: string): string | null {
   const patterns = [
     /youtube\.com\/watch\?v=([^&]+)/,
     /youtu\.be\/([^?]+)/,
@@ -19,8 +19,7 @@ function getYouTubeEmbedUrl(url: string): string | null {
   ];
   for (const pattern of patterns) {
     const match = url.match(pattern);
-    if (match)
-      return `https://www.youtube.com/embed/${match[1]}?rel=0&modestbranding=1`;
+    if (match) return match[1];
   }
   return null;
 }
@@ -31,6 +30,9 @@ function SmartVideo({ src, poster }: { src: string; poster?: string }) {
   const [isUserActive, setIsUserActive] = React.useState(false);
   const [isMuted, setIsMuted] = React.useState(true);
   const hideTimer = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Gate for the heavy YouTube iframe — only becomes true on click
+  const [ytLoaded, setYtLoaded] = React.useState(false);
 
   React.useEffect(() => {
     const video = videoRef.current;
@@ -60,16 +62,55 @@ function SmartVideo({ src, poster }: { src: string; poster?: string }) {
     setIsMuted(v.muted);
   };
 
-  const youtubeEmbedUrl = getYouTubeEmbedUrl(src);
-  if (youtubeEmbedUrl) {
-    const embedSrc = `${youtubeEmbedUrl}&autoplay=1&mute=1&loop=1&controls=1&modestbranding=1&playsinline=1`;
+  const youtubeVideoId = getYouTubeVideoId(src);
+
+  if (youtubeVideoId) {
+    // ── Not yet clicked: show a static thumbnail + play button.
+    // The ~800KB YouTube player JS never downloads until the user clicks.
+    if (!ytLoaded) {
+      return (
+        <button
+          type="button"
+          onClick={() => setYtLoaded(true)}
+          aria-label="Play video: AYM Yoga School, Rishikesh"
+          style={{
+            position: "relative",
+            width: "100%",
+            height: "100%",
+            border: "none",
+            padding: 0,
+            cursor: "pointer",
+            backgroundImage: `url(https://i.ytimg.com/vi/${youtubeVideoId}/hqdefault.jpg)`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        >
+          <span
+            style={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              width: 68,
+              height: 48,
+            }}
+          >
+            <svg viewBox="0 0 68 48" width="68" height="48">
+              <path
+                d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.31 5.42 6.09C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.16 5.42-6.09C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z"
+                fill="#f00"
+              />
+              <path d="M45 24 27 14v20" fill="#fff" />
+            </svg>
+          </span>
+        </button>
+      );
+    }
+
+    // ── Clicked: now load the real iframe with autoplay
+    const embedSrc = `https://www.youtube-nocookie.com/embed/${youtubeVideoId}?rel=0&modestbranding=1&autoplay=1&mute=1&loop=1&controls=1&playsinline=1&playlist=${youtubeVideoId}`;
     return (
-      <div
-        style={{ position: "relative", width: "100%", height: "100%" }}
-        onMouseEnter={showControls}
-        onMouseMove={showControls}
-        onTouchStart={showControls}
-      >
+      <div style={{ position: "relative", width: "100%", height: "100%" }}>
         <iframe
           src={embedSrc}
           title="AYM Yoga School, Rishikesh"
@@ -246,7 +287,6 @@ interface AwardCert {
 
 /* ── Award Row — fully dynamic from API ── */
 function AwardRow({ cert }: { cert: AwardCert }) {
-  // Build meta points array from individual fields, filter out empty ones
   const metaPoints = [
     cert.metaPoint1,
     cert.metaPoint2,
@@ -254,12 +294,10 @@ function AwardRow({ cert }: { cert: AwardCert }) {
     cert.metaPoint4,
   ].filter(Boolean) as string[];
 
-  // Use ayushCourses from API
   const ayushCourses: AyushCourse[] = cert.ayushCourses || [];
 
   return (
     <div className={styles.awardRow}>
-      {/* LEFT: Image */}
       <div className={styles.awardImageCol}>
         <div className={styles.awardImgFrame}>
           <Image
@@ -276,17 +314,12 @@ function AwardRow({ cert }: { cert: AwardCert }) {
         <span className={styles.awardBadge}>✦ {cert.tag} ✦</span>
       </div>
 
-      {/* MIDDLE: Description — fully from API */}
       <div className={styles.awardDescCol}>
         <h3 className={styles.awardName}>{cert.label}</h3>
         <div className={styles.descDivider} />
 
-        {cert.descPara1 && (
-          <p className={styles.para}>{cert.descPara1}</p>
-        )}
-        {cert.descPara2 && (
-          <p className={styles.para}>{cert.descPara2}</p>
-        )}
+        {cert.descPara1 && <p className={styles.para}>{cert.descPara1}</p>}
+        {cert.descPara2 && <p className={styles.para}>{cert.descPara2}</p>}
 
         {metaPoints.length > 0 && (
           <div className={styles.awardMeta}>
@@ -300,16 +333,15 @@ function AwardRow({ cert }: { cert: AwardCert }) {
         )}
 
         {cert.pullQuote && (
-          <div className={styles.awardPullQuote}>
-            "{cert.pullQuote}"
-          </div>
+          <div className={styles.awardPullQuote}>"{cert.pullQuote}"</div>
         )}
       </div>
 
-      {/* RIGHT: AYUSH Courses — fully from API */}
       <div className={styles.ayushCol}>
         <div className={styles.ayushHeader}>
-          <span className={styles.ayushLabel}>✦ AYUSH Certified Courses ✦</span>
+          <span className={styles.ayushLabel}>
+            ✦ AYUSH Certified Courses ✦
+          </span>
           {cert.ayushSubtitle && (
             <p className={styles.ayushSubtitle}>{cert.ayushSubtitle}</p>
           )}
@@ -328,9 +360,7 @@ function AwardRow({ cert }: { cert: AwardCert }) {
         )}
 
         {cert.ayushFooter && (
-          <div className={styles.ayushFooter}>
-            {cert.ayushFooter}
-          </div>
+          <div className={styles.ayushFooter}>{cert.ayushFooter}</div>
         )}
       </div>
     </div>
@@ -365,7 +395,6 @@ export const AccreditationSection: React.FC = () => {
     <>
       {/* ══════════════ AUTHENTIC SECTION ══════════════ */}
       <section className={styles.authenticSection}>
-        
         <div className={styles.container}>
           <div className={styles.sectionHeaderCenter}>
             <h2 className={styles.sectionTitle}>{data.sectionTitle}</h2>
@@ -450,7 +479,6 @@ export const AccreditationSection: React.FC = () => {
             <p className={styles.para}>{data.recognitionPara2}</p>
           </div>
 
-          {/* ══ COURSE CERTIFICATES ══ */}
           {courseCerts.length > 0 && (
             <div className={styles.certsBlock}>
               <div className={styles.certsBlockHeader}>
@@ -472,7 +500,9 @@ export const AccreditationSection: React.FC = () => {
                     </div>
                     <div className={styles.certCardFooter}>
                       <span className={styles.certTag}>{cert.tag}</span>
-                      <span className={styles.certCardLabel}>{cert.label}</span>
+                      <span className={styles.certCardLabel}>
+                        {cert.label}
+                      </span>
                     </div>
                   </div>
                 ))}
@@ -480,7 +510,6 @@ export const AccreditationSection: React.FC = () => {
             </div>
           )}
 
-          {/* ══ AWARDS — Dynamic 3-column layout ══ */}
           {awardCerts.length > 0 && (
             <div className={styles.certsBlock}>
               <div className={styles.certsBlockHeader}>
