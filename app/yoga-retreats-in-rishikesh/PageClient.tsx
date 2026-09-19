@@ -110,7 +110,9 @@ async function getRetreatData(): Promise<RetreatData | null> {
     const doc = Array.isArray(res.data?.data) ? res.data.data[0] : res.data?.data;
     return doc || null;
   } catch (err) {
-    console.error("Failed to fetch yoga retreat section:", err);
+    if (process.env.NODE_ENV !== "production") {
+      console.error("Failed to fetch yoga retreat section:", err);
+    }
     return null;
   }
 }
