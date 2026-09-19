@@ -242,11 +242,17 @@ const AYMFullPage: React.FC = () => {
               <div className={styles.planesImagePlaceholder}>
                 {data.bodyPlanesImage ? (
                   <div className={styles.diagramBox}>
-                    <img
-                      src={data.bodyPlanesImage}
-                      alt={data.bodyPlanesImageAlt || "Yoga body planes diagram"}
-                      className={styles.diagramImage}
-                    />
+                    <div style={{ position: "relative", width: "100%", aspectRatio: "4 / 3" }}>
+                      <Image
+                        src={data.bodyPlanesImage}
+                        alt={data.bodyPlanesImageAlt || "Yoga body planes diagram"}
+                        fill
+                        sizes="(max-width: 768px) 100vw, 500px"
+                        className={styles.diagramImage}
+                        style={{ objectFit: "cover" }}
+                        loading="lazy"
+                      />
+                    </div>
                     {data.bodyPlanes.length > 0 && (
                       <div className={styles.diagramLabelsRow}>
                         {data.bodyPlanes.map((plane, i) => (
@@ -293,11 +299,18 @@ const AYMFullPage: React.FC = () => {
           {/* Outdoor group photo */}
           {data.outdoorImage && (
             <div className={styles.groupPhotoBlock}>
-              <div className={styles.groupPhotoBanner}>
-                <img
+              <div
+                className={styles.groupPhotoBanner}
+                style={{ position: "relative" }}
+              >
+                <Image
                   src={data.outdoorImage}
                   alt={data.outdoorImageAlt || "Outdoor Yoga Practice"}
+                  fill
+                  sizes="100vw"
                   className={styles.groupPhotoImg}
+                  style={{ objectFit: "cover" }}
+                  loading="lazy"
                 />
                 {data.outdoorCaption && (
                   <div className={styles.groupPhotoOverlay}>
@@ -351,12 +364,18 @@ const AYMFullPage: React.FC = () => {
                   </div>
 
                   {/* Image */}
-                  <div className={styles.facilityImageWrap}>
+                  <div
+                    className={styles.facilityImageWrap}
+                    style={{ position: "relative" }}
+                  >
                     {imgSrc ? (
-                      <img
+                      <Image
                         src={imgSrc}
                         alt={imgAlt}
+                        fill
+                        sizes="(max-width: 768px) 100vw, 500px"
                         className={styles.facilityImage}
+                        style={{ objectFit: "cover" }}
                         loading="lazy"
                       />
                     ) : (
@@ -505,10 +524,16 @@ const AYMFullPage: React.FC = () => {
             {/* Right: Journey Image */}
             {data.outdoorImage && (
               <div className={styles.journeyImage}>
-                <div className={styles.journeyImageWrapper}>
-                  <img
+                <div
+                  className={styles.journeyImageWrapper}
+                  style={{ position: "relative", aspectRatio: "4 / 3" }}
+                >
+                  <Image
                     src={data.outdoorImage}
                     alt={data.outdoorImageAlt || "Yoga Journey"}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 500px"
+                    style={{ objectFit: "cover" }}
                     loading="lazy"
                   />
                 </div>

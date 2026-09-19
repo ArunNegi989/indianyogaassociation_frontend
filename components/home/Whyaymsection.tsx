@@ -185,30 +185,23 @@ export const WhyAYMSection: React.FC = () => {
           {/* ── Image Column ── */}
           <div className={`${styles.imageCol} ${styles.fadeUp}`}>
             <div className={styles.imageWrap}>
-              <div className={styles.imageFrame}>
+              <div
+                className={styles.imageFrame}
+                style={{ position: "relative" }}
+              >
                 {heroImageUrl ? (
-                  /* External URL ya /uploads/... → next/image unoptimized */
-                  data.imageSrc.startsWith("http") ? (
-                    <img
-                      src={heroImageUrl}
-                      alt={data.imageAlt || "AYM Yoga School"}
-                      className={styles.heroImg}
-                      style={{
-                        width: "100%",
-                        height: "100%",
-                        objectFit: "cover",
-                      }}
-                    />
-                  ) : (
-                    <Image
-                      src={heroImageUrl}
-                      alt={data.imageAlt || "AYM Yoga School"}
-                      className={styles.heroImg}
-                      width={600}
-                      height={400}
-                      unoptimized
-                    />
-                  )
+                  /* Real next/image optimization now — WebP/AVIF + resized.
+                     Works for both relative (/uploads/...) and absolute
+                     URLs once the backend domain is in next.config.js
+                     images.remotePatterns. */
+                  <Image
+                    src={heroImageUrl}
+                    alt={data.imageAlt || "AYM Yoga School"}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 600px"
+                    className={styles.heroImg}
+                    style={{ objectFit: "cover" }}
+                  />
                 ) : null}
               </div>
 
