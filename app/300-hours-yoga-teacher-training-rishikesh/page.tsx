@@ -1,16 +1,24 @@
 import type { Metadata } from "next";
 import PageClient from "./PageClient";
+import { ytt300JsonLd } from "@/lib/seo/ytt-300-schema";
 
 export const metadata: Metadata = {
   title: "Best 300 Hour Yoga Teacher Training in Rishikesh India",
   description:
     "Deepen your yoga practice and become a certified teacher with our best 300 hour yoga teacher training in Rishikesh, India at AYM yoga school.",
-
-    alternates: {
-      canonical: "https://www.indianyogaassociation.com/300-hours-yoga-teacher-training-rishikesh.html",
-    },
+  alternates: {
+    canonical: "https://www.indianyogaassociation.com/300-hours-yoga-teacher-training-rishikesh.html",
+  },
 };
 
 export default function Page() {
-  return <PageClient />;
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(ytt300JsonLd) }}
+      />
+      <PageClient />
+    </>
+  );
 }

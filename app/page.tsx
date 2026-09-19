@@ -10,11 +10,15 @@ import HowToReach from "@/components/home/Howtoreach";
 import OurMission from "@/components/home/Ourmission";
 import WhyAYMSection from "@/components/home/Whyaymsection";
 import YogaCoursesTeachers from "@/components/home/Yogacoursesteachers";
-
+import { homepageJsonLd } from "@/lib/seo/homepage-schema";
 
 export default function Home() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(homepageJsonLd) }}
+      />
       <HomepageSlider />
       <HomeaboutSection />
       <CoursesSection />
