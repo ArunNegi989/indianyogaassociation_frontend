@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
+import Image from "next/image";
 import styles from "../../assets/style/Home/Yogacoursesteachers.module.css";
 import api from "@/lib/api";
 import Link from "next/link";
@@ -157,12 +158,18 @@ function TeacherModal({
         <div className={styles.mCornerBL} />
         <div className={styles.mCornerBR} />
         <div className={styles.modalInner}>
-          <div className={styles.modalImgFrame}>
+          <div
+            className={styles.modalImgFrame}
+            style={{ position: "relative" }}
+          >
             {getImageUrl(teacher.imgUrl) ? (
-              <img
+              <Image
                 src={getImageUrl(teacher.imgUrl)}
                 alt={`${teacher.name} ${teacher.surname}`}
+                fill
+                sizes="(max-width: 768px) 100vw, 400px"
                 className={styles.modalImg}
+                style={{ objectFit: "cover" }}
               />
             ) : (
               <div className={styles.modalImgPlaceholder}>🧘</div>
@@ -318,11 +325,17 @@ function CourseSlider({
                 onMouseEnter={() => setHoveredCard(course._id)}
                 onMouseLeave={() => setHoveredCard(null)}
               >
-                <div className={styles.cardImgWrap}>
-                  <img
+                <div
+                  className={styles.cardImgWrap}
+                  style={{ position: "relative" }}
+                >
+                  <Image
                     src={getImageUrl(course.imgUrl)}
                     alt={course.name}
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 300px"
                     className={styles.cardImg}
+                    style={{ objectFit: "cover" }}
                     loading="lazy"
                   />
                   <div
@@ -543,12 +556,19 @@ function TeacherSlider({
                 tabIndex={0}
                 onKeyDown={(e) => e.key === "Enter" && onSelect(t)}
               >
-                <div className={styles.teacherImgWrap}>
+                <div
+                  className={styles.teacherImgWrap}
+                  style={{ position: "relative" }}
+                >
                   {getImageUrl(t.imgUrl) ? (
-                    <img
+                    <Image
                       src={getImageUrl(t.imgUrl)}
                       alt={`${t.name} ${t.surname}`}
+                      fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 300px"
                       className={styles.teacherImg}
+                      style={{ objectFit: "cover" }}
+                      loading="lazy"
                     />
                   ) : (
                     <div className={styles.teacherImgPlaceholder}>🧘</div>
@@ -795,13 +815,18 @@ export const YogaCoursesTeachers: React.FC = () => {
           {/* Founder Block */}
           <div className={styles.founderBlock}>
             <div className={styles.founderImgCol}>
-              <div className={styles.founderImgFrame}>
+              <div
+                className={styles.founderImgFrame}
+                style={{ position: "relative" }}
+              >
                 {getImageUrl(founder.imgUrl) ? (
-                  <img
+                  <Image
                     src={getImageUrl(founder.imgUrl)}
                     alt={founder.imgAlt}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 500px"
                     className={styles.founderImg}
-                    style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                    style={{ objectFit: "cover" }}
                   />
                 ) : (
                   <div
