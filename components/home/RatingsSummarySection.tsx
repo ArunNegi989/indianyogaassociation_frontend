@@ -7,6 +7,7 @@ import googleIcon from "../../assets/icons/showcase2.png";
 import trustpilotIcon from "../../assets/icons/showcase3.png";
 import truststar from "../../assets/icons/showcase4.png";
 import Link from "next/link";
+import Image from "next/image";
 
 /* ── Platform Rating Data ── */
 const PLATFORM_RATINGS = [
@@ -19,7 +20,7 @@ const PLATFORM_RATINGS = [
     halfStar: false,
     color: "#00AA6C",
     icon: (
-      <img
+      <Image
         src={tripIcon.src}
         alt="TripAdvisor"
         style={{
@@ -40,7 +41,7 @@ const PLATFORM_RATINGS = [
     halfStar: true,
     color: "#4285F4",
     icon: (
-      <img
+      <Image
         src={googleIcon.src}
         alt="TripAdvisor"
         style={{
@@ -61,7 +62,7 @@ const PLATFORM_RATINGS = [
     halfStar: true,
     color: "#7B4F8E",
     icon: (
-      <img
+     <Image
         src={trustpilotIcon.src}
         alt="TripAdvisor"
         style={{
@@ -82,7 +83,7 @@ const PLATFORM_RATINGS = [
     halfStar: true,
     color: "#00B67A",
     icon: (
-      <img
+      <Image
         src={truststar.src}
         alt="TripAdvisor"
         style={{

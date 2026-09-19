@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import styles from "../../assets/style/Home/BlogSection.module.css";
 import api from "@/lib/api";
 import Link from "next/link";
+import Image from "next/image";
 
 interface Blog {
   _id: string;
@@ -103,7 +104,7 @@ export const BlogSection: React.FC = () => {
             <article key={blog._id} className={styles.blogCard}>
               {/* Image Container */}
               <div className={styles.imageContainer}>
-                <img
+               <Image
                   src={getImageUrl(blog.coverImage)}
                   alt={blog.title}
                   className={styles.blogImage}

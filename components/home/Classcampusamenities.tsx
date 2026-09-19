@@ -3,6 +3,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from "../../assets/style/Home/Classcampusamenities.module.css";
 import api from "@/lib/api";
+import Image from "next/image";
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "";
 
 function getImageUrl(path: string): string {
@@ -96,7 +97,7 @@ export const ClassCampusAmenities: React.FC = () => {
             <div className={styles.classImgWrap}>
               <div className={styles.classImgFrame}>
                 {/* FIX: wrap with getImageUrl() — backend returns /uploads/... relative path */}
-                <img
+               <Image
                   src={getImageUrl(data.classSizeImage)}
                   alt="AYM Yoga Class Group"
                   className={styles.classImg}
@@ -138,7 +139,7 @@ export const ClassCampusAmenities: React.FC = () => {
             {/* FIX: campusImages is array, use [0], wrap with getImageUrl() */}
             {data.campusImages?.[0] && (
               <div className={styles.campusThumb}>
-                <img
+               <Image
                   src={getImageUrl(data.campusImages[0])}
                   alt="AYM Yoga Campus"
                   className={styles.campusThumbImg}
@@ -202,7 +203,7 @@ export const ClassCampusAmenities: React.FC = () => {
           >
             <div className={styles.amenityMosaic}>
               {/* FIX: wrap with getImageUrl() */}
-              <img
+              <Image
                 src={getImageUrl(data.amenityImage)}
                 alt="Furnished Room"
                 className={styles.mosaicImg}

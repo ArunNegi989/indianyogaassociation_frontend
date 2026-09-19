@@ -189,7 +189,7 @@ export const WhyAYMSection: React.FC = () => {
                 {heroImageUrl ? (
                   /* External URL ya /uploads/... → next/image unoptimized */
                   data.imageSrc.startsWith("http") ? (
-                    <img
+                    <Image
                       src={heroImageUrl}
                       alt={data.imageAlt || "AYM Yoga School"}
                       className={styles.heroImg}

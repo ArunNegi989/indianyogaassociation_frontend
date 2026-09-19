@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import styles from "../../assets/style/Home/Coursessection.module.css";
 import api from "@/lib/api";
 import Link from "next/link";
+import Image from "next/image";
 
 interface CourseLink {
   label: string;
@@ -148,7 +149,7 @@ export const CoursesSection: React.FC = () => {
               >
                 {/* Image */}
                 <div className={styles.imageWrapper}>
-                  <img
+                 <Image
                     src={getImageUrl(course.image)}
                     alt={course.imageAlt || course.title}
                     className={styles.courseImage}

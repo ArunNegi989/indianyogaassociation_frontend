@@ -4,6 +4,7 @@ import React, { useState, useRef, useEffect } from "react";
 import styles from "../../assets/style/Home/Hometestimonialssection.module.css";
 import api from "@/lib/api";
 import RatingsSummarySection from "./RatingsSummarySection";
+import Image from "next/image";
 
 interface Testimonial {
   id: string;
@@ -125,7 +126,7 @@ function TextReviewSlider({ reviews }: { reviews: TextReview[] }) {
               <div className={styles.reviewCardInner}>
                 <div className={styles.reviewCardTop}>
                   <div className={styles.reviewAvatar}>
-                    <img
+                   <Image
                       src={review.avatar}
                       alt={review.name}
                       className={styles.reviewAvatarImg}
@@ -193,7 +194,7 @@ function VideoCard({
       aria-label={`View testimonial from ${testimonial.name}`}
     >
       <div className={styles.videoThumbWrap}>
-        <img
+       <Image
           src={`https://img.youtube.com/vi/${vid}/mqdefault.jpg`}
           alt={testimonial.name}
           className={styles.videoThumbImg}
@@ -389,7 +390,7 @@ const HomeTestimonialsSection: React.FC = () => {
                       />
                     ) : (
                       <>
-                        <img
+                       <Image
                           src={`https://img.youtube.com/vi/${activeVid}/hqdefault.jpg`}
                           alt={`${active.name} video thumbnail`}
                           className={styles.videoThumbBg}
