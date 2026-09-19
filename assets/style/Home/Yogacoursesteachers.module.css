@@ -24,7 +24,7 @@
   font-family: var(--font-body), sans-serif;
   background: var(--parchment);
   color: var(--earth-warm);
-  background-image: url("../../images/background3.png");
+  background-image: url("../../images/background3.webp");
   overflow-x: hidden;
 }
 
