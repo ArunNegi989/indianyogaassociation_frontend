@@ -72,6 +72,51 @@ const formatINRFromUSD = (usd: string, rate: number): string => {
   return `₹${inr.toLocaleString("en-IN")}`;
 };
 
+/* ══════════════════════════════
+   SKELETON CARD — real card ke grid structure jaisa hi
+   (image + content + cta), taaki loading→loaded switch pe
+   layout shift na ho
+══════════════════════════════ */
+const SkeletonCard: React.FC<{ alt?: boolean }> = ({ alt }) => (
+  <article className={`${styles.courseCard} ${alt ? styles.cardAlt : ""}`}>
+    <div
+      className={styles.imageWrapper}
+      style={{ background: "linear-gradient(90deg, #fdf0dc 25%, #ffe8c2 50%, #fdf0dc 75%)" }}
+    />
+    <div className={styles.content}>
+      <div className={styles.titleBlock}>
+        <div style={{ height: "1.3em", width: "70%", borderRadius: 4, background: "#fdf0dc", marginBottom: "0.45rem" }} />
+        <div className={styles.titleUnderline} />
+        <div style={{ height: "0.9em", width: "50%", borderRadius: 4, background: "#fdf0dc", marginTop: "0.65rem" }} />
+      </div>
+      <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem", marginBottom: "0.9rem" }}>
+        <div style={{ height: "0.95em", width: "100%", borderRadius: 4, background: "#fdf0dc" }} />
+        <div style={{ height: "0.95em", width: "95%", borderRadius: 4, background: "#fdf0dc" }} />
+        <div style={{ height: "0.95em", width: "80%", borderRadius: 4, background: "#fdf0dc" }} />
+      </div>
+      <div style={{ display: "flex", flexDirection: "column", gap: "0.3rem" }}>
+        <div style={{ height: "0.85em", width: "60%", borderRadius: 4, background: "#fdf0dc" }} />
+        <div style={{ height: "0.85em", width: "55%", borderRadius: 4, background: "#fdf0dc" }} />
+        <div style={{ height: "0.85em", width: "50%", borderRadius: 4, background: "#fdf0dc" }} />
+      </div>
+    </div>
+    <div className={styles.ctaColumn}>
+      <div className={styles.priceBlock}>
+        <div style={{ height: "1.4em", width: "70px", borderRadius: 4, background: "#f0ddc0" }} />
+        <div style={{ height: "0.9em", width: "80px", borderRadius: 4, background: "#f0ddc0", marginTop: "0.3rem" }} />
+      </div>
+      <div className={styles.seatsBlock}>
+        <div style={{ height: "0.8em", width: "100%", borderRadius: 4, background: "#f0ddc0" }} />
+        <div style={{ height: "0.8em", width: "100%", borderRadius: 4, background: "#f0ddc0", marginTop: "0.3rem" }} />
+        <div className={styles.seatsBar} />
+      </div>
+      <div className={styles.ctaDivider} />
+      <div style={{ height: "2.6em", width: "100%", borderRadius: 6, background: "#f0ddc0", marginBottom: "0.65rem" }} />
+      <div style={{ height: "2.4em", width: "100%", borderRadius: 6, background: "#f0ddc0" }} />
+    </div>
+  </article>
+);
+
 export const CoursesSection: React.FC = () => {
   const [courses, setCourses] = useState<Course[]>([]);
   const [loading, setLoading] = useState(true);
@@ -96,20 +141,21 @@ export const CoursesSection: React.FC = () => {
       <section className={styles.section}>
         <div className={styles.a} />
         <div className={styles.container}>
+          <div className={styles.header}>
+            <p className={styles.superTitle}>Authentic Yoga Education Since 2005</p>
+            <h2 className={styles.mainTitle}>
+              Explore Our Yoga Teacher Training Courses &amp; Retreats
+            </h2>
+            <div className={styles.omDivider}>
+              <span className={styles.dividerLine} />
+              <span className={styles.omSymbol}>ॐ</span>
+              <span className={styles.dividerLine} />
+            </div>
+          </div>
           <div className={styles.courseList}>
-            {[...Array(3)].map((_, i) => (
-              <div
-                key={i}
-                style={{
-                  height: "320px",
-                  borderRadius: "12px",
-                  background:
-                    "linear-gradient(90deg, #fdf0dc 25%, #ffe8c2 50%, #fdf0dc 75%)",
-                  marginBottom: "2rem",
-                  animation: "pulse 1.5s ease-in-out infinite",
-                }}
-              />
-            ))}
+            <SkeletonCard />
+            <SkeletonCard alt />
+            <SkeletonCard />
           </div>
         </div>
         <div className={styles.bottomBorder} />
@@ -149,11 +195,15 @@ export const CoursesSection: React.FC = () => {
               >
                 {/* Image */}
                 <div className={styles.imageWrapper}>
-                 <Image
+                  <Image
                     src={getImageUrl(course.image)}
                     alt={course.imageAlt || course.title}
                     className={styles.courseImage}
-                    loading="lazy"
+                    fill
+                    sizes="(max-width: 700px) 100vw, (max-width: 1024px) 45vw, 280px"
+                    style={{ objectFit: "cover" }}
+                    loading={idx === 0 ? undefined : "lazy"}
+                    priority={idx === 0}
                     onError={(e) => {
                       const t = e.target as HTMLImageElement;
                       t.onerror = null;
@@ -197,7 +247,7 @@ export const CoursesSection: React.FC = () => {
 
                 {/* CTA Column */}
                 <div className={styles.ctaColumn}>
-                  {/* Price — ab sirf USD + auto-converted INR (live rate) */}
+                  {/* Price — sirf USD + auto-converted INR (live rate) */}
                   <div className={styles.priceBlock}>
                     <span className={styles.priceINR}>{course.priceUSD}</span>
                     <span className={styles.priceUSD}>
