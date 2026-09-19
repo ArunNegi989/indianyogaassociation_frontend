@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 import styles from "../../assets/style/Home/Yogacoursesteachers.module.css";
 import api from "@/lib/api";
 import Link from "next/link";
+import Image from "next/image";
 
 /* ══════════════════════════════════════════════════════
    IMAGE URL HELPER
@@ -159,7 +160,7 @@ function TeacherModal({
         <div className={styles.modalInner}>
           <div className={styles.modalImgFrame}>
             {getImageUrl(teacher.imgUrl) ? (
-              <img
+              <Image
                 src={getImageUrl(teacher.imgUrl)}
                 alt={`${teacher.name} ${teacher.surname}`}
                 className={styles.modalImg}
@@ -319,7 +320,7 @@ function CourseSlider({
                 onMouseLeave={() => setHoveredCard(null)}
               >
                 <div className={styles.cardImgWrap}>
-                  <img
+                  <Image
                     src={getImageUrl(course.imgUrl)}
                     alt={course.name}
                     className={styles.cardImg}
@@ -545,7 +546,7 @@ function TeacherSlider({
               >
                 <div className={styles.teacherImgWrap}>
                   {getImageUrl(t.imgUrl) ? (
-                    <img
+                    <Image
                       src={getImageUrl(t.imgUrl)}
                       alt={`${t.name} ${t.surname}`}
                       className={styles.teacherImg}
@@ -797,7 +798,7 @@ export const YogaCoursesTeachers: React.FC = () => {
             <div className={styles.founderImgCol}>
               <div className={styles.founderImgFrame}>
                 {getImageUrl(founder.imgUrl) ? (
-                  <img
+                  <Image
                     src={getImageUrl(founder.imgUrl)}
                     alt={founder.imgAlt}
                     className={styles.founderImg}
