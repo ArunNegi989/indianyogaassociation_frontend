@@ -19,7 +19,9 @@ interface CourseCardItem {
   title: string; duration: string; style: string; sessions: string; cert: string; fee: string;
   benefits: StringItem[];
   applyBtnText: string;
+  applyBtnLink: string;
   bookBtnText: string;
+  bookBtnLink: string;
 }
 interface FaqItem { q: string; a: string }
 interface CurriculumItem {
@@ -29,12 +31,14 @@ interface CurriculumItem {
 interface RecordedCourseItem {
   title: string; price: string; features: StringItem[];
   applyBtnText: string;
+  applyBtnLink: string;
 }
 interface InfoBlockItem { heading: string; paragraphs: ParagraphItem[] }
 interface OtherCourseItem {
   title: string; hours: string; price: string;
   preview?: string; file?: File; existingUrl?: string;
   enquireBtnText: string;
+  enquireBtnLink: string;
 }
 
 interface FormData {
@@ -62,15 +66,19 @@ interface FormData {
   benefitsTitle: string;
   keyBenefits: IconTextItem[];
 
-  // Live Courses
+  // Live Courses (each card has its own Apply/Book text + link)
   coursesEyebrow: string;
   coursesTitle: string;
   liveCourses: CourseCardItem[];
 
-  // Seat Booking (header text only — batches come from the existing seat-booking API)
+  // Seat Booking (header text + Apply/Book button text & links)
   seatBookingEyebrow: string;
   seatBookingTitle: string;
   seatBookingSubtitle: string;
+  seatBookingApplyBtnText: string;
+  seatBookingApplyBtnLink: string;
+  seatBookingBookBtnText: string;
+  seatBookingBookBtnLink: string;
 
   // Note + FAQs
   noteBoxText: string;
@@ -83,13 +91,13 @@ interface FormData {
   curriculumTitle: string;
   curriculumAreas: CurriculumItem[];
 
-  // Recorded Courses + Info Blocks
+  // Recorded Courses (own Apply text + link) + Info Blocks
   recordedEyebrow: string;
   recordedTitle: string;
   recordedCourses: RecordedCourseItem[];
   infoBlocks: InfoBlockItem[];
 
-  // Other Courses
+  // Other Courses (own Enquire text + link)
   otherEyebrow: string;
   otherTitle: string;
   otherCourses: OtherCourseItem[];
@@ -137,27 +145,37 @@ const INITIAL: FormData = {
       sessions: "15 Days | 2 Classes Daily", cert: "Yoga Alliance, USA", fee: "399 USD / 20,000 INR",
       benefits: [{ text: "" }],
       applyBtnText: "Apply Now",
+      applyBtnLink: "/registration",
       bookBtnText: "Book Now",
+      bookBtnLink: "/registration",
     },
     {
       title: "300 Hour Live Online", duration: "28 Days", style: "Hatha Yoga and Multi-Style",
       sessions: "15 Days | 2 Classes Daily", cert: "Yoga Alliance, USA", fee: "499 USD / 25,000 INR",
       benefits: [{ text: "" }],
       applyBtnText: "Apply Now",
+      applyBtnLink: "/registration",
       bookBtnText: "Book Now",
+      bookBtnLink: "/registration",
     },
     {
       title: "Prenatal Live Online", duration: "7 Days", style: "Multi-Style (Gentle Hatha, Restorative, Breathwork & More)",
       sessions: "7 Days | 2 Classes Daily", cert: "Yoga Alliance, USA", fee: "399 USD / 20,000 INR",
       benefits: [{ text: "" }],
       applyBtnText: "Apply Now",
+      applyBtnLink: "/registration",
       bookBtnText: "Book Now",
+      bookBtnLink: "/registration",
     },
   ],
 
   seatBookingEyebrow: "Upcoming Batches",
   seatBookingTitle: "Live Online Yoga Teacher Training Schedule",
   seatBookingSubtitle: "Choose your batch & preferred course — prices include full live training access",
+  seatBookingApplyBtnText: "Apply Now",
+  seatBookingApplyBtnLink: "/registration",
+  seatBookingBookBtnText: "Book Now",
+  seatBookingBookBtnLink: "/registration",
 
   noteBoxText: "",
   faqEyebrow: "FAQs",
@@ -184,8 +202,8 @@ const INITIAL: FormData = {
   recordedEyebrow: "Self-Paced Learning",
   recordedTitle: "Fully Recorded Online Yoga Teacher Training Course",
   recordedCourses: [
-    { title: "200 Hour Recorded Online Yoga Course", price: "$299", features: [{ text: "Yoga Manual" }, { text: "Recorded lectures on philosophy" }], applyBtnText: "Apply Now" },
-    { title: "300 Hour Recorded Online Yoga Course", price: "$399", features: [{ text: "Yoga Manual" }, { text: "Recorded lectures on philosophy" }], applyBtnText: "Apply Now" },
+    { title: "200 Hour Recorded Online Yoga Course", price: "$299", features: [{ text: "Yoga Manual" }, { text: "Recorded lectures on philosophy" }], applyBtnText: "Apply Now", applyBtnLink: "/registration" },
+    { title: "300 Hour Recorded Online Yoga Course", price: "$399", features: [{ text: "Yoga Manual" }, { text: "Recorded lectures on philosophy" }], applyBtnText: "Apply Now", applyBtnLink: "/registration" },
   ],
   infoBlocks: [
     { heading: "The Advantages of Fully Online Courses", paragraphs: [{ text: "" }] },
@@ -196,9 +214,9 @@ const INITIAL: FormData = {
   otherEyebrow: "Specialised Programs",
   otherTitle: "Other Live Online Yoga Courses",
   otherCourses: [
-    { title: "Hatha Yoga Alignment", hours: "35 Hour", price: "299 USD", enquireBtnText: "Enquire Now" },
-    { title: "Pranayama and Meditation", hours: "20 Hour", price: "349 USD", enquireBtnText: "Enquire Now" },
-    { title: "Ashtanga Vinyasa Primary Series", hours: "35 Hour", price: "299 USD", enquireBtnText: "Enquire Now" },
+    { title: "Hatha Yoga Alignment", hours: "35 Hour", price: "299 USD", enquireBtnText: "Enquire Now", enquireBtnLink: "/contact" },
+    { title: "Pranayama and Meditation", hours: "20 Hour", price: "349 USD", enquireBtnText: "Enquire Now", enquireBtnLink: "/contact" },
+    { title: "Ashtanga Vinyasa Primary Series", hours: "35 Hour", price: "299 USD", enquireBtnText: "Enquire Now", enquireBtnLink: "/contact" },
   ],
 };
 
@@ -311,7 +329,7 @@ function IconTextList({ control, register, name, max = 12 }: { control: Control<
   );
 }
 
-/* ─────────────────────── Reusable: one live-course card (nested benefits list + button texts) ─────────────────────── */
+/* ─────────────────────── Reusable: one live-course card (nested benefits list + button text/link) ─────────────────────── */
 function CourseCardFields({ control, register, index, onRemove, canRemove }: {
   control: Control<FormData, any>; register: UseFormRegister<FormData>; index: number; onRemove: () => void; canRemove: boolean;
 }) {
@@ -353,7 +371,7 @@ function CourseCardFields({ control, register, index, onRemove, canRemove }: {
         </div>
       </div>
 
-      {/* ── Button texts (Apply Now / Book Now) ── */}
+      {/* ── Apply Now: Text + Link ── */}
       <div className={styles.twoCol}>
         <div className={styles.fieldGroup}>
           <label className={styles.label}>Apply Button Text</label>
@@ -362,9 +380,25 @@ function CourseCardFields({ control, register, index, onRemove, canRemove }: {
           </div>
         </div>
         <div className={styles.fieldGroup}>
+          <label className={styles.label}>Apply Button Link</label>
+          <div className={styles.inputWrap}>
+            <input type="text" className={styles.input} placeholder="/registration" {...register(`liveCourses.${index}.applyBtnLink`, { required: true })} />
+          </div>
+        </div>
+      </div>
+
+      {/* ── Book Now: Text + Link ── */}
+      <div className={styles.twoCol}>
+        <div className={styles.fieldGroup}>
           <label className={styles.label}>Book Button Text</label>
           <div className={styles.inputWrap}>
             <input type="text" className={styles.input} placeholder="Book Now" {...register(`liveCourses.${index}.bookBtnText`, { required: true })} />
+          </div>
+        </div>
+        <div className={styles.fieldGroup}>
+          <label className={styles.label}>Book Button Link</label>
+          <div className={styles.inputWrap}>
+            <input type="text" className={styles.input} placeholder="/registration" {...register(`liveCourses.${index}.bookBtnLink`, { required: true })} />
           </div>
         </div>
       </div>
@@ -465,7 +499,7 @@ function CurriculumItemFields({ control, register, setValue, watch, index, onRem
   );
 }
 
-/* ─────────────────────── Reusable: recorded course (nested features list + Apply button text) ─────────────────────── */
+/* ─────────────────────── Reusable: recorded course (nested features list + Apply text/link) ─────────────────────── */
 function RecordedCourseFields({ control, register, index, onRemove, canRemove }: {
   control: Control<FormData, any>; register: UseFormRegister<FormData>; index: number; onRemove: () => void; canRemove: boolean;
 }) {
@@ -487,11 +521,19 @@ function RecordedCourseFields({ control, register, index, onRemove, canRemove }:
         </div>
       </div>
 
-      {/* ── Button text (Apply Now) ── */}
-      <div className={styles.fieldGroup}>
-        <label className={styles.label}>Apply Button Text</label>
-        <div className={styles.inputWrap}>
-          <input type="text" className={styles.input} placeholder="Apply Now" {...register(`recordedCourses.${index}.applyBtnText`, { required: true })} />
+      {/* ── Apply Now: Text + Link ── */}
+      <div className={styles.twoCol}>
+        <div className={styles.fieldGroup}>
+          <label className={styles.label}>Apply Button Text</label>
+          <div className={styles.inputWrap}>
+            <input type="text" className={styles.input} placeholder="Apply Now" {...register(`recordedCourses.${index}.applyBtnText`, { required: true })} />
+          </div>
+        </div>
+        <div className={styles.fieldGroup}>
+          <label className={styles.label}>Apply Button Link</label>
+          <div className={styles.inputWrap}>
+            <input type="text" className={styles.input} placeholder="/registration" {...register(`recordedCourses.${index}.applyBtnLink`, { required: true })} />
+          </div>
         </div>
       </div>
 
@@ -620,13 +662,19 @@ export default function OnlineCourseAddEditPage() {
                 ...c,
                 benefits: (c.benefits || []).map((t: string) => ({ text: t })),
                 applyBtnText: c.applyBtnText ?? "Apply Now",
+                applyBtnLink: c.applyBtnLink ?? "/registration",
                 bookBtnText: c.bookBtnText ?? "Book Now",
+                bookBtnLink: c.bookBtnLink ?? "/registration",
               }))
             : INITIAL.liveCourses,
 
           seatBookingEyebrow: d.seatBookingEyebrow ?? INITIAL.seatBookingEyebrow,
           seatBookingTitle: d.seatBookingTitle ?? INITIAL.seatBookingTitle,
           seatBookingSubtitle: d.seatBookingSubtitle ?? INITIAL.seatBookingSubtitle,
+          seatBookingApplyBtnText: d.seatBookingApplyBtnText ?? INITIAL.seatBookingApplyBtnText,
+          seatBookingApplyBtnLink: d.seatBookingApplyBtnLink ?? INITIAL.seatBookingApplyBtnLink,
+          seatBookingBookBtnText: d.seatBookingBookBtnText ?? INITIAL.seatBookingBookBtnText,
+          seatBookingBookBtnLink: d.seatBookingBookBtnLink ?? INITIAL.seatBookingBookBtnLink,
 
           noteBoxText: d.noteBoxText ?? "",
           faqEyebrow: d.faqEyebrow ?? INITIAL.faqEyebrow,
@@ -650,6 +698,7 @@ export default function OnlineCourseAddEditPage() {
                 ...c,
                 features: (c.features || []).map((t: string) => ({ text: t })),
                 applyBtnText: c.applyBtnText ?? "Apply Now",
+                applyBtnLink: c.applyBtnLink ?? "/registration",
               }))
             : INITIAL.recordedCourses,
           infoBlocks: d.infoBlocks?.length
@@ -663,6 +712,7 @@ export default function OnlineCourseAddEditPage() {
                 title: c.title, hours: c.hours, price: c.price,
                 existingUrl: c.image ?? "", preview: c.image ? getImageUrl(c.image) : "",
                 enquireBtnText: c.enquireBtnText ?? "Enquire Now",
+                enquireBtnLink: c.enquireBtnLink ?? "/contact",
               }))
             : INITIAL.otherCourses,
         });
@@ -719,6 +769,10 @@ export default function OnlineCourseAddEditPage() {
       formData.append("seatBookingEyebrow", data.seatBookingEyebrow);
       formData.append("seatBookingTitle", data.seatBookingTitle);
       formData.append("seatBookingSubtitle", data.seatBookingSubtitle);
+      formData.append("seatBookingApplyBtnText", data.seatBookingApplyBtnText);
+      formData.append("seatBookingApplyBtnLink", data.seatBookingApplyBtnLink);
+      formData.append("seatBookingBookBtnText", data.seatBookingBookBtnText);
+      formData.append("seatBookingBookBtnLink", data.seatBookingBookBtnLink);
       formData.append("noteBoxText", data.noteBoxText);
       formData.append("faqEyebrow", data.faqEyebrow);
       formData.append("faqTitle", data.faqTitle);
@@ -732,10 +786,10 @@ export default function OnlineCourseAddEditPage() {
       formData.append("introParagraphs", JSON.stringify(data.introParagraphs.map((p) => p.text)));
       formData.append("whyReasons", JSON.stringify(data.whyReasons));
       formData.append("keyBenefits", JSON.stringify(data.keyBenefits));
-      // liveCourses: includes applyBtnText & bookBtnText via spread
+      // liveCourses: includes applyBtnText/applyBtnLink/bookBtnText/bookBtnLink via spread
       formData.append("liveCourses", JSON.stringify(data.liveCourses.map((c) => ({ ...c, benefits: c.benefits.map((b) => b.text) }))));
       formData.append("faqs", JSON.stringify(data.faqs));
-      // recordedCourses: includes applyBtnText via spread
+      // recordedCourses: includes applyBtnText/applyBtnLink via spread
       formData.append("recordedCourses", JSON.stringify(data.recordedCourses.map((c) => ({ ...c, features: c.features.map((f) => f.text) }))));
       formData.append("infoBlocks", JSON.stringify(data.infoBlocks.map((b) => ({ heading: b.heading, paragraphs: b.paragraphs.map((p) => p.text) }))));
 
@@ -750,10 +804,10 @@ export default function OnlineCourseAddEditPage() {
       data.curriculumAreas.forEach((c, i) => { if (c.file) formData.append(`curriculumImage_${i}`, c.file); });
       formData.append("existingCurriculumImages", JSON.stringify(data.curriculumAreas.map((c) => (c.file ? null : c.existingUrl ?? null))));
 
-      // Other courses: text data (incl. enquireBtnText) + per-index image
+      // Other courses: text data (incl. enquireBtnText + enquireBtnLink) + per-index image
       formData.append(
         "otherCoursesData",
-        JSON.stringify(data.otherCourses.map((c) => ({ title: c.title, hours: c.hours, price: c.price, enquireBtnText: c.enquireBtnText })))
+        JSON.stringify(data.otherCourses.map((c) => ({ title: c.title, hours: c.hours, price: c.price, enquireBtnText: c.enquireBtnText, enquireBtnLink: c.enquireBtnLink })))
       );
       data.otherCourses.forEach((c, i) => { if (c.file) formData.append(`otherCourseImage_${i}`, c.file); });
       formData.append("existingOtherCourseImages", JSON.stringify(data.otherCourses.map((c) => (c.file ? null : c.existingUrl ?? null))));
@@ -800,7 +854,7 @@ export default function OnlineCourseAddEditPage() {
     why: !!(errors.whyTitle || errors.whyReasons),
     benefits: !!(errors.benefitsTitle || errors.keyBenefits),
     courses: !!(errors.coursesTitle || errors.liveCourses),
-    seats: !!(errors.seatBookingTitle || errors.seatBookingSubtitle),
+    seats: !!(errors.seatBookingTitle || errors.seatBookingSubtitle || errors.seatBookingApplyBtnText || errors.seatBookingApplyBtnLink || errors.seatBookingBookBtnText || errors.seatBookingBookBtnLink),
     faq: !!(errors.faqTitle || errors.faqs),
     curriculum: !!(errors.curriculumTitle || errors.curriculumAreas),
     recorded: !!(errors.recordedTitle || errors.recordedCourses || errors.otherCourses),
@@ -984,7 +1038,9 @@ export default function OnlineCourseAddEditPage() {
                       title: "", duration: "", style: "", sessions: "", cert: "", fee: "",
                       benefits: [{ text: "" }],
                       applyBtnText: "Apply Now",
+                      applyBtnLink: "/registration",
                       bookBtnText: "Book Now",
+                      bookBtnLink: "/registration",
                     })
                   }
                 >
@@ -994,12 +1050,12 @@ export default function OnlineCourseAddEditPage() {
             </div>
           )}
 
-          {/* ══════════ TAB 5 — SEAT BOOKING HEADER ══════════ */}
+          {/* ══════════ TAB 5 — SEAT BOOKING HEADER + BUTTONS ══════════ */}
           {activeTab === "seats" && (
             <div className={styles.sectionBlock}>
               <div className={styles.sectionHeader}><span className={styles.sectionIcon}>✦</span><h3 className={styles.sectionTitle}>Seat Booking Section Header</h3></div>
               <p className={styles.fieldHint} style={{ marginBottom: "1rem" }}>
-                The batch list itself (dates, seats, prices) is managed separately in the Seat Booking admin — this only controls the heading text shown above it.
+                The batch list itself (dates, seats, prices) is managed separately in the Seat Booking admin — this only controls the heading text and the Apply/Book buttons shown here.
               </p>
               <div className={styles.fieldGroup}>
                 <label className={styles.label}>Eyebrow Text</label>
@@ -1017,6 +1073,42 @@ export default function OnlineCourseAddEditPage() {
                   <input type="text" className={styles.input} placeholder="e.g. Choose your batch & preferred course — prices include full live training access" {...register("seatBookingSubtitle", { required: "Required" })} />
                 </div>
                 {errors.seatBookingSubtitle && <p className={styles.errorMsg}>⚠ {errors.seatBookingSubtitle.message}</p>}
+              </div>
+
+              <div className={styles.formDivider} />
+
+              <div className={styles.sectionHeader}><span className={styles.sectionIcon}>✦</span><h3 className={styles.sectionTitle}>Apply Now Button</h3></div>
+              <div className={styles.twoCol}>
+                <div className={styles.fieldGroup}>
+                  <label className={styles.label}>Button Text<span className={styles.required}>*</span></label>
+                  <div className={`${styles.inputWrap} ${errors.seatBookingApplyBtnText ? styles.inputError : ""}`}>
+                    <input type="text" className={styles.input} placeholder="Apply Now" {...register("seatBookingApplyBtnText", { required: "Required" })} />
+                  </div>
+                </div>
+                <div className={styles.fieldGroup}>
+                  <label className={styles.label}>Button Link<span className={styles.required}>*</span></label>
+                  <div className={`${styles.inputWrap} ${errors.seatBookingApplyBtnLink ? styles.inputError : ""}`}>
+                    <input type="text" className={styles.input} placeholder="/registration" {...register("seatBookingApplyBtnLink", { required: "Required" })} />
+                  </div>
+                </div>
+              </div>
+
+              <div className={styles.formDivider} />
+
+              <div className={styles.sectionHeader}><span className={styles.sectionIcon}>✦</span><h3 className={styles.sectionTitle}>Book Now Button</h3></div>
+              <div className={styles.twoCol}>
+                <div className={styles.fieldGroup}>
+                  <label className={styles.label}>Button Text<span className={styles.required}>*</span></label>
+                  <div className={`${styles.inputWrap} ${errors.seatBookingBookBtnText ? styles.inputError : ""}`}>
+                    <input type="text" className={styles.input} placeholder="Book Now" {...register("seatBookingBookBtnText", { required: "Required" })} />
+                  </div>
+                </div>
+                <div className={styles.fieldGroup}>
+                  <label className={styles.label}>Button Link<span className={styles.required}>*</span></label>
+                  <div className={`${styles.inputWrap} ${errors.seatBookingBookBtnLink ? styles.inputError : ""}`}>
+                    <input type="text" className={styles.input} placeholder="/registration" {...register("seatBookingBookBtnLink", { required: "Required" })} />
+                  </div>
+                </div>
               </div>
             </div>
           )}
@@ -1119,7 +1211,7 @@ export default function OnlineCourseAddEditPage() {
                   <button
                     type="button"
                     className={styles.addBtn}
-                    onClick={() => recordedArray.append({ title: "", price: "", features: [{ text: "" }], applyBtnText: "Apply Now" })}
+                    onClick={() => recordedArray.append({ title: "", price: "", features: [{ text: "" }], applyBtnText: "Apply Now", applyBtnLink: "/registration" })}
                   >
                     + Add Recorded Course
                   </button>
@@ -1171,8 +1263,13 @@ export default function OnlineCourseAddEditPage() {
                             <div className={styles.inputWrap} style={{ flex: 1 }}><input type="text" className={styles.input} placeholder="Hours e.g. 35 Hour" {...register(`otherCourses.${index}.hours`, { required: true })} /></div>
                             <div className={styles.inputWrap} style={{ flex: 1 }}><input type="text" className={styles.input} placeholder="Price e.g. 299 USD" {...register(`otherCourses.${index}.price`, { required: true })} /></div>
                           </div>
-                          <div className={styles.inputWrap}>
-                            <input type="text" className={styles.input} placeholder="Enquire Button Text e.g. Enquire Now" {...register(`otherCourses.${index}.enquireBtnText`, { required: true })} />
+                          <div className={styles.itemFieldsRow}>
+                            <div className={styles.inputWrap} style={{ flex: 1 }}>
+                              <input type="text" className={styles.input} placeholder="Enquire Button Text e.g. Enquire Now" {...register(`otherCourses.${index}.enquireBtnText`, { required: true })} />
+                            </div>
+                            <div className={styles.inputWrap} style={{ flex: 1 }}>
+                              <input type="text" className={styles.input} placeholder="Enquire Button Link e.g. /contact" {...register(`otherCourses.${index}.enquireBtnLink`, { required: true })} />
+                            </div>
                           </div>
                         </div>
                         <button type="button" className={styles.removeItemBtn} onClick={() => otherCoursesArray.remove(index)} disabled={otherCoursesArray.fields.length <= 1}>✕</button>
@@ -1184,7 +1281,7 @@ export default function OnlineCourseAddEditPage() {
                   <button
                     type="button"
                     className={styles.addBtn}
-                    onClick={() => otherCoursesArray.append({ title: "", hours: "", price: "", enquireBtnText: "Enquire Now" })}
+                    onClick={() => otherCoursesArray.append({ title: "", hours: "", price: "", enquireBtnText: "Enquire Now", enquireBtnLink: "/contact" })}
                   >
                     + Add Other Course
                   </button>

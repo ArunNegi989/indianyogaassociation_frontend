@@ -39,7 +39,9 @@ interface CourseCardData {
   fee: string;
   benefits: string[];
   applyBtnText: string;
+  applyBtnLink: string;
   bookBtnText: string;
+  bookBtnLink: string;
 }
 
 interface FaqItem {
@@ -60,6 +62,7 @@ interface RecordedCourseData {
   price: string;
   features: string[];
   applyBtnText: string;
+  applyBtnLink: string;
 }
 
 interface InfoBlockData {
@@ -72,6 +75,7 @@ interface OtherCourseData {
   hours: string;
   price: string;
   enquireBtnText: string;
+  enquireBtnLink: string;
   image?: string | null;
 }
 
@@ -104,6 +108,10 @@ interface OnlineCourseSectionData {
   seatBookingEyebrow: string;
   seatBookingTitle: string;
   seatBookingSubtitle: string;
+  seatBookingApplyBtnText: string;
+  seatBookingApplyBtnLink: string;
+  seatBookingBookBtnText: string;
+  seatBookingBookBtnLink: string;
 
   noteBoxText: string;
   faqEyebrow: string;
@@ -222,18 +230,26 @@ function CurrencyDropdown({
 
 /* ═══════════════════════════════════════════
    SEAT BOOKING COMPONENT (inline)
-   — header text now comes from backend via props
+   — header text + Apply/Book button text & links from backend via props
 ═══════════════════════════════════════════ */
 function OnlineSeatBooking({
   batches,
   eyebrow,
   title,
   subtitle,
+  applyBtnText,
+  applyBtnLink,
+  bookBtnText,
+  bookBtnLink,
 }: {
   batches: BatchRow[];
   eyebrow: string;
   title: string;
   subtitle: string;
+  applyBtnText: string;
+  applyBtnLink: string;
+  bookBtnText: string;
+  bookBtnLink: string;
 }) {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [currency, setCurrency] = useState<Currency>("USD");
@@ -501,19 +517,18 @@ function OnlineSeatBooking({
               )}
             </div>
 
-            {selected ? (
-              <a
-                href={`/registration?batchId=${selected._id}&type=${courseTab}hr-online`}
-                className={styles.sbBookBtn}
-              >
-                Book Now — {fmtPrice(selected, courseTab)} {currency}
+            {/* ── Apply Now + Book Now — text & link both fully admin-controlled ── */}
+            <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
+              <Link href={applyBtnLink || "/registration"} className={styles.btnOutline}>
+                {applyBtnText || "Apply Now"}
+              </Link>
+              <Link href={bookBtnLink || "/registration"} className={styles.sbBookBtn}>
+                {bookBtnText || "Book Now"}
                 <svg className={styles.sbArrowIcon} viewBox="0 0 16 16" fill="none">
                   <path d="M3 8h10M9 4l4 4-4 4" stroke="#fff3d2" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
-              </a>
-            ) : (
-              <span className={`${styles.sbBookBtn} ${styles.sbBookBtnDis}`}>Book Now</span>
-            )}
+              </Link>
+            </div>
 
             {selected?.note && (
               <p className={styles.sbNote}>
@@ -588,10 +603,11 @@ const CheckIcon = () => (
 );
 
 /* ─────────────────────────────────────────────
-   COURSE CARD COMPONENT — button texts now dynamic
+   COURSE CARD COMPONENT — Apply/Book text & link fully dynamic
 ───────────────────────────────────────────── */
 function CourseCard({
-  title, duration, style, sessions, cert, fee, benefits, applyBtnText, bookBtnText,
+  title, duration, style, sessions, cert, fee, benefits,
+  applyBtnText, applyBtnLink, bookBtnText, bookBtnLink,
 }: CourseCardData) {
   return (
     <div className={styles.courseCard}>
@@ -624,8 +640,8 @@ function CourseCard({
             </li>
           </ul>
           <div className={styles.courseActions}>
-            <Link href="/registration" className={styles.btnPrimary}>{applyBtnText || "Apply Now"}</Link>
-            <Link href="/registration" className={styles.btnOutline}>{bookBtnText || "Book Now"}</Link>
+            <Link href={applyBtnLink || "/registration"} className={styles.btnPrimary}>{applyBtnText || "Apply Now"}</Link>
+            <Link href={bookBtnLink || "/registration"} className={styles.btnOutline}>{bookBtnText || "Book Now"}</Link>
           </div>
         </div>
         <div className={styles.courseCardRight}>
@@ -676,7 +692,7 @@ function buildSchema(section: OnlineCourseSectionData) {
       priceCurrency: "USD",
       price: (c.fee || "").match(/[\d,.]+/)?.[0]?.replace(/,/g, "") || "0",
       availability: "https://schema.org/InStock",
-      url: `${siteUrl}/registration`,
+      url: `${siteUrl}${c.applyBtnLink && c.applyBtnLink.startsWith("/") ? c.applyBtnLink : "/registration"}`,
     })),
     ...(section.recordedCourses || []).map((c) => ({
       "@type": "Offer",
@@ -684,7 +700,7 @@ function buildSchema(section: OnlineCourseSectionData) {
       priceCurrency: "USD",
       price: (c.price || "").match(/[\d,.]+/)?.[0]?.replace(/,/g, "") || "0",
       availability: "https://schema.org/InStock",
-      url: `${siteUrl}/registration`,
+      url: `${siteUrl}${c.applyBtnLink && c.applyBtnLink.startsWith("/") ? c.applyBtnLink : "/registration"}`,
     })),
   ];
 
@@ -699,7 +715,7 @@ function buildSchema(section: OnlineCourseSectionData) {
       price: (oc.price || "").match(/[\d,.]+/)?.[0]?.replace(/,/g, "") || "0",
       priceCurrency: "USD",
       availability: "https://schema.org/InStock",
-      url: `${siteUrl}/contact`,
+      url: `${siteUrl}${oc.enquireBtnLink && oc.enquireBtnLink.startsWith("/") ? oc.enquireBtnLink : "/contact"}`,
     },
   }));
 
@@ -780,7 +796,6 @@ export default function OnlineYogaCourse() {
     try {
       const response = await api.get("/online-course-section");
       if (response.data.success && response.data.data?.length) {
-        // latest section (backend returns sorted by createdAt desc)
         setSection(response.data.data[0]);
       }
     } catch (error) {
@@ -984,6 +999,10 @@ export default function OnlineYogaCourse() {
                 eyebrow={section.seatBookingEyebrow}
                 title={section.seatBookingTitle}
                 subtitle={section.seatBookingSubtitle}
+                applyBtnText={section.seatBookingApplyBtnText}
+                applyBtnLink={section.seatBookingApplyBtnLink}
+                bookBtnText={section.seatBookingBookBtnText}
+                bookBtnLink={section.seatBookingBookBtnLink}
               />
             )}
           </div>
@@ -1075,7 +1094,7 @@ export default function OnlineYogaCourse() {
                         </li>
                       ))}
                     </ul>
-                    <Link href="/registration" className={styles.recordedApplyBtn}>
+                    <Link href={rc.applyBtnLink || "/registration"} className={styles.recordedApplyBtn}>
                       {rc.applyBtnText || "Apply Now"}
                       <svg viewBox="0 0 16 16" fill="none" style={{ width: 14, height: 14 }}>
                         <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
@@ -1123,7 +1142,7 @@ export default function OnlineYogaCourse() {
                   <div className={styles.otherCardBody}>
                     <h4 className={styles.otherTitle}>{oc.title}</h4>
                     <p className={styles.otherMeta}>{oc.hours} · {oc.price}</p>
-                    <Link href="/contact" className={styles.otherCardBtn}>
+                    <Link href={oc.enquireBtnLink || "/contact"} className={styles.otherCardBtn}>
                       {oc.enquireBtnText || "Enquire Now"}
                       <svg viewBox="0 0 16 16" fill="none" style={{ width: 12, height: 12 }}>
                         <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
