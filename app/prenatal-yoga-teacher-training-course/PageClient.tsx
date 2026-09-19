@@ -9,6 +9,7 @@ import RatingsSummarySection from "@/components/home/RatingsSummarySection";
 import PremiumGallerySection from "@/components/PremiumGallerySection";
 import StickySectionNav from "@/components/common/StickySectionNav";
 import Link from "next/link";
+import Image from "next/image";
 
 /* ─────────────────────────────────────────
    TYPES
@@ -1199,7 +1200,7 @@ export default function PregnancyYogaTTC() {
       {/* ══ HERO IMAGE with id="hero" for StickySectionNav ══ */}
       {pageData.heroImage && (
         <section id="hero" className={styles.heroSection}>
-          <img
+           <Image
             src={imgSrc(pageData.heroImage)}
             alt={pageData.heroImgAlt || "Prenatal Yoga"}
             width={1180}
@@ -1273,7 +1274,7 @@ export default function PregnancyYogaTTC() {
                   key={img._id}
                   className={`${styles.s1Cell} ${idx === 0 ? styles.s1CellFeatured : ""}`}
                 >
-                  <img
+                   <Image
                     src={imgSrc(img.url)}
                     alt={img.alt || "Prenatal yoga"}
                     className={styles.s1Img}
@@ -1491,7 +1492,7 @@ export default function PregnancyYogaTTC() {
           <div className={styles.s2RightCol}>
             {pageData.locationImage && (
               <div className={styles.s2LocImgWrap}>
-                <img
+                 <Image
                   src={imgSrc(pageData.locationImage)}
                   alt={pageData.locationSubTitle || "Location"}
                   className={styles.s2LocImg}

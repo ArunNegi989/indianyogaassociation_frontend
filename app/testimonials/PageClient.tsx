@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import styles from "@/assets/style/testimonials/Testimonialssection.module.css";
 import HowToReach from "@/components/home/Howtoreach";
 import api from "@/lib/api"; // axios instance (baseURL = NEXT_PUBLIC_API_URL/api)
+import Image from "next/image";
 
 /* ════════════════════════════════════════
    TYPES
@@ -219,7 +220,7 @@ const VideoCard = ({
       >
         <div className={styles.reelThumbWrap}>
           {thumb ? (
-            <img
+             <Image
               className={styles.reelThumb}
               src={thumb}
               alt={video.name}
@@ -253,7 +254,7 @@ const VideoCard = ({
     >
       <div className={tall ? styles.gridThumbWrapTall : styles.gridThumbWrap}>
         {thumb ? (
-          <img
+           <Image
             className={styles.gridThumb}
             src={thumb}
             alt={video.name}
@@ -406,7 +407,7 @@ const TextReviewCard = ({
   <div className={styles.textReviewCard}>
     <div className={styles.textReviewTop}>
       {review.image ? (
-        <img
+         <Image
           src={`${baseUrl}${review.image}`}
           alt={review.name}
           className={styles.textReviewAvatar}

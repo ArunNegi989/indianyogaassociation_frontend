@@ -7,6 +7,7 @@ import PremiumGallerySection from "@/components/PremiumGallerySection";
 import ReviewSection from "@/components/common/Reviewsection";
 import RatingsSummarySection from "@/components/home/RatingsSummarySection";
 import Link from "next/link";
+import Image from "next/image";
 
 /* ══════════════════════════════════════
    TYPES
@@ -1252,7 +1253,7 @@ export default function HathaYogaPage() {
       {/* ══ HERO IMAGE ══ */}
       {heroSrc && (
         <section className={styles.heroSection}>
-          <img
+           <Image
             src={heroSrc}
             alt={d.heroImgAlt || "Hatha Yoga Teacher Training"}
             className={styles.heroImage}
@@ -1292,7 +1293,7 @@ export default function HathaYogaPage() {
             </div>
             <div className={styles.introImage}>
               <div className={styles.imageFrame}>
-                <img
+                 <Image
                   src={introSrc}
                   alt={d.introSideImgAlt || "Yoga class in Rishikesh"}
                 />
@@ -1389,7 +1390,7 @@ export default function HathaYogaPage() {
             <div className={styles.benefitsRight}>
               <div className={styles.benefitsImageStack}>
                 <div className={styles.benefitsImageMain}>
-                  <img
+                   <Image
                     src={benefitSrc}
                     alt={d.benefitsSideImgAlt || "Yoga Ashram Rishikesh"}
                   />
@@ -1458,7 +1459,7 @@ export default function HathaYogaPage() {
                     className={styles.certCard}
                   >
                     <div className={styles.certCardImg}>
-                      {cardSrc && <img src={cardSrc} alt={c.hours} />}
+                      {cardSrc &&  <Image src={cardSrc} alt={c.hours} />}
                       <div className={styles.certCardOverlay} />
                       <div className={styles.certCardHours}>{c.hours}</div>
                     </div>
@@ -1505,7 +1506,7 @@ export default function HathaYogaPage() {
             </div>
             <div className={styles.ashramImage}>
               <div className={styles.imageFrame}>
-                <img
+                 <Image
                   src={ashramSrc}
                   alt={d.ashramImgAlt || "AYM Yoga Ashram"}
                 />

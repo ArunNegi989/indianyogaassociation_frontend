@@ -9,6 +9,7 @@ import ReviewSection from "@/components/common/Reviewsection";
 import RatingsSummarySection from "@/components/home/RatingsSummarySection";
 import StickySectionNav from "@/components/common/StickySectionNav";
 import Link from "next/link";
+import Image from "next/image";
 
 /* ─────────────────────────────────────────
    TYPES
@@ -506,7 +507,7 @@ function EnhancedIntroSection({
                           Your browser does not support the video tag.
                         </video>
                       ) : (
-                        <img
+                         <Image
                           src={mediaUrl}
                           alt={item.mediaAlt || `Kundalini Yoga ${index + 1}`}
                           loading="lazy"
@@ -1397,7 +1398,7 @@ export default function KundaliniYogaTTC() {
       {/* SECTION 1 — HERO */}
       <section id="hero" className={styles.heroSection}>
         {content.heroImage && (
-          <img
+           <Image
             src={imgSrc(content.heroImage)}
             alt="Yoga Students Group"
             className={styles.heroImage}
@@ -1471,7 +1472,7 @@ export default function KundaliniYogaTTC() {
               <div className={styles.whatIsImgWrap}>
                 <div className={styles.whatIsImgFrame} aria-hidden="true" />
                 {content.whatIsImage ? (
-                  <img
+                   <Image
                     src={imgSrc(content.whatIsImage)}
                     alt={content.whatIsImageAlt || "Kundalini Yoga meditation practice"}
                     className={styles.whatIsImg}
@@ -1531,7 +1532,7 @@ export default function KundaliniYogaTTC() {
             </div>
             <div className={styles.activateIntroImageWrap}>
               {content.activateImage ? (
-                <img
+                 <Image
                   src={imgSrc(content.activateImage)}
                   alt={content.activateImageAlt || "Kundalini Yoga practice"}
                   className={styles.activateIntroImage}
@@ -1738,7 +1739,7 @@ export default function KundaliniYogaTTC() {
               </div>
               <div className={styles.courseOverviewImgWrap}>
                 {content.curriculumImage ? (
-                  <img
+                   <Image
                     src={imgSrc(content.curriculumImage)}
                     alt={content.curriculumImageAlt || "Kundalini Yoga teacher training"}
                     className={styles.courseOverviewImg}
@@ -1799,7 +1800,7 @@ export default function KundaliniYogaTTC() {
           <div className={styles.eligibilityBlock}>
             <div className={styles.eligImgPanel}>
               {content.eligibilityImage ? (
-                <img
+                 <Image
                   src={imgSrc(content.eligibilityImage)}
                   alt={content.eligibilityImageAlt || "Yoga students"}
                   className={styles.eligImg}
@@ -1865,7 +1866,7 @@ export default function KundaliniYogaTTC() {
           <div id="location" className={styles.locationBlock}>
             <div className={styles.locationBanner}>
               {content.locationBannerImage ? (
-                <img
+                 <Image
                   src={imgSrc(content.locationBannerImage)}
                   alt={content.locationBannerImageAlt || "Rishikesh mountains"}
                   className={styles.locationBannerImg}
@@ -1914,7 +1915,7 @@ export default function KundaliniYogaTTC() {
               <div className={styles.locationImgStack}>
                 <div className={styles.locationStackTop}>
                   {content.locationStackTopImage ? (
-                    <img
+                     <Image
                       src={imgSrc(content.locationStackTopImage)}
                       alt={content.locationStackTopImageAlt || "Yoga class"}
                       loading="lazy"
@@ -1928,7 +1929,7 @@ export default function KundaliniYogaTTC() {
                 </div>
                 <div className={styles.locationStackBottom}>
                   {content.locationStackBottomImage ? (
-                    <img
+                     <Image
                       src={imgSrc(content.locationStackBottomImage)}
                       alt={content.locationStackBottomImageAlt || "Ashram view"}
                       loading="lazy"
@@ -2118,7 +2119,7 @@ export default function KundaliniYogaTTC() {
         <div className={styles.schedImgGrid}>
           {content.schedImg1 && (
             <div className={styles.schedImgCard}>
-              <img
+               <Image
                 src={imgSrc(content.schedImg1)}
                 alt="Daily schedule"
                 className={styles.schedImg}
@@ -2133,7 +2134,7 @@ export default function KundaliniYogaTTC() {
           )}
           {content.schedImg2 && (
             <div className={styles.schedImgCard}>
-              <img
+               <Image
                 src={imgSrc(content.schedImg2)}
                 alt="Daily practice"
                 className={styles.schedImg}
@@ -2188,7 +2189,7 @@ export default function KundaliniYogaTTC() {
       <section className={`${styles.section} ${styles.whySection}`}>
         <div className={`container px-3 px-md-4 ${styles.maxx}`}>
           <div className={styles.whyHeroBanner}>
-            <img
+             <Image
               src="https://images.pexels.com/photos/1371360/pexels-photo-1371360.jpeg?auto=compress&cs=tinysrgb&w=1400"
               alt="AYM Yoga School"
               className={styles.whyHeroBannerImg}
@@ -2290,7 +2291,7 @@ export default function KundaliniYogaTTC() {
           </div>
           {content.classImage && (
             <div className={styles.whyClassImgWrap}>
-              <img
+               <Image
                 src={imgSrc(content.classImage)}
                 alt="AYM Yoga School Kundalini class"
                 className={styles.whyClassImg}
@@ -2318,7 +2319,7 @@ export default function KundaliniYogaTTC() {
           <div className={styles.whyRishikeshBlock}>
             <div className={styles.wrBanner}>
               {content.whyRishikeshBannerImage ? (
-                <img
+                 <Image
                   src={imgSrc(content.whyRishikeshBannerImage)}
                   alt={content.whyRishikeshBannerImageAlt || "Rishikesh Himalayan landscape"}
                   className={styles.wrBannerImg}

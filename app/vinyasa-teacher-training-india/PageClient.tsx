@@ -7,6 +7,7 @@ import api from "@/lib/api";
 import ReviewSection from "@/components/common/Reviewsection";
 import RatingsSummarySection from "@/components/home/RatingsSummarySection";
 import PremiumGallerySection from "@/components/PremiumGallerySection";
+import Image from "next/image";
 
 /* ─────────────────────────────────────────
    TYPES
@@ -883,7 +884,7 @@ function TextImageRow({
       <div className={styles.tiImageWrap}>
         <div className={styles.tiImageFrame}>
           {fullImageUrl && !imageError ? (
-            <img
+             <Image
               src={fullImageUrl}
               alt={imageAlt}
               className={styles.tiImage}
@@ -1367,7 +1368,7 @@ export default function AshtangaVinyasaTTC() {
 
       <section className={styles.heroSection}>
         {pageData.heroImage && (
-          <img
+           <Image
             src={getFullUrl(pageData.heroImage)}
             alt={pageData.heroImgAlt || "Yoga Students Group"}
             className={styles.heroImage}
@@ -1432,7 +1433,7 @@ export default function AshtangaVinyasaTTC() {
           <div className={styles.promoBanner}>
             <div className={styles.promoImgSide}>
               {pageData.promoImage && (
-                <img
+                 <Image
                   src={getFullUrl(pageData.promoImage)}
                   alt="Vinyasa Yoga Teacher Training Rishikesh class"
                   className={styles.promoImg}

@@ -5,6 +5,7 @@ import styles from "@/assets/style/yoga-for-beginners-in-india/Yogabeginners.mod
 import HowToReach from "@/components/home/Howtoreach";
 import Link from "next/link";
 import api from "@/lib/api";
+import Image from "next/image";
 
 /* ─────────────────────────────────────────────────────────
    Uploaded file paths like "/uploads/xxx.jpg" are served from
@@ -702,7 +703,7 @@ const YogaBeginners: React.FC = () => {
       {/* ===== TOP HERO IMAGE ===== */}
       {heroSrc && (
         <section className={styles.heroSection}>
-          <img
+           <Image
             src={heroSrc}
             alt={data.heroImageAlt}
             width={1180}
@@ -740,7 +741,7 @@ const YogaBeginners: React.FC = () => {
         <section className={styles.heroSection}>
           <div className={styles.heroContainer}>
             <div className={styles.heroImageBox}>
-              <img
+               <Image
                 src={secondImgSrc}
                 alt={data.secondImageAlt}
                 style={{ objectFit: "cover", width: "100%", height: "100%" }}

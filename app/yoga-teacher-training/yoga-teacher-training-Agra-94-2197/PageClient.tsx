@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "@/assets/style/yoga-teacher-training/Yogatraining.module.css";
 import Link from "next/link";
+import Image from "next/image";
 
 /* ─────────────────────────────────────────────
    CITY LINKS DATA
@@ -153,7 +154,7 @@ const YogaTrainingAgra: React.FC = () => {
         ══════════════════════════════════════ */}
         <div className={`${styles.section} ${styles.sectionImageLeft}`}>
           <div className={styles.imgWrap}>
-            <img
+             <Image
               src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=700&q=80&fit=crop"
               alt="Yoga Teacher Training Course in Rishikesh"
               className={styles.sectionImg}
@@ -188,7 +189,7 @@ const YogaTrainingAgra: React.FC = () => {
         ══════════════════════════════════════ */}
         <div className={`${styles.section} ${styles.sectionImageRight}`}>
           <div className={styles.imgWrap}>
-            <img
+             <Image
               src="https://images.unsplash.com/photo-1588286840104-8957b019727f?w=700&q=80&fit=crop"
               alt="Advanced Yoga Teacher with Best Class Facilities"
               className={styles.sectionImg}
@@ -230,7 +231,7 @@ const YogaTrainingAgra: React.FC = () => {
         ══════════════════════════════════════ */}
         <div className={`${styles.section} ${styles.sectionImageLeft}`}>
           <div className={styles.imgWrap}>
-            <img
+             <Image
               src="https://images.unsplash.com/photo-1545389336-cf090694435e?w=700&q=80&fit=crop"
               alt="Develop Your Skills to Teach Yoga Absorb Peace"
               className={styles.sectionImg}
@@ -272,7 +273,7 @@ const YogaTrainingAgra: React.FC = () => {
         ══════════════════════════════════════ */}
         <div className={`${styles.section} ${styles.sectionImageRight}`}>
           <div className={styles.imgWrap}>
-            <img
+             <Image
               src="https://images.unsplash.com/photo-1603988363607-e1e4a66962c6?w=700&q=80&fit=crop"
               alt="Become a Licensed Yoga Trainer Get Acclaimed Worldwide"
               className={styles.sectionImg}
@@ -319,7 +320,7 @@ const YogaTrainingAgra: React.FC = () => {
           style={{ borderBottom: "none" }}
         >
           <div className={styles.imgWrap}>
-            <img
+             <Image
               src="https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?w=700&q=80&fit=crop"
               alt="Establish a Foundation of Peace and Tranquility Through Yoga"
               className={styles.sectionImg}

@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "@/assets/style/yoga-teacher-training/Yogatraining.module.css";
 import Link from "next/link";
+import Image from "next/image";
 
 const cityLinks: { name: string; href: string }[] = [
   {
@@ -139,7 +140,7 @@ const YogaTrainingVaranasi: React.FC = () => {
         {/* SECTION 1 — Image Left */}
         <div className={`${styles.section} ${styles.sectionImageLeft}`}>
           <div className={styles.imgWrap}>
-            <img
+             <Image
               src="https://images.unsplash.com/photo-1545389336-cf090694435e?w=700&q=80&fit=crop"
               alt="Get Started With Your Career As A Yoga Teacher in Varanasi"
               className={styles.sectionImg}
@@ -177,7 +178,7 @@ const YogaTrainingVaranasi: React.FC = () => {
         {/* SECTION 2 — Image Right */}
         <div className={`${styles.section} ${styles.sectionImageRight}`}>
           <div className={styles.imgWrap}>
-            <img
+             <Image
               src="https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?w=700&q=80&fit=crop"
               alt="AYM Brings You The Best Resources and Complete Guidance For Your Career"
               className={styles.sectionImg}
@@ -218,7 +219,7 @@ const YogaTrainingVaranasi: React.FC = () => {
         {/* SECTION 3 — Image Left */}
         <div className={`${styles.section} ${styles.sectionImageLeft}`}>
           <div className={styles.imgWrap}>
-            <img
+             <Image
               src="https://images.unsplash.com/photo-1603988363607-e1e4a66962c6?w=700&q=80&fit=crop"
               alt="Yoga and Meditation School in Varanasi"
               className={styles.sectionImg}
@@ -256,7 +257,7 @@ const YogaTrainingVaranasi: React.FC = () => {
         {/* SECTION 4 — Image Right */}
         <div className={`${styles.section} ${styles.sectionImageRight}`}>
           <div className={styles.imgWrap}>
-            <img
+             <Image
               src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=700&q=80&fit=crop"
               alt="Get Licensed as A Yoga Teacher - Be an Acclaimed Instructor Globally"
               className={styles.sectionImg}
@@ -302,7 +303,7 @@ const YogaTrainingVaranasi: React.FC = () => {
           style={{ borderBottom: "none" }}
         >
           <div className={styles.imgWrap}>
-            <img
+             <Image
               src="https://images.unsplash.com/photo-1588286840104-8957b019727f?w=700&q=80&fit=crop"
               alt="Quality Yoga Training Session With Pocket-Friendly Prices"
               className={styles.sectionImg}

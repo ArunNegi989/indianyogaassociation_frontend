@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "@/assets/style/yoga-teacher-training/Yogatraining.module.css";
 import Link from "next/link";
+import Image from "next/image";
 
 /* ─────────────────────────────────────────────
    CITY LINKS DATA
@@ -153,7 +154,7 @@ const YogaTrainingDharamshala: React.FC = () => {
         ══════════════════════════════════════ */}
         <div className={`${styles.section} ${styles.sectionImageLeft}`}>
           <div className={styles.imgWrap}>
-            <img
+             <Image
               src="https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?w=700&q=80&fit=crop"
               alt="Yoga Teacher Training Program in Dharamshala"
               className={styles.sectionImg}
@@ -193,7 +194,7 @@ const YogaTrainingDharamshala: React.FC = () => {
         ══════════════════════════════════════ */}
         <div className={`${styles.section} ${styles.sectionImageRight}`}>
           <div className={styles.imgWrap}>
-            <img
+             <Image
               src="https://images.unsplash.com/photo-1545389336-cf090694435e?w=700&q=80&fit=crop"
               alt="Focus on the Top-Class Facilities and Resources in Dharamshala"
               className={styles.sectionImg}
@@ -231,7 +232,7 @@ const YogaTrainingDharamshala: React.FC = () => {
         ══════════════════════════════════════ */}
         <div className={`${styles.section} ${styles.sectionImageLeft}`}>
           <div className={styles.imgWrap}>
-            <img
+             <Image
               src="https://images.unsplash.com/photo-1588286840104-8957b019727f?w=700&q=80&fit=crop"
               alt="Become a professional yoga instrutor with AYM in Dharamshala"
               className={styles.sectionImg}
@@ -275,7 +276,7 @@ const YogaTrainingDharamshala: React.FC = () => {
         ══════════════════════════════════════ */}
         <div className={`${styles.section} ${styles.sectionImageRight}`}>
           <div className={styles.imgWrap}>
-            <img
+             <Image
               src="https://images.unsplash.com/photo-1603988363607-e1e4a66962c6?w=700&q=80&fit=crop"
               alt="Start Yoga Practice and Get Certified in Dharamshala"
               className={styles.sectionImg}
@@ -318,7 +319,7 @@ const YogaTrainingDharamshala: React.FC = () => {
           style={{ borderBottom: "none" }}
         >
           <div className={styles.imgWrap}>
-            <img
+             <Image
               src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=700&q=80&fit=crop"
               alt="Professional Training Does Not Cost A Fortune"
               className={styles.sectionImg}

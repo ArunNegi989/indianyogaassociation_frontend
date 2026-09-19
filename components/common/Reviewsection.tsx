@@ -5,6 +5,7 @@ import Slider from "react-slick";
 // Slick CSS global.css mein already hai — yahan se hataya
 import styles from "@/assets/style/Home/Reviewsection.module.css";
 import api from "@/lib/api";
+import Image from "next/image";
 
 /* ══════════════════════════════════════════════════
    TYPES
@@ -381,7 +382,7 @@ function VideoSlider({
                   </div>
                 ) : (
                   <>
-                    <img src={vr.thumbnail} alt={vr.name} className={styles.rvThumb} />
+                     <Image src={vr.thumbnail} alt={vr.name} className={styles.rvThumb} />
                     <div className={styles.rvOverlay} />
                     <div className={styles.rvPlayBtn}>
                       <svg viewBox="0 0 24 24" fill="currentColor">
@@ -522,7 +523,7 @@ export default function ReviewSection({
           >
             <div className={styles.rvCardTop}>
               <div className={styles.rvAvatar}>
-                <img src={r.image} alt={r.name} />
+                 <Image src={r.image} alt={r.name} />
               </div>
               <div className={styles.rvInfo}>
                 <div className={styles.rvName}>{r.name}</div>

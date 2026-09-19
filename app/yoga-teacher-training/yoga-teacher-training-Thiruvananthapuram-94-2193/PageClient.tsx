@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "@/assets/style/yoga-teacher-training/Yogatraining.module.css";
 import Link from "next/link";
+import Image from "next/image";
 
 /* ─────────────────────────────────────────────
    CITY LINKS DATA
@@ -153,7 +154,7 @@ const YogaTrainingThiruvananthapuram: React.FC = () => {
         ══════════════════════════════════════ */}
         <div className={`${styles.section} ${styles.sectionImageLeft}`}>
           <div className={styles.imgWrap}>
-            <img
+             <Image
               src="https://images.unsplash.com/photo-1588286840104-8957b019727f?w=700&q=80&fit=crop"
               alt="Best Yoga School in Thiruvananthapuram"
               className={styles.sectionImg}
@@ -188,7 +189,7 @@ const YogaTrainingThiruvananthapuram: React.FC = () => {
         ══════════════════════════════════════ */}
         <div className={`${styles.section} ${styles.sectionImageRight}`}>
           <div className={styles.imgWrap}>
-            <img
+             <Image
               src="https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?w=700&q=80&fit=crop"
               alt="Advanced Yoga Classes with Experienced Teachers"
               className={styles.sectionImg}
@@ -233,7 +234,7 @@ const YogaTrainingThiruvananthapuram: React.FC = () => {
         ══════════════════════════════════════ */}
         <div className={`${styles.section} ${styles.sectionImageLeft}`}>
           <div className={styles.imgWrap}>
-            <img
+             <Image
               src="https://images.unsplash.com/photo-1545389336-cf090694435e?w=700&q=80&fit=crop"
               alt="Become a Certified Yoga Teacher Today"
               className={styles.sectionImg}
@@ -272,7 +273,7 @@ const YogaTrainingThiruvananthapuram: React.FC = () => {
         ══════════════════════════════════════ */}
         <div className={`${styles.section} ${styles.sectionImageRight}`}>
           <div className={styles.imgWrap}>
-            <img
+             <Image
               src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=700&q=80&fit=crop"
               alt="Gain Immense Knowledge to Teach Yoga"
               className={styles.sectionImg}
@@ -324,7 +325,7 @@ const YogaTrainingThiruvananthapuram: React.FC = () => {
           style={{ borderBottom: "none" }}
         >
           <div className={styles.imgWrap}>
-            <img
+             <Image
               src="https://images.unsplash.com/photo-1545389336-cf090694435e?w=700&q=80&fit=crop"
               alt="Enroll in the Top Yoga School at an Affordable Price"
               className={styles.sectionImg}

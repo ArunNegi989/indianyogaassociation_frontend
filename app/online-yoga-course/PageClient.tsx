@@ -5,6 +5,7 @@ import styles from "@/assets/style/online-yoga-course/Onlineyogacourse.module.cs
 import Link from "next/link";
 import HowToReach from "@/components/home/Howtoreach";
 import Script from "next/script";
+import Image from "next/image";
 
 /* ═══════════════════════════════════════════
    TYPES — mirror the backend model exactly
@@ -877,7 +878,7 @@ export default function OnlineYogaCourse() {
         {section.heroImage && (
           <section className={styles.heroSection}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
+             <Image
               src={getImageUrl(section.heroImage)}
               alt={section.heroImageAlt || "Hero"}
               className={styles.heroImage}
@@ -927,7 +928,7 @@ export default function OnlineYogaCourse() {
                 {section.whyImage && (
                   <div className={styles.whyImageBox}>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={getImageUrl(section.whyImage)} alt={section.whyImageAlt || "Why choose us"} />
+                     <Image src={getImageUrl(section.whyImage)} alt={section.whyImageAlt || "Why choose us"} />
                     <div className={styles.whyCornerTl} />
                     <div className={styles.whyCornerBr} />
                     {section.whyImageBadgeText && (
@@ -1047,7 +1048,7 @@ export default function OnlineYogaCourse() {
                   {area.image && (
                     <div className={styles.chakraImageWrap}>
                       {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
+                       <Image
                         src={getImageUrl(area.image)}
                         alt={area.title}
                         width={130}
@@ -1135,7 +1136,7 @@ export default function OnlineYogaCourse() {
                   {oc.image && (
                     <div className={styles.otherCardImage}>
                       {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={getImageUrl(oc.image)} alt={oc.title} />
+                       <Image src={getImageUrl(oc.image)} alt={oc.title} />
                       <div className={styles.otherCardImageOverlay} />
                     </div>
                   )}

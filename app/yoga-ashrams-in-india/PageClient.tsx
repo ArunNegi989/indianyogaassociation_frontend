@@ -6,6 +6,7 @@ import styles from "@/assets/style/yoga-ashrams-in-india/Yogaashrams.module.css"
 import HowToReach from "@/components/home/Howtoreach";
 import Link from "next/link";
 import api from "@/lib/api";
+import Image from "next/image";
 
 /* ─────────────────────── Types (mirrors backend model) ─────────────────────── */
 interface StatItem {
@@ -164,7 +165,7 @@ const YogaAshrams: React.FC = () => {
       {/* ===== HERO SECTION ===== */}
       <section className={styles.heroSection}>
         {data.heroImage && (
-          <img
+           <Image
             src={getImageUrl(data.heroImage)}
             alt={data.heroImageAlt}
             className={styles.heroImage}
@@ -184,7 +185,7 @@ const YogaAshrams: React.FC = () => {
         <div className={styles.featureContainer}>
           <div className={styles.featureImageBox} style={{ position: "relative" }}>
             {data.featureImage && (
-              <img
+               <Image
                 src={getImageUrl(data.featureImage)}
                 alt={data.featureImageAlt}
                 style={{
@@ -289,7 +290,7 @@ const YogaAshrams: React.FC = () => {
         <div className={styles.photoFrame}>
           <div className={styles.ashramImageBox} style={{ position: "relative" }}>
             {data.ashramPhoto && (
-              <img
+               <Image
                 src={getImageUrl(data.ashramPhoto)}
                 alt={data.ashramPhotoAlt}
                 style={{

@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "@/assets/style/yoga-teacher-training/Yogatraining.module.css";
 import Link from "next/link";
+import Image from "next/image";
 
 /* ─────────────────────────────────────────────
    DATA
@@ -240,7 +241,7 @@ const YogaTrainingMysore: React.FC = () => {
           >
             {/* Image */}
             <div className={styles.imgWrap}>
-              <img
+               <Image
                 src={section.image}
                 alt={section.imageAlt}
                 className={styles.sectionImg}

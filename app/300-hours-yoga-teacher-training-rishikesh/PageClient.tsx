@@ -9,6 +9,7 @@ import PremiumGallerySection from "@/components/PremiumGallerySection";
 import ReviewSection from "@/components/common/Reviewsection";
 import RatingsSummarySection from "@/components/home/RatingsSummarySection";
 import Link from "next/link";
+import Image from "next/image";
 
 /* ─────────────────────────────────────────
    TYPES
@@ -783,7 +784,7 @@ const YouTubeEmbed = ({ video }: { video: YouTubeVideo }) => {
           onClick={() => setPlaying(true)}
           aria-label={`Play: ${video.title}`}
         >
-          <img
+           <Image
             src={`https://img.youtube.com/vi/${video.videoId}/hqdefault.jpg`}
             alt={video.title}
             className={styles.thumbImg}
@@ -828,7 +829,7 @@ const Carousel = ({ images, alt }: { images: string[]; alt: string }) => {
       <div className={styles.carouselTrack}>
         {visible.map((src, i) => (
           <div key={i} className={styles.carouselSlide}>
-            <img
+             <Image
               src={imgUrl(src)}
               alt={`${alt} ${i + 1}`}
               className={styles.carouselImg}
@@ -1081,7 +1082,7 @@ export default function YogaTTC300() {
       {content1?.heroImage && (
         <section id="hero" className={styles.heroSection}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
+           <Image
             src={imgUrl(content1.heroImage)}
             alt={content1.heroImgAlt || "Hero"}
             width={1180}
@@ -1120,13 +1121,13 @@ export default function YogaTTC300() {
             <div className={styles.hs2Right}>
               <div className={styles.hs2VidWrap}>
                 {content1?.rightSideImage ? (
-                  <img
+                   <Image
                     src={imgUrl(content1.rightSideImage)}
                     alt={content1.rightSideImageAlt || "Yoga in Rishikesh"}
                     className={styles.hs2Image}
                   />
                 ) : (
-                  <img
+                   <Image
                     src="/images/ttc-300-hero-poster.jpg"
                     alt="Yoga in Rishikesh"
                     className={styles.hs2Image}
@@ -1200,7 +1201,7 @@ export default function YogaTTC300() {
             {content1?.bottomThumbnails && content1.bottomThumbnails.length > 0 ? (
               content1.bottomThumbnails.map((thumb, i) => (
                 <div key={i} className={styles.hs2Thumb}>
-                  <img src={imgUrl(thumb.src)} alt={thumb.alt} loading="lazy" />
+                   <Image src={imgUrl(thumb.src)} alt={thumb.alt} loading="lazy" />
                   <div className={styles.hs2ThumbOv}>
                     <div className={styles.hs2PlayBtn}>
                       <svg width="10" height="10" viewBox="0 0 10 10" fill="#fff">
@@ -1213,7 +1214,7 @@ export default function YogaTTC300() {
             ) : (
               <>
                 <div className={styles.hs2Thumb}>
-                  <img src="/images/ttc-300-thumb1.jpg" alt="Yoga practice at sunrise" loading="lazy" />
+                   <Image src="/images/ttc-300-thumb1.jpg" alt="Yoga practice at sunrise" loading="lazy" />
                   <div className={styles.hs2ThumbOv}>
                     <div className={styles.hs2PlayBtn}>
                       <svg width="10" height="10" viewBox="0 0 10 10" fill="#fff">
@@ -1223,7 +1224,7 @@ export default function YogaTTC300() {
                   </div>
                 </div>
                 <div className={styles.hs2Thumb}>
-                  <img src="/images/ttc-300-thumb2.jpg" alt="Meditation session" loading="lazy" />
+                   <Image src="/images/ttc-300-thumb2.jpg" alt="Meditation session" loading="lazy" />
                   <div className={styles.hs2ThumbOv}>
                     <div className={styles.hs2PlayBtn}>
                       <svg width="10" height="10" viewBox="0 0 10 10" fill="#fff">
@@ -1233,7 +1234,7 @@ export default function YogaTTC300() {
                   </div>
                 </div>
                 <div className={styles.hs2Thumb}>
-                  <img src="/images/ttc-300-thumb3.jpg" alt="Teacher training class" loading="lazy" />
+                   <Image src="/images/ttc-300-thumb3.jpg" alt="Teacher training class" loading="lazy" />
                   <div className={styles.hs2ThumbOv}>
                     <div className={styles.hs2PlayBtn}>
                       <svg width="10" height="10" viewBox="0 0 10 10" fill="#fff">
@@ -1479,13 +1480,13 @@ export default function YogaTTC300() {
               <div className={styles.evoIntroRight}>
                 <div className={styles.evoImgFrame}>
                   {content2.evolutionRightImage ? (
-                    <img
+                     <Image
                       src={imgUrl(content2.evolutionRightImage)}
                       alt={content2.evolutionRightImageAlt || "Yoga meditation in Rishikesh"}
                       className={styles.evoRealImg}
                     />
                   ) : (
-                    <img
+                     <Image
                       src="/images/evolution-default.jpg"
                       alt="Yoga meditation in Rishikesh"
                       className={styles.evoRealImg}
@@ -1666,7 +1667,7 @@ export default function YogaTTC300() {
                       key={i}
                       className={`${styles.luxImgBlock} ${i === 0 ? styles.luxImgBlockWide : ""}`}
                     >
-                      <img
+                       <Image
                         src={imgUrl(src)}
                         alt={`Luxury room ${i + 1}`}
                         className={styles.luxImg}
@@ -1680,7 +1681,7 @@ export default function YogaTTC300() {
             </div>
             {content2.yogaGardenImage && (
               <div className={styles.luxGardenWrap}>
-                <img
+                 <Image
                   src={imgUrl(content2.yogaGardenImage)}
                   alt="Yoga in garden"
                   className={styles.luxGardenImg}
@@ -1761,7 +1762,7 @@ export default function YogaTTC300() {
                       key={i}
                       className={`${styles.s8ImgBlock} ${i === 0 ? styles.s8ImgBlockTall : ""}`}
                     >
-                      <img
+                       <Image
                         src={imgUrl(src)}
                         alt={`Schedule ${i + 1}`}
                         className={styles.s8Img}
@@ -1814,14 +1815,14 @@ export default function YogaTTC300() {
               <div className={styles.s9ImageMosaic}>
                 <div className={`${styles.s9ImgBlock} ${styles.s9ImgTall}`}>
                   {content2?.learningImage1 ? (
-                    <img 
+                     <Image 
                       src={imgUrl(content2.learningImage1)} 
                       alt={content2.learningImage1Alt || "Advanced yoga practice in Rishikesh"} 
                       className={styles.s9Img} 
                       loading="lazy" 
                     />
                   ) : (
-                    <img 
+                     <Image 
                       src="/images/s9-outcomes-1.jpg" 
                       alt="Advanced yoga practice in Rishikesh" 
                       className={styles.s9Img} 
@@ -1837,14 +1838,14 @@ export default function YogaTTC300() {
                 
                 <div className={styles.s9ImgBlock}>
                   {content2?.learningImage2 ? (
-                    <img 
+                     <Image 
                       src={imgUrl(content2.learningImage2)} 
                       alt={content2.learningImage2Alt || "Yoga certification ceremony"} 
                       className={styles.s9Img} 
                       loading="lazy" 
                     />
                   ) : (
-                    <img 
+                     <Image 
                       src="/images/s9-outcomes-2.jpg" 
                       alt="Yoga certification ceremony" 
                       className={styles.s9Img} 
@@ -1860,14 +1861,14 @@ export default function YogaTTC300() {
                 
                 <div className={styles.s9ImgBlock}>
                   {content2?.learningImage3 ? (
-                    <img 
+                     <Image 
                       src={imgUrl(content2.learningImage3)} 
                       alt={content2.learningImage3Alt || "Graduation at AYM School"} 
                       className={styles.s9Img} 
                       loading="lazy" 
                     />
                   ) : (
-                    <img 
+                     <Image 
                       src="/images/s9-outcomes-3.jpg" 
                       alt="Graduation at AYM School" 
                       className={styles.s9Img} 
@@ -1913,14 +1914,14 @@ export default function YogaTTC300() {
                       </div>
                       <div className={styles.s9EligImgWrap}>
                         {content2?.eligibilityImage ? (
-                          <img 
+                           <Image 
                             src={imgUrl(content2.eligibilityImage)} 
                             alt={content2.eligibilityImageAlt || "Yoga eligibility — student in practice"} 
                             className={styles.s9EligImg} 
                             loading="lazy" 
                           />
                         ) : (
-                          <img 
+                           <Image 
                             src="/images/s9-eligibility.jpg" 
                             alt="Yoga eligibility — student in practice" 
                             className={styles.s9EligImg} 
@@ -1970,14 +1971,14 @@ export default function YogaTTC300() {
                     <div className={styles.s9EvalRight}>
                       <div className={styles.s9EvalImgStack}>
                         {content2?.evaluationMainImage ? (
-                          <img 
+                           <Image 
                             src={imgUrl(content2.evaluationMainImage)} 
                             alt={content2.evaluationMainImageAlt || "Evaluation and certification ceremony"} 
                             className={styles.s9EvalMainImg} 
                             loading="lazy" 
                           />
                         ) : (
-                          <img 
+                           <Image 
                             src="/images/s9-eval-main.jpg" 
                             alt="Evaluation and certification ceremony" 
                             className={styles.s9EvalMainImg} 
@@ -1993,14 +1994,14 @@ export default function YogaTTC300() {
                           </div>
                         </div>
                         {content2?.evaluationSmallImage ? (
-                          <img 
+                           <Image 
                             src={imgUrl(content2.evaluationSmallImage)} 
                             alt={content2.evaluationSmallImageAlt || "Students receiving certificates"} 
                             className={styles.s9EvalSmallImg} 
                             loading="lazy" 
                           />
                         ) : (
-                          <img 
+                           <Image 
                             src="/images/s9-eval-small.jpg" 
                             alt="Students receiving certificates" 
                             className={styles.s9EvalSmallImg} 
@@ -2069,14 +2070,14 @@ export default function YogaTTC300() {
                 <div className={styles.s10ImgPair}>
                   <div className={styles.s10ImgWrap}>
                     {content2?.ethicsImage1 ? (
-                      <img 
+                       <Image 
                         src={imgUrl(content2.ethicsImage1)} 
                         alt={content2.ethicsImage1Alt || "Yoga ethics in practice"} 
                         className={styles.s10Img} 
                         loading="lazy" 
                       />
                     ) : (
-                      <img 
+                       <Image 
                         src="/images/s10-ethics-1.jpg" 
                         alt="Yoga ethics in practice" 
                         className={styles.s10Img} 
@@ -2092,14 +2093,14 @@ export default function YogaTTC300() {
                   
                   <div className={styles.s10ImgWrap}>
                     {content2?.ethicsImage2 ? (
-                      <img 
+                       <Image 
                         src={imgUrl(content2.ethicsImage2)} 
                         alt={content2.ethicsImage2Alt || "AYM campus — yoga shala"} 
                         className={styles.s10Img} 
                         loading="lazy" 
                       />
                     ) : (
-                      <img 
+                       <Image 
                         src="/images/s10-ethics-2.jpg" 
                         alt="AYM campus — yoga shala" 
                         className={styles.s10Img} 
@@ -2150,7 +2151,7 @@ export default function YogaTTC300() {
             
             {content2.diplomaImage && (
               <div className={styles.s10DiplomaWrap}>
-                <img src={imgUrl(content2.diplomaImage)} alt="Students with Diploma certificates — AYM School" className={styles.s10DiplomaImg} loading="lazy" />
+                 <Image src={imgUrl(content2.diplomaImage)} alt="Students with Diploma certificates — AYM School" className={styles.s10DiplomaImg} loading="lazy" />
                 <div className={styles.s10DiplomaBadge}>
                   <div className={styles.s10DiplomaBadgeLine1}>
                     {content2.diplomaBadgeLine1 || "Yoga Alliance USA"}

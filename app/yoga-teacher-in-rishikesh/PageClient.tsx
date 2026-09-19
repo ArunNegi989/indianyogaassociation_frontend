@@ -49,7 +49,7 @@ const OrnateFrame: React.FC<{
     className={`${styles.frameWrap} ${styles[`frame${size.toUpperCase()}`]}`}
   >
 
-    <img src={src} alt={alt} className={styles.framePhoto} />
+     <Image src={src} alt={alt} className={styles.framePhoto} />
   </div>
 );
 
@@ -143,7 +143,7 @@ const TeacherCard: React.FC<{ teacher: Teacher; idx: number }> = ({
     <div className={`${styles.tCard} ${isEven ? styles.tCardReverse : ""}`}>
       <div className={styles.tImgCol}>
         <div className={styles.tImgWrapper}>
-          <img
+           <Image
             src={`${API_URL}${teacher.image}`}
             alt={teacher.name}
             className={styles.tImg}
@@ -233,7 +233,7 @@ const GuestFacultySection: React.FC<{
                   onClick={() => onSelect(t)}
                 >
                   <div className={styles.guestCardImgWrap}>
-                    <img
+                     <Image
                       src={`${apiUrl}${t.image}`}
                       alt={t.name}
                       className={styles.guestCardImg}
@@ -352,7 +352,7 @@ const Teachers: React.FC = () => {
               <div className={styles.founderCard}>
                 <div className={styles.founderCardInner}>
                   <div className={styles.founderImgSection}>
-                    <img
+                     <Image
                       src={`${API_URL}${founder.image}`}
                       alt={founder.name}
                       className={styles.founderCardImg}

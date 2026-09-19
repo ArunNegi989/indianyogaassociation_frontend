@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import api from "@/lib/api";
 import styles from "@/assets/style/500-hour-yoga-teacher-training-india/Yogattc500.module.css";
+import Image from "next/image";
 
 /* ─────────────────────────────────────────
    TYPES
@@ -67,7 +68,7 @@ function PremiumImageModal({
         </button>
 
         <div className={styles.premiumModalImageWrapper}>
-          <img
+           <Image
             src={imgSrc(images[currentIndex])}
             alt={`Gallery ${currentIndex + 1}`}
             className={styles.premiumModalImage}
@@ -107,7 +108,7 @@ function PremiumImageModal({
                 }
               }}
             >
-              <img src={imgSrc(img)} alt={`Thumb ${idx + 1}`} />
+               <Image src={imgSrc(img)} alt={`Thumb ${idx + 1}`} />
             </div>
           ))}
         </div>
@@ -179,7 +180,7 @@ function PremiumMasonryGrid({ images, title }: { images: string[]; title: string
               onClick={() => openModal(idx)}
             >
               <div className={styles.masonryInner}>
-                <img src={imgSrc(item.src)} alt={`${title} ${idx + 1}`} loading="lazy" />
+                 <Image src={imgSrc(item.src)} alt={`${title} ${idx + 1}`} loading="lazy" />
                 <div className={styles.masonryOverlay}>
                   <div className={styles.masonryIcon}>
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

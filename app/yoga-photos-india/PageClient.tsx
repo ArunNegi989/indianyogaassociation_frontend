@@ -3,6 +3,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import styles from "@/assets/style/gallery/Gallerypage.module.css";
 import HowToReach from "@/components/home/Howtoreach";
 import api from "@/lib/api";
+import Image from "next/image";
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "";
 
 interface GallerySection {
@@ -180,7 +181,7 @@ export default function GalleryPage() {
                         openModal(img.src, img.label, formattedImages, i);
                       }}
                     >
-                      <img src={img.src} alt={img.label} loading="lazy" />
+                       <Image src={img.src} alt={img.label} loading="lazy" />
 
                       <span className={styles.imgLabel}>
                         <span className={styles.labelPin}>📍</span>
@@ -231,7 +232,7 @@ export default function GalleryPage() {
 
             {/* Image */}
             <div className={styles.modalImgWrap}>
-              <img
+               <Image
                 src={modal.src}
                 alt={modal.label}
                 className={styles.modalImg}
@@ -278,7 +279,7 @@ export default function GalleryPage() {
                     })
                   }
                 >
-                  <img
+                   <Image
                     src={img.src}
                     alt={img.label}
                     loading="lazy"

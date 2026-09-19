@@ -4,6 +4,7 @@ import styles from "@/assets/style/sound-healing/Soundhealingpage.module.css";
 import HowToReach from "@/components/home/Howtoreach";
 import Link from "next/link";
 import api from "@/lib/api";
+import Image from "next/image";
 
 /* ══════════════════════════════
    TYPES — mirror the backend schema exactly
@@ -593,7 +594,7 @@ export default function SoundHealingPage() {
     <div className={styles.page}>
       {/* ══ HERO BANNER ══ */}
       <section className={styles.heroBanner}>
-        <img
+         <Image
           src={getImageUrl(data.heroImage)}
           alt={stripHtml(data.heroImageAlt)}
           className={styles.heroImg}
@@ -629,7 +630,7 @@ export default function SoundHealingPage() {
             </div>
             <div className={styles.introImageWrapper}>
               <div className={styles.introImageCard}>
-                <img
+                 <Image
                   src={getImageUrl(data.introImage)}
                   alt={stripHtml(data.introImageAlt)}
                   className={styles.introSideImage}
@@ -680,13 +681,13 @@ export default function SoundHealingPage() {
           {/* Three-photo row */}
           <div className={styles.bowlPhotoRow}>
             <div className={styles.bowlPhotoItem}>
-              <img src={getImageUrl(data.bowl1Image)} alt={stripHtml(data.bowl1Alt)} className={styles.bowlPhoto} />
+               <Image src={getImageUrl(data.bowl1Image)} alt={stripHtml(data.bowl1Alt)} className={styles.bowlPhoto} />
             </div>
             <div className={styles.bowlPhotoItem}>
-              <img src={getImageUrl(data.bowl2Image)} alt={stripHtml(data.bowl2Alt)} className={styles.bowlPhoto} />
+               <Image src={getImageUrl(data.bowl2Image)} alt={stripHtml(data.bowl2Alt)} className={styles.bowlPhoto} />
             </div>
             <div className={styles.bowlPhotoItem}>
-              <img src={getImageUrl(data.bowl3Image)} alt={stripHtml(data.bowl3Alt)} className={styles.bowlPhoto} />
+               <Image src={getImageUrl(data.bowl3Image)} alt={stripHtml(data.bowl3Alt)} className={styles.bowlPhoto} />
             </div>
           </div>
         </div>
@@ -725,7 +726,7 @@ export default function SoundHealingPage() {
             {/* RIGHT */}
             <div className={styles.aimRight}>
               <div className={styles.aimPhotoWrap}>
-                <img
+                 <Image
                   src={getImageUrl(data.aimImage)}
                   alt={stripHtml(data.aimImageAlt)}
                   className={styles.aimPhoto}
@@ -765,7 +766,7 @@ export default function SoundHealingPage() {
               </div>
             </div>
             <div className={styles.benefitsImgWrap}>
-              <img src={getImageUrl(data.benefitsImage)} alt={stripHtml(data.benefitsImageAlt)} className={styles.benefitsImg} />
+               <Image src={getImageUrl(data.benefitsImage)} alt={stripHtml(data.benefitsImageAlt)} className={styles.benefitsImg} />
             </div>
           </div>
         </div>

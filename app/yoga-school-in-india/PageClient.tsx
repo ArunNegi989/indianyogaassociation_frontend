@@ -9,6 +9,7 @@ import {
   FaOm, FaStar, FaGlobe, FaMedal, FaCertificate, FaPrayingHands, FaSeedling, FaSun,
 } from "react-icons/fa";
 import type { IconType } from "react-icons";
+import Image from "next/image";
 
 /* ── Icon name (stored in backend) → actual component ── */
 const ICON_MAP: Record<string, IconType> = {
@@ -140,7 +141,7 @@ const AboutUs: React.FC = () => {
       ══════════════════════════════════════ */}
       {data.heroImage && (
         <section className={styles.heroSection}>
-          <img
+           <Image
             src={getImageUrl(data.heroImage)}
             alt={data.heroImageAlt || "Yoga Students Group"}
             className={styles.heroImage}
@@ -236,7 +237,7 @@ const AboutUs: React.FC = () => {
               <div className={styles.visionCard}>
                 {data.visionImage && (
                   <div className={styles.vmImageWrapper}>
-                    <img src={getImageUrl(data.visionImage)} alt={data.visionTitle || "Vision"} className={styles.vmImage} />
+                     <Image src={getImageUrl(data.visionImage)} alt={data.visionTitle || "Vision"} className={styles.vmImage} />
                   </div>
                 )}
                 {data.visionTitle && <h3 className={styles.vmTitle}>{data.visionTitle}</h3>}
@@ -248,7 +249,7 @@ const AboutUs: React.FC = () => {
               <div className={styles.missionCard}>
                 {data.missionImage && (
                   <div className={styles.vmImageWrapper}>
-                    <img src={getImageUrl(data.missionImage)} alt={data.missionTitle || "Mission"} className={styles.vmImage} />
+                     <Image src={getImageUrl(data.missionImage)} alt={data.missionTitle || "Mission"} className={styles.vmImage} />
                   </div>
                 )}
                 {data.missionTitle && <h3 className={styles.vmTitle}>{data.missionTitle}</h3>}
@@ -327,7 +328,7 @@ const AboutUs: React.FC = () => {
                   </div>
                   {item.image && (
                     <div className={styles.timelineImageWrapper}>
-                      <img
+                       <Image
                         src={getImageUrl(item.image)}
                         alt={item.title || `Timeline ${idx + 1}`}
                         className={styles.timelineImage}

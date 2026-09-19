@@ -283,7 +283,7 @@ function MediaImage({
 }) {
   if (!src) return null;
   return (
-    <img
+     <Image
       src={getImageUrl(src)}
       alt={alt}
       className={className || styles.autoVideoIframe}
@@ -314,7 +314,7 @@ function TextImageRow({
       <div className={styles.tiImageWrap}>
         <div className={styles.tiImageFrame}>
           {imageUrl && (
-            <img
+             <Image
               src={getImageUrl(imageUrl)}
               alt={imageAlt}
               className={styles.tiImage}
@@ -355,7 +355,7 @@ function TextMediaRow({
       <div className={styles.tiVideoWrap}>
         <div className={styles.tiVideoFrame}>
           {imageUrl && (
-            <img
+             <Image
               src={getImageUrl(imageUrl)}
               alt={imageAlt}
               className={styles.tiVideoIframe}
@@ -423,7 +423,7 @@ function AimImagesStrip({ images, alts }: { images: string[]; alts: string[] }) 
           className={styles.aimImageCard}
           style={{ animationDelay: `${i * 0.12}s` }}
         >
-          <img src={getImageUrl(src)} alt={alts[i] || `yoga practice ${i + 1}`} loading="lazy" />
+           <Image src={getImageUrl(src)} alt={alts[i] || `yoga practice ${i + 1}`} loading="lazy" />
           <div className={styles.aimImageOverlay} />
         </div>
       ))}
@@ -828,7 +828,7 @@ export default function YogaCollegeRishikesh() {
       <section className={styles.fullVideoSection}>
         <div className={styles.fullVideoWrap}>
           {data.highlightImage && (
-            <img
+             <Image
               src={getImageUrl(data.highlightImage)}
               alt={data.highlightImageAlt}
               className={styles.fullVideoIframe}

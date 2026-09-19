@@ -4,6 +4,7 @@ import styles from "@/assets/style/yoga-registration/Registerform.module.css";
 import HowToReach from "@/components/home/Howtoreach";
 import api from "@/lib/api";
 import { useSearchParams } from "next/navigation";
+import Image from "next/image";
 
 const howDidYouKnow = [
   "Google / Internet",
@@ -579,7 +580,7 @@ export default function RegisterForm() {
 
             <div className={styles.leftBgImage}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
+               <Image
                 src="https://images.unsplash.com/photo-1599447421416-3414500d18a5?w=900&q=80&fit=crop"
                 alt="Yoga Teacher Training Rishikesh"
                 className={styles.leftImg}

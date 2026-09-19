@@ -4,6 +4,7 @@ import styles from "@/assets/style/yoga-holidays-in-india/Yogaholidays.module.cs
 import HowToReach from "@/components/home/Howtoreach";
 import Link from "next/link";
 import api from "@/lib/api";
+import Image from "next/image";
 
 /* ── Types (mirror backend Holidays model) ── */
 interface TimeSlot { time: string; activity: string }
@@ -124,7 +125,7 @@ const YogaHolidays: React.FC = () => {
     <div className={styles.pageWrapper}>
       {data.heroImage && (
         <section className={styles.heroSection}>
-          <img src={getImageUrl(data.heroImage)} alt={data.heroImageAlt || "Yoga Students Group"} className={styles.heroImage} />
+           <Image src={getImageUrl(data.heroImage)} alt={data.heroImageAlt || "Yoga Students Group"} className={styles.heroImage} />
         </section>
       )}
 
@@ -142,7 +143,7 @@ const YogaHolidays: React.FC = () => {
           <div className={styles.mediaStack}>
             {data.mediaImage && (
               <div className={styles.imageBox}>
-                <img src={getImageUrl(data.mediaImage)} alt={data.mediaImageAlt || "Rishikesh"} style={{ objectFit: "cover", width: "100%", height: "100%" }} />
+                 <Image src={getImageUrl(data.mediaImage)} alt={data.mediaImageAlt || "Rishikesh"} style={{ objectFit: "cover", width: "100%", height: "100%" }} />
                 {data.imageOverlayCaption && <div className={styles.imageOverlayCaption}>{data.imageOverlayCaption}</div>}
               </div>
             )}
@@ -222,7 +223,7 @@ const YogaHolidays: React.FC = () => {
           {data.campImage && (
             <div className={styles.imageWrapper}>
               <div className={styles.campImageBox}>
-                <img src={getImageUrl(data.campImage)} alt={data.campImageAlt || "Yoga Camp"} style={{ objectFit: "cover", width: "100%", height: "100%" }} />
+                 <Image src={getImageUrl(data.campImage)} alt={data.campImageAlt || "Yoga Camp"} style={{ objectFit: "cover", width: "100%", height: "100%" }} />
                 {data.campImageCaption && (
                   <div className={styles.campImageCaption}><span>{data.campImageCaption}</span></div>
                 )}

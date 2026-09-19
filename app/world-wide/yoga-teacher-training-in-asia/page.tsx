@@ -3,6 +3,7 @@ import React from "react";
 import styles from "@/assets/style/world-wide/yoga-teacher-training-in-vietnam/Vietnampage.module.css";
 import yogaimage from "@/assets/images/yoga.svg";
 import AymHomePage from "@/components/Aymhomepage";
+import Image from "next/image";
 
 /* ─── SVG Decorations ─── */
 const Mandala: React.FC<{ className?: string }> = ({ className }) => (
@@ -238,7 +239,7 @@ const AsiaPage: React.FC = () => {
         <Mandala className={styles.heroBgMandalaR} />
         <div className={styles.heroContent}>
           <div className={styles.heroSilhouetteSide}>
-            <img
+             <Image
               src={yogaimage.src}
               alt="Yoga Teacher Training In Germany"
               className={styles.heroSilhouette}

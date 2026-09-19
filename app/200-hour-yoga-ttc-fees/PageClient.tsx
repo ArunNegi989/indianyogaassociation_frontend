@@ -140,7 +140,7 @@ const PaymentSection = () => {
                       rel="noopener noreferrer"
                       className={styles.paypalBtn}
                     >
-                      <img
+                       <Image
                         src="https://www.paypalobjects.com/webstatic/mktg/logo/pp_cc_mark_111x69.jpg"
                         alt="PayPal"
                         className={styles.paypalLogo}
@@ -163,7 +163,7 @@ const PaymentSection = () => {
                   Mahesh Yogi Chetan — AYM Yoga
                 </div>
                 <div className={styles.qrWrapper}>
-                  <img
+                   <Image
                     src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=upi://pay?pa=maheshyogaexpert@okhdfcbank%26pn=MaheshYogiChetan"
                     alt="UPI QR Code - maheshyogaexpert@okhdfcbank"
                     className={styles.qrImage}

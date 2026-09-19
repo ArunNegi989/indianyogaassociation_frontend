@@ -8,6 +8,7 @@ import ReviewSection from "@/components/common/Reviewsection";
 import RatingsSummarySection from "@/components/home/RatingsSummarySection";
 import PremiumGallerySection from "@/components/PremiumGallerySection";
 import StickySectionNav from "@/components/common/StickySectionNav";
+import Image from "next/image";
 
 /* ─────────────────────────────────────────
    TYPES
@@ -1279,7 +1280,7 @@ function DailyScheduleSection({
       <div className={styles.scheduleContainer}>
         {scheduleSrc && (
           <div className={styles.schedVideoSide}>
-            <img
+             <Image
               src={scheduleSrc}
               alt="Daily Schedule"
               className={styles.schedImg}
@@ -1490,7 +1491,7 @@ export default function GoaYogaPage() {
       {/* ════════ HERO ════════ */}
       <section id="hero" className={styles.heroSection}>
         {heroSrc && (
-          <img
+           <Image
             src={heroSrc}
             alt={pageData.heroAlt}
             className={styles.heroImage}
@@ -1510,7 +1511,7 @@ export default function GoaYogaPage() {
               <div className={styles.imageStack}>
                 {introBigSrc && (
                   <div className={styles.imgMain}>
-                    <img
+                     <Image
                       src={introBigSrc}
                       alt={pageData.heroAlt}
                       loading="lazy"
@@ -1519,7 +1520,7 @@ export default function GoaYogaPage() {
                 )}
                 {introSmallSrc && (
                   <div className={styles.imgAccent}>
-                    <img
+                     <Image
                       src={introSmallSrc}
                       alt={pageData.introHeading}
                       loading="lazy"
@@ -1606,7 +1607,7 @@ export default function GoaYogaPage() {
                   const src = resolveImg(b.imgUrl, API_BASE);
                   return src ? (
                     <div key={b.id} className={styles.beachPhoto}>
-                      <img src={src} alt={`Beach ${b.id}`} loading="lazy" />
+                       <Image src={src} alt={`Beach ${b.id}`} loading="lazy" />
                     </div>
                   ) : null;
                 })}
@@ -1843,7 +1844,7 @@ export default function GoaYogaPage() {
             <div className={styles.modalMandala} aria-hidden="true">
               <MandalaRing size={200} opacity={0.12} />
             </div>
-            <img
+             <Image
               src={modal.src}
               alt={modal.label}
               className={styles.modalImg}

@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "@/assets/style/yoga-teacher-training/Yogatraining.module.css";
 import Link from "next/link";
+import Image from "next/image";
 
 /* ─────────────────────────────────────────────
    CITY LINKS DATA
@@ -153,7 +154,7 @@ const YogaTrainingGoa: React.FC = () => {
         ══════════════════════════════════════ */}
         <div className={`${styles.section} ${styles.sectionImageLeft}`}>
           <div className={styles.imgWrap}>
-            <img
+             <Image
               src="https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?w=700&q=80&fit=crop"
               alt="Join Yoga, Teach Yoga Make the World a Happier Place"
               className={styles.sectionImg}
@@ -196,7 +197,7 @@ const YogaTrainingGoa: React.FC = () => {
         ══════════════════════════════════════ */}
         <div className={`${styles.section} ${styles.sectionImageRight}`}>
           <div className={styles.imgWrap}>
-            <img
+             <Image
               src="https://images.unsplash.com/photo-1588286840104-8957b019727f?w=700&q=80&fit=crop"
               alt="Gain A Solid Yoga Foundation, and Come Train With Us!"
               className={styles.sectionImg}
@@ -257,7 +258,7 @@ const YogaTrainingGoa: React.FC = () => {
         ══════════════════════════════════════ */}
         <div className={`${styles.section} ${styles.sectionImageLeft}`}>
           <div className={styles.imgWrap}>
-            <img
+             <Image
               src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=700&q=80&fit=crop"
               alt="Preexisting Conditions for High-Quality Education"
               className={styles.sectionImg}
@@ -302,7 +303,7 @@ const YogaTrainingGoa: React.FC = () => {
         ══════════════════════════════════════ */}
         <div className={`${styles.section} ${styles.sectionImageRight}`}>
           <div className={styles.imgWrap}>
-            <img
+             <Image
               src="https://images.unsplash.com/photo-1545389336-cf090694435e?w=700&q=80&fit=crop"
               alt="Yoga Lessons By Industry Leaders"
               className={styles.sectionImg}
@@ -348,7 +349,7 @@ const YogaTrainingGoa: React.FC = () => {
           style={{ borderBottom: "none" }}
         >
           <div className={styles.imgWrap}>
-            <img
+             <Image
               src="https://images.unsplash.com/photo-1603988363607-e1e4a66962c6?w=700&q=80&fit=crop"
               alt="Deepen Your Yoga Experience"
               className={styles.sectionImg}

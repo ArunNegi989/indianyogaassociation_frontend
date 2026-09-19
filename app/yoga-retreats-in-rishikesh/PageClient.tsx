@@ -5,6 +5,7 @@ import HowToReach from "@/components/home/Howtoreach";
 import PremiumGallerySection from "@/components/PremiumGallerySection";
 import Link from "next/link";
 import api from "@/lib/api";
+import Image from "next/image";
 
 /* ─────────────────────────────────────────────────────────
    `api` (lib/api.ts) already has baseURL = NEXT_PUBLIC_API_URL + "/api",
@@ -191,7 +192,7 @@ export default async function YogaRetreatPage() {
     <div className={styles.page}>
       {heroSrc && (
         <section className={styles.heroSection}>
-          <img
+           <Image
             src={heroSrc}
             alt={data.heroImageAlt}
             width={1180}
@@ -233,7 +234,7 @@ export default async function YogaRetreatPage() {
             {/* RIGHT — image */}
             <div className={styles.s1ImgCol}>
               {s1ImgSrc && (
-                <img src={s1ImgSrc} alt="Yoga retreat in Rishikesh" className={styles.s1Img} />
+                 <Image src={s1ImgSrc} alt="Yoga retreat in Rishikesh" className={styles.s1Img} />
               )}
               {data.s1PanelTags.length > 0 && (
                 <div className={styles.s1ImgPanel}>
@@ -330,7 +331,7 @@ export default async function YogaRetreatPage() {
             {data.photoStrip.map((item, i) => (
               <div key={i} className={styles.stripCell}>
                 {item.image && (
-                  <img src={getImageUrl(item.image)} alt={item.label} className={styles.stripImg} />
+                   <Image src={getImageUrl(item.image)} alt={item.label} className={styles.stripImg} />
                 )}
                 {item.label && <span className={styles.stripLabel}>{item.label}</span>}
               </div>

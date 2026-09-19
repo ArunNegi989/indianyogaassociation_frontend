@@ -1584,7 +1584,7 @@ export default function TwoHundredHourYoga() {
             </div>
             <div className={styles.h3LeftImageWrap}>
               {content?.aimsImage ? (
-                <img
+                <Image
                   src={imgUrl(content.aimsImage)}
                   alt="Yoga practice"
                   className={styles.h3LeftImg}
@@ -1669,7 +1669,7 @@ export default function TwoHundredHourYoga() {
             <div className={styles.moduleDetailGrid}>
               <div className={styles.moduleDetailImg}>
                 {content.ashtangaImage ? (
-                  <img
+                   <Image
                     src={imgUrl(content.ashtangaImage)}
                     alt={content.ashtangaImgAlt || "Ashtanga"}
                     className={styles.modImg}
@@ -1784,7 +1784,7 @@ export default function TwoHundredHourYoga() {
             </div>
             <div className={styles.section3Right}>
               {content.primarySeriesImage ? (
-                <img
+                 <Image
                   src={imgUrl(content.primarySeriesImage)}
                   alt="Yoga Primary Series practice"
                 />
@@ -1809,7 +1809,7 @@ export default function TwoHundredHourYoga() {
             <div className={styles.moduleDetailGrid}>
               <div className={styles.moduleDetailImg}>
                 {content.hathaImage ? (
-                  <img
+                  <Image
                     src={imgUrl(content.hathaImage)}
                     alt={content.hathaImgAlt || "Hatha"}
                     className={styles.modImg}
@@ -1940,7 +1940,7 @@ export default function TwoHundredHourYoga() {
               </div>
               <div className={styles.luxuryCenterImg}>
                 {content.luxImages?.length ? (
-                  <img
+                   <Image
                     src={imgUrl(content.luxImages[0])}
                     alt="Luxury facility"
                     className={styles.luxCenterImgEl}
@@ -1960,7 +1960,7 @@ export default function TwoHundredHourYoga() {
             {content.luxImages?.length > 1 && (
               <div className={styles.luxuryExtraImgs}>
                 {content.luxImages.slice(1).map((src, i) => (
-                  <img
+                   <Image
                     key={i}
                     src={imgUrl(src)}
                     alt={`Facility ${i + 2}`}
@@ -2062,7 +2062,7 @@ export default function TwoHundredHourYoga() {
               </div>
               <div className={styles.schedImgGrid}>
                 {content.schedImages?.length ? (
-                  <img
+                  <Image
                     src={imgUrl(content.schedImages[0])}
                     alt="Yoga class schedule"
                     className={styles.schedImg}
@@ -2175,7 +2175,7 @@ export default function TwoHundredHourYoga() {
                     boxShadow: "0 8px 32px rgba(80,40,5,0.14)",
                   }}
                 >
-                  <img
+                   <Image
                     src={imgUrl(content.reqImage)}
                     alt={content.requirementsImgAlt || "Requirements"}
                     style={{ width: "100%", height: "auto", display: "block" }}
@@ -2295,7 +2295,7 @@ export default function TwoHundredHourYoga() {
               <div key={i} className={styles.programCard}>
                 {p.image && (
                   <div className={styles.programCardImg}>
-                    <img src={imgUrl(p.image)} alt={stripHtml(p.title)} />
+                    <Image src={imgUrl(p.image)} alt={stripHtml(p.title)} />
                     <div className={styles.programImgOverlay} />
                     {i === 0 && (
                       <span className={styles.programBadge}>POPULAR</span>

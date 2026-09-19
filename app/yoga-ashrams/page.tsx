@@ -1,6 +1,7 @@
 // YogaAshrams.tsx
 import React from "react";
 import styles from "@/assets/style/yoga-ashrams/Yogaashrams.module.css";
+import Image from "next/image";
 
 // ---- Om Symbol SVG ----
 const OmSVG: React.FC = () => (
@@ -137,7 +138,7 @@ const YogaAshrams: React.FC = () => {
             <div className={styles.collageGrid}>
               {collageImages.map((img, idx) => (
                 <div key={idx} className={img.className}>
-                  <img src={img.src} alt={img.alt} loading="lazy" />
+                   <Image src={img.src} alt={img.alt} loading="lazy" />
                 </div>
               ))}
             </div>
@@ -255,7 +256,7 @@ const YogaAshrams: React.FC = () => {
           <div className={styles.ashramPhotoGrid}>
             {ashramPhotos.map((photo, idx) => (
               <div key={idx} className={photo.className}>
-                <img src={photo.src} alt={photo.alt} loading="lazy" />
+                 <Image src={photo.src} alt={photo.alt} loading="lazy" />
               </div>
             ))}
             <div className={styles.ashramCaption}>Yoga Ashram in Rishikesh</div>

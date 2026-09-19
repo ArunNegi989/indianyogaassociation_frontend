@@ -9,6 +9,7 @@ import RatingsSummarySection from "@/components/home/RatingsSummarySection";
 import PremiumGallerySection from "@/components/PremiumGallerySection";
 import StickySectionNav from "@/components/common/StickySectionNav";
 import Link from "next/link";
+import Image from "next/image";
 
 /* ─────────────────────────────────────────
    TYPES
@@ -985,7 +986,7 @@ function EnhancedIntroSection({ items }: { items: IntroItem[] }) {
                         Your browser does not support the video tag.
                       </video>
                     ) : (
-                      <img
+                       <Image
                         src={mediaUrl}
                         alt={item.mediaAlt || `Intro media ${index + 1}`}
                         loading="lazy"
@@ -1078,7 +1079,7 @@ function StandApartSection({ content }: { content: PageContent }) {
             <div className={styles.gainsFloat}>
               <div className={styles.imgStack}>
                 {content.shivaImage ? (
-                  <img
+                   <Image
                     src={imgSrc(content.shivaImage)}
                     alt="Yoga practice at AYM School Rishikesh"
                     className={styles.stackImg}
@@ -1248,7 +1249,7 @@ function PremiumMasonryGrid({
               onClick={() => openModal(idx)}
             >
               <div className={styles.masonryInner}>
-                <img src={imgSrc(item.src)} alt={`${title} ${idx + 1}`} />
+                 <Image src={imgSrc(item.src)} alt={`${title} ${idx + 1}`} />
                 <div className={styles.masonryOverlay}>
                   <div className={styles.masonryIcon}>
                     <svg
@@ -1359,7 +1360,7 @@ function PremiumImageModal({
         </button>
 
         <div className={styles.premiumModalImageWrapper}>
-          <img
+           <Image
             src={imgSrc(images[currentIndex])}
             alt={`Gallery ${currentIndex + 1}`}
             className={styles.premiumModalImage}
@@ -1409,7 +1410,7 @@ function PremiumImageModal({
                 }
               }}
             >
-              <img src={imgSrc(img)} alt={`Thumb ${idx + 1}`} />
+               <Image src={imgSrc(img)} alt={`Thumb ${idx + 1}`} />
             </div>
           ))}
         </div>
@@ -1578,7 +1579,7 @@ export default function YogaTTC500() {
 
       {content.heroImage && (
         <section id="hero" className={styles.heroSection}>
-          <img
+           <Image
             src={imgSrc(content.heroImage)}
             alt={content.heroImgAlt || "Yoga Students Group"}
             className={styles.heroImage}
@@ -1907,7 +1908,7 @@ export default function YogaTTC500() {
             </div>
             {content.evalImage && (
               <div className="col-12 col-md-6 mt-5">
-                <img
+                 <Image
                   src={imgSrc(content.evalImage)}
                   alt={content.evalImageAlt || "Evaluation process"}
                   className={styles.evalImg}

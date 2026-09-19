@@ -320,7 +320,7 @@ export default function AyurvedaPage() {
       <section id="hero" className={styles.heroSection}>
         {heroImage ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img
+           <Image
             src={heroImage}
             alt={data?.heroImgAlt || "Ayurveda & Yoga"}
             className={styles.heroImage}
@@ -394,7 +394,7 @@ export default function AyurvedaPage() {
 
             <div className={styles.introImage}>
               <div className={styles.imgFrame}>
-                <img
+                 <Image
                   src={imgUrl(data?.introRightImage) || ""}
                   alt="Ayurveda massage Rishikesh"
                 />
@@ -505,7 +505,7 @@ export default function AyurvedaPage() {
                 ayurvedaCourses.map((c) => (
                   <div key={c.level} className={styles.courseCard}>
                     <div className={styles.courseCardImg}>
-                      <img
+                       <Image
                         src={imgUrl(c.image) || ""}
                         alt={`Ayurveda ${c.level}`}
                       />
@@ -550,7 +550,7 @@ export default function AyurvedaPage() {
                 panchaKarmaCourses.map((c) => (
                   <div key={c.level} className={styles.courseCard}>
                     <div className={styles.courseCardImg}>
-                      <img
+                       <Image
                         src={imgUrl(c.image) || ""}
                         alt={`Panchakarma ${c.level}`}
                       />
@@ -625,7 +625,7 @@ export default function AyurvedaPage() {
 
             {/* ✅ RIGHT IMAGE — now from DB, falls back to Unsplash */}
             <div className={styles.panchBoxImage}>
-              <img src={pkRightImage} alt="Panchakarma Therapy" />
+               <Image src={pkRightImage} alt="Panchakarma Therapy" />
             </div>
           </div>
 
@@ -652,7 +652,7 @@ export default function AyurvedaPage() {
 
       {/* ════ SPICES IMAGE STRIP ════ */}
       <div className={styles.imgStrip}>
-        <img
+         <Image
           src={imgUrl(data?.spicesStripImage) || ""}
           alt="Ayurveda herbs and spices"
           className={styles.imgStripPhoto}
@@ -873,7 +873,7 @@ export default function AyurvedaPage() {
           </div>
 
           <div className={`${styles.reveal} ${styles.sunsetWrap}`}>
-            <img
+             <Image
               src={imgUrl(data?.sunsetImage) || ""}
               alt="Spiritual yoga Rishikesh sunset"
               className={styles.sunsetImg}

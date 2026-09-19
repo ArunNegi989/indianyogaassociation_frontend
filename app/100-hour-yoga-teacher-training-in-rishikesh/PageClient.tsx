@@ -802,7 +802,7 @@ function TextImageRow({
       <div className={styles.tiImageWrap}>
         <div className={styles.tiImageFrame}>
           {imageUrl ? (
-            <img
+            <Image
               src={imgUrl(imageUrl)}
               alt={imageAlt}
               className={styles.tiImage}
@@ -987,7 +987,7 @@ function SuitableSection({
             className={styles.suitableStrip}
             style={{ "--si": i } as React.CSSProperties}
           >
-            <img src={imgUrl(src)} alt={`yoga ${i + 1}`} />
+            <Image src={imgUrl(src)} alt={`yoga ${i + 1}`} />
           </div>
         ))}
         <div className={styles.suitableImageBadge}>
@@ -1534,7 +1534,7 @@ export default function HundredHourYoga() {
       {/* HERO IMAGE */}
       <section id="hero" className={styles.heroSection}>
         {content.bannerImage ? (
-          <img
+          <Image
             src={imgUrl(content.bannerImage)}
             alt="100 Hour Yoga Teacher Training"
             className={styles.heroImage}
@@ -1674,7 +1674,7 @@ export default function HundredHourYoga() {
           <div className={styles.rightImage}>
             <div className={styles.imageBox}>
               {content.syllabusImage1 ? (
-                <img
+                <Image
                   src={imgUrl(content.syllabusImage1)}
                   alt="Syllabus top"
                   className={styles.image}
@@ -1732,7 +1732,7 @@ export default function HundredHourYoga() {
           </div>
           {content.scheduleImage && (
             <div className={styles.centerImage}>
-              <img src={imgUrl(content.scheduleImage)} alt="Schedule" />
+               <Image src={imgUrl(content.scheduleImage)} alt="Schedule" />
               <div className={styles.centerBadge}>Since 2010</div>
             </div>
           )}
@@ -1770,7 +1770,7 @@ export default function HundredHourYoga() {
           <CornerOrnament pos="tr" />
           <CornerOrnament pos="bl" />
           <CornerOrnament pos="br" />
-          <img
+ <Image
             src={
               content.soulShineImage
                 ? imgUrl(content.soulShineImage)

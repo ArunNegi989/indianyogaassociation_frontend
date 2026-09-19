@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import styles from "@/assets/style/Accreditationsection/Accreditationsection.module.css";
 import HowToReach from "@/components/home/Howtoreach";
 import api from "@/lib/api";
+import Image from "next/image";
 
 /* ── Types (mirror the backend Affiliation model) ── */
 interface CardItem {
@@ -109,8 +110,8 @@ const ImageCarousel: React.FC<{ images: string[] }> = ({ images }) => {
               key={idx}
               className={`${styles.carouselSlide} ${idx === currentIndex ? styles.active : ""}`}
             >
-              {/* Dynamic backend images use a plain <img> (no next/image static import available) */}
-              <img
+              {/* Dynamic backend images use a plain  <Image> (no next/image static import available) */}
+               <Image
                 src={getImageUrl(img)}
                 alt={`Carousel image ${idx + 1}`}
                 className={styles.carouselImage}
@@ -204,7 +205,7 @@ const AccreditationSection: React.FC = () => {
     <>
       {data.heroImage && (
         <section className={styles.heroSection}>
-          <img
+           <Image
             src={getImageUrl(data.heroImage)}
             alt={data.heroImageAlt || "Yoga Students Group"}
             className={styles.heroImage}
@@ -253,7 +254,7 @@ const AccreditationSection: React.FC = () => {
           {rysImages.length > 0 && (
             <div className={styles.imgWrap}>
               {rysImages.map((r, idx) => (
-                <img
+                 <Image
                   key={idx}
                   src={getImageUrl(r.image)}
                   alt={r.alt || "AYM Yoga School registration"}
@@ -297,7 +298,7 @@ const AccreditationSection: React.FC = () => {
                 <div key={idx} className={styles.certCard}>
                   {cert.image && (
                     <div className={styles.certImageWrapper}>
-                      <img
+                       <Image
                         src={getImageUrl(cert.image)}
                         alt={`Yoga Alliance ${cert.type} certification logo`}
                         className={styles.responsiveImg}
@@ -325,7 +326,7 @@ const AccreditationSection: React.FC = () => {
             <div className={styles.certBoardWrapper}>
               {data.boardCertificateImage && (
                 <div className={styles.imgWrap1}>
-                  <img
+                   <Image
                     src={getImageUrl(data.boardCertificateImage)}
                     alt="Yoga Certification Board certificate"
                     className={styles.responsiveImg}
@@ -368,7 +369,7 @@ const AccreditationSection: React.FC = () => {
 
               {data.iyfLogoImage && (
                 <div className={styles.iyfImageWrapper}>
-                  <img
+                   <Image
                     src={getImageUrl(data.iyfLogoImage)}
                     alt="International Yoga Federation official logo"
                     className={styles.responsiveImg}
