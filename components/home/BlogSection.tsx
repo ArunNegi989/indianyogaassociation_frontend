@@ -29,14 +29,8 @@ export const BlogSection: React.FC = () => {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const res = await api.get("/blogs/get-all");
-        const allBlogs = res.data.data ?? [];
-        // Filter published blogs and get latest 4
-        const publishedBlogs = allBlogs
-          .filter((blog: any) => blog.status === "Published")
-          .sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime())
-          .slice(0, 4);
-        setBlogs(publishedBlogs);
+        const res = await api.get("/blogs/latest-published?limit=4");
+        setBlogs(res.data.data ?? []);
       } catch (err) {
         console.error("Failed to fetch blogs", err);
       } finally {
@@ -100,14 +94,17 @@ export const BlogSection: React.FC = () => {
 
         {/* Blog Grid */}
         <div className={styles.blogGrid}>
-          {blogs.map((blog, idx) => (
+          {blogs.map((blog) => (
             <article key={blog._id} className={styles.blogCard}>
               {/* Image Container */}
-              <div className={styles.imageContainer}>
-               <Image
+              <div className={styles.imageContainer} style={{ position: "relative" }}>
+                <Image
                   src={getImageUrl(blog.coverImage)}
                   alt={blog.title}
                   className={styles.blogImage}
+                  fill
+                  sizes="(max-width: 700px) 100vw, (max-width: 1024px) 45vw, 25vw"
+                  style={{ objectFit: "cover" }}
                   loading="lazy"
                   onError={(e) => {
                     const t = e.target as HTMLImageElement;
@@ -123,8 +120,8 @@ export const BlogSection: React.FC = () => {
               {/* Content */}
               <div className={styles.content}>
                 <span className={styles.date}>{formatDate(blog.date)}</span>
-                <div className={styles.metaInfo}>                  
-                  {blog.author && (                    
+                <div className={styles.metaInfo}>
+                  {blog.author && (
                     <span className={styles.author}>{blog.author}</span>
                   )}
                 </div>
