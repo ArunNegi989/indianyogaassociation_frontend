@@ -34,7 +34,7 @@ export const navLinks: NavLink[] = [
     href: "/",
     children: [
       { label: "Affiliation", href: "/yoga-alliance-yoga-school" },
-      { label: "About AYM", href: "/yoga-school-in-india" },
+      { label: "About IYA", href: "/yoga-school-in-india" },
       { label: "Yoga Rules", href: "/yoga-ttc-india" },
       { label: "Our Teachers", href: "/yoga-teacher-in-rishikesh" },
     ],

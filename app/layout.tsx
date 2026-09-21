@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Playfair_Display, Lato, Poppins, Montserrat } from "next/font/google";
-import Script from "next/script";
 import "./globals.css";
 import ConditionalLayout from "@/components/layout/ConditionalLayout";
 import { AuthProvider } from "@/context/AuthContext";
@@ -41,17 +40,10 @@ export const metadata: Metadata = {
   description:
     "Top Yoga Teacher Training in Rishikesh for USA & Europe students. 200-Hour YTT with Ayurveda, meditation & spiritual immersion in the birthplace of yoga.",
 
-    alternates: {
-      canonical: "https://www.indianyogaassociation.com",
-    },
-
+  alternates: {
+    canonical: "https://www.indianyogaassociation.com",
+  },
 };
-// export const metadata: Metadata = {
-//   title: "Yoga Teacher Training in Rishikesh - Best Yoga School in Rishikesh",
-//   description:
-//     "Yoga Teacher Training in Rishikesh - Best Yoga School in Rishikesh",
-// };
-
 
 export default function RootLayout({
   children,
@@ -61,14 +53,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+       
         <link
           rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-        />
-        <link
-          href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
-          rel="stylesheet"
-          crossOrigin="anonymous"
         />
       </head>
 
@@ -78,12 +66,6 @@ export default function RootLayout({
         <AuthProvider>
           <ConditionalLayout>{children}</ConditionalLayout>
         </AuthProvider>
-
-        <Script
-          src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-          strategy="afterInteractive"
-          crossOrigin="anonymous"
-        />
       </body>
     </html>
   );
