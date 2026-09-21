@@ -13,24 +13,28 @@ interface Slide {
   image: string;
 }
 
+interface Props {
+  initialSlides: Slide[];
+}
+
 const AUTOPLAY_DELAY = 5000;
 
-const HomepageSlider = () => {
+const HomepageSlider = ({ initialSlides }: Props) => {
   const [current, setCurrent] = useState(0);
-  const [slides, setSlides] = useState<Slide[]>([]);
+  const [slides, setSlides] = useState<Slide[]>(initialSlides);
   const [progressKey, setProgressKey] = useState(0);
 
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const touchStartX = useRef<number>(0);
   const touchEndX = useRef<number>(0);
 
-  /* FETCH BANNERS */
-
+  /* FETCH BANNERS — only if server didn't already provide them */
   useEffect(() => {
+    if (initialSlides.length > 0) return;
+
     const fetchBanners = async () => {
       try {
         const res = await api.get("/banners");
-
         if (res.data.success) {
           setSlides(res.data.data);
         }
@@ -40,7 +44,7 @@ const HomepageSlider = () => {
     };
 
     fetchBanners();
-  }, []);
+  }, [initialSlides]);
 
   /* NAVIGATION FUNCTIONS */
 
@@ -64,6 +68,7 @@ const HomepageSlider = () => {
     if (img.startsWith("http")) return img;
     return `${process.env.NEXT_PUBLIC_API_URL}${img}`;
   };
+
   /* AUTOPLAY */
 
   useEffect(() => {
@@ -131,6 +136,7 @@ const HomepageSlider = () => {
             style={{ objectFit: "cover" }}
             priority={idx === 0}
             loading={idx === 0 ? undefined : "lazy"}
+            quality={70}
           />
           <div className={styles.slideOverlay} />
 
@@ -185,15 +191,6 @@ const HomepageSlider = () => {
           />
         ))}
       </div>
-
-      {/* COUNTER */}
-
-      {/* <p className={styles.slideCounter}>
-        <span className={styles.slideCounterCurrent}>
-          {String(current + 1).padStart(2, "0")}
-        </span>{" "}
-        / {String(slides.length).padStart(2, "0")}
-      </p> */}
 
       {/* PROGRESS BAR */}
 
