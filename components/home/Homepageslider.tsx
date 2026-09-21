@@ -192,8 +192,6 @@ const HomepageSlider = ({ initialSlides }: Props) => {
         ))}
       </div>
 
-      {/* PROGRESS BAR */}
-
       <div
         key={progressKey}
         className={`${styles.progressBar} ${styles.animating}`}
