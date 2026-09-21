@@ -1,7 +1,7 @@
 /* ── Section shell ── */
 .section {
   position: relative;
-  background-image: url("../../images/backgroundimage/1905x1150.png");
+  background-image: url("../../images/backgroundimage/1905x1150.webp");
   background-size: cover;
   background-position: center bottom;
   background-repeat: no-repeat;
@@ -479,19 +479,19 @@
    ================================================================ */
 @media (max-width: 1680px) {
   .section {
-    background-image: url("../../images/backgroundimage/1680x1260.png");
+    background-image: url("../../images/backgroundimage/1680x1260.webp");
   }
 }
 
 @media (max-width: 1366px) {
   .section {
-    background-image: url("../../images/backgroundimage/1366x1204.png");
+    background-image: url("../../images/backgroundimage/1366x1204.webp");
   }
 }
 
 @media (max-width: 1100px) {
   .section {
-    background-image: url("../../images/backgroundimage/1100x1256.png");
+    background-image: url("../../images/backgroundimage/1100x1256.webp");
   }
 }
 
@@ -530,19 +530,19 @@
 
 @media (max-width: 861px) {
   .section {
-    background-image: url("../../images/backgroundimage/861x1236.png");
+    background-image: url("../../images/backgroundimage/861x1236.webp");
   }
 }
 
 @media (max-width: 768px) {
   .section {
-    background-image: url("../../images/backgroundimage/768x1482.png");
+    background-image: url("../../images/backgroundimage/768x1482.webp");
   }
 }
 
 @media (max-width: 660px) {
   .section {
-    background-image: url("../../images/backgroundimage/660x1596.png");
+    background-image: url("../../images/backgroundimage/660x1596.webp");
   }
 }
 
@@ -565,7 +565,7 @@
   }
 
   .section {
-    background-image: url("../../images/backgroundimage/510x1739.png");
+    background-image: url("../../images/backgroundimage/510x1739.webp");
   }
 }
 
@@ -586,6 +586,6 @@
 
 @media (max-width: 360px) {
   .section {
-    background-image: url("../../images/backgroundimage/360x2080.png");
+    background-image: url("../../images/backgroundimage/360x2080.webp");
   }
 }
