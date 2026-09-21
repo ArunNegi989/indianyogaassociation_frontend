@@ -1,4 +1,6 @@
 "use client";
+
+import "bootstrap/dist/css/bootstrap.min.css";
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";

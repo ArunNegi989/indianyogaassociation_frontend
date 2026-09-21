@@ -1,5 +1,5 @@
 "use client";
-
+import "bootstrap/dist/css/bootstrap.min.css";
 import { useState, useRef, useCallback, useEffect, memo, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";

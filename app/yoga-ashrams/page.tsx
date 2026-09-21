@@ -1,5 +1,7 @@
 // YogaAshrams.tsx
 import React from "react";
+
+import "bootstrap/dist/css/bootstrap.min.css";
 import styles from "@/assets/style/yoga-ashrams/Yogaashrams.module.css";
 import Image from "next/image";
 

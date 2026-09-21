@@ -1,5 +1,5 @@
 "use client";
-
+import "bootstrap/dist/css/bootstrap.min.css";
 import React, { useState, useEffect, useRef } from "react";
 import styles from "@/assets/style/500-hour-yoga-teacher-training-india/Yogattc500.module.css";
 import HowToReach from "@/components/home/Howtoreach";
