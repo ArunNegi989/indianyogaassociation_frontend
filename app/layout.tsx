@@ -4,11 +4,11 @@ import "./globals.css";
 import ConditionalLayout from "@/components/layout/ConditionalLayout";
 import { AuthProvider } from "@/context/AuthContext";
 
-// ✅ Headings font
+// ✅ Headings font — sirf jo weights actually use ho rahe hain unhe rakho
 const playfairDisplay = Playfair_Display({
   variable: "--font-playfair",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["600", "700"], // 4 se 2 kiya — check karo 400/500 kahin use to nahi ho rahe
   style: ["normal"],
 });
 
@@ -16,15 +16,15 @@ const playfairDisplay = Playfair_Display({
 const lato = Lato({
   variable: "--font-lato",
   subsets: ["latin"],
-  weight: ["300", "400", "700"],
+  weight: ["400", "700"], // 300 hata diya (light weight rarely visible/used)
   style: ["normal"],
 });
 
-// ✅ Alt body font (Poppins) — variable name fix kiya
+// ✅ Alt body font (Poppins)
 const poppins = Poppins({
   variable: "--font-poppins",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
+  weight: ["400", "600"], // 5 se 2 kiya
   style: ["normal"],
 });
 
@@ -32,14 +32,13 @@ const poppins = Poppins({
 const montserrat = Montserrat({
   variable: "--font-montserrat",
   subsets: ["latin"],
-  weight: ["500", "600", "700"],
+  weight: ["600"], // 3 se 1 kiya
 });
 
 export const metadata: Metadata = {
   title: "Yoga Teacher Training in Rishikesh - Best Yoga School in Rishikesh",
   description:
     "Top Yoga Teacher Training in Rishikesh for USA & Europe students. 200-Hour YTT with Ayurveda, meditation & spiritual immersion in the birthplace of yoga.",
-
   alternates: {
     canonical: "https://www.indianyogaassociation.com",
   },
@@ -52,14 +51,6 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <head>
-       
-        <link
-          rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-        />
-      </head>
-
       <body
         className={`${playfairDisplay.variable} ${lato.variable} ${poppins.variable} ${montserrat.variable} antialiased`}
       >
