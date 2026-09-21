@@ -1,38 +1,50 @@
 import type { Metadata } from "next";
-import { Playfair_Display, Lato, Poppins, Montserrat } from "next/font/google";
+import {
+  Playfair_Display,
+  Lato,
+  Poppins,
+  Montserrat,
+} from "next/font/google";
+
 import "./globals.css";
 import ConditionalLayout from "@/components/layout/ConditionalLayout";
 import { AuthProvider } from "@/context/AuthContext";
 
-// ✅ Headings font — sirf jo weights actually use ho rahe hain unhe rakho
+// Headings font
 const playfairDisplay = Playfair_Display({
   variable: "--font-playfair",
   subsets: ["latin"],
-  weight: ["600", "700"], // 4 se 2 kiya — check karo 400/500 kahin use to nahi ho rahe
+  weight: ["600", "700"],
   style: ["normal"],
+  display: "swap",
 });
 
-// ✅ Body font
+// Body font
 const lato = Lato({
   variable: "--font-lato",
   subsets: ["latin"],
-  weight: ["400", "700"], // 300 hata diya (light weight rarely visible/used)
+  weight: ["400", "700"],
   style: ["normal"],
+  display: "swap",
 });
 
-// ✅ Alt body font (Poppins)
+// Alt body font
 const poppins = Poppins({
   variable: "--font-poppins",
   subsets: ["latin"],
-  weight: ["400", "600"], // 5 se 2 kiya
+  weight: ["400", "600"],
   style: ["normal"],
+  display: "swap",
+  preload: false,
 });
 
-// ✅ Menu font
+// Menu font
 const montserrat = Montserrat({
   variable: "--font-montserrat",
   subsets: ["latin"],
-  weight: ["600"], // 3 se 1 kiya
+  weight: ["600"],
+  display: "swap",
+  preload: false,
 });
 
 export const metadata: Metadata = {
