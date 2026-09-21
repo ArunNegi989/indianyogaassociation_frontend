@@ -106,7 +106,6 @@
 .schoolSection {
   color: #3d2b10;
   animation: fadeIn 0.8s ease-in-out;
-  /* background-image: url("/assets/images/backgroundimage/1905x1662.png"); */
   background: #fff;
   /* background-size: contain; */
 }
@@ -117,7 +116,7 @@
 }
 
 .contentSectionLarge {
-  background-image: url("../../images/backgroundimage/13.png");
+  background-image: url("../../images/backgroundimage/13.webp");
   border-top: 1px solid var(--border-soft);
 }
 

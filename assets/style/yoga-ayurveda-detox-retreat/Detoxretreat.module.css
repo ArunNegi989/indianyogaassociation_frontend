@@ -14,7 +14,7 @@
 ==================================================== */
 .pageWrapper {
    font-family: "Montserrat", Arial, sans-serif;
-  background-image: url("../../images/backgroundimage/detox.png");
+  background-image: url("../../images/backgroundimage/detox.webp");
   color: var(--text-body);
   overflow-x: hidden;
 }

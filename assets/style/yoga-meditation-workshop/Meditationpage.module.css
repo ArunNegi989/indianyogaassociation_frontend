@@ -37,7 +37,7 @@
 .page {
   font-family: 'Lato', sans-serif;
   color: var(--text-dark);
-   background-image: url("../../images/backgroundimage/20.png") !important;
+   background-image: url("../../images/backgroundimage/20.webp") !important;
 }
 
 /* ─── Shared Container ─── */

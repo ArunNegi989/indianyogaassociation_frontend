@@ -8,7 +8,7 @@
   --text-body: #333333;
   --white: #ffffff;
   --link-color: #1a5276;
-  background-image: url("../../images/backgroundimage/24.png") !important;
+  background-image: url("../../images/backgroundimage/24.webp") !important;
 }
 
 /* ====================================================
@@ -16,7 +16,7 @@
 ==================================================== */
 .pageWrapper {
    font-family: "Montserrat", Arial, sans-serif;
- background-image: url("../../images/backgroundimage/24.png") ;
+ background-image: url("../../images/backgroundimage/24.webp") ;
   color: var(--text-body);
   overflow-x: hidden;
   margin: 0 auto;

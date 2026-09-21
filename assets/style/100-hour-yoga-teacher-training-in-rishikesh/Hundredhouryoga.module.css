@@ -32,7 +32,7 @@
   position: relative;
   overflow-x: hidden;
   background-color: var(--parchment);
-  background-image: url("../../images/backgroundimage/56.png");
+  background-image: url("../../images/backgroundimage/56.webp");
   color: var(--ink-sepia);
   font-family: var(--font-body);
 }

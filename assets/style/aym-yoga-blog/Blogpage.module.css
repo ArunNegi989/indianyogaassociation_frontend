@@ -14,7 +14,7 @@
   position: relative;
   background: linear-gradient(160deg, #3d1d00 0%, #6b3800 40%, #3d1d00 100%);
   background-image:
-    url('../../images/bannerbackground1.png'),
+    url('../../images/bannerbackground1.webp'),
     linear-gradient(160deg, #3d1d00 0%, #6b3800 100%);
   background-size: cover;
   background-position: center;
@@ -689,7 +689,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  background-image: url('../../images/bannerbackground1.png');
+  background-image: url('../../images/bannerbackground1.webp');
   background-size: cover;
   opacity: 0.15;
 }
