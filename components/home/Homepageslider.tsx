@@ -28,7 +28,6 @@ const HomepageSlider = ({ initialSlides }: Props) => {
   const touchStartX = useRef<number>(0);
   const touchEndX = useRef<number>(0);
 
-  /* FETCH BANNERS — only if server didn't already provide them */
   useEffect(() => {
     if (initialSlides.length > 0) return;
 
@@ -45,8 +44,6 @@ const HomepageSlider = ({ initialSlides }: Props) => {
 
     fetchBanners();
   }, [initialSlides]);
-
-  /* NAVIGATION FUNCTIONS */
 
   const goTo = useCallback((index: number) => {
     setCurrent(index);
@@ -69,8 +66,6 @@ const HomepageSlider = ({ initialSlides }: Props) => {
     return `${process.env.NEXT_PUBLIC_API_URL}${img}`;
   };
 
-  /* AUTOPLAY */
-
   useEffect(() => {
     if (!slides.length) return;
 
@@ -80,8 +75,6 @@ const HomepageSlider = ({ initialSlides }: Props) => {
       if (timerRef.current) clearTimeout(timerRef.current);
     };
   }, [current, goNext, slides.length]);
-
-  /* KEYBOARD NAVIGATION */
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -93,8 +86,6 @@ const HomepageSlider = ({ initialSlides }: Props) => {
 
     return () => window.removeEventListener("keydown", onKey);
   }, [goNext, goPrev]);
-
-  /* TOUCH SWIPE */
 
   const handleTouchStart = (e: React.TouchEvent) => {
     touchStartX.current = e.touches[0].clientX;
@@ -153,8 +144,6 @@ const HomepageSlider = ({ initialSlides }: Props) => {
         </div>
       ))}
 
-      {/* NAV BUTTONS */}
-
       <button
         className={`${styles.navBtn} ${styles.navPrev}`}
         onClick={goPrev}
@@ -170,8 +159,6 @@ const HomepageSlider = ({ initialSlides }: Props) => {
       >
         ›
       </button>
-
-      {/* DOTS */}
 
       <div
         className={styles.dotsRow}

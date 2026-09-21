@@ -216,7 +216,7 @@ const DEFAULT_DATA: ApiHowToReachData = {
   pickupBookBtnText: "Book Pickup / Drop",
   pickupWhatsappBtnText: "WhatsApp",
 
-  mapLabel: "AYM Yoga School, Rishikesh",
+  mapLabel: "Indian Yoga Association, Rishikesh",
   mapEmbedSrc: "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7440.500180811323!2d78.320039!3d30.132348!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3909165c44bab785%3A0x4119a3fa1806f00c!2sAYM%20YOGA%20SCHOOL!5e1!3m2!1sen!2sin!4v1771998100416!5m2!1sen!2sin",
   mapDirectionsText: "↗ Get Directions",
   mapDirectionsUrl: "https://maps.google.com/?q=Indian+Yoga+Association+Rishikesh",

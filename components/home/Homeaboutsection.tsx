@@ -1,6 +1,3 @@
-"use client";
-
-import React, { useEffect, useState } from "react";
 import styles from "../../assets/style/Home/Homeaboutsection.module.css";
 import api from "@/lib/api";
 import Link from "next/link";
@@ -26,35 +23,23 @@ interface HomeAboutData {
   ctaLink: string;
 }
 
-export const HomeaboutSection = () => {
-  const [data, setData] = useState<HomeAboutData | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  const fetchAbout = async () => {
-    try {
-      const res = await api.get("/home-about/get-home-about");
-      setData(res.data.data);
-    } catch (error) {
-      console.error("Failed to fetch home about");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchAbout();
-  }, []);
-
-  if (loading) {
-    return <div className={styles.section}>Loading...</div>;
+async function getHomeAboutData(): Promise<HomeAboutData | null> {
+  try {
+    const res = await api.get("/home-about/get-home-about");
+    return res.data.data;
+  } catch (error) {
+    console.error("Failed to fetch home about");
+    return null;
   }
+}
+
+export const HomeaboutSection = async () => {
+  const data = await getHomeAboutData();
 
   if (!data) return null;
 
   return (
     <section className={styles.section}>
-     
-
       <div className={styles.container}>
         {/* HEADER */}
         <div className={styles.header}>
@@ -150,8 +135,6 @@ export const HomeaboutSection = () => {
           </Link>
         </div>
       </div>
-
-     
     </section>
   );
 };
