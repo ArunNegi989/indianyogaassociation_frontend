@@ -2851,6 +2851,8 @@
   position: relative;
   padding: 7px 0;
   background: white;
+  display: flex;
+  justify-self: center;
 }
 
 .premiumGalleryHeader {
