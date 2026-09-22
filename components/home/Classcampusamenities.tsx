@@ -37,12 +37,18 @@ interface SectionData {
 }
 
 /* ─────────────────────────────────────────
-   Skeleton — reserves the exact measured
-   image ratios so nothing jumps when the
-   real data arrives (fixes CLS)
-   classSizeImage    → 673 / 460.156  (measured via DevTools)
-   campusImages[0]   → 740.3 / 506.172 (measured via DevTools)
-   amenityImage      → 708.609 / 708.609 (square, measured)
+   Skeleton — uses the SAME CSS classes
+   (.topRow, .amenitiesRow etc.) as the real
+   content, so the same media queries apply
+   and the layout shape (2-col desktop /
+   1-col mobile) never changes when real
+   data replaces the skeleton. Only the
+   shimmer blocks swap for real content —
+   minimal CLS.
+   Image ratios measured live via DevTools:
+   classSizeImage  → 673 / 460.156
+   campusImages[0] → 740.3 / 506.172
+   amenityImage    → 708.609 / 708.609 (square)
 ───────────────────────────────────────── */
 function ClassCampusAmenitiesSkeleton() {
   const shimmer: React.CSSProperties = {
@@ -52,29 +58,56 @@ function ClassCampusAmenitiesSkeleton() {
     animation: "cca-pulse 1.5s ease-in-out infinite",
   };
   return (
-    <section className={styles.section} style={{ minHeight: 900 }}>
+    <section className={styles.section}>
       <div className={styles.container}>
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
-            gap: "2rem",
-            marginBottom: "2rem",
-          }}
-        >
-          <div style={{ aspectRatio: "673 / 460.156", ...shimmer }} />
-          <div style={{ aspectRatio: "740.3 / 506.172", ...shimmer }} />
+        <div className={styles.topRow}>
+          <div className={styles.classBlock}>
+            <div
+              style={{
+                height: 32,
+                width: "70%",
+                margin: "0 auto 1.5rem",
+                ...shimmer,
+              }}
+            />
+            <div style={{ aspectRatio: "673 / 460.156", ...shimmer }} />
+          </div>
+
+          <div className={styles.vertDivider} aria-hidden="true">
+            <span className={styles.vertLine} />
+          </div>
+
+          <div className={styles.campusBlock}>
+            <div
+              style={{
+                height: 32,
+                width: "70%",
+                margin: "0 auto 1.5rem",
+                ...shimmer,
+              }}
+            />
+            <div style={{ aspectRatio: "740.3 / 506.172", ...shimmer }} />
+          </div>
         </div>
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
-            gap: "2rem",
-            minHeight: 300,
-          }}
-        >
-          <div style={{ minHeight: 300, ...shimmer }} />
-          <div style={{ aspectRatio: "708.609 / 708.609", ...shimmer }} />
+
+        <div className={styles.amenitiesRow} style={{ marginTop: "3rem" }}>
+          <div className={styles.amenitiesLeft}>
+            <div
+              style={{
+                height: 32,
+                width: "60%",
+                marginBottom: "1.5rem",
+                ...shimmer,
+              }}
+            />
+            <div style={{ height: 200, ...shimmer }} />
+          </div>
+
+          <div className={styles.amenitiesRight}>
+            <div
+              style={{ aspectRatio: "708.609 / 708.609", ...shimmer }}
+            />
+          </div>
         </div>
       </div>
       <style>{`
@@ -127,8 +160,8 @@ export const ClassCampusAmenities: React.FC = () => {
     return () => observer.disconnect();
   }, [data]);
 
-  // FIX: skeleton instead of null — reserves layout space so the whole
-  // section doesn't pop in and push everything below it down (CLS fix)
+  // FIX: skeleton (using the real CSS classes) instead of null —
+  // reserves the correct layout shape at every breakpoint (CLS fix)
   if (loading) return <ClassCampusAmenitiesSkeleton />;
   if (!data) return null;
 
@@ -206,7 +239,10 @@ export const ClassCampusAmenities: React.FC = () => {
               */
               <div
                 className={styles.campusThumb}
-                style={{ position: "relative", aspectRatio: "740.3 / 506.172" }}
+                style={{
+                  position: "relative",
+                  aspectRatio: "740.3 / 506.172",
+                }}
               >
                 <Image
                   src={getImageUrl(data.campusImages[0])}
@@ -280,7 +316,10 @@ export const ClassCampusAmenities: React.FC = () => {
             */}
             <div
               className={styles.amenityMosaic}
-              style={{ position: "relative", aspectRatio: "708.609 / 708.609" }}
+              style={{
+                position: "relative",
+                aspectRatio: "708.609 / 708.609",
+              }}
             >
               <Image
                 src={getImageUrl(data.amenityImage)}
