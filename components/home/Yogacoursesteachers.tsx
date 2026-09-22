@@ -158,12 +158,24 @@ function TeacherModal({
         <div className={styles.mCornerBL} />
         <div className={styles.mCornerBR} />
         <div className={styles.modalInner}>
+          {/*
+            ⚠️ FIX: modalImgFrame had no explicit size, and the Image
+            inside had neither width/height nor fill — invalid for
+            next/image and a CLS source. `styles.modalImgFrame` already
+            positions the corner decorations absolutely, so it should
+            already be `position: relative` in the CSS module — if not,
+            add `position: relative; aspect-ratio: 3 / 4;` (or similar)
+            to `.modalImgFrame` in Yogacoursesteachers.module.css.
+          */}
           <div className={styles.modalImgFrame}>
             {getImageUrl(teacher.imgUrl) ? (
               <Image
                 src={getImageUrl(teacher.imgUrl)}
                 alt={`${teacher.name} ${teacher.surname}`}
                 className={styles.modalImg}
+                fill
+                sizes="(max-width: 768px) 90vw, 400px"
+                style={{ objectFit: "cover" }}
               />
             ) : (
               <div className={styles.modalImgPlaceholder}>🧘</div>
@@ -319,11 +331,21 @@ function CourseSlider({
                 onMouseEnter={() => setHoveredCard(course._id)}
                 onMouseLeave={() => setHoveredCard(null)}
               >
+                {/*
+                  ⚠️ FIX: cardImgWrap already positions cardDays/cardHours/
+                  cardOmPulse absolutely, so it should already be
+                  `position: relative` in the CSS module. The Image itself
+                  had no width/height/fill — added `fill` + `sizes` here so
+                  its box is reserved before the image loads.
+                */}
                 <div className={styles.cardImgWrap}>
                   <Image
                     src={getImageUrl(course.imgUrl)}
                     alt={course.name}
                     className={styles.cardImg}
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 25vw"
+                    style={{ objectFit: "cover" }}
                     loading="lazy"
                   />
                   <div
@@ -544,12 +566,22 @@ function TeacherSlider({
                 tabIndex={0}
                 onKeyDown={(e) => e.key === "Enter" && onSelect(t)}
               >
+                {/*
+                  ⚠️ FIX: teacherImgWrap already positions teacherImgOverlay/
+                  teacherClickHint absolutely, so it should already be
+                  `position: relative`. Image now uses `fill` + `sizes`
+                  instead of having no size at all.
+                */}
                 <div className={styles.teacherImgWrap}>
                   {getImageUrl(t.imgUrl) ? (
                     <Image
                       src={getImageUrl(t.imgUrl)}
                       alt={`${t.name} ${t.surname}`}
                       className={styles.teacherImg}
+                      fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 25vw"
+                      style={{ objectFit: "cover" }}
+                      loading="lazy"
                     />
                   ) : (
                     <div className={styles.teacherImgPlaceholder}>🧘</div>
@@ -796,13 +828,25 @@ export const YogaCoursesTeachers: React.FC = () => {
           {/* Founder Block */}
           <div className={styles.founderBlock}>
             <div className={styles.founderImgCol}>
+              {/*
+                ⚠️ FIX: founderImgFrame renders corner decorations and an
+                overlay absolutely, so it should already be
+                `position: relative` in the CSS module. The Image itself
+                previously had ONLY inline width/height:100% styles with no
+                `fill` and no numeric width/height — that's invalid for
+                next/image and would either throw or render at 0×0,
+                reserving no space (a CLS source). Switched to `fill`.
+              */}
               <div className={styles.founderImgFrame}>
                 {getImageUrl(founder.imgUrl) ? (
                   <Image
                     src={getImageUrl(founder.imgUrl)}
                     alt={founder.imgAlt}
                     className={styles.founderImg}
-                    style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 400px"
+                    style={{ objectFit: "cover" }}
+                    loading="lazy"
                   />
                 ) : (
                   <div

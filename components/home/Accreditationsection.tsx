@@ -304,6 +304,8 @@ function AwardRow({ cert }: { cert: AwardCert }) {
             src={getImageUrl(cert.image)}
             alt={cert.alt || cert.label}
             fill
+            sizes="(max-width: 768px) 100vw, 400px"
+            loading="lazy"
             style={{ objectFit: "cover" }}
           />
           <div className={`${styles.corner} ${styles.tl}`} />
@@ -367,6 +369,44 @@ function AwardRow({ cert }: { cert: AwardCert }) {
   );
 }
 
+/* ── Fixed-height skeleton — replaces the old plain "Loading..." text.
+   Reserves roughly the same vertical space this section occupies once
+   loaded, so nothing jumps into view and CLS stays low. Tune the
+   min-heights below if your real content is taller/shorter. ── */
+function AccreditationSkeleton() {
+  const shimmer: React.CSSProperties = {
+    background:
+      "linear-gradient(90deg, #fdf0dc 25%, #ffe8c2 50%, #fdf0dc 75%)",
+    borderRadius: "8px",
+    animation: "acc-pulse 1.5s ease-in-out infinite",
+  };
+  return (
+    <div style={{ padding: "3rem 1rem", maxWidth: 1200, margin: "0 auto" }}>
+      <div
+        style={{ height: 32, width: "40%", margin: "0 auto 2rem", ...shimmer }}
+      />
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "1fr 1fr",
+          gap: "2rem",
+          minHeight: 320,
+        }}
+      >
+        <div style={{ ...shimmer, minHeight: 320 }} />
+        <div style={{ ...shimmer, minHeight: 320 }} />
+      </div>
+      <div style={{ height: 220, marginTop: "2rem", ...shimmer }} />
+      <style>{`
+        @keyframes acc-pulse {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.5; }
+        }
+      `}</style>
+    </div>
+  );
+}
+
 export const AccreditationSection: React.FC = () => {
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
@@ -385,8 +425,8 @@ export const AccreditationSection: React.FC = () => {
     fetchData();
   }, []);
 
-  if (loading) return <p>Loading...</p>;
-  if (!data) return <p>No data found</p>;
+  if (loading) return <AccreditationSkeleton />;
+  if (!data) return null;
 
   const courseCerts: any[] = data.courseCerts || [];
   const awardCerts: AwardCert[] = data.awardCerts || [];
@@ -412,6 +452,16 @@ export const AccreditationSection: React.FC = () => {
             <div className={styles.authImageCol}>
               <div className={styles.authImageFrame}>
                 <div className={styles.authImageInner}>
+                  {/*
+                    ⚠️ FIX: removed the second `priority` image.
+                    Only ONE priority/preloaded image should exist per page —
+                    that's the first hero slider slide (idx === 0 in
+                    HomepageSlider). A second `priority` image here was
+                    competing for the browser's high-priority fetch queue
+                    and slowing down the real LCP element.
+                    `loading="lazy"` is safe since this section renders
+                    well below the fold.
+                  */}
                   <Image
                     src={getImageUrl(data.mainImage)}
                     alt={data.imageCaption}
@@ -423,7 +473,7 @@ export const AccreditationSection: React.FC = () => {
                       objectFit: "cover",
                       borderRadius: "4px",
                     }}
-                    priority
+                    loading="lazy"
                   />
                   <p className={styles.imageCaption}>{data.imageCaption}</p>
                 </div>
@@ -495,6 +545,8 @@ export const AccreditationSection: React.FC = () => {
                         src={getImageUrl(cert.image)}
                         alt={cert.alt || cert.label}
                         fill
+                        sizes="(max-width: 768px) 50vw, 25vw"
+                        loading="lazy"
                         style={{ objectFit: "cover" }}
                       />
                     </div>

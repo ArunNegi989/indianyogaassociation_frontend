@@ -185,27 +185,42 @@ export const WhyAYMSection: React.FC = () => {
           {/* ── Image Column ── */}
           <div className={`${styles.imageCol} ${styles.fadeUp}`}>
             <div className={styles.imageWrap}>
-              <div className={styles.imageFrame}>
+              <div
+                className={styles.imageFrame}
+                style={{
+                  position: "relative",
+                  width: "100%",
+                  aspectRatio: "3 / 2",
+                }}
+              >
+                {/*
+                  ⚠️ FIX: this Image had NO width/height/fill at all before —
+                  the browser reserved zero space for it, so the whole
+                  layout jumped down once the image finally loaded. Now the
+                  parent has a fixed aspect-ratio + position:relative, and
+                  the Image uses `fill`, so its box exists from first paint
+                  in both the http and non-http branches.
+                */}
                 {heroImageUrl ? (
-                  /* External URL ya /uploads/... → next/image unoptimized */
                   data.imageSrc.startsWith("http") ? (
                     <Image
                       src={heroImageUrl}
                       alt={data.imageAlt || "AYM Yoga School"}
                       className={styles.heroImg}
-                      style={{
-                        width: "100%",
-                        height: "100%",
-                        objectFit: "cover",
-                      }}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 600px"
+                      style={{ objectFit: "cover" }}
+                      loading="lazy"
                     />
                   ) : (
                     <Image
                       src={heroImageUrl}
                       alt={data.imageAlt || "AYM Yoga School"}
                       className={styles.heroImg}
-                      width={600}
-                      height={400}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 600px"
+                      style={{ objectFit: "cover" }}
+                      loading="lazy"
                       unoptimized
                     />
                   )
