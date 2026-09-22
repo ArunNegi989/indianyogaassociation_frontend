@@ -42,7 +42,7 @@
 
 .logo {
   width: auto;
-  height: 50px;
+  height: 40px;
   object-fit: contain;
   filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.45));
   transition: transform 0.2s ease;
@@ -479,7 +479,7 @@
   }
 
   .logo {
-    height: 46px;
+    height: 40px;
   }
 
   .dropdown {
@@ -501,7 +501,7 @@
   }
 
   .logo {
-    height: 50px;
+    height: 38px;
   }
 }
 
@@ -519,7 +519,7 @@
   }
 
   .logo {
-    height: 56px;
+    height: 38px;
   }
 }
 
@@ -587,7 +587,7 @@
   }
 
   .logo {
-    height: 50px;
+    height: 38px;
   }
 
   .mobileDrawer {
@@ -629,7 +629,7 @@
   }
 
   .logo {
-    height: 46px;
+    height: 38px;
   }
 
   .bar {
@@ -672,7 +672,7 @@
   }
 
   .logo {
-    height: 44px;
+    height: 38px;
   }
 
   .bar {
@@ -734,7 +734,7 @@
   }
 
   .logo {
-    height: 42px;
+    height: 38px;
   }
 
   .bar {
@@ -807,7 +807,7 @@
   }
 
   .logo {
-    height: 40px;
+    height: 32px;
   }
 
   .bar {

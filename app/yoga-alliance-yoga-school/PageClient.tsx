@@ -110,18 +110,13 @@ const ImageCarousel: React.FC<{ images: string[] }> = ({ images }) => {
               key={idx}
               className={`${styles.carouselSlide} ${idx === currentIndex ? styles.active : ""}`}
             >
-              {/* Dynamic backend images use a plain  <Image> (no next/image static import available) */}
-               <Image
+              {/* .carouselWrapper has aspect-ratio: 16/9, so fill works here */}
+              <Image
                 src={getImageUrl(img)}
                 alt={`Carousel image ${idx + 1}`}
+                fill
+                unoptimized={process.env.NODE_ENV !== "production"}
                 className={styles.carouselImage}
-                style={{
-                  position: "absolute",
-                  inset: 0,
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "cover",
-                }}
               />
             </div>
           ))}
@@ -203,12 +198,19 @@ const AccreditationSection: React.FC = () => {
 
   return (
     <>
+      {/* HERO — .heroSection has no fixed height (line-height:0, overflow:hidden),
+          .heroImage uses width:100%; height:auto; max-height:540px —
+          so use normal width/height, NOT fill */}
       {data.heroImage && (
         <section className={styles.heroSection}>
-           <Image
+          <Image
             src={getImageUrl(data.heroImage)}
             alt={data.heroImageAlt || "Yoga Students Group"}
+            width={1920}
+            height={800}
+            unoptimized={process.env.NODE_ENV !== "production"}
             className={styles.heroImage}
+            priority
           />
         </section>
       )}
@@ -251,13 +253,18 @@ const AccreditationSection: React.FC = () => {
             </div>
           )}
 
+          {/* .imgWrap img { max-height:190px; width:auto; object-fit:contain } —
+              normal pattern, no fill */}
           {rysImages.length > 0 && (
             <div className={styles.imgWrap}>
               {rysImages.map((r, idx) => (
-                 <Image
+                <Image
                   key={idx}
                   src={getImageUrl(r.image)}
                   alt={r.alt || "AYM Yoga School registration"}
+                  width={400}
+                  height={200}
+                  unoptimized={process.env.NODE_ENV !== "production"}
                   className={styles.responsiveImgage}
                 />
               ))}
@@ -287,6 +294,7 @@ const AccreditationSection: React.FC = () => {
         </div>
 
         {/* PART 2 - YOGA ALLIANCE CERTS */}
+        {/* .certImageWrapper has aspect-ratio: 4/3, so fill works here */}
         {certs.length > 0 && (
           <div className={styles.container}>
             <SectionTitle subtitle={data.certsSectionSubtitle}>
@@ -298,10 +306,12 @@ const AccreditationSection: React.FC = () => {
                 <div key={idx} className={styles.certCard}>
                   {cert.image && (
                     <div className={styles.certImageWrapper}>
-                       <Image
+                      <Image
                         src={getImageUrl(cert.image)}
                         alt={`Yoga Alliance ${cert.type} certification logo`}
-                        className={styles.responsiveImg}
+                        fill
+                        unoptimized={process.env.NODE_ENV !== "production"}
+                        style={{ objectFit: "contain" }}
                       />
                     </div>
                   )}
@@ -316,6 +326,7 @@ const AccreditationSection: React.FC = () => {
         )}
 
         {/* PART 3 - YOGA CERTIFICATION BOARD */}
+        {/* .imgWrap1 has no fixed height — normal pattern, no fill */}
         {(data.boardSectionTitle || data.boardCertificateImage || data.boardInfoText) && (
           <div className={styles.container}>
             <SectionTitle>{data.boardSectionTitle || "Yoga Certification Board"}</SectionTitle>
@@ -326,9 +337,12 @@ const AccreditationSection: React.FC = () => {
             <div className={styles.certBoardWrapper}>
               {data.boardCertificateImage && (
                 <div className={styles.imgWrap1}>
-                   <Image
+                  <Image
                     src={getImageUrl(data.boardCertificateImage)}
                     alt="Yoga Certification Board certificate"
+                    width={700}
+                    height={500}
+                    unoptimized={process.env.NODE_ENV !== "production"}
                     className={styles.responsiveImg}
                   />
                 </div>
@@ -342,6 +356,7 @@ const AccreditationSection: React.FC = () => {
         )}
 
         {/* PART 4 - INTERNATIONAL YOGA FEDERATION */}
+        {/* .iyfImageWrapper is a flex container with no fixed height — normal pattern, no fill */}
         {(data.iyfSectionTitle || iyfParagraphs.length > 0) && (
           <div className={styles.container}>
             <SectionTitle>{data.iyfSectionTitle || "International Yoga Federation"}</SectionTitle>
@@ -369,9 +384,12 @@ const AccreditationSection: React.FC = () => {
 
               {data.iyfLogoImage && (
                 <div className={styles.iyfImageWrapper}>
-                   <Image
+                  <Image
                     src={getImageUrl(data.iyfLogoImage)}
                     alt="International Yoga Federation official logo"
+                    width={400}
+                    height={400}
+                    unoptimized={process.env.NODE_ENV !== "production"}
                     className={styles.responsiveImg}
                   />
                 </div>

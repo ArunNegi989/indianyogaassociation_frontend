@@ -138,13 +138,19 @@ const AboutUs: React.FC = () => {
     <main className={styles.page}>
       {/* ══════════════════════════════════════
           HERO SECTION
+          .heroSection has no fixed height (line-height:0, overflow:hidden),
+          .heroImage uses width:100%; height:auto — normal width/height, no fill
       ══════════════════════════════════════ */}
       {data.heroImage && (
         <section className={styles.heroSection}>
-           <Image
+          <Image
             src={getImageUrl(data.heroImage)}
             alt={data.heroImageAlt || "Yoga Students Group"}
+            width={1920}
+            height={800}
+            unoptimized={process.env.NODE_ENV !== "production"}
             className={styles.heroImage}
+            priority
           />
         </section>
       )}
@@ -184,7 +190,7 @@ const AboutUs: React.FC = () => {
               </div>
             </div>
 
-            {/* Right: Gallery Image */}
+            {/* Right: Gallery Image — uses CSS background-image, not next/image, no change needed */}
             {data.schoolGalleryImage && (
               <div className={styles.schoolImagesRight}>
                 <div className={styles.schoolGalleryCard}>
@@ -222,6 +228,7 @@ const AboutUs: React.FC = () => {
 
       {/* ══════════════════════════════════════
           BLOCK 2 — Vision and Mission
+          .vmImageWrapper has fixed height (clamp 200-360px) — fill works
       ══════════════════════════════════════ */}
       {(data.visionMissionBlockTitle || visionParagraphs.length > 0 || missionParagraphs.length > 0) && (
         <section className={styles.contentSection}>
@@ -236,8 +243,14 @@ const AboutUs: React.FC = () => {
             <div className={styles.visionMissionGrid}>
               <div className={styles.visionCard}>
                 {data.visionImage && (
-                  <div className={styles.vmImageWrapper}>
-                     <Image src={getImageUrl(data.visionImage)} alt={data.visionTitle || "Vision"} className={styles.vmImage} />
+                  <div className={styles.vmImageWrapper} style={{ position: "relative" }}>
+                    <Image
+                      src={getImageUrl(data.visionImage)}
+                      alt={data.visionTitle || "Vision"}
+                      fill
+                      unoptimized={process.env.NODE_ENV !== "production"}
+                      className={styles.vmImage}
+                    />
                   </div>
                 )}
                 {data.visionTitle && <h3 className={styles.vmTitle}>{data.visionTitle}</h3>}
@@ -248,8 +261,14 @@ const AboutUs: React.FC = () => {
 
               <div className={styles.missionCard}>
                 {data.missionImage && (
-                  <div className={styles.vmImageWrapper}>
-                     <Image src={getImageUrl(data.missionImage)} alt={data.missionTitle || "Mission"} className={styles.vmImage} />
+                  <div className={styles.vmImageWrapper} style={{ position: "relative" }}>
+                    <Image
+                      src={getImageUrl(data.missionImage)}
+                      alt={data.missionTitle || "Mission"}
+                      fill
+                      unoptimized={process.env.NODE_ENV !== "production"}
+                      className={styles.vmImage}
+                    />
                   </div>
                 )}
                 {data.missionTitle && <h3 className={styles.vmTitle}>{data.missionTitle}</h3>}
@@ -305,6 +324,7 @@ const AboutUs: React.FC = () => {
 
       {/* ══════════════════════════════════════
           BLOCK 4 — History of AYM
+          .timelineImageWrapper has fixed height (clamp 250-350px) — fill works
       ══════════════════════════════════════ */}
       {(data.historyBlockTitle || timelineItems.length > 0) && (
         <section className={`${styles.contentSection} ${styles.contentSectionLarge}`}>
@@ -327,10 +347,12 @@ const AboutUs: React.FC = () => {
                     ))}
                   </div>
                   {item.image && (
-                    <div className={styles.timelineImageWrapper}>
-                       <Image
+                    <div className={styles.timelineImageWrapper} style={{ position: "relative" }}>
+                      <Image
                         src={getImageUrl(item.image)}
                         alt={item.title || `Timeline ${idx + 1}`}
+                        fill
+                        unoptimized={process.env.NODE_ENV !== "production"}
                         className={styles.timelineImage}
                       />
                     </div>

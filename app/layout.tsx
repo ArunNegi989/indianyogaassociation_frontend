@@ -28,7 +28,7 @@ const lato = Lato({
   display: "swap",
 });
 
-// Alt body font
+// Alt body font (below-fold use ke liye — preload false theek hai)
 const poppins = Poppins({
   variable: "--font-poppins",
   subsets: ["latin"],
@@ -38,13 +38,13 @@ const poppins = Poppins({
   preload: false,
 });
 
-// Menu font
+// Menu font — FIXED: preload true, kyunki h1-h6 isi se render hote hain (above-fold)
 const montserrat = Montserrat({
   variable: "--font-montserrat",
   subsets: ["latin"],
   weight: ["600"],
   display: "swap",
-  preload: false,
+  preload: true,
 });
 
 export const metadata: Metadata = {

@@ -1,3 +1,4 @@
+import api from "@/lib/api";
 import CoursesSectionClient from "./Coursessectionclient";
 
 interface CourseLink {
@@ -25,13 +26,21 @@ interface Course {
 
 async function getCourses(): Promise<Course[]> {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/courses-section`, {
-      cache: "no-store", // seats real-time chahiye isliye har request pe fresh data
-    });
-    const data = await res.json();
-    return data.data ?? [];
-  } catch (err) {
-    console.error("Server-side courses fetch failed", err);
+    const res = await api.get("/courses-section"); // baseURL me /api already included hai
+    return res.data?.data ?? [];
+  } catch (err: any) {
+    if (err.response) {
+      console.error(
+        `Courses fetch failed with status ${err.response.status} — URL: ${err.config?.baseURL}${err.config?.url}`
+      );
+    } else if (err.request) {
+      console.error(
+        "No response from server — backend down ya unreachable ho sakta hai:",
+        err.message
+      );
+    } else {
+      console.error("Server-side courses fetch failed:", err.message);
+    }
     return [];
   }
 }

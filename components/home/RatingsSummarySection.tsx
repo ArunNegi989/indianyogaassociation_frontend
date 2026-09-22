@@ -9,7 +9,6 @@ import truststar from "../../assets/icons/showcase4.png";
 import Link from "next/link";
 import Image from "next/image";
 
-/* ── Platform Rating Data ── */
 const PLATFORM_RATINGS = [
   {
     name: "TripAdvisor",
@@ -21,7 +20,7 @@ const PLATFORM_RATINGS = [
     color: "#00AA6C",
     icon: (
       <Image
-        src={tripIcon.src}
+        src={tripIcon}
         alt="TripAdvisor"
         style={{
           width: "100%",
@@ -42,8 +41,8 @@ const PLATFORM_RATINGS = [
     color: "#4285F4",
     icon: (
       <Image
-        src={googleIcon.src}
-        alt="TripAdvisor"
+        src={googleIcon}
+        alt="Google Maps"
         style={{
           width: "100%",
           height: "100%",
@@ -62,9 +61,9 @@ const PLATFORM_RATINGS = [
     halfStar: true,
     color: "#7B4F8E",
     icon: (
-     <Image
-        src={trustpilotIcon.src}
-        alt="TripAdvisor"
+      <Image
+        src={trustpilotIcon}
+        alt="Yoga Alliance"
         style={{
           width: "100%",
           height: "100%",
@@ -84,8 +83,8 @@ const PLATFORM_RATINGS = [
     color: "#00B67A",
     icon: (
       <Image
-        src={truststar.src}
-        alt="TripAdvisor"
+        src={truststar}
+        alt="Trustpilot"
         style={{
           width: "100%",
           height: "100%",
@@ -97,7 +96,6 @@ const PLATFORM_RATINGS = [
   },
 ];
 
-/* ── Platform Stars ── */
 function PlatformStars({ full, half }: { full: number; half: boolean }) {
   return (
     <div className={styles.platformStars}>
@@ -111,11 +109,9 @@ function PlatformStars({ full, half }: { full: number; half: boolean }) {
   );
 }
 
-/* ── Ratings Summary Section ── */
 function RatingsSummarySection() {
   return (
     <div className={styles.ratingsSection}>
-      {/* Divider */}
       <div className={styles.sectionDivider}>
         <span className={styles.dividerLine} />
         <span className={styles.omSymbol}>ॐ</span>
@@ -123,7 +119,6 @@ function RatingsSummarySection() {
       </div>
 
       <div className={styles.ratingsGrid}>
-        {/* LEFT — Overall Rating Card */}
         <div className={styles.overallCard}>
           <div className={styles.overallCardBg} aria-hidden="true" />
           <div className={styles.overallCardContent}>
@@ -149,13 +144,15 @@ function RatingsSummarySection() {
               Instructors — who are now successfully teaching on all 6
               continents.
             </p>
-            <Link href="/https://indianyogaassociation.dreambytesolution.com/testimonials" className={styles.overallBtn}>
+            <Link
+              href="/https://indianyogaassociation.dreambytesolution.com/testimonials"
+              className={styles.overallBtn}
+            >
               See Our Other Reviews
             </Link>
           </div>
         </div>
 
-        {/* RIGHT — Platform Ratings */}
         <div className={styles.platformsPanel}>
           <h3 className={styles.platformsTitle}>
             We Know This Is A Big Step For You

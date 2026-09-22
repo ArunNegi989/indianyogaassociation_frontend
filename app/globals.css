@@ -47,10 +47,10 @@ body {
 }
 
 /* ============================================
-   HEADINGS — Playfair Display
+   HEADINGS — FIXED: ab actual loaded font variable use ho raha hai
    ============================================ */
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Montserrat', Arial, sans-serif;
+  font-family: var(--font-menu), Arial, sans-serif;
   line-height: 1.6;
   font-weight: 500;
 }

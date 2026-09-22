@@ -48,7 +48,6 @@ function getYoutubeId(input: string): string {
   return s;
 }
 
-/* ── Fallback data (shown if API fails) ── */
 const DEFAULT_META: SectionMeta = {
   superTitle: "Voices from Our Global Sangha",
   mainTitle: "Success Stories of Our Students",
@@ -73,7 +72,6 @@ function StarRating({ count }: { count: number }) {
   );
 }
 
-/* ── Text Review Slider ── */
 function TextReviewSlider({ reviews }: { reviews: TextReview[] }) {
   const [current, setCurrent] = useState(0);
   const touchStartX = useRef(0);
@@ -125,10 +123,15 @@ function TextReviewSlider({ reviews }: { reviews: TextReview[] }) {
             <div key={review.id} className={styles.reviewSlide}>
               <div className={styles.reviewCardInner}>
                 <div className={styles.reviewCardTop}>
-                  <div className={styles.reviewAvatar}>
-                   <Image
+                  <div
+                    className={styles.reviewAvatar}
+                    style={{ position: "relative" }}
+                  >
+                    <Image
                       src={review.avatar}
                       alt={review.name}
+                      fill
+                      unoptimized={process.env.NODE_ENV !== "production"}
                       className={styles.reviewAvatarImg}
                       onError={(e) => {
                         const img = e.target as HTMLImageElement;
@@ -171,7 +174,6 @@ function TextReviewSlider({ reviews }: { reviews: TextReview[] }) {
   );
 }
 
-/* ── Video Card ── */
 interface VideoCardProps {
   testimonial: Testimonial;
   isActive: boolean;
@@ -193,10 +195,15 @@ function VideoCard({
       onClick={onClick}
       aria-label={`View testimonial from ${testimonial.name}`}
     >
-      <div className={styles.videoThumbWrap}>
-       <Image
+      <div
+        className={styles.videoThumbWrap}
+        style={{ position: "relative" }}
+      >
+        <Image
           src={`https://img.youtube.com/vi/${vid}/mqdefault.jpg`}
           alt={testimonial.name}
+          fill
+          unoptimized={process.env.NODE_ENV !== "production"}
           className={styles.videoThumbImg}
           onError={(e) => {
             (e.target as HTMLImageElement).style.opacity = "0";
@@ -222,7 +229,6 @@ function VideoCard({
   );
 }
 
-/* ── Skeleton loader ── */
 function SectionSkeleton() {
   return (
     <section className={styles.section}>
@@ -243,7 +249,6 @@ function SectionSkeleton() {
   );
 }
 
-/* ── Main Component ── */
 const HomeTestimonialsSection: React.FC = () => {
   const [videos, setVideos] = useState<Testimonial[]>([]);
   const [textReviews, setTextReviews] = useState<TextReview[]>([]);
@@ -253,7 +258,6 @@ const HomeTestimonialsSection: React.FC = () => {
   const [animKey, setAnimKey] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
 
-  /* ── Fetch both APIs ── */
   useEffect(() => {
     (async () => {
       try {
@@ -330,36 +334,21 @@ const HomeTestimonialsSection: React.FC = () => {
 
   return (
     <section className={styles.section} id="testimonials">
-      
       <div className={styles.bgWatermark} aria-hidden="true">
         ॐ
       </div>
-      <div
-        className={`${styles.corner} ${styles.cornerTL}`}
-        aria-hidden="true"
-      />
-      <div
-        className={`${styles.corner} ${styles.cornerTR}`}
-        aria-hidden="true"
-      />
-      <div
-        className={`${styles.corner} ${styles.cornerBL}`}
-        aria-hidden="true"
-      />
-      <div
-        className={`${styles.corner} ${styles.cornerBR}`}
-        aria-hidden="true"
-      />
+      <div className={`${styles.corner} ${styles.cornerTL}`} aria-hidden="true" />
+      <div className={`${styles.corner} ${styles.cornerTR}`} aria-hidden="true" />
+      <div className={`${styles.corner} ${styles.cornerBL}`} aria-hidden="true" />
+      <div className={`${styles.corner} ${styles.cornerBR}`} aria-hidden="true" />
 
       <div className={styles.container}>
-        {/* ── Text Reviews ── */}
         {textReviews.length > 0 && <TextReviewSlider reviews={textReviews} />}
 
-        {/* ── NEW: Ratings Summary Section ── */}
-         <div className={styles.ratingsectionWrapper}>
-        <RatingsSummarySection />
-</div>
-        {/* ── Video Section ── */}
+        <div className={styles.ratingsectionWrapper}>
+          <RatingsSummarySection />
+        </div>
+
         {videos.length > 0 && active && (
           <>
             <div className={styles.omDivider}>
@@ -377,7 +366,10 @@ const HomeTestimonialsSection: React.FC = () => {
             <div className={styles.mainCard} key={animKey}>
               <div className={styles.videoSection}>
                 <div className={styles.videoFrame}>
-                  <div className={styles.videoInner}>
+                  <div
+                    className={styles.videoInner}
+                    style={{ position: "relative" }}
+                  >
                     {isPlaying ? (
                       <iframe
                         key={`yt-${active.id}-${activeVid}`}
@@ -390,9 +382,11 @@ const HomeTestimonialsSection: React.FC = () => {
                       />
                     ) : (
                       <>
-                       <Image
+                        <Image
                           src={`https://img.youtube.com/vi/${activeVid}/hqdefault.jpg`}
                           alt={`${active.name} video thumbnail`}
+                          fill
+                          unoptimized={process.env.NODE_ENV !== "production"}
                           className={styles.videoThumbBg}
                           onError={(e) => {
                             (e.target as HTMLImageElement).style.opacity = "0";
@@ -497,25 +491,25 @@ const HomeTestimonialsSection: React.FC = () => {
           </>
         )}
 
-        {/* ── Trust Strip ── */}
-  
-          <div className={styles.trustStripInner}>
-            {meta.trustItems.map((item, i) => (
-              <div className={styles.trustCard} key={i} style={{ animationDelay: `${i * 0.15}s` }}>
-                <div className={styles.trustCardGlow} aria-hidden="true" />
-                <div className={styles.trustCardOrbit} aria-hidden="true">
-                  <span className={styles.trustCardOrbitDot} />
-                </div>
-                <div className={styles.trustCardIconWrap}>
-                  <span className={styles.trustCardIconRing} aria-hidden="true" />
-                  <span className={styles.trustCardIcon}>{item.icon}</span>
-                </div>
-                <span className={styles.trustCardLabel}>{item.label}</span>
-                <span className={styles.trustCardLine} aria-hidden="true" />
+        <div className={styles.trustStripInner}>
+          {meta.trustItems.map((item, i) => (
+            <div
+              className={styles.trustCard}
+              key={i}
+              style={{ animationDelay: `${i * 0.15}s` }}
+            >
+              <div className={styles.trustCardGlow} aria-hidden="true" />
+              <div className={styles.trustCardOrbit} aria-hidden="true">
+                <span className={styles.trustCardOrbitDot} />
               </div>
-            ))}
-          
-        
+              <div className={styles.trustCardIconWrap}>
+                <span className={styles.trustCardIconRing} aria-hidden="true" />
+                <span className={styles.trustCardIcon}>{item.icon}</span>
+              </div>
+              <span className={styles.trustCardLabel}>{item.label}</span>
+              <span className={styles.trustCardLine} aria-hidden="true" />
+            </div>
+          ))}
         </div>
       </div>
       <div className={styles.bottomBorder} />

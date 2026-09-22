@@ -165,8 +165,8 @@ export const Navbar = () => {
             <Image
               src={logo}
               alt="AYM Yoga School"
-              width={130}
-              height={65}
+              width={100}
+              height={55}
               priority
               className={styles.logo}
             />

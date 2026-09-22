@@ -192,12 +192,14 @@ export default async function YogaRetreatPage() {
     <div className={styles.page}>
       {heroSrc && (
         <section className={styles.heroSection}>
-           <Image
+          <Image
             src={heroSrc}
             alt={data.heroImageAlt}
             width={1180}
             height={540}
+            unoptimized={process.env.NODE_ENV !== "production"}
             className={styles.heroImage}
+            priority
           />
         </section>
       )}
@@ -234,7 +236,14 @@ export default async function YogaRetreatPage() {
             {/* RIGHT — image */}
             <div className={styles.s1ImgCol}>
               {s1ImgSrc && (
-                 <Image src={s1ImgSrc} alt="Yoga retreat in Rishikesh" className={styles.s1Img} />
+                <Image
+                  src={s1ImgSrc}
+                  alt="Yoga retreat in Rishikesh"
+                  width={800}
+                  height={600}
+                  unoptimized={process.env.NODE_ENV !== "production"}
+                  className={styles.s1Img}
+                />
               )}
               {data.s1PanelTags.length > 0 && (
                 <div className={styles.s1ImgPanel}>
@@ -331,7 +340,14 @@ export default async function YogaRetreatPage() {
             {data.photoStrip.map((item, i) => (
               <div key={i} className={styles.stripCell}>
                 {item.image && (
-                   <Image src={getImageUrl(item.image)} alt={item.label} className={styles.stripImg} />
+                  <Image
+                    src={getImageUrl(item.image)}
+                    alt={item.label}
+                    width={300}
+                    height={300}
+                    unoptimized={process.env.NODE_ENV !== "production"}
+                    className={styles.stripImg}
+                  />
                 )}
                 {item.label && <span className={styles.stripLabel}>{item.label}</span>}
               </div>
