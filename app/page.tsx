@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import AccreditationSection from "@/components/home/Accreditationsection";
 import AYMFullPage from "@/components/home/Aymfullpage";
 import BlogSection from "@/components/home/BlogSection";
@@ -11,6 +12,7 @@ import OurMission from "@/components/home/Ourmission";
 import WhyAYMSection from "@/components/home/Whyaymsection";
 import YogaCoursesTeachers from "@/components/home/Yogacoursesteachers";
 import { homepageJsonLd } from "@/lib/seo/homepage-schema";
+import HomeaboutSkeleton from "@/components/home/HomeaboutSkeleton";
 
 interface Slide {
   _id: string;
@@ -45,7 +47,11 @@ export default async function Home() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(homepageJsonLd) }}
       />
       <HomepageSlider initialSlides={initialSlides} />
-      <HomeaboutSection />
+
+      <Suspense fallback={<HomeaboutSkeleton />}>
+        <HomeaboutSection />
+      </Suspense>
+
       <CoursesSection />
       <AccreditationSection />
       <YogaCoursesTeachers />

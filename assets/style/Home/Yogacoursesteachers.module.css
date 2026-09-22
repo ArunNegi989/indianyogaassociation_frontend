@@ -1200,6 +1200,7 @@
   position: relative;
   aspect-ratio: 3 / 4;
   border-radius: 10px;
+  width: clamp(160px, 32vw, 250px);
   overflow: hidden;
   box-shadow: 0 10px 36px var(--shadow-warm);
   flex-shrink: 0;
