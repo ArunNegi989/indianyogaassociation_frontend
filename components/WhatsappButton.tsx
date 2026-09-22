@@ -15,6 +15,7 @@ const WhatsappButton: React.FC = () => {
       href={whatsappUrl}
       target="_blank"
       rel="noopener noreferrer"
+      aria-label="Chat with IYA on WhatsApp"
       className={styles.whatsappFloat}
     >
       <FaWhatsapp className={styles.icon} />

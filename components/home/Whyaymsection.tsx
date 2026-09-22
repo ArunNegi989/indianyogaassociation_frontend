@@ -190,7 +190,7 @@ export const WhyAYMSection: React.FC = () => {
                 style={{
                   position: "relative",
                   width: "100%",
-                  aspectRatio: "3 / 2",
+                  aspectRatio: "3 / 4",
                 }}
               >
                 {/*

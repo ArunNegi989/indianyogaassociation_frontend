@@ -837,42 +837,45 @@ export const YogaCoursesTeachers: React.FC = () => {
                 next/image and would either throw or render at 0×0,
                 reserving no space (a CLS source). Switched to `fill`.
               */}
-              <div className={styles.founderImgFrame}>
-                {getImageUrl(founder.imgUrl) ? (
-                  <Image
-                    src={getImageUrl(founder.imgUrl)}
-                    alt={founder.imgAlt}
-                    className={styles.founderImg}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 400px"
-                    style={{ objectFit: "cover" }}
-                    loading="lazy"
-                  />
-                ) : (
-                  <div
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      minHeight: 300,
-                      background: "linear-gradient(135deg,#fdf6ec,#e8d5b5)",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      fontSize: "3rem",
-                      opacity: 0.4,
-                    }}
-                  >
-                    🧘
-                  </div>
-                )}
-                <div className={styles.founderImgOverlay}>
-                  <span className={styles.founderImgName}>{founder.name}</span>
-                </div>
-                <div className={styles.fCornerTL} />
-                <div className={styles.fCornerTR} />
-                <div className={styles.fCornerBL} />
-                <div className={styles.fCornerBR} />
-              </div>
+              <div
+  className={styles.founderImgFrame}
+  style={{ position: "relative", aspectRatio: "3 / 4" }}
+>
+  {getImageUrl(founder.imgUrl) ? (
+    <Image
+      src={getImageUrl(founder.imgUrl)}
+      alt={founder.imgAlt}
+      className={styles.founderImg}
+      fill
+      sizes="(max-width: 768px) 100vw, 400px"
+      style={{ objectFit: "cover" }}
+      loading="lazy"
+    />
+  ) : (
+    <div
+      style={{
+        width: "100%",
+        height: "100%",
+        minHeight: 300,
+        background: "linear-gradient(135deg,#fdf6ec,#e8d5b5)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        fontSize: "3rem",
+        opacity: 0.4,
+      }}
+    >
+      🧘
+    </div>
+  )}
+  <div className={styles.founderImgOverlay}>
+    <span className={styles.founderImgName}>{founder.name}</span>
+  </div>
+  <div className={styles.fCornerTL} />
+  <div className={styles.fCornerTR} />
+  <div className={styles.fCornerBL} />
+  <div className={styles.fCornerBR} />
+</div>
             </div>
             <div className={styles.founderTextCol}>
               <p className={styles.founderEyebrow}>{founder.eyebrow}</p>
