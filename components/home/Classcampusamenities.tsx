@@ -37,6 +37,57 @@ interface SectionData {
 }
 
 /* ─────────────────────────────────────────
+   Skeleton — reserves the exact measured
+   image ratios so nothing jumps when the
+   real data arrives (fixes CLS)
+   classSizeImage    → 673 / 460.156  (measured via DevTools)
+   campusImages[0]   → 740.3 / 506.172 (measured via DevTools)
+   amenityImage      → 708.609 / 708.609 (square, measured)
+───────────────────────────────────────── */
+function ClassCampusAmenitiesSkeleton() {
+  const shimmer: React.CSSProperties = {
+    background:
+      "linear-gradient(90deg, #fdf0dc 25%, #ffe8c2 50%, #fdf0dc 75%)",
+    borderRadius: "8px",
+    animation: "cca-pulse 1.5s ease-in-out infinite",
+  };
+  return (
+    <section className={styles.section} style={{ minHeight: 900 }}>
+      <div className={styles.container}>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+            gap: "2rem",
+            marginBottom: "2rem",
+          }}
+        >
+          <div style={{ aspectRatio: "673 / 460.156", ...shimmer }} />
+          <div style={{ aspectRatio: "740.3 / 506.172", ...shimmer }} />
+        </div>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+            gap: "2rem",
+            minHeight: 300,
+          }}
+        >
+          <div style={{ minHeight: 300, ...shimmer }} />
+          <div style={{ aspectRatio: "708.609 / 708.609", ...shimmer }} />
+        </div>
+      </div>
+      <style>{`
+        @keyframes cca-pulse {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.5; }
+        }
+      `}</style>
+    </section>
+  );
+}
+
+/* ─────────────────────────────────────────
    Component
 ───────────────────────────────────────── */
 export const ClassCampusAmenities: React.FC = () => {
@@ -76,13 +127,13 @@ export const ClassCampusAmenities: React.FC = () => {
     return () => observer.disconnect();
   }, [data]);
 
-  if (loading) return null;
+  // FIX: skeleton instead of null — reserves layout space so the whole
+  // section doesn't pop in and push everything below it down (CLS fix)
+  if (loading) return <ClassCampusAmenitiesSkeleton />;
   if (!data) return null;
 
   return (
     <section className={styles.section} ref={sectionRef}>
-    
-
       <div className={styles.container}>
         {/* ══ TOP ROW — Class Size + Campus ══ */}
         <div className={styles.topRow}>
@@ -95,12 +146,24 @@ export const ClassCampusAmenities: React.FC = () => {
             </div>
 
             <div className={styles.classImgWrap}>
-              <div className={styles.classImgFrame}>
-                {/* FIX: wrap with getImageUrl() — backend returns /uploads/... relative path */}
-               <Image
+              {/*
+                ⚠️ FIX: measured live at 673×460.156 via DevTools Computed
+                tab. aspect-ratio reserves the exact same box the image
+                already renders at, so the displayed size/crop is
+                identical — only the pop-in layout shift is gone.
+              */}
+              <div
+                className={styles.classImgFrame}
+                style={{ position: "relative", aspectRatio: "673 / 460.156" }}
+              >
+                <Image
                   src={getImageUrl(data.classSizeImage)}
                   alt="AYM Yoga Class Group"
                   className={styles.classImg}
+                  fill
+                  sizes="(max-width: 768px) 100vw, 500px"
+                  style={{ objectFit: "cover" }}
+                  loading="lazy"
                 />
                 <div className={styles.classImgOverlay}>
                   <span className={styles.welcomeScript}>
@@ -136,13 +199,23 @@ export const ClassCampusAmenities: React.FC = () => {
               <div className={styles.titleBar} />
             </div>
 
-            {/* FIX: campusImages is array, use [0], wrap with getImageUrl() */}
             {data.campusImages?.[0] && (
-              <div className={styles.campusThumb}>
-               <Image
+              /*
+                ⚠️ FIX: measured live at 740.300×506.172 via DevTools
+                Computed tab.
+              */
+              <div
+                className={styles.campusThumb}
+                style={{ position: "relative", aspectRatio: "740.3 / 506.172" }}
+              >
+                <Image
                   src={getImageUrl(data.campusImages[0])}
                   alt="AYM Yoga Campus"
                   className={styles.campusThumbImg}
+                  fill
+                  sizes="(max-width: 768px) 100vw, 500px"
+                  style={{ objectFit: "cover" }}
+                  loading="lazy"
                 />
               </div>
             )}
@@ -201,12 +274,22 @@ export const ClassCampusAmenities: React.FC = () => {
             className={`${styles.amenitiesRight} ${styles.reveal}`}
             style={{ "--d": "0.12s" } as React.CSSProperties}
           >
-            <div className={styles.amenityMosaic}>
-              {/* FIX: wrap with getImageUrl() */}
+            {/*
+              ⚠️ FIX: measured live at 708.609×708.609 via DevTools
+              Computed tab — exactly square.
+            */}
+            <div
+              className={styles.amenityMosaic}
+              style={{ position: "relative", aspectRatio: "708.609 / 708.609" }}
+            >
               <Image
                 src={getImageUrl(data.amenityImage)}
                 alt="Furnished Room"
                 className={styles.mosaicImg}
+                fill
+                sizes="(max-width: 768px) 100vw, 500px"
+                style={{ objectFit: "cover" }}
+                loading="lazy"
               />
               {data.amenityMosaicTag && (
                 <div className={styles.mosaicMainOverlay}>
@@ -219,8 +302,6 @@ export const ClassCampusAmenities: React.FC = () => {
           </div>
         </div>
       </div>
-
-     
     </section>
   );
 };
