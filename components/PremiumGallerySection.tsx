@@ -67,17 +67,11 @@ function PremiumImageModal({
           </svg>
         </button>
 
-        <div
-          className={styles.premiumModalImageWrapper}
-          style={{ position: "relative" }}
-        >
-          <Image
+        <div className={styles.premiumModalImageWrapper}>
+           <Image
             src={imgSrc(images[currentIndex])}
             alt={`Gallery ${currentIndex + 1}`}
-            fill
-            unoptimized={process.env.NODE_ENV !== "production"}
             className={styles.premiumModalImage}
-            style={{ objectFit: "contain" }}
           />
           <div className={styles.premiumModalInfo}>
             <div className={styles.premiumModalCounter}>
@@ -105,7 +99,6 @@ function PremiumImageModal({
               className={`${styles.premiumModalThumb} ${
                 idx === currentIndex ? styles.premiumModalThumbActive : ""
               }`}
-              style={{ position: "relative" }}
               onClick={() => {
                 const newIndex = idx;
                 if (newIndex < currentIndex) {
@@ -115,13 +108,7 @@ function PremiumImageModal({
                 }
               }}
             >
-              <Image
-                src={imgSrc(img)}
-                alt={`Thumb ${idx + 1}`}
-                fill
-                unoptimized={process.env.NODE_ENV !== "production"}
-                style={{ objectFit: "cover" }}
-              />
+               <Image src={imgSrc(img)} alt={`Thumb ${idx + 1}`} />
             </div>
           ))}
         </div>
@@ -192,18 +179,8 @@ function PremiumMasonryGrid({ images, title }: { images: string[]; title: string
               }`}
               onClick={() => openModal(idx)}
             >
-              <div
-                className={styles.masonryInner}
-                style={{ position: "relative" }}
-              >
-                <Image
-                  src={imgSrc(item.src)}
-                  alt={`${title} ${idx + 1}`}
-                  fill
-                  unoptimized={process.env.NODE_ENV !== "production"}
-                  loading="lazy"
-                  style={{ objectFit: "cover" }}
-                />
+              <div className={styles.masonryInner}>
+                 <Image src={imgSrc(item.src)} alt={`${title} ${idx + 1}`} loading="lazy" />
                 <div className={styles.masonryOverlay}>
                   <div className={styles.masonryIcon}>
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
