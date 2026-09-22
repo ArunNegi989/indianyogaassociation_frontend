@@ -680,7 +680,7 @@ export default function SingleBlog({
             <div className={styles.ctaContent}>
               <h4 className={styles.ctaTitle}>Start Your Yoga Journey</h4>
               <p className={styles.ctaText}>Join AYM Yoga School's world-class teacher training programs</p>
-              <Link href="/register" className={styles.ctaBtn}>Enquire Now</Link>
+              <Link href="/yoga-registration" className={styles.ctaBtn}>Enquire Now</Link>
             </div>
           </div>
 
@@ -692,9 +692,9 @@ export default function SingleBlog({
             </div>
             <div className={styles.batchList}>
               {[
-                { label: "200 Hour YTT", href: "/200-hour-ytt", dates: "Aug – Nov 2025", price: "₹21,000" },
-                { label: "300 Hour YTT", href: "/300-hour-ytt", dates: "Aug – Nov 2025", price: "₹25,000" },
-                { label: "500 Hour YTT", href: "/500-hour-ytt", dates: "Aug – Dec 2025", price: "₹45,000" },
+                { label: "200 Hour YTT", href: "/200-hour-yoga-teacher-training-rishikesh", dates: "Aug – Nov 2026", price: "₹21,000" },
+                { label: "300 Hour YTT", href: "/300-hours-yoga-teacher-training-rishikesh", dates: "Aug – Nov 2026", price: "₹25,000" },
+                { label: "500 Hour YTT", href: "/500-hour-yoga-teacher-training-india", dates: "Aug – Dec 2026", price: "₹45,000" },
               ].map((batch) => (
                 <Link href={batch.href} key={batch.label} className={styles.batchItem}>
                   <div>
@@ -704,7 +704,7 @@ export default function SingleBlog({
                   <span className={styles.batchPrice}>{batch.price}</span>
                 </Link>
               ))}
-              <Link href="/register" className={styles.batchRegister}>Register Now →</Link>
+              <Link href="/yoga-registration" className={styles.batchRegister}>Register Now →</Link>
             </div>
           </div>
 
