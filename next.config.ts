@@ -27,6 +27,16 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "images.unsplash.com",
       },
+      {
+        protocol: "https",
+        hostname: "www.indianyogaassociation.com",
+        pathname: "/blog/**",
+      },
+      {
+        protocol: "https",
+        hostname: "indianyogaassociation.com",
+        pathname: "/blog/**",
+      },
     ],
     dangerouslyAllowSVG: true,
   },
