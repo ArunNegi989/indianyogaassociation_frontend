@@ -207,6 +207,10 @@ const cityLinks: { name: string; href: string }[] = [
     name: "Auroville",
     href: "/yoga-teacher-training/yoga-teacher-training-Auroville-94-2191",
   },
+   {
+    name: "Bihar",
+    href: "/yoga-teacher-training/yoga-teacher-training-Bihar-94-2172",
+  },
 ];
 
 /* ─────────────────────────────────────────────

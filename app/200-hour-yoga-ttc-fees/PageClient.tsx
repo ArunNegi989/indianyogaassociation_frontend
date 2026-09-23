@@ -161,9 +161,9 @@ const PaymentSection = () => {
             <div className={styles.sectionUnderline} />
             <div className={styles.upiGrid}>
               <div className={styles.upiCard}>
-                <div className={styles.upiCardHeader}>
+                {/* <div className={styles.upiCardHeader}>
                   Mahesh Yogi Chetan — AYM Yoga
-                </div>
+                </div> */}
                 <div className={styles.qrWrapper}>
                    <Image
                     src={coursepayment}

@@ -14,6 +14,7 @@ const quickLinks = [
   { label: "Payment", href: "/200-hour-yoga-ttc-fees" },
   { label: "How to Reach", href: "/how-to-reach-rishikesh-from-delhi" },
   { label: "Contact", href: "/contact" },
+   { label: "Sitemap", href: "/sitemap" },
   { label: "Yoga Teacher Training", href: "/yoga-teacher-training" },
 ];
 

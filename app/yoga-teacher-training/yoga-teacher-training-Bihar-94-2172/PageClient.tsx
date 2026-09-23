@@ -133,7 +133,7 @@ const cityLinks: { name: string; href: string }[] = [
 /* ─────────────────────────────────────────────
    MAIN COMPONENT
 ───────────────────────────────────────────── */
-const YogaTrainingMumbai: React.FC = () => {
+const YogaTrainingBihar: React.FC = () => {
   return (
     <div className={styles.page}>
       {/* Top border */}
@@ -145,7 +145,7 @@ const YogaTrainingMumbai: React.FC = () => {
         ══════════════════════════════════════ */}
         <div className={styles.pageHeader}>
           <h1 className={styles.pageTitle}>
-            Yoga Teacher Training Course in Mumbai
+            Yoga Teacher Training in Bihar
           </h1>
           <div className={styles.titleUnderline}>
             <div className={styles.underlineLine} />
@@ -154,20 +154,20 @@ const YogaTrainingMumbai: React.FC = () => {
 
         {/* ══════════════════════════════════════
             SECTION 1 — Image Left
-            "Spread Positivity to the World Through Yoga"
+            "Qualified yoga training in India"
         ══════════════════════════════════════ */}
         <div className={`${styles.section} ${styles.sectionImageLeft}`}>
           <div className={styles.imgWrap}>
              <Image
               src="https://images.unsplash.com/photo-1545389336-cf090694435e?w=700&q=80&fit=crop"
-              alt="Spread Positivity to the World Through Yoga"
+              alt="Qualified yoga training in India"
               className={styles.sectionImg}
               loading="lazy"
             />
           </div>
           <div className={styles.textWrap}>
             <h2 className={styles.headingSerif} style={{ textAlign: "center" }}>
-              Spread Positivity to the World Through Yoga
+              Top yoga and mediation centre in Bihar
             </h2>
             <div
               className={styles.headingUnderline}
@@ -176,43 +176,27 @@ const YogaTrainingMumbai: React.FC = () => {
               <div className={styles.headingUnderlineLine} />
             </div>
             <p className={styles.bodyText}>
-              Yoga is a form of art that enhances one's life for the better,
-              improving both mental and physical well-being. If you think that
-              you need to be a part of the world of Yoga, then you are probably
-              at the right place. And what can be better than being the source
-              of positivity in someone's life by becoming a yoga instructor
-              while choosing our{" "}
-              <strong className={styles.boldLink}>
-                yoga teaching course in Mumbai
-              </strong>
-              ? At Association for Yoga and Meditation, we offer exclusive{" "}
-              <strong className={styles.boldLink}>YTT in Mumbai</strong> at
-              highly affordable rates and help you to become the{" "}
-              <strong className={styles.boldLink}>
-                top yoga teacher in Mumbai
-              </strong>
-              . We have trained thousands of students so far, and now it can be
-              your turn to spread the word of positivity around the world.
+              As one of Bihar's best yoga and meditation centres, AYM Yoga School aims to help you learn the correct yoga retreat to solve emotional pain and personal problems. We help you to open your seven chakras. Whether you want to become a yoga instructor or relax, we offer qualified courses in Rishikesh and Goa.
             </p>
           </div>
         </div>
 
         {/* ══════════════════════════════════════
             SECTION 2 — Image Right
-            "Cetificate Yoga Course in Mumbai"
+            "Experience the art of yoga and mediatation at AYM in Bengaluru"
         ══════════════════════════════════════ */}
         <div className={`${styles.section} ${styles.sectionImageRight}`}>
           <div className={styles.imgWrap}>
              <Image
-              src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=700&q=80&fit=crop"
-              alt="Certificate Yoga Course in Mumbai"
+              src="https://images.unsplash.com/photo-1588286840104-8957b019727f?w=700&q=80&fit=crop"
+              alt="Experience the art of yoga and meditation at AYM in Bengaluru"
               className={styles.sectionImg}
               loading="lazy"
             />
           </div>
           <div className={styles.textWrap}>
             <h2 className={styles.headingSerif} style={{ textAlign: "center" }}>
-              Cetificate Yoga Course in Mumbai
+             Top yoga and mediation centre in Bihar
             </h2>
             <div
               className={styles.headingUnderline}
@@ -221,45 +205,27 @@ const YogaTrainingMumbai: React.FC = () => {
               <div className={styles.headingUnderlineLine} />
             </div>
             <p className={styles.bodyText}>
-              As the leading{" "}
-              <strong className={styles.boldLink}>
-                yoga teaching certification course in Mumbai
-              </strong>
-              , we ensure that you gain a solid grounding and develop a
-              spiritual connection. A rudimentary understanding of yoga postures
-              and philosophy is desired but not required when looking forward to
-              obtaining an international yoga certification from us. All we want
-              from you is a real desire to learn and an openness to yogic
-              approaches. This is because when you are motivated, our trainers
-              do everything to keep you going until you complete the course
-              entirely. We want you to be self-motivated so that you can
-              successfully acquire the{" "}
-              <strong className={styles.boldLink}>
-                yoga instructor certification near me
-              </strong>{" "}
-              and become a licensed professional yourself. It is our core value
-              to assist you in participating in spiritual activities and various
-              classes.
+              Bihar is a learning and spiritual centre. Here is Nalanda University, Mahavir Temple, Vikram Shila and Bodhgaya. It is the site of famous historical monuments, and Buddhism is the holy place of all Buddhist denominations. This is where Shakyamuni Buddha obtained Nirvana Buddha, now a UNESCO World Heritage Site.
             </p>
           </div>
         </div>
 
         {/* ══════════════════════════════════════
             SECTION 3 — Image Left
-            "Best Yoga Teacher Training in Mumbai"
+            "Top yoga and mediation centre in Bengaluru" (first)
         ══════════════════════════════════════ */}
         <div className={`${styles.section} ${styles.sectionImageLeft}`}>
           <div className={styles.imgWrap}>
              <Image
-              src="https://images.unsplash.com/photo-1603988363607-e1e4a66962c6?w=700&q=80&fit=crop"
-              alt="Best Yoga Teacher Training in Mumbai"
+              src="https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?w=700&q=80&fit=crop"
+              alt="Top yoga and mediation centre in Bengaluru"
               className={styles.sectionImg}
               loading="lazy"
             />
           </div>
           <div className={styles.textWrap}>
             <h2 className={styles.headingSerif} style={{ textAlign: "center" }}>
-              Best Yoga Teacher Training in Mumbai
+              Qualified yoga training in India
             </h2>
             <div
               className={styles.headingUnderline}
@@ -268,45 +234,27 @@ const YogaTrainingMumbai: React.FC = () => {
               <div className={styles.headingUnderlineLine} />
             </div>
             <p className={styles.bodyText}>
-              Our{" "}
-              <strong className={styles.boldLink}>
-                yoga training course in Mumbai
-              </strong>{" "}
-              is offered in well-established and beautifully created classrooms
-              that promote peaceful learning. The yoga therapy teacher training
-              we offer goes beyond the yoga mat as we focus on enhancing the
-              health of the upcoming instructors first. From teaching you more
-              than a hundred poses to ensuring maximum flexibility is obtained -
-              our{" "}
-              <strong className={styles.boldLink}>
-                registered yoga teacher training course in Mumbai
-              </strong>{" "}
-              starts from scratch and goes past the advanced levels. Through
-              deep knowledge and understanding of yoga, we focus on both
-              practical and theories to broaden your knowledge. Not to mention,
-              we focus on both traditional and modern yoga approaches so that
-              you would receive an in-depth understanding of both aspects of
-              yoga.
+             AYM Yoga School is located in Rishikesh and Goa. We are a famous yoga and meditation institution in India specializing in yoga teacher training yoga gurus. Our non-profit organization aims to teach quality yoga classes to anyone who wants to become a qualified yoga instructor. AYM Yoga School also helps you relieve emotional problems through yoga therapy retreat. In addition, if you are in Bihar, AYM Yoga School will also fully operate our facilities here.
             </p>
           </div>
         </div>
 
         {/* ══════════════════════════════════════
             SECTION 4 — Image Right
-            "Premium Yoga Classes With Experienced Best-in-Class Instructors"
+            "Top yoga and mediation centre in Bengaluru" (second — city info)
         ══════════════════════════════════════ */}
         <div className={`${styles.section} ${styles.sectionImageRight}`}>
           <div className={styles.imgWrap}>
              <Image
-              src="https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?w=700&q=80&fit=crop"
-              alt="Premium Yoga Classes With Experienced Best-in-Class Instructors"
+              src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=700&q=80&fit=crop"
+              alt="Top yoga and mediation centre in Bengaluru"
               className={styles.sectionImg}
               loading="lazy"
             />
           </div>
           <div className={styles.textWrap}>
             <h2 className={styles.headingSerif} style={{ textAlign: "center" }}>
-              Premium Yoga Classes With Experienced Best-in-Class Instructors
+             Experience the art of yoga and mediatation at AYM in Bihar
             </h2>
             <div
               className={styles.headingUnderline}
@@ -315,29 +263,14 @@ const YogaTrainingMumbai: React.FC = () => {
               <div className={styles.headingUnderlineLine} />
             </div>
             <p className={styles.bodyText}>
-              At the Association for Yoga and Meditation, we offer courses under
-              the guidance of experienced individuals who have already obtained
-              yoga teacher certification. Our{" "}
-              <strong className={styles.boldLink}>
-                yoga teacher training program in Mumbai
-              </strong>{" "}
-              is well designed and helps one to understand how to use yoga for
-              health, happiness, and peace of mind. The teachers are well aware
-              of how important it is to perform each pose perfectly, which is
-              why they provide one-on-one attention and have an eye for details.
-              We assure you that you only receive internationally-acclaimed{" "}
-              <strong className={styles.boldLink}>
-                YTT certification in Mumbai
-              </strong>{" "}
-              when you are properly shaped into a true professional and serve
-              the world.
+             AYM Yoga School is a professional yoga and meditation school in Rishikesh and Goa. Our area of expertise is to provide high-quality yoga teacher training and yoga retreat service to anyone willing to enjoy the benefits of yoga in India. Enjoy Mantras, Pranayama, yoga prayer with our yoga teachers. Our outstanding achievements are widely recognized by students and professors worldwide. And if you live in Bihar or plan to visit, we also provide our facilities and training courses there.
             </p>
           </div>
         </div>
 
         {/* ══════════════════════════════════════
             SECTION 5 — Image Left
-            "Become a yoga teacher with AYM"
+            "Experience the art of yoga and mediatation at AYM in Bengaluru" (city culture)
         ══════════════════════════════════════ */}
         <div
           className={`${styles.section} ${styles.sectionImageLeft}`}
@@ -345,15 +278,15 @@ const YogaTrainingMumbai: React.FC = () => {
         >
           <div className={styles.imgWrap}>
              <Image
-              src="https://images.unsplash.com/photo-1588286840104-8957b019727f?w=700&q=80&fit=crop"
-              alt="Become a yoga teacher with AYM"
+              src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=700&q=80&fit=crop"
+              alt="Experience the art of yoga and meditation at AYM in Bengaluru"
               className={styles.sectionImg}
               loading="lazy"
             />
           </div>
           <div className={styles.textWrap}>
             <h2 className={styles.headingSerif} style={{ textAlign: "center" }}>
-              Become a yoga teacher with AYM
+             Experience the art of yoga and mediatation at AYM in Bihar
             </h2>
             <div
               className={styles.headingUnderline}
@@ -362,22 +295,7 @@ const YogaTrainingMumbai: React.FC = () => {
               <div className={styles.headingUnderlineLine} />
             </div>
             <p className={styles.bodyText}>
-              If your focus is to become a successful yoga instructor, then we
-              are surely the ones who can help you through our curriculum as you
-              search for the{" "}
-              <strong className={styles.boldLink}>
-                best yoga teacher training course near me
-              </strong>
-              . We understand your skills and where you lack after which we put
-              all our efforts to shape you into a true professional. Besides
-              just discovering how to manage your thoughts and repair the body,
-              we help you to fully live your life and help others to follow the
-              same. Our{" "}
-              <strong className={styles.boldLink}>
-                licensed yoga teacher training course in Mumbai
-              </strong>{" "}
-              has been serving for over decades and now it is your chance to
-              transform yourself into the top yoga professional by choosing us.
+             Bihar is the eastern state of India and one of the oldest settlements in the world, with a history of more than 3,000 years. Bihar is divided by the sacred Ganga and was the centre of ancient India's political, economic and intellectual activities.
             </p>
           </div>
         </div>
@@ -411,4 +329,4 @@ const YogaTrainingMumbai: React.FC = () => {
   );
 };
 
-export default YogaTrainingMumbai;
+export default YogaTrainingBihar;

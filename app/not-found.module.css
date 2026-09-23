@@ -1,0 +1,396 @@
+/* =========================================
+   404 Page — AYM Yoga School (Redesign)
+   ========================================= */
+
+.page404 {
+  position: relative;
+  overflow: hidden;
+  min-height: 80vh;
+  padding: clamp(48px, 8vw, 100px) 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #fff8f0 0%, #fdf1e3 45%, #f8e8d6 100%);
+  font-family: inherit;
+}
+
+/* ---- Floating background accents ---- */
+.bgAccents {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.om {
+  position: absolute;
+  font-size: 120px;
+  font-weight: 700;
+  color: #ff7a00;
+  opacity: 0.05;
+  animation: floatOm 14s ease-in-out infinite;
+  user-select: none;
+}
+
+.om:nth-child(1) { top: 8%;  left: 6%;  animation-delay: 0s;   font-size: 90px; }
+.om:nth-child(2) { top: 70%; left: 4%;  animation-delay: 3s;   font-size: 140px; }
+.om:nth-child(3) { top: 15%; right: 8%; animation-delay: 6s;   font-size: 110px; }
+.om:nth-child(4) { top: 65%; right: 5%; animation-delay: 9s;   font-size: 80px; }
+.om:nth-child(5) { top: 40%; left: 48%; animation-delay: 4.5s; font-size: 160px; opacity: 0.03; }
+
+@keyframes floatOm {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50%      { transform: translateY(-25px) rotate(8deg); }
+}
+
+/* ---- Container ---- */
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: 1080px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 56px;
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 122, 0, 0.12);
+  border-radius: 28px;
+  padding: clamp(28px, 5vw, 56px);
+  box-shadow:
+    0 24px 60px -20px rgba(255, 122, 0, 0.22),
+    0 8px 24px -12px rgba(0, 0, 0, 0.08);
+  animation: cardIn 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(24px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ---- Left column ---- */
+.leftCol {
+  flex: 1 1 460px;
+  text-align: center;
+  min-width: 0;
+}
+
+.artWrap {
+  position: relative;
+  width: 100%;
+  max-width: 320px;
+  margin: 0 auto 8px;
+}
+
+.glowRing {
+  position: absolute;
+  inset: -12%;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at center,
+    rgba(255, 122, 0, 0.25) 0%,
+    rgba(255, 122, 0, 0) 65%
+  );
+  filter: blur(18px);
+  animation: pulseGlow 4s ease-in-out infinite;
+  z-index: -1;
+}
+
+@keyframes pulseGlow {
+  0%, 100% { transform: scale(1);   opacity: 0.7; }
+  50%      { transform: scale(1.12); opacity: 1;   }
+}
+
+.art {
+  width: 100%;
+  height: auto;
+  display: block;
+  animation: floatArt 6s ease-in-out infinite;
+  filter: drop-shadow(0 12px 30px rgba(255, 122, 0, 0.25));
+}
+
+@keyframes floatArt {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-12px); }
+}
+
+.artText {
+  font-size: 72px;
+  font-weight: 900;
+  fill: #ff7a00;
+  font-family: inherit;
+  letter-spacing: 2px;
+  paint-order: stroke;
+  stroke: #fff;
+  stroke-width: 4px;
+  stroke-linejoin: round;
+}
+
+/* ---- Heading & subtext ---- */
+.heading {
+  color: #2b2b2b;
+  font-size: clamp(1.7rem, 4vw, 2.4rem);
+  font-weight: 800;
+  line-height: 1.2;
+  margin: 0 0 14px;
+  letter-spacing: -0.5px;
+  animation: fadeUp 0.7s 0.15s both;
+}
+
+.heading span {
+  background: linear-gradient(135deg, #ff9a3c, #ff5e62);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.subtext {
+  color: #6b6b6b;
+  font-size: clamp(0.95rem, 2vw, 1.05rem);
+  line-height: 1.65;
+  max-width: 440px;
+  margin: 0 auto 28px;
+  animation: fadeUp 0.7s 0.25s both;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ---- Button ---- */
+.btnRow {
+  display: flex;
+  justify-content: center;
+  animation: fadeUp 0.7s 0.35s both;
+}
+
+.homeBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: #fff !important;
+  background: linear-gradient(135deg, #ff9a3c 0%, #ff7a00 55%, #ff5e62 100%);
+  background-size: 200% 200%;
+  font-weight: 700;
+  font-size: 1rem;
+  padding: 14px 34px;
+  border-radius: 999px;
+  text-decoration: none;
+  box-shadow: 0 10px 25px -8px rgba(255, 122, 0, 0.55);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background-position 0.5s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.homeBtn svg {
+  transition: transform 0.25s ease;
+}
+
+.homeBtn:hover {
+  transform: translateY(-3px);
+  background-position: 100% 0;
+  box-shadow: 0 16px 32px -10px rgba(255, 94, 98, 0.6);
+}
+
+.homeBtn:hover svg {
+  transform: translateX(4px);
+}
+
+.homeBtn:active {
+  transform: translateY(-1px);
+}
+
+/* ---- Right column ---- */
+.rightCol {
+  flex: 1 1 300px;
+  max-width: 340px;
+  border-left: 1px dashed rgba(255, 122, 0, 0.25);
+  padding-left: 44px;
+  animation: fadeUp 0.7s 0.45s both;
+}
+
+.tryText {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #2b2b2b;
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin: 0 0 20px;
+}
+
+.tryDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ff9a3c, #ff5e62);
+  box-shadow: 0 0 0 4px rgba(255, 122, 0, 0.15);
+  animation: dotPulse 2s ease-in-out infinite;
+}
+
+@keyframes dotPulse {
+  0%, 100% { box-shadow: 0 0 0 4px rgba(255, 122, 0, 0.15); }
+  50%      { box-shadow: 0 0 0 8px rgba(255, 122, 0, 0.05); }
+}
+
+.linkGrid {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.linkGrid li {
+  opacity: 0;
+  animation: fadeUp 0.5s calc(0.5s + var(--i) * 0.05s) both;
+}
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #4a4a4a;
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(255, 122, 0, 0.12);
+  transition: all 0.25s ease;
+  width: 100%;
+}
+
+.link::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #ff7a00;
+  flex-shrink: 0;
+  transition: all 0.25s ease;
+}
+
+.link:hover {
+  color: #ff5e62;
+  background: #fff;
+  border-color: rgba(255, 122, 0, 0.4);
+  transform: translateX(4px);
+  box-shadow: 0 6px 16px -8px rgba(255, 122, 0, 0.5);
+}
+
+.link:hover::before {
+  background: #ff5e62;
+  transform: scale(1.4);
+}
+
+/* =========================================
+   Responsive breakpoints
+   ========================================= */
+
+/* Large desktops */
+@media (min-width: 1400px) {
+  .container { max-width: 1180px; gap: 72px; }
+  .artWrap   { max-width: 360px; }
+  .artText   { font-size: 82px; }
+}
+
+/* Laptops */
+@media (max-width: 1199px) {
+  .container { max-width: 940px; gap: 40px; }
+  .rightCol  { padding-left: 32px; }
+}
+
+/* Tablets landscape */
+@media (max-width: 991px) {
+  .container { gap: 32px; padding: 36px; }
+  .artWrap   { max-width: 260px; }
+  .artText   { font-size: 58px; }
+  .rightCol  { padding-left: 26px; }
+  .om        { font-size: 80px; }
+}
+
+/* Tablets portrait — stack */
+@media (max-width: 767px) {
+  .container {
+    flex-direction: column;
+    gap: 40px;
+    padding: 32px 24px;
+    border-radius: 22px;
+  }
+
+  .leftCol,
+  .rightCol {
+    max-width: 520px;
+    width: 100%;
+  }
+
+  .rightCol {
+    border-left: none;
+    border-top: 1px dashed rgba(255, 122, 0, 0.25);
+    padding-left: 0;
+    padding-top: 30px;
+  }
+
+  .tryText {
+    justify-content: center;
+  }
+
+  .linkGrid {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .linkGrid li {
+    width: auto;
+  }
+
+  .link {
+    width: auto;
+    padding: 7px 14px;
+  }
+}
+
+/* Phones */
+@media (max-width: 575px) {
+  .page404 { padding: 32px 14px; }
+  .container { padding: 28px 20px; border-radius: 20px; }
+
+  .artWrap  { max-width: 220px; }
+  .artText  { font-size: 48px; stroke-width: 3px; }
+
+  .heading  { margin-bottom: 10px; }
+  .subtext  { margin-bottom: 22px; }
+
+  .homeBtn {
+    width: 100%;
+    max-width: 280px;
+    justify-content: center;
+    padding: 13px 24px;
+  }
+
+  .link { font-size: 0.88rem; }
+  .om   { font-size: 60px; }
+}
+
+/* Small phones */
+@media (max-width: 380px) {
+  .artWrap  { max-width: 180px; }
+  .artText  { font-size: 40px; }
+  .heading  { font-size: 1.35rem; }
+  .subtext  { font-size: 0.9rem; }
+  .linkGrid { flex-direction: column; align-items: stretch; }
+  .link     { width: 100%; justify-content: flex-start; }
+}
