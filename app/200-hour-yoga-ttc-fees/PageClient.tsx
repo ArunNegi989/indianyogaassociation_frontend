@@ -6,7 +6,9 @@ import HowToReach from "@/components/home/Howtoreach";
 import Image from "next/image";
 import heroImg from "@/assets/images/32.webp";
 import Link from "next/link";
-import qrcode from "@/assets/images/qrcode.png"
+import qrcode from "@/assets/images/500paymentqr.jpeg";
+import coursepayment from "@/assets/images/courseqr.jpeg"
+import paypalqr from  "@/assets/images/paypal.webp"
 const PaymentSection = () => {
   const [copiedField, setCopiedField] = useState<string | null>(null);
 
@@ -141,7 +143,7 @@ const PaymentSection = () => {
                       className={styles.paypalBtn}
                     >
                        <Image
-                        src="https://www.paypalobjects.com/webstatic/mktg/logo/pp_cc_mark_111x69.jpg"
+                        src={paypalqr}
                         alt="PayPal"
                         className={styles.paypalLogo}
                       />
@@ -164,17 +166,17 @@ const PaymentSection = () => {
                 </div>
                 <div className={styles.qrWrapper}>
                    <Image
-                    src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=upi://pay?pa=maheshyogaexpert@okhdfcbank%26pn=MaheshYogiChetan"
+                    src={coursepayment}
                     alt="UPI QR Code - maheshyogaexpert@okhdfcbank"
                     className={styles.qrImage}
                   />
                 </div>
-                <p className={styles.upiId}>
+                {/* <p className={styles.upiId}>
                   UPI ID: <strong>maheshyogaexpert@okhdfcbank</strong>
                 </p>
                 <p className={styles.upiScanText}>
                   Scan to pay with any UPI app
-                </p>
+                </p> */}
                 <button
                   className={styles.copyBtn}
                   onClick={() =>
