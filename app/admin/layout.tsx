@@ -303,7 +303,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       <aside className={`${styles.sidebar} ${sidebarOpen ? styles.sidebarOpen : ""}`}>
         <div className={styles.sidebarLogo}>
           <span className={styles.logoOm}>ॐ</span>
-          <h1 className={styles.logoTitle}>AYM ADMIN</h1>
+          <h1 className={styles.logoTitle}>INDIAN YOGA ADMIN</h1>
           <p className={styles.logoSub}>Yoga School Dashboard</p>
         </div>
 
@@ -410,7 +410,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           ))}
         </nav>
 
-        <div className={styles.sidebarFooter}>AYM Yoga School © 2025</div>
+        <div className={styles.sidebarFooter}>Indian Yoga School © 2026</div>
       </aside>
 
       {/* ════════════ MAIN AREA ════════════ */}
