@@ -1,8 +1,13 @@
 import styles from "../../assets/style/Home/Homeaboutsection.module.css";
+import { HomeAboutBackground } from "./Homeaboutsection";
 
 export default function HomeaboutSkeleton() {
   return (
     <section className={styles.section}>
+      {/* Same background as the real component — starts loading
+          immediately while the API data is still being fetched. */}
+      <HomeAboutBackground />
+
       <div className={styles.container} style={{ minHeight: 500 }}>
         <div className={styles.header}>
           <div
