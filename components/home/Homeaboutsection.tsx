@@ -33,52 +33,6 @@ async function getHomeAboutData(): Promise<HomeAboutData | null> {
   }
 }
 
-/* Same responsive, art-directed background image used in the skeleton too,
-   so it starts loading immediately regardless of data-fetch state. */
-export const HomeAboutBackground = () => (
-  <picture className={styles.bgWrap}>
-    <source
-      media="(max-width: 360px)"
-      srcSet="/images/backgroundimage/360x2080.webp"
-    />
-    <source
-      media="(max-width: 540px)"
-      srcSet="/images/backgroundimage/510x1739.webp"
-    />
-    <source
-      media="(max-width: 660px)"
-      srcSet="/images/backgroundimage/660x1596.webp"
-    />
-    <source
-      media="(max-width: 768px)"
-      srcSet="/images/backgroundimage/768x1482.webp"
-    />
-    <source
-      media="(max-width: 861px)"
-      srcSet="/images/backgroundimage/861x1236.webp"
-    />
-    <source
-      media="(max-width: 1100px)"
-      srcSet="/images/backgroundimage/1100x1256.webp"
-    />
-    <source
-      media="(max-width: 1366px)"
-      srcSet="/images/backgroundimage/1366x1204.webp"
-    />
-    <source
-      media="(max-width: 1680px)"
-      srcSet="/images/backgroundimage/1680x1260.webp"
-    />
-    {/* eslint-disable-next-line @next/next/no-img-element */}
-    <img
-      src="/images/backgroundimage/1905x1150.webp"
-      alt=""
-      fetchPriority="high"
-      decoding="async"
-    />
-  </picture>
-);
-
 export const HomeaboutSection = async () => {
   const data = await getHomeAboutData();
 
@@ -86,8 +40,6 @@ export const HomeaboutSection = async () => {
 
   return (
     <section className={styles.section}>
-      <HomeAboutBackground />
-
       <div className={styles.container}>
         {/* HEADER */}
         <div className={styles.header}>
