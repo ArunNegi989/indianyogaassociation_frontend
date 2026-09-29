@@ -852,7 +852,7 @@
   z-index: 10;
   width: 90%;
   max-width: 1500px;
-  margin: -20px auto 0;
+  margin: -15px auto 0;
   padding: 0;
 }
 
@@ -4587,10 +4587,6 @@
     border-bottom: none;
   }
 
-  .icWrap {
-    width: 96%;
-    margin-top: -60px;
-  }
 
   .icGrid {
     grid-template-columns: repeat(2, 1fr);
@@ -4965,9 +4961,7 @@
     font-size: 0.86rem;
   }
 
-  .icWrap {
-    margin-top: -35px;
-  }
+ 
 
   .icItem {
     padding: 0.55rem;
