@@ -1134,8 +1134,8 @@ export default function Yoga200HourCombinedForm() {
         "Join us & become part of the 5000+ international yoga teachers who are proud alumni of the AYM School.",
       ctaApplyBtnText: "Apply Now",
       ctaApplyUrl: "/yoga-registration?type=200hr",
-      ctaPhone: "919528023390",
-      whatsappNumber: "919528023390",
+      ctaPhone: "917500277709",
+      whatsappNumber: "917500277709",
       whatsappBtnText: "💬 WhatsApp Us",
       spanishChineseNote:
         "Spanish & Chinese translations available upon request",

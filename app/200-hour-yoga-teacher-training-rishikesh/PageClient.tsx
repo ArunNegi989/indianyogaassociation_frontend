@@ -1441,7 +1441,7 @@ export default function TwoHundredHourYoga() {
       : allAsanas.filter((a) => (a.filter || "All Poses") === asanaFilter);
 
   const whatsappNumber =
-    content?.whatsappNumber || content?.ctaPhone || "919528023390";
+    content?.whatsappNumber || content?.ctaPhone || "917500277709";
   const ctaTitle =
     content?.ctaTitle ||
     "We welcome you to AYM School for a wonderful yogic experience!";

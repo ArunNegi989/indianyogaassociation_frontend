@@ -112,7 +112,7 @@ const socialLinks = [
   },
   {
     label: "WhatsApp",
-    href: "https://wa.me/919528023390",
+    href: "https://wa.me/917500277709",
     color: "#25D366",
     icon: (
       <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
@@ -206,7 +206,7 @@ export const Footer = () => {
           </h4>
 
           <div className={styles.contactCards}>
-            <a href="tel:+919528023390" className={styles.contactCard}>
+            <a href="tel:+917500277709" className={styles.contactCard}>
               <div className={styles.contactIconWrap}>
                 <svg
                   width="16"
@@ -221,7 +221,7 @@ export const Footer = () => {
               </div>
               <div>
                 <span className={styles.contactMeta}>Phone</span>
-                <span className={styles.contactVal}>+91 95280 23390</span>
+                <span className={styles.contactVal}>+91 75002 77709</span>
               </div>
             </a>
 
@@ -241,7 +241,7 @@ export const Footer = () => {
               </div>
               <div>
                 <span className={styles.contactMeta}>Email</span>
-                <span className={styles.contactVal}>aymyogaschool@gmail.com</span>
+                <span className={styles.contactVal}>aymindia@gmail.com</span>
               </div>
             </a>
 

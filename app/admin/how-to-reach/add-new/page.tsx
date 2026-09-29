@@ -79,7 +79,7 @@ const INITIAL: FormData = {
   mainTitle: "How to Reach Us",
   subTitle: "Easy & Comfortable Travel Options to Reach Indian Yoga Association in Rishikesh — Delhi to Rishikesh travel options by air, train & bus.",
 
-  whatsappNumber: "919528023390",
+  whatsappNumber: "917500277709",
   whatsappMessage: "Namaste !! I would like to arrange a Pickup / Drop service for Indian Yoga Association, Rishikesh. Please guide me on the pickup point details.",
 
   travelCards: [
@@ -501,7 +501,7 @@ export default function HowToReachAddEditPage() {
               <p className={styles.fieldHint}>Used to build the WhatsApp enquiry link shown on the Pickup &amp; Drop card.</p>
               <div className={styles.fieldGroup}>
                 <label className={styles.label}>WhatsApp Number (with country code, no +)</label>
-                <div className={styles.inputWrap}><input type="text" className={styles.input} placeholder="919528023390" {...register("whatsappNumber", { required: true })} /></div>
+                <div className={styles.inputWrap}><input type="text" className={styles.input} placeholder="917500277709" {...register("whatsappNumber", { required: true })} /></div>
               </div>
               <div className={styles.fieldGroup}>
                 <label className={styles.label}>Default WhatsApp Message</label>

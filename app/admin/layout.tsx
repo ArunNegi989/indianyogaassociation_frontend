@@ -73,7 +73,7 @@ const navItems: NavItem[] = [
   },
   { href: "/admin/dashboard/detox-retreat",  label: "Yoga Detox", icon: "🖼" },
 
- 
+  { href: "/admin/yogacourse/payment-page",  label: "Payment Page", icon: "📜" },
 
   {
     label: "Courses",
