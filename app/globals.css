@@ -7,11 +7,10 @@
   --background: #ffffff;
   --foreground: #171717;
 
-  /* Font system — Next.js inject karta hai ye variables body className se */
-  --font-display:     var(--font-playfair);    /* Playfair Display → Headings */
-  --font-body:        var(--font-lato);        /* Lato            → Body text */
-  --font-alt:         var(--font-poppins);     /* Poppins         → Alt/secondary */
-  --font-menu:        var(--font-montserrat);  /* Montserrat      → Nav/Menu */
+  --font-display: var(--font-playfair);
+  --font-body:    var(--font-lato);
+  --font-alt:     var(--font-poppins);
+  --font-menu:    var(--font-montserrat);
 }
 
 /* ============================================
@@ -25,7 +24,7 @@
 }
 
 /* ============================================
-   DARK MODE OVERRIDE (force white bg)
+   DARK MODE OVERRIDE
    ============================================ */
 @media (prefers-color-scheme: dark) {
   :root {
@@ -35,8 +34,20 @@
 }
 
 /* ============================================
-   BASE BODY STYLES
+   GLOBAL RESET + CENTERING FIX
    ============================================ */
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden;
+}
+
 body {
   background: #ffffff;
   color: var(--foreground);
@@ -44,10 +55,25 @@ body {
   font-size: 17px;
   font-weight: 300;
   line-height: 1.7;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main,
+#__next {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+main > * {
+  width: 100%;
 }
 
 /* ============================================
-   HEADINGS — FIXED: ab actual loaded font variable use ho raha hai
+   HEADINGS
    ============================================ */
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-menu), Arial, sans-serif;
@@ -63,7 +89,7 @@ h5 { font-size: 18px; font-weight: 500; }
 h6 { font-size: 16px; font-weight: 500; }
 
 /* ============================================
-   BODY TEXT — Lato
+   BODY TEXT
    ============================================ */
 p, li, span, a, td, th, label,
 input, textarea, select {
@@ -79,7 +105,7 @@ small, .text-small {
 }
 
 /* ============================================
-   MENU / NAV — Montserrat
+   NAV
    ============================================ */
 nav,
 .navbar,
@@ -93,15 +119,12 @@ header a {
 }
 
 /* ============================================
-   POPPINS UTILITY CLASS (optional use)
+   UTILITIES
    ============================================ */
 .font-poppins {
   font-family: var(--font-alt), sans-serif;
 }
 
-/* ============================================
-   TAILWIND UTILITY OVERRIDES
-   ============================================ */
 .font-heading {
   font-family: var(--font-display), Georgia, serif;
 }

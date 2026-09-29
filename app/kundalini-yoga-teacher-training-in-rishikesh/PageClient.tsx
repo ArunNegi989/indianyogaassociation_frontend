@@ -1413,25 +1413,26 @@ export default function KundaliniYogaTTC() {
       <StickySectionNav items={NAV_ITEMS} triggerId="hero" />
 
       {/* KUNDALINI INTRODUCTION */}
-      {content.kundaliniIntroHeading && content.kundaliniIntroParagraph && (
-        <section className={`${styles.section} ${styles.sectionLight}`}>
-          <div className={`container px-3 px-md-4 ${styles.maxx}`}>
-            <div className={styles.introBlock}>
-              <div className={styles.introBlockInner}>
-                <span className={styles.secTagline}>Discover the Path</span>
-                <h2 className={styles.sectionTitleCenter}>
-                  {content.kundaliniIntroHeading}
-                </h2>
-                <OmDivider />
-                <div 
-                  className={`${styles.bodyPara} ${styles.textCenter} ${styles.introBlockParagraph}`}
-                  dangerouslySetInnerHTML={{ __html: content.kundaliniIntroParagraph }}
-                />
-              </div>
-            </div>
-          </div>
-        </section>
-      )}
+     {/* KUNDALINI INTRODUCTION */}
+{content.kundaliniIntroHeading && content.kundaliniIntroParagraph && (
+  <section className={`${styles.section} ${styles.sectionLight}`}>
+    <div className={`container ${styles.maxx}`}>
+      <div className={styles.introBlock}>
+        <div className={styles.introBlockInner}>
+          <span className={styles.secTagline}>Discover the Path</span>
+          <h2 className={styles.sectionTitleCenter}>
+            {content.kundaliniIntroHeading}
+          </h2>
+          <OmDivider />
+          <div
+            className={`${styles.bodyPara} ${styles.textCenter} ${styles.introBlockParagraph}`}
+            dangerouslySetInnerHTML={{ __html: content.kundaliniIntroParagraph }}
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+)}
 
       {/* SECTION 2 — WHAT IS KUNDALINI YOGA */}
       <section className={`${styles.section} ${styles.sectionWarm}`}>
