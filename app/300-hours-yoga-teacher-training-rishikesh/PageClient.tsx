@@ -89,34 +89,34 @@ interface Content1 {
   _id: string;
   slug: string;
   status: string;
-  
+
   pageMainH1: string;
   heroImage: string;
   heroImgAlt: string;
-  
+
   rightSideImage: string;
   rightSideImageAlt: string;
-  
+
   bottomThumbnails: Thumbnail[];
-  
+
   introParagraphs: string[];
   topSectionH2: string;
   topParagraphs: string[];
-  
+
   overviewH2: string;
   overviewFields: OverviewField[];
-  
+
   upcomingDatesH3: string;
   upcomingDatesSubtext: string;
-  
+
   feeIncludedTitle: string;
   includedFee: string[];
   feeNotIncludedTitle: string;
   notIncludedFee: string[];
-  
+
   syllabusH2: string;
   syllabusIntro: string;
-  
+
   modules: Module[];
 }
 
@@ -142,10 +142,10 @@ interface Content2 {
   learningImage3: string;
   learningImage3Alt: string;
   learningImage3Label: string;
-  
+
   eligibilityImage: string;
   eligibilityImageAlt: string;
-  
+
   evaluationMainImage: string;
   evaluationMainImageAlt: string;
   evaluationSmallImage: string;
@@ -156,7 +156,7 @@ interface Content2 {
   evolutionRightImageAlt: string;
   evolutionBadgeText: string;
   evolutionBadgeSubtext: string;
-  
+
   markDistH3: string;
   markDistSubText: string;
   markTotalLabel: string;
@@ -269,24 +269,24 @@ function PremiumSeatBooking({
    */
   const getRoomPrice = (batch: Batch | null, roomType: 'dorm' | 'twin' | 'private') => {
     if (!batch) return "—";
-    
+
     if (currency === "INR") {
       // Use stored INR price directly - NO CONVERSION
       let inrPrice: number | undefined;
       if (roomType === 'dorm') inrPrice = batch.inrDormPrice;
       else if (roomType === 'twin') inrPrice = batch.inrTwinPrice;
       else inrPrice = batch.inrPrivatePrice;
-      
+
       if (inrPrice && inrPrice > 0) {
         return `₹${inrPrice.toLocaleString("en-IN")}`;
       }
       return "—";
     }
-    
+
     // USD
-    const usdPrice = roomType === 'dorm' ? batch.dormPrice : 
-                     roomType === 'twin' ? batch.twinPrice : 
-                     batch.privatePrice;
+    const usdPrice = roomType === 'dorm' ? batch.dormPrice :
+      roomType === 'twin' ? batch.twinPrice :
+        batch.privatePrice;
     return `$${usdPrice}`;
   };
 
@@ -653,7 +653,6 @@ const NAV_ITEMS = [
    HELPERS
 ───────────────────────────────────────── */
 
-/** Image URL helper — if it starts with /uploads/ prefix with API base */
 function imgUrl(path: string): string {
   if (!path) return "";
   if (path.startsWith("http")) return path;
@@ -784,7 +783,7 @@ const YouTubeEmbed = ({ video }: { video: YouTubeVideo }) => {
           onClick={() => setPlaying(true)}
           aria-label={`Play: ${video.title}`}
         >
-           <Image
+          <Image
             src={`https://img.youtube.com/vi/${video.videoId}/hqdefault.jpg`}
             alt={video.title}
             className={styles.thumbImg}
@@ -829,7 +828,7 @@ const Carousel = ({ images, alt }: { images: string[]; alt: string }) => {
       <div className={styles.carouselTrack}>
         {visible.map((src, i) => (
           <div key={i} className={styles.carouselSlide}>
-             <Image
+            <Image
               src={imgUrl(src)}
               alt={`${alt} ${i + 1}`}
               className={styles.carouselImg}
@@ -997,7 +996,7 @@ function useCurrencyRate() {
         const inr = data?.usd?.inr;
         if (inr && typeof inr === "number") setRate(inr);
       })
-      .catch(() => {})
+      .catch(() => { })
       .finally(() => setLoading(false));
   }, []);
 
@@ -1081,8 +1080,8 @@ export default function YogaTTC300() {
       ══════════════════════════════════════ */}
       {content1?.heroImage && (
         <section id="hero" className={styles.heroSection}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-           <Image
+
+          <Image
             src={imgUrl(content1.heroImage)}
             alt={content1.heroImgAlt || "Hero"}
             width={1180}
@@ -1116,18 +1115,18 @@ export default function YogaTTC300() {
                 </div>
               )}
             </div>
-            
+
             {/* RIGHT SIDE - Dynamic Image */}
             <div className={styles.hs2Right}>
               <div className={styles.hs2VidWrap}>
                 {content1?.rightSideImage ? (
-                   <Image
+                  <Image
                     src={imgUrl(content1.rightSideImage)}
                     alt={content1.rightSideImageAlt || "Yoga in Rishikesh"}
                     className={styles.hs2Image}
                   />
                 ) : (
-                   <Image
+                  <Image
                     src="/images/ttc-300-hero-poster.jpg"
                     alt="Yoga in Rishikesh"
                     className={styles.hs2Image}
@@ -1142,7 +1141,7 @@ export default function YogaTTC300() {
                 </div>
                 <span className={styles.hs2VidBadge}>Live in Rishikesh</span>
               </div>
-              
+
               {/* Statistics */}
               <div className={styles.hs2Stats}>
                 <div className={styles.hs2Stat}>
@@ -1162,7 +1161,7 @@ export default function YogaTTC300() {
               </div>
             </div>
           </div>
-          
+
           {/* Feature Pills */}
           <div className={styles.hs2Pills}>
             <div className={styles.hs2Pill}>
@@ -1182,12 +1181,12 @@ export default function YogaTTC300() {
               <span className={styles.hs2PillTxt}>Holistic Curriculum</span>
             </div>
           </div>
-          
+
           {content1?.topSectionH2 && (
             <h2 className={styles.sectionTitleOrange}>{content1.topSectionH2}</h2>
           )}
           <div className={styles.sectionUnderline} />
-          
+
           {content1?.topParagraphs && content1.topParagraphs.length > 0 && (
             <div className={styles.bodyText}>
               {content1.topParagraphs.map((para, i) => (
@@ -1195,13 +1194,13 @@ export default function YogaTTC300() {
               ))}
             </div>
           )}
-          
+
           {/* Dynamic Bottom Thumbnails Gallery */}
           <div className={styles.hs2Thumbs}>
             {content1?.bottomThumbnails && content1.bottomThumbnails.length > 0 ? (
               content1.bottomThumbnails.map((thumb, i) => (
                 <div key={i} className={styles.hs2Thumb}>
-                   <Image src={imgUrl(thumb.src)} alt={thumb.alt} loading="lazy" />
+                  <Image src={imgUrl(thumb.src)} alt={thumb.alt} loading="lazy" />
                   <div className={styles.hs2ThumbOv}>
                     <div className={styles.hs2PlayBtn}>
                       <svg width="10" height="10" viewBox="0 0 10 10" fill="#fff">
@@ -1214,7 +1213,7 @@ export default function YogaTTC300() {
             ) : (
               <>
                 <div className={styles.hs2Thumb}>
-                   <Image src="/images/ttc-300-thumb1.jpg" alt="Yoga practice at sunrise" loading="lazy" />
+                  <Image src="/images/ttc-300-thumb1.jpg" alt="Yoga practice at sunrise" loading="lazy" />
                   <div className={styles.hs2ThumbOv}>
                     <div className={styles.hs2PlayBtn}>
                       <svg width="10" height="10" viewBox="0 0 10 10" fill="#fff">
@@ -1224,7 +1223,7 @@ export default function YogaTTC300() {
                   </div>
                 </div>
                 <div className={styles.hs2Thumb}>
-                   <Image src="/images/ttc-300-thumb2.jpg" alt="Meditation session" loading="lazy" />
+                  <Image src="/images/ttc-300-thumb2.jpg" alt="Meditation session" loading="lazy" />
                   <div className={styles.hs2ThumbOv}>
                     <div className={styles.hs2PlayBtn}>
                       <svg width="10" height="10" viewBox="0 0 10 10" fill="#fff">
@@ -1234,7 +1233,7 @@ export default function YogaTTC300() {
                   </div>
                 </div>
                 <div className={styles.hs2Thumb}>
-                   <Image src="/images/ttc-300-thumb3.jpg" alt="Teacher training class" loading="lazy" />
+                  <Image src="/images/ttc-300-thumb3.jpg" alt="Teacher training class" loading="lazy" />
                   <div className={styles.hs2ThumbOv}>
                     <div className={styles.hs2PlayBtn}>
                       <svg width="10" height="10" viewBox="0 0 10 10" fill="#fff">
@@ -1393,8 +1392,8 @@ export default function YogaTTC300() {
                     <div className={styles.syllabusListWrap}>
                       <div className={styles.syllabusListHeader}>
                         <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
-                          <circle cx="8" cy="8" r="7" stroke="#F15505" strokeWidth="1.2"/>
-                          <path d="M5 8l2 2 4-4" stroke="#F15505" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+                          <circle cx="8" cy="8" r="7" stroke="#F15505" strokeWidth="1.2" />
+                          <path d="M5 8l2 2 4-4" stroke="#F15505" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
                         <span>Topics Covered</span>
                       </div>
@@ -1480,13 +1479,13 @@ export default function YogaTTC300() {
               <div className={styles.evoIntroRight}>
                 <div className={styles.evoImgFrame}>
                   {content2.evolutionRightImage ? (
-                     <Image
+                    <Image
                       src={imgUrl(content2.evolutionRightImage)}
                       alt={content2.evolutionRightImageAlt || "Yoga meditation in Rishikesh"}
                       className={styles.evoRealImg}
                     />
                   ) : (
-                     <Image
+                    <Image
                       src="/images/evolution-default.jpg"
                       alt="Yoga meditation in Rishikesh"
                       className={styles.evoRealImg}
@@ -1650,9 +1649,9 @@ export default function YogaTTC300() {
                     <div key={i} className={styles.luxFeatureItem}>
                       <div className={styles.luxFeatureIcon}>
                         <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
-                          <circle cx="8" cy="8" r="7" stroke="#F15505" strokeWidth="1.2"/>
+                          <circle cx="8" cy="8" r="7" stroke="#F15505" strokeWidth="1.2" />
                           <path d="M5 8l2 2 4-4" stroke="#F15505" strokeWidth="1.4"
-                            strokeLinecap="round" strokeLinejoin="round"/>
+                            strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
                       </div>
                       <span className={styles.luxFeatureTxt}>{f}</span>
@@ -1667,7 +1666,7 @@ export default function YogaTTC300() {
                       key={i}
                       className={`${styles.luxImgBlock} ${i === 0 ? styles.luxImgBlockWide : ""}`}
                     >
-                       <Image
+                      <Image
                         src={imgUrl(src)}
                         alt={`Luxury room ${i + 1}`}
                         className={styles.luxImg}
@@ -1681,7 +1680,7 @@ export default function YogaTTC300() {
             </div>
             {content2.yogaGardenImage && (
               <div className={styles.luxGardenWrap}>
-                 <Image
+                <Image
                   src={imgUrl(content2.yogaGardenImage)}
                   alt="Yoga in garden"
                   className={styles.luxGardenImg}
@@ -1730,8 +1729,8 @@ export default function YogaTTC300() {
                   <div className={styles.s8SchedHdr}>
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
                       stroke="#F15505" strokeWidth="1.6" strokeLinecap="round">
-                      <rect x="3" y="4" width="18" height="18" rx="2"/>
-                      <path d="M16 2v4M8 2v4M3 10h18"/>
+                      <rect x="3" y="4" width="18" height="18" rx="2" />
+                      <path d="M16 2v4M8 2v4M3 10h18" />
                     </svg>
                     <h3 className={styles.s8SchedTitle}>{content2.scheduleH3}</h3>
                   </div>
@@ -1742,9 +1741,9 @@ export default function YogaTTC300() {
                       <div key={row._id} className={styles.s8SchedRow}>
                         <div className={styles.s8SchedTimeBadge}>
                           <svg width="10" height="10" viewBox="0 0 16 16" fill="none">
-                            <circle cx="8" cy="8" r="7" stroke="rgba(255,243,210,0.7)" strokeWidth="1.2"/>
+                            <circle cx="8" cy="8" r="7" stroke="rgba(255,243,210,0.7)" strokeWidth="1.2" />
                             <path d="M8 4.5V8.5L10.5 10" stroke="rgba(255,243,210,0.9)"
-                              strokeWidth="1.2" strokeLinecap="round"/>
+                              strokeWidth="1.2" strokeLinecap="round" />
                           </svg>
                           <span>{row.time}</span>
                         </div>
@@ -1762,7 +1761,7 @@ export default function YogaTTC300() {
                       key={i}
                       className={`${styles.s8ImgBlock} ${i === 0 ? styles.s8ImgBlockTall : ""}`}
                     >
-                       <Image
+                      <Image
                         src={imgUrl(src)}
                         alt={`Schedule ${i + 1}`}
                         className={styles.s8Img}
@@ -1810,23 +1809,23 @@ export default function YogaTTC300() {
                   </div>
                 )}
               </div>
-              
+
               {/* DYNAMIC 3 IMAGES - MOSAIC GALLERY */}
               <div className={styles.s9ImageMosaic}>
                 <div className={`${styles.s9ImgBlock} ${styles.s9ImgTall}`}>
                   {content2?.learningImage1 ? (
-                     <Image 
-                      src={imgUrl(content2.learningImage1)} 
-                      alt={content2.learningImage1Alt || "Advanced yoga practice in Rishikesh"} 
-                      className={styles.s9Img} 
-                      loading="lazy" 
+                    <Image
+                      src={imgUrl(content2.learningImage1)}
+                      alt={content2.learningImage1Alt || "Advanced yoga practice in Rishikesh"}
+                      className={styles.s9Img}
+                      loading="lazy"
                     />
                   ) : (
-                     <Image 
-                      src="/images/s9-outcomes-1.jpg" 
-                      alt="Advanced yoga practice in Rishikesh" 
-                      className={styles.s9Img} 
-                      loading="lazy" 
+                    <Image
+                      src="/images/s9-outcomes-1.jpg"
+                      alt="Advanced yoga practice in Rishikesh"
+                      className={styles.s9Img}
+                      loading="lazy"
                     />
                   )}
                   <div className={styles.s9ImgOverlay}>
@@ -1835,21 +1834,21 @@ export default function YogaTTC300() {
                     </span>
                   </div>
                 </div>
-                
+
                 <div className={styles.s9ImgBlock}>
                   {content2?.learningImage2 ? (
-                     <Image 
-                      src={imgUrl(content2.learningImage2)} 
-                      alt={content2.learningImage2Alt || "Yoga certification ceremony"} 
-                      className={styles.s9Img} 
-                      loading="lazy" 
+                    <Image
+                      src={imgUrl(content2.learningImage2)}
+                      alt={content2.learningImage2Alt || "Yoga certification ceremony"}
+                      className={styles.s9Img}
+                      loading="lazy"
                     />
                   ) : (
-                     <Image 
-                      src="/images/s9-outcomes-2.jpg" 
-                      alt="Yoga certification ceremony" 
-                      className={styles.s9Img} 
-                      loading="lazy" 
+                    <Image
+                      src="/images/s9-outcomes-2.jpg"
+                      alt="Yoga certification ceremony"
+                      className={styles.s9Img}
+                      loading="lazy"
                     />
                   )}
                   <div className={styles.s9ImgOverlay}>
@@ -1858,21 +1857,21 @@ export default function YogaTTC300() {
                     </span>
                   </div>
                 </div>
-                
+
                 <div className={styles.s9ImgBlock}>
                   {content2?.learningImage3 ? (
-                     <Image 
-                      src={imgUrl(content2.learningImage3)} 
-                      alt={content2.learningImage3Alt || "Graduation at AYM School"} 
-                      className={styles.s9Img} 
-                      loading="lazy" 
+                    <Image
+                      src={imgUrl(content2.learningImage3)}
+                      alt={content2.learningImage3Alt || "Graduation at AYM School"}
+                      className={styles.s9Img}
+                      loading="lazy"
                     />
                   ) : (
-                     <Image 
-                      src="/images/s9-outcomes-3.jpg" 
-                      alt="Graduation at AYM School" 
-                      className={styles.s9Img} 
-                      loading="lazy" 
+                    <Image
+                      src="/images/s9-outcomes-3.jpg"
+                      alt="Graduation at AYM School"
+                      className={styles.s9Img}
+                      loading="lazy"
                     />
                   )}
                   <div className={styles.s9ImgOverlay}>
@@ -1883,13 +1882,13 @@ export default function YogaTTC300() {
                 </div>
               </div>
             </div>
-            
+
             {/* Eligibility Section */}
             {content2.eligibilityH2 && (
               <div className={styles.s9Card}>
                 <div className={styles.s9CardHeader}>
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFF8EE" strokeWidth="1.6" strokeLinecap="round">
-                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
                   </svg>
                   <h2 className={styles.s9CardTitle}>{content2.eligibilityH2}</h2>
                 </div>
@@ -1914,18 +1913,18 @@ export default function YogaTTC300() {
                       </div>
                       <div className={styles.s9EligImgWrap}>
                         {content2?.eligibilityImage ? (
-                           <Image 
-                            src={imgUrl(content2.eligibilityImage)} 
-                            alt={content2.eligibilityImageAlt || "Yoga eligibility — student in practice"} 
-                            className={styles.s9EligImg} 
-                            loading="lazy" 
+                          <Image
+                            src={imgUrl(content2.eligibilityImage)}
+                            alt={content2.eligibilityImageAlt || "Yoga eligibility — student in practice"}
+                            className={styles.s9EligImg}
+                            loading="lazy"
                           />
                         ) : (
-                           <Image 
-                            src="/images/s9-eligibility.jpg" 
-                            alt="Yoga eligibility — student in practice" 
-                            className={styles.s9EligImg} 
-                            loading="lazy" 
+                          <Image
+                            src="/images/s9-eligibility.jpg"
+                            alt="Yoga eligibility — student in practice"
+                            className={styles.s9EligImg}
+                            loading="lazy"
                           />
                         )}
                       </div>
@@ -1934,15 +1933,15 @@ export default function YogaTTC300() {
                 </div>
               </div>
             )}
-            
+
             {/* Evaluation Section */}
             {content2.evaluationH2 && (
               <div className={styles.s9Card}>
                 <div className={styles.s9CardHeader}>
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFF8EE" strokeWidth="1.6" strokeLinecap="round">
-                    <rect x="2" y="3" width="20" height="14" rx="2"/>
-                    <path d="M8 17v4M16 17v4M8 21h8"/>
-                    <path d="M9 10l2 2 4-4"/>
+                    <rect x="2" y="3" width="20" height="14" rx="2" />
+                    <path d="M8 17v4M16 17v4M8 21h8" />
+                    <path d="M9 10l2 2 4-4" />
                   </svg>
                   <h2 className={styles.s9CardTitle}>{content2.evaluationH2}</h2>
                 </div>
@@ -1952,17 +1951,17 @@ export default function YogaTTC300() {
                       {content2.evaluationParas?.map((para, i) => (<div key={i} className={styles.s9EvalPara}><SafeHtml html={para} /></div>))}
                       <div className={styles.s9EvalIconGrid}>
                         <div className={styles.s9EvalItem}>
-                          <div className={styles.s9EvalIconWrap}><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F15505" strokeWidth="1.6" strokeLinecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div>
+                          <div className={styles.s9EvalIconWrap}><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F15505" strokeWidth="1.6" strokeLinecap="round"><rect x="3" y="4" width="18" height="18" rx="2" /><path d="M16 2v4M8 2v4M3 10h18" /></svg></div>
                           <div className={styles.s9EvalItemTitle}>4-Week Course</div>
                           <div className={styles.s9EvalItemDesc}>24 days residential</div>
                         </div>
                         <div className={styles.s9EvalItem}>
-                          <div className={styles.s9EvalIconWrap}><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F15505" strokeWidth="1.6" strokeLinecap="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></div>
+                          <div className={styles.s9EvalIconWrap}><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F15505" strokeWidth="1.6" strokeLinecap="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" /><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" /></svg></div>
                           <div className={styles.s9EvalItemTitle}>Written Exam</div>
                           <div className={styles.s9EvalItemDesc}>Theory & philosophy</div>
                         </div>
                         <div className={styles.s9EvalItem}>
-                          <div className={styles.s9EvalIconWrap}><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F15505" strokeWidth="1.6" strokeLinecap="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+                          <div className={styles.s9EvalIconWrap}><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F15505" strokeWidth="1.6" strokeLinecap="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" /></svg></div>
                           <div className={styles.s9EvalItemTitle}>Practical Demo</div>
                           <div className={styles.s9EvalItemDesc}>Teaching assessment</div>
                         </div>
@@ -1971,18 +1970,18 @@ export default function YogaTTC300() {
                     <div className={styles.s9EvalRight}>
                       <div className={styles.s9EvalImgStack}>
                         {content2?.evaluationMainImage ? (
-                           <Image 
-                            src={imgUrl(content2.evaluationMainImage)} 
-                            alt={content2.evaluationMainImageAlt || "Evaluation and certification ceremony"} 
-                            className={styles.s9EvalMainImg} 
-                            loading="lazy" 
+                          <Image
+                            src={imgUrl(content2.evaluationMainImage)}
+                            alt={content2.evaluationMainImageAlt || "Evaluation and certification ceremony"}
+                            className={styles.s9EvalMainImg}
+                            loading="lazy"
                           />
                         ) : (
-                           <Image 
-                            src="/images/s9-eval-main.jpg" 
-                            alt="Evaluation and certification ceremony" 
-                            className={styles.s9EvalMainImg} 
-                            loading="lazy" 
+                          <Image
+                            src="/images/s9-eval-main.jpg"
+                            alt="Evaluation and certification ceremony"
+                            className={styles.s9EvalMainImg}
+                            loading="lazy"
                           />
                         )}
                         <div className={styles.s9EvalImgBadge}>
@@ -1994,18 +1993,18 @@ export default function YogaTTC300() {
                           </div>
                         </div>
                         {content2?.evaluationSmallImage ? (
-                           <Image 
-                            src={imgUrl(content2.evaluationSmallImage)} 
-                            alt={content2.evaluationSmallImageAlt || "Students receiving certificates"} 
-                            className={styles.s9EvalSmallImg} 
-                            loading="lazy" 
+                          <Image
+                            src={imgUrl(content2.evaluationSmallImage)}
+                            alt={content2.evaluationSmallImageAlt || "Students receiving certificates"}
+                            className={styles.s9EvalSmallImg}
+                            loading="lazy"
                           />
                         ) : (
-                           <Image 
-                            src="/images/s9-eval-small.jpg" 
-                            alt="Students receiving certificates" 
-                            className={styles.s9EvalSmallImg} 
-                            loading="lazy" 
+                          <Image
+                            src="/images/s9-eval-small.jpg"
+                            alt="Students receiving certificates"
+                            className={styles.s9EvalSmallImg}
+                            loading="lazy"
                           />
                         )}
                       </div>
@@ -2057,7 +2056,7 @@ export default function YogaTTC300() {
                   </div>
                 </div>
               </div>
-              
+
               {/* RIGHT SIDE - DYNAMIC PAIR OF IMAGES */}
               <div className={styles.s10Right}>
                 {content2.ethicsQuote && (
@@ -2070,18 +2069,18 @@ export default function YogaTTC300() {
                 <div className={styles.s10ImgPair}>
                   <div className={styles.s10ImgWrap}>
                     {content2?.ethicsImage1 ? (
-                       <Image 
-                        src={imgUrl(content2.ethicsImage1)} 
-                        alt={content2.ethicsImage1Alt || "Yoga ethics in practice"} 
-                        className={styles.s10Img} 
-                        loading="lazy" 
+                      <Image
+                        src={imgUrl(content2.ethicsImage1)}
+                        alt={content2.ethicsImage1Alt || "Yoga ethics in practice"}
+                        className={styles.s10Img}
+                        loading="lazy"
                       />
                     ) : (
-                       <Image 
-                        src="/images/s10-ethics-1.jpg" 
-                        alt="Yoga ethics in practice" 
-                        className={styles.s10Img} 
-                        loading="lazy" 
+                      <Image
+                        src="/images/s10-ethics-1.jpg"
+                        alt="Yoga ethics in practice"
+                        className={styles.s10Img}
+                        loading="lazy"
                       />
                     )}
                     <div className={styles.s10ImgOverlay}>
@@ -2090,21 +2089,21 @@ export default function YogaTTC300() {
                       </span>
                     </div>
                   </div>
-                  
+
                   <div className={styles.s10ImgWrap}>
                     {content2?.ethicsImage2 ? (
-                       <Image 
-                        src={imgUrl(content2.ethicsImage2)} 
-                        alt={content2.ethicsImage2Alt || "AYM campus — yoga shala"} 
-                        className={styles.s10Img} 
-                        loading="lazy" 
+                      <Image
+                        src={imgUrl(content2.ethicsImage2)}
+                        alt={content2.ethicsImage2Alt || "AYM campus — yoga shala"}
+                        className={styles.s10Img}
+                        loading="lazy"
                       />
                     ) : (
-                       <Image 
-                        src="/images/s10-ethics-2.jpg" 
-                        alt="AYM campus — yoga shala" 
-                        className={styles.s10Img} 
-                        loading="lazy" 
+                      <Image
+                        src="/images/s10-ethics-2.jpg"
+                        alt="AYM campus — yoga shala"
+                        className={styles.s10Img}
+                        loading="lazy"
                       />
                     )}
                     <div className={styles.s10ImgOverlay}>
@@ -2116,25 +2115,25 @@ export default function YogaTTC300() {
                 </div>
               </div>
             </div>
-            
+
             {content2.ethicsNaturalisticPara && (
               <div className={styles.s10NaturePara}>
                 <div className={styles.s10NatureIcon}>
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F15505" strokeWidth="1.5" strokeLinecap="round">
-                    <path d="M12 2a10 10 0 0 1 10 10c0 5.52-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2z"/>
-                    <path d="M12 6v6l4 2"/>
+                    <path d="M12 2a10 10 0 0 1 10 10c0 5.52-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2z" />
+                    <path d="M12 6v6l4 2" />
                   </svg>
                 </div>
                 <p className={styles.s10NatureText}>{content2.ethicsNaturalisticPara}</p>
               </div>
             )}
-            
+
             {content2.ethicsRules && content2.ethicsRules.length > 0 && (
               <div className={styles.s10RulesWrap}>
                 <div className={styles.s10RulesHeader}>
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFF8EE" strokeWidth="1.6" strokeLinecap="round">
-                    <path d="M9 11l3 3L22 4"/>
-                    <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+                    <path d="M9 11l3 3L22 4" />
+                    <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
                   </svg>
                   <span className={styles.s10RulesHeaderTxt}>Student Code of Conduct</span>
                 </div>
@@ -2148,10 +2147,10 @@ export default function YogaTTC300() {
                 </div>
               </div>
             )}
-            
+
             {content2.diplomaImage && (
               <div className={styles.s10DiplomaWrap}>
-                 <Image src={imgUrl(content2.diplomaImage)} alt="Students with Diploma certificates — AYM School" className={styles.s10DiplomaImg} loading="lazy" />
+                <Image src={imgUrl(content2.diplomaImage)} alt="Students with Diploma certificates — AYM School" className={styles.s10DiplomaImg} loading="lazy" />
                 <div className={styles.s10DiplomaBadge}>
                   <div className={styles.s10DiplomaBadgeLine1}>
                     {content2.diplomaBadgeLine1 || "Yoga Alliance USA"}
@@ -2213,7 +2212,7 @@ export default function YogaTTC300() {
                 <Link href="#dates-fees" className={styles.s11FooterBtn}>
                   Begin Your Journey
                   <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
-                    <path d="M3 8h10M9 4l4 4-4 4" stroke="#FFF8EE" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M3 8h10M9 4l4 4-4 4" stroke="#FFF8EE" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </Link>
               </div>
@@ -2227,7 +2226,7 @@ export default function YogaTTC300() {
         <span className={styles.divLine} />
       </div>
 
-      <ReviewSection courseType="300-hour-yoga-teacher-training"  RatingsSummaryComponent={<RatingsSummarySection />} />
+      <ReviewSection courseType="300-hour-yoga-teacher-training" RatingsSummaryComponent={<RatingsSummarySection />} />
       <div id="location">
         <HowToReach />
       </div>

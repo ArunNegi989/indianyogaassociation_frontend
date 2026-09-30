@@ -26,10 +26,6 @@ interface WhyAYMData {
   bottomFeatures: Feature[];
 }
 
-/* ══════════════════════════════════════════════
-   IMAGE URL HELPER
-   DB mein /uploads/... stored hai → full URL
-══════════════════════════════════════════════ */
 const getImageUrl = (src: string): string => {
   if (!src) return "";
   if (src.startsWith("http")) return src;
@@ -94,9 +90,6 @@ export const WhyAYMSection: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
 
-  /* ────────────────────────────────────────────
-     FETCH  →  GET /why-aym/get-all-why-aym
-  ──────────────────────────────────────────── */
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -113,14 +106,9 @@ export const WhyAYMSection: React.FC = () => {
     fetchData();
   }, []);
 
-  /* ────────────────────────────────────────────
-     INTERSECTION OBSERVER — fadeUp animation
-     Data load hone ke baad run karo
-  ──────────────────────────────────────────── */
   useEffect(() => {
     if (!data) return;
 
-    /* Small timeout — DOM update hone do pehle */
     const timer = setTimeout(() => {
       const els = sectionRef.current?.querySelectorAll(`.${styles.fadeUp}`);
       if (!els) return;
@@ -141,27 +129,24 @@ export const WhyAYMSection: React.FC = () => {
     return () => clearTimeout(timer);
   }, [data]);
 
-  /* ── Loading ── */
   if (isLoading) return <Skeleton />;
 
-  /* ── Error ya data nahi ── */
   if (error || !data) return null;
 
-  /* ── Image URL resolve ── */
   const heroImageUrl = getImageUrl(data.imageSrc);
 
   return (
     <section className={styles.section} ref={sectionRef}>
-      {/* ── Top decorative border ── */}
+
       <div className={styles.a} />
 
       <div className={styles.container}>
-        {/* ══ HEADER ══ */}
+
         <div className={`${styles.header} ${styles.fadeUp}`}>
-          {/* superTitle — plain text */}
+
           <p className={styles.superTitle}>{data.superTitle}</p>
 
-          {/* mainTitle — Jodit se HTML aa sakta hai */}
+
           <h2
             className={styles.mainTitle}
             dangerouslySetInnerHTML={{ __html: data.mainTitle }}
@@ -173,14 +158,14 @@ export const WhyAYMSection: React.FC = () => {
             <span className={styles.dividerLine} />
           </div>
 
-          {/* introPara — Jodit se HTML aa sakta hai */}
+
           <p
             className={styles.introPara}
             dangerouslySetInnerHTML={{ __html: data.introPara }}
           />
         </div>
 
-        {/* ══ BODY — image + side features ══ */}
+
         <div className={styles.body}>
           {/* ── Image Column ── */}
           <div className={`${styles.imageCol} ${styles.fadeUp}`}>
@@ -193,14 +178,7 @@ export const WhyAYMSection: React.FC = () => {
                   aspectRatio: "3 / 4",
                 }}
               >
-                {/*
-                  ⚠️ FIX: this Image had NO width/height/fill at all before —
-                  the browser reserved zero space for it, so the whole
-                  layout jumped down once the image finally loaded. Now the
-                  parent has a fixed aspect-ratio + position:relative, and
-                  the Image uses `fill`, so its box exists from first paint
-                  in both the http and non-http branches.
-                */}
+
                 {heroImageUrl ? (
                   data.imageSrc.startsWith("http") ? (
                     <Image
@@ -292,12 +270,12 @@ export const WhyAYMSection: React.FC = () => {
                 🔆
               </span>
               <p className={styles.featureText}>
-                {/* title — Jodit HTML */}
+
                 <strong
                   className={styles.featureTitle}
                   dangerouslySetInnerHTML={{ __html: f.title }}
                 />{" "}
-                {/* desc — Jodit HTML */}
+
                 <span dangerouslySetInnerHTML={{ __html: f.desc }} />
               </p>
             </div>

@@ -443,61 +443,61 @@ export default function BaliYogaPage() {
       {(highlights.length > 0 ||
         hasText(data?.highlightsPara1) ||
         hasText(data?.highlightsPara2)) && (
-        <section className={styles.section}>
-          <div className={styles.container}>
-            <div className={`${styles.reveal} ${styles.hlGrid}`}>
-              <div className={styles.hlLeft}>
-                <span className={styles.superLabel}>
-                  {data?.highlightsSuperLabel || "Curriculum"}
-                </span>
-                <h2 className={styles.sectionTitle}>
-                  {data?.highlightsSectionTitle || "Highlights of the Courses"}
-                </h2>
-                <OmBar align="left" />
-                {hasText(data?.highlightsPara1) && (
-                  <Html html={data!.highlightsPara1!} className={styles.para} />
-                )}
-                {hasText(data?.highlightsPara2) && (
-                  <Html html={data!.highlightsPara2!} className={styles.para} />
-                )}
-                {highlights.length > 0 && (
-                  <ul className={styles.hlList}>
-                    {highlights.map((h, i) => (
-                      <li key={i} className={styles.hlItem}>
-                        <span className={styles.hlBullet}>✦</span>
-                        <span>{h}</span>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </div>
+          <section className={styles.section}>
+            <div className={styles.container}>
+              <div className={`${styles.reveal} ${styles.hlGrid}`}>
+                <div className={styles.hlLeft}>
+                  <span className={styles.superLabel}>
+                    {data?.highlightsSuperLabel || "Curriculum"}
+                  </span>
+                  <h2 className={styles.sectionTitle}>
+                    {data?.highlightsSectionTitle || "Highlights of the Courses"}
+                  </h2>
+                  <OmBar align="left" />
+                  {hasText(data?.highlightsPara1) && (
+                    <Html html={data!.highlightsPara1!} className={styles.para} />
+                  )}
+                  {hasText(data?.highlightsPara2) && (
+                    <Html html={data!.highlightsPara2!} className={styles.para} />
+                  )}
+                  {highlights.length > 0 && (
+                    <ul className={styles.hlList}>
+                      {highlights.map((h, i) => (
+                        <li key={i} className={styles.hlItem}>
+                          <span className={styles.hlBullet}>✦</span>
+                          <span>{h}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
 
-              <div className={styles.hlRight}>
-                {imgUrl(data?.practiceImage) && (
-                  <div className={styles.hlImageWrap}>
-                    <img
-                      src={imgUrl(data?.practiceImage)}
-                      alt="Yoga practice Bali"
-                    />
-                    <div className={styles.hlImageFrame} />
-                    <div className={styles.hlImageMandala} aria-hidden="true">
-                      <MandalaRing size={160} opacity={0.15} />
+                <div className={styles.hlRight}>
+                  {imgUrl(data?.practiceImage) && (
+                    <div className={styles.hlImageWrap}>
+                      <img
+                        src={imgUrl(data?.practiceImage)}
+                        alt="Yoga practice Bali"
+                      />
+                      <div className={styles.hlImageFrame} />
+                      <div className={styles.hlImageMandala} aria-hidden="true">
+                        <MandalaRing size={160} opacity={0.15} />
+                      </div>
                     </div>
-                  </div>
-                )}
-                {imgUrl(data?.teacherImage) && (
-                  <div className={styles.hlImageWrap2}>
-                    <img
-                      src={imgUrl(data?.teacherImage)}
-                      alt="Yoga teacher Bali"
-                    />
-                  </div>
-                )}
+                  )}
+                  {imgUrl(data?.teacherImage) && (
+                    <div className={styles.hlImageWrap2}>
+                      <img
+                        src={imgUrl(data?.teacherImage)}
+                        alt="Yoga teacher Bali"
+                      />
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
-          </div>
-        </section>
-      )}
+          </section>
+        )}
 
       {/* ════════════ WHAT MAKES AYM SPECIAL ════════════ */}
       {aymSpecial.length > 0 && (

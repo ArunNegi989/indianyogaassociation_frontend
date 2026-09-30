@@ -1,12 +1,9 @@
-/* InnerTransformation.module.css */
-
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Lato:wght@300;400;700;900&family=Poppins:wght@400;500;600;700&display=swap');
 
 :root {
   --orange: #e8600a;
   --orange-dark: #c04800;
   --orange-card: #c0501a;
-  /* card header bg */
   --text-dark: #1a1a1a;
   --text-body: #2c2c2c;
   --text-muted: #555;
@@ -20,7 +17,7 @@
    GLOBAL
 ==================================================== */
 .pageWrapper {
-   font-family: "Montserrat", Arial, sans-serif;
+  font-family: "Montserrat", Arial, sans-serif;
   background-image: url("../../images/backgroundimage/28.png");
   color: var(--text-body);
   overflow-x: hidden;
@@ -62,7 +59,7 @@
 ==================================================== */
 
 .heroSection {
- position: relative;
+  position: relative;
   z-index: 1;
   width: 100%;
   margin: 0;
@@ -193,7 +190,7 @@
 }
 
 .cardTitle {
-   font-family: "Montserrat", Arial, sans-serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: clamp(0.82rem, 1.4vw, 0.92rem);
   font-weight: 700;
   color: var(--white);
@@ -315,7 +312,7 @@
 }
 
 .infoCardOrangeTitle {
-   font-family: "Montserrat", Arial, sans-serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: clamp(0.8rem, 1.3vw, 0.88rem);
   font-weight: 700;
   color: var(--white);
@@ -504,7 +501,7 @@
 
 /* XL: ≥ 1200px */
 @media (min-width: 1200px) {
-  
+
 
   .section,
   .triImageSection,
@@ -697,28 +694,28 @@
     padding-left: 16px;
     padding-right: 16px;
   }
-  
+
   .twoColumnLayout {
     grid-template-columns: 1fr;
     gap: 16px;
   }
-  
+
   .retreatQuote {
     padding: 20px;
   }
-  
+
   .quoteText {
     font-size: 0.9rem;
   }
-  
+
   .insightCard {
     padding: 18px;
   }
-  
+
   .insightNumber {
     font-size: 1.5rem;
   }
-  
+
   .programNote {
     padding: 12px 16px;
   }
@@ -730,12 +727,12 @@
     padding-left: 20px;
     padding-right: 20px;
   }
-  
+
   .twoColumnLayout {
     grid-template-columns: 1fr;
     gap: 20px;
   }
-  
+
   .retreatQuote {
     padding: 24px;
   }
@@ -747,11 +744,11 @@
     padding-left: 24px;
     padding-right: 24px;
   }
-  
+
   .twoColumnLayout {
     gap: 20px;
   }
-  
+
   .insightCard {
     padding: 20px;
   }
@@ -770,7 +767,7 @@
     padding-left: 48px;
     padding-right: 48px;
   }
-  
+
   .insightCard {
     padding: 28px;
   }
@@ -923,7 +920,7 @@
   gap: 40px;
   margin: 32px 0 16px;
   padding: 20px 0;
- 
+
 }
 
 .statBox {
@@ -985,32 +982,32 @@
     padding-right: 16px;
     padding-top: 28px;
   }
-  
+
   .subTitleWrapper {
     flex-direction: column;
     gap: 12px;
   }
-  
+
   .subTitleAccent {
     width: 60px;
     height: 2px;
     flex: none;
   }
-  
+
   .heroStats {
     flex-direction: column;
     gap: 16px;
     align-items: center;
   }
-  
+
   .maharishiImageBox {
     height: 280px;
   }
-  
+
   .statValue {
     font-size: 1.2rem;
   }
-  
+
   .whoSection {
     margin-top: 20px;
   }
@@ -1022,15 +1019,15 @@
     padding-left: 20px;
     padding-right: 20px;
   }
-  
+
   .subTitleWrapper {
     gap: 12px;
   }
-  
+
   .maharishiImageBox {
     height: 340px;
   }
-  
+
   .heroStats {
     gap: 30px;
   }
@@ -1042,11 +1039,11 @@
     padding-left: 24px;
     padding-right: 24px;
   }
-  
+
   .maharishiImageBox {
     height: 400px;
   }
-  
+
   .heroStats {
     gap: 35px;
   }
@@ -1066,11 +1063,11 @@
     padding-left: 48px;
     padding-right: 48px;
   }
-  
+
   .maharishiImageBox {
     height: 520px;
   }
-  
+
   .statValue {
     font-size: 1.8rem;
   }
@@ -1461,7 +1458,7 @@
   justify-content: space-between;
   padding: 8px 0;
   border-bottom: 1px dashed #eee;
-  
+
 }
 
 .scheduleTime {
@@ -1499,96 +1496,98 @@
 ==================================================== */
 
 @media (max-width: 768px) {
+
   .whatContainer,
   .scheduleContainer {
     padding: 0 20px;
   }
-  
+
   .cardsRow {
     grid-template-columns: 1fr;
     gap: 24px;
   }
-  
+
   .twoColumnLayout {
     grid-template-columns: 1fr;
     gap: 20px;
   }
-  
+
   .retreatQuote {
     padding: 24px;
   }
-  
+
   .quoteText {
     font-size: 0.95rem;
   }
-  
+
   .insightCard {
     padding: 20px;
   }
-  
+
   .insightNumber {
     font-size: 1.8rem;
   }
-  
+
   .insightTitle {
     font-size: 1rem;
   }
-  
+
   .cardHeaderOrange,
   .cardHeaderGreen {
     padding: 16px 20px;
   }
-  
+
   .cardBodyWhite {
     padding: 20px;
   }
-  
+
   .scheduleItem {
     flex-direction: column;
     gap: 4px;
   }
-  
+
   .breakBlock {
     flex-wrap: wrap;
   }
 }
 
 @media (max-width: 576px) {
+
   .whatContainer,
   .scheduleContainer {
     padding: 0 16px;
   }
-  
+
   .whatSection,
   .scheduleSection {
     padding: 30px 0 40px;
   }
-  
+
   .retreatQuote {
     padding: 20px;
   }
-  
+
   .programNote {
     padding: 14px 20px;
   }
-  
+
   .noteText {
     font-size: 0.82rem;
   }
-  
+
   .pointsList li {
     font-size: 0.85rem;
   }
-  
+
   .cardFootnote {
     font-size: 0.7rem;
   }
-  
+
   .scheduleTime,
   .scheduleActivity {
     font-size: 0.8rem;
   }
-  
+
   .weeksLabel {
     padding: 4px 12px;
   }
@@ -2010,43 +2009,44 @@
 ==================================================== */
 
 @media (max-width: 768px) {
+
   .galleryContainer,
   .infoContainer,
   .feeContainer {
     padding: 0 20px;
   }
-  
+
   .triImageGrid {
     grid-template-columns: 1fr;
     gap: 20px;
   }
-  
+
   .triImageItem {
     height: 320px;
   }
-  
+
   .infoCardsRow {
     grid-template-columns: 1fr;
     gap: 24px;
   }
-  
+
   .includedGrid {
     grid-template-columns: 1fr;
     gap: 16px;
   }
-  
+
   .pricingAmount {
     font-size: 1.8rem;
   }
-  
+
   .currency {
     font-size: 1.2rem;
   }
-  
+
   .inr {
     font-size: 1.3rem;
   }
-  
+
   .gallerySection,
   .infoSection,
   .feeSection {
@@ -2055,38 +2055,39 @@
 }
 
 @media (max-width: 576px) {
+
   .galleryContainer,
   .infoContainer,
   .feeContainer {
     padding: 0 16px;
   }
-  
+
   .triImageItem {
     height: 260px;
   }
-  
+
   .definitionHeader,
   .participantHeader {
     padding: 16px 20px;
   }
-  
+
   .definitionBody,
   .participantBody {
     padding: 20px;
   }
-  
+
   .includedItem {
     padding: 12px 16px;
   }
-  
+
   .pricingCard {
     padding: 24px;
   }
-  
+
   .pricingAmount {
     font-size: 1.5rem;
   }
-  
+
   .pricingNote {
     font-size: 0.7rem;
     padding: 8px 16px;

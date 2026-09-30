@@ -22,7 +22,7 @@
    GLOBAL WRAPPER
 ==================================================== */
 .pageWrapper {
-   font-family: "Montserrat", Arial, sans-serif;
+  font-family: "Montserrat", Arial, sans-serif;
   color: var(--text-body);
   overflow-x: hidden;
   background: #fff;
@@ -233,7 +233,7 @@
 
 /* Beige body text */
 .beigeBodyText {
-   font-family: 'Montserrat', serif;
+  font-family: 'Montserrat', serif;
   font-size: clamp(0.82rem, 1.4vw, 1.3rem);
   line-height: 1.85;
   color: var(--text-body);
@@ -350,7 +350,7 @@
   font-weight: 600;
   color: var(--table-text);
   line-height: 1.6;
-   font-family: "Montserrat", Arial, sans-serif;
+  font-family: "Montserrat", Arial, sans-serif;
 }
 
 .timetableRow span:first-child {
@@ -486,7 +486,7 @@
     padding: 52px 60px 56px;
   }
 
- 
+
   .imageBox {
     height: 380px;
   }
@@ -851,7 +851,7 @@
 }
 
 .pricingAmount {
-   font-family: 'Montserrat', serif;
+  font-family: 'Montserrat', serif;
   font-size: 1.8rem;
   font-weight: 700;
   color: var(--orange);
@@ -1070,22 +1070,23 @@
    RESPONSIVE
 ==================================================== */
 @media (max-width: 768px) {
+
   .datesGrid,
   .pricingGrid,
   .guidelinesGrid {
     grid-template-columns: 1fr;
   }
-  
+
   .timetableColumns {
     grid-template-columns: 1fr;
     gap: 0;
   }
-  
+
   .enrollSteps {
     flex-direction: column;
     gap: 20px;
   }
-  
+
   .descriptionCard {
     padding: 20px;
   }
@@ -1103,7 +1104,7 @@
   .pricingAmount {
     font-size: 1.3rem;
   }
-  
+
   .stepNumber {
     width: 32px;
     height: 32px;

@@ -115,7 +115,7 @@ const cityLinks: { name: string; href: string }[] = [
     name: "Himachal Pradesh",
     href: "/yoga-teacher-training/yoga-teacher-training-Himachal%20Pradesh-94-2178",
   },
-  
+
   {
     name: "Bengaluru",
     href: "/yoga-teacher-training/yoga-teacher-training-Bengaluru-94-2179",
@@ -124,7 +124,7 @@ const cityLinks: { name: string; href: string }[] = [
     name: "Auroville",
     href: "/yoga-teacher-training/yoga-teacher-training-Auroville-94-2191",
   },
-   {
+  {
     name: "Bihar",
     href: "/yoga-teacher-training/yoga-teacher-training-Bihar-94-2172",
   },
@@ -158,7 +158,7 @@ const YogaTrainingGokarna: React.FC = () => {
         ══════════════════════════════════════ */}
         <div className={`${styles.section} ${styles.sectionImageLeft}`}>
           <div className={styles.imgWrap}>
-             <Image
+            <Image
               src="https://images.unsplash.com/photo-1603988363607-e1e4a66962c6?w=700&q=80&fit=crop"
               alt="Top yoga school in Gokarna"
               className={styles.sectionImg}
@@ -197,7 +197,7 @@ const YogaTrainingGokarna: React.FC = () => {
         ══════════════════════════════════════ */}
         <div className={`${styles.section} ${styles.sectionImageRight}`}>
           <div className={styles.imgWrap}>
-             <Image
+            <Image
               src="https://images.unsplash.com/photo-1588286840104-8957b019727f?w=700&q=80&fit=crop"
               alt="Certified Yoga Teacher Training Course Near Me"
               className={styles.sectionImg}
@@ -249,7 +249,7 @@ const YogaTrainingGokarna: React.FC = () => {
         ══════════════════════════════════════ */}
         <div className={`${styles.section} ${styles.sectionImageLeft}`}>
           <div className={styles.imgWrap}>
-             <Image
+            <Image
               src="https://images.unsplash.com/photo-1545389336-cf090694435e?w=700&q=80&fit=crop"
               alt="The Finest Location in Gokarna for Yogic Practices"
               className={styles.sectionImg}
@@ -282,7 +282,7 @@ const YogaTrainingGokarna: React.FC = () => {
         ══════════════════════════════════════ */}
         <div className={`${styles.section} ${styles.sectionImageRight}`}>
           <div className={styles.imgWrap}>
-             <Image
+            <Image
               src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=700&q=80&fit=crop"
               alt="Get Yourself Globally Acclaimed By Yoga and Meditation License"
               className={styles.sectionImg}
@@ -323,7 +323,7 @@ const YogaTrainingGokarna: React.FC = () => {
           style={{ borderBottom: "none" }}
         >
           <div className={styles.imgWrap}>
-             <Image
+            <Image
               src="https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?w=700&q=80&fit=crop"
               alt="Yoga Instruction from the Masters"
               className={styles.sectionImg}

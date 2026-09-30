@@ -198,7 +198,7 @@ const cityLinks: { name: string; href: string }[] = [
     name: "Himachal Pradesh",
     href: "/yoga-teacher-training/yoga-teacher-training-Himachal%20Pradesh-94-2178",
   },
-  
+
   {
     name: "Bengaluru",
     href: "/yoga-teacher-training/yoga-teacher-training-Bengaluru-94-2179",
@@ -207,7 +207,7 @@ const cityLinks: { name: string; href: string }[] = [
     name: "Auroville",
     href: "/yoga-teacher-training/yoga-teacher-training-Auroville-94-2191",
   },
-   {
+  {
     name: "Bihar",
     href: "/yoga-teacher-training/yoga-teacher-training-Bihar-94-2172",
   },
@@ -237,15 +237,14 @@ const YogaTrainingMysore: React.FC = () => {
         {sections.map((section) => (
           <div
             key={section.id}
-            className={`${styles.section} ${
-              section.imageLeft
+            className={`${styles.section} ${section.imageLeft
                 ? styles.sectionImageLeft
                 : styles.sectionImageRight
-            }`}
+              }`}
           >
             {/* Image */}
             <div className={styles.imgWrap}>
-               <Image
+              <Image
                 src={section.image}
                 alt={section.imageAlt}
                 className={styles.sectionImg}

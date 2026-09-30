@@ -368,9 +368,8 @@ const PaymentSection = () => {
                   <div key={i} className={styles.arrivalCard}>
                     <div className={styles.arrivalMethod}>{item.method}</div>
                     <div
-                      className={`${styles.arrivalCharge} ${
-                        item.charge.includes("No") ? styles.arrivalFree : styles.arrivalFee
-                      }`}
+                      className={`${styles.arrivalCharge} ${item.charge.includes("No") ? styles.arrivalFree : styles.arrivalFee
+                        }`}
                     >
                       {item.charge}
                     </div>

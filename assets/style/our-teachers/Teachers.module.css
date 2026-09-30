@@ -31,7 +31,7 @@
 .outerPad {
   max-width: 1500px;
   margin: 0 auto;
- 
+
 }
 
 .a {
@@ -97,7 +97,7 @@
 }
 
 .secLabel {
-   font-family: "Montserrat", Arial, sans-serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: 1rem;
   font-weight: 700;
   letter-spacing: 0.18em;
@@ -168,7 +168,7 @@
 }
 
 .heroEyebrow {
-   font-family: "Montserrat", Arial, sans-serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: 0.72rem;
   letter-spacing: 0.22em;
   text-transform: uppercase;
@@ -178,7 +178,7 @@
 }
 
 .heroTitle {
-   font-family: "Montserrat", Arial, sans-serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: clamp(1.5rem, 4vw, 2.8rem);
   font-weight: 600;
   color: #fff;
@@ -204,7 +204,7 @@
   background: rgba(224, 123, 0, 0.85);
   padding: 0.35rem 1rem;
   border-radius: 2px;
-   font-family: "Montserrat", Arial, sans-serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: 0.68rem;
   letter-spacing: 0.1em;
   color: #fff;
@@ -280,7 +280,7 @@
   position: absolute;
   top: 12px;
   right: 12px;
-   font-family: "Montserrat", Arial, sans-serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.12em;
@@ -299,7 +299,7 @@
 }
 
 .founderCardName {
-   font-family: "Montserrat", Arial, sans-serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: clamp(1.5rem, 3vw, 2.2rem);
   font-weight: 700;
   color: var(--textDark);
@@ -345,7 +345,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.7rem;
-   font-family: "Montserrat", Arial, sans-serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: clamp(0.7rem, 1.1vw, 0.85rem);
   font-weight: 600;
   letter-spacing: 0.08em;
@@ -388,7 +388,7 @@
 }
 
 .introEyebrow {
-   font-family: "Montserrat", Arial, sans-serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: 1rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
@@ -398,7 +398,7 @@
 }
 
 .introTitle {
-   font-family: "Montserrat", Arial, sans-serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: clamp(1.1rem, 2.5vw, 1.65rem);
   font-weight: 600;
   color: var(--textDark);
@@ -498,7 +498,7 @@
   position: absolute;
   bottom: 14px;
   right: 14px;
-   font-family: "Montserrat", Arial, sans-serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -514,7 +514,7 @@
 }
 
 .tRoleTag {
-   font-family: "Montserrat", Arial, sans-serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: 0.9rem;
   font-weight: 700;
   letter-spacing: 0.18em;
@@ -524,7 +524,7 @@
 }
 
 .tName {
-   font-family: "Montserrat", Arial, sans-serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: clamp(1.15rem, 2.3vw, 1.6rem);
   font-weight: 700;
   color: var(--textDark);
@@ -549,7 +549,7 @@
   margin-bottom: 1.2rem;
 }
 
-.tBio p{
+.tBio p {
   font-family: "Montserrat", Arial, sans-serif;
 }
 
@@ -573,7 +573,7 @@
 }
 
 .tDetailTitle {
-   font-family: "Montserrat", Arial, sans-serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.14em;
@@ -621,7 +621,7 @@
 }
 
 .tChip {
-   font-family: "Montserrat", Arial, sans-serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: 0.6rem;
   font-weight: 600;
   letter-spacing: 0.08em;
@@ -641,7 +641,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-   font-family: "Montserrat", Arial, sans-serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: 0.68rem;
   font-weight: 600;
   letter-spacing: 0.1em;
@@ -730,7 +730,7 @@
 }
 
 .guestTitle {
-   font-family: "Montserrat", Arial, sans-serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: clamp(1.3rem, 2.5vw, 1.8rem);
   font-weight: 600;
   color: var(--textDark);
@@ -819,7 +819,7 @@
 }
 
 .guestCardHoverText {
-   font-family: "Montserrat", Arial, sans-serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: 0.85rem;
   font-weight: 600;
   letter-spacing: 0.1em;
@@ -829,7 +829,7 @@
 }
 
 .guestCardContent {
-  color:#fff;
+  color: #fff;
   padding: 1.2rem;
   text-align: center;
   flex: 1;
@@ -839,7 +839,7 @@
 }
 
 .guestCardName {
-   font-family: "Montserrat", Arial, sans-serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: clamp(0.95rem, 1.5vw, 1.1rem);
   font-weight: 600;
   color: var(--textDark);
@@ -888,7 +888,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.8rem;
-   font-family: "Montserrat", Arial, sans-serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: clamp(0.75rem, 1.2vw, 0.9rem);
   font-weight: 700;
   letter-spacing: 0.12em;
@@ -913,7 +913,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.8rem;
-   font-family: "Montserrat", Arial, sans-serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: clamp(0.75rem, 1.2vw, 0.9rem);
   font-weight: 700;
   letter-spacing: 0.12em;
@@ -939,7 +939,7 @@
 }
 
 .guestBtnCount {
-   font-family: "Montserrat", Arial, sans-serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: clamp(0.75rem, 1.1vw, 0.85rem);
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -1099,7 +1099,7 @@
 }
 
 .modalName {
-   font-family: "Montserrat", Arial, sans-serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: 1.1rem;
   font-weight: 700;
   color: #1a0c00;
@@ -1109,7 +1109,7 @@
 }
 
 .modalBadge {
-   font-family: "Montserrat", Arial, sans-serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: 0.62rem;
   font-weight: 600;
   letter-spacing: 0.1em;

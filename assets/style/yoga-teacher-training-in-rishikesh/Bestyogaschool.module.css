@@ -134,7 +134,8 @@
     transform: translateX(-50%) scale(1.07);
   }
 }
-.maxx{
+
+.maxx {
   max-width: 1540px !important;
 }
 
@@ -340,7 +341,7 @@
   font-weight: 600;
   letter-spacing: .14em;
   text-transform: uppercase;
-  color: rgba(255,255,255,.82);
+  color: rgba(255, 255, 255, .82);
 }
 
 .certBody {
@@ -356,11 +357,11 @@
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  border: 1.5px solid rgba(212,160,23,.5);
+  border: 1.5px solid rgba(212, 160, 23, .5);
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(212,160,23,.08);
+  background: rgba(212, 160, 23, .08);
   color: var(--gold);
 }
 
@@ -393,7 +394,9 @@
   opacity: .5;
 }
 
-.certDot:nth-child(2) { opacity: .85; }
+.certDot:nth-child(2) {
+  opacity: .85;
+}
 
 /* ════════════════════════════════════════
    COURSE INFO CARD
@@ -737,7 +740,7 @@
   direction: rtl;
 }
 
-.courseCardRevEnhanced .courseCardInner > * {
+.courseCardRevEnhanced .courseCardInner>* {
   direction: ltr;
 }
 
@@ -1023,8 +1026,13 @@
 }
 
 @keyframes specialtyOrnamentRotate {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .specialtyEyebrow {
@@ -1189,8 +1197,15 @@
 }
 
 @keyframes specialtyBadgePulse {
-  0%, 100% { opacity: 0.6; }
-  50% { opacity: 1; }
+
+  0%,
+  100% {
+    opacity: 0.6;
+  }
+
+  50% {
+    opacity: 1;
+  }
 }
 
 .specialtyCardTitle {
@@ -1323,7 +1338,9 @@
 .mediaPanel::before {
   content: '';
   position: absolute;
-  top: 0; left: 0; right: 0;
+  top: 0;
+  left: 0;
+  right: 0;
   height: 3px;
   background: linear-gradient(90deg, var(--saffron), var(--gold), var(--saffron));
   z-index: 2;
@@ -1332,11 +1349,12 @@
 .mediaToggle {
   display: flex;
   position: absolute;
-  top: 14px; left: 14px;
+  top: 14px;
+  left: 14px;
   z-index: 3;
   border-radius: 4px;
   overflow: hidden;
-  border: 1px solid rgba(255,255,255,.28);
+  border: 1px solid rgba(255, 255, 255, .28);
   background: rgba(42, 21, 5, .48);
 }
 
@@ -1346,7 +1364,7 @@
   font-weight: 700;
   letter-spacing: .1em;
   text-transform: uppercase;
-  color: rgba(255,255,255,.72);
+  color: rgba(255, 255, 255, .72);
   padding: .32rem .75rem;
   cursor: pointer;
   border: none;
@@ -1375,7 +1393,7 @@
 .mediaOverlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(42,21,5,.22) 0%, transparent 55%);
+  background: linear-gradient(135deg, rgba(42, 21, 5, .22) 0%, transparent 55%);
   pointer-events: none;
 }
 
@@ -1386,7 +1404,7 @@
   font-size: clamp(.56rem, .9vw, .64rem);
   letter-spacing: .12em;
   text-transform: uppercase;
-  color: rgba(255,255,255,.9);
+  color: rgba(255, 255, 255, .9);
   text-align: center;
 }
 
@@ -1408,7 +1426,7 @@
   padding: .3rem .8rem;
   border-radius: 3px;
   text-decoration: none;
-  background: rgba(255,253,248,.9);
+  background: rgba(255, 253, 248, .9);
   transition: background .2s, color .2s, border-color .2s;
 }
 
@@ -1423,126 +1441,393 @@
 ════════════════════════════════════════ */
 
 @media (max-width: 1199.98px) {
-  .mandalaTR, .mandalaBL { opacity: .06; }
+
+  .mandalaTR,
+  .mandalaBL {
+    opacity: .06;
+  }
 }
 
 @media (max-width: 991.98px) {
-  .mandalaTL { width: 200px; height: 200px; opacity: .1; }
-  .mandalaBR { width: 180px; height: 180px; opacity: .1; }
-  .mandalaTR, .mandalaBL { display: none; }
-  
-  .certGrid { grid-template-columns: repeat(2, 1fr); }
-  .accrHeadLine, .accrHeadLineRev { display: none; }
-  
-  .icCard { grid-template-columns: 1fr; grid-template-rows: auto auto auto; }
-  .icVDiv { width: 100%; height: 1px; background: linear-gradient(to right, transparent 5%, rgba(200, 112, 10, 0.25) 25%, rgba(200, 112, 10, 0.25) 75%, transparent 95%); }
-  .icRight { flex-direction: row; flex-wrap: wrap; align-items: center; gap: 1rem; padding: 1.1rem 1.4rem; min-width: unset; }
-  .icBookBtn { width: auto; padding: 0.7rem 2rem; margin-top: 0; }
-  
-  .courseCardInner { grid-template-columns: 1fr; }
-  .courseCardRevEnhanced .courseCardInner { direction: ltr; }
-  .courseMedia { min-height: 300px; }
-  
-  .specialtyGrid { grid-template-columns: repeat(2, 1fr); gap: 1.2rem; }
+  .mandalaTL {
+    width: 200px;
+    height: 200px;
+    opacity: .1;
+  }
+
+  .mandalaBR {
+    width: 180px;
+    height: 180px;
+    opacity: .1;
+  }
+
+  .mandalaTR,
+  .mandalaBL {
+    display: none;
+  }
+
+  .certGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .accrHeadLine,
+  .accrHeadLineRev {
+    display: none;
+  }
+
+  .icCard {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+  }
+
+  .icVDiv {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(to right, transparent 5%, rgba(200, 112, 10, 0.25) 25%, rgba(200, 112, 10, 0.25) 75%, transparent 95%);
+  }
+
+  .icRight {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.1rem 1.4rem;
+    min-width: unset;
+  }
+
+  .icBookBtn {
+    width: auto;
+    padding: 0.7rem 2rem;
+    margin-top: 0;
+  }
+
+  .courseCardInner {
+    grid-template-columns: 1fr;
+  }
+
+  .courseCardRevEnhanced .courseCardInner {
+    direction: ltr;
+  }
+
+  .courseMedia {
+    min-height: 300px;
+  }
+
+  .specialtyGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.2rem;
+  }
 }
 
 @media (max-width: 767.98px) {
-  .mandalaTL, .mandalaBR, .chakraGlow { display: none; }
-  
-  .heroTitle { font-size: clamp(.95rem, 4.5vw, 1.25rem); }
-  
-  .icWrap { width: 96%; margin-top: -60px; }
-  .icGrid { grid-template-columns: repeat(2, 1fr); }
-  .icItem:nth-child(3n) { border-right: 1px solid rgba(200, 112, 10, 0.12); }
-  .icItem:nth-child(2n) { border-right: none; }
-  .icItem:nth-last-child(-n+3) { border-bottom: 1px solid rgba(200, 112, 10, 0.12); }
-  .icItem:nth-last-child(-n+2) { border-bottom: none; }
-  
-  .courseMedia { min-height: 280px; }
-  .courseContent { padding: 1.5rem; }
-  .courseActions { flex-direction: column; }
-  .btnPrimaryEnhanced, .btnSecondaryEnhanced { justify-content: center; }
-  
-  .specialtyGrid { grid-template-columns: 1fr; max-width: 450px; margin: 0 auto; }
-  .specialtyCardMedia { height: 200px; }
-  .specialtyCardContent { padding: 1.2rem; }
-  .specialtyCardActions { flex-direction: column; }
-  .specialtyBtnOutline, .specialtyBtnPrimary { width: 100%; justify-content: center; }
-  
-  .splitLayout { grid-template-columns: 1fr; }
-  .mediaPanel { position: relative; top: 0; }
+
+  .mandalaTL,
+  .mandalaBR,
+  .chakraGlow {
+    display: none;
+  }
+
+  .heroTitle {
+    font-size: clamp(.95rem, 4.5vw, 1.25rem);
+  }
+
+  .icWrap {
+    width: 96%;
+    margin-top: -60px;
+  }
+
+  .icGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .icItem:nth-child(3n) {
+    border-right: 1px solid rgba(200, 112, 10, 0.12);
+  }
+
+  .icItem:nth-child(2n) {
+    border-right: none;
+  }
+
+  .icItem:nth-last-child(-n+3) {
+    border-bottom: 1px solid rgba(200, 112, 10, 0.12);
+  }
+
+  .icItem:nth-last-child(-n+2) {
+    border-bottom: none;
+  }
+
+  .courseMedia {
+    min-height: 280px;
+  }
+
+  .courseContent {
+    padding: 1.5rem;
+  }
+
+  .courseActions {
+    flex-direction: column;
+  }
+
+  .btnPrimaryEnhanced,
+  .btnSecondaryEnhanced {
+    justify-content: center;
+  }
+
+  .specialtyGrid {
+    grid-template-columns: 1fr;
+    max-width: 450px;
+    margin: 0 auto;
+  }
+
+  .specialtyCardMedia {
+    height: 200px;
+  }
+
+  .specialtyCardContent {
+    padding: 1.2rem;
+  }
+
+  .specialtyCardActions {
+    flex-direction: column;
+  }
+
+  .specialtyBtnOutline,
+  .specialtyBtnPrimary {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .splitLayout {
+    grid-template-columns: 1fr;
+  }
+
+  .mediaPanel {
+    position: relative;
+    top: 0;
+  }
 }
 
 @media (max-width: 575.98px) {
-  .heroTitle { font-size: clamp(.9rem, 5vw, 1.15rem); }
-  .omGlyph { font-size: 1.3rem; }
-  .bodyPara { font-size: .88rem; line-height: 1.85; }
-  
-  .certGrid { grid-template-columns: repeat(2, 1fr); gap: .55rem; }
-  .certLabel { font-size: .62rem; }
-  .certBadge { font-size: .55rem; padding: .22rem .42rem; }
-  
-  .icWrap { margin-top: -44px; }
-  .icCard { border-radius: 6px; }
-  .icGrid { grid-template-columns: repeat(2, 1fr); }
-  
-  .courseMedia { min-height: 240px; }
-  .courseTitleEnhanced { font-size: 1rem; }
-  .courseDescriptionEnhanced { font-size: 0.85rem; }
-  .courseImgNumber { font-size: 2.5rem; bottom: 12px; left: 12px; }
-  .courseDurationBadge { top: 12px; right: 12px; padding: 4px 10px; font-size: 0.6rem; }
-  .courseTagEnhanced { font-size: 0.55rem; }
-  
-  .specialtySection { padding: 2rem 0; }
-  .specialtyCardMedia { height: 180px; }
-  .specialtyCardMeta { flex-wrap: wrap; gap: 0.5rem; }
-  .specialtyBtnOutline, .specialtyBtnPrimary { font-size: 0.6rem; padding: 0.45rem 0.8rem; }
+  .heroTitle {
+    font-size: clamp(.9rem, 5vw, 1.15rem);
+  }
+
+  .omGlyph {
+    font-size: 1.3rem;
+  }
+
+  .bodyPara {
+    font-size: .88rem;
+    line-height: 1.85;
+  }
+
+  .certGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: .55rem;
+  }
+
+  .certLabel {
+    font-size: .62rem;
+  }
+
+  .certBadge {
+    font-size: .55rem;
+    padding: .22rem .42rem;
+  }
+
+  .icWrap {
+    margin-top: -44px;
+  }
+
+  .icCard {
+    border-radius: 6px;
+  }
+
+  .icGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .courseMedia {
+    min-height: 240px;
+  }
+
+  .courseTitleEnhanced {
+    font-size: 1rem;
+  }
+
+  .courseDescriptionEnhanced {
+    font-size: 0.85rem;
+  }
+
+  .courseImgNumber {
+    font-size: 2.5rem;
+    bottom: 12px;
+    left: 12px;
+  }
+
+  .courseDurationBadge {
+    top: 12px;
+    right: 12px;
+    padding: 4px 10px;
+    font-size: 0.6rem;
+  }
+
+  .courseTagEnhanced {
+    font-size: 0.55rem;
+  }
+
+  .specialtySection {
+    padding: 2rem 0;
+  }
+
+  .specialtyCardMedia {
+    height: 180px;
+  }
+
+  .specialtyCardMeta {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .specialtyBtnOutline,
+  .specialtyBtnPrimary {
+    font-size: 0.6rem;
+    padding: 0.45rem 0.8rem;
+  }
 }
 
 @media (max-width: 480px) {
-  .icWrap { margin-top: -35px; }
-  .icGrid { grid-template-columns: 1fr 1fr; }
-  .icItem { padding: 0.55rem; gap: 0.45rem; }
-  .icLbl { font-size: 0.52rem; }
-  .icVal { font-size: 0.82rem; }
-  .icSub { font-size: 0.68rem; }
-  .icPriceNew { font-size: 1.5rem; }
-  .icPriceOld { font-size: 0.9rem; }
-  .icRight { padding: 1rem; gap: 0.7rem; }
+  .icWrap {
+    margin-top: -35px;
+  }
+
+  .icGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .icItem {
+    padding: 0.55rem;
+    gap: 0.45rem;
+  }
+
+  .icLbl {
+    font-size: 0.52rem;
+  }
+
+  .icVal {
+    font-size: 0.82rem;
+  }
+
+  .icSub {
+    font-size: 0.68rem;
+  }
+
+  .icPriceNew {
+    font-size: 1.5rem;
+  }
+
+  .icPriceOld {
+    font-size: 0.9rem;
+  }
+
+  .icRight {
+    padding: 1rem;
+    gap: 0.7rem;
+  }
 }
 
 @media (max-width: 399.98px) {
-  .icWrap { margin-top: -30px; }
-  .icItem { padding: 0.45rem; gap: 0.35rem; }
-  .icIcon { width: 28px; height: 28px; padding: 5px; }
-  .icLbl { font-size: 0.48rem; }
-  .icVal { font-size: 0.78rem; }
-  .icPriceNew { font-size: 1.3rem; }
+  .icWrap {
+    margin-top: -30px;
+  }
+
+  .icItem {
+    padding: 0.45rem;
+    gap: 0.35rem;
+  }
+
+  .icIcon {
+    width: 28px;
+    height: 28px;
+    padding: 5px;
+  }
+
+  .icLbl {
+    font-size: 0.48rem;
+  }
+
+  .icVal {
+    font-size: 0.78rem;
+  }
+
+  .icPriceNew {
+    font-size: 1.3rem;
+  }
 }
 
 @media (max-width: 360px) {
-  .icWrap { margin-top: -22px; }
-  .icItem { padding: 0.38rem; gap: 0.28rem; }
-  .icIcon { width: 24px; height: 24px; padding: 4px; }
-  .icLbl { font-size: 0.44rem; }
-  .icVal { font-size: 0.72rem; }
-  .icPriceNew { font-size: 1.2rem; }
-  .icHdr { padding: 0.65rem 1rem; }
-  .icHdrTxt { font-size: 0.58rem; }
+  .icWrap {
+    margin-top: -22px;
+  }
+
+  .icItem {
+    padding: 0.38rem;
+    gap: 0.28rem;
+  }
+
+  .icIcon {
+    width: 24px;
+    height: 24px;
+    padding: 4px;
+  }
+
+  .icLbl {
+    font-size: 0.44rem;
+  }
+
+  .icVal {
+    font-size: 0.72rem;
+  }
+
+  .icPriceNew {
+    font-size: 1.2rem;
+  }
+
+  .icHdr {
+    padding: 0.65rem 1rem;
+  }
+
+  .icHdrTxt {
+    font-size: 0.58rem;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .mandalaTL, .mandalaBR, .mandalaTR, .mandalaBL, .chakraGlow,
+
+  .mandalaTL,
+  .mandalaBR,
+  .mandalaTR,
+  .mandalaBL,
+  .chakraGlow,
   .specialtyHeaderOrnament svg,
-  .courseCardEnhanced, .courseImgEnhanced,
-  .btnPrimaryEnhanced, .btnSecondaryEnhanced,
-  .specialtyCardInner, .specialtyCardImg, .specialtyCardOverlay, .specialtyCardIcon,
-  .specialtyBtnOutline, .specialtyBtnPrimary {
+  .courseCardEnhanced,
+  .courseImgEnhanced,
+  .btnPrimaryEnhanced,
+  .btnSecondaryEnhanced,
+  .specialtyCardInner,
+  .specialtyCardImg,
+  .specialtyCardOverlay,
+  .specialtyCardIcon,
+  .specialtyBtnOutline,
+  .specialtyBtnPrimary {
     animation: none;
     transition: none;
   }
-  .courseCardEnhanced:hover, .specialtyCard:hover .specialtyCardInner,
-  .specialtyCard:hover .specialtyCardImg, .specialtyCard:hover .specialtyCardOverlay {
+
+  .courseCardEnhanced:hover,
+  .specialtyCard:hover .specialtyCardInner,
+  .specialtyCard:hover .specialtyCardImg,
+  .specialtyCard:hover .specialtyCardOverlay {
     transform: none;
   }
 }
@@ -1571,7 +1856,9 @@
 .scCard::after {
   content: '';
   position: absolute;
-  top: 0; left: 0; right: 0;
+  top: 0;
+  left: 0;
+  right: 0;
   height: 2px;
   background: linear-gradient(90deg, var(--saffron), var(--gold), var(--saffron));
 }
@@ -1581,8 +1868,13 @@
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
 }
 
-.scCardRev .scImgSide { order: 2; }
-.scCardRev .scBody    { order: 1; }
+.scCardRev .scImgSide {
+  order: 2;
+}
+
+.scCardRev .scBody {
+  order: 1;
+}
 
 .scImgSide {
   position: relative;
@@ -1614,12 +1906,12 @@
 .scImgOverlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(145deg, rgba(241, 85, 5, 0.22) 0%, rgba(0,0,0,0.35) 100%);
+  background: linear-gradient(145deg, rgba(241, 85, 5, 0.22) 0%, rgba(0, 0, 0, 0.35) 100%);
   pointer-events: none;
 }
 
 .scCardRev .scImgOverlay {
-  background: linear-gradient(215deg, rgba(241, 85, 5, 0.22) 0%, rgba(0,0,0,0.35) 100%);
+  background: linear-gradient(215deg, rgba(241, 85, 5, 0.22) 0%, rgba(0, 0, 0, 0.35) 100%);
 }
 
 .scChip {
@@ -1642,7 +1934,10 @@
   border-radius: 30px;
 }
 
-.scCardRev .scChip { left: auto; right: 18px; }
+.scCardRev .scChip {
+  left: auto;
+  right: 18px;
+}
 
 .scBody {
   padding: clamp(1.8rem, 3.5vw, 2.6rem);
@@ -1650,7 +1945,7 @@
   flex-direction: column;
   justify-content: center;
   gap: 0;
-  background: linear-gradient(145deg, rgba(255,253,245,0.05), rgba(255,248,225,0.08));
+  background: linear-gradient(145deg, rgba(255, 253, 245, 0.05), rgba(255, 248, 225, 0.08));
 }
 
 .scEyebrow {
@@ -1704,7 +1999,7 @@
   gap: 0.55rem;
 }
 
-.scMetaItem + .scMetaItem {
+.scMetaItem+.scMetaItem {
   border-left: 1px solid rgba(212, 160, 23, 0.18);
 }
 
@@ -1721,7 +2016,10 @@
   background: rgba(212, 160, 23, 0.08);
 }
 
-.scMetaIcon svg { width: 13px; height: 13px; }
+.scMetaIcon svg {
+  width: 13px;
+  height: 13px;
+}
 
 .scMetaLbl {
   font-family: 'Montserrat', serif;
@@ -1822,25 +2120,65 @@
 
 /* Responsive */
 @media (max-width: 991.98px) {
-  .scCard { grid-template-columns: 1fr; }
-  .scCardRev .scImgSide { order: 0; }
-  .scCardRev .scBody    { order: 0; }
-  .scCardRev .scChip    { left: 18px; right: auto; }
-  .scImgSide { min-height: clamp(220px, 45vw, 340px); }
+  .scCard {
+    grid-template-columns: 1fr;
+  }
+
+  .scCardRev .scImgSide {
+    order: 0;
+  }
+
+  .scCardRev .scBody {
+    order: 0;
+  }
+
+  .scCardRev .scChip {
+    left: 18px;
+    right: auto;
+  }
+
+  .scImgSide {
+    min-height: clamp(220px, 45vw, 340px);
+  }
 }
 
 @media (max-width: 767.98px) {
-  .scImgSide { min-height: clamp(200px, 48vw, 280px); }
-  .scBody    { padding: 1.5rem 1.2rem; }
-  .scTitle   { font-size: clamp(1rem, 4vw, 1.3rem); }
+  .scImgSide {
+    min-height: clamp(200px, 48vw, 280px);
+  }
+
+  .scBody {
+    padding: 1.5rem 1.2rem;
+  }
+
+  .scTitle {
+    font-size: clamp(1rem, 4vw, 1.3rem);
+  }
 }
 
 @media (max-width: 575.98px) {
-  .scCard    { border-radius: 10px; }
-  .scBody    { padding: 1.2rem 1rem; }
-  .scMeta    { flex-direction: column; }
-  .scMetaItem + .scMetaItem { border-left: none; border-top: 1px solid rgba(212, 160, 23, 0.18); }
-  .scBtnPrimary, .scBtnOutline { font-size: 0.58rem; padding: 0.46rem 1rem; }
+  .scCard {
+    border-radius: 10px;
+  }
+
+  .scBody {
+    padding: 1.2rem 1rem;
+  }
+
+  .scMeta {
+    flex-direction: column;
+  }
+
+  .scMetaItem+.scMetaItem {
+    border-left: none;
+    border-top: 1px solid rgba(212, 160, 23, 0.18);
+  }
+
+  .scBtnPrimary,
+  .scBtnOutline {
+    font-size: 0.58rem;
+    padding: 0.46rem 1rem;
+  }
 }
 
 /* ════════════════════════════════════════
@@ -2157,7 +2495,7 @@
   .mediaSmallGrid {
     gap: 0.6rem;
   }
-  
+
   .mediaSmallOverlay span {
     font-size: 0.6rem;
   }
@@ -2167,7 +2505,7 @@
   .mediaSmallGrid {
     gap: 0.5rem;
   }
-  
+
   .mediaSmallOverlay span {
     font-size: 0.55rem;
   }
@@ -2178,21 +2516,25 @@
     grid-template-columns: repeat(3, 1fr);
     gap: 0.4rem;
   }
-  
+
   .mediaSmallOverlay span {
     font-size: 0.5rem;
   }
 }
+
 /* Placeholder images - you can replace these with actual images */
 .mediaSmallItem:nth-child(1) .mediaSmallImg {
   object-position: center;
 }
+
 .mediaSmallItem:nth-child(2) .mediaSmallImg {
   object-position: center;
 }
+
 .mediaSmallItem:nth-child(3) .mediaSmallImg {
   object-position: center;
 }
+
 .mediaSmallItem:nth-child(4) .mediaSmallImg {
   object-position: center;
 }
@@ -2269,15 +2611,15 @@
     grid-template-columns: 1fr;
     gap: 2rem;
   }
-  
+
   .mediaSmallGrid {
     grid-template-columns: repeat(4, 1fr);
   }
-  
+
   .certGridEnhanced {
     grid-template-columns: repeat(2, 1fr);
   }
-  
+
   .accrHeadLineEnhanced,
   .accrHeadLineRevEnhanced {
     display: none;
@@ -2289,21 +2631,21 @@
     grid-template-columns: repeat(2, 1fr);
     gap: 0.6rem;
   }
-  
+
   .trainingTagsEnhanced {
     gap: 0.6rem;
   }
-  
+
   .trainingTag {
     font-size: 0.7rem;
     padding: 5px 12px;
   }
-  
+
   .mediaVideoToggle {
     padding: 6px 12px;
     font-size: 0.6rem;
   }
-  
+
   .mediaVideoToggle svg {
     width: 14px;
     height: 14px;
@@ -2314,25 +2656,25 @@
   .contentTitleEnhanced {
     font-size: 1.1rem;
   }
-  
+
   .contentBadgeEnhanced {
     font-size: 0.55rem;
   }
-  
+
   .bodyParaEnhanced {
     font-size: 0.85rem;
     line-height: 1.75;
   }
-  
+
   .mediaSmallOverlay span {
     font-size: 0.55rem;
   }
-  
+
   .linkPillEnhanced {
     font-size: 0.6rem;
     padding: 6px 14px;
   }
-  
+
   .certGridEnhanced {
     grid-template-columns: repeat(2, 1fr);
     gap: 0.7rem;
@@ -2343,11 +2685,11 @@
   .mediaSmallGrid {
     grid-template-columns: repeat(2, 1fr);
   }
-  
+
   .trainingTagsEnhanced {
     flex-wrap: wrap;
   }
-  
+
   .trainingTag {
     width: calc(50% - 0.3rem);
     justify-content: center;
@@ -2355,6 +2697,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+
   .mediaMainImg,
   .mediaSmallImg,
   .mediaVideoToggle,
@@ -2362,7 +2705,7 @@
   .linkPillEnhanced {
     transition: none;
   }
-  
+
   .mediaMainItem:hover .mediaMainImg,
   .mediaSmallItem:hover .mediaSmallImg {
     transform: none;
@@ -2448,20 +2791,20 @@
   .mediaFooterEnhanced {
     margin-top: 1rem;
   }
-  
+
   .trainingTagsEnhanced {
     gap: 0.6rem;
   }
-  
+
   .trainingTag {
     font-size: 0.7rem;
     padding: 6px 14px;
   }
-  
+
   .trainingTagIcon {
     font-size: 0.9rem;
   }
-  
+
   .pillItem {
     font-size: 0.7rem;
     padding: 4px 12px;
@@ -2472,16 +2815,16 @@
   .trainingTagsEnhanced {
     flex-wrap: wrap;
   }
-  
+
   .trainingTag {
     width: calc(50% - 0.3rem);
     justify-content: center;
   }
-  
+
   .pillsGroupEnhanced {
     gap: 0.5rem;
   }
-  
+
   .pillItem {
     font-size: 0.65rem;
     padding: 3px 10px;
@@ -2493,12 +2836,12 @@
     width: 100%;
     justify-content: center;
   }
-  
+
   .pillsGroupEnhanced {
     flex-direction: column;
     align-items: center;
   }
-  
+
   .pillItem {
     width: 100%;
     justify-content: center;

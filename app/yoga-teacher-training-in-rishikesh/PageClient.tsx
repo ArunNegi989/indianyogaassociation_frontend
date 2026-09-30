@@ -81,7 +81,7 @@ interface PageData {
   mediaSmallImages?: MediaSmallImage[];
   trainingTags?: TrainingTag[];
   pillsItems?: PillItem[];
-  
+
   // NEW - Accreditations Header Text
   accrEyebrowText?: string;
   accrTaglineText?: string;
@@ -280,13 +280,13 @@ const CourseCardComp = ({
           </div>
         </div>
       </div>
-      
+
       <div className={styles.courseContent}>
         {tag && <div className={styles.courseTagEnhanced}>{tag}</div>}
         <h3 className={styles.courseTitleEnhanced}>{title}</h3>
         <div className={styles.courseTitleLineEnhanced} />
         <p className={styles.courseDescriptionEnhanced}>{description}</p>
-        
+
         <div className={styles.courseSpecsGrid}>
           <div className={styles.courseSpecItem}>
             <div className={styles.courseSpecIcon}>
@@ -302,7 +302,7 @@ const CourseCardComp = ({
             </div>
           </div>
         </div>
-        
+
         <div className={styles.courseActions}>
           <a href={detailsHref} className={styles.btnPrimaryEnhanced}>
             {detailsLabel}
@@ -637,170 +637,170 @@ export default function BestYogaSchool() {
       {/* ══════════════════════════════════════
           SECTION 1 — INTRO + ACCREDITATIONS (ENHANCED WITH MULTIPLE MEDIA)
       ═════════════════════════════════════════ */}
-     <section id="intro" className={`${styles.section} ${styles.sectionLight}`}>
-  <div className={`container px-3 px-md-4 ${styles.maxx}`}>
-    {data.heroTitle && (
-      <h1 className={styles.heroTitle}>{data.heroTitle}</h1>
-    )}
-    <OmDivider />
+      <section id="intro" className={`${styles.section} ${styles.sectionLight}`}>
+        <div className={`container px-3 px-md-4 ${styles.maxx}`}>
+          {data.heroTitle && (
+            <h1 className={styles.heroTitle}>{data.heroTitle}</h1>
+          )}
+          <OmDivider />
 
-    {/* Content first, then media gallery */}
-    <div className={styles.contentFirstLayout}>
-      {/* Text Content */}
-      <div className={styles.textContentBlock}>
-        <div className={styles.contentIntroEnhanced}>
-          <span className={styles.contentBadgeEnhanced}>{data.contentBadgeText || "Welcome to AYM Yoga School"}</span>
-          <h2 className={styles.contentTitleEnhanced}>
-            Best Yoga Teacher Training in <span className={styles.highlightText}>{data.contentTitleHighlight || "Rishikesh"}</span>
-          </h2>
-          <div className={styles.contentUnderlineEnhanced} />
-        </div>
+          {/* Content first, then media gallery */}
+          <div className={styles.contentFirstLayout}>
+            {/* Text Content */}
+            <div className={styles.textContentBlock}>
+              <div className={styles.contentIntroEnhanced}>
+                <span className={styles.contentBadgeEnhanced}>{data.contentBadgeText || "Welcome to AYM Yoga School"}</span>
+                <h2 className={styles.contentTitleEnhanced}>
+                  Best Yoga Teacher Training in <span className={styles.highlightText}>{data.contentTitleHighlight || "Rishikesh"}</span>
+                </h2>
+                <div className={styles.contentUnderlineEnhanced} />
+              </div>
 
-        <div className={styles.contentTextEnhanced}>
-          {data.bodyParagraphs1?.map((para, i) => (
-            <p key={i} className={styles.bodyParaEnhanced} dangerouslySetInnerHTML={{ __html: para }} />
-          ))}
-        </div>
+              <div className={styles.contentTextEnhanced}>
+                {data.bodyParagraphs1?.map((para, i) => (
+                  <p key={i} className={styles.bodyParaEnhanced} dangerouslySetInnerHTML={{ __html: para }} />
+                ))}
+              </div>
 
-        {data.inlineLinks?.length > 0 && (
-          <div className={styles.linkGroupEnhanced}>
-            {data.inlineLinks.map((link) => (
-              <a key={link.id} href={link.href} className={styles.linkPillEnhanced}>
-                {link.text}
-                <svg viewBox="0 0 20 20" fill="none">
-                  <path d="M4 10h12M11 5l5 5-5 5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-                </svg>
-              </a>
-            ))}
-          </div>
-        )}
-      </div>
-
-      {/* Media Gallery Block - DYNAMIC */}
-      <div className={styles.mediaGalleryBlock}>
-        <div className={styles.mediaGrid}>
-          {/* Main Large Image/Video */}
-          <div className={styles.mediaMainItem}>
-            {data.mediaMainVideoUrl && mediaMode === "vid" ? (
-              <iframe 
-                src={data.mediaMainVideoUrl} 
-                className={styles.mediaMainVideo} 
-                allow="autoplay; encrypted-media" 
-                allowFullScreen
-                title="Yoga Teacher Training Video"
-              />
-            ) : (
-              <img 
-                src={data.mediaMainImage ? imgSrc(data.mediaMainImage) : mediaSrc} 
-                alt={data.mediaMainImageAlt || mediaAlt} 
-                className={styles.mediaMainImg} 
-                loading="lazy" 
-              />
-            )}
-            {data.mediaMainVideoUrl && (
-              <button 
-                className={styles.mediaVideoToggle}
-                onClick={() => setMediaMode(mediaMode === "img" ? "vid" : "img")}
-              >
-                {mediaMode === "img" ? (
-                  <>
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                      <rect x="2" y="4" width="20" height="16" rx="2" />
-                      <path d="M9 8l6 4-6 4V8z" />
-                    </svg>
-                    Watch Video
-                  </>
-                ) : (
-                  <>
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                      <rect x="2" y="2" width="20" height="20" rx="2" />
-                      <circle cx="8.5" cy="8.5" r="2.5" />
-                      <path d="M21 15l-5-4-3 3-4-4-6 6" />
-                    </svg>
-                    View Photo
-                  </>
-                )}
-              </button>
-            )}
-            <div className={styles.mediaMainOverlay}>
-              <span className={styles.mediaMainBadge}>Featured</span>
+              {data.inlineLinks?.length > 0 && (
+                <div className={styles.linkGroupEnhanced}>
+                  {data.inlineLinks.map((link) => (
+                    <a key={link.id} href={link.href} className={styles.linkPillEnhanced}>
+                      {link.text}
+                      <svg viewBox="0 0 20 20" fill="none">
+                        <path d="M4 10h12M11 5l5 5-5 5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+                      </svg>
+                    </a>
+                  ))}
+                </div>
+              )}
             </div>
-          </div>
 
-          {/* Small Images Grid */}
-          {data.mediaSmallImages && data.mediaSmallImages.length > 0 && (
-            <div className={styles.mediaSmallGrid}>
-              {data.mediaSmallImages.map((item, idx) => (
-                <div key={idx} className={styles.mediaSmallItem}>
-                  <img 
-                    src={item.imgUrl ? imgSrc(item.imgUrl) : ""} 
-                    alt={item.alt || ""} 
-                    className={styles.mediaSmallImg} 
-                    loading="lazy" 
-                  />
-                  <div className={styles.mediaSmallOverlay}>
-                    <span>{item.overlayText || ""}</span>
+            {/* Media Gallery Block - DYNAMIC */}
+            <div className={styles.mediaGalleryBlock}>
+              <div className={styles.mediaGrid}>
+                {/* Main Large Image/Video */}
+                <div className={styles.mediaMainItem}>
+                  {data.mediaMainVideoUrl && mediaMode === "vid" ? (
+                    <iframe
+                      src={data.mediaMainVideoUrl}
+                      className={styles.mediaMainVideo}
+                      allow="autoplay; encrypted-media"
+                      allowFullScreen
+                      title="Yoga Teacher Training Video"
+                    />
+                  ) : (
+                    <img
+                      src={data.mediaMainImage ? imgSrc(data.mediaMainImage) : mediaSrc}
+                      alt={data.mediaMainImageAlt || mediaAlt}
+                      className={styles.mediaMainImg}
+                      loading="lazy"
+                    />
+                  )}
+                  {data.mediaMainVideoUrl && (
+                    <button
+                      className={styles.mediaVideoToggle}
+                      onClick={() => setMediaMode(mediaMode === "img" ? "vid" : "img")}
+                    >
+                      {mediaMode === "img" ? (
+                        <>
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <rect x="2" y="4" width="20" height="16" rx="2" />
+                            <path d="M9 8l6 4-6 4V8z" />
+                          </svg>
+                          Watch Video
+                        </>
+                      ) : (
+                        <>
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <rect x="2" y="2" width="20" height="20" rx="2" />
+                            <circle cx="8.5" cy="8.5" r="2.5" />
+                            <path d="M21 15l-5-4-3 3-4-4-6 6" />
+                          </svg>
+                          View Photo
+                        </>
+                      )}
+                    </button>
+                  )}
+                  <div className={styles.mediaMainOverlay}>
+                    <span className={styles.mediaMainBadge}>Featured</span>
                   </div>
                 </div>
-              ))}
-            </div>
-          )}
-        </div>
 
-        {/* Training Tags & Pills */}
-        <div className={styles.mediaFooterEnhanced}>
-          {data.trainingTags && data.trainingTags.length > 0 && (
-            <div className={styles.trainingTagsEnhanced}>
-              {data.trainingTags.map((tag, idx) => (
-                <div key={idx} className={styles.trainingTag}>
-                  <span className={styles.trainingTagIcon}>{tag.icon}</span>
-                  <span>{tag.text}</span>
+                {/* Small Images Grid */}
+                {data.mediaSmallImages && data.mediaSmallImages.length > 0 && (
+                  <div className={styles.mediaSmallGrid}>
+                    {data.mediaSmallImages.map((item, idx) => (
+                      <div key={idx} className={styles.mediaSmallItem}>
+                        <img
+                          src={item.imgUrl ? imgSrc(item.imgUrl) : ""}
+                          alt={item.alt || ""}
+                          className={styles.mediaSmallImg}
+                          loading="lazy"
+                        />
+                        <div className={styles.mediaSmallOverlay}>
+                          <span>{item.overlayText || ""}</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Training Tags & Pills */}
+              <div className={styles.mediaFooterEnhanced}>
+                {data.trainingTags && data.trainingTags.length > 0 && (
+                  <div className={styles.trainingTagsEnhanced}>
+                    {data.trainingTags.map((tag, idx) => (
+                      <div key={idx} className={styles.trainingTag}>
+                        <span className={styles.trainingTagIcon}>{tag.icon}</span>
+                        <span>{tag.text}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {data.pillsItems && data.pillsItems.length > 0 && (
+                  <div className={styles.pillsGroupEnhanced}>
+                    {data.pillsItems.map((pill, idx) => (
+                      <span key={idx} className={styles.pillItem}>{pill.text}</span>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Accreditations Section */}
+          {data.accrSectionTitle && (
+            <div className={styles.accrSectionEnhanced}>
+              <div className={styles.accrHeadEnhanced}>
+                <span className={styles.accrHeadLineEnhanced} />
+                <div className={styles.accrHeadInnerEnhanced}>
+                  <p className={styles.accrEyebrowEnhanced}>{data.accrEyebrowText || "Certified & Recognised"}</p>
+                  <h2 className={styles.accrTitleEnhanced}>{data.accrSectionTitle}</h2>
+                  <p className={styles.accrTaglineEnhanced}>
+                    {data.accrTaglineText || "Yoga Alliance USA & Ministry of AYUSH, Government of India"}
+                  </p>
                 </div>
-              ))}
+                <span className={styles.accrHeadLineRevEnhanced} />
+              </div>
+
+              {data.accredBadges?.length > 0 && (
+                <div className={styles.certGridEnhanced}>
+                  {data.accredBadges.map((badge) => (
+                    <CertCard key={badge.id} {...badge} />
+                  ))}
+                </div>
+              )}
             </div>
           )}
 
-          {data.pillsItems && data.pillsItems.length > 0 && (
-            <div className={styles.pillsGroupEnhanced}>
-              {data.pillsItems.map((pill, idx) => (
-                <span key={idx} className={styles.pillItem}>{pill.text}</span>
-              ))}
-            </div>
-          )}
+          {data.bodyParagraphs2?.map((para, i) => (
+            <div key={i} className={styles.bodyParaEnhanced} dangerouslySetInnerHTML={{ __html: para }} />
+          ))}
         </div>
-      </div>
-    </div>
-
-    {/* Accreditations Section */}
-    {data.accrSectionTitle && (
-      <div className={styles.accrSectionEnhanced}>
-        <div className={styles.accrHeadEnhanced}>
-          <span className={styles.accrHeadLineEnhanced} />
-          <div className={styles.accrHeadInnerEnhanced}>
-            <p className={styles.accrEyebrowEnhanced}>{data.accrEyebrowText || "Certified & Recognised"}</p>
-            <h2 className={styles.accrTitleEnhanced}>{data.accrSectionTitle}</h2>
-            <p className={styles.accrTaglineEnhanced}>
-              {data.accrTaglineText || "Yoga Alliance USA & Ministry of AYUSH, Government of India"}
-            </p>
-          </div>
-          <span className={styles.accrHeadLineRevEnhanced} />
-        </div>
-
-        {data.accredBadges?.length > 0 && (
-          <div className={styles.certGridEnhanced}>
-            {data.accredBadges.map((badge) => (
-              <CertCard key={badge.id} {...badge} />
-            ))}
-          </div>
-        )}
-      </div>
-    )}
-
-    {data.bodyParagraphs2?.map((para, i) => (
-      <div key={i} className={styles.bodyParaEnhanced} dangerouslySetInnerHTML={{ __html: para }} />
-    ))}
-  </div>
-</section>
+      </section>
 
       {/* ══════════════════════════════════════
           SECTION 2 — COURSE CARDS (ENHANCED)

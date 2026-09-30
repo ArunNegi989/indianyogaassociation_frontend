@@ -1,7 +1,5 @@
-// YogaAshrams.tsx
-import React from "react";
 
-import "bootstrap/dist/css/bootstrap.min.css";
+import React from "react";
 import styles from "@/assets/style/yoga-ashrams/Yogaashrams.module.css";
 import Image from "next/image";
 
@@ -140,7 +138,7 @@ const YogaAshrams: React.FC = () => {
             <div className={styles.collageGrid}>
               {collageImages.map((img, idx) => (
                 <div key={idx} className={img.className}>
-                   <Image src={img.src} alt={img.alt} loading="lazy" />
+                  <Image src={img.src} alt={img.alt} loading="lazy" />
                 </div>
               ))}
             </div>
@@ -258,7 +256,7 @@ const YogaAshrams: React.FC = () => {
           <div className={styles.ashramPhotoGrid}>
             {ashramPhotos.map((photo, idx) => (
               <div key={idx} className={photo.className}>
-                 <Image src={photo.src} alt={photo.alt} loading="lazy" />
+                <Image src={photo.src} alt={photo.alt} loading="lazy" />
               </div>
             ))}
             <div className={styles.ashramCaption}>Yoga Ashram in Rishikesh</div>

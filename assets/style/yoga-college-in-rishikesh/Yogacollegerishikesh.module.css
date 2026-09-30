@@ -57,7 +57,7 @@
 .container {
   max-width: 1480px;
   margin: 0 auto;
-  
+
 }
 
 /* ══════════════════════════════════════
@@ -1234,7 +1234,7 @@
   position: relative;
   z-index: 1;
   padding: clamp(2rem, 4vw, 3.5rem) 0;
-  
+
 }
 
 .coursesSection::before {
@@ -1244,7 +1244,7 @@
   left: 0;
   right: 0;
   height: 1.5px;
-  
+
 }
 
 .coursesSub {
@@ -1270,7 +1270,7 @@
   border: 1px solid var(--border-lt);
   border-radius: 12px;
   overflow: hidden;
- 
+
   transition: transform .25s, box-shadow .25s;
   animation: fadeInUp .6s ease both;
 }
@@ -1579,7 +1579,7 @@
   left: 0;
   right: 0;
   height: 1.5px;
- 
+
 }
 
 .maDetailsGrid {

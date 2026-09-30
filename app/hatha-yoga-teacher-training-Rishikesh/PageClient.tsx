@@ -237,7 +237,7 @@ function useCurrencyRate() {
         const inr = data?.usd?.inr;
         if (inr && typeof inr === "number") setRate(inr);
       })
-      .catch(() => {})
+      .catch(() => { })
       .finally(() => setLoading(false));
   }, []);
   return { rate, loading };
@@ -697,9 +697,7 @@ function LoadingSpinner() {
   );
 }
 
-/* ══════════════════════════════════════════════════
-   PREMIUM SEAT BOOKING — with Direct INR Pricing (NO CONVERSION)
-══════════════════════════════════════════════════ */
+
 export function PremiumSeatBooking({
   seats,
   currency,
@@ -731,18 +729,16 @@ export function PremiumSeatBooking({
 
   const selected = seats.find((s) => s._id === selectedId) ?? null;
 
-  /**
-   * Core price formatter — uses stored INR price directly (NO CONVERSION).
-   */
+
   const fmtPriceAdvanced = (
     batch: SeatBatch | null,
     overrideUsd?: number,
   ): { amount: string; cur: string } => {
     if (!batch && overrideUsd === undefined)
       return { amount: "—", cur: currency };
-    
+
     if (currency === "INR") {
-      // Use stored INR price directly - NO CONVERSION
+
       if (batch?.inrFee) {
         const num = parseFloat(batch.inrFee.replace(/[₹,]/g, "").trim());
         if (!isNaN(num) && num > 0) {
@@ -751,8 +747,7 @@ export function PremiumSeatBooking({
       }
       return { amount: "—", cur: "INR" };
     }
-    
-    // USD: use usdFee string directly
+
     if (batch?.usdFee) {
       const raw = batch.usdFee.trim();
       return { amount: raw.startsWith("$") ? raw : `$${raw}`, cur: "USD" };
@@ -761,39 +756,35 @@ export function PremiumSeatBooking({
     return { amount: `$${fallback}`, cur: "USD" };
   };
 
-  /**
-   * Get room price based on currency using stored values - NO CONVERSION
-   */
+
   const getRoomPrice = (batch: SeatBatch | null, roomType: 'dorm' | 'twin' | 'private') => {
     if (!batch) return "—";
-    
+
     if (currency === "INR") {
-      // Use stored INR price directly - NO CONVERSION
+
       let inrPrice: number | undefined;
       if (roomType === 'dorm') inrPrice = batch.inrDormPrice;
       else if (roomType === 'twin') inrPrice = batch.inrTwinPrice;
       else inrPrice = batch.inrPrivatePrice;
-      
+
       if (inrPrice && inrPrice > 0) {
         return `₹${inrPrice.toLocaleString("en-IN")}`;
       }
       return "—";
     }
-    
+
     // USD
-    const usdPrice = roomType === 'dorm' ? batch.dormPrice : 
-                     roomType === 'twin' ? batch.twinPrice : 
-                     batch.privatePrice;
+    const usdPrice = roomType === 'dorm' ? batch.dormPrice :
+      roomType === 'twin' ? batch.twinPrice :
+        batch.privatePrice;
     return `$${usdPrice}`;
   };
 
-  /**
-   * Price shown on each batch card in the LEFT panel.
-   */
+
   const batchCardPrice = (batch: SeatBatch): { amount: string; cur: string } =>
     fmtPriceAdvanced(batch);
 
-  /* resolved labels with fallbacks */
+
   const resolvedTag = seatSectionTag || "Upcoming Batches · 2026–2027";
   const resolvedSubtitle =
     seatSectionSubtitle ||
@@ -1044,8 +1035,8 @@ export function PremiumSeatBooking({
                 const pct = full
                   ? 100
                   : Math.round(
-                      (selected.bookedSeats / selected.totalSeats) * 100,
-                    );
+                    (selected.bookedSeats / selected.totalSeats) * 100,
+                  );
                 return (
                   <div className={styles.psbRpSeatsWrap}>
                     <div className={styles.psbRpSeatsRow}>
@@ -1221,27 +1212,27 @@ export default function HathaYogaPage() {
     d.whatCards && d.whatCards.length > 0
       ? d.whatCards
       : [
-          {
-            icon: "🧘",
-            title: "Traditional Practice",
-            desc: "Rooted in ancient Hatha Yoga Pradipika texts, balancing Ha (Sun) and Tha (Moon) energies",
-          },
-          {
-            icon: "⚡",
-            title: "Energy Balance",
-            desc: "Harmonises chakras, nadis and prana flow through asanas and pranayama",
-          },
-          {
-            icon: "🌿",
-            title: "Holistic Wellbeing",
-            desc: "Cultivates physical strength, mental clarity, and spiritual connection simultaneously",
-          },
-          {
-            icon: "📜",
-            title: "Yoga Alliance Certified",
-            desc: "Internationally recognised certification from Yoga Alliance USA, Ministry of AYUSH",
-          },
-        ];
+        {
+          icon: "🧘",
+          title: "Traditional Practice",
+          desc: "Rooted in ancient Hatha Yoga Pradipika texts, balancing Ha (Sun) and Tha (Moon) energies",
+        },
+        {
+          icon: "⚡",
+          title: "Energy Balance",
+          desc: "Harmonises chakras, nadis and prana flow through asanas and pranayama",
+        },
+        {
+          icon: "🌿",
+          title: "Holistic Wellbeing",
+          desc: "Cultivates physical strength, mental clarity, and spiritual connection simultaneously",
+        },
+        {
+          icon: "📜",
+          title: "Yoga Alliance Certified",
+          desc: "Internationally recognised certification from Yoga Alliance USA, Ministry of AYUSH",
+        },
+      ];
 
   return (
     <div className={styles.page}>
@@ -1253,7 +1244,7 @@ export default function HathaYogaPage() {
       {/* ══ HERO IMAGE ══ */}
       {heroSrc && (
         <section className={styles.heroSection}>
-           <Image
+          <Image
             src={heroSrc}
             alt={d.heroImgAlt || "Hatha Yoga Teacher Training"}
             className={styles.heroImage}
@@ -1283,17 +1274,17 @@ export default function HathaYogaPage() {
               <OrnamentDivider />
               {d.introParagraphs && d.introParagraphs.length > 0
                 ? d.introParagraphs.map((p, i) => (
-                    <div
-                      key={i}
-                      className={styles.para}
-                      dangerouslySetInnerHTML={{ __html: p }}
-                    />
-                  ))
+                  <div
+                    key={i}
+                    className={styles.para}
+                    dangerouslySetInnerHTML={{ __html: p }}
+                  />
+                ))
                 : null}
             </div>
             <div className={styles.introImage}>
               <div className={styles.imageFrame}>
-                 <Image
+                <Image
                   src={introSrc}
                   alt={d.introSideImgAlt || "Yoga class in Rishikesh"}
                 />
@@ -1334,12 +1325,12 @@ export default function HathaYogaPage() {
               </div>
               {d.whatParagraphs && d.whatParagraphs.length > 0
                 ? d.whatParagraphs.map((p, i) => (
-                    <div
-                      key={i}
-                      className={styles.whatPara}
-                      dangerouslySetInnerHTML={{ __html: p }}
-                    />
-                  ))
+                  <div
+                    key={i}
+                    className={styles.whatPara}
+                    dangerouslySetInnerHTML={{ __html: p }}
+                  />
+                ))
                 : null}
             </div>
             {/* ── Dynamic what cards ── */}
@@ -1390,7 +1381,7 @@ export default function HathaYogaPage() {
             <div className={styles.benefitsRight}>
               <div className={styles.benefitsImageStack}>
                 <div className={styles.benefitsImageMain}>
-                   <Image
+                  <Image
                     src={benefitSrc}
                     alt={d.benefitsSideImgAlt || "Yoga Ashram Rishikesh"}
                   />
@@ -1432,12 +1423,12 @@ export default function HathaYogaPage() {
             )}
             {d.certParagraphs && d.certParagraphs.length > 0
               ? d.certParagraphs.map((p, i) => (
-                  <div
-                    key={i}
-                    className={styles.paraCenter}
-                    dangerouslySetInnerHTML={{ __html: p }}
-                  />
-                ))
+                <div
+                  key={i}
+                  className={styles.paraCenter}
+                  dangerouslySetInnerHTML={{ __html: p }}
+                />
+              ))
               : null}
           </div>
           {d.certCards && d.certCards.length > 0 && (
@@ -1459,7 +1450,7 @@ export default function HathaYogaPage() {
                     className={styles.certCard}
                   >
                     <div className={styles.certCardImg}>
-                      {cardSrc &&  <Image src={cardSrc} alt={c.hours} />}
+                      {cardSrc && <Image src={cardSrc} alt={c.hours} />}
                       <div className={styles.certCardOverlay} />
                       <div className={styles.certCardHours}>{c.hours}</div>
                     </div>
@@ -1496,17 +1487,17 @@ export default function HathaYogaPage() {
               <OrnamentDivider />
               {d.ashramParagraphs && d.ashramParagraphs.length > 0
                 ? d.ashramParagraphs.map((p, i) => (
-                    <div
-                      key={i}
-                      className={styles.para}
-                      dangerouslySetInnerHTML={{ __html: p }}
-                    />
-                  ))
+                  <div
+                    key={i}
+                    className={styles.para}
+                    dangerouslySetInnerHTML={{ __html: p }}
+                  />
+                ))
                 : null}
             </div>
             <div className={styles.ashramImage}>
               <div className={styles.imageFrame}>
-                 <Image
+                <Image
                   src={ashramSrc}
                   alt={d.ashramImgAlt || "AYM Yoga Ashram"}
                 />

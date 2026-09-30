@@ -518,12 +518,12 @@ export default function AboutAddEditPage() {
           historyBlockTitle: d.historyBlockTitle ?? INITIAL.historyBlockTitle,
           timelineItems: d.timelineItems?.length
             ? d.timelineItems.map((t: any) => ({
-                year: t.year ?? "",
-                title: t.title ?? "",
-                paragraphs: t.paragraphs?.length ? t.paragraphs.map((p: string) => ({ text: p })) : [{ text: "" }],
-                existingUrl: t.image ?? "",
-                preview: t.image ? getImageUrl(t.image) : "",
-              }))
+              year: t.year ?? "",
+              title: t.title ?? "",
+              paragraphs: t.paragraphs?.length ? t.paragraphs.map((p: string) => ({ text: p })) : [{ text: "" }],
+              existingUrl: t.image ?? "",
+              preview: t.image ? getImageUrl(t.image) : "",
+            }))
             : INITIAL.timelineItems,
 
           activitiesBlockTitle: d.activitiesBlockTitle ?? INITIAL.activitiesBlockTitle,

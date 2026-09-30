@@ -359,8 +359,8 @@ export default function AddClassCampusAmenitiesPage() {
     } catch (error: any) {
       alert(
         error?.response?.data?.message ||
-          error?.message ||
-          "Something went wrong",
+        error?.message ||
+        "Something went wrong",
       );
     } finally {
       setIsSubmitting(false);

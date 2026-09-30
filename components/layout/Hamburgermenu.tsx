@@ -27,7 +27,7 @@ const HamburgerMenu = ({ navLinks }: HamburgerMenuProps) => {
   }, []);
 
   const toggleAccordion = useCallback((href: string) => {
-    
+
     setOpenAccordion((prev) => (prev === href ? null : href));
   }, []);
 
@@ -96,9 +96,8 @@ const HamburgerMenu = ({ navLinks }: HamburgerMenuProps) => {
                     >
                       <span>{link.label}</span>
                       <span
-                        className={`${styles.mobileAccordionArrow} ${
-                          isAccordionOpen ? styles.open : ""
-                        }`}
+                        className={`${styles.mobileAccordionArrow} ${isAccordionOpen ? styles.open : ""
+                          }`}
                       >
                         ▾
                       </span>
@@ -106,9 +105,8 @@ const HamburgerMenu = ({ navLinks }: HamburgerMenuProps) => {
 
                     {/* Dropdown list */}
                     <ul
-                      className={`${styles.mobileSubList} ${
-                        isAccordionOpen ? styles.open : ""
-                      }`}
+                      className={`${styles.mobileSubList} ${isAccordionOpen ? styles.open : ""
+                        }`}
                     >
                       {link.children.map((child) => (
                         <li key={child.href} className={styles.mobileSubItem}>
@@ -129,20 +127,14 @@ const HamburgerMenu = ({ navLinks }: HamburgerMenuProps) => {
 
               return (
                 <li key={link.href}>
-                  {/* <Link
+
+                  <Link
                     href={link.href}
-                    className={styles.mobilePlainLink}
+                    className={`${styles.mobilePlainLink} ${link.className ? styles[link.className] : ""}`}
                     onClick={closeMenu}
                   >
                     {link.label}
-                  </Link> */}
-                  <Link
-  href={link.href}
-  className={`${styles.mobilePlainLink} ${link.className ? styles[link.className] : ""}`}
-  onClick={closeMenu}
->
-  {link.label}
-</Link>
+                  </Link>
                 </li>
               );
             })}

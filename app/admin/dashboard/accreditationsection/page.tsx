@@ -30,7 +30,7 @@ interface AccreditationRecord {
 }
 
 type SortField = "sectionTitle" | "certsCount" | "updatedAt";
-type SortDir   = "asc" | "desc";
+type SortDir = "asc" | "desc";
 
 /* ─────────────────────── Main ─────────────────────── */
 export default function AccreditationSectionListPage() {
@@ -39,19 +39,19 @@ export default function AccreditationSectionListPage() {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [sortField, setSortField] = useState<SortField>("updatedAt");
-  const [sortDir, setSortDir]     = useState<SortDir>("desc");
-  const [deleteId, setDeleteId]   = useState<string | null>(null);
-  const [deleting, setDeleting]   = useState(false);
+  const [sortDir, setSortDir] = useState<SortDir>("desc");
+  const [deleteId, setDeleteId] = useState<string | null>(null);
+  const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
     const fetchRecords = async () => {
       try {
         const res = await api.get("/accreditation");
-   const formatted = res.data.data.map((item: any) => ({
-  ...item,
-  certsCount: item.courseCerts?.length || 0,
-  badgesCount: item.awardCerts?.length || 0,
-}));    setRecords(formatted);
+        const formatted = res.data.data.map((item: any) => ({
+          ...item,
+          certsCount: item.courseCerts?.length || 0,
+          badgesCount: item.awardCerts?.length || 0,
+        })); setRecords(formatted);
       } catch (err) {
         console.error(err);
       } finally {
@@ -81,14 +81,14 @@ export default function AccreditationSectionListPage() {
       const cmp = av < bv ? -1 : av > bv ? 1 : 0;
       return sortDir === "asc" ? cmp : -cmp;
     });
-const handleAddClick = () => {
-  if (records.length > 0) {
-    toast.error("Only one Accreditation section allowed. Please edit or delete existing one.");
-    return;
-  }
+  const handleAddClick = () => {
+    if (records.length > 0) {
+      toast.error("Only one Accreditation section allowed. Please edit or delete existing one.");
+      return;
+    }
 
-  router.push("/admin/dashboard/accreditationsection/add-new");
-};
+    router.push("/admin/dashboard/accreditationsection/add-new");
+  };
   /* delete */
   const handleDelete = async () => {
     if (!deleteId) return;
@@ -160,8 +160,8 @@ const handleAddClick = () => {
           <p className={styles.pageSubtitle}>Manage the Accreditation &amp; Recognition page content</p>
         </div>
         <button className={styles.addNewBtn} onClick={handleAddClick}>
-  <span>✦</span> Add New Section
-</button>
+          <span>✦</span> Add New Section
+        </button>
       </div>
 
       <div className={styles.ornament}>
@@ -269,16 +269,16 @@ const handleAddClick = () => {
                   </td>
                   <td className={`${styles.td} ${styles.tdDate}`}>{formatDate(rec.updatedAt)}</td>
                   <td className={styles.td}>
-  {rec.courseCerts?.[0]?.image ? (
-  <img
-    src={getImageUrl(rec.courseCerts[0].image)}
-    alt="cert"
-    style={{ width: "50px", height: "50px", objectFit: "cover" }}
-  />
-) : (
-  "—"
-)}
-</td>
+                    {rec.courseCerts?.[0]?.image ? (
+                      <img
+                        src={getImageUrl(rec.courseCerts[0].image)}
+                        alt="cert"
+                        style={{ width: "50px", height: "50px", objectFit: "cover" }}
+                      />
+                    ) : (
+                      "—"
+                    )}
+                  </td>
                   <td className={styles.td}>
                     <div className={styles.actionBtns}>
                       <button className={styles.editBtn}

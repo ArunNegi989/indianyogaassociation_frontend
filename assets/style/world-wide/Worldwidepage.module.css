@@ -29,10 +29,10 @@
   opacity: 0;
   transform: translateY(28px);
   transition: opacity .65s ease, transform .65s ease;
-  
+
 }
 
-.commonContainer{
+.commonContainer {
   max-width: 1500px !important;
 }
 
@@ -126,7 +126,7 @@
 
 .sectionTinted {
   padding-bottom: 50px;
-  
+
 }
 
 /* Mandala bg decorations */
@@ -152,7 +152,7 @@
 .section> :global(.container),
 .sectionTinted> :global(.container) {
   padding-top: clamp(3rem, 6vw, 5rem);
- 
+
 }
 
 .superLabel {
@@ -173,7 +173,7 @@
   color: var(--maho);
   line-height: 1.35;
   margin-bottom: .8rem;
-  
+
 }
 
 .para {
@@ -227,14 +227,15 @@
 
 /* CARD */
 .curriculumCard {
-   position: relative;
+  position: relative;
   background: #fefbf7;
   border: 1px solid rgba(224, 123, 0, 0.18);
   border-radius: 10px;
   padding: 0.9rem 0.9rem;
   box-shadow: 0 4px 14px rgba(224, 123, 0, 0.1);
   transition: all 0.25s ease;
-  min-height: 80px; /* 👈 chota height */
+  min-height: 80px;
+  /* 👈 chota height */
 }
 
 /* Hover effect 🔥 */
@@ -245,7 +246,7 @@
 
 /* BIG BG NUMBER */
 .cardNumber {
- position: absolute;
+  position: absolute;
   top: 6px;
   right: 8px;
   font-size: 1.5rem;
@@ -298,13 +299,14 @@
     grid-template-columns: 1fr;
   }
 }
+
 .curriculumImgWrap {
   position: relative;
   border-radius: var(--r);
   overflow: hidden;
   box-shadow: var(--shadow-lg);
   top: 70px;
-  
+
 }
 
 .curriculumImgWrap::before {

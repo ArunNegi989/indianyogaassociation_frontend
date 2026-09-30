@@ -7,12 +7,8 @@ import dynamic from "next/dynamic";
 import styles from "@/assets/style/Admin/dashboard/blog/Blog.module.css";
 import api from "@/lib/api";
 
-/* ── Jodit Editor (SSR-safe) ── */
 const JoditEditor = dynamic(() => import("jodit-react"), { ssr: false });
 
-/* ════════════════════════════════════════
-   TYPES  (same as Add form)
-════════════════════════════════════════ */
 export type SectionType =
   | "heading" | "subheading" | "paragraph" | "images" | "divider"
   | "list" | "quote" | "code" | "video" | "table" | "callout" | "spacer" | "html";
@@ -209,30 +205,22 @@ export default function EditBlogPage() {
   ────────────────────────────────────────────── */
   const cleanSchemaJson = (jsonString: string): string => {
     if (!jsonString) return "";
-    
-    // Try to parse and re-stringify first
+
     try {
-      // Handle multi-line description field by manually fixing it
       let cleaned = jsonString;
-      
-      // Find the description field and fix its content
-      // Look for "description": "..." pattern
       const descriptionMatch = cleaned.match(/"description":\s*"([\s\S]*?)"(?=\s*[,}])/);
       if (descriptionMatch) {
         const fullMatch = descriptionMatch[0];
         const content = descriptionMatch[1];
-        // Escape newlines in the content
         const escapedContent = content.replace(/\n/g, '\\n').replace(/\r/g, '');
         const fixed = `"description": "${escapedContent}"`;
         cleaned = cleaned.replace(fullMatch, fixed);
       }
-      
+
       const parsed = JSON.parse(cleaned);
       return JSON.stringify(parsed);
     } catch (e) {
-      // If parsing fails, do a more aggressive cleaning
       try {
-        // Remove all newlines and extra spaces
         const cleaned = jsonString
           .replace(/\n/g, ' ')
           .replace(/\r/g, ' ')
@@ -241,7 +229,6 @@ export default function EditBlogPage() {
         const parsed = JSON.parse(cleaned);
         return JSON.stringify(parsed);
       } catch (e2) {
-        // If still failing, return the original
         return jsonString;
       }
     }
@@ -261,28 +248,25 @@ export default function EditBlogPage() {
         const content: BlogSection[] = (data.content ?? []).map((block: any) => ({
           ...block,
           id: uid(),
-          /* defaults for fields that older docs may not have */
           listItems: block.listItems ?? [],
           tableHeaders: block.tableHeaders ?? [],
           tableRows: block.tableRows ?? [],
           images: block.images
             ? block.images.map((img: any) => ({
-                ...img,
-                id: uid(),
-                src: resolveImage(img.src),
-                altText: img.altText ?? "",
-              }))
+              ...img,
+              id: uid(),
+              src: resolveImage(img.src),
+              altText: img.altText ?? "",
+            }))
             : undefined,
         }));
-
-        // Handle schema custom JSON - format it nicely for display
         let schemaCustomJson = data.schemaCustomJson || "";
         if (schemaCustomJson) {
           try {
             const parsed = JSON.parse(schemaCustomJson);
             schemaCustomJson = JSON.stringify(parsed, null, 2);
           } catch (e) {
-            // If it's not valid JSON, keep as is
+
           }
         }
 
@@ -342,8 +326,8 @@ export default function EditBlogPage() {
       }
 
       const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://aym-yoga.com";
-      const imageUrl = data.coverImage?.startsWith("http") 
-        ? data.coverImage 
+      const imageUrl = data.coverImage?.startsWith("http")
+        ? data.coverImage
         : `${BASE_URL}${data.coverImage || ""}`;
 
       const schema = {
@@ -405,8 +389,7 @@ export default function EditBlogPage() {
   const set = (key: keyof Omit<FormData, "tags" | "content" | "status">, val: string) => {
     setForm((p) => ({ ...p, [key]: val }));
     setErrors((p) => ({ ...p, [key]: undefined }));
-    
-    // Regenerate schema preview when relevant fields change
+
     if (["title", "excerpt", "author", "date", "coverImage", "tags", "slug", "category", "schemaType", "schemaCustomJson"].includes(key)) {
       const updatedForm = { ...form, [key]: val };
       generateSchemaPreview(updatedForm);
@@ -435,7 +418,6 @@ export default function EditBlogPage() {
     coverFile.current = f;
     const url = URL.createObjectURL(f);
     set("coverImage", url);
-    // Auto-populate ogImage if empty or same as cover
     if (!form.ogImage || form.ogImage === form.coverImage) {
       setForm((p) => ({ ...p, ogImage: url }));
     }
@@ -584,7 +566,7 @@ export default function EditBlogPage() {
     if (form.content.length === 0) e.content = "Add at least one content block";
     if (form.metaTitle && form.metaTitle.length > 100) e.metaTitle = "Meta title should be under 100 characters";
     if (form.metaDescription && form.metaDescription.length > 200) e.metaDescription = "Meta description should be under 200 characters";
-    
+
     // Validate custom schema JSON if provided
     if (form.schemaCustomJson && form.schemaType !== "None") {
       try {
@@ -594,7 +576,7 @@ export default function EditBlogPage() {
         e.schemaCustomJson = "Invalid JSON format. Please check your syntax, especially multi-line text in description field.";
       }
     }
-    
+
     setErrors(e);
     return Object.keys(e).length === 0;
   };
@@ -615,7 +597,7 @@ export default function EditBlogPage() {
       fd.append("category", form.category);
       fd.append("tags", JSON.stringify(form.tags));
       fd.append("status", asDraft ? "Draft" : "Published");
-      
+
       // SEO fields
       fd.append("metaTitle", form.metaTitle || form.title);
       fd.append("metaDescription", form.metaDescription || form.excerpt);
@@ -649,7 +631,7 @@ export default function EditBlogPage() {
           }
         }
       }
-      
+
       fd.append("schemaType", form.schemaType);
       fd.append("schemaCustomJson", cleanSchemaJson);
 
@@ -877,15 +859,15 @@ export default function EditBlogPage() {
             <div className={styles.coverPreviewBox}>
               {form.coverImage
                 ? <>
-                    <img src={form.coverImage} alt="Cover" className={styles.coverPreviewImg} />
-                    <div className={styles.coverOverlay}>
-                      <button type="button" className={styles.removeImgBtn} onClick={() => { coverFile.current = null; set("coverImage", ""); }}>✕</button>
-                    </div>
-                  </>
-                : <div className={styles.coverPreviewEmpty}>
-                    <span className={styles.coverPreviewIcon}>🖼</span>
-                    16:9 cover image
+                  <img src={form.coverImage} alt="Cover" className={styles.coverPreviewImg} />
+                  <div className={styles.coverOverlay}>
+                    <button type="button" className={styles.removeImgBtn} onClick={() => { coverFile.current = null; set("coverImage", ""); }}>✕</button>
                   </div>
+                </>
+                : <div className={styles.coverPreviewEmpty}>
+                  <span className={styles.coverPreviewIcon}>🖼</span>
+                  16:9 cover image
+                </div>
               }
             </div>
             <div className={styles.coverControls}>
@@ -1217,7 +1199,7 @@ export default function EditBlogPage() {
                           <div key={img.id} className={styles.imageSubItem}>
                             {img.src
                               ? <img src={img.src} alt={img.caption || "img"} className={styles.imageSubThumb}
-                                  onError={(e) => { (e.target as HTMLImageElement).style.opacity = "0.3"; }} />
+                                onError={(e) => { (e.target as HTMLImageElement).style.opacity = "0.3"; }} />
                               : <div className={styles.imageSubThumbEmpty}>🖼</div>
                             }
                             <div className={styles.imageSubFields}>

@@ -240,7 +240,7 @@ const PokharaPage: React.FC = () => {
         <div className={styles.heroContent}>
           {/* ── Plain image on the left ── */}
           <div className={styles.heroSilhouetteSide}>
-             <Image
+            <Image
               src={yogaimage.src}
               alt="Yoga Teacher Training In Germany"
               className={styles.heroSilhouette}

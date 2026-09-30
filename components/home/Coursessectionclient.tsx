@@ -80,7 +80,6 @@ export const CoursesSectionClient: React.FC<Props> = ({ initialCourses }) => {
   const [courses, setCourses] = useState<Course[]>(initialCourses);
   const { rate } = useCurrencyRate();
 
-  // Seats/availability real-time refresh — background mein chalta rahega
   useEffect(() => {
     const fetchCourses = async () => {
       try {
@@ -90,7 +89,7 @@ export const CoursesSectionClient: React.FC<Props> = ({ initialCourses }) => {
         console.error("Failed to refresh courses", err);
       }
     };
-    const interval = setInterval(fetchCourses, 15000); // har 15 sec refresh
+    const interval = setInterval(fetchCourses, 15000);
     return () => clearInterval(interval);
   }, []);
 
@@ -130,9 +129,9 @@ export const CoursesSectionClient: React.FC<Props> = ({ initialCourses }) => {
                     src={getImageUrl(course.image)}
                     alt={course.imageAlt || course.title}
                     className={styles.courseImage}
-                    fill
-                    sizes="(max-width: 700px) 100vw, (max-width: 1024px) 45vw, 280px"
-                    style={{ objectFit: "cover" }}
+                    width={1200}
+                    height={800}
+                    sizes="(max-width: 900px) 100vw, 280px"
                     loading={idx === 0 ? undefined : "lazy"}
                     priority={idx === 0}
                     onError={(e) => {

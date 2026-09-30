@@ -20,9 +20,9 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser]       = useState<UserType | null>(null);
+  const [user, setUser] = useState<UserType | null>(null);
   const [loading, setLoading] = useState(true);
-  const called                = useRef(false); // ✅ prevent double-call in strict mode
+  const called = useRef(false);
 
   useEffect(() => {
     if (called.current) return;

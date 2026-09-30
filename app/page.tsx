@@ -51,7 +51,6 @@ export default async function Home() {
       <Suspense fallback={<HomeaboutSkeleton />}>
         <HomeaboutSection />
       </Suspense>
-
       <CoursesSection />
       <AccreditationSection />
       <YogaCoursesTeachers />

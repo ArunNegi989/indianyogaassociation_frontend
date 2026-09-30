@@ -120,6 +120,7 @@
 .courseCard::before {
   content: '';
   position: absolute;
+  inset: 0;
   border-radius: 10px;
   background: linear-gradient(135deg, rgba(255, 249, 240, 0.6), transparent);
   pointer-events: none;
@@ -135,15 +136,17 @@
   background: #fffaf4;
 }
 
+/* ── Image ── */
 .imageWrapper {
   grid-area: image;
   position: relative;
   overflow: hidden;
-  min-height: 220px;
-  flex-shrink: 0;
+  min-height: 240px;
 }
 
 .courseImage {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -157,12 +160,14 @@
 
 .imageOverlay {
   position: absolute;
+  inset: 0;
   background: linear-gradient(135deg,
       rgba(224, 123, 0, 0.08) 0%,
       rgba(0, 0, 0, 0.04) 100%);
   pointer-events: none;
 }
 
+/* ── Content ── */
 .content {
   grid-area: content;
   padding: clamp(1rem, 2vw, 1.5rem) clamp(1rem, 2.5vw, 1.75rem);
@@ -172,6 +177,7 @@
   position: relative;
   z-index: 1;
   background-color: #ffffff;
+  min-width: 0;
 }
 
 .titleBlock {
@@ -302,7 +308,7 @@
   padding: 1.2rem 1.4rem;
   border-left: 1px solid #ede0c8;
   background: linear-gradient(180deg, #fff9f0, #fff4e4);
-  min-width: 170px;
+  min-width: 0;
   position: relative;
   z-index: 1;
 }
@@ -411,7 +417,18 @@
 .btnEnroll:hover {
   transform: translateY(-2px);
   box-shadow: 0 7px 22px rgba(224, 123, 0, 0.48);
-  color:#fff;
+  color: #fff;
+}
+
+.btnEnrollDisabled {
+  background: #b9a58c;
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+.btnEnrollDisabled:hover {
+  transform: none;
+  box-shadow: none;
 }
 
 .btnExplore {
@@ -438,27 +455,25 @@
   border-color: #F15505;
 }
 
-/* ── 1200px ── */
+/* ══════════════════════════════
+   RESPONSIVE
+══════════════════════════════ */
+
+/* ── ≤1200px ── */
 @media (max-width: 1200px) {
   .courseCard {
-    grid-template-columns: 190px 1fr auto;
+    grid-template-columns: 240px 1fr 230px;
   }
 
   .ctaColumn {
-    min-width: 160px;
-    padding: 1rem 1.2rem;
+    padding: 1rem 1.1rem;
   }
 }
 
-/* ── 1024px ── */
+/* ── ≤1024px ── */
 @media (max-width: 1024px) {
   .courseCard {
-    grid-template-columns: 170px 1fr auto;
-  }
-
-  .ctaColumn {
-    min-width: 150px;
-    padding: 1rem;
+    grid-template-columns: 220px 1fr 210px;
   }
 
   .btnEnroll,
@@ -468,28 +483,32 @@
   }
 }
 
-/* ── 860px ── */
-@media (max-width: 860px) {
+/* ── ≤900px : image upar, content + cta neeche ── */
+@media (max-width: 900px) {
   .courseCard {
-    grid-template-columns: 1fr auto;
-    grid-template-rows: auto auto;
+    grid-template-columns: 1fr 240px;
     grid-template-areas:
       'image image'
       'content cta';
   }
 
+  /* tablet/mobile: image apni natural ratio mein, bina crop ke */
   .imageWrapper {
-    min-height: 200px;
-    max-height: 220px;
     width: 100%;
-    border-radius: 0;
+    min-height: 0;
+    line-height: 0;
+  }
+
+  .courseImage {
+    position: static;
+    inset: auto;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
   }
 
   .ctaColumn {
     border-left: 1px solid #ede0c8;
-    border-top: none;
-    justify-content: space-between;
-    min-width: 150px;
   }
 
   .mainTitle {
@@ -497,28 +516,20 @@
   }
 }
 
-/* ── 700px ── */
-@media (max-width: 700px) {
+/* ── ≤767px : single column ── */
+@media (max-width: 767px) {
   .courseCard {
     grid-template-columns: 1fr;
-    grid-template-rows: auto auto auto;
     grid-template-areas:
       'image'
       'content'
       'cta';
   }
 
-  .imageWrapper {
-    min-height: 190px;
-    max-height: 210px;
-  }
-
   .ctaColumn {
-    flex-direction: column;
     border-left: none;
     border-top: 1px solid #ede0c8;
     padding: 1rem 1.2rem;
-    min-width: unset;
   }
 
   .priceBlock {
@@ -538,13 +549,14 @@
     width: 100%;
     font-size: 0.75rem;
     padding: 0.7rem 0.8rem;
-    text-align: center;
-    justify-content: center;
-    margin-bottom: 0;
   }
 
   .btnEnroll {
     margin-bottom: 0.6rem;
+  }
+
+  .btnExplore {
+    margin-bottom: 0;
   }
 
   .content {
@@ -556,7 +568,7 @@
   }
 }
 
-/* ── 540px ── */
+/* ── ≤540px ── */
 @media (max-width: 540px) {
   .container {
     padding: 2rem 1rem;
@@ -566,27 +578,13 @@
     gap: 1rem;
   }
 
-  .imageWrapper {
-    min-height: 170px;
-    max-height: 190px;
-  }
-
-  .content {
-    padding: 0.9rem 1rem;
-  }
-
+  .content,
   .ctaColumn {
     padding: 0.9rem 1rem;
   }
 
   .priceINR {
     font-size: 1.2rem;
-  }
-
-  .btnEnroll,
-  .btnExplore {
-    font-size: 0.72rem;
-    padding: 0.65rem 0.6rem;
   }
 
   .omDivider .dividerLine {
@@ -606,13 +604,8 @@
   }
 }
 
-/* ── 420px ── */
+/* ── ≤420px ── */
 @media (max-width: 420px) {
-  .imageWrapper {
-    min-height: 362px;
-    max-height: 170px;
-  }
-
   .courseTitle {
     font-size: 1rem;
   }
@@ -621,31 +614,17 @@
     font-size: 0.78rem;
   }
 
-  .ctaColumn {
-    padding: 0.85rem 0.9rem;
-  }
-
-  .priceBlock {
-    flex-direction: row;
-    gap: 0.5rem;
-  }
-
-  .btnEnroll,
-  .btnExplore {
-    font-size: 0.73rem;
-    padding: 0.7rem 1rem;
-  }
-
-  .content {
-    padding: 0.85rem 0.9rem;
-  }
-
   .superTitle {
     font-size: 0.88rem;
   }
+
+  .content,
+  .ctaColumn {
+    padding: 0.85rem 0.9rem;
+  }
 }
 
-/* ── 360px ── */
+/* ── ≤360px ── */
 @media (max-width: 360px) {
   .container {
     padding: 1.6rem 0.8rem;
@@ -657,11 +636,6 @@
 
   .courseTitle {
     font-size: 0.95rem;
-  }
-
-  .imageWrapper {
-    min-height: 362px;
-    max-height: 155px;
   }
 
   .priceINR {

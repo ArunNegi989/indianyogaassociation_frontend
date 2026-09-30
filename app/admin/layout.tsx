@@ -32,48 +32,48 @@ const navItems: NavItem[] = [
     label: "Home",
     icon: "🏡",
     children: [
-      { href: "/admin/dashboard/homebanner",           label: "Hero Section" },
-      { href: "/admin/dashboard/yogateachertraning",   label: "About Section" },
-      { href: "/admin/dashboard/homeCoursessection",   label: "Home Course Section" },
+      { href: "/admin/dashboard/homebanner", label: "Hero Section" },
+      { href: "/admin/dashboard/yogateachertraning", label: "About Section" },
+      { href: "/admin/dashboard/homeCoursessection", label: "Home Course Section" },
       { href: "/admin/dashboard/accreditationsection", label: "Accreditation Section" },
-      { href: "/admin/dashboard/yogacoursespage",      label: "Yoga Courses Page" },
-      { href: "/admin/dashboard/Classcampusameniti",   label: "Class Campus Ameniti" },
-      { href: "/admin/dashboard/aymfullpage",          label: "Aym Full Page" },
-      { href: "/admin/dashboard/ourmission",           label: "Our Mission" },
-      { href: "/admin/dashboard/whyaymschool",         label: "Why Aym School" },
+      { href: "/admin/dashboard/yogacoursespage", label: "Yoga Courses Page" },
+      { href: "/admin/dashboard/Classcampusameniti", label: "Class Campus Ameniti" },
+      { href: "/admin/dashboard/aymfullpage", label: "Aym Full Page" },
+      { href: "/admin/dashboard/ourmission", label: "Our Mission" },
+      { href: "/admin/dashboard/whyaymschool", label: "Why Aym School" },
     ],
   },
-  { href: "/admin/dashboard/Affiliation", label: "Affiliation",icon: "🖼" },
-  { href: "/admin/dashboard/about-aym",  label: "About Aym", icon: "📋" },
-  { href: "/admin/dashboard/yoga-rules",    label: "Yoga Rules",icon: "✏" },
-  { href: "/admin/dashboard/yoga-retreat", label: "Yoga Retreat",icon: "🖼" },
-    {
+  { href: "/admin/dashboard/Affiliation", label: "Affiliation", icon: "🖼" },
+  { href: "/admin/dashboard/about-aym", label: "About Aym", icon: "📋" },
+  { href: "/admin/dashboard/yoga-rules", label: "Yoga Rules", icon: "✏" },
+  { href: "/admin/dashboard/yoga-retreat", label: "Yoga Retreat", icon: "🖼" },
+  {
     label: "Sound Healing", icon: "✦",
     children: [
-      { href: "/admin/dashboard/sound-healing-course/sound-healing-content",  label: "sound-healing-content" },
+      { href: "/admin/dashboard/sound-healing-course/sound-healing-content", label: "sound-healing-content" },
       { href: "/admin/dashboard/sound-healing-course/sound-healing-course-seat", label: "sound-healing-seats" },
     ],
   },
-   {
+  {
     label: "Yoga Work Shop", icon: "✦",
     children: [
-      { href: "/admin/dashboard/yoga-workshop/yoga-workshop-content",  label: "yoga-workshop-content" },
+      { href: "/admin/dashboard/yoga-workshop/yoga-workshop-content", label: "yoga-workshop-content" },
       { href: "/admin/dashboard/yoga-workshop/yoga-workshop-seat", label: "yoga-workshop-seats" },
     ],
   },
-  { href: "/admin/dashboard/yoga-ashram",  label: "Yoga Ashram", icon: "📋" },
-  { href: "/admin/dashboard/yoga-holidays",  label: "Yoga Holidays", icon: "🖼" },
-  { href: "/admin/dashboard/inner-awakening",  label: "Inner Awakning", icon: "📋" },
-    {
+  { href: "/admin/dashboard/yoga-ashram", label: "Yoga Ashram", icon: "📋" },
+  { href: "/admin/dashboard/yoga-holidays", label: "Yoga Holidays", icon: "🖼" },
+  { href: "/admin/dashboard/inner-awakening", label: "Inner Awakning", icon: "📋" },
+  {
     label: "Yoga beginners", icon: "✦",
     children: [
-      { href: "/admin/dashboard/yoga-for-beginners/yoga-beginners-content",  label: "yoga-beginners-content" },
+      { href: "/admin/dashboard/yoga-for-beginners/yoga-beginners-content", label: "yoga-beginners-content" },
       { href: "/admin/dashboard/yoga-for-beginners/yoga-beginners-seats", label: "yoga-beginners-seats" },
     ],
   },
-  { href: "/admin/dashboard/detox-retreat",  label: "Yoga Detox", icon: "🖼" },
+  { href: "/admin/dashboard/detox-retreat", label: "Yoga Detox", icon: "🖼" },
 
-  { href: "/admin/yogacourse/payment-page",  label: "Payment Page", icon: "📜" },
+  { href: "/admin/yogacourse/payment-page", label: "Payment Page", icon: "📜" },
 
   {
     label: "Courses",
@@ -82,21 +82,21 @@ const navItems: NavItem[] = [
       {
         label: "100 Hours", icon: "①",
         children: [
-          { href: "/admin/yogacourse/100hourscourse/100hr-seats",   label: "Seats & Dates" },
+          { href: "/admin/yogacourse/100hourscourse/100hr-seats", label: "Seats & Dates" },
           { href: "/admin/yogacourse/100hourscourse/100hr-content", label: "Page Content" },
         ],
       },
       {
         label: "200 Hours", icon: "②",
         children: [
-          { href: "/admin/yogacourse/200hourscourse/200hr-seats",   label: "Seats & Dates" },
+          { href: "/admin/yogacourse/200hourscourse/200hr-seats", label: "Seats & Dates" },
           { href: "/admin/yogacourse/200hourscourse/200hr-content", label: "Page Content" },
         ],
       },
       {
         label: "300 Hours", icon: "③",
         children: [
-          { href: "/admin/yogacourse/300hourscourse/300hr-seats",  label: "Seats & Dates" },
+          { href: "/admin/yogacourse/300hourscourse/300hr-seats", label: "Seats & Dates" },
           { href: "/admin/yogacourse/300hourscourse/300-content1", label: "Page Content" },
           { href: "/admin/yogacourse/300hourscourse/300-content2", label: "Page Content Second" },
         ],
@@ -105,13 +105,13 @@ const navItems: NavItem[] = [
         label: "500 Hours", icon: "⑤",
         children: [
           { href: "/admin/yogacourse/500hourscourse/500hr-seats", label: "Seats & Dates" },
-          { href: "/admin/yogacourse/500hourscourse/content",     label: "Page Content" },
+          { href: "/admin/yogacourse/500hourscourse/content", label: "Page Content" },
         ],
       },
       {
         label: "Kundalini Yoga", icon: "🔱",
         children: [
-          { href: "/admin/yogacourse/kundalini-yoga/kundalini-yoga-seat",             label: "Yoga Teacher Seat" },
+          { href: "/admin/yogacourse/kundalini-yoga/kundalini-yoga-seat", label: "Yoga Teacher Seat" },
           { href: "/admin/yogacourse/kundalini-yoga/kundalini-yoga-teacher-training", label: "Yoga Teacher India" },
         ],
       },
@@ -124,14 +124,14 @@ const navItems: NavItem[] = [
       {
         label: "Prenatal Yoga Course", icon: "🤱",
         children: [
-          { href: "/admin/yogacourse/prenatal-yoga-course/prenatal-seats",   label: "Prenatal Yoga Seats" },
+          { href: "/admin/yogacourse/prenatal-yoga-course/prenatal-seats", label: "Prenatal Yoga Seats" },
           { href: "/admin/yogacourse/prenatal-yoga-course/prenatal-content", label: "Prenatal Content" },
         ],
       },
       {
         label: "Vinyasa Teacher Training", icon: "🌊",
         children: [
-          { href: "/admin/yogacourse/vinyasa-yoga-course/vinyasa-seats",            label: "Vinyasa Seat" },
+          { href: "/admin/yogacourse/vinyasa-yoga-course/vinyasa-seats", label: "Vinyasa Seat" },
           { href: "/admin/yogacourse/vinyasa-yoga-course/vinyasa-teacher-training", label: "Vinyasa Teacher Training" },
         ],
       },
@@ -144,7 +144,7 @@ const navItems: NavItem[] = [
       {
         label: "Hatha Yoga Teacher Training", icon: "🧘",
         children: [
-          { href: "/admin/yogacourse/hatha-yoga-teacher-training/hatha-yoga-training-seats",           label: "Hatha Yoga Seats" },
+          { href: "/admin/yogacourse/hatha-yoga-teacher-training/hatha-yoga-training-seats", label: "Hatha Yoga Seats" },
           { href: "/admin/yogacourse/hatha-yoga-teacher-training/hatha-yoga-teacher-training-content", label: "Hatha Yoga Content" },
         ],
       },
@@ -154,7 +154,7 @@ const navItems: NavItem[] = [
           { href: "/admin/yogacourse/yoga-goa-in-india/yoga-goa-200hr-seats", label: "200hr Seats in Goa" },
           { href: "/admin/yogacourse/yoga-goa-in-india/yoga-goa-300hr-seats", label: "300hr Seats in Goa" },
           { href: "/admin/yogacourse/yoga-goa-in-india/yoga-goa-500hr-seats", label: "500hr Seats in Goa" },
-          { href: "/admin/yogacourse/yoga-goa-in-india/yoga-goa-content",     label: "Content in Goa" },
+          { href: "/admin/yogacourse/yoga-goa-in-india/yoga-goa-content", label: "Content in Goa" },
         ],
       },
       {
@@ -180,60 +180,59 @@ const navItems: NavItem[] = [
   {
     label: "Teachers", icon: "🧘",
     children: [
-      { href: "/admin/our-teachers/founder",       label: "Founder" },
-      { href: "/admin/our-teachers/teachers",      label: "All Teachers" },
+      { href: "/admin/our-teachers/founder", label: "Founder" },
+      { href: "/admin/our-teachers/teachers", label: "All Teachers" },
       { href: "/admin/our-teachers/guestteachers", label: "All Guest Teachers" },
     ],
   },
-    {
+  {
     label: "Online Yoga", icon: "✦",
     children: [
       { href: "/admin/yogacourse/online-yogacourse-seatbooking", label: "Online yoga seat" },
-      { href: "/admin/yogacourse/online-yoga-course",  label: "Online yoga course" },
+      { href: "/admin/yogacourse/online-yoga-course", label: "Online yoga course" },
     ],
   },
-   { href: "/admin/yogacourse/ayush-course",  label: "Ayush Course", icon: "🖼" },
+  { href: "/admin/yogacourse/ayush-course", label: "Ayush Course", icon: "🖼" },
   {
     label: "Home Testimonials", icon: "✦",
     children: [
       { href: "/admin/dashboard/testimonialsvideo", label: "Testimonials Video" },
-      { href: "/admin/dashboard/online-yogacourse-seatbooking",  label: "Testimonials Review Text" },
+      { href: "/admin/dashboard/online-yogacourse-seatbooking", label: "Testimonials Review Text" },
     ],
   },
-  { href: "/admin/dashboard/gallery", label: "Gallery",icon: "🖼" },
-  { href: "/admin/dashboard/blog",    label: "Blog",icon: "✏" },
-  { href: "/admin/Registrationlist",  label: "Registration List", icon: "📋" },
-  { href: "/admin/accommodation",     label: "Accommodation",icon: "🏠" },
+  { href: "/admin/dashboard/gallery", label: "Gallery", icon: "🖼" },
+  { href: "/admin/dashboard/blog", label: "Blog", icon: "✏" },
+  { href: "/admin/Registrationlist", label: "Registration List", icon: "📋" },
+  { href: "/admin/accommodation", label: "Accommodation", icon: "🏠" },
   {
     label: "Testimonials", icon: "✦",
     children: [
-      { href: "/admin/testimonial/text-testimonial",  label: "Text Testimonials" },
+      { href: "/admin/testimonial/text-testimonial", label: "Text Testimonials" },
       { href: "/admin/testimonial/video-testimonial", label: "Video Testimonials" },
     ],
   },
-   { href: "/admin/how-to-reach",     label: "How to Reach",icon: "🏠" },
+  { href: "/admin/how-to-reach", label: "How to Reach", icon: "🏠" },
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   // ✅ ALL hooks inside the component
   const { user, logout, loading } = useAuth();
-  const router                    = useRouter();
-  const [sidebarOpen, setSidebarOpen]     = useState(false);
-  const [openMenu, setOpenMenu]           = useState<string | null>(null);
-  const [openSubMenu, setOpenSubMenu]     = useState<string | null>(null);
-  const [profileOpen, setProfileOpen]     = useState(false);
+  const router = useRouter();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [openMenu, setOpenMenu] = useState<string | null>(null);
+  const [openSubMenu, setOpenSubMenu] = useState<string | null>(null);
+  const [profileOpen, setProfileOpen] = useState(false);
   const [settingsSubOpen, setSettingsSubOpen] = useState(false);
-  const profileRef                        = useRef<HTMLDivElement>(null);
-  const pathname                          = usePathname();
+  const profileRef = useRef<HTMLDivElement>(null);
+  const pathname = usePathname();
 
-  // ✅ Redirect if not authenticated
+
   useEffect(() => {
     if (!loading && !user) {
       router.replace("/auth/login");
     }
   }, [user, loading, router]);
 
-  // Close profile (and its settings sub-panel) on outside click
   useEffect(() => {
     function handler(e: MouseEvent) {
       if (profileRef.current && !profileRef.current.contains(e.target as Node)) {
@@ -245,7 +244,6 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     return () => document.removeEventListener("mousedown", handler);
   }, []);
 
-  // Auto-open parent menu if current path matches
   useEffect(() => {
     navItems.forEach(item => {
       if (item.children?.some(c => pathname.startsWith(c.href))) {
@@ -262,11 +260,11 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     });
   }, [pathname]);
 
-  const toggleMenu    = (label: string) => setOpenMenu(p  => p === label ? null : label);
+  const toggleMenu = (label: string) => setOpenMenu(p => p === label ? null : label);
   const toggleSubMenu = (label: string) => setOpenSubMenu(p => p === label ? null : label);
 
   const isMenuActive = (item: NavItem): boolean => {
-    if (item.children)  return item.children.some(c => pathname.startsWith(c.href));
+    if (item.children) return item.children.some(c => pathname.startsWith(c.href));
     if (item.subGroups) return item.subGroups.some(sg => sg.children.some(c => pathname.startsWith(c.href)));
     return false;
   };
@@ -455,15 +453,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
                 <div className={styles.profileDropdownDivider} />
 
-                {/* <Link
-                  href="/admin/profile"
-                  className={styles.profileDropdownItem}
-                  onClick={() => setProfileOpen(false)}
-                >
-                  <span className={styles.profileDropdownIcon}>◉</span>My Profile
-                </Link> */}
 
-                {/* ── Settings toggle: reveals Change Password + Logout ── */}
                 <button
                   className={`${styles.profileDropdownItem} ${styles.settingsToggleBtn} ${settingsSubOpen ? styles.settingsToggleBtnOpen : ""}`}
                   onClick={() => setSettingsSubOpen(p => !p)}

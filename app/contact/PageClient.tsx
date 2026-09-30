@@ -79,13 +79,13 @@ const COURSES = [
   "prenatal Yoga",
   "vinyasa Yoga",
   "yoga teacher in india",
-   "Hatha Yoga",
-   "yoga teacher training in Goa",
-    "Ayurveda Course",
+  "Hatha Yoga",
+  "yoga teacher training in Goa",
+  "Ayurveda Course",
   "Yoga Retreat",
   "Online Course",
   "General Inquiry",
- 
+
 ];
 
 /* ─── Validate ─── */
@@ -565,7 +565,7 @@ const ContactPage: React.FC = () => {
           </div>
         </div>
 
-       
+
 
         {/* Bottom ornate divider */}
         <div className={styles.ornateDivider} style={{ marginTop: "2.5rem" }}>

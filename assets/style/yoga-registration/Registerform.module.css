@@ -15,7 +15,7 @@
   width: 100%;
   min-height: 100vh;
   background: linear-gradient(160deg, #ffffff 0%, #ffffff 100%);
-  font-family:'Montserrat', Arial, sans-serif;
+  font-family: 'Montserrat', Arial, sans-serif;
   color: var(--text);
   display: flex;
   align-items: stretch;
@@ -353,7 +353,7 @@
   text-align: center;
   margin: 0 0 0.5rem;
   line-height: 1.35;
- 
+
 }
 
 .formTitleUnderline {
@@ -455,7 +455,8 @@
   color: var(--text);
   cursor: pointer;
   user-select: none;
-  font-family: 'Montserrat', Arial, sans-serif;;
+  font-family: 'Montserrat', Arial, sans-serif;
+  ;
 }
 
 .radioInput {

@@ -9,7 +9,6 @@ import styles from "../Accreditationadmin.module.css";
 import api from "@/lib/api";
 import toast from "react-hot-toast";
 
-/* ── JoditEditor: SSR disable (browser-only) ── */
 const JoditEditor = dynamic(() => import("jodit-react"), { ssr: false });
 
 /* ─────────────────────── Types ─────────────────────── */
@@ -54,38 +53,27 @@ interface FormData {
   heroImageAlt: string;
   _heroPreview?: string;
 
-  // Why Choose AYM cards
   accreditationCards: CardItem[];
-
-  // Gallery carousel
   galleryImages: GalleryImageItem[];
-
-  // Main intro
   mainTitle: string;
   introCardTitle: string;
   introParagraphs: ParagraphItem[];
 
-  // RYS logo strip (Yoga Alliance registration proof images)
   rysImages: RysImageItem[];
-
-  // Highlight box (register with Yoga Alliance USA)
   highlightTitle: string;
   highlightParagraphs: ParagraphItem[];
   yogaAllianceUrl: string;
 
-  // Yoga Alliance certs section
   certsSectionTitle: string;
   certsSectionSubtitle: string;
   certs: CertItem[];
 
-  // Ministry of AYUSH / Yoga Certification Board
   boardSectionTitle: string;
   boardSectionSubtitle: string;
   _boardCertPreview?: string;
   boardInfoTitle: string;
   boardInfoText: string;
 
-  // International Yoga Federation
   iyfSectionTitle: string;
   iyfTitle: string;
   iyfParagraphs: ParagraphItem[];
@@ -306,23 +294,19 @@ export default function AccreditationAddEditPage() {
       formData.append("iyfSectionTitle", data.iyfSectionTitle);
       formData.append("iyfTitle", data.iyfTitle);
 
-      // Cards (no images, just emoji icon text)
       formData.append("accreditationCards", JSON.stringify(data.accreditationCards));
 
-      // Dynamic paragraph lists (each stored as an array of HTML strings)
       formData.append("introParagraphs", JSON.stringify(data.introParagraphs.map((p) => p.text)));
       formData.append("highlightParagraphs", JSON.stringify(data.highlightParagraphs.map((p) => p.text)));
       formData.append("iyfParagraphs", JSON.stringify(data.iyfParagraphs.map((p) => p.text)));
 
-      // Footer notes
+
       formData.append("iyfFooterNotes", JSON.stringify(data.iyfFooterNotes.map((n) => n.text)));
 
-      // Single hero / board / iyf logo images
       if (heroFile) formData.append("heroImage", heroFile);
       if (boardCertFile) formData.append("boardCertificateImage", boardCertFile);
       if (iyfLogoFile) formData.append("iyfLogoImage", iyfLogoFile);
 
-      // Gallery images: new files + retained existing urls
       const galleryExisting: string[] = [];
       data.galleryImages.forEach((g) => {
         if (g.file) formData.append("galleryImages", g.file);
@@ -330,7 +314,6 @@ export default function AccreditationAddEditPage() {
       });
       formData.append("existingGalleryImages", JSON.stringify(galleryExisting));
 
-      // RYS images: alt text array + files/existing urls (order matters)
       formData.append("rysImagesAlt", JSON.stringify(data.rysImages.map((r) => r.alt)));
       data.rysImages.forEach((r, i) => {
         if (r.file) formData.append(`rysImage_${i}`, r.file);
@@ -340,7 +323,6 @@ export default function AccreditationAddEditPage() {
         JSON.stringify(data.rysImages.map((r) => (r.file ? null : r.existingUrl ?? null)))
       );
 
-      // Certs: type/description array + files/existing urls (order matters)
       formData.append("certsData", JSON.stringify(data.certs.map((c) => ({ type: c.type, description: c.description }))));
       data.certs.forEach((c, i) => {
         if (c.file) formData.append(`certImage_${i}`, c.file);

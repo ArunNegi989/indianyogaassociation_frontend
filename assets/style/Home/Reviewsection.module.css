@@ -1,8 +1,3 @@
-/* ================================================================
-   REVIEW SECTION MODULE CSS
-   Prefix: rv  (to avoid collision with parent page styles)
-   ================================================================ */
-
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Lato:ital,wght@0,300;0,400;0,700;1,400&family=Montserrat:wght@500;600;700&display=swap');
 
 /* ── CSS Variables ── */
@@ -148,8 +143,15 @@
 }
 
 @keyframes rvReviewFadeUp {
-  from { opacity: 0; transform: translateY(24px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .rvTextCard:hover {
@@ -234,9 +236,18 @@
   gap: 2px;
 }
 
-.rvStar { width: 13px; height: 13px; }
-.rvStarFilled { color: #e07b00; }
-.rvStarEmpty  { color: #e0c88a; }
+.rvStar {
+  width: 13px;
+  height: 13px;
+}
+
+.rvStarFilled {
+  color: #e07b00;
+}
+
+.rvStarEmpty {
+  color: #e0c88a;
+}
 
 .rvQuoteIcon {
   font-family: var(--rv-font-fell);
@@ -299,7 +310,9 @@
   transition: width 0.4s ease;
 }
 
-.rvTextCard:hover .rvGlowLine { width: 100%; }
+.rvTextCard:hover .rvGlowLine {
+  width: 100%;
+}
 
 /* ================================================================
    VIEW MORE BUTTON
@@ -342,7 +355,9 @@
   transition: transform 0.2s;
 }
 
-.rvViewMoreBtn:hover .rvViewMoreIcon { transform: translateY(2px); }
+.rvViewMoreBtn:hover .rvViewMoreIcon {
+  transform: translateY(2px);
+}
 
 /* ================================================================
    RATINGS SUMMARY SLOT
@@ -375,7 +390,11 @@
   background: linear-gradient(90deg, var(--rv-saffron-gold), transparent);
 }
 
-.rvOmDividerCenter { display: flex; flex-direction: column; align-items: center; }
+.rvOmDividerCenter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
 .rvOmDividerLabel {
   font-family: var(--rv-font-menu);
@@ -407,7 +426,8 @@
   padding: 0 48px;
   /* ── FIX: contain all slides so extra cards never spill below ── */
   overflow: hidden;
-  min-width: 0; /* prevents grid blowout */
+  min-width: 0;
+  /* prevents grid blowout */
 }
 
 /* ── FIX: Force slick internals to clip properly (CSS Modules :global) ── */
@@ -425,13 +445,14 @@
 
 /* ── FIX: each slick slide must not exceed its column width ── */
 .rvSliderRoot :global(.slick-slide) {
-  float: none !important; /* slick uses float by default — override with flex */
+  float: none !important;
+  /* slick uses float by default — override with flex */
   height: auto !important;
   min-width: 0;
 }
 
 /* ── FIX: inner div slick injects must also be contained ── */
-.rvSliderRoot :global(.slick-slide) > div {
+.rvSliderRoot :global(.slick-slide)>div {
   height: 100%;
 }
 
@@ -463,7 +484,10 @@
   padding: 0;
 }
 
-.rvSliderBtn svg { width: 20px; height: 20px; }
+.rvSliderBtn svg {
+  width: 20px;
+  height: 20px;
+}
 
 .rvSliderBtn:hover {
   background: var(--rv-saffron);
@@ -472,8 +496,13 @@
   transform: translateY(-50%) scale(1.08);
 }
 
-.rvSliderBtnPrev { left: 0; }
-.rvSliderBtnNext { right: 0; }
+.rvSliderBtnPrev {
+  left: 0;
+}
+
+.rvSliderBtnNext {
+  right: 0;
+}
 
 /* ── Slick dots — brand styled ── */
 .rvSlickDots {
@@ -490,7 +519,11 @@
   overflow: hidden;
 }
 
-.rvSlickDots li { margin: 0 !important; width: auto !important; height: auto !important; }
+.rvSlickDots li {
+  margin: 0 !important;
+  width: auto !important;
+  height: auto !important;
+}
 
 .rvSlickDots li button {
   width: 8px !important;
@@ -545,7 +578,9 @@
   transition: transform 0.5s ease;
 }
 
-.rvVideoCard:hover .rvThumb { transform: scale(1.06); }
+.rvVideoCard:hover .rvThumb {
+  transform: scale(1.06);
+}
 
 .rvOverlay {
   position: absolute;
@@ -570,7 +605,10 @@
   transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.2s;
 }
 
-.rvPlayBtn svg { width: 24px; height: 24px; }
+.rvPlayBtn svg {
+  width: 24px;
+  height: 24px;
+}
 
 .rvVideoCard:hover .rvPlayBtn {
   transform: translate(-50%, -50%) scale(1.12);
@@ -636,7 +674,10 @@
 }
 
 /* ── Side panel ── */
-.rvSidePanel { position: sticky; top: 100px; }
+.rvSidePanel {
+  position: sticky;
+  top: 100px;
+}
 
 .rvSideInner {
   background: linear-gradient(155deg, #fffefd, #fffdfa);
@@ -660,7 +701,10 @@
   margin-bottom: 1.2rem;
 }
 
-.rvSideIcon svg { width: 100%; height: 100%; }
+.rvSideIcon svg {
+  width: 100%;
+  height: 100%;
+}
 
 .rvSideTitle {
   font-family: var(--rv-font-fell);
@@ -688,7 +732,11 @@
   border-top: 1px solid rgba(184, 134, 11, 0.15);
 }
 
-.rvSideStat { display: flex; flex-direction: column; align-items: flex-start; }
+.rvSideStat {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
 
 .rvSideStatNum {
   font-family: var(--rv-font-display);
@@ -727,42 +775,102 @@
   box-shadow: 0 4px 16px rgba(200, 112, 10, 0.3);
 }
 
-.rvSideBtn:hover { opacity: 0.9; transform: translateY(-1px); }
-.rvSideBtnArrow { width: 14px; height: 14px; }
+.rvSideBtn:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.rvSideBtnArrow {
+  width: 14px;
+  height: 14px;
+}
 
 /* ================================================================
    RESPONSIVE
    ================================================================ */
 @media (min-width: 1024px) and (max-width: 1199px) {
-  .rvTextGrid  { grid-template-columns: repeat(2, 1fr); }
-  .rvVideoWrap { grid-template-columns: 1fr; }
-  .rvSidePanel { position: static; }
+  .rvTextGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .rvVideoWrap {
+    grid-template-columns: 1fr;
+  }
+
+  .rvSidePanel {
+    position: static;
+  }
 }
 
 @media (max-width: 1023px) {
-  .rvTextGrid  { grid-template-columns: repeat(2, 1fr); }
-  .rvVideoWrap { grid-template-columns: 1fr; }
-  .rvSidePanel { position: static; }
-  .rvStatRow   { flex-wrap: wrap; gap: 1rem; border-radius: 16px; }
+  .rvTextGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .rvVideoWrap {
+    grid-template-columns: 1fr;
+  }
+
+  .rvSidePanel {
+    position: static;
+  }
+
+  .rvStatRow {
+    flex-wrap: wrap;
+    gap: 1rem;
+    border-radius: 16px;
+  }
 }
 
 @media (max-width: 767px) {
-  .rvSection   { padding-left: 1rem; padding-right: 1rem; }
-  .rvTextGrid  { grid-template-columns: 1fr; }
-  .rvVideoWrap { grid-template-columns: 1fr; }
-  .rvSidePanel { position: static; }
-  .rvSliderRoot { padding: 0 36px; }
+  .rvSection {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .rvTextGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .rvVideoWrap {
+    grid-template-columns: 1fr;
+  }
+
+  .rvSidePanel {
+    position: static;
+  }
+
+  .rvSliderRoot {
+    padding: 0 36px;
+  }
 }
 
 @media (max-width: 599px) {
-  .rvCardTop     { flex-wrap: wrap; }
-  .rvCourseBadge { order: 3; flex-basis: 100%; text-align: left; }
-  .rvSliderRoot  { padding: 0 32px; }
+  .rvCardTop {
+    flex-wrap: wrap;
+  }
+
+  .rvCourseBadge {
+    order: 3;
+    flex-basis: 100%;
+    text-align: left;
+  }
+
+  .rvSliderRoot {
+    padding: 0 32px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
+
   .rvTextCard,
-  .rvVideoCard        { animation: none; opacity: 1; }
+  .rvVideoCard {
+    animation: none;
+    opacity: 1;
+  }
+
   .rvTextCard:hover,
-  .rvVideoCard:hover  { transform: none; }
+  .rvVideoCard:hover {
+    transform: none;
+  }
 }

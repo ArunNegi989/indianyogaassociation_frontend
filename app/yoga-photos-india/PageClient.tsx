@@ -86,7 +86,6 @@ export default function GalleryPage() {
     return () => window.removeEventListener("keydown", handleKey);
   }, [handleKey]);
 
-  /* Lock body scroll when modal open */
   useEffect(() => {
     document.body.style.overflow = modal ? "hidden" : "";
     return () => {
@@ -181,7 +180,7 @@ export default function GalleryPage() {
                         openModal(img.src, img.label, formattedImages, i);
                       }}
                     >
-                       <Image src={img.src} alt={img.label} loading="lazy" />
+                      <Image src={img.src} alt={img.label} loading="lazy" />
 
                       <span className={styles.imgLabel}>
                         <span className={styles.labelPin}>📍</span>
@@ -232,7 +231,7 @@ export default function GalleryPage() {
 
             {/* Image */}
             <div className={styles.modalImgWrap}>
-               <Image
+              <Image
                 src={modal.src}
                 alt={modal.label}
                 className={styles.modalImg}
@@ -279,7 +278,7 @@ export default function GalleryPage() {
                     })
                   }
                 >
-                   <Image
+                  <Image
                     src={img.src}
                     alt={img.label}
                     loading="lazy"

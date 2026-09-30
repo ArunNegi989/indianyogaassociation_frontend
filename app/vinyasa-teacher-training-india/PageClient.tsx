@@ -40,15 +40,15 @@ interface Testimonial {
 interface PageData {
   // Hero Section
   heroImage: string;
-  communityPlaceholderImage?: string; 
+  communityPlaceholderImage?: string;
   heroImgAlt: string;
   promoImage: string;
   pageH1Title: string;
   introMainPara: string;
 
-  certTeachersPlaceholderImage?: string;  // Optional fallback
+  certTeachersPlaceholderImage?: string;
 
-  accommodationPlaceholderImage?: string;  // Optional fallback
+  accommodationPlaceholderImage?: string;
 
   // Course Details Section
   courseDetailsTitle: string;
@@ -62,7 +62,7 @@ interface PageData {
   whoCanApplyTitle: string;
   whoCanApplyPara1: string;
   whoCanApplyPara2: string;
-  whoCanApplyVideo: string;  // Changed from whoCanApplyVideoUrl to match backend
+  whoCanApplyVideo: string;
   whoItems: string[];
 
   // Promo Banner Section
@@ -79,22 +79,22 @@ interface PageData {
   certTeachersPara: string;
   certTeachersPara2: string;
   certTeachersParagraphs: string[];
-  certTeachersImage?: string;  // Optional - add if you have this
-  certTeachersImageAlt?: string;  // Optional - add if you have this
+  certTeachersImage?: string;
+  certTeachersImageAlt?: string;
 
   // Community Section
   communityTitle: string;
   communityPara: string;
   communityParagraphs: string[];
-  communityImage?: string;  // Optional - add if you have this
-  communityImageAlt?: string;  // Optional - add if you have this
+  communityImage?: string;
+  communityImageAlt?: string;
 
   // Accommodation Section
   accommodationTitle: string;
   accommodationPara1: string;
   accommodationParagraphs: string[];
-  accommodationImage?: string;  // Optional - add if you have this
-  accommodationImageAlt?: string;  // Optional - add if you have this
+  accommodationImage?: string;
+  accommodationImageAlt?: string;
 
   // Certification Section
   certCardTitle: string;
@@ -190,7 +190,7 @@ function useCurrencyRate() {
       .then((data) => {
         if (data?.usd?.inr) setRate(data.usd.inr);
       })
-      .catch(() => {})
+      .catch(() => { })
       .finally(() => setLoading(false));
   }, []);
   return { rate, loading };
@@ -445,11 +445,11 @@ function CourseInfoCard({
   pageData: PageData | null;
 }) {
   const available = seats.filter((s) => s.totalSeats - s.bookedSeats > 0);
-  
-  const currentUsdPrice = pageData?.courseInfoUsdPrice ?? 
+
+  const currentUsdPrice = pageData?.courseInfoUsdPrice ??
     (available.length > 0 ? Math.min(...available.map((s) => s.dormPrice)) : 699);
   const currentInrPrice = pageData?.courseInfoInrPrice ?? currentUsdPrice * 83;
-  const originalUsdPrice = pageData?.courseInfoOriginalUsdPrice ?? 
+  const originalUsdPrice = pageData?.courseInfoOriginalUsdPrice ??
     Math.round((currentUsdPrice * 1.8) / 50) * 50;
   const originalInrPrice = pageData?.courseInfoOriginalInrPrice ?? originalUsdPrice * 83;
 
@@ -796,7 +796,7 @@ function PulseDot() {
 ───────────────────────────────────────── */
 function DynamicVideo({ url, className }: { url: string; className?: string }) {
   const [videoError, setVideoError] = useState(false);
-  
+
   // Check if it's a local file path
   if (url && !url.startsWith('http') && !url.includes('youtube') && !url.includes('youtu.be') && !url.includes('instagram')) {
     const fullUrl = getFullUrl(url);
@@ -823,7 +823,7 @@ function DynamicVideo({ url, className }: { url: string; className?: string }) {
       );
     }
   }
-  
+
   // Handle YouTube/Instagram URLs
   let embedUrl = "";
   if (url.includes("youtu.be")) {
@@ -839,7 +839,7 @@ function DynamicVideo({ url, className }: { url: string; className?: string }) {
     const match = url.match(/reel\/([^/?]+)/);
     if (match) embedUrl = `https://www.instagram.com/reel/${match[1]}/embed`;
   }
-  
+
   if (!embedUrl) return null;
   return (
     <iframe
@@ -874,7 +874,7 @@ function TextImageRow({
 }) {
   const [imageError, setImageError] = useState(false);
   const fullImageUrl = getFullUrl(imageUrl);
-  
+
   return (
     <div className={`${styles.tiRow} ${reverse ? styles.tiRowReverse : ""}`}>
       <div className={styles.tiText}>
@@ -884,7 +884,7 @@ function TextImageRow({
       <div className={styles.tiImageWrap}>
         <div className={styles.tiImageFrame}>
           {fullImageUrl && !imageError ? (
-             <Image
+            <Image
               src={fullImageUrl}
               alt={imageAlt}
               className={styles.tiImage}
@@ -970,9 +970,7 @@ function PremiumSeatBooking({
 
   const selected = seats.find((s) => s._id === selectedId) ?? null;
 
-  /**
-   * Core price formatter — uses stored INR price directly (NO CONVERSION).
-   */
+
   const fmtPrice = (
     batch: SeatBatch | null,
     overrideUsd?: number,
@@ -980,7 +978,7 @@ function PremiumSeatBooking({
     if (!batch && overrideUsd === undefined) return { amount: "—", cur: currency };
 
     if (currency === "INR") {
-      // Use stored INR price directly - NO CONVERSION
+
       if (batch?.inrFee) {
         const num = parseFloat(batch.inrFee.replace(/[₹,]/g, "").trim());
         if (!isNaN(num) && num > 0) {
@@ -990,7 +988,7 @@ function PremiumSeatBooking({
       return { amount: "—", cur: "INR" };
     }
 
-    // USD: use usdFee string directly
+
     if (batch?.usdFee) {
       const raw = batch.usdFee.trim();
       return { amount: raw.startsWith("$") ? raw : `$${raw}`, cur: "USD" };
@@ -999,35 +997,31 @@ function PremiumSeatBooking({
     return { amount: `$${fallback}`, cur: "USD" };
   };
 
-  /**
-   * Get room price based on currency using stored values - NO CONVERSION
-   */
+
   const getRoomPrice = (batch: SeatBatch | null, roomType: 'dorm' | 'twin' | 'private') => {
     if (!batch) return "—";
-    
+
     if (currency === "INR") {
-      // Use stored INR price directly - NO CONVERSION
+
       let inrPrice: number | undefined;
       if (roomType === 'dorm') inrPrice = batch.inrDormPrice;
       else if (roomType === 'twin') inrPrice = batch.inrTwinPrice;
       else inrPrice = batch.inrPrivatePrice;
-      
+
       if (inrPrice && inrPrice > 0) {
         return `₹${inrPrice.toLocaleString("en-IN")}`;
       }
       return "—";
     }
-    
-    // USD
-    const usdPrice = roomType === 'dorm' ? batch.dormPrice : 
-                     roomType === 'twin' ? batch.twinPrice : 
-                     batch.privatePrice;
+
+
+    const usdPrice = roomType === 'dorm' ? batch.dormPrice :
+      roomType === 'twin' ? batch.twinPrice :
+        batch.privatePrice;
     return `$${usdPrice}`;
   };
 
-  /**
-   * Price shown on each batch card in the LEFT panel.
-   */
+
   const batchCardPrice = (batch: SeatBatch): { amount: string; cur: string } =>
     fmtPrice(batch);
 
@@ -1368,7 +1362,7 @@ export default function AshtangaVinyasaTTC() {
 
       <section className={styles.heroSection}>
         {pageData.heroImage && (
-           <Image
+          <Image
             src={getFullUrl(pageData.heroImage)}
             alt={pageData.heroImgAlt || "Yoga Students Group"}
             className={styles.heroImage}
@@ -1377,7 +1371,7 @@ export default function AshtangaVinyasaTTC() {
       </section>
 
       <CourseInfoCard seats={seats} currency={currency} rate={rate} pageData={pageData} />
-      
+
       <section className={styles.section + " " + styles.sectionLight}>
         <div className="container px-3 px-md-4">
           <div className={styles.heroTitleRow}>
@@ -1433,7 +1427,7 @@ export default function AshtangaVinyasaTTC() {
           <div className={styles.promoBanner}>
             <div className={styles.promoImgSide}>
               {pageData.promoImage && (
-                 <Image
+                <Image
                   src={getFullUrl(pageData.promoImage)}
                   alt="Vinyasa Yoga Teacher Training Rishikesh class"
                   className={styles.promoImg}

@@ -50,10 +50,10 @@ function normalise(raw: any): Blog {
     rawDate: raw.date ?? "",
     date: raw.date
       ? new Date(raw.date).toLocaleDateString("en-GB", {
-          day: "2-digit",
-          month: "long",
-          year: "numeric",
-        })
+        day: "2-digit",
+        month: "long",
+        year: "numeric",
+      })
       : "",
     author: raw.author || undefined,
     category: raw.category ?? "",

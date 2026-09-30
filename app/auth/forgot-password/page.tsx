@@ -145,7 +145,7 @@ export default function ForgotPasswordPage() {
         {/* Top accent bar */}
         <div className={styles.accentBar} />
 
-        {/* Om symbol watermark */}
+
         <div className={styles.omWatermark}>ॐ</div>
 
         {/* Header */}
@@ -262,7 +262,7 @@ export default function ForgotPasswordPage() {
             <button
               type="button"
               className={styles.textBtn}
-              onClick={() => { setStep("email"); setError(""); setOtp(["","","","","",""]); }}
+              onClick={() => { setStep("email"); setError(""); setOtp(["", "", "", "", "", ""]); }}
             >
               ← Change email
             </button>
@@ -309,20 +309,19 @@ export default function ForgotPasswordPage() {
             {newPassword && (
               <div className={styles.strengthBar}>
                 <div
-                  className={`${styles.strengthFill} ${
-                    newPassword.length < 6
+                  className={`${styles.strengthFill} ${newPassword.length < 6
                       ? styles.weak
                       : newPassword.length < 10
-                      ? styles.medium
-                      : styles.strong
-                  }`}
+                        ? styles.medium
+                        : styles.strong
+                    }`}
                 />
                 <span className={styles.strengthLabel}>
                   {newPassword.length < 6
                     ? "Weak"
                     : newPassword.length < 10
-                    ? "Medium"
-                    : "Strong"}
+                      ? "Medium"
+                      : "Strong"}
                 </span>
               </div>
             )}
@@ -336,7 +335,7 @@ export default function ForgotPasswordPage() {
           </form>
         )}
 
-        {/* Bottom accent bar */}
+
         <div className={styles.accentBar} />
       </div>
     </main>

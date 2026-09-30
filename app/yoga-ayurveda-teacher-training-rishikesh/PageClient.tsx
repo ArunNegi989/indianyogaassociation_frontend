@@ -101,7 +101,6 @@ interface AyurvedaData {
   trainingDesc?: string;
   trainingParagraphs?: string[];
 
-  /* ✅ NEW: video — either embed URL or uploaded file path */
   trainingVideoUrl?: string;
   trainingVideoFile?: string;
 

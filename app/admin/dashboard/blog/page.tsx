@@ -5,7 +5,6 @@ import Link from "next/link";
 import styles from "@/assets/style/Admin/dashboard/blog/Blog.module.css";
 import api from "@/lib/api";
 
-/* ── Types ── */
 type BlogStatus = "Published" | "Draft";
 
 interface BlogRecord {
@@ -34,12 +33,6 @@ function useBreakpoint() {
   return { isMobile: width < 480, isTablet: width >= 480 && width < 768, width };
 }
 
-/* ─────────────────────────────────────────────
-   Resolve image src:
-   - full URL (http/https) or blob:  → use as-is
-   - relative path (/uploads/...)    → prepend backend base URL
-   - empty / undefined               → return ""
-────────────────────────────────────────────── */
 const BASE_URL =
   process.env.NEXT_PUBLIC_API_URL?.replace(/\/api\/?$/, "") ??
   "http://localhost:5000";
@@ -50,24 +43,22 @@ function resolveImage(src?: string): string {
   return `${BASE_URL}${src.startsWith("/") ? "" : "/"}${src}`;
 }
 
-/* ── Normalise a raw DB blog doc into BlogRecord ── */
 function normalise(raw: any): BlogRecord {
   return {
     id: raw._id ?? raw.id,
     slug: raw.slug ?? "",
     title: raw.title ?? "",
     excerpt: raw.excerpt ?? "",
-    /* date comes from DB as ISO string — format to "DD Month YYYY" */
     date: raw.date
       ? new Date(raw.date).toLocaleDateString("en-GB", {
-          day: "2-digit",
-          month: "long",
-          year: "numeric",
-        })
+        day: "2-digit",
+        month: "long",
+        year: "numeric",
+      })
       : "",
     author: raw.author ?? "",
     category: raw.category ?? "",
-    image: resolveImage(raw.coverImage), // ✅ resolve relative path to full URL
+    image: resolveImage(raw.coverImage),
     tags: raw.tags ?? [],
     sectionCount: Array.isArray(raw.content) ? raw.content.length : 0,
     status: raw.status === "Published" ? "Published" : "Draft",
@@ -101,7 +92,6 @@ export default function BlogListPage() {
     fetchBlogs();
   }, []);
 
-  /* ── Toggle Published / Draft ── */
   const toggleStatus = async (id: string) => {
     const blog = blogs.find((b) => b.id === id);
     if (!blog || togglingId) return;
@@ -119,7 +109,7 @@ export default function BlogListPage() {
       await api.put(`/blogs/update/${id}`, { status: newStatus });
     } catch (err) {
       console.error("Toggle status error:", err);
-      /* Rollback on failure */
+
       setBlogs((prev) =>
         prev.map((b) => (b.id === id ? { ...b, status: blog.status } : b))
       );
@@ -146,9 +136,8 @@ export default function BlogListPage() {
   /* ── Sub-components ── */
   const Status = ({ b }: { b: BlogRecord }) => (
     <button
-      className={`${styles.statusBadge} ${
-        b.status === "Published" ? styles.statusPublished : styles.statusDraft
-      }`}
+      className={`${styles.statusBadge} ${b.status === "Published" ? styles.statusPublished : styles.statusDraft
+        }`}
       onClick={() => toggleStatus(b.id)}
       disabled={togglingId === b.id}
       title="Click to toggle status"

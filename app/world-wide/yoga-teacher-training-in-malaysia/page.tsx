@@ -3,7 +3,8 @@ import React from "react";
 import styles from "@/assets/style/world-wide/yoga-teacher-training-in-vietnam/Vietnampage.module.css";
 import yogaimage from "@/assets/images/yoga.svg";
 import AymHomePage from "@/components/Aymhomepage";
-/* ─── SVG Decorations ─── */
+
+
 const Mandala: React.FC<{ className?: string }> = ({ className }) => (
   <svg
     className={className}

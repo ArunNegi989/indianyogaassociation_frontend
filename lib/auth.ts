@@ -30,7 +30,8 @@ api.interceptors.response.use(
       try {
         const res = await api.post("/auth/refresh");
         setAccessToken(res.data.accessToken);
-        originalRequest.headers.Authorization = "Bearer " + res.data.accessToken;
+        originalRequest.headers.Authorization =
+          "Bearer " + res.data.accessToken;
         return api(originalRequest);
       } catch {
         window.location.href = "/auth/login";
@@ -39,5 +40,5 @@ api.interceptors.response.use(
     }
 
     return Promise.reject(error);
-  }
+  },
 );

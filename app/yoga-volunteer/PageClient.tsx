@@ -201,7 +201,7 @@ export default function PostYTTCPage() {
         </div>
       </section>
 
-     
+
 
       {/* ══════════════════════════════════════
           POST TTC PROGRAMS
@@ -312,7 +312,7 @@ export default function PostYTTCPage() {
         </div>
       </section>
 
-    
+
 
       {/* ══════════════════════════════════════
           DRESS CODE + PROHIBITED + ATTENDANCE

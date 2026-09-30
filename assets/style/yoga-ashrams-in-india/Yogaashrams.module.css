@@ -15,8 +15,8 @@
    GLOBAL
 ==================================================== */
 .pageWrapper {
-   font-family: "Montserrat", Arial, sans-serif;
- background-image: url("../../images/backgroundimage/24.webp") ;
+  font-family: "Montserrat", Arial, sans-serif;
+  background-image: url("../../images/backgroundimage/24.webp");
   color: var(--text-body);
   overflow-x: hidden;
   margin: 0 auto;
@@ -38,7 +38,7 @@
 }
 
 .heroImage {
-   width: 100%;
+  width: 100%;
   height: auto;
   display: block;
   object-fit: contain;
@@ -200,7 +200,7 @@
   color: var(--text-body);
   margin-bottom: 1.2rem;
   font-weight: 500;
-   font-family: "Montserrat", Arial, sans-serif;
+  font-family: "Montserrat", Arial, sans-serif;
 }
 
 .bodyText a {
@@ -547,7 +547,7 @@
 }
 
 .statLabel {
-   font-family: "Montserrat", Arial, sans-serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: 1.1rem;
   color: #666;
 }
@@ -641,12 +641,15 @@
   font-weight: 500;
   font-family: "Montserrat", Arial, sans-serif;
 }
+
 .experienceBody strong {
   color: #e8600a;
 }
-.experienceBody p{
+
+.experienceBody p {
   font-family: "Montserrat", Arial, sans-serif;
 }
+
 .timelineContent h3 {
   font-family: 'Montserrat', serif;
   font-size: 1.2rem;
@@ -670,31 +673,31 @@
     grid-template-columns: 1fr;
     gap: 1rem;
   }
-  
+
   .welcomeStats {
     flex-direction: row;
     justify-content: center;
     flex-wrap: wrap;
   }
-  
+
   .statItem {
     flex: 1;
     min-width: 100px;
   }
-  
+
   .timelineGrid {
     grid-template-columns: 1fr;
     gap: 1rem;
   }
-  
+
   .featureImageBox {
     height: 250px;
   }
-  
+
   .titleSection {
     padding: 1.5rem 1rem;
   }
-  
+
   .titleUnderline span:first-child,
   .titleUnderline span:last-child {
     width: 40px;
@@ -705,29 +708,29 @@
   .statNumber {
     font-size: 1.3rem;
   }
-  
+
   .statLabel {
     font-size: 0.7rem;
   }
-  
+
   .welcomeContent {
     padding: 1rem;
   }
-  
+
   .welcomeText {
     font-size: 0.85rem;
   }
-  
+
   .experienceTitle {
     font-size: 1.3rem;
   }
-  
+
   .featureQuote {
     bottom: 10px;
     right: 10px;
     padding: 0.3rem 0.8rem;
   }
-  
+
   .featureQuote p {
     font-size: 0.7rem;
   }
@@ -815,7 +818,7 @@
   color: var(--link-color);
   transition: all 0.2s ease;
   font-weight: 600;
-   font-family: "Montserrat", Arial, sans-serif;
+  font-family: "Montserrat", Arial, sans-serif;
 }
 
 .pillLink:hover {
@@ -966,7 +969,7 @@
   font-size: 30px;
   text-decoration-color: rgba(232, 96, 10, 0.4);
   font-family: 'Montserrat', serif;
-  
+
 }
 
 .whySection .sectionTitle a:hover {
@@ -1015,7 +1018,7 @@
   line-height: 1.7;
   color: #444444;
   font-weight: 600;
-   font-family: 'Montserrat', serif;
+  font-family: 'Montserrat', serif;
 }
 
 .whyBody {
@@ -1023,9 +1026,10 @@
   font-size: 1.1rem;
   line-height: 1.9;
   color: #333333;
-   font-family: "Montserrat", Arial, sans-serif;
+  font-family: "Montserrat", Arial, sans-serif;
 }
-.whyBody p{
+
+.whyBody p {
   font-family: "Montserrat", Arial, sans-serif;
 }
 
@@ -1043,7 +1047,8 @@
   gap: 1rem;
   margin: 1.5rem 0;
 }
-.actGrid p{
+
+.actGrid p {
   font-family: "Montserrat", Arial, sans-serif;
 }
 
@@ -1123,6 +1128,7 @@
 
 /* ── RESPONSIVE ── */
 @media (max-width: 768px) {
+
   .bestGrid,
   .whatInner,
   .whyGrid,

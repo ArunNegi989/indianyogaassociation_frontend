@@ -164,7 +164,7 @@ function useCurrencyRate() {
     )
       .then((r) => r.json())
       .then((data) => { if (data?.usd?.inr) setRate(data.usd.inr); })
-      .catch(() => {});
+      .catch(() => { });
   }, []);
   return rate;
 }
@@ -495,8 +495,8 @@ function OnlineSeatBooking({
                         background: full
                           ? "#8a2c00"
                           : low
-                          ? "linear-gradient(90deg,#c8700a,#e09030)"
-                          : "linear-gradient(90deg,#3d6000,#6aa000)",
+                            ? "linear-gradient(90deg,#c8700a,#e09030)"
+                            : "linear-gradient(90deg,#3d6000,#6aa000)",
                       }}
                     />
                   </div>
@@ -877,8 +877,8 @@ export default function OnlineYogaCourse() {
         {/* ══ HERO IMAGE ══ */}
         {section.heroImage && (
           <section className={styles.heroSection}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-             <Image
+
+            <Image
               src={getImageUrl(section.heroImage)}
               alt={section.heroImageAlt || "Hero"}
               className={styles.heroImage}
@@ -927,8 +927,8 @@ export default function OnlineYogaCourse() {
               <div className={styles.whyRight}>
                 {section.whyImage && (
                   <div className={styles.whyImageBox}>
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                     <Image src={getImageUrl(section.whyImage)} alt={section.whyImageAlt || "Why choose us"} />
+
+                    <Image src={getImageUrl(section.whyImage)} alt={section.whyImageAlt || "Why choose us"} />
                     <div className={styles.whyCornerTl} />
                     <div className={styles.whyCornerBr} />
                     {section.whyImageBadgeText && (
@@ -1047,8 +1047,8 @@ export default function OnlineYogaCourse() {
                   <div className={styles.chakraCardBg}>{area.symbol}</div>
                   {area.image && (
                     <div className={styles.chakraImageWrap}>
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                       <Image
+
+                      <Image
                         src={getImageUrl(area.image)}
                         alt={area.title}
                         width={130}
@@ -1135,8 +1135,8 @@ export default function OnlineYogaCourse() {
                 >
                   {oc.image && (
                     <div className={styles.otherCardImage}>
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                       <Image src={getImageUrl(oc.image)} alt={oc.title} />
+
+                      <Image src={getImageUrl(oc.image)} alt={oc.title} />
                       <div className={styles.otherCardImageOverlay} />
                     </div>
                   )}

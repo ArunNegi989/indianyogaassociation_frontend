@@ -46,43 +46,43 @@ interface Location {
 interface YogaTTCData {
   _id: string;
   slug: string;
- 
-    // Rishikesh & Goa Section Images
-    rishikeshImage: string;
-    rishikeshImageAlt: string;
-    rishikeshImageBadge: string;
-    goaImage: string;
-    goaImageAlt: string;
-    goaImageBadge: string;
+
+  // Rishikesh & Goa Section Images
+  rishikeshImage: string;
+  rishikeshImageAlt: string;
+  rishikeshImageBadge: string;
+  goaImage: string;
+  goaImageAlt: string;
+  goaImageBadge: string;
   // ===== WHY AYM SECTION IMAGE =====
   whyAYMImage: string;
   whyAYMImageAlt: string;
   whyAYMImageBadge: string;
-  
 
-    // ===== NEW YOGA HOLIDAYS FIELDS =====
-    mainTitle: string;
-    mediaImageAlt: string;
-    mediaImageCaption: string;
-    videoUrl: string;
-    videoPlaceholderText: string;
-    videoEnabled: boolean;
-    ayurvedaCalloutText: string;
-    ayurvedaLinkText: string;
-    ayurvedaLinkUrl: string;
-    benefitsHeading: string;
-    benefitsList: string[];
-    ctaText: string;
-    ctaButtonText: string;
-    ctaButtonUrl: string;
 
-    image?: string;      // NEW: image path
-    imageAlt?: string;   // NEW: image alt text
-    
-    // ===== NEW WHO WE ARE VIDEO FIELDS =====
-    whoWeAreVideo: string;           // Path to uploaded video file
-    whoWeAreVideoEnabled: boolean;   // Toggle to show/hide video
-    whoWeAreVideoPoster: string;     // Path to video poster image
+  // ===== NEW YOGA HOLIDAYS FIELDS =====
+  mainTitle: string;
+  mediaImageAlt: string;
+  mediaImageCaption: string;
+  videoUrl: string;
+  videoPlaceholderText: string;
+  videoEnabled: boolean;
+  ayurvedaCalloutText: string;
+  ayurvedaLinkText: string;
+  ayurvedaLinkUrl: string;
+  benefitsHeading: string;
+  benefitsList: string[];
+  ctaText: string;
+  ctaButtonText: string;
+  ctaButtonUrl: string;
+
+  image?: string;      // NEW: image path
+  imageAlt?: string;   // NEW: image alt text
+
+  // ===== NEW WHO WE ARE VIDEO FIELDS =====
+  whoWeAreVideo: string;           // Path to uploaded video file
+  whoWeAreVideoEnabled: boolean;   // Toggle to show/hide video
+  whoWeAreVideoPoster: string;     // Path to video poster image
   mediaImage: string;
   status: string;
   heroImage: string;
@@ -484,10 +484,10 @@ const CourseCardComp = ({
   index: number;
 }) => {
   // Get image from backend or fallback
-  const courseImageSrc = card.image 
+  const courseImageSrc = card.image
     ? `${process.env.NEXT_PUBLIC_API_URL}${card.image}`
     : (card.imgUrl || PLACEHOLDER.course1);
-  
+
   return (
     <div className={styles.courseCard}>
       <div className={styles.courseImgWrap}>
@@ -694,8 +694,8 @@ export default function YogaTTCIndia() {
 
   // ── intro image: use DB mediaImage if available, else placeholder
   const introImageSrc = data.mediaImage?.startsWith("/uploads/")
-  ? `${process.env.NEXT_PUBLIC_API_URL}${data.mediaImage}`
-  : PLACEHOLDER.yoga1;
+    ? `${process.env.NEXT_PUBLIC_API_URL}${data.mediaImage}`
+    : PLACEHOLDER.yoga1;
 
   return (
     <div className={styles.page}>
@@ -766,8 +766,8 @@ export default function YogaTTCIndia() {
           {/* Accreditation badges — already dynamic */}
           <AccredBadges badges={data.accredBadges} />
 
-         {/* Who We Are — dynamic title + para + video */}
-         {(data.whoWeAreTitle || data.whoWeArePara) && (
+          {/* Who We Are — dynamic title + para + video */}
+          {(data.whoWeAreTitle || data.whoWeArePara) && (
             <div className={styles.sectionSpacer}>
               <TextVideoRowWithUpload
                 videoPath={data.whoWeAreVideo}
@@ -789,211 +789,211 @@ export default function YogaTTCIndia() {
             </div>
           )}
 
-         {/* YTT Through AYM — dynamic title, para, location cards */}
-{/* YTT Through AYM — dynamic title, para, location cards */}
-{(data.yytTitle ||
-  data.yytPara ||
-  (data.locations && data.locations.length > 0)) && (
-  <div className={styles.yytSection}>
-    <VintageHeading>
-      {data.yytTitle ||
-        "Yoga Teacher Training through AYM Yoga School"}
-    </VintageHeading>
-    {data.yytPara && (
-      <div
-        className={styles.bodyPara}
-        dangerouslySetInnerHTML={{ __html: data.yytPara }}
-      />
-    )}
-    {data.locations && data.locations.length > 0 && (
-      <div className={styles.locationCardsGrid}>
-        {data.locations.map((loc, i) => {
-          // Get image source from backend or use placeholder
-          const locationImageSrc = loc.image 
-            ? `${process.env.NEXT_PUBLIC_API_URL}${loc.image}`
-            : (i === 0 ? PLACEHOLDER.rishikesh : PLACEHOLDER.goa);
-          
-          return (
-            <div key={loc._id || i} className={styles.locationCard}>
-              <div className={styles.locationCardImg}>
-                <img
-                  src={locationImageSrc}
-                  alt={loc.imageAlt || loc.name}
-                  loading="lazy"
-                />
-                <div className={styles.locationCardImgOverlay} />
-                <div className={styles.locationCardBadge}>
-                  {loc.name}
-                </div>
-              </div>
-              <div className={styles.locationCardBody}>
-                <div className={styles.locationCardIcon}>
-                  <ChakraSVG
-                    size={28}
-                    color={i === 0 ? "#F15505" : "#d4a017"}
+          {/* YTT Through AYM — dynamic title, para, location cards */}
+          {/* YTT Through AYM — dynamic title, para, location cards */}
+          {(data.yytTitle ||
+            data.yytPara ||
+            (data.locations && data.locations.length > 0)) && (
+              <div className={styles.yytSection}>
+                <VintageHeading>
+                  {data.yytTitle ||
+                    "Yoga Teacher Training through AYM Yoga School"}
+                </VintageHeading>
+                {data.yytPara && (
+                  <div
+                    className={styles.bodyPara}
+                    dangerouslySetInnerHTML={{ __html: data.yytPara }}
                   />
-                </div>
-                <h3 className={styles.locationName}>{loc.name}</h3>
-                <p className={styles.locationDesc}>{loc.desc}</p>
-                <div className={styles.locationCardLine} />
+                )}
+                {data.locations && data.locations.length > 0 && (
+                  <div className={styles.locationCardsGrid}>
+                    {data.locations.map((loc, i) => {
+                      // Get image source from backend or use placeholder
+                      const locationImageSrc = loc.image
+                        ? `${process.env.NEXT_PUBLIC_API_URL}${loc.image}`
+                        : (i === 0 ? PLACEHOLDER.rishikesh : PLACEHOLDER.goa);
+
+                      return (
+                        <div key={loc._id || i} className={styles.locationCard}>
+                          <div className={styles.locationCardImg}>
+                            <img
+                              src={locationImageSrc}
+                              alt={loc.imageAlt || loc.name}
+                              loading="lazy"
+                            />
+                            <div className={styles.locationCardImgOverlay} />
+                            <div className={styles.locationCardBadge}>
+                              {loc.name}
+                            </div>
+                          </div>
+                          <div className={styles.locationCardBody}>
+                            <div className={styles.locationCardIcon}>
+                              <ChakraSVG
+                                size={28}
+                                color={i === 0 ? "#F15505" : "#d4a017"}
+                              />
+                            </div>
+                            <h3 className={styles.locationName}>{loc.name}</h3>
+                            <p className={styles.locationDesc}>{loc.desc}</p>
+                            <div className={styles.locationCardLine} />
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
               </div>
-            </div>
-          );
-        })}
-      </div>
-    )}
-  </div>
-)}
-</div>
+            )}
+        </div>
       </section>
 
-    {/* ══════════════════════════════
+      {/* ══════════════════════════════
     SECTION 2 — RISHIKESH + GOA + COURSE CARDS
 ══════════════════════════════════ */}
-<section className={`${styles.section} ${styles.sectionWarm}`}>
-  <div className="container px-3 px-md-4">
-    {/* Rishikesh detail */}
-    {(data.rishikeshTitle ||
-      data.rishikeshDetailPara ||
-      (data.rishikeshParagraphs &&
-        data.rishikeshParagraphs.length > 0)) && (
-      <LocationDetail
-        title={data.rishikeshTitle || "Yoga Teacher Training in Rishikesh"}
-        paragraphs={data.rishikeshParagraphs || []}
-        fallbackPara={data.rishikeshDetailPara}
-        imgSrc={data.rishikeshImage ? `${process.env.NEXT_PUBLIC_API_URL}${data.rishikeshImage}` : PLACEHOLDER.rishikesh}
-        imageAlt={data.rishikeshImageAlt || "Yoga Teacher Training in Rishikesh"}
-        badge={data.rishikeshImageBadge || "Rishikesh, India"}
-      />
-    )}
+      <section className={`${styles.section} ${styles.sectionWarm}`}>
+        <div className="container px-3 px-md-4">
+          {/* Rishikesh detail */}
+          {(data.rishikeshTitle ||
+            data.rishikeshDetailPara ||
+            (data.rishikeshParagraphs &&
+              data.rishikeshParagraphs.length > 0)) && (
+              <LocationDetail
+                title={data.rishikeshTitle || "Yoga Teacher Training in Rishikesh"}
+                paragraphs={data.rishikeshParagraphs || []}
+                fallbackPara={data.rishikeshDetailPara}
+                imgSrc={data.rishikeshImage ? `${process.env.NEXT_PUBLIC_API_URL}${data.rishikeshImage}` : PLACEHOLDER.rishikesh}
+                imageAlt={data.rishikeshImageAlt || "Yoga Teacher Training in Rishikesh"}
+                badge={data.rishikeshImageBadge || "Rishikesh, India"}
+              />
+            )}
 
-    {/* Goa detail */}
-    {(data.goaTitle ||
-      data.goaDetailPara ||
-      (data.goaParagraphs && data.goaParagraphs.length > 0)) && (
-      <div className={styles.locationDetailSpacer}>
-        <LocationDetail
-          title={data.goaTitle || "Yoga Teacher Training in Goa"}
-          paragraphs={data.goaParagraphs || []}
-          fallbackPara={data.goaDetailPara}
-          imgSrc={data.goaImage ? `${process.env.NEXT_PUBLIC_API_URL}${data.goaImage}` : PLACEHOLDER.goa}
-          imageAlt={data.goaImageAlt || "Yoga Teacher Training in Goa"}
-          badge={data.goaImageBadge || "Goa, India"}
-          reverse={true}
-        />
-      </div>
-    )}
-
-    <OmDivider label="Our Courses" />
-
-    {/* Course Cards - Dynamic Images */}
-    {data.courseCards && data.courseCards.length > 0 && (
-      <div className={styles.courseCardsGrid}>
-        {data.courseCards.map((card, i) => {
-          // Get course image from backend or use fallback
-          const courseImageSrc = card.image 
-            ? `${process.env.NEXT_PUBLIC_API_URL}${card.image}`
-            : (card.imgUrl || PLACEHOLDER.course1);
-          
-          return (
-            <div key={card._id || i} className={styles.courseCard}>
-              <div className={styles.courseImgWrap}>
-                <img
-                  src={courseImageSrc}
-                  alt={card.title}
-                  className={styles.courseImg}
-                  loading="lazy"
+          {/* Goa detail */}
+          {(data.goaTitle ||
+            data.goaDetailPara ||
+            (data.goaParagraphs && data.goaParagraphs.length > 0)) && (
+              <div className={styles.locationDetailSpacer}>
+                <LocationDetail
+                  title={data.goaTitle || "Yoga Teacher Training in Goa"}
+                  paragraphs={data.goaParagraphs || []}
+                  fallbackPara={data.goaDetailPara}
+                  imgSrc={data.goaImage ? `${process.env.NEXT_PUBLIC_API_URL}${data.goaImage}` : PLACEHOLDER.goa}
+                  imageAlt={data.goaImageAlt || "Yoga Teacher Training in Goa"}
+                  badge={data.goaImageBadge || "Goa, India"}
+                  reverse={true}
                 />
-                <div className={styles.courseImgOverlay} />
-                <div className={styles.courseHourBadge}>{card.hours} HR</div>
-                <div className={styles.courseCardGlow} />
               </div>
-              <div className={styles.courseBody}>
-                <h3 className={styles.courseTitle}>{card.title}</h3>
-                <div className={styles.courseLine} />
-                {card.desc ? (
-                  <div
-                    className={styles.courseDesc}
-                    dangerouslySetInnerHTML={{ __html: card.desc }}
-                  />
-                ) : null}
-              </div>
-              <a href={card.href || "#"} className={styles.courseBtn}>
-                <span>{card.linkLabel}</span>
-                <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
-                  <path
-                    d="M3 8h10M9 4l4 4-4 4"
-                    stroke="currentColor"
-                    strokeWidth="1.8"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </a>
+            )}
+
+          <OmDivider label="Our Courses" />
+
+          {/* Course Cards - Dynamic Images */}
+          {data.courseCards && data.courseCards.length > 0 && (
+            <div className={styles.courseCardsGrid}>
+              {data.courseCards.map((card, i) => {
+                // Get course image from backend or use fallback
+                const courseImageSrc = card.image
+                  ? `${process.env.NEXT_PUBLIC_API_URL}${card.image}`
+                  : (card.imgUrl || PLACEHOLDER.course1);
+
+                return (
+                  <div key={card._id || i} className={styles.courseCard}>
+                    <div className={styles.courseImgWrap}>
+                      <img
+                        src={courseImageSrc}
+                        alt={card.title}
+                        className={styles.courseImg}
+                        loading="lazy"
+                      />
+                      <div className={styles.courseImgOverlay} />
+                      <div className={styles.courseHourBadge}>{card.hours} HR</div>
+                      <div className={styles.courseCardGlow} />
+                    </div>
+                    <div className={styles.courseBody}>
+                      <h3 className={styles.courseTitle}>{card.title}</h3>
+                      <div className={styles.courseLine} />
+                      {card.desc ? (
+                        <div
+                          className={styles.courseDesc}
+                          dangerouslySetInnerHTML={{ __html: card.desc }}
+                        />
+                      ) : null}
+                    </div>
+                    <a href={card.href || "#"} className={styles.courseBtn}>
+                      <span>{card.linkLabel}</span>
+                      <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                        <path
+                          d="M3 8h10M9 4l4 4-4 4"
+                          stroke="currentColor"
+                          strokeWidth="1.8"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </a>
+                  </div>
+                );
+              })}
             </div>
-          );
-        })}
-      </div>
-    )}
-  </div>
-</section>
+          )}
+        </div>
+      </section>
 
       {/* ══════════════════════════════
           SECTION 3 — WHY AYM + QUOTE IMAGES + PANELS
       ══════════════════════════════ */}
-  <section className={`${styles.section} ${styles.sectionDeep}`}>
-  <div className="container px-3 px-md-4">
-    {/* Why AYM - Dynamic Image */}
-    {data.whyAYMTitle && (
-      <TextImageRow
-        imageUrl={data.whyAYMImage ? `${process.env.NEXT_PUBLIC_API_URL}${data.whyAYMImage}` : PLACEHOLDER.yoga5}
-        imageAlt={data.whyAYMImageAlt || "Why AYM Yoga School"}
-        badge={data.whyAYMImageBadge || "Excellence in Yoga"}
-      >
-        <>
-          <VintageHeading>{data.whyAYMTitle}</VintageHeading>
-          {whyParas.map((p, i) => (
-            <div
-              key={i}
-              className={styles.bodyPara}
-              dangerouslySetInnerHTML={{ __html: p }}
-            />
-          ))}
-        </>
-      </TextImageRow>
-    )}
+      <section className={`${styles.section} ${styles.sectionDeep}`}>
+        <div className="container px-3 px-md-4">
+          {/* Why AYM - Dynamic Image */}
+          {data.whyAYMTitle && (
+            <TextImageRow
+              imageUrl={data.whyAYMImage ? `${process.env.NEXT_PUBLIC_API_URL}${data.whyAYMImage}` : PLACEHOLDER.yoga5}
+              imageAlt={data.whyAYMImageAlt || "Why AYM Yoga School"}
+              badge={data.whyAYMImageBadge || "Excellence in Yoga"}
+            >
+              <>
+                <VintageHeading>{data.whyAYMTitle}</VintageHeading>
+                {whyParas.map((p, i) => (
+                  <div
+                    key={i}
+                    className={styles.bodyPara}
+                    dangerouslySetInnerHTML={{ __html: p }}
+                  />
+                ))}
+              </>
+            </TextImageRow>
+          )}
 
-    {/* Quote image cards */}
-    {data.quoteCards && data.quoteCards.length > 0 && (
-      <div className={styles.quoteCardsGrid}>
-        {data.quoteCards.map((card, i) => (
-          <QuoteCard key={card._id || i} card={card} />
-        ))}
-      </div>
-    )}
+          {/* Quote image cards */}
+          {data.quoteCards && data.quoteCards.length > 0 && (
+            <div className={styles.quoteCardsGrid}>
+              {data.quoteCards.map((card, i) => (
+                <QuoteCard key={card._id || i} card={card} />
+              ))}
+            </div>
+          )}
 
-    <OmDivider label="Practical Info" />
+          <OmDivider label="Practical Info" />
 
-    {/* Info Panels */}
-    {((data.arrivalList && data.arrivalList.length > 0) ||
-      (data.feeList && data.feeList.length > 0)) && (
-      <div className={styles.infoPanelsGrid}>
-        {data.arrivalList && data.arrivalList.length > 0 && (
-          <InfoPanel
-            title={data.arrivalTitle || "Arrival & Departure"}
-            items={data.arrivalList}
-          />
-        )}
-        {data.feeList && data.feeList.length > 0 && (
-          <InfoPanel
-            title={data.feeTitle || "Includes in Fee"}
-            items={data.feeList}
-          />
-        )}
-      </div>
-    )}
-  </div>
-</section>
+          {/* Info Panels */}
+          {((data.arrivalList && data.arrivalList.length > 0) ||
+            (data.feeList && data.feeList.length > 0)) && (
+              <div className={styles.infoPanelsGrid}>
+                {data.arrivalList && data.arrivalList.length > 0 && (
+                  <InfoPanel
+                    title={data.arrivalTitle || "Arrival & Departure"}
+                    items={data.arrivalList}
+                  />
+                )}
+                {data.feeList && data.feeList.length > 0 && (
+                  <InfoPanel
+                    title={data.feeTitle || "Includes in Fee"}
+                    items={data.feeList}
+                  />
+                )}
+              </div>
+            )}
+        </div>
+      </section>
       <PremiumGallerySection type="both" backgroundColor="warm" />
       {/* ✅ REVIEWS — now a reusable separate component */}
       <ReviewSection courseType="yoga-teacher-training-india" RatingsSummaryComponent={<RatingsSummarySection />} />

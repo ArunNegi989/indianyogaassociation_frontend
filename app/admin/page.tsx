@@ -6,7 +6,6 @@ import api from "@/lib/api";
 import styles from "../../assets/style/Admin/AdminDashboard.module.css";
 
 const quickLinks = [
-  // { href: "/admin/courses", label: "Add New Course", icon: "+" },
   { href: "/admin/our-teachers/teachers/add-new", label: "Add Teacher", icon: "+" },
   { href: "/admin/dashboard/blog/add-new", label: "Write Blog Post", icon: "✒" },
   { href: "/admin/dashboard/gallery", label: "Upload Gallery", icon: "🖼" },
@@ -35,24 +34,24 @@ interface Registration {
 /* ── Icons ── */
 const EyeIcon = () => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" width="18" height="18">
-    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-    <circle cx="12" cy="12" r="3"/>
+    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+    <circle cx="12" cy="12" r="3" />
   </svg>
 );
 
 const TrashIcon = () => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" width="18" height="18">
-    <polyline points="3 6 5 6 21 6"/>
-    <path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/>
-    <path d="M10 11v6M14 11v6"/>
-    <path d="M9 6V4a1 1 0 011-1h4a1 1 0 011 1v2"/>
+    <polyline points="3 6 5 6 21 6" />
+    <path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6" />
+    <path d="M10 11v6M14 11v6" />
+    <path d="M9 6V4a1 1 0 011-1h4a1 1 0 011 1v2" />
   </svg>
 );
 
 const CloseIcon = () => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" width="20" height="20">
-    <line x1="18" y1="6" x2="6" y2="18"/>
-    <line x1="6" y1="6" x2="18" y2="18"/>
+    <line x1="18" y1="6" x2="6" y2="18" />
+    <line x1="6" y1="6" x2="18" y2="18" />
   </svg>
 );
 
@@ -100,7 +99,7 @@ export default function AdminDashboard() {
   const fetchAllData = async () => {
     try {
       setLoading(true);
-      
+
       // Fetch all data in parallel
       const [registrationsRes, coursesStatsRes, teachersRes, studentReviewsRes, blogsRes] = await Promise.allSettled([
         api.get("/registration/get"),
@@ -156,9 +155,9 @@ export default function AdminDashboard() {
         } else if (studentReviewsRes.value.data?.reviews && Array.isArray(studentReviewsRes.value.data.reviews)) {
           reviewsData = studentReviewsRes.value.data.reviews;
         }
-        
+
         // Count only Active reviews
-        const activeReviews = reviewsData.filter((r: any) => 
+        const activeReviews = reviewsData.filter((r: any) =>
           r.status === "Active" || r.status === "active" || r.status === "approved" || r.status === "published"
         );
         const reviewCount = activeReviews.length > 0 ? activeReviews.length : reviewsData.length;
@@ -177,9 +176,9 @@ export default function AdminDashboard() {
         } else if (blogsRes.value.data?.blogs && Array.isArray(blogsRes.value.data.blogs)) {
           blogsData = blogsRes.value.data.blogs;
         }
-        
+
         // Count only Published blogs
-        const publishedBlogs = blogsData.filter((b: any) => 
+        const publishedBlogs = blogsData.filter((b: any) =>
           b.status === "Published" || b.status === "published"
         );
         const blogCount = publishedBlogs.length > 0 ? publishedBlogs.length : blogsData.length;
@@ -200,7 +199,6 @@ export default function AdminDashboard() {
     }
   };
 
-  // Fetch Single User for Modal
   const handleViewUser = async (reg: Registration) => {
     setSelectedUser(reg);
     setModalError(null);
@@ -245,7 +243,6 @@ export default function AdminDashboard() {
     setModalLoading(false);
   };
 
-  // Get recent registrations (limit to 5 for dashboard)
   const recentRegistrations = registrations.slice(0, 5);
 
   // Stats with real data
@@ -347,25 +344,18 @@ export default function AdminDashboard() {
                     <tr key={reg._id}>
                       <td>
                         <div className={styles.nameCell}>
-                          {/* <div className={styles.avatar}>
-                            {reg.fullName?.charAt(0).toUpperCase()}
-                          </div> */}
+
                           <div>
                             <p className={styles.namePrimary}>{reg.fullName}</p>
                             <p className={styles.nameSecondary}>{reg.gender || "—"}</p>
                           </div>
                         </div>
                       </td>
-                      {/* <td>
-                        <p className={styles.contactEmail}>{reg.email}</p>
-                        <p className={styles.contactPhone}>{reg.phone || "—"}</p>
-                      </td> */}
+
                       <td>
                         <span className={styles.courseBadge}>{reg.course || "—"}</span>
                       </td>
-                      {/* <td className={styles.locationCell}>
-                        {reg.location || reg.country || "—"}
-                      </td> */}
+
                       <td className={styles.enqDate}>{formatDate(reg.createdAt)}</td>
                       <td>
                         <div className={styles.actions}>
@@ -395,7 +385,7 @@ export default function AdminDashboard() {
 
         {/* Right column */}
         <div className={styles.rightColumn}>
-          {/* Quick Actions */}
+
           <div className={styles.card}>
             <div className={styles.cardHeader}>
               <span className={styles.cardTitle}>Quick Actions</span>
@@ -457,8 +447,8 @@ export default function AdminDashboard() {
               {!modalLoading && modalError && (
                 <div className={styles.modalErrorWrap}>
                   <p>⚠️ {modalError}</p>
-                  <button 
-                    className={styles.retryBtn} 
+                  <button
+                    className={styles.retryBtn}
                     onClick={() => handleViewUser(selectedUser)}
                   >
                     Retry

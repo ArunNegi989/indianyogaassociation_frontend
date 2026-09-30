@@ -11,7 +11,7 @@ import {
 import type { IconType } from "react-icons";
 import Image from "next/image";
 
-/* ── Icon name (stored in backend) → actual component ── */
+
 const ICON_MAP: Record<string, IconType> = {
   FaLeaf, FaHeart, FaBook, FaUsers, FaGraduationCap, FaLightbulb, FaFlask, FaHandsHelping,
   FaOm, FaStar, FaGlobe, FaMedal, FaCertificate, FaPrayingHands, FaSeedling, FaSun,
@@ -19,7 +19,7 @@ const ICON_MAP: Record<string, IconType> = {
 
 const getIcon = (name?: string): IconType => (name && ICON_MAP[name]) || FaStar;
 
-/* ── Types (mirror the backend About model) ── */
+
 interface IconItem {
   icon: string;
   title: string;

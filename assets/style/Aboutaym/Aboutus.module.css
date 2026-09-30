@@ -84,6 +84,7 @@
     opacity: 0;
     transform: translateY(30px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -100,9 +101,10 @@
 /* ================================================================
    SECTIONS
    ================================================================ */
-   .schoolSections{
-     background: #ffffff;
-   }
+.schoolSections {
+  background: #ffffff;
+}
+
 .schoolSection {
   color: #3d2b10;
   animation: fadeIn 0.8s ease-in-out;
@@ -136,6 +138,7 @@
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -146,7 +149,7 @@
    ================================================================ */
 .blockHeader {
   text-align: center;
-  
+
 }
 
 .blockTitle {
@@ -646,7 +649,7 @@
   direction: rtl;
 }
 
-.timelineItem:nth-child(even) > * {
+.timelineItem:nth-child(even)>* {
   direction: ltr;
 }
 
@@ -733,7 +736,8 @@
 }
 
 .activityItem {
-background: linear-gradient(135deg, #f155050d 0%, #c8860a00 100%);;
+  background: linear-gradient(135deg, #f155050d 0%, #c8860a00 100%);
+  ;
   border: 1px solid rgba(200, 134, 10, 0.2);
   border-radius: 10px;
   padding: clamp(1.5rem, 3vw, 2rem);
@@ -828,7 +832,7 @@ background: linear-gradient(135deg, #f155050d 0%, #c8860a00 100%);;
     gap: clamp(1.5rem, 3vw, 2.5rem);
   }
 
-  .timelineItem > * {
+  .timelineItem>* {
     direction: ltr !important;
   }
 

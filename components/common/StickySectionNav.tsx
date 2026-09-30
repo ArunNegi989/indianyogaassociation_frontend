@@ -63,7 +63,7 @@ export default function StickySectionNav({
     const el = document.getElementById(id);
     if (!el) return;
 
-    const offset = 100; // header + nav
+    const offset = 100;
     const top =
       el.getBoundingClientRect().top + window.pageYOffset - offset;
 
@@ -75,9 +75,8 @@ export default function StickySectionNav({
       {items.map((item) => (
         <button
           key={item.id}
-          className={`${styles.btn} ${
-            active === item.id ? styles.active : ""
-          }`}
+          className={`${styles.btn} ${active === item.id ? styles.active : ""
+            }`}
           onClick={() => scrollTo(item.id)}
         >
           {item.label}

@@ -68,7 +68,7 @@ function PremiumImageModal({
         </button>
 
         <div className={styles.premiumModalImageWrapper}>
-           <Image
+          <Image
             src={imgSrc(images[currentIndex])}
             alt={`Gallery ${currentIndex + 1}`}
             className={styles.premiumModalImage}
@@ -96,9 +96,8 @@ function PremiumImageModal({
           {images.slice(0, 8).map((img, idx) => (
             <div
               key={idx}
-              className={`${styles.premiumModalThumb} ${
-                idx === currentIndex ? styles.premiumModalThumbActive : ""
-              }`}
+              className={`${styles.premiumModalThumb} ${idx === currentIndex ? styles.premiumModalThumbActive : ""
+                }`}
               onClick={() => {
                 const newIndex = idx;
                 if (newIndex < currentIndex) {
@@ -108,7 +107,7 @@ function PremiumImageModal({
                 }
               }}
             >
-               <Image src={imgSrc(img)} alt={`Thumb ${idx + 1}`} />
+              <Image src={imgSrc(img)} alt={`Thumb ${idx + 1}`} />
             </div>
           ))}
         </div>
@@ -174,13 +173,12 @@ function PremiumMasonryGrid({ images, title }: { images: string[]; title: string
           {masonryItems.map((item, idx) => (
             <div
               key={idx}
-              className={`${styles.masonryItem} ${
-                styles[`masonry${item.size.charAt(0).toUpperCase() + item.size.slice(1)}`]
-              }`}
+              className={`${styles.masonryItem} ${styles[`masonry${item.size.charAt(0).toUpperCase() + item.size.slice(1)}`]
+                }`}
               onClick={() => openModal(idx)}
             >
               <div className={styles.masonryInner}>
-                 <Image src={imgSrc(item.src)} alt={`${title} ${idx + 1}`} loading="lazy" />
+                <Image src={imgSrc(item.src)} alt={`${title} ${idx + 1}`} loading="lazy" />
                 <div className={styles.masonryOverlay}>
                   <div className={styles.masonryIcon}>
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -237,10 +235,6 @@ const GallerySkeleton = () => (
   </div>
 );
 
-/* ═══════════════════════════════════════════
-   PREMIUM GALLERY SECTION - Self-Contained Component
-   Fetches images automatically from API
-   ═══════════════════════════════════════════ */
 interface PremiumGallerySectionProps {
   type: "accommodation" | "food" | "both";
   backgroundColor?: "white" | "light" | "warm";
@@ -285,8 +279,8 @@ export default function PremiumGallerySection({
     backgroundColor === "white"
       ? styles.galleryBgWhite
       : backgroundColor === "light"
-      ? styles.galleryBgLight
-      : styles.galleryBgWarm;
+        ? styles.galleryBgLight
+        : styles.galleryBgWarm;
 
   // Render both sections
   if (type === "both") {

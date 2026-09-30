@@ -2,68 +2,68 @@
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import styles from "@/assets/style/yoga-ttc-faq/Yogafaq.module.css";
-import yogaschool       from "@/assets/images/front-yoga-school.jpg";
-import yogabooks        from "@/assets/images/Yoga-Books-Read-During-YTTC.jpg";
-import aymyogaroom      from "@/assets/images/Room.jpg";
-import yogafood         from "@/assets/images/Yogic-Foood.jpg";
+import yogaschool from "@/assets/images/front-yoga-school.jpg";
+import yogabooks from "@/assets/images/Yoga-Books-Read-During-YTTC.jpg";
+import aymyogaroom from "@/assets/images/Room.jpg";
+import yogafood from "@/assets/images/Yogic-Foood.jpg";
 import certificateimage from "@/assets/images/200-hours-yttc-sept.jpg";
-import travelimage      from "@/assets/images/Delhi-Airport-to-AYM-Yoga-School.jpg";
-import HowToReach       from "@/components/home/Howtoreach";
+import travelimage from "@/assets/images/Delhi-Airport-to-AYM-Yoga-School.jpg";
+import HowToReach from "@/components/home/Howtoreach";
 
 /* ============================================================
    SECTIONS CONFIG
    ============================================================ */
 const SECTIONS = [
-  { id: "about",         label: "About AYM"       },
-  { id: "course",        label: "Course"           },
-  { id: "accommodation", label: "Accommodation"    },
-  { id: "food",          label: "Food & Meals"     },
-  { id: "visa",          label: "Visa"             },
-  { id: "health",        label: "Health & Safety"  },
-  { id: "cert",          label: "Certification"    },
-  { id: "travel",        label: "Travel"           },
-  { id: "pack",          label: "What to Bring"    },
-  { id: "payment",       label: "Payment"          },
-  { id: "common",        label: "Common Questions" },
+  { id: "about", label: "About AYM" },
+  { id: "course", label: "Course" },
+  { id: "accommodation", label: "Accommodation" },
+  { id: "food", label: "Food & Meals" },
+  { id: "visa", label: "Visa" },
+  { id: "health", label: "Health & Safety" },
+  { id: "cert", label: "Certification" },
+  { id: "travel", label: "Travel" },
+  { id: "pack", label: "What to Bring" },
+  { id: "payment", label: "Payment" },
+  { id: "common", label: "Common Questions" },
 ];
 
 const SECTION_ICONS: Record<string, string> = {
-  about:         "school",
-  course:        "book",
+  about: "school",
+  course: "book",
   accommodation: "bed",
-  food:          "leaf",
-  visa:          "globe",
-  health:        "heart",
-  cert:          "cert",
-  travel:        "plane",
-  pack:          "bag",
-  payment:       "card",
-  common:        "qa",
+  food: "leaf",
+  visa: "globe",
+  health: "heart",
+  cert: "cert",
+  travel: "plane",
+  pack: "bag",
+  payment: "card",
+  common: "qa",
 };
 
 /* ============================================================
    SVG ICONS
    ============================================================ */
 const icons: Record<string, React.ReactNode> = {
-  school: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>,
-  book:   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>,
-  bed:    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M2 4v16M2 8h20a2 2 0 012 2v10M2 16h20M22 20v-8"/></svg>,
-  leaf:   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M17 8C8 10 5.9 16.17 3.82 19.34l1.23.66M17 8c.5 3-1 6-4 8M17 8c3-1 5-3 5-3s-2 8-9 10"/></svg>,
-  globe:  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>,
-  heart:  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>,
-  cert:   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 17v4M16 17v4M8 21h8M9 10l2 2 4-4"/></svg>,
-  plane:  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M17.8 19.2L16 11l3.5-3.5C21 6 21 4 19 2l-2 .5L4 9l-.5 2 3 1 2 5 2-1 1 3z"/></svg>,
-  bag:    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>,
-  card:   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>,
-  qa:     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>,
-  list:   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>,
-  chevron:<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>,
+  school: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" /><polyline points="9,22 9,12 15,12 15,22" /></svg>,
+  book: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20" /><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z" /></svg>,
+  bed: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M2 4v16M2 8h20a2 2 0 012 2v10M2 16h20M22 20v-8" /></svg>,
+  leaf: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M17 8C8 10 5.9 16.17 3.82 19.34l1.23.66M17 8c.5 3-1 6-4 8M17 8c3-1 5-3 5-3s-2 8-9 10" /></svg>,
+  globe: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><line x1="2" y1="12" x2="22" y2="12" /><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z" /></svg>,
+  heart: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" /></svg>,
+  cert: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" /><path d="M8 17v4M16 17v4M8 21h8M9 10l2 2 4-4" /></svg>,
+  plane: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M17.8 19.2L16 11l3.5-3.5C21 6 21 4 19 2l-2 .5L4 9l-.5 2 3 1 2 5 2-1 1 3z" /></svg>,
+  bag: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" /><line x1="3" y1="6" x2="21" y2="6" /><path d="M16 10a4 4 0 01-8 0" /></svg>,
+  card: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" /><line x1="1" y1="10" x2="23" y2="10" /></svg>,
+  qa: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" /></svg>,
+  list: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><line x1="8" y1="6" x2="21" y2="6" /><line x1="8" y1="12" x2="21" y2="12" /><line x1="8" y1="18" x2="21" y2="18" /><line x1="3" y1="6" x2="3.01" y2="6" /><line x1="3" y1="12" x2="3.01" y2="12" /><line x1="3" y1="18" x2="3.01" y2="18" /></svg>,
+  chevron: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6" /></svg>,
 };
 
 const CheckIcon = () => (
   <svg viewBox="0 0 16 16" fill="none">
-    <circle cx="8" cy="8" r="7" stroke="currentColor" strokeWidth="1.3"/>
-    <path d="M5 8l2 2 4-4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+    <circle cx="8" cy="8" r="7" stroke="currentColor" strokeWidth="1.3" />
+    <path d="M5 8l2 2 4-4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 );
 
@@ -80,8 +80,8 @@ const ImgFrame: React.FC<{
 }> = ({ src, alt, size = "md", priority = false }) => {
   const cls =
     size === "lg" ? styles.imgFrameLg :
-    size === "sm" ? styles.imgFrameSm :
-    styles.imgFrameMd;
+      size === "sm" ? styles.imgFrameSm :
+        styles.imgFrameMd;
   return (
     <div className={styles.imgCenter}>
       <div className={`${styles.imgFrame} ${cls}`}>
@@ -232,7 +232,7 @@ const MobileNav: React.FC<{ active: string; onNavigate: (id: string) => void }> 
                 {active === id && (
                   <span className={styles.mobileNavItemCheck}>
                     <svg viewBox="0 0 16 16" fill="none">
-                      <path d="M3 8l3.5 3.5L13 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                      <path d="M3 8l3.5 3.5L13 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                   </span>
                 )}

@@ -12,19 +12,19 @@ import api from "@/lib/api";
    TYPES
 ══════════════════════════════════════════════ */
 interface PageRecord {
-  id:                 string;
-  alignTitle:         string;
-  campusTitle:        string;
-  ctaHeading:         string;
-  facilities:         number;
-  journeyParas:       number;
-  bodyPlanes:         number;
-  promoCard1:         string;
-  promoCard2:         string;
+  id: string;
+  alignTitle: string;
+  campusTitle: string;
+  ctaHeading: string;
+  facilities: number;
+  journeyParas: number;
+  bodyPlanes: number;
+  promoCard1: string;
+  promoCard2: string;
   bodyPlanesImageUrl: string;
-  outdoorImageUrl:    string;
-  createdAt:          string;
-  updatedAt:          string;
+  outdoorImageUrl: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 interface SearchForm { query: string; }
@@ -39,7 +39,6 @@ const truncate = (s: string, n = 48) => (s.length > n ? s.slice(0, n) + "…" : 
 
 const stripHtml = (html: string) => html.replace(/<[^>]*>/g, "").trim();
 
-/* Relative backend path → absolute URL for <img> tags */
 const BASE = (process.env.NEXT_PUBLIC_API_URL ?? "").replace(/\/$/, "");
 const toAbsUrl = (path: string | undefined | null): string => {
   if (!path) return "";
@@ -51,12 +50,11 @@ const toAbsUrl = (path: string | undefined | null): string => {
    LIST PAGE
 ══════════════════════════════════════════════ */
 export default function AYMFullPageListPage() {
-  const [records,     setRecords]     = useState<PageRecord[]>([]);
-  const [isLoading,   setIsLoading]   = useState(true);
+  const [records, setRecords] = useState<PageRecord[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [deleteModal, setDeleteModal] = useState<string | null>(null);
-  const [isDeleting,  setIsDeleting]  = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
-  /* ── Search via RHF (single field, watch for live filtering) ── */
   const { register, watch, resetField } = useForm<SearchForm>({
     defaultValues: { query: "" },
   });
@@ -75,19 +73,19 @@ export default function AYMFullPageListPage() {
         if (!raw) { setRecords([]); return; }
 
         const record: PageRecord = {
-          id:                 raw._id,
-          alignTitle:         stripHtml(raw.alignTitle  ?? ""),
-          campusTitle:        stripHtml(raw.campusTitle ?? ""),
-          ctaHeading:         stripHtml(raw.ctaHeading  ?? ""),
-          facilities:         Array.isArray(raw.campusFacilities) ? raw.campusFacilities.length : 0,
-          journeyParas:       Array.isArray(raw.journeyParas)     ? raw.journeyParas.length     : 0,
-          bodyPlanes:         Array.isArray(raw.bodyPlanes)       ? raw.bodyPlanes.length       : 0,
-          promoCard1:         stripHtml(raw.promoCard1?.title ?? ""),
-          promoCard2:         stripHtml(raw.promoCard2?.title ?? ""),
+          id: raw._id,
+          alignTitle: stripHtml(raw.alignTitle ?? ""),
+          campusTitle: stripHtml(raw.campusTitle ?? ""),
+          ctaHeading: stripHtml(raw.ctaHeading ?? ""),
+          facilities: Array.isArray(raw.campusFacilities) ? raw.campusFacilities.length : 0,
+          journeyParas: Array.isArray(raw.journeyParas) ? raw.journeyParas.length : 0,
+          bodyPlanes: Array.isArray(raw.bodyPlanes) ? raw.bodyPlanes.length : 0,
+          promoCard1: stripHtml(raw.promoCard1?.title ?? ""),
+          promoCard2: stripHtml(raw.promoCard2?.title ?? ""),
           bodyPlanesImageUrl: toAbsUrl(raw.bodyPlanesImage),   // ✅ full URL
-          outdoorImageUrl:    toAbsUrl(raw.outdoorImage),       // ✅ full URL
-          createdAt:          raw.createdAt ?? new Date().toISOString(),
-          updatedAt:          raw.updatedAt ?? new Date().toISOString(),
+          outdoorImageUrl: toAbsUrl(raw.outdoorImage),       // ✅ full URL
+          createdAt: raw.createdAt ?? new Date().toISOString(),
+          updatedAt: raw.updatedAt ?? new Date().toISOString(),
         };
 
         setRecords([record]);
@@ -134,7 +132,7 @@ export default function AYMFullPageListPage() {
     const q = search.toLowerCase().trim();
     return (
       !q ||
-      r.alignTitle.toLowerCase().includes(q)  ||
+      r.alignTitle.toLowerCase().includes(q) ||
       r.campusTitle.toLowerCase().includes(q) ||
       r.ctaHeading.toLowerCase().includes(q)
     );
@@ -145,7 +143,6 @@ export default function AYMFullPageListPage() {
   ════════════════════════════════════════════ */
   return (
     <>
-      {/* ── Toast provider ── */}
       <Toaster
         position="bottom-right"
         toastOptions={{
@@ -171,7 +168,6 @@ export default function AYMFullPageListPage() {
             </p>
           </div>
 
-          {/* Add New — Link when empty, toast-warning button when record exists */}
           {!isLoading && records.length === 0 ? (
             <Link href="/admin/dashboard/aymfullpage/add-new" className={styles.addBtn}>
               <span className={styles.addPlus}>+</span>

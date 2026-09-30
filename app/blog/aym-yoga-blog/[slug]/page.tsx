@@ -30,10 +30,10 @@ function normalise(raw: any) {
     excerpt: raw.excerpt ?? "",
     date: raw.date
       ? new Date(raw.date).toLocaleDateString("en-GB", {
-          day: "2-digit",
-          month: "long",
-          year: "numeric",
-        })
+        day: "2-digit",
+        month: "long",
+        year: "numeric",
+      })
       : "",
     author: raw.author || undefined,
     category: raw.category ?? "",
@@ -81,10 +81,10 @@ export async function generateMetadata({ params }: PageProps) {
     const metaDescription = blog.metaDescription || blog.excerpt;
     const canonicalUrl =
       blog.canonicalUrl ||
-      `${process.env.NEXT_PUBLIC_SITE_URL}/blog/${blog.slug}`; 
+      `${process.env.NEXT_PUBLIC_SITE_URL}/blog/${blog.slug}`;
 
     return {
-      title: `${metaTitle}`, 
+      title: `${metaTitle}`,
       description: metaDescription,
       canonical: canonicalUrl,
       openGraph: {
@@ -92,13 +92,13 @@ export async function generateMetadata({ params }: PageProps) {
         description: blog.ogDescription || metaDescription,
         images: ogImage
           ? [
-              {
-                url: ogImage,
-                width: 1200,
-                height: 630,
-                alt: blog.ogTitle || metaTitle,
-              },
-            ]
+            {
+              url: ogImage,
+              width: 1200,
+              height: 630,
+              alt: blog.ogTitle || metaTitle,
+            },
+          ]
           : undefined,
         type: "article",
         publishedTime: blog.date ? new Date(blog.date).toISOString() : undefined,
@@ -116,7 +116,7 @@ export async function generateMetadata({ params }: PageProps) {
         description: blog.ogDescription || metaDescription,
         images: ogImage ? [ogImage] : undefined,
         site: "@IndianYoga",
-        creator: "@IndianYoga", 
+        creator: "@IndianYoga",
       },
       alternates: {
         canonical: canonicalUrl,
@@ -171,7 +171,7 @@ export default async function SingleBlogPage({ params }: PageProps) {
     allBlogs = (data.data ?? [])
       .filter((b: any) => b.status === "Published")
       .map(normalise);
-  } catch {}
+  } catch { }
 
   const relatedPosts = allBlogs
     .filter((b) => b.category === blog.category && b.id !== blog.id)

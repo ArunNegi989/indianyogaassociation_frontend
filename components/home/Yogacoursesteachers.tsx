@@ -158,15 +158,7 @@ function TeacherModal({
         <div className={styles.mCornerBL} />
         <div className={styles.mCornerBR} />
         <div className={styles.modalInner}>
-          {/*
-            ⚠️ FIX: modalImgFrame had no explicit size, and the Image
-            inside had neither width/height nor fill — invalid for
-            next/image and a CLS source. `styles.modalImgFrame` already
-            positions the corner decorations absolutely, so it should
-            already be `position: relative` in the CSS module — if not,
-            add `position: relative; aspect-ratio: 3 / 4;` (or similar)
-            to `.modalImgFrame` in Yogacoursesteachers.module.css.
-          */}
+
           <div className={styles.modalImgFrame}>
             {getImageUrl(teacher.imgUrl) ? (
               <Image
@@ -203,9 +195,6 @@ function TeacherModal({
   );
 }
 
-/* ══════════════════════════════════════════════════════
-   COURSE SLIDER — Custom (No react-slick)
-══════════════════════════════════════════════════════ */
 function CourseSlider({
   courses,
   hoveredCard,
@@ -331,13 +320,7 @@ function CourseSlider({
                 onMouseEnter={() => setHoveredCard(course._id)}
                 onMouseLeave={() => setHoveredCard(null)}
               >
-                {/*
-                  ⚠️ FIX: cardImgWrap already positions cardDays/cardHours/
-                  cardOmPulse absolutely, so it should already be
-                  `position: relative` in the CSS module. The Image itself
-                  had no width/height/fill — added `fill` + `sizes` here so
-                  its box is reserved before the image loads.
-                */}
+
                 <div className={styles.cardImgWrap}>
                   <Image
                     src={getImageUrl(course.imgUrl)}
@@ -566,12 +549,7 @@ function TeacherSlider({
                 tabIndex={0}
                 onKeyDown={(e) => e.key === "Enter" && onSelect(t)}
               >
-                {/*
-                  ⚠️ FIX: teacherImgWrap already positions teacherImgOverlay/
-                  teacherClickHint absolutely, so it should already be
-                  `position: relative`. Image now uses `fill` + `sizes`
-                  instead of having no size at all.
-                */}
+
                 <div className={styles.teacherImgWrap}>
                   {getImageUrl(t.imgUrl) ? (
                     <Image
@@ -722,77 +700,74 @@ export const YogaCoursesTeachers: React.FC = () => {
         <div className={styles.bottomBorder} />
       </section>
 
-     {/* ══════════════════════════════════════════════════
-          WHO CAN JOIN — v4  (only backend data, no hardcoded stats)
-          Purane whoSection block ko is se replace karo.
-      ══════════════════════════════════════════════════ */}
-     <section className={styles.whoSection}>
-  <div className={styles.container}>
-    <div className={styles.whoHero}>
 
-          {/* ── LEFT — cream panel ── */}
-          <div className={styles.whoLeft}>
-            <div className={styles.whoEyebrow}>
-              <span className={styles.whoEyeHr} />
-              <span className={styles.whoEyeTxt}>{who.eyebrow}</span>
+      <section className={styles.whoSection}>
+        <div className={styles.container}>
+          <div className={styles.whoHero}>
+
+
+            <div className={styles.whoLeft}>
+              <div className={styles.whoEyebrow}>
+                <span className={styles.whoEyeHr} />
+                <span className={styles.whoEyeTxt}>{who.eyebrow}</span>
+              </div>
+
+              <h2 className={styles.whoH2}>{who.sectionTitle}</h2>
+
+              {[who.para1, who.para2, who.para3, who.para4, who.para5].map(
+                (para, i) => {
+                  if (!para) return null;
+                  return (
+                    <React.Fragment key={i}>
+
+                      {i === 2 && (
+                        <div className={styles.whoPull}>
+                          <p>
+                            "The mat holds space for the curious, the exhausted,
+                            the broken, and the whole."
+                          </p>
+                          <span>Ancient Yoga Teaching</span>
+                        </div>
+                      )}
+                      <p className={i === 0 ? styles.whoParaFirst : styles.whoPara}>
+                        {para}
+                      </p>
+                    </React.Fragment>
+                  );
+                }
+              )}
             </div>
 
-            <h2 className={styles.whoH2}>{who.sectionTitle}</h2>
 
-            {[who.para1, who.para2, who.para3, who.para4, who.para5].map(
-              (para, i) => {
-                if (!para) return null;
-                return (
-                  <React.Fragment key={i}>
-                    {/* pull quote insert karo para3 ke baad */}
-                    {i === 2 && (
-                      <div className={styles.whoPull}>
-                        <p>
-                          "The mat holds space for the curious, the exhausted,
-                          the broken, and the whole."
-                        </p>
-                        <span>Ancient Yoga Teaching</span>
-                      </div>
-                    )}
-                    <p className={i === 0 ? styles.whoParaFirst : styles.whoPara}>
-                      {para}
-                    </p>
-                  </React.Fragment>
-                );
-              }
-            )}
-          </div>
+            <div className={styles.whoRight}>
+              <p className={styles.whoPanelLbl}>
+                You belong here if you are —
+              </p>
 
-          {/* ── RIGHT — dark ink panel ── */}
-          <div className={styles.whoRight}>
-            <p className={styles.whoPanelLbl}>
-              You belong here if you are —
-            </p>
+              <div className={styles.whoChipList}>
+                {who.chips.map((item, i) => (
+                  <div
+                    key={i}
+                    className={styles.whoChip}
+                    style={{ animationDelay: `${i * 0.06}s` }}
+                  >
+                    <span className={styles.whoChipN}>
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <span className={styles.whoChipT}>{item}</span>
+                  </div>
+                ))}
+              </div>
 
-            <div className={styles.whoChipList}>
-              {who.chips.map((item, i) => (
-                <div
-                  key={i}
-                  className={styles.whoChip}
-                  style={{ animationDelay: `${i * 0.06}s` }}
-                >
-                  <span className={styles.whoChipN}>
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <span className={styles.whoChipT}>{item}</span>
+              <div className={styles.whoQWrap}>
+                <p className={styles.whoQText}>"{who.quoteText}"</p>
+                <div className={styles.whoQBar}>
+                  <span className={styles.whoQLine} />
+                  <span className={styles.whoQAttrib}>{who.quoteAttrib}</span>
                 </div>
-              ))}
-            </div>
-
-            <div className={styles.whoQWrap}>
-              <p className={styles.whoQText}>"{who.quoteText}"</p>
-              <div className={styles.whoQBar}>
-                <span className={styles.whoQLine} />
-                <span className={styles.whoQAttrib}>{who.quoteAttrib}</span>
               </div>
             </div>
           </div>
-</div>
         </div>
       </section>
 
@@ -828,54 +803,46 @@ export const YogaCoursesTeachers: React.FC = () => {
           {/* Founder Block */}
           <div className={styles.founderBlock}>
             <div className={styles.founderImgCol}>
-              {/*
-                ⚠️ FIX: founderImgFrame renders corner decorations and an
-                overlay absolutely, so it should already be
-                `position: relative` in the CSS module. The Image itself
-                previously had ONLY inline width/height:100% styles with no
-                `fill` and no numeric width/height — that's invalid for
-                next/image and would either throw or render at 0×0,
-                reserving no space (a CLS source). Switched to `fill`.
-              */}
+
               <div
-  className={styles.founderImgFrame}
-  style={{ position: "relative", aspectRatio: "3 / 4" }}
->
-  {getImageUrl(founder.imgUrl) ? (
-    <Image
-      src={getImageUrl(founder.imgUrl)}
-      alt={founder.imgAlt}
-      className={styles.founderImg}
-      fill
-      sizes="(max-width: 768px) 100vw, 400px"
-      style={{ objectFit: "cover" }}
-      loading="lazy"
-    />
-  ) : (
-    <div
-      style={{
-        width: "100%",
-        height: "100%",
-        minHeight: 300,
-        background: "linear-gradient(135deg,#fdf6ec,#e8d5b5)",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        fontSize: "3rem",
-        opacity: 0.4,
-      }}
-    >
-      🧘
-    </div>
-  )}
-  <div className={styles.founderImgOverlay}>
-    <span className={styles.founderImgName}>{founder.name}</span>
-  </div>
-  <div className={styles.fCornerTL} />
-  <div className={styles.fCornerTR} />
-  <div className={styles.fCornerBL} />
-  <div className={styles.fCornerBR} />
-</div>
+                className={styles.founderImgFrame}
+                style={{ position: "relative", aspectRatio: "3 / 4" }}
+              >
+                {getImageUrl(founder.imgUrl) ? (
+                  <Image
+                    src={getImageUrl(founder.imgUrl)}
+                    alt={founder.imgAlt}
+                    className={styles.founderImg}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 400px"
+                    style={{ objectFit: "cover" }}
+                    loading="lazy"
+                  />
+                ) : (
+                  <div
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      minHeight: 300,
+                      background: "linear-gradient(135deg,#fdf6ec,#e8d5b5)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontSize: "3rem",
+                      opacity: 0.4,
+                    }}
+                  >
+                    🧘
+                  </div>
+                )}
+                <div className={styles.founderImgOverlay}>
+                  <span className={styles.founderImgName}>{founder.name}</span>
+                </div>
+                <div className={styles.fCornerTL} />
+                <div className={styles.fCornerTR} />
+                <div className={styles.fCornerBL} />
+                <div className={styles.fCornerBR} />
+              </div>
             </div>
             <div className={styles.founderTextCol}>
               <p className={styles.founderEyebrow}>{founder.eyebrow}</p>

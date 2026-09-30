@@ -299,7 +299,6 @@ function StepIndicator({ current }: { current: number }): React.ReactElement {
   );
 }
 
-/* ─────────────────────── Pickup card — content is now dynamic, booking-form logic unchanged ─────────────────────── */
 interface PickupCardProps {
   title: string;
   subtitle: string;
@@ -662,7 +661,7 @@ export default function HowToReach(): React.ReactElement | null {
         const doc = Array.isArray(res.data.data) ? res.data.data[0] : res.data.data;
         if (doc) setData(doc);
       } catch {
-        // keep DEFAULT_DATA as a safe fallback so the section never breaks
+
       } finally {
         setLoading(false);
       }
@@ -685,7 +684,7 @@ export default function HowToReach(): React.ReactElement | null {
 
       <div className={styles.container}>
 
-        {/* ── Header ── */}
+
         <div className={styles.headerWrap}>
           <span className={styles.badge}>{data.badgeText}</span>
           <h2 className={styles.mainTitle}>{data.mainTitle}</h2>
@@ -697,7 +696,7 @@ export default function HowToReach(): React.ReactElement | null {
           <p className={styles.subTitle}>{data.subTitle}</p>
         </div>
 
-        {/* ── ROW 1: travel cards (dynamic — any number) ── */}
+
         <div className={styles.cardsGrid}>
           {data.travelCards.map((card, i) => {
             const Icon = ICON_MAP[card.iconType] ?? CarIcon;
@@ -719,10 +718,10 @@ export default function HowToReach(): React.ReactElement | null {
           })}
         </div>
 
-        {/* ── ROW 2: Pickup card (left) + Map (right) ── */}
+
         <div className={styles.bottomRow}>
 
-          {/* Pickup & Drop card with embedded booking form */}
+
           <PickupCard
             title={data.pickupTitle}
             subtitle={data.pickupSubtitle}
@@ -733,7 +732,7 @@ export default function HowToReach(): React.ReactElement | null {
             whatsappUrl={whatsappUrl}
           />
 
-          {/* Map */}
+
           <div className={styles.mapCard}>
             <div className={styles.mapLabel}>
               <span className={styles.mapLabelDot} />

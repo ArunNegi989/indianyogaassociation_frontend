@@ -115,7 +115,7 @@ const cityLinks: { name: string; href: string }[] = [
     name: "Himachal Pradesh",
     href: "/yoga-teacher-training/yoga-teacher-training-Himachal%20Pradesh-94-2178",
   },
-  
+
   {
     name: "Bengaluru",
     href: "/yoga-teacher-training/yoga-teacher-training-Bengaluru-94-2179",
@@ -124,7 +124,7 @@ const cityLinks: { name: string; href: string }[] = [
     name: "Auroville",
     href: "/yoga-teacher-training/yoga-teacher-training-Auroville-94-2191",
   },
-   {
+  {
     name: "Bihar",
     href: "/yoga-teacher-training/yoga-teacher-training-Bihar-94-2172",
   },
@@ -158,7 +158,7 @@ const YogaTrainingBengaluru: React.FC = () => {
         ══════════════════════════════════════ */}
         <div className={`${styles.section} ${styles.sectionImageLeft}`}>
           <div className={styles.imgWrap}>
-             <Image
+            <Image
               src="https://images.unsplash.com/photo-1545389336-cf090694435e?w=700&q=80&fit=crop"
               alt="Qualified yoga training in India"
               className={styles.sectionImg}
@@ -194,7 +194,7 @@ const YogaTrainingBengaluru: React.FC = () => {
         ══════════════════════════════════════ */}
         <div className={`${styles.section} ${styles.sectionImageRight}`}>
           <div className={styles.imgWrap}>
-             <Image
+            <Image
               src="https://images.unsplash.com/photo-1588286840104-8957b019727f?w=700&q=80&fit=crop"
               alt="Experience the art of yoga and meditation at AYM in Bengaluru"
               className={styles.sectionImg}
@@ -234,7 +234,7 @@ const YogaTrainingBengaluru: React.FC = () => {
         ══════════════════════════════════════ */}
         <div className={`${styles.section} ${styles.sectionImageLeft}`}>
           <div className={styles.imgWrap}>
-             <Image
+            <Image
               src="https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?w=700&q=80&fit=crop"
               alt="Top yoga and mediation centre in Bengaluru"
               className={styles.sectionImg}
@@ -267,7 +267,7 @@ const YogaTrainingBengaluru: React.FC = () => {
         ══════════════════════════════════════ */}
         <div className={`${styles.section} ${styles.sectionImageRight}`}>
           <div className={styles.imgWrap}>
-             <Image
+            <Image
               src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=700&q=80&fit=crop"
               alt="Top yoga and mediation centre in Bengaluru"
               className={styles.sectionImg}
@@ -303,7 +303,7 @@ const YogaTrainingBengaluru: React.FC = () => {
           style={{ borderBottom: "none" }}
         >
           <div className={styles.imgWrap}>
-             <Image
+            <Image
               src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=700&q=80&fit=crop"
               alt="Experience the art of yoga and meditation at AYM in Bengaluru"
               className={styles.sectionImg}

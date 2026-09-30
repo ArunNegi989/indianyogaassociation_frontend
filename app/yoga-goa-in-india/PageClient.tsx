@@ -215,7 +215,7 @@ function useCurrencyRate() {
       .then((data) => {
         if (data?.usd?.inr) setRate(data.usd.inr);
       })
-      .catch(() => {})
+      .catch(() => { })
       .finally(() => setLoading(false));
   }, []);
   return { rate, loading };
@@ -229,7 +229,7 @@ function fmtPriceAdvanced(
 ): { amount: string; cur: string } {
   if (!batch && overrideUsd === undefined)
     return { amount: "—", cur: currency };
-  
+
   if (currency === "INR") {
     // Use stored INR price directly - NO CONVERSION
     if (batch?.inrFee) {
@@ -240,7 +240,7 @@ function fmtPriceAdvanced(
     }
     return { amount: "—", cur: "INR" };
   }
-  
+
   if (batch?.usdFee) {
     const raw = batch.usdFee.trim();
     return { amount: raw.startsWith("$") ? raw : `$${raw}`, cur: "USD" };
@@ -260,24 +260,24 @@ function fmtPrice(usd: number, currency: Currency, rate: number) {
  */
 function getRoomPrice(batch: Batch | null, roomType: 'dorm' | 'twin' | 'private', currency: Currency) {
   if (!batch) return "—";
-  
+
   if (currency === "INR") {
     // Use stored INR price directly - NO CONVERSION
     let inrPrice: number | undefined;
     if (roomType === 'dorm') inrPrice = batch.inrDormPrice;
     else if (roomType === 'twin') inrPrice = batch.inrTwinPrice;
     else inrPrice = batch.inrPrivatePrice;
-    
+
     if (inrPrice && inrPrice > 0) {
       return `₹${inrPrice.toLocaleString("en-IN")}`;
     }
     return "—";
   }
-  
+
   // USD
-  const usdPrice = roomType === 'dorm' ? batch.dormPrice : 
-                   roomType === 'twin' ? batch.twinPrice : 
-                   batch.privatePrice;
+  const usdPrice = roomType === 'dorm' ? batch.dormPrice :
+    roomType === 'twin' ? batch.twinPrice :
+      batch.privatePrice;
   return `$${usdPrice}`;
 }
 
@@ -866,8 +866,8 @@ function PremiumSeatBooking() {
                 const pct = full
                   ? 100
                   : Math.round(
-                      (selected.bookedSeats / selected.totalSeats) * 100,
-                    );
+                    (selected.bookedSeats / selected.totalSeats) * 100,
+                  );
                 return (
                   <div className={styles.psbRpSeatsWrap}>
                     <div className={styles.psbRpSeatsRow}>
@@ -1280,7 +1280,7 @@ function DailyScheduleSection({
       <div className={styles.scheduleContainer}>
         {scheduleSrc && (
           <div className={styles.schedVideoSide}>
-             <Image
+            <Image
               src={scheduleSrc}
               alt="Daily Schedule"
               className={styles.schedImg}
@@ -1491,7 +1491,7 @@ export default function GoaYogaPage() {
       {/* ════════ HERO ════════ */}
       <section id="hero" className={styles.heroSection}>
         {heroSrc && (
-           <Image
+          <Image
             src={heroSrc}
             alt={pageData.heroAlt}
             className={styles.heroImage}
@@ -1511,7 +1511,7 @@ export default function GoaYogaPage() {
               <div className={styles.imageStack}>
                 {introBigSrc && (
                   <div className={styles.imgMain}>
-                     <Image
+                    <Image
                       src={introBigSrc}
                       alt={pageData.heroAlt}
                       loading="lazy"
@@ -1520,7 +1520,7 @@ export default function GoaYogaPage() {
                 )}
                 {introSmallSrc && (
                   <div className={styles.imgAccent}>
-                     <Image
+                    <Image
                       src={introSmallSrc}
                       alt={pageData.introHeading}
                       loading="lazy"
@@ -1607,7 +1607,7 @@ export default function GoaYogaPage() {
                   const src = resolveImg(b.imgUrl, API_BASE);
                   return src ? (
                     <div key={b.id} className={styles.beachPhoto}>
-                       <Image src={src} alt={`Beach ${b.id}`} loading="lazy" />
+                      <Image src={src} alt={`Beach ${b.id}`} loading="lazy" />
                     </div>
                   ) : null;
                 })}
@@ -1844,7 +1844,7 @@ export default function GoaYogaPage() {
             <div className={styles.modalMandala} aria-hidden="true">
               <MandalaRing size={200} opacity={0.12} />
             </div>
-             <Image
+            <Image
               src={modal.src}
               alt={modal.label}
               className={styles.modalImg}

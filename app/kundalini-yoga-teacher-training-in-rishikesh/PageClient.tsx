@@ -1412,7 +1412,7 @@ export default function KundaliniYogaTTC() {
       {/* STICKY NAVIGATION */}
       <StickySectionNav items={NAV_ITEMS} triggerId="hero" />
 
-      {/* KUNDALINI INTRODUCTION */}
+    
      {/* KUNDALINI INTRODUCTION */}
 {content.kundaliniIntroHeading && content.kundaliniIntroParagraph && (
   <section className={`${styles.section} ${styles.sectionLight}`}>

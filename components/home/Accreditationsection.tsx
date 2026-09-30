@@ -31,7 +31,6 @@ function SmartVideo({ src, poster }: { src: string; poster?: string }) {
   const [isMuted, setIsMuted] = React.useState(true);
   const hideTimer = React.useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Gate for the heavy YouTube iframe — only becomes true on click
   const [ytLoaded, setYtLoaded] = React.useState(false);
 
   React.useEffect(() => {
@@ -39,7 +38,7 @@ function SmartVideo({ src, poster }: { src: string; poster?: string }) {
     if (!video) return;
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) video.play().catch(() => {});
+        if (entry.isIntersecting) video.play().catch(() => { });
         else video.pause();
       },
       { threshold: 0.4 }
@@ -65,8 +64,7 @@ function SmartVideo({ src, poster }: { src: string; poster?: string }) {
   const youtubeVideoId = getYouTubeVideoId(src);
 
   if (youtubeVideoId) {
-    // ── Not yet clicked: show a static thumbnail + play button.
-    // The ~800KB YouTube player JS never downloads until the user clicks.
+
     if (!ytLoaded) {
       return (
         <button
@@ -107,7 +105,6 @@ function SmartVideo({ src, poster }: { src: string; poster?: string }) {
       );
     }
 
-    // ── Clicked: now load the real iframe with autoplay
     const embedSrc = `https://www.youtube-nocookie.com/embed/${youtubeVideoId}?rel=0&modestbranding=1&autoplay=1&mute=1&loop=1&controls=1&playsinline=1&playlist=${youtubeVideoId}`;
     return (
       <div style={{ position: "relative", width: "100%", height: "100%" }}>
@@ -219,7 +216,11 @@ function SmartVideo({ src, poster }: { src: string; poster?: string }) {
             setIsMuted(vol === 0);
             showControls();
           }}
-          style={{ width: "70px", accentColor: "#fff", cursor: "pointer" }}
+          style={{
+            width: "clamp(44px, 12vw, 70px)",
+            accentColor: "#fff",
+            cursor: "pointer",
+          }}
         />
         <input
           type="range"
@@ -233,7 +234,12 @@ function SmartVideo({ src, poster }: { src: string; poster?: string }) {
             v.currentTime = (parseFloat(e.target.value) / 100) * v.duration;
             showControls();
           }}
-          style={{ flex: 1, accentColor: "#e65c00", cursor: "pointer" }}
+          style={{
+            flex: 1,
+            minWidth: 0,
+            accentColor: "#e65c00",
+            cursor: "pointer",
+          }}
         />
       </div>
 
@@ -252,7 +258,7 @@ function SmartVideo({ src, poster }: { src: string; poster?: string }) {
             pointerEvents: "none",
           }}
         >
-          🔇 Hover for controls
+          🔇 Tap for controls
         </div>
       )}
     </div>
@@ -285,7 +291,6 @@ interface AwardCert {
   ayushFooter?: string;
 }
 
-/* ── Award Row — fully dynamic from API ── */
 function AwardRow({ cert }: { cert: AwardCert }) {
   const metaPoints = [
     cert.metaPoint1,
@@ -300,13 +305,15 @@ function AwardRow({ cert }: { cert: AwardCert }) {
     <div className={styles.awardRow}>
       <div className={styles.awardImageCol}>
         <div className={styles.awardImgFrame}>
+
           <Image
             src={getImageUrl(cert.image)}
             alt={cert.alt || cert.label}
-            fill
-            sizes="(max-width: 768px) 100vw, 400px"
+            width={800}
+            height={1000}
+            sizes="(max-width: 767px) 100vw, 370px"
             loading="lazy"
-            style={{ objectFit: "cover" }}
+            className={styles.awardImg}
           />
           <div className={`${styles.corner} ${styles.tl}`} />
           <div className={`${styles.corner} ${styles.tr}`} />
@@ -369,10 +376,6 @@ function AwardRow({ cert }: { cert: AwardCert }) {
   );
 }
 
-/* ── Fixed-height skeleton — replaces the old plain "Loading..." text.
-   Reserves roughly the same vertical space this section occupies once
-   loaded, so nothing jumps into view and CLS stays low. Tune the
-   min-heights below if your real content is taller/shorter. ── */
 function AccreditationSkeleton() {
   const shimmer: React.CSSProperties = {
     background:
@@ -383,18 +386,23 @@ function AccreditationSkeleton() {
   return (
     <div style={{ padding: "3rem 1rem", maxWidth: 1200, margin: "0 auto" }}>
       <div
-        style={{ height: 32, width: "40%", margin: "0 auto 2rem", ...shimmer }}
+        style={{
+          height: 32,
+          width: "min(40%, 320px)",
+          minWidth: 180,
+          margin: "0 auto 2rem",
+          ...shimmer,
+        }}
       />
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "1fr 1fr",
+          gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
           gap: "2rem",
-          minHeight: 320,
         }}
       >
-        <div style={{ ...shimmer, minHeight: 320 }} />
-        <div style={{ ...shimmer, minHeight: 320 }} />
+        <div style={{ ...shimmer, minHeight: 260 }} />
+        <div style={{ ...shimmer, minHeight: 260 }} />
       </div>
       <div style={{ height: 220, marginTop: "2rem", ...shimmer }} />
       <style>{`
@@ -452,27 +460,13 @@ export const AccreditationSection: React.FC = () => {
             <div className={styles.authImageCol}>
               <div className={styles.authImageFrame}>
                 <div className={styles.authImageInner}>
-                  {/*
-                    ⚠️ FIX: removed the second `priority` image.
-                    Only ONE priority/preloaded image should exist per page —
-                    that's the first hero slider slide (idx === 0 in
-                    HomepageSlider). A second `priority` image here was
-                    competing for the browser's high-priority fetch queue
-                    and slowing down the real LCP element.
-                    `loading="lazy"` is safe since this section renders
-                    well below the fold.
-                  */}
                   <Image
                     src={getImageUrl(data.mainImage)}
                     alt={data.imageCaption}
-                    width={420}
-                    height={300}
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      objectFit: "cover",
-                      borderRadius: "4px",
-                    }}
+                    width={840}
+                    height={600}
+                    sizes="(max-width: 860px) 100vw, 50vw"
+                    className={styles.authImg}
                     loading="lazy"
                   />
                   <p className={styles.imageCaption}>{data.imageCaption}</p>
@@ -481,12 +475,6 @@ export const AccreditationSection: React.FC = () => {
                 <div className={styles.frameCornerTR} />
                 <div className={styles.frameCornerBL} />
                 <div className={styles.frameCornerBR} />
-              </div>
-
-              <div className={styles.pullQuote}>
-                <span className={styles.pullQMark}>"</span>
-                {data.pullQuote}
-                <span className={styles.pullQMark}>"</span>
               </div>
             </div>
           </div>
@@ -541,13 +529,14 @@ export const AccreditationSection: React.FC = () => {
                 {courseCerts.map((cert: any, index: number) => (
                   <div className={styles.certCard} key={index}>
                     <div className={styles.certImageWrap}>
+
                       <Image
                         src={getImageUrl(cert.image)}
                         alt={cert.alt || cert.label}
                         fill
-                        sizes="(max-width: 768px) 50vw, 25vw"
+                        sizes="(max-width: 400px) 100vw, (max-width: 1024px) 50vw, 25vw"
                         loading="lazy"
-                        style={{ objectFit: "cover" }}
+                        style={{ objectFit: "contain" }}
                       />
                     </div>
                     <div className={styles.certCardFooter}>

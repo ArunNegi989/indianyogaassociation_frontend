@@ -4,7 +4,6 @@ import styles from "@/assets/style/Rulespage/Rulespage.module.css";
 import HowToReach from "@/components/home/Howtoreach";
 import api from "@/lib/api";
 
-/* ── Decorative SVGs (kept static — not content, purely visual) ── */
 const ChakraLotus: React.FC<{
   color: string;
   size: number;

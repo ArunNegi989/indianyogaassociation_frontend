@@ -110,7 +110,6 @@ const stripHtml = (s?: string) => {
     .trim();
 };
 
-/* Apply stripHtml across an array of strings (e.g. paragraphs, pills, instruments) */
 const stripHtmlArray = (arr?: string[]) => (arr ?? []).map((s) => stripHtml(s));
 
 /* ══════════════════════════════
@@ -244,11 +243,7 @@ function CurrencyDropdown({
   );
 }
 
-/* ══════════════════════════════════════════════════
-   PREMIUM SEAT BOOKING — driven by the API (SeatBatch[]).
-   batchSectionTag / batchSectionTitle / batchSectionSub now come
-   from the main section data instead of being hardcoded.
-══════════════════════════════════════════════════ */
+
 function PremiumSeatBookingSoundHealing({
   seats,
   currency,
@@ -529,7 +524,7 @@ function useCurrencyRate() {
         const inr = data?.usd?.inr;
         if (inr && typeof inr === "number") setRate(inr);
       })
-      .catch(() => {})
+      .catch(() => { })
       .finally(() => setLoading(false));
   }, []);
 
@@ -547,7 +542,6 @@ export default function SoundHealingPage() {
   const [data, setData] = useState<SoundHealingData | null>(null);
   const [loading, setLoading] = useState(true);
 
-  // Main section content — singleton stored as an array, take the first entry
   useEffect(() => {
     api
       .get("/sound-healing-section")
@@ -559,7 +553,6 @@ export default function SoundHealingPage() {
       .finally(() => setLoading(false));
   }, []);
 
-  // Seat batches — dedicated Sound Healing seats API
   useEffect(() => {
     api
       .get("/sound-healing-seats/get-all-batches")
@@ -594,7 +587,7 @@ export default function SoundHealingPage() {
     <div className={styles.page}>
       {/* ══ HERO BANNER ══ */}
       <section className={styles.heroBanner}>
-         <Image
+        <Image
           src={getImageUrl(data.heroImage)}
           alt={stripHtml(data.heroImageAlt)}
           className={styles.heroImg}
@@ -630,7 +623,7 @@ export default function SoundHealingPage() {
             </div>
             <div className={styles.introImageWrapper}>
               <div className={styles.introImageCard}>
-                 <Image
+                <Image
                   src={getImageUrl(data.introImage)}
                   alt={stripHtml(data.introImageAlt)}
                   className={styles.introSideImage}
@@ -681,13 +674,13 @@ export default function SoundHealingPage() {
           {/* Three-photo row */}
           <div className={styles.bowlPhotoRow}>
             <div className={styles.bowlPhotoItem}>
-               <Image src={getImageUrl(data.bowl1Image)} alt={stripHtml(data.bowl1Alt)} className={styles.bowlPhoto} />
+              <Image src={getImageUrl(data.bowl1Image)} alt={stripHtml(data.bowl1Alt)} className={styles.bowlPhoto} />
             </div>
             <div className={styles.bowlPhotoItem}>
-               <Image src={getImageUrl(data.bowl2Image)} alt={stripHtml(data.bowl2Alt)} className={styles.bowlPhoto} />
+              <Image src={getImageUrl(data.bowl2Image)} alt={stripHtml(data.bowl2Alt)} className={styles.bowlPhoto} />
             </div>
             <div className={styles.bowlPhotoItem}>
-               <Image src={getImageUrl(data.bowl3Image)} alt={stripHtml(data.bowl3Alt)} className={styles.bowlPhoto} />
+              <Image src={getImageUrl(data.bowl3Image)} alt={stripHtml(data.bowl3Alt)} className={styles.bowlPhoto} />
             </div>
           </div>
         </div>
@@ -726,7 +719,7 @@ export default function SoundHealingPage() {
             {/* RIGHT */}
             <div className={styles.aimRight}>
               <div className={styles.aimPhotoWrap}>
-                 <Image
+                <Image
                   src={getImageUrl(data.aimImage)}
                   alt={stripHtml(data.aimImageAlt)}
                   className={styles.aimPhoto}
@@ -766,7 +759,7 @@ export default function SoundHealingPage() {
               </div>
             </div>
             <div className={styles.benefitsImgWrap}>
-               <Image src={getImageUrl(data.benefitsImage)} alt={stripHtml(data.benefitsImageAlt)} className={styles.benefitsImg} />
+              <Image src={getImageUrl(data.benefitsImage)} alt={stripHtml(data.benefitsImageAlt)} className={styles.benefitsImg} />
             </div>
           </div>
         </div>
@@ -821,17 +814,12 @@ export default function SoundHealingPage() {
 
           <div className={styles.certBanner}>
             <div className={styles.certBadge}>{data.certBannerIcon}</div>
-            {/* certBannerText is rendered as real HTML on purpose (bold/links etc.
-                come from the CMS), so it is NOT passed through stripHtml here.
-                Make sure this field is sanitized server-side before it reaches
-                the client, since dangerouslySetInnerHTML trusts it as-is. */}
+
             <p
               className={styles.certTxt}
               dangerouslySetInnerHTML={{ __html: data.certBannerText }}
             />
           </div>
-
-          {/* PREMIUM SEAT BOOKING — dynamic, dedicated Sound Healing seats API */}
           <PremiumSeatBookingSoundHealing
             seats={seats}
             currency={currency}

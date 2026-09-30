@@ -16,22 +16,48 @@
 
 /* ── Page Wrapper ── */
 .pageWrapper {
-  font-family: var(--font-body), sans-serif;        /* ✅ Lato */
+  font-family: var(--font-body), sans-serif;
   background: var(--parchment);
   color: var(--earth-warm);
   overflow-x: hidden;
+  width: 100%;
 }
 
-/* ── Shared: Container ── */
+.pageWrapper img {
+  max-width: 100%;
+}
+
+/* Loading / error */
+.stateBox {
+  min-height: 50vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.stateText {
+  font-family: var(--font-display), serif;
+  font-size: 1.1rem;
+  color: #a07840;
+  font-style: italic;
+  text-align: center;
+}
+
+.stateError {
+  color: #c44a00;
+}
+
+/* ── Container ── */
 .container {
   position: relative;
   z-index: 1;
   max-width: 1590px;
   margin: 0 auto;
-  padding: clamp(2.5rem, 5vw, 4.5rem) clamp(1.2rem, 5vw, 3rem);
+  padding: clamp(2rem, 5vw, 4.5rem) clamp(1rem, 5vw, 3rem);
 }
 
-/* ── Shared: Decorative Borders ── */
+/* ── Decorative Borders ── */
 .a,
 .bottomBorder {
   height: 5px;
@@ -43,14 +69,14 @@
       transparent 100%);
 }
 
-/* ── Shared: Section Heading ── */
+/* ── Section Heading ── */
 .sectionHeaderCenter {
   text-align: center;
-  margin-bottom: 2.5rem;
+  margin-bottom: clamp(1.5rem, 4vw, 2.5rem);
 }
 
 .sectionTitle {
-  font-family: var(--font-display), serif;          /* ✅ Playfair Display */
+  font-family: var(--font-display), serif;
   font-size: clamp(1.1rem, 2.5vw, 1.65rem);
   font-weight: 700;
   color: var(--earth);
@@ -58,6 +84,7 @@
   max-width: 820px;
   margin: 0 auto 0.9rem;
   letter-spacing: 0.02em;
+  overflow-wrap: anywhere;
 }
 
 .titleUnderline {
@@ -68,17 +95,36 @@
   border-radius: 2px;
 }
 
-/* ── Shared: Para ── */
+/* ── Para ── */
 .para {
-  font-family: var(--font-body), sans-serif;        /* ✅ Lato */
-  font-size: clamp(0.97rem, 1.6vw, 1.07rem);
-  line-height: 1.9;
+  font-family: var(--font-body), sans-serif;
+  font-size: clamp(0.94rem, 1.6vw, 1.07rem);
+  line-height: 1.85;
   color: var(--earth-warm);
   margin-bottom: 1.2rem;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+/* rich text ke andar aane wali cheezein overflow na karein */
+.para img,
+.facilityText img,
+.promoText img,
+.ctaSubtext img {
+  max-width: 100%;
+  height: auto;
+}
+
+.para table,
+.facilityText table,
+.promoText table {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
 }
 
 .paraSmall {
-  font-family: var(--font-body), sans-serif;        /* ✅ Lato */
+  font-family: var(--font-body), sans-serif;
   font-size: clamp(0.88rem, 1.4vw, 0.97rem);
   line-height: 1.8;
   color: var(--earth-light);
@@ -100,8 +146,8 @@
 }
 
 .salutation {
-  font-family: var(--font-body), sans-serif;        /* ✅ Lato */
-  font-size: clamp(1.1rem, 2vw, 1.35rem);
+  font-family: var(--font-body), sans-serif;
+  font-size: clamp(1.05rem, 2vw, 1.35rem);
   color: var(--saffron-deep);
   font-weight: 600;
   margin-bottom: 1rem;
@@ -110,11 +156,11 @@
 /* Planes Grid */
 .planesGrid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: clamp(1.5rem, 3vw, 3rem);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(1.25rem, 3vw, 3rem);
   align-items: center;
   margin: 2rem 0;
-  padding: 2rem;
+  padding: clamp(1rem, 2.5vw, 2rem);
   border: 1px solid rgba(224, 123, 0, 0.2);
   border-radius: 10px;
   box-shadow: 0 4px 20px var(--shadow-warm);
@@ -132,13 +178,18 @@
   border-radius: 10px 10px 0 0;
 }
 
+.planesImageBlock,
+.planesInfoBlock {
+  min-width: 0;
+}
+
 .planesImagePlaceholder {
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
 
-/* ── Diagram Box ── */
+/* Diagram Box — image poori dikhegi */
 .diagramBox {
   background: linear-gradient(135deg, #fff 0%, #fdf6ec 100%);
   border: 1px solid rgba(224, 123, 0, 0.25);
@@ -147,16 +198,12 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0;
 }
 
 .diagramImage {
   width: 100%;
-  height: 200px;
-  object-fit: cover;
-  object-position: center top;
+  height: auto;
   display: block;
-  border-radius: 7px 7px 0 0;
 }
 
 .diagramLabelsRow {
@@ -164,14 +211,14 @@
   justify-content: center;
   gap: 0.5rem;
   flex-wrap: wrap;
-  padding: 0.75rem 0.75rem;
+  padding: 0.75rem;
   background: rgba(224, 123, 0, 0.05);
   width: 100%;
 }
 
 .diagramLabel {
-  font-family: var(--font-display), serif;          /* ✅ Playfair Display */
-  font-size: 0.6rem;
+  font-family: var(--font-display), serif;
+  font-size: 0.62rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--earth-light);
@@ -181,63 +228,7 @@
   border: 1px solid rgba(224, 123, 0, 0.2);
 }
 
-/* ── Alignment Compare ── */
-.alignCompare {
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  gap: 0.5rem;
-  align-items: center;
-  background: #fff;
-  border: 1px solid var(--gold-border);
-  border-radius: 8px;
-  overflow: hidden;
-  padding: 0.75rem;
-}
-
-.compareItem {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.compareLabel {
-  font-family: var(--font-display), serif;          /* ✅ Playfair Display */
-  font-size: 0.58rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--earth-light);
-  text-align: center;
-}
-
-.compareImgWrap {
-  width: 100%;
-  aspect-ratio: 4/3;
-  overflow: hidden;
-  border-radius: 6px;
-  border: 1px solid var(--gold-border);
-}
-
-.compareImg {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-  display: block;
-  transition: transform 0.4s ease;
-}
-
-.compareImg:hover {
-  transform: scale(1.04);
-}
-
-.compareDivider {
-  width: 1px;
-  height: 70px;
-  background: linear-gradient(to bottom, transparent, var(--saffron), transparent);
-  flex-shrink: 0;
-}
-
+/* Planes list */
 .planesList {
   list-style: none;
   padding: 0;
@@ -246,14 +237,15 @@
 }
 
 .planesListItem {
-  font-family: var(--font-body), sans-serif;        /* ✅ Lato */
-  font-size: 1.02rem;
+  font-family: var(--font-body), sans-serif;
+  font-size: clamp(0.95rem, 1.5vw, 1.02rem);
   color: var(--earth-warm);
-  padding: 0.5rem 0 0.5rem 1.5rem;
+  padding: 0.5rem 0 0.5rem 1.6rem;
   border-bottom: 1px solid rgba(224, 123, 0, 0.12);
   position: relative;
   line-height: 1.6;
   counter-increment: list-counter;
+  overflow-wrap: break-word;
 }
 
 .planesListItem::before {
@@ -261,12 +253,12 @@
   position: absolute;
   left: 0;
   color: var(--saffron);
-  font-family: var(--font-display), serif;          /* ✅ Playfair Display */
+  font-family: var(--font-display), serif;
   font-weight: 700;
   font-size: 0.85rem;
 }
 
-/* ── Group yoga photo ── */
+/* ── Group photo ── */
 .groupPhotoBlock {
   margin-top: 2rem;
 }
@@ -276,23 +268,19 @@
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 8px 36px rgba(92, 45, 0, 0.3);
-  min-height: 320px;
+  line-height: 0;
 }
 
 .groupPhotoImg {
   width: 100%;
-  height: 380px;
-  object-fit: cover;
-  object-position: center 30%;
+  height: auto;
   display: block;
-  border-radius: 10px;
-  filter: brightness(0.72) saturate(1.1);
-  transition: filter 0.4s ease, transform 0.5s ease;
+  filter: brightness(0.78) saturate(1.1);
+  transition: filter 0.4s ease;
 }
 
 .groupPhotoBanner:hover .groupPhotoImg {
-  filter: brightness(0.8) saturate(1.2);
-  transform: scale(1.02);
+  filter: brightness(0.9) saturate(1.2);
 }
 
 .groupPhotoOverlay {
@@ -300,14 +288,15 @@
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 1.5rem 2rem;
+  padding: clamp(0.75rem, 2.5vw, 1.5rem) clamp(1rem, 3vw, 2rem);
   background: linear-gradient(to top, rgba(61, 29, 0, 0.85) 0%, transparent 100%);
   z-index: 2;
+  line-height: 1.4;
 }
 
 .groupPhotoText {
-  font-family: var(--font-body), sans-serif;        /* ✅ Lato */
-  font-size: clamp(1rem, 2.5vw, 1.4rem);
+  font-family: var(--font-body), sans-serif;
+  font-size: clamp(0.9rem, 2.5vw, 1.4rem);
   color: rgba(253, 246, 236, 0.95);
   font-weight: 600;
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
@@ -323,39 +312,29 @@
   background-size: contain;
 }
 
-.campusSection::before {
-  content: '';
-  position: absolute;
-  background-image:
-    radial-gradient(ellipse at 80% 10%, rgba(224, 123, 0, 0.04) 0%, transparent 55%),
-    radial-gradient(ellipse at 10% 90%, rgba(92, 45, 0, 0.04) 0%, transparent 55%);
-  pointer-events: none;
-}
-
 /* ════════════════════════════════════════════════
-   CAMPUS FACILITIES — ALTERNATING LAYOUT
+   CAMPUS FACILITIES — ALTERNATING
 ════════════════════════════════════════════════ */
 .facilitiesList {
   display: flex;
   flex-direction: column;
-  gap: clamp(2rem, 4vw, 1.5rem);
+  gap: clamp(1.25rem, 3vw, 2rem);
   margin-bottom: 3rem;
 }
 
 .facilityItem {
   display: grid;
-  grid-template-columns: 2fr 1fr;
-  grid-template-rows: 322px;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-rows: auto;
+  /* fixed 322px hata diya */
+  align-items: stretch;
+  background: rgba(255, 255, 255, 0.55);
   border: 1px solid var(--gold-border);
   border-radius: 14px;
   overflow: hidden;
   box-shadow: 0 4px 24px var(--shadow-warm);
   transition: box-shadow 0.3s ease, transform 0.3s ease;
   position: relative;
-}
-
-.facilityItem:nth-child(even) {
-  grid-template-columns: 1fr 2fr;
 }
 
 .facilityItem::before {
@@ -374,19 +353,32 @@
   transform: translateY(-2px);
 }
 
-.facilityItem:nth-child(odd) .facilityContent   { order: 1; }
-.facilityItem:nth-child(odd) .facilityImageWrap  { order: 2; }
-.facilityItem:nth-child(even) .facilityImageWrap { order: 1; }
-.facilityItem:nth-child(even) .facilityContent   { order: 2; }
+/* Alternating: odd = text left, even = image left */
+.facilityItem:nth-child(odd) .facilityContent {
+  order: 1;
+}
 
-/* ── Content block ── */
+.facilityItem:nth-child(odd) .facilityImageWrap {
+  order: 2;
+}
+
+.facilityItem:nth-child(even) .facilityImageWrap {
+  order: 1;
+}
+
+.facilityItem:nth-child(even) .facilityContent {
+  order: 2;
+}
+
+/* Content */
 .facilityContent {
-  padding: clamp(1.8rem, 3vw, 2.8rem) clamp(1.5rem, 3vw, 2.5rem);
+  padding: clamp(1.25rem, 3vw, 2.5rem);
   display: flex;
   flex-direction: column;
   justify-content: center;
   gap: 0.75rem;
-  overflow: hidden;
+  min-width: 0;
+  /* overflow hidden hata diya — text kabhi cut nahi hoga */
 }
 
 .facilityHeader {
@@ -403,12 +395,13 @@
 }
 
 .facilityBold {
-  font-family: var(--font-display), serif;          /* ✅ Playfair Display */
+  font-family: var(--font-display), serif;
   font-size: clamp(1rem, 1.8vw, 1.25rem);
   color: var(--earth);
   letter-spacing: 0.02em;
   line-height: 1.45;
   font-weight: 700;
+  overflow-wrap: anywhere;
 }
 
 .facilityUnderline {
@@ -419,78 +412,71 @@
 }
 
 .facilityText {
-  font-family: var(--font-body), sans-serif;        /* ✅ Lato */
+  font-family: var(--font-body), sans-serif;
   font-size: clamp(0.92rem, 1.5vw, 1.02rem);
-  line-height: 1.88;
+  line-height: 1.8;
   color: var(--earth-warm);
   margin: 0;
+  overflow-wrap: break-word;
 }
 
-/* ── Image block ── */
+/* Image — horizontal image poori, vertically centered */
 .facilityImageWrap {
   width: 100%;
-  height: 100%;
+  align-self: center;
   overflow: hidden;
+  line-height: 0;
+  min-width: 0;
 }
 
 .facilityImage {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
+  height: auto;
   display: block;
-  transition: transform 0.5s ease;
 }
 
-.facilityItem:hover .facilityImage {
-  transform: scale(1.04);
-}
-
-.facilityImagePlaceholder {
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(135deg, #fdf0dc 0%, #f5e0b5 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.facilityPlaceholderIcon {
-  font-size: 3rem;
-  opacity: 0.35;
-}
-
-/* Promo cards */
+/* ── Promo cards ── */
 .promoCards {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: clamp(1.5rem, 3vw, 2.5rem);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(1.25rem, 3vw, 2.5rem);
+  align-items: stretch;
 }
 
 .promoCard {
   display: flex;
-  flex-direction: column; 
+  flex-direction: column;
   overflow: hidden;
-  background:  #ffffff;
+  background: #ffffff;
   border: 1px solid var(--gold-border);
   border-radius: 12px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
+
 .promoCard:hover {
   transform: translateY(-3px);
   box-shadow: 0 8px 28px rgba(222, 161, 105, 0.15);
 }
 
+.promoContent {
+  padding: clamp(1.1rem, 2.5vw, 1.5rem);
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  /* content ke hisab se grow */
+  min-width: 0;
+}
+
 .promoTitle {
-  font-family: var(--font-body), sans-serif;        /* ✅ Lato */
-  font-size: clamp(1.15rem, 2vw, 1.45rem);
+  font-family: var(--font-body), sans-serif;
+  font-size: clamp(1.1rem, 2vw, 1.45rem);
   font-weight: 700;
   color: var(--saffron-deep);
   margin-bottom: 0.6rem;
   line-height: 1.4;
+  overflow-wrap: anywhere;
 }
-.promoTitle h3{
-  font-size: clamp(1.15rem, 2vw, 1.55rem);
-}
+
 .promoUnderline {
   width: 50px;
   height: 2px;
@@ -499,57 +485,46 @@
 }
 
 .promoText {
-  font-family: var(--font-body), sans-serif;        /* ✅ Lato */
-  font-size: clamp(0.88rem, 1.4vw, 0.97rem);
-  line-height: 1.8;
+  font-family: var(--font-body), sans-serif;
+  font-size: clamp(0.9rem, 1.4vw, 0.97rem);
+  line-height: 1.75;
   color: var(--earth-warm);
   margin-bottom: 1rem;
+  overflow-wrap: break-word;
 }
 
 .promoLink {
-  font-family: var(--font-display), serif;          /* ✅ Playfair Display */
-  font-size: 0.72rem;
+  font-family: var(--font-display), serif;
+  font-size: 0.75rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--saffron-deep);
   text-decoration: none;
   font-weight: 600;
   transition: color 0.2s;
+  margin-top: auto;
 }
 
 .promoLink:hover {
   color: var(--earth);
 }
 
-/* Image top */
+/* Image — natural height, no crop */
 .promoImageWrap {
   width: 100%;
-  height: 430px; /* control height */
   overflow: hidden;
+  line-height: 0;
+  margin-top: auto;
 }
 
 .promoImage {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: auto;
   display: block;
-  transition: transform 0.4s ease;
 }
 
-/* Hover zoom effect */
-.promoCard:hover .promoImage {
-  transform: scale(1.05);
-}
-
-/* Content bottom spacing */
-.promoContent {
-  padding: 1.5rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
 /* ════════════════════════════════════════════════
-   SECTION — CTA JOURNEY BANNER
+   SECTION — CTA / JOURNEY
 ════════════════════════════════════════════════ */
 .ctaSection {
   position: relative;
@@ -560,7 +535,7 @@
   background: linear-gradient(135deg, #fffbf6 0%, #fff6eb 40%, #fdf1e3 70%, #fff7ed 100%);
   position: relative;
   overflow: hidden;
-  padding: clamp(3rem, 6vw, 5rem) clamp(1.5rem, 5vw, 4rem);
+  padding: clamp(2.5rem, 6vw, 5rem) clamp(1.1rem, 5vw, 4rem);
   text-align: center;
 }
 
@@ -570,26 +545,17 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: clamp(10rem, 20vw, 18rem);
+  font-size: clamp(8rem, 20vw, 18rem);
   color: rgba(255, 255, 255, 0.06);
-  font-family: var(--font-display), serif;          /* ✅ Playfair Display */
+  font-family: var(--font-display), serif;
   pointer-events: none;
   user-select: none;
   line-height: 1;
 }
 
-.ctaContent::after {
-  content: '';
-  position: absolute;
-  background-image:
-    radial-gradient(ellipse at 20% 50%, rgba(255, 255, 255, 0.08) 0%, transparent 55%),
-    radial-gradient(ellipse at 80% 30%, rgba(255, 255, 255, 0.05) 0%, transparent 50%);
-  pointer-events: none;
-}
-
 .ctaHeading {
-  font-family: var(--font-display), serif;          /* ✅ Playfair Display */
-  font-size: clamp(1.4rem, 3.5vw, 2.4rem);
+  font-family: var(--font-display), serif;
+  font-size: clamp(1.3rem, 3.5vw, 2.4rem);
   font-weight: 700;
   color: #000000;
   line-height: 1.3;
@@ -598,27 +564,30 @@
   z-index: 1;
   letter-spacing: 0.03em;
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  overflow-wrap: anywhere;
 }
 
 .ctaSubtext {
-  font-family: var(--font-body), sans-serif;        /* ✅ Lato */
-  font-size: clamp(1rem, 1.8vw, 1.2rem);
+  font-family: var(--font-body), sans-serif;
+  font-size: clamp(0.95rem, 1.8vw, 1.2rem);
   color: rgba(0, 0, 0, 0.92);
   max-width: 600px;
   margin: 0 auto 2rem;
   line-height: 1.7;
   position: relative;
   z-index: 1;
+  overflow-wrap: break-word;
 }
 
 .whatsappBtn {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 10px;
   background: #25D366;
   color: #fff;
-  font-family: var(--font-menu), sans-serif;        /* ✅ Montserrat — CTA button */
-  font-size: clamp(0.78rem, 1.3vw, 0.88rem);
+  font-family: var(--font-menu), sans-serif;
+  font-size: clamp(0.76rem, 1.3vw, 0.88rem);
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -629,6 +598,7 @@
   transition: transform 0.2s, box-shadow 0.2s;
   position: relative;
   z-index: 1;
+  max-width: 100%;
 }
 
 .whatsappBtn:hover {
@@ -644,7 +614,7 @@
 /* Master Quote */
 .masterQuoteBlock {
   text-align: center;
-  padding: clamp(2rem, 4vw, 3.5rem) clamp(1.5rem, 5vw, 4rem);
+  padding: clamp(1.75rem, 4vw, 3.5rem) clamp(1.1rem, 5vw, 4rem);
   position: relative;
   overflow: hidden;
   color: #000000;
@@ -657,8 +627,8 @@
   top: -1rem;
   left: 50%;
   transform: translateX(-50%);
-  font-family: var(--font-body), sans-serif;        /* ✅ Lato */
-  font-size: clamp(8rem, 15vw, 14rem);
+  font-family: var(--font-body), sans-serif;
+  font-size: clamp(7rem, 15vw, 14rem);
   color: rgba(224, 123, 0, 0.08);
   line-height: 1;
   pointer-events: none;
@@ -666,8 +636,8 @@
 }
 
 .masterQuote {
-  font-family: var(--font-display), serif;          /* ✅ Playfair Display */
-  font-size: clamp(1.1rem, 2.5vw, 1.55rem);
+  font-family: var(--font-display), serif;
+  font-size: clamp(1.05rem, 2.5vw, 1.55rem);
   font-style: italic;
   color: #000000;
   line-height: 1.6;
@@ -675,11 +645,12 @@
   margin: 0 auto 1rem;
   position: relative;
   z-index: 1;
+  overflow-wrap: break-word;
 }
 
 .masterAttrib {
-  font-family: var(--font-menu), sans-serif;        /* ✅ Montserrat — attribution */
-  font-size: clamp(0.75rem, 1.2vw, 0.88rem);
+  font-family: var(--font-menu), sans-serif;
+  font-size: clamp(0.72rem, 1.2vw, 0.88rem);
   letter-spacing: 0.15em;
   text-transform: uppercase;
   color: #000000;
@@ -688,11 +659,11 @@
   z-index: 1;
 }
 
-/* Journey text — Two Column Layout */
+/* Journey — two columns */
 .journeyText {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: clamp(2rem, 4vw, 3.5rem);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(1.5rem, 4vw, 3.5rem);
   align-items: center;
   margin: 0 auto;
 }
@@ -701,6 +672,7 @@
   display: flex;
   flex-direction: column;
   gap: 1.2rem;
+  min-width: 0;
 }
 
 .journeyImage {
@@ -709,6 +681,7 @@
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  min-width: 0;
 }
 
 .journeyImageWrapper {
@@ -717,22 +690,14 @@
   border: 2px solid var(--gold-border);
   background: linear-gradient(135deg, var(--cream-white) 0%, #fdf6ec 100%);
   box-shadow: 0 8px 32px var(--shadow-warm);
-  max-height: 450px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  line-height: 0;
+  /* max-height aur img height:460px hata diya */
 }
 
 .journeyImageWrapper img {
   width: 100%;
-  height: 460px;
-  object-fit: cover;
+  height: auto;
   display: block;
-  transition: transform 0.4s ease;
-}
-
-.journeyImageWrapper:hover img {
-  transform: scale(1.03);
 }
 
 .journeyImageCaption {
@@ -741,7 +706,7 @@
   color: var(--earth-light);
   font-style: italic;
   text-align: center;
-  padding: 0.5rem 0;
+  padding: 0.25rem 0;
   line-height: 1.6;
 }
 
@@ -752,123 +717,136 @@
 }
 
 /* ════════════════════════════════════════════════
-   RESPONSIVE — Tablet portrait (≤860px)
+   RESPONSIVE
 ════════════════════════════════════════════════ */
-@media (max-width: 860px) {
+
+/* Large laptop / small desktop (≤1200px) */
+@media (max-width: 1200px) {
+  .facilityContent {
+    padding: 1.5rem;
+  }
+}
+
+/* Tablet landscape (≤991px) */
+@media (max-width: 991px) {
   .planesGrid {
-    grid-template-columns: 1fr;
     gap: 1.5rem;
   }
 
   .promoCards {
-    grid-template-columns: 1fr;
+    gap: 1.25rem;
   }
 
-  .groupPhotoImg {
-    height: 280px;
+  .journeyText {
+    gap: 1.75rem;
+    display: inline-block;
+  }
+}
+
+@media (max-width: 860px) {
+  .planesGrid {
+    grid-template-columns: minmax(0, 1fr);
   }
 
+  .promoCards {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  /* Facility: image upar, text neeche */
   .facilityItem {
-    grid-template-columns: 1fr !important;
-    grid-template-rows: auto auto;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .facilityItem:nth-child(odd) .facilityImageWrap,
+  .facilityItem:nth-child(even) .facilityImageWrap {
+    order: 1;
   }
 
   .facilityItem:nth-child(odd) .facilityContent,
-  .facilityItem:nth-child(even) .facilityContent  { order: 2; }
-  .facilityItem:nth-child(odd) .facilityImageWrap,
-  .facilityItem:nth-child(even) .facilityImageWrap { order: 1; height: 220px; }
-
-  .facilityContent {
-    padding: 1.5rem 1.4rem;
+  .facilityItem:nth-child(even) .facilityContent {
+    order: 2;
   }
 
-  /* Journey section responsive */
   .journeyText {
-    grid-template-columns: 1fr;
-    gap: 2rem;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .journeyImage {
     position: static;
-  }
-
-  .journeyImageWrapper {
-    max-height: 350px;
+    order: -1;
+    /* image content se pehle */
   }
 }
 
-/* ════════════════════════════════════════════════
-   RESPONSIVE — Mobile (≤600px)
-════════════════════════════════════════════════ */
+/* Mobile (≤600px) */
 @media (max-width: 600px) {
   .sectionTitle {
-    font-size: 1.15rem;
+    font-size: 1.1rem;
   }
 
-  .ctaContent {
-    padding: 2.5rem 1.2rem;
-  }
-
-  .masterQuoteBlock {
-    padding: 2rem 1.2rem;
-  }
-
-  .masterQuote {
-    font-size: 1.05rem;
-  }
-
-  .groupPhotoBanner {
-    min-height: 220px;
-  }
-
-  .groupPhotoImg {
-    height: 240px;
-  }
-
-  .diagramImage {
-    height: 160px;
-  }
-
-  .promoCard {
-    padding: 1.4rem 1.2rem;
+  .planesGrid {
+    margin: 1.25rem 0;
+    padding: 1rem;
   }
 
   .facilityItem {
-    padding: 0;
     border-radius: 10px;
   }
 
   .facilityContent {
-    padding: 1.2rem 1rem;
+    padding: 1.1rem 1rem 1.25rem;
   }
 
-  .facilityItem:nth-child(odd) .facilityImageWrap,
-  .facilityItem:nth-child(even) .facilityImageWrap { height: 180px; }
-
-  /* Journey section mobile */
-  .journeyText {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
+  .promoCard {
+    border-radius: 10px;
   }
 
-  .journeyImageWrapper {
-    max-height: 280px;
+  .diagramLabel {
+    font-size: 0.56rem;
+    padding: 0.18rem 0.45rem;
   }
 
-  .journeyImageCaption {
-    font-size: 0.85rem;
+  .whatsappBtn {
+    padding: 0.8rem 1.6rem;
+    letter-spacing: 0.05em;
   }
 }
 
-/* ════════════════════════════════════════════════
-   RESPONSIVE — Small mobile (≤380px)
-════════════════════════════════════════════════ */
-@media (max-width: 380px) {
-  .whatsappBtn {
-    font-size: 0.72rem;
-    padding: 0.75rem 1.4rem;
+/* Small mobile (≤480px) — caption image ke upar overlap na kare */
+@media (max-width: 480px) {
+  .groupPhotoBanner {
+    line-height: 1.4;
   }
 
-  .facilityItem:nth-child(odd) .facilityImageWrap,
-  .facilityItem:nth-child(even) .facilityImageWrap { height: 150px; }
+  .groupPhotoOverlay {
+    position: static;
+    background: var(--earth);
+    padding: 0.75rem 1rem;
+  }
+
+  .groupPhotoText {
+    text-shadow: none;
+    font-size: 0.95rem;
+  }
+
+  .groupPhotoImg {
+    filter: none;
+  }
+}
+
+/* Extra small (≤380px) */
+@media (max-width: 380px) {
+  .container {
+    padding-left: 0.85rem;
+    padding-right: 0.85rem;
+  }
+
+  .whatsappBtn {
+    font-size: 0.7rem;
+    padding: 0.75rem 1.2rem;
+  }
+
+  .masterAttrib {
+    letter-spacing: 0.08em;
+  }
 }

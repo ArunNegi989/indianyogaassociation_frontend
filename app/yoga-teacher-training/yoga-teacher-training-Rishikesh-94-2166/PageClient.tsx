@@ -112,7 +112,7 @@ const cityLinks: { name: string; href: string }[] = [
     name: "Himachal Pradesh",
     href: "/yoga-teacher-training/yoga-teacher-training-Himachal%20Pradesh-94-2178",
   },
-  
+
   {
     name: "Bengaluru",
     href: "/yoga-teacher-training/yoga-teacher-training-Bengaluru-94-2179",
@@ -121,7 +121,7 @@ const cityLinks: { name: string; href: string }[] = [
     name: "Auroville",
     href: "/yoga-teacher-training/yoga-teacher-training-Auroville-94-2191",
   },
-   {
+  {
     name: "Bihar",
     href: "/yoga-teacher-training/yoga-teacher-training-Bihar-94-2172",
   },
@@ -135,7 +135,7 @@ const YogaTrainingRishikesh: React.FC = () => {
         {/* PAGE TITLE */}
         <div className={styles.pageHeader}>
           <h1 className={styles.pageTitle}>
-           Yoga Teacher Training in Rishikesh
+            Yoga Teacher Training in Rishikesh
           </h1>
           <div className={styles.titleUnderline}>
             <div className={styles.underlineLine} />
@@ -145,7 +145,7 @@ const YogaTrainingRishikesh: React.FC = () => {
         {/* SECTION 1 — Image Left */}
         <div className={`${styles.section} ${styles.sectionImageLeft}`}>
           <div className={styles.imgWrap}>
-             <Image
+            <Image
               src="https://images.unsplash.com/photo-1588286840104-8957b019727f?w=700&q=80&fit=crop"
               alt="Explore the Roots of Yoga with AYM"
               className={styles.sectionImg}
@@ -154,7 +154,7 @@ const YogaTrainingRishikesh: React.FC = () => {
           </div>
           <div className={styles.textWrap}>
             <h2 className={styles.headingSerif} style={{ textAlign: "center" }}>
-             Explore the Roots of Yogic Knowledge with AYM Yoga Rishikesh
+              Explore the Roots of Yogic Knowledge with AYM Yoga Rishikesh
             </h2>
             <div
               className={styles.headingUnderline}
@@ -171,7 +171,7 @@ const YogaTrainingRishikesh: React.FC = () => {
         {/* SECTION 2 — Image Right */}
         <div className={`${styles.section} ${styles.sectionImageRight}`}>
           <div className={styles.imgWrap}>
-             <Image
+            <Image
               src="https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?w=700&q=80&fit=crop"
               alt="Advanced Yoga Teacher Training Course in Sikkim"
               className={styles.sectionImg}
@@ -192,7 +192,7 @@ const YogaTrainingRishikesh: React.FC = () => {
               As mentioned earlier, we help students in our institute to learn both traditional and modern forms of yoga. We make sure that you are enlightened about how yoga started and where it is in today's time. Our licensed yoga teacher training course in Rishikesh has a very updated and well-designed curriculum. Through our extensive and registered yoga teacher training course in Rishikesh, you will first be assisted to transform yourself into a flexible and fit personality before you would hand up the same to your yoga disciples.
             </p>
             <p className={styles.bodyText}>
-             After that, you will be taught ways to educate others in a friendly and professional way. Our classrooms are well equipped and comfortable enough that helps you to focus on achieving the yoga instructor certification near me. We make sure to instill the latest techniques of yoga and meditation in your mind through our yoga training course in Rishikesh so that you can help others to live happy life.
+              After that, you will be taught ways to educate others in a friendly and professional way. Our classrooms are well equipped and comfortable enough that helps you to focus on achieving the yoga instructor certification near me. We make sure to instill the latest techniques of yoga and meditation in your mind through our yoga training course in Rishikesh so that you can help others to live happy life.
             </p>
           </div>
         </div>
@@ -200,7 +200,7 @@ const YogaTrainingRishikesh: React.FC = () => {
         {/* SECTION 3 — Image Left */}
         <div className={`${styles.section} ${styles.sectionImageLeft}`}>
           <div className={styles.imgWrap}>
-             <Image
+            <Image
               src="https://images.unsplash.com/photo-1545389336-cf090694435e?w=700&q=80&fit=crop"
               alt="Brush Up Your Skills to Teach Yoga Through Our Extensive Course Program"
               className={styles.sectionImg}
@@ -209,7 +209,7 @@ const YogaTrainingRishikesh: React.FC = () => {
           </div>
           <div className={styles.textWrap}>
             <h2 className={styles.headingSerif} style={{ textAlign: "center" }}>
-             Global Certified Yoga Teacher in Rishikesh
+              Global Certified Yoga Teacher in Rishikesh
             </h2>
             <div
               className={styles.headingUnderline}
@@ -220,7 +220,7 @@ const YogaTrainingRishikesh: React.FC = () => {
             <p className={styles.bodyText}>
               We at " Association for Yoga and Meditation" have a highly talented and experienced team of instructors who would guide you in yoga teacher training in Rishikesh. It does not matter how skilled or professional you already are - we make sure that you complete YTT certification in Rishikesh starting from scratch and then to the advanced level.
             </p>
-             <p className={styles.bodyText}>
+            <p className={styles.bodyText}>
               Through our yoga teacher training program in Rishikesh, you will be prepared to face the challenges of the real world. Our yoga therapy teacher training helps you recognize how you would communicate with the students and how you would understand their problems. Lastly, you will be handed over the YTT certification in Rishikesh that is globally accepted. The International yoga certification will help you to get your dream job or launch your own yoga classes anywhere in the world.
             </p>
           </div>
@@ -229,7 +229,7 @@ const YogaTrainingRishikesh: React.FC = () => {
         {/* SECTION 4 — Image Right */}
         <div className={`${styles.section} ${styles.sectionImageRight}`}>
           <div className={styles.imgWrap}>
-             <Image
+            <Image
               src="https://images.unsplash.com/photo-1603988363607-e1e4a66962c6?w=700&q=80&fit=crop"
               alt="Transform Into a Licensed Yoga Teacher By Choosing Us"
               className={styles.sectionImg}
@@ -269,7 +269,7 @@ const YogaTrainingRishikesh: React.FC = () => {
           style={{ borderBottom: "none" }}
         >
           <div className={styles.imgWrap}>
-             <Image
+            <Image
               src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=700&q=80&fit=crop"
               alt="Learn and Educate Others A Peaceful Way of Life"
               className={styles.sectionImg}

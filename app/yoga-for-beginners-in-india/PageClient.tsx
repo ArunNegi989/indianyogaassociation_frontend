@@ -1,4 +1,4 @@
-// YogaBeginners.tsx
+
 "use client";
 import React, { useEffect, useState } from "react";
 import styles from "@/assets/style/yoga-for-beginners-in-india/Yogabeginners.module.css";
@@ -7,13 +7,6 @@ import Link from "next/link";
 import api from "@/lib/api";
 import Image from "next/image";
 
-/* ─────────────────────────────────────────────────────────
-   Uploaded file paths like "/uploads/xxx.jpg" are served from
-   the server root (NOT under /api), so build image URLs with
-   NEXT_PUBLIC_API_URL directly — `api` (lib/api.ts) already
-   has "/api" baked into its baseURL and is only used for the
-   JSON calls below.
-───────────────────────────────────────────────────────── */
 const ASSET_BASE = process.env.NEXT_PUBLIC_API_URL || "";
 const getImageUrl = (path?: string) => {
   if (!path) return "";
@@ -21,9 +14,7 @@ const getImageUrl = (path?: string) => {
   return `${ASSET_BASE}${path}`;
 };
 
-/* ══════════════════════════════
-   TYPES — seat batches (unchanged, separate API)
-══════════════════════════════ */
+
 interface SeatBatch {
   _id: string;
   startDate: string;
@@ -40,9 +31,6 @@ interface SeatBatch {
 
 type Currency = "USD" | "INR";
 
-/* ══════════════════════════════
-   TYPES — CMS section content (mirrors the backend model)
-══════════════════════════════ */
 interface InfoRowItem {
   number: string;
   label: string;
@@ -100,9 +88,7 @@ interface BeginnersData {
   batchSectionSub?: string;
 }
 
-/* No hardcoded copy — only safe empty defaults so the page never
-   crashes on a missing field while content is being added in the
-   admin panel. Every visible text/image comes from the backend. */
+
 function withSafeDefaults(d: BeginnersData | null): Required<BeginnersData> {
   return {
     heroImage: d?.heroImage || "",
@@ -162,7 +148,7 @@ function useCurrencyRate() {
       .then((data) => {
         if (data?.usd?.inr) setRate(data.usd.inr);
       })
-      .catch(() => {})
+      .catch(() => { })
       .finally(() => setLoading(false));
   }, []);
 
@@ -267,13 +253,6 @@ function CurrencyDropdown({
   );
 }
 
-/* ══════════════════════════════════════════════════
-   PREMIUM SEAT BOOKING
-   — batches, pricing & booking logic UNCHANGED (still driven
-     by the separate seats API). Only the heading block above
-     the grid (tag/title/sub) is now passed in as props so it
-     comes from the CMS section instead of being hardcoded.
-══════════════════════════════════════════════════ */
 function PremiumSeatBooking({
   seats,
   currency,
@@ -380,18 +359,18 @@ function PremiumSeatBooking({
                 const dotCls = full
                   ? styles.psbDRed
                   : low
-                  ? styles.psbDOrange
-                  : styles.psbDGreen;
+                    ? styles.psbDOrange
+                    : styles.psbDGreen;
                 const txtCls = full
                   ? styles.psbSRed
                   : low
-                  ? styles.psbSOrange
-                  : styles.psbSGreen;
+                    ? styles.psbSOrange
+                    : styles.psbSGreen;
                 const statusTxt = full
                   ? "Fully Booked"
                   : low
-                  ? "Limited"
-                  : "Available";
+                    ? "Limited"
+                    : "Available";
                 const cardPrice = fmtPrice(batch);
                 const isSelected = selectedId === batch._id;
                 return (
@@ -543,8 +522,8 @@ function PremiumSeatBooking({
                 const pct = full
                   ? 100
                   : Math.round(
-                      (selected.bookedSeats / selected.totalSeats) * 100
-                    );
+                    (selected.bookedSeats / selected.totalSeats) * 100
+                  );
                 return (
                   <div className={styles.psbRpSeatsWrap}>
                     <div className={styles.psbRpSeatsRow}>
@@ -557,13 +536,13 @@ function PremiumSeatBooking({
                           color: full
                             ? "#8a2c00"
                             : low
-                            ? "#c8700a"
-                            : "#3d6000",
+                              ? "#c8700a"
+                              : "#3d6000",
                           borderColor: full
                             ? "#8a2c00"
                             : low
-                            ? "#c8700a"
-                            : "#3d6000",
+                              ? "#c8700a"
+                              : "#3d6000",
                         }}
                       >
                         {full
@@ -579,8 +558,8 @@ function PremiumSeatBooking({
                           background: full
                             ? "#8a2c00"
                             : low
-                            ? "linear-gradient(90deg,#c8700a,#e09030)"
-                            : "linear-gradient(90deg,#3d6000,#6aa000)",
+                              ? "linear-gradient(90deg,#c8700a,#e09030)"
+                              : "linear-gradient(90deg,#3d6000,#6aa000)",
                         }}
                       />
                     </div>
@@ -678,13 +657,12 @@ const YogaBeginners: React.FC = () => {
   const [pageData, setPageData] = useState<BeginnersData | null>(null);
 
   useEffect(() => {
-    // Seat batches — unchanged, separate endpoint
+
     api
       .get("/yoga-beginners-seats/get-all-batches")
       .then((res) => setSeats(res.data.data ?? []))
       .catch((err) => console.error("Failed to fetch seat batches:", err));
 
-    // Page content — CMS-managed singleton section
     api
       .get("/yoga-beginners-section")
       .then((res) => {
@@ -703,7 +681,7 @@ const YogaBeginners: React.FC = () => {
       {/* ===== TOP HERO IMAGE ===== */}
       {heroSrc && (
         <section className={styles.heroSection}>
-           <Image
+          <Image
             src={heroSrc}
             alt={data.heroImageAlt}
             width={1180}
@@ -741,7 +719,7 @@ const YogaBeginners: React.FC = () => {
         <section className={styles.heroSection}>
           <div className={styles.heroContainer}>
             <div className={styles.heroImageBox}>
-               <Image
+              <Image
                 src={secondImgSrc}
                 alt={data.secondImageAlt}
                 style={{ objectFit: "cover", width: "100%", height: "100%" }}
@@ -862,7 +840,7 @@ const YogaBeginners: React.FC = () => {
         </div>
       </section>
 
-      {/* ===== PREMIUM SEAT BOOKING (batches/pricing unchanged; heading text from CMS) ===== */}
+
       <PremiumSeatBooking
         seats={seats}
         currency={currency}

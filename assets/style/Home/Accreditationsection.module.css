@@ -46,11 +46,10 @@
 
 .sectionHeaderCenter {
   text-align: center;
-  margin-bottom: 2.8rem;
+  margin-bottom: clamp(1.8rem, 4vw, 2.8rem);
 }
 
 .sectionTitle {
-
   font-size: clamp(1.05rem, 2.3vw, 1.6rem);
   font-weight: 700;
   color: var(--earth);
@@ -58,6 +57,7 @@
   max-width: 820px;
   margin: 0 auto 0.9rem;
   letter-spacing: 0.02em;
+  overflow-wrap: break-word;
 }
 
 .titleUnderline {
@@ -70,10 +70,11 @@
 
 .para {
   font-family: var(--font-lato), sans-serif;
-  font-size: clamp(0.97rem, 1.6vw, 1.07rem);
+  font-size: clamp(0.92rem, 1.6vw, 1.07rem);
   line-height: 1.9;
   color: var(--earth-warm);
   margin-bottom: 1.2rem;
+  overflow-wrap: break-word;
 }
 
 /* ════════════════════════════════════════════════
@@ -83,6 +84,8 @@
 .authenticSection {
   position: relative;
   background-image: url("../../images/backgroundimage/1905x1493.png");
+  background-repeat: no-repeat;
+  background-size: cover;
   overflow: hidden;
 }
 
@@ -103,16 +106,17 @@
 
 .authGrid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: clamp(2rem, 4vw, 4rem);
   align-items: start;
-  margin-bottom: 3rem;
+  margin-bottom: clamp(2rem, 4vw, 3rem);
 }
 
 .authImageCol {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  min-width: 0;
 }
 
 .authImageFrame {
@@ -122,10 +126,6 @@
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 8px 36px var(--shadow-warm);
-  min-height: 260px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .frameCornerTL,
@@ -138,6 +138,8 @@
   border-color: var(--saffron);
   border-style: solid;
   opacity: 0.5;
+  z-index: 2;
+  pointer-events: none;
 }
 
 .frameCornerTL {
@@ -170,6 +172,15 @@
   align-items: center;
   gap: 1rem;
   padding: 1rem;
+  width: 100%;
+}
+
+/* natural ratio, kabhi crop nahi hogi */
+.authImg {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
 }
 
 .imageCaption {
@@ -179,57 +190,21 @@
   text-transform: uppercase;
   color: var(--earth-light);
   text-align: center;
+  margin: 0;
 }
 
 /*------------------------------------- display none right now -------------------------------------*/
 .pullQuote {
   display: none;
-  font-family: var(--font-lato), sans-serif;
-  font-size: clamp(1.3rem, 2.5vw, 1.75rem);
-  font-weight: 700;
-  color: var(--earth);
-  text-align: center;
-  padding: 1.2rem 1.5rem;
-  background: linear-gradient(135deg, #ffffff 0%, #ffffff 100%);
-  border: 1px solid rgba(224, 123, 0, 0.22);
-  border-radius: 8px;
-  position: relative;
-}
-
-.pullQuote::before,
-.pullQuote::after {
-  content: "";
-  position: absolute;
-  width: 14px;
-  height: 14px;
-  border-color: var(--saffron);
-  border-style: solid;
-  opacity: 0.45;
-}
-
-.pullQuote::before {
-  top: 6px;
-  left: 6px;
-  border-width: 2px 0 0 2px;
-}
-
-.pullQuote::after {
-  bottom: 6px;
-  right: 6px;
-  border-width: 0 2px 2px 0;
 }
 
 .pullQMark {
   color: var(--saffron);
-  font-size: 1.4em;
-  line-height: 0;
-  vertical-align: middle;
-  margin: 0 2px;
 }
 
 .videoImmerse {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: clamp(2rem, 4vw, 4rem);
   align-items: center;
 }
@@ -240,12 +215,15 @@
   border-radius: 10px;
   overflow: hidden;
   aspect-ratio: 16 / 9;
+  width: 100%;
   box-shadow: 0 8px 36px rgba(92, 45, 0, 0.35);
 }
 
 .videoPlaceholder::before {
   content: "";
   position: absolute;
+  inset: 0;
+  pointer-events: none;
   background-image: radial-gradient(ellipse at 30% 50%,
       rgba(224, 123, 0, 0.15) 0%,
       transparent 60%),
@@ -256,7 +234,7 @@
 
 .immerseTitle {
   font-family: var(--font-lato), sans-serif;
-  font-size: clamp(1.2rem, 2.2vw, 1.6rem);
+  font-size: clamp(1.1rem, 2.2vw, 1.6rem);
   font-weight: 700;
   color: var(--saffron-deep);
   margin-bottom: 0.7rem;
@@ -331,7 +309,7 @@
 ════════════════════════════════════════════════ */
 
 .certsBlock {
-  margin-bottom: 3.5rem;
+  margin-bottom: clamp(2.2rem, 5vw, 3.5rem);
 }
 
 .certsBlockHeader {
@@ -371,8 +349,8 @@
 
 .certsGrid4 {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: clamp(1rem, 2vw, 1.8rem);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(0.8rem, 2vw, 1.8rem);
 }
 
 .certCard {
@@ -380,6 +358,7 @@
   border-radius: 10px;
   overflow: hidden;
   cursor: default;
+  background: #fff;
   box-shadow: 0 4px 18px var(--shadow-warm);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
   outline: none;
@@ -391,13 +370,11 @@
   border-color: rgba(224, 123, 0, 0.5);
 }
 
+/* aspect-ratio + object-fit: contain → poori image dikhegi */
 .certImageWrap {
   position: relative;
   aspect-ratio: 4 / 3;
   background: linear-gradient(135deg, #fff8f2 0%, #ffecd8 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
   overflow: hidden;
 }
 
@@ -410,7 +387,6 @@
 }
 
 .certTag {
-  
   font-size: 0.80rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -421,31 +397,32 @@
 
 .certCardLabel {
   font-family: var(--font-lato), sans-serif;
-  font-size: clamp(0.82rem, 1.3vw, 0.92rem);
+  font-size: clamp(0.8rem, 1.3vw, 0.92rem);
   color: var(--earth);
   font-weight: 600;
   line-height: 1.4;
+  overflow-wrap: break-word;
 }
 
 /* ════════════════════════════════════════════════
-   AWARDS — NEW 3-COLUMN LAYOUT
+   AWARDS — 3-COLUMN LAYOUT
 ════════════════════════════════════════════════ */
 
 .awardsStack {
   display: flex;
   flex-direction: column;
-  gap: 3rem;
+  gap: clamp(1.5rem, 4vw, 3rem);
 }
 
 .awardRow {
   display: grid;
-  grid-template-columns: 370px 1.6fr 1fr;
+  grid-template-columns: 370px minmax(0, 1.6fr) minmax(0, 1fr);
   gap: clamp(1.5rem, 3vw, 3rem);
   align-items: start;
-  background: linear-gradient(135deg, #ffffff 0%, #ffffff 100%);
+  background: #ffffff;
   border: 1px solid rgba(224, 123, 0, 0.18);
   border-radius: 16px;
-  padding: clamp(1.5rem, 3vw, 2.5rem);
+  padding: clamp(1.2rem, 3vw, 2.5rem);
   box-shadow: 0 8px 36px var(--shadow-warm);
   position: relative;
   overflow: hidden;
@@ -474,7 +451,7 @@
   right: -2rem;
   transform: translateY(-50%);
   font-family: var(--font-playfair), serif;
-  font-size: 12rem;
+  font-size: clamp(7rem, 14vw, 12rem);
   color: rgba(224, 123, 0, 0.035);
   pointer-events: none;
   user-select: none;
@@ -487,17 +464,24 @@
   flex-direction: column;
   align-items: center;
   gap: 1rem;
+  min-width: 0;
 }
 
+/* natural ratio: image apni original proportion mein, crop nahi */
 .awardImgFrame {
   position: relative;
   width: 100%;
-  aspect-ratio: 3 / 4;
   background: linear-gradient(135deg, #fff8f0, #ffecd8);
   border: 1px solid rgba(224, 123, 0, 0.25);
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 6px 28px rgba(92, 45, 0, 0.13);
+}
+
+.awardImg {
+  display: block;
+  width: 100%;
+  height: auto;
 }
 
 .corner {
@@ -508,6 +492,7 @@
   border-style: solid;
   opacity: 0.5;
   z-index: 2;
+  pointer-events: none;
 }
 
 .tl {
@@ -545,6 +530,7 @@
   border-radius: 20px;
   font-weight: 600;
   text-align: center;
+  max-width: 100%;
 }
 
 /* MIDDLE: Description */
@@ -552,6 +538,7 @@
   padding: 0.25rem 0;
   position: relative;
   z-index: 1;
+  min-width: 0;
 }
 
 .awardName {
@@ -560,6 +547,7 @@
   color: var(--saffron-deep);
   margin-bottom: 0.6rem;
   line-height: 1.4;
+  overflow-wrap: break-word;
 }
 
 .descDivider {
@@ -609,6 +597,7 @@
   color: var(--earth);
   line-height: 1.7;
   font-weight: 600;
+  overflow-wrap: break-word;
 }
 
 /* RIGHT: AYUSH Courses */
@@ -618,6 +607,7 @@
   gap: 1rem;
   position: relative;
   z-index: 1;
+  min-width: 0;
 }
 
 .ayushHeader {
@@ -635,6 +625,7 @@
   border-radius: 20px;
   font-weight: 600;
   margin-bottom: 0.6rem;
+  max-width: 100%;
 }
 
 .ayushSubtitle {
@@ -647,7 +638,7 @@
 
 .coursesGrid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
   gap: 0.65rem;
 }
 
@@ -702,6 +693,7 @@
   font-weight: 700;
   color: var(--earth);
   line-height: 1.4;
+  overflow-wrap: break-word;
 }
 
 .ayushFooter {
@@ -726,127 +718,183 @@
    RESPONSIVE
 ════════════════════════════════════════════════ */
 
-@media (max-width: 1100px) {
-  .certsGrid4 {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
+/* ── ≤1200px ── */
+@media (max-width: 1200px) {
   .awardRow {
-    grid-template-columns: 220px 1fr 1fr;
+    grid-template-columns: 300px minmax(0, 1.4fr) minmax(0, 1fr);
   }
 }
 
-@media (max-width: 860px) {
-  .authGrid {
-    grid-template-columns: 1fr;
-    gap: 2rem;
-  }
-
-  .authImageCol {
-    flex-direction: row;
-    align-items: stretch;
-    gap: 1rem;
-  }
-
-  .authImageFrame {
-    flex: 1;
-    min-height: 200px;
-  }
-
-  .pullQuote {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: clamp(1.1rem, 3vw, 1.4rem);
-  }
-
-  .videoImmerse {
-    grid-template-columns: 1fr;
-    gap: 2rem;
-  }
-
-  /* Award row stacks on tablet */
+/* ── ≤1024px : ayush column neeche full width ── */
+@media (max-width: 1024px) {
   .awardRow {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 280px minmax(0, 1fr);
     grid-template-rows: auto auto;
   }
 
   .awardImageCol {
-    grid-column: 1 / 2;
-    grid-row: 1 / 2;
+    grid-column: 1;
+    grid-row: 1;
   }
 
   .awardDescCol {
-    grid-column: 2 / 3;
-    grid-row: 1 / 2;
+    grid-column: 2;
+    grid-row: 1;
   }
 
   .ayushCol {
-    grid-column: 1 / 3;
-    grid-row: 2 / 3;
+    grid-column: 1 / -1;
+    grid-row: 2;
   }
 
-  .coursesGrid {
-    grid-template-columns: repeat(3, 1fr);
+  .certsGrid4 {
+    gap: 1rem;
   }
 }
 
+/* ── ≤860px ── */
+@media (max-width: 860px) {
+  .authGrid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2rem;
+  }
+
+  .videoImmerse {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2rem;
+  }
+
+  .certsGrid4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .awardRow {
+    grid-template-columns: 240px minmax(0, 1fr);
+  }
+}
+
+/* ── ≤767px : award row single column ── */
+@media (max-width: 767px) {
+  .awardRow {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto;
+  }
+
+  .awardImageCol,
+  .awardDescCol,
+  .ayushCol {
+    grid-column: 1;
+    grid-row: auto;
+  }
+
+  .awardImgFrame {
+    max-width: 420px;
+  }
+
+  .awardName {
+    text-align: center;
+  }
+
+  .descDivider {
+    margin-left: auto;
+    margin-right: auto;
+    background: linear-gradient(90deg, transparent, var(--saffron), transparent);
+  }
+
+  .immerseBlock {
+    text-align: left;
+  }
+}
+
+/* ── ≤600px ── */
 @media (max-width: 600px) {
   .sectionTitle {
     font-size: 1.1rem;
   }
 
-  .authImageCol {
-    flex-direction: column;
+  .authImageInner {
+    padding: 0.7rem;
   }
 
-  .authImageFrame {
-    min-height: 180px;
-  }
-
-  .certsGrid4 {
-    grid-template-columns: 1fr;
-  }
-
-  /* Award row fully stacked on mobile */
   .awardRow {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto;
-    padding: 1.5rem 1rem;
+    padding: 1.4rem 1rem;
+    border-radius: 12px;
   }
 
-  .awardImageCol {
-    grid-column: 1;
-    grid-row: auto;
+  .certCardFooter {
+    padding: 0.7rem 0.75rem;
   }
 
-  .awardDescCol {
-    grid-column: 1;
-    grid-row: auto;
+  .certTag {
+    font-size: 0.72rem;
   }
 
-  .ayushCol {
-    grid-column: 1;
-    grid-row: auto;
-  }
-
-  .coursesGrid {
-    grid-template-columns: 1fr 1fr;
+  .awardBadge {
+    font-size: 0.8rem;
   }
 }
 
+/* ── ≤480px ── */
+@media (max-width: 480px) {
+  .container {
+    padding: 2rem 1rem;
+  }
+
+  .certsGrid4 {
+    gap: 0.7rem;
+  }
+
+  .certCardLabel {
+    font-size: 0.78rem;
+  }
+
+  .knowMoreBtn {
+    font-size: 0.72rem;
+    padding: 0.75rem 1.4rem;
+  }
+
+  .awardPullQuote {
+    font-size: 0.9rem;
+    padding: 0.8rem 0.9rem;
+  }
+}
+
+/* ── ≤400px ── */
+@media (max-width: 400px) {
+  .certsGrid4 {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .certImageWrap {
+    aspect-ratio: 16 / 10;
+  }
+}
+
+/* ── ≤380px ── */
 @media (max-width: 380px) {
+  .container {
+    padding: 1.6rem 0.8rem;
+  }
+
   .sectionTitle {
     font-size: 1rem;
   }
 
   .knowMoreBtn {
     font-size: 0.7rem;
-    padding: 0.7rem 1.3rem;
+    padding: 0.7rem 1.2rem;
   }
 
-  .coursesGrid {
-    grid-template-columns: 1fr;
+  .awardRow {
+    padding: 1.2rem 0.8rem;
+  }
+
+  .ayushLabel {
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+  }
+
+  .metaItem {
+    font-size: 0.84rem;
   }
 }

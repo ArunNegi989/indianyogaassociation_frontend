@@ -140,10 +140,10 @@ const YogaCompetition: React.FC = () => {
           </div>
 
           <div className={styles.btnCenter}>
-  <Link href="/">
-    <OrangeBtn>Results Announced</OrangeBtn>
-  </Link>
-</div>
+            <Link href="/">
+              <OrangeBtn>Results Announced</OrangeBtn>
+            </Link>
+          </div>
 
           {/* Objectives */}
           <SectionHeading>Objectives of the Competition</SectionHeading>
@@ -155,11 +155,11 @@ const YogaCompetition: React.FC = () => {
 
           {/* Hero image */}
           <div className={styles.imgPlaceholder}>
-           <Image
-  src={Competitionimage}
-  alt="Yoga Competition Performance"
-  className={styles.image}
-/>
+            <Image
+              src={Competitionimage}
+              alt="Yoga Competition Performance"
+              className={styles.image}
+            />
           </div>
         </div>
 
@@ -217,14 +217,14 @@ const YogaCompetition: React.FC = () => {
 
         {/* ── BOOK YOUR SPOT ── */}
         <div className={styles.bookRow}>
-  {[0, 1, 2].map((i) => (
-    <div className={styles.bookCard} key={i}>
-      <Link href="/yoga-registration">
-        <OrangeBtn>Book Your Spot</OrangeBtn>
-      </Link>
-    </div>
-  ))}
-</div>
+          {[0, 1, 2].map((i) => (
+            <div className={styles.bookCard} key={i}>
+              <Link href="/yoga-registration">
+                <OrangeBtn>Book Your Spot</OrangeBtn>
+              </Link>
+            </div>
+          ))}
+        </div>
 
         {/* ── HOW TO REGISTER ── */}
         <SectionHeading>How to Register?</SectionHeading>
@@ -283,10 +283,10 @@ const YogaCompetition: React.FC = () => {
             <div className={styles.photoCard} key={i}>
               <div className={styles.winnerImgWrap}>
                 <Image
-  src={winnerImages[i]}
-  alt={`${winner.place} winner ${winner.name}`}
-  className={styles.winnerImg}
-/>
+                  src={winnerImages[i]}
+                  alt={`${winner.place} winner ${winner.name}`}
+                  className={styles.winnerImg}
+                />
                 <div className={styles.winnerOverlay}>
                   <div className={styles.winnerOccasion}>
                     On the Occasion of International Yoga Day
@@ -378,21 +378,21 @@ const YogaCompetition: React.FC = () => {
               Pay By UPI / Bank / Debit / Credit Card
             </div>
             <div className={styles.paymentSubLabel}>For Indian Students</div>
-           <div className={styles.btnCenter} style={{ marginBottom: "1rem" }}>
-  <Link href="/yoga-registration">
-    <OrangeBtn>Book Now</OrangeBtn>
-  </Link>
-</div>
+            <div className={styles.btnCenter} style={{ marginBottom: "1rem" }}>
+              <Link href="/yoga-registration">
+                <OrangeBtn>Book Now</OrangeBtn>
+              </Link>
+            </div>
 
-<div className={styles.paymentSubLabel}>
-  For International Students
-</div>
+            <div className={styles.paymentSubLabel}>
+              For International Students
+            </div>
 
-<div className={styles.btnCenter}>
-  <Link href="/yoga-registration">
-    <OrangeBtn>Book Now</OrangeBtn>
-  </Link>
-</div>
+            <div className={styles.btnCenter}>
+              <Link href="/yoga-registration">
+                <OrangeBtn>Book Now</OrangeBtn>
+              </Link>
+            </div>
           </div>
 
           {/* Card 2 - PhonePe */}
@@ -433,7 +433,7 @@ const YogaCompetition: React.FC = () => {
 
         <div className={styles.divider} />
       </div>
-      <HowToReach/>
+      <HowToReach />
     </div>
   );
 };

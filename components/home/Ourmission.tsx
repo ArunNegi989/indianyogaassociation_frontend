@@ -61,7 +61,7 @@ export default function OurMission() {
     api
       .get("/our-mission/get-our-mission")
       .then((res) => {
-        // controller getAll → array, pick first doc
+
         const raw = res.data?.data ?? res.data;
         const doc: OurMissionData = Array.isArray(raw) ? raw[0] : raw;
         if (doc) setData(doc);
@@ -77,7 +77,7 @@ export default function OurMission() {
 
   if (loading) return <MissionSkeleton />;
 
-  // ── No data in DB yet → render nothing (or swap with a fallback UI) ──
+
   if (!data) return null;
 
   const { missionBlock, whyBlock } = data;
@@ -87,7 +87,7 @@ export default function OurMission() {
       className={styles.missionSection}
       aria-labelledby="mission-heading"
     >
-      {/* decorative bg */}
+
       <div className={styles.bgLotus} aria-hidden="true">
         ❋
       </div>
@@ -96,7 +96,7 @@ export default function OurMission() {
 
       <div className={styles.outerFrame}>
         <div className={styles.innerFrame}>
-          {/* ── MISSION BLOCK ── */}
+
           <div className={styles.missionBlock}>
             <h2 id="mission-heading" className={styles.missionHeading}>
               {missionBlock.heading}

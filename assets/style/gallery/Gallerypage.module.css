@@ -1,5 +1,3 @@
-
-
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400;1,600&display=swap');
 
 /* ── Variables ── */
@@ -192,19 +190,12 @@
   border-radius: 2px;
 }
 
-/* ──────────────────────────────────────────
-   STANDARD GRID  (3 or 4 cols via CSS var)
-────────────────────────────────────────── */
 .stdGrid {
   display: grid;
   grid-template-columns: repeat(var(--cols, 4), 1fr);
   gap: clamp(8px, 1.5vw, 16px);
 }
 
-/* ──────────────────────────────────────────
-   TWIN / SHARED LAYOUT  (Screenshot 2 top)
-   First image large-left + 3 right stacked
-────────────────────────────────────────── */
 .twinGrid {
   display: grid;
   grid-template-columns: 1.45fr 1fr;
@@ -232,13 +223,11 @@
   cursor: pointer;
   background: #c9a47a;
   box-shadow: var(--shadow);
-  /* aspect ratio — 4:3 */
   aspect-ratio: 4 / 3;
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .twinMain {
-  /* taller */
   aspect-ratio: 3 / 2.5;
 }
 
@@ -260,7 +249,6 @@
   transition: transform 0.4s ease;
 }
 
-/* ── Image label overlay (bottom-left) ── */
 .imgLabel {
   position: absolute;
   bottom: 0;

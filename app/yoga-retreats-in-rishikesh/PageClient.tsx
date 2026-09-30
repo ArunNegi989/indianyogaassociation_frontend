@@ -7,12 +7,6 @@ import Link from "next/link";
 import api from "@/lib/api";
 import Image from "next/image";
 
-/* ─────────────────────────────────────────────────────────
-   `api` (lib/api.ts) already has baseURL = NEXT_PUBLIC_API_URL + "/api",
-   so it's used for the JSON call below. Uploaded file paths like
-   "/uploads/xxx.jpg" are served from the server root (NOT under
-   /api), so image URLs are built separately with ASSET_BASE.
-───────────────────────────────────────────────────────── */
 const ASSET_BASE = process.env.NEXT_PUBLIC_API_URL || "";
 
 const getImageUrl = (path?: string) => {
@@ -21,9 +15,6 @@ const getImageUrl = (path?: string) => {
   return `${ASSET_BASE}${path}`;
 };
 
-/* Axios doesn't plug into Next's fetch-cache the way native fetch does,
-   so without this the page could get statically cached at build time
-   and never pick up admin-panel edits. Force it to always render fresh. */
 export const dynamic = "force-dynamic";
 
 /* ─────────────────────── Types (mirror the backend model) ─────────────────────── */
@@ -118,10 +109,7 @@ async function getRetreatData(): Promise<RetreatData | null> {
   }
 }
 
-/* No hardcoded copy here — only safe empty defaults so the page
-   never crashes on a missing field while content is being added
-   in the admin panel. Every piece of visible text/image comes
-   from the backend document. */
+
 function withSafeDefaults(d: RetreatData | null): Required<RetreatData> {
   return {
     _id: d?._id || "",

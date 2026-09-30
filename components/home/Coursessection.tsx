@@ -26,7 +26,7 @@ interface Course {
 
 async function getCourses(): Promise<Course[]> {
   try {
-    const res = await api.get("/courses-section"); // baseURL me /api already included hai
+    const res = await api.get("/courses-section");
     return res.data?.data ?? [];
   } catch (err: any) {
     if (err.response) {

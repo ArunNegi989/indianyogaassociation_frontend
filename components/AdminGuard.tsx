@@ -15,7 +15,7 @@ export default function AdminGuard({ children }: { children: React.ReactNode }) 
 
   if (loading) {
     return (
-      <div style={{ display:"flex", alignItems:"center", justifyContent:"center", height:"100vh", flexDirection:"column", gap:12 }}>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100vh", flexDirection: "column", gap: 12 }}>
         <div style={{ fontSize: 48, color: "#f15505" }}>ॐ</div>
         <p style={{ color: "#f15505", fontFamily: "serif" }}>Checking session…</p>
       </div>

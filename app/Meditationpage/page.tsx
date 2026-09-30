@@ -1,4 +1,3 @@
-// MeditationPage.tsx
 import React from "react";
 import styles from "@/assets/style/Meditationpage/Meditationpage.module.css";
 
@@ -75,7 +74,7 @@ const pricingData: PricingRow[] = [
 const MeditationPage: React.FC = () => {
   return (
     <main className={styles.page}>
-      {/* ── Hero Title ── */}
+
       <h1 className={styles.heroTitle}>
         Meditation Yoga Teacher Training Course in Rishikesh India
       </h1>

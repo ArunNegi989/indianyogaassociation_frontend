@@ -59,8 +59,7 @@ export default function AccommodationManager() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [pageId, setPageId] = useState<string | null>(null);
-  
-  // Same as 500hr form - using MultiImgItem array
+
   const [accomImgs, setAccomImgs] = useState<MultiImgItem[]>([]);
   const [foodImgs, setFoodImgs] = useState<MultiImgItem[]>([]);
 
@@ -73,22 +72,20 @@ export default function AccommodationManager() {
 
         if (data?._id) {
           setPageId(data._id);
-          
-          // Load accommodation images exactly like 500hr form
+
           if (data.accomImages?.length) {
-            setAccomImgs(data.accomImages.map((src: string, i: number) => ({ 
-              id: `a${i}`, 
-              preview: BASE_URL + src, 
-              serverPath: src 
+            setAccomImgs(data.accomImages.map((src: string, i: number) => ({
+              id: `a${i}`,
+              preview: BASE_URL + src,
+              serverPath: src
             })));
           }
-          
-          // Load food images exactly like 500hr form
+
           if (data.foodImages?.length) {
-            setFoodImgs(data.foodImages.map((src: string, i: number) => ({ 
-              id: `f${i}`, 
-              preview: BASE_URL + src, 
-              serverPath: src 
+            setFoodImgs(data.foodImages.map((src: string, i: number) => ({
+              id: `f${i}`,
+              preview: BASE_URL + src,
+              serverPath: src
             })));
           }
         } else {
@@ -113,12 +110,11 @@ export default function AccommodationManager() {
     setSaving(true);
     try {
       const fd = new FormData();
-      
-      // Same logic as 500hr form
+
       const keptAccomPaths = accomImgs.filter((img) => img.serverPath).map((img) => img.serverPath as string);
       fd.append("existingAccomImages", JSON.stringify(keptAccomPaths));
       accomImgs.forEach((img) => { if (img.file) fd.append("accomImage", img.file); });
-      
+
       const keptFoodPaths = foodImgs.filter((img) => img.serverPath).map((img) => img.serverPath as string);
       fd.append("existingFoodImages", JSON.stringify(keptFoodPaths));
       foodImgs.forEach((img) => { if (img.file) fd.append("foodImage", img.file); });
@@ -128,8 +124,7 @@ export default function AccommodationManager() {
       });
 
       toast.success("Images updated successfully!");
-      
-      // Refresh to show updated images
+
       setTimeout(() => window.location.reload(), 1500);
     } catch (error: any) {
       console.error("Save error:", error);
@@ -176,8 +171,7 @@ export default function AccommodationManager() {
       </div>
 
       <div className={styles.formCard}>
-        
-        {/* Accommodation Images - Same as 500hr form */}
+
         <div className={styles.sectionBlock}>
           <div className={styles.sectionHeader}>
             <span className={styles.sectionIcon}>✦</span>
@@ -213,7 +207,6 @@ export default function AccommodationManager() {
 
         <div style={{ margin: "2rem 0" }} />
 
-        {/* Food Images - Same as 500hr form */}
         <div className={styles.sectionBlock}>
           <div className={styles.sectionHeader}>
             <span className={styles.sectionIcon}>✦</span>

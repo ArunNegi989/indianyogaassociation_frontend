@@ -125,12 +125,7 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: "*",
         allow: "/",
-        disallow: [
-          "/api/",
-          "/_next/data/",
-          "/*?*utm_",
-          "/*?*fbclid",
-        ],
+        disallow: ["/api/", "/_next/data/", "/*?*utm_", "/*?*fbclid"],
       },
     ],
     sitemap: "https://indianyoga.aymyogaschool.com/sitemap.xml",

@@ -20,10 +20,10 @@ function getStrength(pw: string): Strength {
 }
 
 const strengthMeta: Record<Strength, { label: string; width: string; color: string }> = {
-  empty:  { label: "",        width: "0%",   color: "transparent" },
-  weak:   { label: "Weak",    width: "28%",  color: "#e53935" },
-  medium: { label: "Medium",  width: "62%",  color: "#f5b800" },
-  strong: { label: "Strong",  width: "100%", color: "#2e7d32" },
+  empty: { label: "", width: "0%", color: "transparent" },
+  weak: { label: "Weak", width: "28%", color: "#e53935" },
+  medium: { label: "Medium", width: "62%", color: "#f5b800" },
+  strong: { label: "Strong", width: "100%", color: "#2e7d32" },
 };
 
 export default function ChangePasswordPage() {

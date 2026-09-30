@@ -4,13 +4,11 @@ import React, { useEffect, useState } from "react";
 import styles from "../../assets/style/Home/Aymfullpage.module.css";
 import api from "@/lib/api";
 import Image1 from "../../assets/images/mainimages/41592874560_6470157aa8_b.jpg";
-import Image2 from "../../assets/images/mainimages/43290572152_f2f8ffa96a_b.jpg"
+import Image2 from "../../assets/images/mainimages/43290572152_f2f8ffa96a_b.jpg";
 import Image from "next/image";
 import Link from "next/link";
 
-/* ══════════════════════════════════════════════
-   TYPES
-══════════════════════════════════════════════ */
+/* ══════════ TYPES ══════════ */
 interface BodyPlane {
   label: string;
   listItem: string;
@@ -58,9 +56,7 @@ interface PageData {
   namesteText: string;
 }
 
-/* ══════════════════════════════════════════════
-   HELPER — relative path → absolute URL
-══════════════════════════════════════════════ */
+/* ══════════ HELPERS ══════════ */
 const BASE = (process.env.NEXT_PUBLIC_API_URL ?? "").replace(/\/$/, "");
 const toAbsUrl = (path: string | undefined | null): string => {
   if (!path) return "";
@@ -68,22 +64,21 @@ const toAbsUrl = (path: string | undefined | null): string => {
   return `${BASE}${path}`;
 };
 
-/* ══════════════════════════════════════════════
-   FALLBACK IMAGES (Google/Unsplash) for campus
-   — used only when no imageUrl from API
-══════════════════════════════════════════════ */
+const AUTO_IMG: React.CSSProperties = { width: "100%", height: "auto" };
+
+const IMG_W = 1600;
+const IMG_H = 900;
+
 const FALLBACK_CAMPUS_IMAGES = [
-  "https://images.unsplash.com/photo-1545389336-cf090694435e?w=800&q=80", // yoga hall
-  "https://images.unsplash.com/photo-1588286840104-8957b019727f?w=800&q=80", // rishikesh ganges
-  "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=800&q=80", // meditation room
-  "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&q=80", // yoga class outdoor
-  "https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?w=800&q=80", // ashram nature
-  "https://images.unsplash.com/photo-1562088287-bde35a1ea917?w=800&q=80", // yoga pose
+  "https://images.unsplash.com/photo-1545389336-cf090694435e?w=800&q=80",
+  "https://images.unsplash.com/photo-1588286840104-8957b019727f?w=800&q=80",
+  "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=800&q=80",
+  "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&q=80",
+  "https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?w=800&q=80",
+  "https://images.unsplash.com/photo-1562088287-bde35a1ea917?w=800&q=80",
 ];
 
-/* ══════════════════════════════════════════════
-   COMPONENT
-══════════════════════════════════════════════ */
+/* ══════════ COMPONENT ══════════ */
 const AYMFullPage: React.FC = () => {
   const [data, setData] = useState<PageData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -153,25 +148,8 @@ const AYMFullPage: React.FC = () => {
   /* ── Loading ── */
   if (isLoading) {
     return (
-      <div
-        className={styles.pageWrapper}
-        style={{
-          minHeight: "60vh",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <p
-          style={{
-            fontFamily: "'Cormorant Garamond', serif",
-            fontSize: "1.1rem",
-            color: "#a07840",
-            fontStyle: "italic",
-          }}
-        >
-          Loading…
-        </p>
+      <div className={`${styles.pageWrapper} ${styles.stateBox}`}>
+        <p className={styles.stateText}>Loading…</p>
       </div>
     );
   }
@@ -179,37 +157,19 @@ const AYMFullPage: React.FC = () => {
   /* ── Error ── */
   if (error || !data) {
     return (
-      <div
-        className={styles.pageWrapper}
-        style={{
-          minHeight: "40vh",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <p
-          style={{
-            fontFamily: "'Cormorant Garamond', serif",
-            color: "#c44a00",
-            fontStyle: "italic",
-          }}
-        >
+      <div className={`${styles.pageWrapper} ${styles.stateBox}`}>
+        <p className={`${styles.stateText} ${styles.stateError}`}>
           {error ?? "Content unavailable."}
         </p>
       </div>
     );
   }
 
-  /* ════════════════════════════════════════════
-     RENDER
-  ════════════════════════════════════════════ */
   return (
     <div className={styles.pageWrapper}>
       {/* ══════════ ALIGNMENT SECTION ══════════ */}
       <section className={styles.alignSection}>
         <div className={styles.container}>
-          {/* Section heading — rich text */}
           <div className={styles.sectionHeaderCenter}>
             <h2
               className={styles.sectionTitle}
@@ -218,41 +178,28 @@ const AYMFullPage: React.FC = () => {
             <div className={styles.titleUnderline} />
           </div>
 
-          {/* Salutation — plain text */}
           <p className={styles.salutation}>{data.salutation}</p>
 
-          {/* Body paragraphs — rich text */}
-          <div
-            className={styles.para}
-            dangerouslySetInnerHTML={{ __html: data.alignPara1 }}
-          />
-          <div
-            className={styles.para}
-            dangerouslySetInnerHTML={{ __html: data.alignPara2 }}
-          />
-          <div
-            className={styles.para}
-            dangerouslySetInnerHTML={{ __html: data.alignPara3 }}
-          />
+          <div className={styles.para} dangerouslySetInnerHTML={{ __html: data.alignPara1 }} />
+          <div className={styles.para} dangerouslySetInnerHTML={{ __html: data.alignPara2 }} />
+          <div className={styles.para} dangerouslySetInnerHTML={{ __html: data.alignPara3 }} />
 
           {/* Body planes grid */}
           <div className={styles.planesGrid}>
-            {/* Diagram image */}
             <div className={styles.planesImageBlock}>
               <div className={styles.planesImagePlaceholder}>
                 {data.bodyPlanesImage ? (
                   <div className={styles.diagramBox}>
-                    <div style={{ position: "relative", width: "100%", aspectRatio: "4 / 3" }}>
-                      <Image
-                        src={data.bodyPlanesImage}
-                        alt={data.bodyPlanesImageAlt || "Yoga body planes diagram"}
-                        fill
-                        sizes="(max-width: 768px) 100vw, 500px"
-                        className={styles.diagramImage}
-                        style={{ objectFit: "cover" }}
-                        loading="lazy"
-                      />
-                    </div>
+                    <Image
+                      src={data.bodyPlanesImage}
+                      alt={data.bodyPlanesImageAlt || "Yoga body planes diagram"}
+                      width={IMG_W}
+                      height={IMG_H}
+                      sizes="(max-width: 860px) 100vw, 50vw"
+                      className={styles.diagramImage}
+                      style={AUTO_IMG}
+                      loading="lazy"
+                    />
                     {data.bodyPlanes.length > 0 && (
                       <div className={styles.diagramLabelsRow}>
                         {data.bodyPlanes.map((plane, i) => (
@@ -267,12 +214,8 @@ const AYMFullPage: React.FC = () => {
               </div>
             </div>
 
-            {/* Planes info — rich text intro + numbered list */}
             <div className={styles.planesInfoBlock}>
-              <div
-                className={styles.para}
-                dangerouslySetInnerHTML={{ __html: data.planesPara }}
-              />
+              <div className={styles.para} dangerouslySetInnerHTML={{ __html: data.planesPara }} />
               {data.bodyPlanes.length > 0 && (
                 <ol className={styles.planesList}>
                   {data.bodyPlanes.map((plane, i) => (
@@ -299,24 +242,20 @@ const AYMFullPage: React.FC = () => {
           {/* Outdoor group photo */}
           {data.outdoorImage && (
             <div className={styles.groupPhotoBlock}>
-              <div
-                className={styles.groupPhotoBanner}
-                style={{ position: "relative" }}
-              >
+              <div className={styles.groupPhotoBanner}>
                 <Image
                   src={data.outdoorImage}
                   alt={data.outdoorImageAlt || "Outdoor Yoga Practice"}
-                  fill
+                  width={IMG_W}
+                  height={IMG_H}
                   sizes="100vw"
                   className={styles.groupPhotoImg}
-                  style={{ objectFit: "cover" }}
+                  style={AUTO_IMG}
                   loading="lazy"
                 />
                 {data.outdoorCaption && (
                   <div className={styles.groupPhotoOverlay}>
-                    <span className={styles.groupPhotoText}>
-                      {data.outdoorCaption}
-                    </span>
+                    <span className={styles.groupPhotoText}>{data.outdoorCaption}</span>
                   </div>
                 )}
               </div>
@@ -329,7 +268,6 @@ const AYMFullPage: React.FC = () => {
       <section className={styles.campusSection}>
         <div className={styles.a} />
         <div className={styles.container}>
-          {/* Campus heading — rich text */}
           <div className={styles.sectionHeaderCenter}>
             <h2
               className={styles.sectionTitle}
@@ -338,51 +276,38 @@ const AYMFullPage: React.FC = () => {
             <div className={styles.titleUnderline} />
           </div>
 
-          {/* ── Facilities — Alternating layout ── */}
+          {/* Facilities — alternating */}
           <div className={styles.facilitiesList}>
             {data.campusFacilities.map((f, i) => {
-              /* Use API image if available, else fallback */
               const imgSrc =
-                f.imageUrl ||
-                FALLBACK_CAMPUS_IMAGES[i % FALLBACK_CAMPUS_IMAGES.length];
+                f.imageUrl || FALLBACK_CAMPUS_IMAGES[i % FALLBACK_CAMPUS_IMAGES.length];
               const imgAlt = f.imageAlt || f.bold || "Campus facility";
 
               return (
                 <div key={i} className={styles.facilityItem}>
-                  {/* Content: title + text */}
                   <div className={styles.facilityContent}>
                     <div className={styles.facilityHeader}>
                       <span className={styles.facilityDot}>✦</span>
                       <strong className={styles.facilityBold}>{f.bold}</strong>
                     </div>
                     <div className={styles.facilityUnderline} />
-                    {/* facility text — rich text */}
                     <div
                       className={styles.facilityText}
                       dangerouslySetInnerHTML={{ __html: f.text }}
                     />
                   </div>
 
-                  {/* Image */}
-                  <div
-                    className={styles.facilityImageWrap}
-                    style={{ position: "relative" }}
-                  >
-                    {imgSrc ? (
-                      <Image
-                        src={imgSrc}
-                        alt={imgAlt}
-                        fill
-                        sizes="(max-width: 768px) 100vw, 500px"
-                        className={styles.facilityImage}
-                        style={{ objectFit: "cover" }}
-                        loading="lazy"
-                      />
-                    ) : (
-                      <div className={styles.facilityImagePlaceholder}>
-                        <span className={styles.facilityPlaceholderIcon}>🕉</span>
-                      </div>
-                    )}
+                  <div className={styles.facilityImageWrap}>
+                    <Image
+                      src={imgSrc}
+                      alt={imgAlt}
+                      width={IMG_W}
+                      height={IMG_H}
+                      sizes="(max-width: 860px) 100vw, 50vw"
+                      className={styles.facilityImage}
+                      style={AUTO_IMG}
+                      loading="lazy"
+                    />
                   </div>
                 </div>
               );
@@ -390,73 +315,61 @@ const AYMFullPage: React.FC = () => {
           </div>
 
           {/* Promo cards */}
-        <div className={styles.promoCards}>
-  
-  {/* Promo Card 1 */}
-  <div className={styles.promoCard}>
-    
-    <div className={styles.promoContent}>
-      <h3
-        className={styles.promoTitle}
-        dangerouslySetInnerHTML={{ __html: data.promoCard1.title }}
-      />
-      <div className={styles.promoUnderline} />
+          <div className={styles.promoCards}>
+            <div className={styles.promoCard}>
+              <div className={styles.promoContent}>
+                <h3
+                  className={styles.promoTitle}
+                  dangerouslySetInnerHTML={{ __html: data.promoCard1.title }}
+                />
+                <div className={styles.promoUnderline} />
+                <div
+                  className={styles.promoText}
+                  dangerouslySetInnerHTML={{ __html: data.promoCard1.text }}
+                />
+                <Link href={data.promoCard1.link} className={styles.promoLink}>
+                  More information →
+                </Link>
+              </div>
 
-      <div
-        className={styles.promoText}
-        dangerouslySetInnerHTML={{ __html: data.promoCard1.text }}
-      />
+              <div className={styles.promoImageWrap}>
+                <Image
+                  src={Image1}
+                  alt="AYM Yoga promo"
+                  className={styles.promoImage}
+                  sizes="(max-width: 860px) 100vw, 50vw"
+                  style={AUTO_IMG}
+                />
+              </div>
+            </div>
 
-      <Link href={data.promoCard1.link} className={styles.promoLink}>
-        More information →
-      </Link>
-    </div>
+            <div className={styles.promoCard}>
+              <div className={styles.promoContent}>
+                <h3
+                  className={styles.promoTitle}
+                  dangerouslySetInnerHTML={{ __html: data.promoCard2.title }}
+                />
+                <div className={styles.promoUnderline} />
+                <div
+                  className={styles.promoText}
+                  dangerouslySetInnerHTML={{ __html: data.promoCard2.text }}
+                />
+                <Link href={data.promoCard2.link} className={styles.promoLink}>
+                  More information →
+                </Link>
+              </div>
 
-    <div className={styles.promoImageWrap}>
-      <Image
-        src={Image1}
-        alt="image"
-        className={styles.promoImage}
-        width={300}
-        height={250}
-      />
-    </div>
-
-  </div>
-
-  {/* Promo Card 2 */}
-  <div className={styles.promoCard}>
-    
-    <div className={styles.promoContent}>
-      <h3
-        className={styles.promoTitle}
-        dangerouslySetInnerHTML={{ __html: data.promoCard2.title }}
-      />
-      <div className={styles.promoUnderline} />
-
-      <div
-        className={styles.promoText}
-        dangerouslySetInnerHTML={{ __html: data.promoCard2.text }}
-      />
-
-      <Link href={data.promoCard2.link} className={styles.promoLink}>
-        More information →
-      </Link>
-    </div>
-
-    <div className={styles.promoImageWrap}>
-      <Image
-        src={Image2}
-        alt="image"
-        className={styles.promoImage}
-        width={300}
-        height={250}
-      />
-    </div>
-
-  </div>
-
-</div>
+              <div className={styles.promoImageWrap}>
+                <Image
+                  src={Image2}
+                  alt="AYM Yoga promo"
+                  className={styles.promoImage}
+                  sizes="(max-width: 860px) 100vw, 50vw"
+                  style={AUTO_IMG}
+                />
+              </div>
+            </div>
+          </div>
         </div>
         <div className={styles.bottomBorder} />
       </section>
@@ -465,29 +378,27 @@ const AYMFullPage: React.FC = () => {
       <section className={styles.ctaSection}>
         <div className={styles.ctaBg} />
         <div className={styles.ctaContent}>
-          {/* CTA heading — rich text */}
           <h2
             className={styles.ctaHeading}
             dangerouslySetInnerHTML={{ __html: data.ctaHeading }}
           />
-
-          {/* CTA subtext — rich text */}
           <div
             className={styles.ctaSubtext}
             dangerouslySetInnerHTML={{ __html: data.ctaSubtext }}
           />
 
-        <Link 
-  href={`https://wa.me/917500277709?text=${encodeURIComponent("Hello, I want to know more about your training course.")}`}
-  className={styles.whatsappBtn}
-  target="_blank"
-  rel="noopener noreferrer"
->
-  <span className={styles.waIcon}>💬</span> Chat with Us on WhatsApp
-</Link>
+          <Link
+            href={`https://wa.me/917500277709?text=${encodeURIComponent(
+              "Hello, I want to know more about your training course."
+            )}`}
+            className={styles.whatsappBtn}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span className={styles.waIcon}>💬</span> Chat with Us on WhatsApp
+          </Link>
         </div>
 
-        {/* Master quote block */}
         <div className={styles.masterQuoteBlock}>
           <div
             className={styles.masterQuote}
@@ -496,19 +407,15 @@ const AYMFullPage: React.FC = () => {
           <div className={styles.masterAttrib}>{data.masterAttrib}</div>
         </div>
 
-        {/* Journey paragraphs */}
         <div className={styles.container}>
           <div className={styles.journeyText}>
-            {/* Left: Journey Content */}
             <div className={styles.journeyContent}>
               {data.journeyParas.map((para, i) => {
                 const isLast = i === data.journeyParas.length - 1;
                 return (
                   <div
                     key={i}
-                    className={
-                      isLast ? `${styles.para} ${styles.namaste}` : styles.para
-                    }
+                    className={isLast ? `${styles.para} ${styles.namaste}` : styles.para}
                     dangerouslySetInnerHTML={{ __html: para.text }}
                   />
                 );
@@ -521,26 +428,21 @@ const AYMFullPage: React.FC = () => {
               )}
             </div>
 
-            {/* Right: Journey Image */}
             {data.outdoorImage && (
               <div className={styles.journeyImage}>
-                <div
-                  className={styles.journeyImageWrapper}
-                  style={{ position: "relative", aspectRatio: "4 / 3" }}
-                >
+                <div className={styles.journeyImageWrapper}>
                   <Image
                     src={data.outdoorImage}
                     alt={data.outdoorImageAlt || "Yoga Journey"}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 500px"
-                    style={{ objectFit: "cover" }}
+                    width={IMG_W}
+                    height={IMG_H}
+                    sizes="(max-width: 860px) 100vw, 50vw"
+                    style={AUTO_IMG}
                     loading="lazy"
                   />
                 </div>
                 {data.outdoorCaption && (
-                  <p className={styles.journeyImageCaption}>
-                    {data.outdoorCaption}
-                  </p>
+                  <p className={styles.journeyImageCaption}>{data.outdoorCaption}</p>
                 )}
               </div>
             )}

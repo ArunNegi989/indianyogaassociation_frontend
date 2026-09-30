@@ -1,44 +1,41 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Lato:ital,wght@0,300;0,400;0,700;1,400&family=Montserrat:wght@400;500;600;700&display=swap');
 
-/* ================================================================
-   CSS VARIABLES  — matching 100-hours root tokens
-   ================================================================ */
 :root {
-  --parchment:    #fff9ed;
-  --parchment-2:  #ede0c0;
-  --parchment-3:  #e8d5a8;
+  --parchment: #fff9ed;
+  --parchment-2: #ede0c0;
+  --parchment-3: #e8d5a8;
   --parchment-dark: #d4bc88;
-  --ink-sepia:    #2c1a08;
-  --ink-mid:      #4a2e10;
-  --ink-soft:     #7a5c30;
-  --saffron:      #f15505;
+  --ink-sepia: #2c1a08;
+  --ink-mid: #4a2e10;
+  --ink-soft: #7a5c30;
+  --saffron: #f15505;
   --saffron-bright: #f15505;
   --saffron-gold: #f15505;
   --saffron-light: #f15505;
-  --maroon:       #6b1a00;
+  --maroon: #6b1a00;
   --maroon-light: #8b3a00;
-  --cream:        #ffffff;
+  --cream: #ffffff;
   --border-sepia: rgba(139, 90, 19, 0.3);
-  --border-gold:  rgba(184, 134, 11, 0.4);
-  --shadow-warm:  rgba(80, 40, 5, 0.15);
+  --border-gold: rgba(184, 134, 11, 0.4);
+  --shadow-warm: rgba(80, 40, 5, 0.15);
   --font-display: 'Montserrat', Arial, sans-serif;
-  --font-body:    'Lato', Arial, sans-serif;
-  --font-fell:    'Montserrat', Arial, sans-serif;
-  --font-script:  'Poppins', Arial, sans-serif;
-  --font-menu:    'Montserrat', Arial, sans-serif;
-  --teal-dark:    #1a4a4a;
-  --teal-mid:     #2a6060;
+  --font-body: 'Lato', Arial, sans-serif;
+  --font-fell: 'Montserrat', Arial, sans-serif;
+  --font-script: 'Poppins', Arial, sans-serif;
+  --font-menu: 'Montserrat', Arial, sans-serif;
+  --teal-dark: #1a4a4a;
+  --teal-mid: #2a6060;
 
   /* Local page tokens */
-  --gold:         #f15505;
-  --gold-dark:    #c84400;
-  --cream-mid:    #ffffff;
-  --cream-dark:   #ffffff;
-  --brown-deep:   #ffffff;
-  --brown-mid:    #ffffff;
-  --brown-light:  #ffffff;
-  --border:       #e8d5b5;
-  --trans-gold:   rgba(241, 85, 5, 0.1);
+  --gold: #f15505;
+  --gold-dark: #c84400;
+  --cream-mid: #ffffff;
+  --cream-dark: #ffffff;
+  --brown-deep: #ffffff;
+  --brown-mid: #ffffff;
+  --brown-light: #ffffff;
+  --border: #e8d5b5;
+  --trans-gold: rgba(241, 85, 5, 0.1);
 }
 
 /* ================================================================
@@ -80,6 +77,7 @@
   z-index: 0;
   animation: slowRotate 90s linear infinite;
 }
+
 .bgMandala2 {
   position: fixed;
   bottom: -100px;
@@ -88,6 +86,7 @@
   z-index: 0;
   animation: slowRotateReverse 70s linear infinite;
 }
+
 .bgMandala3 {
   position: fixed;
   top: 40%;
@@ -99,26 +98,35 @@
 }
 
 @keyframes slowRotate {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }
+
 @keyframes slowRotateReverse {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(-360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(-360deg);
+  }
 }
 
 /* ── Border strips ── */
 .topBorder,
 .bottomBorder {
   height: 5px;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    var(--gold) 20%,
-    #f5b800 50%,
-    var(--gold) 80%,
-    transparent 100%
-  );
+  background: linear-gradient(90deg,
+      transparent 0%,
+      var(--gold) 20%,
+      #f5b800 50%,
+      var(--gold) 80%,
+      transparent 100%);
   position: relative;
   z-index: 2;
 }
@@ -144,17 +152,20 @@
   position: relative;
   z-index: 2;
 }
+
 .dividerLine {
   flex: 1;
   max-width: 240px;
   height: 1px;
   background: linear-gradient(90deg, transparent, var(--gold), transparent);
 }
+
 .omCenter {
   display: flex;
   align-items: center;
   justify-content: center;
 }
+
 .omSymbol {
   font-size: 1.7rem;
   color: var(--gold);
@@ -162,9 +173,21 @@
   filter: drop-shadow(0 1px 6px rgba(241, 85, 5, 0.45));
   animation: pulseGlow 3s ease-in-out infinite;
 }
+
 @keyframes pulseGlow {
-  0%, 100% { opacity: 1; transform: scale(1); filter: drop-shadow(0 1px 6px rgba(241, 85, 5, 0.45)); }
-  50%       { opacity: 0.75; transform: scale(1.08); filter: drop-shadow(0 2px 12px rgba(241, 85, 5, 0.7)); }
+
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    filter: drop-shadow(0 1px 6px rgba(241, 85, 5, 0.45));
+  }
+
+  50% {
+    opacity: 0.75;
+    transform: scale(1.08);
+    filter: drop-shadow(0 2px 12px rgba(241, 85, 5, 0.7));
+  }
 }
 
 /* ================================================================
@@ -178,6 +201,7 @@
   margin-bottom: 2.8rem;
   text-align: center;
 }
+
 .mandalaMini {
   flex-shrink: 0;
   animation: slowRotate 22s linear infinite;
@@ -197,7 +221,7 @@
   font-family: var(--font-display);
   font-size: clamp(1.05rem, 2.2vw, 1.65rem);
   font-weight: 700;
-  color:#f15505;
+  color: #f15505;
   line-height: 1.35;
   letter-spacing: 0.01em;
   margin: 0;
@@ -228,6 +252,7 @@
   text-align: center;
   background-color: #ffffff;
 }
+
 .heroMandalaLeft {
   position: absolute;
   left: -50px;
@@ -237,6 +262,7 @@
   pointer-events: none;
   z-index: 1;
 }
+
 .heroMandalaRight {
   position: absolute;
   right: -50px;
@@ -257,6 +283,7 @@
   letter-spacing: 0.01em;
   animation: fadeInUp 0.75s ease both;
 }
+
 .heroTitle em {
   font-family: var(--font-fell);
   font-style: italic;
@@ -270,6 +297,7 @@
   text-align: left;
   animation: fadeInUp 0.9s ease 0.18s both;
 }
+
 .heroPara {
   font-family: var(--font-fell);
   font-size: clamp(1rem, 1.6vw, 1.1rem);
@@ -279,8 +307,15 @@
 }
 
 @keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(22px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* ================================================================
@@ -294,6 +329,7 @@
   position: relative;
   z-index: 2;
 }
+
 .chakraRow {
   display: flex;
   justify-content: center;
@@ -301,6 +337,7 @@
   gap: clamp(0.8rem, 2.5vw, 2.5rem);
   align-items: flex-start;
 }
+
 .chakraItem {
   display: flex;
   flex-direction: column;
@@ -308,6 +345,7 @@
   gap: 0.35rem;
   cursor: default;
 }
+
 .chakraCircle {
   width: clamp(46px, 6.5vw, 100px);
   height: clamp(46px, 6.5vw, 100px);
@@ -321,11 +359,16 @@
   transition: transform 0.28s ease, box-shadow 0.28s ease;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
 }
+
 .chakraItem:hover .chakraCircle {
   transform: translateY(-5px) scale(1.12);
   box-shadow: 0 10px 28px rgba(0, 0, 0, 0.14);
 }
-.chakraSymbol { font-size: clamp(1rem, 1.8vw, 3.4rem); }
+
+.chakraSymbol {
+  font-size: clamp(1rem, 1.8vw, 3.4rem);
+}
+
 .chakraName {
   font-family: var(--font-display);
   font-size: clamp(0.54rem, 0.88vw, 0.66rem);
@@ -335,12 +378,13 @@
   font-weight: 600;
   text-transform: uppercase;
 }
+
 .chakraLabel {
   font-family: var(--font-fell);
   font-size: clamp(0.6rem, 0.95vw, 0.92rem);
   color: #f15505;
   font-weight: 600;
- 
+
 }
 
 /* ================================================================
@@ -372,6 +416,7 @@
   overflow: hidden;
   animation: fadeInUp 0.6s ease calc(var(--card-index, 0) * 0.1s) both;
 }
+
 .programCard::before {
   content: '';
   position: absolute;
@@ -379,6 +424,7 @@
   background: linear-gradient(135deg, rgba(241, 85, 5, 0.04) 0%, transparent 55%);
   pointer-events: none;
 }
+
 .programCard:hover {
   transform: translateY(-4px);
   box-shadow: 0 12px 36px rgba(92, 45, 0, 0.13);
@@ -398,10 +444,12 @@
   flex-shrink: 0;
   min-width: 3rem;
 }
+
 .programIcon {
   font-size: clamp(1.4rem, 2.4vw, 1.8rem);
   line-height: 1;
 }
+
 .programNum {
   font-family: var(--font-display);
   font-size: clamp(1.5rem, 2.8vw, 2.2rem);
@@ -410,7 +458,10 @@
   line-height: 1;
 }
 
-.programInner { flex: 1; }
+.programInner {
+  flex: 1;
+}
+
 .programTitle {
   font-family: var(--font-display);
   font-size: clamp(0.84rem, 1.4vw, 1rem);
@@ -420,6 +471,7 @@
   letter-spacing: 0.02em;
   text-transform: uppercase;
 }
+
 .programDesc {
   font-family: var(--font-fell);
   font-size: clamp(0.9rem, 1.4vw, 1rem);
@@ -427,6 +479,7 @@
   color: #000;
   margin: 0;
 }
+
 .innerBadge {
   display: inline-block;
   margin-top: 0.85rem;
@@ -441,6 +494,7 @@
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }
+
 .programCorner {
   position: absolute;
   bottom: 0;
@@ -461,12 +515,14 @@
   position: relative;
   z-index: 2;
 }
+
 .applyGrid {
   display: grid;
   grid-template-columns: 3fr 2fr;
   gap: clamp(2rem, 4vw, 4.5rem);
   align-items: center;
 }
+
 .applySupra {
   font-family: var(--font-display);
   font-size: 0.7rem;
@@ -476,10 +532,12 @@
   color: var(--saffron);
   margin-bottom: 0.5rem;
 }
+
 .applyLeft .sectionTitle {
   margin-bottom: 0.5rem;
   text-align: left;
 }
+
 .applyDivider {
   width: 60px;
   height: 2px;
@@ -487,6 +545,7 @@
   margin-bottom: 1.6rem;
   border-radius: 2px;
 }
+
 .applyPara {
   font-family: var(--font-fell);
   font-size: clamp(0.95rem, 1.55vw, 1.06rem);
@@ -494,6 +553,7 @@
   color: var(--ink-mid);
   margin-bottom: 1.1rem;
 }
+
 .emailBadge {
   display: inline-block;
   background: rgba(241, 85, 5, 0.1);
@@ -506,6 +566,7 @@
   font-size: 0.82em;
   letter-spacing: 0.02em;
 }
+
 .applyRight {
   position: relative;
   display: flex;
@@ -513,11 +574,13 @@
   justify-content: center;
   min-height: 220px;
 }
+
 .applyMandala {
   position: absolute;
   animation: slowRotate 42s linear infinite;
   opacity: 0.28;
 }
+
 .applyQuote {
   font-family: var(--font-fell);
   font-size: clamp(1.05rem, 2vw, 1.4rem);
@@ -536,6 +599,7 @@
   max-width: 340px;
   backdrop-filter: blur(6px);
 }
+
 .quoteMarks {
   color: var(--gold);
   font-size: 1.4em;
@@ -554,11 +618,13 @@
   z-index: 2;
   background-color: #ffffff;
 }
+
 .rulesGrid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: clamp(0.8rem, 1.5vw, 1.2rem);
 }
+
 .ruleItem {
   display: flex;
   gap: 1rem;
@@ -570,11 +636,13 @@
   transition: background 0.22s ease, transform 0.22s ease, box-shadow 0.22s ease;
   animation: fadeInUp 0.5s ease calc(var(--rule-index, 0) * 0.06s) both;
 }
+
 .ruleItem:hover {
   background: linear-gradient(135deg, #f8f4ee 0%, #f4e8d9 100%);
   transform: translateX(4px);
   box-shadow: 0 4px 18px rgba(241, 85, 5, 0.1);
 }
+
 .ruleDot {
   width: 30px;
   height: 30px;
@@ -591,6 +659,7 @@
   box-shadow: 0 2px 10px rgba(241, 85, 5, 0.3);
   flex-shrink: 0;
 }
+
 .ruleText {
   font-family: var(--font-fell);
   font-size: clamp(0.88rem, 1.35vw, 0.97rem);
@@ -610,11 +679,13 @@
   position: relative;
   z-index: 2;
 }
+
 .policiesGrid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: clamp(1rem, 2vw, 1.8rem);
 }
+
 .policyCard {
   background: linear-gradient(140deg, #ffffff 0%, var(--cream-mid) 100%);
   border: 1.5px solid var(--border);
@@ -624,6 +695,7 @@
   overflow: hidden;
   transition: transform 0.24s ease, box-shadow 0.24s ease;
 }
+
 .policyTopBar {
   position: absolute;
   top: 0;
@@ -632,16 +704,19 @@
   height: 3px;
   background: linear-gradient(90deg, transparent, var(--gold), transparent);
 }
+
 .policyCard:hover {
   transform: translateY(-4px);
   box-shadow: 0 12px 34px rgba(92, 45, 0, 0.1);
 }
+
 .policyIcon {
   font-size: 2.2rem;
   margin-bottom: 0.85rem;
   display: block;
   line-height: 1;
 }
+
 .policyTitle {
   font-family: var(--font-display);
   font-size: clamp(0.82rem, 1.3vw, 0.95rem);
@@ -653,6 +728,7 @@
   padding-bottom: 0.7rem;
   border-bottom: 1px solid var(--border);
 }
+
 .policySubtitle {
   font-family: var(--font-display);
   font-size: 0.7rem;
@@ -663,13 +739,15 @@
   margin-bottom: 0.6rem;
   margin-top: 0.4rem;
 }
+
 .policyText {
   font-family: var(--font-fell);
   font-size: clamp(0.88rem, 1.35vw, 0.97rem);
   line-height: 1.8;
- color: #000;
+  color: #000;
   margin: 0 0 0.6rem;
 }
+
 .policyList {
   font-family: var(--font-fell);
   font-size: clamp(0.85rem, 1.3vw, 0.95rem);
@@ -678,8 +756,14 @@
   padding-left: 1.2rem;
   margin: 0;
 }
-.policyList li { margin-bottom: 0.55rem; }
-.policyList li::marker { color: var(--gold); }
+
+.policyList li {
+  margin-bottom: 0.55rem;
+}
+
+.policyList li::marker {
+  color: var(--gold);
+}
 
 /* ================================================================
    CTA SECTION
@@ -692,6 +776,7 @@
   z-index: 2;
   background-color: #2c1a08;
 }
+
 .ctaMandala {
   position: absolute;
   top: 50%;
@@ -700,6 +785,7 @@
   animation: slowRotate 65s linear infinite;
   pointer-events: none;
 }
+
 .ctaSupra {
   font-family: var(--font-display);
   font-size: 1rem;
@@ -711,6 +797,7 @@
   position: relative;
   z-index: 1;
 }
+
 .ctaTitle {
   font-family: var(--font-display);
   font-size: clamp(1.3rem, 2.8vw, 2.1rem);
@@ -721,6 +808,7 @@
   position: relative;
   z-index: 1;
 }
+
 .ctaText {
   font-family: var(--font-fell);
   font-size: clamp(0.95rem, 1.55vw, 2.08rem);
@@ -731,6 +819,7 @@
   position: relative;
   z-index: 1;
 }
+
 .ctaActions {
   display: flex;
   align-items: center;
@@ -740,6 +829,7 @@
   position: relative;
   z-index: 1;
 }
+
 .ctaBtn {
   display: inline-flex;
   align-items: center;
@@ -757,15 +847,21 @@
   box-shadow: 0 6px 26px rgba(241, 85, 5, 0.4);
   transition: transform 0.22s ease, box-shadow 0.22s ease;
 }
+
 .ctaBtn:hover {
   transform: translateY(-3px);
   box-shadow: 0 12px 36px rgba(241, 85, 5, 0.5);
 }
+
 .ctaArrow {
   display: inline-block;
   transition: transform 0.2s ease;
 }
-.ctaBtn:hover .ctaArrow { transform: translateX(5px); }
+
+.ctaBtn:hover .ctaArrow {
+  transform: translateX(5px);
+}
+
 .ctaEmail {
   font-family: var(--font-fell);
   font-size: clamp(0.9rem, 1.35vw, 1.3rem);
@@ -779,192 +875,606 @@
 
 /* ── 2560 ── */
 @media (min-width: 2560px) {
-  .container { max-width: 1800px; padding: 5rem 4rem; }
-  .heroTitle { font-size: 3.4rem; }
-  .sectionTitle { font-size: 2.2rem; }
-  .heroPara { font-size: 1.25rem; }
-  .programGrid { grid-template-columns: repeat(2, 1fr); gap: 2.4rem; }
-  .policiesGrid { gap: 2.4rem; }
-  .rulesGrid { gap: 1.6rem; }
+  .container {
+    max-width: 1800px;
+    padding: 5rem 4rem;
+  }
+
+  .heroTitle {
+    font-size: 3.4rem;
+  }
+
+  .sectionTitle {
+    font-size: 2.2rem;
+  }
+
+  .heroPara {
+    font-size: 1.25rem;
+  }
+
+  .programGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2.4rem;
+  }
+
+  .policiesGrid {
+    gap: 2.4rem;
+  }
+
+  .rulesGrid {
+    gap: 1.6rem;
+  }
 }
 
 /* ── 1920 ── */
 @media (min-width: 1920px) and (max-width: 2559px) {
-  .container { max-width: 1600px; }
-  .heroTitle { font-size: 3rem; }
-  .programGrid { gap: 2.2rem; }
+  .container {
+    max-width: 1600px;
+  }
+
+  .heroTitle {
+    font-size: 3rem;
+  }
+
+  .programGrid {
+    gap: 2.2rem;
+  }
 }
 
 /* ── 1600 ── */
 @media (min-width: 1600px) and (max-width: 1919px) {
-  .container { max-width: 1500px; }
+  .container {
+    max-width: 1500px;
+  }
 }
 
 /* ── 1400 ── */
 @media (min-width: 1400px) and (max-width: 1599px) {
-  .container { max-width: 1380px; }
-  .applyGrid { grid-template-columns: 3fr 2fr; }
+  .container {
+    max-width: 1380px;
+  }
+
+  .applyGrid {
+    grid-template-columns: 3fr 2fr;
+  }
 }
 
 /* ── 1200 ── */
 @media (min-width: 1200px) and (max-width: 1399px) {
-  .heroTitle { font-size: 2.2rem; }
-  .applyGrid { grid-template-columns: 3fr 2fr; }
-  .programGrid { grid-template-columns: repeat(2, 1fr); }
+  .heroTitle {
+    font-size: 2.2rem;
+  }
+
+  .applyGrid {
+    grid-template-columns: 3fr 2fr;
+  }
+
+  .programGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 /* ── 1024 ── */
 @media (min-width: 1024px) and (max-width: 1199px) {
+
   .heroMandalaLeft,
-  .heroMandalaRight { display: none; }
-  .heroTitle { font-size: 2rem; }
-  .policiesGrid { grid-template-columns: repeat(3, 1fr); }
-  .applyGrid { grid-template-columns: 3fr 2fr; gap: 2.5rem; }
-  .programGrid { grid-template-columns: repeat(2, 1fr); }
+  .heroMandalaRight {
+    display: none;
+  }
+
+  .heroTitle {
+    font-size: 2rem;
+  }
+
+  .policiesGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .applyGrid {
+    grid-template-columns: 3fr 2fr;
+    gap: 2.5rem;
+  }
+
+  .programGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 /* ── 900 ── */
 @media (min-width: 900px) and (max-width: 1023px) {
+
   .heroMandalaLeft,
-  .heroMandalaRight { display: none; }
-  .heroTitle { font-size: 1.8rem; }
-  .policiesGrid { grid-template-columns: repeat(2, 1fr); }
-  .applyGrid { grid-template-columns: 1fr; gap: 2rem; }
-  .applyRight { min-height: 200px; }
-  .applyQuote { max-width: 100%; }
-  .programGrid { grid-template-columns: repeat(2, 1fr); }
-  .rulesGrid { grid-template-columns: repeat(2, 1fr); }
-  .sectionHeader { flex-wrap: wrap; gap: 0.8rem; }
+  .heroMandalaRight {
+    display: none;
+  }
+
+  .heroTitle {
+    font-size: 1.8rem;
+  }
+
+  .policiesGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .applyGrid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .applyRight {
+    min-height: 200px;
+  }
+
+  .applyQuote {
+    max-width: 100%;
+  }
+
+  .programGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .rulesGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .sectionHeader {
+    flex-wrap: wrap;
+    gap: 0.8rem;
+  }
 }
 
 /* ── 768 ── */
 @media (min-width: 768px) and (max-width: 899px) {
+
   .heroMandalaLeft,
-  .heroMandalaRight { display: none; }
-  .heroTitle { font-size: 1.65rem; }
-  .programGrid { grid-template-columns: 1fr; }
-  .applyGrid { grid-template-columns: 1fr; gap: 2rem; }
-  .applyRight { min-height: 180px; }
-  .applyQuote { max-width: 100%; }
-  .rulesGrid { grid-template-columns: repeat(2, 1fr); }
-  .policiesGrid { grid-template-columns: repeat(2, 1fr); }
-  .sectionHeader { flex-wrap: wrap; gap: 0.8rem; }
+  .heroMandalaRight {
+    display: none;
+  }
+
+  .heroTitle {
+    font-size: 1.65rem;
+  }
+
+  .programGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .applyGrid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .applyRight {
+    min-height: 180px;
+  }
+
+  .applyQuote {
+    max-width: 100%;
+  }
+
+  .rulesGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .policiesGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .sectionHeader {
+    flex-wrap: wrap;
+    gap: 0.8rem;
+  }
 }
 
 /* ── 600 ── */
 @media (min-width: 600px) and (max-width: 767px) {
+
   .heroMandalaLeft,
-  .heroMandalaRight { display: none; }
-  .heroTitle { font-size: 1.4rem; }
-  .programGrid { grid-template-columns: 1fr; }
-  .applyGrid { grid-template-columns: 1fr; gap: 1.8rem; }
-  .applyRight { min-height: 160px; }
-  .applyQuote { max-width: 100%; font-size: 1.05rem; }
-  .rulesGrid { grid-template-columns: 1fr; }
-  .policiesGrid { grid-template-columns: 1fr; }
-  .sectionHeader { flex-wrap: wrap; gap: 0.7rem; }
-  .chakraRow { gap: 0.8rem; }
-  .bgMandala1, .bgMandala2, .bgMandala3 { display: none; }
+  .heroMandalaRight {
+    display: none;
+  }
+
+  .heroTitle {
+    font-size: 1.4rem;
+  }
+
+  .programGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .applyGrid {
+    grid-template-columns: 1fr;
+    gap: 1.8rem;
+  }
+
+  .applyRight {
+    min-height: 160px;
+  }
+
+  .applyQuote {
+    max-width: 100%;
+    font-size: 1.05rem;
+  }
+
+  .rulesGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .policiesGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .sectionHeader {
+    flex-wrap: wrap;
+    gap: 0.7rem;
+  }
+
+  .chakraRow {
+    gap: 0.8rem;
+  }
+
+  .bgMandala1,
+  .bgMandala2,
+  .bgMandala3 {
+    display: none;
+  }
 }
 
 /* ── 480 ── */
 @media (min-width: 480px) and (max-width: 599px) {
+
   .heroMandalaLeft,
-  .heroMandalaRight { display: none; }
-  .heroTitle { font-size: 1.2rem; }
-  .programGrid { grid-template-columns: 1fr; }
-  .applyGrid { grid-template-columns: 1fr; gap: 1.5rem; }
-  .applyRight { min-height: 150px; }
-  .applyQuote { max-width: 100%; font-size: 0.98rem; padding: 1.4rem 1.2rem; }
-  .rulesGrid { grid-template-columns: 1fr; }
-  .policiesGrid { grid-template-columns: 1fr; }
-  .sectionHeader { flex-wrap: wrap; gap: 0.6rem; }
-  .chakraRow { gap: 0.7rem; }
-  .chakraCircle { width: 42px; height: 42px; }
-  .bgMandala1, .bgMandala2, .bgMandala3 { display: none; }
-  .ctaActions { flex-direction: column; gap: 1rem; }
-  .ctaBtn { width: 100%; justify-content: center; }
-  .programCard { padding: 1.1rem 1rem; gap: 1rem; }
+  .heroMandalaRight {
+    display: none;
+  }
+
+  .heroTitle {
+    font-size: 1.2rem;
+  }
+
+  .programGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .applyGrid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .applyRight {
+    min-height: 150px;
+  }
+
+  .applyQuote {
+    max-width: 100%;
+    font-size: 0.98rem;
+    padding: 1.4rem 1.2rem;
+  }
+
+  .rulesGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .policiesGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .sectionHeader {
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+
+  .chakraRow {
+    gap: 0.7rem;
+  }
+
+  .chakraCircle {
+    width: 42px;
+    height: 42px;
+  }
+
+  .bgMandala1,
+  .bgMandala2,
+  .bgMandala3 {
+    display: none;
+  }
+
+  .ctaActions {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .ctaBtn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .programCard {
+    padding: 1.1rem 1rem;
+    gap: 1rem;
+  }
 }
 
 /* ── 380 ── */
 @media (min-width: 380px) and (max-width: 479px) {
-  .container { padding: 1.6rem 1rem; }
-  .heroTitle { font-size: 1.08rem; line-height: 1.4; }
+  .container {
+    padding: 1.6rem 1rem;
+  }
+
+  .heroTitle {
+    font-size: 1.08rem;
+    line-height: 1.4;
+  }
+
   .heroMandalaLeft,
-  .heroMandalaRight { display: none; }
-  .programGrid { grid-template-columns: 1fr; gap: 0.85rem; }
+  .heroMandalaRight {
+    display: none;
+  }
+
+  .programGrid {
+    grid-template-columns: 1fr;
+    gap: 0.85rem;
+  }
+
   .programCard {
     flex-direction: column;
     gap: 0.7rem;
     padding: 1.1rem 1rem;
   }
-  .programNumWrap { flex-direction: row; gap: 0.5rem; align-items: center; }
-  .programNum { font-size: 1.3rem; }
-  .applyGrid { grid-template-columns: 1fr; gap: 1.5rem; }
-  .applyRight { display: none; }
-  .rulesGrid { grid-template-columns: 1fr; }
-  .ruleItem { flex-direction: column; gap: 0.6rem; }
-  .policiesGrid { grid-template-columns: 1fr; }
-  .sectionHeader { flex-wrap: wrap; gap: 0.5rem; }
-  .sectionTitle { font-size: 1rem; }
-  .chakraRow { gap: 0.5rem; }
-  .chakraCircle { width: 38px; height: 38px; }
-  .chakraName { display: none; }
-  .bgMandala1, .bgMandala2, .bgMandala3 { display: none; }
-  .ctaActions { flex-direction: column; gap: 0.9rem; }
-  .ctaBtn { width: 100%; justify-content: center; font-size: 0.68rem; }
-  .ctaTitle { font-size: 1.2rem; }
-  .mandalaMini { display: none; }
+
+  .programNumWrap {
+    flex-direction: row;
+    gap: 0.5rem;
+    align-items: center;
+  }
+
+  .programNum {
+    font-size: 1.3rem;
+  }
+
+  .applyGrid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .applyRight {
+    display: none;
+  }
+
+  .rulesGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .ruleItem {
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .policiesGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .sectionHeader {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .sectionTitle {
+    font-size: 1rem;
+  }
+
+  .chakraRow {
+    gap: 0.5rem;
+  }
+
+  .chakraCircle {
+    width: 38px;
+    height: 38px;
+  }
+
+  .chakraName {
+    display: none;
+  }
+
+  .bgMandala1,
+  .bgMandala2,
+  .bgMandala3 {
+    display: none;
+  }
+
+  .ctaActions {
+    flex-direction: column;
+    gap: 0.9rem;
+  }
+
+  .ctaBtn {
+    width: 100%;
+    justify-content: center;
+    font-size: 0.68rem;
+  }
+
+  .ctaTitle {
+    font-size: 1.2rem;
+  }
+
+  .mandalaMini {
+    display: none;
+  }
 }
 
 /* ── 320 ── */
 @media (max-width: 379px) {
-  .container { padding: 1.2rem 0.85rem; }
-  .heroTitle { font-size: 0.95rem; line-height: 1.38; }
+  .container {
+    padding: 1.2rem 0.85rem;
+  }
+
+  .heroTitle {
+    font-size: 0.95rem;
+    line-height: 1.38;
+  }
+
   .heroMandalaLeft,
-  .heroMandalaRight { display: none; }
-  .programGrid { grid-template-columns: 1fr; gap: 0.75rem; }
+  .heroMandalaRight {
+    display: none;
+  }
+
+  .programGrid {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
   .programCard {
     flex-direction: column;
     gap: 0.6rem;
     padding: 1rem 0.9rem;
   }
-  .programNumWrap { flex-direction: row; gap: 0.4rem; align-items: center; }
-  .programNum { font-size: 1.15rem; }
-  .applyGrid { grid-template-columns: 1fr; }
-  .applyRight { display: none; }
-  .rulesGrid { grid-template-columns: 1fr; gap: 0.6rem; }
-  .ruleItem { flex-direction: column; gap: 0.5rem; padding: 0.85rem 0.9rem; }
-  .policiesGrid { grid-template-columns: 1fr; }
-  .sectionHeader { flex-wrap: wrap; gap: 0.4rem; }
-  .sectionTitle { font-size: 0.9rem; }
-  .heroPara { font-size: 0.9rem; }
-  .chakraRow { gap: 0.4rem; }
-  .chakraCircle { width: 34px; height: 34px; }
+
+  .programNumWrap {
+    flex-direction: row;
+    gap: 0.4rem;
+    align-items: center;
+  }
+
+  .programNum {
+    font-size: 1.15rem;
+  }
+
+  .applyGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .applyRight {
+    display: none;
+  }
+
+  .rulesGrid {
+    grid-template-columns: 1fr;
+    gap: 0.6rem;
+  }
+
+  .ruleItem {
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.85rem 0.9rem;
+  }
+
+  .policiesGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .sectionHeader {
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .sectionTitle {
+    font-size: 0.9rem;
+  }
+
+  .heroPara {
+    font-size: 0.9rem;
+  }
+
+  .chakraRow {
+    gap: 0.4rem;
+  }
+
+  .chakraCircle {
+    width: 34px;
+    height: 34px;
+  }
+
   .chakraName,
-  .chakraLabel { display: none; }
-  .bgMandala1, .bgMandala2, .bgMandala3 { display: none; }
-  .ctaActions { flex-direction: column; gap: 0.8rem; }
-  .ctaBtn { width: 100%; justify-content: center; font-size: 0.65rem; padding: 0.8rem 1.2rem; }
-  .ctaTitle { font-size: 1.05rem; }
-  .mandalaMini { display: none; }
-  .omDivider { gap: 0.7rem; }
-  .dividerLine { max-width: 80px; }
-  .policyCard { padding: 1rem 0.9rem; }
-  .ruleText { font-size: 0.85rem; }
+  .chakraLabel {
+    display: none;
+  }
+
+  .bgMandala1,
+  .bgMandala2,
+  .bgMandala3 {
+    display: none;
+  }
+
+  .ctaActions {
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
+  .ctaBtn {
+    width: 100%;
+    justify-content: center;
+    font-size: 0.65rem;
+    padding: 0.8rem 1.2rem;
+  }
+
+  .ctaTitle {
+    font-size: 1.05rem;
+  }
+
+  .mandalaMini {
+    display: none;
+  }
+
+  .omDivider {
+    gap: 0.7rem;
+  }
+
+  .dividerLine {
+    max-width: 80px;
+  }
+
+  .policyCard {
+    padding: 1rem 0.9rem;
+  }
+
+  .ruleText {
+    font-size: 0.85rem;
+  }
 }
 
 /* ── Reduced motion ── */
 @media (prefers-reduced-motion: reduce) {
-  .page { transition: none; }
-  .bgMandala1, .bgMandala2, .bgMandala3,
-  .heroMandalaLeft, .heroMandalaRight,
-  .mandalaMini, .applyMandala, .ctaMandala { animation: none; }
-  .heroTitle, .heroContent, .programCard, .ruleItem { animation: none; opacity: 1; transform: none; }
-  .omSymbol { animation: none; }
-  .ruleItem:hover { transform: none; }
-  .programCard:hover { transform: none; }
-  .policyCard:hover { transform: none; }
-  .ctaBtn:hover { transform: none; }
+  .page {
+    transition: none;
+  }
+
+  .bgMandala1,
+  .bgMandala2,
+  .bgMandala3,
+  .heroMandalaLeft,
+  .heroMandalaRight,
+  .mandalaMini,
+  .applyMandala,
+  .ctaMandala {
+    animation: none;
+  }
+
+  .heroTitle,
+  .heroContent,
+  .programCard,
+  .ruleItem {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  .omSymbol {
+    animation: none;
+  }
+
+  .ruleItem:hover {
+    transform: none;
+  }
+
+  .programCard:hover {
+    transform: none;
+  }
+
+  .policyCard:hover {
+    transform: none;
+  }
+
+  .ctaBtn:hover {
+    transform: none;
+  }
 }

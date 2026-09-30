@@ -115,7 +115,7 @@ const cityLinks: { name: string; href: string }[] = [
     name: "Himachal Pradesh",
     href: "/yoga-teacher-training/yoga-teacher-training-Himachal%20Pradesh-94-2178",
   },
-  
+
   {
     name: "Bengaluru",
     href: "/yoga-teacher-training/yoga-teacher-training-Bengaluru-94-2179",
@@ -124,7 +124,7 @@ const cityLinks: { name: string; href: string }[] = [
     name: "Auroville",
     href: "/yoga-teacher-training/yoga-teacher-training-Auroville-94-2191",
   },
-   {
+  {
     name: "Bihar",
     href: "/yoga-teacher-training/yoga-teacher-training-Bihar-94-2172",
   },
@@ -158,7 +158,7 @@ const YogaTrainingBihar: React.FC = () => {
         ══════════════════════════════════════ */}
         <div className={`${styles.section} ${styles.sectionImageLeft}`}>
           <div className={styles.imgWrap}>
-             <Image
+            <Image
               src="https://images.unsplash.com/photo-1545389336-cf090694435e?w=700&q=80&fit=crop"
               alt="Qualified yoga training in India"
               className={styles.sectionImg}
@@ -187,7 +187,7 @@ const YogaTrainingBihar: React.FC = () => {
         ══════════════════════════════════════ */}
         <div className={`${styles.section} ${styles.sectionImageRight}`}>
           <div className={styles.imgWrap}>
-             <Image
+            <Image
               src="https://images.unsplash.com/photo-1588286840104-8957b019727f?w=700&q=80&fit=crop"
               alt="Experience the art of yoga and meditation at AYM in Bengaluru"
               className={styles.sectionImg}
@@ -196,7 +196,7 @@ const YogaTrainingBihar: React.FC = () => {
           </div>
           <div className={styles.textWrap}>
             <h2 className={styles.headingSerif} style={{ textAlign: "center" }}>
-             Top yoga and mediation centre in Bihar
+              Top yoga and mediation centre in Bihar
             </h2>
             <div
               className={styles.headingUnderline}
@@ -216,7 +216,7 @@ const YogaTrainingBihar: React.FC = () => {
         ══════════════════════════════════════ */}
         <div className={`${styles.section} ${styles.sectionImageLeft}`}>
           <div className={styles.imgWrap}>
-             <Image
+            <Image
               src="https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?w=700&q=80&fit=crop"
               alt="Top yoga and mediation centre in Bengaluru"
               className={styles.sectionImg}
@@ -234,7 +234,7 @@ const YogaTrainingBihar: React.FC = () => {
               <div className={styles.headingUnderlineLine} />
             </div>
             <p className={styles.bodyText}>
-             AYM Yoga School is located in Rishikesh and Goa. We are a famous yoga and meditation institution in India specializing in yoga teacher training yoga gurus. Our non-profit organization aims to teach quality yoga classes to anyone who wants to become a qualified yoga instructor. AYM Yoga School also helps you relieve emotional problems through yoga therapy retreat. In addition, if you are in Bihar, AYM Yoga School will also fully operate our facilities here.
+              AYM Yoga School is located in Rishikesh and Goa. We are a famous yoga and meditation institution in India specializing in yoga teacher training yoga gurus. Our non-profit organization aims to teach quality yoga classes to anyone who wants to become a qualified yoga instructor. AYM Yoga School also helps you relieve emotional problems through yoga therapy retreat. In addition, if you are in Bihar, AYM Yoga School will also fully operate our facilities here.
             </p>
           </div>
         </div>
@@ -245,7 +245,7 @@ const YogaTrainingBihar: React.FC = () => {
         ══════════════════════════════════════ */}
         <div className={`${styles.section} ${styles.sectionImageRight}`}>
           <div className={styles.imgWrap}>
-             <Image
+            <Image
               src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=700&q=80&fit=crop"
               alt="Top yoga and mediation centre in Bengaluru"
               className={styles.sectionImg}
@@ -254,7 +254,7 @@ const YogaTrainingBihar: React.FC = () => {
           </div>
           <div className={styles.textWrap}>
             <h2 className={styles.headingSerif} style={{ textAlign: "center" }}>
-             Experience the art of yoga and mediatation at AYM in Bihar
+              Experience the art of yoga and mediatation at AYM in Bihar
             </h2>
             <div
               className={styles.headingUnderline}
@@ -263,7 +263,7 @@ const YogaTrainingBihar: React.FC = () => {
               <div className={styles.headingUnderlineLine} />
             </div>
             <p className={styles.bodyText}>
-             AYM Yoga School is a professional yoga and meditation school in Rishikesh and Goa. Our area of expertise is to provide high-quality yoga teacher training and yoga retreat service to anyone willing to enjoy the benefits of yoga in India. Enjoy Mantras, Pranayama, yoga prayer with our yoga teachers. Our outstanding achievements are widely recognized by students and professors worldwide. And if you live in Bihar or plan to visit, we also provide our facilities and training courses there.
+              AYM Yoga School is a professional yoga and meditation school in Rishikesh and Goa. Our area of expertise is to provide high-quality yoga teacher training and yoga retreat service to anyone willing to enjoy the benefits of yoga in India. Enjoy Mantras, Pranayama, yoga prayer with our yoga teachers. Our outstanding achievements are widely recognized by students and professors worldwide. And if you live in Bihar or plan to visit, we also provide our facilities and training courses there.
             </p>
           </div>
         </div>
@@ -277,7 +277,7 @@ const YogaTrainingBihar: React.FC = () => {
           style={{ borderBottom: "none" }}
         >
           <div className={styles.imgWrap}>
-             <Image
+            <Image
               src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=700&q=80&fit=crop"
               alt="Experience the art of yoga and meditation at AYM in Bengaluru"
               className={styles.sectionImg}
@@ -286,7 +286,7 @@ const YogaTrainingBihar: React.FC = () => {
           </div>
           <div className={styles.textWrap}>
             <h2 className={styles.headingSerif} style={{ textAlign: "center" }}>
-             Experience the art of yoga and mediatation at AYM in Bihar
+              Experience the art of yoga and mediatation at AYM in Bihar
             </h2>
             <div
               className={styles.headingUnderline}
@@ -295,7 +295,7 @@ const YogaTrainingBihar: React.FC = () => {
               <div className={styles.headingUnderlineLine} />
             </div>
             <p className={styles.bodyText}>
-             Bihar is the eastern state of India and one of the oldest settlements in the world, with a history of more than 3,000 years. Bihar is divided by the sacred Ganga and was the centre of ancient India's political, economic and intellectual activities.
+              Bihar is the eastern state of India and one of the oldest settlements in the world, with a history of more than 3,000 years. Bihar is divided by the sacred Ganga and was the centre of ancient India's political, economic and intellectual activities.
             </p>
           </div>
         </div>

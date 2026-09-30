@@ -219,11 +219,11 @@
 
 .date {
   color: #9a7040;
-    letter-spacing: .04em;
-    align-items: center;
-    gap: 4px;
-    font-family: Cormorant Garamond, serif;
-    font-size: .72rem;
+  letter-spacing: .04em;
+  align-items: center;
+  gap: 4px;
+  font-family: Cormorant Garamond, serif;
+  font-size: .72rem;
 }
 
 .metaSeparator {
@@ -232,37 +232,37 @@
 
 .author {
   color: #f15505;
-    font-family: Cormorant Garamond, serif;
-    font-size: .72rem;
-    font-style: italic;
+  font-family: Cormorant Garamond, serif;
+  font-size: .72rem;
+  font-style: italic;
 }
 
 .blogTitle {
- color: #3d1d00;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    margin: 0 0 .55rem;
-    font-family: 'Montserrat', Arial, sans-serif;
-    font-size: clamp(.75rem, 1.2vw, .9rem);
-    font-weight: 600;
-    line-height: 1.45;
-    transition: color .2s;
-    display: -webkit-box;
-    overflow: hidden;
+  color: #3d1d00;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  margin: 0 0 .55rem;
+  font-family: 'Montserrat', Arial, sans-serif;
+  font-size: clamp(.75rem, 1.2vw, .9rem);
+  font-weight: 600;
+  line-height: 1.45;
+  transition: color .2s;
+  display: -webkit-box;
+  overflow: hidden;
 }
 
 .excerpt {
- color: #3d1d00;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    margin: 0 0 .55rem;
-    font-family: Cinzel, serif;
-    font-size: clamp(.75rem, 1.2vw, .9rem);
-    font-weight: 600;
-    line-height: 1.45;
-    transition: color .2s;
-    display: -webkit-box;
-    overflow: hidden;
+  color: #3d1d00;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  margin: 0 0 .55rem;
+  font-family: Cinzel, serif;
+  font-size: clamp(.75rem, 1.2vw, .9rem);
+  font-weight: 600;
+  line-height: 1.45;
+  transition: color .2s;
+  display: -webkit-box;
+  overflow: hidden;
 }
 
 /* ── Read More Link ── */
@@ -509,9 +509,12 @@
 
 /* ── Animation ── */
 @keyframes pulse {
-  0%, 100% {
+
+  0%,
+  100% {
     opacity: 1;
   }
+
   50% {
     opacity: 0.5;
   }

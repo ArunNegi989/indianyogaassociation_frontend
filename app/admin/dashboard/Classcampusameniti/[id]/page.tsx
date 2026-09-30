@@ -10,12 +10,6 @@ import api from "@/lib/api";
 
 const JoditEditor = dynamic(() => import("jodit-react"), { ssr: false });
 
-/* ─────────────────────────────────────────
-   Helper — convert relative /uploads/... path
-   to a full URL for <img src> in previews.
-   Backend stores "/uploads/filename.jpg"
-   We need "http://localhost:5014/uploads/filename.jpg"
-───────────────────────────────────────── */
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "";
 
 function getImageUrl(path: string): string {
@@ -84,8 +78,7 @@ function SingleImageUpload({
         ) : (
           <div className={styles.imagePreviewWrap}>
             {badge && <span className={styles.imageBadge}>{badge}</span>}
-            {/* FIX: preview here is already a full URL (set via getImageUrl on load,
-                or via URL.createObjectURL on new file select) — use directly */}
+
             <img src={preview} alt="preview" className={styles.imagePreview} />
             <div className={styles.imagePreviewOverlay}>
               <span className={styles.imagePreviewAction}>✎ Change</span>
@@ -222,10 +215,7 @@ function JoditField({
         className={error ? styles.inputError : ""}
         style={{ borderRadius: 8, overflow: "hidden" }}
       >
-        {/*
-          key={initialValue || "empty"}: mounts once with "empty", re-mounts once
-          when real data arrives, then stays stable forever → no Jodit flickering.
-        */}
+
         <JoditEditor
           key={initialValue || "empty"}
           value={initialValue}
@@ -249,8 +239,6 @@ export default function EditClassCampusAmenitiesPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(true);
-
-  // Image states — store full URLs for preview display
   const [classSizeImageFile, setClassSizeImageFile] = useState<File | null>(
     null,
   );
@@ -259,13 +247,9 @@ export default function EditClassCampusAmenitiesPage() {
   const [campusImagePreview, setCampusImagePreview] = useState("");
   const [amenityImageFile, setAmenityImageFile] = useState<File | null>(null);
   const [amenityImagePreview, setAmenityImagePreview] = useState("");
-
-  // Jodit initial values — set once after fetch, trigger key-based re-mount
   const [classSizeParaInit, setClassSizeParaInit] = useState("");
   const [campusParaInit, setCampusParaInit] = useState("");
   const [amenitiesParaInit, setAmenitiesParaInit] = useState("");
-
-  // Jodit content refs — source of truth for submit
   const classSizeParaRef = useRef<string>("");
   const campusParaRef = useRef<string>("");
   const amenitiesParaRef = useRef<string>("");
@@ -314,12 +298,10 @@ export default function EditClassCampusAmenitiesPage() {
   const amenitiesSubLabel = watch("amenitiesSubLabel");
   const amenityMosaicTag = watch("amenityMosaicTag");
 
-  /* ── Fetch existing record ── */
   useEffect(() => {
     if (!id) return;
     const fetchData = async () => {
       try {
-        // GET /api/class-campus-amenities/:id → { success: true, data: {...} }
         const res = await api.get(`/class-campus-amenities/${id}`);
         const d = res.data.data;
 
@@ -341,18 +323,13 @@ export default function EditClassCampusAmenitiesPage() {
           amenityMosaicTag: d.amenityMosaicTag || "",
         });
 
-        // Seed Jodit (triggers one-time re-mount via key prop)
         setClassSizeParaInit(d.classSizePara || "");
         setCampusParaInit(d.campusPara || "");
         setAmenitiesParaInit(d.amenitiesMainPara || "");
 
-        // Prime refs immediately so submit works even without editing
         classSizeParaRef.current = d.classSizePara || "";
         campusParaRef.current = d.campusPara || "";
         amenitiesParaRef.current = d.amenitiesMainPara || "";
-
-        // FIX: Backend returns relative paths like "/uploads/filename.jpg"
-        // Convert to full URL before storing in preview state
         if (d.classSizeImage)
           setClassSizeImagePreview(getImageUrl(d.classSizeImage));
         if (d.campusImages?.[0])
@@ -403,10 +380,7 @@ export default function EditClassCampusAmenitiesPage() {
       setIsSubmitting(true);
       const fd = new FormData();
 
-      // id goes first — backend update controller reads req.body.id
       fd.append("id", id);
-
-      // Exclude rich-text & amenities — appended separately below
       const {
         classSizePara: _a,
         campusPara: _b,
@@ -416,7 +390,6 @@ export default function EditClassCampusAmenitiesPage() {
       } = data;
       Object.entries(rest).forEach(([k, v]) => fd.append(k, v as string));
 
-      // FIX: amenities as individual fd entries → req.body.amenities = [...]
       amenities.forEach((item) => fd.append("amenities", item));
 
       // Rich-text from Jodit refs
@@ -424,18 +397,14 @@ export default function EditClassCampusAmenitiesPage() {
       fd.append("campusPara", campusParaRef.current);
       fd.append("amenitiesMainPara", amenitiesParaRef.current);
 
-      // Only append image files if user picked a new one
-      // If skipped, backend keeps existing image from DB
       if (classSizeImageFile) fd.append("classSizeImage", classSizeImageFile);
       if (campusImageFile) fd.append("campusImage_0", campusImageFile);
       if (amenityImageFile) fd.append("amenityImage", amenityImageFile);
 
-      // PUT /api/class-campus-amenities/update
       const response = await api.put("/class-campus-amenities/update", fd, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
-      // FIX: backend returns relative paths — convert to full URL for previews
       const updated = response.data.data;
       if (updated?.classSizeImage)
         setClassSizeImagePreview(getImageUrl(updated.classSizeImage));

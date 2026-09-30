@@ -148,9 +148,7 @@ const getImageUrl = (path?: string) => {
   return `${process.env.NEXT_PUBLIC_API_URL}${path}`;
 };
 
-/* Strips HTML tags + inline styles that Jodit (the rich-text editor in the
-   admin panel) saves — e.g. <p>, <span style="color:...">. Turns block-level
-   tags into line breaks so paragraph structure survives as plain text. */
+
 const stripHtml = (html?: string) => {
   if (!html) return "";
   return html
@@ -168,8 +166,7 @@ const stripHtml = (html?: string) => {
     .trim();
 };
 
-/* Renders a Jodit HTML string as clean plain-text paragraphs — no tags,
-   no inline styles, just the text with paragraph breaks preserved. */
+
 function CleanText({ html, className }: { html?: string; className?: string }) {
   const text = stripHtml(html);
   if (!text) return null;
@@ -269,7 +266,6 @@ function PulseDot() {
   return <span className={styles.pulseDot} />;
 }
 
-/* Replaces the old AutoVideo component — same framed/badge look, but an image */
 function MediaImage({
   src,
   alt,
@@ -283,7 +279,7 @@ function MediaImage({
 }) {
   if (!src) return null;
   return (
-     <Image
+    <Image
       src={getImageUrl(src)}
       alt={alt}
       className={className || styles.autoVideoIframe}
@@ -314,7 +310,7 @@ function TextImageRow({
       <div className={styles.tiImageWrap}>
         <div className={styles.tiImageFrame}>
           {imageUrl && (
-             <Image
+            <Image
               src={getImageUrl(imageUrl)}
               alt={imageAlt}
               className={styles.tiImage}
@@ -355,7 +351,7 @@ function TextMediaRow({
       <div className={styles.tiVideoWrap}>
         <div className={styles.tiVideoFrame}>
           {imageUrl && (
-             <Image
+            <Image
               src={getImageUrl(imageUrl)}
               alt={imageAlt}
               className={styles.tiVideoIframe}
@@ -423,7 +419,7 @@ function AimImagesStrip({ images, alts }: { images: string[]; alts: string[] }) 
           className={styles.aimImageCard}
           style={{ animationDelay: `${i * 0.12}s` }}
         >
-           <Image src={getImageUrl(src)} alt={alts[i] || `yoga practice ${i + 1}`} loading="lazy" />
+          <Image src={getImageUrl(src)} alt={alts[i] || `yoga practice ${i + 1}`} loading="lazy" />
           <div className={styles.aimImageOverlay} />
         </div>
       ))}
@@ -828,7 +824,7 @@ export default function YogaCollegeRishikesh() {
       <section className={styles.fullVideoSection}>
         <div className={styles.fullVideoWrap}>
           {data.highlightImage && (
-             <Image
+            <Image
               src={getImageUrl(data.highlightImage)}
               alt={data.highlightImageAlt}
               className={styles.fullVideoIframe}

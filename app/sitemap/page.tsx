@@ -253,17 +253,17 @@ export default function SitemapPage() {
                     ))}
                 </div>
 
-               <h2 className={styles.sectionTitle}>Surya Namaskar PDF</h2>
-<div className={styles.linkGrid}>
-    <a
-        href="/pdf/ashtanga-vinyasa.pdf"
-        target="_blank"
-        rel="noopener noreferrer"
-        className={styles.linkBox}
-    >
-        Ashtanga Vinyasa - Surya Namaskar PDF
-    </a>
-</div>
+                <h2 className={styles.sectionTitle}>Surya Namaskar PDF</h2>
+                <div className={styles.linkGrid}>
+                    <a
+                        href="/pdf/ashtanga-vinyasa.pdf"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={styles.linkBox}
+                    >
+                        Ashtanga Vinyasa - Surya Namaskar PDF
+                    </a>
+                </div>
             </div>
         </main>
     );

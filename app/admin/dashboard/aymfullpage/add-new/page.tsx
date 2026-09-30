@@ -14,43 +14,41 @@ import toast, { Toaster } from "react-hot-toast";
 import styles from "@/assets/style/Admin/dashboard/aymfullpage/AymFullPage.module.css";
 import api from "@/lib/api";
 
-/* ── JoditEditor (SSR-safe) ── */
 const JoditEditor = dynamic(() => import("jodit-react"), { ssr: false });
 
 /* ══════════════════════════════════════════════
    TYPES
 ══════════════════════════════════════════════ */
-interface BodyPlaneItem  { label: string; listItem: string; }
-interface PromoCard      { title: string; text: string; link: string; }
-interface JourneyPara    { text: string; }
+interface BodyPlaneItem { label: string; listItem: string; }
+interface PromoCard { title: string; text: string; link: string; }
+interface JourneyPara { text: string; }
 
-// ✅ Added imageAlt to match edit form
 interface CampusFacility { bold: string; text: string; imageAlt: string; }
 
 interface FormValues {
-  alignTitle:         string;
-  salutation:         string;
-  alignPara1:         string;
-  alignPara2:         string;
-  alignPara3:         string;
-  bodyPlanes:         BodyPlaneItem[];
-  planesPara:         string;
+  alignTitle: string;
+  salutation: string;
+  alignPara1: string;
+  alignPara2: string;
+  alignPara3: string;
+  bodyPlanes: BodyPlaneItem[];
+  planesPara: string;
   bodyPlanesImageAlt: string;
-  outdoorImageAlt:    string;
-  outdoorCaption:     string;
-  highlight1:         string;
-  highlight2:         string;
-  campusTitle:        string;
-  campusFacilities:   CampusFacility[];
-  promoCard1:         PromoCard;
-  promoCard2:         PromoCard;
-  ctaHeading:         string;
-  ctaSubtext:         string;
-  whatsappLink:       string;
-  masterQuote:        string;
-  masterAttrib:       string;
-  journeyParas:       JourneyPara[];
-  namesteText:        string;
+  outdoorImageAlt: string;
+  outdoorCaption: string;
+  highlight1: string;
+  highlight2: string;
+  campusTitle: string;
+  campusFacilities: CampusFacility[];
+  promoCard1: PromoCard;
+  promoCard2: PromoCard;
+  ctaHeading: string;
+  ctaSubtext: string;
+  whatsappLink: string;
+  masterQuote: string;
+  masterAttrib: string;
+  journeyParas: JourneyPara[];
+  namesteText: string;
 }
 
 type TabKey = "alignment" | "campus" | "cta";
@@ -98,19 +96,19 @@ function useJoditConfig(height = 250) {
    JODIT FIELD WRAPPER
 ══════════════════════════════════════════════ */
 interface JoditFieldProps {
-  label:     string;
-  hint?:     string;
-  value:     string;
-  height?:   number;
+  label: string;
+  hint?: string;
+  value: string;
+  height?: number;
   required?: boolean;
   errorMsg?: string;
-  onChange:  (val: string) => void;
+  onChange: (val: string) => void;
 }
 
 function JoditField({
   label, hint, value, height = 220, required, errorMsg, onChange,
 }: JoditFieldProps) {
-  const config   = useJoditConfig(height);
+  const config = useJoditConfig(height);
   const stripped = value.replace(/<[^>]*>/g, "");
 
   return (
@@ -133,7 +131,7 @@ function JoditField({
           value={value}
           config={config()}
           onBlur={(newContent) => onChange(newContent)}
-          onChange={() => {}}
+          onChange={() => { }}
         />
       </div>
       <div style={{ display: "flex", justifyContent: "space-between", marginTop: "0.3rem" }}>
@@ -152,23 +150,23 @@ function JoditField({
    IMAGE UPLOAD FIELD
 ══════════════════════════════════════════════ */
 interface ImageUploadFieldProps {
-  label:          string;
-  hint:           string;
-  file:           File | null;
-  altText:        string;
+  label: string;
+  hint: string;
+  file: File | null;
+  altText: string;
   altPlaceholder: string;
-  errorMsg?:      string;
-  required?:      boolean;
-  onFileChange:   (file: File | null) => void;
-  onAltChange:    (alt: string) => void;
+  errorMsg?: string;
+  required?: boolean;
+  onFileChange: (file: File | null) => void;
+  onAltChange: (alt: string) => void;
 }
 
 function ImageUploadField({
   label, hint, file, altText, altPlaceholder,
   errorMsg, required, onFileChange, onAltChange,
 }: ImageUploadFieldProps) {
-  const inputRef                = useRef<HTMLInputElement>(null);
-  const [preview, setPreview]   = useState<string | null>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [preview, setPreview] = useState<string | null>(null);
   const [dragOver, setDragOver] = useState(false);
 
   const handleFile = (f: File | null) => {
@@ -259,20 +257,17 @@ function ImageUploadField({
   );
 }
 
-/* ══════════════════════════════════════════════
-   ✅ FACILITY IMAGE UPLOAD (compact) — same as edit form
-══════════════════════════════════════════════ */
 interface FacilityImageProps {
-  file:         File | null;
-  altText:      string;
+  file: File | null;
+  altText: string;
   onFileChange: (f: File | null) => void;
-  onAltChange:  (v: string) => void;
+  onAltChange: (v: string) => void;
 }
 
 function FacilityImageUpload({
   file, altText, onFileChange, onAltChange,
 }: FacilityImageProps) {
-  const inputRef              = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
   const [preview, setPreview] = useState<string | null>(null);
 
   const handleFile = (f: File | null) => {
@@ -345,24 +340,18 @@ function FacilityImageUpload({
 export default function AddAYMFullPagePage() {
   const router = useRouter();
 
-  /* ── File state (outside RHF — File objects can't be in defaultValues) ── */
   const [bodyPlanesImageFile, setBodyPlanesImageFile] = useState<File | null>(null);
-  const [outdoorImageFile,    setOutdoorImageFile]    = useState<File | null>(null);
-  // ✅ Per-facility image files array
-  const [facilityImageFiles,  setFacilityImageFiles]  = useState<(File | null)[]>([]);
-
+  const [outdoorImageFile, setOutdoorImageFile] = useState<File | null>(null);
+  const [facilityImageFiles, setFacilityImageFiles] = useState<(File | null)[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitted,    setSubmitted]    = useState(false);
-  const [activeTab,    setActiveTab]    = useState<TabKey>("alignment");
+  const [submitted, setSubmitted] = useState(false);
+  const [activeTab, setActiveTab] = useState<TabKey>("alignment");
   const [expandedFacilities, setExpandedFacilities] = useState<Set<number>>(new Set());
-
-  /* ── Image-level error state (not in RHF) ── */
   const [imgErrors, setImgErrors] = useState<{
     bodyPlanesImage?: string;
     outdoorImage?: string;
   }>({});
 
-  /* ── React Hook Form ── */
   const {
     register,
     control,
@@ -372,29 +361,29 @@ export default function AddAYMFullPagePage() {
     formState: { errors },
   } = useForm<FormValues>({
     defaultValues: {
-      alignTitle:         "",
-      salutation:         "",
-      alignPara1:         "",
-      alignPara2:         "",
-      alignPara3:         "",
-      bodyPlanes:         [],
-      planesPara:         "",
+      alignTitle: "",
+      salutation: "",
+      alignPara1: "",
+      alignPara2: "",
+      alignPara3: "",
+      bodyPlanes: [],
+      planesPara: "",
       bodyPlanesImageAlt: "",
-      outdoorImageAlt:    "",
-      outdoorCaption:     "",
-      highlight1:         "",
-      highlight2:         "",
-      campusTitle:        "",
-      campusFacilities:   [],
-      promoCard1:         { title: "", text: "", link: "" },
-      promoCard2:         { title: "", text: "", link: "" },
-      ctaHeading:         "",
-      ctaSubtext:         "",
-      whatsappLink:       "",
-      masterQuote:        "",
-      masterAttrib:       "",
-      journeyParas:       [],
-      namesteText:        "",
+      outdoorImageAlt: "",
+      outdoorCaption: "",
+      highlight1: "",
+      highlight2: "",
+      campusTitle: "",
+      campusFacilities: [],
+      promoCard1: { title: "", text: "", link: "" },
+      promoCard2: { title: "", text: "", link: "" },
+      ctaHeading: "",
+      ctaSubtext: "",
+      whatsappLink: "",
+      masterQuote: "",
+      masterAttrib: "",
+      journeyParas: [],
+      namesteText: "",
     },
   });
 
@@ -419,10 +408,8 @@ export default function AddAYMFullPagePage() {
 
   const watchedValues = watch();
 
-  /* ── Plain-text extractor ── */
   const plain = (html: string) => html.replace(/<[^>]*>/g, "").trim();
 
-  /* ── Tab error detection ── */
   const tabHasError = (tab: TabKey): boolean => {
     if (tab === "alignment") {
       return !!(
@@ -448,16 +435,13 @@ export default function AddAYMFullPagePage() {
   const addFacility = () => {
     if (facilityFields.length >= 20) return;
     const idx = facilityFields.length;
-    // ✅ imageAlt added to default values
     appendFacility({ bold: "", text: "", imageAlt: "" });
-    // ✅ push null slot for the new facility's image file
     setFacilityImageFiles((prev) => [...prev, null]);
     setExpandedFacilities((prev) => new Set(prev).add(idx));
   };
 
   const handleRemoveFacility = (i: number) => {
     removeFacility(i);
-    // ✅ also remove the corresponding image file slot
     setFacilityImageFiles((prev) => prev.filter((_, idx) => idx !== i));
     setExpandedFacilities((prev) => {
       const next = new Set<number>();
@@ -480,7 +464,7 @@ export default function AddAYMFullPagePage() {
     /* ── Validate file fields (not in RHF) ── */
     const newImgErrors: typeof imgErrors = {};
     if (!bodyPlanesImageFile) newImgErrors.bodyPlanesImage = "Body planes diagram image is required";
-    if (!outdoorImageFile)    newImgErrors.outdoorImage    = "Outdoor group photo is required";
+    if (!outdoorImageFile) newImgErrors.outdoorImage = "Outdoor group photo is required";
 
     if (Object.keys(newImgErrors).length > 0) {
       setImgErrors(newImgErrors);
@@ -508,17 +492,15 @@ export default function AddAYMFullPagePage() {
       });
 
       /* ── JSON arrays / objects ── */
-      fd.append("bodyPlanes",       JSON.stringify(data.bodyPlanes));
+      fd.append("bodyPlanes", JSON.stringify(data.bodyPlanes));
       fd.append("campusFacilities", JSON.stringify(data.campusFacilities));
-      fd.append("journeyParas",     JSON.stringify(data.journeyParas));
-      fd.append("promoCard1",       JSON.stringify(data.promoCard1));
-      fd.append("promoCard2",       JSON.stringify(data.promoCard2));
+      fd.append("journeyParas", JSON.stringify(data.journeyParas));
+      fd.append("promoCard1", JSON.stringify(data.promoCard1));
+      fd.append("promoCard2", JSON.stringify(data.promoCard2));
 
       /* ── Main images ── */
       if (bodyPlanesImageFile) fd.append("bodyPlanesImage", bodyPlanesImageFile);
-      if (outdoorImageFile)    fd.append("outdoorImage",    outdoorImageFile);
-
-      // ✅ Facility images (indexed) — same pattern as edit form
+      if (outdoorImageFile) fd.append("outdoorImage", outdoorImageFile);
       data.campusFacilities.forEach((_, i) => {
         if (facilityImageFiles[i]) fd.append(`facilityImage_${i}`, facilityImageFiles[i]!);
       });
@@ -557,8 +539,8 @@ export default function AddAYMFullPagePage() {
 
   const tabs: { key: TabKey; label: string; icon: string }[] = [
     { key: "alignment", label: "Alignment & Adjustment", icon: "🧘" },
-    { key: "campus",    label: "Campus Section",          icon: "🏛️" },
-    { key: "cta",       label: "CTA & Journey",           icon: "✨" },
+    { key: "campus", label: "Campus Section", icon: "🏛️" },
+    { key: "cta", label: "CTA & Journey", icon: "✨" },
   ];
 
   /* ════════════════════════════════════════════
@@ -617,9 +599,9 @@ export default function AddAYMFullPagePage() {
 
         <form
           onSubmit={handleSubmit(onSubmit, () => {
-            if (tabHasError("alignment"))   setActiveTab("alignment");
+            if (tabHasError("alignment")) setActiveTab("alignment");
             else if (tabHasError("campus")) setActiveTab("campus");
-            else                            setActiveTab("cta");
+            else setActiveTab("cta");
           })}
         >
           <div className={styles.formCard}>
@@ -698,8 +680,8 @@ export default function AddAYMFullPagePage() {
                             name === "alignPara1"
                               ? `e.g. "There are numerous Yoga schools worldwide that offer certifications; however, how many incorporate alignment and adjustment into their curriculum?"`
                               : name === "alignPara2"
-                              ? `e.g. "There are three planes of the body that yoga experts use in teaching postures."`
-                              : `e.g. "By knowing the different body planes correctly, you can use this in designing your yoga lesson planning."`
+                                ? `e.g. "There are three planes of the body that yoga experts use in teaching postures."`
+                                : `e.g. "By knowing the different body planes correctly, you can use this in designing your yoga lesson planning."`
                           }
                           value={field.value || ""}
                           required
@@ -919,14 +901,13 @@ export default function AddAYMFullPagePage() {
 
                   <div className={styles.statsGrid}>
                     {facilityFields.map((field, i) => {
-                      const isOpen  = expandedFacilities.has(i);
+                      const isOpen = expandedFacilities.has(i);
                       const boldVal = watchedValues.campusFacilities?.[i]?.bold || "";
                       const textVal = watchedValues.campusFacilities?.[i]?.text || "";
-                      // ✅ show 📷 badge in header when a file is selected
-                      const hasImg  = !!facilityImageFiles[i];
+                      const hasImg = !!facilityImageFiles[i];
                       return (
                         <div key={field.id} style={{ border: "1.5px solid #e8d5b5", borderRadius: "10px", overflow: "hidden", background: "#fffdf8" }}>
-                          {/* Accordion Header */}
+
                           <div
                             onClick={() => toggleFacility(i)}
                             style={{ display: "flex", alignItems: "center", gap: "0.6rem", padding: "0.75rem 1rem", cursor: "pointer", background: isOpen ? "rgba(224,123,0,0.06)" : "transparent", borderBottom: isOpen ? "1px solid #e8d5b5" : "none", transition: "background 0.2s" }}
@@ -943,7 +924,7 @@ export default function AddAYMFullPagePage() {
                                 />
                               )}
                             </div>
-                            {/* ✅ photo badge — same as edit form */}
+
                             {hasImg && (
                               <span style={{ fontSize: "0.7rem", color: "#2a5e1e", background: "rgba(42,94,30,0.1)", border: "1px solid rgba(42,94,30,0.2)", borderRadius: "4px", padding: "0.1rem 0.4rem", fontFamily: "'Cinzel',serif", flexShrink: 0 }}>📷</span>
                             )}
@@ -955,7 +936,7 @@ export default function AddAYMFullPagePage() {
                             >✕</button>
                           </div>
 
-                          {/* Expanded */}
+
                           {isOpen && (
                             <div style={{ padding: "1rem" }}>
                               <div className={styles.fieldGroup} style={{ marginBottom: "1rem" }}>
@@ -992,7 +973,7 @@ export default function AddAYMFullPagePage() {
                                 />
                               </div>
 
-                              {/* ✅ Facility image upload — same component as edit form */}
+
                               <FacilityImageUpload
                                 file={facilityImageFiles[i] ?? null}
                                 altText={watchedValues.campusFacilities?.[i]?.imageAlt || ""}

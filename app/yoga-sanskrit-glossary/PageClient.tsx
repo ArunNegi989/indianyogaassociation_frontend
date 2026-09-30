@@ -1,4 +1,3 @@
-// YogaGlossary.tsx — Redesigned
 "use client";
 import React, { useState, useMemo } from "react";
 import Image from "next/image";
@@ -6,9 +5,7 @@ import styles from "@/assets/style/yoga-sanskrit-glossary/Yogaglossary.module.cs
 import sanskritglossary from "@/assets/images/Yoga-Sanskrit-Glossory.jpg";
 import HowToReach from "@/components/home/Howtoreach";
 
-/* ============================================================
-   DATA — all original terms preserved
-   ============================================================ */
+
 const glossaryTerms = [
   { term: "Yoga", definition: "Yoga means union or connection. Yoga is a state of mind in which there is no modification of mind, which remains peaceful and silent. It is also a set of body techniques which allow one to connect with divine." },
   { term: "Asana", definition: "A set of yoga postures in which you are comfortable and stable. Asanas make muscles stress-free and increase their efficiency." },
@@ -123,7 +120,7 @@ const ALL_LETTERS = [...new Set(glossaryTerms.map((t) => t.term[0].toUpperCase()
    MAIN COMPONENT
    ============================================================ */
 const YogaGlossary: React.FC = () => {
-  const [query, setQuery]   = useState("");
+  const [query, setQuery] = useState("");
   const [letter, setLetter] = useState<string | null>(null);
 
   const filtered = useMemo(() => {
@@ -175,12 +172,16 @@ const YogaGlossary: React.FC = () => {
             </g>
           </svg>
         </div>
-        <div className={styles.heroOrb} style={{ top: "-60px", left: "-60px",
+        <div className={styles.heroOrb} style={{
+          top: "-60px", left: "-60px",
           width: "clamp(160px,25vw,300px)", height: "clamp(160px,25vw,300px)",
-          background: "radial-gradient(circle, rgba(241,85,5,0.18) 0%, transparent 70%)" }} aria-hidden="true" />
-        <div className={styles.heroOrb} style={{ bottom: "-40px", right: "-40px",
+          background: "radial-gradient(circle, rgba(241,85,5,0.18) 0%, transparent 70%)"
+        }} aria-hidden="true" />
+        <div className={styles.heroOrb} style={{
+          bottom: "-40px", right: "-40px",
           width: "clamp(100px,18vw,220px)", height: "clamp(100px,18vw,220px)",
-          background: "radial-gradient(circle, rgba(245,166,35,0.15) 0%, transparent 70%)" }} aria-hidden="true" />
+          background: "radial-gradient(circle, rgba(245,166,35,0.15) 0%, transparent 70%)"
+        }} aria-hidden="true" />
 
         <div className={styles.heroContent}>
           <div className={styles.heroEyebrow}>

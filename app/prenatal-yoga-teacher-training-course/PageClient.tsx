@@ -11,28 +11,21 @@ import StickySectionNav from "@/components/common/StickySectionNav";
 import Link from "next/link";
 import Image from "next/image";
 
-/* ─────────────────────────────────────────
-   TYPES
-───────────────────────────────────────── */
-/* Helper function to add autoplay and loop parameters to YouTube URLs */
-
-/* Helper function to process YouTube URLs for autoplay and loop */
 function processYouTubeUrl(url: string): string {
   if (!url) return "";
-  
-  // Check if it's a YouTube embed URL
+
+
   const isYouTube = url.includes("youtube.com/embed/") || url.includes("youtu.be/");
-  
+
   if (!isYouTube) return url;
-  
-  // Extract base URL without query params
+
+
   const baseUrl = url.split("?")[0];
-  
-  // Extract video ID
+
+
   const videoIdMatch = baseUrl.match(/\/(embed\/|)([a-zA-Z0-9_-]{11})/);
   const videoId = videoIdMatch ? videoIdMatch[2] : null;
-  
-  // Build new URL with autoplay and loop parameters
+
   const params = new URLSearchParams();
   params.set("autoplay", "1");
   params.set("loop", "1");
@@ -41,27 +34,26 @@ function processYouTubeUrl(url: string): string {
   params.set("playsinline", "1");
   params.set("modestbranding", "1");
   params.set("rel", "0");
-  
+
   if (videoId) {
     params.set("playlist", videoId);
   }
-  
+
   return `${baseUrl}?${params.toString()}`;
 }
 
 function getYouTubeEmbedWithAutoplay(url: string): string {
   if (!url) return "";
-  
-  // Check if it's a YouTube URL
+
+
   const isYouTube = url.includes("youtube.com/embed/") || url.includes("youtu.be/");
-  
+
   if (!isYouTube) return url;
-  
-  // Remove any existing query parameters
+
+
   let baseUrl = url.split("?")[0];
-  
-  // Add autoplay and loop parameters
-  // Note: For YouTube loops to work, you need to specify a playlist parameter (same as video ID)
+
+
   const videoId = extractYouTubeId(url);
   const params = new URLSearchParams();
   params.set("autoplay", "1");
@@ -71,16 +63,16 @@ function getYouTubeEmbedWithAutoplay(url: string): string {
   params.set("playsinline", "1");
   params.set("modestbranding", "1");
   params.set("rel", "0");
-  
-  // For loop to work, playlist must be set to the same video ID
+
+
   if (videoId) {
     params.set("playlist", videoId);
   }
-  
+
   return `${baseUrl}?${params.toString()}`;
 }
 
-/* Helper function to extract YouTube video ID */
+
 function extractYouTubeId(url: string): string | null {
   const regex = /(?:youtube\.com\/embed\/|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
   const match = url.match(regex);
@@ -144,15 +136,15 @@ interface PageData {
   heroImage: string;
   heroImgAlt: string;
 
-  
-  onlineVideoUrl: string;       // External video URL (YouTube/Vimeo)
-  onlineVideoType: "local" | "url" | "none";  // Type of video source
-  
 
-       // External video URL (YouTube/Vimeo)
-  featuresVideoType: "local" | "url" | "none";  // Type of video source
-     // Text below the video
- 
+  onlineVideoUrl: string;
+  onlineVideoType: "local" | "url" | "none";
+
+
+
+  featuresVideoType: "local" | "url" | "none";
+
+
   onlineHeaderSubtitle?: string;
   onlineHighlightsTitle?: string;
   onlineHighlights?: Array<{ icon: string; text: string }>;
@@ -172,7 +164,7 @@ interface PageData {
   introPara3: string;
   introExtraParagraphs: string[];
   heroGridImages: HeroGridImage[];
-  
+
   // Features Section
   featuresSectionTitle: string;
   featuresSuperLabel: string;
@@ -183,7 +175,7 @@ interface PageData {
   featuresVideoLabel?: string;
   featuresPills?: string[];
   featuresStats?: FeatureStat[];
-  
+
   // Location Section
   locationSubTitle: string;
   locationPara: string;
@@ -192,25 +184,25 @@ interface PageData {
   locationBadges?: string[];
   locationMapEmbedUrl?: string;
   locationMapLabel?: string;
-  
+
   // Batch Section
   batchSectionTitle: string;
   joinBtnText: string;
   joinBtnUrl: string;
-  
-  featuresVideoFile?: string;  // Changed from featuresVideoUrl
+
+  featuresVideoFile?: string;
   // Costs Section
   costsSectionTitle: string;
   costsPara: string;
   costsExtraParagraphs: string[];
-  
+
   // Online Section
   onlineSectionTitle: string;
   onlinePara: string;
   onlineExtraParagraphs: string[];
   curriculum: CurriculumItem[];
   hoursSummary: HoursSummaryItem[];
-  
+
   // Course Info Card
   courseInfoCardTitle?: string;
   courseInfoFeeLabel?: string;
@@ -432,9 +424,9 @@ function CurrencyDropdown({
         <span className={styles.currDropFlag}>
           {currency === "USD" ? "🇺🇸" : "🇮🇳"}
         </span>
-       <span className={styles.currDropLabel}>
-  {currency === "USD" ? "English" : "हिन्दी"}
-</span>
+        <span className={styles.currDropLabel}>
+          {currency === "USD" ? "English" : "हिन्दी"}
+        </span>
         <svg
           className={`${styles.currDropArrow} ${open ? styles.currDropArrowOpen : ""}`}
           viewBox="0 0 12 8"
@@ -468,11 +460,11 @@ function CurrencyDropdown({
               </span>
               <div className={styles.currDropItemText}>
                 <span className={styles.currDropItemCode}>
-  {c === "USD" ? "English" : "हिन्दी"}
-</span>
-<span className={styles.currDropItemName}>
-  {c === "USD" ? "US Dollar" : "Indian Rupee"}
-</span>
+                  {c === "USD" ? "English" : "हिन्दी"}
+                </span>
+                <span className={styles.currDropItemName}>
+                  {c === "USD" ? "US Dollar" : "Indian Rupee"}
+                </span>
               </div>
               {currency === c && (
                 <svg
@@ -557,24 +549,24 @@ function PremiumSeatBooking({
    */
   const getRoomPrice = (batch: Batch | null, roomType: 'dorm' | 'twin' | 'private') => {
     if (!batch) return "—";
-    
+
     if (currency === "INR") {
       // Use stored INR price directly - NO CONVERSION
       let inrPrice: number | undefined;
       if (roomType === 'dorm') inrPrice = batch.inrDormPrice;
       else if (roomType === 'twin') inrPrice = batch.inrTwinPrice;
       else inrPrice = batch.inrPrivatePrice;
-      
+
       if (inrPrice && inrPrice > 0) {
         return `₹${inrPrice.toLocaleString("en-IN")}`;
       }
       return "—";
     }
-    
+
     // USD
-    const usdPrice = roomType === 'dorm' ? batch.dormPrice : 
-                     roomType === 'twin' ? batch.twinPrice : 
-                     batch.privatePrice;
+    const usdPrice = roomType === 'dorm' ? batch.dormPrice :
+      roomType === 'twin' ? batch.twinPrice :
+        batch.privatePrice;
     return `$${usdPrice}`;
   };
 
@@ -859,8 +851,8 @@ function PremiumSeatBooking({
                   const pct = full
                     ? 100
                     : Math.round(
-                        (selected.bookedSeats / selected.totalSeats) * 100,
-                      );
+                      (selected.bookedSeats / selected.totalSeats) * 100,
+                    );
                   return (
                     <>
                       <div className={styles.psbRpSeatsRow}>
@@ -1108,7 +1100,7 @@ function useCurrencyRate() {
         const inr = data?.usd?.inr;
         if (inr && typeof inr === "number") setRate(inr);
       })
-      .catch(() => {})
+      .catch(() => { })
       .finally(() => setLoading(false));
   }, []);
 
@@ -1200,7 +1192,7 @@ export default function PregnancyYogaTTC() {
       {/* ══ HERO IMAGE with id="hero" for StickySectionNav ══ */}
       {pageData.heroImage && (
         <section id="hero" className={styles.heroSection}>
-           <Image
+          <Image
             src={imgSrc(pageData.heroImage)}
             alt={pageData.heroImgAlt || "Prenatal Yoga"}
             width={1180}
@@ -1274,7 +1266,7 @@ export default function PregnancyYogaTTC() {
                   key={img._id}
                   className={`${styles.s1Cell} ${idx === 0 ? styles.s1CellFeatured : ""}`}
                 >
-                   <Image
+                  <Image
                     src={imgSrc(img.url)}
                     alt={img.alt || "Prenatal yoga"}
                     className={styles.s1Img}
@@ -1305,229 +1297,227 @@ export default function PregnancyYogaTTC() {
       {/* ══════════════════════════════════════
           SECTION 2 — FEATURES + LOCATION + SCHEDULE
       ══════════════════════════════════════ */}
-     <section id="features" className={`${styles.section} ${styles.sectionWarm}`}>
-  <div className={`container px-3 px-md-4 ${styles.maxx}`}>
-    {/* ── Features Header ── */}
-    {pageData.featuresSectionTitle && (
-      <>
-        <h2 className={styles.sectionTitle}>
-          {pageData.featuresSectionTitle}
-        </h2>
-        <div className={styles.titleUnderline} />
-      </>
-    )}
+      <section id="features" className={`${styles.section} ${styles.sectionWarm}`}>
+        <div className={`container px-3 px-md-4 ${styles.maxx}`}>
+          {/* ── Features Header ── */}
+          {pageData.featuresSectionTitle && (
+            <>
+              <h2 className={styles.sectionTitle}>
+                {pageData.featuresSectionTitle}
+              </h2>
+              <div className={styles.titleUnderline} />
+            </>
+          )}
 
-    {/* ── Super Label as styled badge ── */}
-    {pageData.featuresSuperLabel && (
-      <div className={styles.s2BadgeRow}>
-        <span className={styles.s2Badge}>
-          {pageData.featuresSuperLabel}
-        </span>
-      </div>
-    )}
+          {/* ── Super Label as styled badge ── */}
+          {pageData.featuresSuperLabel && (
+            <div className={styles.s2BadgeRow}>
+              <span className={styles.s2Badge}>
+                {pageData.featuresSuperLabel}
+              </span>
+            </div>
+          )}
 
-    {/* ── Feature paragraphs + side decorative panel ── */}
-    <div className={styles.s2FeaturesWrap}>
-      {/* Left: paragraphs */}
-      <div className={styles.s2FeaturesText}>
-        {pageData.featuresPara1 && (
-          <div
-            className={`${styles.bodyPara} ${styles.s2FirstPara}`}
-            dangerouslySetInnerHTML={{ __html: pageData.featuresPara1 }}
-          />
-        )}
-        {pageData.featuresPara2 && (
-          <div
-            className={styles.bodyPara}
-            dangerouslySetInnerHTML={{ __html: pageData.featuresPara2 }}
-          />
-        )}
-        {pageData.featuresExtraParagraphs?.map((para, i) => (
-          <div
-            key={i}
-            className={styles.bodyPara}
-            dangerouslySetInnerHTML={{ __html: para }}
-          />
-        ))}
+          {/* ── Feature paragraphs + side decorative panel ── */}
+          <div className={styles.s2FeaturesWrap}>
+            {/* Left: paragraphs */}
+            <div className={styles.s2FeaturesText}>
+              {pageData.featuresPara1 && (
+                <div
+                  className={`${styles.bodyPara} ${styles.s2FirstPara}`}
+                  dangerouslySetInnerHTML={{ __html: pageData.featuresPara1 }}
+                />
+              )}
+              {pageData.featuresPara2 && (
+                <div
+                  className={styles.bodyPara}
+                  dangerouslySetInnerHTML={{ __html: pageData.featuresPara2 }}
+                />
+              )}
+              {pageData.featuresExtraParagraphs?.map((para, i) => (
+                <div
+                  key={i}
+                  className={styles.bodyPara}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
 
-        {/* Dynamic highlight pills */}
-        <div className={styles.s2Pills}>
-          {(pageData.featuresPills || [
-            "Garbh Sanskar",
-            "Pranayama",
-            "Meditation",
-            "Anatomy",
-            "Teaching Practice",
-            "Postnatal Care",
-          ]).map((tag) => (
-            <span key={tag} className={styles.s2Pill}>
-              {tag}
-            </span>
-          ))}
-        </div>
-      </div>
+              {/* Dynamic highlight pills */}
+              <div className={styles.s2Pills}>
+                {(pageData.featuresPills || [
+                  "Garbh Sanskar",
+                  "Pranayama",
+                  "Meditation",
+                  "Anatomy",
+                  "Teaching Practice",
+                  "Postnatal Care",
+                ]).map((tag) => (
+                  <span key={tag} className={styles.s2Pill}>
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
 
-     {/* Right: Dynamic video embed panel (Local Video or External URL) */}
-<div className={styles.s2MediaPanel}>
-  <div className={styles.s2VideoWrap}>
-    {pageData.featuresVideoType === "local" && pageData.featuresVideoFile ? (
-      <video
-        className={styles.s2Video}
-        controls
-        autoPlay
-        loop
-        muted
-        playsInline
-      >
-        <source src={imgSrc(pageData.featuresVideoFile)} type="video/mp4" />
-        Your browser does not support the video tag.
-      </video>
-    ) : pageData.featuresVideoType === "url" && pageData.featuresVideoUrl ? (
-      <iframe
-        className={styles.s2Video}
-        src={getYouTubeEmbedWithAutoplay(pageData.featuresVideoUrl)}
-        title="Prenatal Yoga Video"
-        frameBorder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowFullScreen
-      />
-    ) : (
-      <div className={styles.s2VideoPlaceholder}>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-          <rect x="2" y="4" width="20" height="16" rx="2" />
-          <path d="M9 8l6 4-6 4V8z" />
-        </svg>
-        <span>Video Coming Soon</span>
-      </div>
-    )}
-    <div className={styles.s2VideoFrame} />
-  </div>
-  <div className={styles.s2MediaLabel}>
-    <span className={styles.s2MediaIcon}>▶</span>
-    <span>{pageData.featuresVideoLabel || "Watch Our Prenatal Yoga Sessions"}</span>
-  </div>
-  {/* Dynamic stat badges */}
-  <div className={styles.s2Stats}>
-    {(pageData.featuresStats || [
-      { num: "85+", label: "Hours Training" },
-      { num: "500+", label: "Graduates" },
-      { num: "15+", label: "Years Experience" }
-    ]).map((stat, idx) => (
-      <React.Fragment key={idx}>
-        <div className={styles.s2Stat}>
-          <span className={styles.s2StatNum}>{stat.num}</span>
-          <span className={styles.s2StatLbl}>{stat.label}</span>
-        </div>
-        {idx < (pageData.featuresStats?.length || 3) - 1 && (
-          <div className={styles.s2StatDiv} />
-        )}
-      </React.Fragment>
-    ))}
-  </div>
-</div>
-    </div>
 
-    {/* ══ Location + Schedule Card ══ */}
-    {(pageData.locationSubTitle || pageData.schedule?.length > 0) && (
-      <div className={styles.s2LocationCard}>
-        {/* Card top accent bar */}
-        <div className={styles.s2CardAccent} />
-        <span className={styles.s2CardCorner}>✦</span>
-
-        {pageData.locationSubTitle && (
-          <>
-            <h2 className={styles.subSectionTitle}>
-              {pageData.locationSubTitle}
-            </h2>
-            <div className={styles.subUnderline} />
-          </>
-        )}
-
-        {pageData.locationPara && (
-          <div
-            className={styles.s2LocationPara}
-            dangerouslySetInnerHTML={{ __html: pageData.locationPara }}
-          />
-        )}
-
-        {/* ── Dynamic location badges ── */}
-        <div className={styles.s2LocBadges}>
-          {(pageData.locationBadges || [
-            "📍 Tapovan, Rishikesh",
-            "🏔️ Himalayan Foothills",
-            "🌊 12 min to Laxman Jhula",
-            "🧘 Peaceful Ashram Setting"
-          ]).map((badge, idx) => (
-            <span key={idx} className={styles.s2LocBadge}>
-              {badge}
-            </span>
-          ))}
-        </div>
-
-        {/* ── Schedule + Image/Map row ── */}
-        <div className={styles.s2CardBody}>
-          {/* Schedule */}
-          {pageData.schedule?.length > 0 && (
-            <div className={styles.s2ScheduleWrap}>
-              <div className={styles.scheduleBlock}>
-                <div className={styles.scheduleHeader}>
-                  The program, a draft of a schedule:
-                </div>
-                <div className={styles.scheduleList}>
-                  {pageData.schedule.map((row) => (
-                    <div key={row._id} className={styles.schedRow}>
-                      <span className={styles.schedTime}>{row.time}</span>
-                      <span className={styles.schedSep}>:</span>
-                      <span className={styles.schedAct}>
-                        {row.activity}
-                      </span>
+            <div className={styles.s2MediaPanel}>
+              <div className={styles.s2VideoWrap}>
+                {pageData.featuresVideoType === "local" && pageData.featuresVideoFile ? (
+                  <video
+                    className={styles.s2Video}
+                    controls
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                  >
+                    <source src={imgSrc(pageData.featuresVideoFile)} type="video/mp4" />
+                    Your browser does not support the video tag.
+                  </video>
+                ) : pageData.featuresVideoType === "url" && pageData.featuresVideoUrl ? (
+                  <iframe
+                    className={styles.s2Video}
+                    src={getYouTubeEmbedWithAutoplay(pageData.featuresVideoUrl)}
+                    title="Prenatal Yoga Video"
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                ) : (
+                  <div className={styles.s2VideoPlaceholder}>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                      <rect x="2" y="4" width="20" height="16" rx="2" />
+                      <path d="M9 8l6 4-6 4V8z" />
+                    </svg>
+                    <span>Video Coming Soon</span>
+                  </div>
+                )}
+                <div className={styles.s2VideoFrame} />
+              </div>
+              <div className={styles.s2MediaLabel}>
+                <span className={styles.s2MediaIcon}>▶</span>
+                <span>{pageData.featuresVideoLabel || "Watch Our Prenatal Yoga Sessions"}</span>
+              </div>
+              {/* Dynamic stat badges */}
+              <div className={styles.s2Stats}>
+                {(pageData.featuresStats || [
+                  { num: "85+", label: "Hours Training" },
+                  { num: "500+", label: "Graduates" },
+                  { num: "15+", label: "Years Experience" }
+                ]).map((stat, idx) => (
+                  <React.Fragment key={idx}>
+                    <div className={styles.s2Stat}>
+                      <span className={styles.s2StatNum}>{stat.num}</span>
+                      <span className={styles.s2StatLbl}>{stat.label}</span>
                     </div>
-                  ))}
+                    {idx < (pageData.featuresStats?.length || 3) - 1 && (
+                      <div className={styles.s2StatDiv} />
+                    )}
+                  </React.Fragment>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* ══ Location + Schedule Card ══ */}
+          {(pageData.locationSubTitle || pageData.schedule?.length > 0) && (
+            <div className={styles.s2LocationCard}>
+              {/* Card top accent bar */}
+              <div className={styles.s2CardAccent} />
+              <span className={styles.s2CardCorner}>✦</span>
+
+              {pageData.locationSubTitle && (
+                <>
+                  <h2 className={styles.subSectionTitle}>
+                    {pageData.locationSubTitle}
+                  </h2>
+                  <div className={styles.subUnderline} />
+                </>
+              )}
+
+              {pageData.locationPara && (
+                <div
+                  className={styles.s2LocationPara}
+                  dangerouslySetInnerHTML={{ __html: pageData.locationPara }}
+                />
+              )}
+
+              {/* ── Dynamic location badges ── */}
+              <div className={styles.s2LocBadges}>
+                {(pageData.locationBadges || [
+                  "📍 Tapovan, Rishikesh",
+                  "🏔️ Himalayan Foothills",
+                  "🌊 12 min to Laxman Jhula",
+                  "🧘 Peaceful Ashram Setting"
+                ]).map((badge, idx) => (
+                  <span key={idx} className={styles.s2LocBadge}>
+                    {badge}
+                  </span>
+                ))}
+              </div>
+
+              {/* ── Schedule + Image/Map row ── */}
+              <div className={styles.s2CardBody}>
+                {/* Schedule */}
+                {pageData.schedule?.length > 0 && (
+                  <div className={styles.s2ScheduleWrap}>
+                    <div className={styles.scheduleBlock}>
+                      <div className={styles.scheduleHeader}>
+                        The program, a draft of a schedule:
+                      </div>
+                      <div className={styles.scheduleList}>
+                        {pageData.schedule.map((row) => (
+                          <div key={row._id} className={styles.schedRow}>
+                            <span className={styles.schedTime}>{row.time}</span>
+                            <span className={styles.schedSep}>:</span>
+                            <span className={styles.schedAct}>
+                              {row.activity}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* Right column: location image + dynamic map embed */}
+                <div className={styles.s2RightCol}>
+                  {pageData.locationImage && (
+                    <div className={styles.s2LocImgWrap}>
+                      <Image
+                        src={imgSrc(pageData.locationImage)}
+                        alt={pageData.locationSubTitle || "Location"}
+                        className={styles.s2LocImg}
+                        loading="lazy"
+                      />
+                      <div className={styles.s2LocImgOverlay} />
+                      <div className={styles.s2LocImgFrame} />
+                      <span className={styles.s2LocImgTag}>AYM Ashram</span>
+                    </div>
+                  )}
+
+                  {/* Dynamic Google Map embed */}
+                  <div className={styles.s2MapWrap}>
+                    <iframe
+                      className={styles.s2Map}
+                      src={pageData.locationMapEmbedUrl || "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3457.123!2d78.3219!3d30.1087!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39093f2b6eab7a0f%3A0x1b2c3d4e5f6a7b8c!2sTapovan%2C%20Rishikesh!5e0!3m2!1sen!2sin!4v1234567890"}
+                      allowFullScreen
+                      loading="lazy"
+                      referrerPolicy="no-referrer-when-downgrade"
+                      title="AYM Yoga Ashram Location"
+                    />
+                    <div className={styles.s2MapLabel}>
+                      <span>{pageData.locationMapLabel || "📍 Tapovan, Rishikesh, Uttarakhand"}</span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           )}
-
-          {/* Right column: location image + dynamic map embed */}
-          <div className={styles.s2RightCol}>
-            {pageData.locationImage && (
-              <div className={styles.s2LocImgWrap}>
-                 <Image
-                  src={imgSrc(pageData.locationImage)}
-                  alt={pageData.locationSubTitle || "Location"}
-                  className={styles.s2LocImg}
-                  loading="lazy"
-                />
-                <div className={styles.s2LocImgOverlay} />
-                <div className={styles.s2LocImgFrame} />
-                <span className={styles.s2LocImgTag}>AYM Ashram</span>
-              </div>
-            )}
-
-            {/* Dynamic Google Map embed */}
-            <div className={styles.s2MapWrap}>
-              <iframe
-                className={styles.s2Map}
-                src={pageData.locationMapEmbedUrl || "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3457.123!2d78.3219!3d30.1087!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39093f2b6eab7a0f%3A0x1b2c3d4e5f6a7b8c!2sTapovan%2C%20Rishikesh!5e0!3m2!1sen!2sin!4v1234567890"}
-                allowFullScreen
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                title="AYM Yoga Ashram Location"
-              />
-              <div className={styles.s2MapLabel}>
-                <span>{pageData.locationMapLabel || "📍 Tapovan, Rishikesh, Uttarakhand"}</span>
-              </div>
-            </div>
-          </div>
         </div>
-      </div>
-    )}
-  </div>
-</section>
+      </section>
 
-      {/* ══════════════════════════════════════
-          SECTION 3 — PREMIUM SEAT BOOKING (REPLACES BATCH TABLE)
-      ══════════════════════════════════════ */}
+
       <PremiumSeatBooking
         seats={batches}
         currency={currency}
@@ -1559,261 +1549,261 @@ export default function PregnancyYogaTTC() {
       )}
 
       {/* ── Online Section ── */}
-{pageData.onlineSectionTitle && (
-  <section id="online" className={styles.s3Card}>
-    <div className={styles.s3CardAccent} />
-    <span className={styles.s3CardCorner}>✦</span>
+      {pageData.onlineSectionTitle && (
+        <section id="online" className={styles.s3Card}>
+          <div className={styles.s3CardAccent} />
+          <span className={styles.s3CardCorner}>✦</span>
 
-    <div className={styles.s3Header}>
-      <div className={styles.s3HeaderOrnament}>
-        <span className={styles.s3HeaderLine} />
-        <span className={styles.s3HeaderDot} />
-        <span className={styles.s3HeaderLine} />
-      </div>
-      <h2 className={styles.subSectionTitle}>
-        {pageData.onlineSectionTitle}
-      </h2>
-      <div className={styles.subUnderline} />
-      <p className={styles.s3HeaderSubtitle}>
-        {pageData.onlineHeaderSubtitle || "Comprehensive Online Training for Aspiring Prenatal Yoga Teachers"}
-      </p>
-    </div>
-
-    {(pageData.onlinePara || pageData.onlineExtraParagraphs?.length > 0) && (
-      <div className={styles.s3Intro}>
-        {pageData.onlinePara && (
-          <div
-            className={styles.bodyPara}
-            dangerouslySetInnerHTML={{ __html: pageData.onlinePara }}
-          />
-        )}
-        {pageData.onlineExtraParagraphs?.map((para, i) => (
-          <div
-            key={i}
-            className={styles.bodyPara}
-            dangerouslySetInnerHTML={{ __html: para }}
-          />
-        ))}
-      </div>
-    )}
-
-    {/* Curriculum and Hours Summary - Side by Side */}
-    <div className={`container ${styles.s3TablesRow} ${styles.maxx}`}>
-      {/* Curriculum Table */}
-      {pageData.curriculum?.length > 0 && (
-        <div className={styles.s3CurrWrap}>
-          <div className={styles.s3CurrHeader}>
-            <div className={styles.s3CurrHeaderIcon}>
-              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.6">
-                <path d="M4 6h12M4 10h12M4 14h7" />
-              </svg>
+          <div className={styles.s3Header}>
+            <div className={styles.s3HeaderOrnament}>
+              <span className={styles.s3HeaderLine} />
+              <span className={styles.s3HeaderDot} />
+              <span className={styles.s3HeaderLine} />
             </div>
-            <span>Curriculum Breakdown</span>
-            <div className={styles.s3CurrHeaderBadge}>
-              {pageData.curriculum.length} Modules
-            </div>
+            <h2 className={styles.subSectionTitle}>
+              {pageData.onlineSectionTitle}
+            </h2>
+            <div className={styles.subUnderline} />
+            <p className={styles.s3HeaderSubtitle}>
+              {pageData.onlineHeaderSubtitle || "Comprehensive Online Training for Aspiring Prenatal Yoga Teachers"}
+            </p>
           </div>
-          <div className={styles.s3CurrList}>
-            {pageData.curriculum.map((item, idx) => (
-              <div key={item._id} className={styles.s3CurrItem}>
-                <div className={styles.s3CurrNum}>
-                  {String(idx + 1).padStart(2, "0")}
-                </div>
-                <div className={styles.s3CurrBody}>
-                  <span className={styles.s3CurrTitle}>{item.title}</span>
-                  <div className={styles.s3CurrBar}>
-                    <div
-                      className={styles.s3CurrBarFill}
-                      style={{
-                        width: `${Math.min(100, (parseInt(item.hours) / 50) * 100)}%`,
-                      }}
-                    />
+
+          {(pageData.onlinePara || pageData.onlineExtraParagraphs?.length > 0) && (
+            <div className={styles.s3Intro}>
+              {pageData.onlinePara && (
+                <div
+                  className={styles.bodyPara}
+                  dangerouslySetInnerHTML={{ __html: pageData.onlinePara }}
+                />
+              )}
+              {pageData.onlineExtraParagraphs?.map((para, i) => (
+                <div
+                  key={i}
+                  className={styles.bodyPara}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
+              ))}
+            </div>
+          )}
+
+          {/* Curriculum and Hours Summary - Side by Side */}
+          <div className={`container ${styles.s3TablesRow} ${styles.maxx}`}>
+            {/* Curriculum Table */}
+            {pageData.curriculum?.length > 0 && (
+              <div className={styles.s3CurrWrap}>
+                <div className={styles.s3CurrHeader}>
+                  <div className={styles.s3CurrHeaderIcon}>
+                    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.6">
+                      <path d="M4 6h12M4 10h12M4 14h7" />
+                    </svg>
+                  </div>
+                  <span>Curriculum Breakdown</span>
+                  <div className={styles.s3CurrHeaderBadge}>
+                    {pageData.curriculum.length} Modules
                   </div>
                 </div>
-                <div className={styles.s3CurrHrs}>
-                  {item.hours}
-                  <span>hrs</span>
+                <div className={styles.s3CurrList}>
+                  {pageData.curriculum.map((item, idx) => (
+                    <div key={item._id} className={styles.s3CurrItem}>
+                      <div className={styles.s3CurrNum}>
+                        {String(idx + 1).padStart(2, "0")}
+                      </div>
+                      <div className={styles.s3CurrBody}>
+                        <span className={styles.s3CurrTitle}>{item.title}</span>
+                        <div className={styles.s3CurrBar}>
+                          <div
+                            className={styles.s3CurrBarFill}
+                            style={{
+                              width: `${Math.min(100, (parseInt(item.hours) / 50) * 100)}%`,
+                            }}
+                          />
+                        </div>
+                      </div>
+                      <div className={styles.s3CurrHrs}>
+                        {item.hours}
+                        <span>hrs</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <div className={styles.s3CurrFooter}>
+                  <span className={styles.s3CurrFooterIcon}>📖</span>
+                  <span>Total: {pageData.curriculum.reduce((sum, item) => sum + parseInt(item.hours), 0)} Hours</span>
                 </div>
               </div>
-            ))}
-          </div>
-          <div className={styles.s3CurrFooter}>
-            <span className={styles.s3CurrFooterIcon}>📖</span>
-            <span>Total: {pageData.curriculum.reduce((sum, item) => sum + parseInt(item.hours), 0)} Hours</span>
-          </div>
-        </div>
-      )}
+            )}
 
-      {/* Hours Summary Table */}
-      {pageData.hoursSummary?.length > 0 && (
-        <div className={styles.s3HoursWrap}>
-          <div className={styles.s3HoursHeader}>
-            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.6" className={styles.s3HoursHeaderIcon}>
-              <circle cx="10" cy="10" r="8" />
-              <path d="M10 6v4l2.5 2.5" />
-            </svg>
-            <span>Hours Summary</span>
-            <div className={styles.s3HoursHeaderBadge}>
-              {pageData.hoursSummary.reduce((sum, row) => sum + parseInt(row.value), 0)} hrs
-            </div>
-          </div>
-          <div className={styles.s3HoursTable}>
-            {pageData.hoursSummary.map((row, idx) => (
-              <div key={row._id} className={styles.s3HoursRow}>
-                <div className={styles.s3HoursLabelCell}>
-                  <span className={styles.s3HoursBullet} />
-                  <span className={styles.s3HoursLabel}>{row.label}</span>
+            {/* Hours Summary Table */}
+            {pageData.hoursSummary?.length > 0 && (
+              <div className={styles.s3HoursWrap}>
+                <div className={styles.s3HoursHeader}>
+                  <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.6" className={styles.s3HoursHeaderIcon}>
+                    <circle cx="10" cy="10" r="8" />
+                    <path d="M10 6v4l2.5 2.5" />
+                  </svg>
+                  <span>Hours Summary</span>
+                  <div className={styles.s3HoursHeaderBadge}>
+                    {pageData.hoursSummary.reduce((sum, row) => sum + parseInt(row.value), 0)} hrs
+                  </div>
                 </div>
-                <div className={styles.s3HoursProgress}>
-                  <div 
-                    className={styles.s3HoursProgressFill} 
-                    style={{ width: `${(parseInt(row.value) / 200) * 100}%` }}
+                <div className={styles.s3HoursTable}>
+                  {pageData.hoursSummary.map((row, idx) => (
+                    <div key={row._id} className={styles.s3HoursRow}>
+                      <div className={styles.s3HoursLabelCell}>
+                        <span className={styles.s3HoursBullet} />
+                        <span className={styles.s3HoursLabel}>{row.label}</span>
+                      </div>
+                      <div className={styles.s3HoursProgress}>
+                        <div
+                          className={styles.s3HoursProgressFill}
+                          style={{ width: `${(parseInt(row.value) / 200) * 100}%` }}
+                        />
+                      </div>
+                      <div className={styles.s3HoursValue}>
+                        {row.value}
+                        <span>hrs</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Highlights and Video Section */}
+          <div className={`container ${styles.s3BottomRow} ${styles.maxx}`}>
+            {/* Highlights Card */}
+            <div className={styles.s3HighlightsWrap}>
+              <div className={styles.s3HighlightsHeader}>
+                <span className={styles.s3HighlightsHeaderIcon}>✨</span>
+                <span>{pageData.onlineHighlightsTitle || "What You Get Online"}</span>
+                <span className={styles.s3HighlightsHeaderIcon}>✨</span>
+              </div>
+              <div className={styles.s3HighlightsList}>
+                {(pageData.onlineHighlights || [
+                  { icon: "🎥", text: "Recorded video lectures, lifetime access" },
+                  { icon: "📄", text: "Downloadable course materials & PDFs" },
+                  { icon: "🧘", text: "Live Q&A sessions with instructors" },
+                  { icon: "🏆", text: "Internationally recognised certificate" },
+                  { icon: "💬", text: "Private student community access" },
+                  { icon: "🔄", text: "Flexible, self-paced learning schedule" },
+                ]).map((h, i) => (
+                  <div key={i} className={styles.s3HighlightItem}>
+                    <span className={styles.s3HighlightIcon}>{h.icon}</span>
+                    <span className={styles.s3HighlightText}>{h.text}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Video and Bonus */}
+            <div className={styles.s3RightCol}>
+              <div className={styles.s3VideoWrap}>
+                {/* Check for local video file */}
+                {pageData.onlineVideoFile ? (
+                  <video
+                    className={styles.s3Video}
+                    controls
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    preload="metadata"
+                    poster={pageData.onlineVideoPoster ? imgSrc(pageData.onlineVideoPoster) : undefined}
+                  >
+                    <source src={imgSrc(pageData.onlineVideoFile)} type="video/mp4" />
+                    Your browser does not support the video tag.
+                  </video>
+                ) : pageData.onlineVideoType === "url" && pageData.onlineVideoUrl ? (
+
+                  <iframe
+                    className={styles.s3Video}
+                    src={processYouTubeUrl(pageData.onlineVideoUrl)}
+                    title="Online Course Preview"
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
                   />
+                ) : (
+                  <>
+                    <div className={styles.s3VideoPlaceholder}>
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <rect x="2" y="4" width="20" height="16" rx="2" />
+                        <path d="M9 8l6 4-6 4V8z" />
+                      </svg>
+                      <span>Video Coming Soon</span>
+                    </div>
+                    {/* Overlay only shown when no video */}
+                    <div className={styles.s3VideoOverlay}>
+                      <div className={styles.s3VideoPlayBtn}>
+                        <span>▶</span>
+                      </div>
+                      <span className={styles.s3VideoTag}>
+                        {pageData.onlineVideoLabel || "Course Preview"}
+                      </span>
+                    </div>
+                  </>
+                )}
+
+                {/* Label shown below video when file or URL exists */}
+                {(pageData.onlineVideoFile || pageData.onlineVideoUrl) && pageData.onlineVideoLabel && (
+                  <div className={styles.s3VideoTag} style={{ textAlign: "center", padding: "6px 0" }}>
+                    {pageData.onlineVideoLabel}
+                  </div>
+                )}
+              </div>
+
+              <div className={styles.s3BonusCard}>
+                <div className={styles.s3BonusIcon}>
+                  {pageData.onlineBonusIcon || "🎁"}
                 </div>
-                <div className={styles.s3HoursValue}>
-                  {row.value}
-                  <span>hrs</span>
+                <div className={styles.s3BonusContent}>
+                  <div className={styles.s3BonusTitle}>
+                    {pageData.onlineBonusTitle || "Bonus Included"}
+                  </div>
+                  <div className={styles.s3BonusText}>
+                    {pageData.onlineBonusText || "Free access to prenatal yoga community & monthly workshops"}
+                  </div>
                 </div>
               </div>
-            ))}
-          </div>
-        </div>
-      )}
-    </div>
-
-    {/* Highlights and Video Section */}
-    <div className={`container ${styles.s3BottomRow} ${styles.maxx}`   }>
-      {/* Highlights Card */}
-      <div className={styles.s3HighlightsWrap}>
-        <div className={styles.s3HighlightsHeader}>
-          <span className={styles.s3HighlightsHeaderIcon}>✨</span>
-          <span>{pageData.onlineHighlightsTitle || "What You Get Online"}</span>
-          <span className={styles.s3HighlightsHeaderIcon}>✨</span>
-        </div>
-        <div className={styles.s3HighlightsList}>
-          {(pageData.onlineHighlights || [
-            { icon: "🎥", text: "Recorded video lectures, lifetime access" },
-            { icon: "📄", text: "Downloadable course materials & PDFs" },
-            { icon: "🧘", text: "Live Q&A sessions with instructors" },
-            { icon: "🏆", text: "Internationally recognised certificate" },
-            { icon: "💬", text: "Private student community access" },
-            { icon: "🔄", text: "Flexible, self-paced learning schedule" },
-          ]).map((h, i) => (
-            <div key={i} className={styles.s3HighlightItem}>
-              <span className={styles.s3HighlightIcon}>{h.icon}</span>
-              <span className={styles.s3HighlightText}>{h.text}</span>
             </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Video and Bonus */}
-<div className={styles.s3RightCol}>
-  <div className={styles.s3VideoWrap}>
-    {/* Check for local video file */}
-    {pageData.onlineVideoFile ? (
-      <video
-        className={styles.s3Video}
-        controls
-        autoPlay
-        loop
-        muted
-        playsInline
-        preload="metadata"
-        poster={pageData.onlineVideoPoster ? imgSrc(pageData.onlineVideoPoster) : undefined}
-      >
-        <source src={imgSrc(pageData.onlineVideoFile)} type="video/mp4" />
-        Your browser does not support the video tag.
-      </video>
-    ) : pageData.onlineVideoType === "url" && pageData.onlineVideoUrl ? (
-      /* YouTube/Vimeo URL embed with autoplay and loop */
-      <iframe
-        className={styles.s3Video}
-        src={processYouTubeUrl(pageData.onlineVideoUrl)}
-        title="Online Course Preview"
-        frameBorder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowFullScreen
-      />
-    ) : (
-      <>
-        <div className={styles.s3VideoPlaceholder}>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-            <rect x="2" y="4" width="20" height="16" rx="2" />
-            <path d="M9 8l6 4-6 4V8z" />
-          </svg>
-          <span>Video Coming Soon</span>
-        </div>
-        {/* Overlay only shown when no video */}
-        <div className={styles.s3VideoOverlay}>
-          <div className={styles.s3VideoPlayBtn}>
-            <span>▶</span>
           </div>
-          <span className={styles.s3VideoTag}>
-            {pageData.onlineVideoLabel || "Course Preview"}
-          </span>
-        </div>
-      </>
-    )}
 
-    {/* Label shown below video when file or URL exists */}
-    {(pageData.onlineVideoFile || pageData.onlineVideoUrl) && pageData.onlineVideoLabel && (
-      <div className={styles.s3VideoTag} style={{ textAlign: "center", padding: "6px 0" }}>
-        {pageData.onlineVideoLabel}
-      </div>
-    )}
-  </div>
+          <div className={`container ${styles.s3Cta} ${styles.maxx}`}>
+            <div className={styles.s3CtaLeft}>
+              <span className={styles.s3CtaLabel}>
+                {pageData.onlineCtaLabel || "Ready to begin your journey?"}
+              </span>
+              <span className={styles.s3CtaSub}>
+                {pageData.onlineCtaSub || "Join our next online batch · Flexible schedule · Globally certified"}
+              </span>
+            </div>
+            <Link href={pageData.onlineCtaBtnUrl || "#batch-section"} className={styles.s3CtaBtn}>
+              {pageData.onlineCtaBtnText || "Enrol Now"}
+              <svg viewBox="0 0 20 20" fill="none" className={styles.s3CtaBtnArrow}>
+                <path
+                  d="M4 10h12M11 5l5 5-5 5"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </Link>
+          </div>
+        </section>
+      )}
 
-  <div className={styles.s3BonusCard}>
-    <div className={styles.s3BonusIcon}>
-      {pageData.onlineBonusIcon || "🎁"}
-    </div>
-    <div className={styles.s3BonusContent}>
-      <div className={styles.s3BonusTitle}>
-        {pageData.onlineBonusTitle || "Bonus Included"}
-      </div>
-      <div className={styles.s3BonusText}>
-        {pageData.onlineBonusText || "Free access to prenatal yoga community & monthly workshops"}
-      </div>
-    </div>
-  </div>
-</div>
-    </div>
-
-    <div className={`container ${styles.s3Cta} ${styles.maxx}` }>
-      <div className={styles.s3CtaLeft}>
-        <span className={styles.s3CtaLabel}>
-          {pageData.onlineCtaLabel || "Ready to begin your journey?"}
-        </span>
-        <span className={styles.s3CtaSub}>
-          {pageData.onlineCtaSub || "Join our next online batch · Flexible schedule · Globally certified"}
-        </span>
-      </div>
-      <Link href={pageData.onlineCtaBtnUrl || "#batch-section"} className={styles.s3CtaBtn}>
-        {pageData.onlineCtaBtnText || "Enrol Now"}
-        <svg viewBox="0 0 20 20" fill="none" className={styles.s3CtaBtnArrow}>
-          <path
-            d="M4 10h12M11 5l5 5-5 5"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-      </Link>
-    </div>
-  </section>
-)}
-      
       <section id="gallery">
         <PremiumGallerySection type="both" backgroundColor="warm" />
       </section>
-      
-      {/* ✅ REVIEWS — now a reusable separate component */}
+
+
       <section id="reviews">
         <ReviewSection courseType="prenatal-yoga-teacher-training" RatingsSummaryComponent={<RatingsSummarySection />} />
       </section>
-      
+
       <section id="location">
         <HowToReach />
       </section>

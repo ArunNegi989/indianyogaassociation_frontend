@@ -23,12 +23,10 @@ interface FormData {
   // Hero
   heroImageAlt: string;
 
-  // Header
   superTitle: string;
   mainTitle: string;
-  headerDesc: string; // rich text (links allowed)
+  headerDesc: string;
 
-  // Registration fee
   regFeeTitle: string;
   regFeeHighlight: string;
   regFeeText: string;
@@ -293,7 +291,6 @@ function RichField({
   );
 }
 
-/* One bank card with its own key/value rows */
 function BankFields({
   control, register, index, onRemove, canRemove,
 }: {
@@ -387,7 +384,6 @@ export default function PaymentAddEditPage() {
   const arrivalArr = useFieldArray({ control, name: "arrivalMethods" });
   const policiesArr = useFieldArray({ control, name: "policies" });
 
-  /* ── Fetch existing data on edit ── */
   useEffect(() => {
     if (!isEdit || !sectionId) return;
     const fetchData = async () => {

@@ -1,8 +1,3 @@
-/* ════════════════════════════════════════════════
-   AccreditationSection — Fully Responsive CSS
-   Breakpoints: 320 | 480 | 600 | 768 | 900 | 1024 | 1280 | 1600+
-   ════════════════════════════════════════════════ */
-
 /* ── Hero ── */
 .heroSection {
   position: relative;
@@ -99,7 +94,7 @@
 
 .sectionSubtitle {
   font-size: clamp(0.85rem, 1.5vw, 1.05rem);
- color: #555;
+  color: #555;
   margin-top: 0.4rem;
   font-weight: 500;
   font-family: "Montserrat", Arial, sans-serif;
@@ -111,7 +106,7 @@
   color: #555;
   margin-bottom: 1.5rem;
   font-weight: 500;
-   font-family: "Montserrat", Arial, sans-serif;
+  font-family: "Montserrat", Arial, sans-serif;
 }
 
 /* ── Paragraphs ── */
@@ -123,10 +118,12 @@
   font-size: clamp(0.88rem, 1.4vw, 1rem);
   font-family: "Montserrat", Arial, sans-serif;
 }
-.introParagraphs p{
+
+.introParagraphs p {
   font-size: clamp(0.88rem, 1.4vw, 1.1rem);
   font-family: "Montserrat", Arial, sans-serif;
 }
+
 /* ── Accreditation Cards Grid ── */
 .accreditationCardsGrid {
   display: grid;
@@ -166,7 +163,7 @@
 
 .cardDescription {
   font-size: clamp(0.82rem, 1.3vw, 1.1rem);
- color: #555;
+  color: #555;
   line-height: 1.6;
   font-family: "Montserrat", Arial, sans-serif;
 }
@@ -219,7 +216,7 @@
   line-height: 1.7;
   margin-bottom: 0.8rem;
   font-size: clamp(0.85rem, 1.4vw, 1.08rem);
-   font-family: "Montserrat", Arial, sans-serif;
+  font-family: "Montserrat", Arial, sans-serif;
 }
 
 .highlightText:last-child {
@@ -544,12 +541,12 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 2.5rem;
-  align-items: stretch; /* both columns match the tallest one */
+  align-items: stretch;
 }
 
 .iyfContent {
   display: flex;
-  flex-direction: column; /* stack title, paragraphs, notes vertically */
+  flex-direction: column;
 }
 
 .iyfTitle {
@@ -570,12 +567,11 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
-/* Footer Notes — grows to fill remaining height after paragraphs */
 .iyfFooterNotes {
   display: flex;
   flex-direction: column;
-  gap: 0; /* gap removed — we use flex: 1 on each card instead */
-  flex: 1; /* expand to fill leftover space below paragraphs */
+  gap: 0;
+  flex: 1;
   margin-top: 1.5rem;
 }
 
@@ -588,8 +584,8 @@
   border-radius: 8px;
   border-left: 4px solid #f15505;
   box-sizing: border-box;
-  flex: 1; /* each card stretches equally to fill the notes column */
-  margin-bottom: 0.75rem; /* replaces gap so flex: 1 works correctly */
+  flex: 1;
+  margin-bottom: 0.75rem;
 }
 
 .noteItem:last-child {
@@ -618,6 +614,7 @@
     opacity: 0;
     transform: translateY(15px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -659,16 +656,17 @@
   }
 
   .iyfContent {
-    order: 1; /* content below image on single column */
+    order: 1;
   }
 
   .iyfImageWrapper {
-    order: 0; /* image on top */
+    order: 0;
+    /* image on top */
     margin: 0 auto;
     width: 100%;
   }
 
-  /* on single column, notes don't need to stretch — reset to natural height */
+
   .iyfFooterNotes {
     flex: unset;
   }

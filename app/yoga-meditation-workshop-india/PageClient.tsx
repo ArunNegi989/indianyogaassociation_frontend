@@ -1,13 +1,12 @@
 "use client"
 
-// MeditationPage.tsx
+
 import React, { useState, useEffect, useRef } from "react";
 import styles from "@/assets/style/yoga-meditation-workshop/Meditationpage.module.css";
 import Link from "next/link";
 import api from "@/lib/api";
 import Image from "next/image";
 
-/* ─── Types (mirrors SeatBatch from backend) ─── */
 interface SeatBatch {
   _id: string;
   startDate: string;
@@ -216,11 +215,7 @@ function CurrencyDropdown({
   );
 }
 
-/* ══════════════════════════════════════════════════
-   PREMIUM SEAT BOOKING — driven by SeatBatch[] from API
-   Now uses FIXED inrDormPrice / inrTwinPrice / inrPrivatePrice
-   from backend instead of calculating via live rate.
-══════════════════════════════════════════════════ */
+
 function PremiumSeatBookingMeditation({
   seats,
   currency,
@@ -521,7 +516,7 @@ function useCurrencyRate() {
         const inr = data?.usd?.inr;
         if (inr && typeof inr === "number") setRate(inr);
       })
-      .catch(() => {})
+      .catch(() => { })
       .finally(() => setLoading(false));
   }, []);
 
@@ -553,7 +548,7 @@ const MeditationPage: React.FC = () => {
   const [section, setSection] = useState<MeditationSectionData | null>(null);
   const [sectionLoading, setSectionLoading] = useState(true);
 
-  // Page content — meditation-section singleton API
+
   useEffect(() => {
     api
       .get("/meditation-section")
@@ -590,7 +585,7 @@ const MeditationPage: React.FC = () => {
     <div className={styles.page}>
       <section className={styles.heroSection}>
         {section.heroImage && (
-           <Image
+          <Image
             src={getImageUrl(section.heroImage)}
             alt={section.heroImageAlt}
             width={1180}
@@ -655,7 +650,7 @@ const MeditationPage: React.FC = () => {
               </div>
               {card.image && (
                 <div className={styles.methodImage}>
-                   <Image src={getImageUrl(card.image)} alt={card.imageAlt} className={styles.methodImg} />
+                  <Image src={getImageUrl(card.image)} alt={card.imageAlt} className={styles.methodImg} />
                   <div className={styles.methodImageCaption}>{card.title}</div>
                 </div>
               )}
@@ -682,7 +677,7 @@ const MeditationPage: React.FC = () => {
             </div>
             {section.elevateImage && (
               <div className={styles.elevateImage}>
-                 <Image src={getImageUrl(section.elevateImage)} alt={section.elevateImageAlt} className={styles.elevateImg} />
+                <Image src={getImageUrl(section.elevateImage)} alt={section.elevateImageAlt} className={styles.elevateImg} />
               </div>
             )}
           </div>
@@ -760,7 +755,7 @@ const MeditationPage: React.FC = () => {
                 <Link href={section.ctaEnrollLink} className={styles.ctaButton}>
                   Enroll Now
                   <svg className={styles.ctaButtonIcon} viewBox="0 0 20 20" fill="none">
-                    <path d="M4 10h12M11 5l5 5-5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M4 10h12M11 5l5 5-5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </Link>
                 <Link href={section.ctaLearnMoreLink} className={styles.ctaButtonOutline}>
@@ -771,7 +766,7 @@ const MeditationPage: React.FC = () => {
 
             {section.ctaImage && (
               <div className={styles.ctaImage}>
-                 <Image src={getImageUrl(section.ctaImage)} alt={section.ctaImageAlt} className={styles.ctaImg} />
+                <Image src={getImageUrl(section.ctaImage)} alt={section.ctaImageAlt} className={styles.ctaImg} />
                 <div className={styles.ctaImageOverlay}>
                   <span>{section.ctaImageOverlayText}</span>
                 </div>

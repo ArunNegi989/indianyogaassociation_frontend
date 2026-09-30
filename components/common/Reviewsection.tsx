@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from "react";
 import Slider from "react-slick";
 
-// Slick CSS global.css mein already hai — yahan se hataya
 import styles from "@/assets/style/Home/Reviewsection.module.css";
 import api from "@/lib/api";
 import Image from "next/image";
@@ -351,8 +350,6 @@ function VideoSlider({
         settings: { slidesToShow: 2, slidesToScroll: 1 },
       },
       {
-        // ── FIX: Mobile (≤768px) — ek baar mein sirf 1 card ──
-        // Pehle 767 tha — exactly 768px wale devices pe 2 cards dikh rahe the
         breakpoint: 768,
         settings: {
           slidesToShow: 1,
@@ -382,7 +379,7 @@ function VideoSlider({
                   </div>
                 ) : (
                   <>
-                     <Image src={vr.thumbnail} alt={vr.name} className={styles.rvThumb} />
+                    <Image src={vr.thumbnail} alt={vr.name} className={styles.rvThumb} />
                     <div className={styles.rvOverlay} />
                     <div className={styles.rvPlayBtn}>
                       <svg viewBox="0 0 24 24" fill="currentColor">
@@ -425,65 +422,65 @@ export default function ReviewSection({
   });
   const [loading, setLoading] = useState(true);
 
- useEffect(() => {
-  const fetchReviews = async () => {
-    try {
-      const [textRes, videoRes] = await Promise.all([
-        api.get("/student-reviews/get"),
-        api.get("/video-reviews/get"),
-      ]);
+  useEffect(() => {
+    const fetchReviews = async () => {
+      try {
+        const [textRes, videoRes] = await Promise.all([
+          api.get("/student-reviews/get"),
+          api.get("/video-reviews/get"),
+        ]);
 
-      // ✅ FILTER BY COURSE TYPE
-      const textFiltered = textRes.data?.data?.filter(
-        (r: any) => r.courseType === courseType && r.status === "Active"
-      );
 
-      const videoFiltered = videoRes.data?.data?.filter(
-        (r: any) => r.courseType === courseType && r.status === "Active"
-      );
+        const textFiltered = textRes.data?.data?.filter(
+          (r: any) => r.courseType === courseType && r.status === "Active"
+        );
 
-      // ✅ MAP DATA (IMPORTANT for UI match)
-      const mappedText = textFiltered.map((r: any) => ({
-        name: r.name,
-        country: r.country,
-        image: r.image.startsWith("http")
-          ? r.image
-          : `${process.env.NEXT_PUBLIC_API_URL}${r.image}`,
-        rating: r.rating,
-        review: r.review,
-        course: r.courseType,
-        date: new Date(r.date).toLocaleDateString("en-IN", {
-          day: "2-digit",
-          month: "short",
-          year: "numeric",
-        }),
-      }));
+        const videoFiltered = videoRes.data?.data?.filter(
+          (r: any) => r.courseType === courseType && r.status === "Active"
+        );
 
-      const mappedVideo = videoFiltered.map((v: any) => ({
-        name: v.name,
-        country: v.country,
-        thumbnail: v.thumbnail
-          ? `${process.env.NEXT_PUBLIC_API_URL}${v.thumbnail}`
-          : "",
-        videoUrl: v.videoUrl || v.videoFile,
-        label: v.label || "Watch Review",
-      }));
 
-      setData({
-        textReviews: mappedText.length ? mappedText : fallbackTextReviews,
-        videoReviews: mappedVideo.length ? mappedVideo : fallbackVideoReviews,
-        stats: fallbackStats,
-        videoUrl: fallbackVideoUrl,
-      });
-    } catch (err) {
-      console.log(err);
-    } finally {
-      setLoading(false);
-    }
-  };
+        const mappedText = textFiltered.map((r: any) => ({
+          name: r.name,
+          country: r.country,
+          image: r.image.startsWith("http")
+            ? r.image
+            : `${process.env.NEXT_PUBLIC_API_URL}${r.image}`,
+          rating: r.rating,
+          review: r.review,
+          course: r.courseType,
+          date: new Date(r.date).toLocaleDateString("en-IN", {
+            day: "2-digit",
+            month: "short",
+            year: "numeric",
+          }),
+        }));
 
-  fetchReviews();
-}, [courseType]);
+        const mappedVideo = videoFiltered.map((v: any) => ({
+          name: v.name,
+          country: v.country,
+          thumbnail: v.thumbnail
+            ? `${process.env.NEXT_PUBLIC_API_URL}${v.thumbnail}`
+            : "",
+          videoUrl: v.videoUrl || v.videoFile,
+          label: v.label || "Watch Review",
+        }));
+
+        setData({
+          textReviews: mappedText.length ? mappedText : fallbackTextReviews,
+          videoReviews: mappedVideo.length ? mappedVideo : fallbackVideoReviews,
+          stats: fallbackStats,
+          videoUrl: fallbackVideoUrl,
+        });
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchReviews();
+  }, [courseType]);
 
   if (loading) return <ReviewSkeleton />;
 
@@ -523,7 +520,7 @@ export default function ReviewSection({
           >
             <div className={styles.rvCardTop}>
               <div className={styles.rvAvatar}>
-                 <Image src={r.image} alt={r.name} />
+                <Image src={r.image} alt={r.name} />
               </div>
               <div className={styles.rvInfo}>
                 <div className={styles.rvName}>{r.name}</div>

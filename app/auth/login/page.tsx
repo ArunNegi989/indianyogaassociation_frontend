@@ -10,7 +10,7 @@ import Link from "next/link";
 export default function LoginPage() {
   const [isActive, setIsActive] = useState(false);
   const { setUser } = useAuth();
-const [adminExists, setAdminExists] = useState(false);
+  const [adminExists, setAdminExists] = useState(false);
 
   useEffect(() => {
     api
@@ -45,7 +45,7 @@ const [adminExists, setAdminExists] = useState(false);
     try {
       await api.post("/auth/register", registerData);
       setRegisterData({ name: "", email: "", password: "" });
-      setShowSuccessModal(true); // ✅ success modal
+      setShowSuccessModal(true);
     } catch (err: any) {
       setRegisterError(
         err?.response?.data?.message || "Registration failed. Try again.",
@@ -63,7 +63,7 @@ const [adminExists, setAdminExists] = useState(false);
       const res = await api.post("/auth/login", loginData);
       setAccessToken(res.data.accessToken);
       setUser(res.data.user);
-      window.location.href = "/admin"; // ✅ full reload — cookie middleware ko milegi
+      window.location.href = "/admin";
     } catch (err: any) {
       const status = err?.response?.status;
       if (status === 403) {
@@ -93,7 +93,7 @@ const [adminExists, setAdminExists] = useState(false);
               className={styles.modalCloseBtn}
               onClick={() => {
                 setShowSuccessModal(false);
-                setIsActive(false); // ✅ login panel pe le jao
+                setIsActive(false);
               }}
             >
               Sign In
@@ -266,24 +266,24 @@ const [adminExists, setAdminExists] = useState(false);
               </button>
             </div>
             <div className={`${styles.panelContent} ${styles.panelContentRight}`}>
-  <h1>Namaste!</h1>
-  <p>
-    "Yoga is not about touching your toes,
-    it is about what you learn on the way down.
-    It is the art of living — breathing, moving,
-    and awakening the soul within."
-  </p>
-  {/* ✅ Admin hai to button hide, nahi hai to show */}
-  {!adminExists && (
-    <button
-      className={styles.transparentBtn}
-      type="button"
-      onClick={() => setIsActive(true)}
-    >
-      Sign Up
-    </button>
-  )}
-</div>
+              <h1>Namaste!</h1>
+              <p>
+                "Yoga is not about touching your toes,
+                it is about what you learn on the way down.
+                It is the art of living — breathing, moving,
+                and awakening the soul within."
+              </p>
+
+              {!adminExists && (
+                <button
+                  className={styles.transparentBtn}
+                  type="button"
+                  onClick={() => setIsActive(true)}
+                >
+                  Sign Up
+                </button>
+              )}
+            </div>
           </div>
         </div>
       </div>

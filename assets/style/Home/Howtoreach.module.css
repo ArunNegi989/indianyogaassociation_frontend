@@ -445,8 +445,15 @@
 }
 
 @keyframes pulse {
-  0%, 100% { box-shadow: 0 0 0 2px rgba(224, 123, 0, 0.25); }
-  50%       { box-shadow: 0 0 0 8px rgba(224, 123, 0, 0.07); }
+
+  0%,
+  100% {
+    box-shadow: 0 0 0 2px rgba(224, 123, 0, 0.25);
+  }
+
+  50% {
+    box-shadow: 0 0 0 8px rgba(224, 123, 0, 0.07);
+  }
 }
 
 .mapIframe {
@@ -490,8 +497,15 @@
 }
 
 @keyframes panelReveal {
-  from { opacity: 0; transform: translateY(-10px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* ── Step indicator ── */
@@ -583,8 +597,15 @@
 }
 
 @keyframes stepFade {
-  from { opacity: 0; transform: translateX(8px); }
-  to   { opacity: 1; transform: translateX(0); }
+  from {
+    opacity: 0;
+    transform: translateX(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 .formStepHeader {
@@ -972,9 +993,11 @@
   .container {
     max-width: 100%;
   }
+
   .cardsGrid {
     gap: 18px;
   }
+
   .bottomRow {
     gap: 18px;
   }
@@ -986,9 +1009,11 @@
     grid-template-columns: repeat(2, 1fr);
     gap: 18px;
   }
+
   .bottomRow {
     grid-template-columns: 1fr 1fr;
   }
+
   .mapIframe {
     min-height: 360px;
   }
@@ -999,9 +1024,11 @@
   .cardsGrid {
     grid-template-columns: repeat(2, 1fr);
   }
+
   .bottomRow {
     grid-template-columns: 1fr;
   }
+
   .mapIframe {
     min-height: 340px;
   }
@@ -1013,48 +1040,60 @@
     grid-template-columns: 1fr;
     gap: 18px;
   }
+
   .bottomRow {
     grid-template-columns: 1fr;
     gap: 18px;
   }
+
   .travelCard {
     padding: 22px 18px;
   }
+
   .mapIframe {
     min-height: 300px;
   }
+
   .formRowCard {
     grid-template-columns: repeat(2, 1fr);
   }
+
   .formFieldSpan2 {
     grid-column: span 2;
   }
+
   .formNav {
     flex-wrap: wrap;
   }
+
   .navBtnSubmit,
   .navBtnNext {
     width: 100%;
     text-align: center;
     justify-content: center;
   }
+
   .waStrip {
     flex-direction: column;
     align-items: flex-start;
     gap: 10px;
   }
+
   .waStripBtn {
     width: 100%;
     justify-content: center;
   }
+
   .cardActions {
     flex-direction: row;
     flex-wrap: wrap;
   }
+
   .btnPrimary {
     flex: 1;
     min-width: 0;
   }
+
   .waInlineBtn {
     flex: 0 0 auto;
   }
@@ -1065,25 +1104,32 @@
   .mapIframe {
     min-height: 260px;
   }
+
   .mainTitle {
     font-size: 1.55rem;
   }
+
   .iconCircle {
     width: 46px;
     height: 46px;
   }
+
   .stepLabel {
     display: none;
   }
+
   .formRowCard {
     grid-template-columns: 1fr;
   }
+
   .formFieldSpan2 {
     grid-column: span 1;
   }
+
   .cardActions {
     flex-direction: column;
   }
+
   .waInlineBtn {
     width: 100%;
     justify-content: center;
@@ -1095,27 +1141,34 @@
   .travelCard {
     padding: 18px 14px;
   }
+
   .mapIframe {
     min-height: 230px;
   }
+
   .mainTitle {
     font-size: 1.4rem;
   }
+
   .omDivider .dividerLine {
     max-width: 80px;
   }
+
   .scheduleHeaderCell,
   .scheduleCell {
     font-size: 0.78rem;
   }
+
   .scheduleHeader,
   .scheduleRow {
     padding: 7px 8px;
   }
+
   .successActions {
     flex-direction: column;
     align-items: stretch;
   }
+
   .successWa,
   .successReset {
     text-align: center;
@@ -1128,19 +1181,24 @@
   .container {
     padding: 1.8rem 12px;
   }
+
   .mainTitle {
     font-size: 1.25rem;
   }
+
   .travelTitle {
     font-size: 0.95rem;
   }
+
   .scheduleHeaderCell,
   .scheduleCell {
     font-size: 0.72rem;
   }
+
   .mapIframe {
     min-height: 200px;
   }
+
   .navBtnBack,
   .navBtnNext,
   .navBtnSubmit {

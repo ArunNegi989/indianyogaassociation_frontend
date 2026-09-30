@@ -88,16 +88,11 @@ function getLayoutClass(layout: ImageLayout | undefined, count: number): string 
   return styles.gridThree;
 }
 
-/* ================================================================
-   VIDEO URL EMBED HELPER
-   YouTube / Vimeo ko embed URL mein convert karta hai
-   ================================================================ */
 function getEmbedUrl(url: string): string {
   if (!url) return "";
-  // YouTube: watch?v= or youtu.be/
   const ytMatch = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&?/]+)/);
   if (ytMatch) return `https://www.youtube.com/embed/${ytMatch[1]}`;
-  // Vimeo
+
   const vimeoMatch = url.match(/vimeo\.com\/(\d+)/);
   if (vimeoMatch) return `https://player.vimeo.com/video/${vimeoMatch[1]}`;
   return url;
@@ -114,9 +109,6 @@ const CALLOUT_CONFIG: Record<CalloutVariant, { icon: string; label: string }> = 
   danger: { icon: "🚨", label: "Important" },
 };
 
-/* ================================================================
-   SVG ORNAMENT
-   ================================================================ */
 const OrnamentTop = () => (
   <svg
     className={styles.ornamentTop}
@@ -337,9 +329,6 @@ const DividerBlock = () => (
   </div>
 );
 
-/* ================================================================
-   HTML BLOCK — dangerouslySetInnerHTML (safe for trusted admin content)
-   ================================================================ */
 const HtmlBlock = ({ text }: { text?: string }) => (
   <div
     className={styles.contentHtml}
@@ -347,10 +336,6 @@ const HtmlBlock = ({ text }: { text?: string }) => (
   />
 );
 
-/* ================================================================
-   PARAGRAPH BLOCK
-   Jodit se aaya HTML safely render hoga — tags UI mein nahi dikhenge
-   ================================================================ */
 const ParagraphBlock = ({ text }: { text?: string }) => (
   <div
     className={styles.contentPara}
@@ -358,9 +343,6 @@ const ParagraphBlock = ({ text }: { text?: string }) => (
   />
 );
 
-/* ================================================================
-   MAIN CONTENT RENDERER — Har block type properly render hota hai
-   ================================================================ */
 const RenderSections = ({ sections }: { sections: BlogSection[] }) => (
   <>
     {sections.map((s, i) => {
@@ -420,9 +402,6 @@ const RenderSections = ({ sections }: { sections: BlogSection[] }) => (
   </>
 );
 
-/* ================================================================
-   MAIN COMPONENT
-   ================================================================ */
 export default function SingleBlog({
   blog,
   relatedPosts = [],
@@ -433,10 +412,10 @@ export default function SingleBlog({
   /* Date formatting */
   const formattedDate = blog.date
     ? new Date(blog.date).toLocaleDateString("en-IN", {
-        day: "numeric",
-        month: "long",
-        year: "numeric",
-      })
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    })
     : "";
 
   return (
@@ -461,7 +440,7 @@ export default function SingleBlog({
 
         {/* Rotating Mandala */}
         <svg className={styles.heroMandala} viewBox="0 0 300 300" fill="none" aria-hidden="true">
-          {[0,30,60,90,120,150,180,210,240,270,300,330].map((deg, i) => {
+          {[0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330].map((deg, i) => {
             const rad = (deg * Math.PI) / 180;
             return (
               <line key={i}
@@ -471,11 +450,11 @@ export default function SingleBlog({
               />
             );
           })}
-          {[140,110,80,50,20].map((r, i) => (
+          {[140, 110, 80, 50, 20].map((r, i) => (
             <circle key={i} cx="150" cy="150" r={r} stroke="white" strokeWidth="0.6"
               opacity={0.15 + i * 0.03} strokeDasharray={i % 2 === 0 ? "4 3" : "none"} />
           ))}
-          {[0,45,90,135,180,225,270,315].map((deg, i) => {
+          {[0, 45, 90, 135, 180, 225, 270, 315].map((deg, i) => {
             const rad = (deg * Math.PI) / 180;
             return (
               <circle key={i} cx={150 + 90 * Math.cos(rad)} cy={150 + 90 * Math.sin(rad)}
@@ -668,7 +647,7 @@ export default function SingleBlog({
           <div className={styles.sideCtaWidget}>
             <div className={styles.ctaMandalaBg} aria-hidden="true">
               <svg viewBox="0 0 200 200" fill="none" width="100%" height="100%">
-                {[95,75,55,35].map((r, i) => (
+                {[95, 75, 55, 35].map((r, i) => (
                   <circle key={i} cx="100" cy="100" r={r}
                     stroke="rgba(255,255,255,0.15)" strokeWidth="0.8"
                     strokeDasharray={i % 2 === 0 ? "3 3" : "none"} />

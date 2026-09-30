@@ -87,7 +87,7 @@
   padding: 0 0.85rem;
   color: #652d04;
   text-decoration: none;
-  font-family:'Montserrat', Arial, sans-serif;
+  font-family: 'Montserrat', Arial, sans-serif;
   font-size: 0.8rem;
   font-weight: 600;
   letter-spacing: 0.03em;
@@ -439,8 +439,9 @@
   color: #f15505;
   background: #fff7ee;
 }
+
 .navRegister {
-  background:  linear-gradient(90deg, #f15505 0%, #5e3e0dca 100%);
+  background: linear-gradient(90deg, #f15505 0%, #5e3e0dca 100%);
   color: #fff;
 }
 
@@ -528,29 +529,33 @@
   .navbar {
     gap: 1px;
   }
-  .logo{
+
+  .logo {
     height: 45px;
   }
-  .navLink{
-        font-size: 12px;
-            padding: 0px 10px;
+
+  .navLink {
+    font-size: 12px;
+    padding: 0px 10px;
   }
 
 }
 
 /* ── TABLET LANDSCAPE: 901px – 1100px ── */
 @media (min-width: 990px) and (max-width: 1100px) {
-    .navLink{
-          padding: 0px 7px;
-              font-size: 11px;
-    }
-    .navbar{
-          padding: 0px 5px;
-    }
-    .logo{
-          height: 56px;
-    }
- 
+  .navLink {
+    padding: 0px 7px;
+    font-size: 11px;
+  }
+
+  .navbar {
+    padding: 0px 5px;
+  }
+
+  .logo {
+    height: 56px;
+  }
+
 }
 
 /* ── TABLET PORTRAIT: 768px – 900px ── */

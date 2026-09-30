@@ -1,5 +1,5 @@
 "use client";
-import React, {  useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "@/assets/style/how-to-reach-rishikesh-from-delhi/Howtoreach.module.css";
 import howtoreachusimage from "@/assets/images/how-to-reach-aym-yoga-school.jpg"
 import Image from "next/image";
@@ -229,27 +229,26 @@ const HowToReach: React.FC = () => {
           ))}
         </div>
 
-        {/* MAP DIVIDER */}
         <div className={styles.sectionDivider} style={{ marginTop: "3.5rem" }}>
           <div className={styles.sdLine} />
           <span className={styles.sdLabel}>✦ Route Overview Map ✦</span>
           <div className={styles.sdLine} />
         </div>
 
-        {/* MAP */}
+
         <div ref={mapRef} className={`${styles.mapWrap} ${mapVisible ? styles.mapIn : ""}`}>
           <div className={styles.mapFrame}>
             <div className={styles.mTL} />
             <div className={styles.mTR} />
             <div className={styles.mBL} />
             <div className={styles.mBR} />
-           <Image
-  src={howtoreachusimage}
-  alt="Route map to AYM Yoga School Rishikesh"
-  className={styles.mapImage}
-  width={800}   // required
-  height={500}  // required
-/>
+            <Image
+              src={howtoreachusimage}
+              alt="Route map to AYM Yoga School Rishikesh"
+              className={styles.mapImage}
+              width={800}
+              height={500}
+            />
           </div>
           <p className={styles.mapCaption}>
             <span className={styles.mapCaptionDot} />
@@ -259,7 +258,7 @@ const HowToReach: React.FC = () => {
         </div>
 
       </section>
-      
+
     </div>
   );
 };

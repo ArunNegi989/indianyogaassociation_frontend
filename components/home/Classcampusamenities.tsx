@@ -36,20 +36,7 @@ interface SectionData {
   amenityImage: string;
 }
 
-/* ─────────────────────────────────────────
-   Skeleton — uses the SAME CSS classes
-   (.topRow, .amenitiesRow etc.) as the real
-   content, so the same media queries apply
-   and the layout shape (2-col desktop /
-   1-col mobile) never changes when real
-   data replaces the skeleton. Only the
-   shimmer blocks swap for real content —
-   minimal CLS.
-   Image ratios measured live via DevTools:
-   classSizeImage  → 673 / 460.156
-   campusImages[0] → 740.3 / 506.172
-   amenityImage    → 708.609 / 708.609 (square)
-───────────────────────────────────────── */
+
 function ClassCampusAmenitiesSkeleton() {
   const shimmer: React.CSSProperties = {
     background:
@@ -160,17 +147,14 @@ export const ClassCampusAmenities: React.FC = () => {
     return () => observer.disconnect();
   }, [data]);
 
-  // FIX: skeleton (using the real CSS classes) instead of null —
-  // reserves the correct layout shape at every breakpoint (CLS fix)
   if (loading) return <ClassCampusAmenitiesSkeleton />;
   if (!data) return null;
 
   return (
     <section className={styles.section} ref={sectionRef}>
       <div className={styles.container}>
-        {/* ══ TOP ROW — Class Size + Campus ══ */}
         <div className={styles.topRow}>
-          {/* ── AYM CLASS SIZE ── */}
+
           <div className={`${styles.classBlock} ${styles.reveal}`}>
             <div className={styles.blockHeader}>
               <p className={styles.superLabel}>{data.classSizeSuperLabel}</p>
@@ -179,12 +163,7 @@ export const ClassCampusAmenities: React.FC = () => {
             </div>
 
             <div className={styles.classImgWrap}>
-              {/*
-                ⚠️ FIX: measured live at 673×460.156 via DevTools Computed
-                tab. aspect-ratio reserves the exact same box the image
-                already renders at, so the displayed size/crop is
-                identical — only the pop-in layout shift is gone.
-              */}
+
               <div
                 className={styles.classImgFrame}
                 style={{ position: "relative", aspectRatio: "673 / 460.156" }}
@@ -233,10 +212,7 @@ export const ClassCampusAmenities: React.FC = () => {
             </div>
 
             {data.campusImages?.[0] && (
-              /*
-                ⚠️ FIX: measured live at 740.300×506.172 via DevTools
-                Computed tab.
-              */
+
               <div
                 className={styles.campusThumb}
                 style={{
@@ -270,7 +246,7 @@ export const ClassCampusAmenities: React.FC = () => {
           <span className={styles.ornLine} />
         </div>
 
-        {/* ══ AMENITIES ROW ══ */}
+
         <div className={styles.amenitiesRow}>
           {/* Left — text */}
           <div className={`${styles.amenitiesLeft} ${styles.reveal}`}>
@@ -310,10 +286,7 @@ export const ClassCampusAmenities: React.FC = () => {
             className={`${styles.amenitiesRight} ${styles.reveal}`}
             style={{ "--d": "0.12s" } as React.CSSProperties}
           >
-            {/*
-              ⚠️ FIX: measured live at 708.609×708.609 via DevTools
-              Computed tab — exactly square.
-            */}
+
             <div
               className={styles.amenityMosaic}
               style={{

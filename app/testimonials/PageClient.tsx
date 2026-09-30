@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import styles from "@/assets/style/testimonials/Testimonialssection.module.css";
 import HowToReach from "@/components/home/Howtoreach";
-import api from "@/lib/api"; // axios instance (baseURL = NEXT_PUBLIC_API_URL/api)
+import api from "@/lib/api";
 import Image from "next/image";
 
 /* ════════════════════════════════════════
@@ -140,7 +140,7 @@ const VideoModal = ({
       </button>
       <div className={styles.modalInner}>
         {hasYoutube ? (
-          /* YouTube — autoplay=1, mute=0 for sound, enablejsapi for control */
+
           <iframe
             className={styles.modalIframe}
             src={`https://www.youtube.com/embed/${ytId}?autoplay=1&mute=0&rel=0&modestbranding=1&enablejsapi=1`}
@@ -207,8 +207,8 @@ const VideoCard = ({
     video.thumbnail
       ? `${baseUrl}${video.thumbnail}`
       : video.videoUrl
-      ? getYoutubeThumb(video.videoUrl)
-      : null;
+        ? getYoutubeThumb(video.videoUrl)
+        : null;
 
   if (variant === "reel") {
     return (
@@ -220,7 +220,7 @@ const VideoCard = ({
       >
         <div className={styles.reelThumbWrap}>
           {thumb ? (
-             <Image
+            <Image
               className={styles.reelThumb}
               src={thumb}
               alt={video.name}
@@ -254,7 +254,7 @@ const VideoCard = ({
     >
       <div className={tall ? styles.gridThumbWrapTall : styles.gridThumbWrap}>
         {thumb ? (
-           <Image
+          <Image
             className={styles.gridThumb}
             src={thumb}
             alt={video.name}
@@ -380,9 +380,8 @@ function Slider<T>({
           {Array.from({ length: total + 1 }).map((_, i) => (
             <button
               key={i}
-              className={`${styles.sliderDot} ${
-                i === current ? styles.sliderDotActive : ""
-              }`}
+              className={`${styles.sliderDot} ${i === current ? styles.sliderDotActive : ""
+                }`}
               onClick={() => scrollTo(i)}
               aria-label={`Go to slide ${i + 1}`}
               type="button"
@@ -407,7 +406,7 @@ const TextReviewCard = ({
   <div className={styles.textReviewCard}>
     <div className={styles.textReviewTop}>
       {review.image ? (
-         <Image
+        <Image
           src={`${baseUrl}${review.image}`}
           alt={review.name}
           className={styles.textReviewAvatar}
@@ -510,7 +509,6 @@ const CourseSection = ({
     Ayurveda: "🌿",
   };
 
-  /* ── Responsive video card width: show 3 at once on desktop, 2 on tablet, 1 on mobile ── */
   const containerRef = useRef<HTMLDivElement>(null);
   const [videoItemWidth, setVideoItemWidth] = useState(380);
 
@@ -614,15 +612,15 @@ const AllVideosBlock = ({
       const w = el.offsetWidth;
       const gap = 12;
       if (w >= 1100) {
-        setItemWidth(Math.floor((w - gap * 4) / 5)); // 5 visible
+        setItemWidth(Math.floor((w - gap * 4) / 5));
       } else if (w >= 860) {
-        setItemWidth(Math.floor((w - gap * 3) / 4)); // 4 visible
+        setItemWidth(Math.floor((w - gap * 3) / 4));
       } else if (w >= 600) {
-        setItemWidth(Math.floor((w - gap * 2) / 3)); // 3 visible
+        setItemWidth(Math.floor((w - gap * 2) / 3));
       } else if (w >= 380) {
-        setItemWidth(Math.floor((w - gap) / 2));     // 2 visible
+        setItemWidth(Math.floor((w - gap) / 2));
       } else {
-        setItemWidth(w);                              // 1 visible
+        setItemWidth(w);
       }
     };
 

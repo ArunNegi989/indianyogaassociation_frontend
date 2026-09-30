@@ -112,7 +112,7 @@ const cityLinks: { name: string; href: string }[] = [
     name: "Himachal Pradesh",
     href: "/yoga-teacher-training/yoga-teacher-training-Himachal%20Pradesh-94-2178",
   },
-  
+
   {
     name: "Bengaluru",
     href: "/yoga-teacher-training/yoga-teacher-training-Bengaluru-94-2179",
@@ -121,7 +121,7 @@ const cityLinks: { name: string; href: string }[] = [
     name: "Auroville",
     href: "/yoga-teacher-training/yoga-teacher-training-Auroville-94-2191",
   },
-   {
+  {
     name: "Bihar",
     href: "/yoga-teacher-training/yoga-teacher-training-Bihar-94-2172",
   },
@@ -145,7 +145,7 @@ const YogaTrainingGurugram: React.FC = () => {
         {/* SECTION 1 — Image Left */}
         <div className={`${styles.section} ${styles.sectionImageLeft}`}>
           <div className={styles.imgWrap}>
-             <Image
+            <Image
               src="https://images.unsplash.com/photo-1603988363607-e1e4a66962c6?w=700&q=80&fit=crop"
               alt="Inculcating The Therapeutic Properties of Yoga in Gurugram"
               className={styles.sectionImg}
@@ -185,7 +185,7 @@ const YogaTrainingGurugram: React.FC = () => {
         {/* SECTION 2 — Image Right */}
         <div className={`${styles.section} ${styles.sectionImageRight}`}>
           <div className={styles.imgWrap}>
-             <Image
+            <Image
               src="https://images.unsplash.com/photo-1588286840104-8957b019727f?w=700&q=80&fit=crop"
               alt="Yoga For the Healthy Soul and Body"
               className={styles.sectionImg}
@@ -224,7 +224,7 @@ const YogaTrainingGurugram: React.FC = () => {
         {/* SECTION 3 — Image Left */}
         <div className={`${styles.section} ${styles.sectionImageLeft}`}>
           <div className={styles.imgWrap}>
-             <Image
+            <Image
               src="https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?w=700&q=80&fit=crop"
               alt="Most Promising Yoga Teacher Training Course in Gurugram"
               className={styles.sectionImg}
@@ -264,7 +264,7 @@ const YogaTrainingGurugram: React.FC = () => {
         {/* SECTION 4 — Image Right */}
         <div className={`${styles.section} ${styles.sectionImageRight}`}>
           <div className={styles.imgWrap}>
-             <Image
+            <Image
               src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=700&q=80&fit=crop"
               alt="Registered Yoga Teacher Training Course in Gurugram"
               className={styles.sectionImg}
@@ -304,7 +304,7 @@ const YogaTrainingGurugram: React.FC = () => {
           style={{ borderBottom: "none" }}
         >
           <div className={styles.imgWrap}>
-             <Image
+            <Image
               src="https://images.unsplash.com/photo-1545389336-cf090694435e?w=700&q=80&fit=crop"
               alt="Affordable Choice for Yoga Teacher Training in Gurugram"
               className={styles.sectionImg}

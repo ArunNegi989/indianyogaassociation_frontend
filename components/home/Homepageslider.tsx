@@ -171,9 +171,8 @@ const HomepageSlider = ({ initialSlides }: Props) => {
             role="tab"
             aria-selected={idx === current}
             aria-label={`Go to slide ${idx + 1}`}
-            className={`${styles.dot} ${
-              idx === current ? styles.activeDot : ""
-            }`}
+            className={`${styles.dot} ${idx === current ? styles.activeDot : ""
+              }`}
             onClick={() => goTo(idx)}
           />
         ))}

@@ -13,7 +13,7 @@
    GLOBAL
 ==================================================== */
 .pageWrapper {
-   font-family: "Montserrat", Arial, sans-serif;
+  font-family: "Montserrat", Arial, sans-serif;
   background-image: url("../../images/backgroundimage/detox.webp");
   color: var(--text-body);
   overflow-x: hidden;
@@ -38,6 +38,7 @@
   display: block;
   object-fit: contain;
 }
+
 .section {
   padding: 28px 32px 12px;
   max-width: 1600px;
@@ -50,7 +51,7 @@
 
 /* H1 — all caps bold */
 .mainTitle {
-   font-family: "Montserrat", Arial, sans-serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: clamp(1rem, 2.4vw, 1.45rem);
   font-weight: 700;
   color: var(--text-dark);
@@ -62,7 +63,7 @@
 
 /* H2 — section title bold uppercase */
 .sectionTitle {
-   font-family: "Montserrat", Arial, sans-serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: clamp(0.9rem, 2vw, 1.15rem);
   font-weight: 700;
   color: #f15505;
@@ -74,7 +75,7 @@
 
 /* Bold smaller label for "two systems" */
 .sectionTitleBold {
-   font-family: "Montserrat", Arial, sans-serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: clamp(0.82rem, 1.6vw, 0.96rem);
   font-weight: 700;
   color: var(--text-dark);
@@ -294,7 +295,7 @@
 
 /* Main Title with Orange Color */
 .mainTitle {
-   font-family: "Montserrat", Arial, sans-serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: clamp(1.2rem, 3vw, 1.8rem);
   font-weight: 800;
   color: #f15505;
@@ -357,7 +358,7 @@
   bottom: 0;
   left: 0;
   right: 0;
-  background: linear-gradient(0deg, rgba(0,0,0,0.7) 0%, transparent 100%);
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.7) 0%, transparent 100%);
   padding: 20px;
 }
 
@@ -423,7 +424,7 @@
   .twoColumnLayout {
     gap: 32px;
   }
-  
+
   .imageBox {
     height: 320px;
   }
@@ -434,20 +435,20 @@
     flex-direction: column;
     gap: 28px;
   }
-  
+
   .imageColumn {
     flex: auto;
     width: 100%;
   }
-  
+
   .imageBox {
     height: 300px;
   }
-  
+
   .conclusionBox {
     padding: 20px 24px;
   }
-  
+
   .quoteIcon {
     font-size: 1.6rem;
   }
@@ -458,15 +459,15 @@
     height: 240px;
     border-radius: 16px;
   }
-  
+
   .highlightBox {
     padding: 12px 16px;
   }
-  
+
   .conclusionBox {
     padding: 16px 20px;
   }
-  
+
   .mainTitle::after {
     width: 55px;
   }
@@ -523,14 +524,16 @@
 .benefitCard::before {
   content: '';
   position: absolute;
-  top: 0; left: 0; right: 0;
+  top: 0;
+  left: 0;
+  right: 0;
   height: 3px;
   background: #f15505;
 }
 
 .benefitCard:hover {
   transform: translateY(-3px);
-  box-shadow: 0 12px 28px -8px rgba(0,0,0,0.1);
+  box-shadow: 0 12px 28px -8px rgba(0, 0, 0, 0.1);
 }
 
 .benefitIcon {
@@ -661,15 +664,17 @@
 
 .massageImageOverlay {
   position: absolute;
-  bottom: 0; left: 0; right: 0;
-  background: linear-gradient(0deg, rgba(0,0,0,0.65) 0%, transparent 100%);
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.65) 0%, transparent 100%);
   padding: 32px 32px 28px;
 }
 
 .overlayQuote {
   font-size: clamp(0.9rem, 1.8vw, 1.15rem);
   font-style: italic;
-  color: rgba(255,255,255,0.92);
+  color: rgba(255, 255, 255, 0.92);
   font-weight: 400;
   max-width: 480px;
 }
@@ -678,16 +683,36 @@
    RESPONSIVE OVERRIDES
 ==================================================== */
 @media (max-width: 768px) {
-  .benefitGrid { grid-template-columns: 1fr; }
-  .stepsGrid { grid-template-columns: 1fr; }
-  .stepCardFull { grid-column: span 1; }
-  .massageImageBox { height: 300px; border-radius: 14px; }
-  .sectionInner { padding: 40px 16px; }
+  .benefitGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .stepsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .stepCardFull {
+    grid-column: span 1;
+  }
+
+  .massageImageBox {
+    height: 300px;
+    border-radius: 14px;
+  }
+
+  .sectionInner {
+    padding: 40px 16px;
+  }
 }
 
 @media (min-width: 769px) and (max-width: 992px) {
-  .benefitGrid { grid-template-columns: 1fr 1fr; }
-  .massageImageBox { height: 380px; }
+  .benefitGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .massageImageBox {
+    height: 380px;
+  }
 }
 
 /* ====================================================
@@ -758,7 +783,9 @@
   font-family: "Montserrat", Arial, sans-serif;
 }
 
-.systemCardBody { padding: 20px 24px 26px; }
+.systemCardBody {
+  padding: 20px 24px 26px;
+}
 
 .providesLabel {
   font-size: 0.82rem;
@@ -833,7 +860,9 @@
 .pkgCard::before {
   content: '';
   position: absolute;
-  top: 0; left: 0; right: 0;
+  top: 0;
+  left: 0;
+  right: 0;
   height: 3px;
   background: #f15505;
   border-radius: 16px 16px 0 0;
@@ -841,7 +870,7 @@
 
 .pkgCard:hover {
   transform: translateY(-4px);
-  box-shadow: 0 14px 30px -10px rgba(0,0,0,0.1);
+  box-shadow: 0 14px 30px -10px rgba(0, 0, 0, 0.1);
 }
 
 .pkgDays {
@@ -872,12 +901,26 @@
    RESPONSIVE
 ==================================================== */
 @media (max-width: 768px) {
-  .systemsGrid { grid-template-columns: 1fr; }
-  .packagesGrid { grid-template-columns: 1fr 1fr; gap: 12px; }
-  .sectionInner { padding: 40px 16px; }
+  .systemsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .packagesGrid {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .sectionInner {
+    padding: 40px 16px;
+  }
 }
 
 @media (max-width: 480px) {
-  .packagesGrid { grid-template-columns: 1fr 1fr; }
-  .pkgDays { font-size: 2.2rem; }
+  .packagesGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .pkgDays {
+    font-size: 2.2rem;
+  }
 }

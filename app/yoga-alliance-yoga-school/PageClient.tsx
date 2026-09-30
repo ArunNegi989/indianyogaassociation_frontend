@@ -198,9 +198,7 @@ const AccreditationSection: React.FC = () => {
 
   return (
     <>
-      {/* HERO — .heroSection has no fixed height (line-height:0, overflow:hidden),
-          .heroImage uses width:100%; height:auto; max-height:540px —
-          so use normal width/height, NOT fill */}
+
       {data.heroImage && (
         <section className={styles.heroSection}>
           <Image
@@ -253,8 +251,7 @@ const AccreditationSection: React.FC = () => {
             </div>
           )}
 
-          {/* .imgWrap img { max-height:190px; width:auto; object-fit:contain } —
-              normal pattern, no fill */}
+
           {rysImages.length > 0 && (
             <div className={styles.imgWrap}>
               {rysImages.map((r, idx) => (
@@ -293,8 +290,7 @@ const AccreditationSection: React.FC = () => {
           )}
         </div>
 
-        {/* PART 2 - YOGA ALLIANCE CERTS */}
-        {/* .certImageWrapper has aspect-ratio: 4/3, so fill works here */}
+
         {certs.length > 0 && (
           <div className={styles.container}>
             <SectionTitle subtitle={data.certsSectionSubtitle}>
@@ -325,8 +321,7 @@ const AccreditationSection: React.FC = () => {
           </div>
         )}
 
-        {/* PART 3 - YOGA CERTIFICATION BOARD */}
-        {/* .imgWrap1 has no fixed height — normal pattern, no fill */}
+
         {(data.boardSectionTitle || data.boardCertificateImage || data.boardInfoText) && (
           <div className={styles.container}>
             <SectionTitle>{data.boardSectionTitle || "Yoga Certification Board"}</SectionTitle>
@@ -355,8 +350,7 @@ const AccreditationSection: React.FC = () => {
           </div>
         )}
 
-        {/* PART 4 - INTERNATIONAL YOGA FEDERATION */}
-        {/* .iyfImageWrapper is a flex container with no fixed height — normal pattern, no fill */}
+
         {(data.iyfSectionTitle || iyfParagraphs.length > 0) && (
           <div className={styles.container}>
             <SectionTitle>{data.iyfSectionTitle || "International Yoga Federation"}</SectionTitle>

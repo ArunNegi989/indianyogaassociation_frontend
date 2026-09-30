@@ -41,7 +41,7 @@
   background-size: contain;
 
   isolation: isolate;
-   font-family: "Montserrat", Arial, sans-serif;
+  font-family: "Montserrat", Arial, sans-serif;
 }
 
 /* ── Mandala decorations ── */
@@ -125,7 +125,7 @@
 }
 
 .superTitle {
-   font-family: "Montserrat", Arial, sans-serif;
+  font-family: "Montserrat", Arial, sans-serif;
   font-size: clamp(0.9rem, 2vw, 1.2rem);
   color: var(--brown-warm);
   letter-spacing: 0.08em;
@@ -257,7 +257,7 @@
   color: var(--text-body);
   line-height: 1.8;
   text-align: center;
-  
+
   margin: 0 auto;
   font-family: "Montserrat", Arial, sans-serif;
 }
@@ -582,7 +582,7 @@
   color: var(--brown-warm);
   font-weight: 600;
   font-family: "Montserrat", Arial, sans-serif;
-  
+
 }
 
 .bankFieldValue {

@@ -8,12 +8,11 @@ import HowToReach from "@/components/home/Howtoreach";
 import api from "@/lib/api";
 import toast from "react-hot-toast";
 
-// ===================== HELPER: Strip HTML Tags =====================
 const stripHtml = (html: string): string => {
   if (!html) return "";
-  // Remove HTML tags and decode entities
+
   const stripped = html.replace(/<[^>]*>/g, "").trim();
-  // Decode common HTML entities
+
   return stripped
     .replace(/&nbsp;/g, " ")
     .replace(/&amp;/g, "&")
@@ -117,15 +116,15 @@ const DetoxRetreat: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Fetch data from API
+
   useEffect(() => {
     const fetchDetoxData = async () => {
       try {
         setLoading(true);
         setError(null);
-        
+
         const response = await api.get("/detox-retreat-section/active");
-        
+
         if (response.data.success && response.data.data) {
           setData(response.data.data);
         } else {
@@ -159,7 +158,7 @@ const DetoxRetreat: React.FC = () => {
       <div className={styles.pageWrapper}>
         <div className={styles.errorContainer}>
           <p className={styles.errorMessage}>Unable to load detox retreat data. Please try again later.</p>
-          <button 
+          <button
             className={styles.retryButton}
             onClick={() => window.location.reload()}
           >
@@ -257,7 +256,7 @@ const DetoxRetreat: React.FC = () => {
           <p className={styles.sectionLabel}>{stripHtml(data.s2Label)}</p>
           <h2 className={styles.sectionTitle}>{stripHtml(data.s2Title)}</h2>
           <div className={styles.titleUnderline} />
-          
+
           <p className={styles.bodyText}>{stripHtml(data.s2Body)}</p>
 
           <div className={styles.benefitGrid}>
@@ -282,7 +281,7 @@ const DetoxRetreat: React.FC = () => {
           <p className={styles.sectionLabel}>{stripHtml(data.s3Label)}</p>
           <h2 className={styles.sectionTitle}>{stripHtml(data.s3Title)}</h2>
           <div className={styles.titleUnderline} />
-          
+
           <p className={styles.bodyText}>{stripHtml(data.s3Body)}</p>
 
           <div className={styles.stepsGrid}>

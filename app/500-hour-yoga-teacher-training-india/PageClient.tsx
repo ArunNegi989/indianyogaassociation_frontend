@@ -6,7 +6,6 @@ import HowToReach from "@/components/home/Howtoreach";
 import api from "@/lib/api";
 import ReviewSection from "@/components/common/Reviewsection";
 import RatingsSummarySection from "@/components/home/RatingsSummarySection";
-import PremiumGallerySection from "@/components/PremiumGallerySection";
 import StickySectionNav from "@/components/common/StickySectionNav";
 import Link from "next/link";
 import Image from "next/image";
@@ -276,10 +275,10 @@ function CourseInfoCard({
   rate: number;
 }) {
   // Use independent pricing from content, not from seats
-  const currentPrice = currency === "USD" 
+  const currentPrice = currency === "USD"
     ? content.courseInfoUsdPrice || 1649
     : content.courseInfoInrPrice || 135000;
-  
+
   const originalPrice = currency === "USD"
     ? content.courseInfoOriginalUsdPrice || 2950
     : content.courseInfoOriginalInrPrice || 240000;
@@ -538,24 +537,24 @@ function PremiumSeatBooking({
    */
   const getRoomPrice = (batch: Batch | null, roomType: 'dorm' | 'twin' | 'private') => {
     if (!batch) return "—";
-    
+
     if (currency === "INR") {
       // Use stored INR price directly - NO CONVERSION
       let inrPrice: number | undefined;
       if (roomType === 'dorm') inrPrice = batch.inrDormPrice;
       else if (roomType === 'twin') inrPrice = batch.inrTwinPrice;
       else inrPrice = batch.inrPrivatePrice;
-      
+
       if (inrPrice && inrPrice > 0) {
         return `₹${inrPrice.toLocaleString("en-IN")}`;
       }
       return "—";
     }
-    
+
     // USD
-    const usdPrice = roomType === 'dorm' ? batch.dormPrice : 
-                     roomType === 'twin' ? batch.twinPrice : 
-                     batch.privatePrice;
+    const usdPrice = roomType === 'dorm' ? batch.dormPrice :
+      roomType === 'twin' ? batch.twinPrice :
+        batch.privatePrice;
     return `$${usdPrice}`;
   };
 
@@ -841,8 +840,8 @@ function PremiumSeatBooking({
                   const pct = full
                     ? 100
                     : Math.round(
-                        (selected.bookedSeats / selected.totalSeats) * 100,
-                      );
+                      (selected.bookedSeats / selected.totalSeats) * 100,
+                    );
                   return (
                     <>
                       <div className={styles.psbRpSeatsRow}>
@@ -986,7 +985,7 @@ function EnhancedIntroSection({ items }: { items: IntroItem[] }) {
                         Your browser does not support the video tag.
                       </video>
                     ) : (
-                       <Image
+                      <Image
                         src={mediaUrl}
                         alt={item.mediaAlt || `Intro media ${index + 1}`}
                         loading="lazy"
@@ -1079,7 +1078,7 @@ function StandApartSection({ content }: { content: PageContent }) {
             <div className={styles.gainsFloat}>
               <div className={styles.imgStack}>
                 {content.shivaImage ? (
-                   <Image
+                  <Image
                     src={imgSrc(content.shivaImage)}
                     alt="Yoga practice at AYM School Rishikesh"
                     className={styles.stackImg}
@@ -1249,7 +1248,7 @@ function PremiumMasonryGrid({
               onClick={() => openModal(idx)}
             >
               <div className={styles.masonryInner}>
-                 <Image src={imgSrc(item.src)} alt={`${title} ${idx + 1}`} />
+                <Image src={imgSrc(item.src)} alt={`${title} ${idx + 1}`} />
                 <div className={styles.masonryOverlay}>
                   <div className={styles.masonryIcon}>
                     <svg
@@ -1360,7 +1359,7 @@ function PremiumImageModal({
         </button>
 
         <div className={styles.premiumModalImageWrapper}>
-           <Image
+          <Image
             src={imgSrc(images[currentIndex])}
             alt={`Gallery ${currentIndex + 1}`}
             className={styles.premiumModalImage}
@@ -1410,7 +1409,7 @@ function PremiumImageModal({
                 }
               }}
             >
-               <Image src={imgSrc(img)} alt={`Thumb ${idx + 1}`} />
+              <Image src={imgSrc(img)} alt={`Thumb ${idx + 1}`} />
             </div>
           ))}
         </div>
@@ -1463,7 +1462,7 @@ function useCurrencyRate() {
           setRate(inr);
         }
       })
-      .catch(() => {})
+      .catch(() => { })
       .finally(() => setLoading(false));
   }, []);
 
@@ -1579,7 +1578,7 @@ export default function YogaTTC500() {
 
       {content.heroImage && (
         <section id="hero" className={styles.heroSection}>
-           <Image
+          <Image
             src={imgSrc(content.heroImage)}
             alt={content.heroImgAlt || "Yoga Students Group"}
             className={styles.heroImage}
@@ -1908,7 +1907,7 @@ export default function YogaTTC500() {
             </div>
             {content.evalImage && (
               <div className="col-12 col-md-6 mt-5">
-                 <Image
+                <Image
                   src={imgSrc(content.evalImage)}
                   alt={content.evalImageAlt || "Evaluation process"}
                   className={styles.evalImg}

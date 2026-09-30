@@ -73,7 +73,6 @@ const INITIAL_FORM = {
   roomType: "Please Select Room Type",
 };
 
-// ─── Dummy CAPTCHA ─────────────────────────────────────────────────────────────
 type CaptchaState = "idle" | "verifying" | "verified" | "expired";
 
 function DummyCaptcha({
@@ -300,10 +299,9 @@ export default function RegisterForm() {
   const [isCaptchaVerified, setIsCaptchaVerified] = useState(false);
 
   const searchParams = useSearchParams();
-  const batchId = searchParams.get("batchId"); // 100hr/200hr/300hr flow
-  const courseId = searchParams.get("courseId"); // CoursesSection flow ✅
+  const batchId = searchParams.get("batchId");
+  const courseId = searchParams.get("courseId");
 
-  // 🔍 TEMP DEBUG — remove once confirmed working
   useEffect(() => {
     console.log("URL params →", {
       full: searchParams.toString(),
@@ -346,25 +344,25 @@ export default function RegisterForm() {
       courseName: "300 Hour Yoga TTC",
     },
     "500hr": {
-  getBatch: "/500hr-seats",
-  bookSeat: "/500hr-seats/bookSeat",
-  courseName: "500 Hour Yoga TTC",
-},
-"kundalini-200hr": {
-  getBatch: "/kundalini-seats",
-  bookSeat: "/kundalini-seats/bookSeat",
-  courseName: "Kundalini Yoga TTC",
-},
-"prenatal": {
-  getBatch: "/prenatal-seats",
-  bookSeat: "/prenatal-seats/bookSeat",
-  courseName: "Prenatal Yoga TTC",
-},
-"vinyasa": {
-  getBatch: "/vinyasa-seats",
-  bookSeat: "/vinyasa-seats/book-seat",
-  courseName: "Vinyasa Yoga TTC",
-},
+      getBatch: "/500hr-seats",
+      bookSeat: "/500hr-seats/bookSeat",
+      courseName: "500 Hour Yoga TTC",
+    },
+    "kundalini-200hr": {
+      getBatch: "/kundalini-seats",
+      bookSeat: "/kundalini-seats/bookSeat",
+      courseName: "Kundalini Yoga TTC",
+    },
+    "prenatal": {
+      getBatch: "/prenatal-seats",
+      bookSeat: "/prenatal-seats/bookSeat",
+      courseName: "Prenatal Yoga TTC",
+    },
+    "vinyasa": {
+      getBatch: "/vinyasa-seats",
+      bookSeat: "/vinyasa-seats/book-seat",
+      courseName: "Vinyasa Yoga TTC",
+    },
     beginners: {
       getBatch: "/yoga-beginners-seats/get-batch", // 🔧 fixed
       bookSeat: "/yoga-beginners-seats/bookSeat",
@@ -390,7 +388,6 @@ export default function RegisterForm() {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  // ── 1. Batch fetch — 100hr/200hr/300hr se aane pe ──
   useEffect(() => {
     if (!batchId || !type || !API_MAP[type]) return;
 
@@ -412,7 +409,6 @@ export default function RegisterForm() {
     fetchBatch();
   }, [batchId, type]);
 
-  // ── 2. Course fetch — CoursesSection se aane pe ✅ ──
   useEffect(() => {
     if (!courseId) return;
 
@@ -452,23 +448,21 @@ export default function RegisterForm() {
         type: type ?? null,
       });
 
-      // Step 2: Seat booking — now decoupled from email success,
-      // so a slow/flaky mail server can never block a real seat decrement.
+
       try {
         if (batchId && type && API_MAP[type]) {
           await api.patch(`${API_MAP[type].bookSeat}/${batchId}`);
         }
         if (courseId) {
-          console.log("Booking seat for courseId:", courseId); // 🔍 TEMP DEBUG
+          console.log("Booking seat for courseId:", courseId);
           await api.patch(`/courses-section/${courseId}/book-seat`);
         }
       } catch (seatErr) {
         console.log("Seat booking error:", seatErr);
-        // Registration already saved — don't block the success flow on this,
-        // but surface it so you notice if it's failing silently.
+
       }
 
-      // Step 3: Email — best-effort, doesn't gate seat booking anymore
+
       try {
         const res = await api.post("/email/send-email", {
           ...formData,
@@ -579,8 +573,8 @@ export default function RegisterForm() {
             </div>
 
             <div className={styles.leftBgImage}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-               <Image
+
+              <Image
                 src="https://images.unsplash.com/photo-1599447421416-3414500d18a5?w=900&q=80&fit=crop"
                 alt="Yoga Teacher Training Rishikesh"
                 className={styles.leftImg}
@@ -882,7 +876,7 @@ export default function RegisterForm() {
                   </div>
                 </div>
 
-                {/* Course — courseId se aane pe auto-filled, phir bhi change kar sakte hain */}
+
                 <div className={styles.fieldFull}>
                   <label className={styles.label}>Yoga Course Applied</label>
                   <div className={styles.selectWrap}>
@@ -892,7 +886,7 @@ export default function RegisterForm() {
                       onChange={handleChange}
                       className={styles.select}
                     >
-                      {/* ✅ Agar courseId se aaya aur title yogaCourses list mein nahi — extra option add karo */}
+
                       {!yogaCourses.includes(formData.course) &&
                         formData.course && (
                           <option value={formData.course}>
@@ -910,7 +904,7 @@ export default function RegisterForm() {
                 </div>
               </div>
 
-              {/* Start Date + End Date */}
+
               <div className={styles.fieldRow}>
                 <div className={styles.fieldHalf}>
                   <label className={styles.label}>Course Start Date</label>
@@ -935,7 +929,7 @@ export default function RegisterForm() {
                 </div>
               </div>
 
-              {/* Location + Room Type */}
+
               <div className={styles.fieldRow}>
                 <div className={styles.fieldHalf}>
                   <label className={styles.label}>

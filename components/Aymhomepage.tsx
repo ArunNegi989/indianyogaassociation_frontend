@@ -441,7 +441,7 @@ const AymHomePage: React.FC = () => {
         <div className={styles.aboutGrid}>
           <div className={styles.aboutImageWrap}>
             <div className={styles.aboutImageFrame}>
-               <Image
+              <Image
                 src="https://images.unsplash.com/photo-1545389336-cf090694435e?w=700&q=80"
                 alt="Yoga practice at AYM Rishikesh"
                 className={styles.aboutRealImg}
@@ -557,7 +557,7 @@ const AymHomePage: React.FC = () => {
         <div className={styles.contactWrap}>
           <div className={styles.contactDecorLeft}>
             <div className={styles.contactImgWrap}>
-               <Image
+              <Image
                 src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=700&q=80"
                 alt="Yoga meditation contact"
                 className={styles.contactRealImg}

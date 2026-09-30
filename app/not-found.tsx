@@ -142,7 +142,7 @@ export default function NotFound() {
 
           <ul className={styles.linkGrid}>
             {quickLinks.map((link, i) => (
-            <li key={link.href} style={{ "--i": i } as React.CSSProperties}>
+              <li key={link.href} style={{ "--i": i } as React.CSSProperties}>
                 <Link href={link.href} className={styles.link}>
                   {link.label}
                 </Link>

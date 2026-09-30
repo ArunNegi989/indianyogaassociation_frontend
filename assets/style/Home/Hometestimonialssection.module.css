@@ -81,14 +81,16 @@
   padding: clamp(2.5rem, 5vw, 5rem) clamp(1.2rem, 5vw, 3rem);
   box-sizing: border-box;
 }
-.ratingsectionWrapper{
-   position: relative;
+
+.ratingsectionWrapper {
+  position: relative;
   z-index: 1;
   max-width: 950px;
   margin: 0 auto;
 
   box-sizing: border-box;
 }
+
 /* ================================================================
    SHARED DIVIDERS / HEADER
    ================================================================ */
@@ -352,13 +354,13 @@
 
 /* ── Left Card — Overall Rating ── */
 .overallCard {
- justify-content: center;
-    align-items: center;
-    min-height: 380px;
-    display: flex;
-    position: relative;
-    background: linear-gradient(160deg, rgb(61, 29, 0) 0%, rgb(92, 45, 0) 40%, rgb(122, 63, 16) 70%, rgb(74, 34, 0) 100%);
-    overflow: hidden;
+  justify-content: center;
+  align-items: center;
+  min-height: 380px;
+  display: flex;
+  position: relative;
+  background: linear-gradient(160deg, rgb(61, 29, 0) 0%, rgb(92, 45, 0) 40%, rgb(122, 63, 16) 70%, rgb(74, 34, 0) 100%);
+  overflow: hidden;
 }
 
 .overallCardBg {
@@ -512,7 +514,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  
+
 }
 
 .platformsTitle {
@@ -714,7 +716,7 @@
   width: 100px;
   height: 100px;
 
-  
+
   border-radius: 50%;
 
   transition: all 0.25s ease;
@@ -1106,6 +1108,7 @@
     opacity: 0;
     transform: translateY(24px) scale(0.96);
   }
+
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
@@ -1113,25 +1116,46 @@
 }
 
 @keyframes trustOrbitSpin {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @keyframes trustGlowPulse {
-  0%, 100% { opacity: 0.45; transform: scale(1); }
-  50%       { opacity: 0.7;  transform: scale(1.12); }
+
+  0%,
+  100% {
+    opacity: 0.45;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.7;
+    transform: scale(1.12);
+  }
 }
 
 @keyframes trustIconFloat {
-  0%, 100% { transform: translateY(0); }
-  50%       { transform: translateY(-4px); }
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-4px);
+  }
 }
 
 .trustStrip {
   position: relative;
   margin-top: clamp(2rem, 4vw, 3rem);
   padding: clamp(2rem, 4vw, 2.8rem) clamp(1rem, 3vw, 2rem);
-  background:#f15505;
+  background: #f15505;
   border-radius: 20px;
   border: 1px solid rgba(224, 123, 0, 0.22);
   box-shadow:

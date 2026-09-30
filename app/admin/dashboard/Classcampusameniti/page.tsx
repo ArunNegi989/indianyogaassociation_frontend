@@ -21,9 +21,6 @@ interface ClassCampusSection {
   order: number;
 }
 
-/* ─────────────────────────────────────────
-   Breakpoint hook — 5 tiers
-───────────────────────────────────────── */
 function useBreakpoint() {
   const [width, setWidth] = useState<number>(
     typeof window !== "undefined" ? window.innerWidth : 1024
@@ -34,10 +31,10 @@ function useBreakpoint() {
     return () => window.removeEventListener("resize", handler);
   }, []);
   return {
-    isMobile:  width < 480,
-    isTablet:  width >= 480 && width < 768,
+    isMobile: width < 480,
+    isTablet: width >= 480 && width < 768,
     isDesktop: width >= 768,
-    isWide:    width >= 1024,
+    isWide: width >= 1024,
     width,
   };
 }
@@ -46,10 +43,10 @@ function useBreakpoint() {
    Main Page
 ───────────────────────────────────────── */
 export default function ClassCampusAmenitiesListPage() {
-  const [sections, setSections]       = useState<ClassCampusSection[]>([]);
-  const [loading, setLoading]         = useState(true);
+  const [sections, setSections] = useState<ClassCampusSection[]>([]);
+  const [loading, setLoading] = useState(true);
   const [deleteModal, setDeleteModal] = useState<string | null>(null);
-  const [deleting, setDeleting]       = useState(false);
+  const [deleting, setDeleting] = useState(false);
   const { isMobile, isTablet, isDesktop, isWide } = useBreakpoint();
   const dragIndex = useRef<number | null>(null);
 
@@ -63,15 +60,15 @@ export default function ClassCampusAmenitiesListPage() {
         if (res.data.success) {
           const mapped: ClassCampusSection[] = res.data.data.map(
             (item: any, idx: number) => ({
-              id:                  item._id,
+              id: item._id,
               classSizeSuperLabel: item.classSizeSuperLabel || "",
-              classSizeTitle:      item.classSizeTitle      || "",
-              campusSuperLabel:    item.campusSuperLabel    || "",
-              campusTitle:         item.campusTitle         || "",
+              classSizeTitle: item.classSizeTitle || "",
+              campusSuperLabel: item.campusSuperLabel || "",
+              campusTitle: item.campusTitle || "",
               amenitiesSuperLabel: item.amenitiesSuperLabel || "",
-              amenitiesCount:      item.amenities?.length   ?? 0,
-              status:              "Active",
-              order:               idx + 1,
+              amenitiesCount: item.amenities?.length ?? 0,
+              status: "Active",
+              order: idx + 1,
             })
           );
           setSections(mapped);
@@ -414,7 +411,6 @@ export default function ClassCampusAmenitiesListPage() {
           </p>
         </div>
 
-        {/* Add button — always visible, locked if limit reached */}
         {isLimitReached ? (
           <button
             className={styles.addBtn}
@@ -455,8 +451,8 @@ export default function ClassCampusAmenitiesListPage() {
       </div>
 
       {/* ── Views ── */}
-      {isMobile               && <MobileCards />}
-      {isTablet && !isMobile  && <TabletTable />}
+      {isMobile && <MobileCards />}
+      {isTablet && !isMobile && <TabletTable />}
       {isDesktop && !isTablet && <DesktopTable />}
 
       {/* ── Empty State ── */}

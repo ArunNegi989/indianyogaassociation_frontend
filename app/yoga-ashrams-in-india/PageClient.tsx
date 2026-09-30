@@ -1,4 +1,3 @@
-// YogaAshrams.tsx
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -165,7 +164,7 @@ const YogaAshrams: React.FC = () => {
       {/* ===== HERO SECTION ===== */}
       <section className={styles.heroSection}>
         {data.heroImage && (
-           <Image
+          <Image
             src={getImageUrl(data.heroImage)}
             alt={data.heroImageAlt}
             className={styles.heroImage}
@@ -185,7 +184,7 @@ const YogaAshrams: React.FC = () => {
         <div className={styles.featureContainer}>
           <div className={styles.featureImageBox} style={{ position: "relative" }}>
             {data.featureImage && (
-               <Image
+              <Image
                 src={getImageUrl(data.featureImage)}
                 alt={data.featureImageAlt}
                 style={{
@@ -290,7 +289,7 @@ const YogaAshrams: React.FC = () => {
         <div className={styles.photoFrame}>
           <div className={styles.ashramImageBox} style={{ position: "relative" }}>
             {data.ashramPhoto && (
-               <Image
+              <Image
                 src={getImageUrl(data.ashramPhoto)}
                 alt={data.ashramPhotoAlt}
                 style={{

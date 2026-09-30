@@ -155,7 +155,7 @@ function useCurrencyRate() {
       .then((data) => {
         if (data?.usd?.inr) setRate(data.usd.inr);
       })
-      .catch(() => {})
+      .catch(() => { })
       .finally(() => setLoading(false));
   }, []);
 
@@ -1046,7 +1046,7 @@ export function PremiumSeatBooking({
   const fmtPrice = (batch: SeatBatch | null, overrideUsd?: number) => {
     if (!batch && overrideUsd === undefined)
       return { amount: "—", cur: currency };
-    
+
     if (currency === "INR") {
       if (batch?.inrFee) {
         const num = parseFloat(batch.inrFee.replace(/[₹,]/g, "").trim());
@@ -1061,7 +1061,7 @@ export function PremiumSeatBooking({
         cur: "INR",
       };
     }
-    
+
     if (batch?.usdFee) {
       const raw = batch.usdFee.trim();
       return { amount: raw.startsWith("$") ? raw : `$${raw}`, cur: "USD" };
@@ -1071,26 +1071,26 @@ export function PremiumSeatBooking({
 
   const getRoomPrice = (batch: SeatBatch | null, roomType: 'dorm' | 'twin' | 'private') => {
     if (!batch) return "—";
-    
+
     if (currency === "INR") {
       let inrPrice: number | undefined;
       if (roomType === 'dorm') inrPrice = batch.inrDormPrice;
       else if (roomType === 'twin') inrPrice = batch.inrTwinPrice;
       else inrPrice = batch.inrPrivatePrice;
-      
+
       if (inrPrice && inrPrice > 0) {
         return `₹${inrPrice.toLocaleString("en-IN")}`;
       }
-      
-      const usdPrice = roomType === 'dorm' ? batch.dormPrice : 
-                       roomType === 'twin' ? batch.twinPrice : 
-                       batch.privatePrice;
+
+      const usdPrice = roomType === 'dorm' ? batch.dormPrice :
+        roomType === 'twin' ? batch.twinPrice :
+          batch.privatePrice;
       return `₹${Math.round(usdPrice * rate).toLocaleString("en-IN")}`;
     }
-    
-    const usdPrice = roomType === 'dorm' ? batch.dormPrice : 
-                     roomType === 'twin' ? batch.twinPrice : 
-                     batch.privatePrice;
+
+    const usdPrice = roomType === 'dorm' ? batch.dormPrice :
+      roomType === 'twin' ? batch.twinPrice :
+        batch.privatePrice;
     return `$${usdPrice}`;
   };
 
@@ -1150,18 +1150,18 @@ export function PremiumSeatBooking({
                 const dotCls = full
                   ? styles.psbDRed
                   : low
-                  ? styles.psbDOrange
-                  : styles.psbDGreen;
+                    ? styles.psbDOrange
+                    : styles.psbDGreen;
                 const txtCls = full
                   ? styles.psbSRed
                   : low
-                  ? styles.psbSOrange
-                  : styles.psbSGreen;
+                    ? styles.psbSOrange
+                    : styles.psbSGreen;
                 const statusTxt = full
                   ? "Fully Booked"
                   : low
-                  ? "Limited"
-                  : "Available";
+                    ? "Limited"
+                    : "Available";
                 const cardPrice = fmtPrice(batch);
                 const isSelected = selectedId === batch._id;
                 return (
@@ -1301,8 +1301,8 @@ export function PremiumSeatBooking({
                 const pct = full
                   ? 100
                   : Math.round(
-                      (selected.bookedSeats / selected.totalSeats) * 100
-                    );
+                    (selected.bookedSeats / selected.totalSeats) * 100
+                  );
                 return (
                   <div className={styles.psbRpSeatsWrap}>
                     <div className={styles.psbRpSeatsRow}>
@@ -1315,13 +1315,13 @@ export function PremiumSeatBooking({
                           color: full
                             ? "#8a2c00"
                             : low
-                            ? "#c8700a"
-                            : "#3d6000",
+                              ? "#c8700a"
+                              : "#3d6000",
                           borderColor: full
                             ? "#8a2c00"
                             : low
-                            ? "#c8700a"
-                            : "#3d6000",
+                              ? "#c8700a"
+                              : "#3d6000",
                         }}
                       >
                         {full
@@ -1337,8 +1337,8 @@ export function PremiumSeatBooking({
                           background: full
                             ? "#8a2c00"
                             : low
-                            ? "linear-gradient(90deg,#c8700a,#e09030)"
-                            : "linear-gradient(90deg,#3d6000,#6aa000)",
+                              ? "linear-gradient(90deg,#c8700a,#e09030)"
+                              : "linear-gradient(90deg,#3d6000,#6aa000)",
                         }}
                       />
                     </div>
@@ -1361,7 +1361,7 @@ export function PremiumSeatBooking({
               )}
             </div>
             {selected ? (
-              <Link 
+              <Link
                 href={`/yoga-registration?batchId=${selected._id}&type=100hr`}
                 className={styles.psbBookBtn}
               >
@@ -1426,9 +1426,8 @@ function StarRating({ count }: { count: number }) {
       {Array.from({ length: 5 }).map((_, i) => (
         <svg
           key={i}
-          className={`${styles.star} ${
-            i < count ? styles.starFilled : styles.starEmpty
-          }`}
+          className={`${styles.star} ${i < count ? styles.starFilled : styles.starEmpty
+            }`}
           viewBox="0 0 24 24"
           fill="currentColor"
         >
@@ -1495,37 +1494,37 @@ export default function HundredHourYoga() {
   const whyCards = content.whyChooseCards?.length
     ? content.whyChooseCards
     : [
-        {
-          icon: "star",
-          label: "Expert Teachers",
-          desc: "Certified & experienced yoga masters from Rishikesh tradition",
-        },
-        {
-          icon: "users",
-          label: "Small Batches",
-          desc: "Personalised attention with limited seats per batch",
-        },
-        {
-          icon: "map-pin",
-          label: "Sacred Location",
-          desc: "Learn in Rishikesh, the world capital of yoga",
-        },
-        {
-          icon: "award",
-          label: "Yoga Alliance",
-          desc: "Internationally recognized 100-hour certification",
-        },
-        {
-          icon: "coffee",
-          label: "Sattvic Meals",
-          desc: "Fresh vegetarian food included throughout the course",
-        },
-        {
-          icon: "book",
-          label: "Holistic Learning",
-          desc: "Asana, pranayama, meditation & philosophy combined",
-        },
-      ];
+      {
+        icon: "star",
+        label: "Expert Teachers",
+        desc: "Certified & experienced yoga masters from Rishikesh tradition",
+      },
+      {
+        icon: "users",
+        label: "Small Batches",
+        desc: "Personalised attention with limited seats per batch",
+      },
+      {
+        icon: "map-pin",
+        label: "Sacred Location",
+        desc: "Learn in Rishikesh, the world capital of yoga",
+      },
+      {
+        icon: "award",
+        label: "Yoga Alliance",
+        desc: "Internationally recognized 100-hour certification",
+      },
+      {
+        icon: "coffee",
+        label: "Sattvic Meals",
+        desc: "Fresh vegetarian food included throughout the course",
+      },
+      {
+        icon: "book",
+        label: "Holistic Learning",
+        desc: "Asana, pranayama, meditation & philosophy combined",
+      },
+    ];
 
   return (
     <div className={styles.root}>
@@ -1683,7 +1682,7 @@ export default function HundredHourYoga() {
               ) : null}
               <div className={styles.imageShimmer} />
             </div>
-          
+
             {syllabusVideo && (
               <div className={styles.videoBox}>
                 <DynamicVideo
@@ -1732,7 +1731,7 @@ export default function HundredHourYoga() {
           </div>
           {content.scheduleImage && (
             <div className={styles.centerImage}>
-               <Image src={imgUrl(content.scheduleImage)} alt="Schedule" />
+              <Image src={imgUrl(content.scheduleImage)} alt="Schedule" />
               <div className={styles.centerBadge}>Since 2010</div>
             </div>
           )}
@@ -1770,7 +1769,7 @@ export default function HundredHourYoga() {
           <CornerOrnament pos="tr" />
           <CornerOrnament pos="bl" />
           <CornerOrnament pos="br" />
- <Image
+          <Image
             src={
               content.soulShineImage
                 ? imgUrl(content.soulShineImage)
@@ -1837,17 +1836,15 @@ export default function HundredHourYoga() {
         <div className={styles.incWrap}>
           <div className={styles.incTabs}>
             <button
-              className={`${styles.incTab} ${
-                activeTab === "include" ? styles.active : ""
-              }`}
+              className={`${styles.incTab} ${activeTab === "include" ? styles.active : ""
+                }`}
               onClick={() => setActiveTab("include")}
             >
               ✓ What Is Included?
             </button>
             <button
-              className={`${styles.incTab} ${
-                activeTab === "exclude" ? styles.active : ""
-              }`}
+              className={`${styles.incTab} ${activeTab === "exclude" ? styles.active : ""
+                }`}
               onClick={() => setActiveTab("exclude")}
             >
               ✕ What Is Not Included?

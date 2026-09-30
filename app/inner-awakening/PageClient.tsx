@@ -1,4 +1,3 @@
-// InnerTransformation.tsx
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -144,7 +143,6 @@ const InnerTransformation: React.FC = () => {
     fetchData();
   }, []);
 
-  /* ── Loading state ── */
   if (loading) {
     return (
       <div className={styles.pageWrapper}>
@@ -155,7 +153,6 @@ const InnerTransformation: React.FC = () => {
     );
   }
 
-  /* ── No content saved yet / fetch failed ── */
   if (!data || error) {
     return (
       <div className={styles.pageWrapper}>

@@ -41,7 +41,7 @@ export const HomeaboutSection = async () => {
   return (
     <section className={styles.section}>
       <div className={styles.container}>
-        {/* HEADER */}
+
         <div className={styles.header}>
           <p className={styles.superTitle}>{data.superTitle}</p>
 
@@ -54,7 +54,7 @@ export const HomeaboutSection = async () => {
           </div>
         </div>
 
-        {/* STATS */}
+
         <div className={styles.statsRow}>
           {data.stats?.map((s, i) => (
             <div key={i} className={styles.statCard}>
@@ -64,9 +64,9 @@ export const HomeaboutSection = async () => {
           ))}
         </div>
 
-        {/* BODY */}
+
         <div className={styles.body}>
-          {/* LEFT */}
+
           <div className={styles.bodyLeft}>
             <div
               className={styles.para}

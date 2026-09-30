@@ -14,18 +14,15 @@ import toast, { Toaster } from "react-hot-toast";
 import styles from "@/assets/style/Admin/dashboard/aymfullpage/AymFullPage.module.css";
 import api from "@/lib/api";
 
-/* ── JoditEditor (SSR-safe) ── */
 const JoditEditor = dynamic(() => import("jodit-react"), { ssr: false });
 
 /* ══════════════════════════════════════════════
    TYPES
 ══════════════════════════════════════════════ */
-interface BodyPlaneItem  { label: string; listItem: string; }
-interface PromoCard      { title: string; text: string; link: string; }
-interface JourneyPara    { text: string; }
+interface BodyPlaneItem { label: string; listItem: string; }
+interface PromoCard { title: string; text: string; link: string; }
+interface JourneyPara { text: string; }
 
-// Note: File objects are managed in separate state (not in RHF) since they
-// cannot be part of defaultValues. imageUrl holds the existing server path.
 interface CampusFacility {
   bold: string;
   text: string;
@@ -34,38 +31,35 @@ interface CampusFacility {
 }
 
 interface FormValues {
-  alignTitle:          string;
-  salutation:          string;
-  alignPara1:          string;
-  alignPara2:          string;
-  alignPara3:          string;
-  bodyPlanes:          BodyPlaneItem[];
-  planesPara:          string;
-  bodyPlanesImageAlt:  string;
-  bodyPlanesImageUrl:  string;   // existing server URL (kept for validation)
-  outdoorImageAlt:     string;
-  outdoorImageUrl:     string;   // existing server URL (kept for validation)
-  outdoorCaption:      string;
-  highlight1:          string;
-  highlight2:          string;
-  campusTitle:         string;
-  campusFacilities:    CampusFacility[];
-  promoCard1:          PromoCard;
-  promoCard2:          PromoCard;
-  ctaHeading:          string;
-  ctaSubtext:          string;
-  whatsappLink:        string;
-  masterQuote:         string;
-  masterAttrib:        string;
-  journeyParas:        JourneyPara[];
-  namesteText:         string;
+  alignTitle: string;
+  salutation: string;
+  alignPara1: string;
+  alignPara2: string;
+  alignPara3: string;
+  bodyPlanes: BodyPlaneItem[];
+  planesPara: string;
+  bodyPlanesImageAlt: string;
+  bodyPlanesImageUrl: string;
+  outdoorImageAlt: string;
+  outdoorImageUrl: string;
+  outdoorCaption: string;
+  highlight1: string;
+  highlight2: string;
+  campusTitle: string;
+  campusFacilities: CampusFacility[];
+  promoCard1: PromoCard;
+  promoCard2: PromoCard;
+  ctaHeading: string;
+  ctaSubtext: string;
+  whatsappLink: string;
+  masterQuote: string;
+  masterAttrib: string;
+  journeyParas: JourneyPara[];
+  namesteText: string;
 }
 
 type TabKey = "alignment" | "campus" | "cta";
 
-/* ══════════════════════════════════════════════
-   JODIT CONFIG HOOK
-══════════════════════════════════════════════ */
 function useJoditConfig(height = 250) {
   return useCallback(
     () => ({
@@ -105,19 +99,19 @@ function useJoditConfig(height = 250) {
    JODIT FIELD WRAPPER
 ══════════════════════════════════════════════ */
 interface JoditFieldProps {
-  label:     string;
-  hint?:     string;
-  value:     string;
-  height?:   number;
+  label: string;
+  hint?: string;
+  value: string;
+  height?: number;
   required?: boolean;
   errorMsg?: string;
-  onChange:  (val: string) => void;
+  onChange: (val: string) => void;
 }
 
 function JoditField({
   label, hint, value, height = 220, required, errorMsg, onChange,
 }: JoditFieldProps) {
-  const config   = useJoditConfig(height);
+  const config = useJoditConfig(height);
   const stripped = value.replace(/<[^>]*>/g, "");
 
   return (
@@ -140,7 +134,7 @@ function JoditField({
           value={value}
           config={config()}
           onBlur={(newContent) => onChange(newContent)}
-          onChange={() => {}}
+          onChange={() => { }}
         />
       </div>
       <div style={{ display: "flex", justifyContent: "space-between", marginTop: "0.3rem" }}>
@@ -159,26 +153,26 @@ function JoditField({
    IMAGE UPLOAD FIELD
 ══════════════════════════════════════════════ */
 interface ImageUploadFieldProps {
-  label:          string;
-  hint:           string;
-  file:           File | null;
-  existingUrl?:   string;
-  altText:        string;
+  label: string;
+  hint: string;
+  file: File | null;
+  existingUrl?: string;
+  altText: string;
   altPlaceholder: string;
-  errorMsg?:      string;
-  required?:      boolean;
-  onFileChange:   (file: File | null) => void;
-  onAltChange:    (alt: string) => void;
+  errorMsg?: string;
+  required?: boolean;
+  onFileChange: (file: File | null) => void;
+  onAltChange: (alt: string) => void;
 }
 
 function ImageUploadField({
   label, hint, file, existingUrl, altText, altPlaceholder,
   errorMsg, required, onFileChange, onAltChange,
 }: ImageUploadFieldProps) {
-  const inputRef                = useRef<HTMLInputElement>(null);
-  const [preview, setPreview]   = useState<string | null>(existingUrl ?? null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [preview, setPreview] = useState<string | null>(existingUrl ?? null);
   const [dragOver, setDragOver] = useState(false);
-  const isExisting              = !file && !!existingUrl && preview === existingUrl;
+  const isExisting = !file && !!existingUrl && preview === existingUrl;
 
   useEffect(() => {
     if (existingUrl && !file) setPreview(existingUrl);
@@ -233,7 +227,7 @@ function ImageUploadField({
             <button type="button" className={styles.imageRemoveBtn} onClick={handleRemove}>✕ Remove</button>
             <button type="button" className={styles.imageChangeBtn} onClick={() => inputRef.current?.click()}>✎ Change</button>
           </div>
-          {file       && <div className={styles.imageFileName}>{file.name}</div>}
+          {file && <div className={styles.imageFileName}>{file.name}</div>}
           {isExisting && <div className={styles.imageFileName} style={{ color: "#5a7c52" }}>Saved on server — upload new file to replace</div>}
           <input ref={inputRef} type="file" accept="image/*" className={styles.fileInputHidden}
             onChange={(e) => handleFile(e.target.files?.[0] ?? null)} />
@@ -256,19 +250,19 @@ function ImageUploadField({
    FACILITY IMAGE UPLOAD (compact)
 ══════════════════════════════════════════════ */
 interface FacilityImageProps {
-  file:         File | null;
+  file: File | null;
   existingUrl?: string;
-  altText:      string;
+  altText: string;
   onFileChange: (f: File | null) => void;
-  onAltChange:  (v: string) => void;
+  onAltChange: (v: string) => void;
 }
 
 function FacilityImageUpload({
   file, existingUrl, altText, onFileChange, onAltChange,
 }: FacilityImageProps) {
-  const inputRef              = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
   const [preview, setPreview] = useState<string | null>(existingUrl || null);
-  const isExisting            = !file && !!existingUrl && preview === existingUrl;
+  const isExisting = !file && !!existingUrl && preview === existingUrl;
 
   useEffect(() => { if (existingUrl && !file) setPreview(existingUrl); }, [existingUrl]);
 
@@ -305,7 +299,7 @@ function FacilityImageUpload({
             <button type="button" className={styles.imageRemoveBtn} onClick={handleRemove}>✕ Remove</button>
             <button type="button" className={styles.imageChangeBtn} onClick={() => inputRef.current?.click()}>✎ Change</button>
           </div>
-          {file       && <div className={styles.imageFileName}>{file.name}</div>}
+          {file && <div className={styles.imageFileName}>{file.name}</div>}
           {isExisting && <div className={styles.imageFileName} style={{ color: "#5a7c52" }}>Saved — upload new to replace</div>}
           <input ref={inputRef} type="file" accept="image/*" className={styles.fileInputHidden}
             onChange={(e) => handleFile(e.target.files?.[0] ?? null)} />
@@ -326,15 +320,14 @@ function FacilityImageUpload({
 export default function EditAYMFullPagePage() {
   const router = useRouter();
 
-  /* ── File state (kept outside RHF — File objects can't be in defaultValues) ── */
-  const [bodyPlanesImageFile,  setBodyPlanesImageFile]  = useState<File | null>(null);
-  const [outdoorImageFile,     setOutdoorImageFile]     = useState<File | null>(null);
-  const [facilityImageFiles,   setFacilityImageFiles]   = useState<(File | null)[]>([]);
+  const [bodyPlanesImageFile, setBodyPlanesImageFile] = useState<File | null>(null);
+  const [outdoorImageFile, setOutdoorImageFile] = useState<File | null>(null);
+  const [facilityImageFiles, setFacilityImageFiles] = useState<(File | null)[]>([]);
 
-  const [isLoading,    setIsLoading]    = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitted,    setSubmitted]    = useState(false);
-  const [activeTab,    setActiveTab]    = useState<TabKey>("alignment");
+  const [submitted, setSubmitted] = useState(false);
+  const [activeTab, setActiveTab] = useState<TabKey>("alignment");
   const [expandedFacilities, setExpandedFacilities] = useState<Set<number>>(new Set());
 
   /* ── React Hook Form ── */
@@ -350,35 +343,34 @@ export default function EditAYMFullPagePage() {
     formState: { errors, isDirty },
   } = useForm<FormValues>({
     defaultValues: {
-      alignTitle:         "",
-      salutation:         "",
-      alignPara1:         "",
-      alignPara2:         "",
-      alignPara3:         "",
-      bodyPlanes:         [],
-      planesPara:         "",
+      alignTitle: "",
+      salutation: "",
+      alignPara1: "",
+      alignPara2: "",
+      alignPara3: "",
+      bodyPlanes: [],
+      planesPara: "",
       bodyPlanesImageAlt: "",
       bodyPlanesImageUrl: "",
-      outdoorImageAlt:    "",
-      outdoorImageUrl:    "",
-      outdoorCaption:     "",
-      highlight1:         "",
-      highlight2:         "",
-      campusTitle:        "",
-      campusFacilities:   [],
-      promoCard1:         { title: "", text: "", link: "" },
-      promoCard2:         { title: "", text: "", link: "" },
-      ctaHeading:         "",
-      ctaSubtext:         "",
-      whatsappLink:       "",
-      masterQuote:        "",
-      masterAttrib:       "",
-      journeyParas:       [],
-      namesteText:        "",
+      outdoorImageAlt: "",
+      outdoorImageUrl: "",
+      outdoorCaption: "",
+      highlight1: "",
+      highlight2: "",
+      campusTitle: "",
+      campusFacilities: [],
+      promoCard1: { title: "", text: "", link: "" },
+      promoCard2: { title: "", text: "", link: "" },
+      ctaHeading: "",
+      ctaSubtext: "",
+      whatsappLink: "",
+      masterQuote: "",
+      masterAttrib: "",
+      journeyParas: [],
+      namesteText: "",
     },
   });
 
-  /* ── Field Arrays ── */
   const {
     fields: planeFields,
     append: appendPlane,
@@ -397,18 +389,13 @@ export default function EditAYMFullPagePage() {
     remove: removeJourney,
   } = useFieldArray({ control, name: "journeyParas" });
 
-  /* ── Watch (for char counts & conditionals) ── */
   const watchedValues = watch();
-
-  /* ── Has changes ── */
   const hasFileChange = !!bodyPlanesImageFile || !!outdoorImageFile || facilityImageFiles.some(Boolean);
-  const hasChanges    = isDirty || hasFileChange;
-
-  /* ── Plain-text extractor ── */
+  const hasChanges = isDirty || hasFileChange;
   const plain = (html: string) => html.replace(/<[^>]*>/g, "").trim();
 
- 
- const BASE = (process.env.NEXT_PUBLIC_API_URL ?? "").replace(/\/$/, "");
+
+  const BASE = (process.env.NEXT_PUBLIC_API_URL ?? "").replace(/\/$/, "");
   const toAbsUrl = (path: string | undefined | null): string => {
     if (!path) return "";
     if (path.startsWith("http://") || path.startsWith("https://")) return path;
@@ -432,47 +419,45 @@ export default function EditAYMFullPagePage() {
         }
 
         const mapped: FormValues = {
-          alignTitle:         raw.alignTitle         ?? "",
-          salutation:         raw.salutation         ?? "",
-          alignPara1:         raw.alignPara1         ?? "",
-          alignPara2:         raw.alignPara2         ?? "",
-          alignPara3:         raw.alignPara3         ?? "",
-          bodyPlanes:         raw.bodyPlanes         ?? [],
-          planesPara:         raw.planesPara         ?? "",
+          alignTitle: raw.alignTitle ?? "",
+          salutation: raw.salutation ?? "",
+          alignPara1: raw.alignPara1 ?? "",
+          alignPara2: raw.alignPara2 ?? "",
+          alignPara3: raw.alignPara3 ?? "",
+          bodyPlanes: raw.bodyPlanes ?? [],
+          planesPara: raw.planesPara ?? "",
           bodyPlanesImageAlt: raw.bodyPlanesImageAlt ?? "",
-          bodyPlanesImageUrl: toAbsUrl(raw.bodyPlanesImage),   // ✅ full URL
-          outdoorImageAlt:    raw.outdoorImageAlt    ?? "",
-          outdoorImageUrl:    toAbsUrl(raw.outdoorImage),       // ✅ full URL
-          outdoorCaption:     raw.outdoorCaption     ?? "",
-          highlight1:         raw.highlight1         ?? "",
-          highlight2:         raw.highlight2         ?? "",
-          campusTitle:        raw.campusTitle        ?? "",
-          campusFacilities:   (raw.campusFacilities ?? []).map((f: any) => ({
-            bold:     f.bold     ?? "",
-            text:     f.text     ?? "",
+          bodyPlanesImageUrl: toAbsUrl(raw.bodyPlanesImage),
+          outdoorImageAlt: raw.outdoorImageAlt ?? "",
+          outdoorImageUrl: toAbsUrl(raw.outdoorImage),
+          outdoorCaption: raw.outdoorCaption ?? "",
+          highlight1: raw.highlight1 ?? "",
+          highlight2: raw.highlight2 ?? "",
+          campusTitle: raw.campusTitle ?? "",
+          campusFacilities: (raw.campusFacilities ?? []).map((f: any) => ({
+            bold: f.bold ?? "",
+            text: f.text ?? "",
             imageAlt: f.imageAlt ?? "",
-            imageUrl: toAbsUrl(f.imageUrl),   // ✅ full URL
+            imageUrl: toAbsUrl(f.imageUrl),
           })),
-          promoCard1:  {
+          promoCard1: {
             title: raw.promoCard1?.title ?? "",
-            text:  raw.promoCard1?.text  ?? "",
-            link:  raw.promoCard1?.link  ?? "",
+            text: raw.promoCard1?.text ?? "",
+            link: raw.promoCard1?.link ?? "",
           },
-          promoCard2:  {
+          promoCard2: {
             title: raw.promoCard2?.title ?? "",
-            text:  raw.promoCard2?.text  ?? "",
-            link:  raw.promoCard2?.link  ?? "",
+            text: raw.promoCard2?.text ?? "",
+            link: raw.promoCard2?.link ?? "",
           },
-          ctaHeading:   raw.ctaHeading   ?? "",
-          ctaSubtext:   raw.ctaSubtext   ?? "",
+          ctaHeading: raw.ctaHeading ?? "",
+          ctaSubtext: raw.ctaSubtext ?? "",
           whatsappLink: raw.whatsappLink ?? "",
-          masterQuote:  raw.masterQuote  ?? "",
+          masterQuote: raw.masterQuote ?? "",
           masterAttrib: raw.masterAttrib ?? "",
           journeyParas: raw.journeyParas ?? [],
-          namesteText:  raw.namesteText  ?? "",
+          namesteText: raw.namesteText ?? "",
         };
-
-        // reset() sets isDirty = false after initial population
         reset(mapped);
         setFacilityImageFiles(
           new Array((raw.campusFacilities ?? []).length).fill(null)
@@ -487,7 +472,7 @@ export default function EditAYMFullPagePage() {
     fetchData();
   }, []);
 
-  /* Loading screen */
+
   if (isLoading) {
     return (
       <div className={styles.loadingScreen}>
@@ -501,7 +486,6 @@ export default function EditAYMFullPagePage() {
      HELPERS
   ══════════════════════════════════════════════ */
 
-  /* Tab error detection using RHF errors */
   const tabHasError = (tab: TabKey): boolean => {
     if (tab === "alignment") {
       return !!(
@@ -556,7 +540,6 @@ export default function EditAYMFullPagePage() {
      SUBMIT  →  PUT /aym-full-page/update
   ══════════════════════════════════════════════ */
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
-    /* ── Validate file-only fields (not in RHF registry) ── */
     let fileError = false;
     if (!bodyPlanesImageFile && !data.bodyPlanesImageUrl) {
       setError("bodyPlanesImageUrl", { message: "Body planes diagram image is required" });
@@ -575,8 +558,6 @@ export default function EditAYMFullPagePage() {
       setIsSubmitting(true);
 
       const fd = new FormData();
-
-      /* ── Scalar text fields ── */
       const scalarKeys: (keyof FormValues)[] = [
         "alignTitle", "salutation", "alignPara1", "alignPara2", "alignPara3",
         "planesPara", "bodyPlanesImageAlt", "outdoorImageAlt", "outdoorCaption",
@@ -590,10 +571,10 @@ export default function EditAYMFullPagePage() {
       });
 
       /* ── JSON arrays / objects ── */
-      fd.append("bodyPlanes",       JSON.stringify(data.bodyPlanes));
-      fd.append("journeyParas",     JSON.stringify(data.journeyParas));
-      fd.append("promoCard1",       JSON.stringify(data.promoCard1));
-      fd.append("promoCard2",       JSON.stringify(data.promoCard2));
+      fd.append("bodyPlanes", JSON.stringify(data.bodyPlanes));
+      fd.append("journeyParas", JSON.stringify(data.journeyParas));
+      fd.append("promoCard1", JSON.stringify(data.promoCard1));
+      fd.append("promoCard2", JSON.stringify(data.promoCard2));
       fd.append("campusFacilities", JSON.stringify(data.campusFacilities));
 
       /* ── Facility images (indexed) ── */
@@ -603,7 +584,7 @@ export default function EditAYMFullPagePage() {
 
       /* ── Main images — only if new file selected ── */
       if (bodyPlanesImageFile) fd.append("bodyPlanesImage", bodyPlanesImageFile);
-      if (outdoorImageFile)    fd.append("outdoorImage",    outdoorImageFile);
+      if (outdoorImageFile) fd.append("outdoorImage", outdoorImageFile);
 
       await api.put("/aym-full-page/update", fd, {
         headers: { "Content-Type": "multipart/form-data" },
@@ -639,8 +620,8 @@ export default function EditAYMFullPagePage() {
 
   const tabs: { key: TabKey; label: string; icon: string }[] = [
     { key: "alignment", label: "Alignment & Adjustment", icon: "🧘" },
-    { key: "campus",    label: "Campus Section",          icon: "🏛️" },
-    { key: "cta",       label: "CTA & Journey",           icon: "✨" },
+    { key: "campus", label: "Campus Section", icon: "🏛️" },
+    { key: "cta", label: "CTA & Journey", icon: "✨" },
   ];
 
   /* ════════════════════════════════════════════
@@ -710,12 +691,10 @@ export default function EditAYMFullPagePage() {
           ))}
         </div>
 
-        {/* ── Wrap entire content in <form> so handleSubmit works ── */}
         <form onSubmit={handleSubmit(onSubmit, () => {
-          // RHF validation failed — navigate to the first tab that has errors
-          if (tabHasError("alignment"))   setActiveTab("alignment");
+          if (tabHasError("alignment")) setActiveTab("alignment");
           else if (tabHasError("campus")) setActiveTab("campus");
-          else                            setActiveTab("cta");
+          else setActiveTab("cta");
         })}>
 
           <div className={styles.formCard}>
@@ -730,7 +709,6 @@ export default function EditAYMFullPagePage() {
                     <h3 className={styles.sectionTitle}>Section Header</h3>
                   </div>
 
-                  {/* alignTitle — Jodit via Controller */}
                   <Controller
                     name="alignTitle"
                     control={control}
@@ -806,14 +784,13 @@ export default function EditAYMFullPagePage() {
 
                 <div className={styles.formDivider} />
 
-                {/* ── Body Planes Diagram Image — Two Column Layout ── */}
                 <div className={styles.sectionBlock}>
                   <div className={styles.sectionHeader}>
                     <span className={styles.sectionIcon}>✦</span>
                     <h3 className={styles.sectionTitle}>Body Planes Diagram Image</h3>
                     <span className={styles.sectionBadge}>yogaBodyPlanes</span>
                   </div>
-                  
+
                   <div className={styles.twoColumnSection}>
                     {/* Left: Upload Form */}
                     <div className={styles.twoColumnContent}>
@@ -833,14 +810,14 @@ export default function EditAYMFullPagePage() {
                         onAltChange={(v) => setValue("bodyPlanesImageAlt", v, { shouldDirty: true })}
                       />
                     </div>
-                    
+
                     {/* Right: Image Preview */}
                     <div className={styles.twoColumnImage}>
                       {(bodyPlanesImageFile || watchedValues.bodyPlanesImageUrl) && (
                         <>
                           <div className={styles.twoColumnImagePreview}>
-                            <img 
-                              src={bodyPlanesImageFile ? URL.createObjectURL(bodyPlanesImageFile) : watchedValues.bodyPlanesImageUrl} 
+                            <img
+                              src={bodyPlanesImageFile ? URL.createObjectURL(bodyPlanesImageFile) : watchedValues.bodyPlanesImageUrl}
                               alt={watchedValues.bodyPlanesImageAlt || "Body planes diagram preview"}
                             />
                           </div>
@@ -960,16 +937,15 @@ export default function EditAYMFullPagePage() {
 
                 <div className={styles.formDivider} />
 
-                {/* ── Outdoor Photo — Two Column Layout ── */}
                 <div className={styles.sectionBlock}>
                   <div className={styles.sectionHeader}>
                     <span className={styles.sectionIcon}>✦</span>
                     <h3 className={styles.sectionTitle}>Outdoor Group Yoga Photo</h3>
                     <span className={styles.sectionBadge}>yogaoutdoor image</span>
                   </div>
-                  
+
                   <div className={styles.twoColumnSection}>
-                    {/* Left: Upload Form */}
+
                     <div className={styles.twoColumnContent}>
                       <ImageUploadField
                         label="Outdoor Yoga Practice Photo"
@@ -1003,14 +979,14 @@ export default function EditAYMFullPagePage() {
                         </div>
                       </div>
                     </div>
-                    
+
                     {/* Right: Image Preview */}
                     <div className={styles.twoColumnImage}>
                       {(outdoorImageFile || watchedValues.outdoorImageUrl) && (
                         <>
                           <div className={styles.twoColumnImagePreview}>
-                            <img 
-                              src={outdoorImageFile ? URL.createObjectURL(outdoorImageFile) : watchedValues.outdoorImageUrl} 
+                            <img
+                              src={outdoorImageFile ? URL.createObjectURL(outdoorImageFile) : watchedValues.outdoorImageUrl}
                               alt={watchedValues.outdoorImageAlt || "Outdoor yoga practice preview"}
                             />
                           </div>
@@ -1069,7 +1045,7 @@ export default function EditAYMFullPagePage() {
                       const isOpen = expandedFacilities.has(i);
                       const boldVal = watchedValues.campusFacilities?.[i]?.bold || "";
                       const textVal = watchedValues.campusFacilities?.[i]?.text || "";
-                      const hasImg  = !!(watchedValues.campusFacilities?.[i]?.imageUrl || facilityImageFiles[i]);
+                      const hasImg = !!(watchedValues.campusFacilities?.[i]?.imageUrl || facilityImageFiles[i]);
                       return (
                         <div key={field.id} style={{ border: "1.5px solid #e8d5b5", borderRadius: "10px", overflow: "hidden", background: "#fffdf8" }}>
                           {/* Accordion Header */}

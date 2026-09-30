@@ -1,7 +1,12 @@
 import type { NextConfig } from "next";
 
+const isDev = process.env.NODE_ENV === "development";
+
 const nextConfig: NextConfig = {
   images: {
+    // Sirf dev mein localhost:5000 se image optimize karne ke liye
+    dangerouslyAllowLocalIP: isDev,
+    dangerouslyAllowSVG: true,
     remotePatterns: [
       {
         protocol: "https",
@@ -38,7 +43,6 @@ const nextConfig: NextConfig = {
         pathname: "/blog/**",
       },
     ],
-    dangerouslyAllowSVG: true,
   },
   reactStrictMode: false,
   async rewrites() {

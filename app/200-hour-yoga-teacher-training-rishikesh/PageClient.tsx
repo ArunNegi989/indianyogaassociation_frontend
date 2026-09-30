@@ -124,7 +124,7 @@ interface CombinedContent {
   primaryIntro?: string;
   primarySeriesImage?: string;
   foundationItems: string[];
-  weekGrid: Array<{ week: string; icon: string; [key: string]: any }>;
+  weekGrid: Array<{ week: string; icon: string;[key: string]: any }>;
 
   hathaH2?: string;
   hathaSubtitle?: string;
@@ -523,7 +523,7 @@ function VideoSection({
   if (videoUrl) {
     const ytId = getYoutubeVideoId(videoUrl);
 
-    // Not yet clicked: thumbnail + play button only.
+
     // The heavy YouTube player JS never loads until this is clicked.
     if (!ytLoaded && ytId) {
       return (
@@ -990,8 +990,8 @@ function PremiumSeatBooking({
 
     // USD
     const usdPrice = roomType === 'dorm' ? batch.dormPrice :
-                     roomType === 'twin' ? batch.twinPrice :
-                     batch.privatePrice;
+      roomType === 'twin' ? batch.twinPrice :
+        batch.privatePrice;
     return `$${usdPrice}`;
   };
 
@@ -1218,8 +1218,8 @@ function PremiumSeatBooking({
                 const pct = full
                   ? 100
                   : Math.round(
-                      (selected.bookedSeats / selected.totalSeats) * 100,
-                    );
+                    (selected.bookedSeats / selected.totalSeats) * 100,
+                  );
                 return (
                   <div className={styles.psbRpSeatsWrap}>
                     <div className={styles.psbRpSeatsRow}>
@@ -1669,7 +1669,7 @@ export default function TwoHundredHourYoga() {
             <div className={styles.moduleDetailGrid}>
               <div className={styles.moduleDetailImg}>
                 {content.ashtangaImage ? (
-                   <Image
+                  <Image
                     src={imgUrl(content.ashtangaImage)}
                     alt={content.ashtangaImgAlt || "Ashtanga"}
                     className={styles.modImg}
@@ -1685,20 +1685,20 @@ export default function TwoHundredHourYoga() {
                 {(content.ashtangaPill1 ||
                   content.ashtangaPill2 ||
                   content.ashtangaPill3) && (
-                  <div className={styles.featurePills}>
-                    {[
-                      content.ashtangaPill1,
-                      content.ashtangaPill2,
-                      content.ashtangaPill3,
-                    ]
-                      .filter(Boolean)
-                      .map((pill, i) => (
-                        <span key={i} className={styles.pill}>
-                          {pill}
-                        </span>
-                      ))}
-                  </div>
-                )}
+                    <div className={styles.featurePills}>
+                      {[
+                        content.ashtangaPill1,
+                        content.ashtangaPill2,
+                        content.ashtangaPill3,
+                      ]
+                        .filter(Boolean)
+                        .map((pill, i) => (
+                          <span key={i} className={styles.pill}>
+                            {pill}
+                          </span>
+                        ))}
+                    </div>
+                  )}
               </div>
             </div>
           </>
@@ -1784,7 +1784,7 @@ export default function TwoHundredHourYoga() {
             </div>
             <div className={styles.section3Right}>
               {content.primarySeriesImage ? (
-                 <Image
+                <Image
                   src={imgUrl(content.primarySeriesImage)}
                   alt="Yoga Primary Series practice"
                 />
@@ -1825,20 +1825,20 @@ export default function TwoHundredHourYoga() {
                 {(content.hathaPill1 ||
                   content.hathaPill2 ||
                   content.hathaPill3) && (
-                  <div className={styles.featurePills}>
-                    {[
-                      content.hathaPill1,
-                      content.hathaPill2,
-                      content.hathaPill3,
-                    ]
-                      .filter(Boolean)
-                      .map((pill, i) => (
-                        <span key={i} className={styles.pill}>
-                          {pill}
-                        </span>
-                      ))}
-                  </div>
-                )}
+                    <div className={styles.featurePills}>
+                      {[
+                        content.hathaPill1,
+                        content.hathaPill2,
+                        content.hathaPill3,
+                      ]
+                        .filter(Boolean)
+                        .map((pill, i) => (
+                          <span key={i} className={styles.pill}>
+                            {pill}
+                          </span>
+                        ))}
+                    </div>
+                  )}
               </div>
             </div>
           </>
@@ -1940,7 +1940,7 @@ export default function TwoHundredHourYoga() {
               </div>
               <div className={styles.luxuryCenterImg}>
                 {content.luxImages?.length ? (
-                   <Image
+                  <Image
                     src={imgUrl(content.luxImages[0])}
                     alt="Luxury facility"
                     className={styles.luxCenterImgEl}
@@ -1960,7 +1960,7 @@ export default function TwoHundredHourYoga() {
             {content.luxImages?.length > 1 && (
               <div className={styles.luxuryExtraImgs}>
                 {content.luxImages.slice(1).map((src, i) => (
-                   <Image
+                  <Image
                     key={i}
                     src={imgUrl(src)}
                     alt={`Facility ${i + 2}`}
@@ -2175,7 +2175,7 @@ export default function TwoHundredHourYoga() {
                     boxShadow: "0 8px 32px rgba(80,40,5,0.14)",
                   }}
                 >
-                   <Image
+                  <Image
                     src={imgUrl(content.reqImage)}
                     alt={content.requirementsImgAlt || "Requirements"}
                     style={{ width: "100%", height: "auto", display: "block" }}
