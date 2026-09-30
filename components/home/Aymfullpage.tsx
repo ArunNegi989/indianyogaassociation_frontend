@@ -388,7 +388,7 @@ const AYMFullPage: React.FC = () => {
           />
 
           <Link
-            href={`https://wa.me/917500277709?text=${encodeURIComponent(
+            href={`https://wa.me/919528023390?text=${encodeURIComponent(
               "Hello, I want to know more about your training course."
             )}`}
             className={styles.whatsappBtn}
