@@ -145,7 +145,7 @@ const DEFAULT_DATA: ApiHowToReachData = {
   mainTitle: "How to Reach Us",
   subTitle: "Easy & Comfortable Travel Options to Reach Indian Yoga Association in Rishikesh — Delhi to Rishikesh travel options by air, train & bus.",
 
-  whatsappNumber: "917500277709",
+  whatsappNumber: "919528023390",
   whatsappMessage: "Namaste !! I would like to arrange a Pickup / Drop service for Indian Yoga Association, Rishikesh. Please guide me on the pickup point details.",
 
   travelCards: [
