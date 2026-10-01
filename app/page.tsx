@@ -34,7 +34,8 @@ interface Slide {
 }
 
 async function getBanners(): Promise<Slide[]> {
-  const url = `${process.env.NEXT_PUBLIC_API_URL}/banners`;
+  // FIX: axios baseURL mein "/api" hai, yahan bhi hona chahiye
+  const url = `${process.env.NEXT_PUBLIC_API_URL}/api/banners`;
   try {
     const res = await fetch(url, { next: { revalidate: 60 } });
 
