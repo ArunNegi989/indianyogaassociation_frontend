@@ -10,7 +10,6 @@ import "./globals.css";
 import ConditionalLayout from "@/components/layout/ConditionalLayout";
 import { AuthProvider } from "@/context/AuthContext";
 
-// Headings font
 const playfairDisplay = Playfair_Display({
   variable: "--font-playfair",
   subsets: ["latin"],
@@ -19,7 +18,6 @@ const playfairDisplay = Playfair_Display({
   display: "swap",
 });
 
-// Body font
 const lato = Lato({
   variable: "--font-lato",
   subsets: ["latin"],
@@ -28,7 +26,6 @@ const lato = Lato({
   display: "swap",
 });
 
-// Alt body font (below-fold use ke liye — preload false theek hai)
 const poppins = Poppins({
   variable: "--font-poppins",
   subsets: ["latin"],
@@ -38,11 +35,10 @@ const poppins = Poppins({
   preload: false,
 });
 
-// Menu font — FIXED: preload true, kyunki h1-h6 isi se render hote hain (above-fold)
 const montserrat = Montserrat({
   variable: "--font-montserrat",
   subsets: ["latin"],
-  weight: ["600"],
+  weight: ["600", "700"],
   display: "swap",
   preload: true,
 });
@@ -62,10 +58,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body
-        className={`${playfairDisplay.variable} ${lato.variable} ${poppins.variable} ${montserrat.variable} antialiased`}
-      >
+    <html
+      lang="en"
+      className={`${playfairDisplay.variable} ${lato.variable} ${poppins.variable} ${montserrat.variable}`}
+    >
+      <body className="antialiased">
         <AuthProvider>
           <ConditionalLayout>{children}</ConditionalLayout>
         </AuthProvider>

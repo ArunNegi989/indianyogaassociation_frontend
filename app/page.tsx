@@ -1,18 +1,31 @@
 import { Suspense } from "react";
-import AccreditationSection from "@/components/home/Accreditationsection";
-import AYMFullPage from "@/components/home/Aymfullpage";
-import BlogSection from "@/components/home/BlogSection";
-import ClassCampusAmenities from "@/components/home/Classcampusamenities";
-import CoursesSection from "@/components/home/Coursessection";
+import dynamic from "next/dynamic";
 import HomeaboutSection from "@/components/home/Homeaboutsection";
 import HomepageSlider from "@/components/home/Homepageslider";
-import HomeTestimonialsSection from "@/components/home/Hometestimonialssection";
-import HowToReach from "@/components/home/Howtoreach";
-import OurMission from "@/components/home/Ourmission";
-import WhyAYMSection from "@/components/home/Whyaymsection";
-import YogaCoursesTeachers from "@/components/home/Yogacoursesteachers";
-import { homepageJsonLd } from "@/lib/seo/homepage-schema";
 import HomeaboutSkeleton from "@/components/home/HomeaboutSkeleton";
+import { homepageJsonLd } from "@/lib/seo/homepage-schema";
+import bgMobile from "@/assets/images/backgroundimage/510x1739.webp";
+import bgXs from "@/assets/images/backgroundimage/360x2080.webp";
+
+// Below-the-fold sections: lazy, taaki unki JS/CSS initial load se hat jaye
+const CoursesSection = dynamic(() => import("@/components/home/Coursessection"));
+const AccreditationSection = dynamic(
+  () => import("@/components/home/Accreditationsection")
+);
+const YogaCoursesTeachers = dynamic(
+  () => import("@/components/home/Yogacoursesteachers")
+);
+const ClassCampusAmenities = dynamic(
+  () => import("@/components/home/Classcampusamenities")
+);
+const WhyAYMSection = dynamic(() => import("@/components/home/Whyaymsection"));
+const OurMission = dynamic(() => import("@/components/home/Ourmission"));
+const AYMFullPage = dynamic(() => import("@/components/home/Aymfullpage"));
+const BlogSection = dynamic(() => import("@/components/home/BlogSection"));
+const HomeTestimonialsSection = dynamic(
+  () => import("@/components/home/Hometestimonialssection")
+);
+const HowToReach = dynamic(() => import("@/components/home/Howtoreach"));
 
 interface Slide {
   _id: string;
@@ -42,6 +55,22 @@ export default async function Home() {
 
   return (
     <>
+      {/* LCP fix: CSS background image ko HTML se preload karo */}
+      <link
+        rel="preload"
+        as="image"
+        href={bgMobile.src}
+        media="(min-width: 361px) and (max-width: 540px)"
+        fetchPriority="high"
+      />
+      <link
+        rel="preload"
+        as="image"
+        href={bgXs.src}
+        media="(max-width: 360px)"
+        fetchPriority="high"
+      />
+
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(homepageJsonLd) }}

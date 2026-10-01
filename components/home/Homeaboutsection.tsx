@@ -1,6 +1,8 @@
 import styles from "../../assets/style/Home/Homeaboutsection.module.css";
 import api from "@/lib/api";
 import Link from "next/link";
+import bgMobile from "../../assets/images/backgroundimage/510x1739.webp";
+import bgXs from "../../assets/images/backgroundimage/360x2080.webp";
 
 interface Stat {
   value: string;
@@ -39,103 +41,118 @@ export const HomeaboutSection = async () => {
   if (!data) return null;
 
   return (
-    <section className={styles.section}>
-      <div className={styles.container}>
+    <>
+      {/* LCP fix: CSS background image ko HTML se preload karo */}
+      <link
+        rel="preload"
+        as="image"
+        href={bgMobile.src}
+        media="(min-width: 361px) and (max-width: 540px)"
+        fetchPriority="high"
+      />
+      <link
+        rel="preload"
+        as="image"
+        href={bgXs.src}
+        media="(max-width: 360px)"
+        fetchPriority="high"
+      />
 
-        <div className={styles.header}>
-          <p className={styles.superTitle}>{data.superTitle}</p>
+      <section className={styles.section}>
+        <div className={styles.container}>
+          <div className={styles.header}>
+            <p className={styles.superTitle}>{data.superTitle}</p>
 
-          <h2 className={styles.mainTitle}>{data.mainTitle}</h2>
+            <h2 className={styles.mainTitle}>{data.mainTitle}</h2>
 
-          <div className={styles.omDivider}>
-            <span className={styles.dividerLine} />
-            <span className={styles.omSymbol}>ॐ</span>
-            <span className={styles.dividerLine} />
-          </div>
-        </div>
-
-
-        <div className={styles.statsRow}>
-          {data.stats?.map((s, i) => (
-            <div key={i} className={styles.statCard}>
-              <span className={styles.statValue}>{s.value}</span>
-              <span className={styles.statLabel}>{s.label}</span>
-            </div>
-          ))}
-        </div>
-
-
-        <div className={styles.body}>
-
-          <div className={styles.bodyLeft}>
-            <div
-              className={styles.para}
-              dangerouslySetInnerHTML={{ __html: data.paraOne }}
-            />
-            <div
-              className={styles.para}
-              dangerouslySetInnerHTML={{ __html: data.paraTwo }}
-            />
-            <div
-              className={styles.para}
-              dangerouslySetInnerHTML={{ __html: data.paraThree }}
-            />
-
-            <div className={styles.accreditations}>
-              {data.accreditations?.map((a, i) => (
-                <span key={i} className={styles.accBadge}>
-                  {a}
-                </span>
-              ))}
+            <div className={styles.omDivider}>
+              <span className={styles.dividerLine} />
+              <span className={styles.omSymbol}>ॐ</span>
+              <span className={styles.dividerLine} />
             </div>
           </div>
 
-          {/* RIGHT */}
-          <div className={styles.bodyRight}>
-            <blockquote className={styles.quote}>
-              <span className={styles.quoteMarks}>"</span>
-              <span dangerouslySetInnerHTML={{ __html: data.quoteText }} />
-              <span className={styles.quoteMarks}>"</span>
-            </blockquote>
+          <div className={styles.statsRow}>
+            {data.stats?.map((s, i) => (
+              <div key={i} className={styles.statCard}>
+                <span className={styles.statValue}>{s.value}</span>
+                <span className={styles.statLabel}>{s.label}</span>
+              </div>
+            ))}
+          </div>
 
-            <div
-              className={styles.para}
-              dangerouslySetInnerHTML={{ __html: data.paraRight }}
-            />
+          <div className={styles.body}>
+            {/* LEFT */}
+            <div className={styles.bodyLeft}>
+              <div
+                className={styles.para}
+                dangerouslySetInnerHTML={{ __html: data.paraOne }}
+              />
+              <div
+                className={styles.para}
+                dangerouslySetInnerHTML={{ __html: data.paraTwo }}
+              />
+              <div
+                className={styles.para}
+                dangerouslySetInnerHTML={{ __html: data.paraThree }}
+              />
 
-            <div className={styles.stylesBlock}>
-              <h4 className={styles.stylesTitle}>Multi-Style Yoga Courses</h4>
-
-              <div className={styles.stylesGrid}>
-                {data.yogaStyles?.map((style, i) => (
-                  <span key={i} className={styles.styleChip}>
-                    {style}
+              <div className={styles.accreditations}>
+                {data.accreditations?.map((a, i) => (
+                  <span key={i} className={styles.accBadge}>
+                    {a}
                   </span>
                 ))}
               </div>
             </div>
 
+            {/* RIGHT */}
+            <div className={styles.bodyRight}>
+              <blockquote className={styles.quote}>
+                <span className={styles.quoteMarks}>"</span>
+                <span dangerouslySetInnerHTML={{ __html: data.quoteText }} />
+                <span className={styles.quoteMarks}>"</span>
+              </blockquote>
+
+              <div
+                className={styles.para}
+                dangerouslySetInnerHTML={{ __html: data.paraRight }}
+              />
+
+              <div className={styles.stylesBlock}>
+                <h4 className={styles.stylesTitle}>Multi-Style Yoga Courses</h4>
+
+                <div className={styles.stylesGrid}>
+                  {data.yogaStyles?.map((style, i) => (
+                    <span key={i} className={styles.styleChip}>
+                      {style}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div
+                className={styles.paraSmall}
+                dangerouslySetInnerHTML={{ __html: data.paraSmall }}
+              />
+            </div>
+          </div>
+
+          {/* CTA */}
+          <div className={styles.ctaRow}>
             <div
-              className={styles.paraSmall}
-              dangerouslySetInnerHTML={{ __html: data.paraSmall }}
+              className={styles.ctaText}
+              dangerouslySetInnerHTML={{ __html: data.ctaText }}
             />
+
+            <Link href={data.ctaLink} className={styles.ctaBtn}>
+              Explore All Courses
+              <span className={styles.ctaArrow}>→</span>
+            </Link>
           </div>
         </div>
-
-        {/* CTA */}
-        <div className={styles.ctaRow}>
-          <div
-            className={styles.ctaText}
-            dangerouslySetInnerHTML={{ __html: data.ctaText }}
-          />
-
-          <Link href={data.ctaLink} className={styles.ctaBtn}>
-            Explore All Courses
-            <span className={styles.ctaArrow}>→</span>
-          </Link>
-        </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 };
 

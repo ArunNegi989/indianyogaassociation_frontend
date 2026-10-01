@@ -1,6 +1,7 @@
 /* ── Section shell ── */
 .section {
   position: relative;
+  background-color: #fff9ed; /* image aane se pehle fallback */
   background-image: url("../../images/backgroundimage/1905x1150.webp");
   background-size: cover;
   background-position: center bottom;
@@ -556,11 +557,7 @@
   }
 }
 
-@media (max-width: 861px) {
-  .section {
-    background-image: url("../../images/backgroundimage/861x1236.webp");
-  }
-}
+
 
 @media (max-width: 768px) {
   .section {

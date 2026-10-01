@@ -3,6 +3,9 @@ import type { NextConfig } from "next";
 const isDev = process.env.NODE_ENV === "development";
 
 const nextConfig: NextConfig = {
+  experimental: {
+    inlineCss: true, // render-blocking CSS hatata hai
+  },
   images: {
     // Sirf dev mein localhost:5000 se image optimize karne ke liye
     dangerouslyAllowLocalIP: isDev,
