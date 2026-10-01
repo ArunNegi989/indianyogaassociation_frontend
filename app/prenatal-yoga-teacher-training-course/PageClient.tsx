@@ -14,14 +14,12 @@ import Image from "next/image";
 function processYouTubeUrl(url: string): string {
   if (!url) return "";
 
-
-  const isYouTube = url.includes("youtube.com/embed/") || url.includes("youtu.be/");
+  const isYouTube =
+    url.includes("youtube.com/embed/") || url.includes("youtu.be/");
 
   if (!isYouTube) return url;
 
-
   const baseUrl = url.split("?")[0];
-
 
   const videoIdMatch = baseUrl.match(/\/(embed\/|)([a-zA-Z0-9_-]{11})/);
   const videoId = videoIdMatch ? videoIdMatch[2] : null;
@@ -45,14 +43,12 @@ function processYouTubeUrl(url: string): string {
 function getYouTubeEmbedWithAutoplay(url: string): string {
   if (!url) return "";
 
-
-  const isYouTube = url.includes("youtube.com/embed/") || url.includes("youtu.be/");
+  const isYouTube =
+    url.includes("youtube.com/embed/") || url.includes("youtu.be/");
 
   if (!isYouTube) return url;
 
-
   let baseUrl = url.split("?")[0];
-
 
   const videoId = extractYouTubeId(url);
   const params = new URLSearchParams();
@@ -64,7 +60,6 @@ function getYouTubeEmbedWithAutoplay(url: string): string {
   params.set("modestbranding", "1");
   params.set("rel", "0");
 
-
   if (videoId) {
     params.set("playlist", videoId);
   }
@@ -72,13 +67,11 @@ function getYouTubeEmbedWithAutoplay(url: string): string {
   return `${baseUrl}?${params.toString()}`;
 }
 
-
 function extractYouTubeId(url: string): string | null {
   const regex = /(?:youtube\.com\/embed\/|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
   const match = url.match(regex);
   return match ? match[1] : null;
 }
-
 
 interface Batch {
   _id: string;
@@ -136,14 +129,10 @@ interface PageData {
   heroImage: string;
   heroImgAlt: string;
 
-
   onlineVideoUrl: string;
   onlineVideoType: "local" | "url" | "none";
 
-
-
   featuresVideoType: "local" | "url" | "none";
-
 
   onlineHeaderSubtitle?: string;
   onlineHighlightsTitle?: string;
@@ -522,7 +511,8 @@ function PremiumSeatBooking({
     batch: Batch | null,
     overrideUsd?: number,
   ): { amount: string; cur: string } => {
-    if (!batch && overrideUsd === undefined) return { amount: "—", cur: currency };
+    if (!batch && overrideUsd === undefined)
+      return { amount: "—", cur: currency };
 
     if (currency === "INR") {
       // Use stored INR price directly - NO CONVERSION
@@ -547,14 +537,17 @@ function PremiumSeatBooking({
   /**
    * Get room price based on currency using stored values - NO CONVERSION
    */
-  const getRoomPrice = (batch: Batch | null, roomType: 'dorm' | 'twin' | 'private') => {
+  const getRoomPrice = (
+    batch: Batch | null,
+    roomType: "dorm" | "twin" | "private",
+  ) => {
     if (!batch) return "—";
 
     if (currency === "INR") {
       // Use stored INR price directly - NO CONVERSION
       let inrPrice: number | undefined;
-      if (roomType === 'dorm') inrPrice = batch.inrDormPrice;
-      else if (roomType === 'twin') inrPrice = batch.inrTwinPrice;
+      if (roomType === "dorm") inrPrice = batch.inrDormPrice;
+      else if (roomType === "twin") inrPrice = batch.inrTwinPrice;
       else inrPrice = batch.inrPrivatePrice;
 
       if (inrPrice && inrPrice > 0) {
@@ -564,9 +557,12 @@ function PremiumSeatBooking({
     }
 
     // USD
-    const usdPrice = roomType === 'dorm' ? batch.dormPrice :
-      roomType === 'twin' ? batch.twinPrice :
-        batch.privatePrice;
+    const usdPrice =
+      roomType === "dorm"
+        ? batch.dormPrice
+        : roomType === "twin"
+          ? batch.twinPrice
+          : batch.privatePrice;
     return `$${usdPrice}`;
   };
 
@@ -789,7 +785,7 @@ function PremiumSeatBooking({
               {/* Private Room */}
               <div className={styles.psbPriceCard}>
                 <div className={styles.psbPcAmt}>
-                  {selected ? getRoomPrice(selected, 'private') : "—"}
+                  {selected ? getRoomPrice(selected, "private") : "—"}
                   <span className={styles.psbPcCur}>{currency}</span>
                 </div>
                 <div className={styles.psbPcLbl}>Private Room</div>
@@ -797,7 +793,7 @@ function PremiumSeatBooking({
               {/* Twin Room */}
               <div className={styles.psbPriceCard}>
                 <div className={styles.psbPcAmt}>
-                  {selected ? getRoomPrice(selected, 'twin') : "—"}
+                  {selected ? getRoomPrice(selected, "twin") : "—"}
                   <span className={styles.psbPcCur}>{currency}</span>
                 </div>
                 <div className={styles.psbPcLbl}>Twin / Shared</div>
@@ -808,7 +804,7 @@ function PremiumSeatBooking({
             <div className={styles.psbPriceWide}>
               <div className={styles.psbPwLeft}>
                 <span className={styles.psbPcAmt} style={{ fontSize: "1rem" }}>
-                  {selected ? getRoomPrice(selected, 'dorm') : "—"}
+                  {selected ? getRoomPrice(selected, "dorm") : "—"}
                 </span>
                 <span className={styles.psbPcCur}>{currency}</span>
               </div>
@@ -832,8 +828,11 @@ function PremiumSeatBooking({
                 <span className={styles.psbInrAmt}>
                   {(() => {
                     if (selected.inrFee) {
-                      const num = parseFloat(selected.inrFee.replace(/[₹,]/g, "").trim());
-                      if (!isNaN(num) && num > 0) return `₹${num.toLocaleString("en-IN")}`;
+                      const num = parseFloat(
+                        selected.inrFee.replace(/[₹,]/g, "").trim(),
+                      );
+                      if (!isNaN(num) && num > 0)
+                        return `₹${num.toLocaleString("en-IN")}`;
                     }
                     return "—";
                   })()}
@@ -851,8 +850,8 @@ function PremiumSeatBooking({
                   const pct = full
                     ? 100
                     : Math.round(
-                      (selected.bookedSeats / selected.totalSeats) * 100,
-                    );
+                        (selected.bookedSeats / selected.totalSeats) * 100,
+                      );
                   return (
                     <>
                       <div className={styles.psbRpSeatsRow}>
@@ -953,7 +952,14 @@ function PremiumSeatBooking({
    COURSE INFO CARD
 ═══════════════════════════════════════════ */
 const DurationIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.8"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
     <circle cx="12" cy="12" r="9" />
     <path d="M12 7v5l3 3" />
   </svg>
@@ -1006,30 +1012,47 @@ const DateIcon = () => (
 function CourseInfoCard({ data }: { data: PageData }) {
   const getIconForLabel = (label: string) => {
     switch (label.toLowerCase()) {
-      case "duration": return <DurationIcon />;
-      case "level": return <LevelIcon />;
-      case "certification": return <CertIcon />;
-      case "style": return <StyleIcon />;
-      case "yoga style": return <StyleIcon />;
-      case "language": return <LangIcon />;
-      case "date": return <DateIcon />;
-      default: return <DurationIcon />;
+      case "duration":
+        return <DurationIcon />;
+      case "level":
+        return <LevelIcon />;
+      case "certification":
+        return <CertIcon />;
+      case "style":
+        return <StyleIcon />;
+      case "yoga style":
+        return <StyleIcon />;
+      case "language":
+        return <LangIcon />;
+      case "date":
+        return <DateIcon />;
+      default:
+        return <DurationIcon />;
     }
   };
 
-  const details = (data.courseInfoDetails || [
-    { label: "DURATION", value: "24 Days", sub: "" },
-    { label: "LEVEL", value: "Beginner to Advanced", sub: "" },
-    { label: "CERTIFICATION", value: "85 Hour", sub: "" },
-    { label: "STYLE", value: "Prenatal Yoga", sub: "Hatha & Kundalini Based" },
-    { label: "LANGUAGE", value: "English & Hindi", sub: "" },
-    { label: "DATE", value: "Check batches below", sub: "" },
-  ]).map((detail) => ({
+  const details = (
+    data.courseInfoDetails || [
+      { label: "DURATION", value: "24 Days", sub: "" },
+      { label: "LEVEL", value: "Beginner to Advanced", sub: "" },
+      { label: "CERTIFICATION", value: "85 Hour", sub: "" },
+      {
+        label: "STYLE",
+        value: "Prenatal Yoga",
+        sub: "Hatha & Kundalini Based",
+      },
+      { label: "LANGUAGE", value: "English & Hindi", sub: "" },
+      { label: "DATE", value: "Check batches below", sub: "" },
+    ]
+  ).map((detail) => ({
     ...detail,
     icon: getIconForLabel(detail.label),
   }));
 
-  const displayPrice = (currency: string = "USD", isOriginal: boolean = false) => {
+  const displayPrice = (
+    currency: string = "USD",
+    isOriginal: boolean = false,
+  ) => {
     if (isOriginal) {
       if (currency === "USD") {
         return `$${data.courseInfoOriginalUsdPrice || 799}`;
@@ -1047,7 +1070,9 @@ function CourseInfoCard({ data }: { data: PageData }) {
       <div className={styles.icCard}>
         <div className={styles.icLeft}>
           <div className={styles.icHdr}>
-            <span className={styles.icHdrTxt}>{data.courseInfoCardTitle || "COURSE DETAILS"}</span>
+            <span className={styles.icHdrTxt}>
+              {data.courseInfoCardTitle || "COURSE DETAILS"}
+            </span>
           </div>
           <div className={styles.icGrid}>
             {details.map((d, i) => (
@@ -1065,18 +1090,32 @@ function CourseInfoCard({ data }: { data: PageData }) {
         <div className={styles.icVDiv} />
         <div className={styles.icRight}>
           <div className={styles.icFeeTop}>
-            <span className={styles.icFeeLbl}>{data.courseInfoFeeLabel || "COURSE FEE"}</span>
-            <span className={styles.icFeeFrom}>{data.courseInfoFeeFromText || "starting from"}</span>
+            <span className={styles.icFeeLbl}>
+              {data.courseInfoFeeLabel || "COURSE FEE"}
+            </span>
+            <span className={styles.icFeeFrom}>
+              {data.courseInfoFeeFromText || "starting from"}
+            </span>
           </div>
           <div className={styles.icPriceRow}>
-            <span className={styles.icPriceOld}>{displayPrice("USD", true)}</span>
-            <span className={styles.icPriceNew}>{displayPrice("USD", false)}</span>
+            <span className={styles.icPriceOld}>
+              {displayPrice("USD", true)}
+            </span>
+            <span className={styles.icPriceNew}>
+              {displayPrice("USD", false)}
+            </span>
             <span className={styles.icPriceCur}>USD</span>
           </div>
           <Link href="/yoga-registration" className={styles.icBookBtn}>
             {data.courseInfoBookBtnText || "BOOK NOW"}
             <svg viewBox="0 0 20 20" fill="none" className={styles.icBtnArrow}>
-              <path d="M4 10h12M11 5l5 5-5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              <path
+                d="M4 10h12M11 5l5 5-5 5"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
             </svg>
           </Link>
         </div>
@@ -1100,7 +1139,7 @@ function useCurrencyRate() {
         const inr = data?.usd?.inr;
         if (inr && typeof inr === "number") setRate(inr);
       })
-      .catch(() => { })
+      .catch(() => {})
       .finally(() => setLoading(false));
   }, []);
 
@@ -1210,7 +1249,10 @@ export default function PregnancyYogaTTC() {
       {/* ══════════════════════════════════════
           SECTION 1 — INTRO + HERO GRID IMAGES
       ══════════════════════════════════════ */}
-      <section id="intro" className={`${styles.section} ${styles.sectionLight}`}>
+      <section
+        id="intro"
+        className={`${styles.section} ${styles.sectionLight}`}
+      >
         <div className={`container px-3 px-md-4 ${styles.maxx}`}>
           {/* Page Title */}
           {pageData.pageTitleH1 && (
@@ -1297,7 +1339,10 @@ export default function PregnancyYogaTTC() {
       {/* ══════════════════════════════════════
           SECTION 2 — FEATURES + LOCATION + SCHEDULE
       ══════════════════════════════════════ */}
-      <section id="features" className={`${styles.section} ${styles.sectionWarm}`}>
+      <section
+        id="features"
+        className={`${styles.section} ${styles.sectionWarm}`}
+      >
         <div className={`container px-3 px-md-4 ${styles.maxx}`}>
           {/* ── Features Header ── */}
           {pageData.featuresSectionTitle && (
@@ -1344,14 +1389,16 @@ export default function PregnancyYogaTTC() {
 
               {/* Dynamic highlight pills */}
               <div className={styles.s2Pills}>
-                {(pageData.featuresPills || [
-                  "Garbh Sanskar",
-                  "Pranayama",
-                  "Meditation",
-                  "Anatomy",
-                  "Teaching Practice",
-                  "Postnatal Care",
-                ]).map((tag) => (
+                {(
+                  pageData.featuresPills || [
+                    "Garbh Sanskar",
+                    "Pranayama",
+                    "Meditation",
+                    "Anatomy",
+                    "Teaching Practice",
+                    "Postnatal Care",
+                  ]
+                ).map((tag) => (
                   <span key={tag} className={styles.s2Pill}>
                     {tag}
                   </span>
@@ -1359,10 +1406,10 @@ export default function PregnancyYogaTTC() {
               </div>
             </div>
 
-
             <div className={styles.s2MediaPanel}>
               <div className={styles.s2VideoWrap}>
-                {pageData.featuresVideoType === "local" && pageData.featuresVideoFile ? (
+                {pageData.featuresVideoType === "local" &&
+                pageData.featuresVideoFile ? (
                   <video
                     className={styles.s2Video}
                     controls
@@ -1371,10 +1418,14 @@ export default function PregnancyYogaTTC() {
                     muted
                     playsInline
                   >
-                    <source src={imgSrc(pageData.featuresVideoFile)} type="video/mp4" />
+                    <source
+                      src={imgSrc(pageData.featuresVideoFile)}
+                      type="video/mp4"
+                    />
                     Your browser does not support the video tag.
                   </video>
-                ) : pageData.featuresVideoType === "url" && pageData.featuresVideoUrl ? (
+                ) : pageData.featuresVideoType === "url" &&
+                  pageData.featuresVideoUrl ? (
                   <iframe
                     className={styles.s2Video}
                     src={getYouTubeEmbedWithAutoplay(pageData.featuresVideoUrl)}
@@ -1396,15 +1447,20 @@ export default function PregnancyYogaTTC() {
               </div>
               <div className={styles.s2MediaLabel}>
                 <span className={styles.s2MediaIcon}>▶</span>
-                <span>{pageData.featuresVideoLabel || "Watch Our Prenatal Yoga Sessions"}</span>
+                <span>
+                  {pageData.featuresVideoLabel ||
+                    "Watch Our Prenatal Yoga Sessions"}
+                </span>
               </div>
               {/* Dynamic stat badges */}
               <div className={styles.s2Stats}>
-                {(pageData.featuresStats || [
-                  { num: "85+", label: "Hours Training" },
-                  { num: "500+", label: "Graduates" },
-                  { num: "15+", label: "Years Experience" }
-                ]).map((stat, idx) => (
+                {(
+                  pageData.featuresStats || [
+                    { num: "85+", label: "Hours Training" },
+                    { num: "500+", label: "Graduates" },
+                    { num: "15+", label: "Years Experience" },
+                  ]
+                ).map((stat, idx) => (
                   <React.Fragment key={idx}>
                     <div className={styles.s2Stat}>
                       <span className={styles.s2StatNum}>{stat.num}</span>
@@ -1444,12 +1500,14 @@ export default function PregnancyYogaTTC() {
 
               {/* ── Dynamic location badges ── */}
               <div className={styles.s2LocBadges}>
-                {(pageData.locationBadges || [
-                  "📍 Tapovan, Rishikesh",
-                  "🏔️ Himalayan Foothills",
-                  "🌊 12 min to Laxman Jhula",
-                  "🧘 Peaceful Ashram Setting"
-                ]).map((badge, idx) => (
+                {(
+                  pageData.locationBadges || [
+                    "📍 Tapovan, Rishikesh",
+                    "🏔️ Himalayan Foothills",
+                    "🌊 12 min to Laxman Jhula",
+                    "🧘 Peaceful Ashram Setting",
+                  ]
+                ).map((badge, idx) => (
                   <span key={idx} className={styles.s2LocBadge}>
                     {badge}
                   </span>
@@ -1500,14 +1558,20 @@ export default function PregnancyYogaTTC() {
                   <div className={styles.s2MapWrap}>
                     <iframe
                       className={styles.s2Map}
-                      src={pageData.locationMapEmbedUrl || "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3457.123!2d78.3219!3d30.1087!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39093f2b6eab7a0f%3A0x1b2c3d4e5f6a7b8c!2sTapovan%2C%20Rishikesh!5e0!3m2!1sen!2sin!4v1234567890"}
+                      src={
+                        pageData.locationMapEmbedUrl ||
+                        "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3457.123!2d78.3219!3d30.1087!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39093f2b6eab7a0f%3A0x1b2c3d4e5f6a7b8c!2sTapovan%2C%20Rishikesh!5e0!3m2!1sen!2sin!4v1234567890"
+                      }
                       allowFullScreen
                       loading="lazy"
                       referrerPolicy="no-referrer-when-downgrade"
                       title="AYM Yoga Ashram Location"
                     />
                     <div className={styles.s2MapLabel}>
-                      <span>{pageData.locationMapLabel || "📍 Tapovan, Rishikesh, Uttarakhand"}</span>
+                      <span>
+                        {pageData.locationMapLabel ||
+                          "📍 Tapovan, Rishikesh, Uttarakhand"}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -1516,7 +1580,6 @@ export default function PregnancyYogaTTC() {
           )}
         </div>
       </section>
-
 
       <PremiumSeatBooking
         seats={batches}
@@ -1565,11 +1628,13 @@ export default function PregnancyYogaTTC() {
             </h2>
             <div className={styles.subUnderline} />
             <p className={styles.s3HeaderSubtitle}>
-              {pageData.onlineHeaderSubtitle || "Comprehensive Online Training for Aspiring Prenatal Yoga Teachers"}
+              {pageData.onlineHeaderSubtitle ||
+                "Comprehensive Online Training for Aspiring Prenatal Yoga Teachers"}
             </p>
           </div>
 
-          {(pageData.onlinePara || pageData.onlineExtraParagraphs?.length > 0) && (
+          {(pageData.onlinePara ||
+            pageData.onlineExtraParagraphs?.length > 0) && (
             <div className={styles.s3Intro}>
               {pageData.onlinePara && (
                 <div
@@ -1594,7 +1659,12 @@ export default function PregnancyYogaTTC() {
               <div className={styles.s3CurrWrap}>
                 <div className={styles.s3CurrHeader}>
                   <div className={styles.s3CurrHeaderIcon}>
-                    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.6">
+                    <svg
+                      viewBox="0 0 20 20"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.6"
+                    >
                       <path d="M4 6h12M4 10h12M4 14h7" />
                     </svg>
                   </div>
@@ -1629,7 +1699,14 @@ export default function PregnancyYogaTTC() {
                 </div>
                 <div className={styles.s3CurrFooter}>
                   <span className={styles.s3CurrFooterIcon}>📖</span>
-                  <span>Total: {pageData.curriculum.reduce((sum, item) => sum + parseInt(item.hours), 0)} Hours</span>
+                  <span>
+                    Total:{" "}
+                    {pageData.curriculum.reduce(
+                      (sum, item) => sum + parseInt(item.hours),
+                      0,
+                    )}{" "}
+                    Hours
+                  </span>
                 </div>
               </div>
             )}
@@ -1638,13 +1715,23 @@ export default function PregnancyYogaTTC() {
             {pageData.hoursSummary?.length > 0 && (
               <div className={styles.s3HoursWrap}>
                 <div className={styles.s3HoursHeader}>
-                  <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.6" className={styles.s3HoursHeaderIcon}>
+                  <svg
+                    viewBox="0 0 20 20"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.6"
+                    className={styles.s3HoursHeaderIcon}
+                  >
                     <circle cx="10" cy="10" r="8" />
                     <path d="M10 6v4l2.5 2.5" />
                   </svg>
                   <span>Hours Summary</span>
                   <div className={styles.s3HoursHeaderBadge}>
-                    {pageData.hoursSummary.reduce((sum, row) => sum + parseInt(row.value), 0)} hrs
+                    {pageData.hoursSummary.reduce(
+                      (sum, row) => sum + parseInt(row.value),
+                      0,
+                    )}{" "}
+                    hrs
                   </div>
                 </div>
                 <div className={styles.s3HoursTable}>
@@ -1657,7 +1744,9 @@ export default function PregnancyYogaTTC() {
                       <div className={styles.s3HoursProgress}>
                         <div
                           className={styles.s3HoursProgressFill}
-                          style={{ width: `${(parseInt(row.value) / 200) * 100}%` }}
+                          style={{
+                            width: `${(parseInt(row.value) / 200) * 100}%`,
+                          }}
                         />
                       </div>
                       <div className={styles.s3HoursValue}>
@@ -1677,18 +1766,34 @@ export default function PregnancyYogaTTC() {
             <div className={styles.s3HighlightsWrap}>
               <div className={styles.s3HighlightsHeader}>
                 <span className={styles.s3HighlightsHeaderIcon}>✨</span>
-                <span>{pageData.onlineHighlightsTitle || "What You Get Online"}</span>
+                <span>
+                  {pageData.onlineHighlightsTitle || "What You Get Online"}
+                </span>
                 <span className={styles.s3HighlightsHeaderIcon}>✨</span>
               </div>
               <div className={styles.s3HighlightsList}>
-                {(pageData.onlineHighlights || [
-                  { icon: "🎥", text: "Recorded video lectures, lifetime access" },
-                  { icon: "📄", text: "Downloadable course materials & PDFs" },
-                  { icon: "🧘", text: "Live Q&A sessions with instructors" },
-                  { icon: "🏆", text: "Internationally recognised certificate" },
-                  { icon: "💬", text: "Private student community access" },
-                  { icon: "🔄", text: "Flexible, self-paced learning schedule" },
-                ]).map((h, i) => (
+                {(
+                  pageData.onlineHighlights || [
+                    {
+                      icon: "🎥",
+                      text: "Recorded video lectures, lifetime access",
+                    },
+                    {
+                      icon: "📄",
+                      text: "Downloadable course materials & PDFs",
+                    },
+                    { icon: "🧘", text: "Live Q&A sessions with instructors" },
+                    {
+                      icon: "🏆",
+                      text: "Internationally recognised certificate",
+                    },
+                    { icon: "💬", text: "Private student community access" },
+                    {
+                      icon: "🔄",
+                      text: "Flexible, self-paced learning schedule",
+                    },
+                  ]
+                ).map((h, i) => (
                   <div key={i} className={styles.s3HighlightItem}>
                     <span className={styles.s3HighlightIcon}>{h.icon}</span>
                     <span className={styles.s3HighlightText}>{h.text}</span>
@@ -1710,13 +1815,20 @@ export default function PregnancyYogaTTC() {
                     muted
                     playsInline
                     preload="metadata"
-                    poster={pageData.onlineVideoPoster ? imgSrc(pageData.onlineVideoPoster) : undefined}
+                    poster={
+                      pageData.onlineVideoPoster
+                        ? imgSrc(pageData.onlineVideoPoster)
+                        : undefined
+                    }
                   >
-                    <source src={imgSrc(pageData.onlineVideoFile)} type="video/mp4" />
+                    <source
+                      src={imgSrc(pageData.onlineVideoFile)}
+                      type="video/mp4"
+                    />
                     Your browser does not support the video tag.
                   </video>
-                ) : pageData.onlineVideoType === "url" && pageData.onlineVideoUrl ? (
-
+                ) : pageData.onlineVideoType === "url" &&
+                  pageData.onlineVideoUrl ? (
                   <iframe
                     className={styles.s3Video}
                     src={processYouTubeUrl(pageData.onlineVideoUrl)}
@@ -1728,7 +1840,11 @@ export default function PregnancyYogaTTC() {
                 ) : (
                   <>
                     <div className={styles.s3VideoPlaceholder}>
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                      >
                         <rect x="2" y="4" width="20" height="16" rx="2" />
                         <path d="M9 8l6 4-6 4V8z" />
                       </svg>
@@ -1747,11 +1863,15 @@ export default function PregnancyYogaTTC() {
                 )}
 
                 {/* Label shown below video when file or URL exists */}
-                {(pageData.onlineVideoFile || pageData.onlineVideoUrl) && pageData.onlineVideoLabel && (
-                  <div className={styles.s3VideoTag} style={{ textAlign: "center", padding: "6px 0" }}>
-                    {pageData.onlineVideoLabel}
-                  </div>
-                )}
+                {(pageData.onlineVideoFile || pageData.onlineVideoUrl) &&
+                  pageData.onlineVideoLabel && (
+                    <div
+                      className={styles.s3VideoTag}
+                      style={{ textAlign: "center", padding: "6px 0" }}
+                    >
+                      {pageData.onlineVideoLabel}
+                    </div>
+                  )}
               </div>
 
               <div className={styles.s3BonusCard}>
@@ -1763,7 +1883,8 @@ export default function PregnancyYogaTTC() {
                     {pageData.onlineBonusTitle || "Bonus Included"}
                   </div>
                   <div className={styles.s3BonusText}>
-                    {pageData.onlineBonusText || "Free access to prenatal yoga community & monthly workshops"}
+                    {pageData.onlineBonusText ||
+                      "Free access to prenatal yoga community & monthly workshops"}
                   </div>
                 </div>
               </div>
@@ -1776,12 +1897,20 @@ export default function PregnancyYogaTTC() {
                 {pageData.onlineCtaLabel || "Ready to begin your journey?"}
               </span>
               <span className={styles.s3CtaSub}>
-                {pageData.onlineCtaSub || "Join our next online batch · Flexible schedule · Globally certified"}
+                {pageData.onlineCtaSub ||
+                  "Join our next online batch · Flexible schedule · Globally certified"}
               </span>
             </div>
-            <Link href={pageData.onlineCtaBtnUrl || "#batch-section"} className={styles.s3CtaBtn}>
+            <Link
+              href={pageData.onlineCtaBtnUrl || "#batch-section"}
+              className={styles.s3CtaBtn}
+            >
               {pageData.onlineCtaBtnText || "Enrol Now"}
-              <svg viewBox="0 0 20 20" fill="none" className={styles.s3CtaBtnArrow}>
+              <svg
+                viewBox="0 0 20 20"
+                fill="none"
+                className={styles.s3CtaBtnArrow}
+              >
                 <path
                   d="M4 10h12M11 5l5 5-5 5"
                   stroke="currentColor"
@@ -1799,9 +1928,11 @@ export default function PregnancyYogaTTC() {
         <PremiumGallerySection type="both" backgroundColor="warm" />
       </section>
 
-
       <section id="reviews">
-        <ReviewSection courseType="prenatal-yoga-teacher-training" RatingsSummaryComponent={<RatingsSummarySection />} />
+        <ReviewSection
+          courseType="prenatal-yoga-teacher-training"
+          RatingsSummaryComponent={<RatingsSummarySection />}
+        />
       </section>
 
       <section id="location">

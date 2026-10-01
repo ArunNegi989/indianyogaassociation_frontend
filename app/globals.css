@@ -1,17 +1,17 @@
 @import "tailwindcss";
 
-/* ============================================
-   ROOT VARIABLES
-   ============================================ */
 :root {
   --background: #ffffff;
   --foreground: #171717;
 
-  /* Font system — Next.js inject karta hai ye variables body className se */
-  --font-display:     var(--font-playfair);    /* Playfair Display → Headings */
-  --font-body:        var(--font-lato);        /* Lato            → Body text */
-  --font-alt:         var(--font-poppins);     /* Poppins         → Alt/secondary */
-  --font-menu:        var(--font-montserrat);  /* Montserrat      → Nav/Menu */
+  --font-display: var(--font-playfair);
+  /* Playfair Display → Headings */
+  --font-body: var(--font-lato);
+  /* Lato            → Body text */
+  --font-alt: var(--font-poppins);
+  /* Poppins         → Alt/secondary */
+  --font-menu: var(--font-montserrat);
+  /* Montserrat      → Nav/Menu */
 }
 
 /* ============================================
@@ -20,8 +20,8 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans:        var(--font-lato);
-  --font-heading:     var(--font-playfair);
+  --font-sans: var(--font-lato);
+  --font-heading: var(--font-playfair);
 }
 
 /* ============================================
@@ -46,34 +46,69 @@ body {
   line-height: 1.7;
 }
 
-/* ============================================
-   HEADINGS — FIXED: ab actual loaded font variable use ho raha hai
-   ============================================ */
-h1, h2, h3, h4, h5, h6 {
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-menu), Arial, sans-serif;
   line-height: 1.6;
   font-weight: 500;
 }
 
-h1 { font-size: clamp(42px, 5vw, 56px);   font-weight: 600; }
-h2 { font-size: clamp(30px, 3.5vw, 36px); font-weight: 500; }
-h3 { font-size: clamp(22px, 2.5vw, 26px); font-weight: 500; }
-h4 { font-size: 20px; font-weight: 500; }
-h5 { font-size: 18px; font-weight: 500; }
-h6 { font-size: 16px; font-weight: 500; }
+h1 {
+  font-size: clamp(42px, 5vw, 56px);
+  font-weight: 600;
+}
+
+h2 {
+  font-size: clamp(30px, 3.5vw, 36px);
+  font-weight: 500;
+}
+
+h3 {
+  font-size: clamp(22px, 2.5vw, 26px);
+  font-weight: 500;
+}
+
+h4 {
+  font-size: 20px;
+  font-weight: 500;
+}
+
+h5 {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+h6 {
+  font-size: 16px;
+  font-weight: 500;
+}
 
 /* ============================================
    BODY TEXT — Lato
    ============================================ */
-p, li, span, a, td, th, label,
-input, textarea, select {
+p,
+li,
+span,
+a,
+td,
+th,
+label,
+input,
+textarea,
+select {
   font-family: var(--font-body), Arial, sans-serif;
   font-size: 17px;
   font-weight: 500;
   line-height: 1.7;
 }
 
-small, .text-small {
+small,
+.text-small {
   font-size: 14px;
   line-height: 1.6;
 }

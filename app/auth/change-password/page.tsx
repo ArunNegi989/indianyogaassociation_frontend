@@ -19,7 +19,10 @@ function getStrength(pw: string): Strength {
   return "medium";
 }
 
-const strengthMeta: Record<Strength, { label: string; width: string; color: string }> = {
+const strengthMeta: Record<
+  Strength,
+  { label: string; width: string; color: string }
+> = {
   empty: { label: "", width: "0%", color: "transparent" },
   weak: { label: "Weak", width: "28%", color: "#e53935" },
   medium: { label: "Medium", width: "62%", color: "#f5b800" },
@@ -95,7 +98,9 @@ export default function ChangePasswordPage() {
         router.push("/auth/login");
       }, 2000);
     } catch (err: any) {
-      setError(err?.response?.data?.message || "Something went wrong. Try again.");
+      setError(
+        err?.response?.data?.message || "Something went wrong. Try again.",
+      );
     } finally {
       setLoading(false);
     }
@@ -123,7 +128,6 @@ export default function ChangePasswordPage() {
 
       {/* ── Main grid ── */}
       <div className={styles.grid}>
-
         {/* ── LEFT: Form card ── */}
         <div className={styles.formCard}>
           <div className={styles.cardAccentTop} />
@@ -135,7 +139,6 @@ export default function ChangePasswordPage() {
           </div>
 
           <form onSubmit={handleSubmit} className={styles.form}>
-
             {/* Current password */}
             <div className={styles.fieldGroup}>
               <label htmlFor="current">Current Password</label>
@@ -147,7 +150,9 @@ export default function ChangePasswordPage() {
                   placeholder="Enter current password"
                   required
                   value={form.currentPassword}
-                  onChange={(e) => handleChange("currentPassword", e.target.value)}
+                  onChange={(e) =>
+                    handleChange("currentPassword", e.target.value)
+                  }
                 />
                 <button
                   type="button"
@@ -222,7 +227,9 @@ export default function ChangePasswordPage() {
                   placeholder="Repeat new password"
                   required
                   value={form.confirmPassword}
-                  onChange={(e) => handleChange("confirmPassword", e.target.value)}
+                  onChange={(e) =>
+                    handleChange("confirmPassword", e.target.value)
+                  }
                 />
                 <button
                   type="button"
@@ -291,11 +298,23 @@ export default function ChangePasswordPage() {
           </div>
           <ul className={styles.tipsList}>
             {[
-              { icon: "🌿", text: "Use at least 8 characters for better security" },
+              {
+                icon: "🌿",
+                text: "Use at least 8 characters for better security",
+              },
               { icon: "🔡", text: "Mix uppercase and lowercase letters" },
-              { icon: "🔢", text: "Include numbers and special characters (!@#$)" },
-              { icon: "🚫", text: "Avoid using your name, email, or common words" },
-              { icon: "🔄", text: "Change your password regularly every 90 days" },
+              {
+                icon: "🔢",
+                text: "Include numbers and special characters (!@#$)",
+              },
+              {
+                icon: "🚫",
+                text: "Avoid using your name, email, or common words",
+              },
+              {
+                icon: "🔄",
+                text: "Change your password regularly every 90 days",
+              },
               { icon: "🔑", text: "Never share your password with anyone" },
             ].map((tip, i) => (
               <li key={i} className={styles.tipItem}>

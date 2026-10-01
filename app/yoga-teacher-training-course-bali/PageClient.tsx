@@ -35,19 +35,16 @@ interface BaliPageData {
   slug: string;
   status: string;
 
-  /* HERO */
   pageTitleH1?: string;
   heroImgAlt?: string;
   heroCaption?: string;
   heroImage?: string;
 
-  /* INTRO */
   introBannerTitle?: string;
   introBannerText?: string;
   introText?: string;
   introParagraphs?: string[];
 
-  /* UNIQUE */
   introSuperLabel?: string;
   introTitle?: string;
   uniquePointsSectionTitle?: string;
@@ -102,24 +99,15 @@ interface BaliPageData {
 /* ─── Helpers ─── */
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "";
 
-/**
- * Resolves an image path to a full URL.
- * Handles:
- *  - already-full URLs (http/https) → return as-is
- *  - DB paths starting with /uploads/ → prepend BASE_URL
- *  - empty / undefined → return ""
- */
 const imgUrl = (path?: string): string => {
   if (!path) return "";
   if (path.startsWith("http://") || path.startsWith("https://")) return path;
   return `${BASE_URL}${path}`;
 };
 
-/** Strips HTML tags to check if real text exists */
 const hasText = (s?: string) =>
   !!s && s.replace(/<[^>]*>/g, "").trim().length > 0;
 
-/** Renders backend HTML safely */
 const Html = ({ html, className }: { html: string; className?: string }) => (
   <div className={className} dangerouslySetInnerHTML={{ __html: html }} />
 );
@@ -159,7 +147,6 @@ export default function BaliYogaPage() {
     return () => clearTimeout(timer);
   }, [loading]);
 
-  /* Derived arrays */
   const uniquePoints: UniquePoint[] = data?.uniquePoints ?? [];
   const courses: Course[] = data?.courses ?? [];
   const highlights: string[] = data?.highlights ?? [];
@@ -196,16 +183,13 @@ export default function BaliYogaPage() {
 
   return (
     <div className={styles.page}>
-      {/* Global mandala watermark */}
       <div className={styles.pageWm} aria-hidden="true">
         <MandalaFull size={800} opacity={0.025} />
       </div>
       <StickySectionNav items={NAV_ITEMS} triggerId="hero" />
 
-      {/* ════════════ HERO ════════════ */}
       <section id="hero" className={styles.heroSection}>
         {heroImageSrc ? (
-          // eslint-disable-next-line @next/next/no-img-element
           <img
             src={heroImageSrc}
             alt={data?.heroImgAlt || "Yoga Students Group Bali"}
@@ -422,13 +406,12 @@ export default function BaliYogaPage() {
                   </div>
                   <div className={styles.courseTag}>{c.tag} Programme</div>
                   <h3 className={styles.courseTitle}>
-                    {/* Use dynamic title if available, else fallback */}
                     {c.title || `${c.hrs}-Hour Yoga Teacher Training in Bali`}
                   </h3>
                   {hasText(c.desc) && (
                     <Html html={c.desc!} className={styles.courseDesc} />
                   )}
-                  {/* Dynamic URL or fallback to #apply */}
+
                   <a href={c.url || "#apply"} className={styles.courseBtn}>
                     Enquire →
                   </a>
@@ -443,61 +426,61 @@ export default function BaliYogaPage() {
       {(highlights.length > 0 ||
         hasText(data?.highlightsPara1) ||
         hasText(data?.highlightsPara2)) && (
-          <section className={styles.section}>
-            <div className={styles.container}>
-              <div className={`${styles.reveal} ${styles.hlGrid}`}>
-                <div className={styles.hlLeft}>
-                  <span className={styles.superLabel}>
-                    {data?.highlightsSuperLabel || "Curriculum"}
-                  </span>
-                  <h2 className={styles.sectionTitle}>
-                    {data?.highlightsSectionTitle || "Highlights of the Courses"}
-                  </h2>
-                  <OmBar align="left" />
-                  {hasText(data?.highlightsPara1) && (
-                    <Html html={data!.highlightsPara1!} className={styles.para} />
-                  )}
-                  {hasText(data?.highlightsPara2) && (
-                    <Html html={data!.highlightsPara2!} className={styles.para} />
-                  )}
-                  {highlights.length > 0 && (
-                    <ul className={styles.hlList}>
-                      {highlights.map((h, i) => (
-                        <li key={i} className={styles.hlItem}>
-                          <span className={styles.hlBullet}>✦</span>
-                          <span>{h}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </div>
+        <section className={styles.section}>
+          <div className={styles.container}>
+            <div className={`${styles.reveal} ${styles.hlGrid}`}>
+              <div className={styles.hlLeft}>
+                <span className={styles.superLabel}>
+                  {data?.highlightsSuperLabel || "Curriculum"}
+                </span>
+                <h2 className={styles.sectionTitle}>
+                  {data?.highlightsSectionTitle || "Highlights of the Courses"}
+                </h2>
+                <OmBar align="left" />
+                {hasText(data?.highlightsPara1) && (
+                  <Html html={data!.highlightsPara1!} className={styles.para} />
+                )}
+                {hasText(data?.highlightsPara2) && (
+                  <Html html={data!.highlightsPara2!} className={styles.para} />
+                )}
+                {highlights.length > 0 && (
+                  <ul className={styles.hlList}>
+                    {highlights.map((h, i) => (
+                      <li key={i} className={styles.hlItem}>
+                        <span className={styles.hlBullet}>✦</span>
+                        <span>{h}</span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
 
-                <div className={styles.hlRight}>
-                  {imgUrl(data?.practiceImage) && (
-                    <div className={styles.hlImageWrap}>
-                      <img
-                        src={imgUrl(data?.practiceImage)}
-                        alt="Yoga practice Bali"
-                      />
-                      <div className={styles.hlImageFrame} />
-                      <div className={styles.hlImageMandala} aria-hidden="true">
-                        <MandalaRing size={160} opacity={0.15} />
-                      </div>
+              <div className={styles.hlRight}>
+                {imgUrl(data?.practiceImage) && (
+                  <div className={styles.hlImageWrap}>
+                    <img
+                      src={imgUrl(data?.practiceImage)}
+                      alt="Yoga practice Bali"
+                    />
+                    <div className={styles.hlImageFrame} />
+                    <div className={styles.hlImageMandala} aria-hidden="true">
+                      <MandalaRing size={160} opacity={0.15} />
                     </div>
-                  )}
-                  {imgUrl(data?.teacherImage) && (
-                    <div className={styles.hlImageWrap2}>
-                      <img
-                        src={imgUrl(data?.teacherImage)}
-                        alt="Yoga teacher Bali"
-                      />
-                    </div>
-                  )}
-                </div>
+                  </div>
+                )}
+                {imgUrl(data?.teacherImage) && (
+                  <div className={styles.hlImageWrap2}>
+                    <img
+                      src={imgUrl(data?.teacherImage)}
+                      alt="Yoga teacher Bali"
+                    />
+                  </div>
+                )}
               </div>
             </div>
-          </section>
-        )}
+          </div>
+        </section>
+      )}
 
       {/* ════════════ WHAT MAKES AYM SPECIAL ════════════ */}
       {aymSpecial.length > 0 && (
@@ -559,7 +542,10 @@ export default function BaliYogaPage() {
       <PremiumGallerySection type="both" backgroundColor="warm" />
 
       <div id="reviews">
-        <ReviewSection courseType="yoga-teacher-training-bali" RatingsSummaryComponent={<RatingsSummarySection />} />
+        <ReviewSection
+          courseType="yoga-teacher-training-bali"
+          RatingsSummaryComponent={<RatingsSummarySection />}
+        />
       </div>
 
       <div id="location">

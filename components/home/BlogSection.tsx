@@ -82,9 +82,7 @@ export const BlogSection: React.FC = () => {
         {/* Header */}
         <div className={styles.header}>
           <p className={styles.superTitle}>Wisdom & Insights</p>
-          <h2 className={styles.mainTitle}>
-            Latest Blog Posts &amp; Articles
-          </h2>
+          <h2 className={styles.mainTitle}>Latest Blog Posts &amp; Articles</h2>
           <div className={styles.omDivider}>
             <span className={styles.dividerLine} />
             <span className={styles.omSymbol}>ॐ</span>
@@ -97,7 +95,10 @@ export const BlogSection: React.FC = () => {
           {blogs.map((blog) => (
             <article key={blog._id} className={styles.blogCard}>
               {/* Image Container */}
-              <div className={styles.imageContainer} style={{ position: "relative" }}>
+              <div
+                className={styles.imageContainer}
+                style={{ position: "relative" }}
+              >
                 <Image
                   src={getImageUrl(blog.coverImage)}
                   alt={blog.title}

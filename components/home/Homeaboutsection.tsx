@@ -42,7 +42,6 @@ export const HomeaboutSection = async () => {
 
   return (
     <>
-      {/* LCP fix: CSS background image ko HTML se preload karo */}
       <link
         rel="preload"
         as="image"

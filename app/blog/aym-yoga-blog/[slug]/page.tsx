@@ -30,10 +30,10 @@ function normalise(raw: any) {
     excerpt: raw.excerpt ?? "",
     date: raw.date
       ? new Date(raw.date).toLocaleDateString("en-GB", {
-        day: "2-digit",
-        month: "long",
-        year: "numeric",
-      })
+          day: "2-digit",
+          month: "long",
+          year: "numeric",
+        })
       : "",
     author: raw.author || undefined,
     category: raw.category ?? "",
@@ -92,16 +92,18 @@ export async function generateMetadata({ params }: PageProps) {
         description: blog.ogDescription || metaDescription,
         images: ogImage
           ? [
-            {
-              url: ogImage,
-              width: 1200,
-              height: 630,
-              alt: blog.ogTitle || metaTitle,
-            },
-          ]
+              {
+                url: ogImage,
+                width: 1200,
+                height: 630,
+                alt: blog.ogTitle || metaTitle,
+              },
+            ]
           : undefined,
         type: "article",
-        publishedTime: blog.date ? new Date(blog.date).toISOString() : undefined,
+        publishedTime: blog.date
+          ? new Date(blog.date).toISOString()
+          : undefined,
         modifiedTime: blog.updatedAt
           ? new Date(blog.updatedAt).toISOString()
           : undefined,
@@ -171,7 +173,7 @@ export default async function SingleBlogPage({ params }: PageProps) {
     allBlogs = (data.data ?? [])
       .filter((b: any) => b.status === "Published")
       .map(normalise);
-  } catch { }
+  } catch {}
 
   const relatedPosts = allBlogs
     .filter((b) => b.category === blog.category && b.id !== blog.id)

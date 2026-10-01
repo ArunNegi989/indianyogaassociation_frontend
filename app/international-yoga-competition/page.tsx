@@ -6,9 +6,10 @@ export const metadata: Metadata = {
   description:
     "AYM yoga school organizing 7th International Online yoga championship The online yoga competition offers a platform for yoga practitioners worldwide to demonstrate their mastery of yoga poses, flows, and techniques via virtual submissions.",
 
-    alternates: {
-      canonical: "https://www.indianyogaassociation.com/international-yoga-competition.html",
-    },
+  alternates: {
+    canonical:
+      "https://www.indianyogaassociation.com/international-yoga-competition.html",
+  },
 };
 
 export default function Page() {

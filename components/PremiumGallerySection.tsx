@@ -54,16 +54,36 @@ function PremiumImageModal({
 
   return (
     <div className={styles.premiumModalOverlay} onClick={onClose}>
-      <div className={styles.premiumModalContainer} onClick={(e) => e.stopPropagation()}>
+      <div
+        className={styles.premiumModalContainer}
+        onClick={(e) => e.stopPropagation()}
+      >
         <button className={styles.premiumModalClose} onClick={onClose}>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+          >
             <path d="M18 6L6 18M6 6l12 12" strokeLinecap="round" />
           </svg>
         </button>
 
-        <button className={`${styles.premiumModalNav} ${styles.premiumModalNavPrev}`} onClick={onPrev}>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M15 18l-6-6 6-6" strokeLinecap="round" strokeLinejoin="round" />
+        <button
+          className={`${styles.premiumModalNav} ${styles.premiumModalNavPrev}`}
+          onClick={onPrev}
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+          >
+            <path
+              d="M15 18l-6-6 6-6"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
           </svg>
         </button>
 
@@ -86,9 +106,21 @@ function PremiumImageModal({
           </div>
         </div>
 
-        <button className={`${styles.premiumModalNav} ${styles.premiumModalNavNext}`} onClick={onNext}>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M9 18l6-6-6-6" strokeLinecap="round" strokeLinejoin="round" />
+        <button
+          className={`${styles.premiumModalNav} ${styles.premiumModalNavNext}`}
+          onClick={onNext}
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+          >
+            <path
+              d="M9 18l6-6-6-6"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
           </svg>
         </button>
 
@@ -96,8 +128,9 @@ function PremiumImageModal({
           {images.slice(0, 8).map((img, idx) => (
             <div
               key={idx}
-              className={`${styles.premiumModalThumb} ${idx === currentIndex ? styles.premiumModalThumbActive : ""
-                }`}
+              className={`${styles.premiumModalThumb} ${
+                idx === currentIndex ? styles.premiumModalThumbActive : ""
+              }`}
               onClick={() => {
                 const newIndex = idx;
                 if (newIndex < currentIndex) {
@@ -119,7 +152,13 @@ function PremiumImageModal({
 /* ─────────────────────────────────────────
    PREMIUM MASONRY GRID
 ───────────────────────────────────────── */
-function PremiumMasonryGrid({ images, title }: { images: string[]; title: string }) {
+function PremiumMasonryGrid({
+  images,
+  title,
+}: {
+  images: string[];
+  title: string;
+}) {
   const [modalOpen, setModalOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -173,15 +212,27 @@ function PremiumMasonryGrid({ images, title }: { images: string[]; title: string
           {masonryItems.map((item, idx) => (
             <div
               key={idx}
-              className={`${styles.masonryItem} ${styles[`masonry${item.size.charAt(0).toUpperCase() + item.size.slice(1)}`]
-                }`}
+              className={`${styles.masonryItem} ${
+                styles[
+                  `masonry${item.size.charAt(0).toUpperCase() + item.size.slice(1)}`
+                ]
+              }`}
               onClick={() => openModal(idx)}
             >
               <div className={styles.masonryInner}>
-                <Image src={imgSrc(item.src)} alt={`${title} ${idx + 1}`} loading="lazy" />
+                <Image
+                  src={imgSrc(item.src)}
+                  alt={`${title} ${idx + 1}`}
+                  loading="lazy"
+                />
                 <div className={styles.masonryOverlay}>
                   <div className={styles.masonryIcon}>
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                    >
                       <circle cx="11" cy="11" r="7" />
                       <path d="M21 21l-4.35-4.35" />
                     </svg>
@@ -196,7 +247,9 @@ function PremiumMasonryGrid({ images, title }: { images: string[]; title: string
         {images.length > 12 && (
           <div className={styles.masonryMore} onClick={() => openModal(12)}>
             <div className={styles.masonryMoreInner}>
-              <span className={styles.masonryMoreCount}>+{images.length - 12}</span>
+              <span className={styles.masonryMoreCount}>
+                +{images.length - 12}
+              </span>
               <span className={styles.masonryMoreText}>More Photos</span>
             </div>
           </div>
@@ -287,10 +340,14 @@ export default function PremiumGallerySection({
     return (
       <>
         {accomImages.length > 0 && (
-          <section className={`${styles.premiumGallerySection} ${bgClass} ${className}`}>
+          <section
+            className={`${styles.premiumGallerySection} ${bgClass} ${className}`}
+          >
             <div className="container px-3 px-md-4">
               <div className={styles.premiumGalleryHeader}>
-                <span className={styles.premiumGalleryBadge}>Peaceful Stay</span>
+                <span className={styles.premiumGalleryBadge}>
+                  Peaceful Stay
+                </span>
                 <h2 className={styles.premiumGalleryTitle}>Accommodation</h2>
                 <div className={styles.premiumGalleryUnderline}>
                   <span className={styles.premiumGalleryUnderlineLeft}></span>
@@ -298,7 +355,8 @@ export default function PremiumGallerySection({
                   <span className={styles.premiumGalleryUnderlineRight}></span>
                 </div>
                 <p className={styles.premiumGallerySubtext}>
-                  Comfortable and serene living spaces designed for your spiritual journey
+                  Comfortable and serene living spaces designed for your
+                  spiritual journey
                 </p>
               </div>
               <PremiumMasonryGrid images={accomImages} title="Accommodation" />
@@ -307,10 +365,14 @@ export default function PremiumGallerySection({
         )}
 
         {foodImages.length > 0 && (
-          <section className={`${styles.premiumGallerySection} ${bgClass} ${className}`}>
+          <section
+            className={`${styles.premiumGallerySection} ${bgClass} ${className}`}
+          >
             <div className="container px-3 px-md-4">
               <div className={styles.premiumGalleryHeader}>
-                <span className={styles.premiumGalleryBadge}>Nourishing Meals</span>
+                <span className={styles.premiumGalleryBadge}>
+                  Nourishing Meals
+                </span>
                 <h2 className={styles.premiumGalleryTitle}>Sattvic Food</h2>
                 <div className={styles.premiumGalleryUnderline}>
                   <span className={styles.premiumGalleryUnderlineLeft}></span>
@@ -318,7 +380,8 @@ export default function PremiumGallerySection({
                   <span className={styles.premiumGalleryUnderlineRight}></span>
                 </div>
                 <p className={styles.premiumGallerySubtext}>
-                  Wholesome vegetarian meals prepared with love and ancient Ayurvedic wisdom
+                  Wholesome vegetarian meals prepared with love and ancient
+                  Ayurvedic wisdom
                 </p>
               </div>
               <PremiumMasonryGrid images={foodImages} title="Food" />
@@ -335,19 +398,23 @@ export default function PremiumGallerySection({
     accommodation: {
       badge: "Peaceful Stay",
       title: "Accommodation",
-      subtitle: "Comfortable and serene living spaces designed for your spiritual journey",
+      subtitle:
+        "Comfortable and serene living spaces designed for your spiritual journey",
     },
     food: {
       badge: "Nourishing Meals",
       title: "Sattvic Food",
-      subtitle: "Wholesome vegetarian meals prepared with love and ancient Ayurvedic wisdom",
+      subtitle:
+        "Wholesome vegetarian meals prepared with love and ancient Ayurvedic wisdom",
     },
   }[type];
 
   if (images.length === 0) return null;
 
   return (
-    <section className={`${styles.premiumGallerySection} ${bgClass} ${className}`}>
+    <section
+      className={`${styles.premiumGallerySection} ${bgClass} ${className}`}
+    >
       <div className="container px-3 px-md-4">
         <div className={styles.premiumGalleryHeader}>
           <span className={styles.premiumGalleryBadge}>{config.badge}</span>

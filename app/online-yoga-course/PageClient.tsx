@@ -154,17 +154,22 @@ const shortDateRange = (start: string, end: string) => {
 };
 
 const monthYear = (start: string) =>
-  new Date(start).toLocaleDateString("en-IN", { month: "short", year: "numeric" });
+  new Date(start).toLocaleDateString("en-IN", {
+    month: "short",
+    year: "numeric",
+  });
 
 function useCurrencyRate() {
   const [rate, setRate] = useState<number>(83);
   useEffect(() => {
     fetch(
-      "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.json"
+      "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.json",
     )
       .then((r) => r.json())
-      .then((data) => { if (data?.usd?.inr) setRate(data.usd.inr); })
-      .catch(() => { });
+      .then((data) => {
+        if (data?.usd?.inr) setRate(data.usd.inr);
+      })
+      .catch(() => {});
   }, []);
   return rate;
 }
@@ -184,7 +189,8 @@ function CurrencyDropdown({
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+      if (ref.current && !ref.current.contains(e.target as Node))
+        setOpen(false);
     };
     document.addEventListener("mousedown", handler);
     return () => document.removeEventListener("mousedown", handler);
@@ -204,7 +210,13 @@ function CurrencyDropdown({
           viewBox="0 0 12 8"
           fill="none"
         >
-          <path d="M1 1l5 5 5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+          <path
+            d="M1 1l5 5 5-5"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
         </svg>
       </button>
       {open && (
@@ -213,7 +225,10 @@ function CurrencyDropdown({
             <button
               key={c}
               className={`${styles.sbCurrDropItem} ${currency === c ? styles.sbCurrDropItemActive : ""}`}
-              onClick={() => { onChange(c); setOpen(false); }}
+              onClick={() => {
+                onChange(c);
+                setOpen(false);
+              }}
               type="button"
             >
               <span>{c === "USD" ? "🇺🇸" : "🇮🇳"}</span>
@@ -290,9 +305,15 @@ function OnlineSeatBooking({
   return (
     <section className={styles.sbSection} id="seat-booking">
       <span className={styles.sectionEyebrow}>{eyebrow}</span>
-      <div className={styles.vintageHeadingWrap} style={{ textAlign: "center" }}>
+      <div
+        className={styles.vintageHeadingWrap}
+        style={{ textAlign: "center" }}
+      >
         <h2 className={styles.vintageHeading}>{title}</h2>
-        <div className={styles.headingUnderline} style={{ justifyContent: "center" }}>
+        <div
+          className={styles.headingUnderline}
+          style={{ justifyContent: "center" }}
+        >
           <div className={styles.headingDiamond} />
         </div>
       </div>
@@ -334,9 +355,21 @@ function OnlineSeatBooking({
                 const rem = batch.totalSeats - batch.bookedSeats;
                 const full = rem <= 0;
                 const low = !full && rem <= 3;
-                const dotCls = full ? styles.sbDRed : low ? styles.sbDOrange : styles.sbDGreen;
-                const txtCls = full ? styles.sbSRed : low ? styles.sbSOrange : styles.sbSGreen;
-                const statusTxt = full ? "Fully Booked" : low ? "Limited" : "Available";
+                const dotCls = full
+                  ? styles.sbDRed
+                  : low
+                    ? styles.sbDOrange
+                    : styles.sbDGreen;
+                const txtCls = full
+                  ? styles.sbSRed
+                  : low
+                    ? styles.sbSOrange
+                    : styles.sbSGreen;
+                const statusTxt = full
+                  ? "Fully Booked"
+                  : low
+                    ? "Limited"
+                    : "Available";
                 const isSelected = selectedId === batch._id;
 
                 return (
@@ -346,35 +379,57 @@ function OnlineSeatBooking({
                       styles.sbBc,
                       full ? styles.sbBcFull : "",
                       isSelected ? styles.sbBcSel : "",
-                    ].filter(Boolean).join(" ")}
-                    onClick={() => { if (!full) setSelectedId(batch._id); }}
+                    ]
+                      .filter(Boolean)
+                      .join(" ")}
+                    onClick={() => {
+                      if (!full) setSelectedId(batch._id);
+                    }}
                   >
                     <div className={styles.sbBcTick}>
                       <svg viewBox="0 0 10 10" fill="none">
-                        <polyline points="1.5,5 4,7.5 8.5,2.5" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                        <polyline
+                          points="1.5,5 4,7.5 8.5,2.5"
+                          stroke="white"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
                       </svg>
                     </div>
-                    <div className={styles.sbBcMonth}>{monthYear(batch.startDate)}</div>
-                    <div className={styles.sbBcDates}>{shortDateRange(batch.startDate, batch.endDate)}</div>
+                    <div className={styles.sbBcMonth}>
+                      {monthYear(batch.startDate)}
+                    </div>
+                    <div className={styles.sbBcDates}>
+                      {shortDateRange(batch.startDate, batch.endDate)}
+                    </div>
 
                     <div className={styles.sbBcPrices}>
                       <div className={styles.sbBcPriceRow}>
                         <span className={styles.sbBcCourseLabel}>200 Hr</span>
                         <span className={styles.sbBcPriceAmt}>
-                          {fmtPrice(batch, "200")} <span className={styles.sbBcPriceCur}>{currency}</span>
+                          {fmtPrice(batch, "200")}{" "}
+                          <span className={styles.sbBcPriceCur}>
+                            {currency}
+                          </span>
                         </span>
                       </div>
                       <div className={styles.sbBcPriceRow}>
                         <span className={styles.sbBcCourseLabel}>300 Hr</span>
                         <span className={styles.sbBcPriceAmt}>
-                          {fmtPrice(batch, "300")} <span className={styles.sbBcPriceCur}>{currency}</span>
+                          {fmtPrice(batch, "300")}{" "}
+                          <span className={styles.sbBcPriceCur}>
+                            {currency}
+                          </span>
                         </span>
                       </div>
                     </div>
 
                     <div className={styles.sbBcStatus}>
                       <div className={`${styles.sbBcDot} ${dotCls}`} />
-                      <span className={`${styles.sbBcStxt} ${txtCls}`}>{statusTxt}</span>
+                      <span className={`${styles.sbBcStxt} ${txtCls}`}>
+                        {statusTxt}
+                      </span>
                     </div>
 
                     {!full && (
@@ -408,13 +463,28 @@ function OnlineSeatBooking({
         <div className={styles.sbRightPanel}>
           <div className={styles.sbRpHead}>
             <div className={styles.sbRpEyebrow}>Course Overview</div>
-            <div className={styles.sbRpCourse}>Live Online Yoga Teacher Training</div>
+            <div className={styles.sbRpCourse}>
+              Live Online Yoga Teacher Training
+            </div>
             <div className={styles.sbRpDur}>
               <svg width="11" height="11" viewBox="0 0 16 16" fill="none">
-                <circle cx="8" cy="8" r="7" stroke="rgba(255,243,210,0.8)" strokeWidth="1.2" />
-                <path d="M8 4.5V8.5L10.5 10" stroke="rgba(255,243,210,0.8)" strokeWidth="1.2" strokeLinecap="round" />
+                <circle
+                  cx="8"
+                  cy="8"
+                  r="7"
+                  stroke="rgba(255,243,210,0.8)"
+                  strokeWidth="1.2"
+                />
+                <path
+                  d="M8 4.5V8.5L10.5 10"
+                  stroke="rgba(255,243,210,0.8)"
+                  strokeWidth="1.2"
+                  strokeLinecap="round"
+                />
               </svg>
-              <span className={styles.sbRpDurTxt}>24–28 Days · Online · Rishikesh Tradition</span>
+              <span className={styles.sbRpDurTxt}>
+                24–28 Days · Online · Rishikesh Tradition
+              </span>
             </div>
             <div className={styles.sbCurrBadge}>
               {currency === "USD" ? "🇺🇸 Prices in USD" : "🇮🇳 Prices in INR"}
@@ -442,12 +512,16 @@ function OnlineSeatBooking({
             <div className={styles.sbCourseDetail}>
               <div className={styles.sbCourseDetailRow}>
                 <span className={styles.sbCdLabel}>Duration</span>
-                <span className={styles.sbCdVal}>{courseTab === "200" ? "24 Days" : "28 Days"}</span>
+                <span className={styles.sbCdVal}>
+                  {courseTab === "200" ? "24 Days" : "28 Days"}
+                </span>
               </div>
               <div className={styles.sbCourseDetailRow}>
                 <span className={styles.sbCdLabel}>Style</span>
                 <span className={styles.sbCdVal}>
-                  {courseTab === "200" ? "Hatha + Ashtanga" : "Hatha + Multi-Style"}
+                  {courseTab === "200"
+                    ? "Hatha + Ashtanga"
+                    : "Hatha + Multi-Style"}
                 </span>
               </div>
               <div className={styles.sbCourseDetailRow}>
@@ -462,47 +536,62 @@ function OnlineSeatBooking({
 
             <div className={styles.sbPriceLbl}>Course Fee</div>
             <div className={styles.sbPriceBlock}>
-              <div className={styles.sbPriceAmt}>{selected ? fmtPrice(selected, courseTab) : "—"}</div>
+              <div className={styles.sbPriceAmt}>
+                {selected ? fmtPrice(selected, courseTab) : "—"}
+              </div>
               <div className={styles.sbPriceCur}>{currency}</div>
             </div>
 
             <div className={styles.sbDivider} />
 
-            {selected && (() => {
-              const rem = selected.totalSeats - selected.bookedSeats;
-              const full = rem <= 0;
-              const low = !full && rem <= 3;
-              const pct = full ? 100 : Math.round((selected.bookedSeats / selected.totalSeats) * 100);
-              return (
-                <div className={styles.sbRpSeatsWrap}>
-                  <div className={styles.sbRpSeatsRow}>
-                    <span className={styles.sbRpSeatsLbl}>Seats Availability</span>
-                    <span
-                      className={styles.sbRpSeatsBadge}
-                      style={{
-                        color: full ? "#8a2c00" : low ? "#c8700a" : "#3d6000",
-                        borderColor: full ? "#8a2c00" : low ? "#c8700a" : "#3d6000",
-                      }}
-                    >
-                      {full ? "Fully Booked" : `${rem} of ${selected.totalSeats} left`}
-                    </span>
+            {selected &&
+              (() => {
+                const rem = selected.totalSeats - selected.bookedSeats;
+                const full = rem <= 0;
+                const low = !full && rem <= 3;
+                const pct = full
+                  ? 100
+                  : Math.round(
+                      (selected.bookedSeats / selected.totalSeats) * 100,
+                    );
+                return (
+                  <div className={styles.sbRpSeatsWrap}>
+                    <div className={styles.sbRpSeatsRow}>
+                      <span className={styles.sbRpSeatsLbl}>
+                        Seats Availability
+                      </span>
+                      <span
+                        className={styles.sbRpSeatsBadge}
+                        style={{
+                          color: full ? "#8a2c00" : low ? "#c8700a" : "#3d6000",
+                          borderColor: full
+                            ? "#8a2c00"
+                            : low
+                              ? "#c8700a"
+                              : "#3d6000",
+                        }}
+                      >
+                        {full
+                          ? "Fully Booked"
+                          : `${rem} of ${selected.totalSeats} left`}
+                      </span>
+                    </div>
+                    <div className={styles.sbRpSeatsBar}>
+                      <div
+                        className={styles.sbRpSeatsBarFill}
+                        style={{
+                          width: `${pct}%`,
+                          background: full
+                            ? "#8a2c00"
+                            : low
+                              ? "linear-gradient(90deg,#c8700a,#e09030)"
+                              : "linear-gradient(90deg,#3d6000,#6aa000)",
+                        }}
+                      />
+                    </div>
                   </div>
-                  <div className={styles.sbRpSeatsBar}>
-                    <div
-                      className={styles.sbRpSeatsBarFill}
-                      style={{
-                        width: `${pct}%`,
-                        background: full
-                          ? "#8a2c00"
-                          : low
-                            ? "linear-gradient(90deg,#c8700a,#e09030)"
-                            : "linear-gradient(90deg,#3d6000,#6aa000)",
-                      }}
-                    />
-                  </div>
-                </div>
-              );
-            })()}
+                );
+              })()}
 
             <div className={styles.sbSelDisplay}>
               {selected ? (
@@ -514,19 +603,37 @@ function OnlineSeatBooking({
                   </div>
                 </>
               ) : (
-                <span className={styles.sbSelHint}>← Select a batch to continue</span>
+                <span className={styles.sbSelHint}>
+                  ← Select a batch to continue
+                </span>
               )}
             </div>
 
             {/* ── Apply Now + Book Now — text & link both fully admin-controlled ── */}
             <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
-              <Link href={applyBtnLink || "/registration"} className={styles.btnOutline}>
+              <Link
+                href={applyBtnLink || "/registration"}
+                className={styles.btnOutline}
+              >
                 {applyBtnText || "Apply Now"}
               </Link>
-              <Link href={bookBtnLink || "/registration"} className={styles.sbBookBtn}>
+              <Link
+                href={bookBtnLink || "/registration"}
+                className={styles.sbBookBtn}
+              >
                 {bookBtnText || "Book Now"}
-                <svg className={styles.sbArrowIcon} viewBox="0 0 16 16" fill="none">
-                  <path d="M3 8h10M9 4l4 4-4 4" stroke="#fff3d2" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                <svg
+                  className={styles.sbArrowIcon}
+                  viewBox="0 0 16 16"
+                  fill="none"
+                >
+                  <path
+                    d="M3 8h10M9 4l4 4-4 4"
+                    stroke="#fff3d2"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
                 </svg>
               </Link>
             </div>
@@ -556,9 +663,15 @@ function VintageHeading({
   as?: "h1" | "h2";
 }) {
   return (
-    <div className={styles.vintageHeadingWrap} style={{ textAlign: center ? "center" : "left" }}>
+    <div
+      className={styles.vintageHeadingWrap}
+      style={{ textAlign: center ? "center" : "left" }}
+    >
       <Tag className={styles.vintageHeading}>{children}</Tag>
-      <div className={styles.headingUnderline} style={{ justifyContent: center ? "center" : "flex-start" }}>
+      <div
+        className={styles.headingUnderline}
+        style={{ justifyContent: center ? "center" : "flex-start" }}
+      >
         <div className={styles.headingDiamond} />
       </div>
     </div>
@@ -567,39 +680,103 @@ function VintageHeading({
 
 const CalendarIcon = () => (
   <svg viewBox="0 0 16 16" fill="none">
-    <rect x="1" y="2" width="14" height="13" rx="2" stroke="currentColor" strokeWidth="1.4" />
-    <line x1="5" y1="1" x2="5" y2="4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
-    <line x1="11" y1="1" x2="11" y2="4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
-    <line x1="1" y1="6" x2="15" y2="6" stroke="currentColor" strokeWidth="1.4" />
+    <rect
+      x="1"
+      y="2"
+      width="14"
+      height="13"
+      rx="2"
+      stroke="currentColor"
+      strokeWidth="1.4"
+    />
+    <line
+      x1="5"
+      y1="1"
+      x2="5"
+      y2="4"
+      stroke="currentColor"
+      strokeWidth="1.4"
+      strokeLinecap="round"
+    />
+    <line
+      x1="11"
+      y1="1"
+      x2="11"
+      y2="4"
+      stroke="currentColor"
+      strokeWidth="1.4"
+      strokeLinecap="round"
+    />
+    <line
+      x1="1"
+      y1="6"
+      x2="15"
+      y2="6"
+      stroke="currentColor"
+      strokeWidth="1.4"
+    />
   </svg>
 );
 const UserIcon = () => (
   <svg viewBox="0 0 16 16" fill="none">
     <circle cx="8" cy="5" r="3" stroke="currentColor" strokeWidth="1.4" />
-    <path d="M2 14c0-3.314 2.686-6 6-6s6 2.686 6 6" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+    <path
+      d="M2 14c0-3.314 2.686-6 6-6s6 2.686 6 6"
+      stroke="currentColor"
+      strokeWidth="1.4"
+      strokeLinecap="round"
+    />
   </svg>
 );
 const VideoIcon = () => (
   <svg viewBox="0 0 16 16" fill="none">
-    <rect x="1" y="3" width="14" height="10" rx="1.5" stroke="currentColor" strokeWidth="1.4" />
+    <rect
+      x="1"
+      y="3"
+      width="14"
+      height="10"
+      rx="1.5"
+      stroke="currentColor"
+      strokeWidth="1.4"
+    />
     <circle cx="8" cy="8" r="2" fill="currentColor" opacity="0.6" />
   </svg>
 );
 const StarIcon = () => (
   <svg viewBox="0 0 16 16" fill="none">
-    <path d="M8 1l2 4 4.5.7-3.2 3.1.7 4.5L8 11.2 4 13.3l.7-4.5L1.5 5.7 6 5z" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round" />
+    <path
+      d="M8 1l2 4 4.5.7-3.2 3.1.7 4.5L8 11.2 4 13.3l.7-4.5L1.5 5.7 6 5z"
+      stroke="currentColor"
+      strokeWidth="1.2"
+      strokeLinejoin="round"
+    />
   </svg>
 );
 const DollarIcon = () => (
   <svg viewBox="0 0 16 16" fill="none">
     <circle cx="8" cy="8" r="7" stroke="currentColor" strokeWidth="1.4" />
-    <text x="8" y="12" textAnchor="middle" fontSize="9" fill="currentColor" fontFamily="serif">$</text>
+    <text
+      x="8"
+      y="12"
+      textAnchor="middle"
+      fontSize="9"
+      fill="currentColor"
+      fontFamily="serif"
+    >
+      $
+    </text>
   </svg>
 );
 const CheckIcon = () => (
   <svg viewBox="0 0 16 16" fill="none">
     <circle cx="8" cy="8" r="7" stroke="currentColor" strokeWidth="1.3" />
-    <path d="M5 8l2 2 4-4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+    <path
+      d="M5 8l2 2 4-4"
+      stroke="currentColor"
+      strokeWidth="1.4"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
   </svg>
 );
 
@@ -607,8 +784,17 @@ const CheckIcon = () => (
    COURSE CARD COMPONENT — Apply/Book text & link fully dynamic
 ───────────────────────────────────────────── */
 function CourseCard({
-  title, duration, style, sessions, cert, fee, benefits,
-  applyBtnText, applyBtnLink, bookBtnText, bookBtnLink,
+  title,
+  duration,
+  style,
+  sessions,
+  cert,
+  fee,
+  benefits,
+  applyBtnText,
+  applyBtnLink,
+  bookBtnText,
+  bookBtnLink,
 }: CourseCardData) {
   return (
     <div className={styles.courseCard}>
@@ -620,29 +806,59 @@ function CourseCard({
         <div className={styles.courseCardLeft}>
           <ul className={styles.courseDetailList}>
             <li>
-              <span className={styles.detailIcon}><CalendarIcon /></span>
-              <span><strong>Duration:</strong>&nbsp;{duration}</span>
+              <span className={styles.detailIcon}>
+                <CalendarIcon />
+              </span>
+              <span>
+                <strong>Duration:</strong>&nbsp;{duration}
+              </span>
             </li>
             <li>
-              <span className={styles.detailIcon}><UserIcon /></span>
-              <span><strong>Course Style:</strong>&nbsp;{style}</span>
+              <span className={styles.detailIcon}>
+                <UserIcon />
+              </span>
+              <span>
+                <strong>Course Style:</strong>&nbsp;{style}
+              </span>
             </li>
             <li>
-              <span className={styles.detailIcon}><VideoIcon /></span>
-              <span><strong>Live Interactive Sessions:</strong>&nbsp;{sessions}</span>
+              <span className={styles.detailIcon}>
+                <VideoIcon />
+              </span>
+              <span>
+                <strong>Live Interactive Sessions:</strong>&nbsp;{sessions}
+              </span>
             </li>
             <li>
-              <span className={styles.detailIcon}><StarIcon /></span>
-              <span><strong>Certificate:</strong>&nbsp;{cert}</span>
+              <span className={styles.detailIcon}>
+                <StarIcon />
+              </span>
+              <span>
+                <strong>Certificate:</strong>&nbsp;{cert}
+              </span>
             </li>
             <li>
-              <span className={styles.detailIcon}><DollarIcon /></span>
-              <span><strong>Course Fee:</strong>&nbsp;{fee}</span>
+              <span className={styles.detailIcon}>
+                <DollarIcon />
+              </span>
+              <span>
+                <strong>Course Fee:</strong>&nbsp;{fee}
+              </span>
             </li>
           </ul>
           <div className={styles.courseActions}>
-            <Link href={applyBtnLink || "/registration"} className={styles.btnPrimary}>{applyBtnText || "Apply Now"}</Link>
-            <Link href={bookBtnLink || "/registration"} className={styles.btnOutline}>{bookBtnText || "Book Now"}</Link>
+            <Link
+              href={applyBtnLink || "/registration"}
+              className={styles.btnPrimary}
+            >
+              {applyBtnText || "Apply Now"}
+            </Link>
+            <Link
+              href={bookBtnLink || "/registration"}
+              className={styles.btnOutline}
+            >
+              {bookBtnText || "Book Now"}
+            </Link>
           </div>
         </div>
         <div className={styles.courseCardRight}>
@@ -650,11 +866,18 @@ function CourseCard({
           <ul className={styles.benefitsList}>
             {(benefits || []).map((b, j) => (
               <li key={j} className={styles.benefitsListItem}>
-                <span className={styles.benefitCheck}><CheckIcon /></span>
+                <span className={styles.benefitCheck}>
+                  <CheckIcon />
+                </span>
                 <span>
                   {b.includes(" - ") ? (
-                    <><strong>{b.split(" - ")[0]}</strong>{" — " + b.split(" - ").slice(1).join(" - ")}</>
-                  ) : b}
+                    <>
+                      <strong>{b.split(" - ")[0]}</strong>
+                      {" — " + b.split(" - ").slice(1).join(" - ")}
+                    </>
+                  ) : (
+                    b
+                  )}
                 </span>
               </li>
             ))}
@@ -727,8 +950,18 @@ function buildSchema(section: OnlineCourseSectionData) {
         "@type": "BreadcrumbList",
         "@id": `${pageUrl}#breadcrumb`,
         itemListElement: [
-          { "@type": "ListItem", position: 1, name: "Home", item: `${siteUrl}/` },
-          { "@type": "ListItem", position: 2, name: "Online Yoga Course", item: pageUrl },
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Home",
+            item: `${siteUrl}/`,
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Online Yoga Course",
+            item: pageUrl,
+          },
         ],
       },
       {
@@ -736,7 +969,9 @@ function buildSchema(section: OnlineCourseSectionData) {
         "@id": `${pageUrl}#webpage`,
         url: pageUrl,
         name: section.introTitle,
-        description: (section.introParagraphs?.[0] || "").replace(/<[^>]*>/g, "").slice(0, 300),
+        description: (section.introParagraphs?.[0] || "")
+          .replace(/<[^>]*>/g, "")
+          .slice(0, 300),
         breadcrumb: { "@id": `${pageUrl}#breadcrumb` },
         about: { "@id": `${pageUrl}#course` },
         mainEntity: { "@id": `${pageUrl}#faq` },
@@ -747,7 +982,10 @@ function buildSchema(section: OnlineCourseSectionData) {
         "@type": "Course",
         "@id": `${pageUrl}#course`,
         name: section.introTitle,
-        description: (section.introParagraphs?.[0] || "").replace(/<[^>]*>/g, ""),
+        description: (section.introParagraphs?.[0] || "").replace(
+          /<[^>]*>/g,
+          "",
+        ),
         provider: {
           "@type": "EducationalOrganization",
           "@id": `${siteUrl}/#organization`,
@@ -821,7 +1059,15 @@ export default function OnlineYogaCourse() {
 
   if (sectionLoading) {
     return (
-      <div className={styles.page} style={{ minHeight: "60vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
+      <div
+        className={styles.page}
+        style={{
+          minHeight: "60vh",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
         <p>Loading…</p>
       </div>
     );
@@ -829,7 +1075,15 @@ export default function OnlineYogaCourse() {
 
   if (!section) {
     return (
-      <div className={styles.page} style={{ minHeight: "60vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
+      <div
+        className={styles.page}
+        style={{
+          minHeight: "60vh",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
         <p>Content coming soon.</p>
       </div>
     );
@@ -858,12 +1112,18 @@ export default function OnlineYogaCourse() {
               {Array.from({ length: 36 }, (_, i) => {
                 const a = (((i * 360) / 36) * Math.PI) / 180;
                 return (
-                  <line key={i} x1="250" y1="250"
-                    x2={250 + 240 * Math.cos(a)} y2={250 + 240 * Math.sin(a)} />
+                  <line
+                    key={i}
+                    x1="250"
+                    y1="250"
+                    x2={250 + 240 * Math.cos(a)}
+                    y2={250 + 240 * Math.sin(a)}
+                  />
                 );
               })}
               {[60, 120, 180].map((r, i) => (
-                <polygon key={i}
+                <polygon
+                  key={i}
                   points={Array.from({ length: 8 }, (_, j) => {
                     const a = (((j * 360) / 8) * Math.PI) / 180;
                     return `${250 + r * Math.cos(a)},${250 + r * Math.sin(a)}`;
@@ -877,7 +1137,6 @@ export default function OnlineYogaCourse() {
         {/* ══ HERO IMAGE ══ */}
         {section.heroImage && (
           <section className={styles.heroSection}>
-
             <Image
               src={getImageUrl(section.heroImage)}
               alt={section.heroImageAlt || "Hero"}
@@ -890,11 +1149,17 @@ export default function OnlineYogaCourse() {
         <section className={`${styles.section} ${styles.introSection}`}>
           <div className={styles.container}>
             <div className={styles.introText}>
-              <span className={styles.sectionEyebrow}>{section.introEyebrow}</span>
+              <span className={styles.sectionEyebrow}>
+                {section.introEyebrow}
+              </span>
               {/* ── SINGLE H1 ON THE PAGE (SEO) ── */}
               <VintageHeading as="h1">{section.introTitle}</VintageHeading>
               {(section.introParagraphs || []).map((p, i) => (
-                <p key={i} className={styles.bodyPara} dangerouslySetInnerHTML={{ __html: p }} />
+                <p
+                  key={i}
+                  className={styles.bodyPara}
+                  dangerouslySetInnerHTML={{ __html: p }}
+                />
               ))}
             </div>
           </div>
@@ -927,12 +1192,16 @@ export default function OnlineYogaCourse() {
               <div className={styles.whyRight}>
                 {section.whyImage && (
                   <div className={styles.whyImageBox}>
-
-                    <Image src={getImageUrl(section.whyImage)} alt={section.whyImageAlt || "Why choose us"} />
+                    <Image
+                      src={getImageUrl(section.whyImage)}
+                      alt={section.whyImageAlt || "Why choose us"}
+                    />
                     <div className={styles.whyCornerTl} />
                     <div className={styles.whyCornerBr} />
                     {section.whyImageBadgeText && (
-                      <div className={styles.whyImageBadge}>{section.whyImageBadgeText}</div>
+                      <div className={styles.whyImageBadge}>
+                        {section.whyImageBadgeText}
+                      </div>
                     )}
                   </div>
                 )}
@@ -946,7 +1215,8 @@ export default function OnlineYogaCourse() {
                     />
                     {section.whyVideoBadgeText && (
                       <div className={styles.whyVideoBadge}>
-                        <span className={styles.pulseDot} /> {section.whyVideoBadgeText}
+                        <span className={styles.pulseDot} />{" "}
+                        {section.whyVideoBadgeText}
                       </div>
                     )}
                   </div>
@@ -959,7 +1229,9 @@ export default function OnlineYogaCourse() {
         {/* ══ KEY BENEFITS ══ */}
         <section className={styles.benefitsSection}>
           <div className={styles.container}>
-            <span className={styles.sectionEyebrow}>{section.benefitsEyebrow}</span>
+            <span className={styles.sectionEyebrow}>
+              {section.benefitsEyebrow}
+            </span>
             <VintageHeading>{section.benefitsTitle}</VintageHeading>
             <div className={styles.benefitsGrid}>
               {(section.keyBenefits || []).map((item, i) => (
@@ -969,7 +1241,9 @@ export default function OnlineYogaCourse() {
                   style={{ "--bi": i } as React.CSSProperties}
                 >
                   <div className={styles.benefitIconWrap}>{item.icon}</div>
-                  <div className={styles.benefitCardNum}>{String(i + 1).padStart(2, "0")}</div>
+                  <div className={styles.benefitCardNum}>
+                    {String(i + 1).padStart(2, "0")}
+                  </div>
                   <div className={styles.benefitTitle}>{item.title}</div>
                   <div className={styles.benefitDesc}>{item.desc}</div>
                 </div>
@@ -981,7 +1255,9 @@ export default function OnlineYogaCourse() {
         {/* ══ LIVE COURSES ══ */}
         <section className={styles.coursesSection}>
           <div className={styles.container}>
-            <span className={styles.sectionEyebrow}>{section.coursesEyebrow}</span>
+            <span className={styles.sectionEyebrow}>
+              {section.coursesEyebrow}
+            </span>
             <VintageHeading>{section.coursesTitle}</VintageHeading>
             {(section.liveCourses || []).map((course, i) => (
               <CourseCard key={i} {...course} />
@@ -1013,7 +1289,10 @@ export default function OnlineYogaCourse() {
         <section className={styles.aboutSection}>
           <div className={styles.container}>
             {section.noteBoxText && (
-              <div className={styles.noteBox} dangerouslySetInnerHTML={{ __html: section.noteBoxText }} />
+              <div
+                className={styles.noteBox}
+                dangerouslySetInnerHTML={{ __html: section.noteBoxText }}
+              />
             )}
             <span className={styles.sectionEyebrow}>{section.faqEyebrow}</span>
             <VintageHeading>{section.faqTitle}</VintageHeading>
@@ -1035,7 +1314,9 @@ export default function OnlineYogaCourse() {
         {/* ══ CURRICULUM ══ */}
         <section className={styles.curriculumSection}>
           <div className={styles.container}>
-            <span className={styles.sectionEyebrow}>{section.curriculumEyebrow}</span>
+            <span className={styles.sectionEyebrow}>
+              {section.curriculumEyebrow}
+            </span>
             <VintageHeading>{section.curriculumTitle}</VintageHeading>
             <div className={styles.chakraGrid}>
               {(section.curriculumAreas || []).map((area, i) => (
@@ -1047,7 +1328,6 @@ export default function OnlineYogaCourse() {
                   <div className={styles.chakraCardBg}>{area.symbol}</div>
                   {area.image && (
                     <div className={styles.chakraImageWrap}>
-
                       <Image
                         src={getImageUrl(area.image)}
                         alt={area.title}
@@ -1057,12 +1337,17 @@ export default function OnlineYogaCourse() {
                       />
                     </div>
                   )}
-                  <h4 className={styles.chakraTitle} style={{ color: area.color }}>
+                  <h4
+                    className={styles.chakraTitle}
+                    style={{ color: area.color }}
+                  >
                     {area.title}
                   </h4>
                   <div className={styles.chakraCardDivider} />
                   {(area.lines || []).map((line, j) => (
-                    <p key={j} className={styles.chakraLine}>{line}</p>
+                    <p key={j} className={styles.chakraLine}>
+                      {line}
+                    </p>
                   ))}
                 </div>
               ))}
@@ -1073,7 +1358,9 @@ export default function OnlineYogaCourse() {
         {/* ══ RECORDED COURSES ══ */}
         <section className={styles.recordedSection}>
           <div className={styles.container}>
-            <span className={styles.sectionEyebrow}>{section.recordedEyebrow}</span>
+            <span className={styles.sectionEyebrow}>
+              {section.recordedEyebrow}
+            </span>
             <VintageHeading>{section.recordedTitle}</VintageHeading>
             <div className={styles.recordedGrid}>
               {(section.recordedCourses || []).map((rc, i) => (
@@ -1082,7 +1369,9 @@ export default function OnlineYogaCourse() {
                     <span className={styles.recordedCardIcon}>✎</span>
                     <h4 className={styles.recordedCardTitle}>{rc.title}</h4>
                     <div className={styles.recordedCardPrice}>
-                      <span className={styles.recordedPriceAmt}>{rc.price}</span>
+                      <span className={styles.recordedPriceAmt}>
+                        {rc.price}
+                      </span>
                       <span className={styles.recordedPriceCur}>USD</span>
                     </div>
                   </div>
@@ -1090,15 +1379,30 @@ export default function OnlineYogaCourse() {
                     <ul className={styles.recordedFeatureList}>
                       {(rc.features || []).map((f, j) => (
                         <li key={j} className={styles.recordedFeatureItem}>
-                          <span className={styles.featureCheckIcon}><CheckIcon /></span>
+                          <span className={styles.featureCheckIcon}>
+                            <CheckIcon />
+                          </span>
                           {f}
                         </li>
                       ))}
                     </ul>
-                    <Link href={rc.applyBtnLink || "/registration"} className={styles.recordedApplyBtn}>
+                    <Link
+                      href={rc.applyBtnLink || "/registration"}
+                      className={styles.recordedApplyBtn}
+                    >
                       {rc.applyBtnText || "Apply Now"}
-                      <svg viewBox="0 0 16 16" fill="none" style={{ width: 14, height: 14 }}>
-                        <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                      <svg
+                        viewBox="0 0 16 16"
+                        fill="none"
+                        style={{ width: 14, height: 14 }}
+                      >
+                        <path
+                          d="M3 8h10M9 4l4 4-4 4"
+                          stroke="currentColor"
+                          strokeWidth="1.6"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
                       </svg>
                     </Link>
                   </div>
@@ -1112,7 +1416,11 @@ export default function OnlineYogaCourse() {
                   <React.Fragment key={i}>
                     <h4 className={styles.infoBoxTitle}>{block.heading}</h4>
                     {(block.paragraphs || []).map((p, j) => (
-                      <p key={j} className={styles.infoBoxText} dangerouslySetInnerHTML={{ __html: p }} />
+                      <p
+                        key={j}
+                        className={styles.infoBoxText}
+                        dangerouslySetInnerHTML={{ __html: p }}
+                      />
                     ))}
                   </React.Fragment>
                 ))}
@@ -1124,7 +1432,9 @@ export default function OnlineYogaCourse() {
         {/* ══ OTHER LIVE COURSES ══ */}
         <section className={styles.otherSection}>
           <div className={styles.container}>
-            <span className={styles.sectionEyebrow}>{section.otherEyebrow}</span>
+            <span className={styles.sectionEyebrow}>
+              {section.otherEyebrow}
+            </span>
             <VintageHeading>{section.otherTitle}</VintageHeading>
             <div className={styles.otherGrid}>
               {(section.otherCourses || []).map((oc, i) => (
@@ -1135,18 +1445,32 @@ export default function OnlineYogaCourse() {
                 >
                   {oc.image && (
                     <div className={styles.otherCardImage}>
-
                       <Image src={getImageUrl(oc.image)} alt={oc.title} />
                       <div className={styles.otherCardImageOverlay} />
                     </div>
                   )}
                   <div className={styles.otherCardBody}>
                     <h4 className={styles.otherTitle}>{oc.title}</h4>
-                    <p className={styles.otherMeta}>{oc.hours} · {oc.price}</p>
-                    <Link href={oc.enquireBtnLink || "/contact"} className={styles.otherCardBtn}>
+                    <p className={styles.otherMeta}>
+                      {oc.hours} · {oc.price}
+                    </p>
+                    <Link
+                      href={oc.enquireBtnLink || "/contact"}
+                      className={styles.otherCardBtn}
+                    >
                       {oc.enquireBtnText || "Enquire Now"}
-                      <svg viewBox="0 0 16 16" fill="none" style={{ width: 12, height: 12 }}>
-                        <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                      <svg
+                        viewBox="0 0 16 16"
+                        fill="none"
+                        style={{ width: 12, height: 12 }}
+                      >
+                        <path
+                          d="M3 8h10M9 4l4 4-4 4"
+                          stroke="currentColor"
+                          strokeWidth="1.8"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
                       </svg>
                     </Link>
                   </div>

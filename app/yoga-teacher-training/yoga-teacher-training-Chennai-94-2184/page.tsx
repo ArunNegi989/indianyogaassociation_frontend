@@ -6,9 +6,10 @@ export const metadata: Metadata = {
   description:
     "Aym yoga school offering offline and online yoga teacher training program, we are also providing online teacher training in Chennai registered with Yoga Alliance and Govt of India.",
 
-    alternates: {
-      canonical: "https://www.indianyogaassociation.com/yoga-teacher-training/yoga-teacher-training-Chennai-94-2184",
-    },
+  alternates: {
+    canonical:
+      "https://www.indianyogaassociation.com/yoga-teacher-training/yoga-teacher-training-Chennai-94-2184",
+  },
 };
 
 export default function Page() {

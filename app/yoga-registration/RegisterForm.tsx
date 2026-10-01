@@ -353,12 +353,12 @@ export default function RegisterForm() {
       bookSeat: "/kundalini-seats/bookSeat",
       courseName: "Kundalini Yoga TTC",
     },
-    "prenatal": {
+    prenatal: {
       getBatch: "/prenatal-seats",
       bookSeat: "/prenatal-seats/bookSeat",
       courseName: "Prenatal Yoga TTC",
     },
-    "vinyasa": {
+    vinyasa: {
       getBatch: "/vinyasa-seats",
       bookSeat: "/vinyasa-seats/book-seat",
       courseName: "Vinyasa Yoga TTC",
@@ -448,7 +448,6 @@ export default function RegisterForm() {
         type: type ?? null,
       });
 
-
       try {
         if (batchId && type && API_MAP[type]) {
           await api.patch(`${API_MAP[type].bookSeat}/${batchId}`);
@@ -459,9 +458,7 @@ export default function RegisterForm() {
         }
       } catch (seatErr) {
         console.log("Seat booking error:", seatErr);
-
       }
-
 
       try {
         const res = await api.post("/email/send-email", {
@@ -573,7 +570,6 @@ export default function RegisterForm() {
             </div>
 
             <div className={styles.leftBgImage}>
-
               <Image
                 src="https://images.unsplash.com/photo-1599447421416-3414500d18a5?w=900&q=80&fit=crop"
                 alt="Yoga Teacher Training Rishikesh"
@@ -876,7 +872,6 @@ export default function RegisterForm() {
                   </div>
                 </div>
 
-
                 <div className={styles.fieldFull}>
                   <label className={styles.label}>Yoga Course Applied</label>
                   <div className={styles.selectWrap}>
@@ -886,7 +881,6 @@ export default function RegisterForm() {
                       onChange={handleChange}
                       className={styles.select}
                     >
-
                       {!yogaCourses.includes(formData.course) &&
                         formData.course && (
                           <option value={formData.course}>
@@ -903,7 +897,6 @@ export default function RegisterForm() {
                   </div>
                 </div>
               </div>
-
 
               <div className={styles.fieldRow}>
                 <div className={styles.fieldHalf}>
@@ -928,7 +921,6 @@ export default function RegisterForm() {
                   />
                 </div>
               </div>
-
 
               <div className={styles.fieldRow}>
                 <div className={styles.fieldHalf}>

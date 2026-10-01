@@ -195,10 +195,7 @@ function VideoCard({
       onClick={onClick}
       aria-label={`View testimonial from ${testimonial.name}`}
     >
-      <div
-        className={styles.videoThumbWrap}
-        style={{ position: "relative" }}
-      >
+      <div className={styles.videoThumbWrap} style={{ position: "relative" }}>
         <Image
           src={`https://img.youtube.com/vi/${vid}/mqdefault.jpg`}
           alt={testimonial.name}
@@ -337,10 +334,22 @@ const HomeTestimonialsSection: React.FC = () => {
       <div className={styles.bgWatermark} aria-hidden="true">
         ॐ
       </div>
-      <div className={`${styles.corner} ${styles.cornerTL}`} aria-hidden="true" />
-      <div className={`${styles.corner} ${styles.cornerTR}`} aria-hidden="true" />
-      <div className={`${styles.corner} ${styles.cornerBL}`} aria-hidden="true" />
-      <div className={`${styles.corner} ${styles.cornerBR}`} aria-hidden="true" />
+      <div
+        className={`${styles.corner} ${styles.cornerTL}`}
+        aria-hidden="true"
+      />
+      <div
+        className={`${styles.corner} ${styles.cornerTR}`}
+        aria-hidden="true"
+      />
+      <div
+        className={`${styles.corner} ${styles.cornerBL}`}
+        aria-hidden="true"
+      />
+      <div
+        className={`${styles.corner} ${styles.cornerBR}`}
+        aria-hidden="true"
+      />
 
       <div className={styles.container}>
         {textReviews.length > 0 && <TextReviewSlider reviews={textReviews} />}

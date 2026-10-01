@@ -31,19 +31,12 @@ export default function robots(): MetadataRoute.Robots {
         userAgent: "Baiduspider",
         allow: "/",
       },
-      // Training crawlers — blocked so future model training doesn't
-      // scrape the site for free. Doesn't affect normal Google search
-      // ranking (Googlebot above is separate and already allowed).
+
       {
         userAgent: "GPTBot",
         disallow: "/",
       },
       {
-        // CHANGED: allow: "/" — Google-Extended specifically controls
-        // whether this site can surface in Google AI Overviews /
-        // Gemini answers. Blocking it opts the site out of AI Overviews
-        // citations, not just Gemini training. Allowed here for
-        // visibility in AI Overviews search results.
         userAgent: "Google-Extended",
         allow: "/",
       },
@@ -87,9 +80,7 @@ export default function robots(): MetadataRoute.Robots {
         userAgent: "ImagesiftBot",
         disallow: "/",
       },
-      // Live browsing / citation crawlers — these fetch pages in
-      // response to a real user question and can cite the site in
-      // their answers. Kept allowed for AI-answer visibility.
+
       {
         userAgent: "ChatGPT-User",
         allow: "/",

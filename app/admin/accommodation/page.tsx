@@ -16,19 +16,39 @@ interface MultiImgItem {
   serverPath?: string;
 }
 
-function SingleImg({ preview, badge, hint, error, onSelect, onRemove }: {
-  preview: string; badge?: string; hint: string; error?: string;
-  onSelect: (f: File, p: string) => void; onRemove: () => void;
+function SingleImg({
+  preview,
+  badge,
+  hint,
+  error,
+  onSelect,
+  onRemove,
+}: {
+  preview: string;
+  badge?: string;
+  hint: string;
+  error?: string;
+  onSelect: (f: File, p: string) => void;
+  onRemove: () => void;
 }) {
   return (
     <div>
-      <div className={`${styles.imageUploadZone} ${preview ? styles.hasImage : ""} ${error ? styles.inputError : ""}`}>
+      <div
+        className={`${styles.imageUploadZone} ${preview ? styles.hasImage : ""} ${error ? styles.inputError : ""}`}
+      >
         {!preview ? (
           <>
-            <input type="file" accept="image/*" onChange={(e) => {
-              const f = e.target.files?.[0];
-              if (f) { onSelect(f, URL.createObjectURL(f)); e.target.value = ""; }
-            }} />
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => {
+                const f = e.target.files?.[0];
+                if (f) {
+                  onSelect(f, URL.createObjectURL(f));
+                  e.target.value = "";
+                }
+              }}
+            />
             <div className={styles.imageUploadPlaceholder}>
               <span className={styles.imageUploadIcon}>🖼️</span>
               <span className={styles.imageUploadText}>Click to Upload</span>
@@ -41,11 +61,29 @@ function SingleImg({ preview, badge, hint, error, onSelect, onRemove }: {
             <img src={preview} alt="" className={styles.imagePreview} />
             <div className={styles.imagePreviewOverlay}>
               <span className={styles.imagePreviewAction}>✎ Change</span>
-              <input type="file" accept="image/*" className={styles.imagePreviewOverlayInput}
-                onChange={(e) => { const f = e.target.files?.[0]; if (f) { onSelect(f, URL.createObjectURL(f)); e.target.value = ""; } }} />
+              <input
+                type="file"
+                accept="image/*"
+                className={styles.imagePreviewOverlayInput}
+                onChange={(e) => {
+                  const f = e.target.files?.[0];
+                  if (f) {
+                    onSelect(f, URL.createObjectURL(f));
+                    e.target.value = "";
+                  }
+                }}
+              />
             </div>
-            <button type="button" className={styles.removeImageBtn}
-              onClick={(e) => { e.stopPropagation(); onRemove(); }}>✕</button>
+            <button
+              type="button"
+              className={styles.removeImageBtn}
+              onClick={(e) => {
+                e.stopPropagation();
+                onRemove();
+              }}
+            >
+              ✕
+            </button>
           </div>
         )}
       </div>
@@ -74,19 +112,23 @@ export default function AccommodationManager() {
           setPageId(data._id);
 
           if (data.accomImages?.length) {
-            setAccomImgs(data.accomImages.map((src: string, i: number) => ({
-              id: `a${i}`,
-              preview: BASE_URL + src,
-              serverPath: src
-            })));
+            setAccomImgs(
+              data.accomImages.map((src: string, i: number) => ({
+                id: `a${i}`,
+                preview: BASE_URL + src,
+                serverPath: src,
+              })),
+            );
           }
 
           if (data.foodImages?.length) {
-            setFoodImgs(data.foodImages.map((src: string, i: number) => ({
-              id: `f${i}`,
-              preview: BASE_URL + src,
-              serverPath: src
-            })));
+            setFoodImgs(
+              data.foodImages.map((src: string, i: number) => ({
+                id: `f${i}`,
+                preview: BASE_URL + src,
+                serverPath: src,
+              })),
+            );
           }
         } else {
           toast.error("No 500hr page found. Create the page first.");
@@ -111,13 +153,21 @@ export default function AccommodationManager() {
     try {
       const fd = new FormData();
 
-      const keptAccomPaths = accomImgs.filter((img) => img.serverPath).map((img) => img.serverPath as string);
+      const keptAccomPaths = accomImgs
+        .filter((img) => img.serverPath)
+        .map((img) => img.serverPath as string);
       fd.append("existingAccomImages", JSON.stringify(keptAccomPaths));
-      accomImgs.forEach((img) => { if (img.file) fd.append("accomImage", img.file); });
+      accomImgs.forEach((img) => {
+        if (img.file) fd.append("accomImage", img.file);
+      });
 
-      const keptFoodPaths = foodImgs.filter((img) => img.serverPath).map((img) => img.serverPath as string);
+      const keptFoodPaths = foodImgs
+        .filter((img) => img.serverPath)
+        .map((img) => img.serverPath as string);
       fd.append("existingFoodImages", JSON.stringify(keptFoodPaths));
-      foodImgs.forEach((img) => { if (img.file) fd.append("foodImage", img.file); });
+      foodImgs.forEach((img) => {
+        if (img.file) fd.append("foodImage", img.file);
+      });
 
       await api.put(`/yoga-500hr/content/update/${pageId}`, fd, {
         headers: { "Content-Type": "multipart/form-data" },
@@ -146,7 +196,10 @@ export default function AccommodationManager() {
   return (
     <div className={styles.formPage}>
       <div className={styles.breadcrumb}>
-        <button className={styles.breadcrumbLink} onClick={() => router.push("/admin")}>
+        <button
+          className={styles.breadcrumbLink}
+          onClick={() => router.push("/admin")}
+        >
           Dashboard
         </button>
         <span className={styles.breadcrumbSep}>›</span>
@@ -157,7 +210,8 @@ export default function AccommodationManager() {
         <div className={styles.pageHeaderText}>
           <h1 className={styles.pageTitle}>Accommodation & Food Gallery</h1>
           <p className={styles.pageSubtitle}>
-            Manage images for the accommodation and food sections on the 500hr page
+            Manage images for the accommodation and food sections on the 500hr
+            page
           </p>
         </div>
       </div>
@@ -171,14 +225,21 @@ export default function AccommodationManager() {
       </div>
 
       <div className={styles.formCard}>
-
         <div className={styles.sectionBlock}>
           <div className={styles.sectionHeader}>
             <span className={styles.sectionIcon}>✦</span>
             <h3 className={styles.sectionTitle}>Accommodation Images</h3>
-            <span className={styles.sectionBadge}>{accomImgs.length} images</span>
+            <span className={styles.sectionBadge}>
+              {accomImgs.length} images
+            </span>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))", gap: "1rem" }}>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))",
+              gap: "1rem",
+            }}
+          >
             {accomImgs.map((img) => (
               <div key={img.id} className={styles.fieldGroup}>
                 <SingleImg
@@ -187,20 +248,33 @@ export default function AccommodationManager() {
                   hint="JPG/PNG/WEBP · 800×600px"
                   onSelect={(f, p) => {
                     const newItems = [...accomImgs];
-                    const index = newItems.findIndex(i => i.id === img.id);
-                    newItems[index] = { ...newItems[index], file: f, preview: p, serverPath: undefined };
+                    const index = newItems.findIndex((i) => i.id === img.id);
+                    newItems[index] = {
+                      ...newItems[index],
+                      file: f,
+                      preview: p,
+                      serverPath: undefined,
+                    };
                     setAccomImgs(newItems);
                   }}
                   onRemove={() => {
-                    setAccomImgs(accomImgs.filter(i => i.id !== img.id));
+                    setAccomImgs(accomImgs.filter((i) => i.id !== img.id));
                   }}
                 />
               </div>
             ))}
           </div>
-          <button type="button" className={styles.addItemBtn} onClick={() => {
-            setAccomImgs([...accomImgs, { id: `a${Date.now()}`, preview: "", serverPath: undefined }]);
-          }} style={{ marginTop: "1rem" }}>
+          <button
+            type="button"
+            className={styles.addItemBtn}
+            onClick={() => {
+              setAccomImgs([
+                ...accomImgs,
+                { id: `a${Date.now()}`, preview: "", serverPath: undefined },
+              ]);
+            }}
+            style={{ marginTop: "1rem" }}
+          >
             ＋ Add Accommodation Image
           </button>
         </div>
@@ -211,9 +285,17 @@ export default function AccommodationManager() {
           <div className={styles.sectionHeader}>
             <span className={styles.sectionIcon}>✦</span>
             <h3 className={styles.sectionTitle}>Food Images</h3>
-            <span className={styles.sectionBadge}>{foodImgs.length} images</span>
+            <span className={styles.sectionBadge}>
+              {foodImgs.length} images
+            </span>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))", gap: "1rem" }}>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))",
+              gap: "1rem",
+            }}
+          >
             {foodImgs.map((img) => (
               <div key={img.id} className={styles.fieldGroup}>
                 <SingleImg
@@ -222,24 +304,36 @@ export default function AccommodationManager() {
                   hint="JPG/PNG/WEBP · 800×600px"
                   onSelect={(f, p) => {
                     const newItems = [...foodImgs];
-                    const index = newItems.findIndex(i => i.id === img.id);
-                    newItems[index] = { ...newItems[index], file: f, preview: p, serverPath: undefined };
+                    const index = newItems.findIndex((i) => i.id === img.id);
+                    newItems[index] = {
+                      ...newItems[index],
+                      file: f,
+                      preview: p,
+                      serverPath: undefined,
+                    };
                     setFoodImgs(newItems);
                   }}
                   onRemove={() => {
-                    setFoodImgs(foodImgs.filter(i => i.id !== img.id));
+                    setFoodImgs(foodImgs.filter((i) => i.id !== img.id));
                   }}
                 />
               </div>
             ))}
           </div>
-          <button type="button" className={styles.addItemBtn} onClick={() => {
-            setFoodImgs([...foodImgs, { id: `f${Date.now()}`, preview: "", serverPath: undefined }]);
-          }} style={{ marginTop: "1rem" }}>
+          <button
+            type="button"
+            className={styles.addItemBtn}
+            onClick={() => {
+              setFoodImgs([
+                ...foodImgs,
+                { id: `f${Date.now()}`, preview: "", serverPath: undefined },
+              ]);
+            }}
+            style={{ marginTop: "1rem" }}
+          >
             ＋ Add Food Image
           </button>
         </div>
-
       </div>
 
       <div className={styles.formActions}>
@@ -253,9 +347,13 @@ export default function AccommodationManager() {
           disabled={saving}
         >
           {saving ? (
-            <><span className={styles.spinner} /> Saving…</>
+            <>
+              <span className={styles.spinner} /> Saving…
+            </>
           ) : (
-            <><span>✦</span> Save All Images</>
+            <>
+              <span>✦</span> Save All Images
+            </>
           )}
         </button>
       </div>

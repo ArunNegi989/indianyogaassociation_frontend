@@ -1,4 +1,3 @@
-
 import React from "react";
 import styles from "@/assets/style/yoga-ashrams/Yogaashrams.module.css";
 import Image from "next/image";

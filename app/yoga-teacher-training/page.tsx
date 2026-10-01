@@ -6,9 +6,10 @@ export const metadata: Metadata = {
   description:
     "A Yoga Teacher Training School in India offers yoga course all over the world and All cousre are registered with Yoga Alliance, USA.",
 
-    alternates: {
-      canonical: "https://www.indianyogaassociation.com/yoga-teacher-training-course-bali.html",
-    },
+  alternates: {
+    canonical:
+      "https://www.indianyogaassociation.com/yoga-teacher-training-course-bali.html",
+  },
 };
 
 export default function Page() {

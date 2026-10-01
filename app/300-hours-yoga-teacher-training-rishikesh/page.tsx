@@ -7,7 +7,8 @@ export const metadata: Metadata = {
   description:
     "Deepen your yoga practice and become a certified teacher with our best 300 hour yoga teacher training in Rishikesh, India at AYM yoga school.",
   alternates: {
-    canonical: "https://www.indianyogaassociation.com/300-hours-yoga-teacher-training-rishikesh.html",
+    canonical:
+      "https://www.indianyogaassociation.com/300-hours-yoga-teacher-training-rishikesh.html",
   },
 };
 

@@ -6,9 +6,10 @@ export const metadata: Metadata = {
   description:
     "Yoga Holidays in Rishikesh India - AYM yoga schools provides in low price yoga classes and stay and food for general health.",
 
-    alternates: {
-      canonical: "https://www.indianyogaassociation.com/yoga-holidays-in-india.html",
-    },
+  alternates: {
+    canonical:
+      "https://www.indianyogaassociation.com/yoga-holidays-in-india.html",
+  },
 };
 
 export default function Page() {

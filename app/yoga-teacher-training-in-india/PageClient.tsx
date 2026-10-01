@@ -39,28 +39,24 @@ interface Location {
   _id: string;
   name: string;
   desc: string;
-  image?: string;      // image path from backend
-  imageAlt?: string;   // image alt text
+  image?: string;
+  imageAlt?: string;
 }
 
 interface YogaTTCData {
   _id: string;
   slug: string;
 
-  // Rishikesh & Goa Section Images
   rishikeshImage: string;
   rishikeshImageAlt: string;
   rishikeshImageBadge: string;
   goaImage: string;
   goaImageAlt: string;
   goaImageBadge: string;
-  // ===== WHY AYM SECTION IMAGE =====
   whyAYMImage: string;
   whyAYMImageAlt: string;
   whyAYMImageBadge: string;
 
-
-  // ===== NEW YOGA HOLIDAYS FIELDS =====
   mainTitle: string;
   mediaImageAlt: string;
   mediaImageCaption: string;
@@ -76,13 +72,12 @@ interface YogaTTCData {
   ctaButtonText: string;
   ctaButtonUrl: string;
 
-  image?: string;      // NEW: image path
-  imageAlt?: string;   // NEW: image alt text
+  image?: string;
+  imageAlt?: string;
 
-  // ===== NEW WHO WE ARE VIDEO FIELDS =====
-  whoWeAreVideo: string;           // Path to uploaded video file
-  whoWeAreVideoEnabled: boolean;   // Toggle to show/hide video
-  whoWeAreVideoPoster: string;     // Path to video poster image
+  whoWeAreVideo: string;
+  whoWeAreVideoEnabled: boolean;
+  whoWeAreVideoPoster: string;
   mediaImage: string;
   status: string;
   heroImage: string;
@@ -116,7 +111,6 @@ interface YogaTTCData {
   feeTitle: string;
 }
 
-/* ─── IMAGE HELPER ─── */
 const getImageSrc = (
   image?: string,
   imgUrl?: string,
@@ -128,8 +122,6 @@ const getImageSrc = (
   if (imgUrl && imgUrl.length > 0) return imgUrl;
   return fallback || "";
 };
-
-/* ─── STATIC PLACEHOLDER IMAGES & VIDEO ─── */
 const PLACEHOLDER = {
   yoga1:
     "https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?w=900&q=80",
@@ -361,7 +353,6 @@ const TextImageRow = ({
   </div>
 );
 
-/* ─── TEXT + VIDEO ROW (with local video support) ─── */
 const TextVideoRowWithUpload = ({
   children,
   videoPath,
@@ -375,8 +366,12 @@ const TextVideoRowWithUpload = ({
   videoEnabled: boolean;
   reverse?: boolean;
 }) => {
-  const videoUrl = videoPath ? `${process.env.NEXT_PUBLIC_API_URL}${videoPath}` : "";
-  const posterUrl = posterPath ? `${process.env.NEXT_PUBLIC_API_URL}${posterPath}` : "";
+  const videoUrl = videoPath
+    ? `${process.env.NEXT_PUBLIC_API_URL}${videoPath}`
+    : "";
+  const posterUrl = posterPath
+    ? `${process.env.NEXT_PUBLIC_API_URL}${posterPath}`
+    : "";
 
   return (
     <div className={`${styles.tiRow} ${reverse ? styles.tiRowReverse : ""}`}>
@@ -402,7 +397,9 @@ const TextVideoRowWithUpload = ({
                   <polygon points="5,2 16,9 5,16" fill="white" />
                 </svg>
               </div>
-              <span className={styles.videoLabel}>Who We Are - AYM Yoga School</span>
+              <span className={styles.videoLabel}>
+                Who We Are - AYM Yoga School
+              </span>
             </div>
           )}
           <div className={styles.tiVideoBadge}>
@@ -422,10 +419,8 @@ const BadgeItem = ({ b, i }: { b: AccredBadge; i: number }) => {
   const handleLoad = (e: React.SyntheticEvent<HTMLImageElement>) => {
     const img = e.currentTarget;
     const ratio = img.naturalWidth / img.naturalHeight;
-    if (ratio > 1.3)
-      setShape("wide");
-    else if (ratio < 0.77)
-      setShape("square");
+    if (ratio > 1.3) setShape("wide");
+    else if (ratio < 0.77) setShape("square");
     else setShape("circle");
   };
 
@@ -483,10 +478,9 @@ const CourseCardComp = ({
   card: CourseCard;
   index: number;
 }) => {
-  // Get image from backend or fallback
   const courseImageSrc = card.image
     ? `${process.env.NEXT_PUBLIC_API_URL}${card.image}`
-    : (card.imgUrl || PLACEHOLDER.course1);
+    : card.imgUrl || PLACEHOLDER.course1;
 
   return (
     <div className={styles.courseCard}>
@@ -547,8 +541,6 @@ const QuoteCard = ({ card }: { card: QuoteCard }) => {
   );
 };
 
-/* ─── LOCATION DETAIL SECTION ─── */
-/* ─── LOCATION DETAIL SECTION ─── */
 const LocationDetail = ({
   title,
   paragraphs,
@@ -593,7 +585,6 @@ const LocationDetail = ({
   );
 };
 
-/* ─── INFO PANEL ─── */
 const InfoPanel = ({ title, items }: { title: string; items: string[] }) => (
   <div className={styles.infoPanel}>
     <div className={styles.infoPanelHeader}>
@@ -614,7 +605,6 @@ const InfoPanel = ({ title, items }: { title: string; items: string[] }) => (
   </div>
 );
 
-/* ─── LOADING ─── */
 const LoadingSkeleton = () => (
   <div
     className={styles.page}
@@ -642,9 +632,6 @@ const LoadingSkeleton = () => (
   </div>
 );
 
-/* ═══════════════════════════════════
-   MAIN COMPONENT
-═══════════════════════════════════ */
 export default function YogaTTCIndia() {
   const [data, setData] = useState<YogaTTCData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -676,30 +663,26 @@ export default function YogaTTCIndia() {
     ? `${process.env.NEXT_PUBLIC_API_URL}${data.heroImage}`
     : data.heroImage || "";
 
-  // ── normalize introParagraphs (guard against nested array from duplicate append bug)
   const rawIntro = data.introParagraphs;
-  const introParagraphs =
-    Array.isArray(rawIntro?.[0])
-      ? (rawIntro[0] as unknown as string[])
-      : rawIntro?.length > 0
-        ? rawIntro
-        : data.introPara
-          ? [data.introPara]
-          : [];
+  const introParagraphs = Array.isArray(rawIntro?.[0])
+    ? (rawIntro[0] as unknown as string[])
+    : rawIntro?.length > 0
+      ? rawIntro
+      : data.introPara
+        ? [data.introPara]
+        : [];
 
   const whyParas =
     data.whyAYMParagraphs?.length > 0
       ? data.whyAYMParagraphs
       : [data.whyAYMPara1, data.whyAYMPara2, data.whyAYMPara3].filter(Boolean);
 
-  // ── intro image: use DB mediaImage if available, else placeholder
   const introImageSrc = data.mediaImage?.startsWith("/uploads/")
     ? `${process.env.NEXT_PUBLIC_API_URL}${data.mediaImage}`
     : PLACEHOLDER.yoga1;
 
   return (
     <div className={styles.page}>
-      {/* Fixed Mandalas */}
       <div className={styles.mandalaTL} aria-hidden="true">
         <MandalaSVG size={430} c1="#F15505" c2="#d4a017" sw={0.42} />
       </div>
@@ -714,7 +697,6 @@ export default function YogaTTCIndia() {
       </div>
       <div className={styles.chakraGlow} aria-hidden="true" />
 
-      {/* ── HERO IMAGE ── */}
       {heroSrc && (
         <section className={styles.heroSection}>
           <img
@@ -726,12 +708,8 @@ export default function YogaTTCIndia() {
         </section>
       )}
 
-      {/* ══════════════════════════════
-          SECTION 1 — HERO TITLE + INTRO + BADGES + WHO WE ARE
-      ══════════════════════════════ */}
       <section className={`${styles.section} ${styles.sectionLight}`}>
         <div className="container px-3 px-md-4">
-          {/* Hero heading — dynamic */}
           {(data.heroTitle || data.heroSubTitle) && (
             <div className={styles.heroWrap}>
               {data.heroTitle && (
@@ -744,7 +722,6 @@ export default function YogaTTCIndia() {
             </div>
           )}
 
-          {/* Intro — text left, image right — dynamic */}
           {introParagraphs.length > 0 && (
             <TextImageRow
               imageUrl={introImageSrc}
@@ -763,10 +740,8 @@ export default function YogaTTCIndia() {
             </TextImageRow>
           )}
 
-          {/* Accreditation badges — already dynamic */}
           <AccredBadges badges={data.accredBadges} />
 
-          {/* Who We Are — dynamic title + para + video */}
           {(data.whoWeAreTitle || data.whoWeArePara) && (
             <div className={styles.sectionSpacer}>
               <TextVideoRowWithUpload
@@ -789,111 +764,115 @@ export default function YogaTTCIndia() {
             </div>
           )}
 
-          {/* YTT Through AYM — dynamic title, para, location cards */}
-          {/* YTT Through AYM — dynamic title, para, location cards */}
           {(data.yytTitle ||
             data.yytPara ||
             (data.locations && data.locations.length > 0)) && (
-              <div className={styles.yytSection}>
-                <VintageHeading>
-                  {data.yytTitle ||
-                    "Yoga Teacher Training through AYM Yoga School"}
-                </VintageHeading>
-                {data.yytPara && (
-                  <div
-                    className={styles.bodyPara}
-                    dangerouslySetInnerHTML={{ __html: data.yytPara }}
-                  />
-                )}
-                {data.locations && data.locations.length > 0 && (
-                  <div className={styles.locationCardsGrid}>
-                    {data.locations.map((loc, i) => {
-                      // Get image source from backend or use placeholder
-                      const locationImageSrc = loc.image
-                        ? `${process.env.NEXT_PUBLIC_API_URL}${loc.image}`
-                        : (i === 0 ? PLACEHOLDER.rishikesh : PLACEHOLDER.goa);
+            <div className={styles.yytSection}>
+              <VintageHeading>
+                {data.yytTitle ||
+                  "Yoga Teacher Training through AYM Yoga School"}
+              </VintageHeading>
+              {data.yytPara && (
+                <div
+                  className={styles.bodyPara}
+                  dangerouslySetInnerHTML={{ __html: data.yytPara }}
+                />
+              )}
+              {data.locations && data.locations.length > 0 && (
+                <div className={styles.locationCardsGrid}>
+                  {data.locations.map((loc, i) => {
+                    const locationImageSrc = loc.image
+                      ? `${process.env.NEXT_PUBLIC_API_URL}${loc.image}`
+                      : i === 0
+                        ? PLACEHOLDER.rishikesh
+                        : PLACEHOLDER.goa;
 
-                      return (
-                        <div key={loc._id || i} className={styles.locationCard}>
-                          <div className={styles.locationCardImg}>
-                            <img
-                              src={locationImageSrc}
-                              alt={loc.imageAlt || loc.name}
-                              loading="lazy"
-                            />
-                            <div className={styles.locationCardImgOverlay} />
-                            <div className={styles.locationCardBadge}>
-                              {loc.name}
-                            </div>
-                          </div>
-                          <div className={styles.locationCardBody}>
-                            <div className={styles.locationCardIcon}>
-                              <ChakraSVG
-                                size={28}
-                                color={i === 0 ? "#F15505" : "#d4a017"}
-                              />
-                            </div>
-                            <h3 className={styles.locationName}>{loc.name}</h3>
-                            <p className={styles.locationDesc}>{loc.desc}</p>
-                            <div className={styles.locationCardLine} />
+                    return (
+                      <div key={loc._id || i} className={styles.locationCard}>
+                        <div className={styles.locationCardImg}>
+                          <img
+                            src={locationImageSrc}
+                            alt={loc.imageAlt || loc.name}
+                            loading="lazy"
+                          />
+                          <div className={styles.locationCardImgOverlay} />
+                          <div className={styles.locationCardBadge}>
+                            {loc.name}
                           </div>
                         </div>
-                      );
-                    })}
-                  </div>
-                )}
-              </div>
-            )}
+                        <div className={styles.locationCardBody}>
+                          <div className={styles.locationCardIcon}>
+                            <ChakraSVG
+                              size={28}
+                              color={i === 0 ? "#F15505" : "#d4a017"}
+                            />
+                          </div>
+                          <h3 className={styles.locationName}>{loc.name}</h3>
+                          <p className={styles.locationDesc}>{loc.desc}</p>
+                          <div className={styles.locationCardLine} />
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </section>
 
-      {/* ══════════════════════════════
-    SECTION 2 — RISHIKESH + GOA + COURSE CARDS
-══════════════════════════════════ */}
       <section className={`${styles.section} ${styles.sectionWarm}`}>
         <div className="container px-3 px-md-4">
-          {/* Rishikesh detail */}
           {(data.rishikeshTitle ||
             data.rishikeshDetailPara ||
             (data.rishikeshParagraphs &&
               data.rishikeshParagraphs.length > 0)) && (
-              <LocationDetail
-                title={data.rishikeshTitle || "Yoga Teacher Training in Rishikesh"}
-                paragraphs={data.rishikeshParagraphs || []}
-                fallbackPara={data.rishikeshDetailPara}
-                imgSrc={data.rishikeshImage ? `${process.env.NEXT_PUBLIC_API_URL}${data.rishikeshImage}` : PLACEHOLDER.rishikesh}
-                imageAlt={data.rishikeshImageAlt || "Yoga Teacher Training in Rishikesh"}
-                badge={data.rishikeshImageBadge || "Rishikesh, India"}
-              />
-            )}
+            <LocationDetail
+              title={
+                data.rishikeshTitle || "Yoga Teacher Training in Rishikesh"
+              }
+              paragraphs={data.rishikeshParagraphs || []}
+              fallbackPara={data.rishikeshDetailPara}
+              imgSrc={
+                data.rishikeshImage
+                  ? `${process.env.NEXT_PUBLIC_API_URL}${data.rishikeshImage}`
+                  : PLACEHOLDER.rishikesh
+              }
+              imageAlt={
+                data.rishikeshImageAlt || "Yoga Teacher Training in Rishikesh"
+              }
+              badge={data.rishikeshImageBadge || "Rishikesh, India"}
+            />
+          )}
 
-          {/* Goa detail */}
           {(data.goaTitle ||
             data.goaDetailPara ||
             (data.goaParagraphs && data.goaParagraphs.length > 0)) && (
-              <div className={styles.locationDetailSpacer}>
-                <LocationDetail
-                  title={data.goaTitle || "Yoga Teacher Training in Goa"}
-                  paragraphs={data.goaParagraphs || []}
-                  fallbackPara={data.goaDetailPara}
-                  imgSrc={data.goaImage ? `${process.env.NEXT_PUBLIC_API_URL}${data.goaImage}` : PLACEHOLDER.goa}
-                  imageAlt={data.goaImageAlt || "Yoga Teacher Training in Goa"}
-                  badge={data.goaImageBadge || "Goa, India"}
-                  reverse={true}
-                />
-              </div>
-            )}
+            <div className={styles.locationDetailSpacer}>
+              <LocationDetail
+                title={data.goaTitle || "Yoga Teacher Training in Goa"}
+                paragraphs={data.goaParagraphs || []}
+                fallbackPara={data.goaDetailPara}
+                imgSrc={
+                  data.goaImage
+                    ? `${process.env.NEXT_PUBLIC_API_URL}${data.goaImage}`
+                    : PLACEHOLDER.goa
+                }
+                imageAlt={data.goaImageAlt || "Yoga Teacher Training in Goa"}
+                badge={data.goaImageBadge || "Goa, India"}
+                reverse={true}
+              />
+            </div>
+          )}
 
           <OmDivider label="Our Courses" />
 
-          {/* Course Cards - Dynamic Images */}
           {data.courseCards && data.courseCards.length > 0 && (
             <div className={styles.courseCardsGrid}>
               {data.courseCards.map((card, i) => {
-                // Get course image from backend or use fallback
                 const courseImageSrc = card.image
                   ? `${process.env.NEXT_PUBLIC_API_URL}${card.image}`
-                  : (card.imgUrl || PLACEHOLDER.course1);
+                  : card.imgUrl || PLACEHOLDER.course1;
 
                 return (
                   <div key={card._id || i} className={styles.courseCard}>
@@ -905,7 +884,9 @@ export default function YogaTTCIndia() {
                         loading="lazy"
                       />
                       <div className={styles.courseImgOverlay} />
-                      <div className={styles.courseHourBadge}>{card.hours} HR</div>
+                      <div className={styles.courseHourBadge}>
+                        {card.hours} HR
+                      </div>
                       <div className={styles.courseCardGlow} />
                     </div>
                     <div className={styles.courseBody}>
@@ -920,7 +901,12 @@ export default function YogaTTCIndia() {
                     </div>
                     <a href={card.href || "#"} className={styles.courseBtn}>
                       <span>{card.linkLabel}</span>
-                      <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                      <svg
+                        width="14"
+                        height="14"
+                        viewBox="0 0 16 16"
+                        fill="none"
+                      >
                         <path
                           d="M3 8h10M9 4l4 4-4 4"
                           stroke="currentColor"
@@ -938,15 +924,15 @@ export default function YogaTTCIndia() {
         </div>
       </section>
 
-      {/* ══════════════════════════════
-          SECTION 3 — WHY AYM + QUOTE IMAGES + PANELS
-      ══════════════════════════════ */}
       <section className={`${styles.section} ${styles.sectionDeep}`}>
         <div className="container px-3 px-md-4">
-          {/* Why AYM - Dynamic Image */}
           {data.whyAYMTitle && (
             <TextImageRow
-              imageUrl={data.whyAYMImage ? `${process.env.NEXT_PUBLIC_API_URL}${data.whyAYMImage}` : PLACEHOLDER.yoga5}
+              imageUrl={
+                data.whyAYMImage
+                  ? `${process.env.NEXT_PUBLIC_API_URL}${data.whyAYMImage}`
+                  : PLACEHOLDER.yoga5
+              }
               imageAlt={data.whyAYMImageAlt || "Why AYM Yoga School"}
               badge={data.whyAYMImageBadge || "Excellence in Yoga"}
             >
@@ -963,7 +949,6 @@ export default function YogaTTCIndia() {
             </TextImageRow>
           )}
 
-          {/* Quote image cards */}
           {data.quoteCards && data.quoteCards.length > 0 && (
             <div className={styles.quoteCardsGrid}>
               {data.quoteCards.map((card, i) => (
@@ -974,29 +959,31 @@ export default function YogaTTCIndia() {
 
           <OmDivider label="Practical Info" />
 
-          {/* Info Panels */}
           {((data.arrivalList && data.arrivalList.length > 0) ||
             (data.feeList && data.feeList.length > 0)) && (
-              <div className={styles.infoPanelsGrid}>
-                {data.arrivalList && data.arrivalList.length > 0 && (
-                  <InfoPanel
-                    title={data.arrivalTitle || "Arrival & Departure"}
-                    items={data.arrivalList}
-                  />
-                )}
-                {data.feeList && data.feeList.length > 0 && (
-                  <InfoPanel
-                    title={data.feeTitle || "Includes in Fee"}
-                    items={data.feeList}
-                  />
-                )}
-              </div>
-            )}
+            <div className={styles.infoPanelsGrid}>
+              {data.arrivalList && data.arrivalList.length > 0 && (
+                <InfoPanel
+                  title={data.arrivalTitle || "Arrival & Departure"}
+                  items={data.arrivalList}
+                />
+              )}
+              {data.feeList && data.feeList.length > 0 && (
+                <InfoPanel
+                  title={data.feeTitle || "Includes in Fee"}
+                  items={data.feeList}
+                />
+              )}
+            </div>
+          )}
         </div>
       </section>
       <PremiumGallerySection type="both" backgroundColor="warm" />
-      {/* ✅ REVIEWS — now a reusable separate component */}
-      <ReviewSection courseType="yoga-teacher-training-india" RatingsSummaryComponent={<RatingsSummarySection />} />
+
+      <ReviewSection
+        courseType="yoga-teacher-training-india"
+        RatingsSummaryComponent={<RatingsSummarySection />}
+      />
       <HowToReach />
     </div>
   );

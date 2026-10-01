@@ -48,7 +48,6 @@ const OrnateFrame: React.FC<{
   <div
     className={`${styles.frameWrap} ${styles[`frame${size.toUpperCase()}`]}`}
   >
-
     <Image src={src} alt={alt} className={styles.framePhoto} />
   </div>
 );
@@ -240,7 +239,9 @@ const GuestFacultySection: React.FC<{
                     />
                     <div className={styles.guestCardOverlay} />
                     <div className={styles.guestCardHover}>
-                      <span className={styles.guestCardHoverText}>View Profile</span>
+                      <span className={styles.guestCardHoverText}>
+                        View Profile
+                      </span>
                     </div>
                   </div>
                   <div className={styles.guestCardContent}>
@@ -254,19 +255,26 @@ const GuestFacultySection: React.FC<{
             {guestTeachers.length > INITIAL_COUNT && (
               <div className={styles.guestPagination}>
                 <p className={styles.guestCounter}>
-                  Showing {visibleTeachers.length} of {guestTeachers.length} guest teachers
+                  Showing {visibleTeachers.length} of {guestTeachers.length}{" "}
+                  guest teachers
                 </p>
 
                 <div className={styles.guestBtnRow}>
                   {hasMore && (
                     <button
                       className={styles.guestLoadBtn}
-                      onClick={() => setVisibleCount((p) => p + LOAD_MORE_COUNT)}
+                      onClick={() =>
+                        setVisibleCount((p) => p + LOAD_MORE_COUNT)
+                      }
                     >
                       <span className={styles.guestBtnIcon}>✦</span>
                       Load More Teachers
                       <span className={styles.guestBtnCount}>
-                        +{Math.min(LOAD_MORE_COUNT, guestTeachers.length - visibleCount)}
+                        +
+                        {Math.min(
+                          LOAD_MORE_COUNT,
+                          guestTeachers.length - visibleCount,
+                        )}
                       </span>
                       <span className={styles.guestBtnArrow}>▼</span>
                     </button>
@@ -363,7 +371,9 @@ const Teachers: React.FC = () => {
                   </div>
                   <div className={styles.founderCardContent}>
                     <h2 className={styles.founderCardName}>{founder.name}</h2>
-                    <p className={styles.founderCardSubtitle}>{founder.subtitle}</p>
+                    <p className={styles.founderCardSubtitle}>
+                      {founder.subtitle}
+                    </p>
                     <div className={styles.founderCardDivider} />
                     <div className={styles.founderCardBio}>
                       {founder.bio.map((p, i) => (

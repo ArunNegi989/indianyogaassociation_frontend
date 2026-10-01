@@ -6,9 +6,10 @@ export const metadata: Metadata = {
   description:
     "Learn how to get to Rishikesh with our straightforward guide on transportation options, including trains, buses, and flights. Ideal for travelers seeking both adventure and relaxation.",
 
-    alternates: {
-      canonical: "https://www.indianyogaassociation.com/how-to-reach-rishikesh-from-delhi.html",
-    },
+  alternates: {
+    canonical:
+      "https://www.indianyogaassociation.com/how-to-reach-rishikesh-from-delhi.html",
+  },
 };
 
 export default function Page() {

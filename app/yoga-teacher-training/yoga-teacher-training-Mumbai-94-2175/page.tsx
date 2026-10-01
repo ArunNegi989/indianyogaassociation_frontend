@@ -6,9 +6,10 @@ export const metadata: Metadata = {
   description:
     "Yoga Teacher Training in Mumbai will be organized by AYM Yoga School. Focus will be on teaching different types of meditation and at what places should it be practiced.",
 
-    alternates: {
-      canonical: "https://www.indianyogaassociation.com/yoga-teacher-training/yoga-teacher-training-Mumbai-94-2175",
-    },
+  alternates: {
+    canonical:
+      "https://www.indianyogaassociation.com/yoga-teacher-training/yoga-teacher-training-Mumbai-94-2175",
+  },
 };
 
 export default function Page() {

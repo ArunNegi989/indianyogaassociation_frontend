@@ -180,9 +180,18 @@ const AYMFullPage: React.FC = () => {
 
           <p className={styles.salutation}>{data.salutation}</p>
 
-          <div className={styles.para} dangerouslySetInnerHTML={{ __html: data.alignPara1 }} />
-          <div className={styles.para} dangerouslySetInnerHTML={{ __html: data.alignPara2 }} />
-          <div className={styles.para} dangerouslySetInnerHTML={{ __html: data.alignPara3 }} />
+          <div
+            className={styles.para}
+            dangerouslySetInnerHTML={{ __html: data.alignPara1 }}
+          />
+          <div
+            className={styles.para}
+            dangerouslySetInnerHTML={{ __html: data.alignPara2 }}
+          />
+          <div
+            className={styles.para}
+            dangerouslySetInnerHTML={{ __html: data.alignPara3 }}
+          />
 
           {/* Body planes grid */}
           <div className={styles.planesGrid}>
@@ -192,7 +201,9 @@ const AYMFullPage: React.FC = () => {
                   <div className={styles.diagramBox}>
                     <Image
                       src={data.bodyPlanesImage}
-                      alt={data.bodyPlanesImageAlt || "Yoga body planes diagram"}
+                      alt={
+                        data.bodyPlanesImageAlt || "Yoga body planes diagram"
+                      }
                       width={IMG_W}
                       height={IMG_H}
                       sizes="(max-width: 860px) 100vw, 50vw"
@@ -215,7 +226,10 @@ const AYMFullPage: React.FC = () => {
             </div>
 
             <div className={styles.planesInfoBlock}>
-              <div className={styles.para} dangerouslySetInnerHTML={{ __html: data.planesPara }} />
+              <div
+                className={styles.para}
+                dangerouslySetInnerHTML={{ __html: data.planesPara }}
+              />
               {data.bodyPlanes.length > 0 && (
                 <ol className={styles.planesList}>
                   {data.bodyPlanes.map((plane, i) => (
@@ -255,7 +269,9 @@ const AYMFullPage: React.FC = () => {
                 />
                 {data.outdoorCaption && (
                   <div className={styles.groupPhotoOverlay}>
-                    <span className={styles.groupPhotoText}>{data.outdoorCaption}</span>
+                    <span className={styles.groupPhotoText}>
+                      {data.outdoorCaption}
+                    </span>
                   </div>
                 )}
               </div>
@@ -280,7 +296,8 @@ const AYMFullPage: React.FC = () => {
           <div className={styles.facilitiesList}>
             {data.campusFacilities.map((f, i) => {
               const imgSrc =
-                f.imageUrl || FALLBACK_CAMPUS_IMAGES[i % FALLBACK_CAMPUS_IMAGES.length];
+                f.imageUrl ||
+                FALLBACK_CAMPUS_IMAGES[i % FALLBACK_CAMPUS_IMAGES.length];
               const imgAlt = f.imageAlt || f.bold || "Campus facility";
 
               return (
@@ -389,7 +406,7 @@ const AYMFullPage: React.FC = () => {
 
           <Link
             href={`https://wa.me/919528023390?text=${encodeURIComponent(
-              "Hello, I want to know more about your training course."
+              "Hello, I want to know more about your training course.",
             )}`}
             className={styles.whatsappBtn}
             target="_blank"
@@ -415,7 +432,9 @@ const AYMFullPage: React.FC = () => {
                 return (
                   <div
                     key={i}
-                    className={isLast ? `${styles.para} ${styles.namaste}` : styles.para}
+                    className={
+                      isLast ? `${styles.para} ${styles.namaste}` : styles.para
+                    }
                     dangerouslySetInnerHTML={{ __html: para.text }}
                   />
                 );
@@ -442,7 +461,9 @@ const AYMFullPage: React.FC = () => {
                   />
                 </div>
                 {data.outdoorCaption && (
-                  <p className={styles.journeyImageCaption}>{data.outdoorCaption}</p>
+                  <p className={styles.journeyImageCaption}>
+                    {data.outdoorCaption}
+                  </p>
                 )}
               </div>
             )}

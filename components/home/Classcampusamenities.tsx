@@ -36,11 +36,9 @@ interface SectionData {
   amenityImage: string;
 }
 
-
 function ClassCampusAmenitiesSkeleton() {
   const shimmer: React.CSSProperties = {
-    background:
-      "linear-gradient(90deg, #fdf0dc 25%, #ffe8c2 50%, #fdf0dc 75%)",
+    background: "linear-gradient(90deg, #fdf0dc 25%, #ffe8c2 50%, #fdf0dc 75%)",
     borderRadius: "8px",
     animation: "cca-pulse 1.5s ease-in-out infinite",
   };
@@ -91,9 +89,7 @@ function ClassCampusAmenitiesSkeleton() {
           </div>
 
           <div className={styles.amenitiesRight}>
-            <div
-              style={{ aspectRatio: "708.609 / 708.609", ...shimmer }}
-            />
+            <div style={{ aspectRatio: "708.609 / 708.609", ...shimmer }} />
           </div>
         </div>
       </div>
@@ -154,7 +150,6 @@ export const ClassCampusAmenities: React.FC = () => {
     <section className={styles.section} ref={sectionRef}>
       <div className={styles.container}>
         <div className={styles.topRow}>
-
           <div className={`${styles.classBlock} ${styles.reveal}`}>
             <div className={styles.blockHeader}>
               <p className={styles.superLabel}>{data.classSizeSuperLabel}</p>
@@ -163,7 +158,6 @@ export const ClassCampusAmenities: React.FC = () => {
             </div>
 
             <div className={styles.classImgWrap}>
-
               <div
                 className={styles.classImgFrame}
                 style={{ position: "relative", aspectRatio: "673 / 460.156" }}
@@ -212,7 +206,6 @@ export const ClassCampusAmenities: React.FC = () => {
             </div>
 
             {data.campusImages?.[0] && (
-
               <div
                 className={styles.campusThumb}
                 style={{
@@ -245,7 +238,6 @@ export const ClassCampusAmenities: React.FC = () => {
           <span className={styles.ornPattern}>✦ 卐 ✦ ॐ ✦ 卐 ✦</span>
           <span className={styles.ornLine} />
         </div>
-
 
         <div className={styles.amenitiesRow}>
           {/* Left — text */}
@@ -286,7 +278,6 @@ export const ClassCampusAmenities: React.FC = () => {
             className={`${styles.amenitiesRight} ${styles.reveal}`}
             style={{ "--d": "0.12s" } as React.CSSProperties}
           >
-
             <div
               className={styles.amenityMosaic}
               style={{

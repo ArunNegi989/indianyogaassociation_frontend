@@ -6,8 +6,16 @@ import api from "@/lib/api";
 import styles from "../../assets/style/Admin/AdminDashboard.module.css";
 
 const quickLinks = [
-  { href: "/admin/our-teachers/teachers/add-new", label: "Add Teacher", icon: "+" },
-  { href: "/admin/dashboard/blog/add-new", label: "Write Blog Post", icon: "✒" },
+  {
+    href: "/admin/our-teachers/teachers/add-new",
+    label: "Add Teacher",
+    icon: "+",
+  },
+  {
+    href: "/admin/dashboard/blog/add-new",
+    label: "Write Blog Post",
+    icon: "✒",
+  },
   { href: "/admin/dashboard/gallery", label: "Upload Gallery", icon: "🖼" },
 ];
 
@@ -33,14 +41,28 @@ interface Registration {
 
 /* ── Icons ── */
 const EyeIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" width="18" height="18">
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.5"
+    width="18"
+    height="18"
+  >
     <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
     <circle cx="12" cy="12" r="3" />
   </svg>
 );
 
 const TrashIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" width="18" height="18">
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.5"
+    width="18"
+    height="18"
+  >
     <polyline points="3 6 5 6 21 6" />
     <path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6" />
     <path d="M10 11v6M14 11v6" />
@@ -49,7 +71,14 @@ const TrashIcon = () => (
 );
 
 const CloseIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" width="20" height="20">
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.5"
+    width="20"
+    height="20"
+  >
     <line x1="18" y1="6" x2="6" y2="18" />
     <line x1="6" y1="6" x2="18" y2="18" />
   </svg>
@@ -101,20 +130,32 @@ export default function AdminDashboard() {
       setLoading(true);
 
       // Fetch all data in parallel
-      const [registrationsRes, coursesStatsRes, teachersRes, studentReviewsRes, blogsRes] = await Promise.allSettled([
+      const [
+        registrationsRes,
+        coursesStatsRes,
+        teachersRes,
+        studentReviewsRes,
+        blogsRes,
+      ] = await Promise.allSettled([
         api.get("/registration/get"),
         api.get("/course-stats/count"),
         api.get("/teachers/get-all-teachers"),
         api.get("/student-reviews/get"),
-        api.get("/blogs/get-all")
+        api.get("/blogs/get-all"),
       ]);
 
       // Handle Registrations
-      if (registrationsRes.status === 'fulfilled' && registrationsRes.value.data.success) {
+      if (
+        registrationsRes.status === "fulfilled" &&
+        registrationsRes.value.data.success
+      ) {
         const data = registrationsRes.value.data.data;
         setRegistrations(data);
         setTotalEnquiries(data.length.toLocaleString());
-      } else if (registrationsRes.status === 'fulfilled' && Array.isArray(registrationsRes.value.data)) {
+      } else if (
+        registrationsRes.status === "fulfilled" &&
+        Array.isArray(registrationsRes.value.data)
+      ) {
         const data = registrationsRes.value.data;
         setRegistrations(data);
         setTotalEnquiries(data.length.toLocaleString());
@@ -123,7 +164,10 @@ export default function AdminDashboard() {
       }
 
       // Handle Course Stats
-      if (coursesStatsRes.status === 'fulfilled' && coursesStatsRes.value.data?.success) {
+      if (
+        coursesStatsRes.status === "fulfilled" &&
+        coursesStatsRes.value.data?.success
+      ) {
         const courseCount = coursesStatsRes.value.data.total;
         setTotalCourses(courseCount.toLocaleString());
       } else {
@@ -131,13 +175,19 @@ export default function AdminDashboard() {
       }
 
       // Handle Teachers
-      if (teachersRes.status === 'fulfilled') {
+      if (teachersRes.status === "fulfilled") {
         let teachersData = [];
-        if (teachersRes.value.data?.success && Array.isArray(teachersRes.value.data.data)) {
+        if (
+          teachersRes.value.data?.success &&
+          Array.isArray(teachersRes.value.data.data)
+        ) {
           teachersData = teachersRes.value.data.data;
         } else if (Array.isArray(teachersRes.value.data)) {
           teachersData = teachersRes.value.data;
-        } else if (teachersRes.value.data?.teachers && Array.isArray(teachersRes.value.data.teachers)) {
+        } else if (
+          teachersRes.value.data?.teachers &&
+          Array.isArray(teachersRes.value.data.teachers)
+        ) {
           teachersData = teachersRes.value.data.teachers;
         }
         setTotalTeachers(teachersData.length.toLocaleString());
@@ -146,47 +196,64 @@ export default function AdminDashboard() {
       }
 
       // Handle Student Reviews
-      if (studentReviewsRes.status === 'fulfilled') {
+      if (studentReviewsRes.status === "fulfilled") {
         let reviewsData = [];
-        if (studentReviewsRes.value.data?.success && Array.isArray(studentReviewsRes.value.data.data)) {
+        if (
+          studentReviewsRes.value.data?.success &&
+          Array.isArray(studentReviewsRes.value.data.data)
+        ) {
           reviewsData = studentReviewsRes.value.data.data;
         } else if (Array.isArray(studentReviewsRes.value.data)) {
           reviewsData = studentReviewsRes.value.data;
-        } else if (studentReviewsRes.value.data?.reviews && Array.isArray(studentReviewsRes.value.data.reviews)) {
+        } else if (
+          studentReviewsRes.value.data?.reviews &&
+          Array.isArray(studentReviewsRes.value.data.reviews)
+        ) {
           reviewsData = studentReviewsRes.value.data.reviews;
         }
 
         // Count only Active reviews
-        const activeReviews = reviewsData.filter((r: any) =>
-          r.status === "Active" || r.status === "active" || r.status === "approved" || r.status === "published"
+        const activeReviews = reviewsData.filter(
+          (r: any) =>
+            r.status === "Active" ||
+            r.status === "active" ||
+            r.status === "approved" ||
+            r.status === "published",
         );
-        const reviewCount = activeReviews.length > 0 ? activeReviews.length : reviewsData.length;
+        const reviewCount =
+          activeReviews.length > 0 ? activeReviews.length : reviewsData.length;
         setTotalTestimonials(reviewCount.toLocaleString());
       } else {
         setTotalTestimonials("0");
       }
 
       // Handle Blogs
-      if (blogsRes.status === 'fulfilled') {
+      if (blogsRes.status === "fulfilled") {
         let blogsData = [];
-        if (blogsRes.value.data?.success && Array.isArray(blogsRes.value.data.data)) {
+        if (
+          blogsRes.value.data?.success &&
+          Array.isArray(blogsRes.value.data.data)
+        ) {
           blogsData = blogsRes.value.data.data;
         } else if (Array.isArray(blogsRes.value.data)) {
           blogsData = blogsRes.value.data;
-        } else if (blogsRes.value.data?.blogs && Array.isArray(blogsRes.value.data.blogs)) {
+        } else if (
+          blogsRes.value.data?.blogs &&
+          Array.isArray(blogsRes.value.data.blogs)
+        ) {
           blogsData = blogsRes.value.data.blogs;
         }
 
         // Count only Published blogs
-        const publishedBlogs = blogsData.filter((b: any) =>
-          b.status === "Published" || b.status === "published"
+        const publishedBlogs = blogsData.filter(
+          (b: any) => b.status === "Published" || b.status === "published",
         );
-        const blogCount = publishedBlogs.length > 0 ? publishedBlogs.length : blogsData.length;
+        const blogCount =
+          publishedBlogs.length > 0 ? publishedBlogs.length : blogsData.length;
         setTotalBlogs(blogCount.toLocaleString());
       } else {
         setTotalBlogs("0");
       }
-
     } catch (err) {
       console.error("Fetch error:", err);
       setTotalCourses("0");
@@ -300,7 +367,9 @@ export default function AdminDashboard() {
             style={{ "--accent": s.accent } as React.CSSProperties}
           >
             <span className={styles.statIcon}>{s.icon}</span>
-            <span className={styles.statValue}>{s.value === "0" && loading ? "..." : s.value}</span>
+            <span className={styles.statValue}>
+              {s.value === "0" && loading ? "..." : s.value}
+            </span>
             <span className={styles.statLabel}>{s.label}</span>
             <span className={styles.statChange}>{s.change}</span>
           </div>
@@ -344,19 +413,24 @@ export default function AdminDashboard() {
                     <tr key={reg._id}>
                       <td>
                         <div className={styles.nameCell}>
-
                           <div>
                             <p className={styles.namePrimary}>{reg.fullName}</p>
-                            <p className={styles.nameSecondary}>{reg.gender || "—"}</p>
+                            <p className={styles.nameSecondary}>
+                              {reg.gender || "—"}
+                            </p>
                           </div>
                         </div>
                       </td>
 
                       <td>
-                        <span className={styles.courseBadge}>{reg.course || "—"}</span>
+                        <span className={styles.courseBadge}>
+                          {reg.course || "—"}
+                        </span>
                       </td>
 
-                      <td className={styles.enqDate}>{formatDate(reg.createdAt)}</td>
+                      <td className={styles.enqDate}>
+                        {formatDate(reg.createdAt)}
+                      </td>
                       <td>
                         <div className={styles.actions}>
                           <button
@@ -385,7 +459,6 @@ export default function AdminDashboard() {
 
         {/* Right column */}
         <div className={styles.rightColumn}>
-
           <div className={styles.card}>
             <div className={styles.cardHeader}>
               <span className={styles.cardTitle}>Quick Actions</span>
@@ -464,12 +537,21 @@ export default function AdminDashboard() {
                       Personal Information
                     </h4>
                     <div className={styles.detailGrid}>
-                      <DetailRow label="Full Name" value={selectedUser.fullName} />
+                      <DetailRow
+                        label="Full Name"
+                        value={selectedUser.fullName}
+                      />
                       <DetailRow label="Email" value={selectedUser.email} />
                       <DetailRow label="Phone" value={selectedUser.phone} />
-                      <DetailRow label="Birth Date" value={selectedUser.birthDate} />
+                      <DetailRow
+                        label="Birth Date"
+                        value={selectedUser.birthDate}
+                      />
                       <DetailRow label="Gender" value={selectedUser.gender} />
-                      <DetailRow label="Nationality" value={selectedUser.nationality} />
+                      <DetailRow
+                        label="Nationality"
+                        value={selectedUser.nationality}
+                      />
                       <DetailRow label="Country" value={selectedUser.country} />
                       <DetailRow label="Address" value={selectedUser.address} />
                     </div>
@@ -482,10 +564,22 @@ export default function AdminDashboard() {
                     </h4>
                     <div className={styles.detailGrid}>
                       <DetailRow label="Course" value={selectedUser.course} />
-                      <DetailRow label="Start Date" value={selectedUser.startDate} />
-                      <DetailRow label="End Date" value={selectedUser.endDate} />
-                      <DetailRow label="Location" value={selectedUser.location} />
-                      <DetailRow label="Batch ID" value={selectedUser.batchId} />
+                      <DetailRow
+                        label="Start Date"
+                        value={selectedUser.startDate}
+                      />
+                      <DetailRow
+                        label="End Date"
+                        value={selectedUser.endDate}
+                      />
+                      <DetailRow
+                        label="Location"
+                        value={selectedUser.location}
+                      />
+                      <DetailRow
+                        label="Batch ID"
+                        value={selectedUser.batchId}
+                      />
                       <DetailRow label="Coupon" value={selectedUser.coupon} />
                     </div>
                   </div>
@@ -496,7 +590,10 @@ export default function AdminDashboard() {
                       Additional Info
                     </h4>
                     <div className={styles.detailGrid}>
-                      <DetailRow label="How Did They Know" value={selectedUser.howKnow} />
+                      <DetailRow
+                        label="How Did They Know"
+                        value={selectedUser.howKnow}
+                      />
                     </div>
                   </div>
                 </>
@@ -554,7 +651,11 @@ export default function AdminDashboard() {
                 onClick={() => handleDelete(deleteConfirm)}
                 disabled={deleteLoading}
               >
-                {deleteLoading ? <span className={styles.btnSpinner} /> : "Yes, Delete"}
+                {deleteLoading ? (
+                  <span className={styles.btnSpinner} />
+                ) : (
+                  "Yes, Delete"
+                )}
               </button>
             </div>
           </div>

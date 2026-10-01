@@ -30,10 +30,39 @@ const ChakraLotus: React.FC<{
   });
 
   return (
-    <svg className={className} width={size} height={size} viewBox={`0 0 ${size} ${size}`} aria-hidden="true">
-      <circle cx={size / 2} cy={size / 2} r={size * 0.47} stroke={color} strokeWidth="0.9" strokeDasharray="5 4" fill="none" />
-      <circle cx={size / 2} cy={size / 2} r={size * 0.38} stroke={color} strokeWidth="0.5" fill="none" />
-      <circle cx={size / 2} cy={size / 2} r={size * 0.26} stroke={color} strokeWidth="0.4" strokeDasharray="2 5" fill="none" />
+    <svg
+      className={className}
+      width={size}
+      height={size}
+      viewBox={`0 0 ${size} ${size}`}
+      aria-hidden="true"
+    >
+      <circle
+        cx={size / 2}
+        cy={size / 2}
+        r={size * 0.47}
+        stroke={color}
+        strokeWidth="0.9"
+        strokeDasharray="5 4"
+        fill="none"
+      />
+      <circle
+        cx={size / 2}
+        cy={size / 2}
+        r={size * 0.38}
+        stroke={color}
+        strokeWidth="0.5"
+        fill="none"
+      />
+      <circle
+        cx={size / 2}
+        cy={size / 2}
+        r={size * 0.26}
+        stroke={color}
+        strokeWidth="0.4"
+        strokeDasharray="2 5"
+        fill="none"
+      />
       {outer.map(({ cx, cy, a }, i) => (
         <ellipse
           key={`o${i}`}
@@ -78,19 +107,52 @@ const ChakraLotus: React.FC<{
           />
         );
       })}
-      <circle cx={size / 2} cy={size / 2} r={size * 0.08} fill={`${color}28`} stroke={color} strokeWidth="0.9" />
+      <circle
+        cx={size / 2}
+        cy={size / 2}
+        r={size * 0.08}
+        fill={`${color}28`}
+        stroke={color}
+        strokeWidth="0.9"
+      />
     </svg>
   );
 };
 
-const Mandala: React.FC<{ size?: number; className?: string }> = ({ size = 80, className = "" }) => {
+const Mandala: React.FC<{ size?: number; className?: string }> = ({
+  size = 80,
+  className = "",
+}) => {
   const cx = size / 2,
     cy = size / 2,
     s = size / 100;
   return (
-    <svg className={className} width={size} height={size} viewBox={`0 0 ${size} ${size}`} aria-hidden="true">
-      <circle cx={cx} cy={cy} r={size * 0.46} stroke="#F15505" strokeWidth="0.7" strokeDasharray="5 3" fill="none" opacity="0.65" />
-      <circle cx={cx} cy={cy} r={size * 0.36} stroke="#F15505" strokeWidth="0.4" fill="none" opacity="0.4" />
+    <svg
+      className={className}
+      width={size}
+      height={size}
+      viewBox={`0 0 ${size} ${size}`}
+      aria-hidden="true"
+    >
+      <circle
+        cx={cx}
+        cy={cy}
+        r={size * 0.46}
+        stroke="#F15505"
+        strokeWidth="0.7"
+        strokeDasharray="5 3"
+        fill="none"
+        opacity="0.65"
+      />
+      <circle
+        cx={cx}
+        cy={cy}
+        r={size * 0.36}
+        stroke="#F15505"
+        strokeWidth="0.4"
+        fill="none"
+        opacity="0.4"
+      />
       {Array.from({ length: 16 }, (_, i) => {
         const a = (((i * 360) / 16) * Math.PI) / 180;
         const ex = cx + Math.cos(a) * size * 0.27,
@@ -129,8 +191,24 @@ const Mandala: React.FC<{ size?: number; className?: string }> = ({ size = 80, c
           />
         );
       })}
-      <circle cx={cx} cy={cy} r={size * 0.09} fill="rgba(224,123,0,0.12)" stroke="#F15505" strokeWidth="0.9" opacity="0.6" />
-      <text x={cx} y={cy + 5 * s} textAnchor="middle" fontSize={16 * s} fill="#F15505" fontFamily="serif" opacity="0.85">
+      <circle
+        cx={cx}
+        cy={cy}
+        r={size * 0.09}
+        fill="rgba(224,123,0,0.12)"
+        stroke="#F15505"
+        strokeWidth="0.9"
+        opacity="0.6"
+      />
+      <text
+        x={cx}
+        y={cy + 5 * s}
+        textAnchor="middle"
+        fontSize={16 * s}
+        fill="#F15505"
+        fontFamily="serif"
+        opacity="0.85"
+      >
         ॐ
       </text>
     </svg>
@@ -145,7 +223,6 @@ const OmDivider = () => (
   </div>
 );
 
-/* ── Types (mirror backend Rules model) ── */
 interface RuleItem {
   num: number;
   title: string;
@@ -175,7 +252,6 @@ const getImageUrl = (path?: string) => {
   return `${process.env.NEXT_PUBLIC_API_URL}${path}`;
 };
 
-/* ── Main Page ── */
 const RulesPage: React.FC = () => {
   const [visible, setVisible] = useState(false);
   const [activeTab, setActiveTab] = useState(0);
@@ -233,46 +309,80 @@ const RulesPage: React.FC = () => {
       )}
 
       <div className={`${styles.page} ${visible ? styles.visible : ""}`}>
-        {/* ════ CHAKRA BACKGROUND (static decoration) ════ */}
         <div className={styles.chakraBg} aria-hidden="true">
           <div className={`${styles.cp} ${styles.cpL1}`}>
-            <ChakraLotus color="#c0392b" size={210} petals={4} className={styles.spinCW} />
+            <ChakraLotus
+              color="#c0392b"
+              size={210}
+              petals={4}
+              className={styles.spinCW}
+            />
             <span className={styles.cLabel} style={{ color: "#c0392b" }}>
               मूलाधार<em>Muladhara · Root</em>
             </span>
           </div>
           <div className={`${styles.cp} ${styles.cpL2}`}>
-            <ChakraLotus color="#d4ac0d" size={230} petals={10} className={styles.spinSlow} />
+            <ChakraLotus
+              color="#d4ac0d"
+              size={230}
+              petals={10}
+              className={styles.spinSlow}
+            />
             <span className={styles.cLabel} style={{ color: "#d4ac0d" }}>
               मणिपूर<em>Manipura · Solar Plexus</em>
             </span>
           </div>
           <div className={`${styles.cp} ${styles.cpL3}`}>
-            <ChakraLotus color="#1a5276" size={200} petals={16} className={styles.spinCW} />
+            <ChakraLotus
+              color="#1a5276"
+              size={200}
+              petals={16}
+              className={styles.spinCW}
+            />
             <span className={styles.cLabel} style={{ color: "#1a5276" }}>
               विशुद्ध<em>Vishuddha · Throat</em>
             </span>
           </div>
           <div className={`${styles.cp} ${styles.cpL4}`}>
-            <ChakraLotus color="#6c3483" size={195} petals={2} className={styles.spinSlow} />
+            <ChakraLotus
+              color="#6c3483"
+              size={195}
+              petals={2}
+              className={styles.spinSlow}
+            />
             <span className={styles.cLabel} style={{ color: "#6c3483" }}>
               आज्ञा<em>Ajna · Third Eye</em>
             </span>
           </div>
           <div className={`${styles.cp} ${styles.cpR1}`}>
-            <ChakraLotus color="#e67e22" size={195} petals={6} className={styles.spinCCW} />
+            <ChakraLotus
+              color="#e67e22"
+              size={195}
+              petals={6}
+              className={styles.spinCCW}
+            />
             <span className={styles.cLabel} style={{ color: "#e67e22" }}>
               स्वाधिष्ठान<em>Svadhisthana · Sacral</em>
             </span>
           </div>
           <div className={`${styles.cp} ${styles.cpR2}`}>
-            <ChakraLotus color="#1e8449" size={215} petals={12} className={styles.spinCW} />
+            <ChakraLotus
+              color="#1e8449"
+              size={215}
+              petals={12}
+              className={styles.spinCW}
+            />
             <span className={styles.cLabel} style={{ color: "#1e8449" }}>
               अनाहत<em>Anahata · Heart</em>
             </span>
           </div>
           <div className={`${styles.cp} ${styles.cpR3}`}>
-            <ChakraLotus color="#922b21" size={205} petals={12} className={styles.spinSlow} />
+            <ChakraLotus
+              color="#922b21"
+              size={205}
+              petals={12}
+              className={styles.spinSlow}
+            />
             <span className={styles.cLabel} style={{ color: "#922b21" }}>
               सहस्रार<em>Sahasrara · Crown</em>
             </span>
@@ -282,10 +392,8 @@ const RulesPage: React.FC = () => {
           <Mandala size={320} className={styles.wmR} />
         </div>
 
-        {/* ════ TOP BORDER ════ */}
         <div className={styles.a} />
 
-        {/* ════ PAGE TITLE & OM DIVIDER ════ */}
         {data.pageTitle && (
           <div className={styles.headerWrap}>
             <div className={styles.outerPad}>
@@ -295,7 +403,6 @@ const RulesPage: React.FC = () => {
           </div>
         )}
 
-        {/* ════ MAIN CONTENT ════ */}
         <div className={styles.outerPad}>
           <div className={styles.contentBox}>
             {data.brownBarLabel && (
@@ -308,7 +415,6 @@ const RulesPage: React.FC = () => {
             <div className={styles.body}>
               {categories.length > 0 && (
                 <>
-                  {/* Category Tabs */}
                   <div className={styles.tabsContainer}>
                     <div className={styles.tabsList}>
                       {categories.map((cat, idx) => (
@@ -323,18 +429,25 @@ const RulesPage: React.FC = () => {
                     </div>
                   </div>
 
-                  {/* Rules Content for Active Tab */}
                   <div className={styles.tabContent}>
                     <div className={styles.rulesGrid}>
-                      {(categories[activeTab]?.rules ?? []).map((rule, rIdx) => (
-                        <div key={rIdx} className={styles.ruleBox}>
-                          <div className={styles.ruleBoxHeader}>
-                            <span className={styles.ruleNum}>Rule {rule.num}</span>
-                            <h3 className={styles.ruleBoxTitle}>{rule.title}</h3>
+                      {(categories[activeTab]?.rules ?? []).map(
+                        (rule, rIdx) => (
+                          <div key={rIdx} className={styles.ruleBox}>
+                            <div className={styles.ruleBoxHeader}>
+                              <span className={styles.ruleNum}>
+                                Rule {rule.num}
+                              </span>
+                              <h3 className={styles.ruleBoxTitle}>
+                                {rule.title}
+                              </h3>
+                            </div>
+                            <p className={styles.ruleBoxContent}>
+                              {rule.content}
+                            </p>
                           </div>
-                          <p className={styles.ruleBoxContent}>{rule.content}</p>
-                        </div>
-                      ))}
+                        ),
+                      )}
                     </div>
                   </div>
 
@@ -342,13 +455,20 @@ const RulesPage: React.FC = () => {
                 </>
               )}
 
-              {/* Agreement Section */}
               {(data.agreementTitle || agreementParagraphs.length > 0) && (
                 <div className={styles.agreementSection}>
-                  {data.agreementTitle && <h2 className={styles.agreementTitle}>{data.agreementTitle}</h2>}
+                  {data.agreementTitle && (
+                    <h2 className={styles.agreementTitle}>
+                      {data.agreementTitle}
+                    </h2>
+                  )}
                   <div className={styles.agreementContent}>
                     {agreementParagraphs.map((html, idx) => (
-                      <div key={idx} className={styles.agreePara} dangerouslySetInnerHTML={{ __html: html }} />
+                      <div
+                        key={idx}
+                        className={styles.agreePara}
+                        dangerouslySetInnerHTML={{ __html: html }}
+                      />
                     ))}
                   </div>
                 </div>
@@ -359,10 +479,8 @@ const RulesPage: React.FC = () => {
 
         <HowToReach />
 
-        {/* ════ BOTTOM BORDER ════ */}
         <div className={styles.bottomBorder} />
 
-        {/* ════ FOOTER ════ */}
         {data.footerText && (
           <footer className={styles.footer}>
             <Mandala size={22} />

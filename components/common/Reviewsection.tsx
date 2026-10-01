@@ -49,7 +49,8 @@ const fallbackTextReviews: TextReview[] = [
   {
     name: "Sarah Mitchell",
     country: "United States",
-    image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&q=80",
+    image:
+      "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&q=80",
     rating: 5,
     review:
       "This 100-hour training completely transformed my understanding of yoga. The teachers were incredibly knowledgeable and patient. Rishikesh itself is magical — waking up to the sound of the Ganges every morning made the whole experience deeply spiritual. I came as a practitioner and left as a teacher.",
@@ -59,7 +60,8 @@ const fallbackTextReviews: TextReview[] = [
   {
     name: "Marco Rossi",
     country: "Italy",
-    image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=200&q=80",
+    image:
+      "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=200&q=80",
     rating: 5,
     review:
       "Excellent course structure and amazing teachers. The blend of Ashtanga, Vinyasa and Hatha gave me a well-rounded foundation. The accommodation was clean and comfortable, and the sattvic meals were delicious. I would highly recommend this school to anyone serious about yoga.",
@@ -69,7 +71,8 @@ const fallbackTextReviews: TextReview[] = [
   {
     name: "Yuki Tanaka",
     country: "Japan",
-    image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&q=80",
+    image:
+      "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&q=80",
     rating: 5,
     review:
       "The morning meditation sessions by the Ganges were life-changing. Our instructor's depth of knowledge about yoga philosophy was remarkable. The small batch size meant I got personal attention throughout. This is not just a certification course — it is a journey within.",
@@ -79,7 +82,8 @@ const fallbackTextReviews: TextReview[] = [
   {
     name: "Emma Clarke",
     country: "United Kingdom",
-    image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=200&q=80",
+    image:
+      "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=200&q=80",
     rating: 5,
     review:
       "I was nervous coming as a beginner but the instructors made me feel so welcome. By the end of 13 days I could teach a full class confidently. The Yoga Alliance certification is a huge bonus. Rishikesh is the perfect backdrop for this kind of inner work.",
@@ -89,7 +93,8 @@ const fallbackTextReviews: TextReview[] = [
   {
     name: "David Chen",
     country: "Australia",
-    image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&q=80",
+    image:
+      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&q=80",
     rating: 5,
     review:
       "Best investment I have made in myself. The combination of asana practice, pranayama, and philosophy made this so much more than just a physical training. The team genuinely cares about your growth. I left with skills, friends, and a completely new perspective on life.",
@@ -99,7 +104,8 @@ const fallbackTextReviews: TextReview[] = [
   {
     name: "Priya Sharma",
     country: "Canada",
-    image: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=200&q=80",
+    image:
+      "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=200&q=80",
     rating: 5,
     review:
       "Coming to Rishikesh was a dream and this school made it even better. The curriculum is well-structured, the teachers are masters in their craft, and the energy of the place is unlike anywhere else. I came for the certificate but got so much more — peace, clarity, and purpose.",
@@ -112,28 +118,32 @@ const fallbackVideoReviews: VideoReview[] = [
   {
     name: "Jessica Williams",
     country: "USA",
-    thumbnail: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=600&q=80",
+    thumbnail:
+      "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=600&q=80",
     videoUrl: fallbackVideoUrl,
     label: "Watch Review",
   },
   {
     name: "Thomas Müller",
     country: "Germany",
-    thumbnail: "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=600&q=80",
+    thumbnail:
+      "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=600&q=80",
     videoUrl: fallbackVideoUrl,
     label: "Watch Review",
   },
   {
     name: "Aiko Nakamura",
     country: "Japan",
-    thumbnail: "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=600&q=80",
+    thumbnail:
+      "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=600&q=80",
     videoUrl: fallbackVideoUrl,
     label: "Watch Review",
   },
   {
     name: "Aiko Nakamura",
     country: "Japan",
-    thumbnail: "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=600&q=80",
+    thumbnail:
+      "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?w=600&q=80",
     videoUrl: fallbackVideoUrl,
     label: "Watch Review",
   },
@@ -158,9 +168,12 @@ const getVideoType = (url: string) => {
 
 const getYouTubeEmbed = (url: string) => {
   let videoId = "";
-  if (url.includes("youtu.be")) videoId = url.split("youtu.be/")[1]?.split("?")[0];
-  else if (url.includes("shorts")) videoId = url.split("shorts/")[1]?.split("?")[0];
-  else if (url.includes("watch?v=")) videoId = url.split("watch?v=")[1]?.split("&")[0];
+  if (url.includes("youtu.be"))
+    videoId = url.split("youtu.be/")[1]?.split("?")[0];
+  else if (url.includes("shorts"))
+    videoId = url.split("shorts/")[1]?.split("?")[0];
+  else if (url.includes("watch?v="))
+    videoId = url.split("watch?v=")[1]?.split("&")[0];
   return videoId
     ? `https://www.youtube.com/embed/${videoId}?autoplay=1&loop=1&playlist=${videoId}&controls=0&modestbranding=1&showinfo=0&rel=0&iv_load_policy=3&disablekb=1&playsinline=1`
     : "";
@@ -203,7 +216,14 @@ function DynamicVideo({ url }: { url: string }) {
   }
   if (type === "mp4") {
     return (
-      <video autoPlay loop muted playsInline controls={false} className={styles.rvVideo}>
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        controls={false}
+        className={styles.rvVideo}
+      >
         <source src={url} type="video/mp4" />
       </video>
     );
@@ -264,13 +284,32 @@ function ReviewSkeleton() {
         }
       `}</style>
       <div style={{ textAlign: "center", marginBottom: "2rem" }}>
-        <div className="rv-skel" style={{ height: 16, width: 140, margin: "0 auto 12px" }} />
-        <div className="rv-skel" style={{ height: 32, width: 300, margin: "0 auto 12px" }} />
-        <div className="rv-skel" style={{ height: 16, width: 400, margin: "0 auto" }} />
+        <div
+          className="rv-skel"
+          style={{ height: 16, width: 140, margin: "0 auto 12px" }}
+        />
+        <div
+          className="rv-skel"
+          style={{ height: 32, width: 300, margin: "0 auto 12px" }}
+        />
+        <div
+          className="rv-skel"
+          style={{ height: 16, width: 400, margin: "0 auto" }}
+        />
       </div>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: "1.5rem" }}>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
+          gap: "1.5rem",
+        }}
+      >
         {Array.from({ length: 6 }).map((_, i) => (
-          <div key={i} className="rv-skel" style={{ height: 220, borderRadius: 12 }} />
+          <div
+            key={i}
+            className="rv-skel"
+            style={{ height: 220, borderRadius: 12 }}
+          />
         ))}
       </div>
     </div>
@@ -294,8 +333,17 @@ function PrevArrow({ onClick }: ArrowProps) {
       onClick={onClick}
       aria-label="Previous"
     >
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
-        <path d="M15 18l-6-6 6-6" strokeLinecap="round" strokeLinejoin="round" />
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2.2"
+      >
+        <path
+          d="M15 18l-6-6 6-6"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
       </svg>
     </button>
   );
@@ -309,7 +357,12 @@ function NextArrow({ onClick }: ArrowProps) {
       onClick={onClick}
       aria-label="Next"
     >
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2.2"
+      >
         <path d="M9 18l6-6-6-6" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     </button>
@@ -379,7 +432,11 @@ function VideoSlider({
                   </div>
                 ) : (
                   <>
-                    <Image src={vr.thumbnail} alt={vr.name} className={styles.rvThumb} />
+                    <Image
+                      src={vr.thumbnail}
+                      alt={vr.name}
+                      className={styles.rvThumb}
+                    />
                     <div className={styles.rvOverlay} />
                     <div className={styles.rvPlayBtn}>
                       <svg viewBox="0 0 24 24" fill="currentColor">
@@ -430,15 +487,13 @@ export default function ReviewSection({
           api.get("/video-reviews/get"),
         ]);
 
-
         const textFiltered = textRes.data?.data?.filter(
-          (r: any) => r.courseType === courseType && r.status === "Active"
+          (r: any) => r.courseType === courseType && r.status === "Active",
         );
 
         const videoFiltered = videoRes.data?.data?.filter(
-          (r: any) => r.courseType === courseType && r.status === "Active"
+          (r: any) => r.courseType === courseType && r.status === "Active",
         );
-
 
         const mappedText = textFiltered.map((r: any) => ({
           name: r.name,
@@ -495,7 +550,8 @@ export default function ReviewSection({
         <div className={styles.rvEyebrow}>Student Experiences</div>
         <VintageHeading>What Our Students Say</VintageHeading>
         <p className={styles.rvSubtitle}>
-          Real stories from real yogis who transformed their lives at our Rishikesh ashram
+          Real stories from real yogis who transformed their lives at our
+          Rishikesh ashram
         </p>
         <div className={styles.rvStatRow}>
           {stats.map((s, i) => (
@@ -580,7 +636,11 @@ export default function ReviewSection({
               strokeWidth="2.2"
               className={styles.rvViewMoreIcon}
             >
-              <path d="M6 9l6 6 6-6" strokeLinecap="round" strokeLinejoin="round" />
+              <path
+                d="M6 9l6 6 6-6"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
             </svg>
           </button>
         </div>
@@ -605,14 +665,22 @@ export default function ReviewSection({
         <div className={styles.rvSidePanel}>
           <div className={styles.rvSideInner}>
             <div className={styles.rvSideIcon}>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.4"
+              >
                 <path d="M15 10l4.553-2.277A1 1 0 0121 8.677V15.32a1 1 0 01-1.447.894L15 14M3 8a2 2 0 012-2h10a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z" />
               </svg>
             </div>
-            <h3 className={styles.rvSideTitle}>Real Stories, Real Transformation</h3>
+            <h3 className={styles.rvSideTitle}>
+              Real Stories, Real Transformation
+            </h3>
             <p className={styles.rvSideText}>
-              Watch our students share their firsthand experiences of the 100-hour yoga teacher
-              training in Rishikesh — from the first day to graduation.
+              Watch our students share their firsthand experiences of the
+              100-hour yoga teacher training in Rishikesh — from the first day
+              to graduation.
             </p>
             <div className={styles.rvSideStats}>
               <div className={styles.rvSideStat}>
@@ -626,7 +694,11 @@ export default function ReviewSection({
             </div>
             <a href="#dates-fees" className={styles.rvSideBtn}>
               Join Next Batch
-              <svg viewBox="0 0 16 16" fill="none" className={styles.rvSideBtnArrow}>
+              <svg
+                viewBox="0 0 16 16"
+                fill="none"
+                className={styles.rvSideBtnArrow}
+              >
                 <path
                   d="M3 8h10M9 4l4 4-4 4"
                   stroke="currentColor"

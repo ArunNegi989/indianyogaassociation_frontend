@@ -6,9 +6,9 @@ export const metadata: Metadata = {
   description:
     "Yoga Teacher Training Cousre rules and regulation at AYM YOGA SCHOOL, to maintain and improve yogic healthy lifestyle.",
 
-    alternates: {
-      canonical: "https://www.indianyogaassociation.com/yoga-ttc-india.html",
-    },
+  alternates: {
+    canonical: "https://www.indianyogaassociation.com/yoga-ttc-india.html",
+  },
 };
 
 export default function Page() {

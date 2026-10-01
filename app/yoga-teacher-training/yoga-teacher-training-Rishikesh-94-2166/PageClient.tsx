@@ -16,7 +16,10 @@ const cityLinks: { name: string; href: string }[] = [
     name: "Haryana",
     href: "/yoga-teacher-training/yoga-teacher-training-Haryana-94-2186",
   },
-  { name: "Agra", href: "/yoga-teacher-training/yoga-teacher-training-Agra-94-2197" },
+  {
+    name: "Agra",
+    href: "/yoga-teacher-training/yoga-teacher-training-Agra-94-2197",
+  },
   {
     name: "Mumbai",
     href: "/yoga-teacher-training/yoga-teacher-training-Mumbai-94-2175",
@@ -41,8 +44,14 @@ const cityLinks: { name: string; href: string }[] = [
     name: "Tamil Nadu",
     href: "/yoga-teacher-training/yoga-teacher-training-Tamil%20Nadu-94-2187",
   },
-  { name: "Goa", href: "/yoga-teacher-training/yoga-teacher-training-Goa-94-2167" },
-  { name: "Kochi", href: "/yoga-teacher-training/yoga-teacher-training-Kochi-94-2190" },
+  {
+    name: "Goa",
+    href: "/yoga-teacher-training/yoga-teacher-training-Goa-94-2167",
+  },
+  {
+    name: "Kochi",
+    href: "/yoga-teacher-training/yoga-teacher-training-Kochi-94-2190",
+  },
   {
     name: "Munger",
     href: "/yoga-teacher-training/yoga-teacher-training-Munger-94-2177",
@@ -79,7 +88,10 @@ const cityLinks: { name: string; href: string }[] = [
     name: "Gurugram",
     href: "/yoga-teacher-training/yoga-teacher-training-Gurugram-94-2195",
   },
-  { name: "Pune", href: "/yoga-teacher-training/yoga-teacher-training-Pune-94-2171" },
+  {
+    name: "Pune",
+    href: "/yoga-teacher-training/yoga-teacher-training-Pune-94-2171",
+  },
   {
     name: "Chennai",
     href: "/yoga-teacher-training/yoga-teacher-training-Chennai-94-2184",
@@ -163,7 +175,19 @@ const YogaTrainingRishikesh: React.FC = () => {
               <div className={styles.headingUnderlineLine} />
             </div>
             <p className={styles.bodyText}>
-              Yoga is one of the best ways to take your life towards peace and tranquillity. Those who know the meaning of yoga and want to spread its knowledge to others always look up to taking it as their career. If you have been thinking of the same and want to become a yoga teacher in Rishikesh, then we are here. We at "Association for Yoga and Meditation" offer a top-class yoga teaching course in Rishikesh. Our consistent services have helped us develop an unparalleled reputation in the market. At our institute of yoga teacher training course near me, we ensure that the students get complete yogic knowledge by exploring its roots. We employ both traditional and advanced yogic concepts, besides educating our students about them so that they can develop a great professional career ahead.
+              Yoga is one of the best ways to take your life towards peace and
+              tranquillity. Those who know the meaning of yoga and want to
+              spread its knowledge to others always look up to taking it as
+              their career. If you have been thinking of the same and want to
+              become a yoga teacher in Rishikesh, then we are here. We at
+              "Association for Yoga and Meditation" offer a top-class yoga
+              teaching course in Rishikesh. Our consistent services have helped
+              us develop an unparalleled reputation in the market. At our
+              institute of yoga teacher training course near me, we ensure that
+              the students get complete yogic knowledge by exploring its roots.
+              We employ both traditional and advanced yogic concepts, besides
+              educating our students about them so that they can develop a great
+              professional career ahead.
             </p>
           </div>
         </div>
@@ -189,10 +213,24 @@ const YogaTrainingRishikesh: React.FC = () => {
               <div className={styles.headingUnderlineLine} />
             </div>
             <p className={styles.bodyText}>
-              As mentioned earlier, we help students in our institute to learn both traditional and modern forms of yoga. We make sure that you are enlightened about how yoga started and where it is in today's time. Our licensed yoga teacher training course in Rishikesh has a very updated and well-designed curriculum. Through our extensive and registered yoga teacher training course in Rishikesh, you will first be assisted to transform yourself into a flexible and fit personality before you would hand up the same to your yoga disciples.
+              As mentioned earlier, we help students in our institute to learn
+              both traditional and modern forms of yoga. We make sure that you
+              are enlightened about how yoga started and where it is in today's
+              time. Our licensed yoga teacher training course in Rishikesh has a
+              very updated and well-designed curriculum. Through our extensive
+              and registered yoga teacher training course in Rishikesh, you will
+              first be assisted to transform yourself into a flexible and fit
+              personality before you would hand up the same to your yoga
+              disciples.
             </p>
             <p className={styles.bodyText}>
-              After that, you will be taught ways to educate others in a friendly and professional way. Our classrooms are well equipped and comfortable enough that helps you to focus on achieving the yoga instructor certification near me. We make sure to instill the latest techniques of yoga and meditation in your mind through our yoga training course in Rishikesh so that you can help others to live happy life.
+              After that, you will be taught ways to educate others in a
+              friendly and professional way. Our classrooms are well equipped
+              and comfortable enough that helps you to focus on achieving the
+              yoga instructor certification near me. We make sure to instill the
+              latest techniques of yoga and meditation in your mind through our
+              yoga training course in Rishikesh so that you can help others to
+              live happy life.
             </p>
           </div>
         </div>
@@ -218,10 +256,22 @@ const YogaTrainingRishikesh: React.FC = () => {
               <div className={styles.headingUnderlineLine} />
             </div>
             <p className={styles.bodyText}>
-              We at " Association for Yoga and Meditation" have a highly talented and experienced team of instructors who would guide you in yoga teacher training in Rishikesh. It does not matter how skilled or professional you already are - we make sure that you complete YTT certification in Rishikesh starting from scratch and then to the advanced level.
+              We at " Association for Yoga and Meditation" have a highly
+              talented and experienced team of instructors who would guide you
+              in yoga teacher training in Rishikesh. It does not matter how
+              skilled or professional you already are - we make sure that you
+              complete YTT certification in Rishikesh starting from scratch and
+              then to the advanced level.
             </p>
             <p className={styles.bodyText}>
-              Through our yoga teacher training program in Rishikesh, you will be prepared to face the challenges of the real world. Our yoga therapy teacher training helps you recognize how you would communicate with the students and how you would understand their problems. Lastly, you will be handed over the YTT certification in Rishikesh that is globally accepted. The International yoga certification will help you to get your dream job or launch your own yoga classes anywhere in the world.
+              Through our yoga teacher training program in Rishikesh, you will
+              be prepared to face the challenges of the real world. Our yoga
+              therapy teacher training helps you recognize how you would
+              communicate with the students and how you would understand their
+              problems. Lastly, you will be handed over the YTT certification in
+              Rishikesh that is globally accepted. The International yoga
+              certification will help you to get your dream job or launch your
+              own yoga classes anywhere in the world.
             </p>
           </div>
         </div>

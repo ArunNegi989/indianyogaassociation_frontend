@@ -19,7 +19,10 @@ const cityLinks: { name: string; href: string }[] = [
     name: "Haryana",
     href: "/yoga-teacher-training/yoga-teacher-training-Haryana-94-2186",
   },
-  { name: "Agra", href: "/yoga-teacher-training/yoga-teacher-training-Agra-94-2197" },
+  {
+    name: "Agra",
+    href: "/yoga-teacher-training/yoga-teacher-training-Agra-94-2197",
+  },
   {
     name: "Mumbai",
     href: "/yoga-teacher-training/yoga-teacher-training-Mumbai-94-2175",
@@ -44,8 +47,14 @@ const cityLinks: { name: string; href: string }[] = [
     name: "Tamil Nadu",
     href: "/yoga-teacher-training/yoga-teacher-training-Tamil%20Nadu-94-2187",
   },
-  { name: "Goa", href: "/yoga-teacher-training/yoga-teacher-training-Goa-94-2167" },
-  { name: "Kochi", href: "/yoga-teacher-training/yoga-teacher-training-Kochi-94-2190" },
+  {
+    name: "Goa",
+    href: "/yoga-teacher-training/yoga-teacher-training-Goa-94-2167",
+  },
+  {
+    name: "Kochi",
+    href: "/yoga-teacher-training/yoga-teacher-training-Kochi-94-2190",
+  },
   {
     name: "Munger",
     href: "/yoga-teacher-training/yoga-teacher-training-Munger-94-2177",
@@ -82,7 +91,10 @@ const cityLinks: { name: string; href: string }[] = [
     name: "Gurugram",
     href: "/yoga-teacher-training/yoga-teacher-training-Gurugram-94-2195",
   },
-  { name: "Pune", href: "/yoga-teacher-training/yoga-teacher-training-Pune-94-2171" },
+  {
+    name: "Pune",
+    href: "/yoga-teacher-training/yoga-teacher-training-Pune-94-2171",
+  },
   {
     name: "Chennai",
     href: "/yoga-teacher-training/yoga-teacher-training-Chennai-94-2184",
@@ -197,8 +209,8 @@ const YogaTrainingKolkata: React.FC = () => {
               <strong className={styles.boldLink}>
                 yoga instructor certification near me
               </strong>{" "}
-              we top the list as our experts and teachers are well recognized and
-              popular.
+              we top the list as our experts and teachers are well recognized
+              and popular.
             </p>
           </div>
         </div>
@@ -241,15 +253,15 @@ const YogaTrainingKolkata: React.FC = () => {
             </p>
             <p className={styles.bodyText}>
               Our teachers come with the best yoga teacher certification that
-              makes it easy both for students and teachers to maintain a positive
-              attitude throughout the journey. Unlike others, once your course is
-              complete, we'll provide you with{" "}
+              makes it easy both for students and teachers to maintain a
+              positive attitude throughout the journey. Unlike others, once your
+              course is complete, we'll provide you with{" "}
               <strong className={styles.boldLink}>
                 yoga teacher training certification in Kolkata
               </strong>{" "}
-              international yoga certification. You can rest assured knowing that
-              you'll be learning all techniques and methods from the best of
-              teachers.
+              international yoga certification. You can rest assured knowing
+              that you'll be learning all techniques and methods from the best
+              of teachers.
             </p>
           </div>
         </div>

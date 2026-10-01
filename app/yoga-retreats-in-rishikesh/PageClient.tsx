@@ -92,14 +92,24 @@ interface RetreatData {
 }
 
 /* Route card accent/badge styles cycle through these three looks. */
-const ROUTE_ACCENT_CLASSES = ["routeAccent", "routeAccentDark", "routeAccentMid"] as const;
-const ROUTE_BADGE_CLASSES = ["routeBadge", "routeBadgeDark", "routeBadgeMid"] as const;
+const ROUTE_ACCENT_CLASSES = [
+  "routeAccent",
+  "routeAccentDark",
+  "routeAccentMid",
+] as const;
+const ROUTE_BADGE_CLASSES = [
+  "routeBadge",
+  "routeBadgeDark",
+  "routeBadgeMid",
+] as const;
 
 /* ─────────────────────── Data fetching ─────────────────────── */
 async function getRetreatData(): Promise<RetreatData | null> {
   try {
     const res = await api.get("/yoga-retreat-section");
-    const doc = Array.isArray(res.data?.data) ? res.data.data[0] : res.data?.data;
+    const doc = Array.isArray(res.data?.data)
+      ? res.data.data[0]
+      : res.data?.data;
     return doc || null;
   } catch (err) {
     if (process.env.NODE_ENV !== "production") {
@@ -108,7 +118,6 @@ async function getRetreatData(): Promise<RetreatData | null> {
     return null;
   }
 }
-
 
 function withSafeDefaults(d: RetreatData | null): Required<RetreatData> {
   return {
@@ -196,14 +205,20 @@ export default async function YogaRetreatPage() {
 
       <section className={styles.heroSection1}>
         <div className={styles.container}>
-          {data.pageTitle && <h1 className={styles.pageTitle}>{data.pageTitle}</h1>}
+          {data.pageTitle && (
+            <h1 className={styles.pageTitle}>{data.pageTitle}</h1>
+          )}
           <OmDivider />
 
           <div className={styles.s1TwoCol}>
             {/* LEFT — text */}
             <div className={styles.s1TextCol}>
               {data.s1Paragraphs.map((para, i) => (
-                <p key={i} className={styles.bodyPara} dangerouslySetInnerHTML={{ __html: para }} />
+                <p
+                  key={i}
+                  className={styles.bodyPara}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
               ))}
 
               {data.s1Stats.length > 0 && (
@@ -214,7 +229,9 @@ export default async function YogaRetreatPage() {
                         <span className={styles.s1StatNum}>{stat.num}</span>
                         <span className={styles.s1StatLbl}>{stat.label}</span>
                       </div>
-                      {i < data.s1Stats.length - 1 && <div className={styles.s1StatDiv} />}
+                      {i < data.s1Stats.length - 1 && (
+                        <div className={styles.s1StatDiv} />
+                      )}
                     </React.Fragment>
                   ))}
                 </div>
@@ -260,7 +277,9 @@ export default async function YogaRetreatPage() {
           {data.s2Title && <h2 className={styles.secTitle}>{data.s2Title}</h2>}
           <OmDivider />
 
-          {data.s2Intro && <p className={styles.scheduleIntro}>{data.s2Intro}</p>}
+          {data.s2Intro && (
+            <p className={styles.scheduleIntro}>{data.s2Intro}</p>
+          )}
 
           <div className={styles.scheduleGrid}>
             {/* LEFT — Pricing card */}
@@ -269,7 +288,9 @@ export default async function YogaRetreatPage() {
                 <div className={styles.cardHead}>
                   <span className={styles.cardHeadIcon}>🧘</span>
                   <div>
-                    <p className={styles.cardHeadTitle}>Yoga Retreats in Rishikesh</p>
+                    <p className={styles.cardHeadTitle}>
+                      Yoga Retreats in Rishikesh
+                    </p>
                     <p className={styles.cardHeadSub}>Pricing &amp; Packages</p>
                   </div>
                 </div>
@@ -293,7 +314,9 @@ export default async function YogaRetreatPage() {
                 <div className={styles.cardHead}>
                   <span className={styles.cardHeadIcon}>📋</span>
                   <div>
-                    <p className={styles.cardHeadTitle}>Yoga Retreats Overview</p>
+                    <p className={styles.cardHeadTitle}>
+                      Yoga Retreats Overview
+                    </p>
                     <p className={styles.cardHeadSub}>What's Included</p>
                   </div>
                 </div>
@@ -337,7 +360,9 @@ export default async function YogaRetreatPage() {
                     className={styles.stripImg}
                   />
                 )}
-                {item.label && <span className={styles.stripLabel}>{item.label}</span>}
+                {item.label && (
+                  <span className={styles.stripLabel}>{item.label}</span>
+                )}
               </div>
             ))}
           </div>
@@ -349,18 +374,28 @@ export default async function YogaRetreatPage() {
               {data.s3Blocks.map((block, i) => (
                 <div key={i} className={styles.contentBox}>
                   <div className={styles.contentBoxInner}>
-                    {block.title && <h2 className={styles.secTitle}>{block.title}</h2>}
+                    {block.title && (
+                      <h2 className={styles.secTitle}>{block.title}</h2>
+                    )}
                     <OmDivider />
                     {block.paragraphs.map((para, pi) => (
-                      <p key={pi} className={styles.bodyPara} dangerouslySetInnerHTML={{ __html: para }} />
+                      <p
+                        key={pi}
+                        className={styles.bodyPara}
+                        dangerouslySetInnerHTML={{ __html: para }}
+                      />
                     ))}
                     {block.priceFrom && (
                       <div className={styles.pricePill}>
                         <span className={styles.priceLabel}>From</span>
-                        <span className={styles.priceVal}>{block.priceFrom}</span>
+                        <span className={styles.priceVal}>
+                          {block.priceFrom}
+                        </span>
                       </div>
                     )}
-                    {block.priceNote && <p className={styles.priceNote}>{block.priceNote}</p>}
+                    {block.priceNote && (
+                      <p className={styles.priceNote}>{block.priceNote}</p>
+                    )}
                   </div>
                 </div>
               ))}
@@ -377,18 +412,28 @@ export default async function YogaRetreatPage() {
               {data.s4Blocks.map((block, i) => (
                 <div key={i} className={styles.contentBox}>
                   <div className={styles.contentBoxInner}>
-                    {block.title && <h2 className={styles.secTitle}>{block.title}</h2>}
+                    {block.title && (
+                      <h2 className={styles.secTitle}>{block.title}</h2>
+                    )}
                     <OmDivider />
                     {block.paragraphs.map((para, pi) => (
-                      <p key={pi} className={styles.bodyPara} dangerouslySetInnerHTML={{ __html: para }} />
+                      <p
+                        key={pi}
+                        className={styles.bodyPara}
+                        dangerouslySetInnerHTML={{ __html: para }}
+                      />
                     ))}
                     {block.priceFrom && (
                       <div className={styles.pricePill}>
                         <span className={styles.priceLabel}>From</span>
-                        <span className={styles.priceVal}>{block.priceFrom}</span>
+                        <span className={styles.priceVal}>
+                          {block.priceFrom}
+                        </span>
                       </div>
                     )}
-                    {block.priceNote && <p className={styles.priceNote}>{block.priceNote}</p>}
+                    {block.priceNote && (
+                      <p className={styles.priceNote}>{block.priceNote}</p>
+                    )}
                   </div>
                 </div>
               ))}
@@ -401,10 +446,16 @@ export default async function YogaRetreatPage() {
               <div className={styles.infoBlocksWrap}>
                 {data.infoBlocks.map((block, i) => (
                   <div key={i} className={styles.infoBlock}>
-                    {block.title && <h2 className={styles.secTitle}>{block.title}</h2>}
+                    {block.title && (
+                      <h2 className={styles.secTitle}>{block.title}</h2>
+                    )}
                     <OmDivider />
                     {block.paragraphs.map((para, pi) => (
-                      <p key={pi} className={styles.bodyPara} dangerouslySetInnerHTML={{ __html: para }} />
+                      <p
+                        key={pi}
+                        className={styles.bodyPara}
+                        dangerouslySetInnerHTML={{ __html: para }}
+                      />
                     ))}
                   </div>
                 ))}
@@ -421,7 +472,9 @@ export default async function YogaRetreatPage() {
           )}
 
           {/* Affordable block */}
-          {(data.affordableTitle || data.affordableParagraphs.length > 0 || data.affordableFeatures.length > 0) && (
+          {(data.affordableTitle ||
+            data.affordableParagraphs.length > 0 ||
+            data.affordableFeatures.length > 0) && (
             <div className={styles.affordableWrap}>
               <div className={styles.affordableText}>
                 {data.affordableTitle && (
@@ -431,18 +484,27 @@ export default async function YogaRetreatPage() {
                 )}
                 <OmDivider />
                 {data.affordableParagraphs.map((para, i) => (
-                  <p key={i} className={styles.bodyPara} dangerouslySetInnerHTML={{ __html: para }} />
+                  <p
+                    key={i}
+                    className={styles.bodyPara}
+                    dangerouslySetInnerHTML={{ __html: para }}
+                  />
                 ))}
               </div>
 
-              {(data.affordableCardTitle || data.affordableFeatures.length > 0) && (
+              {(data.affordableCardTitle ||
+                data.affordableFeatures.length > 0) && (
                 <div className={styles.affordableCard}>
                   <div className={styles.affordableCardHead}>
                     {data.affordableCardTitle && (
-                      <p className={styles.affordableCardHeadTitle}>{data.affordableCardTitle}</p>
+                      <p className={styles.affordableCardHeadTitle}>
+                        {data.affordableCardTitle}
+                      </p>
                     )}
                     {data.affordableCardSub && (
-                      <p className={styles.affordableCardHeadSub}>{data.affordableCardSub}</p>
+                      <p className={styles.affordableCardHeadSub}>
+                        {data.affordableCardSub}
+                      </p>
                     )}
                   </div>
                   <div className={styles.affordableCardBody}>
@@ -465,14 +527,20 @@ export default async function YogaRetreatPage() {
       {/* section 6 */}
       <section className={styles.reachSection} id="book">
         <div className={styles.container}>
-          {data.reachTitle && <h2 className={styles.secTitle}>{data.reachTitle}</h2>}
+          {data.reachTitle && (
+            <h2 className={styles.secTitle}>{data.reachTitle}</h2>
+          )}
           <OmDivider />
 
           <div className={styles.reachTwoCol}>
             {/* LEFT — text + CTAs */}
             <div className={styles.reachTextCol}>
               {data.reachParagraphs.map((para, i) => (
-                <p key={i} className={styles.bodyPara} dangerouslySetInnerHTML={{ __html: para }} />
+                <p
+                  key={i}
+                  className={styles.bodyPara}
+                  dangerouslySetInnerHTML={{ __html: para }}
+                />
               ))}
 
               {(data.bookNowText || data.paypalText) && (
@@ -484,7 +552,9 @@ export default async function YogaRetreatPage() {
                   )}
                   {data.paypalText && data.paypalLink && (
                     <Link href={data.paypalLink} className={styles.paypalBtn}>
-                      <span className={styles.paypalText}>{data.paypalText}</span>
+                      <span className={styles.paypalText}>
+                        {data.paypalText}
+                      </span>
                     </Link>
                   )}
                 </div>
@@ -503,7 +573,9 @@ export default async function YogaRetreatPage() {
                       <div className={styles.routeBody}>
                         <div className={styles.routeHead}>
                           <span className={styles.routeIcon}>{route.icon}</span>
-                          <span className={styles.routeTitle}>{route.title}</span>
+                          <span className={styles.routeTitle}>
+                            {route.title}
+                          </span>
                           <span className={badgeClass}>{route.badge}</span>
                         </div>
                         <p className={styles.routeDesc}>{route.desc}</p>

@@ -19,7 +19,10 @@ const cityLinks: { name: string; href: string }[] = [
     name: "Haryana",
     href: "/yoga-teacher-training/yoga-teacher-training-Haryana-94-2186",
   },
-  { name: "Agra", href: "/yoga-teacher-training/yoga-teacher-training-Agra-94-2197" },
+  {
+    name: "Agra",
+    href: "/yoga-teacher-training/yoga-teacher-training-Agra-94-2197",
+  },
   {
     name: "Mumbai",
     href: "/yoga-teacher-training/yoga-teacher-training-Mumbai-94-2175",
@@ -44,8 +47,14 @@ const cityLinks: { name: string; href: string }[] = [
     name: "Tamil Nadu",
     href: "/yoga-teacher-training/yoga-teacher-training-Tamil%20Nadu-94-2187",
   },
-  { name: "Goa", href: "/yoga-teacher-training/yoga-teacher-training-Goa-94-2167" },
-  { name: "Kochi", href: "/yoga-teacher-training/yoga-teacher-training-Kochi-94-2190" },
+  {
+    name: "Goa",
+    href: "/yoga-teacher-training/yoga-teacher-training-Goa-94-2167",
+  },
+  {
+    name: "Kochi",
+    href: "/yoga-teacher-training/yoga-teacher-training-Kochi-94-2190",
+  },
   {
     name: "Munger",
     href: "/yoga-teacher-training/yoga-teacher-training-Munger-94-2177",
@@ -82,7 +91,10 @@ const cityLinks: { name: string; href: string }[] = [
     name: "Gurugram",
     href: "/yoga-teacher-training/yoga-teacher-training-Gurugram-94-2195",
   },
-  { name: "Pune", href: "/yoga-teacher-training/yoga-teacher-training-Pune-94-2171" },
+  {
+    name: "Pune",
+    href: "/yoga-teacher-training/yoga-teacher-training-Pune-94-2171",
+  },
   {
     name: "Chennai",
     href: "/yoga-teacher-training/yoga-teacher-training-Chennai-94-2184",
@@ -179,8 +191,8 @@ const YogaTrainingBengaluru: React.FC = () => {
               AYM Yoga School is located in Rishikesh and Goa. We are a famous
               yoga and meditation institution in India, specializing in teacher
               training, yoga gurus. Our non-profit organization aims to teach
-              quality yoga classes to anyone who wants to become a qualified yoga
-              instructor. AYM Yoga School also helps you relieve emotional
+              quality yoga classes to anyone who wants to become a qualified
+              yoga instructor. AYM Yoga School also helps you relieve emotional
               problems through yoga therapy retreat. In addition, if you are in
               Bengaluru, AYM Yoga School will also fully operate our facilities
               here.
@@ -215,13 +227,11 @@ const YogaTrainingBengaluru: React.FC = () => {
               AYM Yoga School is a professional yoga and meditation school
               located in Rishikesh and Goa. Our area of expertise is to provide
               high-quality{" "}
-              <strong className={styles.boldLink}>
-                yoga teacher training
-              </strong>{" "}
-              and yoga retreat service to anyone willing to enjoy the benefits of
-              yoga in India. Enjoy Mantras, Pranayama, yoga prayer with our yoga
-              teachers. Our outstanding achievements are widely recognized by
-              students and professors all over the world. And if you live in
+              <strong className={styles.boldLink}>yoga teacher training</strong>{" "}
+              and yoga retreat service to anyone willing to enjoy the benefits
+              of yoga in India. Enjoy Mantras, Pranayama, yoga prayer with our
+              yoga teachers. Our outstanding achievements are widely recognized
+              by students and professors all over the world. And if you live in
               Bengaluru or plan to visit, we also provide our facilities and
               training courses there.
             </p>

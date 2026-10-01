@@ -116,7 +116,6 @@ const DetoxRetreat: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-
   useEffect(() => {
     const fetchDetoxData = async () => {
       try {
@@ -132,7 +131,11 @@ const DetoxRetreat: React.FC = () => {
         }
       } catch (err: any) {
         console.error("Error fetching detox retreat data:", err);
-        setError(err.response?.data?.message || err.message || "Failed to load detox retreat data");
+        setError(
+          err.response?.data?.message ||
+            err.message ||
+            "Failed to load detox retreat data",
+        );
         toast.error("Failed to load detox retreat data");
       } finally {
         setLoading(false);
@@ -157,7 +160,9 @@ const DetoxRetreat: React.FC = () => {
     return (
       <div className={styles.pageWrapper}>
         <div className={styles.errorContainer}>
-          <p className={styles.errorMessage}>Unable to load detox retreat data. Please try again later.</p>
+          <p className={styles.errorMessage}>
+            Unable to load detox retreat data. Please try again later.
+          </p>
           <button
             className={styles.retryButton}
             onClick={() => window.location.reload()}
@@ -203,7 +208,9 @@ const DetoxRetreat: React.FC = () => {
             {data.s1HighlightText && (
               <div className={styles.highlightBox}>
                 <p className={styles.bodyText}>
-                  <span className={styles.highlight}>The below image shows</span>
+                  <span className={styles.highlight}>
+                    The below image shows
+                  </span>
                   {" " + stripHtml(data.s1HighlightText)}
                 </p>
               </div>
@@ -231,7 +238,9 @@ const DetoxRetreat: React.FC = () => {
               )}
               {data.s1ImageBadge && (
                 <div className={styles.imageOverlay}>
-                  <span className={styles.imageBadge}>{stripHtml(data.s1ImageBadge)}</span>
+                  <span className={styles.imageBadge}>
+                    {stripHtml(data.s1ImageBadge)}
+                  </span>
                 </div>
               )}
             </div>
@@ -263,9 +272,15 @@ const DetoxRetreat: React.FC = () => {
             {data.benefits && data.benefits.length > 0 ? (
               data.benefits.map((benefit, index) => (
                 <div key={index} className={styles.benefitCard}>
-                  <span className={styles.benefitIcon}>{benefit.icon || "✨"}</span>
-                  <h3 className={styles.benefitTitle}>{stripHtml(benefit.title)}</h3>
-                  <p className={styles.benefitDesc}>{stripHtml(benefit.desc)}</p>
+                  <span className={styles.benefitIcon}>
+                    {benefit.icon || "✨"}
+                  </span>
+                  <h3 className={styles.benefitTitle}>
+                    {stripHtml(benefit.title)}
+                  </h3>
+                  <p className={styles.benefitDesc}>
+                    {stripHtml(benefit.desc)}
+                  </p>
                 </div>
               ))
             ) : (
@@ -290,7 +305,9 @@ const DetoxRetreat: React.FC = () => {
                 <div key={index} className={styles.stepCard}>
                   <div className={styles.stepNum}>{index + 1}</div>
                   <div>
-                    <h3 className={styles.stepTitle}>{stripHtml(step.title)}</h3>
+                    <h3 className={styles.stepTitle}>
+                      {stripHtml(step.title)}
+                    </h3>
                     <p className={styles.stepDesc}>{stripHtml(step.desc)}</p>
                   </div>
                 </div>
@@ -300,11 +317,19 @@ const DetoxRetreat: React.FC = () => {
             )}
 
             {data.finalStepTitle && data.finalStepDesc && (
-              <div className={`${styles.stepCard} ${styles.stepCardFull} ${styles.stepCardHighlight}`}>
-                <div className={styles.stepNum}>{data.steps ? data.steps.length + 1 : 7}</div>
+              <div
+                className={`${styles.stepCard} ${styles.stepCardFull} ${styles.stepCardHighlight}`}
+              >
+                <div className={styles.stepNum}>
+                  {data.steps ? data.steps.length + 1 : 7}
+                </div>
                 <div>
-                  <h3 className={styles.stepTitle}>{stripHtml(data.finalStepTitle)}</h3>
-                  <p className={styles.stepDesc}>{stripHtml(data.finalStepDesc)}</p>
+                  <h3 className={styles.stepTitle}>
+                    {stripHtml(data.finalStepTitle)}
+                  </h3>
+                  <p className={styles.stepDesc}>
+                    {stripHtml(data.finalStepDesc)}
+                  </p>
                 </div>
               </div>
             )}
@@ -323,7 +348,9 @@ const DetoxRetreat: React.FC = () => {
             <div className={styles.badgeRow}>
               {data.badges && data.badges.length > 0 ? (
                 data.badges.map((badge, index) => (
-                  <span key={index} className={styles.therapyBadge}>{stripHtml(badge)}</span>
+                  <span key={index} className={styles.therapyBadge}>
+                    {stripHtml(badge)}
+                  </span>
                 ))
               ) : (
                 <span className={styles.therapyBadge}>Therapies</span>
@@ -370,10 +397,14 @@ const DetoxRetreat: React.FC = () => {
                 <div key={index} className={styles.systemCard}>
                   <div className={styles.systemCardHeader}>
                     <div className={styles.systemNum}>{index + 1}</div>
-                    <p className={styles.systemCardDesc}>{stripHtml(system.description)}</p>
+                    <p className={styles.systemCardDesc}>
+                      {stripHtml(system.description)}
+                    </p>
                   </div>
                   <div className={styles.systemCardBody}>
-                    <p className={styles.providesLabel}>{stripHtml(system.providesLabel || "What to expect:")}</p>
+                    <p className={styles.providesLabel}>
+                      {stripHtml(system.providesLabel || "What to expect:")}
+                    </p>
                     <ul className={styles.providesList}>
                       {system.providesList && system.providesList.length > 0 ? (
                         system.providesList.map((item, idx) => (
@@ -381,12 +412,16 @@ const DetoxRetreat: React.FC = () => {
                             <div className={styles.providesDot}>
                               <div className={styles.providesDotInner} />
                             </div>
-                            <span className={styles.providesText}>{stripHtml(item)}</span>
+                            <span className={styles.providesText}>
+                              {stripHtml(item)}
+                            </span>
                           </li>
                         ))
                       ) : (
                         <li className={styles.providesItem}>
-                          <span className={styles.providesText}>No items listed</span>
+                          <span className={styles.providesText}>
+                            No items listed
+                          </span>
                         </li>
                       )}
                     </ul>
@@ -411,7 +446,9 @@ const DetoxRetreat: React.FC = () => {
             {data.packages && data.packages.length > 0 ? (
               data.packages.map((pkg, index) => (
                 <div key={index} className={styles.pkgCard}>
-                  <div className={styles.pkgDays}>{stripHtml(pkg.split(" ")[0])}</div>
+                  <div className={styles.pkgDays}>
+                    {stripHtml(pkg.split(" ")[0])}
+                  </div>
                   <div className={styles.pkgDaysLabel}>
                     {stripHtml(pkg.split(" ").slice(1).join(" ") || "Days")}
                   </div>

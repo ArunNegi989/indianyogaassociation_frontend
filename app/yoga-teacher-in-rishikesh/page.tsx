@@ -6,9 +6,10 @@ export const metadata: Metadata = {
   description:
     "AYM yoga teachers team in rishikesh is dedicated to provide life changing experience to yoga spirants.",
 
-    alternates: {
-      canonical: "https://www.indianyogaassociation.com/yoga-teacher-in-rishikesh.html",
-    },
+  alternates: {
+    canonical:
+      "https://www.indianyogaassociation.com/yoga-teacher-in-rishikesh.html",
+  },
 };
 
 export default function Page() {

@@ -31,12 +31,12 @@ async function getCourses(): Promise<Course[]> {
   } catch (err: any) {
     if (err.response) {
       console.error(
-        `Courses fetch failed with status ${err.response.status} — URL: ${err.config?.baseURL}${err.config?.url}`
+        `Courses fetch failed with status ${err.response.status} — URL: ${err.config?.baseURL}${err.config?.url}`,
       );
     } else if (err.request) {
       console.error(
         "No response from server — backend down ya unreachable ho sakta hai:",
-        err.message
+        err.message,
       );
     } else {
       console.error("Server-side courses fetch failed:", err.message);

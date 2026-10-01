@@ -30,7 +30,9 @@ export default function EditGuestTeacherPage() {
   const [submitted, setSubmitted] = useState(false);
 
   const [form, setForm] = useState<FormData>({
-    name: "", order: "", bioItems: [""],
+    name: "",
+    order: "",
+    bioItems: [""],
   });
   const [errors, setErrors] = useState<FormErrors>({});
   const [imageFile, setImageFile] = useState<File | null>(null);
@@ -44,7 +46,9 @@ export default function EditGuestTeacherPage() {
     const fetchTeacher = async () => {
       try {
         // ✅ FIXED: correct guest teacher endpoint
-        const res = await api.get(`/guest-teachers/get-guest-teacher/${teacherId}`);
+        const res = await api.get(
+          `/guest-teachers/get-guest-teacher/${teacherId}`,
+        );
         const t = res.data.data;
         if (!t) {
           toast.error("Guest teacher not found");
@@ -87,16 +91,25 @@ export default function EditGuestTeacherPage() {
 
   const addBio = () =>
     setForm((p) =>
-      p.bioItems.length >= 8 ? p : { ...p, bioItems: [...p.bioItems, ""] }
+      p.bioItems.length >= 8 ? p : { ...p, bioItems: [...p.bioItems, ""] },
     );
 
   const removeBio = (idx: number) =>
-    setForm((p) => ({ ...p, bioItems: p.bioItems.filter((_, i) => i !== idx) }));
+    setForm((p) => ({
+      ...p,
+      bioItems: p.bioItems.filter((_, i) => i !== idx),
+    }));
 
   /* ── Image ── */
   const handleImageFile = (file: File) => {
-    if (!file.type.startsWith("image/")) { toast.error("Only image files allowed"); return; }
-    if (file.size > 5 * 1024 * 1024) { toast.error("Image must be under 5MB"); return; }
+    if (!file.type.startsWith("image/")) {
+      toast.error("Only image files allowed");
+      return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      toast.error("Image must be under 5MB");
+      return;
+    }
     setImageFile(file);
     setErrors((p) => ({ ...p, image: undefined }));
     const reader = new FileReader();
@@ -122,7 +135,8 @@ export default function EditGuestTeacherPage() {
   const validate = (): boolean => {
     const e: FormErrors = {};
     if (!form.name.trim()) e.name = "Teacher name is required";
-    if (!imageFile && !existingImageUrl) e.image = "A profile photo is required";
+    if (!imageFile && !existingImageUrl)
+      e.image = "A profile photo is required";
     if (form.bioItems.filter(Boolean).length === 0)
       e.bioItems = "At least one biography paragraph is required";
     if (form.bioItems.some((b) => !b.trim()))
@@ -158,33 +172,36 @@ export default function EditGuestTeacherPage() {
       setSubmitted(true);
       setTimeout(() => router.push("/admin/our-teachers/guestteachers"), 1500);
     } catch (err: any) {
-      toast.error(err?.response?.data?.message || "Failed to update guest teacher");
+      toast.error(
+        err?.response?.data?.message || "Failed to update guest teacher",
+      );
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  if (loading) return (
-    <div className={styles.loadingState}>
-      <div className={styles.loadingOm}>ॐ</div>
-      <p className={styles.loadingText}>Loading guest teacher data…</p>
-    </div>
-  );
-
-  if (submitted) return (
-    <div className={styles.successScreen}>
-      <div className={styles.successCard}>
-        <div className={styles.successOm}>ॐ</div>
-        <div className={styles.successCheck}>✓</div>
-        <h2 className={styles.successTitle}>Guest Teacher Updated!</h2>
-        <p className={styles.successText}>Redirecting…</p>
+  if (loading)
+    return (
+      <div className={styles.loadingState}>
+        <div className={styles.loadingOm}>ॐ</div>
+        <p className={styles.loadingText}>Loading guest teacher data…</p>
       </div>
-    </div>
-  );
+    );
+
+  if (submitted)
+    return (
+      <div className={styles.successScreen}>
+        <div className={styles.successCard}>
+          <div className={styles.successOm}>ॐ</div>
+          <div className={styles.successCheck}>✓</div>
+          <h2 className={styles.successTitle}>Guest Teacher Updated!</h2>
+          <p className={styles.successText}>Redirecting…</p>
+        </div>
+      </div>
+    );
 
   return (
     <div className={styles.page}>
-
       {/* Breadcrumb */}
       <div className={styles.breadcrumb}>
         <button
@@ -209,12 +226,14 @@ export default function EditGuestTeacherPage() {
       </div>
 
       <div className={styles.ornament}>
-        <span>❧</span><div className={styles.ornamentLine} />
-        <span>ॐ</span><div className={styles.ornamentLine} /><span>❧</span>
+        <span>❧</span>
+        <div className={styles.ornamentLine} />
+        <span>ॐ</span>
+        <div className={styles.ornamentLine} />
+        <span>❧</span>
       </div>
 
       <div className={styles.formCard}>
-
         {/* ── Basic Info ── */}
         <div className={styles.sectionBlock}>
           <div className={styles.sectionHeader}>
@@ -228,7 +247,9 @@ export default function EditGuestTeacherPage() {
               Teacher Name <span className={styles.required}>*</span>
             </label>
             <p className={styles.fieldHint}>Full name with honorific</p>
-            <div className={`${styles.inputWrap} ${errors.name ? styles.inputError : ""} ${form.name && !errors.name ? styles.inputSuccess : ""}`}>
+            <div
+              className={`${styles.inputWrap} ${errors.name ? styles.inputError : ""} ${form.name && !errors.name ? styles.inputSuccess : ""}`}
+            >
               <input
                 type="text"
                 className={styles.input}
@@ -246,7 +267,9 @@ export default function EditGuestTeacherPage() {
             <label className={styles.label}>
               <span className={styles.labelIcon}>✦</span> Display Order
             </label>
-            <p className={styles.fieldHint}>Lower number = appears first in the guest grid</p>
+            <p className={styles.fieldHint}>
+              Lower number = appears first in the guest grid
+            </p>
             <div className={styles.inputWrap}>
               <input
                 type="number"
@@ -271,7 +294,8 @@ export default function EditGuestTeacherPage() {
             </h3>
           </div>
           <p className={styles.sectionDesc}>
-            Displayed in the ornate gold frame. Square photo recommended, min 500×500px, max 5MB.
+            Displayed in the ornate gold frame. Square photo recommended, min
+            500×500px, max 5MB.
           </p>
 
           {errors.image && (
@@ -283,26 +307,38 @@ export default function EditGuestTeacherPage() {
           {!imagePreview ? (
             <div
               className={`${styles.dropZone} ${isDragging ? styles.dropZoneDragging : ""}`}
-              onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
+              onDragOver={(e) => {
+                e.preventDefault();
+                setIsDragging(true);
+              }}
               onDragLeave={() => setIsDragging(false)}
               onDrop={onDrop}
               onClick={() => fileInputRef.current?.click()}
             >
               <div className={styles.dropIcon}>📷</div>
-              <p className={styles.dropTitle}>Click to upload or drag &amp; drop</p>
+              <p className={styles.dropTitle}>
+                Click to upload or drag &amp; drop
+              </p>
               <p className={styles.dropSub}>JPG, PNG, WEBP · max 5MB</p>
               <input
                 ref={fileInputRef}
                 type="file"
                 accept="image/*"
                 className={styles.fileInputHidden}
-                onChange={(e) => { const f = e.target.files?.[0]; if (f) handleImageFile(f); }}
+                onChange={(e) => {
+                  const f = e.target.files?.[0];
+                  if (f) handleImageFile(f);
+                }}
               />
             </div>
           ) : (
             <div className={styles.imagePreviewWrap}>
               <div className={styles.imagePreviewFrame}>
-                <img src={imagePreview} alt="Preview" className={styles.imagePreviewImg} />
+                <img
+                  src={imagePreview}
+                  alt="Preview"
+                  className={styles.imagePreviewImg}
+                />
                 <div className={styles.imagePreviewBadge}>
                   {imageFile
                     ? `New · ${imageFile.name} · ${(imageFile.size / 1024).toFixed(0)} KB`
@@ -330,7 +366,10 @@ export default function EditGuestTeacherPage() {
                 type="file"
                 accept="image/*"
                 className={styles.fileInputHidden}
-                onChange={(e) => { const f = e.target.files?.[0]; if (f) handleImageFile(f); }}
+                onChange={(e) => {
+                  const f = e.target.files?.[0];
+                  if (f) handleImageFile(f);
+                }}
               />
             </div>
           )}
@@ -343,7 +382,9 @@ export default function EditGuestTeacherPage() {
           <div className={styles.sectionHeader}>
             <span className={styles.sectionIcon}>✦</span>
             <h3 className={styles.sectionTitle}>Biography Paragraphs</h3>
-            <span className={styles.sectionBadge}>{form.bioItems.length}/8</span>
+            <span className={styles.sectionBadge}>
+              {form.bioItems.length}/8
+            </span>
           </div>
           <p className={styles.sectionDesc}>
             Each entry = one paragraph shown below the photo (max 8)
@@ -367,7 +408,9 @@ export default function EditGuestTeacherPage() {
                   rows={3}
                   onChange={(e) => updateBio(i, e.target.value)}
                 />
-                <span className={`${styles.charCount} ${styles.charCountBottom}`}>
+                <span
+                  className={`${styles.charCount} ${styles.charCountBottom}`}
+                >
                   {para.length}/600
                 </span>
               </div>
@@ -383,7 +426,11 @@ export default function EditGuestTeacherPage() {
           ))}
 
           {form.bioItems.length < 8 && (
-            <button type="button" className={styles.addListBtn} onClick={addBio}>
+            <button
+              type="button"
+              className={styles.addListBtn}
+              onClick={addBio}
+            >
               + Add Paragraph
             </button>
           )}
@@ -392,7 +439,10 @@ export default function EditGuestTeacherPage() {
         <div className={styles.formDivider} />
 
         <div className={styles.formActions}>
-          <Link href="/admin/our-teachers/guestteachers" className={styles.cancelBtn}>
+          <Link
+            href="/admin/our-teachers/guestteachers"
+            className={styles.cancelBtn}
+          >
             ← Cancel
           </Link>
           <button
@@ -401,13 +451,17 @@ export default function EditGuestTeacherPage() {
             onClick={handleSubmit}
             disabled={isSubmitting}
           >
-            {isSubmitting
-              ? <><span className={styles.spinner} /> Saving…</>
-              : <><span>✦</span> Update Guest Teacher</>
-            }
+            {isSubmitting ? (
+              <>
+                <span className={styles.spinner} /> Saving…
+              </>
+            ) : (
+              <>
+                <span>✦</span> Update Guest Teacher
+              </>
+            )}
           </button>
         </div>
-
       </div>
     </div>
   );

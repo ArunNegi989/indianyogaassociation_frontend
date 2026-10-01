@@ -1,6 +1,12 @@
 "use client";
 
-import React, { createContext, useContext, useState, useEffect, useRef } from "react";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useRef,
+} from "react";
 import api from "@/lib/api";
 import { setAccessToken } from "@/lib/auth";
 
@@ -46,7 +52,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const logout = async () => {
     try {
       await api.post("/auth/logout");
-    } catch { /* ignore */ }
+    } catch {
+      /* ignore */
+    }
     setAccessToken("");
     setUser(null);
     window.location.href = "/auth/login";

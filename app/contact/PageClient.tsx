@@ -3,7 +3,13 @@
 import React, { useState, useRef, useEffect } from "react";
 import styles from "../../assets/style/Contact-us/ContactPage.module.css";
 import HowToReach from "@/components/home/Howtoreach";
-import { FaFacebookF, FaInstagram, FaTwitter, FaWhatsapp, FaYoutube } from "react-icons/fa";
+import {
+  FaFacebookF,
+  FaInstagram,
+  FaTwitter,
+  FaWhatsapp,
+  FaYoutube,
+} from "react-icons/fa";
 
 /* ─── Types ─── */
 interface FormState {
@@ -85,7 +91,6 @@ const COURSES = [
   "Yoga Retreat",
   "Online Course",
   "General Inquiry",
-
 ];
 
 /* ─── Validate ─── */
@@ -97,8 +102,7 @@ function validate(form: FormState): FormErrors {
     errs.email = "Please enter a valid email address";
   if (form.phone && !/^[\d\s\+\-\(\)]{7,15}$/.test(form.phone))
     errs.phone = "Please enter a valid phone number";
-  if (!form.subject.trim())
-    errs.subject = "Please enter a subject";
+  if (!form.subject.trim()) errs.subject = "Please enter a subject";
   if (!form.message.trim() || form.message.trim().length < 10)
     errs.message = "Message must be at least 10 characters";
   return errs;
@@ -118,7 +122,9 @@ const ContactPage: React.FC = () => {
   });
 
   const [errors, setErrors] = useState<FormErrors>({});
-  const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+  const [status, setStatus] = useState<
+    "idle" | "sending" | "success" | "error"
+  >("idle");
   const [charCount, setCharCount] = useState(0);
   const [focusedField, setFocusedField] = useState<string | null>(null);
   const successRef = useRef<HTMLDivElement>(null);
@@ -126,12 +132,17 @@ const ContactPage: React.FC = () => {
   /* Scroll to success msg */
   useEffect(() => {
     if (status === "success" && successRef.current) {
-      successRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+      successRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
     }
   }, [status]);
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >,
   ) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
@@ -165,13 +176,20 @@ const ContactPage: React.FC = () => {
             course: form.course,
             message: form.message,
           }),
-        }
+        },
       );
 
       if (!res.ok) throw new Error("Server error");
 
       setStatus("success");
-      setForm({ name: "", email: "", phone: "", subject: "", course: "General Inquiry", message: "" });
+      setForm({
+        name: "",
+        email: "",
+        phone: "",
+        subject: "",
+        course: "General Inquiry",
+        message: "",
+      });
       setCharCount(0);
     } catch {
       setStatus("error");
@@ -181,7 +199,14 @@ const ContactPage: React.FC = () => {
   const handleReset = () => {
     setStatus("idle");
     setErrors({});
-    setForm({ name: "", email: "", phone: "", subject: "", course: "General Inquiry", message: "" });
+    setForm({
+      name: "",
+      email: "",
+      phone: "",
+      subject: "",
+      course: "General Inquiry",
+      message: "",
+    });
     setCharCount(0);
   };
 
@@ -214,7 +239,6 @@ const ContactPage: React.FC = () => {
 
       {/* ══ INNER ══ */}
       <div className={styles.inner}>
-
         {/* Ornate divider */}
         <div className={styles.ornateDivider}>
           <span className={styles.divLine} />
@@ -228,7 +252,14 @@ const ContactPage: React.FC = () => {
         <div className={styles.sectionHead}>
           <h1 className={styles.sectionTitle}>Reach Out to Us</h1>
           <p className={styles.sectionSubtitle}>
-            The Indian Yoga Association, also known as the Association for Yoga and Meditation, is a national non-profit organisation registered under the Societies Registration Act with the Government of India. The Association manages the AYM Yoga School, which offers teacher training programs in Rishikesh, Goa, and many other locations, coming soon. It is registered with the Yoga Certification Board, under the Ministry of AYUSH, Government of India and Yoga Alliance, USA.
+            The Indian Yoga Association, also known as the Association for Yoga
+            and Meditation, is a national non-profit organisation registered
+            under the Societies Registration Act with the Government of India.
+            The Association manages the AYM Yoga School, which offers teacher
+            training programs in Rishikesh, Goa, and many other locations,
+            coming soon. It is registered with the Yoga Certification Board,
+            under the Ministry of AYUSH, Government of India and Yoga Alliance,
+            USA.
           </p>
         </div>
 
@@ -249,7 +280,6 @@ const ContactPage: React.FC = () => {
 
         {/* ══ MAIN GRID ══ */}
         <div className={styles.mainGrid}>
-
           {/* ── LEFT: INFO PANEL ── */}
           <div className={styles.infoPanel}>
             {/* Decorative scroll top */}
@@ -308,8 +338,12 @@ const ContactPage: React.FC = () => {
                 entire enrollment process. Truly a life-changing experience.
               </p>
               <div className={styles.testimonialAuthor}>
-                <span className={styles.testimonialName}>— Yogi Chetan Mahesh.</span>
-                <span className={styles.testimonialOrigin}>Rishikesh ,India</span>
+                <span className={styles.testimonialName}>
+                  — Yogi Chetan Mahesh.
+                </span>
+                <span className={styles.testimonialOrigin}>
+                  Rishikesh ,India
+                </span>
               </div>
             </div>
           </div>
@@ -333,12 +367,16 @@ const ContactPage: React.FC = () => {
                   Namaste! Message Received.
                 </h3>
                 <p className={styles.successMsg}>
-                  Thank you for reaching out. A confirmation has been sent to your
-                  email. Our team shall connect with you within 24 hours.
+                  Thank you for reaching out. A confirmation has been sent to
+                  your email. Our team shall connect with you within 24 hours.
                 </p>
                 <div className={styles.successDetails}>
-                  <span className={styles.successDetailTag}>✓ Email Confirmation Sent</span>
-                  <span className={styles.successDetailTag}>✓ Team Notified</span>
+                  <span className={styles.successDetailTag}>
+                    ✓ Email Confirmation Sent
+                  </span>
+                  <span className={styles.successDetailTag}>
+                    ✓ Team Notified
+                  </span>
                 </div>
                 <button
                   className={styles.successResetBtn}
@@ -355,7 +393,8 @@ const ContactPage: React.FC = () => {
               <div className={styles.errorBanner}>
                 <span>⚠️</span>
                 <span>
-                  Something went wrong. Please try again or reach us on WhatsApp.
+                  Something went wrong. Please try again or reach us on
+                  WhatsApp.
                 </span>
                 <button
                   onClick={() => setStatus("idle")}
@@ -377,7 +416,9 @@ const ContactPage: React.FC = () => {
               >
                 {/* Row 1: Name + Email */}
                 <div className={styles.formRow}>
-                  <div className={`${styles.formField} ${focusedField === "name" ? styles.formFieldFocused : ""}`}>
+                  <div
+                    className={`${styles.formField} ${focusedField === "name" ? styles.formFieldFocused : ""}`}
+                  >
                     <label className={styles.formLabel} htmlFor="ct-name">
                       Full Name <span className={styles.req}>*</span>
                     </label>
@@ -398,13 +439,19 @@ const ContactPage: React.FC = () => {
                       />
                     </div>
                     {errors.name && (
-                      <span id="name-err" className={styles.fieldError} role="alert">
+                      <span
+                        id="name-err"
+                        className={styles.fieldError}
+                        role="alert"
+                      >
                         {errors.name}
                       </span>
                     )}
                   </div>
 
-                  <div className={`${styles.formField} ${focusedField === "email" ? styles.formFieldFocused : ""}`}>
+                  <div
+                    className={`${styles.formField} ${focusedField === "email" ? styles.formFieldFocused : ""}`}
+                  >
                     <label className={styles.formLabel} htmlFor="ct-email">
                       Email Address <span className={styles.req}>*</span>
                     </label>
@@ -421,11 +468,17 @@ const ContactPage: React.FC = () => {
                         onFocus={() => setFocusedField("email")}
                         onBlur={() => setFocusedField(null)}
                         required
-                        aria-describedby={errors.email ? "email-err" : undefined}
+                        aria-describedby={
+                          errors.email ? "email-err" : undefined
+                        }
                       />
                     </div>
                     {errors.email && (
-                      <span id="email-err" className={styles.fieldError} role="alert">
+                      <span
+                        id="email-err"
+                        className={styles.fieldError}
+                        role="alert"
+                      >
                         {errors.email}
                       </span>
                     )}
@@ -434,9 +487,12 @@ const ContactPage: React.FC = () => {
 
                 {/* Row 2: Phone + Course */}
                 <div className={styles.formRow}>
-                  <div className={`${styles.formField} ${focusedField === "phone" ? styles.formFieldFocused : ""}`}>
+                  <div
+                    className={`${styles.formField} ${focusedField === "phone" ? styles.formFieldFocused : ""}`}
+                  >
                     <label className={styles.formLabel} htmlFor="ct-phone">
-                      Phone Number <span className={styles.optional}>(optional)</span>
+                      Phone Number{" "}
+                      <span className={styles.optional}>(optional)</span>
                     </label>
                     <div className={styles.inputWrapper}>
                       <span className={styles.inputIcon}>☎</span>
@@ -459,7 +515,9 @@ const ContactPage: React.FC = () => {
                     )}
                   </div>
 
-                  <div className={`${styles.formField} ${focusedField === "course" ? styles.formFieldFocused : ""}`}>
+                  <div
+                    className={`${styles.formField} ${focusedField === "course" ? styles.formFieldFocused : ""}`}
+                  >
                     <label className={styles.formLabel} htmlFor="ct-course">
                       Interested Course
                     </label>
@@ -485,7 +543,9 @@ const ContactPage: React.FC = () => {
                 </div>
 
                 {/* Subject full-width */}
-                <div className={`${styles.formField} ${focusedField === "subject" ? styles.formFieldFocused : ""}`}>
+                <div
+                  className={`${styles.formField} ${focusedField === "subject" ? styles.formFieldFocused : ""}`}
+                >
                   <label className={styles.formLabel} htmlFor="ct-subject">
                     Subject <span className={styles.req}>*</span>
                   </label>
@@ -512,7 +572,9 @@ const ContactPage: React.FC = () => {
                 </div>
 
                 {/* Message */}
-                <div className={`${styles.formField} ${focusedField === "message" ? styles.formFieldFocused : ""}`}>
+                <div
+                  className={`${styles.formField} ${focusedField === "message" ? styles.formFieldFocused : ""}`}
+                >
                   <label className={styles.formLabel} htmlFor="ct-message">
                     Your Message <span className={styles.req}>*</span>
                   </label>
@@ -564,8 +626,6 @@ const ContactPage: React.FC = () => {
             )}
           </div>
         </div>
-
-
 
         {/* Bottom ornate divider */}
         <div className={styles.ornateDivider} style={{ marginTop: "2.5rem" }}>

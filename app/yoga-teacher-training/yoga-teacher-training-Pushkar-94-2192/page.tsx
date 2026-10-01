@@ -6,9 +6,10 @@ export const metadata: Metadata = {
   description:
     "Yoga Teacher Training Course in Pushkar will be organized by AYM Yoga School. Focus will be on teaching different types of yoga style.",
 
-    alternates: {
-      canonical: "https://www.indianyogaassociation.com/yoga-teacher-training/yoga-teacher-training-Pushkar-94-2192",
-    },
+  alternates: {
+    canonical:
+      "https://www.indianyogaassociation.com/yoga-teacher-training/yoga-teacher-training-Pushkar-94-2192",
+  },
 };
 
 export default function Page() {

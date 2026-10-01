@@ -137,15 +137,11 @@ export const WhyAYMSection: React.FC = () => {
 
   return (
     <section className={styles.section} ref={sectionRef}>
-
       <div className={styles.a} />
 
       <div className={styles.container}>
-
         <div className={`${styles.header} ${styles.fadeUp}`}>
-
           <p className={styles.superTitle}>{data.superTitle}</p>
-
 
           <h2
             className={styles.mainTitle}
@@ -158,13 +154,11 @@ export const WhyAYMSection: React.FC = () => {
             <span className={styles.dividerLine} />
           </div>
 
-
           <p
             className={styles.introPara}
             dangerouslySetInnerHTML={{ __html: data.introPara }}
           />
         </div>
-
 
         <div className={styles.body}>
           {/* ── Image Column ── */}
@@ -178,7 +172,6 @@ export const WhyAYMSection: React.FC = () => {
                   aspectRatio: "3 / 4",
                 }}
               >
-
                 {heroImageUrl ? (
                   data.imageSrc.startsWith("http") ? (
                     <Image
@@ -270,12 +263,10 @@ export const WhyAYMSection: React.FC = () => {
                 🔆
               </span>
               <p className={styles.featureText}>
-
                 <strong
                   className={styles.featureTitle}
                   dangerouslySetInnerHTML={{ __html: f.title }}
                 />{" "}
-
                 <span dangerouslySetInnerHTML={{ __html: f.desc }} />
               </p>
             </div>

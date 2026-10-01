@@ -39,7 +39,9 @@ export default function FacultyListPage() {
     }
   };
 
-  useEffect(() => { fetchTeachers(); }, []);
+  useEffect(() => {
+    fetchTeachers();
+  }, []);
 
   const handleDelete = async () => {
     if (!deleteId || deleting) return;
@@ -56,35 +58,42 @@ export default function FacultyListPage() {
     }
   };
 
-  if (loading) return (
-    <div className={styles.page}>
-      <div className={styles.loadingState}>
-        <div className={styles.loadingOm}>ॐ</div>
-        <p className={styles.loadingText}>Loading faculty teachers…</p>
+  if (loading)
+    return (
+      <div className={styles.page}>
+        <div className={styles.loadingState}>
+          <div className={styles.loadingOm}>ॐ</div>
+          <p className={styles.loadingText}>Loading faculty teachers…</p>
+        </div>
       </div>
-    </div>
-  );
+    );
 
   return (
     <div className={styles.page}>
-
       {/* Header */}
       <div className={styles.pageHeader}>
         <div>
           <h1 className={styles.pageTitle}>Teaching Faculty</h1>
           <p className={styles.pageSubtitle}>
-            Manage faculty teachers — full profiles with bio, education &amp; expertise
+            Manage faculty teachers — full profiles with bio, education &amp;
+            expertise
           </p>
         </div>
-        <Link href="/admin/our-teachers/teachers/add-new" className={styles.primaryBtn}>
+        <Link
+          href="/admin/our-teachers/teachers/add-new"
+          className={styles.primaryBtn}
+        >
           + Add Faculty Teacher
         </Link>
       </div>
 
       {/* Ornament */}
       <div className={styles.ornament}>
-        <span>❧</span><div className={styles.ornamentLine} />
-        <span>ॐ</span><div className={styles.ornamentLine} /><span>❧</span>
+        <span>❧</span>
+        <div className={styles.ornamentLine} />
+        <span>ॐ</span>
+        <div className={styles.ornamentLine} />
+        <span>❧</span>
       </div>
 
       {/* Stats */}
@@ -99,8 +108,13 @@ export default function FacultyListPage() {
       {teachers.length === 0 && (
         <div className={styles.empty}>
           <div className={styles.emptyOm}>ॐ</div>
-          <p className={styles.emptyText}>No faculty teachers found. Add one to get started.</p>
-          <Link href="/admin/our-teachers/teachers/add-new" className={styles.emptyBtn}>
+          <p className={styles.emptyText}>
+            No faculty teachers found. Add one to get started.
+          </p>
+          <Link
+            href="/admin/our-teachers/teachers/add-new"
+            className={styles.emptyBtn}
+          >
             + Add Faculty Teacher
           </Link>
         </div>
@@ -147,10 +161,14 @@ export default function FacultyListPage() {
                   <td className={styles.hideDesktop}>
                     <div className={styles.expertiseChips}>
                       {t.expertise?.slice(0, 3).map((e, i) => (
-                        <span key={i} className={styles.chip}>{e}</span>
+                        <span key={i} className={styles.chip}>
+                          {e}
+                        </span>
                       ))}
                       {(t.expertise?.length ?? 0) > 3 && (
-                        <span className={styles.chipMore}>+{t.expertise.length - 3}</span>
+                        <span className={styles.chipMore}>
+                          +{t.expertise.length - 3}
+                        </span>
                       )}
                     </div>
                   </td>
@@ -184,10 +202,14 @@ export default function FacultyListPage() {
             <div className={styles.modalOm}>ॐ</div>
             <h3 className={styles.modalTitle}>Confirm Deletion</h3>
             <p className={styles.modalText}>
-              Are you sure you want to remove this teacher? This cannot be undone.
+              Are you sure you want to remove this teacher? This cannot be
+              undone.
             </p>
             <div className={styles.modalActions}>
-              <button className={styles.modalCancel} onClick={() => setDeleteId(null)}>
+              <button
+                className={styles.modalCancel}
+                onClick={() => setDeleteId(null)}
+              >
                 Cancel
               </button>
               <button
@@ -201,7 +223,6 @@ export default function FacultyListPage() {
           </div>
         </div>
       )}
-
     </div>
   );
 }

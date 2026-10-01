@@ -6,9 +6,10 @@ export const metadata: Metadata = {
   description:
     "Discover inner peace and holistic well-being at AYM Yoga Ashram in Rishikesh, India. Immerse yourself in authentic yoga teachings, serene surroundings, and expert guidance.",
 
-    alternates: {
-      canonical: "https://www.indianyogaassociation.com/yoga-ashrams-in-india.html",
-    },
+  alternates: {
+    canonical:
+      "https://www.indianyogaassociation.com/yoga-ashrams-in-india.html",
+  },
 };
 
 export default function Page() {

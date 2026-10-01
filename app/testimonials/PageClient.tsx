@@ -63,10 +63,7 @@ const StarRating = ({
       return (
         <span key={i} className={styles.starWrap}>
           <span className={styles.starEmpty}>★</span>
-          <span
-            className={styles.starFill}
-            style={{ width: `${fill * 100}%` }}
-          >
+          <span className={styles.starFill} style={{ width: `${fill * 100}%` }}>
             ★
           </span>
         </span>
@@ -98,7 +95,9 @@ const VideoModal = ({
 
   useEffect(() => {
     document.body.style.overflow = video ? "hidden" : "";
-    return () => { document.body.style.overflow = ""; };
+    return () => {
+      document.body.style.overflow = "";
+    };
   }, [video]);
 
   if (!video) return null;
@@ -125,7 +124,9 @@ const VideoModal = ({
   return (
     <div
       className={styles.modalBackdrop}
-      onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
       role="dialog"
       aria-modal="true"
       aria-label={video.name}
@@ -140,7 +141,6 @@ const VideoModal = ({
       </button>
       <div className={styles.modalInner}>
         {hasYoutube ? (
-
           <iframe
             className={styles.modalIframe}
             src={`https://www.youtube.com/embed/${ytId}?autoplay=1&mute=0&rel=0&modestbranding=1&enablejsapi=1`}
@@ -203,12 +203,11 @@ const VideoCard = ({
     return null;
   };
 
-  const thumb =
-    video.thumbnail
-      ? `${baseUrl}${video.thumbnail}`
-      : video.videoUrl
-        ? getYoutubeThumb(video.videoUrl)
-        : null;
+  const thumb = video.thumbnail
+    ? `${baseUrl}${video.thumbnail}`
+    : video.videoUrl
+      ? getYoutubeThumb(video.videoUrl)
+      : null;
 
   if (variant === "reel") {
     return (
@@ -265,7 +264,13 @@ const VideoCard = ({
         )}
         <div className={styles.gridPlayIcon} aria-hidden="true">
           <svg viewBox="0 0 68 48" width="54" height="38">
-            <rect width="68" height="48" rx="10" fill="#E8540A" opacity="0.95" />
+            <rect
+              width="68"
+              height="48"
+              rx="10"
+              fill="#E8540A"
+              opacity="0.95"
+            />
             <polygon points="26,13 53,24 26,35" fill="#fff" />
           </svg>
         </div>
@@ -320,7 +325,7 @@ function Slider<T>({
         });
       }
     },
-    [total, itemWidth, gap]
+    [total, itemWidth, gap],
   );
 
   // sync scroll position → dot
@@ -380,8 +385,9 @@ function Slider<T>({
           {Array.from({ length: total + 1 }).map((_, i) => (
             <button
               key={i}
-              className={`${styles.sliderDot} ${i === current ? styles.sliderDotActive : ""
-                }`}
+              className={`${styles.sliderDot} ${
+                i === current ? styles.sliderDotActive : ""
+              }`}
               onClick={() => scrollTo(i)}
               aria-label={`Go to slide ${i + 1}`}
               type="button"
@@ -577,9 +583,7 @@ const CourseSection = ({
             items={texts}
             itemWidth={340}
             gap={16}
-            renderItem={(t) => (
-              <TextReviewCard review={t} baseUrl={baseUrl} />
-            )}
+            renderItem={(t) => <TextReviewCard review={t} baseUrl={baseUrl} />}
           />
         </>
       )}
@@ -671,8 +675,7 @@ export default function TestimonialsSection() {
   const [loadingTexts, setLoadingTexts] = useState(true);
   const [activeVideo, setActiveVideo] = useState<VideoReview | null>(null);
 
-  const BASE_URL =
-    process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+  const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
   /* ── Fetch APIs ── */
   useEffect(() => {
@@ -680,7 +683,7 @@ export default function TestimonialsSection() {
       .get("/video-reviews/get")
       .then(({ data }) => {
         const active = (data.data || []).filter(
-          (v: VideoReview) => v.status === "Active"
+          (v: VideoReview) => v.status === "Active",
         );
         setAllVideos(active);
       })
@@ -693,7 +696,7 @@ export default function TestimonialsSection() {
       .get("/student-reviews/get")
       .then(({ data }) => {
         const active = (data.data || []).filter(
-          (t: TextReview) => t.status === "Active"
+          (t: TextReview) => t.status === "Active",
         );
         setAllTexts(active);
       })
@@ -710,7 +713,7 @@ export default function TestimonialsSection() {
     new Set([
       ...allVideos.map((v) => v.courseType),
       ...allTexts.map((t) => t.courseType),
-    ])
+    ]),
   ).sort((a, b) => {
     const ai = COURSE_ORDER.indexOf(a);
     const bi = COURSE_ORDER.indexOf(b);
@@ -731,7 +734,6 @@ export default function TestimonialsSection() {
       <div className={styles.topBorder} />
 
       <div className={styles.container}>
-
         {/* ── PAGE HEADER ── */}
         <header className={styles.pageHeader}>
           <p className={styles.superTitle}>Sacred Stories of Transformation</p>
@@ -749,7 +751,9 @@ export default function TestimonialsSection() {
               <h3 className={styles.ratingPlatform}>Facebook Reviews 👍</h3>
               <div className={styles.ratingUnderline} />
               <p className={styles.ratingScore}>4.8 / 5</p>
-              <p className={styles.ratingCount}>Based on the opinion of 90 people</p>
+              <p className={styles.ratingCount}>
+                Based on the opinion of 90 people
+              </p>
               <StarRating score={4.8} />
               <a
                 href="https://www.facebook.com/aymindia"

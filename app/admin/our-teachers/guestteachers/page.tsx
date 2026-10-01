@@ -62,13 +62,13 @@ export default function GuestTeacherListPage() {
 
   return (
     <div className={styles.page}>
-
       {/* Header */}
       <div className={styles.pageHeader}>
         <div>
           <h1 className={styles.pageTitle}>Guest &amp; Visiting Teachers</h1>
           <p className={styles.pageSubtitle}>
-            Manage guest teachers — appear in the ornate-frame grid with name and photo
+            Manage guest teachers — appear in the ornate-frame grid with name
+            and photo
           </p>
         </div>
         <Link
@@ -120,15 +120,14 @@ export default function GuestTeacherListPage() {
               <tr>
                 <th className={styles.thPhoto}>Photo</th>
                 <th>Name</th>
-                <th>Bio Preview</th>  {/* ← hideMobile हटाया */}
-                <th>Order</th>        {/* ← hideTablet हटाया */}
+                <th>Bio Preview</th> {/* ← hideMobile हटाया */}
+                <th>Order</th> {/* ← hideTablet हटाया */}
                 <th>Actions</th>
               </tr>
             </thead>
             <tbody>
               {teachers.map((t) => (
                 <tr key={t._id} className={styles.tableRow}>
-
                   {/* Photo */}
                   <td>
                     <div className={styles.avatarWrap}>
@@ -149,18 +148,23 @@ export default function GuestTeacherListPage() {
                   </td>
 
                   {/* Bio Preview — सभी devices पर दिखेगा */}
-                  <td>  {/* ← hideMobile हटाया */}
+                  <td>
+                    {" "}
+                    {/* ← hideMobile हटाया */}
                     <span className={styles.teacherRoleSub}>
-                      {t.bio && t.bio.length > 0
-                        ? String(t.bio[0]).slice(0, 60) +
-                          (String(t.bio[0]).length > 60 ? "…" : "")
-                        : <em style={{ opacity: 0.4 }}>No bio added</em>
-                      }
+                      {t.bio && t.bio.length > 0 ? (
+                        String(t.bio[0]).slice(0, 60) +
+                        (String(t.bio[0]).length > 60 ? "…" : "")
+                      ) : (
+                        <em style={{ opacity: 0.4 }}>No bio added</em>
+                      )}
                     </span>
                   </td>
 
                   {/* Order — सभी devices पर दिखेगा */}
-                  <td>  {/* ← hideTablet हटाया */}
+                  <td>
+                    {" "}
+                    {/* ← hideTablet हटाया */}
                     {t.order !== undefined ? (
                       <span className={styles.yearsBadge}>#{t.order}</span>
                     ) : (
@@ -185,7 +189,6 @@ export default function GuestTeacherListPage() {
                       </button>
                     </div>
                   </td>
-
                 </tr>
               ))}
             </tbody>
@@ -195,18 +198,13 @@ export default function GuestTeacherListPage() {
 
       {/* Delete Modal */}
       {deleteId && (
-        <div
-          className={styles.modalOverlay}
-          onClick={() => setDeleteId(null)}
-        >
-          <div
-            className={styles.modal}
-            onClick={(e) => e.stopPropagation()}
-          >
+        <div className={styles.modalOverlay} onClick={() => setDeleteId(null)}>
+          <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
             <div className={styles.modalOm}>ॐ</div>
             <h3 className={styles.modalTitle}>Confirm Deletion</h3>
             <p className={styles.modalText}>
-              Are you sure you want to remove this guest teacher? This cannot be undone.
+              Are you sure you want to remove this guest teacher? This cannot be
+              undone.
             </p>
             <div className={styles.modalActions}>
               <button
@@ -226,7 +224,6 @@ export default function GuestTeacherListPage() {
           </div>
         </div>
       )}
-
     </div>
   );
 }

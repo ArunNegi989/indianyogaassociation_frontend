@@ -1,10 +1,5 @@
 import type { Metadata } from "next";
-import {
-  Playfair_Display,
-  Lato,
-  Poppins,
-  Montserrat,
-} from "next/font/google";
+import { Playfair_Display, Lato, Poppins, Montserrat } from "next/font/google";
 
 import "./globals.css";
 import ConditionalLayout from "@/components/layout/ConditionalLayout";

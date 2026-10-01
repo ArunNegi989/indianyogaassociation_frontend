@@ -6,9 +6,10 @@ export const metadata: Metadata = {
   description:
     "Yoga Teacher Training in Coimbatore India will be organized by AYM Yoga School. Focus will be on teaching different types of Yoga Style registered with Yoga Alliance, USA.",
 
-    alternates: {
-      canonical: "https://www.indianyogaassociation.com/yoga-teacher-training/yoga-teacher-training-Coimbatore-94-2182",
-    },
+  alternates: {
+    canonical:
+      "https://www.indianyogaassociation.com/yoga-teacher-training/yoga-teacher-training-Coimbatore-94-2182",
+  },
 };
 
 export default function Page() {

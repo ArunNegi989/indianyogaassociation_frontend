@@ -96,7 +96,14 @@ const getImageUrl = (path?: string) => {
 /* ---- Om Symbol SVG ---- */
 const OmSVG: React.FC = () => (
   <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="30" cy="30" r="28" stroke="#e8600a" strokeWidth="2" fill="none" />
+    <circle
+      cx="30"
+      cy="30"
+      r="28"
+      stroke="#e8600a"
+      strokeWidth="2"
+      fill="none"
+    />
     <text
       x="50%"
       y="54%"
@@ -131,7 +138,9 @@ const InnerTransformation: React.FC = () => {
     const fetchData = async () => {
       try {
         const res = await api.get("/inner-awakening-section");
-        const doc = Array.isArray(res.data.data) ? res.data.data[0] : res.data.data;
+        const doc = Array.isArray(res.data.data)
+          ? res.data.data[0]
+          : res.data.data;
         setData(doc ?? null);
       } catch {
         setError(true);
@@ -165,7 +174,6 @@ const InnerTransformation: React.FC = () => {
 
   return (
     <div className={styles.pageWrapper}>
-
       {/* ===== HERO IMAGE ===== */}
       {data.heroImage && (
         <section className={styles.heroSection}>
@@ -189,7 +197,9 @@ const InnerTransformation: React.FC = () => {
             </div>
           )}
 
-          {data.mainTitle && <h1 className={styles.mainTitle}>{data.mainTitle}</h1>}
+          {data.mainTitle && (
+            <h1 className={styles.mainTitle}>{data.mainTitle}</h1>
+          )}
 
           {data.subTitle && (
             <div className={styles.subTitleWrapper}>
@@ -202,7 +212,13 @@ const InnerTransformation: React.FC = () => {
           {data.whoTitle && (
             <div className={styles.whoSection}>
               <div className={styles.whoIcon}>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
                   <path
                     d="M12 12C14.21 12 16 10.21 16 8C16 5.79 14.21 4 12 4C9.79 4 8 5.79 8 8C8 10.21 9.79 12 12 12ZM12 14C9.33 14 4 15.34 4 18V20H20V18C20 15.34 14.67 14 12 14Z"
                     fill="#e8600a"
@@ -215,7 +231,10 @@ const InnerTransformation: React.FC = () => {
 
           {data.maharishiIntro && (
             <div className={styles.maharishiIntro}>
-              <div className={styles.bodyText} dangerouslySetInnerHTML={{ __html: data.maharishiIntro }} />
+              <div
+                className={styles.bodyText}
+                dangerouslySetInnerHTML={{ __html: data.maharishiIntro }}
+              />
             </div>
           )}
 
@@ -256,8 +275,12 @@ const InnerTransformation: React.FC = () => {
       <section className={styles.whatSection}>
         <div className={styles.whatContainer}>
           <div className={styles.sectionHeader}>
-            {data.whatBadge && <div className={styles.sectionBadge}>{data.whatBadge}</div>}
-            {data.whatTitle && <h2 className={styles.sectionTitle}>{data.whatTitle}</h2>}
+            {data.whatBadge && (
+              <div className={styles.sectionBadge}>{data.whatBadge}</div>
+            )}
+            {data.whatTitle && (
+              <h2 className={styles.sectionTitle}>{data.whatTitle}</h2>
+            )}
             <div className={styles.sectionUnderline}></div>
           </div>
 
@@ -265,8 +288,17 @@ const InnerTransformation: React.FC = () => {
             {data.quoteText && (
               <div className={styles.retreatQuote}>
                 <div className={styles.quoteIcon}>
-                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M10 11H6V15H10V11ZM18 11H14V15H18V11Z" fill="#e8600a" />
+                  <svg
+                    width="32"
+                    height="32"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M10 11H6V15H10V11ZM18 11H14V15H18V11Z"
+                      fill="#e8600a"
+                    />
                     <path
                       d="M20 4H4C2.9 4 2 4.9 2 6V18C2 19.1 2.9 20 4 20H20C21.1 20 22 19.1 22 18V6C22 4.9 21.1 4 20 4ZM20 18H4V6H20V18Z"
                       fill="#e8600a"
@@ -280,7 +312,10 @@ const InnerTransformation: React.FC = () => {
 
             {data.bodyText && (
               <div className={styles.textBlock}>
-                <div className={styles.bodyText} dangerouslySetInnerHTML={{ __html: data.bodyText }} />
+                <div
+                  className={styles.bodyText}
+                  dangerouslySetInnerHTML={{ __html: data.bodyText }}
+                />
               </div>
             )}
 
@@ -312,13 +347,21 @@ const InnerTransformation: React.FC = () => {
       <section className={styles.scheduleSection}>
         <div className={styles.scheduleContainer}>
           <div className={styles.scheduleHeader}>
-            {data.scheduleBadge && <div className={styles.scheduleBadge}>{data.scheduleBadge}</div>}
-            {data.scheduleTitle && <h2 className={styles.scheduleTitle}>{data.scheduleTitle}</h2>}
+            {data.scheduleBadge && (
+              <div className={styles.scheduleBadge}>{data.scheduleBadge}</div>
+            )}
+            {data.scheduleTitle && (
+              <h2 className={styles.scheduleTitle}>{data.scheduleTitle}</h2>
+            )}
             <div className={styles.scheduleUnderline}></div>
             {(data.weeksBadge || data.weeksText) && (
               <div className={styles.weeksLabel}>
-                {data.weeksBadge && <span className={styles.weeksBadge}>{data.weeksBadge}</span>}
-                {data.weeksText && <span className={styles.weeksText}>{data.weeksText}</span>}
+                {data.weeksBadge && (
+                  <span className={styles.weeksBadge}>{data.weeksBadge}</span>
+                )}
+                {data.weeksText && (
+                  <span className={styles.weeksText}>{data.weeksText}</span>
+                )}
               </div>
             )}
           </div>
@@ -328,7 +371,13 @@ const InnerTransformation: React.FC = () => {
             <div className={styles.scheduleCard}>
               <div className={styles.cardHeaderOrange}>
                 <div className={styles.cardIcon}>
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
                     <path
                       d="M12 2L15 8.5L22 9.5L17 14L18.5 21L12 17.5L5.5 21L7 14L2 9.5L9 8.5L12 2Z"
                       stroke="white"
@@ -357,7 +406,13 @@ const InnerTransformation: React.FC = () => {
                 )}
                 {data.cardFootnote && (
                   <div className={styles.cardFootnote}>
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
                       <path
                         d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"
                         fill="#e8600a"
@@ -373,12 +428,21 @@ const InnerTransformation: React.FC = () => {
             <div className={styles.scheduleCard}>
               <div className={styles.cardHeaderGreen}>
                 <div className={styles.cardIcon}>
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
                     <path
                       d="M12 2C6.5 2 2 6.5 2 12C2 17.5 6.5 22 12 22C17.5 22 22 17.5 22 12C22 6.5 17.5 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20Z"
                       fill="white"
                     />
-                    <path d="M12.5 7H11V13L16.2 16.2L17 14.9L12.5 12.2V7Z" fill="white" />
+                    <path
+                      d="M12.5 7H11V13L16.2 16.2L17 14.9L12.5 12.2V7Z"
+                      fill="white"
+                    />
                   </svg>
                 </div>
                 <h3 className={styles.cardTitleGreen}>{data.card2Title}</h3>
@@ -387,13 +451,17 @@ const InnerTransformation: React.FC = () => {
                 <div className={styles.scheduleBlock}>
                   {data.morningLabel && (
                     <div className={styles.schedulePeriod}>
-                      <span className={styles.periodLabel}>{data.morningLabel}</span>
+                      <span className={styles.periodLabel}>
+                        {data.morningLabel}
+                      </span>
                     </div>
                   )}
                   {data.morningItems?.map((item, i) => (
                     <div className={styles.scheduleItem} key={`morning-${i}`}>
                       <span className={styles.scheduleTime}>{item.time}</span>
-                      <span className={styles.scheduleActivity}>{item.activity}</span>
+                      <span className={styles.scheduleActivity}>
+                        {item.activity}
+                      </span>
                     </div>
                   ))}
 
@@ -406,13 +474,17 @@ const InnerTransformation: React.FC = () => {
 
                   {data.eveningLabel && (
                     <div className={styles.schedulePeriod}>
-                      <span className={styles.periodLabel}>{data.eveningLabel}</span>
+                      <span className={styles.periodLabel}>
+                        {data.eveningLabel}
+                      </span>
                     </div>
                   )}
                   {data.eveningItems?.map((item, i) => (
                     <div className={styles.scheduleItem} key={`evening-${i}`}>
                       <span className={styles.scheduleTime}>{item.time}</span>
-                      <span className={styles.scheduleActivity}>{item.activity}</span>
+                      <span className={styles.scheduleActivity}>
+                        {item.activity}
+                      </span>
                     </div>
                   ))}
                 </div>
@@ -427,10 +499,16 @@ const InnerTransformation: React.FC = () => {
         <section className={styles.gallerySection}>
           <div className={styles.galleryContainer}>
             <div className={styles.galleryHeader}>
-              {data.galleryBadge && <div className={styles.galleryBadge}>{data.galleryBadge}</div>}
-              {data.galleryTitle && <h2 className={styles.galleryTitle}>{data.galleryTitle}</h2>}
+              {data.galleryBadge && (
+                <div className={styles.galleryBadge}>{data.galleryBadge}</div>
+              )}
+              {data.galleryTitle && (
+                <h2 className={styles.galleryTitle}>{data.galleryTitle}</h2>
+              )}
               <div className={styles.galleryUnderline}></div>
-              {data.gallerySubtitle && <p className={styles.gallerySubtitle}>{data.gallerySubtitle}</p>}
+              {data.gallerySubtitle && (
+                <p className={styles.gallerySubtitle}>{data.gallerySubtitle}</p>
+              )}
             </div>
 
             <div className={styles.triImageGrid}>
@@ -448,8 +526,14 @@ const InnerTransformation: React.FC = () => {
                   )}
                   <div className={styles.imageOverlay}>
                     <div className={styles.imageOverlayContent}>
-                      {img.caption && <div className={styles.imageCaption}>{img.caption}</div>}
-                      {img.subcaption && <div className={styles.imageSubcaption}>{img.subcaption}</div>}
+                      {img.caption && (
+                        <div className={styles.imageCaption}>{img.caption}</div>
+                      )}
+                      {img.subcaption && (
+                        <div className={styles.imageSubcaption}>
+                          {img.subcaption}
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -468,14 +552,22 @@ const InnerTransformation: React.FC = () => {
               <div className={styles.definitionCard}>
                 <div className={styles.definitionHeader}>
                   <div className={styles.definitionIcon}>
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg
+                      width="28"
+                      height="28"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
                       <path
                         d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15h-2v-2h2v2zm0-4h-2V7h2v6z"
                         fill="#e8600a"
                       />
                     </svg>
                   </div>
-                  <h3 className={styles.definitionTitle}>{data.definitionTitle}</h3>
+                  <h3 className={styles.definitionTitle}>
+                    {data.definitionTitle}
+                  </h3>
                 </div>
                 <div className={styles.definitionBody}>
                   {data.terms.map((t, i) => (
@@ -493,22 +585,39 @@ const InnerTransformation: React.FC = () => {
               <div className={styles.participantCard}>
                 <div className={styles.participantHeader}>
                   <div className={styles.participantIcon}>
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg
+                      width="28"
+                      height="28"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
                       <path
                         d="M12 12C14.21 12 16 10.21 16 8C16 5.79 14.21 4 12 4C9.79 4 8 5.79 8 8C8 10.21 9.79 12 12 12ZM12 14C9.33 14 4 15.34 4 18V20H20V18C20 15.34 14.67 14 12 14Z"
                         fill="white"
                       />
                     </svg>
                   </div>
-                  <h3 className={styles.participantTitle}>{data.participantTitle}</h3>
+                  <h3 className={styles.participantTitle}>
+                    {data.participantTitle}
+                  </h3>
                 </div>
                 <div className={styles.participantBody}>
                   <ul className={styles.participantList}>
                     {data.participantList.map((item, i) => (
                       <li key={i}>
                         <span className={styles.listCheck}>
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M9 16.17L4.83 12L3.41 13.41L9 19L21 7L19.59 5.59L9 16.17Z" fill="#e8600a" />
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M9 16.17L4.83 12L3.41 13.41L9 19L21 7L19.59 5.59L9 16.17Z"
+                              fill="#e8600a"
+                            />
                           </svg>
                         </span>
                         {item}
@@ -526,8 +635,12 @@ const InnerTransformation: React.FC = () => {
       <section className={styles.feeSection}>
         <div className={styles.feeContainer}>
           <div className={styles.feeHeader}>
-            {data.feeBadge && <div className={styles.feeBadge}>{data.feeBadge}</div>}
-            {data.feeTitle && <h2 className={styles.feeTitle}>{data.feeTitle}</h2>}
+            {data.feeBadge && (
+              <div className={styles.feeBadge}>{data.feeBadge}</div>
+            )}
+            {data.feeTitle && (
+              <h2 className={styles.feeTitle}>{data.feeTitle}</h2>
+            )}
             <div className={styles.feeUnderline}></div>
           </div>
 
@@ -537,7 +650,13 @@ const InnerTransformation: React.FC = () => {
                 {data.includedItems.map((item, i) => (
                   <div className={styles.includedItem} key={i}>
                     <div className={styles.includedIcon}>
-                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <svg
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
                         <path
                           d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"
                           fill="#e8600a"
@@ -551,7 +670,9 @@ const InnerTransformation: React.FC = () => {
             )}
 
             <div className={styles.pricingCard}>
-              {data.pricingBadge && <div className={styles.pricingBadge}>{data.pricingBadge}</div>}
+              {data.pricingBadge && (
+                <div className={styles.pricingBadge}>{data.pricingBadge}</div>
+              )}
               {(data.priceUSD || data.priceINR) && (
                 <div className={styles.pricingAmount}>
                   {data.priceUSD && (
@@ -560,14 +681,26 @@ const InnerTransformation: React.FC = () => {
                       {data.priceUSD}
                     </>
                   )}
-                  {data.priceUSD && data.priceINR && <span className={styles.or}> / </span>}
-                  {data.priceINR && <span className={styles.inr}>₹{data.priceINR}</span>}
+                  {data.priceUSD && data.priceINR && (
+                    <span className={styles.or}> / </span>
+                  )}
+                  {data.priceINR && (
+                    <span className={styles.inr}>₹{data.priceINR}</span>
+                  )}
                 </div>
               )}
-              {data.pricingDesc && <p className={styles.pricingDesc}>{data.pricingDesc}</p>}
+              {data.pricingDesc && (
+                <p className={styles.pricingDesc}>{data.pricingDesc}</p>
+              )}
               {data.pricingNote && (
                 <div className={styles.pricingNote}>
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <svg
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
                     <path
                       d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"
                       fill="#e8600a"

@@ -6,9 +6,9 @@ export const metadata: Metadata = {
   description:
     "Explore the Aym Yoga School photo gallery and experience the spirit of yoga through vibrant images of classes, teacher training, campus life, and serene moments in Rishikesh, India.",
 
-    alternates: {
-      canonical: "https://www.indianyogaassociation.com/yoga-photos-india.html",
-    },
+  alternates: {
+    canonical: "https://www.indianyogaassociation.com/yoga-photos-india.html",
+  },
 };
 
 export default function Page() {

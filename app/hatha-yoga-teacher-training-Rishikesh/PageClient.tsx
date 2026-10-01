@@ -237,7 +237,7 @@ function useCurrencyRate() {
         const inr = data?.usd?.inr;
         if (inr && typeof inr === "number") setRate(inr);
       })
-      .catch(() => { })
+      .catch(() => {})
       .finally(() => setLoading(false));
   }, []);
   return { rate, loading };
@@ -697,7 +697,6 @@ function LoadingSpinner() {
   );
 }
 
-
 export function PremiumSeatBooking({
   seats,
   currency,
@@ -729,7 +728,6 @@ export function PremiumSeatBooking({
 
   const selected = seats.find((s) => s._id === selectedId) ?? null;
 
-
   const fmtPriceAdvanced = (
     batch: SeatBatch | null,
     overrideUsd?: number,
@@ -738,7 +736,6 @@ export function PremiumSeatBooking({
       return { amount: "—", cur: currency };
 
     if (currency === "INR") {
-
       if (batch?.inrFee) {
         const num = parseFloat(batch.inrFee.replace(/[₹,]/g, "").trim());
         if (!isNaN(num) && num > 0) {
@@ -756,15 +753,16 @@ export function PremiumSeatBooking({
     return { amount: `$${fallback}`, cur: "USD" };
   };
 
-
-  const getRoomPrice = (batch: SeatBatch | null, roomType: 'dorm' | 'twin' | 'private') => {
+  const getRoomPrice = (
+    batch: SeatBatch | null,
+    roomType: "dorm" | "twin" | "private",
+  ) => {
     if (!batch) return "—";
 
     if (currency === "INR") {
-
       let inrPrice: number | undefined;
-      if (roomType === 'dorm') inrPrice = batch.inrDormPrice;
-      else if (roomType === 'twin') inrPrice = batch.inrTwinPrice;
+      if (roomType === "dorm") inrPrice = batch.inrDormPrice;
+      else if (roomType === "twin") inrPrice = batch.inrTwinPrice;
       else inrPrice = batch.inrPrivatePrice;
 
       if (inrPrice && inrPrice > 0) {
@@ -774,16 +772,17 @@ export function PremiumSeatBooking({
     }
 
     // USD
-    const usdPrice = roomType === 'dorm' ? batch.dormPrice :
-      roomType === 'twin' ? batch.twinPrice :
-        batch.privatePrice;
+    const usdPrice =
+      roomType === "dorm"
+        ? batch.dormPrice
+        : roomType === "twin"
+          ? batch.twinPrice
+          : batch.privatePrice;
     return `$${usdPrice}`;
   };
 
-
   const batchCardPrice = (batch: SeatBatch): { amount: string; cur: string } =>
     fmtPriceAdvanced(batch);
-
 
   const resolvedTag = seatSectionTag || "Upcoming Batches · 2026–2027";
   const resolvedSubtitle =
@@ -976,14 +975,14 @@ export function PremiumSeatBooking({
             <div className={styles.psbPriceRow}>
               <div className={styles.psbPriceCard}>
                 <div className={styles.psbPcAmt}>
-                  {selected ? getRoomPrice(selected, 'private') : "—"}
+                  {selected ? getRoomPrice(selected, "private") : "—"}
                   <span className={styles.psbPcCur}>{currency}</span>
                 </div>
                 <div className={styles.psbPcLbl}>Private Room</div>
               </div>
               <div className={styles.psbPriceCard}>
                 <div className={styles.psbPcAmt}>
-                  {selected ? getRoomPrice(selected, 'twin') : "—"}
+                  {selected ? getRoomPrice(selected, "twin") : "—"}
                   <span className={styles.psbPcCur}>{currency}</span>
                 </div>
                 <div className={styles.psbPcLbl}>Twin / Shared</div>
@@ -993,7 +992,7 @@ export function PremiumSeatBooking({
             <div className={styles.psbPriceWide}>
               <div className={styles.psbPwLeft}>
                 <span className={styles.psbPcAmt} style={{ fontSize: "1rem" }}>
-                  {selected ? getRoomPrice(selected, 'dorm') : "—"}
+                  {selected ? getRoomPrice(selected, "dorm") : "—"}
                 </span>
                 <span className={styles.psbPcCur}>{currency}</span>
               </div>
@@ -1035,8 +1034,8 @@ export function PremiumSeatBooking({
                 const pct = full
                   ? 100
                   : Math.round(
-                    (selected.bookedSeats / selected.totalSeats) * 100,
-                  );
+                      (selected.bookedSeats / selected.totalSeats) * 100,
+                    );
                 return (
                   <div className={styles.psbRpSeatsWrap}>
                     <div className={styles.psbRpSeatsRow}>
@@ -1212,27 +1211,27 @@ export default function HathaYogaPage() {
     d.whatCards && d.whatCards.length > 0
       ? d.whatCards
       : [
-        {
-          icon: "🧘",
-          title: "Traditional Practice",
-          desc: "Rooted in ancient Hatha Yoga Pradipika texts, balancing Ha (Sun) and Tha (Moon) energies",
-        },
-        {
-          icon: "⚡",
-          title: "Energy Balance",
-          desc: "Harmonises chakras, nadis and prana flow through asanas and pranayama",
-        },
-        {
-          icon: "🌿",
-          title: "Holistic Wellbeing",
-          desc: "Cultivates physical strength, mental clarity, and spiritual connection simultaneously",
-        },
-        {
-          icon: "📜",
-          title: "Yoga Alliance Certified",
-          desc: "Internationally recognised certification from Yoga Alliance USA, Ministry of AYUSH",
-        },
-      ];
+          {
+            icon: "🧘",
+            title: "Traditional Practice",
+            desc: "Rooted in ancient Hatha Yoga Pradipika texts, balancing Ha (Sun) and Tha (Moon) energies",
+          },
+          {
+            icon: "⚡",
+            title: "Energy Balance",
+            desc: "Harmonises chakras, nadis and prana flow through asanas and pranayama",
+          },
+          {
+            icon: "🌿",
+            title: "Holistic Wellbeing",
+            desc: "Cultivates physical strength, mental clarity, and spiritual connection simultaneously",
+          },
+          {
+            icon: "📜",
+            title: "Yoga Alliance Certified",
+            desc: "Internationally recognised certification from Yoga Alliance USA, Ministry of AYUSH",
+          },
+        ];
 
   return (
     <div className={styles.page}>
@@ -1274,12 +1273,12 @@ export default function HathaYogaPage() {
               <OrnamentDivider />
               {d.introParagraphs && d.introParagraphs.length > 0
                 ? d.introParagraphs.map((p, i) => (
-                  <div
-                    key={i}
-                    className={styles.para}
-                    dangerouslySetInnerHTML={{ __html: p }}
-                  />
-                ))
+                    <div
+                      key={i}
+                      className={styles.para}
+                      dangerouslySetInnerHTML={{ __html: p }}
+                    />
+                  ))
                 : null}
             </div>
             <div className={styles.introImage}>
@@ -1325,12 +1324,12 @@ export default function HathaYogaPage() {
               </div>
               {d.whatParagraphs && d.whatParagraphs.length > 0
                 ? d.whatParagraphs.map((p, i) => (
-                  <div
-                    key={i}
-                    className={styles.whatPara}
-                    dangerouslySetInnerHTML={{ __html: p }}
-                  />
-                ))
+                    <div
+                      key={i}
+                      className={styles.whatPara}
+                      dangerouslySetInnerHTML={{ __html: p }}
+                    />
+                  ))
                 : null}
             </div>
             {/* ── Dynamic what cards ── */}
@@ -1423,12 +1422,12 @@ export default function HathaYogaPage() {
             )}
             {d.certParagraphs && d.certParagraphs.length > 0
               ? d.certParagraphs.map((p, i) => (
-                <div
-                  key={i}
-                  className={styles.paraCenter}
-                  dangerouslySetInnerHTML={{ __html: p }}
-                />
-              ))
+                  <div
+                    key={i}
+                    className={styles.paraCenter}
+                    dangerouslySetInnerHTML={{ __html: p }}
+                  />
+                ))
               : null}
           </div>
           {d.certCards && d.certCards.length > 0 && (
@@ -1487,12 +1486,12 @@ export default function HathaYogaPage() {
               <OrnamentDivider />
               {d.ashramParagraphs && d.ashramParagraphs.length > 0
                 ? d.ashramParagraphs.map((p, i) => (
-                  <div
-                    key={i}
-                    className={styles.para}
-                    dangerouslySetInnerHTML={{ __html: p }}
-                  />
-                ))
+                    <div
+                      key={i}
+                      className={styles.para}
+                      dangerouslySetInnerHTML={{ __html: p }}
+                    />
+                  ))
                 : null}
             </div>
             <div className={styles.ashramImage}>

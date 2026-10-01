@@ -1,7 +1,15 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { useForm, useFieldArray, Controller, Control, UseFormRegister, UseFormSetValue, UseFormWatch } from "react-hook-form";
+import {
+  useForm,
+  useFieldArray,
+  Controller,
+  Control,
+  UseFormRegister,
+  UseFormSetValue,
+  UseFormWatch,
+} from "react-hook-form";
 import { useRouter, useParams } from "next/navigation";
 import Link from "next/link";
 import dynamic from "next/dynamic";
@@ -13,9 +21,22 @@ const JoditEditor = dynamic(() => import("jodit-react"), { ssr: false });
 
 /* ─────────────────────── Icon options (react-icons/fa names) ─────────────────────── */
 const ICON_OPTIONS = [
-  "FaLeaf", "FaHeart", "FaBook", "FaUsers", "FaGraduationCap", "FaLightbulb",
-  "FaFlask", "FaHandsHelping", "FaOm", "FaStar", "FaGlobe", "FaMedal",
-  "FaCertificate", "FaPrayingHands", "FaSeedling", "FaSun",
+  "FaLeaf",
+  "FaHeart",
+  "FaBook",
+  "FaUsers",
+  "FaGraduationCap",
+  "FaLightbulb",
+  "FaFlask",
+  "FaHandsHelping",
+  "FaOm",
+  "FaStar",
+  "FaGlobe",
+  "FaMedal",
+  "FaCertificate",
+  "FaPrayingHands",
+  "FaSeedling",
+  "FaSun",
 ];
 
 /* ─────────────────────── Types ─────────────────────── */
@@ -103,10 +124,26 @@ const INITIAL: FormData = {
   schoolGalleryLabel: "Yoga Practice",
 
   highlights: [
-    { icon: "FaLeaf", title: "Traditional Wisdom", description: "Ancient yogic practices combined with modern science" },
-    { icon: "FaHeart", title: "Holistic Healing", description: "Mind, body, and spirit wellness programs" },
-    { icon: "FaBook", title: "Expert Training", description: "Certified yoga teachers with decades of experience" },
-    { icon: "FaUsers", title: "Global Community", description: "Students from over 50 countries worldwide" },
+    {
+      icon: "FaLeaf",
+      title: "Traditional Wisdom",
+      description: "Ancient yogic practices combined with modern science",
+    },
+    {
+      icon: "FaHeart",
+      title: "Holistic Healing",
+      description: "Mind, body, and spirit wellness programs",
+    },
+    {
+      icon: "FaBook",
+      title: "Expert Training",
+      description: "Certified yoga teachers with decades of experience",
+    },
+    {
+      icon: "FaUsers",
+      title: "Global Community",
+      description: "Students from over 50 countries worldwide",
+    },
   ],
 
   visionMissionBlockTitle: "Vision and Mission",
@@ -120,25 +157,53 @@ const INITIAL: FormData = {
   objectivesIntroParagraphs: [{ text: "" }],
   objectives: [
     { text: "Establishment of yoga study centers in India and abroad." },
-    { text: "Developing standards for yoga teacher training programs and assisting other schools." },
-    { text: "Leading and integrating spiritual communities and yoga schools in India." },
+    {
+      text: "Developing standards for yoga teacher training programs and assisting other schools.",
+    },
+    {
+      text: "Leading and integrating spiritual communities and yoga schools in India.",
+    },
     { text: "Promotion of research in yoga and yoga institutes in India." },
   ],
 
   historyBlockTitle: "History of AYM",
   timelineItems: [
     { year: "2005", title: "Foundation Year", paragraphs: [{ text: "" }] },
-    { year: "2005-2006", title: "National Recognition", paragraphs: [{ text: "" }] },
+    {
+      year: "2005-2006",
+      title: "National Recognition",
+      paragraphs: [{ text: "" }],
+    },
     { year: "2006+", title: "Global Expansion", paragraphs: [{ text: "" }] },
   ],
 
   activitiesBlockTitle: "Activities",
   activitiesIntroParagraphs: [{ text: "" }],
   activities: [
-    { icon: "FaGraduationCap", title: "Teacher Training", description: "Comprehensive 100, 200, 300, and 500-hour certification programs" },
-    { icon: "FaLightbulb", title: "Workshops & Retreats", description: "Specialized sessions on meditation, pranayama, and yoga philosophy" },
-    { icon: "FaFlask", title: "Research & Development", description: "Scientific studies on yoga benefits and traditional practices" },
-    { icon: "FaHandsHelping", title: "Community Outreach", description: "Spreading yoga awareness and wellness programs across India" },
+    {
+      icon: "FaGraduationCap",
+      title: "Teacher Training",
+      description:
+        "Comprehensive 100, 200, 300, and 500-hour certification programs",
+    },
+    {
+      icon: "FaLightbulb",
+      title: "Workshops & Retreats",
+      description:
+        "Specialized sessions on meditation, pranayama, and yoga philosophy",
+    },
+    {
+      icon: "FaFlask",
+      title: "Research & Development",
+      description:
+        "Scientific studies on yoga benefits and traditional practices",
+    },
+    {
+      icon: "FaHandsHelping",
+      title: "Community Outreach",
+      description:
+        "Spreading yoga awareness and wellness programs across India",
+    },
   ],
 };
 
@@ -153,10 +218,30 @@ const joditConfig = {
   height: 220,
   toolbarAdaptive: false,
   buttons: [
-    "bold", "italic", "underline", "strikethrough", "|",
-    "font", "fontsize", "brush", "|",
-    "paragraph", "|", "ul", "ol", "|", "align", "|",
-    "link", "unlink", "|", "undo", "redo", "|", "eraser", "fullsize",
+    "bold",
+    "italic",
+    "underline",
+    "strikethrough",
+    "|",
+    "font",
+    "fontsize",
+    "brush",
+    "|",
+    "paragraph",
+    "|",
+    "ul",
+    "ol",
+    "|",
+    "align",
+    "|",
+    "link",
+    "unlink",
+    "|",
+    "undo",
+    "redo",
+    "|",
+    "eraser",
+    "fullsize",
   ],
   showXPathInStatusbar: false,
   showCharsCounter: false,
@@ -178,22 +263,32 @@ function ParagraphList({
   label: string;
   minRequired?: boolean;
 }) {
-  const { fields, append, remove } = useFieldArray({ control, name: name as any });
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: name as any,
+  });
 
   return (
     <div className={styles.fieldGroup}>
       <div className={styles.sectionHeader} style={{ marginBottom: "0.6rem" }}>
         <span className={styles.labelIcon}>✦</span>
-        <h3 className={styles.sectionTitle} style={{ fontSize: "0.74rem" }}>{label}</h3>
+        <h3 className={styles.sectionTitle} style={{ fontSize: "0.74rem" }}>
+          {label}
+        </h3>
         <span className={styles.sectionBadge}>{fields.length}/8</span>
       </div>
 
       {fields.map((field, index) => (
         <div key={field.id} style={{ marginBottom: "0.9rem" }}>
-          <div className={styles.itemFieldsRow} style={{ alignItems: "center", marginBottom: "0.4rem" }}>
+          <div
+            className={styles.itemFieldsRow}
+            style={{ alignItems: "center", marginBottom: "0.4rem" }}
+          >
             <label className={styles.label} style={{ marginBottom: 0 }}>
               Paragraph {index + 1}
-              {minRequired && index === 0 && <span className={styles.required}>*</span>}
+              {minRequired && index === 0 && (
+                <span className={styles.required}>*</span>
+              )}
             </label>
             <button
               type="button"
@@ -209,9 +304,17 @@ function ParagraphList({
             <Controller
               name={`${name}.${index}.text` as any}
               control={control}
-              rules={minRequired && index === 0 ? { required: "Required" } : undefined}
+              rules={
+                minRequired && index === 0
+                  ? { required: "Required" }
+                  : undefined
+              }
               render={({ field: f }) => (
-                <JoditEditor value={f.value} config={joditConfig} onBlur={(c) => f.onChange(c)} />
+                <JoditEditor
+                  value={f.value}
+                  config={joditConfig}
+                  onBlur={(c) => f.onChange(c)}
+                />
               )}
             />
           </div>
@@ -219,7 +322,11 @@ function ParagraphList({
       ))}
 
       {fields.length < 8 && (
-        <button type="button" className={styles.addBtn} onClick={() => append({ text: "" } as any)}>
+        <button
+          type="button"
+          className={styles.addBtn}
+          onClick={() => append({ text: "" } as any)}
+        >
           + Add Paragraph
         </button>
       )}
@@ -256,7 +363,10 @@ function IconItemList({
             <div className={styles.itemFields}>
               <div className={styles.itemFieldsRow}>
                 <div className={styles.inputWrap} style={{ maxWidth: "160px" }}>
-                  <select className={styles.select} {...register(`${name}.${index}.icon` as any)}>
+                  <select
+                    className={styles.select}
+                    {...register(`${name}.${index}.icon` as any)}
+                  >
                     {ICON_OPTIONS.map((opt) => (
                       <option key={opt} value={opt}>
                         {opt}
@@ -269,7 +379,9 @@ function IconItemList({
                     type="text"
                     className={styles.input}
                     placeholder="Title"
-                    {...register(`${name}.${index}.title` as any, { required: true })}
+                    {...register(`${name}.${index}.title` as any, {
+                      required: true,
+                    })}
                   />
                 </div>
               </div>
@@ -278,7 +390,9 @@ function IconItemList({
                   type="text"
                   className={styles.input}
                   placeholder="Description"
-                  {...register(`${name}.${index}.description` as any, { required: true })}
+                  {...register(`${name}.${index}.description` as any, {
+                    required: true,
+                  })}
                 />
               </div>
             </div>
@@ -325,7 +439,10 @@ function TimelineItemFields({
   onRemove: () => void;
   canRemove: boolean;
 }) {
-  const paragraphsArray = useFieldArray({ control, name: `timelineItems.${index}.paragraphs` });
+  const paragraphsArray = useFieldArray({
+    control,
+    name: `timelineItems.${index}.paragraphs`,
+  });
   const preview = watch(`timelineItems.${index}.preview`);
 
   const handleImage = (file: File | null) => {
@@ -361,7 +478,9 @@ function TimelineItemFields({
               type="text"
               className={styles.input}
               placeholder="e.g. 2005"
-              {...register(`timelineItems.${index}.year`, { required: "Required" })}
+              {...register(`timelineItems.${index}.year`, {
+                required: "Required",
+              })}
             />
           </div>
         </div>
@@ -372,7 +491,9 @@ function TimelineItemFields({
               type="text"
               className={styles.input}
               placeholder="e.g. Foundation Year"
-              {...register(`timelineItems.${index}.title`, { required: "Required" })}
+              {...register(`timelineItems.${index}.title`, {
+                required: "Required",
+              })}
             />
           </div>
         </div>
@@ -400,13 +521,20 @@ function TimelineItemFields({
 
       <div className={styles.sectionHeader} style={{ marginBottom: "0.6rem" }}>
         <span className={styles.labelIcon}>✦</span>
-        <h3 className={styles.sectionTitle} style={{ fontSize: "0.72rem" }}>Paragraphs</h3>
-        <span className={styles.sectionBadge}>{paragraphsArray.fields.length}/6</span>
+        <h3 className={styles.sectionTitle} style={{ fontSize: "0.72rem" }}>
+          Paragraphs
+        </h3>
+        <span className={styles.sectionBadge}>
+          {paragraphsArray.fields.length}/6
+        </span>
       </div>
 
       {paragraphsArray.fields.map((pField, pIndex) => (
         <div key={pField.id} style={{ marginBottom: "0.8rem" }}>
-          <div className={styles.itemFieldsRow} style={{ alignItems: "center", marginBottom: "0.4rem" }}>
+          <div
+            className={styles.itemFieldsRow}
+            style={{ alignItems: "center", marginBottom: "0.4rem" }}
+          >
             <label className={styles.label} style={{ marginBottom: 0 }}>
               Paragraph {pIndex + 1}
             </label>
@@ -425,7 +553,11 @@ function TimelineItemFields({
               name={`timelineItems.${index}.paragraphs.${pIndex}.text`}
               control={control}
               render={({ field: f }) => (
-                <JoditEditor value={f.value} config={joditConfig} onBlur={(c) => f.onChange(c)} />
+                <JoditEditor
+                  value={f.value}
+                  config={joditConfig}
+                  onBlur={(c) => f.onChange(c)}
+                />
               )}
             />
           </div>
@@ -433,7 +565,11 @@ function TimelineItemFields({
       ))}
 
       {paragraphsArray.fields.length < 6 && (
-        <button type="button" className={styles.addBtn} onClick={() => paragraphsArray.append({ text: "" })}>
+        <button
+          type="button"
+          className={styles.addBtn}
+          onClick={() => paragraphsArray.append({ text: "" })}
+        >
           + Add Paragraph
         </button>
       )}
@@ -456,7 +592,13 @@ export default function AboutAddEditPage() {
   const [missionImageFile, setMissionImageFile] = useState<File | null>(null);
   const [loadingData, setLoadingData] = useState(isEdit);
   const [activeTab, setActiveTab] = useState<
-    "hero" | "school" | "highlights" | "visionMission" | "objectives" | "history" | "activities"
+    | "hero"
+    | "school"
+    | "highlights"
+    | "visionMission"
+    | "objectives"
+    | "history"
+    | "activities"
   >("hero");
 
   const {
@@ -492,41 +634,59 @@ export default function AboutAddEditPage() {
           logoIndiaText: d.logoIndiaText ?? INITIAL.logoIndiaText,
 
           schoolBlockTitle: d.schoolBlockTitle ?? INITIAL.schoolBlockTitle,
-          schoolParagraphs: d.schoolParagraphs?.length ? d.schoolParagraphs.map((t: string) => ({ text: t })) : INITIAL.schoolParagraphs,
-          schoolGalleryLabel: d.schoolGalleryLabel ?? INITIAL.schoolGalleryLabel,
-          _schoolGalleryPreview: d.schoolGalleryImage ? getImageUrl(d.schoolGalleryImage) : "",
+          schoolParagraphs: d.schoolParagraphs?.length
+            ? d.schoolParagraphs.map((t: string) => ({ text: t }))
+            : INITIAL.schoolParagraphs,
+          schoolGalleryLabel:
+            d.schoolGalleryLabel ?? INITIAL.schoolGalleryLabel,
+          _schoolGalleryPreview: d.schoolGalleryImage
+            ? getImageUrl(d.schoolGalleryImage)
+            : "",
 
           highlights: d.highlights?.length ? d.highlights : INITIAL.highlights,
 
-          visionMissionBlockTitle: d.visionMissionBlockTitle ?? INITIAL.visionMissionBlockTitle,
+          visionMissionBlockTitle:
+            d.visionMissionBlockTitle ?? INITIAL.visionMissionBlockTitle,
           visionTitle: d.visionTitle ?? INITIAL.visionTitle,
-          visionParagraphs: d.visionParagraphs?.length ? d.visionParagraphs.map((t: string) => ({ text: t })) : INITIAL.visionParagraphs,
+          visionParagraphs: d.visionParagraphs?.length
+            ? d.visionParagraphs.map((t: string) => ({ text: t }))
+            : INITIAL.visionParagraphs,
           _visionImagePreview: d.visionImage ? getImageUrl(d.visionImage) : "",
           missionTitle: d.missionTitle ?? INITIAL.missionTitle,
-          missionParagraphs: d.missionParagraphs?.length ? d.missionParagraphs.map((t: string) => ({ text: t })) : INITIAL.missionParagraphs,
-          _missionImagePreview: d.missionImage ? getImageUrl(d.missionImage) : "",
+          missionParagraphs: d.missionParagraphs?.length
+            ? d.missionParagraphs.map((t: string) => ({ text: t }))
+            : INITIAL.missionParagraphs,
+          _missionImagePreview: d.missionImage
+            ? getImageUrl(d.missionImage)
+            : "",
           visionMissionProseParagraphs: d.visionMissionProseParagraphs?.length
             ? d.visionMissionProseParagraphs.map((t: string) => ({ text: t }))
             : INITIAL.visionMissionProseParagraphs,
 
-          objectivesBlockTitle: d.objectivesBlockTitle ?? INITIAL.objectivesBlockTitle,
+          objectivesBlockTitle:
+            d.objectivesBlockTitle ?? INITIAL.objectivesBlockTitle,
           objectivesIntroParagraphs: d.objectivesIntroParagraphs?.length
             ? d.objectivesIntroParagraphs.map((t: string) => ({ text: t }))
             : INITIAL.objectivesIntroParagraphs,
-          objectives: d.objectives?.length ? d.objectives.map((t: string) => ({ text: t })) : INITIAL.objectives,
+          objectives: d.objectives?.length
+            ? d.objectives.map((t: string) => ({ text: t }))
+            : INITIAL.objectives,
 
           historyBlockTitle: d.historyBlockTitle ?? INITIAL.historyBlockTitle,
           timelineItems: d.timelineItems?.length
             ? d.timelineItems.map((t: any) => ({
-              year: t.year ?? "",
-              title: t.title ?? "",
-              paragraphs: t.paragraphs?.length ? t.paragraphs.map((p: string) => ({ text: p })) : [{ text: "" }],
-              existingUrl: t.image ?? "",
-              preview: t.image ? getImageUrl(t.image) : "",
-            }))
+                year: t.year ?? "",
+                title: t.title ?? "",
+                paragraphs: t.paragraphs?.length
+                  ? t.paragraphs.map((p: string) => ({ text: p }))
+                  : [{ text: "" }],
+                existingUrl: t.image ?? "",
+                preview: t.image ? getImageUrl(t.image) : "",
+              }))
             : INITIAL.timelineItems,
 
-          activitiesBlockTitle: d.activitiesBlockTitle ?? INITIAL.activitiesBlockTitle,
+          activitiesBlockTitle:
+            d.activitiesBlockTitle ?? INITIAL.activitiesBlockTitle,
           activitiesIntroParagraphs: d.activitiesIntroParagraphs?.length
             ? d.activitiesIntroParagraphs.map((t: string) => ({ text: t }))
             : INITIAL.activitiesIntroParagraphs,
@@ -543,21 +703,30 @@ export default function AboutAddEditPage() {
   }, [isEdit, sectionId, reset, router]);
 
   /* ── Single image handlers ── */
-  const makeSingleImageHandler = (
-    previewField: keyof FormData,
-    setter: (f: File | null) => void
-  ) => (file: File | null) => {
-    if (!file) return;
-    setter(file);
-    const reader = new FileReader();
-    reader.onload = (e) => setValue(previewField as any, e.target?.result as string);
-    reader.readAsDataURL(file);
-  };
+  const makeSingleImageHandler =
+    (previewField: keyof FormData, setter: (f: File | null) => void) =>
+    (file: File | null) => {
+      if (!file) return;
+      setter(file);
+      const reader = new FileReader();
+      reader.onload = (e) =>
+        setValue(previewField as any, e.target?.result as string);
+      reader.readAsDataURL(file);
+    };
 
   const handleHeroImage = makeSingleImageHandler("_heroPreview", setHeroFile);
-  const handleSchoolGalleryImage = makeSingleImageHandler("_schoolGalleryPreview", setSchoolGalleryFile);
-  const handleVisionImage = makeSingleImageHandler("_visionImagePreview", setVisionImageFile);
-  const handleMissionImage = makeSingleImageHandler("_missionImagePreview", setMissionImageFile);
+  const handleSchoolGalleryImage = makeSingleImageHandler(
+    "_schoolGalleryPreview",
+    setSchoolGalleryFile,
+  );
+  const handleVisionImage = makeSingleImageHandler(
+    "_visionImagePreview",
+    setVisionImageFile,
+  );
+  const handleMissionImage = makeSingleImageHandler(
+    "_missionImagePreview",
+    setMissionImageFile,
+  );
 
   /* ── Submit ── */
   const onSubmit = async (data: FormData) => {
@@ -580,24 +749,36 @@ export default function AboutAddEditPage() {
       formData.append("activitiesBlockTitle", data.activitiesBlockTitle);
 
       // Dynamic paragraph lists (arrays of HTML strings)
-      formData.append("schoolParagraphs", JSON.stringify(data.schoolParagraphs.map((p) => p.text)));
-      formData.append("visionParagraphs", JSON.stringify(data.visionParagraphs.map((p) => p.text)));
-      formData.append("missionParagraphs", JSON.stringify(data.missionParagraphs.map((p) => p.text)));
+      formData.append(
+        "schoolParagraphs",
+        JSON.stringify(data.schoolParagraphs.map((p) => p.text)),
+      );
+      formData.append(
+        "visionParagraphs",
+        JSON.stringify(data.visionParagraphs.map((p) => p.text)),
+      );
+      formData.append(
+        "missionParagraphs",
+        JSON.stringify(data.missionParagraphs.map((p) => p.text)),
+      );
       formData.append(
         "visionMissionProseParagraphs",
-        JSON.stringify(data.visionMissionProseParagraphs.map((p) => p.text))
+        JSON.stringify(data.visionMissionProseParagraphs.map((p) => p.text)),
       );
       formData.append(
         "objectivesIntroParagraphs",
-        JSON.stringify(data.objectivesIntroParagraphs.map((p) => p.text))
+        JSON.stringify(data.objectivesIntroParagraphs.map((p) => p.text)),
       );
       formData.append(
         "activitiesIntroParagraphs",
-        JSON.stringify(data.activitiesIntroParagraphs.map((p) => p.text))
+        JSON.stringify(data.activitiesIntroParagraphs.map((p) => p.text)),
       );
 
       // Simple string lists
-      formData.append("objectives", JSON.stringify(data.objectives.map((o) => o.text)));
+      formData.append(
+        "objectives",
+        JSON.stringify(data.objectives.map((o) => o.text)),
+      );
 
       // Icon+title+description arrays
       formData.append("highlights", JSON.stringify(data.highlights));
@@ -605,7 +786,8 @@ export default function AboutAddEditPage() {
 
       // Single images
       if (heroFile) formData.append("heroImage", heroFile);
-      if (schoolGalleryFile) formData.append("schoolGalleryImage", schoolGalleryFile);
+      if (schoolGalleryFile)
+        formData.append("schoolGalleryImage", schoolGalleryFile);
       if (visionImageFile) formData.append("visionImage", visionImageFile);
       if (missionImageFile) formData.append("missionImage", missionImageFile);
 
@@ -617,15 +799,19 @@ export default function AboutAddEditPage() {
             year: t.year,
             title: t.title,
             paragraphs: t.paragraphs.map((p) => p.text),
-          }))
-        )
+          })),
+        ),
       );
       data.timelineItems.forEach((t, i) => {
         if (t.file) formData.append(`timelineImage_${i}`, t.file);
       });
       formData.append(
         "existingTimelineImages",
-        JSON.stringify(data.timelineItems.map((t) => (t.file ? null : t.existingUrl ?? null)))
+        JSON.stringify(
+          data.timelineItems.map((t) =>
+            t.file ? null : (t.existingUrl ?? null),
+          ),
+        ),
       );
 
       if (isEdit && sectionId) {
@@ -654,7 +840,11 @@ export default function AboutAddEditPage() {
         <div className={styles.skeletonHeader} />
         <div className={styles.skeletonCard}>
           {[...Array(5)].map((_, i) => (
-            <div key={i} className={styles.skeletonField} style={{ height: "52px" }} />
+            <div
+              key={i}
+              className={styles.skeletonField}
+              style={{ height: "52px" }}
+            />
           ))}
         </div>
       </div>
@@ -668,7 +858,9 @@ export default function AboutAddEditPage() {
         <div className={styles.successCard}>
           <div className={styles.successOm}>ॐ</div>
           <div className={styles.successCheck}>✓</div>
-          <h2 className={styles.successTitle}>About Us Section {isEdit ? "Updated" : "Saved"}!</h2>
+          <h2 className={styles.successTitle}>
+            About Us Section {isEdit ? "Updated" : "Saved"}!
+          </h2>
           <p className={styles.successText}>Redirecting…</p>
         </div>
       </div>
@@ -679,7 +871,12 @@ export default function AboutAddEditPage() {
     hero: !!(errors.heroImageAlt || errors.logoAbbr),
     school: !!(errors.schoolBlockTitle || errors.schoolParagraphs),
     highlights: !!errors.highlights,
-    visionMission: !!(errors.visionTitle || errors.missionTitle || errors.visionParagraphs || errors.missionParagraphs),
+    visionMission: !!(
+      errors.visionTitle ||
+      errors.missionTitle ||
+      errors.visionParagraphs ||
+      errors.missionParagraphs
+    ),
     objectives: !!(errors.objectivesBlockTitle || errors.objectives),
     history: !!(errors.historyBlockTitle || errors.timelineItems),
     activities: !!(errors.activitiesBlockTitle || errors.activities),
@@ -695,23 +892,40 @@ export default function AboutAddEditPage() {
     activities: "⑦ Activities",
   };
 
-  const tabOrder = ["hero", "school", "highlights", "visionMission", "objectives", "history", "activities"] as const;
+  const tabOrder = [
+    "hero",
+    "school",
+    "highlights",
+    "visionMission",
+    "objectives",
+    "history",
+    "activities",
+  ] as const;
 
   return (
     <div className={styles.formPage}>
       {/* Breadcrumb */}
       <div className={styles.breadcrumb}>
-        <Link href="/admin/dashboard/about-aym" className={styles.breadcrumbLink}>
+        <Link
+          href="/admin/dashboard/about-aym"
+          className={styles.breadcrumbLink}
+        >
           About Us Section
         </Link>
         <span className={styles.breadcrumbSep}>›</span>
-        <span className={styles.breadcrumbCurrent}>{isEdit ? "Edit" : "Add"}</span>
+        <span className={styles.breadcrumbCurrent}>
+          {isEdit ? "Edit" : "Add"}
+        </span>
       </div>
 
       <div className={styles.pageHeader}>
-        <h1 className={styles.pageTitle}>{isEdit ? "Edit About Us Section" : "Add About Us Section"}</h1>
+        <h1 className={styles.pageTitle}>
+          {isEdit ? "Edit About Us Section" : "Add About Us Section"}
+        </h1>
         <p className={styles.pageSubtitle}>
-          {isEdit ? "Update hero, school section, highlights, vision, objectives, history and activities" : "Fill in every section of the About Us page"}
+          {isEdit
+            ? "Update hero, school section, highlights, vision, objectives, history and activities"
+            : "Fill in every section of the About Us page"}
         </p>
       </div>
 
@@ -759,15 +973,25 @@ export default function AboutAddEditPage() {
                       type="file"
                       accept="image/*"
                       className={styles.fileInput}
-                      onChange={(e) => handleHeroImage(e.target.files?.[0] || null)}
+                      onChange={(e) =>
+                        handleHeroImage(e.target.files?.[0] || null)
+                      }
                     />
                     {watchAll._heroPreview ? (
-                      <img src={watchAll._heroPreview} alt="preview" className={styles.imgPreview} />
+                      <img
+                        src={watchAll._heroPreview}
+                        alt="preview"
+                        className={styles.imgPreview}
+                      />
                     ) : (
                       <>
                         <span className={styles.uploadIcon}>🏔️</span>
-                        <span className={styles.uploadText}>Click to upload or drag &amp; drop</span>
-                        <span className={styles.uploadSubtext}>JPG, PNG, WEBP — max 5MB</span>
+                        <span className={styles.uploadText}>
+                          Click to upload or drag &amp; drop
+                        </span>
+                        <span className={styles.uploadSubtext}>
+                          JPG, PNG, WEBP — max 5MB
+                        </span>
                       </>
                     )}
                   </label>
@@ -783,10 +1007,16 @@ export default function AboutAddEditPage() {
                       type="text"
                       className={styles.input}
                       placeholder="e.g. Yoga Students Group"
-                      {...register("heroImageAlt", { required: "Alt text is required" })}
+                      {...register("heroImageAlt", {
+                        required: "Alt text is required",
+                      })}
                     />
                   </div>
-                  {errors.heroImageAlt && <p className={styles.errorMsg}>⚠ {errors.heroImageAlt.message}</p>}
+                  {errors.heroImageAlt && (
+                    <p className={styles.errorMsg}>
+                      ⚠ {errors.heroImageAlt.message}
+                    </p>
+                  )}
                 </div>
               </div>
 
@@ -825,7 +1055,9 @@ export default function AboutAddEditPage() {
 
                 <div className={styles.fieldGroup}>
                   <label className={styles.label}>Full Organisation Name</label>
-                  <p className={styles.fieldHint}>e.g. "ASSOCIATION FOR YOGA & MEDITATION"</p>
+                  <p className={styles.fieldHint}>
+                    e.g. "ASSOCIATION FOR YOGA & MEDITATION"
+                  </p>
                   <div className={styles.inputWrap}>
                     <input
                       type="text"
@@ -844,14 +1076,18 @@ export default function AboutAddEditPage() {
             <div className={styles.sectionBlock}>
               <div className={styles.sectionHeader}>
                 <span className={styles.sectionIcon}>✦</span>
-                <h3 className={styles.sectionTitle}>Yoga School in India — Block</h3>
+                <h3 className={styles.sectionTitle}>
+                  Yoga School in India — Block
+                </h3>
               </div>
 
               <div className={styles.fieldGroup}>
                 <label className={styles.label}>
                   Block Title (H1)<span className={styles.required}>*</span>
                 </label>
-                <div className={`${styles.inputWrap} ${errors.schoolBlockTitle ? styles.inputError : ""}`}>
+                <div
+                  className={`${styles.inputWrap} ${errors.schoolBlockTitle ? styles.inputError : ""}`}
+                >
                   <input
                     type="text"
                     className={styles.input}
@@ -861,21 +1097,35 @@ export default function AboutAddEditPage() {
                 </div>
               </div>
 
-              <ParagraphList control={control} errors={errors} name="schoolParagraphs" label="School Description Paragraphs" minRequired />
+              <ParagraphList
+                control={control}
+                errors={errors}
+                name="schoolParagraphs"
+                label="School Description Paragraphs"
+                minRequired
+              />
 
               <div className={styles.formDivider} />
 
               <div className={styles.fieldGroup}>
-                <label className={styles.label}>Gallery Image (right side)</label>
+                <label className={styles.label}>
+                  Gallery Image (right side)
+                </label>
                 <label className={styles.uploadArea}>
                   <input
                     type="file"
                     accept="image/*"
                     className={styles.fileInput}
-                    onChange={(e) => handleSchoolGalleryImage(e.target.files?.[0] || null)}
+                    onChange={(e) =>
+                      handleSchoolGalleryImage(e.target.files?.[0] || null)
+                    }
                   />
                   {watchAll._schoolGalleryPreview ? (
-                    <img src={watchAll._schoolGalleryPreview} alt="preview" className={styles.imgPreview} />
+                    <img
+                      src={watchAll._schoolGalleryPreview}
+                      alt="preview"
+                      className={styles.imgPreview}
+                    />
                   ) : (
                     <>
                       <span className={styles.uploadIcon}>🖼️</span>
@@ -886,7 +1136,9 @@ export default function AboutAddEditPage() {
               </div>
 
               <div className={styles.fieldGroup}>
-                <label className={styles.label}>Gallery Image Caption / Label</label>
+                <label className={styles.label}>
+                  Gallery Image Caption / Label
+                </label>
                 <div className={styles.inputWrap}>
                   <input
                     type="text"
@@ -905,7 +1157,9 @@ export default function AboutAddEditPage() {
               <div className={styles.sectionHeader}>
                 <span className={styles.sectionIcon}>✦</span>
                 <h3 className={styles.sectionTitle}>Highlights Grid</h3>
-                <span className={styles.sectionBadge}>{highlightsArray.fields.length}/8</span>
+                <span className={styles.sectionBadge}>
+                  {highlightsArray.fields.length}/8
+                </span>
               </div>
               <p className={styles.fieldHint} style={{ marginBottom: "1rem" }}>
                 Icon, title and short description for each highlight card.
@@ -938,7 +1192,9 @@ export default function AboutAddEditPage() {
                     type="text"
                     className={styles.input}
                     placeholder="e.g. Vision and Mission"
-                    {...register("visionMissionBlockTitle", { required: "Required" })}
+                    {...register("visionMissionBlockTitle", {
+                      required: "Required",
+                    })}
                   />
                 </div>
               </div>
@@ -952,14 +1208,22 @@ export default function AboutAddEditPage() {
                         type="file"
                         accept="image/*"
                         className={styles.fileInput}
-                        onChange={(e) => handleVisionImage(e.target.files?.[0] || null)}
+                        onChange={(e) =>
+                          handleVisionImage(e.target.files?.[0] || null)
+                        }
                       />
                       {watchAll._visionImagePreview ? (
-                        <img src={watchAll._visionImagePreview} alt="preview" className={styles.imgPreview} />
+                        <img
+                          src={watchAll._visionImagePreview}
+                          alt="preview"
+                          className={styles.imgPreview}
+                        />
                       ) : (
                         <>
                           <span className={styles.uploadIcon}>🧘</span>
-                          <span className={styles.uploadText}>Click to upload</span>
+                          <span className={styles.uploadText}>
+                            Click to upload
+                          </span>
                         </>
                       )}
                     </label>
@@ -975,7 +1239,13 @@ export default function AboutAddEditPage() {
                       />
                     </div>
                   </div>
-                  <ParagraphList control={control} errors={errors} name="visionParagraphs" label="Vision Paragraphs" minRequired />
+                  <ParagraphList
+                    control={control}
+                    errors={errors}
+                    name="visionParagraphs"
+                    label="Vision Paragraphs"
+                    minRequired
+                  />
                 </div>
 
                 <div>
@@ -986,14 +1256,22 @@ export default function AboutAddEditPage() {
                         type="file"
                         accept="image/*"
                         className={styles.fileInput}
-                        onChange={(e) => handleMissionImage(e.target.files?.[0] || null)}
+                        onChange={(e) =>
+                          handleMissionImage(e.target.files?.[0] || null)
+                        }
                       />
                       {watchAll._missionImagePreview ? (
-                        <img src={watchAll._missionImagePreview} alt="preview" className={styles.imgPreview} />
+                        <img
+                          src={watchAll._missionImagePreview}
+                          alt="preview"
+                          className={styles.imgPreview}
+                        />
                       ) : (
                         <>
                           <span className={styles.uploadIcon}>🕉️</span>
-                          <span className={styles.uploadText}>Click to upload</span>
+                          <span className={styles.uploadText}>
+                            Click to upload
+                          </span>
                         </>
                       )}
                     </label>
@@ -1009,7 +1287,13 @@ export default function AboutAddEditPage() {
                       />
                     </div>
                   </div>
-                  <ParagraphList control={control} errors={errors} name="missionParagraphs" label="Mission Paragraphs" minRequired />
+                  <ParagraphList
+                    control={control}
+                    errors={errors}
+                    name="missionParagraphs"
+                    label="Mission Paragraphs"
+                    minRequired
+                  />
                 </div>
               </div>
 
@@ -1034,24 +1318,35 @@ export default function AboutAddEditPage() {
 
               <div className={styles.fieldGroup}>
                 <label className={styles.label}>Block Title (H2)</label>
-                <div className={`${styles.inputWrap} ${errors.objectivesBlockTitle ? styles.inputError : ""}`}>
+                <div
+                  className={`${styles.inputWrap} ${errors.objectivesBlockTitle ? styles.inputError : ""}`}
+                >
                   <input
                     type="text"
                     className={styles.input}
                     placeholder="e.g. Aims and Objectives of AYM India"
-                    {...register("objectivesBlockTitle", { required: "Required" })}
+                    {...register("objectivesBlockTitle", {
+                      required: "Required",
+                    })}
                   />
                 </div>
               </div>
 
-              <ParagraphList control={control} errors={errors} name="objectivesIntroParagraphs" label="Intro Paragraphs" />
+              <ParagraphList
+                control={control}
+                errors={errors}
+                name="objectivesIntroParagraphs"
+                label="Intro Paragraphs"
+              />
 
               <div className={styles.formDivider} />
 
               <div className={styles.sectionHeader}>
                 <span className={styles.sectionIcon}>✦</span>
                 <h3 className={styles.sectionTitle}>Objectives List</h3>
-                <span className={styles.sectionBadge}>{objectivesArray.fields.length}/12</span>
+                <span className={styles.sectionBadge}>
+                  {objectivesArray.fields.length}/12
+                </span>
               </div>
 
               <div className={styles.itemsList}>
@@ -1064,7 +1359,9 @@ export default function AboutAddEditPage() {
                           type="text"
                           className={styles.input}
                           placeholder="Objective text"
-                          {...register(`objectives.${index}.text`, { required: true })}
+                          {...register(`objectives.${index}.text`, {
+                            required: true,
+                          })}
                         />
                       </div>
                     </div>
@@ -1081,7 +1378,11 @@ export default function AboutAddEditPage() {
               </div>
 
               {objectivesArray.fields.length < 12 && (
-                <button type="button" className={styles.addBtn} onClick={() => objectivesArray.append({ text: "" })}>
+                <button
+                  type="button"
+                  className={styles.addBtn}
+                  onClick={() => objectivesArray.append({ text: "" })}
+                >
                   + Add Objective
                 </button>
               )}
@@ -1098,7 +1399,9 @@ export default function AboutAddEditPage() {
 
               <div className={styles.fieldGroup}>
                 <label className={styles.label}>Block Title (H2)</label>
-                <div className={`${styles.inputWrap} ${errors.historyBlockTitle ? styles.inputError : ""}`}>
+                <div
+                  className={`${styles.inputWrap} ${errors.historyBlockTitle ? styles.inputError : ""}`}
+                >
                   <input
                     type="text"
                     className={styles.input}
@@ -1108,8 +1411,13 @@ export default function AboutAddEditPage() {
                 </div>
               </div>
 
-              <div className={styles.sectionHeader} style={{ marginTop: "0.6rem" }}>
-                <span className={styles.sectionBadge}>{timelineArray.fields.length}/10 timeline entries</span>
+              <div
+                className={styles.sectionHeader}
+                style={{ marginTop: "0.6rem" }}
+              >
+                <span className={styles.sectionBadge}>
+                  {timelineArray.fields.length}/10 timeline entries
+                </span>
               </div>
 
               {timelineArray.fields.map((field, index) => (
@@ -1129,7 +1437,13 @@ export default function AboutAddEditPage() {
                 <button
                   type="button"
                   className={styles.addBtn}
-                  onClick={() => timelineArray.append({ year: "", title: "", paragraphs: [{ text: "" }] })}
+                  onClick={() =>
+                    timelineArray.append({
+                      year: "",
+                      title: "",
+                      paragraphs: [{ text: "" }],
+                    })
+                  }
                 >
                   + Add Timeline Entry
                 </button>
@@ -1147,24 +1461,35 @@ export default function AboutAddEditPage() {
 
               <div className={styles.fieldGroup}>
                 <label className={styles.label}>Block Title (H2)</label>
-                <div className={`${styles.inputWrap} ${errors.activitiesBlockTitle ? styles.inputError : ""}`}>
+                <div
+                  className={`${styles.inputWrap} ${errors.activitiesBlockTitle ? styles.inputError : ""}`}
+                >
                   <input
                     type="text"
                     className={styles.input}
                     placeholder="e.g. Activities"
-                    {...register("activitiesBlockTitle", { required: "Required" })}
+                    {...register("activitiesBlockTitle", {
+                      required: "Required",
+                    })}
                   />
                 </div>
               </div>
 
-              <ParagraphList control={control} errors={errors} name="activitiesIntroParagraphs" label="Intro Paragraphs" />
+              <ParagraphList
+                control={control}
+                errors={errors}
+                name="activitiesIntroParagraphs"
+                label="Intro Paragraphs"
+              />
 
               <div className={styles.formDivider} />
 
               <div className={styles.sectionHeader}>
                 <span className={styles.sectionIcon}>✦</span>
                 <h3 className={styles.sectionTitle}>Activities Grid</h3>
-                <span className={styles.sectionBadge}>{activitiesArray.fields.length}/8</span>
+                <span className={styles.sectionBadge}>
+                  {activitiesArray.fields.length}/8
+                </span>
               </div>
 
               <IconItemList
@@ -1183,7 +1508,10 @@ export default function AboutAddEditPage() {
 
           {/* Form Actions */}
           <div className={styles.formActions}>
-            <Link href="/admin/dashboard/about-aym" className={styles.cancelBtn}>
+            <Link
+              href="/admin/dashboard/about-aym"
+              className={styles.cancelBtn}
+            >
               ← Cancel
             </Link>
             <div className={styles.actionsRight}>
@@ -1225,7 +1553,8 @@ export default function AboutAddEditPage() {
                     </>
                   ) : (
                     <>
-                      <span>✦</span> {isEdit ? "Update Section" : "Save Section"}
+                      <span>✦</span>{" "}
+                      {isEdit ? "Update Section" : "Save Section"}
                     </>
                   )}
                 </button>

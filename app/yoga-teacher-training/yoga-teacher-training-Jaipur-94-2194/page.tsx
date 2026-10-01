@@ -6,9 +6,10 @@ export const metadata: Metadata = {
   description:
     "Best yoga teacher training in Jaipur will be organized by AYM Yoga School. Focus will be on teaching different types of yoga and meditation program.",
 
-    alternates: {
-      canonical: "https://www.indianyogaassociation.com/yoga-teacher-training/yoga-teacher-training-Jaipur-94-2194",
-    },
+  alternates: {
+    canonical:
+      "https://www.indianyogaassociation.com/yoga-teacher-training/yoga-teacher-training-Jaipur-94-2194",
+  },
 };
 
 export default function Page() {

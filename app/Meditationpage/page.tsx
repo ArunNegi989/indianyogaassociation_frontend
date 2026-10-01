@@ -74,7 +74,6 @@ const pricingData: PricingRow[] = [
 const MeditationPage: React.FC = () => {
   return (
     <main className={styles.page}>
-
       <h1 className={styles.heroTitle}>
         Meditation Yoga Teacher Training Course in Rishikesh India
       </h1>

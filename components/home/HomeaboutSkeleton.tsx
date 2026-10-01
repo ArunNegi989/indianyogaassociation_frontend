@@ -5,7 +5,6 @@ import bgXs from "../../assets/images/backgroundimage/360x2080.webp";
 export default function HomeaboutSkeleton() {
   return (
     <>
-      {/* LCP fix: CSS background image ko HTML se preload karo */}
       <link
         rel="preload"
         as="image"

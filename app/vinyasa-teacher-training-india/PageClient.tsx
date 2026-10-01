@@ -190,7 +190,7 @@ function useCurrencyRate() {
       .then((data) => {
         if (data?.usd?.inr) setRate(data.usd.inr);
       })
-      .catch(() => { })
+      .catch(() => {})
       .finally(() => setLoading(false));
   }, []);
   return { rate, loading };
@@ -446,12 +446,17 @@ function CourseInfoCard({
 }) {
   const available = seats.filter((s) => s.totalSeats - s.bookedSeats > 0);
 
-  const currentUsdPrice = pageData?.courseInfoUsdPrice ??
-    (available.length > 0 ? Math.min(...available.map((s) => s.dormPrice)) : 699);
+  const currentUsdPrice =
+    pageData?.courseInfoUsdPrice ??
+    (available.length > 0
+      ? Math.min(...available.map((s) => s.dormPrice))
+      : 699);
   const currentInrPrice = pageData?.courseInfoInrPrice ?? currentUsdPrice * 83;
-  const originalUsdPrice = pageData?.courseInfoOriginalUsdPrice ??
+  const originalUsdPrice =
+    pageData?.courseInfoOriginalUsdPrice ??
     Math.round((currentUsdPrice * 1.8) / 50) * 50;
-  const originalInrPrice = pageData?.courseInfoOriginalInrPrice ?? originalUsdPrice * 83;
+  const originalInrPrice =
+    pageData?.courseInfoOriginalInrPrice ?? originalUsdPrice * 83;
 
   const formatPriceForCard = (usdPrice: number, inrPrice: number): string => {
     if (currency === "USD") return `$${usdPrice}`;
@@ -471,10 +476,30 @@ function CourseInfoCard({
     return [
       { icon: <DurationIcon />, label: "DURATION", value: "26 Days", sub: "" },
       { icon: <LevelIcon />, label: "LEVEL", value: "All Levels", sub: "" },
-      { icon: <CertIcon />, label: "CERTIFICATION", value: "200 Hour", sub: "" },
-      { icon: <StyleIcon />, label: "YOGA STYLE", value: "Ashtanga Vinyasa", sub: "Flow & Dynamic Practice" },
-      { icon: <LangIcon />, label: "LANGUAGE", value: "English & Hindi", sub: "" },
-      { icon: <DateIcon />, label: "DATE", value: "Multiple Batches Available", sub: "" },
+      {
+        icon: <CertIcon />,
+        label: "CERTIFICATION",
+        value: "200 Hour",
+        sub: "",
+      },
+      {
+        icon: <StyleIcon />,
+        label: "YOGA STYLE",
+        value: "Ashtanga Vinyasa",
+        sub: "Flow & Dynamic Practice",
+      },
+      {
+        icon: <LangIcon />,
+        label: "LANGUAGE",
+        value: "English & Hindi",
+        sub: "",
+      },
+      {
+        icon: <DateIcon />,
+        label: "DATE",
+        value: "Multiple Batches Available",
+        sub: "",
+      },
     ];
   };
 
@@ -483,7 +508,8 @@ function CourseInfoCard({
     if (labelLower.includes("duration")) return <DurationIcon />;
     if (labelLower.includes("level")) return <LevelIcon />;
     if (labelLower.includes("certif")) return <CertIcon />;
-    if (labelLower.includes("style") || labelLower.includes("yoga")) return <StyleIcon />;
+    if (labelLower.includes("style") || labelLower.includes("yoga"))
+      return <StyleIcon />;
     if (labelLower.includes("language")) return <LangIcon />;
     if (labelLower.includes("date")) return <DateIcon />;
     return <DurationIcon />;
@@ -798,7 +824,13 @@ function DynamicVideo({ url, className }: { url: string; className?: string }) {
   const [videoError, setVideoError] = useState(false);
 
   // Check if it's a local file path
-  if (url && !url.startsWith('http') && !url.includes('youtube') && !url.includes('youtu.be') && !url.includes('instagram')) {
+  if (
+    url &&
+    !url.startsWith("http") &&
+    !url.includes("youtube") &&
+    !url.includes("youtu.be") &&
+    !url.includes("instagram")
+  ) {
     const fullUrl = getFullUrl(url);
     if (!videoError && fullUrl) {
       return (
@@ -970,15 +1002,14 @@ function PremiumSeatBooking({
 
   const selected = seats.find((s) => s._id === selectedId) ?? null;
 
-
   const fmtPrice = (
     batch: SeatBatch | null,
     overrideUsd?: number,
   ): { amount: string; cur: string } => {
-    if (!batch && overrideUsd === undefined) return { amount: "—", cur: currency };
+    if (!batch && overrideUsd === undefined)
+      return { amount: "—", cur: currency };
 
     if (currency === "INR") {
-
       if (batch?.inrFee) {
         const num = parseFloat(batch.inrFee.replace(/[₹,]/g, "").trim());
         if (!isNaN(num) && num > 0) {
@@ -988,7 +1019,6 @@ function PremiumSeatBooking({
       return { amount: "—", cur: "INR" };
     }
 
-
     if (batch?.usdFee) {
       const raw = batch.usdFee.trim();
       return { amount: raw.startsWith("$") ? raw : `$${raw}`, cur: "USD" };
@@ -997,15 +1027,16 @@ function PremiumSeatBooking({
     return { amount: `$${fallback}`, cur: "USD" };
   };
 
-
-  const getRoomPrice = (batch: SeatBatch | null, roomType: 'dorm' | 'twin' | 'private') => {
+  const getRoomPrice = (
+    batch: SeatBatch | null,
+    roomType: "dorm" | "twin" | "private",
+  ) => {
     if (!batch) return "—";
 
     if (currency === "INR") {
-
       let inrPrice: number | undefined;
-      if (roomType === 'dorm') inrPrice = batch.inrDormPrice;
-      else if (roomType === 'twin') inrPrice = batch.inrTwinPrice;
+      if (roomType === "dorm") inrPrice = batch.inrDormPrice;
+      else if (roomType === "twin") inrPrice = batch.inrTwinPrice;
       else inrPrice = batch.inrPrivatePrice;
 
       if (inrPrice && inrPrice > 0) {
@@ -1014,13 +1045,14 @@ function PremiumSeatBooking({
       return "—";
     }
 
-
-    const usdPrice = roomType === 'dorm' ? batch.dormPrice :
-      roomType === 'twin' ? batch.twinPrice :
-        batch.privatePrice;
+    const usdPrice =
+      roomType === "dorm"
+        ? batch.dormPrice
+        : roomType === "twin"
+          ? batch.twinPrice
+          : batch.privatePrice;
     return `$${usdPrice}`;
   };
-
 
   const batchCardPrice = (batch: SeatBatch): { amount: string; cur: string } =>
     fmtPrice(batch);
@@ -1057,11 +1089,15 @@ function PremiumSeatBooking({
                 />
                 <div className={styles.psbLegend}>
                   <div className={styles.psbLegItem}>
-                    <div className={`${styles.psbLegDot} ${styles.psbDGreen}`} />
+                    <div
+                      className={`${styles.psbLegDot} ${styles.psbDGreen}`}
+                    />
                     Available
                   </div>
                   <div className={styles.psbLegItem}>
-                    <div className={`${styles.psbLegDot} ${styles.psbDOrange}`} />
+                    <div
+                      className={`${styles.psbLegDot} ${styles.psbDOrange}`}
+                    />
                     Limited
                   </div>
                   <div className={styles.psbLegItem}>
@@ -1102,7 +1138,10 @@ function PremiumSeatBooking({
                     : low
                       ? "Limited"
                       : "Available";
-                  const seatsPercent = Math.max(5, (rem / batch.totalSeats) * 100);
+                  const seatsPercent = Math.max(
+                    5,
+                    (rem / batch.totalSeats) * 100,
+                  );
                   const isSelected = selectedId === batch._id;
                   const cardPrice = batchCardPrice(batch);
 
@@ -1113,7 +1152,9 @@ function PremiumSeatBooking({
                         styles.psbBc,
                         full ? styles.psbBcFull : "",
                         isSelected ? styles.psbBcSel : "",
-                      ].filter(Boolean).join(" ")}
+                      ]
+                        .filter(Boolean)
+                        .join(" ")}
                       onClick={() => {
                         if (!full) setSelectedId(batch._id);
                       }}
@@ -1184,8 +1225,19 @@ function PremiumSeatBooking({
               </div>
               <div className={styles.psbRpDur}>
                 <svg width="11" height="11" viewBox="0 0 16 16" fill="none">
-                  <circle cx="8" cy="8" r="7" stroke="rgba(255,243,210,0.8)" strokeWidth="1.2" />
-                  <path d="M8 4.5V8.5L10.5 10" stroke="rgba(255,243,210,0.8)" strokeWidth="1.2" strokeLinecap="round" />
+                  <circle
+                    cx="8"
+                    cy="8"
+                    r="7"
+                    stroke="rgba(255,243,210,0.8)"
+                    strokeWidth="1.2"
+                  />
+                  <path
+                    d="M8 4.5V8.5L10.5 10"
+                    stroke="rgba(255,243,210,0.8)"
+                    strokeWidth="1.2"
+                    strokeLinecap="round"
+                  />
                 </svg>
                 <span className={styles.psbRpDurTxt}>
                   26 Days · Rishikesh, India
@@ -1200,14 +1252,14 @@ function PremiumSeatBooking({
               <div className={styles.psbPriceRow}>
                 <div className={styles.psbPriceCard}>
                   <div className={styles.psbPcAmt}>
-                    {selected ? getRoomPrice(selected, 'private') : "—"}
+                    {selected ? getRoomPrice(selected, "private") : "—"}
                     <span className={styles.psbPcCur}>{currency}</span>
                   </div>
                   <div className={styles.psbPcLbl}>Private Room</div>
                 </div>
                 <div className={styles.psbPriceCard}>
                   <div className={styles.psbPcAmt}>
-                    {selected ? getRoomPrice(selected, 'twin') : "—"}
+                    {selected ? getRoomPrice(selected, "twin") : "—"}
                     <span className={styles.psbPcCur}>{currency}</span>
                   </div>
                   <div className={styles.psbPcLbl}>Twin / Shared</div>
@@ -1217,8 +1269,11 @@ function PremiumSeatBooking({
               <div className={styles.psbPriceLbl}>Dormitory</div>
               <div className={styles.psbPriceWide}>
                 <div className={styles.psbPwLeft}>
-                  <span className={styles.psbPcAmt} style={{ fontSize: "1rem" }}>
-                    {selected ? getRoomPrice(selected, 'dorm') : "—"}
+                  <span
+                    className={styles.psbPcAmt}
+                    style={{ fontSize: "1rem" }}
+                  >
+                    {selected ? getRoomPrice(selected, "dorm") : "—"}
                   </span>
                   <span className={styles.psbPcCur}>{currency}</span>
                 </div>
@@ -1229,7 +1284,9 @@ function PremiumSeatBooking({
                 <div className={styles.psbInrRow}>
                   <span className={styles.psbInrLbl}>USD Price</span>
                   <span className={styles.psbInrAmt}>
-                    {selected.usdFee.startsWith("$") ? selected.usdFee : `$${selected.usdFee}`}
+                    {selected.usdFee.startsWith("$")
+                      ? selected.usdFee
+                      : `$${selected.usdFee}`}
                   </span>
                 </div>
               )}
@@ -1239,7 +1296,9 @@ function PremiumSeatBooking({
                   <span className={styles.psbInrAmt}>
                     {(() => {
                       if (selected.inrFee) {
-                        const num = parseFloat(selected.inrFee.replace(/[₹,]/g, "").trim());
+                        const num = parseFloat(
+                          selected.inrFee.replace(/[₹,]/g, "").trim(),
+                        );
                         if (!isNaN(num) && num > 0)
                           return `₹${num.toLocaleString("en-IN")}`;
                       }
@@ -1250,54 +1309,105 @@ function PremiumSeatBooking({
               )}
 
               <div className={styles.psbDivider} />
-              {selected && (() => {
-                const rem = selected.totalSeats - selected.bookedSeats;
-                const full = rem <= 0;
-                const low = !full && rem <= 5;
-                const pct = full ? 100 : Math.round((selected.bookedSeats / selected.totalSeats) * 100);
-                return (
-                  <div className={styles.psbRpSeatsWrap}>
-                    <div className={styles.psbRpSeatsRow}>
-                      <span className={styles.psbRpSeatsLbl}>Seats Availability</span>
-                      <span className={styles.psbRpSeatsBadge} style={{
-                        color: full ? "#8a2c00" : low ? "#c8700a" : "#3d6000",
-                        borderColor: full ? "#8a2c00" : low ? "#c8700a" : "#3d6000",
-                      }}>
-                        {full ? "Fully Booked" : `${rem} of ${selected.totalSeats} left`}
-                      </span>
+              {selected &&
+                (() => {
+                  const rem = selected.totalSeats - selected.bookedSeats;
+                  const full = rem <= 0;
+                  const low = !full && rem <= 5;
+                  const pct = full
+                    ? 100
+                    : Math.round(
+                        (selected.bookedSeats / selected.totalSeats) * 100,
+                      );
+                  return (
+                    <div className={styles.psbRpSeatsWrap}>
+                      <div className={styles.psbRpSeatsRow}>
+                        <span className={styles.psbRpSeatsLbl}>
+                          Seats Availability
+                        </span>
+                        <span
+                          className={styles.psbRpSeatsBadge}
+                          style={{
+                            color: full
+                              ? "#8a2c00"
+                              : low
+                                ? "#c8700a"
+                                : "#3d6000",
+                            borderColor: full
+                              ? "#8a2c00"
+                              : low
+                                ? "#c8700a"
+                                : "#3d6000",
+                          }}
+                        >
+                          {full
+                            ? "Fully Booked"
+                            : `${rem} of ${selected.totalSeats} left`}
+                        </span>
+                      </div>
+                      <div className={styles.psbRpSeatsBar}>
+                        <div
+                          className={styles.psbRpSeatsBarFill}
+                          style={{
+                            width: `${pct}%`,
+                            background: full
+                              ? "#8a2c00"
+                              : low
+                                ? "linear-gradient(90deg,#c8700a,#e09030)"
+                                : "linear-gradient(90deg,#3d6000,#6aa000)",
+                          }}
+                        />
+                      </div>
                     </div>
-                    <div className={styles.psbRpSeatsBar}>
-                      <div className={styles.psbRpSeatsBarFill} style={{
-                        width: `${pct}%`,
-                        background: full ? "#8a2c00" : low ? "linear-gradient(90deg,#c8700a,#e09030)" : "linear-gradient(90deg,#3d6000,#6aa000)",
-                      }} />
-                    </div>
-                  </div>
-                );
-              })()}
+                  );
+                })()}
               <div className={styles.psbSelDisplay}>
                 {selected ? (
                   <>
                     <div className={styles.psbSelLabel}>Selected Batch</div>
                     <div className={styles.psbSelDate}>
-                      {shortDateRange(selected.startDate, selected.endDate)}, {monthYear(selected.startDate)}
+                      {shortDateRange(selected.startDate, selected.endDate)},{" "}
+                      {monthYear(selected.startDate)}
                     </div>
                   </>
                 ) : (
-                  <span className={styles.psbSelHint}>← Select a batch to continue</span>
+                  <span className={styles.psbSelHint}>
+                    ← Select a batch to continue
+                  </span>
                 )}
               </div>
               {selected ? (
-                <a href={`/yoga-registration?batchId=${selected._id}&type=vinyasa`} className={styles.psbBookBtn}>
+                <a
+                  href={`/yoga-registration?batchId=${selected._id}&type=vinyasa`}
+                  className={styles.psbBookBtn}
+                >
                   Book Now — {fmtPrice(selected).amount} {currency}
-                  <svg className={styles.psbArrowIcon} viewBox="0 0 16 16" fill="none">
-                    <path d="M3 8h10M9 4l4 4-4 4" stroke="#fff3d2" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                  <svg
+                    className={styles.psbArrowIcon}
+                    viewBox="0 0 16 16"
+                    fill="none"
+                  >
+                    <path
+                      d="M3 8h10M9 4l4 4-4 4"
+                      stroke="#fff3d2"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
                   </svg>
                 </a>
               ) : (
-                <span className={`${styles.psbBookBtn} ${styles.psbBookBtnDis}`}>Book Now</span>
+                <span
+                  className={`${styles.psbBookBtn} ${styles.psbBookBtnDis}`}
+                >
+                  Book Now
+                </span>
               )}
-              {selected?.note && <p className={styles.psbNote}><strong>Note:</strong> {selected.note}</p>}
+              {selected?.note && (
+                <p className={styles.psbNote}>
+                  <strong>Note:</strong> {selected.note}
+                </p>
+              )}
             </div>
           </div>
         </div>
@@ -1316,7 +1426,8 @@ export default function AshtangaVinyasaTTC() {
   const [currency, setCurrency] = useState<Currency>("USD");
   const { rate, loading: rateLoading } = useCurrencyRate();
 
-  const defaultVideoUrl = "https://youtube.com/shorts/X-4RQYlTRtk?si=auhdk5e01w1b66M1";
+  const defaultVideoUrl =
+    "https://youtube.com/shorts/X-4RQYlTRtk?si=auhdk5e01w1b66M1";
 
   useEffect(() => {
     Promise.all([api.get("/ashtanga-vinyasa-ttc/"), api.get("/vinyasa-seats")])
@@ -1330,7 +1441,14 @@ export default function AshtangaVinyasaTTC() {
 
   if (loading) {
     return (
-      <div style={{ padding: "4rem", textAlign: "center", fontFamily: "serif", color: "#8b4513" }}>
+      <div
+        style={{
+          padding: "4rem",
+          textAlign: "center",
+          fontFamily: "serif",
+          color: "#8b4513",
+        }}
+      >
         Loading…
       </div>
     );
@@ -1338,7 +1456,14 @@ export default function AshtangaVinyasaTTC() {
 
   if (!pageData) {
     return (
-      <div style={{ padding: "4rem", textAlign: "center", fontFamily: "serif", color: "#8b4513" }}>
+      <div
+        style={{
+          padding: "4rem",
+          textAlign: "center",
+          fontFamily: "serif",
+          color: "#8b4513",
+        }}
+      >
         No data found.
       </div>
     );
@@ -1370,7 +1495,12 @@ export default function AshtangaVinyasaTTC() {
         )}
       </section>
 
-      <CourseInfoCard seats={seats} currency={currency} rate={rate} pageData={pageData} />
+      <CourseInfoCard
+        seats={seats}
+        currency={currency}
+        rate={rate}
+        pageData={pageData}
+      />
 
       <section className={styles.section + " " + styles.sectionLight}>
         <div className="container px-3 px-md-4">
@@ -1384,11 +1514,20 @@ export default function AshtangaVinyasaTTC() {
           <TextImageRow
             title={pageData.courseDetailsTitle}
             imageUrl={pageData.courseDetailsImage}
-            imageAlt={pageData.courseDetailsImageAlt || "Ashtanga Vinyasa Yoga Teacher Training"}
+            imageAlt={
+              pageData.courseDetailsImageAlt ||
+              "Ashtanga Vinyasa Yoga Teacher Training"
+            }
             badge="Rishikesh, India"
           >
-            <Html html={pageData.courseDetailsIntro1} className={styles.bodyPara} />
-            <Html html={pageData.courseDetailsIntro2} className={styles.bodyPara} />
+            <Html
+              html={pageData.courseDetailsIntro1}
+              className={styles.bodyPara}
+            />
+            <Html
+              html={pageData.courseDetailsIntro2}
+              className={styles.bodyPara}
+            />
             <div className={styles.learnGrid}>
               {pageData.learnItems.map((item, i) => (
                 <div key={i} className={styles.learnItem}>
@@ -1405,13 +1544,21 @@ export default function AshtangaVinyasaTTC() {
             videoUrl={pageData.whoCanApplyVideo || defaultVideoUrl}
             reverse={true}
           >
-            <Html html={pageData.whoCanApplyPara1} className={styles.bodyPara} />
-            <Html html={pageData.whoCanApplyPara2} className={styles.bodyPara} />
+            <Html
+              html={pageData.whoCanApplyPara1}
+              className={styles.bodyPara}
+            />
+            <Html
+              html={pageData.whoCanApplyPara2}
+              className={styles.bodyPara}
+            />
             <div className={styles.whoList}>
               {pageData.whoItems.map((item, i) => (
                 <div key={i} className={styles.whoItem}>
                   <span className={styles.whoDot} />
-                  <span>{i + 1}. {item}</span>
+                  <span>
+                    {i + 1}. {item}
+                  </span>
                 </div>
               ))}
             </div>
@@ -1442,9 +1589,13 @@ export default function AshtangaVinyasaTTC() {
               <p className={styles.promoLocation}>{pageData.promoLocation}</p>
               <div className={styles.promoDivLine} />
               <p className={styles.promoFee}>
-                {pageData.promoFeeLabel} <strong>{pageData.promoFeeAmount}</strong>
+                {pageData.promoFeeLabel}{" "}
+                <strong>{pageData.promoFeeAmount}</strong>
               </p>
-              <a href={pageData.promoBtnHref || "#dates-fees"} className={styles.promoBtn}>
+              <a
+                href={pageData.promoBtnHref || "#dates-fees"}
+                className={styles.promoBtn}
+              >
                 {pageData.promoBtnLabel}
               </a>
             </div>
@@ -1455,13 +1606,23 @@ export default function AshtangaVinyasaTTC() {
           {/* Certified Teachers — text left, dynamic image right */}
           <TextImageRow
             title={pageData.certTeachersTitle}
-            imageUrl={pageData.certTeachersImage || pageData.certTeachersPlaceholderImage || ""}
-            imageAlt={pageData.certTeachersImageAlt || "Certified Yoga Teachers Rishikesh"}
+            imageUrl={
+              pageData.certTeachersImage ||
+              pageData.certTeachersPlaceholderImage ||
+              ""
+            }
+            imageAlt={
+              pageData.certTeachersImageAlt ||
+              "Certified Yoga Teachers Rishikesh"
+            }
             badge="Expert Teachers"
           >
             <RenderParas
               paragraphs={pageData.certTeachersParagraphs}
-              fallbacks={[pageData.certTeachersPara, pageData.certTeachersPara2]}
+              fallbacks={[
+                pageData.certTeachersPara,
+                pageData.certTeachersPara2,
+              ]}
               className={styles.bodyPara}
             />
           </TextImageRow>
@@ -1471,7 +1632,11 @@ export default function AshtangaVinyasaTTC() {
           {/* Community — text right, dynamic image left */}
           <TextImageRow
             title={pageData.communityTitle}
-            imageUrl={pageData.communityImage || pageData.communityPlaceholderImage || ""}
+            imageUrl={
+              pageData.communityImage ||
+              pageData.communityPlaceholderImage ||
+              ""
+            }
             imageAlt={pageData.communityImageAlt || "Yoga Community Rishikesh"}
             badge="Global Community"
             reverse={true}
@@ -1488,11 +1653,20 @@ export default function AshtangaVinyasaTTC() {
           {/* Accommodation — text left, dynamic image right */}
           <TextImageRow
             title={pageData.accommodationTitle}
-            imageUrl={pageData.accommodationImage || pageData.accommodationPlaceholderImage || ""}
-            imageAlt={pageData.accommodationImageAlt || "Yoga Accommodation Rishikesh"}
+            imageUrl={
+              pageData.accommodationImage ||
+              pageData.accommodationPlaceholderImage ||
+              ""
+            }
+            imageAlt={
+              pageData.accommodationImageAlt || "Yoga Accommodation Rishikesh"
+            }
             badge="Comfortable Stay"
           >
-            <Html html={pageData.accommodationPara1} className={styles.bodyPara} />
+            <Html
+              html={pageData.accommodationPara1}
+              className={styles.bodyPara}
+            />
             <RenderParas
               paragraphs={pageData.accommodationParagraphs}
               className={styles.bodyPara}
@@ -1524,7 +1698,10 @@ export default function AshtangaVinyasaTTC() {
       />
 
       <PremiumGallerySection type="both" backgroundColor="warm" />
-      <ReviewSection courseType="vinyasa-yoga-teacher-training" RatingsSummaryComponent={<RatingsSummarySection />} />
+      <ReviewSection
+        courseType="vinyasa-yoga-teacher-training"
+        RatingsSummaryComponent={<RatingsSummarySection />}
+      />
       <HowToReach />
     </div>
   );

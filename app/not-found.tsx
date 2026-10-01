@@ -6,8 +6,14 @@ export const metadata = {
 };
 
 const quickLinks = [
-  { label: "200 Hour Yoga TTC", href: "/200-hour-yoga-teacher-training-rishikesh" },
-  { label: "300 Hour Yoga TTC", href: "/300-hours-yoga-teacher-training-rishikesh" },
+  {
+    label: "200 Hour Yoga TTC",
+    href: "/200-hour-yoga-teacher-training-rishikesh",
+  },
+  {
+    label: "300 Hour Yoga TTC",
+    href: "/300-hours-yoga-teacher-training-rishikesh",
+  },
   { label: "500 Hour Yoga TTC", href: "/500-hour-yoga-teacher-training-india" },
   { label: "Online Course", href: "/online-yoga-course" },
   { label: "AYUSH Course", href: "/yoga-college-in-rishikesh" },
@@ -20,7 +26,6 @@ const quickLinks = [
 export default function NotFound() {
   return (
     <section className={styles.page404}>
-      {/* Floating background accents */}
       <div className={styles.bgAccents} aria-hidden="true">
         <span className={styles.om}>ॐ</span>
         <span className={styles.om}>ॐ</span>
@@ -30,13 +35,10 @@ export default function NotFound() {
       </div>
 
       <div className={styles.container}>
-        {/* Left: illustration + message */}
         <div className={styles.leftCol}>
           <div className={styles.artWrap} aria-hidden="true">
-            {/* Glow ring */}
             <div className={styles.glowRing} />
 
-            {/* Lotus SVG */}
             <svg
               viewBox="0 0 400 300"
               className={styles.art}
@@ -53,9 +55,20 @@ export default function NotFound() {
                 </linearGradient>
               </defs>
 
-              {/* Soft halo */}
-              <circle cx="200" cy="140" r="115" fill="url(#grad2)" opacity="0.08" />
-              <circle cx="200" cy="140" r="85" fill="url(#grad2)" opacity="0.12" />
+              <circle
+                cx="200"
+                cy="140"
+                r="115"
+                fill="url(#grad2)"
+                opacity="0.08"
+              />
+              <circle
+                cx="200"
+                cy="140"
+                r="85"
+                fill="url(#grad2)"
+                opacity="0.12"
+              />
 
               {/* Lotus petals */}
               <g transform="translate(200,190)">
@@ -86,7 +99,6 @@ export default function NotFound() {
                 />
               </g>
 
-              {/* 404 text */}
               <text
                 x="50%"
                 y="58%"
@@ -97,7 +109,6 @@ export default function NotFound() {
                 404
               </text>
 
-              {/* Sparkles */}
               <circle cx="70" cy="70" r="4" fill="#ff7a00" opacity="0.6" />
               <circle cx="330" cy="90" r="6" fill="#ff5e62" opacity="0.5" />
               <circle cx="340" cy="220" r="4" fill="#ff7a00" opacity="0.6" />
@@ -133,7 +144,6 @@ export default function NotFound() {
           </div>
         </div>
 
-        {/* Right: quick links */}
         <div className={styles.rightCol}>
           <p className={styles.tryText}>
             <span className={styles.tryDot} />

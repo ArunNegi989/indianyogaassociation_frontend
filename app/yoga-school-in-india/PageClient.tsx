@@ -5,20 +5,46 @@ import styles from "@/assets/style/Aboutaym/Aboutus.module.css";
 import HowToReach from "@/components/home/Howtoreach";
 import api from "@/lib/api";
 import {
-  FaLeaf, FaHeart, FaBook, FaUsers, FaGraduationCap, FaLightbulb, FaFlask, FaHandsHelping,
-  FaOm, FaStar, FaGlobe, FaMedal, FaCertificate, FaPrayingHands, FaSeedling, FaSun,
+  FaLeaf,
+  FaHeart,
+  FaBook,
+  FaUsers,
+  FaGraduationCap,
+  FaLightbulb,
+  FaFlask,
+  FaHandsHelping,
+  FaOm,
+  FaStar,
+  FaGlobe,
+  FaMedal,
+  FaCertificate,
+  FaPrayingHands,
+  FaSeedling,
+  FaSun,
 } from "react-icons/fa";
 import type { IconType } from "react-icons";
 import Image from "next/image";
 
-
 const ICON_MAP: Record<string, IconType> = {
-  FaLeaf, FaHeart, FaBook, FaUsers, FaGraduationCap, FaLightbulb, FaFlask, FaHandsHelping,
-  FaOm, FaStar, FaGlobe, FaMedal, FaCertificate, FaPrayingHands, FaSeedling, FaSun,
+  FaLeaf,
+  FaHeart,
+  FaBook,
+  FaUsers,
+  FaGraduationCap,
+  FaLightbulb,
+  FaFlask,
+  FaHandsHelping,
+  FaOm,
+  FaStar,
+  FaGlobe,
+  FaMedal,
+  FaCertificate,
+  FaPrayingHands,
+  FaSeedling,
+  FaSun,
 };
 
 const getIcon = (name?: string): IconType => (name && ICON_MAP[name]) || FaStar;
-
 
 interface IconItem {
   icon: string;
@@ -165,9 +191,17 @@ const AboutUs: React.FC = () => {
             <div className={styles.logoWrap}>
               <div className={styles.logoBadge}>
                 <div className={styles.logoFallback}>
-                  {data.logoAbbr && <span className={styles.logoAbbr}>{data.logoAbbr}</span>}
-                  {data.logoFullText && <span className={styles.logoFull}>{data.logoFullText}</span>}
-                  {data.logoIndiaText && <span className={styles.logoIndia}>{data.logoIndiaText}</span>}
+                  {data.logoAbbr && (
+                    <span className={styles.logoAbbr}>{data.logoAbbr}</span>
+                  )}
+                  {data.logoFullText && (
+                    <span className={styles.logoFull}>{data.logoFullText}</span>
+                  )}
+                  {data.logoIndiaText && (
+                    <span className={styles.logoIndia}>
+                      {data.logoIndiaText}
+                    </span>
+                  )}
                 </div>
               </div>
             </div>
@@ -185,7 +219,11 @@ const AboutUs: React.FC = () => {
 
               <div className={styles.schoolBody}>
                 {schoolParagraphs.map((html, idx) => (
-                  <div key={idx} className={styles.para} dangerouslySetInnerHTML={{ __html: html }} />
+                  <div
+                    key={idx}
+                    className={styles.para}
+                    dangerouslySetInnerHTML={{ __html: html }}
+                  />
                 ))}
               </div>
             </div>
@@ -197,7 +235,9 @@ const AboutUs: React.FC = () => {
                   <div
                     className={styles.schoolGalleryFill}
                     data-label={data.schoolGalleryLabel || ""}
-                    style={{ backgroundImage: `url(${getImageUrl(data.schoolGalleryImage)})` }}
+                    style={{
+                      backgroundImage: `url(${getImageUrl(data.schoolGalleryImage)})`,
+                    }}
                   />
                 </div>
               </div>
@@ -218,7 +258,9 @@ const AboutUs: React.FC = () => {
                     <Icon />
                   </div>
                   <h3 className={styles.highlightTitle}>{highlight.title}</h3>
-                  <p className={styles.highlightDesc}>{highlight.description}</p>
+                  <p className={styles.highlightDesc}>
+                    {highlight.description}
+                  </p>
                 </div>
               );
             })}
@@ -230,12 +272,16 @@ const AboutUs: React.FC = () => {
           BLOCK 2 — Vision and Mission
           .vmImageWrapper has fixed height (clamp 200-360px) — fill works
       ══════════════════════════════════════ */}
-      {(data.visionMissionBlockTitle || visionParagraphs.length > 0 || missionParagraphs.length > 0) && (
+      {(data.visionMissionBlockTitle ||
+        visionParagraphs.length > 0 ||
+        missionParagraphs.length > 0) && (
         <section className={styles.contentSection}>
           <div className={styles.container}>
             {data.visionMissionBlockTitle && (
               <header className={styles.blockHeader}>
-                <h2 className={styles.blockTitle}>{data.visionMissionBlockTitle}</h2>
+                <h2 className={styles.blockTitle}>
+                  {data.visionMissionBlockTitle}
+                </h2>
                 <OmDivider />
               </header>
             )}
@@ -243,7 +289,10 @@ const AboutUs: React.FC = () => {
             <div className={styles.visionMissionGrid}>
               <div className={styles.visionCard}>
                 {data.visionImage && (
-                  <div className={styles.vmImageWrapper} style={{ position: "relative" }}>
+                  <div
+                    className={styles.vmImageWrapper}
+                    style={{ position: "relative" }}
+                  >
                     <Image
                       src={getImageUrl(data.visionImage)}
                       alt={data.visionTitle || "Vision"}
@@ -253,15 +302,24 @@ const AboutUs: React.FC = () => {
                     />
                   </div>
                 )}
-                {data.visionTitle && <h3 className={styles.vmTitle}>{data.visionTitle}</h3>}
+                {data.visionTitle && (
+                  <h3 className={styles.vmTitle}>{data.visionTitle}</h3>
+                )}
                 {visionParagraphs.map((html, idx) => (
-                  <div key={idx} className={styles.para} dangerouslySetInnerHTML={{ __html: html }} />
+                  <div
+                    key={idx}
+                    className={styles.para}
+                    dangerouslySetInnerHTML={{ __html: html }}
+                  />
                 ))}
               </div>
 
               <div className={styles.missionCard}>
                 {data.missionImage && (
-                  <div className={styles.vmImageWrapper} style={{ position: "relative" }}>
+                  <div
+                    className={styles.vmImageWrapper}
+                    style={{ position: "relative" }}
+                  >
                     <Image
                       src={getImageUrl(data.missionImage)}
                       alt={data.missionTitle || "Mission"}
@@ -271,9 +329,15 @@ const AboutUs: React.FC = () => {
                     />
                   </div>
                 )}
-                {data.missionTitle && <h3 className={styles.vmTitle}>{data.missionTitle}</h3>}
+                {data.missionTitle && (
+                  <h3 className={styles.vmTitle}>{data.missionTitle}</h3>
+                )}
                 {missionParagraphs.map((html, idx) => (
-                  <div key={idx} className={styles.para} dangerouslySetInnerHTML={{ __html: html }} />
+                  <div
+                    key={idx}
+                    className={styles.para}
+                    dangerouslySetInnerHTML={{ __html: html }}
+                  />
                 ))}
               </div>
             </div>
@@ -281,7 +345,11 @@ const AboutUs: React.FC = () => {
             {visionMissionProseParagraphs.length > 0 && (
               <div className={styles.prose}>
                 {visionMissionProseParagraphs.map((html, idx) => (
-                  <div key={idx} className={styles.para} dangerouslySetInnerHTML={{ __html: html }} />
+                  <div
+                    key={idx}
+                    className={styles.para}
+                    dangerouslySetInnerHTML={{ __html: html }}
+                  />
                 ))}
               </div>
             )}
@@ -297,14 +365,20 @@ const AboutUs: React.FC = () => {
           <div className={styles.container}>
             {data.objectivesBlockTitle && (
               <header className={styles.blockHeader}>
-                <h2 className={styles.blockTitle}>{data.objectivesBlockTitle}</h2>
+                <h2 className={styles.blockTitle}>
+                  {data.objectivesBlockTitle}
+                </h2>
                 <OmDivider />
               </header>
             )}
 
             <div className={styles.prose}>
               {objectivesIntroParagraphs.map((html, idx) => (
-                <div key={idx} className={styles.para} dangerouslySetInnerHTML={{ __html: html }} />
+                <div
+                  key={idx}
+                  className={styles.para}
+                  dangerouslySetInnerHTML={{ __html: html }}
+                />
               ))}
 
               {objectives.length > 0 && (
@@ -327,7 +401,9 @@ const AboutUs: React.FC = () => {
           .timelineImageWrapper has fixed height (clamp 250-350px) — fill works
       ══════════════════════════════════════ */}
       {(data.historyBlockTitle || timelineItems.length > 0) && (
-        <section className={`${styles.contentSection} ${styles.contentSectionLarge}`}>
+        <section
+          className={`${styles.contentSection} ${styles.contentSectionLarge}`}
+        >
           <div className={styles.container}>
             {data.historyBlockTitle && (
               <header className={styles.blockHeader}>
@@ -341,13 +417,22 @@ const AboutUs: React.FC = () => {
                 <div key={idx} className={styles.timelineItem}>
                   <div className={styles.timelineMarker}>{item.year}</div>
                   <div className={styles.timelineContent}>
-                    {item.title && <h3 className={styles.timelineTitle}>{item.title}</h3>}
+                    {item.title && (
+                      <h3 className={styles.timelineTitle}>{item.title}</h3>
+                    )}
                     {(item.paragraphs ?? []).map((html, pIdx) => (
-                      <div key={pIdx} className={styles.para} dangerouslySetInnerHTML={{ __html: html }} />
+                      <div
+                        key={pIdx}
+                        className={styles.para}
+                        dangerouslySetInnerHTML={{ __html: html }}
+                      />
                     ))}
                   </div>
                   {item.image && (
-                    <div className={styles.timelineImageWrapper} style={{ position: "relative" }}>
+                    <div
+                      className={styles.timelineImageWrapper}
+                      style={{ position: "relative" }}
+                    >
                       <Image
                         src={getImageUrl(item.image)}
                         alt={item.title || `Timeline ${idx + 1}`}
@@ -368,18 +453,26 @@ const AboutUs: React.FC = () => {
           BLOCK 5 — Activities
       ══════════════════════════════════════ */}
       {(data.activitiesBlockTitle || activities.length > 0) && (
-        <section className={`${styles.contentSection} ${styles.altBg} ${styles.altBg2}`}>
+        <section
+          className={`${styles.contentSection} ${styles.altBg} ${styles.altBg2}`}
+        >
           <div className={styles.container}>
             {data.activitiesBlockTitle && (
               <header className={styles.blockHeader}>
-                <h2 className={styles.blockTitle}>{data.activitiesBlockTitle}</h2>
+                <h2 className={styles.blockTitle}>
+                  {data.activitiesBlockTitle}
+                </h2>
                 <OmDivider />
               </header>
             )}
 
             <div className={styles.prose}>
               {activitiesIntroParagraphs.map((html, idx) => (
-                <div key={idx} className={styles.para} dangerouslySetInnerHTML={{ __html: html }} />
+                <div
+                  key={idx}
+                  className={styles.para}
+                  dangerouslySetInnerHTML={{ __html: html }}
+                />
               ))}
 
               {activities.length > 0 && (
@@ -391,8 +484,12 @@ const AboutUs: React.FC = () => {
                         <div className={styles.activityIcon}>
                           <Icon />
                         </div>
-                        <h4 className={styles.activityTitle}>{activity.title}</h4>
-                        <p className={styles.activityDesc}>{activity.description}</p>
+                        <h4 className={styles.activityTitle}>
+                          {activity.title}
+                        </h4>
+                        <p className={styles.activityDesc}>
+                          {activity.description}
+                        </p>
                       </div>
                     );
                   })}

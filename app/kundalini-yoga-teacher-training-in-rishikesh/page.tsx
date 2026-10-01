@@ -6,9 +6,10 @@ export const metadata: Metadata = {
   description:
     "This comprehensive and unique Best 200 hour Kundalini Yoga Teacher Training in Rishikesh India organized by AYM Yoga School, Kundalini yoga TTC Course Rishikesh",
 
-    alternates: {
-      canonical: "https://www.indianyogaassociation.com/kundalini-yoga-teacher-training-in-rishikesh.html",
-    },
+  alternates: {
+    canonical:
+      "https://www.indianyogaassociation.com/kundalini-yoga-teacher-training-in-rishikesh.html",
+  },
 };
 
 export default function Page() {

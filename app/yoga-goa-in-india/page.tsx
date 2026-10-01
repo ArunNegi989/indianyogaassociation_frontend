@@ -6,9 +6,9 @@ export const metadata: Metadata = {
   description:
     "Yoga Teacher Training in Goa, India is one of the affordable and best place in goa as well in india for yoga teacher training in goa and retreats in goa india.",
 
-    alternates: {
-      canonical: "https://www.indianyogaassociation.com/yoga-goa-in-india.html",
-    },
+  alternates: {
+    canonical: "https://www.indianyogaassociation.com/yoga-goa-in-india.html",
+  },
 };
 
 export default function Page() {

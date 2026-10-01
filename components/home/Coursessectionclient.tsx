@@ -43,7 +43,7 @@ function useCurrencyRate() {
 
   useEffect(() => {
     fetch(
-      "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.json"
+      "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.json",
     )
       .then((r) => r.json())
       .then((data) => {
@@ -101,7 +101,9 @@ export const CoursesSectionClient: React.FC<Props> = ({ initialCourses }) => {
       <div className={styles.container}>
         {/* Header */}
         <div className={styles.header}>
-          <p className={styles.superTitle}>Authentic Yoga Education Since 2005</p>
+          <p className={styles.superTitle}>
+            Authentic Yoga Education Since 2005
+          </p>
           <h2 className={styles.mainTitle}>
             Explore Our Yoga Teacher Training Courses &amp; Retreats
           </h2>
@@ -115,7 +117,8 @@ export const CoursesSectionClient: React.FC<Props> = ({ initialCourses }) => {
         <div className={styles.courseList}>
           {courses.map((course, idx) => {
             const filled = course.totalSeats - course.availableSeats;
-            const pct = course.totalSeats > 0 ? (filled / course.totalSeats) * 100 : 0;
+            const pct =
+              course.totalSeats > 0 ? (filled / course.totalSeats) * 100 : 0;
             const isFull = course.availableSeats <= 0;
 
             return (
@@ -151,7 +154,9 @@ export const CoursesSectionClient: React.FC<Props> = ({ initialCourses }) => {
                     <div className={styles.titleUnderline} />
                     <p className={styles.courseMeta}>
                       <span className={styles.metaLabel}>Duration:</span>{" "}
-                      <span className={styles.metaValue}>{course.duration}</span>
+                      <span className={styles.metaValue}>
+                        {course.duration}
+                      </span>
                       <span className={styles.metaSep}>|</span>
                       <span className={styles.metaLabel}>Level:</span>{" "}
                       <span className={styles.metaValue}>{course.level}</span>
@@ -187,7 +192,9 @@ export const CoursesSectionClient: React.FC<Props> = ({ initialCourses }) => {
                   <div className={styles.seatsBlock}>
                     <div className={styles.seatsRow}>
                       <span className={styles.seatsLabel}>Total Seats</span>
-                      <span className={styles.seatsValue}>{course.totalSeats}</span>
+                      <span className={styles.seatsValue}>
+                        {course.totalSeats}
+                      </span>
                     </div>
                     <div className={styles.seatsRow}>
                       <span className={styles.seatsLabel}>Seats Left</span>
@@ -210,7 +217,9 @@ export const CoursesSectionClient: React.FC<Props> = ({ initialCourses }) => {
                   <div className={styles.ctaDivider} />
 
                   {isFull ? (
-                    <span className={`${styles.btnEnroll} ${styles.btnEnrollDisabled}`}>
+                    <span
+                      className={`${styles.btnEnroll} ${styles.btnEnrollDisabled}`}
+                    >
                       Fully Booked
                     </span>
                   ) : (

@@ -12,7 +12,6 @@ export interface SubLink {
   href: string;
 }
 
-
 export interface NavLink {
   label: string;
   href: string;
@@ -39,7 +38,10 @@ export const navLinks: NavLink[] = [
     clickable: false,
     children: [
       { label: "Yoga Retreats", href: "/yoga-retreats-in-rishikesh" },
-      { label: "Sound Healing Course", href: "/sound-healing-course-in-rishikesh" },
+      {
+        label: "Sound Healing Course",
+        href: "/sound-healing-course-in-rishikesh",
+      },
       { label: "Yoga Workshop", href: "/yoga-meditation-workshop-india" },
       { label: "Yoga Ashrams in India", href: "/yoga-ashrams-in-india" },
       { label: "Yoga Holidays & Camps", href: "/yoga-holidays-in-india" },
@@ -120,7 +122,11 @@ export const navLinks: NavLink[] = [
     href: "/yoga-college-in-rishikesh",
   },
   { label: "Register", href: "/yoga-registration", className: "navRegister" },
-  { label: "Payment", href: "/200-hour-yoga-ttc-fees", className: "navPayment" },
+  {
+    label: "Payment",
+    href: "/200-hour-yoga-ttc-fees",
+    className: "navPayment",
+  },
   {
     label: "Resource",
     href: "/resource",
@@ -141,7 +147,6 @@ export const Navbar = () => {
   const navRef = useRef<HTMLUListElement>(null);
 
   const closeAllDropdowns = () => {
-
     navRef.current
       ?.querySelectorAll<HTMLElement>("li[tabindex]")
       .forEach((el) => el.blur());
@@ -153,7 +158,6 @@ export const Navbar = () => {
   return (
     <header className={styles.header}>
       <nav className={styles.navbar}>
-
         <div className={styles.logoWrapper}>
           <Link href="/" className={styles.logoLink}>
             <Image
@@ -166,7 +170,6 @@ export const Navbar = () => {
             />
           </Link>
         </div>
-
 
         <ul className={styles.navList} ref={navRef}>
           {navLinks.map((link) => (
@@ -189,8 +192,9 @@ export const Navbar = () => {
 
               {link.children && (
                 <ul
-                  className={`${styles.dropdown} ${link.dropdownAlign === "right" ? styles.dropdownRight : ""
-                    }`}
+                  className={`${styles.dropdown} ${
+                    link.dropdownAlign === "right" ? styles.dropdownRight : ""
+                  }`}
                 >
                   {link.children.map((child) => (
                     <li key={child.href} className={styles.dropdownItem}>
@@ -209,7 +213,6 @@ export const Navbar = () => {
             </li>
           ))}
         </ul>
-
 
         <HamburgerMenu navLinks={navLinks} />
       </nav>

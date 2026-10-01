@@ -8,7 +8,10 @@ import Link from "next/link";
 import api from "@/lib/api";
 
 /* ─────────────────────── Types (shape of backend document) ─────────────────────── */
-interface KV { label: string; value: string }
+interface KV {
+  label: string;
+  value: string;
+}
 
 interface PaymentData {
   heroImage?: string;
@@ -78,7 +81,9 @@ const PaymentSection = () => {
     const fetchData = async () => {
       try {
         const res = await api.get("/payment-section");
-        const doc = Array.isArray(res.data.data) ? res.data.data[0] : res.data.data;
+        const doc = Array.isArray(res.data.data)
+          ? res.data.data[0]
+          : res.data.data;
         setData(doc ?? null);
       } catch {
         setData(null);
@@ -111,7 +116,9 @@ const PaymentSection = () => {
 
   const feeText = data.regFeeText ?? "";
   const hasHighlight = feeText.includes("{highlight}");
-  const [feeBefore, feeAfter] = hasHighlight ? feeText.split("{highlight}") : [feeText, ""];
+  const [feeBefore, feeAfter] = hasHighlight
+    ? feeText.split("{highlight}")
+    : [feeText, ""];
 
   const showUpi = !!(qr1Src || qr2Src);
 
@@ -138,8 +145,12 @@ const PaymentSection = () => {
         <div className={styles.container}>
           {/* ── HEADER ── */}
           <header className={styles.header}>
-            {data.superTitle && <p className={styles.superTitle}>{data.superTitle}</p>}
-            {data.mainTitle && <h1 className={styles.mainTitle}>{data.mainTitle}</h1>}
+            {data.superTitle && (
+              <p className={styles.superTitle}>{data.superTitle}</p>
+            )}
+            {data.mainTitle && (
+              <h1 className={styles.mainTitle}>{data.mainTitle}</h1>
+            )}
             <div className={styles.omDivider}>
               <span className={styles.dividerLine} />
               <span className={styles.omSymbol}>ॐ</span>
@@ -157,7 +168,9 @@ const PaymentSection = () => {
           {(data.regFeeTitle || feeText) && (
             <div className={styles.regFeeBlock}>
               <div className={styles.chakraIcon}>❋</div>
-              {data.regFeeTitle && <h2 className={styles.sectionTitle}>{data.regFeeTitle}</h2>}
+              {data.regFeeTitle && (
+                <h2 className={styles.sectionTitle}>{data.regFeeTitle}</h2>
+              )}
               <div className={styles.sectionUnderline} />
               <p className={styles.regFeeText}>
                 {feeBefore}
@@ -171,7 +184,9 @@ const PaymentSection = () => {
           {paypalOptions.length > 0 && (
             <div className={styles.paymentBlock}>
               <div className={styles.chakraIcon}>✦</div>
-              {data.paypalTitle && <h2 className={styles.sectionTitle}>{data.paypalTitle}</h2>}
+              {data.paypalTitle && (
+                <h2 className={styles.sectionTitle}>{data.paypalTitle}</h2>
+              )}
               <div className={styles.sectionUnderline} />
               <div className={styles.paypalGrid}>
                 {paypalOptions.map((opt, i) => (
@@ -209,7 +224,9 @@ const PaymentSection = () => {
           {showUpi && (
             <div className={styles.paymentBlock}>
               <div className={styles.chakraIcon}>☸</div>
-              {data.upiTitle && <h2 className={styles.sectionTitle}>{data.upiTitle}</h2>}
+              {data.upiTitle && (
+                <h2 className={styles.sectionTitle}>{data.upiTitle}</h2>
+              )}
               <div className={styles.sectionUnderline} />
               <div className={styles.upiGrid}>
                 {qr1Src && (
@@ -227,9 +244,13 @@ const PaymentSection = () => {
                     {data.upiId && (
                       <button
                         className={styles.copyBtn}
-                        onClick={() => copyToClipboard(data.upiId as string, "upi1")}
+                        onClick={() =>
+                          copyToClipboard(data.upiId as string, "upi1")
+                        }
                       >
-                        {copiedField === "upi1" ? "✓ Copied!" : data.upiCopyLabel}
+                        {copiedField === "upi1"
+                          ? "✓ Copied!"
+                          : data.upiCopyLabel}
                       </button>
                     )}
                   </div>
@@ -250,9 +271,13 @@ const PaymentSection = () => {
                     {data.upiId2 && (
                       <button
                         className={styles.copyBtn}
-                        onClick={() => copyToClipboard(data.upiId2 as string, "upi2")}
+                        onClick={() =>
+                          copyToClipboard(data.upiId2 as string, "upi2")
+                        }
                       >
-                        {copiedField === "upi2" ? "✓ Copied!" : data.upiCopyLabel2}
+                        {copiedField === "upi2"
+                          ? "✓ Copied!"
+                          : data.upiCopyLabel2}
                       </button>
                     )}
                   </div>
@@ -265,7 +290,9 @@ const PaymentSection = () => {
           {cards.length > 0 && (
             <div className={styles.paymentBlock}>
               <div className={styles.chakraIcon}>⚜</div>
-              {data.cardsTitle && <h2 className={styles.sectionTitle}>{data.cardsTitle}</h2>}
+              {data.cardsTitle && (
+                <h2 className={styles.sectionTitle}>{data.cardsTitle}</h2>
+              )}
               <div className={styles.sectionUnderline} />
               <div className={styles.cardPayGrid}>
                 {cards.map((card, i) => (
@@ -293,7 +320,9 @@ const PaymentSection = () => {
           {banks.length > 0 && (
             <div className={styles.paymentBlock}>
               <div className={styles.chakraIcon}>🪷</div>
-              {data.bankTitle && <h2 className={styles.sectionTitle}>{data.bankTitle}</h2>}
+              {data.bankTitle && (
+                <h2 className={styles.sectionTitle}>{data.bankTitle}</h2>
+              )}
               <div className={styles.sectionUnderline} />
               <div className={styles.bankGrid}>
                 {banks.map((bank, bi) => (
@@ -305,8 +334,12 @@ const PaymentSection = () => {
                     <div className={styles.bankFields}>
                       {(bank.fields ?? []).map((field, fi) => (
                         <div key={fi} className={styles.bankField}>
-                          <span className={styles.bankFieldLabel}>{field.label}</span>
-                          <span className={styles.bankFieldValue}>{field.value}</span>
+                          <span className={styles.bankFieldLabel}>
+                            {field.label}
+                          </span>
+                          <span className={styles.bankFieldValue}>
+                            {field.value}
+                          </span>
                         </div>
                       ))}
                     </div>
@@ -314,17 +347,23 @@ const PaymentSection = () => {
                       className={styles.copyBankBtn}
                       onClick={() =>
                         copyToClipboard(
-                          (bank.fields ?? []).map((f) => `${f.label}: ${f.value}`).join("\n"),
+                          (bank.fields ?? [])
+                            .map((f) => `${f.label}: ${f.value}`)
+                            .join("\n"),
                           `bank${bi}`,
                         )
                       }
                     >
-                      {copiedField === `bank${bi}` ? "✓ Copied!" : "Copy Bank Details"}
+                      {copiedField === `bank${bi}`
+                        ? "✓ Copied!"
+                        : "Copy Bank Details"}
                     </button>
                   </div>
                 ))}
               </div>
-              {data.gstNoteOnline && <p className={styles.gstNote}>{data.gstNoteOnline}</p>}
+              {data.gstNoteOnline && (
+                <p className={styles.gstNote}>{data.gstNoteOnline}</p>
+              )}
             </div>
           )}
 
@@ -332,26 +371,38 @@ const PaymentSection = () => {
           {(data.westernTitle || data.westernText) && (
             <div className={styles.paymentBlock}>
               <div className={styles.chakraIcon}>✧</div>
-              {data.westernTitle && <h2 className={styles.sectionTitle}>{data.westernTitle}</h2>}
+              {data.westernTitle && (
+                <h2 className={styles.sectionTitle}>{data.westernTitle}</h2>
+              )}
               <div className={styles.sectionUnderline} />
               <div className={styles.westernCard}>
                 <div className={styles.westernIcon}>💫</div>
-                {data.westernText && <p className={styles.westernText}>{data.westernText}</p>}
+                {data.westernText && (
+                  <p className={styles.westernText}>{data.westernText}</p>
+                )}
                 <div className={styles.westernDetails}>
                   {data.westernSendTo && (
                     <div className={styles.westernField}>
                       <span className={styles.westernLabel}>Send fee to:</span>
-                      <span className={styles.westernValue}>{data.westernSendTo}</span>
+                      <span className={styles.westernValue}>
+                        {data.westernSendTo}
+                      </span>
                     </div>
                   )}
                   {data.westernAddress && (
                     <div className={styles.westernField}>
-                      <span className={styles.westernLabel}>Address of recipient:</span>
-                      <span className={styles.westernValue}>{data.westernAddress}</span>
+                      <span className={styles.westernLabel}>
+                        Address of recipient:
+                      </span>
+                      <span className={styles.westernValue}>
+                        {data.westernAddress}
+                      </span>
                     </div>
                   )}
                 </div>
-                {data.westernNote && <p className={styles.westernNote}>{data.westernNote}</p>}
+                {data.westernNote && (
+                  <p className={styles.westernNote}>{data.westernNote}</p>
+                )}
               </div>
             </div>
           )}
@@ -360,23 +411,32 @@ const PaymentSection = () => {
           {arrivalMethods.length > 0 && (
             <div className={styles.paymentBlock}>
               <div className={styles.chakraIcon}>🌺</div>
-              {data.arrivalTitle && <h2 className={styles.sectionTitle}>{data.arrivalTitle}</h2>}
+              {data.arrivalTitle && (
+                <h2 className={styles.sectionTitle}>{data.arrivalTitle}</h2>
+              )}
               <div className={styles.sectionUnderline} />
-              {data.arrivalIntro && <p className={styles.arrivalIntro}>{data.arrivalIntro}</p>}
+              {data.arrivalIntro && (
+                <p className={styles.arrivalIntro}>{data.arrivalIntro}</p>
+              )}
               <div className={styles.arrivalGrid}>
                 {arrivalMethods.map((item, i) => (
                   <div key={i} className={styles.arrivalCard}>
                     <div className={styles.arrivalMethod}>{item.method}</div>
                     <div
-                      className={`${styles.arrivalCharge} ${item.charge.includes("No") ? styles.arrivalFree : styles.arrivalFee
-                        }`}
+                      className={`${styles.arrivalCharge} ${
+                        item.charge.includes("No")
+                          ? styles.arrivalFree
+                          : styles.arrivalFee
+                      }`}
                     >
                       {item.charge}
                     </div>
                   </div>
                 ))}
               </div>
-              {data.gstNoteArrival && <p className={styles.gstNote}>{data.gstNoteArrival}</p>}
+              {data.gstNoteArrival && (
+                <p className={styles.gstNote}>{data.gstNoteArrival}</p>
+              )}
             </div>
           )}
 

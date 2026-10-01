@@ -143,10 +143,12 @@ const DEFAULT_DATA: ApiHowToReachData = {
   _id: "",
   badgeText: "✦ Travel Guide",
   mainTitle: "How to Reach Us",
-  subTitle: "Easy & Comfortable Travel Options to Reach Indian Yoga Association in Rishikesh — Delhi to Rishikesh travel options by air, train & bus.",
+  subTitle:
+    "Easy & Comfortable Travel Options to Reach Indian Yoga Association in Rishikesh — Delhi to Rishikesh travel options by air, train & bus.",
 
   whatsappNumber: "919528023390",
-  whatsappMessage: "Namaste !! I would like to arrange a Pickup / Drop service for Indian Yoga Association, Rishikesh. Please guide me on the pickup point details.",
+  whatsappMessage:
+    "Namaste !! I would like to arrange a Pickup / Drop service for Indian Yoga Association, Rishikesh. Please guide me on the pickup point details.",
 
   travelCards: [
     {
@@ -154,10 +156,18 @@ const DEFAULT_DATA: ApiHowToReachData = {
       title: "By Airways",
       subtitle: "Fastest Way to Reach Rishikesh",
       desc: "Fly from Delhi (Indira Gandhi International Airport) to <strong>Jolly Grant Airport, Dehradun</strong> — approximately 20 km from Rishikesh. Taxis and private transfers are easily available. Indian Yoga Association provides pickup &amp; drop facility on request.",
-      headerCol1: "Airline", headerCol2: "Departs", headerCol3: "Arrives", headerCol4: "Duration",
+      headerCol1: "Airline",
+      headerCol2: "Departs",
+      headerCol3: "Arrives",
+      headerCol4: "Duration",
       rows: [
         { col1: "IndiGo", col2: "06:30 AM", col3: "07:30 AM", col4: "1h" },
-        { col1: "Air India", col2: "09:15 AM", col3: "10:20 AM", col4: "1h 5m" },
+        {
+          col1: "Air India",
+          col2: "09:15 AM",
+          col3: "10:20 AM",
+          col4: "1h 5m",
+        },
         { col1: "Vistara", col2: "01:40 PM", col3: "02:45 PM", col4: "1h 5m" },
         { col1: "SpiceJet", col2: "05:55 PM", col3: "07:00 PM", col4: "1h 5m" },
       ],
@@ -171,12 +181,35 @@ const DEFAULT_DATA: ApiHowToReachData = {
       title: "By Train",
       subtitle: "Affordable & Comfortable",
       desc: "Travel from New Delhi Railway Station to Rishikesh or <strong>Haridwar Junction</strong> (25 km from Rishikesh). Taxis and auto-rickshaws are always available for the onward journey.",
-      headerCol1: "Train", headerCol2: "Departs", headerCol3: "Arrives", headerCol4: "Via",
+      headerCol1: "Train",
+      headerCol2: "Departs",
+      headerCol3: "Arrives",
+      headerCol4: "Via",
       rows: [
-        { col1: "Dehradun Shatabdi", col2: "06:45 AM", col3: "11:25 AM", col4: "Haridwar" },
-        { col1: "Mussoorie Express", col2: "10:00 PM", col3: "05:30 AM", col4: "Haridwar" },
-        { col1: "Jan Shatabdi Exp.", col2: "03:20 PM", col3: "09:00 PM", col4: "Haridwar" },
-        { col1: "Nanda Devi Exp.", col2: "11:50 PM", col3: "05:10 AM", col4: "Haridwar" },
+        {
+          col1: "Dehradun Shatabdi",
+          col2: "06:45 AM",
+          col3: "11:25 AM",
+          col4: "Haridwar",
+        },
+        {
+          col1: "Mussoorie Express",
+          col2: "10:00 PM",
+          col3: "05:30 AM",
+          col4: "Haridwar",
+        },
+        {
+          col1: "Jan Shatabdi Exp.",
+          col2: "03:20 PM",
+          col3: "09:00 PM",
+          col4: "Haridwar",
+        },
+        {
+          col1: "Nanda Devi Exp.",
+          col2: "11:50 PM",
+          col3: "05:10 AM",
+          col4: "Haridwar",
+        },
       ],
       btnText: "Book Train on IRCTC",
       btnHref: "https://www.irctc.co.in/",
@@ -188,12 +221,25 @@ const DEFAULT_DATA: ApiHowToReachData = {
       title: "By Bus",
       subtitle: "Budget Friendly Option",
       desc: "Regular <strong>Volvo, AC and sleeper buses</strong> operate daily from Delhi to Rishikesh. Travel time is approximately 5–6 hours via scenic NH58, passing through the beautiful Shivalik foothills.",
-      headerCol1: "Bus", headerCol2: "Departs", headerCol3: "Arrives", headerCol4: "Type",
+      headerCol1: "Bus",
+      headerCol2: "Departs",
+      headerCol3: "Arrives",
+      headerCol4: "Type",
       rows: [
         { col1: "Volvo AC", col2: "06:00 AM", col3: "11:30 AM", col4: "AC" },
-        { col1: "Sleeper Coach", col2: "09:00 PM", col3: "04:00 AM", col4: "Sleeper" },
+        {
+          col1: "Sleeper Coach",
+          col2: "09:00 PM",
+          col3: "04:00 AM",
+          col4: "Sleeper",
+        },
         { col1: "AC Seater", col2: "02:00 PM", col3: "07:30 PM", col4: "AC" },
-        { col1: "Deluxe Bus", col2: "11:00 PM", col3: "05:30 AM", col4: "Deluxe" },
+        {
+          col1: "Deluxe Bus",
+          col2: "11:00 PM",
+          col3: "05:30 AM",
+          col4: "Deluxe",
+        },
       ],
       btnText: "Book Bus on RedBus",
       btnHref: "https://www.redbus.in/",
@@ -204,7 +250,8 @@ const DEFAULT_DATA: ApiHowToReachData = {
 
   pickupTitle: "Pickup & Drop",
   pickupSubtitle: "Comfortable transfer service",
-  pickupDesc: "Book a <strong>hassle-free pickup or drop</strong> from Jolly Grant Airport, Haridwar / Rishikesh Railway Station or Bus Stand directly to Indian Yoga Association. Enjoy a smooth, comfortable, and stress-free journey with our reliable transport service, <strong>available 24/7 on request</strong>. Our professional drivers ensure timely pickups and safe drop-offs so you can begin your yoga journey with ease.",
+  pickupDesc:
+    "Book a <strong>hassle-free pickup or drop</strong> from Jolly Grant Airport, Haridwar / Rishikesh Railway Station or Bus Stand directly to Indian Yoga Association. Enjoy a smooth, comfortable, and stress-free journey with our reliable transport service, <strong>available 24/7 on request</strong>. Our professional drivers ensure timely pickups and safe drop-offs so you can begin your yoga journey with ease.",
   pickupHighlights: [
     "Airport · Railway · Bus Stand Transfers",
     "Comfortable AC vehicles for a relaxing ride",
@@ -217,18 +264,25 @@ const DEFAULT_DATA: ApiHowToReachData = {
   pickupWhatsappBtnText: "WhatsApp",
 
   mapLabel: "Indian Yoga Association, Rishikesh",
-  mapEmbedSrc: "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7440.500180811323!2d78.320039!3d30.132348!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3909165c44bab785%3A0x4119a3fa1806f00c!2sAYM%20YOGA%20SCHOOL!5e1!3m2!1sen!2sin!4v1771998100416!5m2!1sen!2sin",
+  mapEmbedSrc:
+    "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7440.500180811323!2d78.320039!3d30.132348!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3909165c44bab785%3A0x4119a3fa1806f00c!2sAYM%20YOGA%20SCHOOL!5e1!3m2!1sen!2sin!4v1771998100416!5m2!1sen!2sin",
   mapDirectionsText: "↗ Get Directions",
-  mapDirectionsUrl: "https://maps.google.com/?q=Indian+Yoga+Association+Rishikesh",
+  mapDirectionsUrl:
+    "https://maps.google.com/?q=Indian+Yoga+Association+Rishikesh",
 };
 
 /* ─────────────────────── Presentational pieces (unchanged) ─────────────────────── */
-function ScheduleTable({ headers, rows }: ScheduleTableProps): React.ReactElement {
+function ScheduleTable({
+  headers,
+  rows,
+}: ScheduleTableProps): React.ReactElement {
   return (
     <div className={styles.scheduleTable}>
       <div className={styles.scheduleHeader}>
         {headers.map((h) => (
-          <span key={h} className={styles.scheduleHeaderCell}>{h}</span>
+          <span key={h} className={styles.scheduleHeaderCell}>
+            {h}
+          </span>
         ))}
       </div>
       {rows.map((row, i) => (
@@ -237,7 +291,9 @@ function ScheduleTable({ headers, rows }: ScheduleTableProps): React.ReactElemen
           className={`${styles.scheduleRow} ${i % 2 !== 0 ? styles.scheduleRowAlt : ""}`}
         >
           {Object.values(row).map((cell, j) => (
-            <span key={j} className={styles.scheduleCell}>{cell}</span>
+            <span key={j} className={styles.scheduleCell}>
+              {cell}
+            </span>
           ))}
         </div>
       ))}
@@ -246,24 +302,45 @@ function ScheduleTable({ headers, rows }: ScheduleTableProps): React.ReactElemen
 }
 
 function TravelCard({
-  icon, title, subtitle, desc, headers, rows, btnText, btnHref, linkText, linkHref,
+  icon,
+  title,
+  subtitle,
+  desc,
+  headers,
+  rows,
+  btnText,
+  btnHref,
+  linkText,
+  linkHref,
 }: TravelCardProps): React.ReactElement {
   return (
     <article className={styles.travelCard}>
       <div className={styles.travelHeader}>
-        <div className={styles.iconCircle} aria-hidden="true">{icon}</div>
+        <div className={styles.iconCircle} aria-hidden="true">
+          {icon}
+        </div>
         <div>
           <h3 className={styles.travelTitle}>{title}</h3>
           <p className={styles.travelSubtitle}>{subtitle}</p>
         </div>
       </div>
-      <p className={styles.travelDesc} dangerouslySetInnerHTML={{ __html: desc }} />
+      <p
+        className={styles.travelDesc}
+        dangerouslySetInnerHTML={{ __html: desc }}
+      />
       <ScheduleTable headers={headers} rows={rows} />
       <div className={styles.cardActions}>
-        <a href={btnHref} target="_blank" rel="noopener noreferrer" className={styles.btnPrimary}>
+        <a
+          href={btnHref}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={styles.btnPrimary}
+        >
           {btnText}
         </a>
-        <a href={linkHref} className={styles.linkSecondary}>{linkText} →</a>
+        <a href={linkHref} className={styles.linkSecondary}>
+          {linkText} →
+        </a>
       </div>
     </article>
   );
@@ -280,18 +357,31 @@ function StepIndicator({ current }: { current: number }): React.ReactElement {
             className={`${styles.stepCircle} ${i < current ? styles.stepDone : i === current ? styles.stepActive : styles.stepPending}`}
           >
             {i < current ? (
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="3"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
                 <polyline points="20 6 9 17 4 12" />
               </svg>
             ) : (
               <span>{i + 1}</span>
             )}
           </div>
-          <span className={`${styles.stepLabel} ${i === current ? styles.stepLabelActive : ""}`}>
+          <span
+            className={`${styles.stepLabel} ${i === current ? styles.stepLabelActive : ""}`}
+          >
             {label}
           </span>
           {i < STEPS.length - 1 && (
-            <div className={`${styles.stepConnector} ${i < current ? styles.stepConnectorDone : ""}`} />
+            <div
+              className={`${styles.stepConnector} ${i < current ? styles.stepConnectorDone : ""}`}
+            />
           )}
         </div>
       ))}
@@ -310,7 +400,13 @@ interface PickupCardProps {
 }
 
 function PickupCard({
-  title, subtitle, desc, highlights, bookBtnText, whatsappBtnText, whatsappUrl,
+  title,
+  subtitle,
+  desc,
+  highlights,
+  bookBtnText,
+  whatsappBtnText,
+  whatsappUrl,
 }: PickupCardProps): React.ReactElement {
   const [step, setStep] = useState<number>(0);
   const [submitted, setSubmitted] = useState<boolean>(false);
@@ -318,31 +414,46 @@ function PickupCard({
   const [expanded, setExpanded] = useState<boolean>(false);
 
   const [form, setForm] = useState<FormState>({
-    fullName: "", email: "", phone: "", altPhone: "",
-    pickupLocation: "", dropLocation: "", arrivalDate: "",
-    arrivalTime: "", guests: "", instructions: "", serviceType: "",
+    fullName: "",
+    email: "",
+    phone: "",
+    altPhone: "",
+    pickupLocation: "",
+    dropLocation: "",
+    arrivalDate: "",
+    arrivalTime: "",
+    guests: "",
+    instructions: "",
+    serviceType: "",
   });
 
-  const validateEmail = (email: string): boolean => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  const validateEmail = (email: string): boolean =>
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   const validatePhone = (phone: string): boolean => /^[0-9]{10}$/.test(phone);
 
   const validateStep = (currentStep: number): boolean => {
     const newErrors: FormErrors = {};
     if (currentStep === 0) {
       if (!form.fullName.trim()) newErrors.fullName = "Full name is required";
-      else if (form.fullName.trim().length < 3) newErrors.fullName = "Name must be at least 3 characters";
+      else if (form.fullName.trim().length < 3)
+        newErrors.fullName = "Name must be at least 3 characters";
       if (!form.email.trim()) newErrors.email = "Email address is required";
-      else if (!validateEmail(form.email)) newErrors.email = "Please enter a valid email address";
+      else if (!validateEmail(form.email))
+        newErrors.email = "Please enter a valid email address";
       if (!form.phone.trim()) newErrors.phone = "Phone number is required";
-      else if (!validatePhone(form.phone)) newErrors.phone = "Please enter a valid 10-digit phone number";
-      if (form.altPhone && !validatePhone(form.altPhone)) newErrors.altPhone = "Please enter a valid 10-digit phone number";
+      else if (!validatePhone(form.phone))
+        newErrors.phone = "Please enter a valid 10-digit phone number";
+      if (form.altPhone && !validatePhone(form.altPhone))
+        newErrors.altPhone = "Please enter a valid 10-digit phone number";
     }
     if (currentStep === 1) {
-      if (!form.serviceType) newErrors.serviceType = "Please select a service type";
+      if (!form.serviceType)
+        newErrors.serviceType = "Please select a service type";
       if (!form.guests) newErrors.guests = "Number of guests is required";
       else {
         const n = parseInt(form.guests);
-        if (isNaN(n) || n < 1) newErrors.guests = "Please enter at least 1 guest";
+        if (isNaN(n) || n < 1)
+          newErrors.guests = "Please enter at least 1 guest";
         else if (n > 50) newErrors.guests = "Maximum 50 guests allowed";
       }
     }
@@ -350,8 +461,10 @@ function PickupCard({
       if (!form.arrivalDate) newErrors.arrivalDate = "Arrival date is required";
       else {
         const selected = new Date(form.arrivalDate);
-        const today = new Date(); today.setHours(0, 0, 0, 0);
-        if (selected < today) newErrors.arrivalDate = "Arrival date cannot be in the past";
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        if (selected < today)
+          newErrors.arrivalDate = "Arrival date cannot be in the past";
       }
       if (!form.arrivalTime) newErrors.arrivalTime = "Arrival time is required";
     }
@@ -359,35 +472,61 @@ function PickupCard({
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>): void => {
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
+  ): void => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
     if (errors[e.target.name as keyof FormErrors]) {
       setErrors((prev) => ({ ...prev, [e.target.name]: undefined }));
     }
   };
 
-  const handleNext = (): void => { if (validateStep(step)) setStep((s) => Math.min(s + 1, 2)); };
+  const handleNext = (): void => {
+    if (validateStep(step)) setStep((s) => Math.min(s + 1, 2));
+  };
   const handleBack = (): void => setStep((s) => Math.max(s - 1, 0));
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     let isValid = true;
     for (let i = 0; i <= 2; i++) {
-      if (!validateStep(i)) { isValid = false; setStep(i); break; }
+      if (!validateStep(i)) {
+        isValid = false;
+        setStep(i);
+        break;
+      }
     }
     if (isValid) setSubmitted(true);
   };
 
   const handleReset = (): void => {
-    setSubmitted(false); setStep(0); setExpanded(false); setErrors({});
-    setForm({ fullName: "", email: "", phone: "", altPhone: "", pickupLocation: "", dropLocation: "", arrivalDate: "", arrivalTime: "", guests: "", instructions: "", serviceType: "" });
+    setSubmitted(false);
+    setStep(0);
+    setExpanded(false);
+    setErrors({});
+    setForm({
+      fullName: "",
+      email: "",
+      phone: "",
+      altPhone: "",
+      pickupLocation: "",
+      dropLocation: "",
+      arrivalDate: "",
+      arrivalTime: "",
+      guests: "",
+      instructions: "",
+      serviceType: "",
+    });
   };
 
   return (
     <article className={`${styles.travelCard} ${styles.pickupCard}`}>
       {/* Card header */}
       <div className={styles.travelHeader}>
-        <div className={`${styles.iconCircle} ${styles.iconCirclePickup}`} aria-hidden="true">
+        <div
+          className={`${styles.iconCircle} ${styles.iconCirclePickup}`}
+          aria-hidden="true"
+        >
           <CarIcon />
         </div>
         <div>
@@ -396,12 +535,18 @@ function PickupCard({
         </div>
       </div>
 
-      <p className={styles.travelDesc} dangerouslySetInnerHTML={{ __html: desc }} />
+      <p
+        className={styles.travelDesc}
+        dangerouslySetInnerHTML={{ __html: desc }}
+      />
 
       {/* Highlights */}
       <ul className={styles.pickupHighlights}>
         {highlights.map((h, i) => (
-          <li key={i}><span className={styles.highlightDot} />{h}</li>
+          <li key={i}>
+            <span className={styles.highlightDot} />
+            {h}
+          </li>
         ))}
       </ul>
 
@@ -431,7 +576,6 @@ function PickupCard({
         <div className={styles.pickupFormInCard}>
           <StepIndicator current={step} />
           <form onSubmit={handleSubmit} noValidate>
-
             {/* STEP 0 */}
             {step === 0 && (
               <div className={styles.formStep}>
@@ -439,7 +583,9 @@ function PickupCard({
                   <span className={styles.formStepNum}>01</span>
                   <div>
                     <h4 className={styles.formStepTitle}>Contact Details</h4>
-                    <p className={styles.formStepDesc}>We'll use these to confirm your transfer</p>
+                    <p className={styles.formStepDesc}>
+                      We'll use these to confirm your transfer
+                    </p>
                   </div>
                 </div>
                 <div className={styles.formRowCard}>
@@ -447,35 +593,80 @@ function PickupCard({
                     <label className={styles.formLabel} htmlFor="pc-fullName">
                       Full Name <span className={styles.required}>*</span>
                     </label>
-                    <input id="pc-fullName" name="fullName" type="text" required placeholder="e.g. Arjun Sharma"
+                    <input
+                      id="pc-fullName"
+                      name="fullName"
+                      type="text"
+                      required
+                      placeholder="e.g. Arjun Sharma"
                       className={`${styles.formInput} ${errors.fullName ? styles.formInputError : ""}`}
-                      value={form.fullName} onChange={handleChange} />
-                    {errors.fullName && <span className={styles.errorMessage}>{errors.fullName}</span>}
+                      value={form.fullName}
+                      onChange={handleChange}
+                    />
+                    {errors.fullName && (
+                      <span className={styles.errorMessage}>
+                        {errors.fullName}
+                      </span>
+                    )}
                   </div>
                   <div className={styles.formField}>
                     <label className={styles.formLabel} htmlFor="pc-email">
                       Email <span className={styles.required}>*</span>
                     </label>
-                    <input id="pc-email" name="email" type="email" required placeholder="your@email.com"
+                    <input
+                      id="pc-email"
+                      name="email"
+                      type="email"
+                      required
+                      placeholder="your@email.com"
                       className={`${styles.formInput} ${errors.email ? styles.formInputError : ""}`}
-                      value={form.email} onChange={handleChange} />
-                    {errors.email && <span className={styles.errorMessage}>{errors.email}</span>}
+                      value={form.email}
+                      onChange={handleChange}
+                    />
+                    {errors.email && (
+                      <span className={styles.errorMessage}>
+                        {errors.email}
+                      </span>
+                    )}
                   </div>
                   <div className={styles.formField}>
                     <label className={styles.formLabel} htmlFor="pc-phone">
                       Phone <span className={styles.required}>*</span>
                     </label>
-                    <input id="pc-phone" name="phone" type="tel" required placeholder="+91 XXXXX XXXXX"
+                    <input
+                      id="pc-phone"
+                      name="phone"
+                      type="tel"
+                      required
+                      placeholder="+91 XXXXX XXXXX"
                       className={`${styles.formInput} ${errors.phone ? styles.formInputError : ""}`}
-                      value={form.phone} onChange={handleChange} />
-                    {errors.phone && <span className={styles.errorMessage}>{errors.phone}</span>}
+                      value={form.phone}
+                      onChange={handleChange}
+                    />
+                    {errors.phone && (
+                      <span className={styles.errorMessage}>
+                        {errors.phone}
+                      </span>
+                    )}
                   </div>
                   <div className={styles.formField}>
-                    <label className={styles.formLabel} htmlFor="pc-altPhone">Alternate Phone</label>
-                    <input id="pc-altPhone" name="altPhone" type="tel" placeholder="+91 XXXXX XXXXX"
+                    <label className={styles.formLabel} htmlFor="pc-altPhone">
+                      Alternate Phone
+                    </label>
+                    <input
+                      id="pc-altPhone"
+                      name="altPhone"
+                      type="tel"
+                      placeholder="+91 XXXXX XXXXX"
                       className={`${styles.formInput} ${errors.altPhone ? styles.formInputError : ""}`}
-                      value={form.altPhone} onChange={handleChange} />
-                    {errors.altPhone && <span className={styles.errorMessage}>{errors.altPhone}</span>}
+                      value={form.altPhone}
+                      onChange={handleChange}
+                    />
+                    {errors.altPhone && (
+                      <span className={styles.errorMessage}>
+                        {errors.altPhone}
+                      </span>
+                    )}
                   </div>
                 </div>
               </div>
@@ -488,17 +679,27 @@ function PickupCard({
                   <span className={styles.formStepNum}>02</span>
                   <div>
                     <h4 className={styles.formStepTitle}>Journey Info</h4>
-                    <p className={styles.formStepDesc}>Tell us where and when to pick you up</p>
+                    <p className={styles.formStepDesc}>
+                      Tell us where and when to pick you up
+                    </p>
                   </div>
                 </div>
                 <div className={styles.formRowCard}>
                   <div className={styles.formField}>
-                    <label className={styles.formLabel} htmlFor="pc-serviceType">
+                    <label
+                      className={styles.formLabel}
+                      htmlFor="pc-serviceType"
+                    >
                       Service Type <span className={styles.required}>*</span>
                     </label>
-                    <select id="pc-serviceType" name="serviceType" required
+                    <select
+                      id="pc-serviceType"
+                      name="serviceType"
+                      required
                       className={`${styles.formSelect} ${errors.serviceType ? styles.formInputError : ""}`}
-                      value={form.serviceType} onChange={handleChange}>
+                      value={form.serviceType}
+                      onChange={handleChange}
+                    >
                       <option value="">Select service…</option>
                       <option>Airport Pickup</option>
                       <option>Airport Drop</option>
@@ -506,12 +707,26 @@ function PickupCard({
                       <option>Bus Stand Pickup</option>
                       <option>Both Pickup &amp; Drop</option>
                     </select>
-                    {errors.serviceType && <span className={styles.errorMessage}>{errors.serviceType}</span>}
+                    {errors.serviceType && (
+                      <span className={styles.errorMessage}>
+                        {errors.serviceType}
+                      </span>
+                    )}
                   </div>
                   <div className={styles.formField}>
-                    <label className={styles.formLabel} htmlFor="pc-pickupLocation">Pickup Location</label>
-                    <select id="pc-pickupLocation" name="pickupLocation" className={styles.formSelect}
-                      value={form.pickupLocation} onChange={handleChange}>
+                    <label
+                      className={styles.formLabel}
+                      htmlFor="pc-pickupLocation"
+                    >
+                      Pickup Location
+                    </label>
+                    <select
+                      id="pc-pickupLocation"
+                      name="pickupLocation"
+                      className={styles.formSelect}
+                      value={form.pickupLocation}
+                      onChange={handleChange}
+                    >
                       <option value="">Select location…</option>
                       <option>Jolly Grant Airport (Dehradun)</option>
                       <option>Haridwar Railway Station</option>
@@ -521,20 +736,43 @@ function PickupCard({
                     </select>
                   </div>
                   <div className={styles.formField}>
-                    <label className={styles.formLabel} htmlFor="pc-dropLocation">Drop Location</label>
-                    <input id="pc-dropLocation" name="dropLocation" type="text"
+                    <label
+                      className={styles.formLabel}
+                      htmlFor="pc-dropLocation"
+                    >
+                      Drop Location
+                    </label>
+                    <input
+                      id="pc-dropLocation"
+                      name="dropLocation"
+                      type="text"
                       placeholder="e.g. Indian Yoga Association"
-                      className={styles.formInput} value={form.dropLocation} onChange={handleChange} />
+                      className={styles.formInput}
+                      value={form.dropLocation}
+                      onChange={handleChange}
+                    />
                   </div>
                   <div className={styles.formField}>
                     <label className={styles.formLabel} htmlFor="pc-guests">
                       No. of Guests <span className={styles.required}>*</span>
                     </label>
-                    <input id="pc-guests" name="guests" type="number" min="1" max="50" required
+                    <input
+                      id="pc-guests"
+                      name="guests"
+                      type="number"
+                      min="1"
+                      max="50"
+                      required
                       placeholder="e.g. 2"
                       className={`${styles.formInput} ${errors.guests ? styles.formInputError : ""}`}
-                      value={form.guests} onChange={handleChange} />
-                    {errors.guests && <span className={styles.errorMessage}>{errors.guests}</span>}
+                      value={form.guests}
+                      onChange={handleChange}
+                    />
+                    {errors.guests && (
+                      <span className={styles.errorMessage}>
+                        {errors.guests}
+                      </span>
+                    )}
                   </div>
                 </div>
               </div>
@@ -546,60 +784,122 @@ function PickupCard({
                 <div className={styles.formStepHeader}>
                   <span className={styles.formStepNum}>03</span>
                   <div>
-                    <h4 className={styles.formStepTitle}>Arrival &amp; Requests</h4>
-                    <p className={styles.formStepDesc}>Almost done — a few final details</p>
+                    <h4 className={styles.formStepTitle}>
+                      Arrival &amp; Requests
+                    </h4>
+                    <p className={styles.formStepDesc}>
+                      Almost done — a few final details
+                    </p>
                   </div>
                 </div>
                 <div className={styles.formRowCard}>
                   <div className={styles.formField}>
-                    <label className={styles.formLabel} htmlFor="pc-arrivalDate">
+                    <label
+                      className={styles.formLabel}
+                      htmlFor="pc-arrivalDate"
+                    >
                       Arrival Date <span className={styles.required}>*</span>
                     </label>
-                    <input id="pc-arrivalDate" name="arrivalDate" type="date" required
+                    <input
+                      id="pc-arrivalDate"
+                      name="arrivalDate"
+                      type="date"
+                      required
                       className={`${styles.formInput} ${errors.arrivalDate ? styles.formInputError : ""}`}
-                      value={form.arrivalDate} onChange={handleChange} />
-                    {errors.arrivalDate && <span className={styles.errorMessage}>{errors.arrivalDate}</span>}
+                      value={form.arrivalDate}
+                      onChange={handleChange}
+                    />
+                    {errors.arrivalDate && (
+                      <span className={styles.errorMessage}>
+                        {errors.arrivalDate}
+                      </span>
+                    )}
                   </div>
                   <div className={styles.formField}>
-                    <label className={styles.formLabel} htmlFor="pc-arrivalTime">
+                    <label
+                      className={styles.formLabel}
+                      htmlFor="pc-arrivalTime"
+                    >
                       Arrival Time <span className={styles.required}>*</span>
                     </label>
-                    <input id="pc-arrivalTime" name="arrivalTime" type="time" required
+                    <input
+                      id="pc-arrivalTime"
+                      name="arrivalTime"
+                      type="time"
+                      required
                       className={`${styles.formInput} ${errors.arrivalTime ? styles.formInputError : ""}`}
-                      value={form.arrivalTime} onChange={handleChange} />
-                    {errors.arrivalTime && <span className={styles.errorMessage}>{errors.arrivalTime}</span>}
+                      value={form.arrivalTime}
+                      onChange={handleChange}
+                    />
+                    {errors.arrivalTime && (
+                      <span className={styles.errorMessage}>
+                        {errors.arrivalTime}
+                      </span>
+                    )}
                   </div>
-                  <div className={`${styles.formField} ${styles.formFieldSpan2}`}>
-                    <label className={styles.formLabel} htmlFor="pc-instructions">Special Instructions</label>
-                    <textarea id="pc-instructions" name="instructions"
+                  <div
+                    className={`${styles.formField} ${styles.formFieldSpan2}`}
+                  >
+                    <label
+                      className={styles.formLabel}
+                      htmlFor="pc-instructions"
+                    >
+                      Special Instructions
+                    </label>
+                    <textarea
+                      id="pc-instructions"
+                      name="instructions"
                       placeholder="Accessibility needs, extra luggage, dietary preferences…"
-                      className={styles.formTextarea} value={form.instructions} onChange={handleChange} />
+                      className={styles.formTextarea}
+                      value={form.instructions}
+                      onChange={handleChange}
+                    />
                   </div>
                 </div>
                 <div className={styles.summaryCard}>
                   <p className={styles.summaryTitle}>📋 Booking Summary</p>
                   <div className={styles.summaryGrid}>
                     <span className={styles.summaryKey}>Name</span>
-                    <span className={styles.summaryVal}>{form.fullName || "—"}</span>
+                    <span className={styles.summaryVal}>
+                      {form.fullName || "—"}
+                    </span>
                     <span className={styles.summaryKey}>Service</span>
-                    <span className={styles.summaryVal}>{form.serviceType || "—"}</span>
+                    <span className={styles.summaryVal}>
+                      {form.serviceType || "—"}
+                    </span>
                     <span className={styles.summaryKey}>From</span>
-                    <span className={styles.summaryVal}>{form.pickupLocation || "—"}</span>
+                    <span className={styles.summaryVal}>
+                      {form.pickupLocation || "—"}
+                    </span>
                     <span className={styles.summaryKey}>Guests</span>
-                    <span className={styles.summaryVal}>{form.guests || "—"}</span>
+                    <span className={styles.summaryVal}>
+                      {form.guests || "—"}
+                    </span>
                   </div>
                 </div>
               </div>
             )}
 
             <div className={styles.formNav}>
-              <button type="button" className={styles.navBtnBack}
-                onClick={() => { if (step === 0) { setExpanded(false); setErrors({}); } else handleBack(); }}>
+              <button
+                type="button"
+                className={styles.navBtnBack}
+                onClick={() => {
+                  if (step === 0) {
+                    setExpanded(false);
+                    setErrors({});
+                  } else handleBack();
+                }}
+              >
                 ← {step === 0 ? "Cancel" : "Back"}
               </button>
               <div className={styles.formNavRight}>
                 {step < 2 ? (
-                  <button type="button" className={styles.navBtnNext} onClick={handleNext}>
+                  <button
+                    type="button"
+                    className={styles.navBtnNext}
+                    onClick={handleNext}
+                  >
                     Continue →
                   </button>
                 ) : (
@@ -616,7 +916,12 @@ function PickupCard({
               <WhatsAppIcon />
               <span>Prefer to chat? Connect on WhatsApp</span>
             </div>
-            <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className={styles.waStripBtn}>
+            <a
+              href={whatsappUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.waStripBtn}
+            >
               Open WhatsApp
             </a>
           </div>
@@ -627,21 +932,38 @@ function PickupCard({
       {submitted && (
         <div className={styles.successState}>
           <div className={styles.successIcon}>
-            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <svg
+              width="36"
+              height="36"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
               <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
               <polyline points="22 4 12 14.01 9 11.01" />
             </svg>
           </div>
           <h4 className={styles.successTitle}>Request Received!</h4>
           <p className={styles.successMsg}>
-            Namaste, <strong>{form.fullName}</strong>! 🙏 Your pickup request has been submitted.
-            Our team will reach out on <strong>{form.phone}</strong> to confirm.
+            Namaste, <strong>{form.fullName}</strong>! 🙏 Your pickup request
+            has been submitted. Our team will reach out on{" "}
+            <strong>{form.phone}</strong> to confirm.
           </p>
           <div className={styles.successActions}>
-            <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className={styles.successWa}>
+            <a
+              href={whatsappUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.successWa}
+            >
               <WhatsAppIcon /> Follow up on WhatsApp
             </a>
-            <button className={styles.successReset} onClick={handleReset}>Submit Another</button>
+            <button className={styles.successReset} onClick={handleReset}>
+              Submit Another
+            </button>
           </div>
         </div>
       )}
@@ -658,10 +980,11 @@ export default function HowToReach(): React.ReactElement | null {
     const fetchData = async () => {
       try {
         const res = await api.get("/how-to-reach-section");
-        const doc = Array.isArray(res.data.data) ? res.data.data[0] : res.data.data;
+        const doc = Array.isArray(res.data.data)
+          ? res.data.data[0]
+          : res.data.data;
         if (doc) setData(doc);
       } catch {
-
       } finally {
         setLoading(false);
       }
@@ -679,12 +1002,12 @@ export default function HowToReach(): React.ReactElement | null {
       aria-label="How to Reach Indian Yoga Association"
       id="how-to-reach"
     >
-      <div className={styles.omWatermark} aria-hidden="true">ॐ</div>
+      <div className={styles.omWatermark} aria-hidden="true">
+        ॐ
+      </div>
       <div className={styles.topBorder} />
 
       <div className={styles.container}>
-
-
         <div className={styles.headerWrap}>
           <span className={styles.badge}>{data.badgeText}</span>
           <h2 className={styles.mainTitle}>{data.mainTitle}</h2>
@@ -696,7 +1019,6 @@ export default function HowToReach(): React.ReactElement | null {
           <p className={styles.subTitle}>{data.subTitle}</p>
         </div>
 
-
         <div className={styles.cardsGrid}>
           {data.travelCards.map((card, i) => {
             const Icon = ICON_MAP[card.iconType] ?? CarIcon;
@@ -707,7 +1029,12 @@ export default function HowToReach(): React.ReactElement | null {
                 title={card.title}
                 subtitle={card.subtitle}
                 desc={card.desc}
-                headers={[card.headerCol1, card.headerCol2, card.headerCol3, card.headerCol4]}
+                headers={[
+                  card.headerCol1,
+                  card.headerCol2,
+                  card.headerCol3,
+                  card.headerCol4,
+                ]}
                 rows={card.rows}
                 btnText={card.btnText}
                 btnHref={card.btnHref}
@@ -718,10 +1045,7 @@ export default function HowToReach(): React.ReactElement | null {
           })}
         </div>
 
-
         <div className={styles.bottomRow}>
-
-
           <PickupCard
             title={data.pickupTitle}
             subtitle={data.pickupSubtitle}
@@ -731,7 +1055,6 @@ export default function HowToReach(): React.ReactElement | null {
             whatsappBtnText={data.pickupWhatsappBtnText}
             whatsappUrl={whatsappUrl}
           />
-
 
           <div className={styles.mapCard}>
             <div className={styles.mapLabel}>
@@ -757,7 +1080,6 @@ export default function HowToReach(): React.ReactElement | null {
               </a>
             </div>
           </div>
-
         </div>
       </div>
 

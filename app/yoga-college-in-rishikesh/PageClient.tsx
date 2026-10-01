@@ -148,7 +148,6 @@ const getImageUrl = (path?: string) => {
   return `${process.env.NEXT_PUBLIC_API_URL}${path}`;
 };
 
-
 const stripHtml = (html?: string) => {
   if (!html) return "";
   return html
@@ -165,7 +164,6 @@ const stripHtml = (html?: string) => {
     .replace(/\n{3,}/g, "\n\n")
     .trim();
 };
-
 
 function CleanText({ html, className }: { html?: string; className?: string }) {
   const text = stripHtml(html);
@@ -408,7 +406,13 @@ function SyllabusGrid({
 /* ══════════════════════════════════════
    AIM IMAGES STRIP
 ══════════════════════════════════════ */
-function AimImagesStrip({ images, alts }: { images: string[]; alts: string[] }) {
+function AimImagesStrip({
+  images,
+  alts,
+}: {
+  images: string[];
+  alts: string[];
+}) {
   const valid = images.filter(Boolean);
   if (!valid.length) return null;
   return (
@@ -419,7 +423,11 @@ function AimImagesStrip({ images, alts }: { images: string[]; alts: string[] }) 
           className={styles.aimImageCard}
           style={{ animationDelay: `${i * 0.12}s` }}
         >
-          <Image src={getImageUrl(src)} alt={alts[i] || `yoga practice ${i + 1}`} loading="lazy" />
+          <Image
+            src={getImageUrl(src)}
+            alt={alts[i] || `yoga practice ${i + 1}`}
+            loading="lazy"
+          />
           <div className={styles.aimImageOverlay} />
         </div>
       ))}
@@ -520,10 +528,16 @@ function RegularTabContent({
       {/* Syllabus */}
       <div className={styles.tabSection}>
         <h4 className={styles.tabSectionTitle}>Syllabus</h4>
-        <SyllabusGrid theory={tab.syllabusTheory} practical={tab.syllabusPractical} />
+        <SyllabusGrid
+          theory={tab.syllabusTheory}
+          practical={tab.syllabusPractical}
+        />
       </div>
 
-      <Link href={applyNowLink || "/yoga-registration"} className={styles.applyBtn}>
+      <Link
+        href={applyNowLink || "/yoga-registration"}
+        className={styles.applyBtn}
+      >
         Apply Now →
       </Link>
     </div>
@@ -590,9 +604,15 @@ function MasterTabContent({
       <p className={styles.tabBodyContact}>{tab.contact}</p>
 
       <VintageHeading>Syllabus</VintageHeading>
-      <SyllabusGrid theory={tab.syllabusTheory} practical={tab.syllabusPractical} />
+      <SyllabusGrid
+        theory={tab.syllabusTheory}
+        practical={tab.syllabusPractical}
+      />
 
-      <Link href={applyNowLink || "/yoga-registration"} className={styles.applyBtn}>
+      <Link
+        href={applyNowLink || "/yoga-registration"}
+        className={styles.applyBtn}
+      >
         Apply Now →
       </Link>
     </div>
@@ -679,9 +699,9 @@ function CourseCard({
 export default function YogaCollegeRishikesh() {
   const [data, setData] = useState<YogaCollegeSection | null>(null);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState<"protocol" | "wellness" | "teacher" | "master">(
-    "protocol"
-  );
+  const [activeTab, setActiveTab] = useState<
+    "protocol" | "wellness" | "teacher" | "master"
+  >("protocol");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -701,7 +721,10 @@ export default function YogaCollegeRishikesh() {
   if (loading) {
     return (
       <div className={styles.page}>
-        <div className={styles.container} style={{ padding: "4rem 0", textAlign: "center" }}>
+        <div
+          className={styles.container}
+          style={{ padding: "4rem 0", textAlign: "center" }}
+        >
           Loading…
         </div>
       </div>
@@ -711,7 +734,10 @@ export default function YogaCollegeRishikesh() {
   if (!data) {
     return (
       <div className={styles.page}>
-        <div className={styles.container} style={{ padding: "4rem 0", textAlign: "center" }}>
+        <div
+          className={styles.container}
+          style={{ padding: "4rem 0", textAlign: "center" }}
+        >
           Content not available right now.
         </div>
       </div>
@@ -726,7 +752,7 @@ export default function YogaCollegeRishikesh() {
   ];
 
   const aimImages = [data.aimImage1, data.aimImage2, data.aimImage3].filter(
-    Boolean
+    Boolean,
   ) as string[];
   const aimAlts = [data.aimImage1Alt, data.aimImage2Alt, data.aimImage3Alt];
 
@@ -866,7 +892,10 @@ export default function YogaCollegeRishikesh() {
                   <span className={styles.certVal}>{card.fee}</span>
                 </div>
                 <div className={styles.certBtns}>
-                  <Link href={data.moreDetailsLink || "/"} className={styles.certBtnOutline}>
+                  <Link
+                    href={data.moreDetailsLink || "/"}
+                    className={styles.certBtnOutline}
+                  >
                     More Details
                   </Link>
                   <Link
@@ -910,8 +939,13 @@ export default function YogaCollegeRishikesh() {
             imageAlt={data.collegeImageAlt}
             badge={data.collegeImageBadge}
           >
-            <VintageHeading center={false}>{data.collegeHeading}</VintageHeading>
-            <CleanText html={data.collegeParagraph} className={styles.bodyPara} />
+            <VintageHeading center={false}>
+              {data.collegeHeading}
+            </VintageHeading>
+            <CleanText
+              html={data.collegeParagraph}
+              className={styles.bodyPara}
+            />
 
             <div className={styles.collegeHighlights}>
               {data.collegeHighlights?.map((h, i) => (
@@ -945,7 +979,9 @@ export default function YogaCollegeRishikesh() {
             badge={data.maObjectivesImageBadge}
             reverse={true}
           >
-            <VintageHeading center={false}>{data.maObjectivesHeading}</VintageHeading>
+            <VintageHeading center={false}>
+              {data.maObjectivesHeading}
+            </VintageHeading>
             <ol className={styles.objectivesList}>
               {data.maObjectives?.map((o, i) => (
                 <li key={i} className={styles.objectivesItem}>
@@ -968,7 +1004,9 @@ export default function YogaCollegeRishikesh() {
             reverse={false}
           >
             <>
-              <VintageHeading center={false}>{data.maEligibilityHeading}</VintageHeading>
+              <VintageHeading center={false}>
+                {data.maEligibilityHeading}
+              </VintageHeading>
               <p className={styles.bodyPara}>{data.maEligibilityParagraph}</p>
               <div className={styles.maDetailsGrid}>
                 {data.maDetailsGrid?.map((d, i) => (
@@ -979,7 +1017,9 @@ export default function YogaCollegeRishikesh() {
                 ))}
               </div>
 
-              <VintageHeading center={false}>{data.howToApplyHeading}</VintageHeading>
+              <VintageHeading center={false}>
+                {data.howToApplyHeading}
+              </VintageHeading>
               <p className={styles.bodyPara}>{data.howToApplyParagraph}</p>
             </>
           </TextMediaRow>

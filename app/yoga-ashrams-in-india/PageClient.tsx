@@ -104,7 +104,14 @@ const getImageUrl = (path?: string) => {
 // ---- Om Symbol SVG (decorative, not content) ----
 const OmSVG: React.FC = () => (
   <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="30" cy="30" r="28" stroke="#e8600a" strokeWidth="2" fill="none" />
+    <circle
+      cx="30"
+      cy="30"
+      r="28"
+      stroke="#e8600a"
+      strokeWidth="2"
+      fill="none"
+    />
     <text
       x="50%"
       y="54%"
@@ -129,7 +136,9 @@ const YogaAshrams: React.FC = () => {
     const fetchData = async () => {
       try {
         const res = await api.get("/yoga-ashram-section");
-        const doc = Array.isArray(res.data.data) ? res.data.data[0] : res.data.data;
+        const doc = Array.isArray(res.data.data)
+          ? res.data.data[0]
+          : res.data.data;
         setData(doc ?? null);
       } catch (err) {
         setError("Failed to load page content");
@@ -144,7 +153,9 @@ const YogaAshrams: React.FC = () => {
   if (loading) {
     return (
       <div className={styles.pageWrapper}>
-        <div style={{ padding: "4rem 1rem", textAlign: "center" }}>Loading…</div>
+        <div style={{ padding: "4rem 1rem", textAlign: "center" }}>
+          Loading…
+        </div>
       </div>
     );
   }
@@ -182,7 +193,10 @@ const YogaAshrams: React.FC = () => {
       {/* ===== FEATURE IMAGE ===== */}
       <section className={styles.featureSection}>
         <div className={styles.featureContainer}>
-          <div className={styles.featureImageBox} style={{ position: "relative" }}>
+          <div
+            className={styles.featureImageBox}
+            style={{ position: "relative" }}
+          >
             {data.featureImage && (
               <Image
                 src={getImageUrl(data.featureImage)}
@@ -271,7 +285,9 @@ const YogaAshrams: React.FC = () => {
             </div>
           </div>
           <div className={styles.highlightCard}>
-            <h3 className={styles.highlightCardTitle}>{data.coursesCardTitle}</h3>
+            <h3 className={styles.highlightCardTitle}>
+              {data.coursesCardTitle}
+            </h3>
             <p className={styles.bodyText}>{data.coursesCardText}</p>
             <div className={styles.coursePills}>
               {data.coursePills.map((pill, i) => (
@@ -287,7 +303,10 @@ const YogaAshrams: React.FC = () => {
       {/* ===== BOTTOM ASHRAM PHOTO ===== */}
       <section className={styles.photoSection}>
         <div className={styles.photoFrame}>
-          <div className={styles.ashramImageBox} style={{ position: "relative" }}>
+          <div
+            className={styles.ashramImageBox}
+            style={{ position: "relative" }}
+          >
             {data.ashramPhoto && (
               <Image
                 src={getImageUrl(data.ashramPhoto)}
@@ -302,8 +321,12 @@ const YogaAshrams: React.FC = () => {
               />
             )}
             <div className={styles.photoCaptionBar}>
-              <p className={styles.photoCaptionTitle}>{data.photoCaptionTitle}</p>
-              <span className={styles.photoCaptionSub}>{data.photoCaptionSub}</span>
+              <p className={styles.photoCaptionTitle}>
+                {data.photoCaptionTitle}
+              </p>
+              <span className={styles.photoCaptionSub}>
+                {data.photoCaptionSub}
+              </span>
             </div>
           </div>
         </div>
@@ -330,7 +353,9 @@ const YogaAshrams: React.FC = () => {
                 dangerouslySetInnerHTML={{ __html: p }}
               />
             ))}
-            <blockquote className={styles.pullquote}>{data.pullquote}</blockquote>
+            <blockquote className={styles.pullquote}>
+              {data.pullquote}
+            </blockquote>
             <p className={styles.bodyText}>{data.whatExtraParagraph}</p>
           </div>
         </div>

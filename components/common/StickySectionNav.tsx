@@ -26,7 +26,7 @@ export default function StickySectionNav({
       ([entry]) => {
         setVisible(!entry.isIntersecting);
       },
-      { threshold: 0.1 }
+      { threshold: 0.1 },
     );
 
     observer.observe(hero);
@@ -48,7 +48,7 @@ export default function StickySectionNav({
         {
           threshold: 0.25,
           rootMargin: "-100px 0px -50% 0px",
-        }
+        },
       );
 
       obs.observe(el);
@@ -64,8 +64,7 @@ export default function StickySectionNav({
     if (!el) return;
 
     const offset = 100;
-    const top =
-      el.getBoundingClientRect().top + window.pageYOffset - offset;
+    const top = el.getBoundingClientRect().top + window.pageYOffset - offset;
 
     window.scrollTo({ top, behavior: "smooth" });
   };
@@ -75,8 +74,7 @@ export default function StickySectionNav({
       {items.map((item) => (
         <button
           key={item.id}
-          className={`${styles.btn} ${active === item.id ? styles.active : ""
-            }`}
+          className={`${styles.btn} ${active === item.id ? styles.active : ""}`}
           onClick={() => scrollTo(item.id)}
         >
           {item.label}

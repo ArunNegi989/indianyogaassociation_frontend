@@ -61,14 +61,25 @@ const getImageUrl = (path?: string) => {
 
 /* ── Sub-components ── */
 
-const SectionTitle = ({ children, subtitle }: { children: React.ReactNode; subtitle?: string }) => (
+const SectionTitle = ({
+  children,
+  subtitle,
+}: {
+  children: React.ReactNode;
+  subtitle?: string;
+}) => (
   <div className={styles.sectionTitleWrap}>
     <h2 className={styles.sectionTitle}>{children}</h2>
     {subtitle && <p className={styles.sectionSubtitle}>{subtitle}</p>}
   </div>
 );
 
-const AccreditationCardComponent: React.FC<CardItem> = ({ title, icon, description, color }) => (
+const AccreditationCardComponent: React.FC<CardItem> = ({
+  title,
+  icon,
+  description,
+  color,
+}) => (
   <div className={styles.accreditationCard} style={{ borderTopColor: color }}>
     <div className={styles.cardIcon}>{icon}</div>
     <h3 className={styles.cardTitle}>{title}</h3>
@@ -124,10 +135,18 @@ const ImageCarousel: React.FC<{ images: string[] }> = ({ images }) => {
 
         {images.length > 1 && (
           <>
-            <button className={styles.carouselBtn} onClick={handlePrev} aria-label="Previous image">
+            <button
+              className={styles.carouselBtn}
+              onClick={handlePrev}
+              aria-label="Previous image"
+            >
               ‹
             </button>
-            <button className={styles.carouselBtn} onClick={handleNext} aria-label="Next image">
+            <button
+              className={styles.carouselBtn}
+              onClick={handleNext}
+              aria-label="Next image"
+            >
               ›
             </button>
 
@@ -198,7 +217,6 @@ const AccreditationSection: React.FC = () => {
 
   return (
     <>
-
       {data.heroImage && (
         <section className={styles.heroSection}>
           <Image
@@ -236,12 +254,18 @@ const AccreditationSection: React.FC = () => {
 
         {/* PART 1 - MAIN INTRO */}
         <div className={styles.container}>
-          {data.mainTitle && <h1 className={styles.mainTitle}>{data.mainTitle}</h1>}
+          {data.mainTitle && (
+            <h1 className={styles.mainTitle}>{data.mainTitle}</h1>
+          )}
 
           {(data.introCardTitle || introParagraphs.length > 0) && (
             <div className={styles.introCard}>
               <div className={styles.introContent}>
-                {data.introCardTitle && <h3 className={styles.introCardTitle}>{data.introCardTitle}</h3>}
+                {data.introCardTitle && (
+                  <h3 className={styles.introCardTitle}>
+                    {data.introCardTitle}
+                  </h3>
+                )}
                 <div className={styles.introParagraphs}>
                   {introParagraphs.map((html, idx) => (
                     <div key={idx} dangerouslySetInnerHTML={{ __html: html }} />
@@ -250,7 +274,6 @@ const AccreditationSection: React.FC = () => {
               </div>
             </div>
           )}
-
 
           {rysImages.length > 0 && (
             <div className={styles.imgWrap}>
@@ -270,9 +293,15 @@ const AccreditationSection: React.FC = () => {
 
           {(data.highlightTitle || highlightParagraphs.length > 0) && (
             <div className={styles.highlightBox}>
-              {data.highlightTitle && <h4 className={styles.highlightTitle}>{data.highlightTitle}</h4>}
+              {data.highlightTitle && (
+                <h4 className={styles.highlightTitle}>{data.highlightTitle}</h4>
+              )}
               {highlightParagraphs.map((html, idx) => (
-                <div key={idx} className={styles.highlightText} dangerouslySetInnerHTML={{ __html: html }} />
+                <div
+                  key={idx}
+                  className={styles.highlightText}
+                  dangerouslySetInnerHTML={{ __html: html }}
+                />
               ))}
               {data.yogaAllianceUrl && (
                 <p className={styles.highlightText}>
@@ -289,7 +318,6 @@ const AccreditationSection: React.FC = () => {
             </div>
           )}
         </div>
-
 
         {certs.length > 0 && (
           <div className={styles.container}>
@@ -321,12 +349,17 @@ const AccreditationSection: React.FC = () => {
           </div>
         )}
 
-
-        {(data.boardSectionTitle || data.boardCertificateImage || data.boardInfoText) && (
+        {(data.boardSectionTitle ||
+          data.boardCertificateImage ||
+          data.boardInfoText) && (
           <div className={styles.container}>
-            <SectionTitle>{data.boardSectionTitle || "Yoga Certification Board"}</SectionTitle>
+            <SectionTitle>
+              {data.boardSectionTitle || "Yoga Certification Board"}
+            </SectionTitle>
             {data.boardSectionSubtitle && (
-              <p className={styles.sectionDescription}>{data.boardSectionSubtitle}</p>
+              <p className={styles.sectionDescription}>
+                {data.boardSectionSubtitle}
+              </p>
             )}
 
             <div className={styles.certBoardWrapper}>
@@ -344,20 +377,27 @@ const AccreditationSection: React.FC = () => {
               )}
               <div className={styles.certBoardInfo}>
                 {data.boardInfoTitle && <h4>{data.boardInfoTitle}</h4>}
-                {data.boardInfoText && <div dangerouslySetInnerHTML={{ __html: data.boardInfoText }} />}
+                {data.boardInfoText && (
+                  <div
+                    dangerouslySetInnerHTML={{ __html: data.boardInfoText }}
+                  />
+                )}
               </div>
             </div>
           </div>
         )}
 
-
         {(data.iyfSectionTitle || iyfParagraphs.length > 0) && (
           <div className={styles.container}>
-            <SectionTitle>{data.iyfSectionTitle || "International Yoga Federation"}</SectionTitle>
+            <SectionTitle>
+              {data.iyfSectionTitle || "International Yoga Federation"}
+            </SectionTitle>
 
             <div className={styles.iyfSection}>
               <div className={styles.iyfContent}>
-                {data.iyfTitle && <h3 className={styles.iyfTitle}>{data.iyfTitle}</h3>}
+                {data.iyfTitle && (
+                  <h3 className={styles.iyfTitle}>{data.iyfTitle}</h3>
+                )}
                 <div className={styles.introParagraphs}>
                   {iyfParagraphs.map((html, idx) => (
                     <div key={idx} dangerouslySetInnerHTML={{ __html: html }} />

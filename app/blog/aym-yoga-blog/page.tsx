@@ -6,9 +6,9 @@ export const metadata: Metadata = {
   description:
     "yoga teacher training india at AYM Yoga School Registered with Yoga Alliance, USA and International Yoga Alliance, India",
 
-    alternates: {
-      canonical: "https://www.indianyogaassociation.com/blog/aym-yoga-blog.html",
-    },
+  alternates: {
+    canonical: "https://www.indianyogaassociation.com/blog/aym-yoga-blog.html",
+  },
 };
 
 export default function Page() {

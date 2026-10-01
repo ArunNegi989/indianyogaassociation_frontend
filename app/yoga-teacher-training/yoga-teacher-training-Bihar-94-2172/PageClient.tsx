@@ -19,7 +19,10 @@ const cityLinks: { name: string; href: string }[] = [
     name: "Haryana",
     href: "/yoga-teacher-training/yoga-teacher-training-Haryana-94-2186",
   },
-  { name: "Agra", href: "/yoga-teacher-training/yoga-teacher-training-Agra-94-2197" },
+  {
+    name: "Agra",
+    href: "/yoga-teacher-training/yoga-teacher-training-Agra-94-2197",
+  },
   {
     name: "Mumbai",
     href: "/yoga-teacher-training/yoga-teacher-training-Mumbai-94-2175",
@@ -44,8 +47,14 @@ const cityLinks: { name: string; href: string }[] = [
     name: "Tamil Nadu",
     href: "/yoga-teacher-training/yoga-teacher-training-Tamil%20Nadu-94-2187",
   },
-  { name: "Goa", href: "/yoga-teacher-training/yoga-teacher-training-Goa-94-2167" },
-  { name: "Kochi", href: "/yoga-teacher-training/yoga-teacher-training-Kochi-94-2190" },
+  {
+    name: "Goa",
+    href: "/yoga-teacher-training/yoga-teacher-training-Goa-94-2167",
+  },
+  {
+    name: "Kochi",
+    href: "/yoga-teacher-training/yoga-teacher-training-Kochi-94-2190",
+  },
   {
     name: "Munger",
     href: "/yoga-teacher-training/yoga-teacher-training-Munger-94-2177",
@@ -82,7 +91,10 @@ const cityLinks: { name: string; href: string }[] = [
     name: "Gurugram",
     href: "/yoga-teacher-training/yoga-teacher-training-Gurugram-94-2195",
   },
-  { name: "Pune", href: "/yoga-teacher-training/yoga-teacher-training-Pune-94-2171" },
+  {
+    name: "Pune",
+    href: "/yoga-teacher-training/yoga-teacher-training-Pune-94-2171",
+  },
   {
     name: "Chennai",
     href: "/yoga-teacher-training/yoga-teacher-training-Chennai-94-2184",
@@ -144,9 +156,7 @@ const YogaTrainingBihar: React.FC = () => {
             PAGE TITLE
         ══════════════════════════════════════ */}
         <div className={styles.pageHeader}>
-          <h1 className={styles.pageTitle}>
-            Yoga Teacher Training in Bihar
-          </h1>
+          <h1 className={styles.pageTitle}>Yoga Teacher Training in Bihar</h1>
           <div className={styles.titleUnderline}>
             <div className={styles.underlineLine} />
           </div>
@@ -176,7 +186,11 @@ const YogaTrainingBihar: React.FC = () => {
               <div className={styles.headingUnderlineLine} />
             </div>
             <p className={styles.bodyText}>
-              As one of Bihar's best yoga and meditation centres, AYM Yoga School aims to help you learn the correct yoga retreat to solve emotional pain and personal problems. We help you to open your seven chakras. Whether you want to become a yoga instructor or relax, we offer qualified courses in Rishikesh and Goa.
+              As one of Bihar's best yoga and meditation centres, AYM Yoga
+              School aims to help you learn the correct yoga retreat to solve
+              emotional pain and personal problems. We help you to open your
+              seven chakras. Whether you want to become a yoga instructor or
+              relax, we offer qualified courses in Rishikesh and Goa.
             </p>
           </div>
         </div>
@@ -205,7 +219,11 @@ const YogaTrainingBihar: React.FC = () => {
               <div className={styles.headingUnderlineLine} />
             </div>
             <p className={styles.bodyText}>
-              Bihar is a learning and spiritual centre. Here is Nalanda University, Mahavir Temple, Vikram Shila and Bodhgaya. It is the site of famous historical monuments, and Buddhism is the holy place of all Buddhist denominations. This is where Shakyamuni Buddha obtained Nirvana Buddha, now a UNESCO World Heritage Site.
+              Bihar is a learning and spiritual centre. Here is Nalanda
+              University, Mahavir Temple, Vikram Shila and Bodhgaya. It is the
+              site of famous historical monuments, and Buddhism is the holy
+              place of all Buddhist denominations. This is where Shakyamuni
+              Buddha obtained Nirvana Buddha, now a UNESCO World Heritage Site.
             </p>
           </div>
         </div>
@@ -234,7 +252,14 @@ const YogaTrainingBihar: React.FC = () => {
               <div className={styles.headingUnderlineLine} />
             </div>
             <p className={styles.bodyText}>
-              AYM Yoga School is located in Rishikesh and Goa. We are a famous yoga and meditation institution in India specializing in yoga teacher training yoga gurus. Our non-profit organization aims to teach quality yoga classes to anyone who wants to become a qualified yoga instructor. AYM Yoga School also helps you relieve emotional problems through yoga therapy retreat. In addition, if you are in Bihar, AYM Yoga School will also fully operate our facilities here.
+              AYM Yoga School is located in Rishikesh and Goa. We are a famous
+              yoga and meditation institution in India specializing in yoga
+              teacher training yoga gurus. Our non-profit organization aims to
+              teach quality yoga classes to anyone who wants to become a
+              qualified yoga instructor. AYM Yoga School also helps you relieve
+              emotional problems through yoga therapy retreat. In addition, if
+              you are in Bihar, AYM Yoga School will also fully operate our
+              facilities here.
             </p>
           </div>
         </div>
@@ -263,7 +288,14 @@ const YogaTrainingBihar: React.FC = () => {
               <div className={styles.headingUnderlineLine} />
             </div>
             <p className={styles.bodyText}>
-              AYM Yoga School is a professional yoga and meditation school in Rishikesh and Goa. Our area of expertise is to provide high-quality yoga teacher training and yoga retreat service to anyone willing to enjoy the benefits of yoga in India. Enjoy Mantras, Pranayama, yoga prayer with our yoga teachers. Our outstanding achievements are widely recognized by students and professors worldwide. And if you live in Bihar or plan to visit, we also provide our facilities and training courses there.
+              AYM Yoga School is a professional yoga and meditation school in
+              Rishikesh and Goa. Our area of expertise is to provide
+              high-quality yoga teacher training and yoga retreat service to
+              anyone willing to enjoy the benefits of yoga in India. Enjoy
+              Mantras, Pranayama, yoga prayer with our yoga teachers. Our
+              outstanding achievements are widely recognized by students and
+              professors worldwide. And if you live in Bihar or plan to visit,
+              we also provide our facilities and training courses there.
             </p>
           </div>
         </div>
@@ -295,7 +327,10 @@ const YogaTrainingBihar: React.FC = () => {
               <div className={styles.headingUnderlineLine} />
             </div>
             <p className={styles.bodyText}>
-              Bihar is the eastern state of India and one of the oldest settlements in the world, with a history of more than 3,000 years. Bihar is divided by the sacred Ganga and was the centre of ancient India's political, economic and intellectual activities.
+              Bihar is the eastern state of India and one of the oldest
+              settlements in the world, with a history of more than 3,000 years.
+              Bihar is divided by the sacred Ganga and was the centre of ancient
+              India's political, economic and intellectual activities.
             </p>
           </div>
         </div>

@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import styles from "@/assets/style/yoga-teacher-india/yogateacherindia.module.css";
-import mainimage from "@/assets/images/teachers/44133566300_038197c449_b.jpg"
+import mainimage from "@/assets/images/teachers/44133566300_038197c449_b.jpg";
 import image1 from "@/assets/images/teachers/Ekapada-Koundinyasana-(Twisted-One-Leg-Arm-Balance-Pose).jpg";
 import image2 from "@/assets/images/teachers/Dragon-Fly-Pose.jpg";
 import image3 from "@/assets/images/teachers/Ekapada-Galvasana-(Flying-Pegion-Pose).jpg";

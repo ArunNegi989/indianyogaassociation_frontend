@@ -84,9 +84,24 @@ interface FormData {
 const INITIAL: FormData = {
   heroImageAlt: "Yoga Students Group",
   accreditationCards: [
-    { title: "Yoga Alliance USA", icon: "🏆", description: "Internationally recognized certification for yoga teachers", color: "#F15505" },
-    { title: "Ministry of AYUSH", icon: "🇮🇳", description: "Government of India official yoga certification", color: "#1e40af" },
-    { title: "International Yoga Federation", icon: "🌍", description: "Global yoga standards and teacher recognition", color: "#059669" },
+    {
+      title: "Yoga Alliance USA",
+      icon: "🏆",
+      description: "Internationally recognized certification for yoga teachers",
+      color: "#F15505",
+    },
+    {
+      title: "Ministry of AYUSH",
+      icon: "🇮🇳",
+      description: "Government of India official yoga certification",
+      color: "#1e40af",
+    },
+    {
+      title: "International Yoga Federation",
+      icon: "🌍",
+      description: "Global yoga standards and teacher recognition",
+      color: "#059669",
+    },
   ],
   galleryImages: [{}],
   mainTitle: "Registered Yoga School in Rishikesh",
@@ -100,21 +115,37 @@ const INITIAL: FormData = {
   certsSectionSubtitle: "Internationally Recognized Certifications",
   certs: [
     { type: "RYS", description: "RPYS Yoga Teacher Training Certification" },
-    { type: "RYS 200", description: "200-Hour Advanced Yoga Teacher Training Certification" },
-    { type: "RYS 300", description: "300-Hour Yoga Teacher Training Certification" },
-    { type: "RYS 500", description: "500-Hour Yoga Teacher Training Certification" },
+    {
+      type: "RYS 200",
+      description: "200-Hour Advanced Yoga Teacher Training Certification",
+    },
+    {
+      type: "RYS 300",
+      description: "300-Hour Yoga Teacher Training Certification",
+    },
+    {
+      type: "RYS 500",
+      description: "500-Hour Yoga Teacher Training Certification",
+    },
   ],
   boardSectionTitle: "Yoga Certification Board",
-  boardSectionSubtitle: "Ministry of AYUSH, Government of India Official Recognition",
+  boardSectionSubtitle:
+    "Ministry of AYUSH, Government of India Official Recognition",
   boardInfoTitle: "Government Recognition",
   boardInfoText: "",
   iyfSectionTitle: "International Yoga Federation",
   iyfTitle: "Global Recognition & Standards",
   iyfParagraphs: [{ text: "" }, { text: "" }],
   iyfFooterNotes: [
-    { text: "200, 300 and 500 hour yoga certifications at AYM School are recognized by Indian Yoga Alliance." },
-    { text: "Association for Yoga and Meditation is a lifetime member of Yoga Alliance International." },
-    { text: "International Quality Management System has recognized Association for Yoga and Meditation for its 200-hour, 300-hour and 500-hour yoga teacher training in Rishikesh, India." },
+    {
+      text: "200, 300 and 500 hour yoga certifications at AYM School are recognized by Indian Yoga Alliance.",
+    },
+    {
+      text: "Association for Yoga and Meditation is a lifetime member of Yoga Alliance International.",
+    },
+    {
+      text: "International Quality Management System has recognized Association for Yoga and Meditation for its 200-hour, 300-hour and 500-hour yoga teacher training in Rishikesh, India.",
+    },
   ],
 };
 
@@ -129,10 +160,30 @@ const joditConfig = {
   height: 260,
   toolbarAdaptive: false,
   buttons: [
-    "bold", "italic", "underline", "strikethrough", "|",
-    "font", "fontsize", "brush", "|",
-    "paragraph", "|", "ul", "ol", "|", "align", "|",
-    "link", "unlink", "|", "undo", "redo", "|", "eraser", "fullsize",
+    "bold",
+    "italic",
+    "underline",
+    "strikethrough",
+    "|",
+    "font",
+    "fontsize",
+    "brush",
+    "|",
+    "paragraph",
+    "|",
+    "ul",
+    "ol",
+    "|",
+    "align",
+    "|",
+    "link",
+    "unlink",
+    "|",
+    "undo",
+    "redo",
+    "|",
+    "eraser",
+    "fullsize",
   ],
   showXPathInStatusbar: false,
   showCharsCounter: false,
@@ -153,7 +204,9 @@ export default function AccreditationAddEditPage() {
   const [boardCertFile, setBoardCertFile] = useState<File | null>(null);
   const [iyfLogoFile, setIyfLogoFile] = useState<File | null>(null);
   const [loadingData, setLoadingData] = useState(isEdit);
-  const [activeTab, setActiveTab] = useState<"hero" | "gallery" | "intro" | "highlight" | "board" | "iyf">("hero");
+  const [activeTab, setActiveTab] = useState<
+    "hero" | "gallery" | "intro" | "highlight" | "board" | "iyf"
+  >("hero");
 
   const introEditorRef = useRef(null);
 
@@ -174,8 +227,14 @@ export default function AccreditationAddEditPage() {
   const rysArray = useFieldArray({ control, name: "rysImages" });
   const certsArray = useFieldArray({ control, name: "certs" });
   const notesArray = useFieldArray({ control, name: "iyfFooterNotes" });
-  const introParagraphsArray = useFieldArray({ control, name: "introParagraphs" });
-  const highlightParagraphsArray = useFieldArray({ control, name: "highlightParagraphs" });
+  const introParagraphsArray = useFieldArray({
+    control,
+    name: "introParagraphs",
+  });
+  const highlightParagraphsArray = useFieldArray({
+    control,
+    name: "highlightParagraphs",
+  });
   const iyfParagraphsArray = useFieldArray({ control, name: "iyfParagraphs" });
 
   /* ── Fetch existing singleton data on edit ── */
@@ -188,9 +247,14 @@ export default function AccreditationAddEditPage() {
         reset({
           heroImageAlt: d.heroImageAlt ?? "Yoga Students Group",
           _heroPreview: d.heroImage ? getImageUrl(d.heroImage) : "",
-          accreditationCards: d.accreditationCards?.length ? d.accreditationCards : INITIAL.accreditationCards,
+          accreditationCards: d.accreditationCards?.length
+            ? d.accreditationCards
+            : INITIAL.accreditationCards,
           galleryImages: d.galleryImages?.length
-            ? d.galleryImages.map((url: string) => ({ existingUrl: url, preview: getImageUrl(url) }))
+            ? d.galleryImages.map((url: string) => ({
+                existingUrl: url,
+                preview: getImageUrl(url),
+              }))
             : [{}],
           mainTitle: d.mainTitle ?? INITIAL.mainTitle,
           introCardTitle: d.introCardTitle ?? INITIAL.introCardTitle,
@@ -198,7 +262,11 @@ export default function AccreditationAddEditPage() {
             ? d.introParagraphs.map((t: string) => ({ text: t }))
             : INITIAL.introParagraphs,
           rysImages: d.rysImages?.length
-            ? d.rysImages.map((r: any) => ({ alt: r.alt ?? "", existingUrl: r.image, preview: r.image ? getImageUrl(r.image) : "" }))
+            ? d.rysImages.map((r: any) => ({
+                alt: r.alt ?? "",
+                existingUrl: r.image,
+                preview: r.image ? getImageUrl(r.image) : "",
+              }))
             : INITIAL.rysImages,
           highlightTitle: d.highlightTitle ?? INITIAL.highlightTitle,
           highlightParagraphs: d.highlightParagraphs?.length
@@ -206,13 +274,22 @@ export default function AccreditationAddEditPage() {
             : INITIAL.highlightParagraphs,
           yogaAllianceUrl: d.yogaAllianceUrl ?? INITIAL.yogaAllianceUrl,
           certsSectionTitle: d.certsSectionTitle ?? INITIAL.certsSectionTitle,
-          certsSectionSubtitle: d.certsSectionSubtitle ?? INITIAL.certsSectionSubtitle,
+          certsSectionSubtitle:
+            d.certsSectionSubtitle ?? INITIAL.certsSectionSubtitle,
           certs: d.certs?.length
-            ? d.certs.map((c: any) => ({ type: c.type, description: c.description, existingUrl: c.image, preview: c.image ? getImageUrl(c.image) : "" }))
+            ? d.certs.map((c: any) => ({
+                type: c.type,
+                description: c.description,
+                existingUrl: c.image,
+                preview: c.image ? getImageUrl(c.image) : "",
+              }))
             : INITIAL.certs,
           boardSectionTitle: d.boardSectionTitle ?? INITIAL.boardSectionTitle,
-          boardSectionSubtitle: d.boardSectionSubtitle ?? INITIAL.boardSectionSubtitle,
-          _boardCertPreview: d.boardCertificateImage ? getImageUrl(d.boardCertificateImage) : "",
+          boardSectionSubtitle:
+            d.boardSectionSubtitle ?? INITIAL.boardSectionSubtitle,
+          _boardCertPreview: d.boardCertificateImage
+            ? getImageUrl(d.boardCertificateImage)
+            : "",
           boardInfoTitle: d.boardInfoTitle ?? INITIAL.boardInfoTitle,
           boardInfoText: d.boardInfoText ?? "",
           iyfSectionTitle: d.iyfSectionTitle ?? INITIAL.iyfSectionTitle,
@@ -220,7 +297,9 @@ export default function AccreditationAddEditPage() {
           iyfParagraphs: d.iyfParagraphs?.length
             ? d.iyfParagraphs.map((t: string) => ({ text: t }))
             : INITIAL.iyfParagraphs,
-          iyfFooterNotes: d.iyfFooterNotes?.length ? d.iyfFooterNotes.map((t: string) => ({ text: t })) : INITIAL.iyfFooterNotes,
+          iyfFooterNotes: d.iyfFooterNotes?.length
+            ? d.iyfFooterNotes.map((t: string) => ({ text: t }))
+            : INITIAL.iyfFooterNotes,
           _iyfLogoPreview: d.iyfLogoImage ? getImageUrl(d.iyfLogoImage) : "",
         });
       } catch {
@@ -246,7 +325,8 @@ export default function AccreditationAddEditPage() {
     if (!file) return;
     setBoardCertFile(file);
     const reader = new FileReader();
-    reader.onload = (e) => setValue("_boardCertPreview", e.target?.result as string);
+    reader.onload = (e) =>
+      setValue("_boardCertPreview", e.target?.result as string);
     reader.readAsDataURL(file);
   };
 
@@ -254,7 +334,8 @@ export default function AccreditationAddEditPage() {
     if (!file) return;
     setIyfLogoFile(file);
     const reader = new FileReader();
-    reader.onload = (e) => setValue("_iyfLogoPreview", e.target?.result as string);
+    reader.onload = (e) =>
+      setValue("_iyfLogoPreview", e.target?.result as string);
     reader.readAsDataURL(file);
   };
 
@@ -262,12 +343,15 @@ export default function AccreditationAddEditPage() {
   const handleArrayImage = (
     arrayName: "galleryImages" | "rysImages" | "certs",
     index: number,
-    file: File | null
+    file: File | null,
   ) => {
     if (!file) return;
     const reader = new FileReader();
     reader.onload = (e) => {
-      setValue(`${arrayName}.${index}.preview` as any, e.target?.result as string);
+      setValue(
+        `${arrayName}.${index}.preview` as any,
+        e.target?.result as string,
+      );
       setValue(`${arrayName}.${index}.file` as any, file as any);
     };
     reader.readAsDataURL(file);
@@ -294,17 +378,32 @@ export default function AccreditationAddEditPage() {
       formData.append("iyfSectionTitle", data.iyfSectionTitle);
       formData.append("iyfTitle", data.iyfTitle);
 
-      formData.append("accreditationCards", JSON.stringify(data.accreditationCards));
+      formData.append(
+        "accreditationCards",
+        JSON.stringify(data.accreditationCards),
+      );
 
-      formData.append("introParagraphs", JSON.stringify(data.introParagraphs.map((p) => p.text)));
-      formData.append("highlightParagraphs", JSON.stringify(data.highlightParagraphs.map((p) => p.text)));
-      formData.append("iyfParagraphs", JSON.stringify(data.iyfParagraphs.map((p) => p.text)));
+      formData.append(
+        "introParagraphs",
+        JSON.stringify(data.introParagraphs.map((p) => p.text)),
+      );
+      formData.append(
+        "highlightParagraphs",
+        JSON.stringify(data.highlightParagraphs.map((p) => p.text)),
+      );
+      formData.append(
+        "iyfParagraphs",
+        JSON.stringify(data.iyfParagraphs.map((p) => p.text)),
+      );
 
-
-      formData.append("iyfFooterNotes", JSON.stringify(data.iyfFooterNotes.map((n) => n.text)));
+      formData.append(
+        "iyfFooterNotes",
+        JSON.stringify(data.iyfFooterNotes.map((n) => n.text)),
+      );
 
       if (heroFile) formData.append("heroImage", heroFile);
-      if (boardCertFile) formData.append("boardCertificateImage", boardCertFile);
+      if (boardCertFile)
+        formData.append("boardCertificateImage", boardCertFile);
       if (iyfLogoFile) formData.append("iyfLogoImage", iyfLogoFile);
 
       const galleryExisting: string[] = [];
@@ -314,22 +413,34 @@ export default function AccreditationAddEditPage() {
       });
       formData.append("existingGalleryImages", JSON.stringify(galleryExisting));
 
-      formData.append("rysImagesAlt", JSON.stringify(data.rysImages.map((r) => r.alt)));
+      formData.append(
+        "rysImagesAlt",
+        JSON.stringify(data.rysImages.map((r) => r.alt)),
+      );
       data.rysImages.forEach((r, i) => {
         if (r.file) formData.append(`rysImage_${i}`, r.file);
       });
       formData.append(
         "existingRysImages",
-        JSON.stringify(data.rysImages.map((r) => (r.file ? null : r.existingUrl ?? null)))
+        JSON.stringify(
+          data.rysImages.map((r) => (r.file ? null : (r.existingUrl ?? null))),
+        ),
       );
 
-      formData.append("certsData", JSON.stringify(data.certs.map((c) => ({ type: c.type, description: c.description }))));
+      formData.append(
+        "certsData",
+        JSON.stringify(
+          data.certs.map((c) => ({ type: c.type, description: c.description })),
+        ),
+      );
       data.certs.forEach((c, i) => {
         if (c.file) formData.append(`certImage_${i}`, c.file);
       });
       formData.append(
         "existingCertImages",
-        JSON.stringify(data.certs.map((c) => (c.file ? null : c.existingUrl ?? null)))
+        JSON.stringify(
+          data.certs.map((c) => (c.file ? null : (c.existingUrl ?? null))),
+        ),
       );
 
       if (isEdit && sectionId) {
@@ -358,7 +469,11 @@ export default function AccreditationAddEditPage() {
         <div className={styles.skeletonHeader} />
         <div className={styles.skeletonCard}>
           {[...Array(5)].map((_, i) => (
-            <div key={i} className={styles.skeletonField} style={{ height: "52px" }} />
+            <div
+              key={i}
+              className={styles.skeletonField}
+              style={{ height: "52px" }}
+            />
           ))}
         </div>
       </div>
@@ -372,7 +487,9 @@ export default function AccreditationAddEditPage() {
         <div className={styles.successCard}>
           <div className={styles.successOm}>ॐ</div>
           <div className={styles.successCheck}>✓</div>
-          <h2 className={styles.successTitle}>Accreditation Section {isEdit ? "Updated" : "Saved"}!</h2>
+          <h2 className={styles.successTitle}>
+            Accreditation Section {isEdit ? "Updated" : "Saved"}!
+          </h2>
           <p className={styles.successText}>Redirecting…</p>
         </div>
       </div>
@@ -382,10 +499,28 @@ export default function AccreditationAddEditPage() {
   const tabErrors = {
     hero: !!(errors.heroImageAlt || errors.accreditationCards),
     gallery: !!errors.galleryImages,
-    intro: !!(errors.mainTitle || errors.introCardTitle || errors.introParagraphs || errors.rysImages),
-    highlight: !!(errors.highlightTitle || errors.certsSectionTitle || errors.certs),
-    board: !!(errors.boardSectionTitle || errors.boardInfoTitle || errors.boardInfoText),
-    iyf: !!(errors.iyfSectionTitle || errors.iyfTitle || errors.iyfParagraphs || errors.iyfFooterNotes),
+    intro: !!(
+      errors.mainTitle ||
+      errors.introCardTitle ||
+      errors.introParagraphs ||
+      errors.rysImages
+    ),
+    highlight: !!(
+      errors.highlightTitle ||
+      errors.certsSectionTitle ||
+      errors.certs
+    ),
+    board: !!(
+      errors.boardSectionTitle ||
+      errors.boardInfoTitle ||
+      errors.boardInfoText
+    ),
+    iyf: !!(
+      errors.iyfSectionTitle ||
+      errors.iyfTitle ||
+      errors.iyfParagraphs ||
+      errors.iyfFooterNotes
+    ),
   };
 
   const tabLabels = {
@@ -397,23 +532,39 @@ export default function AccreditationAddEditPage() {
     iyf: "⑥ IYF Section",
   };
 
-  const tabOrder = ["hero", "gallery", "intro", "highlight", "board", "iyf"] as const;
+  const tabOrder = [
+    "hero",
+    "gallery",
+    "intro",
+    "highlight",
+    "board",
+    "iyf",
+  ] as const;
 
   return (
     <div className={styles.formPage}>
       {/* Breadcrumb */}
       <div className={styles.breadcrumb}>
-        <Link href="/admin/dashboard/Affiliation" className={styles.breadcrumbLink}>
+        <Link
+          href="/admin/dashboard/Affiliation"
+          className={styles.breadcrumbLink}
+        >
           Accreditation Section
         </Link>
         <span className={styles.breadcrumbSep}>›</span>
-        <span className={styles.breadcrumbCurrent}>{isEdit ? "Edit" : "Add"}</span>
+        <span className={styles.breadcrumbCurrent}>
+          {isEdit ? "Edit" : "Add"}
+        </span>
       </div>
 
       <div className={styles.pageHeader}>
-        <h1 className={styles.pageTitle}>{isEdit ? "Edit Accreditation Section" : "Add Accreditation Section"}</h1>
+        <h1 className={styles.pageTitle}>
+          {isEdit ? "Edit Accreditation Section" : "Add Accreditation Section"}
+        </h1>
         <p className={styles.pageSubtitle}>
-          {isEdit ? "Update hero, gallery, certifications and all page content" : "Fill in every section of the Accreditation page"}
+          {isEdit
+            ? "Update hero, gallery, certifications and all page content"
+            : "Fill in every section of the Accreditation page"}
         </p>
       </div>
 
@@ -456,21 +607,33 @@ export default function AccreditationAddEditPage() {
                     <span className={styles.labelIcon}>✦</span>
                     Hero Banner Image
                   </label>
-                  <p className={styles.fieldHint}>Recommended: 1180×540px — JPG, PNG, WEBP</p>
+                  <p className={styles.fieldHint}>
+                    Recommended: 1180×540px — JPG, PNG, WEBP
+                  </p>
                   <label className={styles.uploadArea}>
                     <input
                       type="file"
                       accept="image/*"
                       className={styles.fileInput}
-                      onChange={(e) => handleHeroImage(e.target.files?.[0] || null)}
+                      onChange={(e) =>
+                        handleHeroImage(e.target.files?.[0] || null)
+                      }
                     />
                     {watchAll._heroPreview ? (
-                      <img src={watchAll._heroPreview} alt="preview" className={styles.imgPreview} />
+                      <img
+                        src={watchAll._heroPreview}
+                        alt="preview"
+                        className={styles.imgPreview}
+                      />
                     ) : (
                       <>
                         <span className={styles.uploadIcon}>🏔️</span>
-                        <span className={styles.uploadText}>Click to upload or drag &amp; drop</span>
-                        <span className={styles.uploadSubtext}>JPG, PNG, WEBP — max 5MB</span>
+                        <span className={styles.uploadText}>
+                          Click to upload or drag &amp; drop
+                        </span>
+                        <span className={styles.uploadSubtext}>
+                          JPG, PNG, WEBP — max 5MB
+                        </span>
                       </>
                     )}
                   </label>
@@ -486,10 +649,16 @@ export default function AccreditationAddEditPage() {
                       type="text"
                       className={styles.input}
                       placeholder="e.g. Yoga Students Group"
-                      {...register("heroImageAlt", { required: "Alt text is required" })}
+                      {...register("heroImageAlt", {
+                        required: "Alt text is required",
+                      })}
                     />
                   </div>
-                  {errors.heroImageAlt && <p className={styles.errorMsg}>⚠ {errors.heroImageAlt.message}</p>}
+                  {errors.heroImageAlt && (
+                    <p className={styles.errorMsg}>
+                      ⚠ {errors.heroImageAlt.message}
+                    </p>
+                  )}
                 </div>
               </div>
 
@@ -498,11 +667,19 @@ export default function AccreditationAddEditPage() {
               <div className={styles.sectionBlock}>
                 <div className={styles.sectionHeader}>
                   <span className={styles.sectionIcon}>✦</span>
-                  <h3 className={styles.sectionTitle}>"Why Choose AYM?" Cards</h3>
-                  <span className={styles.sectionBadge}>{cardsArray.fields.length}/6</span>
+                  <h3 className={styles.sectionTitle}>
+                    "Why Choose AYM?" Cards
+                  </h3>
+                  <span className={styles.sectionBadge}>
+                    {cardsArray.fields.length}/6
+                  </span>
                 </div>
-                <p className={styles.fieldHint} style={{ marginBottom: "1rem" }}>
-                  Icon (emoji), title, description and border color for each card.
+                <p
+                  className={styles.fieldHint}
+                  style={{ marginBottom: "1rem" }}
+                >
+                  Icon (emoji), title, description and border color for each
+                  card.
                 </p>
 
                 <div className={styles.itemsList}>
@@ -511,12 +688,17 @@ export default function AccreditationAddEditPage() {
                       <span className={styles.itemIndex}>{index + 1}</span>
                       <div className={styles.itemFields}>
                         <div className={styles.itemFieldsRow}>
-                          <div className={styles.inputWrap} style={{ maxWidth: "70px" }}>
+                          <div
+                            className={styles.inputWrap}
+                            style={{ maxWidth: "70px" }}
+                          >
                             <input
                               type="text"
                               className={styles.input}
                               placeholder="🏆"
-                              {...register(`accreditationCards.${index}.icon`, { required: true })}
+                              {...register(`accreditationCards.${index}.icon`, {
+                                required: true,
+                              })}
                             />
                           </div>
                           <div className={styles.inputWrap} style={{ flex: 1 }}>
@@ -524,7 +706,10 @@ export default function AccreditationAddEditPage() {
                               type="text"
                               className={styles.input}
                               placeholder="Card title"
-                              {...register(`accreditationCards.${index}.title`, { required: true })}
+                              {...register(
+                                `accreditationCards.${index}.title`,
+                                { required: true },
+                              )}
                             />
                           </div>
                           <div className={styles.colorFieldRow}>
@@ -540,7 +725,10 @@ export default function AccreditationAddEditPage() {
                             type="text"
                             className={styles.input}
                             placeholder="Card description"
-                            {...register(`accreditationCards.${index}.description`, { required: true })}
+                            {...register(
+                              `accreditationCards.${index}.description`,
+                              { required: true },
+                            )}
                           />
                         </div>
                       </div>
@@ -560,7 +748,14 @@ export default function AccreditationAddEditPage() {
                   <button
                     type="button"
                     className={styles.addBtn}
-                    onClick={() => cardsArray.append({ title: "", icon: "✦", description: "", color: "#F15505" })}
+                    onClick={() =>
+                      cardsArray.append({
+                        title: "",
+                        icon: "✦",
+                        description: "",
+                        color: "#F15505",
+                      })
+                    }
                   >
                     + Add Card
                   </button>
@@ -575,7 +770,9 @@ export default function AccreditationAddEditPage() {
               <div className={styles.sectionHeader}>
                 <span className={styles.sectionIcon}>✦</span>
                 <h3 className={styles.sectionTitle}>Gallery Carousel Images</h3>
-                <span className={styles.sectionBadge}>{galleryArray.fields.length}/10</span>
+                <span className={styles.sectionBadge}>
+                  {galleryArray.fields.length}/10
+                </span>
               </div>
               <p className={styles.fieldHint} style={{ marginBottom: "1rem" }}>
                 Images shown in the "AYM Yoga School Gallery" carousel.
@@ -587,7 +784,11 @@ export default function AccreditationAddEditPage() {
                   return (
                     <div key={field.id} className={styles.imageTile}>
                       {preview ? (
-                        <img src={preview} alt={`gallery ${index + 1}`} className={styles.imageTileImg} />
+                        <img
+                          src={preview}
+                          alt={`gallery ${index + 1}`}
+                          className={styles.imageTileImg}
+                        />
                       ) : (
                         <label className={styles.imageTileEmpty}>
                           <span>📷</span>
@@ -598,7 +799,13 @@ export default function AccreditationAddEditPage() {
                         type="file"
                         accept="image/*"
                         className={styles.imageTileInput}
-                        onChange={(e) => handleArrayImage("galleryImages", index, e.target.files?.[0] || null)}
+                        onChange={(e) =>
+                          handleArrayImage(
+                            "galleryImages",
+                            index,
+                            e.target.files?.[0] || null,
+                          )
+                        }
                       />
                       {galleryArray.fields.length > 1 && (
                         <button
@@ -614,7 +821,11 @@ export default function AccreditationAddEditPage() {
                 })}
 
                 {galleryArray.fields.length < 10 && (
-                  <button type="button" className={styles.addTile} onClick={() => galleryArray.append({})}>
+                  <button
+                    type="button"
+                    className={styles.addTile}
+                    onClick={() => galleryArray.append({})}
+                  >
                     + Add
                   </button>
                 )}
@@ -636,23 +847,34 @@ export default function AccreditationAddEditPage() {
                     <span className={styles.labelIcon}>✦</span>
                     Main Title (H1)<span className={styles.required}>*</span>
                   </label>
-                  <div className={`${styles.inputWrap} ${errors.mainTitle ? styles.inputError : ""}`}>
+                  <div
+                    className={`${styles.inputWrap} ${errors.mainTitle ? styles.inputError : ""}`}
+                  >
                     <input
                       type="text"
                       className={styles.input}
                       placeholder="e.g. Registered Yoga School in Rishikesh"
-                      {...register("mainTitle", { required: "Main title is required" })}
+                      {...register("mainTitle", {
+                        required: "Main title is required",
+                      })}
                     />
                   </div>
-                  {errors.mainTitle && <p className={styles.errorMsg}>⚠ {errors.mainTitle.message}</p>}
+                  {errors.mainTitle && (
+                    <p className={styles.errorMsg}>
+                      ⚠ {errors.mainTitle.message}
+                    </p>
+                  )}
                 </div>
 
                 <div className={styles.fieldGroup}>
                   <label className={styles.label}>
                     <span className={styles.labelIcon}>✦</span>
-                    Intro Card Title (H3)<span className={styles.required}>*</span>
+                    Intro Card Title (H3)
+                    <span className={styles.required}>*</span>
                   </label>
-                  <div className={`${styles.inputWrap} ${errors.introCardTitle ? styles.inputError : ""}`}>
+                  <div
+                    className={`${styles.inputWrap} ${errors.introCardTitle ? styles.inputError : ""}`}
+                  >
                     <input
                       type="text"
                       className={styles.input}
@@ -662,19 +884,39 @@ export default function AccreditationAddEditPage() {
                   </div>
                 </div>
 
-                <div className={styles.sectionHeader} style={{ marginTop: "0.4rem" }}>
+                <div
+                  className={styles.sectionHeader}
+                  style={{ marginTop: "0.4rem" }}
+                >
                   <span className={styles.labelIcon}>✦</span>
-                  <h3 className={styles.sectionTitle} style={{ fontSize: "0.75rem" }}>Intro Paragraphs</h3>
-                  <span className={styles.sectionBadge}>{introParagraphsArray.fields.length}/8</span>
+                  <h3
+                    className={styles.sectionTitle}
+                    style={{ fontSize: "0.75rem" }}
+                  >
+                    Intro Paragraphs
+                  </h3>
+                  <span className={styles.sectionBadge}>
+                    {introParagraphsArray.fields.length}/8
+                  </span>
                 </div>
-                <p className={styles.fieldHint}>Add as many paragraphs as needed for the intro card.</p>
+                <p className={styles.fieldHint}>
+                  Add as many paragraphs as needed for the intro card.
+                </p>
 
                 {introParagraphsArray.fields.map((field, index) => (
                   <div key={field.id} className={styles.fieldGroup}>
-                    <div className={styles.itemFieldsRow} style={{ alignItems: "center", marginBottom: "0.4rem" }}>
-                      <label className={styles.label} style={{ marginBottom: 0 }}>
+                    <div
+                      className={styles.itemFieldsRow}
+                      style={{ alignItems: "center", marginBottom: "0.4rem" }}
+                    >
+                      <label
+                        className={styles.label}
+                        style={{ marginBottom: 0 }}
+                      >
                         Paragraph {index + 1}
-                        {index === 0 && <span className={styles.required}>*</span>}
+                        {index === 0 && (
+                          <span className={styles.required}>*</span>
+                        )}
                       </label>
                       <button
                         type="button"
@@ -690,14 +932,22 @@ export default function AccreditationAddEditPage() {
                       <Controller
                         name={`introParagraphs.${index}.text`}
                         control={control}
-                        rules={index === 0 ? { required: "Required" } : undefined}
+                        rules={
+                          index === 0 ? { required: "Required" } : undefined
+                        }
                         render={({ field: f }) => (
-                          <JoditEditor value={f.value} config={joditConfig} onBlur={(c) => f.onChange(c)} />
+                          <JoditEditor
+                            value={f.value}
+                            config={joditConfig}
+                            onBlur={(c) => f.onChange(c)}
+                          />
                         )}
                       />
                     </div>
                     {errors.introParagraphs?.[index]?.text && (
-                      <p className={styles.errorMsg}>⚠ {errors.introParagraphs[index]?.text?.message}</p>
+                      <p className={styles.errorMsg}>
+                        ⚠ {errors.introParagraphs[index]?.text?.message}
+                      </p>
                     )}
                   </div>
                 ))}
@@ -718,11 +968,19 @@ export default function AccreditationAddEditPage() {
               <div className={styles.sectionBlock}>
                 <div className={styles.sectionHeader}>
                   <span className={styles.sectionIcon}>✦</span>
-                  <h3 className={styles.sectionTitle}>RYS Registration Logos</h3>
-                  <span className={styles.sectionBadge}>{rysArray.fields.length}/4</span>
+                  <h3 className={styles.sectionTitle}>
+                    RYS Registration Logos
+                  </h3>
+                  <span className={styles.sectionBadge}>
+                    {rysArray.fields.length}/4
+                  </span>
                 </div>
-                <p className={styles.fieldHint} style={{ marginBottom: "1rem" }}>
-                  The 4 RYS proof/logo images shown below the intro (RPYS, RYS 200, RYS 300, RYS 500).
+                <p
+                  className={styles.fieldHint}
+                  style={{ marginBottom: "1rem" }}
+                >
+                  The 4 RYS proof/logo images shown below the intro (RPYS, RYS
+                  200, RYS 300, RYS 500).
                 </p>
 
                 <div className={styles.imageGridArray}>
@@ -732,7 +990,11 @@ export default function AccreditationAddEditPage() {
                       <div key={field.id}>
                         <div className={styles.imageTile}>
                           {preview ? (
-                            <img src={preview} alt={`RYS ${index + 1}`} className={styles.imageTileImg} />
+                            <img
+                              src={preview}
+                              alt={`RYS ${index + 1}`}
+                              className={styles.imageTileImg}
+                            />
                           ) : (
                             <label className={styles.imageTileEmpty}>
                               <span>📄</span>
@@ -743,10 +1005,19 @@ export default function AccreditationAddEditPage() {
                             type="file"
                             accept="image/*"
                             className={styles.imageTileInput}
-                            onChange={(e) => handleArrayImage("rysImages", index, e.target.files?.[0] || null)}
+                            onChange={(e) =>
+                              handleArrayImage(
+                                "rysImages",
+                                index,
+                                e.target.files?.[0] || null,
+                              )
+                            }
                           />
                         </div>
-                        <div className={styles.inputWrap} style={{ marginTop: "0.4rem" }}>
+                        <div
+                          className={styles.inputWrap}
+                          style={{ marginTop: "0.4rem" }}
+                        >
                           <input
                             type="text"
                             className={styles.input}
@@ -776,7 +1047,9 @@ export default function AccreditationAddEditPage() {
                     <span className={styles.labelIcon}>✦</span>
                     Highlight Title<span className={styles.required}>*</span>
                   </label>
-                  <div className={`${styles.inputWrap} ${errors.highlightTitle ? styles.inputError : ""}`}>
+                  <div
+                    className={`${styles.inputWrap} ${errors.highlightTitle ? styles.inputError : ""}`}
+                  >
                     <input
                       type="text"
                       className={styles.input}
@@ -786,17 +1059,35 @@ export default function AccreditationAddEditPage() {
                   </div>
                 </div>
 
-                <div className={styles.sectionHeader} style={{ marginTop: "0.4rem" }}>
+                <div
+                  className={styles.sectionHeader}
+                  style={{ marginTop: "0.4rem" }}
+                >
                   <span className={styles.labelIcon}>✦</span>
-                  <h3 className={styles.sectionTitle} style={{ fontSize: "0.75rem" }}>Highlight Paragraphs</h3>
-                  <span className={styles.sectionBadge}>{highlightParagraphsArray.fields.length}/8</span>
+                  <h3
+                    className={styles.sectionTitle}
+                    style={{ fontSize: "0.75rem" }}
+                  >
+                    Highlight Paragraphs
+                  </h3>
+                  <span className={styles.sectionBadge}>
+                    {highlightParagraphsArray.fields.length}/8
+                  </span>
                 </div>
-                <p className={styles.fieldHint}>Add as many paragraphs as needed for the highlight box.</p>
+                <p className={styles.fieldHint}>
+                  Add as many paragraphs as needed for the highlight box.
+                </p>
 
                 {highlightParagraphsArray.fields.map((field, index) => (
                   <div key={field.id} className={styles.fieldGroup}>
-                    <div className={styles.itemFieldsRow} style={{ alignItems: "center", marginBottom: "0.4rem" }}>
-                      <label className={styles.label} style={{ marginBottom: 0 }}>
+                    <div
+                      className={styles.itemFieldsRow}
+                      style={{ alignItems: "center", marginBottom: "0.4rem" }}
+                    >
+                      <label
+                        className={styles.label}
+                        style={{ marginBottom: 0 }}
+                      >
                         Paragraph {index + 1}
                       </label>
                       <button
@@ -814,7 +1105,11 @@ export default function AccreditationAddEditPage() {
                         name={`highlightParagraphs.${index}.text`}
                         control={control}
                         render={({ field: f }) => (
-                          <JoditEditor value={f.value} config={joditConfig} onBlur={(c) => f.onChange(c)} />
+                          <JoditEditor
+                            value={f.value}
+                            config={joditConfig}
+                            onBlur={(c) => f.onChange(c)}
+                          />
                         )}
                       />
                     </div>
@@ -825,18 +1120,25 @@ export default function AccreditationAddEditPage() {
                   <button
                     type="button"
                     className={styles.addBtn}
-                    onClick={() => highlightParagraphsArray.append({ text: "" })}
+                    onClick={() =>
+                      highlightParagraphsArray.append({ text: "" })
+                    }
                   >
                     + Add Paragraph
                   </button>
                 )}
 
-                <div className={styles.fieldGroup} style={{ marginTop: "1.2rem" }}>
+                <div
+                  className={styles.fieldGroup}
+                  style={{ marginTop: "1.2rem" }}
+                >
                   <label className={styles.label}>
                     <span className={styles.labelIcon}>✦</span>
                     Yoga Alliance Registration URL
                   </label>
-                  <div className={`${styles.inputWrap} ${styles.inputWithPrefix}`}>
+                  <div
+                    className={`${styles.inputWrap} ${styles.inputWithPrefix}`}
+                  >
                     <span className={styles.inputPrefix}>🔗</span>
                     <input
                       type="text"
@@ -853,7 +1155,9 @@ export default function AccreditationAddEditPage() {
               <div className={styles.sectionBlock}>
                 <div className={styles.sectionHeader}>
                   <span className={styles.sectionIcon}>✦</span>
-                  <h3 className={styles.sectionTitle}>Yoga Alliance Certs Section</h3>
+                  <h3 className={styles.sectionTitle}>
+                    Yoga Alliance Certs Section
+                  </h3>
                 </div>
 
                 <div className={styles.fieldGroup}>
@@ -861,12 +1165,16 @@ export default function AccreditationAddEditPage() {
                     <span className={styles.labelIcon}>✦</span>
                     Section Title<span className={styles.required}>*</span>
                   </label>
-                  <div className={`${styles.inputWrap} ${errors.certsSectionTitle ? styles.inputError : ""}`}>
+                  <div
+                    className={`${styles.inputWrap} ${errors.certsSectionTitle ? styles.inputError : ""}`}
+                  >
                     <input
                       type="text"
                       className={styles.input}
                       placeholder="e.g. YOGA ALLIANCE, USA - RYS 200 & 300"
-                      {...register("certsSectionTitle", { required: "Required" })}
+                      {...register("certsSectionTitle", {
+                        required: "Required",
+                      })}
                     />
                   </div>
                 </div>
@@ -886,8 +1194,13 @@ export default function AccreditationAddEditPage() {
                   </div>
                 </div>
 
-                <div className={styles.sectionHeader} style={{ marginTop: "0.6rem" }}>
-                  <span className={styles.sectionBadge}>{certsArray.fields.length}/6</span>
+                <div
+                  className={styles.sectionHeader}
+                  style={{ marginTop: "0.6rem" }}
+                >
+                  <span className={styles.sectionBadge}>
+                    {certsArray.fields.length}/6
+                  </span>
                 </div>
 
                 <div className={styles.itemsList}>
@@ -897,9 +1210,21 @@ export default function AccreditationAddEditPage() {
                       <div key={field.id} className={styles.itemRow}>
                         <div className={styles.itemThumbInputWrap}>
                           {preview ? (
-                            <img src={preview} alt={`cert ${index + 1}`} className={styles.itemThumb} />
+                            <img
+                              src={preview}
+                              alt={`cert ${index + 1}`}
+                              className={styles.itemThumb}
+                            />
                           ) : (
-                            <div className={styles.itemThumb} style={{ display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.2rem" }}>
+                            <div
+                              className={styles.itemThumb}
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                fontSize: "1.2rem",
+                              }}
+                            >
                               📜
                             </div>
                           )}
@@ -907,7 +1232,13 @@ export default function AccreditationAddEditPage() {
                             type="file"
                             accept="image/*"
                             className={styles.imageTileInput}
-                            onChange={(e) => handleArrayImage("certs", index, e.target.files?.[0] || null)}
+                            onChange={(e) =>
+                              handleArrayImage(
+                                "certs",
+                                index,
+                                e.target.files?.[0] || null,
+                              )
+                            }
                           />
                         </div>
                         <div className={styles.itemFields}>
@@ -916,7 +1247,9 @@ export default function AccreditationAddEditPage() {
                               type="text"
                               className={styles.input}
                               placeholder="e.g. RYS 200"
-                              {...register(`certs.${index}.type`, { required: true })}
+                              {...register(`certs.${index}.type`, {
+                                required: true,
+                              })}
                             />
                           </div>
                           <div className={styles.inputWrap}>
@@ -924,7 +1257,9 @@ export default function AccreditationAddEditPage() {
                               type="text"
                               className={styles.input}
                               placeholder="Certificate description"
-                              {...register(`certs.${index}.description`, { required: true })}
+                              {...register(`certs.${index}.description`, {
+                                required: true,
+                              })}
                             />
                           </div>
                         </div>
@@ -945,7 +1280,9 @@ export default function AccreditationAddEditPage() {
                   <button
                     type="button"
                     className={styles.addBtn}
-                    onClick={() => certsArray.append({ type: "", description: "" })}
+                    onClick={() =>
+                      certsArray.append({ type: "", description: "" })
+                    }
                   >
                     + Add Certification
                   </button>
@@ -959,7 +1296,9 @@ export default function AccreditationAddEditPage() {
             <div className={styles.sectionBlock}>
               <div className={styles.sectionHeader}>
                 <span className={styles.sectionIcon}>✦</span>
-                <h3 className={styles.sectionTitle}>Yoga Certification Board</h3>
+                <h3 className={styles.sectionTitle}>
+                  Yoga Certification Board
+                </h3>
               </div>
 
               <div className={styles.fieldGroup}>
@@ -967,7 +1306,9 @@ export default function AccreditationAddEditPage() {
                   <span className={styles.labelIcon}>✦</span>
                   Section Title<span className={styles.required}>*</span>
                 </label>
-                <div className={`${styles.inputWrap} ${errors.boardSectionTitle ? styles.inputError : ""}`}>
+                <div
+                  className={`${styles.inputWrap} ${errors.boardSectionTitle ? styles.inputError : ""}`}
+                >
                   <input
                     type="text"
                     className={styles.input}
@@ -1002,15 +1343,25 @@ export default function AccreditationAddEditPage() {
                     type="file"
                     accept="image/*"
                     className={styles.fileInput}
-                    onChange={(e) => handleBoardCertImage(e.target.files?.[0] || null)}
+                    onChange={(e) =>
+                      handleBoardCertImage(e.target.files?.[0] || null)
+                    }
                   />
                   {watchAll._boardCertPreview ? (
-                    <img src={watchAll._boardCertPreview} alt="preview" className={styles.imgPreview} />
+                    <img
+                      src={watchAll._boardCertPreview}
+                      alt="preview"
+                      className={styles.imgPreview}
+                    />
                   ) : (
                     <>
                       <span className={styles.uploadIcon}>📜</span>
-                      <span className={styles.uploadText}>Click to upload or drag &amp; drop</span>
-                      <span className={styles.uploadSubtext}>JPG, PNG, WEBP — max 5MB</span>
+                      <span className={styles.uploadText}>
+                        Click to upload or drag &amp; drop
+                      </span>
+                      <span className={styles.uploadSubtext}>
+                        JPG, PNG, WEBP — max 5MB
+                      </span>
                     </>
                   )}
                 </label>
@@ -1021,7 +1372,9 @@ export default function AccreditationAddEditPage() {
                   <span className={styles.labelIcon}>✦</span>
                   Info Heading<span className={styles.required}>*</span>
                 </label>
-                <div className={`${styles.inputWrap} ${errors.boardInfoTitle ? styles.inputError : ""}`}>
+                <div
+                  className={`${styles.inputWrap} ${errors.boardInfoTitle ? styles.inputError : ""}`}
+                >
                   <input
                     type="text"
                     className={styles.input}
@@ -1042,11 +1395,19 @@ export default function AccreditationAddEditPage() {
                     control={control}
                     rules={{ required: "Required" }}
                     render={({ field }) => (
-                      <JoditEditor value={field.value} config={joditConfig} onBlur={(c) => field.onChange(c)} />
+                      <JoditEditor
+                        value={field.value}
+                        config={joditConfig}
+                        onBlur={(c) => field.onChange(c)}
+                      />
                     )}
                   />
                 </div>
-                {errors.boardInfoText && <p className={styles.errorMsg}>⚠ {errors.boardInfoText.message}</p>}
+                {errors.boardInfoText && (
+                  <p className={styles.errorMsg}>
+                    ⚠ {errors.boardInfoText.message}
+                  </p>
+                )}
               </div>
             </div>
           )}
@@ -1056,7 +1417,9 @@ export default function AccreditationAddEditPage() {
             <div className={styles.sectionBlock}>
               <div className={styles.sectionHeader}>
                 <span className={styles.sectionIcon}>✦</span>
-                <h3 className={styles.sectionTitle}>International Yoga Federation</h3>
+                <h3 className={styles.sectionTitle}>
+                  International Yoga Federation
+                </h3>
               </div>
 
               <div className={styles.fieldGroup}>
@@ -1064,7 +1427,9 @@ export default function AccreditationAddEditPage() {
                   <span className={styles.labelIcon}>✦</span>
                   Section Title<span className={styles.required}>*</span>
                 </label>
-                <div className={`${styles.inputWrap} ${errors.iyfSectionTitle ? styles.inputError : ""}`}>
+                <div
+                  className={`${styles.inputWrap} ${errors.iyfSectionTitle ? styles.inputError : ""}`}
+                >
                   <input
                     type="text"
                     className={styles.input}
@@ -1079,7 +1444,9 @@ export default function AccreditationAddEditPage() {
                   <span className={styles.labelIcon}>✦</span>
                   Sub-heading (H3)<span className={styles.required}>*</span>
                 </label>
-                <div className={`${styles.inputWrap} ${errors.iyfTitle ? styles.inputError : ""}`}>
+                <div
+                  className={`${styles.inputWrap} ${errors.iyfTitle ? styles.inputError : ""}`}
+                >
                   <input
                     type="text"
                     className={styles.input}
@@ -1089,16 +1456,31 @@ export default function AccreditationAddEditPage() {
                 </div>
               </div>
 
-              <div className={styles.sectionHeader} style={{ marginTop: "0.4rem" }}>
+              <div
+                className={styles.sectionHeader}
+                style={{ marginTop: "0.4rem" }}
+              >
                 <span className={styles.labelIcon}>✦</span>
-                <h3 className={styles.sectionTitle} style={{ fontSize: "0.75rem" }}>Paragraphs</h3>
-                <span className={styles.sectionBadge}>{iyfParagraphsArray.fields.length}/8</span>
+                <h3
+                  className={styles.sectionTitle}
+                  style={{ fontSize: "0.75rem" }}
+                >
+                  Paragraphs
+                </h3>
+                <span className={styles.sectionBadge}>
+                  {iyfParagraphsArray.fields.length}/8
+                </span>
               </div>
-              <p className={styles.fieldHint}>Add as many paragraphs as needed for this section.</p>
+              <p className={styles.fieldHint}>
+                Add as many paragraphs as needed for this section.
+              </p>
 
               {iyfParagraphsArray.fields.map((field, index) => (
                 <div key={field.id} className={styles.fieldGroup}>
-                  <div className={styles.itemFieldsRow} style={{ alignItems: "center", marginBottom: "0.4rem" }}>
+                  <div
+                    className={styles.itemFieldsRow}
+                    style={{ alignItems: "center", marginBottom: "0.4rem" }}
+                  >
                     <label className={styles.label} style={{ marginBottom: 0 }}>
                       Paragraph {index + 1}
                     </label>
@@ -1117,7 +1499,11 @@ export default function AccreditationAddEditPage() {
                       name={`iyfParagraphs.${index}.text`}
                       control={control}
                       render={({ field: f }) => (
-                        <JoditEditor value={f.value} config={joditConfig} onBlur={(c) => f.onChange(c)} />
+                        <JoditEditor
+                          value={f.value}
+                          config={joditConfig}
+                          onBlur={(c) => f.onChange(c)}
+                        />
                       )}
                     />
                   </div>
@@ -1134,7 +1520,10 @@ export default function AccreditationAddEditPage() {
                 </button>
               )}
 
-              <div className={styles.fieldGroup} style={{ marginTop: "1.2rem" }}>
+              <div
+                className={styles.fieldGroup}
+                style={{ marginTop: "1.2rem" }}
+              >
                 <label className={styles.label}>
                   <span className={styles.labelIcon}>✦</span>
                   IYF Logo Image
@@ -1144,15 +1533,25 @@ export default function AccreditationAddEditPage() {
                     type="file"
                     accept="image/*"
                     className={styles.fileInput}
-                    onChange={(e) => handleIyfLogoImage(e.target.files?.[0] || null)}
+                    onChange={(e) =>
+                      handleIyfLogoImage(e.target.files?.[0] || null)
+                    }
                   />
                   {watchAll._iyfLogoPreview ? (
-                    <img src={watchAll._iyfLogoPreview} alt="preview" className={styles.imgPreview} />
+                    <img
+                      src={watchAll._iyfLogoPreview}
+                      alt="preview"
+                      className={styles.imgPreview}
+                    />
                   ) : (
                     <>
                       <span className={styles.uploadIcon}>🌍</span>
-                      <span className={styles.uploadText}>Click to upload or drag &amp; drop</span>
-                      <span className={styles.uploadSubtext}>JPG, PNG, WEBP — max 5MB</span>
+                      <span className={styles.uploadText}>
+                        Click to upload or drag &amp; drop
+                      </span>
+                      <span className={styles.uploadSubtext}>
+                        JPG, PNG, WEBP — max 5MB
+                      </span>
                     </>
                   )}
                 </label>
@@ -1163,7 +1562,9 @@ export default function AccreditationAddEditPage() {
               <div className={styles.sectionHeader}>
                 <span className={styles.sectionIcon}>✦</span>
                 <h3 className={styles.sectionTitle}>Footer Notes</h3>
-                <span className={styles.sectionBadge}>{notesArray.fields.length}/6</span>
+                <span className={styles.sectionBadge}>
+                  {notesArray.fields.length}/6
+                </span>
               </div>
 
               <div className={styles.itemsList}>
@@ -1176,7 +1577,9 @@ export default function AccreditationAddEditPage() {
                           type="text"
                           className={styles.input}
                           placeholder="Note text"
-                          {...register(`iyfFooterNotes.${index}.text`, { required: true })}
+                          {...register(`iyfFooterNotes.${index}.text`, {
+                            required: true,
+                          })}
                         />
                       </div>
                     </div>
@@ -1193,7 +1596,11 @@ export default function AccreditationAddEditPage() {
               </div>
 
               {notesArray.fields.length < 6 && (
-                <button type="button" className={styles.addBtn} onClick={() => notesArray.append({ text: "" })}>
+                <button
+                  type="button"
+                  className={styles.addBtn}
+                  onClick={() => notesArray.append({ text: "" })}
+                >
                   + Add Note
                 </button>
               )}
@@ -1204,7 +1611,10 @@ export default function AccreditationAddEditPage() {
 
           {/* Form Actions */}
           <div className={styles.formActions}>
-            <Link href="/admin/dashboard/Affiliation" className={styles.cancelBtn}>
+            <Link
+              href="/admin/dashboard/Affiliation"
+              className={styles.cancelBtn}
+            >
               ← Cancel
             </Link>
             <div className={styles.actionsRight}>
@@ -1246,7 +1656,8 @@ export default function AccreditationAddEditPage() {
                     </>
                   ) : (
                     <>
-                      <span>✦</span> {isEdit ? "Update Section" : "Save Section"}
+                      <span>✦</span>{" "}
+                      {isEdit ? "Update Section" : "Save Section"}
                     </>
                   )}
                 </button>

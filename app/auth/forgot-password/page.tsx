@@ -35,7 +35,9 @@ export default function ForgotPasswordPage() {
       await api.post("/auth/forgot-password", { email });
       setStep("otp");
     } catch (err: any) {
-      setError(err?.response?.data?.message || "Something went wrong. Try again.");
+      setError(
+        err?.response?.data?.message || "Something went wrong. Try again.",
+      );
     } finally {
       setLoading(false);
     }
@@ -61,7 +63,10 @@ export default function ForgotPasswordPage() {
   };
 
   const handleOtpPaste = (e: React.ClipboardEvent) => {
-    const pasted = e.clipboardData.getData("text").replace(/\D/g, "").slice(0, 6);
+    const pasted = e.clipboardData
+      .getData("text")
+      .replace(/\D/g, "")
+      .slice(0, 6);
     if (pasted.length === 6) {
       setOtp(pasted.split(""));
       e.preventDefault();
@@ -145,7 +150,6 @@ export default function ForgotPasswordPage() {
         {/* Top accent bar */}
         <div className={styles.accentBar} />
 
-
         <div className={styles.omWatermark}>ॐ</div>
 
         {/* Header */}
@@ -177,11 +181,15 @@ export default function ForgotPasswordPage() {
                 >
                   {isDone ? "✓" : stepNum}
                 </div>
-                <span className={`${styles.stepLabel} ${isActive ? styles.activeLabel : ""}`}>
+                <span
+                  className={`${styles.stepLabel} ${isActive ? styles.activeLabel : ""}`}
+                >
                   {stepMeta[s].label}
                 </span>
                 {i < 2 && (
-                  <div className={`${styles.stepConnector} ${isDone ? styles.connectorDone : ""}`} />
+                  <div
+                    className={`${styles.stepConnector} ${isDone ? styles.connectorDone : ""}`}
+                  />
                 )}
               </div>
             );
@@ -204,12 +212,12 @@ export default function ForgotPasswordPage() {
 
             {error && <p className={styles.errorMsg}>{error}</p>}
 
-            <button type="submit" className={styles.primaryBtn} disabled={loading}>
-              {loading ? (
-                <span className={styles.spinner}>⟳</span>
-              ) : (
-                "Send OTP"
-              )}
+            <button
+              type="submit"
+              className={styles.primaryBtn}
+              disabled={loading}
+            >
+              {loading ? <span className={styles.spinner}>⟳</span> : "Send OTP"}
             </button>
 
             <Link href="/auth/login" className={styles.backLink}>
@@ -243,8 +251,16 @@ export default function ForgotPasswordPage() {
 
             {error && <p className={styles.errorMsg}>{error}</p>}
 
-            <button type="submit" className={styles.primaryBtn} disabled={loading}>
-              {loading ? <span className={styles.spinner}>⟳</span> : "Verify OTP"}
+            <button
+              type="submit"
+              className={styles.primaryBtn}
+              disabled={loading}
+            >
+              {loading ? (
+                <span className={styles.spinner}>⟳</span>
+              ) : (
+                "Verify OTP"
+              )}
             </button>
 
             <div className={styles.resendRow}>
@@ -262,7 +278,11 @@ export default function ForgotPasswordPage() {
             <button
               type="button"
               className={styles.textBtn}
-              onClick={() => { setStep("email"); setError(""); setOtp(["", "", "", "", "", ""]); }}
+              onClick={() => {
+                setStep("email");
+                setError("");
+                setOtp(["", "", "", "", "", ""]);
+              }}
             >
               ← Change email
             </button>
@@ -309,12 +329,13 @@ export default function ForgotPasswordPage() {
             {newPassword && (
               <div className={styles.strengthBar}>
                 <div
-                  className={`${styles.strengthFill} ${newPassword.length < 6
+                  className={`${styles.strengthFill} ${
+                    newPassword.length < 6
                       ? styles.weak
                       : newPassword.length < 10
                         ? styles.medium
                         : styles.strong
-                    }`}
+                  }`}
                 />
                 <span className={styles.strengthLabel}>
                   {newPassword.length < 6
@@ -329,12 +350,19 @@ export default function ForgotPasswordPage() {
             {error && <p className={styles.errorMsg}>{error}</p>}
             {success && <p className={styles.successMsg}>{success}</p>}
 
-            <button type="submit" className={styles.primaryBtn} disabled={loading}>
-              {loading ? <span className={styles.spinner}>⟳</span> : "Reset Password"}
+            <button
+              type="submit"
+              className={styles.primaryBtn}
+              disabled={loading}
+            >
+              {loading ? (
+                <span className={styles.spinner}>⟳</span>
+              ) : (
+                "Reset Password"
+              )}
             </button>
           </form>
         )}
-
 
         <div className={styles.accentBar} />
       </div>

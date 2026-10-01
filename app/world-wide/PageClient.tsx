@@ -1,6 +1,6 @@
 "use client";
 
-import "bootstrap/dist/css/bootstrap.min.css";
+// import "bootstrap/dist/css/bootstrap.min.css";
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
@@ -624,7 +624,10 @@ export default function WorldwidePage() {
 
       <PremiumGallerySection type="both" backgroundColor="warm" />
       <div id="reviews">
-        <ReviewSection courseType="yoga-teacher-training-worldwide" RatingsSummaryComponent={<RatingsSummarySection />} />
+        <ReviewSection
+          courseType="yoga-teacher-training-worldwide"
+          RatingsSummaryComponent={<RatingsSummarySection />}
+        />
       </div>
       <div id="location">
         <HowToReach />

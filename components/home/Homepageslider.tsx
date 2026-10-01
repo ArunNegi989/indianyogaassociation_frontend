@@ -101,7 +101,6 @@ const HomepageSlider = ({ initialSlides }: Props) => {
     }
   };
 
-  // CLS fix: slides khali hon tab bhi wrapper render ho (height CSS se reserved)
   if (!slides.length) {
     return (
       <section className={styles.sliderWrapper} aria-label="Hero image slider" />

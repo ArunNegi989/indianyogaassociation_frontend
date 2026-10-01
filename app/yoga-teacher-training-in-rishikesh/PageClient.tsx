@@ -46,25 +46,21 @@ interface HeroMedia {
   caption?: string;
 }
 
-// NEW - Media Small Image Item
 interface MediaSmallImage {
   imgUrl: string;
   alt: string;
   overlayText: string;
 }
 
-// NEW - Training Tag Item
 interface TrainingTag {
   icon: string;
   text: string;
 }
 
-// NEW - Pill Item
 interface PillItem {
   text: string;
 }
 
-// NEW - Course Info Detail Item
 interface CourseInfoDetail {
   label: string;
   value: string;
@@ -82,7 +78,6 @@ interface PageData {
   trainingTags?: TrainingTag[];
   pillsItems?: PillItem[];
 
-  // NEW - Accreditations Header Text
   accrEyebrowText?: string;
   accrTaglineText?: string;
   courseInfoCardTitle?: string;
@@ -226,13 +221,25 @@ const CertCard = ({ label, badge, imgUrl }: AccredBadge) => (
     <div className={styles.certBody}>
       <div className={styles.certIconRing}>
         {badge === "YCB" ? (
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.6"
+            strokeLinecap="round"
+          >
             <rect x="3" y="3" width="18" height="14" rx="2" />
             <path d="M8 17v3M16 17v3M8 20h8" />
             <path d="M9 10l2 2 4-4" />
           </svg>
         ) : (
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.6"
+            strokeLinecap="round"
+          >
             <path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z" />
           </svg>
         )}
@@ -264,15 +271,27 @@ const CourseCardComp = ({
   tag,
   imgNum,
 }: CourseCard & { tag?: string; imgNum?: string }) => (
-  <div className={`${styles.courseCardEnhanced} ${reverse ? styles.courseCardRevEnhanced : ""}`}>
+  <div
+    className={`${styles.courseCardEnhanced} ${reverse ? styles.courseCardRevEnhanced : ""}`}
+  >
     <div className={styles.courseCardInner}>
       <div className={styles.courseMedia}>
         <div className={styles.courseImgWrapper}>
-          <img src={imgSrc(imgUrl)} alt={imgAlt} className={styles.courseImgEnhanced} loading="lazy" />
+          <img
+            src={imgSrc(imgUrl)}
+            alt={imgAlt}
+            className={styles.courseImgEnhanced}
+            loading="lazy"
+          />
           <div className={styles.courseImgOverlayEnhanced} />
           {imgNum && <span className={styles.courseImgNumber}>{imgNum}</span>}
           <div className={styles.courseDurationBadge}>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+            >
               <circle cx="12" cy="12" r="9" />
               <path d="M12 7v5l3 3" />
             </svg>
@@ -290,7 +309,12 @@ const CourseCardComp = ({
         <div className={styles.courseSpecsGrid}>
           <div className={styles.courseSpecItem}>
             <div className={styles.courseSpecIcon}>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.8"
+              >
                 <rect x="2" y="3" width="20" height="14" rx="2" />
                 <path d="M8 17v4M16 17v4M8 21h8" />
                 <path d="M9 10l2 2 4-4" />
@@ -307,13 +331,23 @@ const CourseCardComp = ({
           <a href={detailsHref} className={styles.btnPrimaryEnhanced}>
             {detailsLabel}
             <svg viewBox="0 0 20 20" fill="none">
-              <path d="M4 10h12M11 5l5 5-5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+              <path
+                d="M4 10h12M11 5l5 5-5 5"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+              />
             </svg>
           </a>
           <a href={bookHref} className={styles.btnSecondaryEnhanced}>
             Book Now
             <svg viewBox="0 0 20 20" fill="none">
-              <path d="M5 10h10M10 5l5 5-5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+              <path
+                d="M5 10h10M10 5l5 5-5 5"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+              />
             </svg>
           </a>
         </div>
@@ -357,8 +391,15 @@ const SpecialtyCourseCard = ({
         {duration && (
           <div className={styles.scMetaItem}>
             <div className={styles.scMetaIcon}>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
-                <circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 3" />
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+              >
+                <circle cx="12" cy="12" r="9" />
+                <path d="M12 7v5l3 3" />
               </svg>
             </div>
             <div>
@@ -370,9 +411,16 @@ const SpecialtyCourseCard = ({
         {certificate && (
           <div className={styles.scMetaItem}>
             <div className={styles.scMetaIcon}>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+              >
                 <rect x="2" y="3" width="20" height="14" rx="2" />
-                <path d="M8 17v4M16 17v4M8 21h8" /><path d="M9 10l2 2 4-4" />
+                <path d="M8 17v4M16 17v4M8 21h8" />
+                <path d="M9 10l2 2 4-4" />
               </svg>
             </div>
             <div>
@@ -386,30 +434,45 @@ const SpecialtyCourseCard = ({
         <a href={detailsHref} className={styles.scBtnPrimary}>
           {detailsLabel}
           <svg viewBox="0 0 20 20" fill="none" width="12" height="12">
-            <path d="M4 10h12M11 5l5 5-5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+            <path
+              d="M4 10h12M11 5l5 5-5 5"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+            />
           </svg>
         </a>
-        <a href={bookHref} className={styles.scBtnOutline}>Book Now</a>
+        <a href={bookHref} className={styles.scBtnOutline}>
+          Book Now
+        </a>
       </div>
     </div>
   </div>
 );
 
-/* ═══════════════════════════════════════════
-   COURSE INFO CARD
-═══════════════════════════════════════════ */
-/* ═══════════════════════════════════════════
-   COURSE INFO CARD (DYNAMIC)
-═══════════════════════════════════════════ */
 const DurationIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.8"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
     <circle cx="12" cy="12" r="9" />
     <path d="M12 7v5l3 3" />
   </svg>
 );
 
 const LevelIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.8"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
     <rect x="2" y="14" width="5" height="7" rx="1" />
     <rect x="9.5" y="9" width="5" height="12" rx="1" />
     <rect x="17" y="4" width="5" height="17" rx="1" />
@@ -417,7 +480,14 @@ const LevelIcon = () => (
 );
 
 const CertIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.8"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
     <rect x="2" y="3" width="20" height="14" rx="2" />
     <path d="M8 17v4M16 17v4M8 21h8" />
     <path d="M9 10l2 2 4-4" />
@@ -425,7 +495,14 @@ const CertIcon = () => (
 );
 
 const StyleIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.8"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
     <circle cx="12" cy="4" r="1.5" />
     <path d="M12 6v5.5" />
     <path d="M8.5 13c0 2 1.5 4 3.5 4.5 2-0.5 3.5-2.5 3.5-4.5" />
@@ -435,7 +512,14 @@ const StyleIcon = () => (
 );
 
 const LangIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.8"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
     <circle cx="12" cy="12" r="9" />
     <path d="M2 12h20" />
     <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
@@ -443,7 +527,14 @@ const LangIcon = () => (
 );
 
 const DateIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.8"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
     <rect x="3" y="4" width="18" height="18" rx="2" />
     <path d="M16 2v4M8 2v4M3 10h18" />
     <circle cx="8" cy="15" r="1" fill="currentColor" />
@@ -472,19 +563,28 @@ function CourseInfoCard({ data }: { data: PageData }) {
     }
   };
 
-  const details = (data.courseInfoDetails || [
-    { label: "DURATION", value: "24 Days", sub: "" },
-    { label: "LEVEL", value: "Advanced", sub: "" },
-    { label: "CERTIFICATION", value: "500 Hour", sub: "" },
-    { label: "YOGA STYLE", value: "Multistyle", sub: "Ashtanga, Vinyasa & Hatha" },
-    { label: "LANGUAGE", value: "English & Hindi", sub: "" },
-    { label: "DATE", value: "Check batches below", sub: "" },
-  ]).map((detail) => ({
+  const details = (
+    data.courseInfoDetails || [
+      { label: "DURATION", value: "24 Days", sub: "" },
+      { label: "LEVEL", value: "Advanced", sub: "" },
+      { label: "CERTIFICATION", value: "500 Hour", sub: "" },
+      {
+        label: "YOGA STYLE",
+        value: "Multistyle",
+        sub: "Ashtanga, Vinyasa & Hatha",
+      },
+      { label: "LANGUAGE", value: "English & Hindi", sub: "" },
+      { label: "DATE", value: "Check batches below", sub: "" },
+    ]
+  ).map((detail) => ({
     ...detail,
     icon: getIconForLabel(detail.label),
   }));
 
-  const displayPrice = (currency: string = "USD", isOriginal: boolean = false) => {
+  const displayPrice = (
+    currency: string = "USD",
+    isOriginal: boolean = false,
+  ) => {
     if (isOriginal) {
       if (currency === "USD") {
         return `$${data.courseInfoOriginalUsdPrice || 1799}`;
@@ -502,7 +602,9 @@ function CourseInfoCard({ data }: { data: PageData }) {
       <div className={styles.icCard}>
         <div className={styles.icLeft}>
           <div className={styles.icHdr}>
-            <span className={styles.icHdrTxt}>{data.courseInfoCardTitle || "COURSE DETAILS"}</span>
+            <span className={styles.icHdrTxt}>
+              {data.courseInfoCardTitle || "COURSE DETAILS"}
+            </span>
           </div>
           <div className={styles.icGrid}>
             {details.map((d, i) => (
@@ -520,12 +622,20 @@ function CourseInfoCard({ data }: { data: PageData }) {
         <div className={styles.icVDiv} />
         <div className={styles.icRight}>
           <div className={styles.icFeeTop}>
-            <span className={styles.icFeeLbl}>{data.courseInfoFeeLabel || "COURSE FEE"}</span>
-            <span className={styles.icFeeFrom}>{data.courseInfoFeeFromText || "starting from"}</span>
+            <span className={styles.icFeeLbl}>
+              {data.courseInfoFeeLabel || "COURSE FEE"}
+            </span>
+            <span className={styles.icFeeFrom}>
+              {data.courseInfoFeeFromText || "starting from"}
+            </span>
           </div>
           <div className={styles.icPriceRow}>
-            <span className={styles.icPriceOld}>{displayPrice("USD", true)}</span>
-            <span className={styles.icPriceNew}>{displayPrice("USD", false)}</span>
+            <span className={styles.icPriceOld}>
+              {displayPrice("USD", true)}
+            </span>
+            <span className={styles.icPriceNew}>
+              {displayPrice("USD", false)}
+            </span>
             <span className={styles.icPriceCur}>USD</span>
           </div>
           <a href="#apply" className={styles.icBookBtn}>
@@ -545,9 +655,6 @@ function CourseInfoCard({ data }: { data: PageData }) {
     </div>
   );
 }
-/* ─────────────────────────────────────────
-   SKELETON
-───────────────────────────────────────── */
 const PageSkeleton = () => (
   <div
     className={styles.page}
@@ -564,9 +671,6 @@ const PageSkeleton = () => (
   </div>
 );
 
-/* ═══════════════════════════════════════════
-   MAIN PAGE COMPONENT
-═══════════════════════════════════════════ */
 export default function BestYogaSchool() {
   const [data, setData] = useState<PageData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -612,10 +716,7 @@ export default function BestYogaSchool() {
 
   return (
     <div className={styles.page}>
-      {/* ── Mandala Decorations ── */}
       <div className={styles.chakraGlow} aria-hidden="true" />
-
-      {/* ══ HERO IMAGE with id="hero" for StickySectionNav ══ */}
       {data.heroImage && (
         <section id="hero" className={styles.heroSection}>
           <img
@@ -627,48 +728,60 @@ export default function BestYogaSchool() {
           />
         </section>
       )}
-
-      {/* ══ COURSE INFO CARD ══ */}
       <CourseInfoCard data={data} />
 
-      {/* ══ STICKY SECTION NAV — exactly like 300hr page ══ */}
       <StickySectionNav items={NAV_ITEMS} triggerId="hero" />
 
-      {/* ══════════════════════════════════════
-          SECTION 1 — INTRO + ACCREDITATIONS (ENHANCED WITH MULTIPLE MEDIA)
-      ═════════════════════════════════════════ */}
-      <section id="intro" className={`${styles.section} ${styles.sectionLight}`}>
+      <section
+        id="intro"
+        className={`${styles.section} ${styles.sectionLight}`}
+      >
         <div className={`container px-3 px-md-4 ${styles.maxx}`}>
           {data.heroTitle && (
             <h1 className={styles.heroTitle}>{data.heroTitle}</h1>
           )}
           <OmDivider />
-
-          {/* Content first, then media gallery */}
           <div className={styles.contentFirstLayout}>
-            {/* Text Content */}
             <div className={styles.textContentBlock}>
               <div className={styles.contentIntroEnhanced}>
-                <span className={styles.contentBadgeEnhanced}>{data.contentBadgeText || "Welcome to AYM Yoga School"}</span>
+                <span className={styles.contentBadgeEnhanced}>
+                  {data.contentBadgeText || "Welcome to AYM Yoga School"}
+                </span>
                 <h2 className={styles.contentTitleEnhanced}>
-                  Best Yoga Teacher Training in <span className={styles.highlightText}>{data.contentTitleHighlight || "Rishikesh"}</span>
+                  Best Yoga Teacher Training in{" "}
+                  <span className={styles.highlightText}>
+                    {data.contentTitleHighlight || "Rishikesh"}
+                  </span>
                 </h2>
                 <div className={styles.contentUnderlineEnhanced} />
               </div>
 
               <div className={styles.contentTextEnhanced}>
                 {data.bodyParagraphs1?.map((para, i) => (
-                  <p key={i} className={styles.bodyParaEnhanced} dangerouslySetInnerHTML={{ __html: para }} />
+                  <p
+                    key={i}
+                    className={styles.bodyParaEnhanced}
+                    dangerouslySetInnerHTML={{ __html: para }}
+                  />
                 ))}
               </div>
 
               {data.inlineLinks?.length > 0 && (
                 <div className={styles.linkGroupEnhanced}>
                   {data.inlineLinks.map((link) => (
-                    <a key={link.id} href={link.href} className={styles.linkPillEnhanced}>
+                    <a
+                      key={link.id}
+                      href={link.href}
+                      className={styles.linkPillEnhanced}
+                    >
                       {link.text}
                       <svg viewBox="0 0 20 20" fill="none">
-                        <path d="M4 10h12M11 5l5 5-5 5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+                        <path
+                          d="M4 10h12M11 5l5 5-5 5"
+                          stroke="currentColor"
+                          strokeWidth="1.8"
+                          strokeLinecap="round"
+                        />
                       </svg>
                     </a>
                   ))}
@@ -676,10 +789,8 @@ export default function BestYogaSchool() {
               )}
             </div>
 
-            {/* Media Gallery Block - DYNAMIC */}
             <div className={styles.mediaGalleryBlock}>
               <div className={styles.mediaGrid}>
-                {/* Main Large Image/Video */}
                 <div className={styles.mediaMainItem}>
                   {data.mediaMainVideoUrl && mediaMode === "vid" ? (
                     <iframe
@@ -691,7 +802,11 @@ export default function BestYogaSchool() {
                     />
                   ) : (
                     <img
-                      src={data.mediaMainImage ? imgSrc(data.mediaMainImage) : mediaSrc}
+                      src={
+                        data.mediaMainImage
+                          ? imgSrc(data.mediaMainImage)
+                          : mediaSrc
+                      }
                       alt={data.mediaMainImageAlt || mediaAlt}
                       className={styles.mediaMainImg}
                       loading="lazy"
@@ -700,11 +815,17 @@ export default function BestYogaSchool() {
                   {data.mediaMainVideoUrl && (
                     <button
                       className={styles.mediaVideoToggle}
-                      onClick={() => setMediaMode(mediaMode === "img" ? "vid" : "img")}
+                      onClick={() =>
+                        setMediaMode(mediaMode === "img" ? "vid" : "img")
+                      }
                     >
                       {mediaMode === "img" ? (
                         <>
-                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                          <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                          >
                             <rect x="2" y="4" width="20" height="16" rx="2" />
                             <path d="M9 8l6 4-6 4V8z" />
                           </svg>
@@ -712,7 +833,11 @@ export default function BestYogaSchool() {
                         </>
                       ) : (
                         <>
-                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                          <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                          >
                             <rect x="2" y="2" width="20" height="20" rx="2" />
                             <circle cx="8.5" cy="8.5" r="2.5" />
                             <path d="M21 15l-5-4-3 3-4-4-6 6" />
@@ -727,7 +852,6 @@ export default function BestYogaSchool() {
                   </div>
                 </div>
 
-                {/* Small Images Grid */}
                 {data.mediaSmallImages && data.mediaSmallImages.length > 0 && (
                   <div className={styles.mediaSmallGrid}>
                     {data.mediaSmallImages.map((item, idx) => (
@@ -747,13 +871,14 @@ export default function BestYogaSchool() {
                 )}
               </div>
 
-              {/* Training Tags & Pills */}
               <div className={styles.mediaFooterEnhanced}>
                 {data.trainingTags && data.trainingTags.length > 0 && (
                   <div className={styles.trainingTagsEnhanced}>
                     {data.trainingTags.map((tag, idx) => (
                       <div key={idx} className={styles.trainingTag}>
-                        <span className={styles.trainingTagIcon}>{tag.icon}</span>
+                        <span className={styles.trainingTagIcon}>
+                          {tag.icon}
+                        </span>
                         <span>{tag.text}</span>
                       </div>
                     ))}
@@ -763,7 +888,9 @@ export default function BestYogaSchool() {
                 {data.pillsItems && data.pillsItems.length > 0 && (
                   <div className={styles.pillsGroupEnhanced}>
                     {data.pillsItems.map((pill, idx) => (
-                      <span key={idx} className={styles.pillItem}>{pill.text}</span>
+                      <span key={idx} className={styles.pillItem}>
+                        {pill.text}
+                      </span>
                     ))}
                   </div>
                 )}
@@ -771,16 +898,20 @@ export default function BestYogaSchool() {
             </div>
           </div>
 
-          {/* Accreditations Section */}
           {data.accrSectionTitle && (
             <div className={styles.accrSectionEnhanced}>
               <div className={styles.accrHeadEnhanced}>
                 <span className={styles.accrHeadLineEnhanced} />
                 <div className={styles.accrHeadInnerEnhanced}>
-                  <p className={styles.accrEyebrowEnhanced}>{data.accrEyebrowText || "Certified & Recognised"}</p>
-                  <h2 className={styles.accrTitleEnhanced}>{data.accrSectionTitle}</h2>
+                  <p className={styles.accrEyebrowEnhanced}>
+                    {data.accrEyebrowText || "Certified & Recognised"}
+                  </p>
+                  <h2 className={styles.accrTitleEnhanced}>
+                    {data.accrSectionTitle}
+                  </h2>
                   <p className={styles.accrTaglineEnhanced}>
-                    {data.accrTaglineText || "Yoga Alliance USA & Ministry of AYUSH, Government of India"}
+                    {data.accrTaglineText ||
+                      "Yoga Alliance USA & Ministry of AYUSH, Government of India"}
                   </p>
                 </div>
                 <span className={styles.accrHeadLineRevEnhanced} />
@@ -797,16 +928,20 @@ export default function BestYogaSchool() {
           )}
 
           {data.bodyParagraphs2?.map((para, i) => (
-            <div key={i} className={styles.bodyParaEnhanced} dangerouslySetInnerHTML={{ __html: para }} />
+            <div
+              key={i}
+              className={styles.bodyParaEnhanced}
+              dangerouslySetInnerHTML={{ __html: para }}
+            />
           ))}
         </div>
       </section>
 
-      {/* ══════════════════════════════════════
-          SECTION 2 — COURSE CARDS (ENHANCED)
-      ══════════════════════════════════════ */}
       {data.courseCards?.length > 0 && (
-        <section id="courses" className={`${styles.sectionEnhanced} ${styles.sectionWarmEnhanced}`}>
+        <section
+          id="courses"
+          className={`${styles.sectionEnhanced} ${styles.sectionWarmEnhanced}`}
+        >
           <div className={`container px-3 px-md-4 ${styles.maxx}`}>
             <div className={styles.sectionHeaderEnhanced}>
               <div className={styles.sectionHeaderOrnament}>
@@ -814,16 +949,26 @@ export default function BestYogaSchool() {
                 <span className={styles.ornamentDot} />
                 <span className={styles.ornamentLine} />
               </div>
-              <p className={styles.sectionEyebrowEnhanced}>World-Class Training</p>
-              <h2 className={styles.sectionTitleEnhanced}>{data.coursesSectionTitle}</h2>
+              <p className={styles.sectionEyebrowEnhanced}>
+                World-Class Training
+              </p>
+              <h2 className={styles.sectionTitleEnhanced}>
+                {data.coursesSectionTitle}
+              </h2>
               <div className={styles.sectionUnderlineEnhanced}>
                 <svg viewBox="0 0 200 8" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M0,4 Q50,0 100,4 Q150,8 200,4" stroke="#F15505" strokeWidth="1.2" fill="none" />
+                  <path
+                    d="M0,4 Q50,0 100,4 Q150,8 200,4"
+                    stroke="#F15505"
+                    strokeWidth="1.2"
+                    fill="none"
+                  />
                   <circle cx="100" cy="4" r="3" fill="#F15505" opacity="0.7" />
                 </svg>
               </div>
               <p className={styles.sectionSubtitleEnhanced}>
-                Discover authentic yoga education rooted in ancient wisdom and modern teaching methodology
+                Discover authentic yoga education rooted in ancient wisdom and
+                modern teaching methodology
               </p>
             </div>
 
@@ -832,7 +977,13 @@ export default function BestYogaSchool() {
                 <CourseCardComp
                   key={course.id}
                   {...course}
-                  tag={i === 0 ? "Most Popular" : i === 1 ? "Highly Recommended" : "Best Value"}
+                  tag={
+                    i === 0
+                      ? "Most Popular"
+                      : i === 1
+                        ? "Highly Recommended"
+                        : "Best Value"
+                  }
                   imgNum={course.duration?.match(/\d+/)?.[0]}
                 />
               ))}
@@ -841,11 +992,11 @@ export default function BestYogaSchool() {
         </section>
       )}
 
-      {/* ══════════════════════════════════════
-          SECTION 3 — SPECIALTY COURSES (REDESIGNED)
-      ══════════════════════════════════════ */}
       {data.specialtyCourses?.length > 0 && (
-        <section id="specialty" className={`${styles.section} ${styles.sectionDeep}`}>
+        <section
+          id="specialty"
+          className={`${styles.section} ${styles.sectionDeep}`}
+        >
           <div className={`container px-3 px-md-4 ${styles.maxx}`}>
             {data.specialtySectionTitle && (
               <>
@@ -875,9 +1026,11 @@ export default function BestYogaSchool() {
         <PremiumGallerySection type="both" backgroundColor="warm" />
       </div>
 
-      {/* ✅ REVIEWS — now a reusable separate component */}
       <div id="reviews">
-        <ReviewSection courseType="yoga-teacher-training-rishikesh" RatingsSummaryComponent={<RatingsSummarySection />} />
+        <ReviewSection
+          courseType="yoga-teacher-training-rishikesh"
+          RatingsSummaryComponent={<RatingsSummarySection />}
+        />
       </div>
 
       <div id="location">

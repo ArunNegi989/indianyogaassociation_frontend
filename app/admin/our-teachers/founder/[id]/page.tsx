@@ -108,7 +108,10 @@ export default function EditFounderPage() {
   };
 
   const removeBio = (idx: number) =>
-    setForm((p) => ({ ...p, bioItems: p.bioItems.filter((_, i) => i !== idx) }));
+    setForm((p) => ({
+      ...p,
+      bioItems: p.bioItems.filter((_, i) => i !== idx),
+    }));
 
   /* ── Image ── */
   const handleImageFile = (file: File) => {
@@ -145,8 +148,10 @@ export default function EditFounderPage() {
   const validate = (): boolean => {
     const e: FormErrors = {};
     if (!form.name.trim()) e.name = "Founder name is required";
-    if (!form.subtitle.trim()) e.subtitle = "Subtitle / designation is required";
-    if (!imageFile && !existingImageUrl) e.image = "A profile photo is required";
+    if (!form.subtitle.trim())
+      e.subtitle = "Subtitle / designation is required";
+    if (!imageFile && !existingImageUrl)
+      e.image = "A profile photo is required";
     if (form.bioItems.some((b) => !b.trim()))
       e.bioItems = "All biography paragraphs must be filled";
     setErrors(e);
@@ -165,7 +170,9 @@ export default function EditFounderPage() {
       fd.append("sectionLabel", form.sectionLabel);
       fd.append("estYear", form.estYear);
       fd.append("ctaText", form.ctaText);
-      form.bioItems.filter(Boolean).forEach((b, i) => fd.append(`bio[${i}]`, b));
+      form.bioItems
+        .filter(Boolean)
+        .forEach((b, i) => fd.append(`bio[${i}]`, b));
 
       if (imageFile) {
         fd.append("image", imageFile);
@@ -211,7 +218,6 @@ export default function EditFounderPage() {
 
   return (
     <div className={styles.page}>
-
       {/* Breadcrumb */}
       <div className={styles.breadcrumb}>
         <button
@@ -252,7 +258,6 @@ export default function EditFounderPage() {
       </div>
 
       <div className={styles.formCard}>
-
         {/* ── SECTION 1: Section Labels ── */}
         <div className={styles.sectionBlock}>
           <div className={styles.sectionHeader}>
@@ -260,7 +265,8 @@ export default function EditFounderPage() {
             <h3 className={styles.sectionTitle}>Section Labels</h3>
           </div>
           <p className={styles.sectionDesc}>
-            Small text shown above the founder's name and overlaid on the photo as a badge.
+            Small text shown above the founder's name and overlaid on the photo
+            as a badge.
           </p>
 
           <div className={styles.twoCol}>
@@ -268,7 +274,9 @@ export default function EditFounderPage() {
               <label className={styles.label}>
                 <span className={styles.labelIcon}>✦</span> Section Label
               </label>
-              <p className={styles.fieldHint}>Above the name — e.g. "Founder &amp; Director"</p>
+              <p className={styles.fieldHint}>
+                Above the name — e.g. "Founder &amp; Director"
+              </p>
               <div className={styles.inputWrap}>
                 <input
                   type="text"
@@ -278,7 +286,9 @@ export default function EditFounderPage() {
                   maxLength={60}
                   onChange={(e) => set("sectionLabel", e.target.value)}
                 />
-                <span className={styles.charCount}>{form.sectionLabel.length}/60</span>
+                <span className={styles.charCount}>
+                  {form.sectionLabel.length}/60
+                </span>
               </div>
             </div>
 
@@ -286,7 +296,9 @@ export default function EditFounderPage() {
               <label className={styles.label}>
                 <span className={styles.labelIcon}>✦</span> Establishment Badge
               </label>
-              <p className={styles.fieldHint}>Photo overlay — e.g. "Est. 2005"</p>
+              <p className={styles.fieldHint}>
+                Photo overlay — e.g. "Est. 2005"
+              </p>
               <div className={styles.inputWrap}>
                 <input
                   type="text"
@@ -353,9 +365,13 @@ export default function EditFounderPage() {
                 maxLength={120}
                 onChange={(e) => set("subtitle", e.target.value)}
               />
-              <span className={styles.charCount}>{form.subtitle.length}/120</span>
+              <span className={styles.charCount}>
+                {form.subtitle.length}/120
+              </span>
             </div>
-            {errors.subtitle && <p className={styles.errorMsg}>⚠ {errors.subtitle}</p>}
+            {errors.subtitle && (
+              <p className={styles.errorMsg}>⚠ {errors.subtitle}</p>
+            )}
           </div>
         </div>
 
@@ -370,7 +386,8 @@ export default function EditFounderPage() {
             </h3>
           </div>
           <p className={styles.sectionDesc}>
-            Displayed in the ornate gold frame. Square or portrait recommended, min 500×500px, max 5MB.
+            Displayed in the ornate gold frame. Square or portrait recommended,
+            min 500×500px, max 5MB.
           </p>
 
           {errors.image && (
@@ -391,7 +408,9 @@ export default function EditFounderPage() {
               onClick={() => fileInputRef.current?.click()}
             >
               <div className={styles.dropIcon}>📷</div>
-              <p className={styles.dropTitle}>Click to upload or drag &amp; drop</p>
+              <p className={styles.dropTitle}>
+                Click to upload or drag &amp; drop
+              </p>
               <p className={styles.dropSub}>JPG, PNG, WEBP · max 5MB</p>
               <input
                 ref={fileInputRef}
@@ -407,7 +426,11 @@ export default function EditFounderPage() {
           ) : (
             <div className={styles.imagePreviewWrap}>
               <div className={styles.imagePreviewFrame}>
-                <img src={imagePreview} alt="Preview" className={styles.imagePreviewImg} />
+                <img
+                  src={imagePreview}
+                  alt="Preview"
+                  className={styles.imagePreviewImg}
+                />
                 <div className={styles.imagePreviewBadge}>
                   {imageFile
                     ? `New · ${imageFile.name} · ${(imageFile.size / 1024).toFixed(0)} KB`
@@ -422,7 +445,11 @@ export default function EditFounderPage() {
                 >
                   📷 Change Photo
                 </button>
-                <button type="button" className={styles.removeImgBtn} onClick={removeImage}>
+                <button
+                  type="button"
+                  className={styles.removeImgBtn}
+                  onClick={removeImage}
+                >
                   ✕ Remove
                 </button>
               </div>
@@ -447,10 +474,13 @@ export default function EditFounderPage() {
           <div className={styles.sectionHeader}>
             <span className={styles.sectionIcon}>✦</span>
             <h3 className={styles.sectionTitle}>Biography Paragraphs</h3>
-            <span className={styles.sectionBadge}>{form.bioItems.length}/10</span>
+            <span className={styles.sectionBadge}>
+              {form.bioItems.length}/10
+            </span>
           </div>
           <p className={styles.sectionDesc}>
-            Each entry = one paragraph beside the founder's photo. Max 10 paragraphs.
+            Each entry = one paragraph beside the founder's photo. Max 10
+            paragraphs.
           </p>
 
           {errors.bioItems && (
@@ -471,7 +501,9 @@ export default function EditFounderPage() {
                   rows={4}
                   onChange={(e) => updateBio(i, e.target.value)}
                 />
-                <span className={`${styles.charCount} ${styles.charCountBottom}`}>
+                <span
+                  className={`${styles.charCount} ${styles.charCountBottom}`}
+                >
                   {para.length}/1000
                 </span>
               </div>
@@ -487,7 +519,11 @@ export default function EditFounderPage() {
           ))}
 
           {form.bioItems.length < 10 && (
-            <button type="button" className={styles.addListBtn} onClick={addBio}>
+            <button
+              type="button"
+              className={styles.addListBtn}
+              onClick={addBio}
+            >
               + Add Paragraph
             </button>
           )}
@@ -502,7 +538,8 @@ export default function EditFounderPage() {
             <h3 className={styles.sectionTitle}>CTA Button Text</h3>
           </div>
           <p className={styles.sectionDesc}>
-            The "More Information" button label below the biography. Leave blank to hide.
+            The "More Information" button label below the biography. Leave blank
+            to hide.
           </p>
 
           <div className={styles.fieldGroup}>
@@ -521,7 +558,9 @@ export default function EditFounderPage() {
                 maxLength={120}
                 onChange={(e) => set("ctaText", e.target.value)}
               />
-              <span className={styles.charCount}>{form.ctaText.length}/120</span>
+              <span className={styles.charCount}>
+                {form.ctaText.length}/120
+              </span>
             </div>
           </div>
         </div>
@@ -550,7 +589,6 @@ export default function EditFounderPage() {
             )}
           </button>
         </div>
-
       </div>
     </div>
   );

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import api from "@/lib/api"; // ← your axios instance
+import api from "@/lib/api";
 import styles from "@/assets/style/Admin/Registrationlist/Registrationlist.module.css";
 
 interface Registration {
@@ -26,40 +26,75 @@ interface Registration {
 
 /* ── Icons ── */
 const LotusIcon = () => (
-  <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" className={styles.lotusIcon}>
-    <path d="M32 52C32 52 12 40 12 26C12 18 20 12 32 12C44 12 52 18 52 26C52 40 32 52 32 52Z" stroke="currentColor" strokeWidth="1.5" fill="none"/>
-    <path d="M32 52C32 52 20 36 20 26C20 20 25 16 32 16C39 16 44 20 44 26C44 36 32 52 32 52Z" stroke="currentColor" strokeWidth="1.5" fill="none"/>
-    <path d="M32 52C32 52 26 38 26 26C26 20 28.5 14 32 14C35.5 14 38 20 38 26C38 38 32 52 32 52Z" stroke="currentColor" strokeWidth="1.5" fill="none"/>
-    <circle cx="32" cy="28" r="3" fill="currentColor"/>
+  <svg
+    viewBox="0 0 64 64"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    className={styles.lotusIcon}
+  >
+    <path
+      d="M32 52C32 52 12 40 12 26C12 18 20 12 32 12C44 12 52 18 52 26C52 40 32 52 32 52Z"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      fill="none"
+    />
+    <path
+      d="M32 52C32 52 20 36 20 26C20 20 25 16 32 16C39 16 44 20 44 26C44 36 32 52 32 52Z"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      fill="none"
+    />
+    <path
+      d="M32 52C32 52 26 38 26 26C26 20 28.5 14 32 14C35.5 14 38 20 38 26C38 38 32 52 32 52Z"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      fill="none"
+    />
+    <circle cx="32" cy="28" r="3" fill="currentColor" />
   </svg>
 );
 
 const OmIcon = () => (
-  <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" className={styles.omIcon}>
-    <text x="50%" y="55%" dominantBaseline="middle" textAnchor="middle" fontSize="28" fill="currentColor" fontFamily="serif">ॐ</text>
+  <svg
+    viewBox="0 0 40 40"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    className={styles.omIcon}
+  >
+    <text
+      x="50%"
+      y="55%"
+      dominantBaseline="middle"
+      textAnchor="middle"
+      fontSize="28"
+      fill="currentColor"
+      fontFamily="serif"
+    >
+      ॐ
+    </text>
   </svg>
 );
 
 const EyeIcon = () => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-    <circle cx="12" cy="12" r="3"/>
+    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+    <circle cx="12" cy="12" r="3" />
   </svg>
 );
 
 const TrashIcon = () => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-    <polyline points="3 6 5 6 21 6"/>
-    <path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/>
-    <path d="M10 11v6M14 11v6"/>
-    <path d="M9 6V4a1 1 0 011-1h4a1 1 0 011 1v2"/>
+    <polyline points="3 6 5 6 21 6" />
+    <path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6" />
+    <path d="M10 11v6M14 11v6" />
+    <path d="M9 6V4a1 1 0 011-1h4a1 1 0 011 1v2" />
   </svg>
 );
 
 const CloseIcon = () => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-    <line x1="18" y1="6" x2="6" y2="18"/>
-    <line x1="6" y1="6" x2="18" y2="18"/>
+    <line x1="18" y1="6" x2="6" y2="18" />
+    <line x1="6" y1="6" x2="18" y2="18" />
   </svg>
 );
 
@@ -108,7 +143,7 @@ export default function RegistrationList() {
 
   /* ── Fetch Single (Eye Button) ── */
   const handleViewUser = async (reg: Registration) => {
-    setSelectedUser(reg);        // instant open with list data
+    setSelectedUser(reg); // instant open with list data
     setModalError(null);
     setModalLoading(true);
 
@@ -163,7 +198,7 @@ export default function RegistrationList() {
     (r) =>
       r.fullName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
       r.email?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      r.course?.toLowerCase().includes(searchQuery.toLowerCase())
+      r.course?.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
   /* ══════════════════════════════
@@ -194,7 +229,15 @@ export default function RegistrationList() {
         <div className={styles.ornament}>
           <span />
           <svg viewBox="0 0 40 10" className={styles.ornamentFlower}>
-            <text x="50%" y="90%" textAnchor="middle" fontSize="10" fill="currentColor">❧</text>
+            <text
+              x="50%"
+              y="90%"
+              textAnchor="middle"
+              fontSize="10"
+              fill="currentColor"
+            >
+              ❧
+            </text>
           </svg>
           <span />
         </div>
@@ -203,9 +246,15 @@ export default function RegistrationList() {
       {/* ── Search ── */}
       <div className={styles.searchWrap}>
         <div className={styles.searchBox}>
-          <svg className={styles.searchIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-            <circle cx="11" cy="11" r="8"/>
-            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          <svg
+            className={styles.searchIcon}
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.5"
+          >
+            <circle cx="11" cy="11" r="8" />
+            <line x1="21" y1="21" x2="16.65" y2="16.65" />
           </svg>
           <input
             type="text"
@@ -216,7 +265,8 @@ export default function RegistrationList() {
           />
         </div>
         <p className={styles.resultCount}>
-          Showing <strong>{filtered.length}</strong> of {registrations.length} seekers
+          Showing <strong>{filtered.length}</strong> of {registrations.length}{" "}
+          seekers
         </p>
       </div>
 
@@ -259,19 +309,29 @@ export default function RegistrationList() {
                           </div>
                           <div>
                             <p className={styles.namePrimary}>{reg.fullName}</p>
-                            <p className={styles.nameSecondary}>{reg.gender || "—"}</p>
+                            <p className={styles.nameSecondary}>
+                              {reg.gender || "—"}
+                            </p>
                           </div>
                         </div>
                       </td>
                       <td>
                         <p className={styles.contactEmail}>{reg.email}</p>
-                        <p className={styles.contactPhone}>{reg.phone || "—"}</p>
+                        <p className={styles.contactPhone}>
+                          {reg.phone || "—"}
+                        </p>
                       </td>
                       <td>
-                        <span className={styles.courseBadge}>{reg.course || "—"}</span>
+                        <span className={styles.courseBadge}>
+                          {reg.course || "—"}
+                        </span>
                       </td>
-                      <td className={styles.locationCell}>{reg.location || "—"}</td>
-                      <td className={styles.dateCell}>{formatDate(reg.createdAt)}</td>
+                      <td className={styles.locationCell}>
+                        {reg.location || "—"}
+                      </td>
+                      <td className={styles.dateCell}>
+                        {formatDate(reg.createdAt)}
+                      </td>
                       <td>
                         <div className={styles.actions}>
                           <button
@@ -314,7 +374,9 @@ export default function RegistrationList() {
                     {reg.course && (
                       <span className={styles.courseBadge}>{reg.course}</span>
                     )}
-                    <p className={styles.cardDate}>📅 {formatDate(reg.createdAt)}</p>
+                    <p className={styles.cardDate}>
+                      📅 {formatDate(reg.createdAt)}
+                    </p>
                     {reg.location && (
                       <p className={styles.cardLocation}>📍 {reg.location}</p>
                     )}
@@ -346,7 +408,6 @@ export default function RegistrationList() {
       {selectedUser && (
         <div className={styles.modalOverlay} onClick={closeModal}>
           <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
-
             <div className={styles.modalHeader}>
               <div className={styles.modalHeroPattern} />
               <div className={styles.modalHeroContent}>
@@ -372,7 +433,9 @@ export default function RegistrationList() {
               {modalLoading && (
                 <div className={styles.modalLoadingWrap}>
                   <div className={styles.modalSpinner} />
-                  <p className={styles.modalLoadingText}>Fetching full record…</p>
+                  <p className={styles.modalLoadingText}>
+                    Fetching full record…
+                  </p>
                 </div>
               )}
 
@@ -380,7 +443,10 @@ export default function RegistrationList() {
               {!modalLoading && modalError && (
                 <div className={styles.modalErrorWrap}>
                   <p className={styles.modalErrorText}>⚠️ {modalError}</p>
-                  <button className={styles.retryBtn} onClick={() => handleViewUser(selectedUser)}>
+                  <button
+                    className={styles.retryBtn}
+                    onClick={() => handleViewUser(selectedUser)}
+                  >
                     Retry
                   </button>
                 </div>
@@ -395,14 +461,23 @@ export default function RegistrationList() {
                       Personal Information
                     </h4>
                     <div className={styles.detailGrid}>
-                      <DetailRow label="Full Name"   value={selectedUser.fullName} />
-                      <DetailRow label="Email"       value={selectedUser.email} />
-                      <DetailRow label="Phone"       value={selectedUser.phone} />
-                      <DetailRow label="Birth Date"  value={selectedUser.birthDate} />
-                      <DetailRow label="Gender"      value={selectedUser.gender} />
-                      <DetailRow label="Nationality" value={selectedUser.nationality} />
-                      <DetailRow label="Country"     value={selectedUser.country} />
-                      <DetailRow label="Address"     value={selectedUser.address} />
+                      <DetailRow
+                        label="Full Name"
+                        value={selectedUser.fullName}
+                      />
+                      <DetailRow label="Email" value={selectedUser.email} />
+                      <DetailRow label="Phone" value={selectedUser.phone} />
+                      <DetailRow
+                        label="Birth Date"
+                        value={selectedUser.birthDate}
+                      />
+                      <DetailRow label="Gender" value={selectedUser.gender} />
+                      <DetailRow
+                        label="Nationality"
+                        value={selectedUser.nationality}
+                      />
+                      <DetailRow label="Country" value={selectedUser.country} />
+                      <DetailRow label="Address" value={selectedUser.address} />
                     </div>
                   </div>
 
@@ -412,12 +487,24 @@ export default function RegistrationList() {
                       Course Details
                     </h4>
                     <div className={styles.detailGrid}>
-                      <DetailRow label="Course"     value={selectedUser.course} />
-                      <DetailRow label="Start Date" value={selectedUser.startDate} />
-                      <DetailRow label="End Date"   value={selectedUser.endDate} />
-                      <DetailRow label="Location"   value={selectedUser.location} />
-                      <DetailRow label="Batch ID"   value={selectedUser.batchId} />
-                      <DetailRow label="Coupon"     value={selectedUser.coupon} />
+                      <DetailRow label="Course" value={selectedUser.course} />
+                      <DetailRow
+                        label="Start Date"
+                        value={selectedUser.startDate}
+                      />
+                      <DetailRow
+                        label="End Date"
+                        value={selectedUser.endDate}
+                      />
+                      <DetailRow
+                        label="Location"
+                        value={selectedUser.location}
+                      />
+                      <DetailRow
+                        label="Batch ID"
+                        value={selectedUser.batchId}
+                      />
+                      <DetailRow label="Coupon" value={selectedUser.coupon} />
                     </div>
                   </div>
 
@@ -427,7 +514,10 @@ export default function RegistrationList() {
                       Additional Info
                     </h4>
                     <div className={styles.detailGrid}>
-                      <DetailRow label="How Did They Know" value={selectedUser.howKnow} />
+                      <DetailRow
+                        label="How Did They Know"
+                        value={selectedUser.howKnow}
+                      />
                     </div>
                   </div>
                 </>
@@ -485,7 +575,11 @@ export default function RegistrationList() {
                 onClick={() => handleDelete(deleteConfirm)}
                 disabled={deleteLoading}
               >
-                {deleteLoading ? <span className={styles.btnSpinner} /> : "Yes, Delete"}
+                {deleteLoading ? (
+                  <span className={styles.btnSpinner} />
+                ) : (
+                  "Yes, Delete"
+                )}
               </button>
             </div>
           </div>

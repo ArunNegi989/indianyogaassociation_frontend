@@ -243,7 +243,6 @@ function CurrencyDropdown({
   );
 }
 
-
 function PremiumSeatBookingSoundHealing({
   seats,
   currency,
@@ -282,8 +281,12 @@ function PremiumSeatBookingSoundHealing({
           return { amount: `₹${num.toLocaleString("en-IN")}`, cur: "INR" };
         }
       }
-      const usdNum = parseFloat(batch.usdFee?.replace(/[$,]/g, "") || "") || batch.dormPrice;
-      return { amount: `₹${Math.round(usdNum * rate).toLocaleString("en-IN")}`, cur: "INR" };
+      const usdNum =
+        parseFloat(batch.usdFee?.replace(/[$,]/g, "") || "") || batch.dormPrice;
+      return {
+        amount: `₹${Math.round(usdNum * rate).toLocaleString("en-IN")}`,
+        cur: "INR",
+      };
     }
     if (batch.usdFee) {
       const raw = batch.usdFee.trim();
@@ -296,10 +299,21 @@ function PremiumSeatBookingSoundHealing({
     <div className={styles.datesSection} id="dates-fees">
       <div className={styles.psbSecTag}>{stripHtml(batchSectionTag)}</div>
       <div className={styles.vintageHeadingWrap}>
-        <h2 className={styles.vintageHeading}>{stripHtml(batchSectionTitle)}</h2>
+        <h2 className={styles.vintageHeading}>
+          {stripHtml(batchSectionTitle)}
+        </h2>
         <div className={styles.vintageHeadingUnderline}>
-          <svg viewBox="0 0 200 8" xmlns="http://www.w3.org/2000/svg" className={styles.headingUndSvg}>
-            <path d="M0,4 Q50,0 100,4 Q150,8 200,4" stroke="#F15505" strokeWidth="1.2" fill="none" />
+          <svg
+            viewBox="0 0 200 8"
+            xmlns="http://www.w3.org/2000/svg"
+            className={styles.headingUndSvg}
+          >
+            <path
+              d="M0,4 Q50,0 100,4 Q150,8 200,4"
+              stroke="#F15505"
+              strokeWidth="1.2"
+              fill="none"
+            />
             <circle cx="100" cy="4" r="3" fill="#F15505" opacity="0.7" />
             <circle cx="10" cy="4" r="1.5" fill="#b8860b" opacity="0.5" />
             <circle cx="190" cy="4" r="1.5" fill="#b8860b" opacity="0.5" />
@@ -323,7 +337,10 @@ function PremiumSeatBookingSoundHealing({
           <div className={styles.psbLph}>
             <span className={styles.psbLphTitle}>Select Your Batch</span>
             <div className={styles.psbLphRight}>
-              <CurrencyDropdown currency={currency} onChange={onCurrencyChange} />
+              <CurrencyDropdown
+                currency={currency}
+                onChange={onCurrencyChange}
+              />
               <div className={styles.psbLegend}>
                 <div className={styles.psbLegItem}>
                   <div className={`${styles.psbLegDot} ${styles.psbDGreen}`} />
@@ -349,43 +366,95 @@ function PremiumSeatBookingSoundHealing({
           )}
 
           {seats.length === 0 ? (
-            <p className={styles.psbNoBatches}>No upcoming batches available at the moment.</p>
+            <p className={styles.psbNoBatches}>
+              No upcoming batches available at the moment.
+            </p>
           ) : (
             <div className={styles.psbBatchGrid}>
               {seats.map((batch) => {
                 const rem = batch.totalSeats - batch.bookedSeats;
                 const full = rem <= 0;
                 const low = !full && rem <= 5;
-                const dotCls = full ? styles.psbDRed : low ? styles.psbDOrange : styles.psbDGreen;
-                const txtCls = full ? styles.psbSRed : low ? styles.psbSOrange : styles.psbSGreen;
-                const statusTxt = full ? "Fully Booked" : low ? "Limited" : "Available";
-                const seatsPercent = Math.max(5, (rem / batch.totalSeats) * 100);
+                const dotCls = full
+                  ? styles.psbDRed
+                  : low
+                    ? styles.psbDOrange
+                    : styles.psbDGreen;
+                const txtCls = full
+                  ? styles.psbSRed
+                  : low
+                    ? styles.psbSOrange
+                    : styles.psbSGreen;
+                const statusTxt = full
+                  ? "Fully Booked"
+                  : low
+                    ? "Limited"
+                    : "Available";
+                const seatsPercent = Math.max(
+                  5,
+                  (rem / batch.totalSeats) * 100,
+                );
                 const isSelected = selectedId === batch._id;
                 const cardPrice = fmtPrice(batch);
                 return (
                   <div
                     key={batch._id}
-                    className={[styles.psbBc, full ? styles.psbBcFull : "", isSelected ? styles.psbBcSel : ""].filter(Boolean).join(" ")}
-                    onClick={() => { if (!full) setSelectedId(batch._id); }}
+                    className={[
+                      styles.psbBc,
+                      full ? styles.psbBcFull : "",
+                      isSelected ? styles.psbBcSel : "",
+                    ]
+                      .filter(Boolean)
+                      .join(" ")}
+                    onClick={() => {
+                      if (!full) setSelectedId(batch._id);
+                    }}
                   >
                     <div className={styles.psbBcTick}>
                       <svg viewBox="0 0 10 10" fill="none">
-                        <polyline points="1.5,5 4,7.5 8.5,2.5" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                        <polyline
+                          points="1.5,5 4,7.5 8.5,2.5"
+                          stroke="white"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
                       </svg>
                     </div>
-                    <div className={styles.psbBcMonth}>{monthYear(batch.startDate)}</div>
-                    <div className={styles.psbBcDates}>{shortDateRange(batch.startDate, batch.endDate)}</div>
-                    <div className={styles.psbBcPrice}>{cardPrice.amount} <span>{cardPrice.cur}</span></div>
+                    <div className={styles.psbBcMonth}>
+                      {monthYear(batch.startDate)}
+                    </div>
+                    <div className={styles.psbBcDates}>
+                      {shortDateRange(batch.startDate, batch.endDate)}
+                    </div>
+                    <div className={styles.psbBcPrice}>
+                      {cardPrice.amount} <span>{cardPrice.cur}</span>
+                    </div>
                     <div className={styles.psbBcStatus}>
                       <div className={`${styles.psbBcDot} ${dotCls}`} />
-                      <span className={`${styles.psbBcStxt} ${txtCls}`}>{statusTxt}</span>
+                      <span className={`${styles.psbBcStxt} ${txtCls}`}>
+                        {statusTxt}
+                      </span>
                     </div>
                     {!full && (
                       <>
                         <div className={styles.psbBcSeatsBar}>
-                          <div className={styles.psbBcSeatsBarFill} style={{ width: `${seatsPercent}%`, background: low ? "linear-gradient(90deg,#c8700a,#e09030)" : "linear-gradient(90deg,#3d6000,#6aa000)" }} />
+                          <div
+                            className={styles.psbBcSeatsBarFill}
+                            style={{
+                              width: `${seatsPercent}%`,
+                              background: low
+                                ? "linear-gradient(90deg,#c8700a,#e09030)"
+                                : "linear-gradient(90deg,#3d6000,#6aa000)",
+                            }}
+                          />
                         </div>
-                        <span className={styles.psbBcSeatsBadge} style={{ color: low ? "#c8700a" : "#3d6000" }}>{rem} / {batch.totalSeats} seats left</span>
+                        <span
+                          className={styles.psbBcSeatsBadge}
+                          style={{ color: low ? "#c8700a" : "#3d6000" }}
+                        >
+                          {rem} / {batch.totalSeats} seats left
+                        </span>
                       </>
                     )}
                   </div>
@@ -403,13 +472,28 @@ function PremiumSeatBookingSoundHealing({
           <div className={`${styles.psbCn} ${styles.psbCnBr}`} />
           <div className={styles.psbRpHead}>
             <div className={styles.psbRpEyebrow}>Course Overview</div>
-            <div className={styles.psbRpCourse}>Sound Healing Teacher Training</div>
+            <div className={styles.psbRpCourse}>
+              Sound Healing Teacher Training
+            </div>
             <div className={styles.psbRpDur}>
               <svg width="11" height="11" viewBox="0 0 16 16" fill="none">
-                <circle cx="8" cy="8" r="7" stroke="rgba(255,243,210,0.8)" strokeWidth="1.2" />
-                <path d="M8 4.5V8.5L10.5 10" stroke="rgba(255,243,210,0.8)" strokeWidth="1.2" strokeLinecap="round" />
+                <circle
+                  cx="8"
+                  cy="8"
+                  r="7"
+                  stroke="rgba(255,243,210,0.8)"
+                  strokeWidth="1.2"
+                />
+                <path
+                  d="M8 4.5V8.5L10.5 10"
+                  stroke="rgba(255,243,210,0.8)"
+                  strokeWidth="1.2"
+                  strokeLinecap="round"
+                />
               </svg>
-              <span className={styles.psbRpDurTxt}>2–5 Days · Rishikesh, India</span>
+              <span className={styles.psbRpDurTxt}>
+                2–5 Days · Rishikesh, India
+              </span>
             </div>
             <div className={styles.psbCurrBadge}>
               {currency === "USD" ? "🇺🇸 Prices in USD" : "🇮🇳 Prices in INR"}
@@ -463,17 +547,49 @@ function PremiumSeatBookingSoundHealing({
                   const rem = selected.totalSeats - selected.bookedSeats;
                   const full = rem <= 0;
                   const low = !full && rem <= 5;
-                  const pct = full ? 100 : Math.round((selected.bookedSeats / selected.totalSeats) * 100);
+                  const pct = full
+                    ? 100
+                    : Math.round(
+                        (selected.bookedSeats / selected.totalSeats) * 100,
+                      );
                   return (
                     <>
                       <div className={styles.psbRpSeatsRow}>
-                        <span className={styles.psbRpSeatsLbl}>Seats Availability</span>
-                        <span className={styles.psbRpSeatsBadge} style={{ color: full ? "#8a2c00" : low ? "#c8700a" : "#3d6000", borderColor: full ? "#8a2c00" : low ? "#c8700a" : "#3d6000" }}>
-                          {full ? "Fully Booked" : `${rem} of ${selected.totalSeats} left`}
+                        <span className={styles.psbRpSeatsLbl}>
+                          Seats Availability
+                        </span>
+                        <span
+                          className={styles.psbRpSeatsBadge}
+                          style={{
+                            color: full
+                              ? "#8a2c00"
+                              : low
+                                ? "#c8700a"
+                                : "#3d6000",
+                            borderColor: full
+                              ? "#8a2c00"
+                              : low
+                                ? "#c8700a"
+                                : "#3d6000",
+                          }}
+                        >
+                          {full
+                            ? "Fully Booked"
+                            : `${rem} of ${selected.totalSeats} left`}
                         </span>
                       </div>
                       <div className={styles.psbRpSeatsBar}>
-                        <div className={styles.psbRpSeatsBarFill} style={{ width: `${pct}%`, background: full ? "#8a2c00" : low ? "linear-gradient(90deg,#c8700a,#e09030)" : "linear-gradient(90deg,#3d6000,#6aa000)" }} />
+                        <div
+                          className={styles.psbRpSeatsBarFill}
+                          style={{
+                            width: `${pct}%`,
+                            background: full
+                              ? "#8a2c00"
+                              : low
+                                ? "linear-gradient(90deg,#c8700a,#e09030)"
+                                : "linear-gradient(90deg,#3d6000,#6aa000)",
+                          }}
+                        />
                       </div>
                     </>
                   );
@@ -485,24 +601,46 @@ function PremiumSeatBookingSoundHealing({
                 <>
                   <div className={styles.psbSelLabel}>Selected Batch</div>
                   <div className={styles.psbSelDate}>
-                    {shortDateRange(selected.startDate, selected.endDate)}, {monthYear(selected.startDate)}
+                    {shortDateRange(selected.startDate, selected.endDate)},{" "}
+                    {monthYear(selected.startDate)}
                   </div>
                 </>
               ) : (
-                <span className={styles.psbSelHint}>← Select a batch to continue</span>
+                <span className={styles.psbSelHint}>
+                  ← Select a batch to continue
+                </span>
               )}
             </div>
             {selected ? (
-              <Link href={`/yoga-registration?batchId=${selected._id}&type=sound-healing`} className={styles.psbBookBtn}>
+              <Link
+                href={`/yoga-registration?batchId=${selected._id}&type=sound-healing`}
+                className={styles.psbBookBtn}
+              >
                 Book Now — {fmtPrice(selected).amount} {currency}
-                <svg className={styles.psbArrowIcon} viewBox="0 0 16 16" fill="none">
-                  <path d="M3 8h10M9 4l4 4-4 4" stroke="#fff3d2" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                <svg
+                  className={styles.psbArrowIcon}
+                  viewBox="0 0 16 16"
+                  fill="none"
+                >
+                  <path
+                    d="M3 8h10M9 4l4 4-4 4"
+                    stroke="#fff3d2"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
                 </svg>
               </Link>
             ) : (
-              <span className={`${styles.psbBookBtn} ${styles.psbBookBtnDis}`}>Book Now</span>
+              <span className={`${styles.psbBookBtn} ${styles.psbBookBtnDis}`}>
+                Book Now
+              </span>
             )}
-            {selected?.note && <p className={styles.psbNote}><strong>Note:</strong> {stripHtml(selected.note)}</p>}
+            {selected?.note && (
+              <p className={styles.psbNote}>
+                <strong>Note:</strong> {stripHtml(selected.note)}
+              </p>
+            )}
           </div>
         </div>
       </div>
@@ -518,13 +656,15 @@ function useCurrencyRate() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.json")
+    fetch(
+      "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.json",
+    )
       .then((r) => r.json())
       .then((data) => {
         const inr = data?.usd?.inr;
         if (inr && typeof inr === "number") setRate(inr);
       })
-      .catch(() => { })
+      .catch(() => {})
       .finally(() => setLoading(false));
   }, []);
 
@@ -549,7 +689,9 @@ export default function SoundHealingPage() {
         const list = res.data?.data ?? [];
         setData(list[0] ?? null);
       })
-      .catch((err) => console.error("Failed to fetch sound healing content:", err))
+      .catch((err) =>
+        console.error("Failed to fetch sound healing content:", err),
+      )
       .finally(() => setLoading(false));
   }, []);
 
@@ -563,7 +705,10 @@ export default function SoundHealingPage() {
   if (loading) {
     return (
       <div className={styles.page}>
-        <section className={styles.heroBanner} style={{ background: "#f2ede4" }} />
+        <section
+          className={styles.heroBanner}
+          style={{ background: "#f2ede4" }}
+        />
         <div className={styles.container} style={{ padding: "3rem 0" }}>
           <p style={{ textAlign: "center", opacity: 0.6 }}>Loading…</p>
         </div>
@@ -604,7 +749,9 @@ export default function SoundHealingPage() {
                 <span className={styles.introDecorDot}>✧</span>
                 <span className={styles.introDecorLine}></span>
               </div>
-              <h2 className={styles.secTitleOrange}>{stripHtml(data.introTitle)}</h2>
+              <h2 className={styles.secTitleOrange}>
+                {stripHtml(data.introTitle)}
+              </h2>
               <div className={styles.omDivider}>
                 <span className={styles.divLine} />
                 <span className={styles.omGlyph}>ॐ</span>
@@ -612,11 +759,15 @@ export default function SoundHealingPage() {
               </div>
               <div className={styles.introTextCard}>
                 {stripHtmlArray(data.introParagraphs).map((p, i) => (
-                  <p key={i} className={styles.bodyPara}>{p}</p>
+                  <p key={i} className={styles.bodyPara}>
+                    {p}
+                  </p>
                 ))}
                 <div className={styles.introSignature}>
                   <span className={styles.signatureLine}></span>
-                  <span className={styles.signatureText}>{stripHtml(data.introSignatureText)}</span>
+                  <span className={styles.signatureText}>
+                    {stripHtml(data.introSignatureText)}
+                  </span>
                   <span className={styles.signatureLine}></span>
                 </div>
               </div>
@@ -642,7 +793,9 @@ export default function SoundHealingPage() {
       {/* ══ WHAT IS SOUND HEALING SECTION ══ */}
       <section className={styles.whatIsSection}>
         <div className={styles.container}>
-          <h2 className={styles.secTitleOrange}>{stripHtml(data.whatIsTitle)}</h2>
+          <h2 className={styles.secTitleOrange}>
+            {stripHtml(data.whatIsTitle)}
+          </h2>
           <div className={styles.omDivider}>
             <span className={styles.divLine} />
             <span className={styles.omGlyph}>ॐ</span>
@@ -656,7 +809,9 @@ export default function SoundHealingPage() {
             {data.levels.map((level, idx) => (
               <div key={idx} className={styles.levelCard}>
                 <div className={styles.levelCardHeader}>
-                  <h3 className={styles.levelCardTitle}>{stripHtml(level.title)}</h3>
+                  <h3 className={styles.levelCardTitle}>
+                    {stripHtml(level.title)}
+                  </h3>
                 </div>
                 <div className={styles.levelCardDivider} />
                 <ol className={styles.levelCardList}>
@@ -674,13 +829,25 @@ export default function SoundHealingPage() {
           {/* Three-photo row */}
           <div className={styles.bowlPhotoRow}>
             <div className={styles.bowlPhotoItem}>
-              <Image src={getImageUrl(data.bowl1Image)} alt={stripHtml(data.bowl1Alt)} className={styles.bowlPhoto} />
+              <Image
+                src={getImageUrl(data.bowl1Image)}
+                alt={stripHtml(data.bowl1Alt)}
+                className={styles.bowlPhoto}
+              />
             </div>
             <div className={styles.bowlPhotoItem}>
-              <Image src={getImageUrl(data.bowl2Image)} alt={stripHtml(data.bowl2Alt)} className={styles.bowlPhoto} />
+              <Image
+                src={getImageUrl(data.bowl2Image)}
+                alt={stripHtml(data.bowl2Alt)}
+                className={styles.bowlPhoto}
+              />
             </div>
             <div className={styles.bowlPhotoItem}>
-              <Image src={getImageUrl(data.bowl3Image)} alt={stripHtml(data.bowl3Alt)} className={styles.bowlPhoto} />
+              <Image
+                src={getImageUrl(data.bowl3Image)}
+                alt={stripHtml(data.bowl3Alt)}
+                className={styles.bowlPhoto}
+              />
             </div>
           </div>
         </div>
@@ -690,8 +857,12 @@ export default function SoundHealingPage() {
       <section className={styles.aimSection}>
         <div className={styles.aimInner}>
           <div className={styles.aimTitleBlock}>
-            <span className={styles.aimEyebrow}>{stripHtml(data.aimEyebrow)}</span>
-            <h2 className={styles.secTitleOrange}>{stripHtml(data.aimTitle)}</h2>
+            <span className={styles.aimEyebrow}>
+              {stripHtml(data.aimEyebrow)}
+            </span>
+            <h2 className={styles.secTitleOrange}>
+              {stripHtml(data.aimTitle)}
+            </h2>
             <div className={styles.omDivider}>
               <span className={styles.divLine} />
               <span className={styles.omGlyph}>ॐ</span>
@@ -703,9 +874,13 @@ export default function SoundHealingPage() {
             {/* LEFT */}
             <div className={styles.aimLeft}>
               {stripHtmlArray(data.aimParagraphs).map((p, i) => (
-                <p key={i} className={styles.bodyPara}>{p}</p>
+                <p key={i} className={styles.bodyPara}>
+                  {p}
+                </p>
               ))}
-              <span className={styles.pillsLabel}>{stripHtml(data.pillsLabel)}</span>
+              <span className={styles.pillsLabel}>
+                {stripHtml(data.pillsLabel)}
+              </span>
               <div className={styles.pillsWrap}>
                 {stripHtmlArray(data.pills).map((t) => (
                   <div key={t} className={styles.pill}>
@@ -724,12 +899,18 @@ export default function SoundHealingPage() {
                   alt={stripHtml(data.aimImageAlt)}
                   className={styles.aimPhoto}
                 />
-                <span className={styles.aimPhotoBadge}>{stripHtml(data.aimImageBadge)}</span>
+                <span className={styles.aimPhotoBadge}>
+                  {stripHtml(data.aimImageBadge)}
+                </span>
               </div>
               <div className={styles.aimQuote}>
                 <span className={styles.aimQuoteMark}>"</span>
-                <p className={styles.aimQuoteText}>{stripHtml(data.aimQuoteText)}</p>
-                <span className={styles.aimQuoteAttr}>{stripHtml(data.aimQuoteAttribution)}</span>
+                <p className={styles.aimQuoteText}>
+                  {stripHtml(data.aimQuoteText)}
+                </p>
+                <span className={styles.aimQuoteAttr}>
+                  {stripHtml(data.aimQuoteAttribution)}
+                </span>
               </div>
             </div>
           </div>
@@ -739,9 +920,13 @@ export default function SoundHealingPage() {
       {/* ══ BENEFITS ══ */}
       <section className={styles.benefitsSection}>
         <div className={styles.container}>
-          <h2 className={styles.secTitleOrange}>{stripHtml(data.benefitsTitle)}</h2>
+          <h2 className={styles.secTitleOrange}>
+            {stripHtml(data.benefitsTitle)}
+          </h2>
           <div className={styles.omDivider}>
-            <span className={styles.divLine} /><span className={styles.omGlyph}>ॐ</span><span className={styles.divLine} />
+            <span className={styles.divLine} />
+            <span className={styles.omGlyph}>ॐ</span>
+            <span className={styles.divLine} />
           </div>
           <div className={styles.benefitsGrid}>
             <div className={styles.benefitsText}>
@@ -751,7 +936,9 @@ export default function SoundHealingPage() {
                   <div key={i} className={styles.benCard}>
                     <div className={styles.benIcon}>{b.icon}</div>
                     <div>
-                      <p className={styles.benCardTitle}>{stripHtml(b.title)}</p>
+                      <p className={styles.benCardTitle}>
+                        {stripHtml(b.title)}
+                      </p>
                       <p className={styles.benCardTxt}>{stripHtml(b.text)}</p>
                     </div>
                   </div>
@@ -759,7 +946,11 @@ export default function SoundHealingPage() {
               </div>
             </div>
             <div className={styles.benefitsImgWrap}>
-              <Image src={getImageUrl(data.benefitsImage)} alt={stripHtml(data.benefitsImageAlt)} className={styles.benefitsImg} />
+              <Image
+                src={getImageUrl(data.benefitsImage)}
+                alt={stripHtml(data.benefitsImageAlt)}
+                className={styles.benefitsImg}
+              />
             </div>
           </div>
         </div>
@@ -768,9 +959,13 @@ export default function SoundHealingPage() {
       {/* ══ EXPECT + WHY JOIN + PREMIUM SEAT BOOKING ══ */}
       <section className={styles.expectSection}>
         <div className={styles.container}>
-          <h2 className={styles.secTitleOrange}>{stripHtml(data.expectTitle)}</h2>
+          <h2 className={styles.secTitleOrange}>
+            {stripHtml(data.expectTitle)}
+          </h2>
           <div className={styles.omDivider}>
-            <span className={styles.divLine} /><span className={styles.omGlyph}>ॐ</span><span className={styles.divLine} />
+            <span className={styles.divLine} />
+            <span className={styles.omGlyph}>ॐ</span>
+            <span className={styles.divLine} />
           </div>
 
           <p className={styles.bodyPara}>{stripHtml(data.expectIntro)}</p>
@@ -788,7 +983,9 @@ export default function SoundHealingPage() {
           <p className={styles.instrLabel}>{stripHtml(data.instrLabel)}</p>
           <div className={styles.instrRow}>
             {stripHtmlArray(data.instruments).map((t) => (
-              <span key={t} className={styles.instrPill}>{t}</span>
+              <span key={t} className={styles.instrPill}>
+                {t}
+              </span>
             ))}
           </div>
 
@@ -797,7 +994,9 @@ export default function SoundHealingPage() {
             {stripHtml(data.whyJoinTitle)}
           </h2>
           <div className={styles.omDivider}>
-            <span className={styles.divLine} /><span className={styles.omGlyph}>ॐ</span><span className={styles.divLine} />
+            <span className={styles.divLine} />
+            <span className={styles.omGlyph}>ॐ</span>
+            <span className={styles.divLine} />
           </div>
 
           <div className={styles.whyGrid}>

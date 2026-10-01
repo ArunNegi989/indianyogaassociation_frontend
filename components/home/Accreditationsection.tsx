@@ -38,10 +38,10 @@ function SmartVideo({ src, poster }: { src: string; poster?: string }) {
     if (!video) return;
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) video.play().catch(() => { });
+        if (entry.isIntersecting) video.play().catch(() => {});
         else video.pause();
       },
-      { threshold: 0.4 }
+      { threshold: 0.4 },
     );
     observer.observe(video);
     return () => observer.disconnect();
@@ -64,7 +64,6 @@ function SmartVideo({ src, poster }: { src: string; poster?: string }) {
   const youtubeVideoId = getYouTubeVideoId(src);
 
   if (youtubeVideoId) {
-
     if (!ytLoaded) {
       return (
         <button
@@ -305,7 +304,6 @@ function AwardRow({ cert }: { cert: AwardCert }) {
     <div className={styles.awardRow}>
       <div className={styles.awardImageCol}>
         <div className={styles.awardImgFrame}>
-
           <Image
             src={getImageUrl(cert.image)}
             alt={cert.alt || cert.label}
@@ -348,9 +346,7 @@ function AwardRow({ cert }: { cert: AwardCert }) {
 
       <div className={styles.ayushCol}>
         <div className={styles.ayushHeader}>
-          <span className={styles.ayushLabel}>
-            ✦ AYUSH Certified Courses ✦
-          </span>
+          <span className={styles.ayushLabel}>✦ AYUSH Certified Courses ✦</span>
           {cert.ayushSubtitle && (
             <p className={styles.ayushSubtitle}>{cert.ayushSubtitle}</p>
           )}
@@ -378,8 +374,7 @@ function AwardRow({ cert }: { cert: AwardCert }) {
 
 function AccreditationSkeleton() {
   const shimmer: React.CSSProperties = {
-    background:
-      "linear-gradient(90deg, #fdf0dc 25%, #ffe8c2 50%, #fdf0dc 75%)",
+    background: "linear-gradient(90deg, #fdf0dc 25%, #ffe8c2 50%, #fdf0dc 75%)",
     borderRadius: "8px",
     animation: "acc-pulse 1.5s ease-in-out infinite",
   };
@@ -495,8 +490,7 @@ export const AccreditationSection: React.FC = () => {
               <p className={styles.para}>{data.immersePara1}</p>
               <p className={styles.para}>{data.immersePara2}</p>
               <Link href={data.immerseCtaLink} className={styles.knowMoreBtn}>
-                {data.immerseCtaText}{" "}
-                <span className={styles.btnArrow}>→</span>
+                {data.immerseCtaText} <span className={styles.btnArrow}>→</span>
               </Link>
             </div>
           </div>
@@ -529,7 +523,6 @@ export const AccreditationSection: React.FC = () => {
                 {courseCerts.map((cert: any, index: number) => (
                   <div className={styles.certCard} key={index}>
                     <div className={styles.certImageWrap}>
-
                       <Image
                         src={getImageUrl(cert.image)}
                         alt={cert.alt || cert.label}
@@ -541,9 +534,7 @@ export const AccreditationSection: React.FC = () => {
                     </div>
                     <div className={styles.certCardFooter}>
                       <span className={styles.certTag}>{cert.tag}</span>
-                      <span className={styles.certCardLabel}>
-                        {cert.label}
-                      </span>
+                      <span className={styles.certCardLabel}>{cert.label}</span>
                     </div>
                   </div>
                 ))}

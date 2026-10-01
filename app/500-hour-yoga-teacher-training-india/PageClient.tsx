@@ -275,13 +275,15 @@ function CourseInfoCard({
   rate: number;
 }) {
   // Use independent pricing from content, not from seats
-  const currentPrice = currency === "USD"
-    ? content.courseInfoUsdPrice || 1649
-    : content.courseInfoInrPrice || 135000;
+  const currentPrice =
+    currency === "USD"
+      ? content.courseInfoUsdPrice || 1649
+      : content.courseInfoInrPrice || 135000;
 
-  const originalPrice = currency === "USD"
-    ? content.courseInfoOriginalUsdPrice || 2950
-    : content.courseInfoOriginalInrPrice || 240000;
+  const originalPrice =
+    currency === "USD"
+      ? content.courseInfoOriginalUsdPrice || 2950
+      : content.courseInfoOriginalInrPrice || 240000;
 
   const displayPrice = (): string => {
     if (currency === "USD") {
@@ -297,27 +299,40 @@ function CourseInfoCard({
     return `₹${originalPrice.toLocaleString("en-IN")}`;
   };
 
-  const details = (content.courseInfoDetails || [
-    { label: "DURATION", value: "24 Days", sub: "" },
-    { label: "LEVEL", value: "Advanced", sub: "" },
-    { label: "CERTIFICATION", value: "500 Hour", sub: "" },
-    { label: "YOGA STYLE", value: "Multistyle", sub: "Ashtanga, Vinyasa & Hatha" },
-    { label: "LANGUAGE", value: "English & Hindi", sub: "" },
-    { label: "DATE", value: "Check batches below", sub: "" },
-  ]).map(detail => ({
+  const details = (
+    content.courseInfoDetails || [
+      { label: "DURATION", value: "24 Days", sub: "" },
+      { label: "LEVEL", value: "Advanced", sub: "" },
+      { label: "CERTIFICATION", value: "500 Hour", sub: "" },
+      {
+        label: "YOGA STYLE",
+        value: "Multistyle",
+        sub: "Ashtanga, Vinyasa & Hatha",
+      },
+      { label: "LANGUAGE", value: "English & Hindi", sub: "" },
+      { label: "DATE", value: "Check batches below", sub: "" },
+    ]
+  ).map((detail) => ({
     ...detail,
     icon: getIconForLabel(detail.label),
   }));
 
   function getIconForLabel(label: string) {
     switch (label.toLowerCase()) {
-      case "duration": return <DurationIcon />;
-      case "level": return <LevelIcon />;
-      case "certification": return <CertIcon />;
-      case "yoga style": return <StyleIcon />;
-      case "language": return <LangIcon />;
-      case "date": return <DateIcon />;
-      default: return <DurationIcon />;
+      case "duration":
+        return <DurationIcon />;
+      case "level":
+        return <LevelIcon />;
+      case "certification":
+        return <CertIcon />;
+      case "yoga style":
+        return <StyleIcon />;
+      case "language":
+        return <LangIcon />;
+      case "date":
+        return <DateIcon />;
+      default:
+        return <DurationIcon />;
     }
   }
 
@@ -326,7 +341,9 @@ function CourseInfoCard({
       <div className={styles.icCard}>
         <div className={styles.icLeft}>
           <div className={styles.icHdr}>
-            <span className={styles.icHdrTxt}>{content.courseInfoCardTitle || "COURSE DETAILS"}</span>
+            <span className={styles.icHdrTxt}>
+              {content.courseInfoCardTitle || "COURSE DETAILS"}
+            </span>
           </div>
           <div className={styles.icGrid}>
             {details.map((d, i) => (
@@ -344,8 +361,12 @@ function CourseInfoCard({
         <div className={styles.icVDiv} />
         <div className={styles.icRight}>
           <div className={styles.icFeeTop}>
-            <span className={styles.icFeeLbl}>{content.courseInfoFeeLabel || "COURSE FEE"}</span>
-            <span className={styles.icFeeFrom}>{content.courseInfoFeeFromText || "starting from"}</span>
+            <span className={styles.icFeeLbl}>
+              {content.courseInfoFeeLabel || "COURSE FEE"}
+            </span>
+            <span className={styles.icFeeFrom}>
+              {content.courseInfoFeeFromText || "starting from"}
+            </span>
           </div>
           <div className={styles.icPriceRow}>
             <span className={styles.icPriceOld}>{displayOriginalPrice()}</span>
@@ -510,7 +531,8 @@ function PremiumSeatBooking({
     batch: Batch | null,
     overrideUsd?: number,
   ): { amount: string; cur: string } => {
-    if (!batch && overrideUsd === undefined) return { amount: "—", cur: currency };
+    if (!batch && overrideUsd === undefined)
+      return { amount: "—", cur: currency };
 
     if (currency === "INR") {
       // Use stored INR price directly - NO CONVERSION
@@ -535,14 +557,17 @@ function PremiumSeatBooking({
   /**
    * Get room price based on currency using stored values - NO CONVERSION
    */
-  const getRoomPrice = (batch: Batch | null, roomType: 'dorm' | 'twin' | 'private') => {
+  const getRoomPrice = (
+    batch: Batch | null,
+    roomType: "dorm" | "twin" | "private",
+  ) => {
     if (!batch) return "—";
 
     if (currency === "INR") {
       // Use stored INR price directly - NO CONVERSION
       let inrPrice: number | undefined;
-      if (roomType === 'dorm') inrPrice = batch.inrDormPrice;
-      else if (roomType === 'twin') inrPrice = batch.inrTwinPrice;
+      if (roomType === "dorm") inrPrice = batch.inrDormPrice;
+      else if (roomType === "twin") inrPrice = batch.inrTwinPrice;
       else inrPrice = batch.inrPrivatePrice;
 
       if (inrPrice && inrPrice > 0) {
@@ -552,9 +577,12 @@ function PremiumSeatBooking({
     }
 
     // USD
-    const usdPrice = roomType === 'dorm' ? batch.dormPrice :
-      roomType === 'twin' ? batch.twinPrice :
-        batch.privatePrice;
+    const usdPrice =
+      roomType === "dorm"
+        ? batch.dormPrice
+        : roomType === "twin"
+          ? batch.twinPrice
+          : batch.privatePrice;
     return `$${usdPrice}`;
   };
 
@@ -778,7 +806,7 @@ function PremiumSeatBooking({
               {/* Private Room */}
               <div className={styles.psbPriceCard}>
                 <div className={styles.psbPcAmt}>
-                  {selected ? getRoomPrice(selected, 'private') : "—"}
+                  {selected ? getRoomPrice(selected, "private") : "—"}
                   <span className={styles.psbPcCur}>{currency}</span>
                 </div>
                 <div className={styles.psbPcLbl}>Private Room</div>
@@ -786,7 +814,7 @@ function PremiumSeatBooking({
               {/* Twin Room */}
               <div className={styles.psbPriceCard}>
                 <div className={styles.psbPcAmt}>
-                  {selected ? getRoomPrice(selected, 'twin') : "—"}
+                  {selected ? getRoomPrice(selected, "twin") : "—"}
                   <span className={styles.psbPcCur}>{currency}</span>
                 </div>
                 <div className={styles.psbPcLbl}>Twin / Shared</div>
@@ -797,7 +825,7 @@ function PremiumSeatBooking({
             <div className={styles.psbPriceWide}>
               <div className={styles.psbPwLeft}>
                 <span className={styles.psbPcAmt} style={{ fontSize: "1rem" }}>
-                  {selected ? getRoomPrice(selected, 'dorm') : "—"}
+                  {selected ? getRoomPrice(selected, "dorm") : "—"}
                 </span>
                 <span className={styles.psbPcCur}>{currency}</span>
               </div>
@@ -821,8 +849,11 @@ function PremiumSeatBooking({
                 <span className={styles.psbInrAmt}>
                   {(() => {
                     if (selected.inrFee) {
-                      const num = parseFloat(selected.inrFee.replace(/[₹,]/g, "").trim());
-                      if (!isNaN(num) && num > 0) return `₹${num.toLocaleString("en-IN")}`;
+                      const num = parseFloat(
+                        selected.inrFee.replace(/[₹,]/g, "").trim(),
+                      );
+                      if (!isNaN(num) && num > 0)
+                        return `₹${num.toLocaleString("en-IN")}`;
                     }
                     return "—";
                   })()}
@@ -840,8 +871,8 @@ function PremiumSeatBooking({
                   const pct = full
                     ? 100
                     : Math.round(
-                      (selected.bookedSeats / selected.totalSeats) * 100,
-                    );
+                        (selected.bookedSeats / selected.totalSeats) * 100,
+                      );
                   return (
                     <>
                       <div className={styles.psbRpSeatsRow}>
@@ -946,7 +977,9 @@ function EnhancedIntroSection({ items }: { items: IntroItem[] }) {
 
   return (
     <section className={styles.enhancedIntroSection}>
-      <div className={`container px-3 px-md-4 ${styles.enhancedIntroContainer}`}>
+      <div
+        className={`container px-3 px-md-4 ${styles.enhancedIntroContainer}`}
+      >
         <h1 className={styles.heroTitle}>
           500 Hour Yoga Teacher Training Course in Rishikesh
         </h1>
@@ -1045,7 +1078,9 @@ function StandApartSection({ content }: { content: PageContent }) {
 
   return (
     <section className={`${styles.section} ${styles.sectionLight}`}>
-      <div className={`container px-3 px-md-4 ${styles.enhancedIntroContainer}`}>
+      <div
+        className={`container px-3 px-md-4 ${styles.enhancedIntroContainer}`}
+      >
         <div className={styles.block}>
           {content.standApartH2 && (
             <h2
@@ -1100,7 +1135,9 @@ function StandApartSection({ content }: { content: PageContent }) {
                     <span>Course image</span>
                   </div>
                 )}
-                <span className={styles.imgBadge}>{content.imgBadgeText || "500 Hr Advanced TTC"}</span>
+                <span className={styles.imgBadge}>
+                  {content.imgBadgeText || "500 Hr Advanced TTC"}
+                </span>
               </div>
 
               <div className={styles.statRow}>
@@ -1138,7 +1175,9 @@ function StandApartSection({ content }: { content: PageContent }) {
 ───────────────────────────────────────── */
 function VideoSection({ content }: { content: PageContent }) {
   const videoUrl = content.videoUrl || "";
-  const overlayText = content.videoTitle || "Experience the Journey of 500 Hour Yoga Teacher Training";
+  const overlayText =
+    content.videoTitle ||
+    "Experience the Journey of 500 Hour Yoga Teacher Training";
   const subText = content.videoSubtitle || "Watch Our Students' Transformation";
   const badgeText = content.videoBadgeText || "✦ Featured Video ✦";
 
@@ -1146,7 +1185,9 @@ function VideoSection({ content }: { content: PageContent }) {
 
   return (
     <section className={styles.videoSection}>
-      <div className={`container px-3 px-md-4 ${styles.enhancedIntroContainer}`}>
+      <div
+        className={`container px-3 px-md-4 ${styles.enhancedIntroContainer}`}
+      >
         <div className={styles.videoWrapper}>
           <div className={styles.videoContainerShort}>
             <video
@@ -1462,7 +1503,7 @@ function useCurrencyRate() {
           setRate(inr);
         }
       })
-      .catch(() => { })
+      .catch(() => {})
       .finally(() => setLoading(false));
   }, []);
 
@@ -1593,7 +1634,9 @@ export default function YogaTTC500() {
         <EnhancedIntroSection items={content.introItems} />
       ) : (
         <section className={styles.heroSection2}>
-          <div className={`container px-3 px-md-4 ${styles.enhancedIntroContainer}`}>
+          <div
+            className={`container px-3 px-md-4 ${styles.enhancedIntroContainer}`}
+          >
             {content.pageMainH1 && (
               <h1
                 className={styles.heroTitle}
@@ -1625,7 +1668,9 @@ export default function YogaTTC500() {
       />
 
       <section className={`${styles.section} ${styles.sectionLight}`}>
-        <div className={`container px-3 px-md-4 ${styles.enhancedIntroContainer}`}>
+        <div
+          className={`container px-3 px-md-4 ${styles.enhancedIntroContainer}`}
+        >
           {content.indianFees?.length > 0 && (
             <div className={styles.indianFeeBlock}>
               {content.indianFeeH3 && (
@@ -1778,7 +1823,9 @@ export default function YogaTTC500() {
       <VideoSection content={content} />
 
       <section className={styles.section}>
-        <div className={`container px-3 px-md-4 ${styles.enhancedIntroContainer}`}>
+        <div
+          className={`container px-3 px-md-4 ${styles.enhancedIntroContainer}`}
+        >
           <div className={styles.syllabusSection}>
             {content.syllabusH2 && (
               <div className={styles.syllabusTitleWrap}>
@@ -1920,7 +1967,9 @@ export default function YogaTTC500() {
       </section>
 
       <section className={`${styles.section} ${styles.sectionLight}`}>
-        <div className={`container px-3 px-md-4 ${styles.enhancedIntroContainer}`}>
+        <div
+          className={`container px-3 px-md-4 ${styles.enhancedIntroContainer}`}
+        >
           <IncludeExcludeTabs
             includedItems={content.includedItems || []}
             notIncludedItems={content.notIncludedItems || []}
@@ -1945,7 +1994,9 @@ export default function YogaTTC500() {
 
       {content.accomImages?.length > 0 && (
         <section className={styles.premiumGallerySection}>
-          <div className={`container px-3 px-md-4 ${styles.enhancedIntroContainer}`}>
+          <div
+            className={`container px-3 px-md-4 ${styles.enhancedIntroContainer}`}
+          >
             <div className={styles.premiumGalleryHeader}>
               <span className={styles.premiumGalleryBadge}>Peaceful Stay</span>
               <h2 className={styles.premiumGalleryTitle}>Accommodation</h2>
@@ -1969,7 +2020,9 @@ export default function YogaTTC500() {
 
       {content.foodImages?.length > 0 && (
         <section className={styles.premiumGallerySection}>
-          <div className={`container px-3 px-md-4 ${styles.enhancedIntroContainer}`}>
+          <div
+            className={`container px-3 px-md-4 ${styles.enhancedIntroContainer}`}
+          >
             <div className={styles.premiumGalleryHeader}>
               <span className={styles.premiumGalleryBadge}>
                 Nourishing Meals
@@ -1990,7 +2043,10 @@ export default function YogaTTC500() {
         </section>
       )}
 
-      <ReviewSection courseType="500-hour-yoga-teacher-training" RatingsSummaryComponent={<RatingsSummarySection />} />
+      <ReviewSection
+        courseType="500-hour-yoga-teacher-training"
+        RatingsSummaryComponent={<RatingsSummarySection />}
+      />
 
       <HowToReach />
     </div>

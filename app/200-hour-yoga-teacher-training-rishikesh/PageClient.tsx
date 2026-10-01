@@ -124,7 +124,7 @@ interface CombinedContent {
   primaryIntro?: string;
   primarySeriesImage?: string;
   foundationItems: string[];
-  weekGrid: Array<{ week: string; icon: string;[key: string]: any }>;
+  weekGrid: Array<{ week: string; icon: string; [key: string]: any }>;
 
   hathaH2?: string;
   hathaSubtitle?: string;
@@ -522,7 +522,6 @@ function VideoSection({
 
   if (videoUrl) {
     const ytId = getYoutubeVideoId(videoUrl);
-
 
     // The heavy YouTube player JS never loads until this is clicked.
     if (!ytLoaded && ytId) {
@@ -972,14 +971,17 @@ function PremiumSeatBooking({
   };
 
   // Get room price based on currency using stored values - NO CONVERSION
-  const getRoomPrice = (batch: Batch | null, roomType: 'dorm' | 'twin' | 'private') => {
+  const getRoomPrice = (
+    batch: Batch | null,
+    roomType: "dorm" | "twin" | "private",
+  ) => {
     if (!batch) return "—";
 
     if (currency === "INR") {
       // Use stored INR price directly - NO CONVERSION
       let inrPrice: number | undefined;
-      if (roomType === 'dorm') inrPrice = batch.inrDormPrice;
-      else if (roomType === 'twin') inrPrice = batch.inrTwinPrice;
+      if (roomType === "dorm") inrPrice = batch.inrDormPrice;
+      else if (roomType === "twin") inrPrice = batch.inrTwinPrice;
       else inrPrice = batch.inrPrivatePrice;
 
       if (inrPrice && inrPrice > 0) {
@@ -989,9 +991,12 @@ function PremiumSeatBooking({
     }
 
     // USD
-    const usdPrice = roomType === 'dorm' ? batch.dormPrice :
-      roomType === 'twin' ? batch.twinPrice :
-        batch.privatePrice;
+    const usdPrice =
+      roomType === "dorm"
+        ? batch.dormPrice
+        : roomType === "twin"
+          ? batch.twinPrice
+          : batch.privatePrice;
     return `$${usdPrice}`;
   };
 
@@ -1028,13 +1033,16 @@ function PremiumSeatBooking({
               />
               <div className={styles.psbLegend}>
                 <div className={styles.psbLegItem}>
-                  <div className={`${styles.psbLegDot} ${styles.psbDGreen}`} /> Available
+                  <div className={`${styles.psbLegDot} ${styles.psbDGreen}`} />{" "}
+                  Available
                 </div>
                 <div className={styles.psbLegItem}>
-                  <div className={`${styles.psbLegDot} ${styles.psbDOrange}`} /> Limited
+                  <div className={`${styles.psbLegDot} ${styles.psbDOrange}`} />{" "}
+                  Limited
                 </div>
                 <div className={styles.psbLegItem}>
-                  <div className={`${styles.psbLegDot} ${styles.psbDRed}`} /> Full
+                  <div className={`${styles.psbLegDot} ${styles.psbDRed}`} />{" "}
+                  Full
                 </div>
               </div>
             </div>
@@ -1186,14 +1194,14 @@ function PremiumSeatBooking({
             <div className={styles.psbPriceRow}>
               <div className={styles.psbPriceCard}>
                 <div className={styles.psbPcAmt}>
-                  {selected ? getRoomPrice(selected, 'private') : "—"}
+                  {selected ? getRoomPrice(selected, "private") : "—"}
                   <span className={styles.psbPcCur}>{currency}</span>
                 </div>
                 <div className={styles.psbPcLbl}>Private Room</div>
               </div>
               <div className={styles.psbPriceCard}>
                 <div className={styles.psbPcAmt}>
-                  {selected ? getRoomPrice(selected, 'twin') : "—"}
+                  {selected ? getRoomPrice(selected, "twin") : "—"}
                   <span className={styles.psbPcCur}>{currency}</span>
                 </div>
                 <div className={styles.psbPcLbl}>Twin / Shared</div>
@@ -1203,7 +1211,7 @@ function PremiumSeatBooking({
             <div className={styles.psbPriceWide}>
               <div className={styles.psbPwLeft}>
                 <span className={styles.psbPcAmt} style={{ fontSize: "1rem" }}>
-                  {selected ? getRoomPrice(selected, 'dorm') : "—"}
+                  {selected ? getRoomPrice(selected, "dorm") : "—"}
                 </span>
                 <span className={styles.psbPcCur}>{currency}</span>
               </div>
@@ -1218,8 +1226,8 @@ function PremiumSeatBooking({
                 const pct = full
                   ? 100
                   : Math.round(
-                    (selected.bookedSeats / selected.totalSeats) * 100,
-                  );
+                      (selected.bookedSeats / selected.totalSeats) * 100,
+                    );
                 return (
                   <div className={styles.psbRpSeatsWrap}>
                     <div className={styles.psbRpSeatsRow}>
@@ -1685,20 +1693,20 @@ export default function TwoHundredHourYoga() {
                 {(content.ashtangaPill1 ||
                   content.ashtangaPill2 ||
                   content.ashtangaPill3) && (
-                    <div className={styles.featurePills}>
-                      {[
-                        content.ashtangaPill1,
-                        content.ashtangaPill2,
-                        content.ashtangaPill3,
-                      ]
-                        .filter(Boolean)
-                        .map((pill, i) => (
-                          <span key={i} className={styles.pill}>
-                            {pill}
-                          </span>
-                        ))}
-                    </div>
-                  )}
+                  <div className={styles.featurePills}>
+                    {[
+                      content.ashtangaPill1,
+                      content.ashtangaPill2,
+                      content.ashtangaPill3,
+                    ]
+                      .filter(Boolean)
+                      .map((pill, i) => (
+                        <span key={i} className={styles.pill}>
+                          {pill}
+                        </span>
+                      ))}
+                  </div>
+                )}
               </div>
             </div>
           </>
@@ -1825,20 +1833,20 @@ export default function TwoHundredHourYoga() {
                 {(content.hathaPill1 ||
                   content.hathaPill2 ||
                   content.hathaPill3) && (
-                    <div className={styles.featurePills}>
-                      {[
-                        content.hathaPill1,
-                        content.hathaPill2,
-                        content.hathaPill3,
-                      ]
-                        .filter(Boolean)
-                        .map((pill, i) => (
-                          <span key={i} className={styles.pill}>
-                            {pill}
-                          </span>
-                        ))}
-                    </div>
-                  )}
+                  <div className={styles.featurePills}>
+                    {[
+                      content.hathaPill1,
+                      content.hathaPill2,
+                      content.hathaPill3,
+                    ]
+                      .filter(Boolean)
+                      .map((pill, i) => (
+                        <span key={i} className={styles.pill}>
+                          {pill}
+                        </span>
+                      ))}
+                  </div>
+                )}
               </div>
             </div>
           </>

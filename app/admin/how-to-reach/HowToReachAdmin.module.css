@@ -816,7 +816,9 @@
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* ── Skeleton ── */
@@ -848,8 +850,13 @@
 }
 
 @keyframes shimmer {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
+  0% {
+    background-position: 200% 0;
+  }
+
+  100% {
+    background-position: -200% 0;
+  }
 }
 
 /* ── Success Screen ── */
@@ -871,8 +878,15 @@
 }
 
 @keyframes fadeUp {
-  from { opacity: 0; transform: translateY(16px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .successOm {
@@ -1020,19 +1034,65 @@
 
 /* ── RESPONSIVE ── */
 @media (max-width: 479px) {
-  .formCard { padding: 1.2rem; border-radius: 10px; }
-  .tabBtn { font-size: 0.6rem; padding: 0.45rem 0.7rem; }
-  .twoCol, .threeCol, .fourCol { grid-template-columns: 1fr; }
-  .formActions { flex-direction: column-reverse; align-items: stretch; }
-  .actionsRight { justify-content: stretch; }
-  .cancelBtn, .prevBtn, .nextBtn, .submitBtn { width: 100%; justify-content: center; padding: 0.75rem 1rem; }
-  .listPageHeader { flex-direction: column; align-items: flex-start; }
-  .itemFieldsRow { flex-direction: column; }
-  .previewTop { flex-direction: column; }
-  .rowGrid { grid-template-columns: 1fr; }
+  .formCard {
+    padding: 1.2rem;
+    border-radius: 10px;
+  }
+
+  .tabBtn {
+    font-size: 0.6rem;
+    padding: 0.45rem 0.7rem;
+  }
+
+  .twoCol,
+  .threeCol,
+  .fourCol {
+    grid-template-columns: 1fr;
+  }
+
+  .formActions {
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
+
+  .actionsRight {
+    justify-content: stretch;
+  }
+
+  .cancelBtn,
+  .prevBtn,
+  .nextBtn,
+  .submitBtn {
+    width: 100%;
+    justify-content: center;
+    padding: 0.75rem 1rem;
+  }
+
+  .listPageHeader {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .itemFieldsRow {
+    flex-direction: column;
+  }
+
+  .previewTop {
+    flex-direction: column;
+  }
+
+  .rowGrid {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (min-width: 480px) and (max-width: 767px) {
-  .formCard { padding: 1.5rem; }
-  .threeCol, .fourCol { grid-template-columns: 1fr 1fr; }
+  .formCard {
+    padding: 1.5rem;
+  }
+
+  .threeCol,
+  .fourCol {
+    grid-template-columns: 1fr 1fr;
+  }
 }

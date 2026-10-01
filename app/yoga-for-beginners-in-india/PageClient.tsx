@@ -1,4 +1,3 @@
-
 "use client";
 import React, { useEffect, useState } from "react";
 import styles from "@/assets/style/yoga-for-beginners-in-india/Yogabeginners.module.css";
@@ -13,7 +12,6 @@ const getImageUrl = (path?: string) => {
   if (path.startsWith("http") || path.startsWith("data:")) return path;
   return `${ASSET_BASE}${path}`;
 };
-
 
 interface SeatBatch {
   _id: string;
@@ -88,7 +86,6 @@ interface BeginnersData {
   batchSectionSub?: string;
 }
 
-
 function withSafeDefaults(d: BeginnersData | null): Required<BeginnersData> {
   return {
     heroImage: d?.heroImage || "",
@@ -142,13 +139,13 @@ function useCurrencyRate() {
 
   useEffect(() => {
     fetch(
-      "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.json"
+      "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.json",
     )
       .then((r) => r.json())
       .then((data) => {
         if (data?.usd?.inr) setRate(data.usd.inr);
       })
-      .catch(() => { })
+      .catch(() => {})
       .finally(() => setLoading(false));
   }, []);
 
@@ -293,7 +290,7 @@ function PremiumSeatBooking({
       }
       const usdNum = batch
         ? parseFloat(batch.usdFee.replace(/[$,]/g, "")) || batch.dormPrice
-        : overrideUsd ?? 0;
+        : (overrideUsd ?? 0);
       return {
         amount: `₹${Math.round(usdNum * rate).toLocaleString("en-IN")}`,
         cur: "INR",
@@ -333,9 +330,7 @@ function PremiumSeatBooking({
                   Available
                 </div>
                 <div className={styles.psbLegItem}>
-                  <div
-                    className={`${styles.psbLegDot} ${styles.psbDOrange}`}
-                  />
+                  <div className={`${styles.psbLegDot} ${styles.psbDOrange}`} />
                   Limited
                 </div>
                 <div className={styles.psbLegItem}>
@@ -421,7 +416,7 @@ function PremiumSeatBooking({
                             style={{
                               width: `${Math.max(
                                 5,
-                                (rem / batch.totalSeats) * 100
+                                (rem / batch.totalSeats) * 100,
                               )}%`,
                               background: low
                                 ? "linear-gradient(90deg,#c8700a,#e09030)"
@@ -522,8 +517,8 @@ function PremiumSeatBooking({
                 const pct = full
                   ? 100
                   : Math.round(
-                    (selected.bookedSeats / selected.totalSeats) * 100
-                  );
+                      (selected.bookedSeats / selected.totalSeats) * 100,
+                    );
                 return (
                   <div className={styles.psbRpSeatsWrap}>
                     <div className={styles.psbRpSeatsRow}>
@@ -533,11 +528,7 @@ function PremiumSeatBooking({
                       <span
                         className={styles.psbRpSeatsBadge}
                         style={{
-                          color: full
-                            ? "#8a2c00"
-                            : low
-                              ? "#c8700a"
-                              : "#3d6000",
+                          color: full ? "#8a2c00" : low ? "#c8700a" : "#3d6000",
                           borderColor: full
                             ? "#8a2c00"
                             : low
@@ -623,7 +614,14 @@ function PremiumSeatBooking({
 ══════════════════════════════ */
 const OmSVG: React.FC = () => (
   <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="30" cy="30" r="28" stroke="#e8600a" strokeWidth="2" fill="none" />
+    <circle
+      cx="30"
+      cy="30"
+      r="28"
+      stroke="#e8600a"
+      strokeWidth="2"
+      fill="none"
+    />
     <text
       x="50%"
       y="54%"
@@ -657,7 +655,6 @@ const YogaBeginners: React.FC = () => {
   const [pageData, setPageData] = useState<BeginnersData | null>(null);
 
   useEffect(() => {
-
     api
       .get("/yoga-beginners-seats/get-all-batches")
       .then((res) => setSeats(res.data.data ?? []))
@@ -666,10 +663,14 @@ const YogaBeginners: React.FC = () => {
     api
       .get("/yoga-beginners-section")
       .then((res) => {
-        const doc = Array.isArray(res.data?.data) ? res.data.data[0] : res.data?.data;
+        const doc = Array.isArray(res.data?.data)
+          ? res.data.data[0]
+          : res.data?.data;
         setPageData(doc || null);
       })
-      .catch((err) => console.error("Failed to fetch yoga beginners section:", err));
+      .catch((err) =>
+        console.error("Failed to fetch yoga beginners section:", err),
+      );
   }, []);
 
   const data = withSafeDefaults(pageData);
@@ -694,11 +695,19 @@ const YogaBeginners: React.FC = () => {
       {/* ===== MAIN HEADING ===== */}
       <section className={styles.contentSection}>
         <div className={styles.contentContainer}>
-          {data.mainTitle && <h1 className={styles.mainTitle}>{data.mainTitle}</h1>}
+          {data.mainTitle && (
+            <h1 className={styles.mainTitle}>{data.mainTitle}</h1>
+          )}
           <div className={styles.contentBlock}>
-            {data.questionText && <p className={styles.questionText}>{data.questionText}</p>}
+            {data.questionText && (
+              <p className={styles.questionText}>{data.questionText}</p>
+            )}
             {data.bodyParagraphs.map((para, i) => (
-              <p key={i} className={styles.bodyText} dangerouslySetInnerHTML={{ __html: para }} />
+              <p
+                key={i}
+                className={styles.bodyText}
+                dangerouslySetInnerHTML={{ __html: para }}
+              />
             ))}
             {data.infoRow.length > 0 && (
               <div className={styles.infoRow}>
@@ -734,15 +743,21 @@ const YogaBeginners: React.FC = () => {
         <div className={styles.benefitsFullContainer}>
           {data.benefitsFullTitle && (
             <div className={styles.benefitsHeader}>
-              <h3 className={styles.benefitsFullTitle}>{data.benefitsFullTitle}</h3>
+              <h3 className={styles.benefitsFullTitle}>
+                {data.benefitsFullTitle}
+              </h3>
               <div className={styles.benefitsUnderline}></div>
             </div>
           )}
 
-          {(data.understandingTitle || data.understandingIntro || data.pillars.length > 0) && (
+          {(data.understandingTitle ||
+            data.understandingIntro ||
+            data.pillars.length > 0) && (
             <div className={styles.understandingBlock}>
               {data.understandingTitle && (
-                <h4 className={styles.understandingTitle}>{data.understandingTitle}</h4>
+                <h4 className={styles.understandingTitle}>
+                  {data.understandingTitle}
+                </h4>
               )}
               {data.understandingIntro && (
                 <p
@@ -755,11 +770,14 @@ const YogaBeginners: React.FC = () => {
                   {data.pillars.map((pillar, i) => (
                     <div key={i} className={styles.yogaPillarCard}>
                       <div className={styles.yogaPillarIcon}>
-                        <span style={{ fontSize: "1.3rem" }}>{pillar.icon}</span>
+                        <span style={{ fontSize: "1.3rem" }}>
+                          {pillar.icon}
+                        </span>
                       </div>
                       <div>
                         <h5 className={styles.yogaPillarName}>
-                          {pillar.name} {pillar.subLabel && <span>{pillar.subLabel}</span>}
+                          {pillar.name}{" "}
+                          {pillar.subLabel && <span>{pillar.subLabel}</span>}
                         </h5>
                         <p className={styles.yogaPillarDesc}>{pillar.desc}</p>
                       </div>
@@ -770,7 +788,9 @@ const YogaBeginners: React.FC = () => {
             </div>
           )}
 
-          {data.benefitsLabel && <h4 className={styles.understandingTitle}>{data.benefitsLabel}</h4>}
+          {data.benefitsLabel && (
+            <h4 className={styles.understandingTitle}>{data.benefitsLabel}</h4>
+          )}
 
           {data.benefits.length > 0 && (
             <div className={styles.benefitsGrid}>
@@ -792,7 +812,9 @@ const YogaBeginners: React.FC = () => {
       {data.qaItems.length > 0 && (
         <section className={styles.qaSection}>
           <div className={styles.sectionContainer}>
-            {data.qaSectionTitle && <h2 className={styles.sectionTitle}>{data.qaSectionTitle}</h2>}
+            {data.qaSectionTitle && (
+              <h2 className={styles.sectionTitle}>{data.qaSectionTitle}</h2>
+            )}
             <Divider />
             <div className={styles.qaGrid}>
               {data.qaItems.map((item, idx) => (
@@ -815,7 +837,9 @@ const YogaBeginners: React.FC = () => {
       {/* ===== MORE INFORMATION ===== */}
       <section className={styles.moreInfoSection}>
         <div className={styles.sectionContainer}>
-          {data.moreInfoSectionTitle && <h2 className={styles.sectionTitle}>{data.moreInfoSectionTitle}</h2>}
+          {data.moreInfoSectionTitle && (
+            <h2 className={styles.sectionTitle}>{data.moreInfoSectionTitle}</h2>
+          )}
           <Divider />
           {data.infoCards.length > 0 && (
             <div className={styles.infoGrid}>
@@ -839,7 +863,6 @@ const YogaBeginners: React.FC = () => {
           )}
         </div>
       </section>
-
 
       <PremiumSeatBooking
         seats={seats}

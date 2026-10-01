@@ -36,40 +36,42 @@ export default function FounderListPage() {
     }
   };
 
-  useEffect(() => { fetchFounder(); }, []);
-const handleDelete = async () => {
-  if (deleting) return;
+  useEffect(() => {
+    fetchFounder();
+  }, []);
+  const handleDelete = async () => {
+    if (deleting) return;
 
-  try {
-    setDeleting(true);
+    try {
+      setDeleting(true);
 
-    if (!founder?._id) return;
+      if (!founder?._id) return;
 
-    await api.delete(`/founder/delete-founder/${founder._id}`);
+      await api.delete(`/founder/delete-founder/${founder._id}`);
 
-    setFounder(null);
-    setDeleteModal(false);
-    toast.success("Founder section deleted successfully");
-  } catch {
-    toast.error("Failed to delete founder");
-  } finally {
-    setDeleting(false);
-  }
-};
+      setFounder(null);
+      setDeleteModal(false);
+      toast.success("Founder section deleted successfully");
+    } catch {
+      toast.error("Failed to delete founder");
+    } finally {
+      setDeleting(false);
+    }
+  };
 
   /* ── Loading ── */
-  if (loading) return (
-    <div className={styles.page}>
-      <div className={styles.loadingState}>
-        <div className={styles.loadingOm}>ॐ</div>
-        <p className={styles.loadingText}>Loading founder data…</p>
+  if (loading)
+    return (
+      <div className={styles.page}>
+        <div className={styles.loadingState}>
+          <div className={styles.loadingOm}>ॐ</div>
+          <p className={styles.loadingText}>Loading founder data…</p>
+        </div>
       </div>
-    </div>
-  );
+    );
 
   return (
     <div className={styles.page}>
-
       {/* Header */}
       <div className={styles.pageHeader}>
         <div>
@@ -84,7 +86,9 @@ const handleDelete = async () => {
           onClick={(e) => {
             if (founder) {
               e.preventDefault();
-              toast.error("Founder already exists. Please edit or delete first.");
+              toast.error(
+                "Founder already exists. Please edit or delete first.",
+              );
             }
           }}
         >
@@ -94,8 +98,11 @@ const handleDelete = async () => {
 
       {/* Ornament */}
       <div className={styles.ornament}>
-        <span>❧</span><div className={styles.ornamentLine} />
-        <span>ॐ</span><div className={styles.ornamentLine} /><span>❧</span>
+        <span>❧</span>
+        <div className={styles.ornamentLine} />
+        <span>ॐ</span>
+        <div className={styles.ornamentLine} />
+        <span>❧</span>
       </div>
 
       {/* Empty State */}
@@ -103,7 +110,8 @@ const handleDelete = async () => {
         <div className={styles.empty}>
           <div className={styles.emptyOm}>ॐ</div>
           <p className={styles.emptyText}>
-            No founder section found. Add one to display it on the Teachers page.
+            No founder section found. Add one to display it on the Teachers
+            page.
           </p>
           <Link href="/admin/our-teachers/founder" className={styles.emptyBtn}>
             + Add Founder
@@ -114,12 +122,13 @@ const handleDelete = async () => {
       {/* Founder Preview Card */}
       {founder && (
         <div className={styles.founderCard}>
-
           {/* Left — Photo */}
           <div className={styles.founderPhotoCol}>
-            <img src={`${process.env.NEXT_PUBLIC_API_URL}${founder.image}`}
-  alt={founder.name}
-  className={styles.founderPhoto} />
+            <img
+              src={`${process.env.NEXT_PUBLIC_API_URL}${founder.image}`}
+              alt={founder.name}
+              className={styles.founderPhoto}
+            />
             <div className={styles.founderEstBadge}>
               {founder.estYear || "Est. 2005"}
             </div>
@@ -139,7 +148,8 @@ const handleDelete = async () => {
               </span>
               {founder.ctaText && (
                 <span className={styles.founderMetaChip}>
-                  🔗 CTA: "{founder.ctaText.slice(0, 40)}{founder.ctaText.length > 40 ? "…" : ""}"
+                  🔗 CTA: "{founder.ctaText.slice(0, 40)}
+                  {founder.ctaText.length > 40 ? "…" : ""}"
                 </span>
               )}
             </div>
@@ -150,12 +160,12 @@ const handleDelete = async () => {
             </div>
 
             <div className={styles.founderCardActions}>
-             <Link
-  href={`/admin/our-teachers/founder/${founder._id}`}
-  className={styles.editBtn}
->
-  ✎ Edit Founder
-</Link>
+              <Link
+                href={`/admin/our-teachers/founder/${founder._id}`}
+                className={styles.editBtn}
+              >
+                ✎ Edit Founder
+              </Link>
               <button
                 className={styles.deleteBtn}
                 onClick={() => setDeleteModal(true)}
@@ -169,16 +179,22 @@ const handleDelete = async () => {
 
       {/* Delete Modal */}
       {deleteModal && (
-        <div className={styles.modalOverlay} onClick={() => setDeleteModal(false)}>
+        <div
+          className={styles.modalOverlay}
+          onClick={() => setDeleteModal(false)}
+        >
           <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
             <div className={styles.modalOm}>ॐ</div>
             <h3 className={styles.modalTitle}>Confirm Deletion</h3>
             <p className={styles.modalText}>
-              Are you sure you want to delete the entire Founder section?
-              This action cannot be undone.
+              Are you sure you want to delete the entire Founder section? This
+              action cannot be undone.
             </p>
             <div className={styles.modalActions}>
-              <button className={styles.modalCancel} onClick={() => setDeleteModal(false)}>
+              <button
+                className={styles.modalCancel}
+                onClick={() => setDeleteModal(false)}
+              >
                 Cancel
               </button>
               <button className={styles.modalConfirm} onClick={handleDelete}>
@@ -188,7 +204,6 @@ const handleDelete = async () => {
           </div>
         </div>
       )}
-
     </div>
   );
 }

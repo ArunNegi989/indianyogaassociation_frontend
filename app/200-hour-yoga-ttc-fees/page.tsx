@@ -6,9 +6,10 @@ export const metadata: Metadata = {
   description:
     "How to Pay, Payment options for yoga Courses retreats Conducted at Association for yoga and Meditation india, A registered yoga school ashram in rishikesh india.",
 
-    alternates: {
-      canonical: "https://www.indianyogaassociation.com/200-hour-yoga-ttc-fees.html",
-    },
+  alternates: {
+    canonical:
+      "https://www.indianyogaassociation.com/200-hour-yoga-ttc-fees.html",
+  },
 };
 
 export default function Page() {

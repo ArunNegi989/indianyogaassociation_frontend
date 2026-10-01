@@ -7,22 +7,24 @@ import { homepageJsonLd } from "@/lib/seo/homepage-schema";
 import bgMobile from "@/assets/images/backgroundimage/510x1739.webp";
 import bgXs from "@/assets/images/backgroundimage/360x2080.webp";
 
-const CoursesSection = dynamic(() => import("@/components/home/Coursessection"));
+const CoursesSection = dynamic(
+  () => import("@/components/home/Coursessection"),
+);
 const AccreditationSection = dynamic(
-  () => import("@/components/home/Accreditationsection")
+  () => import("@/components/home/Accreditationsection"),
 );
 const YogaCoursesTeachers = dynamic(
-  () => import("@/components/home/Yogacoursesteachers")
+  () => import("@/components/home/Yogacoursesteachers"),
 );
 const ClassCampusAmenities = dynamic(
-  () => import("@/components/home/Classcampusamenities")
+  () => import("@/components/home/Classcampusamenities"),
 );
 const WhyAYMSection = dynamic(() => import("@/components/home/Whyaymsection"));
 const OurMission = dynamic(() => import("@/components/home/Ourmission"));
 const AYMFullPage = dynamic(() => import("@/components/home/Aymfullpage"));
 const BlogSection = dynamic(() => import("@/components/home/BlogSection"));
 const HomeTestimonialsSection = dynamic(
-  () => import("@/components/home/Hometestimonialssection")
+  () => import("@/components/home/Hometestimonialssection"),
 );
 const HowToReach = dynamic(() => import("@/components/home/Howtoreach"));
 
@@ -34,7 +36,6 @@ interface Slide {
 }
 
 async function getBanners(): Promise<Slide[]> {
-  // FIX: axios baseURL mein "/api" hai, yahan bhi hona chahiye
   const url = `${process.env.NEXT_PUBLIC_API_URL}/api/banners`;
   try {
     const res = await fetch(url, { next: { revalidate: 60 } });

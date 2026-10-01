@@ -265,13 +265,14 @@ export default function LoginPage() {
                 Sign In
               </button>
             </div>
-            <div className={`${styles.panelContent} ${styles.panelContentRight}`}>
+            <div
+              className={`${styles.panelContent} ${styles.panelContentRight}`}
+            >
               <h1>Namaste!</h1>
               <p>
-                "Yoga is not about touching your toes,
-                it is about what you learn on the way down.
-                It is the art of living — breathing, moving,
-                and awakening the soul within."
+                "Yoga is not about touching your toes, it is about what you
+                learn on the way down. It is the art of living — breathing,
+                moving, and awakening the soul within."
               </p>
 
               {!adminExists && (

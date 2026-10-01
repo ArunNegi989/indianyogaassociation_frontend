@@ -215,7 +215,7 @@ function useCurrencyRate() {
       .then((data) => {
         if (data?.usd?.inr) setRate(data.usd.inr);
       })
-      .catch(() => { })
+      .catch(() => {})
       .finally(() => setLoading(false));
   }, []);
   return { rate, loading };
@@ -258,14 +258,18 @@ function fmtPrice(usd: number, currency: Currency, rate: number) {
 /**
  * Get room price based on currency using stored values - NO CONVERSION
  */
-function getRoomPrice(batch: Batch | null, roomType: 'dorm' | 'twin' | 'private', currency: Currency) {
+function getRoomPrice(
+  batch: Batch | null,
+  roomType: "dorm" | "twin" | "private",
+  currency: Currency,
+) {
   if (!batch) return "—";
 
   if (currency === "INR") {
     // Use stored INR price directly - NO CONVERSION
     let inrPrice: number | undefined;
-    if (roomType === 'dorm') inrPrice = batch.inrDormPrice;
-    else if (roomType === 'twin') inrPrice = batch.inrTwinPrice;
+    if (roomType === "dorm") inrPrice = batch.inrDormPrice;
+    else if (roomType === "twin") inrPrice = batch.inrTwinPrice;
     else inrPrice = batch.inrPrivatePrice;
 
     if (inrPrice && inrPrice > 0) {
@@ -275,9 +279,12 @@ function getRoomPrice(batch: Batch | null, roomType: 'dorm' | 'twin' | 'private'
   }
 
   // USD
-  const usdPrice = roomType === 'dorm' ? batch.dormPrice :
-    roomType === 'twin' ? batch.twinPrice :
-      batch.privatePrice;
+  const usdPrice =
+    roomType === "dorm"
+      ? batch.dormPrice
+      : roomType === "twin"
+        ? batch.twinPrice
+        : batch.privatePrice;
   return `$${usdPrice}`;
 }
 
@@ -810,14 +817,14 @@ function PremiumSeatBooking() {
             <div className={styles.psbPriceRow}>
               <div className={styles.psbPriceCard}>
                 <div className={styles.psbPcAmt}>
-                  {selected ? getRoomPrice(selected, 'private', currency) : "—"}
+                  {selected ? getRoomPrice(selected, "private", currency) : "—"}
                   <span className={styles.psbPcCur}>{currency}</span>
                 </div>
                 <div className={styles.psbPcLbl}>Private Room</div>
               </div>
               <div className={styles.psbPriceCard}>
                 <div className={styles.psbPcAmt}>
-                  {selected ? getRoomPrice(selected, 'twin', currency) : "—"}
+                  {selected ? getRoomPrice(selected, "twin", currency) : "—"}
                   <span className={styles.psbPcCur}>{currency}</span>
                 </div>
                 <div className={styles.psbPcLbl}>Twin / Shared</div>
@@ -827,7 +834,7 @@ function PremiumSeatBooking() {
             <div className={styles.psbPriceWide}>
               <div className={styles.psbPwLeft}>
                 <span className={styles.psbPcAmt} style={{ fontSize: "1rem" }}>
-                  {selected ? getRoomPrice(selected, 'dorm', currency) : "—"}
+                  {selected ? getRoomPrice(selected, "dorm", currency) : "—"}
                 </span>
                 <span className={styles.psbPcCur}>{currency}</span>
               </div>
@@ -849,8 +856,11 @@ function PremiumSeatBooking() {
                 <span className={styles.psbInrAmt}>
                   {(() => {
                     if (selected.inrFee) {
-                      const num = parseFloat(selected.inrFee.replace(/[₹,]/g, "").trim());
-                      if (!isNaN(num) && num > 0) return `₹${num.toLocaleString("en-IN")}`;
+                      const num = parseFloat(
+                        selected.inrFee.replace(/[₹,]/g, "").trim(),
+                      );
+                      if (!isNaN(num) && num > 0)
+                        return `₹${num.toLocaleString("en-IN")}`;
                     }
                     return "—";
                   })()}
@@ -866,8 +876,8 @@ function PremiumSeatBooking() {
                 const pct = full
                   ? 100
                   : Math.round(
-                    (selected.bookedSeats / selected.totalSeats) * 100,
-                  );
+                      (selected.bookedSeats / selected.totalSeats) * 100,
+                    );
                 return (
                   <div className={styles.psbRpSeatsWrap}>
                     <div className={styles.psbRpSeatsRow}>
@@ -1819,7 +1829,10 @@ export default function GoaYogaPage() {
         <PremiumGallerySection type="both" backgroundColor="warm" />
       </div>
 
-      <ReviewSection courseType="yoga-teacher-training-goa" RatingsSummaryComponent={<RatingsSummarySection />} />
+      <ReviewSection
+        courseType="yoga-teacher-training-goa"
+        RatingsSummaryComponent={<RatingsSummarySection />}
+      />
 
       <div id="location">
         <HowToReach />

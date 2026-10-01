@@ -296,7 +296,6 @@ export const Footer = () => {
         <p className={styles.copyright}>
           © {new Date().getFullYear()} AYM Yoga School. All rights reserved.
         </p>
-
       </div>
     </footer>
   );

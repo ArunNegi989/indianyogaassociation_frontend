@@ -149,13 +149,13 @@ function useCurrencyRate() {
 
   useEffect(() => {
     fetch(
-      "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.json"
+      "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.json",
     )
       .then((r) => r.json())
       .then((data) => {
         if (data?.usd?.inr) setRate(data.usd.inr);
       })
-      .catch(() => { })
+      .catch(() => {})
       .finally(() => setLoading(false));
   }, []);
 
@@ -165,7 +165,7 @@ function useCurrencyRate() {
 function formatPrice(
   usdAmount: number,
   currency: Currency,
-  rate: number
+  rate: number,
 ): string {
   if (currency === "USD") return `$${usdAmount}`;
   const inr = Math.round((usdAmount * rate) / 100) * 100;
@@ -256,8 +256,7 @@ const getVideoType = (url: string) => {
 const getYouTubeEmbed = (url: string) => {
   let id = "";
   if (url.includes("youtu.be")) id = url.split("youtu.be/")[1]?.split("?")[0];
-  else if (url.includes("shorts/"))
-    id = url.split("shorts/")[1]?.split("?")[0];
+  else if (url.includes("shorts/")) id = url.split("shorts/")[1]?.split("?")[0];
   else if (url.includes("watch?v="))
     id = url.split("watch?v=")[1]?.split("&")[0];
   return id
@@ -597,8 +596,7 @@ function CourseInfoCard({
       ? Math.min(...available.map((s) => s.dormPrice))
       : 499);
   const originalPrice =
-    content.courseOriginalFeeUSD ||
-    Math.round((startingPrice * 1.8) / 50) * 50;
+    content.courseOriginalFeeUSD || Math.round((startingPrice * 1.8) / 50) * 50;
 
   const details = [
     {
@@ -1055,7 +1053,7 @@ export function PremiumSeatBooking({
       }
       const usdNum = batch
         ? parseFloat(batch.usdFee.replace(/[$,]/g, "")) || batch.dormPrice
-        : overrideUsd ?? 0;
+        : (overrideUsd ?? 0);
       return {
         amount: `₹${Math.round(usdNum * rate).toLocaleString("en-IN")}`,
         cur: "INR",
@@ -1069,28 +1067,37 @@ export function PremiumSeatBooking({
     return { amount: `$${overrideUsd ?? batch?.dormPrice ?? 0}`, cur: "USD" };
   };
 
-  const getRoomPrice = (batch: SeatBatch | null, roomType: 'dorm' | 'twin' | 'private') => {
+  const getRoomPrice = (
+    batch: SeatBatch | null,
+    roomType: "dorm" | "twin" | "private",
+  ) => {
     if (!batch) return "—";
 
     if (currency === "INR") {
       let inrPrice: number | undefined;
-      if (roomType === 'dorm') inrPrice = batch.inrDormPrice;
-      else if (roomType === 'twin') inrPrice = batch.inrTwinPrice;
+      if (roomType === "dorm") inrPrice = batch.inrDormPrice;
+      else if (roomType === "twin") inrPrice = batch.inrTwinPrice;
       else inrPrice = batch.inrPrivatePrice;
 
       if (inrPrice && inrPrice > 0) {
         return `₹${inrPrice.toLocaleString("en-IN")}`;
       }
 
-      const usdPrice = roomType === 'dorm' ? batch.dormPrice :
-        roomType === 'twin' ? batch.twinPrice :
-          batch.privatePrice;
+      const usdPrice =
+        roomType === "dorm"
+          ? batch.dormPrice
+          : roomType === "twin"
+            ? batch.twinPrice
+            : batch.privatePrice;
       return `₹${Math.round(usdPrice * rate).toLocaleString("en-IN")}`;
     }
 
-    const usdPrice = roomType === 'dorm' ? batch.dormPrice :
-      roomType === 'twin' ? batch.twinPrice :
-        batch.privatePrice;
+    const usdPrice =
+      roomType === "dorm"
+        ? batch.dormPrice
+        : roomType === "twin"
+          ? batch.twinPrice
+          : batch.privatePrice;
     return `$${usdPrice}`;
   };
 
@@ -1124,9 +1131,7 @@ export function PremiumSeatBooking({
                   Available
                 </div>
                 <div className={styles.psbLegItem}>
-                  <div
-                    className={`${styles.psbLegDot} ${styles.psbDOrange}`}
-                  />
+                  <div className={`${styles.psbLegDot} ${styles.psbDOrange}`} />
                   Limited
                 </div>
                 <div className={styles.psbLegItem}>
@@ -1212,7 +1217,7 @@ export function PremiumSeatBooking({
                             style={{
                               width: `${Math.max(
                                 5,
-                                (rem / batch.totalSeats) * 100
+                                (rem / batch.totalSeats) * 100,
                               )}%`,
                               background: low
                                 ? "linear-gradient(90deg,#c8700a,#e09030)"
@@ -1269,14 +1274,14 @@ export function PremiumSeatBooking({
             <div className={styles.psbPriceRow}>
               <div className={styles.psbPriceCard}>
                 <div className={styles.psbPcAmt}>
-                  {selected ? getRoomPrice(selected, 'private') : "—"}
+                  {selected ? getRoomPrice(selected, "private") : "—"}
                   <span className={styles.psbPcCur}>{currency}</span>
                 </div>
                 <div className={styles.psbPcLbl}>Private Room</div>
               </div>
               <div className={styles.psbPriceCard}>
                 <div className={styles.psbPcAmt}>
-                  {selected ? getRoomPrice(selected, 'twin') : "—"}
+                  {selected ? getRoomPrice(selected, "twin") : "—"}
                   <span className={styles.psbPcCur}>{currency}</span>
                 </div>
                 <div className={styles.psbPcLbl}>Twin / Shared</div>
@@ -1286,7 +1291,7 @@ export function PremiumSeatBooking({
             <div className={styles.psbPriceWide}>
               <div className={styles.psbPwLeft}>
                 <span className={styles.psbPcAmt} style={{ fontSize: "1rem" }}>
-                  {selected ? getRoomPrice(selected, 'dorm') : "—"}
+                  {selected ? getRoomPrice(selected, "dorm") : "—"}
                 </span>
                 <span className={styles.psbPcCur}>{currency}</span>
               </div>
@@ -1301,8 +1306,8 @@ export function PremiumSeatBooking({
                 const pct = full
                   ? 100
                   : Math.round(
-                    (selected.bookedSeats / selected.totalSeats) * 100
-                  );
+                      (selected.bookedSeats / selected.totalSeats) * 100,
+                    );
                 return (
                   <div className={styles.psbRpSeatsWrap}>
                     <div className={styles.psbRpSeatsRow}>
@@ -1312,11 +1317,7 @@ export function PremiumSeatBooking({
                       <span
                         className={styles.psbRpSeatsBadge}
                         style={{
-                          color: full
-                            ? "#8a2c00"
-                            : low
-                              ? "#c8700a"
-                              : "#3d6000",
+                          color: full ? "#8a2c00" : low ? "#c8700a" : "#3d6000",
                           borderColor: full
                             ? "#8a2c00"
                             : low
@@ -1426,8 +1427,9 @@ function StarRating({ count }: { count: number }) {
       {Array.from({ length: 5 }).map((_, i) => (
         <svg
           key={i}
-          className={`${styles.star} ${i < count ? styles.starFilled : styles.starEmpty
-            }`}
+          className={`${styles.star} ${
+            i < count ? styles.starFilled : styles.starEmpty
+          }`}
           viewBox="0 0 24 24"
           fill="currentColor"
         >
@@ -1494,37 +1496,37 @@ export default function HundredHourYoga() {
   const whyCards = content.whyChooseCards?.length
     ? content.whyChooseCards
     : [
-      {
-        icon: "star",
-        label: "Expert Teachers",
-        desc: "Certified & experienced yoga masters from Rishikesh tradition",
-      },
-      {
-        icon: "users",
-        label: "Small Batches",
-        desc: "Personalised attention with limited seats per batch",
-      },
-      {
-        icon: "map-pin",
-        label: "Sacred Location",
-        desc: "Learn in Rishikesh, the world capital of yoga",
-      },
-      {
-        icon: "award",
-        label: "Yoga Alliance",
-        desc: "Internationally recognized 100-hour certification",
-      },
-      {
-        icon: "coffee",
-        label: "Sattvic Meals",
-        desc: "Fresh vegetarian food included throughout the course",
-      },
-      {
-        icon: "book",
-        label: "Holistic Learning",
-        desc: "Asana, pranayama, meditation & philosophy combined",
-      },
-    ];
+        {
+          icon: "star",
+          label: "Expert Teachers",
+          desc: "Certified & experienced yoga masters from Rishikesh tradition",
+        },
+        {
+          icon: "users",
+          label: "Small Batches",
+          desc: "Personalised attention with limited seats per batch",
+        },
+        {
+          icon: "map-pin",
+          label: "Sacred Location",
+          desc: "Learn in Rishikesh, the world capital of yoga",
+        },
+        {
+          icon: "award",
+          label: "Yoga Alliance",
+          desc: "Internationally recognized 100-hour certification",
+        },
+        {
+          icon: "coffee",
+          label: "Sattvic Meals",
+          desc: "Fresh vegetarian food included throughout the course",
+        },
+        {
+          icon: "book",
+          label: "Holistic Learning",
+          desc: "Asana, pranayama, meditation & philosophy combined",
+        },
+      ];
 
   return (
     <div className={styles.root}>
@@ -1641,33 +1643,31 @@ export default function HundredHourYoga() {
         ))}
         <div className={styles.splitLayout}>
           <div className={styles.leftCards}>
-            {[...content.syllabusLeft, ...content.syllabusRight].map(
-              (m, i) => (
-                <div
-                  key={i}
-                  className={styles.card}
-                  style={{ "--i": i } as React.CSSProperties}
-                  onMouseMove={(e) => {
-                    const rect = e.currentTarget.getBoundingClientRect();
-                    e.currentTarget.style.setProperty(
-                      "--x",
-                      `${e.clientX - rect.left}px`
-                    );
-                    e.currentTarget.style.setProperty(
-                      "--y",
-                      `${e.clientY - rect.top}px`
-                    );
-                  }}
-                >
-                  <div className={styles.cardNumber}>
-                    {String(i + 1).padStart(2, "0")}
-                  </div>
-                  <h3>{m.title}</h3>
-                  <p>{m.desc}</p>
-                  <div className={styles.cardGlow} />
+            {[...content.syllabusLeft, ...content.syllabusRight].map((m, i) => (
+              <div
+                key={i}
+                className={styles.card}
+                style={{ "--i": i } as React.CSSProperties}
+                onMouseMove={(e) => {
+                  const rect = e.currentTarget.getBoundingClientRect();
+                  e.currentTarget.style.setProperty(
+                    "--x",
+                    `${e.clientX - rect.left}px`,
+                  );
+                  e.currentTarget.style.setProperty(
+                    "--y",
+                    `${e.clientY - rect.top}px`,
+                  );
+                }}
+              >
+                <div className={styles.cardNumber}>
+                  {String(i + 1).padStart(2, "0")}
                 </div>
-              )
-            )}
+                <h3>{m.title}</h3>
+                <p>{m.desc}</p>
+                <div className={styles.cardGlow} />
+              </div>
+            ))}
           </div>
 
           <div className={styles.rightImage}>
@@ -1836,15 +1836,17 @@ export default function HundredHourYoga() {
         <div className={styles.incWrap}>
           <div className={styles.incTabs}>
             <button
-              className={`${styles.incTab} ${activeTab === "include" ? styles.active : ""
-                }`}
+              className={`${styles.incTab} ${
+                activeTab === "include" ? styles.active : ""
+              }`}
               onClick={() => setActiveTab("include")}
             >
               ✓ What Is Included?
             </button>
             <button
-              className={`${styles.incTab} ${activeTab === "exclude" ? styles.active : ""
-                }`}
+              className={`${styles.incTab} ${
+                activeTab === "exclude" ? styles.active : ""
+              }`}
               onClick={() => setActiveTab("exclude")}
             >
               ✕ What Is Not Included?

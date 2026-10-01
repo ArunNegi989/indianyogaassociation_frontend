@@ -149,7 +149,11 @@ function TeacherModal({
   return (
     <div className={styles.modalBackdrop} onClick={handleBackdrop}>
       <div className={styles.modalCard}>
-        <button className={styles.modalClose} onClick={onClose} aria-label="Close">
+        <button
+          className={styles.modalClose}
+          onClick={onClose}
+          aria-label="Close"
+        >
           ✕
         </button>
         <div className={styles.modalOmBg}>ॐ</div>
@@ -158,7 +162,6 @@ function TeacherModal({
         <div className={styles.mCornerBL} />
         <div className={styles.mCornerBR} />
         <div className={styles.modalInner}>
-
           <div className={styles.modalImgFrame}>
             {getImageUrl(teacher.imgUrl) ? (
               <Image
@@ -320,7 +323,6 @@ function CourseSlider({
                 onMouseEnter={() => setHoveredCard(course._id)}
                 onMouseLeave={() => setHoveredCard(null)}
               >
-
                 <div className={styles.cardImgWrap}>
                   <Image
                     src={getImageUrl(course.imgUrl)}
@@ -356,7 +358,9 @@ function CourseSlider({
                     </div>
                     <div className={styles.metaRow}>
                       <span className={styles.metaKey}>Certificate</span>
-                      <span className={styles.metaVal}>{course.certificate}</span>
+                      <span className={styles.metaVal}>
+                        {course.certificate}
+                      </span>
                     </div>
                     <div className={styles.metaRow}>
                       <span className={styles.metaKey}>Course Fee</span>
@@ -366,10 +370,16 @@ function CourseSlider({
                     </div>
                   </div>
                   <div className={styles.cardActions}>
-                    <Link href={course.detailsLink || "#"} className={styles.detailsBtn}>
+                    <Link
+                      href={course.detailsLink || "#"}
+                      className={styles.detailsBtn}
+                    >
                       More Details
                     </Link>
-                    <Link href={course.bookLink || "#"} className={styles.bookBtn}>
+                    <Link
+                      href={course.bookLink || "#"}
+                      className={styles.bookBtn}
+                    >
                       Book Now
                     </Link>
                   </div>
@@ -549,7 +559,6 @@ function TeacherSlider({
                 tabIndex={0}
                 onKeyDown={(e) => e.key === "Enter" && onSelect(t)}
               >
-
                 <div className={styles.teacherImgWrap}>
                   {getImageUrl(t.imgUrl) ? (
                     <Image
@@ -629,7 +638,9 @@ export const YogaCoursesTeachers: React.FC = () => {
   const [data, setData] = useState<PageData | null>(null);
   const [loading, setLoading] = useState(true);
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
-  const [selectedTeacher, setSelectedTeacher] = useState<TeacherItem | null>(null);
+  const [selectedTeacher, setSelectedTeacher] = useState<TeacherItem | null>(
+    null,
+  );
 
   useEffect(() => {
     (async () => {
@@ -670,7 +681,8 @@ export const YogaCoursesTeachers: React.FC = () => {
 
   if (!data) return null;
 
-  const { sectionHeader, courses, who, teachersHeader, founder, teachers } = data;
+  const { sectionHeader, courses, who, teachersHeader, founder, teachers } =
+    data;
 
   return (
     <div className={styles.wrapper}>
@@ -682,7 +694,9 @@ export const YogaCoursesTeachers: React.FC = () => {
         <div className={styles.container}>
           <div className={styles.sectionHead}>
             <p className={styles.eyebrow}>{sectionHeader.eyebrow}</p>
-            <h2 className={styles.sectionTitle}>{sectionHeader.sectionTitle}</h2>
+            <h2 className={styles.sectionTitle}>
+              {sectionHeader.sectionTitle}
+            </h2>
             <div className={styles.omDivider}>
               <span className={styles.divLine} />
               <span className={styles.divOm}>🧘</span>
@@ -700,12 +714,9 @@ export const YogaCoursesTeachers: React.FC = () => {
         <div className={styles.bottomBorder} />
       </section>
 
-
       <section className={styles.whoSection}>
         <div className={styles.container}>
           <div className={styles.whoHero}>
-
-
             <div className={styles.whoLeft}>
               <div className={styles.whoEyebrow}>
                 <span className={styles.whoEyeHr} />
@@ -719,7 +730,6 @@ export const YogaCoursesTeachers: React.FC = () => {
                   if (!para) return null;
                   return (
                     <React.Fragment key={i}>
-
                       {i === 2 && (
                         <div className={styles.whoPull}>
                           <p>
@@ -729,20 +739,21 @@ export const YogaCoursesTeachers: React.FC = () => {
                           <span>Ancient Yoga Teaching</span>
                         </div>
                       )}
-                      <p className={i === 0 ? styles.whoParaFirst : styles.whoPara}>
+                      <p
+                        className={
+                          i === 0 ? styles.whoParaFirst : styles.whoPara
+                        }
+                      >
                         {para}
                       </p>
                     </React.Fragment>
                   );
-                }
+                },
               )}
             </div>
 
-
             <div className={styles.whoRight}>
-              <p className={styles.whoPanelLbl}>
-                You belong here if you are —
-              </p>
+              <p className={styles.whoPanelLbl}>You belong here if you are —</p>
 
               <div className={styles.whoChipList}>
                 {who.chips.map((item, i) => (
@@ -779,7 +790,9 @@ export const YogaCoursesTeachers: React.FC = () => {
         <div className={styles.container}>
           <div className={styles.sectionHead}>
             <p className={styles.eyebrow}>{teachersHeader.eyebrow}</p>
-            <h2 className={styles.sectionTitle}>{teachersHeader.sectionTitle}</h2>
+            <h2 className={styles.sectionTitle}>
+              {teachersHeader.sectionTitle}
+            </h2>
             <div className={styles.omDivider}>
               <span className={styles.divLine} />
               <span className={styles.divOm}>🧘</span>
@@ -803,7 +816,6 @@ export const YogaCoursesTeachers: React.FC = () => {
           {/* Founder Block */}
           <div className={styles.founderBlock}>
             <div className={styles.founderImgCol}>
-
               <div
                 className={styles.founderImgFrame}
                 style={{ position: "relative", aspectRatio: "3 / 4" }}
@@ -856,10 +868,16 @@ export const YogaCoursesTeachers: React.FC = () => {
                 className={styles.para}
               />
               <div className={styles.founderActions}>
-                <Link href={founder.detailsBtnLink || "#"} className={styles.detailsBtn}>
+                <Link
+                  href={founder.detailsBtnLink || "#"}
+                  className={styles.detailsBtn}
+                >
                   {founder.detailsBtnText}
                 </Link>
-                <Link href={founder.bookBtnLink || "#"} className={styles.bookBtn}>
+                <Link
+                  href={founder.bookBtnLink || "#"}
+                  className={styles.bookBtn}
+                >
                   {founder.bookBtnText}
                 </Link>
               </div>
