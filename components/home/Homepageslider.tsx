@@ -101,7 +101,12 @@ const HomepageSlider = ({ initialSlides }: Props) => {
     }
   };
 
-  if (!slides.length) return null;
+  // CLS fix: slides khali hon tab bhi wrapper render ho (height CSS se reserved)
+  if (!slides.length) {
+    return (
+      <section className={styles.sliderWrapper} aria-label="Hero image slider" />
+    );
+  }
 
   return (
     <section
@@ -126,8 +131,9 @@ const HomepageSlider = ({ initialSlides }: Props) => {
             className={styles.slideImage}
             style={{ objectFit: "cover" }}
             priority={idx === 0}
+            fetchPriority={idx === 0 ? "high" : "auto"}
             loading={idx === 0 ? undefined : "lazy"}
-            quality={70}
+            quality={60}
           />
           <div className={styles.slideOverlay} />
 
@@ -171,8 +177,7 @@ const HomepageSlider = ({ initialSlides }: Props) => {
             role="tab"
             aria-selected={idx === current}
             aria-label={`Go to slide ${idx + 1}`}
-            className={`${styles.dot} ${idx === current ? styles.activeDot : ""
-              }`}
+            className={`${styles.dot} ${idx === current ? styles.activeDot : ""}`}
             onClick={() => goTo(idx)}
           />
         ))}

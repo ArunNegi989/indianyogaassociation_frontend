@@ -132,8 +132,8 @@ export const CoursesSectionClient: React.FC<Props> = ({ initialCourses }) => {
                     width={1200}
                     height={800}
                     sizes="(max-width: 900px) 100vw, 280px"
-                    loading={idx === 0 ? undefined : "lazy"}
-                    priority={idx === 0}
+                    loading="lazy"
+                    quality={60}
                     onError={(e) => {
                       const t = e.target as HTMLImageElement;
                       t.onerror = null;

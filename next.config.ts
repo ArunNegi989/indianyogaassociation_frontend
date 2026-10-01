@@ -7,6 +7,7 @@ const nextConfig: NextConfig = {
     inlineCss: true, // render-blocking CSS hatata hai
   },
   images: {
+    qualities: [60, 75], // Next 16: sirf listed qualities allowed hain
     // Sirf dev mein localhost:5000 se image optimize karne ke liye
     dangerouslyAllowLocalIP: isDev,
     dangerouslyAllowSVG: true,

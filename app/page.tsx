@@ -7,7 +7,6 @@ import { homepageJsonLd } from "@/lib/seo/homepage-schema";
 import bgMobile from "@/assets/images/backgroundimage/510x1739.webp";
 import bgXs from "@/assets/images/backgroundimage/360x2080.webp";
 
-// Below-the-fold sections: lazy, taaki unki JS/CSS initial load se hat jaye
 const CoursesSection = dynamic(() => import("@/components/home/Coursessection"));
 const AccreditationSection = dynamic(
   () => import("@/components/home/Accreditationsection")
@@ -35,17 +34,23 @@ interface Slide {
 }
 
 async function getBanners(): Promise<Slide[]> {
+  const url = `${process.env.NEXT_PUBLIC_API_URL}/banners`;
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/banners`, {
-      next: { revalidate: 60 },
-    });
+    const res = await fetch(url, { next: { revalidate: 60 } });
 
-    if (!res.ok) return [];
+    if (!res.ok) {
+      console.error("Banners fetch failed:", res.status, url);
+      return [];
+    }
 
     const data = await res.json();
-    return data.success ? data.data : [];
+    if (!data.success || !Array.isArray(data.data)) {
+      console.error("Banners bad response:", url);
+      return [];
+    }
+    return data.data;
   } catch (error) {
-    console.error("Server-side banner fetch error:", error);
+    console.error("Server-side banner fetch error:", url, error);
     return [];
   }
 }
@@ -55,7 +60,6 @@ export default async function Home() {
 
   return (
     <>
-      {/* LCP fix: CSS background image ko HTML se preload karo */}
       <link
         rel="preload"
         as="image"
