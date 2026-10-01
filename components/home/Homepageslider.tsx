@@ -133,7 +133,7 @@ const HomepageSlider = ({ initialSlides }: Props) => {
             priority={idx === 0}
             fetchPriority={idx === 0 ? "high" : "auto"}
             loading={idx === 0 ? undefined : "lazy"}
-            quality={60}
+            quality={50}
           />
           <div className={styles.slideOverlay} />
 

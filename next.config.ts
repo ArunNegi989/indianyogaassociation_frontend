@@ -4,11 +4,10 @@ const isDev = process.env.NODE_ENV === "development";
 
 const nextConfig: NextConfig = {
   experimental: {
-    inlineCss: true, // render-blocking CSS hatata hai
+    inlineCss: true,
   },
   images: {
-    qualities: [60, 75], // Next 16: sirf listed qualities allowed hain
-    // Sirf dev mein localhost:5000 se image optimize karne ke liye
+    qualities: [50, 60, 75],
     dangerouslyAllowLocalIP: isDev,
     dangerouslyAllowSVG: true,
     remotePatterns: [
