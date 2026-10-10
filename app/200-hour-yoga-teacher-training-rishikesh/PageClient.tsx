@@ -449,15 +449,17 @@ function CornerOrnament({ pos }: { pos: "tl" | "tr" | "bl" | "br" }) {
 function VintageHeading({
   children,
   para,
+  as: Tag = "h2",
 }: {
   children: React.ReactNode;
   para?: React.ReactNode;
+  as?: "h1" | "h2";
 }) {
   if (para) {
     return (
       <div className={styles.vintageHeadingWrap}>
         <div className={styles.vintageHeadingLeft}>
-          <h1 className={styles.vintageHeading}>{children}</h1>
+          <Tag className={styles.vintageHeading}>{children}</Tag>
           <div className={styles.omDivider}>
             <span className={styles.dividerLine} />
             <span className={styles.omSymbol}>ॐ</span>
@@ -470,7 +472,7 @@ function VintageHeading({
   }
   return (
     <div className={styles.vintageHeadingWrap}>
-      <h2 className={styles.vintageHeading}>{children}</h2>
+      <Tag className={styles.vintageHeading}>{children}</Tag>
       <div className={styles.omDivider}>
         <span className={styles.dividerLine} />
         <span className={styles.omSymbol}>ॐ</span>
@@ -1510,17 +1512,18 @@ export default function TwoHundredHourYoga() {
       {/* ════ HERO TEXT + VIDEO + STATS ════ */}
       <section className={styles.heroSection2}>
         <VintageHeading
-          para={
-            introParas[0] ? (
-              <span
-                className={styles.bodyText}
-                dangerouslySetInnerHTML={{ __html: introParas[0] }}
-              />
-            ) : undefined
-          }
-        >
-          {content?.pageMainH1 || "200 Hour Yoga Teacher Training in Rishikesh"}
-        </VintageHeading>
+  as="h1"
+  para={
+    introParas[0] ? (
+      <span
+        className={styles.bodyText}
+        dangerouslySetInnerHTML={{ __html: introParas[0] }}
+      />
+    ) : undefined
+  }
+>
+  {content?.pageMainH1 || "200 Hour Yoga Teacher Training in Rishikesh"}
+</VintageHeading>
 
         <VideoSection
           videoUrl={content?.videoUrl}

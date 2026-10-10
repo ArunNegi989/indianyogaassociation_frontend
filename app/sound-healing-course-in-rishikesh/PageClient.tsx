@@ -749,9 +749,9 @@ export default function SoundHealingPage() {
                 <span className={styles.introDecorDot}>✧</span>
                 <span className={styles.introDecorLine}></span>
               </div>
-              <h2 className={styles.secTitleOrange}>
+              <h1 className={styles.secTitleOrange}>
                 {stripHtml(data.introTitle)}
-              </h2>
+              </h1>
               <div className={styles.omDivider}>
                 <span className={styles.divLine} />
                 <span className={styles.omGlyph}>ॐ</span>
