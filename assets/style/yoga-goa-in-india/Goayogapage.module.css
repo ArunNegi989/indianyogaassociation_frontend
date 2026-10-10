@@ -23,9 +23,9 @@
   --saffron-gold: #f15505;
   --maroon: #6b1a00;
   --border-gold: rgba(184, 134, 11, 0.4);
-  --ff-d: 'Cinzel', serif;
-  --ff-b: 'Cormorant Garamond', serif;
-  --ff-s: 'Dancing Script', cursive;
+  --ff-d: 'Montserrat', Arial, sans-serif;
+  --ff-b: 'Montserrat', Arial, sans-serif;
+  --ff-s: 'Montserrat', Arial, sans-serif;
   --ff-f: 'IM Fell English', serif;
   --shadow: 0 4px 24px rgba(92, 45, 0, 0.12);
   --shadow-lg: 0 10px 40px rgba(92, 45, 0, 0.18);

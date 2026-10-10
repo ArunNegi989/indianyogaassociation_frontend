@@ -457,7 +457,7 @@ function VintageHeading({
     return (
       <div className={styles.vintageHeadingWrap}>
         <div className={styles.vintageHeadingLeft}>
-          <h2 className={styles.vintageHeading}>{children}</h2>
+          <h1 className={styles.vintageHeading}>{children}</h1>
           <div className={styles.omDivider}>
             <span className={styles.dividerLine} />
             <span className={styles.omSymbol}>ॐ</span>

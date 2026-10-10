@@ -1268,7 +1268,7 @@ export default function HathaYogaPage() {
           <div className={`${styles.reveal} ${styles.introGrid}`}>
             <div className={styles.introText}>
               {d.introSectionTitle && (
-                <h2 className={styles.sectionTitle}>{d.introSectionTitle}</h2>
+                <h1 className={styles.sectionTitle}>{d.introSectionTitle}</h1>
               )}
               <OrnamentDivider />
               {d.introParagraphs && d.introParagraphs.length > 0

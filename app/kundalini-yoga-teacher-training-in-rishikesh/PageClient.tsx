@@ -1493,9 +1493,9 @@ export default function KundaliniYogaTTC() {
             <div className={styles.introBlock}>
               <div className={styles.introBlockInner}>
                 <span className={styles.secTagline}>Discover the Path</span>
-                <h2 className={styles.sectionTitleCenter}>
+                <h1 className={styles.sectionTitleCenter}>
                   {content.kundaliniIntroHeading}
-                </h2>
+                </h1>
                 <OmDivider />
                 <div
                   className={`${styles.bodyPara} ${styles.textCenter} ${styles.introBlockParagraph}`}

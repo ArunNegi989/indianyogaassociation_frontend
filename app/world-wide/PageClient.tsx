@@ -299,9 +299,9 @@ export default function WorldwidePage() {
               <span className={styles.superLabel}>
                 {data.curriculumSubHeading || "What You'll Study"}
               </span>
-              <h2 className={styles.sectionTitle}>
+              <h1 className={styles.sectionTitle}>
                 {data.curriculumTitle || "Course Curriculum"}
-              </h2>
+              </h1>
               <OmBar align="left" />
 
               {data.topParagraphs?.map((para, i) => (

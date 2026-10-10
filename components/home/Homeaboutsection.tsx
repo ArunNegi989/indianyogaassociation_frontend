@@ -60,7 +60,7 @@ export const HomeaboutSection = async () => {
       <section className={styles.section}>
         <div className={styles.container}>
           <div className={styles.header}>
-            <p className={styles.superTitle}>{data.superTitle}</p>
+            <h1 className={styles.superTitle}>{data.superTitle}</h1>
 
             <h2 className={styles.mainTitle}>{data.mainTitle}</h2>
 

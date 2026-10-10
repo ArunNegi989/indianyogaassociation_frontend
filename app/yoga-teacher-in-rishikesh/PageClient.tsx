@@ -350,9 +350,9 @@ const Teachers: React.FC = () => {
         {/* FOUNDER */}
         <section className={styles.founderSection}>
           <div className={styles.outerPad}>
-            <div className={styles.secLabel}>
+            <h1 className={styles.secLabel}>
               {founder?.sectionLabel || "Founder & Director"}
-            </div>
+            </h1>
             <GoldSep />
             {loading ? (
               <div className={styles.founderSkeleton} />

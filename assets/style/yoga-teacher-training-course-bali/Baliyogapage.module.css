@@ -14,9 +14,9 @@
   --jungle2: #2a5040;
   --ink: #2e1a06;
   --glow: rgba(224, 123, 0, 0.28);
-  --ff-d: 'Cinzel', serif;
-  --ff-b: 'Cormorant Garamond', serif;
-  --ff-s: 'Dancing Script', cursive;
+  --ff-d: 'Montserrat', Arial, sans-serif;
+  --ff-b: 'Montserrat', Arial, sans-serif;
+  --ff-s: 'Montserrat', Arial, sans-serif;
   --ff-f: 'IM Fell English', serif;
   --shadow: 0 4px 24px rgba(40, 20, 0, 0.13);
   --shadow-lg: 0 12px 48px rgba(40, 20, 0, 0.2);

@@ -217,10 +217,10 @@ export default function BaliYogaPage() {
             </div>
             <div className={styles.introBannerText}>
               <OmBar />
-              <h2 className={styles.sectionTitle}>
+              <h1 className={styles.sectionTitle}>
                 {data?.introBannerTitle ||
                   "Bali: Take Your 200 Hour Yoga Teacher Training to the Next Level in Paradise"}
-              </h2>
+              </h1>
               {hasText(data?.introBannerText) && (
                 <Html html={data!.introBannerText!} className={styles.para} />
               )}

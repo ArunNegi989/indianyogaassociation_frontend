@@ -345,7 +345,7 @@ export default function AyurvedaPage() {
               <span className={styles.superLabel}>
                 {data?.introSuperLabel || "Ancient Science of Life"}
               </span>
-              <h2 className={styles.sectionTitle}>
+              <h1 className={styles.sectionTitle}>
                 {(
                   data?.introTitle ||
                   "Introductory Course in Ayurveda\nin Rishikesh India"
@@ -357,7 +357,7 @@ export default function AyurvedaPage() {
                       {i < arr.length - 1 && <br />}
                     </React.Fragment>
                   ))}
-              </h2>
+              </h1>
               <OmBar align="left" />
 
               {hasContent(data?.introText1) && (

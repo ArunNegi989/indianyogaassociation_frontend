@@ -1353,7 +1353,7 @@ function CurriculumSection({
       <div className={`${styles.container} ${styles.currContainer}`}>
         <div className={`${styles.reveal} ${styles.centered}`}>
           <span className={styles.superLabel}>{superLabel}</span>
-          <h2 className={styles.sectionTitle}>{sectionTitle}</h2>
+          <h1 className={styles.sectionTitle}>{sectionTitle}</h1>
           <OmDivider />
         </div>
         <div className={`${styles.reveal} ${styles.currGrid}`}>
