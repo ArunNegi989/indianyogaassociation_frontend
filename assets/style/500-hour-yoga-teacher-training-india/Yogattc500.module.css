@@ -23,8 +23,14 @@
   --font-menu: 'Montserrat', Arial, sans-serif;
 }
 
-.enhancedIntroContainer {
+/* FIX: container ab hamesha center mein rahega (global .container margin override ke baad bhi) */
+.enhancedIntroContainer,
+:global(.container).enhancedIntroContainer {
+  width: 100%;
   max-width: 1536px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  box-sizing: border-box;
 }
 
 /* ────────────────────────────────────────
