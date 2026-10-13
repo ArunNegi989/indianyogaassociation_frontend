@@ -126,7 +126,7 @@ interface MediaUploaderProps {
 
 interface MultiImgProps {
   items: MultiImgItem[];
-  onChange: (items: MultiImgItem[]) => void;
+  onChange: React.Dispatch<React.SetStateAction<MultiImgItem[]>>;
   hint?: string;
   max?: number;
   label?: string;
@@ -158,6 +158,42 @@ interface ParaItem {
 // ============================================================
 // UTILITIES
 // ============================================================
+
+const mkPara = (val = ""): ParaItem => ({
+  id: `p-${Date.now()}-${Math.random()}`,
+  value: val,
+});
+
+// ---- FIX: functional state updates (stale closure se data overwrite nahi hoga) ----
+function patchAt<T extends object>(
+  setter: React.Dispatch<React.SetStateAction<T[]>>,
+  i: number,
+  patch: Partial<T>,
+) {
+  setter((prev) => prev.map((x, idx) => (idx === i ? { ...x, ...patch } : x)));
+}
+
+function setStrAt(
+  setter: React.Dispatch<React.SetStateAction<string[]>>,
+  i: number,
+  val: string,
+) {
+  setter((prev) => prev.map((x, idx) => (idx === i ? val : x)));
+}
+
+function removeAt<T>(
+  setter: React.Dispatch<React.SetStateAction<T[]>>,
+  i: number,
+) {
+  setter((prev) => prev.filter((_, idx) => idx !== i));
+}
+
+function removeAtMin1<T>(
+  setter: React.Dispatch<React.SetStateAction<T[]>>,
+  i: number,
+) {
+  setter((prev) => (prev.length > 1 ? prev.filter((_, idx) => idx !== i) : prev));
+}
 
 function makeConfig(ph: string, h: number) {
   return {
@@ -255,6 +291,56 @@ const StableJodit = memo(function StableJodit({ onSave, value, ph = "Start typin
 StableJodit.displayName = "StableJodit";
 
 // ============================================================
+// PARAGRAPH LIST (id-based, functional updates)
+// ============================================================
+
+function ParaList({
+  items,
+  setItems,
+  ph,
+  h = 200,
+}: {
+  items: ParaItem[];
+  setItems: React.Dispatch<React.SetStateAction<ParaItem[]>>;
+  ph: string;
+  h?: number;
+}) {
+  return (
+    <div>
+      {items.map((para, i) => (
+        <div key={para.id} className={styles.nestedCard} style={{ marginBottom: "0.85rem" }}>
+          <div className={styles.nestedCardHeader}>
+            <span className={styles.nestedCardNum}>Paragraph {i + 1}</span>
+            {items.length > 1 && (
+              <button
+                type="button"
+                className={styles.removeNestedBtn}
+                onClick={() => setItems((prev) => prev.filter((p) => p.id !== para.id))}
+              >
+                ✕ Remove
+              </button>
+            )}
+          </div>
+          <div className={styles.nestedCardBody}>
+            <StableJodit
+              value={para.value}
+              onSave={(val: string) =>
+                setItems((prev) => prev.map((p) => (p.id === para.id ? { ...p, value: val } : p)))
+              }
+              ph={ph}
+              h={h}
+            />
+          </div>
+        </div>
+      ))}
+      <button type="button" className={styles.addItemBtn} onClick={() => setItems((prev) => [...prev, mkPara()])}>
+        ＋ Add Paragraph
+      </button>
+    </div>
+  );
+}
+
+// ============================================================
 // MEDIA UPLOADER
 // ============================================================
 
@@ -287,7 +373,7 @@ function MediaUploader({ preview, badge, hint, error, onSelect, onRemove, type =
 
   return (
     <div>
-      <div 
+      <div
         className={`${styles.imageUploadZone} ${preview ? styles.hasImage : ""} ${error ? styles.inputError : ""}`}
         onClick={!preview ? handleClick : undefined}
       >
@@ -298,7 +384,7 @@ function MediaUploader({ preview, badge, hint, error, onSelect, onRemove, type =
           style={{ display: "none" }}
           onChange={handleFileChange}
         />
-        
+
         {!preview ? (
           <div className={styles.imageUploadPlaceholder}>
             <span className={styles.imageUploadIcon}>{type === "video" ? "🎥" : "🖼️"}</span>
@@ -326,22 +412,23 @@ function MediaUploader({ preview, badge, hint, error, onSelect, onRemove, type =
 }
 
 // ============================================================
-// MULTI IMAGE UPLOADER
+// MULTI IMAGE UPLOADER (functional updates)
 // ============================================================
 
 function MultiImg({ items, onChange, hint, max = 20, label = "Add Photos" }: MultiImgProps) {
   const handleAdd = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
-    const newItems: MultiImgItem[] = files.slice(0, max - items.length).map((f) => ({ 
-      id: `img-${Date.now()}-${Math.random()}`, 
-      file: f, 
-      preview: URL.createObjectURL(f) 
+    const newItems: MultiImgItem[] = files.map((f) => ({
+      id: `img-${Date.now()}-${Math.random()}`,
+      file: f,
+      preview: URL.createObjectURL(f),
     }));
-    onChange([...items, ...newItems]);
+    // FIX: prev ke upar add karo, purani images kabhi replace nahi hongi
+    onChange((prev) => [...prev, ...newItems].slice(0, max));
     e.target.value = "";
   };
 
-  const remove = (id: string) => onChange(items.filter((i) => i.id !== id));
+  const remove = (id: string) => onChange((prev) => prev.filter((i) => i.id !== id));
 
   return (
     <div>
@@ -407,6 +494,10 @@ export default function AddEdit500HrPage() {
   const [submitted, setSubmitted] = useState(false);
   const [loadingData, setLoadingData] = useState(false);
 
+  // FIX: edit mode mein data load hone se pehle submit block + real doc id
+  const dataLoadedRef = useRef(false);
+  const docIdRef = useRef<string>(pageId);
+
   // Single Images
   const [heroFile, setHeroFile] = useState<File | null>(null);
   const [heroPrev, setHeroPrev] = useState("");
@@ -415,7 +506,7 @@ export default function AddEdit500HrPage() {
   const [shivaPrev, setShivaPrev] = useState("");
   const [evalImgFile, setEvalImgFile] = useState<File | null>(null);
   const [evalImgPrev, setEvalImgPrev] = useState("");
-  
+
   // Video File
   const [videoFile, setVideoFile] = useState<File | null>(null);
   const [videoPrev, setVideoPrev] = useState("");
@@ -442,8 +533,6 @@ export default function AddEdit500HrPage() {
   ]);
 
   // Dynamic Paragraph Lists
-  const mkPara = (val = ""): ParaItem => ({ id: `p-${Date.now()}-${Math.random()}`, value: val });
-  
   const [introParas, setIntroParas] = useState<ParaItem[]>([]);
   const [standApartParas, setStandApartParas] = useState<ParaItem[]>([]);
   const [gainsParas, setGainsParas] = useState<ParaItem[]>([]);
@@ -454,7 +543,7 @@ export default function AddEdit500HrPage() {
   const [evaluationParas, setEvaluationParas] = useState<ParaItem[]>([]);
   const [fictionParas, setFictionParas] = useState<ParaItem[]>([]);
 
-  // NEW: Dynamic Stand Apart Stats and Pills
+  // Dynamic Stand Apart Stats and Pills
   const [standApartPills, setStandApartPills] = useState<string[]>([
     "Anatomy & Kinesiology",
     "Yoga Philosophy",
@@ -516,20 +605,20 @@ export default function AddEdit500HrPage() {
       courseInfoInrPrice: 135000,
       courseInfoOriginalUsdPrice: 2950,
       courseInfoOriginalInrPrice: 240000,
-      slug: "500-hour-yoga-teacher-training-india", 
+      slug: "500-hour-yoga-teacher-training-india",
       status: "Active",
-      pageMainH1: "500 Hour Yoga Teacher Training Course in Rishikesh", 
+      pageMainH1: "500 Hour Yoga Teacher Training Course in Rishikesh",
       heroImgAlt: "Yoga Students Group",
       standApartH2: "What makes AYM School's Yoga Teachers Training Courses stand apart from the rest?",
       gainsH2: "What do I gain from the 500 Hour Yoga Teacher Training Course in Rishikesh?",
-      seatSectionH2: "500 Hour Yoga Teacher Training India – Upcoming Batches", 
+      seatSectionH2: "500 Hour Yoga Teacher Training India – Upcoming Batches",
       seatSectionSubtext: "",
       tableNoteText: "Course Fee: 1649 USD (Including: Dormitory Stay and Food) | For the upgrade you accommodation send us E-mail. Available accommodation Categories: Shared, Private and Luxury.",
-      tableNoteEmail: "", 
+      tableNoteEmail: "",
       tableNoteAirportText: "Airport pick up from Delhi airport to Yoga school Rishikesh will cost 90 USD and Round Trip 150 USD.",
-      credibilityH2: "What is The Credibility of This Course?", 
+      credibilityH2: "What is The Credibility of This Course?",
       durationH2: "How Long is The Duration of The Course?",
-      syllabusH2: "Overview of Syllabus", 
+      syllabusH2: "Overview of Syllabus",
       eligibilityH3: "What are the Eligibility Criteria?",
       evaluationH3: "Is there an Evaluation Process for the Course?",
       includedTitle: "Included in the package of 500-Hour Courses in India",
@@ -560,24 +649,28 @@ export default function AddEdit500HrPage() {
       setLoadingData(true);
       try {
         const res = await api.get("/yoga-500hr/content");
-        const d = res.data.data;
+        const d = res.data?.data;
+        if (!d) throw new Error("No data");
+
+        // real document id (URL id galat ho to bhi sahi doc update ho)
+        docIdRef.current = d._id || pageId;
+
         const fields: (keyof PageFormValues)[] = [
-          "slug", "status", "pageMainH1", "heroImgAlt", "standApartH2", "gainsH2", 
-          "seatSectionH2", "seatSectionSubtext", "tableNoteText", "tableNoteEmail", 
-          "tableNoteAirportText", "credibilityH2", "durationH2", "syllabusH2", 
-          "eligibilityH3", "evaluationH3", "includedTitle", "includedNote", 
-          "notIncludedTitle", "fictionH3", "reviewsSectionH2", "refundH3", "refundPara", 
+          "slug", "status", "pageMainH1", "heroImgAlt", "standApartH2", "gainsH2",
+          "seatSectionH2", "seatSectionSubtext", "tableNoteText", "tableNoteEmail",
+          "tableNoteAirportText", "credibilityH2", "durationH2", "syllabusH2",
+          "eligibilityH3", "evaluationH3", "includedTitle", "includedNote",
+          "notIncludedTitle", "fictionH3", "reviewsSectionH2", "refundH3", "refundPara",
           "applyH3", "applyPara", "indianFeeH3", "imgBadgeText",
           "videoBadgeText", "videoTitle", "videoSubtitle", "evalImageAlt",
-          "courseInfoCardTitle", "courseInfoFeeLabel", "courseInfoFeeFromText", 
+          "courseInfoCardTitle", "courseInfoFeeLabel", "courseInfoFeeFromText",
           "courseInfoBookBtnText", "courseInfoOriginalPriceMultiplier",
-          "courseInfoUsdPrice", "courseInfoInrPrice", "courseInfoOriginalUsdPrice", "courseInfoOriginalInrPrice"
+          "courseInfoUsdPrice", "courseInfoInrPrice", "courseInfoOriginalUsdPrice", "courseInfoOriginalInrPrice",
         ];
         fields.forEach((k) => { if (d[k] !== undefined) setValue(k, d[k]); });
-        
-        // Load course info details
+
         if (d.courseInfoDetails?.length) setCourseInfoDetails(d.courseInfoDetails);
-        
+
         if (d.heroImage) setHeroPrev(BASE_URL + d.heroImage);
         if (d.shivaImage) setShivaPrev(BASE_URL + d.shivaImage);
         if (d.evalImage) setEvalImgPrev(BASE_URL + d.evalImage);
@@ -586,12 +679,12 @@ export default function AddEdit500HrPage() {
           setExistingVideoUrl(d.videoUrl);
         }
         if (d.introItems?.length) {
-          setIntroItems(d.introItems.map((item: any) => ({ 
-            paragraph: item.paragraph || "", 
-            media: item.media ? (item.media.startsWith("http") ? item.media : BASE_URL + item.media) : "", 
-            mediaAlt: item.mediaAlt || "", 
+          setIntroItems(d.introItems.map((item: any) => ({
+            paragraph: item.paragraph || "",
+            media: item.media ? (item.media.startsWith("http") ? item.media : BASE_URL + item.media) : "",
+            mediaAlt: item.mediaAlt || "",
             mediaType: item.mediaType || "image",
-            mediaFile: undefined 
+            mediaFile: undefined,
           })));
         }
         if (d.accomImages?.length) setAccomImgs(d.accomImages.map((src: string, i: number) => ({ id: `a${i}`, preview: BASE_URL + src, serverPath: src })));
@@ -601,11 +694,10 @@ export default function AddEdit500HrPage() {
         if (d.indianFees?.length) setIndianFees(d.indianFees);
         if (d.syllabusModules?.length) setSyllabusModules(d.syllabusModules);
         if (d.reviews?.length) setReviews(d.reviews);
-        
-        // NEW: Load dynamic stats and pills
+
         if (d.standApartPills?.length) setStandApartPills(d.standApartPills);
         if (d.standApartStats?.length) setStandApartStats(d.standApartStats);
-        
+
         const toItems = (arr: string[] | undefined): ParaItem[] => arr?.length ? arr.map((v) => mkPara(v)) : [];
         if (d.introParas?.length) setIntroParas(toItems(d.introParas));
         if (d.standApartParas?.length) setStandApartParas(toItems(d.standApartParas));
@@ -616,6 +708,8 @@ export default function AddEdit500HrPage() {
         if (d.eligibilityParas?.length) setEligibilityParas(toItems(d.eligibilityParas));
         if (d.evaluationParas?.length) setEvaluationParas(toItems(d.evaluationParas));
         if (d.fictionParas?.length) setFictionParas(toItems(d.fictionParas));
+
+        dataLoadedRef.current = true; // ab submit safe hai
       } catch {
         toast.error("Failed to load");
         router.push("/admin/yogacourse/500hourscourse/content");
@@ -624,31 +718,57 @@ export default function AddEdit500HrPage() {
       }
     };
     fetchData();
-  }, [isEdit, pageId, router, setValue]);
+    // FIX: router / setValue deps hataye, warna effect dobara chal ke states reset kar sakta tha
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isEdit, pageId]);
 
   // ============================================================
   // SUBMIT HANDLER
   // ============================================================
 
   const onSubmit = async (data: PageFormValues) => {
-    if (!heroFile && !heroPrev) { 
-      setHeroErr("Hero image is required"); 
-      return; 
+    if (!heroFile && !heroPrev) {
+      setHeroErr("Hero image is required");
+      return;
     }
+
+    // FIX: edit mode mein data load hone se pehle save mat hone do (warna khali data DB mein jaata)
+    if (isEdit && !dataLoadedRef.current) {
+      toast.error("Page data abhi load ho raha hai, thodi der baad save karein");
+      return;
+    }
+
+    // Create mode: backend purana content delete karke replace karta hai, isliye confirm
+    if (!isEdit) {
+      try {
+        const chk = await api.get("/yoga-500hr/content");
+        if (chk.data?.data?._id) {
+          const ok = window.confirm(
+            "Is page ka content pehle se exist karta hai. Naya create karne se poora purana content replace ho jayega. Continue?",
+          );
+          if (!ok) return;
+        }
+      } catch {
+        /* ignore */
+      }
+    }
+
     try {
       setIsSubmitting(true);
       const fd = new window.FormData();
-      Object.entries(data).forEach(([k, v]) => fd.append(k, v as string));
-      
+      Object.entries(data).forEach(([k, v]) => {
+        if (v !== undefined && v !== null) fd.append(k, String(v));
+      });
+
       fd.append("courseInfoDetails", JSON.stringify(courseInfoDetails));
-      fd.append("introItems", JSON.stringify(introItems.map(item => ({ 
-        paragraph: item.paragraph, 
-        media: item.mediaFile ? "new_upload" : (item.media || "").replace(BASE_URL, ""), 
+      fd.append("introItems", JSON.stringify(introItems.map(item => ({
+        paragraph: item.paragraph,
+        media: item.mediaFile ? "new_upload" : (item.media || "").replace(BASE_URL, ""),
         mediaAlt: item.mediaAlt,
-        mediaType: item.mediaType
+        mediaType: item.mediaType,
       }))));
       introItems.forEach((item) => { if (item.mediaFile) fd.append(`introMedia`, item.mediaFile); });
-      
+
       fd.append("introParas", JSON.stringify(introParas.map((p) => p.value)));
       fd.append("standApartParas", JSON.stringify(standApartParas.map((p) => p.value)));
       fd.append("gainsParas", JSON.stringify(gainsParas.map((p) => p.value)));
@@ -663,15 +783,14 @@ export default function AddEdit500HrPage() {
       fd.append("indianFees", JSON.stringify(indianFees));
       fd.append("syllabusModules", JSON.stringify(syllabusModules));
       fd.append("reviews", JSON.stringify(reviews));
-      
-      // NEW: Append dynamic stats and pills
+
       fd.append("standApartPills", JSON.stringify(standApartPills));
       fd.append("standApartStats", JSON.stringify(standApartStats));
-      
+
       if (heroFile) fd.append("heroImage", heroFile);
       if (shivaFile) fd.append("shivaImage", shivaFile);
       if (evalImgFile) fd.append("evalImage", evalImgFile);
-      
+
       // Handle video file
       if (videoFile) {
         fd.append("videoFile", videoFile);
@@ -680,29 +799,30 @@ export default function AddEdit500HrPage() {
       } else if (existingVideoUrl && !videoFile) {
         fd.append("existingVideoUrl", existingVideoUrl);
       }
-      
+
       const keptAccomPaths = accomImgs.filter((img) => img.serverPath).map((img) => img.serverPath as string);
       fd.append("existingAccomImages", JSON.stringify(keptAccomPaths));
       accomImgs.forEach((img) => { if (img.file) fd.append("accomImage", img.file); });
-      
+
       const keptFoodPaths = foodImgs.filter((img) => img.serverPath).map((img) => img.serverPath as string);
       fd.append("existingFoodImages", JSON.stringify(keptFoodPaths));
       foodImgs.forEach((img) => { if (img.file) fd.append("foodImage", img.file); });
-      
-      if (isEdit) { 
-        fd.append("_id", pageId); 
-        await api.put(`/yoga-500hr/content/update/${pageId}`, fd, { headers: { "Content-Type": "multipart/form-data" } }); 
-        toast.success("Page updated successfully"); 
-      } else { 
-        await api.post("/yoga-500hr/content/create", fd, { headers: { "Content-Type": "multipart/form-data" } }); 
-        toast.success("Page created successfully"); 
+
+      if (isEdit) {
+        const id = docIdRef.current || pageId;
+        fd.append("_id", id);
+        await api.put(`/yoga-500hr/content/update/${id}`, fd, { headers: { "Content-Type": "multipart/form-data" } });
+        toast.success("Page updated successfully");
+      } else {
+        await api.post("/yoga-500hr/content/create", fd, { headers: { "Content-Type": "multipart/form-data" } });
+        toast.success("Page created successfully");
       }
       setSubmitted(true);
       setTimeout(() => router.push("/admin/yogacourse/500hourscourse/content"), 1500);
-    } catch (e: any) { 
-      toast.error(e?.response?.data?.message || e?.message || "Something went wrong"); 
-    } finally { 
-      setIsSubmitting(false); 
+    } catch (e: any) {
+      toast.error(e?.response?.data?.message || e?.message || "Something went wrong");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -738,13 +858,13 @@ export default function AddEdit500HrPage() {
             {errors.pageMainH1 && <p className={styles.errorMsg}>⚠ {errors.pageMainH1.message}</p>}
           </F>
           <F label="Hero Image" req hint="Recommended 1180×540px">
-            <MediaUploader 
-              preview={heroPrev} 
-              badge="Hero" 
-              hint="JPG/PNG/WEBP · 1180×540px" 
-              error={heroErr} 
-              onSelect={(f: File, p: string) => { setHeroFile(f); setHeroPrev(p); setHeroErr(""); }} 
-              onRemove={() => { setHeroFile(null); setHeroPrev(""); setHeroErr("Hero image is required"); }} 
+            <MediaUploader
+              preview={heroPrev}
+              badge="Hero"
+              hint="JPG/PNG/WEBP · 1180×540px"
+              error={heroErr}
+              onSelect={(f: File, p: string) => { setHeroFile(f); setHeroPrev(p); setHeroErr(""); }}
+              onRemove={() => { setHeroFile(null); setHeroPrev(""); setHeroErr("Hero image is required"); }}
             />
           </F>
           <F label="Hero Image Alt Text">
@@ -792,7 +912,7 @@ export default function AddEdit500HrPage() {
                   <div className={styles.nestedCardHeader}>
                     <span className={styles.nestedCardNum}>Detail {i + 1}</span>
                     {courseInfoDetails.length > 1 && (
-                      <button type="button" className={styles.removeNestedBtn} onClick={() => setCourseInfoDetails(courseInfoDetails.filter((_, idx) => idx !== i))}>
+                      <button type="button" className={styles.removeNestedBtn} onClick={() => removeAt(setCourseInfoDetails, i)}>
                         ✕ Remove
                       </button>
                     )}
@@ -802,38 +922,26 @@ export default function AddEdit500HrPage() {
                       <div className={styles.fieldGroup}>
                         <label className={styles.label}>Label</label>
                         <div className={styles.inputWrap}>
-                          <input className={styles.input} value={detail.label} placeholder="DURATION" onChange={(e) => {
-                            const n = [...courseInfoDetails];
-                            n[i] = { ...n[i], label: e.target.value };
-                            setCourseInfoDetails(n);
-                          }} />
+                          <input className={styles.input} value={detail.label} placeholder="DURATION" onChange={(e) => patchAt(setCourseInfoDetails, i, { label: e.target.value })} />
                         </div>
                       </div>
                       <div className={styles.fieldGroup}>
                         <label className={styles.label}>Value</label>
                         <div className={styles.inputWrap}>
-                          <input className={styles.input} value={detail.value} placeholder="24 Days" onChange={(e) => {
-                            const n = [...courseInfoDetails];
-                            n[i] = { ...n[i], value: e.target.value };
-                            setCourseInfoDetails(n);
-                          }} />
+                          <input className={styles.input} value={detail.value} placeholder="24 Days" onChange={(e) => patchAt(setCourseInfoDetails, i, { value: e.target.value })} />
                         </div>
                       </div>
                       <div className={styles.fieldGroup} style={{ gridColumn: "1/-1" }}>
                         <label className={styles.label}>Subtext (optional)</label>
                         <div className={styles.inputWrap}>
-                          <input className={styles.input} value={detail.sub || ""} placeholder="Ashtanga, Vinyasa & Hatha" onChange={(e) => {
-                            const n = [...courseInfoDetails];
-                            n[i] = { ...n[i], sub: e.target.value };
-                            setCourseInfoDetails(n);
-                          }} />
+                          <input className={styles.input} value={detail.sub || ""} placeholder="Ashtanga, Vinyasa & Hatha" onChange={(e) => patchAt(setCourseInfoDetails, i, { sub: e.target.value })} />
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
               ))}
-              <button type="button" className={styles.addItemBtn} onClick={() => setCourseInfoDetails([...courseInfoDetails, { label: "", value: "", sub: "" }])}>
+              <button type="button" className={styles.addItemBtn} onClick={() => setCourseInfoDetails((prev) => [...prev, { label: "", value: "", sub: "" }])}>
                 ＋ Add Course Detail
               </button>
             </div>
@@ -843,17 +951,12 @@ export default function AddEdit500HrPage() {
           <div style={{ marginTop: "1.5rem", paddingTop: "1rem", borderTop: "1px solid #e8d5b5" }}>
             <h4 style={{ fontFamily: "'Cinzel', serif", fontSize: "0.9rem", fontWeight: 600, color: "#3d1d00", marginBottom: "1rem" }}>💰 Course Card Pricing (Independent)</h4>
             <p className={styles.fieldHint} style={{ marginBottom: "1rem" }}>These prices are displayed on the Course Info Card and are completely separate from seat batch pricing</p>
-            
+
             <div className={styles.grid2}>
               <div className={styles.fieldGroup}>
                 <label className={styles.label}>USD Current Price</label>
                 <div className={styles.inputWrap}>
-                  <input 
-                    type="number" 
-                    className={styles.input} 
-                    {...register("courseInfoUsdPrice")} 
-                    placeholder="1649"
-                  />
+                  <input type="number" className={styles.input} {...register("courseInfoUsdPrice")} placeholder="1649" />
                 </div>
                 <p className={styles.fieldHint}>Current discounted price in USD (shown in green)</p>
               </div>
@@ -861,12 +964,7 @@ export default function AddEdit500HrPage() {
               <div className={styles.fieldGroup}>
                 <label className={styles.label}>INR Current Price</label>
                 <div className={styles.inputWrap}>
-                  <input 
-                    type="number" 
-                    className={styles.input} 
-                    {...register("courseInfoInrPrice")} 
-                    placeholder="135000"
-                  />
+                  <input type="number" className={styles.input} {...register("courseInfoInrPrice")} placeholder="135000" />
                 </div>
                 <p className={styles.fieldHint}>Current discounted price in INR (shown in green)</p>
               </div>
@@ -874,12 +972,7 @@ export default function AddEdit500HrPage() {
               <div className={styles.fieldGroup}>
                 <label className={styles.label}>USD Original Price</label>
                 <div className={styles.inputWrap}>
-                  <input 
-                    type="number" 
-                    className={styles.input} 
-                    {...register("courseInfoOriginalUsdPrice")} 
-                    placeholder="2950"
-                  />
+                  <input type="number" className={styles.input} {...register("courseInfoOriginalUsdPrice")} placeholder="2950" />
                 </div>
                 <p className={styles.fieldHint}>Original/Strike-through price in USD (shown in gray)</p>
               </div>
@@ -887,12 +980,7 @@ export default function AddEdit500HrPage() {
               <div className={styles.fieldGroup}>
                 <label className={styles.label}>INR Original Price</label>
                 <div className={styles.inputWrap}>
-                  <input 
-                    type="number" 
-                    className={styles.input} 
-                    {...register("courseInfoOriginalInrPrice")} 
-                    placeholder="240000"
-                  />
+                  <input type="number" className={styles.input} {...register("courseInfoOriginalInrPrice")} placeholder="240000" />
                 </div>
                 <p className={styles.fieldHint}>Original/Strike-through price in INR (shown in gray)</p>
               </div>
@@ -906,56 +994,47 @@ export default function AddEdit500HrPage() {
           <F label="Intro Items" hint="Each item has a paragraph and an image/video. They will alternate left/right automatically on the frontend.">
             <div>
               {introItems.map((item, idx) => (
-                <div key={idx} className={styles.nestedCard} style={{ marginBottom: "1rem" }}>
+                // key mein length: item add/remove par editors sahi value ke saath remount hote hain
+                <div key={`${idx}-${introItems.length}`} className={styles.nestedCard} style={{ marginBottom: "1rem" }}>
                   <div className={styles.nestedCardHeader}>
                     <span className={styles.nestedCardNum}>Item {idx + 1}</span>
                     <div style={{ display: "flex", gap: "0.5rem" }}>
                       <button type="button" className={styles.removeNestedBtn} onClick={() => {
-                        const newItems = [...introItems];
-                        newItems[idx] = { ...newItems[idx], mediaType: item.mediaType === "image" ? "video" : "image", media: "", mediaFile: undefined };
-                        setIntroItems(newItems);
+                        patchAt(setIntroItems, idx, { mediaType: item.mediaType === "image" ? "video" : "image", media: "", mediaFile: undefined });
                       }} style={{ background: "#f15505", color: "white", border: "none", padding: "0.2rem 0.6rem", borderRadius: "4px", cursor: "pointer", fontSize: "0.7rem" }}>
                         Switch to {item.mediaType === "image" ? "Video" : "Image"}
                       </button>
-                      {introItems.length > 1 && <button type="button" className={styles.removeNestedBtn} onClick={() => setIntroItems(introItems.filter((_, i) => i !== idx))}>✕ Remove</button>}
+                      {introItems.length > 1 && <button type="button" className={styles.removeNestedBtn} onClick={() => removeAt(setIntroItems, idx)}>✕ Remove</button>}
                     </div>
                   </div>
                   <div className={styles.nestedCardBody}>
                     <div className={styles.fieldGroup} style={{ marginBottom: "1rem" }}>
                       <label className={styles.label} style={{ fontSize: "0.75rem" }}>Paragraph (Rich Text)</label>
-                      <StableJodit value={item.paragraph} onSave={(val: string) => { const newItems = [...introItems]; newItems[idx] = { ...newItems[idx], paragraph: val }; setIntroItems(newItems); }} ph="Write your paragraph here..." h={200} />
+                      <StableJodit value={item.paragraph} onSave={(val: string) => patchAt(setIntroItems, idx, { paragraph: val })} ph="Write your paragraph here..." h={200} />
                     </div>
                     <div className={styles.grid2}>
                       <div className={styles.fieldGroup}>
                         <label className={styles.label} style={{ fontSize: "0.75rem" }}>{item.mediaType === "image" ? "Image" : "Video"}</label>
-                        <MediaUploader 
+                        <MediaUploader
                           key={`media-${idx}`}
-                          preview={item.media || ""} 
-                          badge={`Intro ${idx + 1}`} 
-                          hint={item.mediaType === "image" ? "JPG/PNG/WEBP · 800×600px" : "MP4/WEBM · Max 50MB"} 
+                          preview={item.media || ""}
+                          badge={`Intro ${idx + 1}`}
+                          hint={item.mediaType === "image" ? "JPG/PNG/WEBP · 800×600px" : "MP4/WEBM · Max 50MB"}
                           type={item.mediaType}
                           index={idx}
-                          onSelect={(file: File, previewUrl: string) => { 
-                            const newItems = [...introItems]; 
-                            newItems[idx] = { ...newItems[idx], media: previewUrl, mediaFile: file }; 
-                            setIntroItems(newItems); 
-                          }} 
-                          onRemove={() => { 
-                            const newItems = [...introItems]; 
-                            newItems[idx] = { ...newItems[idx], media: "", mediaFile: undefined }; 
-                            setIntroItems(newItems); 
-                          }} 
+                          onSelect={(file: File, previewUrl: string) => patchAt(setIntroItems, idx, { media: previewUrl, mediaFile: file })}
+                          onRemove={() => patchAt(setIntroItems, idx, { media: "", mediaFile: undefined })}
                         />
                       </div>
                       <div className={styles.fieldGroup}>
                         <label className={styles.label} style={{ fontSize: "0.75rem" }}>Alt Text</label>
-                        <div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} value={item.mediaAlt || ""} placeholder="Description for accessibility" onChange={(e) => { const newItems = [...introItems]; newItems[idx] = { ...newItems[idx], mediaAlt: e.target.value }; setIntroItems(newItems); }} /></div>
+                        <div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} value={item.mediaAlt || ""} placeholder="Description for accessibility" onChange={(e) => patchAt(setIntroItems, idx, { mediaAlt: e.target.value })} /></div>
                       </div>
                     </div>
                   </div>
                 </div>
               ))}
-              <button type="button" className={styles.addItemBtn} onClick={() => setIntroItems([...introItems, { paragraph: "", media: "", mediaAlt: "", mediaType: "image", mediaFile: undefined }])}>＋ Add Intro Item</button>
+              <button type="button" className={styles.addItemBtn} onClick={() => setIntroItems((prev) => [...prev, { paragraph: "", media: "", mediaAlt: "", mediaType: "image", mediaFile: undefined }])}>＋ Add Intro Item</button>
             </div>
           </F>
         </Sec>
@@ -969,15 +1048,7 @@ export default function AddEdit500HrPage() {
             </div>
           </F>
           <F label="Paragraphs" hint="These are used as fallback if no enhanced intro items are added above">
-            <div>
-              {introParas.map((para, i) => (
-                <div key={para.id} className={styles.nestedCard} style={{ marginBottom: "0.85rem" }}>
-                  <div className={styles.nestedCardHeader}><span className={styles.nestedCardNum}>Paragraph {i + 1}</span>{introParas.length > 1 && <button type="button" className={styles.removeNestedBtn} onClick={() => setIntroParas(introParas.filter((_, idx) => idx !== i))}>✕ Remove</button>}</div>
-                  <div className={styles.nestedCardBody}><StableJodit value={para.value} onSave={(val: string) => { const n = [...introParas]; n[i] = { ...n[i], value: val }; setIntroParas(n); }} ph="Write introduction paragraph…" h={200} /></div>
-                </div>
-              ))}
-              <button type="button" className={styles.addItemBtn} onClick={() => setIntroParas([...introParas, mkPara()])}>＋ Add Paragraph</button>
-            </div>
+            <ParaList items={introParas} setItems={setIntroParas} ph="Write introduction paragraph…" />
           </F>
         </Sec>
         <D />
@@ -988,15 +1059,7 @@ export default function AddEdit500HrPage() {
             <div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("standApartH2")} /></div>
           </F>
           <F label="Paragraphs" hint="Rich text paragraphs for this section">
-            <div>
-              {standApartParas.map((para, i) => (
-                <div key={para.id} className={styles.nestedCard} style={{ marginBottom: "0.85rem" }}>
-                  <div className={styles.nestedCardHeader}><span className={styles.nestedCardNum}>Paragraph {i + 1}</span>{standApartParas.length > 1 && <button type="button" className={styles.removeNestedBtn} onClick={() => setStandApartParas(standApartParas.filter((_, idx) => idx !== i))}>✕ Remove</button>}</div>
-                  <div className={styles.nestedCardBody}><StableJodit value={para.value} onSave={(val: string) => { const n = [...standApartParas]; n[i] = { ...n[i], value: val }; setStandApartParas(n); }} ph="Write what makes AYM stand apart…" h={200} /></div>
-                </div>
-              ))}
-              <button type="button" className={styles.addItemBtn} onClick={() => setStandApartParas([...standApartParas, mkPara()])}>＋ Add Paragraph</button>
-            </div>
+            <ParaList items={standApartParas} setItems={setStandApartParas} ph="Write what makes AYM stand apart…" />
           </F>
 
           <div style={{ marginTop: "1.5rem", paddingTop: "1rem", borderTop: "1px solid #e8d5b5" }}>
@@ -1006,15 +1069,15 @@ export default function AddEdit500HrPage() {
                 <div key={i} className={styles.listItemRow} style={{ marginBottom: "0.5rem" }}>
                   <span className={styles.listNum}>{i + 1}</span>
                   <div className={`${styles.inputWrap} ${styles.listInput}`} style={{ flex: "0.8" }}>
-                    <input className={styles.input} value={stat.num} placeholder="Number (e.g., 17+)" onChange={(e) => { const n = [...standApartStats]; n[i] = { ...n[i], num: e.target.value }; setStandApartStats(n); }} />
+                    <input className={styles.input} value={stat.num} placeholder="Number (e.g., 17+)" onChange={(e) => patchAt(setStandApartStats, i, { num: e.target.value })} />
                   </div>
                   <div className={`${styles.inputWrap} ${styles.listInput}`} style={{ flex: "1.5" }}>
-                    <input className={styles.input} value={stat.label} placeholder="Label (e.g., Years of Excellence)" onChange={(e) => { const n = [...standApartStats]; n[i] = { ...n[i], label: e.target.value }; setStandApartStats(n); }} />
+                    <input className={styles.input} value={stat.label} placeholder="Label (e.g., Years of Excellence)" onChange={(e) => patchAt(setStandApartStats, i, { label: e.target.value })} />
                   </div>
-                  <button type="button" className={styles.removeItemBtn} onClick={() => { if (standApartStats.length > 1) setStandApartStats(standApartStats.filter((_, idx) => idx !== i)); }}>✕</button>
+                  <button type="button" className={styles.removeItemBtn} onClick={() => removeAtMin1(setStandApartStats, i)}>✕</button>
                 </div>
               ))}
-              <button type="button" className={styles.addItemBtn} onClick={() => setStandApartStats([...standApartStats, { num: "", label: "" }])}>＋ Add Stat</button>
+              <button type="button" className={styles.addItemBtn} onClick={() => setStandApartStats((prev) => [...prev, { num: "", label: "" }])}>＋ Add Stat</button>
               <p className={styles.fieldHint} style={{ marginTop: "0.5rem" }}>These 4 stat cards appear next to the Shiva image</p>
             </div>
           </div>
@@ -1026,12 +1089,12 @@ export default function AddEdit500HrPage() {
                 <div key={i} className={styles.listItemRow} style={{ marginBottom: "0.5rem" }}>
                   <span className={styles.listNum}>{i + 1}</span>
                   <div className={`${styles.inputWrap} ${styles.listInput}`}>
-                    <input className={styles.input} value={pill} onChange={(e) => { const n = [...standApartPills]; n[i] = e.target.value; setStandApartPills(n); }} />
+                    <input className={styles.input} value={pill} onChange={(e) => setStrAt(setStandApartPills, i, e.target.value)} />
                   </div>
-                  <button type="button" className={styles.removeItemBtn} onClick={() => { if (standApartPills.length > 1) setStandApartPills(standApartPills.filter((_, idx) => idx !== i)); }}>✕</button>
+                  <button type="button" className={styles.removeItemBtn} onClick={() => removeAtMin1(setStandApartPills, i)}>✕</button>
                 </div>
               ))}
-              <button type="button" className={styles.addItemBtn} onClick={() => setStandApartPills([...standApartPills, ""])}>＋ Add Pill</button>
+              <button type="button" className={styles.addItemBtn} onClick={() => setStandApartPills((prev) => [...prev, ""])}>＋ Add Pill</button>
             </div>
           </div>
         </Sec>
@@ -1043,53 +1106,41 @@ export default function AddEdit500HrPage() {
             <span>ℹ️</span>
             <span>This video appears in the middle of the page. It autoplays on loop with a text overlay.</span>
           </div>
-          
+
           <F label="Video File (MP4)" hint="Upload an MP4 video file. Recommended: 1920×1080px, 10-30MB">
-            <MediaUploader 
-              preview={videoPrev} 
-              badge="Video" 
-              hint="MP4 · 1920×1080px · Max 100MB" 
+            <MediaUploader
+              preview={videoPrev}
+              badge="Video"
+              hint="MP4 · 1920×1080px · Max 100MB"
               type="video"
-              onSelect={(file: File, previewUrl: string) => { 
+              onSelect={(file: File, previewUrl: string) => {
                 setVideoFile(file);
                 setVideoPrev(previewUrl);
                 setExistingVideoUrl("");
-              }} 
-              onRemove={() => { 
+              }}
+              onRemove={() => {
                 setVideoFile(null);
                 setVideoPrev("");
                 setExistingVideoUrl("remove");
-              }} 
+              }}
             />
           </F>
-          
+
           <F label="Video Badge Text" hint="Small badge text above the title (e.g., '✦ Featured Video ✦')">
             <div className={styles.inputWrap}>
-              <input 
-                className={styles.input} 
-                {...register("videoBadgeText")} 
-                placeholder="✦ Featured Video ✦"
-              />
+              <input className={styles.input} {...register("videoBadgeText")} placeholder="✦ Featured Video ✦" />
             </div>
           </F>
-          
+
           <F label="Video Title" hint="Main heading text overlay on video">
             <div className={styles.inputWrap}>
-              <input 
-                className={styles.input} 
-                {...register("videoTitle")} 
-                placeholder="Experience the Journey of 500 Hour Yoga Teacher Training"
-              />
+              <input className={styles.input} {...register("videoTitle")} placeholder="Experience the Journey of 500 Hour Yoga Teacher Training" />
             </div>
           </F>
-          
+
           <F label="Video Subtitle" hint="Subtitle text below the title">
             <div className={styles.inputWrap}>
-              <input 
-                className={styles.input} 
-                {...register("videoSubtitle")} 
-                placeholder="Watch Our Students' Transformation"
-              />
+              <input className={styles.input} {...register("videoSubtitle")} placeholder="Watch Our Students' Transformation" />
             </div>
           </F>
         </Sec>
@@ -1107,15 +1158,7 @@ export default function AddEdit500HrPage() {
             <div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("gainsH2")} /></div>
           </F>
           <F label="Paragraphs" hint="Rich text paragraphs for Gains section">
-            <div>
-              {gainsParas.map((para, i) => (
-                <div key={para.id} className={styles.nestedCard} style={{ marginBottom: "0.85rem" }}>
-                  <div className={styles.nestedCardHeader}><span className={styles.nestedCardNum}>Paragraph {i + 1}</span>{gainsParas.length > 1 && <button type="button" className={styles.removeNestedBtn} onClick={() => setGainsParas(gainsParas.filter((_, idx) => idx !== i))}>✕ Remove</button>}</div>
-                  <div className={styles.nestedCardBody}><StableJodit value={para.value} onSave={(val: string) => { const n = [...gainsParas]; n[i] = { ...n[i], value: val }; setGainsParas(n); }} ph="Write what students gain…" h={200} /></div>
-                </div>
-              ))}
-              <button type="button" className={styles.addItemBtn} onClick={() => setGainsParas([...gainsParas, mkPara()])}>＋ Add Paragraph</button>
-            </div>
+            <ParaList items={gainsParas} setItems={setGainsParas} ph="Write what students gain…" />
           </F>
           <F label="Shiva / Yoga Image (shown below gains text)" hint="Recommended 900×480px">
             <MediaUploader preview={shivaPrev} badge="Gains" hint="JPG/PNG/WEBP · Wide banner" onSelect={(f: File, p: string) => { setShivaFile(f); setShivaPrev(p); }} onRemove={() => { setShivaFile(null); setShivaPrev(""); }} />
@@ -1159,12 +1202,12 @@ export default function AddEdit500HrPage() {
                 {indianFees.map((val, i) => (
                   <div key={i} className={styles.listItemRow}>
                     <span className={styles.listNum}>{i + 1}</span>
-                    <div className={`${styles.inputWrap} ${styles.listInput}`}><input className={styles.input} value={val} onChange={(e) => { const n = [...indianFees]; n[i] = e.target.value; setIndianFees(n); }} /></div>
-                    <button type="button" className={styles.removeItemBtn} onClick={() => { if (indianFees.length > 1) setIndianFees(indianFees.filter((_, idx) => idx !== i)); }}>✕</button>
+                    <div className={`${styles.inputWrap} ${styles.listInput}`}><input className={styles.input} value={val} onChange={(e) => setStrAt(setIndianFees, i, e.target.value)} /></div>
+                    <button type="button" className={styles.removeItemBtn} onClick={() => removeAtMin1(setIndianFees, i)}>✕</button>
                   </div>
                 ))}
               </div>
-              <button type="button" className={styles.addItemBtn} onClick={() => setIndianFees([...indianFees, ""])}>＋ Add Fee Chip</button>
+              <button type="button" className={styles.addItemBtn} onClick={() => setIndianFees((prev) => [...prev, ""])}>＋ Add Fee Chip</button>
             </div>
           </F>
         </Sec>
@@ -1174,15 +1217,7 @@ export default function AddEdit500HrPage() {
         <Sec title="Credibility" badge="Inside card block">
           <F label="Credibility H2 Heading"><div className={styles.inputWrap}><input className={styles.input} {...register("credibilityH2")} /></div></F>
           <F label="Paragraphs">
-            <div>
-              {credibilityParas.map((para, i) => (
-                <div key={para.id} className={styles.nestedCard} style={{ marginBottom: "0.85rem" }}>
-                  <div className={styles.nestedCardHeader}><span className={styles.nestedCardNum}>Paragraph {i + 1}</span>{credibilityParas.length > 1 && <button type="button" className={styles.removeNestedBtn} onClick={() => setCredibilityParas(credibilityParas.filter((_, idx) => idx !== i))}>✕ Remove</button>}</div>
-                  <div className={styles.nestedCardBody}><StableJodit value={para.value} onSave={(val: string) => { const n = [...credibilityParas]; n[i] = { ...n[i], value: val }; setCredibilityParas(n); }} ph="Write credibility info…" h={200} /></div>
-                </div>
-              ))}
-              <button type="button" className={styles.addItemBtn} onClick={() => setCredibilityParas([...credibilityParas, mkPara()])}>＋ Add Paragraph</button>
-            </div>
+            <ParaList items={credibilityParas} setItems={setCredibilityParas} ph="Write credibility info…" />
           </F>
         </Sec>
         <D />
@@ -1191,15 +1226,7 @@ export default function AddEdit500HrPage() {
         <Sec title="Duration" badge="Inside card block">
           <F label="Duration H2 Heading"><div className={styles.inputWrap}><input className={styles.input} {...register("durationH2")} /></div></F>
           <F label="Paragraphs">
-            <div>
-              {durationParas.map((para, i) => (
-                <div key={para.id} className={styles.nestedCard} style={{ marginBottom: "0.85rem" }}>
-                  <div className={styles.nestedCardHeader}><span className={styles.nestedCardNum}>Paragraph {i + 1}</span>{durationParas.length > 1 && <button type="button" className={styles.removeNestedBtn} onClick={() => setDurationParas(durationParas.filter((_, idx) => idx !== i))}>✕ Remove</button>}</div>
-                  <div className={styles.nestedCardBody}><StableJodit value={para.value} onSave={(val: string) => { const n = [...durationParas]; n[i] = { ...n[i], value: val }; setDurationParas(n); }} ph="Write duration info…" h={200} /></div>
-                </div>
-              ))}
-              <button type="button" className={styles.addItemBtn} onClick={() => setDurationParas([...durationParas, mkPara()])}>＋ Add Paragraph</button>
-            </div>
+            <ParaList items={durationParas} setItems={setDurationParas} ph="Write duration info…" />
           </F>
         </Sec>
         <D />
@@ -1208,30 +1235,22 @@ export default function AddEdit500HrPage() {
         <Sec title="Overview of Syllabus" badge="Modules list">
           <F label="Section H2 Heading"><div className={styles.inputWrap}><input className={styles.input} {...register("syllabusH2")} /></div></F>
           <F label="Intro Paragraphs">
-            <div>
-              {syllabusParas.map((para, i) => (
-                <div key={para.id} className={styles.nestedCard} style={{ marginBottom: "0.85rem" }}>
-                  <div className={styles.nestedCardHeader}><span className={styles.nestedCardNum}>Paragraph {i + 1}</span>{syllabusParas.length > 1 && <button type="button" className={styles.removeNestedBtn} onClick={() => setSyllabusParas(syllabusParas.filter((_, idx) => idx !== i))}>✕ Remove</button>}</div>
-                  <div className={styles.nestedCardBody}><StableJodit value={para.value} onSave={(val: string) => { const n = [...syllabusParas]; n[i] = { ...n[i], value: val }; setSyllabusParas(n); }} ph="Write syllabus intro…" h={200} /></div>
-                </div>
-              ))}
-              <button type="button" className={styles.addItemBtn} onClick={() => setSyllabusParas([...syllabusParas, mkPara()])}>＋ Add Paragraph</button>
-            </div>
+            <ParaList items={syllabusParas} setItems={setSyllabusParas} ph="Write syllabus intro…" />
           </F>
           <F label="Syllabus Modules">
             <div>
               {syllabusModules.map((mod, i) => (
                 <div key={i} className={styles.nestedCard} style={{ marginBottom: "0.8rem" }}>
-                  <div className={styles.nestedCardHeader}><span className={styles.nestedCardNum}>Module {i + 1}</span>{syllabusModules.length > 1 && <button type="button" className={styles.removeNestedBtn} onClick={() => setSyllabusModules(syllabusModules.filter((_, idx) => idx !== i))}>✕ Remove</button>}</div>
+                  <div className={styles.nestedCardHeader}><span className={styles.nestedCardNum}>Module {i + 1}</span>{syllabusModules.length > 1 && <button type="button" className={styles.removeNestedBtn} onClick={() => removeAt(setSyllabusModules, i)}>✕ Remove</button>}</div>
                   <div className={styles.nestedCardBody}>
                     <div className={styles.grid2}>
-                      <div className={styles.fieldGroup}><label className={styles.label}>Label (bold)</label><div className={styles.inputWrap}><input className={styles.input} value={mod.label} onChange={(e) => { const n = [...syllabusModules]; n[i] = { ...n[i], label: e.target.value }; setSyllabusModules(n); }} /></div></div>
-                      <div className={styles.fieldGroup} style={{ gridColumn: "1/-1" }}><label className={styles.label}>Description</label><div className={styles.inputWrap}><textarea className={`${styles.input} ${styles.textarea}`} rows={2} value={mod.text} onChange={(e) => { const n = [...syllabusModules]; n[i] = { ...n[i], text: e.target.value }; setSyllabusModules(n); }} /></div></div>
+                      <div className={styles.fieldGroup}><label className={styles.label}>Label (bold)</label><div className={styles.inputWrap}><input className={styles.input} value={mod.label} onChange={(e) => patchAt(setSyllabusModules, i, { label: e.target.value })} /></div></div>
+                      <div className={styles.fieldGroup} style={{ gridColumn: "1/-1" }}><label className={styles.label}>Description</label><div className={styles.inputWrap}><textarea className={`${styles.input} ${styles.textarea}`} rows={2} value={mod.text} onChange={(e) => patchAt(setSyllabusModules, i, { text: e.target.value })} /></div></div>
                     </div>
                   </div>
                 </div>
               ))}
-              <button type="button" className={styles.addItemBtn} onClick={() => setSyllabusModules([...syllabusModules, { label: "", text: "" }])}>＋ Add Module</button>
+              <button type="button" className={styles.addItemBtn} onClick={() => setSyllabusModules((prev) => [...prev, { label: "", text: "" }])}>＋ Add Module</button>
             </div>
           </F>
         </Sec>
@@ -1243,27 +1262,11 @@ export default function AddEdit500HrPage() {
             <div>
               <F label="Eligibility H3 Heading"><div className={styles.inputWrap}><input className={styles.input} {...register("eligibilityH3")} /></div></F>
               <F label="Eligibility Paragraphs">
-                <div>
-                  {eligibilityParas.map((para, i) => (
-                    <div key={para.id} className={styles.nestedCard} style={{ marginBottom: "0.85rem" }}>
-                      <div className={styles.nestedCardHeader}><span className={styles.nestedCardNum}>Paragraph {i + 1}</span>{eligibilityParas.length > 1 && <button type="button" className={styles.removeNestedBtn} onClick={() => setEligibilityParas(eligibilityParas.filter((_, idx) => idx !== i))}>✕ Remove</button>}</div>
-                      <div className={styles.nestedCardBody}><StableJodit value={para.value} onSave={(val: string) => { const n = [...eligibilityParas]; n[i] = { ...n[i], value: val }; setEligibilityParas(n); }} ph="Write eligibility criteria…" h={200} /></div>
-                    </div>
-                  ))}
-                  <button type="button" className={styles.addItemBtn} onClick={() => setEligibilityParas([...eligibilityParas, mkPara()])}>＋ Add Paragraph</button>
-                </div>
+                <ParaList items={eligibilityParas} setItems={setEligibilityParas} ph="Write eligibility criteria…" />
               </F>
               <F label="Evaluation H3 Heading"><div className={styles.inputWrap}><input className={styles.input} {...register("evaluationH3")} /></div></F>
               <F label="Evaluation Paragraphs">
-                <div>
-                  {evaluationParas.map((para, i) => (
-                    <div key={para.id} className={styles.nestedCard} style={{ marginBottom: "0.85rem" }}>
-                      <div className={styles.nestedCardHeader}><span className={styles.nestedCardNum}>Paragraph {i + 1}</span>{evaluationParas.length > 1 && <button type="button" className={styles.removeNestedBtn} onClick={() => setEvaluationParas(evaluationParas.filter((_, idx) => idx !== i))}>✕ Remove</button>}</div>
-                      <div className={styles.nestedCardBody}><StableJodit value={para.value} onSave={(val: string) => { const n = [...evaluationParas]; n[i] = { ...n[i], value: val }; setEvaluationParas(n); }} ph="Write evaluation process…" h={200} /></div>
-                    </div>
-                  ))}
-                  <button type="button" className={styles.addItemBtn} onClick={() => setEvaluationParas([...evaluationParas, mkPara()])}>＋ Add Paragraph</button>
-                </div>
+                <ParaList items={evaluationParas} setItems={setEvaluationParas} ph="Write evaluation process…" />
               </F>
             </div>
             <div>
@@ -1292,12 +1295,12 @@ export default function AddEdit500HrPage() {
                     {includedItems.map((val, i) => (
                       <div key={i} className={styles.listItemRow}>
                         <span className={styles.listNum}>{i + 1}</span>
-                        <div className={`${styles.inputWrap} ${styles.listInput}`}><input className={styles.input} value={val} onChange={(e) => { const n = [...includedItems]; n[i] = e.target.value; setIncludedItems(n); }} /></div>
-                        <button type="button" className={styles.removeItemBtn} onClick={() => { if (includedItems.length > 1) setIncludedItems(includedItems.filter((_, idx) => idx !== i)); }}>✕</button>
+                        <div className={`${styles.inputWrap} ${styles.listInput}`}><input className={styles.input} value={val} onChange={(e) => setStrAt(setIncludedItems, i, e.target.value)} /></div>
+                        <button type="button" className={styles.removeItemBtn} onClick={() => removeAtMin1(setIncludedItems, i)}>✕</button>
                       </div>
                     ))}
                   </div>
-                  <button type="button" className={styles.addItemBtn} onClick={() => setIncludedItems([...includedItems, ""])}>＋ Add Included Item</button>
+                  <button type="button" className={styles.addItemBtn} onClick={() => setIncludedItems((prev) => [...prev, ""])}>＋ Add Included Item</button>
                 </div>
               </F>
               <F label="Included Note (bottom footnote)"><div className={styles.inputWrap}><textarea className={`${styles.input} ${styles.textarea}`} rows={2} {...register("includedNote")} /></div></F>
@@ -1310,12 +1313,12 @@ export default function AddEdit500HrPage() {
                     {notIncludedItems.map((val, i) => (
                       <div key={i} className={styles.listItemRow}>
                         <span className={styles.listNum}>{i + 1}</span>
-                        <div className={`${styles.inputWrap} ${styles.listInput}`}><input className={styles.input} value={val} onChange={(e) => { const n = [...notIncludedItems]; n[i] = e.target.value; setNotIncludedItems(n); }} /></div>
-                        <button type="button" className={styles.removeItemBtn} onClick={() => { if (notIncludedItems.length > 1) setNotIncludedItems(notIncludedItems.filter((_, idx) => idx !== i)); }}>✕</button>
+                        <div className={`${styles.inputWrap} ${styles.listInput}`}><input className={styles.input} value={val} onChange={(e) => setStrAt(setNotIncludedItems, i, e.target.value)} /></div>
+                        <button type="button" className={styles.removeItemBtn} onClick={() => removeAtMin1(setNotIncludedItems, i)}>✕</button>
                       </div>
                     ))}
                   </div>
-                  <button type="button" className={styles.addItemBtn} onClick={() => setNotIncludedItems([...notIncludedItems, ""])}>＋ Add Not Included Item</button>
+                  <button type="button" className={styles.addItemBtn} onClick={() => setNotIncludedItems((prev) => [...prev, ""])}>＋ Add Not Included Item</button>
                 </div>
               </F>
             </div>
@@ -1327,15 +1330,7 @@ export default function AddEdit500HrPage() {
         <Sec title="Separating Fact from Fiction" badge="Bordered box section">
           <F label="Box H3 Heading"><div className={styles.inputWrap}><input className={styles.input} {...register("fictionH3")} /></div></F>
           <F label="Paragraphs">
-            <div>
-              {fictionParas.map((para, i) => (
-                <div key={para.id} className={styles.nestedCard} style={{ marginBottom: "0.85rem" }}>
-                  <div className={styles.nestedCardHeader}><span className={styles.nestedCardNum}>Paragraph {i + 1}</span>{fictionParas.length > 1 && <button type="button" className={styles.removeNestedBtn} onClick={() => setFictionParas(fictionParas.filter((_, idx) => idx !== i))}>✕ Remove</button>}</div>
-                  <div className={styles.nestedCardBody}><StableJodit value={para.value} onSave={(val: string) => { const n = [...fictionParas]; n[i] = { ...n[i], value: val }; setFictionParas(n); }} ph="Write fact vs fiction content…" h={200} /></div>
-                </div>
-              ))}
-              <button type="button" className={styles.addItemBtn} onClick={() => setFictionParas([...fictionParas, mkPara()])}>＋ Add Paragraph</button>
-            </div>
+            <ParaList items={fictionParas} setItems={setFictionParas} ph="Write fact vs fiction content…" />
           </F>
         </Sec>
         <D />
@@ -1346,20 +1341,21 @@ export default function AddEdit500HrPage() {
           <F label="Review Cards" hint="Each review has a 5-star rating and rich text body">
             <div>
               {reviews.map((r, i) => (
-                <div key={i} className={styles.nestedCard} style={{ marginBottom: "1rem" }}>
-                  <div className={styles.nestedCardHeader}><span className={styles.nestedCardNum}>Review {i + 1}</span>{reviews.length > 1 && <button type="button" className={styles.removeNestedBtn} onClick={() => setReviews(reviews.filter((_, idx) => idx !== i))}>✕ Remove</button>}</div>
+                // key mein length: review add/remove par editors sahi text ke saath remount hote hain
+                <div key={`${i}-${reviews.length}`} className={styles.nestedCard} style={{ marginBottom: "1rem" }}>
+                  <div className={styles.nestedCardHeader}><span className={styles.nestedCardNum}>Review {i + 1}</span>{reviews.length > 1 && <button type="button" className={styles.removeNestedBtn} onClick={() => removeAt(setReviews, i)}>✕ Remove</button>}</div>
                   <div className={styles.nestedCardBody}>
                     <div className={styles.grid2} style={{ marginBottom: "1rem" }}>
-                      <div className={styles.fieldGroup}><label className={styles.label}>Reviewer Name</label><div className={styles.inputWrap}><input className={styles.input} value={r.name} onChange={(e) => { const n = [...reviews]; n[i] = { ...n[i], name: e.target.value }; setReviews(n); }} /></div></div>
-                      <div className={styles.fieldGroup}><label className={styles.label}>Platform Label</label><div className={styles.inputWrap}><input className={styles.input} value={r.platform} onChange={(e) => { const n = [...reviews]; n[i] = { ...n[i], platform: e.target.value }; setReviews(n); }} /></div></div>
-                      <div className={styles.fieldGroup}><label className={styles.label}>Initial (avatar fallback)</label><div className={styles.inputWrap}><input className={styles.input} value={r.initial} maxLength={2} onChange={(e) => { const n = [...reviews]; n[i] = { ...n[i], initial: e.target.value }; setReviews(n); }} /></div></div>
+                      <div className={styles.fieldGroup}><label className={styles.label}>Reviewer Name</label><div className={styles.inputWrap}><input className={styles.input} value={r.name} onChange={(e) => patchAt(setReviews, i, { name: e.target.value })} /></div></div>
+                      <div className={styles.fieldGroup}><label className={styles.label}>Platform Label</label><div className={styles.inputWrap}><input className={styles.input} value={r.platform} onChange={(e) => patchAt(setReviews, i, { platform: e.target.value })} /></div></div>
+                      <div className={styles.fieldGroup}><label className={styles.label}>Initial (avatar fallback)</label><div className={styles.inputWrap}><input className={styles.input} value={r.initial} maxLength={2} onChange={(e) => patchAt(setReviews, i, { initial: e.target.value })} /></div></div>
                     </div>
-                    <div className={styles.fieldGroup}><label className={styles.label}>Star Rating</label><div className={styles.starRatingWrap}><StarRating value={r.rating} onChange={(val: number) => { const n = [...reviews]; n[i] = { ...n[i], rating: val }; setReviews(n); }} /></div></div>
-                    <div className={styles.fieldGroup}><label className={styles.label}>Review Text <span className={styles.sectionBadge}>Rich Text</span></label><StableJodit value={r.text} onSave={(val: string) => { const n = [...reviews]; n[i] = { ...n[i], text: val }; setReviews(n); }} ph="Write the review here…" h={180} /></div>
+                    <div className={styles.fieldGroup}><label className={styles.label}>Star Rating</label><div className={styles.starRatingWrap}><StarRating value={r.rating} onChange={(val: number) => patchAt(setReviews, i, { rating: val })} /></div></div>
+                    <div className={styles.fieldGroup}><label className={styles.label}>Review Text <span className={styles.sectionBadge}>Rich Text</span></label><StableJodit value={r.text} onSave={(val: string) => patchAt(setReviews, i, { text: val })} ph="Write the review here…" h={180} /></div>
                   </div>
                 </div>
               ))}
-              <button type="button" className={styles.addItemBtn} onClick={() => setReviews([...reviews, { name: "", platform: "on Google", initial: "", rating: 5, text: "" }])}>＋ Add Review</button>
+              <button type="button" className={styles.addItemBtn} onClick={() => setReviews((prev) => [...prev, { name: "", platform: "on Google", initial: "", rating: 5, text: "" }])}>＋ Add Review</button>
             </div>
           </F>
         </Sec>

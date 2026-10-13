@@ -1,42 +1,77 @@
 "use client";
-
-import React, {
-  useState,
-  useRef,
-  useCallback,
-  useEffect,
-  memo,
-  useMemo,
-} from "react";
-import { useForm } from "react-hook-form";
-import { useRouter, useParams } from "next/navigation";
-import Link from "next/link";
-import dynamic from "next/dynamic";
-import styles from "@/assets/style/Admin/yogacourse/200hourscourse/Yoga200hr.module.css";
+import React, { useState, useEffect, useRef } from "react";
+import styles from "@/assets/style/500-hour-yoga-teacher-training-india/Yogattc500.module.css";
+import HowToReach from "@/components/home/Howtoreach";
 import api from "@/lib/api";
-import toast from "react-hot-toast";
+import ReviewSection from "@/components/common/Reviewsection";
+import RatingsSummarySection from "@/components/home/RatingsSummarySection";
+import StickySectionNav from "@/components/common/StickySectionNav";
+import Link from "next/link";
+import Image from "next/image";
 
-const JoditEditor = dynamic(() => import("jodit-react"), { ssr: false });
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? "";
+/* ─────────────────────────────────────────
+   TYPES
+───────────────────────────────────────── */
+interface Batch {
+  _id: string;
+  startDate: string;
+  endDate: string;
+  usdFee: string;
+  inrFee: string;
+  dormPrice: number;
+  inrDormPrice: number;
+  twinPrice: number;
+  inrTwinPrice: number;
+  privatePrice: number;
+  inrPrivatePrice: number;
+  totalSeats: number;
+  bookedSeats: number;
+  note?: string;
+}
 
-// ============================================================
-// TYPES
-// ============================================================
+interface IntroItem {
+  paragraph: string;
+  media: string;
+  mediaAlt: string;
+  mediaType: "image" | "video";
+}
 
-interface PageFormValues {
-  slug: string;
-  courseInfoCardTitle: string;
-  courseInfoFeeLabel: string;
-  courseInfoFeeFromText: string;
-  courseInfoBookBtnText: string;
-  courseInfoOriginalPriceMultiplier: number;
-  courseInfoUsdPrice: number;
-  courseInfoInrPrice: number;
-  courseInfoOriginalUsdPrice: number;
-  courseInfoOriginalInrPrice: number;
-  status: "Active" | "Inactive";
+interface SyllabusModule {
+  label: string;
+  text: string;
+}
+
+interface Review {
+  name: string;
+  platform: string;
+  initial: string;
+  rating: number;
+  text: string;
+}
+
+interface CourseInfoDetail {
+  label: string;
+  value: string;
+  sub: string;
+}
+
+interface PageContent {
+  _id: string;
+  courseInfoUsdPrice?: number;
+  courseInfoInrPrice?: number;
+  courseInfoOriginalUsdPrice?: number;
+  courseInfoOriginalInrPrice?: number;
+  courseInfoDetails?: CourseInfoDetail[];
+  courseInfoCardTitle?: string;
+  courseInfoFeeLabel?: string;
+  courseInfoFeeFromText?: string;
+  courseInfoBookBtnText?: string;
+  courseInfoOriginalPriceMultiplier?: number;
   pageMainH1: string;
   heroImgAlt: string;
+  heroImage: string;
+  shivaImage: string;
+  evalImage: string;
   standApartH2: string;
   gainsH2: string;
   seatSectionH2: string;
@@ -59,1339 +94,1960 @@ interface PageFormValues {
   applyH3: string;
   applyPara: string;
   indianFeeH3: string;
-  imgBadgeText: string;
-  videoBadgeText: string;
-  videoTitle: string;
-  videoSubtitle: string;
-  evalImageAlt: string;
+  introItems: IntroItem[];
+  introParas: string[];
+  standApartParas: string[];
+  gainsParas: string[];
+  credibilityParas: string[];
+  durationParas: string[];
+  syllabusParas: string[];
+  eligibilityParas: string[];
+  evaluationParas: string[];
+  fictionParas: string[];
+  includedItems: string[];
+  notIncludedItems: string[];
+  indianFees: string[];
+  syllabusModules: SyllabusModule[];
+  reviews: Review[];
+  accomImages: string[];
+  foodImages: string[];
+  standApartPills?: string[];
+  standApartStats?: Array<{ num: string; label: string }>;
+  imgBadgeText?: string;
+  videoUrl?: string;
+  videoBadgeText?: string;
+  videoTitle?: string;
+  videoSubtitle?: string;
+  evalImageAlt?: string;
 }
 
-interface IntroItem {
-  paragraph: string;
-  media: string;
-  mediaAlt: string;
-  mediaType: "image" | "video";
-  mediaFile?: File;
+type Currency = "USD" | "INR";
+
+function formatPrice(
+  usdAmount: number,
+  currency: Currency,
+  rate: number,
+): string {
+  if (currency === "USD") {
+    return `$${usdAmount}`;
+  }
+  const inr = Math.round((usdAmount * rate) / 100) * 100;
+  return `₹${inr.toLocaleString("en-IN")}`;
 }
 
-interface ReviewItem {
-  name: string;
-  platform: string;
-  initial: string;
-  rating: number;
-  text: string;
-}
-
-interface MultiImgItem {
-  id: string;
-  file?: File;
-  preview: string;
-  serverPath?: string;
-}
-
-interface SyllabusModule {
-  label: string;
-  text: string;
-}
-
-interface StatItem {
-  num: string;
-  label: string;
-}
-
-interface CourseInfoDetail {
-  label: string;
-  value: string;
-  sub: string;
-}
-
-interface JoditEditorProps {
-  onSave: (value: string) => void;
-  value?: string;
-  ph?: string;
-  h?: number;
-  err?: string;
-}
-
-interface MediaUploaderProps {
-  preview: string;
-  badge?: string;
-  hint?: string;
-  error?: string;
-  onSelect: (file: File, previewUrl: string) => void;
-  onRemove: () => void;
-  type?: string;
-  index?: number;
-}
-
-interface MultiImgProps {
-  items: MultiImgItem[];
-  onChange: React.Dispatch<React.SetStateAction<MultiImgItem[]>>;
-  hint?: string;
-  max?: number;
-  label?: string;
-}
-
-interface StarRatingProps {
-  value: number;
-  onChange: (value: number) => void;
-}
-
-interface SecProps {
-  title: string;
-  badge?: string;
-  children: React.ReactNode;
-}
-
-interface FProps {
-  label: string;
-  hint?: string;
-  req?: boolean;
-  children: React.ReactNode;
-}
-
-interface ParaItem {
-  id: string;
-  value: string;
-}
-
-// ============================================================
-// UTILITIES
-// ============================================================
-
-const mkPara = (val = ""): ParaItem => ({
-  id: `p-${Date.now()}-${Math.random()}`,
-  value: val,
-});
-
-// ---- FIX: functional state updates (stale closure se data overwrite nahi hoga) ----
-function patchAt<T extends object>(
-  setter: React.Dispatch<React.SetStateAction<T[]>>,
-  i: number,
-  patch: Partial<T>,
-) {
-  setter((prev) => prev.map((x, idx) => (idx === i ? { ...x, ...patch } : x)));
-}
-
-function setStrAt(
-  setter: React.Dispatch<React.SetStateAction<string[]>>,
-  i: number,
-  val: string,
-) {
-  setter((prev) => prev.map((x, idx) => (idx === i ? val : x)));
-}
-
-function removeAt<T>(
-  setter: React.Dispatch<React.SetStateAction<T[]>>,
-  i: number,
-) {
-  setter((prev) => prev.filter((_, idx) => idx !== i));
-}
-
-function removeAtMin1<T>(
-  setter: React.Dispatch<React.SetStateAction<T[]>>,
-  i: number,
-) {
-  setter((prev) => (prev.length > 1 ? prev.filter((_, idx) => idx !== i) : prev));
-}
-
-function makeConfig(ph: string, h: number) {
-  return {
-    readonly: false,
-    toolbar: true,
-    spellcheck: true,
-    language: "en",
-    toolbarButtonSize: "middle" as const,
-    toolbarAdaptive: false,
-    showCharsCounter: false,
-    showWordsCounter: false,
-    showXPathInStatusbar: false,
-    askBeforePasteHTML: false,
-    askBeforePasteFromWord: false,
-    defaultActionOnPaste: "insert_clear_html" as const,
-    buttons: [
-      "bold", "italic", "underline", "strikethrough", "|",
-      "font", "fontsize", "brush", "|", "paragraph", "align", "|",
-      "ul", "ol", "|", "link", "|", "undo", "redo", "|",
-      "selectall", "cut", "copy", "paste",
-    ],
-    uploader: { insertImageAsBase64URI: true },
-    height: h,
-    placeholder: ph,
-    enter: "p" as const,
+/* ─────────────────────────────────────────
+   HELPERS
+───────────────────────────────────────── */
+function formatDateRange(start: string, end: string): string {
+  const opts: Intl.DateTimeFormatOptions = {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
   };
+  const s = new Date(start).toLocaleDateString("en-IN", opts);
+  const e = new Date(end).toLocaleDateString("en-IN", opts);
+  return `${s} - ${e}`;
 }
 
-function D() {
-  return <div style={{ height: 1, background: "linear-gradient(90deg,transparent,#e8d5b5,transparent)", margin: "0.4rem 0 1.8rem" }} />;
+const shortDateRange = (start: string, end: string) => {
+  const s = new Date(start);
+  const e = new Date(end);
+  const d = (dt: Date) =>
+    dt.toLocaleDateString("en-IN", { day: "2-digit", month: "short" });
+  return `${d(s)} – ${d(e)}`;
+};
+
+const monthYear = (start: string) => {
+  const s = new Date(start);
+  return s.toLocaleDateString("en-IN", { month: "short", year: "numeric" });
+};
+
+function imgSrc(path: string): string {
+  if (!path) return "";
+  if (path.startsWith("http")) return path;
+  return `${process.env.NEXT_PUBLIC_API_URL}${path}`;
 }
 
-function Sec({ title, badge, children }: SecProps) {
+const Para = ({ html, className }: { html: string; className?: string }) => (
+  <div className={className} dangerouslySetInnerHTML={{ __html: html }} />
+);
+
+// Icons for CourseInfoCard
+const DurationIcon = () => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.8"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <circle cx="12" cy="12" r="9" />
+    <path d="M12 7v5l3 3" />
+  </svg>
+);
+const LevelIcon = () => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.8"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <rect x="2" y="14" width="5" height="7" rx="1" />
+    <rect x="9.5" y="9" width="5" height="12" rx="1" />
+    <rect x="17" y="4" width="5" height="17" rx="1" />
+  </svg>
+);
+const CertIcon = () => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.8"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <rect x="2" y="3" width="20" height="14" rx="2" />
+    <path d="M8 17v4M16 17v4M8 21h8" />
+    <path d="M9 10l2 2 4-4" />
+  </svg>
+);
+const StyleIcon = () => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.8"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <circle cx="12" cy="4" r="1.5" />
+    <path d="M12 6v5.5" />
+    <path d="M8.5 13c0 2 1.5 4 3.5 4.5 2-0.5 3.5-2.5 3.5-4.5" />
+    <path d="M10 18l-1.5 3.5M14 18l1.5 3.5" />
+    <path d="M7 11l5 2.5 5-2.5" />
+  </svg>
+);
+const LangIcon = () => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.8"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <circle cx="12" cy="12" r="9" />
+    <path d="M2 12h20" />
+    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+  </svg>
+);
+const DateIcon = () => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.8"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <rect x="3" y="4" width="18" height="18" rx="2" />
+    <path d="M16 2v4M8 2v4M3 10h18" />
+    <circle cx="8" cy="15" r="1" fill="currentColor" />
+    <circle cx="12" cy="15" r="1" fill="currentColor" />
+    <circle cx="16" cy="15" r="1" fill="currentColor" />
+  </svg>
+);
+
+/* ══════════════════════════════
+   COURSE INFO CARD
+══════════════════════════════ */
+function CourseInfoCard({
+  content,
+  currency,
+  rate,
+}: {
+  content: PageContent;
+  currency: Currency;
+  rate: number;
+}) {
+  // Use independent pricing from content, not from seats
+  const currentPrice =
+    currency === "USD"
+      ? content.courseInfoUsdPrice || 1649
+      : content.courseInfoInrPrice || 135000;
+
+  const originalPrice =
+    currency === "USD"
+      ? content.courseInfoOriginalUsdPrice || 2950
+      : content.courseInfoOriginalInrPrice || 240000;
+
+  const displayPrice = (): string => {
+    if (currency === "USD") {
+      return `$${currentPrice}`;
+    }
+    return `₹${currentPrice.toLocaleString("en-IN")}`;
+  };
+
+  const displayOriginalPrice = (): string => {
+    if (currency === "USD") {
+      return `$${originalPrice}`;
+    }
+    return `₹${originalPrice.toLocaleString("en-IN")}`;
+  };
+
+  const details = (
+    content.courseInfoDetails || [
+      { label: "DURATION", value: "24 Days", sub: "" },
+      { label: "LEVEL", value: "Advanced", sub: "" },
+      { label: "CERTIFICATION", value: "500 Hour", sub: "" },
+      {
+        label: "YOGA STYLE",
+        value: "Multistyle",
+        sub: "Ashtanga, Vinyasa & Hatha",
+      },
+      { label: "LANGUAGE", value: "English & Hindi", sub: "" },
+      { label: "DATE", value: "Check batches below", sub: "" },
+    ]
+  ).map((detail) => ({
+    ...detail,
+    icon: getIconForLabel(detail.label),
+  }));
+
+  function getIconForLabel(label: string) {
+    switch (label.toLowerCase()) {
+      case "duration":
+        return <DurationIcon />;
+      case "level":
+        return <LevelIcon />;
+      case "certification":
+        return <CertIcon />;
+      case "yoga style":
+        return <StyleIcon />;
+      case "language":
+        return <LangIcon />;
+      case "date":
+        return <DateIcon />;
+      default:
+        return <DurationIcon />;
+    }
+  }
+
   return (
-    <div className={styles.sectionBlock}>
-      <div className={styles.sectionHeader}>
-        <span className={styles.sectionIcon}>✦</span>
-        <h3 className={styles.sectionTitle}>{title}</h3>
-        {badge && <span className={styles.sectionBadge}>{badge}</span>}
+    <div className={styles.icWrap}>
+      <div className={styles.icCard}>
+        <div className={styles.icLeft}>
+          <div className={styles.icHdr}>
+            <span className={styles.icHdrTxt}>
+              {content.courseInfoCardTitle || "COURSE DETAILS"}
+            </span>
+          </div>
+          <div className={styles.icGrid}>
+            {details.map((d, i) => (
+              <div key={i} className={styles.icItem}>
+                <div className={styles.icIcon}>{d.icon}</div>
+                <div className={styles.icBody}>
+                  <div className={styles.icLbl}>{d.label}</div>
+                  <div className={styles.icVal}>{d.value}</div>
+                  {d.sub && <div className={styles.icSub}>{d.sub}</div>}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className={styles.icVDiv} />
+        <div className={styles.icRight}>
+          <div className={styles.icFeeTop}>
+            <span className={styles.icFeeLbl}>
+              {content.courseInfoFeeLabel || "COURSE FEE"}
+            </span>
+            <span className={styles.icFeeFrom}>
+              {content.courseInfoFeeFromText || "starting from"}
+            </span>
+          </div>
+          <div className={styles.icPriceRow}>
+            <span className={styles.icPriceOld}>{displayOriginalPrice()}</span>
+            <span className={styles.icPriceNew}>{displayPrice()}</span>
+            <span className={styles.icPriceCur}>{currency}</span>
+          </div>
+          <Link href="#dates-fees" className={styles.icBookBtn}>
+            {content.courseInfoBookBtnText || "BOOK NOW"}
+            <svg viewBox="0 0 20 20" fill="none" className={styles.icBtnArrow}>
+              <path
+                d="M4 10h12M11 5l5 5-5 5"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </Link>
+        </div>
       </div>
-      {children}
     </div>
   );
 }
 
-function F({ label, hint, req, children }: FProps) {
-  return (
-    <div className={styles.fieldGroup}>
-      <label className={styles.label}>
-        <span className={styles.labelIcon}>✦</span>
-        {label}
-        {req && <span className={styles.required}>*</span>}
-      </label>
-      {hint && <p className={styles.fieldHint}>{hint}</p>}
-      {children}
-    </div>
-  );
-}
+const NAV_ITEMS = [
+  { label: "DATES & FEES", id: "dates-fees" },
+  { label: "CURRICULUM", id: "curriculum" },
+  { label: "INCLUSIONS", id: "inclusions" },
+  { label: "FACILITY", id: "facility" },
+  { label: "LOCATION", id: "location" },
+];
 
-// ============================================================
-// STABLE JODIT EDITOR
-// ============================================================
-
-const StableJodit = memo(function StableJodit({ onSave, value, ph = "Start typing…", h = 220, err }: JoditEditorProps) {
-  const [visible, setVisible] = useState(false);
-  const initialValue = useRef(value || "");
-  const wrapRef = useRef<HTMLDivElement>(null);
-  const onSaveRef = useRef(onSave);
-  onSaveRef.current = onSave;
-  const config = useMemo(() => makeConfig(ph, h), [ph, h]);
-  const handleChange = useCallback((val: string) => onSaveRef.current(val), []);
+/* ══════════════════════════════
+   CURRENCY DROPDOWN
+══════════════════════════════ */
+function CurrencyDropdown({
+  currency,
+  onChange,
+}: {
+  currency: Currency;
+  onChange: (c: Currency) => void;
+}) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const el = wrapRef.current;
-    if (!el) return;
-    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setVisible(true); obs.disconnect(); } }, { rootMargin: "300px" });
-    obs.observe(el);
-    return () => obs.disconnect();
+    const handler = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node))
+        setOpen(false);
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
   }, []);
 
   return (
-    <div ref={wrapRef} className={`${styles.joditWrap} ${err ? styles.joditError : ""}`} style={{ minHeight: h }}>
-      {visible ? (
-        <JoditEditor config={config} value={initialValue.current} onChange={handleChange} />
-      ) : (
-        <div style={{ height: h, display: "flex", alignItems: "center", justifyContent: "center", background: "#faf8f4", border: "1px solid #e8d5b5", borderRadius: 8, color: "#bbb", fontSize: 13 }}>
-          ✦ Scroll to load editor…
+    <div className={styles.currDrop} ref={ref}>
+      <button
+        className={styles.currDropBtn}
+        onClick={() => setOpen((p) => !p)}
+        aria-expanded={open}
+        aria-haspopup="listbox"
+        type="button"
+      >
+        <span className={styles.currDropFlag}>
+          {currency === "USD" ? "🇺🇸" : "🇮🇳"}
+        </span>
+        <span className={styles.currDropLabel}>
+          {currency === "USD" ? "English" : "हिन्दी"}
+        </span>
+        <svg
+          className={`${styles.currDropArrow} ${open ? styles.currDropArrowOpen : ""}`}
+          viewBox="0 0 12 8"
+          fill="none"
+        >
+          <path
+            d="M1 1l5 5 5-5"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      </button>
+      {open && (
+        <div className={styles.currDropMenu} role="listbox">
+          {(["USD", "INR"] as Currency[]).map((c) => (
+            <button
+              key={c}
+              className={`${styles.currDropItem} ${currency === c ? styles.currDropItemActive : ""}`}
+              onClick={() => {
+                onChange(c);
+                setOpen(false);
+              }}
+              role="option"
+              aria-selected={currency === c}
+              type="button"
+            >
+              <span className={styles.currDropItemFlag}>
+                {c === "USD" ? "🇺🇸" : "🇮🇳"}
+              </span>
+              <div className={styles.currDropItemText}>
+                <span className={styles.currDropItemCode}>
+                  {c === "USD" ? "English" : "हिन्दी"}
+                </span>
+                <span className={styles.currDropItemName}>
+                  {c === "USD" ? "US Dollar" : "Indian Rupee"}
+                </span>
+              </div>
+              {currency === c && (
+                <svg
+                  className={styles.currDropCheck}
+                  viewBox="0 0 12 12"
+                  fill="none"
+                >
+                  <path
+                    d="M2 6l3 3 5-5"
+                    stroke="currentColor"
+                    strokeWidth="1.8"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              )}
+            </button>
+          ))}
         </div>
       )}
-      {err && <p className={styles.errorMsg}>⚠ {err}</p>}
-    </div>
-  );
-});
-
-StableJodit.displayName = "StableJodit";
-
-// ============================================================
-// PARAGRAPH LIST (id-based, functional updates)
-// ============================================================
-
-function ParaList({
-  items,
-  setItems,
-  ph,
-  h = 200,
-}: {
-  items: ParaItem[];
-  setItems: React.Dispatch<React.SetStateAction<ParaItem[]>>;
-  ph: string;
-  h?: number;
-}) {
-  return (
-    <div>
-      {items.map((para, i) => (
-        <div key={para.id} className={styles.nestedCard} style={{ marginBottom: "0.85rem" }}>
-          <div className={styles.nestedCardHeader}>
-            <span className={styles.nestedCardNum}>Paragraph {i + 1}</span>
-            {items.length > 1 && (
-              <button
-                type="button"
-                className={styles.removeNestedBtn}
-                onClick={() => setItems((prev) => prev.filter((p) => p.id !== para.id))}
-              >
-                ✕ Remove
-              </button>
-            )}
-          </div>
-          <div className={styles.nestedCardBody}>
-            <StableJodit
-              value={para.value}
-              onSave={(val: string) =>
-                setItems((prev) => prev.map((p) => (p.id === para.id ? { ...p, value: val } : p)))
-              }
-              ph={ph}
-              h={h}
-            />
-          </div>
-        </div>
-      ))}
-      <button type="button" className={styles.addItemBtn} onClick={() => setItems((prev) => [...prev, mkPara()])}>
-        ＋ Add Paragraph
-      </button>
     </div>
   );
 }
 
-// ============================================================
-// MEDIA UPLOADER
-// ============================================================
+/* ══════════════════════════════════════════════════
+   PREMIUM SEAT BOOKING — with Direct INR Pricing (NO CONVERSION)
+══════════════════════════════════════════════════ */
+function PremiumSeatBooking({
+  seats,
+  currency,
+  onCurrencyChange,
+  rate,
+  rateLoading,
+}: {
+  seats: Batch[];
+  currency: Currency;
+  onCurrencyChange: (c: Currency) => void;
+  rate: number;
+  rateLoading: boolean;
+}) {
+  const [selectedId, setSelectedId] = useState<string | null>(null);
 
-function MediaUploader({ preview, badge, hint, error, onSelect, onRemove, type = "image", index = 0 }: MediaUploaderProps) {
-  const inputRef = useRef<HTMLInputElement>(null);
-  const isVideo = preview && (preview.includes('.mp4') || preview.includes('.webm') || preview.includes('.mov'));
+  useEffect(() => {
+    if (seats.length === 0) return;
+    const firstAvailable = seats.find((s) => s.totalSeats - s.bookedSeats > 0);
+    if (firstAvailable) setSelectedId(firstAvailable._id);
+  }, [seats]);
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const url = URL.createObjectURL(file);
-      onSelect(file, url);
+  const selected = seats.find((s) => s._id === selectedId) ?? null;
+
+  /**
+   * Core price formatter — uses stored INR price directly (NO CONVERSION).
+   */
+  const fmtPrice = (
+    batch: Batch | null,
+    overrideUsd?: number,
+  ): { amount: string; cur: string } => {
+    if (!batch && overrideUsd === undefined)
+      return { amount: "—", cur: currency };
+
+    if (currency === "INR") {
+      // Use stored INR price directly - NO CONVERSION
+      if (batch?.inrFee) {
+        const num = parseFloat(batch.inrFee.replace(/[₹,]/g, "").trim());
+        if (!isNaN(num) && num > 0) {
+          return { amount: `₹${num.toLocaleString("en-IN")}`, cur: "INR" };
+        }
+      }
+      return { amount: "—", cur: "INR" };
     }
-    if (inputRef.current) {
-      inputRef.current.value = "";
+
+    // USD: use usdFee string directly
+    if (batch?.usdFee) {
+      const raw = batch.usdFee.trim();
+      return { amount: raw.startsWith("$") ? raw : `$${raw}`, cur: "USD" };
     }
+    const fallback = overrideUsd ?? batch?.dormPrice ?? 0;
+    return { amount: `$${fallback}`, cur: "USD" };
   };
 
-  const handleClick = () => {
-    inputRef.current?.click();
+  /**
+   * Get room price based on currency using stored values - NO CONVERSION
+   */
+  const getRoomPrice = (
+    batch: Batch | null,
+    roomType: "dorm" | "twin" | "private",
+  ) => {
+    if (!batch) return "—";
+
+    if (currency === "INR") {
+      // Use stored INR price directly - NO CONVERSION
+      let inrPrice: number | undefined;
+      if (roomType === "dorm") inrPrice = batch.inrDormPrice;
+      else if (roomType === "twin") inrPrice = batch.inrTwinPrice;
+      else inrPrice = batch.inrPrivatePrice;
+
+      if (inrPrice && inrPrice > 0) {
+        return `₹${inrPrice.toLocaleString("en-IN")}`;
+      }
+      return "—";
+    }
+
+    // USD
+    const usdPrice =
+      roomType === "dorm"
+        ? batch.dormPrice
+        : roomType === "twin"
+          ? batch.twinPrice
+          : batch.privatePrice;
+    return `$${usdPrice}`;
   };
 
-  const handleRemove = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    onRemove();
-    if (inputRef.current) {
-      inputRef.current.value = "";
-    }
-  };
+  /**
+   * Price shown on each batch card in the LEFT panel.
+   */
+  const batchCardPrice = (batch: Batch): { amount: string; cur: string } =>
+    fmtPrice(batch);
 
   return (
-    <div>
-      <div
-        className={`${styles.imageUploadZone} ${preview ? styles.hasImage : ""} ${error ? styles.inputError : ""}`}
-        onClick={!preview ? handleClick : undefined}
-      >
-        <input
-          type="file"
-          accept={type === "video" ? "video/mp4,video/webm,video/quicktime" : "image/jpeg,image/png,image/webp,image/gif"}
-          ref={inputRef}
-          style={{ display: "none" }}
-          onChange={handleFileChange}
-        />
+    <section className={styles.datesSection} id="dates-fees">
+      <div className={styles.psbSecTag}>Upcoming Batches · 2026–2027</div>
+      <div className={styles.vintageHeadingWrap}>
+        <h2 className={styles.vintageHeading}>
+          500 Hour Yoga Teacher Training India
+        </h2>
+        <div className={styles.vintageHeadingUnderline}>
+          <svg
+            viewBox="0 0 200 8"
+            xmlns="http://www.w3.org/2000/svg"
+            className={styles.headingUndSvg}
+          >
+            <path
+              d="M0,4 Q50,0 100,4 Q150,8 200,4"
+              stroke="#F15505"
+              strokeWidth="1.2"
+              fill="none"
+            />
+            <circle cx="100" cy="4" r="3" fill="#F15505" opacity="0.7" />
+            <circle cx="10" cy="4" r="1.5" fill="#b8860b" opacity="0.5" />
+            <circle cx="190" cy="4" r="1.5" fill="#b8860b" opacity="0.5" />
+          </svg>
+        </div>
+      </div>
+      <p className={styles.psbSecSub}>
+        Choose your dates &amp; preferred accommodation — prices include tuition
+        and meals
+      </p>
+      <div className={styles.psbOrnLine}>
+        <div className={styles.psbOrnL} />
+        <div className={styles.psbOrnDiamond} />
+        <div className={styles.psbOrnR} />
+      </div>
 
-        {!preview ? (
-          <div className={styles.imageUploadPlaceholder}>
-            <span className={styles.imageUploadIcon}>{type === "video" ? "🎥" : "🖼️"}</span>
-            <span className={styles.imageUploadText}>Click to Upload {type === "video" ? "Video" : "Image"}</span>
-            <span className={styles.imageUploadSub}>{hint}</span>
-          </div>
-        ) : (
-          <div className={styles.imagePreviewWrap}>
-            {badge && <span className={styles.imageBadge}>{badge}</span>}
-            {isVideo ? (
-              <video src={preview} className={styles.imagePreview} controls />
-            ) : (
-              <img src={preview} alt="" className={styles.imagePreview} />
-            )}
-            <div className={styles.imagePreviewOverlay}>
-              <span className={styles.imagePreviewAction} onClick={handleClick}>✎ Change</span>
-              <button type="button" className={styles.removeImageBtn} onClick={handleRemove}>✕</button>
+      <div className={styles.psbLayout}>
+        {/* LEFT PANEL */}
+        <div className={styles.psbLeftPanel}>
+          <div className={`${styles.psbCn} ${styles.psbCnTl}`} />
+          <div className={`${styles.psbCn} ${styles.psbCnTr}`} />
+          <div className={`${styles.psbCn} ${styles.psbCnBl}`} />
+          <div className={`${styles.psbCn} ${styles.psbCnBr}`} />
+          <div className={styles.psbLph}>
+            <span className={styles.psbLphTitle}>Select Your Batch</span>
+            <div className={styles.psbLphRight}>
+              <CurrencyDropdown
+                currency={currency}
+                onChange={onCurrencyChange}
+              />
+              <div className={styles.psbLegend}>
+                <div className={styles.psbLegItem}>
+                  <div className={`${styles.psbLegDot} ${styles.psbDGreen}`} />
+                  Available
+                </div>
+                <div className={styles.psbLegItem}>
+                  <div className={`${styles.psbLegDot} ${styles.psbDOrange}`} />
+                  Limited
+                </div>
+                <div className={styles.psbLegItem}>
+                  <div className={`${styles.psbLegDot} ${styles.psbDRed}`} />
+                  Full
+                </div>
+              </div>
             </div>
           </div>
-        )}
-      </div>
-      {error && <p className={styles.errorMsg}>⚠ {error}</p>}
-    </div>
-  );
-}
 
-// ============================================================
-// MULTI IMAGE UPLOADER (functional updates)
-// ============================================================
+          {rateLoading && (
+            <div className={styles.rateLoader}>
+              <div className={styles.rateLoaderDot} />
+              <span>Loading live exchange rate...</span>
+            </div>
+          )}
 
-function MultiImg({ items, onChange, hint, max = 20, label = "Add Photos" }: MultiImgProps) {
-  const handleAdd = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = Array.from(e.target.files || []);
-    const newItems: MultiImgItem[] = files.map((f) => ({
-      id: `img-${Date.now()}-${Math.random()}`,
-      file: f,
-      preview: URL.createObjectURL(f),
-    }));
-    // FIX: prev ke upar add karo, purani images kabhi replace nahi hongi
-    onChange((prev) => [...prev, ...newItems].slice(0, max));
-    e.target.value = "";
-  };
+          {seats.length === 0 ? (
+            <p className={styles.psbNoBatches}>
+              No upcoming batches available at the moment.
+            </p>
+          ) : (
+            <div className={styles.psbBatchGrid}>
+              {seats.map((batch) => {
+                const rem = batch.totalSeats - batch.bookedSeats;
+                const full = rem <= 0;
+                const low = !full && rem <= 5;
+                const dotCls = full
+                  ? styles.psbDRed
+                  : low
+                    ? styles.psbDOrange
+                    : styles.psbDGreen;
+                const txtCls = full
+                  ? styles.psbSRed
+                  : low
+                    ? styles.psbSOrange
+                    : styles.psbSGreen;
+                const statusTxt = full
+                  ? "Fully Booked"
+                  : low
+                    ? "Limited"
+                    : "Available";
+                const seatsPercent = Math.max(
+                  5,
+                  (rem / batch.totalSeats) * 100,
+                );
+                const isSelected = selectedId === batch._id;
+                const cardPrice = batchCardPrice(batch);
 
-  const remove = (id: string) => onChange((prev) => prev.filter((i) => i.id !== id));
+                return (
+                  <div
+                    key={batch._id}
+                    className={[
+                      styles.psbBc,
+                      full ? styles.psbBcFull : "",
+                      isSelected ? styles.psbBcSel : "",
+                    ]
+                      .filter(Boolean)
+                      .join(" ")}
+                    onClick={() => {
+                      if (!full) setSelectedId(batch._id);
+                    }}
+                  >
+                    <div className={styles.psbBcTick}>
+                      <svg viewBox="0 0 10 10" fill="none">
+                        <polyline
+                          points="1.5,5 4,7.5 8.5,2.5"
+                          stroke="white"
+                          strokeWidth="1.5"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </div>
+                    <div className={styles.psbBcMonth}>
+                      {monthYear(batch.startDate)}
+                    </div>
+                    <div className={styles.psbBcDates}>
+                      {shortDateRange(batch.startDate, batch.endDate)}
+                    </div>
+                    <div className={styles.psbBcPrice}>
+                      {cardPrice.amount} <span>{cardPrice.cur}</span>
+                    </div>
+                    <div className={styles.psbBcStatus}>
+                      <div className={`${styles.psbBcDot} ${dotCls}`} />
+                      <span className={`${styles.psbBcStxt} ${txtCls}`}>
+                        {statusTxt}
+                      </span>
+                    </div>
+                    {!full && (
+                      <>
+                        <div className={styles.psbBcSeatsBar}>
+                          <div
+                            className={styles.psbBcSeatsBarFill}
+                            style={{
+                              width: `${seatsPercent}%`,
+                              background: low
+                                ? "linear-gradient(90deg,#c8700a,#e09030)"
+                                : "linear-gradient(90deg,#3d6000,#6aa000)",
+                            }}
+                          />
+                        </div>
+                        <span
+                          className={styles.psbBcSeatsBadge}
+                          style={{ color: low ? "#c8700a" : "#3d6000" }}
+                        >
+                          {rem} / {batch.totalSeats} seats left
+                        </span>
+                      </>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
 
-  return (
-    <div>
-      {items.length === 0 && (
-        <label style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "0.6rem", minHeight: 148, border: "2px dashed rgba(224,123,0,0.35)", borderRadius: 10, background: "rgba(255,250,242,0.6)", cursor: "pointer", marginBottom: "0.75rem" }}>
-          <span style={{ fontSize: "2rem", color: "rgba(224,123,0,0.4)" }}>🖼️</span>
-          <span style={{ fontFamily: "'Cinzel', serif", fontSize: "0.72rem", fontWeight: 600, color: "#a07840", textTransform: "uppercase" }}>Click to Upload Photos</span>
-          <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "0.8rem", color: "rgba(160,120,64,0.6)", fontStyle: "italic" }}>{hint}</span>
-          <input type="file" accept="image/*" multiple style={{ display: "none" }} onChange={handleAdd} />
-        </label>
-      )}
-      {items.length > 0 && (
-        <>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(128px, 1fr))", gap: "0.75rem", marginBottom: "0.75rem" }}>
-            {items.map((item) => (
-              <div key={item.id} style={{ position: "relative", borderRadius: 8, overflow: "hidden", border: "1px solid #e8d5b5", aspectRatio: "4/3", background: "#fdf7ee" }}>
-                <img src={item.preview} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-                <button type="button" onClick={() => remove(item.id)} style={{ position: "absolute", top: 5, right: 5, width: "1.6rem", height: "1.6rem", borderRadius: "50%", background: "rgba(139,32,0,0.88)", border: "none", color: "#ffe0cc", fontSize: "0.6rem", cursor: "pointer", zIndex: 2 }}>✕</button>
+        {/* RIGHT PANEL */}
+        <div className={styles.psbRightPanel}>
+          <div className={`${styles.psbCn} ${styles.psbCnTl}`} />
+          <div className={`${styles.psbCn} ${styles.psbCnTr}`} />
+          <div className={`${styles.psbCn} ${styles.psbCnBl}`} />
+          <div className={`${styles.psbCn} ${styles.psbCnBr}`} />
+          <div className={styles.psbRpHead}>
+            <div className={styles.psbRpEyebrow}>Course Overview</div>
+            <div className={styles.psbRpCourse}>
+              500 Hour Yoga Teacher Training
+            </div>
+            <div className={styles.psbRpDur}>
+              <svg width="11" height="11" viewBox="0 0 16 16" fill="none">
+                <circle
+                  cx="8"
+                  cy="8"
+                  r="7"
+                  stroke="rgba(255,243,210,0.8)"
+                  strokeWidth="1.2"
+                />
+                <path
+                  d="M8 4.5V8.5L10.5 10"
+                  stroke="rgba(255,243,210,0.8)"
+                  strokeWidth="1.2"
+                  strokeLinecap="round"
+                />
+              </svg>
+              <span className={styles.psbRpDurTxt}>
+                24 Days · Rishikesh, India
+              </span>
+            </div>
+            <div className={styles.psbCurrBadge}>
+              {currency === "USD" ? "🇺🇸 Prices in USD" : "🇮🇳 Prices in INR"}
+            </div>
+          </div>
+          <div className={styles.psbRpBody}>
+            <div className={styles.psbPriceLbl}>With Accommodation</div>
+            <div className={styles.psbPriceRow}>
+              {/* Private Room */}
+              <div className={styles.psbPriceCard}>
+                <div className={styles.psbPcAmt}>
+                  {selected ? getRoomPrice(selected, "private") : "—"}
+                  <span className={styles.psbPcCur}>{currency}</span>
+                </div>
+                <div className={styles.psbPcLbl}>Private Room</div>
               </div>
-            ))}
-            {items.length < max && (
-              <label style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "0.35rem", border: "2px dashed rgba(224,123,0,0.35)", borderRadius: 8, background: "rgba(255,250,242,0.6)", cursor: "pointer", aspectRatio: "4/3" }}>
-                <span style={{ fontSize: "1.5rem", color: "rgba(224,123,0,0.5)" }}>＋</span>
-                <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "0.72rem", color: "#a07840", fontStyle: "italic" }}>{label}</span>
-                <input type="file" accept="image/*" multiple style={{ display: "none" }} onChange={handleAdd} />
-              </label>
+              {/* Twin Room */}
+              <div className={styles.psbPriceCard}>
+                <div className={styles.psbPcAmt}>
+                  {selected ? getRoomPrice(selected, "twin") : "—"}
+                  <span className={styles.psbPcCur}>{currency}</span>
+                </div>
+                <div className={styles.psbPcLbl}>Twin / Shared</div>
+              </div>
+            </div>
+
+            <div className={styles.psbPriceLbl}>Dormitory</div>
+            <div className={styles.psbPriceWide}>
+              <div className={styles.psbPwLeft}>
+                <span className={styles.psbPcAmt} style={{ fontSize: "1rem" }}>
+                  {selected ? getRoomPrice(selected, "dorm") : "—"}
+                </span>
+                <span className={styles.psbPcCur}>{currency}</span>
+              </div>
+              <span className={styles.psbFoodBadge}>Food Included</span>
+            </div>
+
+            {/* Info row below "Dormitory" */}
+            {selected && currency === "USD" && (
+              <div className={styles.psbInrRow}>
+                <span className={styles.psbInrLbl}>USD Price</span>
+                <span className={styles.psbInrAmt}>
+                  {selected.usdFee.startsWith("$")
+                    ? selected.usdFee
+                    : `$${selected.usdFee}`}
+                </span>
+              </div>
+            )}
+            {selected && currency === "INR" && (
+              <div className={styles.psbInrRow}>
+                <span className={styles.psbInrLbl}>Indian Price</span>
+                <span className={styles.psbInrAmt}>
+                  {(() => {
+                    if (selected.inrFee) {
+                      const num = parseFloat(
+                        selected.inrFee.replace(/[₹,]/g, "").trim(),
+                      );
+                      if (!isNaN(num) && num > 0)
+                        return `₹${num.toLocaleString("en-IN")}`;
+                    }
+                    return "—";
+                  })()}
+                </span>
+              </div>
+            )}
+
+            <div className={styles.psbDivider} />
+            {selected && (
+              <div className={styles.psbRpSeatsWrap}>
+                {(() => {
+                  const rem = selected.totalSeats - selected.bookedSeats;
+                  const full = rem <= 0;
+                  const low = !full && rem <= 5;
+                  const pct = full
+                    ? 100
+                    : Math.round(
+                        (selected.bookedSeats / selected.totalSeats) * 100,
+                      );
+                  return (
+                    <>
+                      <div className={styles.psbRpSeatsRow}>
+                        <span className={styles.psbRpSeatsLbl}>
+                          Seats Availability
+                        </span>
+                        <span
+                          className={styles.psbRpSeatsBadge}
+                          style={{
+                            color: full
+                              ? "#8a2c00"
+                              : low
+                                ? "#c8700a"
+                                : "#3d6000",
+                            borderColor: full
+                              ? "#8a2c00"
+                              : low
+                                ? "#c8700a"
+                                : "#3d6000",
+                          }}
+                        >
+                          {full
+                            ? "Fully Booked"
+                            : `${rem} of ${selected.totalSeats} left`}
+                        </span>
+                      </div>
+                      <div className={styles.psbRpSeatsBar}>
+                        <div
+                          className={styles.psbRpSeatsBarFill}
+                          style={{
+                            width: `${pct}%`,
+                            background: full
+                              ? "#8a2c00"
+                              : low
+                                ? "linear-gradient(90deg,#c8700a,#e09030)"
+                                : "linear-gradient(90deg,#3d6000,#6aa000)",
+                          }}
+                        />
+                      </div>
+                    </>
+                  );
+                })()}
+              </div>
+            )}
+            <div className={styles.psbSelDisplay}>
+              {selected ? (
+                <>
+                  <div className={styles.psbSelLabel}>Selected Batch</div>
+                  <div className={styles.psbSelDate}>
+                    {shortDateRange(selected.startDate, selected.endDate)},{" "}
+                    {monthYear(selected.startDate)}
+                  </div>
+                </>
+              ) : (
+                <span className={styles.psbSelHint}>
+                  ← Select a batch to continue
+                </span>
+              )}
+            </div>
+            {selected ? (
+              <Link
+                href={`/yoga-registration?batchId=${selected._id}&type=500hr`}
+                className={styles.psbBookBtn}
+              >
+                Book Now — {fmtPrice(selected).amount} {currency}
+                <svg
+                  className={styles.psbArrowIcon}
+                  viewBox="0 0 16 16"
+                  fill="none"
+                >
+                  <path
+                    d="M3 8h10M9 4l4 4-4 4"
+                    stroke="#fff3d2"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </Link>
+            ) : (
+              <span className={`${styles.psbBookBtn} ${styles.psbBookBtnDis}`}>
+                Book Now
+              </span>
+            )}
+            {selected?.note && (
+              <p className={styles.psbNote}>
+                <strong>Note:</strong> {selected.note}
+              </p>
             )}
           </div>
-          <p className={styles.fieldHint}>{hint} · <strong>{items.length}/{max}</strong> uploaded</p>
-        </>
-      )}
-    </div>
+        </div>
+      </div>
+    </section>
   );
 }
 
-// ============================================================
-// STAR RATING
-// ============================================================
+/* ─────────────────────────────────────────
+   ENHANCED INTRO SECTION
+───────────────────────────────────────── */
+function EnhancedIntroSection({ items }: { items: IntroItem[] }) {
+  if (!items || items.length === 0) return null;
 
-function StarRating({ value, onChange }: StarRatingProps) {
-  const [hover, setHover] = useState(0);
   return (
-    <div style={{ display: "flex", gap: "0.3rem", alignItems: "center" }}>
-      {[1, 2, 3, 4, 5].map((star) => (
-        <button key={star} type="button" onClick={() => onChange(star)} onMouseEnter={() => setHover(star)} onMouseLeave={() => setHover(0)} style={{ background: "none", border: "none", cursor: "pointer", fontSize: "1.5rem", color: (hover || value) >= star ? "#F15505" : "rgba(160,120,64,0.22)" }}>★</button>
-      ))}
-      {value > 0 && <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "0.85rem", color: "#a07840", fontStyle: "italic", marginLeft: "0.3rem" }}>{value} / 5</span>}
-    </div>
+    <section className={styles.enhancedIntroSection}>
+      <div
+        className={`container px-3 px-md-4 ${styles.enhancedIntroContainer}`}
+      >
+        <h1 className={styles.heroTitle}>
+          500 Hour Yoga Teacher Training Course in Rishikesh
+        </h1>
+        <div className={styles.omDiv}>
+          <span className={styles.divLine} />
+          <span className={styles.omGlyph}>ॐ</span>
+          <span className={styles.divLine} />
+        </div>
+
+        <div className={styles.introItemsWrapper}>
+          {items.map((item, index) => {
+            const mediaUrl = item.media ? imgSrc(item.media) : "";
+            const isVideo = item.mediaType === "video";
+
+            return (
+              <div
+                key={index}
+                className={`${styles.introItem} ${index % 2 === 1 ? styles.introItemReverse : ""}`}
+              >
+                <div className={styles.introItemContent}>
+                  <div
+                    className={styles.introItemText}
+                    dangerouslySetInnerHTML={{ __html: item.paragraph }}
+                  />
+                </div>
+                <div className={styles.introItemImage}>
+                  {mediaUrl ? (
+                    isVideo ? (
+                      <video
+                        src={mediaUrl}
+                        className={styles.introItemVideo}
+                        controls
+                        playsInline
+                        preload="metadata"
+                      >
+                        Your browser does not support the video tag.
+                      </video>
+                    ) : (
+                      <Image
+                        src={mediaUrl}
+                        alt={item.mediaAlt || `Intro media ${index + 1}`}
+                        loading="lazy"
+                      />
+                    )
+                  ) : (
+                    <div className={styles.introItemImagePlaceholder}>
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                      >
+                        <rect
+                          x="2"
+                          y="2"
+                          width="20"
+                          height="20"
+                          rx="2"
+                          strokeWidth="1.5"
+                        />
+                        <circle cx="8.5" cy="8.5" r="2.5" strokeWidth="1.5" />
+                        <path d="M21 15l-5-4-3 3-4-4-6 6" strokeWidth="1.5" />
+                      </svg>
+                    </div>
+                  )}
+                  <div className={styles.introItemImageOverlay}>
+                    <span>{isVideo ? "🎥" : "✦"}</span>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
   );
 }
 
-// ============================================================
-// MAIN COMPONENT
-// ============================================================
-
-export default function AddEdit500HrPage() {
-  const router = useRouter();
-  const params = useParams();
-  const pageId = params?.id as string;
-  const isEdit = !!pageId && pageId !== "add-new";
-
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
-  const [loadingData, setLoadingData] = useState(false);
-
-  // FIX: edit mode mein data load hone se pehle submit block + real doc id
-  const dataLoadedRef = useRef(false);
-  const docIdRef = useRef<string>(pageId);
-
-  // Single Images
-  const [heroFile, setHeroFile] = useState<File | null>(null);
-  const [heroPrev, setHeroPrev] = useState("");
-  const [heroErr, setHeroErr] = useState("");
-  const [shivaFile, setShivaFile] = useState<File | null>(null);
-  const [shivaPrev, setShivaPrev] = useState("");
-  const [evalImgFile, setEvalImgFile] = useState<File | null>(null);
-  const [evalImgPrev, setEvalImgPrev] = useState("");
-
-  // Video File
-  const [videoFile, setVideoFile] = useState<File | null>(null);
-  const [videoPrev, setVideoPrev] = useState("");
-  const [existingVideoUrl, setExistingVideoUrl] = useState("");
-
-  // Multi Images
-  const [accomImgs, setAccomImgs] = useState<MultiImgItem[]>([]);
-  const [foodImgs, setFoodImgs] = useState<MultiImgItem[]>([]);
-
-  // Course Info Details
-  const [courseInfoDetails, setCourseInfoDetails] = useState<CourseInfoDetail[]>([
-    { label: "DURATION", value: "24 Days", sub: "" },
-    { label: "LEVEL", value: "Advanced", sub: "" },
-    { label: "CERTIFICATION", value: "500 Hour", sub: "" },
-    { label: "YOGA STYLE", value: "Multistyle", sub: "Ashtanga, Vinyasa & Hatha" },
-    { label: "LANGUAGE", value: "English & Hindi", sub: "" },
-    { label: "DATE", value: "Check batches below", sub: "" },
-  ]);
-
-  // Enhanced Intro Items
-  const [introItems, setIntroItems] = useState<IntroItem[]>([
-    { paragraph: "Welcome to our transformative 500 hour yoga teacher training course in Rishikesh, India. This advanced program is designed for dedicated practitioners who want to deepen their practice and become certified yoga teachers.", media: "", mediaAlt: "Yoga teacher training in Rishikesh", mediaType: "image", mediaFile: undefined },
-    { paragraph: "Our 500-hour Yoga Teacher Training is a comprehensive program that combines the wisdom of ancient yogic traditions with modern teaching methodologies. You'll learn advanced asanas, pranayama techniques, meditation practices, and yoga philosophy.", media: "", mediaAlt: "Advanced yoga practice", mediaType: "image", mediaFile: undefined },
-  ]);
-
-  // Dynamic Paragraph Lists
-  const [introParas, setIntroParas] = useState<ParaItem[]>([]);
-  const [standApartParas, setStandApartParas] = useState<ParaItem[]>([]);
-  const [gainsParas, setGainsParas] = useState<ParaItem[]>([]);
-  const [credibilityParas, setCredibilityParas] = useState<ParaItem[]>([]);
-  const [durationParas, setDurationParas] = useState<ParaItem[]>([]);
-  const [syllabusParas, setSyllabusParas] = useState<ParaItem[]>([]);
-  const [eligibilityParas, setEligibilityParas] = useState<ParaItem[]>([]);
-  const [evaluationParas, setEvaluationParas] = useState<ParaItem[]>([]);
-  const [fictionParas, setFictionParas] = useState<ParaItem[]>([]);
-
-  // Dynamic Stand Apart Stats and Pills
-  const [standApartPills, setStandApartPills] = useState<string[]>([
+/* ─────────────────────────────────────────
+   STAND APART SECTION
+───────────────────────────────────────── */
+function StandApartSection({ content }: { content: PageContent }) {
+  const PILLS = content.standApartPills || [
     "Anatomy & Kinesiology",
     "Yoga Philosophy",
     "Teaching Methodology",
     "Pranayama & Meditation",
     "Yoga Nidra",
-  ]);
-  const [standApartStats, setStandApartStats] = useState<StatItem[]>([
+  ];
+
+  const STATS = content.standApartStats || [
     { num: "17+", label: "Years of Excellence" },
     { num: "5000+", label: "Yogis Trained" },
     { num: "60+", label: "Countries Reached" },
     { num: "RYS 500", label: "Yoga Alliance Certified" },
-  ]);
-
-  // String Lists
-  const [includedItems, setIncludedItems] = useState<string[]>([
-    "6 days yoga, meditation, and theory classes in a week, Sunday is free day",
-    "58 nights of accommodation with meals",
-    "One AYM t-shirt",
-    "One yoga Bag for books and study material.",
-    "One tour to local attraction during the course.",
-    "3 meals, tea, filtered water (seven days a week except for lunch on Sunday).",
-    "Teaching material, Course manual, common yoga mat in studio (not personal)",
-    "Yoga Anatomy, Teaching methodology, philosophy, Ayurveda theory classes",
-    "Free Wi-Fi, self-service laundry (washing machine)",
-    "Yoga Alliance recognized certification after graduation.",
-  ]);
-  const [notIncludedItems, setNotIncludedItems] = useState<string[]>([
-    "Airfare.", "Airport pickup (Extra Charges Applicable).", "Bus/train transfer (Extra Charges Applicable).",
-    "Spa/massage treatments (Extra Charges Applicable).", "Air conditioner room (Extra Charges Applicable).",
-    "Heater for a room (Extra Charges Applicable).",
-  ]);
-  const [indianFees, setIndianFees] = useState<string[]>([
-    "Dormitory: 44,999 INR", "Shared Room: 54,999 INR", "Private Room: 94,999 INR", "Luxury Room: 1,49,999 INR",
-  ]);
-
-  const [syllabusModules, setSyllabusModules] = useState<SyllabusModule[]>([
-    { label: "The Yogic Philosophy:", text: "Here, you will learn the history of yoga, the various paths of yoga, Patanjali Yoga Sutras, etc." },
-    { label: "Asana:", text: "Yoga Postures are taught in various styles (Hatha yoga, Ashtanga, Kundalini, Sivananda, power, flow, Iyengar style, etc.)" },
-    { label: "Yoga Therapy:", text: "Sessions are planned in the second half of the 500 hours course on Yoga Therapy for the management of common diseases, etc." },
-    { label: "Pranayama:", text: "Various types of breathing exercises are taught practically." },
-    { label: "Meditation:", text: "Various methods of meditation are taught here." },
-    { label: "Anatomy Sessions & Alignment Classes:", text: "These sessions give you an idea about the structure of the human body." },
-    { label: "Yoga Teaching Techniques:", text: "Through these various techniques, you can manage a group of people when you conduct your yoga sessions." },
-  ]);
-
-  const [reviews, setReviews] = useState<ReviewItem[]>([
-    { name: "", platform: "on Google", initial: "", rating: 5, text: "" },
-  ]);
-
-  const { register, handleSubmit, setValue, formState: { errors } } = useForm<PageFormValues>({
-    defaultValues: {
-      courseInfoCardTitle: "COURSE DETAILS",
-      courseInfoFeeLabel: "COURSE FEE",
-      courseInfoFeeFromText: "starting from",
-      courseInfoBookBtnText: "BOOK NOW",
-      courseInfoOriginalPriceMultiplier: 1.8,
-      courseInfoUsdPrice: 1649,
-      courseInfoInrPrice: 135000,
-      courseInfoOriginalUsdPrice: 2950,
-      courseInfoOriginalInrPrice: 240000,
-      slug: "500-hour-yoga-teacher-training-india",
-      status: "Active",
-      pageMainH1: "500 Hour Yoga Teacher Training Course in Rishikesh",
-      heroImgAlt: "Yoga Students Group",
-      standApartH2: "What makes AYM School's Yoga Teachers Training Courses stand apart from the rest?",
-      gainsH2: "What do I gain from the 500 Hour Yoga Teacher Training Course in Rishikesh?",
-      seatSectionH2: "500 Hour Yoga Teacher Training India – Upcoming Batches",
-      seatSectionSubtext: "",
-      tableNoteText: "Course Fee: 1649 USD (Including: Dormitory Stay and Food) | For the upgrade you accommodation send us E-mail. Available accommodation Categories: Shared, Private and Luxury.",
-      tableNoteEmail: "",
-      tableNoteAirportText: "Airport pick up from Delhi airport to Yoga school Rishikesh will cost 90 USD and Round Trip 150 USD.",
-      credibilityH2: "What is The Credibility of This Course?",
-      durationH2: "How Long is The Duration of The Course?",
-      syllabusH2: "Overview of Syllabus",
-      eligibilityH3: "What are the Eligibility Criteria?",
-      evaluationH3: "Is there an Evaluation Process for the Course?",
-      includedTitle: "Included in the package of 500-Hour Courses in India",
-      includedNote: "All items in the above included list are part of the course package. And incase you opt out any of these items, we will not be initiating a refund for that particular item.",
-      notIncludedTitle: "Not Included",
-      fictionH3: "500 Hour Yoga Teacher Training in Rishikesh, India: Separating Fact from Fiction",
-      reviewsSectionH2: "Student's Reviews",
-      refundH3: "What are the Refund Rules for the Course Fee?",
-      refundPara: "You can reserve your spot by paying an advance booking fee of 215 USD. However, for any reason, if you couldn't join on the given date, a refund cannot be issued, but you will be allowed to utilize the amount for booking another yoga TTC from AYM School within one year.",
-      applyH3: "How to Apply for the Course?",
-      applyPara: "Fill out the online application form, and once you get our approval you could transfer the initial advance payment fee (either through Paypal or through bank transfer) to reserve your seat. You will get an email acknowledgment once we receive the advance fee.",
-      indianFeeH3: "500 Hour Course Fee for Indian Students",
-      imgBadgeText: "500 Hr Advanced TTC",
-      videoBadgeText: "✦ Featured Video ✦",
-      videoTitle: "Experience the Journey of 500 Hour Yoga Teacher Training",
-      videoSubtitle: "Watch Our Students' Transformation",
-      evalImageAlt: "Evaluation process",
-    },
-  });
-
-  // ============================================================
-  // FETCH DATA FOR EDIT
-  // ============================================================
-
-  useEffect(() => {
-    if (!isEdit) return;
-    const fetchData = async () => {
-      setLoadingData(true);
-      try {
-        const res = await api.get("/yoga-500hr/content");
-        const d = res.data?.data;
-        if (!d) throw new Error("No data");
-
-        // real document id (URL id galat ho to bhi sahi doc update ho)
-        docIdRef.current = d._id || pageId;
-
-        const fields: (keyof PageFormValues)[] = [
-          "slug", "status", "pageMainH1", "heroImgAlt", "standApartH2", "gainsH2",
-          "seatSectionH2", "seatSectionSubtext", "tableNoteText", "tableNoteEmail",
-          "tableNoteAirportText", "credibilityH2", "durationH2", "syllabusH2",
-          "eligibilityH3", "evaluationH3", "includedTitle", "includedNote",
-          "notIncludedTitle", "fictionH3", "reviewsSectionH2", "refundH3", "refundPara",
-          "applyH3", "applyPara", "indianFeeH3", "imgBadgeText",
-          "videoBadgeText", "videoTitle", "videoSubtitle", "evalImageAlt",
-          "courseInfoCardTitle", "courseInfoFeeLabel", "courseInfoFeeFromText",
-          "courseInfoBookBtnText", "courseInfoOriginalPriceMultiplier",
-          "courseInfoUsdPrice", "courseInfoInrPrice", "courseInfoOriginalUsdPrice", "courseInfoOriginalInrPrice",
-        ];
-        fields.forEach((k) => { if (d[k] !== undefined) setValue(k, d[k]); });
-
-        if (d.courseInfoDetails?.length) setCourseInfoDetails(d.courseInfoDetails);
-
-        if (d.heroImage) setHeroPrev(BASE_URL + d.heroImage);
-        if (d.shivaImage) setShivaPrev(BASE_URL + d.shivaImage);
-        if (d.evalImage) setEvalImgPrev(BASE_URL + d.evalImage);
-        if (d.videoUrl) {
-          setVideoPrev(BASE_URL + d.videoUrl);
-          setExistingVideoUrl(d.videoUrl);
-        }
-        if (d.introItems?.length) {
-          setIntroItems(d.introItems.map((item: any) => ({
-            paragraph: item.paragraph || "",
-            media: item.media ? (item.media.startsWith("http") ? item.media : BASE_URL + item.media) : "",
-            mediaAlt: item.mediaAlt || "",
-            mediaType: item.mediaType || "image",
-            mediaFile: undefined,
-          })));
-        }
-        if (d.accomImages?.length) setAccomImgs(d.accomImages.map((src: string, i: number) => ({ id: `a${i}`, preview: BASE_URL + src, serverPath: src })));
-        if (d.foodImages?.length) setFoodImgs(d.foodImages.map((src: string, i: number) => ({ id: `f${i}`, preview: BASE_URL + src, serverPath: src })));
-        if (d.includedItems?.length) setIncludedItems(d.includedItems);
-        if (d.notIncludedItems?.length) setNotIncludedItems(d.notIncludedItems);
-        if (d.indianFees?.length) setIndianFees(d.indianFees);
-        if (d.syllabusModules?.length) setSyllabusModules(d.syllabusModules);
-        if (d.reviews?.length) setReviews(d.reviews);
-
-        if (d.standApartPills?.length) setStandApartPills(d.standApartPills);
-        if (d.standApartStats?.length) setStandApartStats(d.standApartStats);
-
-        const toItems = (arr: string[] | undefined): ParaItem[] => arr?.length ? arr.map((v) => mkPara(v)) : [];
-        if (d.introParas?.length) setIntroParas(toItems(d.introParas));
-        if (d.standApartParas?.length) setStandApartParas(toItems(d.standApartParas));
-        if (d.gainsParas?.length) setGainsParas(toItems(d.gainsParas));
-        if (d.credibilityParas?.length) setCredibilityParas(toItems(d.credibilityParas));
-        if (d.durationParas?.length) setDurationParas(toItems(d.durationParas));
-        if (d.syllabusParas?.length) setSyllabusParas(toItems(d.syllabusParas));
-        if (d.eligibilityParas?.length) setEligibilityParas(toItems(d.eligibilityParas));
-        if (d.evaluationParas?.length) setEvaluationParas(toItems(d.evaluationParas));
-        if (d.fictionParas?.length) setFictionParas(toItems(d.fictionParas));
-
-        dataLoadedRef.current = true; // ab submit safe hai
-      } catch {
-        toast.error("Failed to load");
-        router.push("/admin/yogacourse/500hourscourse/content");
-      } finally {
-        setLoadingData(false);
-      }
-    };
-    fetchData();
-    // FIX: router / setValue deps hataye, warna effect dobara chal ke states reset kar sakta tha
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isEdit, pageId]);
-
-  // ============================================================
-  // SUBMIT HANDLER
-  // ============================================================
-
-  const onSubmit = async (data: PageFormValues) => {
-    if (!heroFile && !heroPrev) {
-      setHeroErr("Hero image is required");
-      return;
-    }
-
-    // FIX: edit mode mein data load hone se pehle save mat hone do (warna khali data DB mein jaata)
-    if (isEdit && !dataLoadedRef.current) {
-      toast.error("Page data abhi load ho raha hai, thodi der baad save karein");
-      return;
-    }
-
-    // Create mode: backend purana content delete karke replace karta hai, isliye confirm
-    if (!isEdit) {
-      try {
-        const chk = await api.get("/yoga-500hr/content");
-        if (chk.data?.data?._id) {
-          const ok = window.confirm(
-            "Is page ka content pehle se exist karta hai. Naya create karne se poora purana content replace ho jayega. Continue?",
-          );
-          if (!ok) return;
-        }
-      } catch {
-        /* ignore */
-      }
-    }
-
-    try {
-      setIsSubmitting(true);
-      const fd = new window.FormData();
-      Object.entries(data).forEach(([k, v]) => {
-        if (v !== undefined && v !== null) fd.append(k, String(v));
-      });
-
-      fd.append("courseInfoDetails", JSON.stringify(courseInfoDetails));
-      fd.append("introItems", JSON.stringify(introItems.map(item => ({
-        paragraph: item.paragraph,
-        media: item.mediaFile ? "new_upload" : (item.media || "").replace(BASE_URL, ""),
-        mediaAlt: item.mediaAlt,
-        mediaType: item.mediaType,
-      }))));
-      introItems.forEach((item) => { if (item.mediaFile) fd.append(`introMedia`, item.mediaFile); });
-
-      fd.append("introParas", JSON.stringify(introParas.map((p) => p.value)));
-      fd.append("standApartParas", JSON.stringify(standApartParas.map((p) => p.value)));
-      fd.append("gainsParas", JSON.stringify(gainsParas.map((p) => p.value)));
-      fd.append("credibilityParas", JSON.stringify(credibilityParas.map((p) => p.value)));
-      fd.append("durationParas", JSON.stringify(durationParas.map((p) => p.value)));
-      fd.append("syllabusParas", JSON.stringify(syllabusParas.map((p) => p.value)));
-      fd.append("eligibilityParas", JSON.stringify(eligibilityParas.map((p) => p.value)));
-      fd.append("evaluationParas", JSON.stringify(evaluationParas.map((p) => p.value)));
-      fd.append("fictionParas", JSON.stringify(fictionParas.map((p) => p.value)));
-      fd.append("includedItems", JSON.stringify(includedItems));
-      fd.append("notIncludedItems", JSON.stringify(notIncludedItems));
-      fd.append("indianFees", JSON.stringify(indianFees));
-      fd.append("syllabusModules", JSON.stringify(syllabusModules));
-      fd.append("reviews", JSON.stringify(reviews));
-
-      fd.append("standApartPills", JSON.stringify(standApartPills));
-      fd.append("standApartStats", JSON.stringify(standApartStats));
-
-      if (heroFile) fd.append("heroImage", heroFile);
-      if (shivaFile) fd.append("shivaImage", shivaFile);
-      if (evalImgFile) fd.append("evalImage", evalImgFile);
-
-      // Handle video file
-      if (videoFile) {
-        fd.append("videoFile", videoFile);
-      } else if (!videoPrev && existingVideoUrl) {
-        fd.append("existingVideoUrl", "remove");
-      } else if (existingVideoUrl && !videoFile) {
-        fd.append("existingVideoUrl", existingVideoUrl);
-      }
-
-      const keptAccomPaths = accomImgs.filter((img) => img.serverPath).map((img) => img.serverPath as string);
-      fd.append("existingAccomImages", JSON.stringify(keptAccomPaths));
-      accomImgs.forEach((img) => { if (img.file) fd.append("accomImage", img.file); });
-
-      const keptFoodPaths = foodImgs.filter((img) => img.serverPath).map((img) => img.serverPath as string);
-      fd.append("existingFoodImages", JSON.stringify(keptFoodPaths));
-      foodImgs.forEach((img) => { if (img.file) fd.append("foodImage", img.file); });
-
-      if (isEdit) {
-        const id = docIdRef.current || pageId;
-        fd.append("_id", id);
-        await api.put(`/yoga-500hr/content/update/${id}`, fd, { headers: { "Content-Type": "multipart/form-data" } });
-        toast.success("Page updated successfully");
-      } else {
-        await api.post("/yoga-500hr/content/create", fd, { headers: { "Content-Type": "multipart/form-data" } });
-        toast.success("Page created successfully");
-      }
-      setSubmitted(true);
-      setTimeout(() => router.push("/admin/yogacourse/500hourscourse/content"), 1500);
-    } catch (e: any) {
-      toast.error(e?.response?.data?.message || e?.message || "Something went wrong");
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
-  if (loadingData) return <div className={styles.loadingWrap}><span className={styles.spinner} /> Loading page data…</div>;
-  if (submitted) return <div className={styles.successScreen}><div className={styles.successCard}><div className={styles.successOm}>ॐ</div><div className={styles.successCheck}>✓</div><h2 className={styles.successTitle}>500hr Page {isEdit ? "Updated" : "Saved"}!</h2><p className={styles.successText}>Redirecting to list…</p></div></div>;
-
-  // ============================================================
-  // RENDER
-  // ============================================================
+  ];
 
   return (
-    <div className={styles.formPage}>
-      <div className={styles.breadcrumb}>
-        <button className={styles.breadcrumbLink} onClick={() => router.push("/admin/yogacourse/500hourscourse/content")}>500hr Content</button>
-        <span className={styles.breadcrumbSep}>›</span>
-        <span className={styles.breadcrumbCurrent}>{isEdit ? "Edit Page" : "Add New Page"}</span>
-      </div>
-      <div className={styles.pageHeader}>
-        <div className={styles.pageHeaderText}>
-          <h1 className={styles.pageTitle}>{isEdit ? "Edit 500 Hour Yoga TTC Page" : "Add New 500 Hour Yoga TTC Page"}</h1>
-          <p className={styles.pageSubtitle}>Hero · Enhanced Intro · Stand Apart · Gains · Seat · Credibility · Syllabus · Included · Reviews · Footer</p>
-        </div>
-      </div>
-      <div className={styles.ornament}><span>❧</span><div className={styles.ornamentLine} /><span>ॐ</span><div className={styles.ornamentLine} /><span>❧</span></div>
-      <div className={styles.formCard}>
-
-        {/* HERO SECTION */}
-        <Sec title="Hero Section" badge="Banner Image + H1">
-          <F label="Page H1 Heading" req>
-            <div className={`${styles.inputWrap} ${errors.pageMainH1 ? styles.inputError : ""}`}>
-              <input className={`${styles.input} ${styles.inputNoCount}`} {...register("pageMainH1", { required: "Required" })} />
-            </div>
-            {errors.pageMainH1 && <p className={styles.errorMsg}>⚠ {errors.pageMainH1.message}</p>}
-          </F>
-          <F label="Hero Image" req hint="Recommended 1180×540px">
-            <MediaUploader
-              preview={heroPrev}
-              badge="Hero"
-              hint="JPG/PNG/WEBP · 1180×540px"
-              error={heroErr}
-              onSelect={(f: File, p: string) => { setHeroFile(f); setHeroPrev(p); setHeroErr(""); }}
-              onRemove={() => { setHeroFile(null); setHeroPrev(""); setHeroErr("Hero image is required"); }}
+    <section className={`${styles.section} ${styles.sectionLight}`}>
+      <div
+        className={`container px-3 px-md-4 ${styles.enhancedIntroContainer}`}
+      >
+        <div className={styles.block}>
+          {content.standApartH2 && (
+            <h2
+              className={styles.saTitle}
+              dangerouslySetInnerHTML={{ __html: content.standApartH2 }}
             />
-          </F>
-          <F label="Hero Image Alt Text">
-            <div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} placeholder="Yoga Students Group" {...register("heroImgAlt")} /></div>
-          </F>
-        </Sec>
-        <D />
-
-        {/* COURSE INFO CARD SECTION */}
-        <Sec title="Course Info Card" badge="Dynamic Details">
-          <F label="Card Title" hint="Title at the top of the card">
-            <div className={styles.inputWrap}>
-              <input className={styles.input} {...register("courseInfoCardTitle")} placeholder="COURSE DETAILS" />
-            </div>
-          </F>
-
-          <F label="Fee Label" hint="Label for the fee section">
-            <div className={styles.inputWrap}>
-              <input className={styles.input} {...register("courseInfoFeeLabel")} placeholder="COURSE FEE" />
-            </div>
-          </F>
-
-          <F label="Fee 'Starting From' Text" hint="Text below the fee label">
-            <div className={styles.inputWrap}>
-              <input className={styles.input} {...register("courseInfoFeeFromText")} placeholder="starting from" />
-            </div>
-          </F>
-
-          <F label="Book Button Text" hint="Text on the book now button">
-            <div className={styles.inputWrap}>
-              <input className={styles.input} {...register("courseInfoBookBtnText")} placeholder="BOOK NOW" />
-            </div>
-          </F>
-
-          <F label="Original Price Multiplier" hint="Multiplier for calculating original price (default: 1.8)">
-            <div className={styles.inputWrap}>
-              <input type="number" step="0.1" className={styles.input} {...register("courseInfoOriginalPriceMultiplier")} placeholder="1.8" />
-            </div>
-          </F>
-
-          <F label="Course Details Items" hint="Each item has label, value, and optional subtext">
-            <div>
-              {(courseInfoDetails || []).map((detail, i) => (
-                <div key={i} className={styles.nestedCard} style={{ marginBottom: "0.8rem" }}>
-                  <div className={styles.nestedCardHeader}>
-                    <span className={styles.nestedCardNum}>Detail {i + 1}</span>
-                    {courseInfoDetails.length > 1 && (
-                      <button type="button" className={styles.removeNestedBtn} onClick={() => removeAt(setCourseInfoDetails, i)}>
-                        ✕ Remove
-                      </button>
-                    )}
-                  </div>
-                  <div className={styles.nestedCardBody}>
-                    <div className={styles.grid2}>
-                      <div className={styles.fieldGroup}>
-                        <label className={styles.label}>Label</label>
-                        <div className={styles.inputWrap}>
-                          <input className={styles.input} value={detail.label} placeholder="DURATION" onChange={(e) => patchAt(setCourseInfoDetails, i, { label: e.target.value })} />
-                        </div>
-                      </div>
-                      <div className={styles.fieldGroup}>
-                        <label className={styles.label}>Value</label>
-                        <div className={styles.inputWrap}>
-                          <input className={styles.input} value={detail.value} placeholder="24 Days" onChange={(e) => patchAt(setCourseInfoDetails, i, { value: e.target.value })} />
-                        </div>
-                      </div>
-                      <div className={styles.fieldGroup} style={{ gridColumn: "1/-1" }}>
-                        <label className={styles.label}>Subtext (optional)</label>
-                        <div className={styles.inputWrap}>
-                          <input className={styles.input} value={detail.sub || ""} placeholder="Ashtanga, Vinyasa & Hatha" onChange={(e) => patchAt(setCourseInfoDetails, i, { sub: e.target.value })} />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-              <button type="button" className={styles.addItemBtn} onClick={() => setCourseInfoDetails((prev) => [...prev, { label: "", value: "", sub: "" }])}>
-                ＋ Add Course Detail
-              </button>
-            </div>
-          </F>
-
-          {/* INDEPENDENT PRICING SECTION */}
-          <div style={{ marginTop: "1.5rem", paddingTop: "1rem", borderTop: "1px solid #e8d5b5" }}>
-            <h4 style={{ fontFamily: "'Cinzel', serif", fontSize: "0.9rem", fontWeight: 600, color: "#3d1d00", marginBottom: "1rem" }}>💰 Course Card Pricing (Independent)</h4>
-            <p className={styles.fieldHint} style={{ marginBottom: "1rem" }}>These prices are displayed on the Course Info Card and are completely separate from seat batch pricing</p>
-
-            <div className={styles.grid2}>
-              <div className={styles.fieldGroup}>
-                <label className={styles.label}>USD Current Price</label>
-                <div className={styles.inputWrap}>
-                  <input type="number" className={styles.input} {...register("courseInfoUsdPrice")} placeholder="1649" />
-                </div>
-                <p className={styles.fieldHint}>Current discounted price in USD (shown in green)</p>
-              </div>
-
-              <div className={styles.fieldGroup}>
-                <label className={styles.label}>INR Current Price</label>
-                <div className={styles.inputWrap}>
-                  <input type="number" className={styles.input} {...register("courseInfoInrPrice")} placeholder="135000" />
-                </div>
-                <p className={styles.fieldHint}>Current discounted price in INR (shown in green)</p>
-              </div>
-
-              <div className={styles.fieldGroup}>
-                <label className={styles.label}>USD Original Price</label>
-                <div className={styles.inputWrap}>
-                  <input type="number" className={styles.input} {...register("courseInfoOriginalUsdPrice")} placeholder="2950" />
-                </div>
-                <p className={styles.fieldHint}>Original/Strike-through price in USD (shown in gray)</p>
-              </div>
-
-              <div className={styles.fieldGroup}>
-                <label className={styles.label}>INR Original Price</label>
-                <div className={styles.inputWrap}>
-                  <input type="number" className={styles.input} {...register("courseInfoOriginalInrPrice")} placeholder="240000" />
-                </div>
-                <p className={styles.fieldHint}>Original/Strike-through price in INR (shown in gray)</p>
-              </div>
-            </div>
-          </div>
-        </Sec>
-        <D />
-
-        {/* ENHANCED INTRO SECTION */}
-        <Sec title="Enhanced Intro Section" badge="Alternating Image-Text Layout">
-          <F label="Intro Items" hint="Each item has a paragraph and an image/video. They will alternate left/right automatically on the frontend.">
-            <div>
-              {introItems.map((item, idx) => (
-                // key mein length: item add/remove par editors sahi value ke saath remount hote hain
-                <div key={`${idx}-${introItems.length}`} className={styles.nestedCard} style={{ marginBottom: "1rem" }}>
-                  <div className={styles.nestedCardHeader}>
-                    <span className={styles.nestedCardNum}>Item {idx + 1}</span>
-                    <div style={{ display: "flex", gap: "0.5rem" }}>
-                      <button type="button" className={styles.removeNestedBtn} onClick={() => {
-                        patchAt(setIntroItems, idx, { mediaType: item.mediaType === "image" ? "video" : "image", media: "", mediaFile: undefined });
-                      }} style={{ background: "#f15505", color: "white", border: "none", padding: "0.2rem 0.6rem", borderRadius: "4px", cursor: "pointer", fontSize: "0.7rem" }}>
-                        Switch to {item.mediaType === "image" ? "Video" : "Image"}
-                      </button>
-                      {introItems.length > 1 && <button type="button" className={styles.removeNestedBtn} onClick={() => removeAt(setIntroItems, idx)}>✕ Remove</button>}
-                    </div>
-                  </div>
-                  <div className={styles.nestedCardBody}>
-                    <div className={styles.fieldGroup} style={{ marginBottom: "1rem" }}>
-                      <label className={styles.label} style={{ fontSize: "0.75rem" }}>Paragraph (Rich Text)</label>
-                      <StableJodit value={item.paragraph} onSave={(val: string) => patchAt(setIntroItems, idx, { paragraph: val })} ph="Write your paragraph here..." h={200} />
-                    </div>
-                    <div className={styles.grid2}>
-                      <div className={styles.fieldGroup}>
-                        <label className={styles.label} style={{ fontSize: "0.75rem" }}>{item.mediaType === "image" ? "Image" : "Video"}</label>
-                        <MediaUploader
-                          key={`media-${idx}`}
-                          preview={item.media || ""}
-                          badge={`Intro ${idx + 1}`}
-                          hint={item.mediaType === "image" ? "JPG/PNG/WEBP · 800×600px" : "MP4/WEBM · Max 50MB"}
-                          type={item.mediaType}
-                          index={idx}
-                          onSelect={(file: File, previewUrl: string) => patchAt(setIntroItems, idx, { media: previewUrl, mediaFile: file })}
-                          onRemove={() => patchAt(setIntroItems, idx, { media: "", mediaFile: undefined })}
-                        />
-                      </div>
-                      <div className={styles.fieldGroup}>
-                        <label className={styles.label} style={{ fontSize: "0.75rem" }}>Alt Text</label>
-                        <div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} value={item.mediaAlt || ""} placeholder="Description for accessibility" onChange={(e) => patchAt(setIntroItems, idx, { mediaAlt: e.target.value })} /></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-              <button type="button" className={styles.addItemBtn} onClick={() => setIntroItems((prev) => [...prev, { paragraph: "", media: "", mediaAlt: "", mediaType: "image", mediaFile: undefined }])}>＋ Add Intro Item</button>
-            </div>
-          </F>
-        </Sec>
-        <D />
-
-        {/* INTRO PARAGRAPHS (Fallback) */}
-        <Sec title="Introduction Paragraphs (Fallback)" badge="Used if no Enhanced Intro Items exist">
-          <F label="Section Heading (H1)" hint="Main title shown when using fallback mode">
-            <div className={styles.inputWrap}>
-              <input className={`${styles.input} ${styles.inputNoCount}`} {...register("pageMainH1")} />
-            </div>
-          </F>
-          <F label="Paragraphs" hint="These are used as fallback if no enhanced intro items are added above">
-            <ParaList items={introParas} setItems={setIntroParas} ph="Write introduction paragraph…" />
-          </F>
-        </Sec>
-        <D />
-
-        {/* STAND APART SECTION WITH DYNAMIC STATS AND PILLS */}
-        <Sec title="What Makes AYM Stand Apart" badge="Card section + Stats + Pills">
-          <F label="Section H2 Heading">
-            <div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("standApartH2")} /></div>
-          </F>
-          <F label="Paragraphs" hint="Rich text paragraphs for this section">
-            <ParaList items={standApartParas} setItems={setStandApartParas} ph="Write what makes AYM stand apart…" />
-          </F>
-
-          <div style={{ marginTop: "1.5rem", paddingTop: "1rem", borderTop: "1px solid #e8d5b5" }}>
-            <h4 style={{ fontFamily: "'Cinzel', serif", fontSize: "0.9rem", fontWeight: 600, color: "#3d1d00", marginBottom: "1rem" }}>📊 Dynamic Stats (shown as 4 cards)</h4>
-            <div>
-              {standApartStats.map((stat, i) => (
-                <div key={i} className={styles.listItemRow} style={{ marginBottom: "0.5rem" }}>
-                  <span className={styles.listNum}>{i + 1}</span>
-                  <div className={`${styles.inputWrap} ${styles.listInput}`} style={{ flex: "0.8" }}>
-                    <input className={styles.input} value={stat.num} placeholder="Number (e.g., 17+)" onChange={(e) => patchAt(setStandApartStats, i, { num: e.target.value })} />
-                  </div>
-                  <div className={`${styles.inputWrap} ${styles.listInput}`} style={{ flex: "1.5" }}>
-                    <input className={styles.input} value={stat.label} placeholder="Label (e.g., Years of Excellence)" onChange={(e) => patchAt(setStandApartStats, i, { label: e.target.value })} />
-                  </div>
-                  <button type="button" className={styles.removeItemBtn} onClick={() => removeAtMin1(setStandApartStats, i)}>✕</button>
-                </div>
-              ))}
-              <button type="button" className={styles.addItemBtn} onClick={() => setStandApartStats((prev) => [...prev, { num: "", label: "" }])}>＋ Add Stat</button>
-              <p className={styles.fieldHint} style={{ marginTop: "0.5rem" }}>These 4 stat cards appear next to the Shiva image</p>
-            </div>
+          )}
+          {content.standApartH2 && <div className={styles.saUnderline} />}
+          <div className={styles.saBodyText}>
+            {content.standApartParas?.map((para, i) => (
+              <Para key={i} html={para} />
+            ))}
           </div>
 
-          <div style={{ marginTop: "1.5rem", paddingTop: "1rem", borderTop: "1px solid #e8d5b5" }}>
-            <h4 style={{ fontFamily: "'Cinzel', serif", fontSize: "0.9rem", fontWeight: 600, color: "#3d1d00", marginBottom: "1rem" }}>🏷️ Feature Pills (shown below gains text)</h4>
-            <div>
-              {standApartPills.map((pill, i) => (
-                <div key={i} className={styles.listItemRow} style={{ marginBottom: "0.5rem" }}>
-                  <span className={styles.listNum}>{i + 1}</span>
-                  <div className={`${styles.inputWrap} ${styles.listInput}`}>
-                    <input className={styles.input} value={pill} onChange={(e) => setStrAt(setStandApartPills, i, e.target.value)} />
-                  </div>
-                  <button type="button" className={styles.removeItemBtn} onClick={() => removeAtMin1(setStandApartPills, i)}>✕</button>
-                </div>
-              ))}
-              <button type="button" className={styles.addItemBtn} onClick={() => setStandApartPills((prev) => [...prev, ""])}>＋ Add Pill</button>
-            </div>
-          </div>
-        </Sec>
-        <D />
-
-        {/* VIDEO SECTION */}
-        <Sec title="Video Section" badge="Hero Video with Overlay">
-          <div className={styles.infoBox} style={{ marginBottom: "1rem" }}>
-            <span>ℹ️</span>
-            <span>This video appears in the middle of the page. It autoplays on loop with a text overlay.</span>
+          <div className={styles.omDiv}>
+            <span className={styles.divLine} />
+            <span className={styles.omGlyph}>ॐ</span>
+            <span className={styles.divLine} />
           </div>
 
-          <F label="Video File (MP4)" hint="Upload an MP4 video file. Recommended: 1920×1080px, 10-30MB">
-            <MediaUploader
-              preview={videoPrev}
-              badge="Video"
-              hint="MP4 · 1920×1080px · Max 100MB"
-              type="video"
-              onSelect={(file: File, previewUrl: string) => {
-                setVideoFile(file);
-                setVideoPrev(previewUrl);
-                setExistingVideoUrl("");
-              }}
-              onRemove={() => {
-                setVideoFile(null);
-                setVideoPrev("");
-                setExistingVideoUrl("remove");
-              }}
+          {content.gainsH2 && (
+            <h2
+              className={styles.saTitle}
+              dangerouslySetInnerHTML={{ __html: content.gainsH2 }}
             />
-          </F>
+          )}
+          {content.gainsH2 && <div className={styles.saUnderline} />}
 
-          <F label="Video Badge Text" hint="Small badge text above the title (e.g., '✦ Featured Video ✦')">
-            <div className={styles.inputWrap}>
-              <input className={styles.input} {...register("videoBadgeText")} placeholder="✦ Featured Video ✦" />
-            </div>
-          </F>
+          <div className={styles.gainsWrap}>
+            <div className={styles.gainsFloat}>
+              <div className={styles.imgStack}>
+                {content.shivaImage ? (
+                  <Image
+                    src={imgSrc(content.shivaImage)}
+                    alt="Yoga practice at AYM School Rishikesh"
+                    className={styles.stackImg}
+                    loading="lazy"
+                  />
+                ) : (
+                  <div className={styles.imgPlaceholder}>
+                    <svg
+                      className={styles.imgPlaceholderIcon}
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                    >
+                      <rect x="3" y="3" width="18" height="18" rx="3" />
+                      <circle cx="8.5" cy="8.5" r="1.5" />
+                      <path d="m21 15-5-5L5 21" />
+                    </svg>
+                    <span>Course image</span>
+                  </div>
+                )}
+                <span className={styles.imgBadge}>
+                  {content.imgBadgeText || "500 Hr Advanced TTC"}
+                </span>
+              </div>
 
-          <F label="Video Title" hint="Main heading text overlay on video">
-            <div className={styles.inputWrap}>
-              <input className={styles.input} {...register("videoTitle")} placeholder="Experience the Journey of 500 Hour Yoga Teacher Training" />
-            </div>
-          </F>
-
-          <F label="Video Subtitle" hint="Subtitle text below the title">
-            <div className={styles.inputWrap}>
-              <input className={styles.input} {...register("videoSubtitle")} placeholder="Watch Our Students' Transformation" />
-            </div>
-          </F>
-        </Sec>
-        <D />
-
-        {/* GAINS SECTION (What do I gain) */}
-        <Sec title="What Do I Gain Section" badge="Inside card block">
-          <F label="Image Badge Text">
-            <div className={styles.inputWrap}>
-              <input className={styles.input} {...register("imgBadgeText")} placeholder="500 Hr Advanced TTC" />
-            </div>
-            <p className={styles.fieldHint}>Text overlay on the image badge (default: "500 Hr Advanced TTC")</p>
-          </F>
-          <F label="Section H2 Heading">
-            <div className={styles.inputWrap}><input className={`${styles.input} ${styles.inputNoCount}`} {...register("gainsH2")} /></div>
-          </F>
-          <F label="Paragraphs" hint="Rich text paragraphs for Gains section">
-            <ParaList items={gainsParas} setItems={setGainsParas} ph="Write what students gain…" />
-          </F>
-          <F label="Shiva / Yoga Image (shown below gains text)" hint="Recommended 900×480px">
-            <MediaUploader preview={shivaPrev} badge="Gains" hint="JPG/PNG/WEBP · Wide banner" onSelect={(f: File, p: string) => { setShivaFile(f); setShivaPrev(p); }} onRemove={() => { setShivaFile(null); setShivaPrev(""); }} />
-          </F>
-        </Sec>
-        <D />
-
-        {/* SEAT SECTION */}
-        <Sec title="Seat Booking Section — Headings Only" badge="⚠ Seat data managed separately">
-          <div className={styles.infoBox}><span>ℹ️</span><span>Seat batches are managed from the <strong>Seats Management</strong> panel. Here you can only edit the heading and note text for this section.</span></div>
-          <F label="Section H2 Title"><div className={styles.inputWrap}><input className={styles.input} {...register("seatSectionH2")} /></div></F>
-          <F label="Sub-text below heading (optional)"><div className={styles.inputWrap}><input className={styles.input} {...register("seatSectionSubtext")} /></div></F>
-          <F label="Table Note Text" hint="Shown below the seat table"><div className={styles.inputWrap}><textarea className={`${styles.input} ${styles.textarea}`} rows={2} {...register("tableNoteText")} /></div></F>
-          <F label="Email for Accommodation Upgrade"><div className={styles.inputWrap}><input className={styles.input} {...register("tableNoteEmail")} /></div></F>
-          <F label="Airport Pickup Note"><div className={styles.inputWrap}><input className={styles.input} {...register("tableNoteAirportText")} /></div></F>
-        </Sec>
-        <D />
-
-        {/* ACCOMMODATION IMAGES */}
-        <Sec title="Accommodation Images" badge="Carousel — up to 20">
-          <F label="Upload Accommodation Photos" hint="JPG/PNG/WEBP · 400×300px each · Max 20">
-            <MultiImg items={accomImgs} onChange={setAccomImgs} hint="400×300px recommended" max={20} label="Add Photos" />
-          </F>
-        </Sec>
-        <D />
-
-        {/* FOOD IMAGES */}
-        <Sec title="Food Images" badge="Carousel — up to 20">
-          <F label="Upload Food Photos" hint="JPG/PNG/WEBP · 400×300px each · Max 20">
-            <MultiImg items={foodImgs} onChange={setFoodImgs} hint="400×300px recommended" max={20} label="Add Photos" />
-          </F>
-        </Sec>
-        <D />
-
-        {/* INDIAN FEES */}
-        <Sec title="Indian Student Fee Chips" badge="Shown as fee chips">
-          <F label="H3 Heading"><div className={styles.inputWrap}><input className={styles.input} {...register("indianFeeH3")} /></div></F>
-          <F label="Fee Chips (one per line)">
-            <div>
-              <div className={styles.listItems}>
-                {indianFees.map((val, i) => (
-                  <div key={i} className={styles.listItemRow}>
-                    <span className={styles.listNum}>{i + 1}</span>
-                    <div className={`${styles.inputWrap} ${styles.listInput}`}><input className={styles.input} value={val} onChange={(e) => setStrAt(setIndianFees, i, e.target.value)} /></div>
-                    <button type="button" className={styles.removeItemBtn} onClick={() => removeAtMin1(setIndianFees, i)}>✕</button>
+              <div className={styles.statRow}>
+                {STATS.map((s) => (
+                  <div key={s.label} className={styles.statCard}>
+                    <div className={styles.statNum}>{s.num}</div>
+                    <div className={styles.statLabel}>{s.label}</div>
                   </div>
                 ))}
               </div>
-              <button type="button" className={styles.addItemBtn} onClick={() => setIndianFees((prev) => [...prev, ""])}>＋ Add Fee Chip</button>
             </div>
-          </F>
-        </Sec>
-        <D />
 
-        {/* CREDIBILITY */}
-        <Sec title="Credibility" badge="Inside card block">
-          <F label="Credibility H2 Heading"><div className={styles.inputWrap}><input className={styles.input} {...register("credibilityH2")} /></div></F>
-          <F label="Paragraphs">
-            <ParaList items={credibilityParas} setItems={setCredibilityParas} ph="Write credibility info…" />
-          </F>
-        </Sec>
-        <D />
-
-        {/* DURATION */}
-        <Sec title="Duration" badge="Inside card block">
-          <F label="Duration H2 Heading"><div className={styles.inputWrap}><input className={styles.input} {...register("durationH2")} /></div></F>
-          <F label="Paragraphs">
-            <ParaList items={durationParas} setItems={setDurationParas} ph="Write duration info…" />
-          </F>
-        </Sec>
-        <D />
-
-        {/* SYLLABUS */}
-        <Sec title="Overview of Syllabus" badge="Modules list">
-          <F label="Section H2 Heading"><div className={styles.inputWrap}><input className={styles.input} {...register("syllabusH2")} /></div></F>
-          <F label="Intro Paragraphs">
-            <ParaList items={syllabusParas} setItems={setSyllabusParas} ph="Write syllabus intro…" />
-          </F>
-          <F label="Syllabus Modules">
-            <div>
-              {syllabusModules.map((mod, i) => (
-                <div key={i} className={styles.nestedCard} style={{ marginBottom: "0.8rem" }}>
-                  <div className={styles.nestedCardHeader}><span className={styles.nestedCardNum}>Module {i + 1}</span>{syllabusModules.length > 1 && <button type="button" className={styles.removeNestedBtn} onClick={() => removeAt(setSyllabusModules, i)}>✕ Remove</button>}</div>
-                  <div className={styles.nestedCardBody}>
-                    <div className={styles.grid2}>
-                      <div className={styles.fieldGroup}><label className={styles.label}>Label (bold)</label><div className={styles.inputWrap}><input className={styles.input} value={mod.label} onChange={(e) => patchAt(setSyllabusModules, i, { label: e.target.value })} /></div></div>
-                      <div className={styles.fieldGroup} style={{ gridColumn: "1/-1" }}><label className={styles.label}>Description</label><div className={styles.inputWrap}><textarea className={`${styles.input} ${styles.textarea}`} rows={2} value={mod.text} onChange={(e) => patchAt(setSyllabusModules, i, { text: e.target.value })} /></div></div>
-                    </div>
-                  </div>
-                </div>
+            <div className={styles.gainsText}>
+              {content.gainsParas?.map((para, i) => (
+                <Para key={i} html={para} />
               ))}
-              <button type="button" className={styles.addItemBtn} onClick={() => setSyllabusModules((prev) => [...prev, { label: "", text: "" }])}>＋ Add Module</button>
-            </div>
-          </F>
-        </Sec>
-        <D />
-
-        {/* ELIGIBILITY + EVALUATION */}
-        <Sec title="Eligibility & Evaluation" badge="Two small cards + image">
-          <div className={styles.grid2}>
-            <div>
-              <F label="Eligibility H3 Heading"><div className={styles.inputWrap}><input className={styles.input} {...register("eligibilityH3")} /></div></F>
-              <F label="Eligibility Paragraphs">
-                <ParaList items={eligibilityParas} setItems={setEligibilityParas} ph="Write eligibility criteria…" />
-              </F>
-              <F label="Evaluation H3 Heading"><div className={styles.inputWrap}><input className={styles.input} {...register("evaluationH3")} /></div></F>
-              <F label="Evaluation Paragraphs">
-                <ParaList items={evaluationParas} setItems={setEvaluationParas} ph="Write evaluation process…" />
-              </F>
-            </div>
-            <div>
-              <F label="Evaluation Side Image" hint="600×450px recommended">
-                <MediaUploader preview={evalImgPrev} badge="Eval" hint="JPG/PNG/WEBP" onSelect={(f: File, p: string) => { setEvalImgFile(f); setEvalImgPrev(p); }} onRemove={() => { setEvalImgFile(null); setEvalImgPrev(""); }} />
-              </F>
-              <F label="Evaluation Image Alt Text">
-                <div className={styles.inputWrap}>
-                  <input className={styles.input} {...register("evalImageAlt")} placeholder="Evaluation process" />
-                </div>
-                <p className={styles.fieldHint}>Alt text for the evaluation image (SEO/accessibility)</p>
-              </F>
+              <div className={styles.featurePills}>
+                {PILLS.map((pill) => (
+                  <span key={pill} className={styles.pill}>
+                    <span className={styles.pillDot} />
+                    {pill}
+                  </span>
+                ))}
+              </div>
             </div>
           </div>
-        </Sec>
-        <D />
+        </div>
+      </div>
+    </section>
+  );
+}
 
-        {/* INCLUDED / NOT INCLUDED */}
-        <Sec title="Included / Not Included" badge="Two column list">
-          <div className={styles.grid2}>
-            <div>
-              <F label="Included Section Title"><div className={styles.inputWrap}><input className={styles.input} {...register("includedTitle")} /></div></F>
-              <F label="Included Items">
-                <div>
-                  <div className={styles.listItems}>
-                    {includedItems.map((val, i) => (
-                      <div key={i} className={styles.listItemRow}>
-                        <span className={styles.listNum}>{i + 1}</span>
-                        <div className={`${styles.inputWrap} ${styles.listInput}`}><input className={styles.input} value={val} onChange={(e) => setStrAt(setIncludedItems, i, e.target.value)} /></div>
-                        <button type="button" className={styles.removeItemBtn} onClick={() => removeAtMin1(setIncludedItems, i)}>✕</button>
-                      </div>
-                    ))}
+/* ─────────────────────────────────────────
+   VIDEO SECTION
+───────────────────────────────────────── */
+function VideoSection({ content }: { content: PageContent }) {
+  const videoUrl = content.videoUrl || "";
+  const overlayText =
+    content.videoTitle ||
+    "Experience the Journey of 500 Hour Yoga Teacher Training";
+  const subText = content.videoSubtitle || "Watch Our Students' Transformation";
+  const badgeText = content.videoBadgeText || "✦ Featured Video ✦";
+
+  if (!videoUrl) return null;
+
+  return (
+    <section className={styles.videoSection}>
+      <div
+        className={`container px-3 px-md-4 ${styles.enhancedIntroContainer}`}
+      >
+        <div className={styles.videoWrapper}>
+          <div className={styles.videoContainerShort}>
+            <video
+              className={styles.videoIframe}
+              autoPlay
+              loop
+              muted
+              playsInline
+              disablePictureInPicture
+              controlsList="nodownload nofullscreen noremoteplayback"
+            >
+              <source src={imgSrc(videoUrl)} type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+            <div className={styles.videoOverlay}>
+              <div className={styles.videoTextOverlay}>
+                <span className={styles.videoBadge}>{badgeText}</span>
+                <h3 className={styles.videoTitle}>{overlayText}</h3>
+                <p className={styles.videoSubtitle}>{subText}</p>
+                <div className={styles.videoPlayIcon}>
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                  >
+                    <circle cx="12" cy="12" r="10" />
+                    <polygon points="10 8 16 12 10 16" fill="currentColor" />
+                  </svg>
+                  <span>Watch Now</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ─────────────────────────────────────────
+   PREMIUM MASONRY GRID
+───────────────────────────────────────── */
+function PremiumMasonryGrid({
+  images,
+  title,
+}: {
+  images: string[];
+  title: string;
+}) {
+  const [modalOpen, setModalOpen] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  if (!images || images.length === 0) return null;
+
+  const openModal = (index: number) => {
+    setCurrentIndex(index);
+    setModalOpen(true);
+  };
+
+  const handlePrev = () => {
+    setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
+  };
+
+  const handleNext = () => {
+    setCurrentIndex((prev) => (prev + 1) % images.length);
+  };
+
+  const getMasonryItems = () => {
+    const items = [];
+    for (let i = 0; i < Math.min(images.length, 12); i++) {
+      let size = "medium";
+      if (i === 0) size = "large";
+      else if (i === 1) size = "tall";
+      else if (i === 2) size = "small";
+      else if (i === 5) size = "wide";
+      else if (i === 7) size = "large";
+      else if (i === 9) size = "tall";
+
+      items.push({
+        id: i,
+        src: images[i],
+        size: size,
+      });
+    }
+    return items;
+  };
+
+  const masonryItems = getMasonryItems();
+
+  return (
+    <>
+      <div className={styles.premiumMasonry}>
+        <div className={styles.masonryGrid}>
+          {masonryItems.map((item, idx) => (
+            <div
+              key={idx}
+              className={`${styles.masonryItem} ${styles[`masonry${item.size.charAt(0).toUpperCase() + item.size.slice(1)}`]}`}
+              onClick={() => openModal(idx)}
+            >
+              <div className={styles.masonryInner}>
+                <Image src={imgSrc(item.src)} alt={`${title} ${idx + 1}`} />
+                <div className={styles.masonryOverlay}>
+                  <div className={styles.masonryIcon}>
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                    >
+                      <circle cx="11" cy="11" r="7" />
+                      <path d="M21 21l-4.35-4.35" />
+                    </svg>
                   </div>
-                  <button type="button" className={styles.addItemBtn} onClick={() => setIncludedItems((prev) => [...prev, ""])}>＋ Add Included Item</button>
+                  <span className={styles.masonryText}>View Image</span>
                 </div>
-              </F>
-              <F label="Included Note (bottom footnote)"><div className={styles.inputWrap}><textarea className={`${styles.input} ${styles.textarea}`} rows={2} {...register("includedNote")} /></div></F>
+              </div>
             </div>
-            <div>
-              <F label="Not Included Section Title"><div className={styles.inputWrap}><input className={styles.input} {...register("notIncludedTitle")} /></div></F>
-              <F label="Not Included Items">
-                <div>
-                  <div className={styles.listItems}>
-                    {notIncludedItems.map((val, i) => (
-                      <div key={i} className={styles.listItemRow}>
-                        <span className={styles.listNum}>{i + 1}</span>
-                        <div className={`${styles.inputWrap} ${styles.listInput}`}><input className={styles.input} value={val} onChange={(e) => setStrAt(setNotIncludedItems, i, e.target.value)} /></div>
-                        <button type="button" className={styles.removeItemBtn} onClick={() => removeAtMin1(setNotIncludedItems, i)}>✕</button>
-                      </div>
-                    ))}
-                  </div>
-                  <button type="button" className={styles.addItemBtn} onClick={() => setNotIncludedItems((prev) => [...prev, ""])}>＋ Add Not Included Item</button>
-                </div>
-              </F>
+          ))}
+        </div>
+
+        {images.length > 12 && (
+          <div className={styles.masonryMore} onClick={() => openModal(12)}>
+            <div className={styles.masonryMoreInner}>
+              <span className={styles.masonryMoreCount}>
+                +{images.length - 12}
+              </span>
+              <span className={styles.masonryMoreText}>More Photos</span>
             </div>
           </div>
-        </Sec>
-        <D />
-
-        {/* FACT FROM FICTION */}
-        <Sec title="Separating Fact from Fiction" badge="Bordered box section">
-          <F label="Box H3 Heading"><div className={styles.inputWrap}><input className={styles.input} {...register("fictionH3")} /></div></F>
-          <F label="Paragraphs">
-            <ParaList items={fictionParas} setItems={setFictionParas} ph="Write fact vs fiction content…" />
-          </F>
-        </Sec>
-        <D />
-
-        {/* STUDENT REVIEWS */}
-        <Sec title="Student Reviews" badge="Star rating + Rich text review cards">
-          <F label="Section H2 Heading"><div className={styles.inputWrap}><input className={styles.input} {...register("reviewsSectionH2")} /></div></F>
-          <F label="Review Cards" hint="Each review has a 5-star rating and rich text body">
-            <div>
-              {reviews.map((r, i) => (
-                // key mein length: review add/remove par editors sahi text ke saath remount hote hain
-                <div key={`${i}-${reviews.length}`} className={styles.nestedCard} style={{ marginBottom: "1rem" }}>
-                  <div className={styles.nestedCardHeader}><span className={styles.nestedCardNum}>Review {i + 1}</span>{reviews.length > 1 && <button type="button" className={styles.removeNestedBtn} onClick={() => removeAt(setReviews, i)}>✕ Remove</button>}</div>
-                  <div className={styles.nestedCardBody}>
-                    <div className={styles.grid2} style={{ marginBottom: "1rem" }}>
-                      <div className={styles.fieldGroup}><label className={styles.label}>Reviewer Name</label><div className={styles.inputWrap}><input className={styles.input} value={r.name} onChange={(e) => patchAt(setReviews, i, { name: e.target.value })} /></div></div>
-                      <div className={styles.fieldGroup}><label className={styles.label}>Platform Label</label><div className={styles.inputWrap}><input className={styles.input} value={r.platform} onChange={(e) => patchAt(setReviews, i, { platform: e.target.value })} /></div></div>
-                      <div className={styles.fieldGroup}><label className={styles.label}>Initial (avatar fallback)</label><div className={styles.inputWrap}><input className={styles.input} value={r.initial} maxLength={2} onChange={(e) => patchAt(setReviews, i, { initial: e.target.value })} /></div></div>
-                    </div>
-                    <div className={styles.fieldGroup}><label className={styles.label}>Star Rating</label><div className={styles.starRatingWrap}><StarRating value={r.rating} onChange={(val: number) => patchAt(setReviews, i, { rating: val })} /></div></div>
-                    <div className={styles.fieldGroup}><label className={styles.label}>Review Text <span className={styles.sectionBadge}>Rich Text</span></label><StableJodit value={r.text} onSave={(val: string) => patchAt(setReviews, i, { text: val })} ph="Write the review here…" h={180} /></div>
-                  </div>
-                </div>
-              ))}
-              <button type="button" className={styles.addItemBtn} onClick={() => setReviews((prev) => [...prev, { name: "", platform: "on Google", initial: "", rating: 5, text: "" }])}>＋ Add Review</button>
-            </div>
-          </F>
-        </Sec>
-        <D />
-
-        {/* REFUND + HOW TO APPLY */}
-        <Sec title="Refund Rules & How to Apply" badge="Two info cards at bottom">
-          <div className={styles.grid2}>
-            <div>
-              <F label="Refund Rules H3 Heading"><div className={styles.inputWrap}><input className={styles.input} {...register("refundH3")} /></div></F>
-              <F label="Refund Paragraph"><div className={styles.inputWrap}><textarea className={`${styles.input} ${styles.textarea}`} rows={4} {...register("refundPara")} /></div></F>
-            </div>
-            <div>
-              <F label="How to Apply H3 Heading"><div className={styles.inputWrap}><input className={styles.input} {...register("applyH3")} /></div></F>
-              <F label="How to Apply Paragraph"><div className={styles.inputWrap}><textarea className={`${styles.input} ${styles.textarea}`} rows={4} {...register("applyPara")} /></div></F>
-            </div>
-          </div>
-        </Sec>
-        <D />
-
-        {/* PAGE SETTINGS */}
-        <Sec title="Page Settings" badge="SEO & Status">
-          <div className={styles.grid2}>
-            <F label="Slug" req><div className={`${styles.inputWrap} ${errors.slug ? styles.inputError : ""}`}><input className={styles.input} {...register("slug", { required: "Slug is required" })} /></div>{errors.slug && <p className={styles.errorMsg}>⚠ {errors.slug.message}</p>}</F>
-            <F label="Status"><div className={styles.selectWrap}><select className={styles.select} {...register("status")}><option value="Active">Active</option><option value="Inactive">Inactive</option></select><span className={styles.selectArrow}>▾</span></div></F>
-          </div>
-        </Sec>
-
+        )}
       </div>
 
-      <div className={styles.formActions}>
-        <Link href="/admin/yogacourse/500hourscourse/content" className={styles.cancelBtn}>← Cancel</Link>
-        <button type="button" className={`${styles.submitBtn} ${isSubmitting ? styles.submitBtnLoading : ""}`} onClick={handleSubmit(onSubmit)} disabled={isSubmitting}>
-          {isSubmitting ? <><span className={styles.spinner} /> Saving…</> : <><span>✦</span> {isEdit ? "Update" : "Save"} 500hr Page</>}
+      {modalOpen && (
+        <PremiumImageModal
+          images={images}
+          currentIndex={currentIndex}
+          onClose={() => setModalOpen(false)}
+          onPrev={handlePrev}
+          onNext={handleNext}
+        />
+      )}
+    </>
+  );
+}
+
+/* ─────────────────────────────────────────
+   PREMIUM IMAGE MODAL
+───────────────────────────────────────── */
+function PremiumImageModal({
+  images,
+  currentIndex,
+  onClose,
+  onPrev,
+  onNext,
+}: {
+  images: string[];
+  currentIndex: number;
+  onClose: () => void;
+  onPrev: () => void;
+  onNext: () => void;
+}) {
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+      if (e.key === "ArrowLeft") onPrev();
+      if (e.key === "ArrowRight") onNext();
+    };
+    document.addEventListener("keydown", handleEscape);
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", handleEscape);
+      document.body.style.overflow = "auto";
+    };
+  }, [onClose, onPrev, onNext]);
+
+  return (
+    <div className={styles.premiumModalOverlay} onClick={onClose}>
+      <div
+        className={styles.premiumModalContainer}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <button className={styles.premiumModalClose} onClick={onClose}>
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+          >
+            <path d="M18 6L6 18M6 6l12 12" strokeLinecap="round" />
+          </svg>
+        </button>
+
+        <button
+          className={`${styles.premiumModalNav} ${styles.premiumModalNavPrev}`}
+          onClick={onPrev}
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+          >
+            <path
+              d="M15 18l-6-6 6-6"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </button>
+
+        <div className={styles.premiumModalImageWrapper}>
+          <Image
+            src={imgSrc(images[currentIndex])}
+            alt={`Gallery ${currentIndex + 1}`}
+            className={styles.premiumModalImage}
+          />
+          <div className={styles.premiumModalInfo}>
+            <div className={styles.premiumModalCounter}>
+              <span className={styles.premiumModalCurrent}>
+                {String(currentIndex + 1).padStart(2, "0")}
+              </span>
+              <span className={styles.premiumModalDivider}>/</span>
+              <span className={styles.premiumModalTotal}>
+                {String(images.length).padStart(2, "0")}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <button
+          className={`${styles.premiumModalNav} ${styles.premiumModalNavNext}`}
+          onClick={onNext}
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+          >
+            <path
+              d="M9 18l6-6-6-6"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </button>
+
+        <div className={styles.premiumModalThumbnails}>
+          {images.slice(0, 8).map((img, idx) => (
+            <div
+              key={idx}
+              className={`${styles.premiumModalThumb} ${idx === currentIndex ? styles.premiumModalThumbActive : ""}`}
+              onClick={() => {
+                const newIndex = idx;
+                if (newIndex < currentIndex) {
+                  for (let i = 0; i < currentIndex - newIndex; i++) onPrev();
+                } else if (newIndex > currentIndex) {
+                  for (let i = 0; i < newIndex - currentIndex; i++) onNext();
+                }
+              }}
+            >
+              <Image src={imgSrc(img)} alt={`Thumb ${idx + 1}`} />
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ─────────────────────────────────────────
+   STAR RATING
+───────────────────────────────────────── */
+const Stars = ({ n = 5 }: { n?: number }) => (
+  <div className={styles.stars}>{Array(n).fill("★").join("")}</div>
+);
+
+/* ─────────────────────────────────────────
+   PAGE SKELETON
+───────────────────────────────────────── */
+const PageSkeleton = () => (
+  <div
+    className={styles.page}
+    style={{
+      minHeight: "60vh",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+    }}
+  >
+    <div style={{ textAlign: "center", color: "#b87333", fontSize: "1.5rem" }}>
+      🕉️ Loading...
+    </div>
+  </div>
+);
+
+/* ─────────────────────────────────────────
+   CURRENCY RATE HOOK
+───────────────────────────────────────── */
+function useCurrencyRate() {
+  const [rate, setRate] = useState<number>(83);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch(
+      "https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/usd.json",
+    )
+      .then((r) => r.json())
+      .then((data) => {
+        const inr = data?.usd?.inr;
+        if (inr && typeof inr === "number") {
+          setRate(inr);
+        }
+      })
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, []);
+
+  return { rate, loading };
+}
+
+/* ══════════════════════════════════════════════════
+   INCLUDE/EXCLUDE TABS
+══════════════════════════════════════════════════ */
+function IncludeExcludeTabs({
+  includedItems,
+  notIncludedItems,
+}: {
+  includedItems: string[];
+  notIncludedItems: string[];
+}) {
+  const [activeTab, setActiveTab] = useState<"include" | "exclude">("include");
+
+  if (
+    (!includedItems || includedItems.length === 0) &&
+    (!notIncludedItems || notIncludedItems.length === 0)
+  ) {
+    return null;
+  }
+
+  return (
+    <div className={styles.incWrap}>
+      <div className={styles.incTabs}>
+        <button
+          className={`${styles.incTab} ${activeTab === "include" ? styles.active : ""}`}
+          onClick={() => setActiveTab("include")}
+        >
+          ✓ What Is Included?
+        </button>
+        <button
+          className={`${styles.incTab} ${activeTab === "exclude" ? styles.active : ""}`}
+          onClick={() => setActiveTab("exclude")}
+        >
+          ✕ What Is Not Included?
         </button>
       </div>
+      <div className={styles.incContent}>
+        <ul className={styles.incList}>
+          {(activeTab === "include" ? includedItems : notIncludedItems)?.map(
+            (it, i) => (
+              <li key={i} dangerouslySetInnerHTML={{ __html: it }} />
+            ),
+          )}
+        </ul>
+      </div>
+    </div>
+  );
+}
+
+/* ─────────────────────────────────────────
+   MAIN PAGE
+───────────────────────────────────────── */
+export default function YogaTTC500() {
+  const [content, setContent] = useState<PageContent | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [seats, setSeats] = useState<Batch[]>([]);
+  const [currency, setCurrency] = useState<Currency>("USD");
+  const { rate, loading: rateLoading } = useCurrencyRate();
+
+  useEffect(() => {
+    const fetchContent = async () => {
+      try {
+        const { data } = await api.get("/yoga-500hr/content");
+        if (data?.success && data?.data) {
+          setContent(data.data);
+        } else {
+          setError("Content not available.");
+        }
+      } catch {
+        setError("Failed to load page content.");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchContent();
+  }, []);
+
+  useEffect(() => {
+    const fetchSeats = async () => {
+      try {
+        const { data } = await api.get("/500hr-seats");
+        if (data?.data) {
+          setSeats(data.data);
+        }
+      } catch (error) {
+        console.error("Failed to fetch seats:", error);
+      }
+    };
+    fetchSeats();
+  }, []);
+
+  if (loading) return <PageSkeleton />;
+  if (error || !content) {
+    return (
+      <div
+        className={styles.page}
+        style={{ padding: "4rem", textAlign: "center", color: "#c00" }}
+      >
+        {error || "Something went wrong."}
+      </div>
+    );
+  }
+
+  return (
+    <div className={styles.page}>
+      <div className={styles.chakraGlow} aria-hidden="true" />
+
+      {content.heroImage && (
+        <section id="hero" className={styles.heroSection}>
+          <Image
+            src={imgSrc(content.heroImage)}
+            alt={content.heroImgAlt || "Yoga Students Group"}
+            className={styles.heroImage}
+          />
+        </section>
+      )}
+
+      <CourseInfoCard content={content} currency={currency} rate={rate} />
+      <StickySectionNav items={NAV_ITEMS} triggerId="hero" />
+
+      {content.introItems && content.introItems.length > 0 ? (
+        <EnhancedIntroSection items={content.introItems} />
+      ) : (
+        <section className={styles.heroSection2}>
+          <div
+            className={`container px-3 px-md-4 ${styles.enhancedIntroContainer}`}
+          >
+            {content.pageMainH1 && (
+              <h1
+                className={styles.heroTitle}
+                dangerouslySetInnerHTML={{ __html: content.pageMainH1 }}
+              />
+            )}
+            <div className={styles.omDiv}>
+              <span className={styles.divLine} />
+              <span className={styles.omGlyph}>ॐ</span>
+              <span className={styles.divLine} />
+            </div>
+            <div className={styles.bodyText}>
+              {content.introParas?.map((para, i) => (
+                <Para key={i} html={para} />
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      <StandApartSection content={content} />
+
+      <PremiumSeatBooking
+        seats={seats}
+        currency={currency}
+        onCurrencyChange={setCurrency}
+        rate={rate}
+        rateLoading={rateLoading}
+      />
+
+      <section className={`${styles.section} ${styles.sectionLight}`}>
+        <div
+          className={`container px-3 px-md-4 ${styles.enhancedIntroContainer}`}
+        >
+          {content.indianFees?.length > 0 && (
+            <div className={styles.indianFeeBlock}>
+              {content.indianFeeH3 && (
+                <>
+                  <h3
+                    className={styles.indianFeeTitle}
+                    dangerouslySetInnerHTML={{ __html: content.indianFeeH3 }}
+                  />
+                  <div className={styles.sectionUnderlineCentered} />
+                </>
+              )}
+              <div className={styles.feeChipsRow}>
+                {content.indianFees.map((fee, i) => {
+                  const parts = fee.split(":");
+                  const roomType = parts[0]?.trim() || fee;
+                  const price = parts[1]?.trim() || "";
+                  return (
+                    <div key={i} className={styles.feeChipCard}>
+                      <div className={styles.feeChipIcon}>
+                        {i === 0 && (
+                          <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="1.6"
+                          >
+                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                            <polyline points="9 22 9 12 15 12 15 22" />
+                          </svg>
+                        )}
+                        {i === 1 && (
+                          <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="1.6"
+                          >
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                            <circle cx="9" cy="7" r="4" />
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                          </svg>
+                        )}
+                        {i === 2 && (
+                          <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="1.6"
+                          >
+                            <rect x="2" y="7" width="20" height="14" rx="2" />
+                            <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" />
+                            <line x1="12" y1="12" x2="12" y2="16" />
+                            <line x1="10" y1="14" x2="14" y2="14" />
+                          </svg>
+                        )}
+                        {i === 3 && (
+                          <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="1.6"
+                          >
+                            <path d="M12 2L2 7l10 5 10-5-10-5z" />
+                            <path d="M2 17l10 5 10-5" />
+                            <path d="M2 12l10 5 10-5" />
+                          </svg>
+                        )}
+                      </div>
+                      <div className={styles.feeChipBody}>
+                        <span className={styles.feeChipType}>{roomType}</span>
+                        {price && (
+                          <span className={styles.feeChipPrice}>{price}</span>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          <div className={styles.credDurWrap}>
+            {content.credibilityH2 && (
+              <div className={styles.credDurBlock}>
+                <div className={styles.credDurHdr}>
+                  <div className={styles.credDurIconWrap}>
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.7"
+                    >
+                      <rect x="2" y="3" width="20" height="14" rx="2" />
+                      <path d="M8 17v4M16 17v4M8 21h8" />
+                      <path d="M9 10l2 2 4-4" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h2
+                      className={styles.credDurTitle}
+                      dangerouslySetInnerHTML={{
+                        __html: content.credibilityH2,
+                      }}
+                    />
+                    <div className={styles.credDurLine} />
+                  </div>
+                </div>
+                <div className={styles.bodyText}>
+                  {content.credibilityParas?.map((para, i) => (
+                    <Para key={i} html={para} />
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {content.durationH2 && (
+              <div className={styles.credDurBlock}>
+                <div className={styles.credDurHdr}>
+                  <div className={styles.credDurIconWrap}>
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.7"
+                    >
+                      <circle cx="12" cy="12" r="9" />
+                      <path d="M12 7v5l3 3" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h2
+                      className={styles.credDurTitle}
+                      dangerouslySetInnerHTML={{ __html: content.durationH2 }}
+                    />
+                    <div className={styles.credDurLine} />
+                  </div>
+                </div>
+                <div className={styles.bodyText}>
+                  {content.durationParas?.map((para, i) => (
+                    <Para key={i} html={para} />
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+
+      <VideoSection content={content} />
+
+      <section className={styles.section}>
+        <div
+          className={`container px-3 px-md-4 ${styles.enhancedIntroContainer}`}
+        >
+          <div className={styles.syllabusSection}>
+            {content.syllabusH2 && (
+              <div className={styles.syllabusTitleWrap}>
+                <div className={styles.syllabusOrnLeft}>
+                  <span />
+                  <span />
+                </div>
+                <div className={styles.syllabusTitleBlock}>
+                  <h2
+                    className={styles.syllabusMH2}
+                    dangerouslySetInnerHTML={{ __html: content.syllabusH2 }}
+                  />
+                  <div className={styles.syllabusMUnderline} />
+                </div>
+                <div className={styles.syllabusOrnRight}>
+                  <span />
+                  <span />
+                </div>
+              </div>
+            )}
+
+            <div className={styles.syllabusMBodyText}>
+              {content.syllabusParas?.map((para, i) => (
+                <Para key={i} html={para} />
+              ))}
+            </div>
+
+            {content.syllabusModules?.length > 0 && (
+              <div className={styles.syllabusMGrid}>
+                {content.syllabusModules.map((s, i) => (
+                  <div key={i} className={styles.syllabusMCard}>
+                    <div className={styles.syllabusMCardNum}>
+                      {String(i + 1).padStart(2, "0")}
+                    </div>
+                    <div className={styles.syllabusMCardBody}>
+                      <div className={styles.syllabusMCardLabel}>{s.label}</div>
+                      <div
+                        className={styles.syllabusMCardText}
+                        dangerouslySetInnerHTML={{ __html: s.text }}
+                      />
+                    </div>
+                    <div className={styles.syllabusMCardAccent} />
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <div className="row g-4 mt-2 align-items-stretch">
+            <div className="col-12 col-md-6">
+              {content.eligibilityH3 && (
+                <div className={styles.eligibilityCard}>
+                  <div className={styles.eligibilityCardHeader}>
+                    <div className={styles.eligibilityCardIcon}>
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.6"
+                      >
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                      </svg>
+                    </div>
+                    <div>
+                      <h3
+                        className={styles.eligibilityCardTitle}
+                        dangerouslySetInnerHTML={{
+                          __html: content.eligibilityH3,
+                        }}
+                      />
+                      <div className={styles.eligibilityCardLine} />
+                    </div>
+                  </div>
+                  <div className={styles.eligibilityCardBody}>
+                    {content.eligibilityParas?.map((para, i) => (
+                      <Para
+                        key={i}
+                        html={para}
+                        className={styles.eligibilityPara}
+                      />
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {content.evaluationH3 && (
+                <div
+                  className={`${styles.eligibilityCard} ${styles.evaluationCard}`}
+                >
+                  <div className={styles.eligibilityCardHeader}>
+                    <div
+                      className={`${styles.eligibilityCardIcon} ${styles.evaluationCardIcon}`}
+                    >
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.6"
+                      >
+                        <rect x="9" y="2" width="6" height="4" rx="1" />
+                        <path d="M3 6h18M5 6v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V6" />
+                        <path d="M9 11l2 2 4-4" />
+                      </svg>
+                    </div>
+                    <div>
+                      <h3
+                        className={styles.eligibilityCardTitle}
+                        dangerouslySetInnerHTML={{
+                          __html: content.evaluationH3,
+                        }}
+                      />
+                      <div className={styles.eligibilityCardLine} />
+                    </div>
+                  </div>
+                  <div className={styles.eligibilityCardBody}>
+                    {content.evaluationParas?.map((para, i) => (
+                      <Para
+                        key={i}
+                        html={para}
+                        className={styles.eligibilityPara}
+                      />
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+            {content.evalImage && (
+              <div className="col-12 col-md-6 mt-5">
+                <Image
+                  src={imgSrc(content.evalImage)}
+                  alt={content.evalImageAlt || "Evaluation process"}
+                  className={styles.evalImg}
+                  loading="lazy"
+                />
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+
+      <section className={`${styles.section} ${styles.sectionLight}`}>
+        <div
+          className={`container px-3 px-md-4 ${styles.enhancedIntroContainer}`}
+        >
+          <IncludeExcludeTabs
+            includedItems={content.includedItems || []}
+            notIncludedItems={content.notIncludedItems || []}
+          />
+
+          {content.fictionH3 && (
+            <div className={styles.fictionBox}>
+              <h3
+                className={styles.fictionTitle}
+                dangerouslySetInnerHTML={{ __html: content.fictionH3 }}
+              />
+              <div className={styles.fictionUnderline} />
+              <div className={styles.bodyText}>
+                {content.fictionParas?.map((para, i) => (
+                  <Para key={i} html={para} />
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      </section>
+
+      {content.accomImages?.length > 0 && (
+        <section className={styles.premiumGallerySection}>
+          <div
+            className={`container px-3 px-md-4 ${styles.enhancedIntroContainer}`}
+          >
+            <div className={styles.premiumGalleryHeader}>
+              <span className={styles.premiumGalleryBadge}>Peaceful Stay</span>
+              <h2 className={styles.premiumGalleryTitle}>Accommodation</h2>
+              <div className={styles.premiumGalleryUnderline}>
+                <span className={styles.premiumGalleryUnderlineLeft}></span>
+                <span className={styles.premiumGalleryUnderlineIcon}>✦</span>
+                <span className={styles.premiumGalleryUnderlineRight}></span>
+              </div>
+              <p className={styles.premiumGallerySubtext}>
+                Comfortable and serene living spaces designed for your spiritual
+                journey
+              </p>
+            </div>
+            <PremiumMasonryGrid
+              images={content.accomImages}
+              title="Accommodation"
+            />
+          </div>
+        </section>
+      )}
+
+      {content.foodImages?.length > 0 && (
+        <section className={styles.premiumGallerySection}>
+          <div
+            className={`container px-3 px-md-4 ${styles.enhancedIntroContainer}`}
+          >
+            <div className={styles.premiumGalleryHeader}>
+              <span className={styles.premiumGalleryBadge}>
+                Nourishing Meals
+              </span>
+              <h2 className={styles.premiumGalleryTitle}>Sattvic Food</h2>
+              <div className={styles.premiumGalleryUnderline}>
+                <span className={styles.premiumGalleryUnderlineLeft}></span>
+                <span className={styles.premiumGalleryUnderlineIcon}>✦</span>
+                <span className={styles.premiumGalleryUnderlineRight}></span>
+              </div>
+              <p className={styles.premiumGallerySubtext}>
+                Wholesome vegetarian meals prepared with love and ancient
+                Ayurvedic wisdom
+              </p>
+            </div>
+            <PremiumMasonryGrid images={content.foodImages} title="Food" />
+          </div>
+        </section>
+      )}
+
+      <ReviewSection
+        courseType="500-hour-yoga-teacher-training"
+        RatingsSummaryComponent={<RatingsSummarySection />}
+      />
+
+      <HowToReach />
     </div>
   );
 }
