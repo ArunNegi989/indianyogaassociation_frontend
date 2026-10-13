@@ -792,7 +792,7 @@ export default function SingleBlog({
                   return (
                     <li key={post._id || post.id} className={styles.recentItem}>
                       <Link
-                        href={`/blog/aym-yoga-blog/${post.slug}`}
+                        href={`/blog/${post.slug}`}
                         className={styles.recentLink}
                       >
                         <div className={styles.recentImgWrap}>
@@ -867,7 +867,7 @@ export default function SingleBlog({
                       className={styles.relatedItem}
                     >
                       <Link
-                        href={`/blog/aym-yoga-blog/${post.slug}`}
+                        href={`/blog/${post.slug}`}
                         className={styles.relatedLink}
                       >
                         <div className={styles.relatedImgWrap}>

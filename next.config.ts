@@ -8,6 +8,8 @@ const nextConfig: NextConfig = {
   },
   images: {
     qualities: [50, 60, 75],
+    formats: ["image/webp"],
+    minimumCacheTTL: 2678400, // 31 din
     dangerouslyAllowLocalIP: isDev,
     dangerouslyAllowSVG: true,
     remotePatterns: [
@@ -42,12 +44,32 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
+        hostname: "www.indianyogaassociation.com",
+        pathname: "/uploads/**",
+      },
+      {
+        protocol: "https",
         hostname: "indianyogaassociation.com",
         pathname: "/blog/**",
+      },
+      {
+        protocol: "https",
+        hostname: "indianyogaassociation.com",
+        pathname: "/uploads/**",
       },
     ],
   },
   reactStrictMode: false,
+
+  async redirects() {
+    return [
+      {
+        source: "/blog/aym-yoga-blog/:slug",
+        destination: "/blog/:slug",
+        permanent: true,
+      },
+    ];
+  },
   async rewrites() {
     return [
       {
