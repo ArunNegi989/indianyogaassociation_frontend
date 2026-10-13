@@ -1,11 +1,13 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
 import styles from "@/assets/style/Admin/dashboard/blog/Blog.module.css";
 import api from "@/lib/api";
 
 type BlogStatus = "Published" | "Draft";
+type StatusFilter = "All" | BlogStatus;
+type SortOption = "newest" | "oldest" | "title-asc" | "title-desc";
 
 interface BlogRecord {
   id: string;
@@ -13,6 +15,7 @@ interface BlogRecord {
   title: string;
   excerpt: string;
   date: string;
+  timestamp: number;
   author?: string;
   category: string;
   image: string;
@@ -20,6 +23,8 @@ interface BlogRecord {
   sectionCount: number;
   status: BlogStatus;
 }
+
+const PAGE_SIZE_OPTIONS = [5, 10, 20, 50];
 
 function useBreakpoint() {
   const [width, setWidth] = useState<number>(
@@ -31,6 +36,15 @@ function useBreakpoint() {
     return () => window.removeEventListener("resize", h);
   }, []);
   return { isMobile: width < 480, isTablet: width >= 480 && width < 768, width };
+}
+
+function useDebounce<T>(value: T, delay = 300): T {
+  const [debounced, setDebounced] = useState(value);
+  useEffect(() => {
+    const t = setTimeout(() => setDebounced(value), delay);
+    return () => clearTimeout(t);
+  }, [value, delay]);
+  return debounced;
 }
 
 const BASE_URL =
@@ -51,11 +65,12 @@ function normalise(raw: any): BlogRecord {
     excerpt: raw.excerpt ?? "",
     date: raw.date
       ? new Date(raw.date).toLocaleDateString("en-GB", {
-        day: "2-digit",
-        month: "long",
-        year: "numeric",
-      })
+          day: "2-digit",
+          month: "long",
+          year: "numeric",
+        })
       : "",
+    timestamp: raw.date ? new Date(raw.date).getTime() : 0,
     author: raw.author ?? "",
     category: raw.category ?? "",
     image: resolveImage(raw.coverImage),
@@ -63,6 +78,19 @@ function normalise(raw: any): BlogRecord {
     sectionCount: Array.isArray(raw.content) ? raw.content.length : 0,
     status: raw.status === "Published" ? "Published" : "Draft",
   };
+}
+
+/* Page numbers with ellipsis: 1 … 4 5 6 … 20 */
+function getPageNumbers(current: number, total: number): (number | "…")[] {
+  if (total <= 7) return Array.from({ length: total }, (_, i) => i + 1);
+  const pages: (number | "…")[] = [1];
+  const start = Math.max(2, current - 1);
+  const end = Math.min(total - 1, current + 1);
+  if (start > 2) pages.push("…");
+  for (let i = start; i <= end; i++) pages.push(i);
+  if (end < total - 1) pages.push("…");
+  pages.push(total);
+  return pages;
 }
 
 /* ════════════════════════════════════════
@@ -75,6 +103,15 @@ export default function BlogListPage() {
   const [isDeleting, setIsDeleting] = useState(false);
   const [togglingId, setTogglingId] = useState<string | null>(null);
   const { isMobile, isTablet, width } = useBreakpoint();
+
+  /* ── Search / filter / sort / pagination state ── */
+  const [search, setSearch] = useState("");
+  const debouncedSearch = useDebounce(search, 300);
+  const [statusFilter, setStatusFilter] = useState<StatusFilter>("All");
+  const [categoryFilter, setCategoryFilter] = useState("All");
+  const [sortBy, setSortBy] = useState<SortOption>("newest");
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
 
   /* ── Fetch all blogs ── */
   useEffect(() => {
@@ -92,6 +129,83 @@ export default function BlogListPage() {
     fetchBlogs();
   }, []);
 
+  /* Reset to page 1 whenever filters change */
+  useEffect(() => {
+    setPage(1);
+  }, [debouncedSearch, statusFilter, categoryFilter, sortBy, pageSize]);
+
+  /* ── Derived data ── */
+  const categories = useMemo(
+    () =>
+      Array.from(new Set(blogs.map((b) => b.category).filter(Boolean))).sort(),
+    [blogs]
+  );
+
+  const statusCounts = useMemo(
+    () => ({
+      All: blogs.length,
+      Published: blogs.filter((b) => b.status === "Published").length,
+      Draft: blogs.filter((b) => b.status === "Draft").length,
+    }),
+    [blogs]
+  );
+
+  const filtered = useMemo(() => {
+    const q = debouncedSearch.trim().toLowerCase();
+
+    const list = blogs.filter((b) => {
+      if (statusFilter !== "All" && b.status !== statusFilter) return false;
+      if (categoryFilter !== "All" && b.category !== categoryFilter)
+        return false;
+      if (!q) return true;
+      const haystack = [
+        b.title,
+        b.excerpt,
+        b.author ?? "",
+        b.category,
+        ...(b.tags ?? []),
+      ]
+        .join(" ")
+        .toLowerCase();
+      return haystack.includes(q);
+    });
+
+    list.sort((a, b) => {
+      switch (sortBy) {
+        case "oldest":
+          return a.timestamp - b.timestamp;
+        case "title-asc":
+          return a.title.localeCompare(b.title);
+        case "title-desc":
+          return b.title.localeCompare(a.title);
+        case "newest":
+        default:
+          return b.timestamp - a.timestamp;
+      }
+    });
+
+    return list;
+  }, [blogs, debouncedSearch, statusFilter, categoryFilter, sortBy]);
+
+  const totalPages = Math.max(1, Math.ceil(filtered.length / pageSize));
+  const currentPage = Math.min(page, totalPages);
+  const startIdx = (currentPage - 1) * pageSize;
+  const paginated = filtered.slice(startIdx, startIdx + pageSize);
+
+  const hasActiveFilters =
+    search !== "" ||
+    statusFilter !== "All" ||
+    categoryFilter !== "All" ||
+    sortBy !== "newest";
+
+  const clearFilters = () => {
+    setSearch("");
+    setStatusFilter("All");
+    setCategoryFilter("All");
+    setSortBy("newest");
+  };
+
+  /* ── Toggle status ── */
   const toggleStatus = async (id: string) => {
     const blog = blogs.find((b) => b.id === id);
     if (!blog || togglingId) return;
@@ -99,7 +213,6 @@ export default function BlogListPage() {
     const newStatus: BlogStatus =
       blog.status === "Published" ? "Draft" : "Published";
 
-    /* Optimistic update */
     setBlogs((prev) =>
       prev.map((b) => (b.id === id ? { ...b, status: newStatus } : b))
     );
@@ -109,7 +222,6 @@ export default function BlogListPage() {
       await api.put(`/blogs/update/${id}`, { status: newStatus });
     } catch (err) {
       console.error("Toggle status error:", err);
-
       setBlogs((prev) =>
         prev.map((b) => (b.id === id ? { ...b, status: blog.status } : b))
       );
@@ -136,8 +248,9 @@ export default function BlogListPage() {
   /* ── Sub-components ── */
   const Status = ({ b }: { b: BlogRecord }) => (
     <button
-      className={`${styles.statusBadge} ${b.status === "Published" ? styles.statusPublished : styles.statusDraft
-        }`}
+      className={`${styles.statusBadge} ${
+        b.status === "Published" ? styles.statusPublished : styles.statusDraft
+      }`}
       onClick={() => toggleStatus(b.id)}
       disabled={togglingId === b.id}
       title="Click to toggle status"
@@ -153,10 +266,7 @@ export default function BlogListPage() {
         <span>✎</span>
         <span className={styles.btnLabel}> Edit</span>
       </Link>
-      <button
-        className={styles.deleteBtn}
-        onClick={() => setDeleteModal(b.id)}
-      >
+      <button className={styles.deleteBtn} onClick={() => setDeleteModal(b.id)}>
         <span>✕</span>
         <span className={styles.btnLabel}> Delete</span>
       </button>
@@ -178,7 +288,7 @@ export default function BlogListPage() {
   /* ── Mobile Cards ── */
   const MobileCards = () => (
     <div className={styles.cardList}>
-      {blogs.map((b) => (
+      {paginated.map((b) => (
         <div key={b.id} className={styles.card}>
           {b.image ? (
             <img
@@ -229,7 +339,7 @@ export default function BlogListPage() {
           </tr>
         </thead>
         <tbody>
-          {blogs.map((b) => (
+          {paginated.map((b) => (
             <tr key={b.id} className={styles.row}>
               <td className={styles.tdCenter}>
                 {b.image ? (
@@ -282,7 +392,7 @@ export default function BlogListPage() {
           </tr>
         </thead>
         <tbody>
-          {blogs.map((b) => (
+          {paginated.map((b) => (
             <tr key={b.id} className={styles.row}>
               <td className={styles.tdCenter}>
                 {b.image ? (
@@ -345,10 +455,7 @@ export default function BlogListPage() {
             Manage all blog articles — click status to toggle Published / Draft
           </p>
         </div>
-        <Link
-          href="/admin/dashboard/blog/add-new"
-          className={styles.addBtn}
-        >
+        <Link href="/admin/dashboard/blog/add-new" className={styles.addBtn}>
           <span className={styles.addPlus}>+</span>
           <span className={styles.addLabel}>New Blog Post</span>
         </Link>
@@ -362,14 +469,184 @@ export default function BlogListPage() {
         <span>❧</span>
       </div>
 
-      {isMobile && <MobileCards />}
-      {isTablet && <TabletTable />}
-      {!isMobile && !isTablet && <DesktopTable />}
+      {/* ── Toolbar: search + filters ── */}
+      <div className={styles.toolbar}>
+        <div className={styles.searchWrap}>
+          <span className={styles.searchIcon}>⌕</span>
+          <input
+            type="text"
+            className={styles.searchInput}
+            placeholder="Search by title, excerpt, author, category or tag…"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          {search && (
+            <button
+              className={styles.searchClear}
+              onClick={() => setSearch("")}
+              aria-label="Clear search"
+            >
+              ✕
+            </button>
+          )}
+        </div>
 
-      {!isLoading && blogs.length === 0 && (
+        <div className={styles.filterRow}>
+          <div className={styles.statusTabs}>
+            {(["All", "Published", "Draft"] as StatusFilter[]).map((s) => (
+              <button
+                key={s}
+                className={`${styles.statusTab} ${
+                  statusFilter === s ? styles.statusTabActive : ""
+                }`}
+                onClick={() => setStatusFilter(s)}
+              >
+                {s} <span className={styles.tabCount}>{statusCounts[s]}</span>
+              </button>
+            ))}
+          </div>
+
+          <select
+            className={styles.filterSelect}
+            value={categoryFilter}
+            onChange={(e) => setCategoryFilter(e.target.value)}
+          >
+            <option value="All">All Categories</option>
+            {categories.map((c) => (
+              <option key={c} value={c}>
+                {c}
+              </option>
+            ))}
+          </select>
+
+          <select
+            className={styles.filterSelect}
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value as SortOption)}
+          >
+            <option value="newest">Newest first</option>
+            <option value="oldest">Oldest first</option>
+            <option value="title-asc">Title A → Z</option>
+            <option value="title-desc">Title Z → A</option>
+          </select>
+
+          {hasActiveFilters && (
+            <button className={styles.clearFiltersBtn} onClick={clearFilters}>
+              ✕ Clear
+            </button>
+          )}
+        </div>
+      </div>
+
+      {/* Results info */}
+      {blogs.length > 0 && (
+        <p className={styles.resultsInfo}>
+          {filtered.length === 0
+            ? "No results"
+            : `Showing ${startIdx + 1}–${Math.min(
+                startIdx + pageSize,
+                filtered.length
+              )} of ${filtered.length} post${filtered.length > 1 ? "s" : ""}`}
+        </p>
+      )}
+
+      {filtered.length > 0 && (
+        <>
+          {isMobile && <MobileCards />}
+          {isTablet && <TabletTable />}
+          {!isMobile && !isTablet && <DesktopTable />}
+        </>
+      )}
+
+      {/* Empty states */}
+      {blogs.length === 0 && (
         <div className={styles.empty}>
           <span className={styles.emptyOm}>ॐ</span>
           <p>No blog posts found. Write your first post.</p>
+        </div>
+      )}
+
+      {blogs.length > 0 && filtered.length === 0 && (
+        <div className={styles.empty}>
+          <span className={styles.emptyOm}>ॐ</span>
+          <p>No posts match your search or filters.</p>
+          <button className={styles.clearFiltersBtn} onClick={clearFilters}>
+            Clear all filters
+          </button>
+        </div>
+      )}
+
+      {/* ── Pagination ── */}
+      {filtered.length > 0 && (
+        <div className={styles.pagination}>
+          <div className={styles.pageSizeWrap}>
+            <span>Rows per page</span>
+            <select
+              className={styles.filterSelect}
+              value={pageSize}
+              onChange={(e) => setPageSize(Number(e.target.value))}
+            >
+              {PAGE_SIZE_OPTIONS.map((n) => (
+                <option key={n} value={n}>
+                  {n}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className={styles.pageControls}>
+            <button
+              className={styles.pageBtn}
+              onClick={() => setPage(1)}
+              disabled={currentPage === 1}
+              aria-label="First page"
+            >
+              «
+            </button>
+            <button
+              className={styles.pageBtn}
+              onClick={() => setPage(currentPage - 1)}
+              disabled={currentPage === 1}
+              aria-label="Previous page"
+            >
+              ‹
+            </button>
+
+            {getPageNumbers(currentPage, totalPages).map((p, i) =>
+              p === "…" ? (
+                <span key={`e-${i}`} className={styles.pageEllipsis}>
+                  …
+                </span>
+              ) : (
+                <button
+                  key={p}
+                  className={`${styles.pageBtn} ${
+                    p === currentPage ? styles.pageBtnActive : ""
+                  }`}
+                  onClick={() => setPage(p)}
+                >
+                  {p}
+                </button>
+              )
+            )}
+
+            <button
+              className={styles.pageBtn}
+              onClick={() => setPage(currentPage + 1)}
+              disabled={currentPage === totalPages}
+              aria-label="Next page"
+            >
+              ›
+            </button>
+            <button
+              className={styles.pageBtn}
+              onClick={() => setPage(totalPages)}
+              disabled={currentPage === totalPages}
+              aria-label="Last page"
+            >
+              »
+            </button>
+          </div>
         </div>
       )}
 
@@ -379,10 +656,7 @@ export default function BlogListPage() {
           className={styles.modalOverlay}
           onClick={() => !isDeleting && setDeleteModal(null)}
         >
-          <div
-            className={styles.modal}
-            onClick={(e) => e.stopPropagation()}
-          >
+          <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
             <div className={styles.modalOm}>ॐ</div>
             <h3 className={styles.modalTitle}>Delete Blog Post?</h3>
             <p className={styles.modalText}>
