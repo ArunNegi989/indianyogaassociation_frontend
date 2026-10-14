@@ -449,6 +449,7 @@
   padding: clamp(2.5rem, 6vw, 1rem) 0;
   position: relative;
   z-index: 1;
+  width: 100%;
 }
 
 .section::before {
@@ -474,6 +475,19 @@
 
 .sectionSpacer {
   height: clamp(2rem, 4vw, 3.5rem);
+}
+
+/* ══════════════════════════════════════
+   CENTERED CONTAINER (fix for left-aligned content)
+══════════════════════════════════════ */
+.pageContainer {
+  width: 100%;
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: clamp(1rem, 3vw, 2rem);
+  padding-right: clamp(1rem, 3vw, 2rem);
+  box-sizing: border-box;
 }
 
 /* ══════════════════════════════════════
@@ -1056,6 +1070,7 @@
   z-index: 1;
   padding: clamp(2rem, 4vw, 3rem) 0;
   background: linear-gradient(160deg, #ffffff 0%, #ffffff 100%);
+  width: 100%;
 }
 
 .datesSection::before {

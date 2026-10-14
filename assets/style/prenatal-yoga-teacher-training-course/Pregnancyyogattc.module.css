@@ -61,6 +61,19 @@
   max-width: 1500px !important;
 }
 
+/* ══════════════════════════════════════
+   CENTERED CONTAINER (fix for left-aligned content)
+══════════════════════════════════════ */
+.pageContainer {
+  width: 100%;
+  max-width: 1524px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: clamp(1rem, 3vw, 2rem);
+  padding-right: clamp(1rem, 3vw, 2rem);
+  box-sizing: border-box;
+}
+
 .page::before {
   content: '';
   position: fixed;
@@ -147,6 +160,7 @@
   padding: clamp(2.5rem, 6vw, 5rem) 0;
   position: relative;
   z-index: 1;
+  width: 100%;
 }
 
 .sectionLight {

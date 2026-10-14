@@ -709,7 +709,7 @@ export default function YogaTTCIndia() {
       )}
 
       <section className={`${styles.section} ${styles.sectionLight}`}>
-        <div className="container px-3 px-md-4">
+        <div className={styles.pageContainer}>
           {(data.heroTitle || data.heroSubTitle) && (
             <div className={styles.heroWrap}>
               {data.heroTitle && (
@@ -822,7 +822,7 @@ export default function YogaTTCIndia() {
       </section>
 
       <section className={`${styles.section} ${styles.sectionWarm}`}>
-        <div className="container px-3 px-md-4">
+        <div className={styles.pageContainer}>
           {(data.rishikeshTitle ||
             data.rishikeshDetailPara ||
             (data.rishikeshParagraphs &&
@@ -925,7 +925,7 @@ export default function YogaTTCIndia() {
       </section>
 
       <section className={`${styles.section} ${styles.sectionDeep}`}>
-        <div className="container px-3 px-md-4">
+        <div className={styles.pageContainer}>
           {data.whyAYMTitle && (
             <TextImageRow
               imageUrl={

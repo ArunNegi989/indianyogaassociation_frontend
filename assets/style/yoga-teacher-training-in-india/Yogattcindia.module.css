@@ -200,6 +200,7 @@
   position: relative;
   z-index: 1;
   background-color: #ffffff;
+  width: 100%;
 }
 
 .section::before {
@@ -214,6 +215,19 @@
 
 .sectionLight {
   background: var(--parch-lt);
+}
+
+/* ══════════════════════════════════════
+   CENTERED CONTAINER (fix for left-aligned content)
+══════════════════════════════════════ */
+.pageContainer {
+  width: 100%;
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: clamp(1rem, 3vw, 2rem);
+  padding-right: clamp(1rem, 3vw, 2rem);
+  box-sizing: border-box;
 }
 
 .sectionSpacer {
@@ -515,13 +529,15 @@
 ══════════════════════════════════════ */
 .badgesSection {
   text-align: center;
-  margin: clamp(2rem, 4vw, 3rem) 0;
+  margin: clamp(2rem, 4vw, 3rem) auto;
   padding: clamp(1.2rem, 3vw, 2rem) clamp(1rem, 4vw, 2.5rem);
   background: rgb(255, 255, 255);
   border: 1px solid var(--border-lt);
   border-top: 3px solid var(--saffron);
   border-radius: 12px;
   box-shadow: 0 4px 24px var(--shadow);
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .badgesSectionLabel {

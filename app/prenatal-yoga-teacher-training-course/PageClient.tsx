@@ -1253,7 +1253,7 @@ export default function PregnancyYogaTTC() {
         id="intro"
         className={`${styles.section} ${styles.sectionLight}`}
       >
-        <div className={`container px-3 px-md-4 ${styles.maxx}`}>
+        <div className={styles.pageContainer}>
           {/* Page Title */}
           {pageData.pageTitleH1 && (
             <div className={styles.s1TitleRow}>
@@ -1343,7 +1343,7 @@ export default function PregnancyYogaTTC() {
         id="features"
         className={`${styles.section} ${styles.sectionWarm}`}
       >
-        <div className={`container px-3 px-md-4 ${styles.maxx}`}>
+        <div className={styles.pageContainer}>
           {/* ── Features Header ── */}
           {pageData.featuresSectionTitle && (
             <>
@@ -1591,7 +1591,10 @@ export default function PregnancyYogaTTC() {
 
       {/* ── Costs Section ── */}
       {pageData.costsSectionTitle && (
-        <section id="costs" className={`container ${styles.costsBlock}`}>
+        <section
+          id="costs"
+          className={`${styles.pageContainer} ${styles.costsBlock}`}
+        >
           <h2 className={styles.sectionTitle}>{pageData.costsSectionTitle}</h2>
           <div className={styles.titleUnderline} />
 
@@ -1653,7 +1656,7 @@ export default function PregnancyYogaTTC() {
           )}
 
           {/* Curriculum and Hours Summary - Side by Side */}
-          <div className={`container ${styles.s3TablesRow} ${styles.maxx}`}>
+          <div className={`${styles.pageContainer} ${styles.s3TablesRow}`}>
             {/* Curriculum Table */}
             {pageData.curriculum?.length > 0 && (
               <div className={styles.s3CurrWrap}>
@@ -1761,7 +1764,7 @@ export default function PregnancyYogaTTC() {
           </div>
 
           {/* Highlights and Video Section */}
-          <div className={`container ${styles.s3BottomRow} ${styles.maxx}`}>
+          <div className={`${styles.pageContainer} ${styles.s3BottomRow}`}>
             {/* Highlights Card */}
             <div className={styles.s3HighlightsWrap}>
               <div className={styles.s3HighlightsHeader}>
@@ -1891,7 +1894,7 @@ export default function PregnancyYogaTTC() {
             </div>
           </div>
 
-          <div className={`container ${styles.s3Cta} ${styles.maxx}`}>
+          <div className={`${styles.pageContainer} ${styles.s3Cta}`}>
             <div className={styles.s3CtaLeft}>
               <span className={styles.s3CtaLabel}>
                 {pageData.onlineCtaLabel || "Ready to begin your journey?"}

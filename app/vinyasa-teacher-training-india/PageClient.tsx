@@ -1059,7 +1059,7 @@ function PremiumSeatBooking({
 
   return (
     <section className={styles.datesSection} id="dates-fees">
-      <div className="container px-3 px-md-4">
+      <div className={styles.pageContainer}>
         <div className={styles.psbSecTag}>Upcoming Batches · 2025–2026</div>
         <VintageHeading>
           Ashtanga Vinyasa Yoga Teacher Training Rishikesh
@@ -1503,7 +1503,7 @@ export default function AshtangaVinyasaTTC() {
       />
 
       <section className={styles.section + " " + styles.sectionLight}>
-        <div className="container px-3 px-md-4">
+        <div className={styles.pageContainer}>
           <div className={styles.heroTitleRow}>
             <h1 className={styles.heroTitle}>{pageData.pageH1Title}</h1>
           </div>
@@ -1567,7 +1567,7 @@ export default function AshtangaVinyasaTTC() {
       </section>
 
       <section className={styles.section + " " + styles.sectionWarm}>
-        <div className="container px-3 px-md-4">
+        <div className={styles.pageContainer}>
           <OmDivider />
 
           {/* Promo Banner - already dynamic */}
@@ -1676,7 +1676,7 @@ export default function AshtangaVinyasaTTC() {
       </section>
 
       <section className={styles.section + " " + styles.sectionDeep}>
-        <div className="container px-3 px-md-4">
+        <div className={styles.pageContainer}>
           <div className={styles.vintageCard}>
             <span className={styles.cardCorner}>✦</span>
             <h2 className={styles.cardTitle}>{pageData.certCardTitle}</h2>
