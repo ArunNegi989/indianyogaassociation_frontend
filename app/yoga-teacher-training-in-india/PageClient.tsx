@@ -411,43 +411,65 @@ const TextVideoRowWithUpload = ({
   );
 };
 
-/* ─── SINGLE BADGE — auto detects shape ─── */
+/* ─── SINGLE BADGE — auto detects shape + keeps real aspect ratio ─── */
 const BadgeItem = ({ b, i }: { b: AccredBadge; i: number }) => {
   const [shape, setShape] = useState<"circle" | "square" | "wide" | null>(null);
+  const [ratio, setRatio] = useState<number | null>(null);
   const src = getImageSrc(b.image, b.imgUrl);
 
   const handleLoad = (e: React.SyntheticEvent<HTMLImageElement>) => {
     const img = e.currentTarget;
-    const ratio = img.naturalWidth / img.naturalHeight;
-    if (ratio > 1.3) setShape("wide");
-    else if (ratio < 0.77) setShape("square");
+    if (!img.naturalWidth || !img.naturalHeight) return;
+    const r = img.naturalWidth / img.naturalHeight;
+    setRatio(r);
+    if (r > 1.3) setShape("wide");
+    else if (r < 0.77) setShape("square");
     else setShape("circle");
   };
 
   const frameClass = [
     styles.badgeFrame,
-    shape === "circle"
-      ? styles.badgeFrameCircle
-      : shape === "wide"
-        ? styles.badgeFrameWide
-        : shape === "square"
-          ? styles.badgeFrameSquare
-          : styles.badgeFrameCircle,
+    shape === "wide"
+      ? styles.badgeFrameWide
+      : shape === "square"
+        ? styles.badgeFrameSquare
+        : styles.badgeFrameCircle,
   ].join(" ");
+
+  const imgEl = src ? (
+    <img
+      src={src}
+      alt={b.label}
+      className={styles.badgeImg}
+      loading="lazy"
+      onLoad={handleLoad}
+    />
+  ) : (
+    <ChakraSVG size={36} color="#F15505" />
+  );
 
   return (
     <div className={styles.badge}>
-      <div className={frameClass}>
+      <div
+        className={frameClass}
+        style={
+          ratio && shape !== "circle"
+            ? { aspectRatio: String(ratio) }
+            : undefined
+        }
+      >
         {src ? (
-          <img
-            src={src}
-            alt={b.label}
-            className={styles.badgeImg}
-            loading="lazy"
-            onLoad={handleLoad}
-          />
+          <a
+            href={src}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.badgeLink}
+            aria-label={`View ${b.label}`}
+          >
+            {imgEl}
+          </a>
         ) : (
-          <ChakraSVG size={36} color="#F15505" />
+          imgEl
         )}
       </div>
       <span className={styles.badgeLabelText}>{b.label}</span>

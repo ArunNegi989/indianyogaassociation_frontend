@@ -482,7 +482,7 @@
 ══════════════════════════════════════ */
 .pageContainer {
   width: 100%;
-  max-width: 1280px;
+  max-width: 1560px;
   margin-left: auto;
   margin-right: auto;
   padding-left: clamp(1rem, 3vw, 2rem);
@@ -651,7 +651,7 @@
   border-radius: 4px;
   overflow: hidden;
   box-shadow: 0 20px 60px rgba(80, 40, 5, .2), 0 4px 16px rgba(184, 134, 11, .15);
-  aspect-ratio: 4/3;
+  aspect-ratio: 4/6;
 }
 
 .tiImage {

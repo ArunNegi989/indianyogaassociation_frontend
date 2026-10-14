@@ -1023,7 +1023,7 @@ export default function BestYogaSchool() {
       )}
 
       <div id="gallery">
-        <PremiumGallerySection type="both" backgroundColor="warm" />
+        <PremiumGallerySection type="both" />
       </div>
 
       <div id="reviews">
