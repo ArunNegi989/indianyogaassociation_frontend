@@ -621,9 +621,8 @@
 
 /* CIRCLE — roughly-square logos */
 .badgeFrameCircle {
-  width: clamp(110px, 11vw, 150px);
-  aspect-ratio: 1 / 1;
-  border-radius: 50%;
+  width: clamp(110px, 11vw, 450px);
+  aspect-ratio: 4 / 4;
   padding: .5rem;
 }
 
