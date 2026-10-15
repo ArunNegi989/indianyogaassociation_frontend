@@ -150,7 +150,7 @@ const section0 = [
   { label: "Yoga Center in Rishikesh - Yoga in India", href: "/contact" },
   {
     label: "Yoga Teacher Training Rishikesh India Blogs - AYM Studnets Blogs",
-    href: "/yoga-teacher-training-rishikesh-india-blogs",
+    href: "/blog/yoga-teacher-training-rishikesh-india-blogs",
   },
   { label: "AYM Yoga School - Site Map", href: "/sitemap" },
   {
@@ -195,7 +195,7 @@ const section1 = [
   },
   {
     label: "Meditation in Rishikesh",
-    href: "/blog/yoga-meditation-in-rishikesh",
+    href: "/blog/meditation-a-simple-explanation",
   },
   {
     label: "Ashtanga Yoga Teacher Training in Rishikesh India - AYM",
@@ -211,15 +211,15 @@ const section1 = [
   },
   {
     label: "How yoga makes you healthy and happy life?",
-    href: "/blog/how-yoga-makes-you-healthy-and-happy-life",
+    href: "/blog/always-stay-positive-with-yoga",
   },
   {
     label: "Prevent injuries in yoga Steps to Preventing Injury at Yoga Class",
-    href: "//blog/how-to-prevent-injuries-during-yoga-practice",
+    href: "/blog/how-to-prevent-injuries-during-yoga-practice",
   },
   {
     label: "International Yoga Day 2018 - Prime Minister Modi Ji",
-    href: "//blog/international-yoga-day-2018-with-prime-minister",
+    href: "/blog/international-yoga-day-2018-with-prime-minister",
   },
   {
     label: "Sattvic Foods to Balance Your Body and Mind",
@@ -241,7 +241,7 @@ const section1 = [
     label: "Yoga poses to boost the immune system to fight against covid",
     href: "/blog/yoga-poses-to-boost-the-immune-system",
   },
-  { label: "Introduction of Asana - Yoga in India", href: "/blog/asana" },
+  { label: "Introduction of Asana - Yoga in India", href: "/blog/types-of-yoga-asana" },
   {
     label: "How to do Sun Salutations (Surya Namaskar) Steps and Benefits",
     href: "/blog/surya-namaskar",
@@ -279,7 +279,7 @@ const section1 = [
     label: "Always Stay Positive with Yoga - 2021",
     href: "/blog/always-stay-positive-with-yoga",
   },
-  { label: "Yoga to Open Your Mind", href: "/blog/yoga-to-open-your-mind" },
+  { label: "Yoga to Open Your Mind", href: "/blog/yoga-poses-to-open-heart-and-mind" },
   {
     label: "Yoga for Neck and Shoulder Pain - 3 poses for neck and shoulder",
     href: "/blog/yoga-for-neck-and-shoulder-pain",
@@ -314,7 +314,7 @@ const section1 = [
   },
   {
     label: "How to improve your immune system with food and yoga?",
-    href: "/blog/best-yoga-pose-to-improve-your-immune-system",
+    href: "/blog/yoga-poses-to-boost-the-immune-system",
   },
   {
     label: "Yoga Asanas for Better Hair Growth & help Accelerate Hair Growth",
@@ -351,7 +351,7 @@ const section1 = [
   {
     label:
       "Six Helpful tips to becoming the best Yoga teacher in Rishikesh, India",
-    href: "/blog/six-helpful-tips-to-becoming-the-best-yoga-teacher",
+    href: "/blog/yoga-teacher-training-rishikesh-india-blogs",
   },
   {
     label: "Top 10 300 Hour yoga Teacher Training School in India",
@@ -387,7 +387,7 @@ const section1 = [
   },
   {
     label: "June 21st International Yoga Day 2017 Rishikesh India",
-    href: "/blog/international-yoga-day",
+    href: "/blog/international-yoga-festival-day",
   },
   {
     label: "Types of Yoga Asanas and Poses - Yoga School in India",
@@ -440,7 +440,7 @@ const section1 = [
   },
   {
     label: "5 Simple Yoga Asanas That Will Help Increase Your Height",
-    href: "/blog/yoga-will-help-increase-your-height.",
+    href: "/blog/five-simple-yoga-asanas-that-will-help-increase-your-height",
   },
   {
     label: "What is the difference between yoga, hatha yoga & power yoga?",
@@ -472,7 +472,7 @@ const section1 = [
   },
   {
     label: "Yoga to Improve Sleep Disorder - Yoga Poses to Help Sleep Better",
-    href: "/yblog/yoga-to-improve-sleep",
+    href: "/yblog/yoga-to-improve-sleep-disorder-yoga-for-better-sleep",
   },
   {
     label: "Trained you in performing various yoga postures perfectly",
@@ -553,7 +553,7 @@ const section1 = [
   },
   {
     label: "How to get your 200 hour yoga certification in india?",
-    href: "/blog/yoga-teacher-training-certification",
+    href: "/blog/200-hour-yoga-teacher-training-certification-courses",
   },
   {
     label: "Selecting a Yoga Center and Yoga Apparel",
@@ -668,7 +668,7 @@ const section3 = [
   },
   {
     label: "Yoga Teacher Training Pushkar - AYM Yoga School",
-    href: "/yyoga-teacher-training/yoga-teacher-training-Pushkar-94-2192",
+    href: "/yoga-teacher-training/yoga-teacher-training-Pushkar-94-2192",
   },
   {
     label: "Yoga Teacher Training Haryana - AYM Yoga School",
