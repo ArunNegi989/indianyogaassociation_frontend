@@ -215,11 +215,11 @@ const section1 = [
   },
   {
     label: "Prevent injuries in yoga Steps to Preventing Injury at Yoga Class",
-    href: "/blog/how-to-prevent-injuries-during-yoga-practice",
+    href: "/blog/best-ways-to-prevent-yoga-injuries",
   },
   {
     label: "International Yoga Day 2018 - Prime Minister Modi Ji",
-    href: "/blog/international-yoga-day-2018-with-prime-minister",
+    href: "/blog/4th-international-yoga-day-2018-pm-modi",
   },
   {
     label: "Sattvic Foods to Balance Your Body and Mind",
@@ -309,7 +309,7 @@ const section1 = [
     href: "/blog/why-do-we-sing-mantra-in-every-yoga-class",
   },
   {
-    label: "5 Best Ways to Prevent Yoga Injuries |",
+    label: "5 Best Ways to Prevent Yoga Injuries",
     href: "/blog/best-ways-to-prevent-yoga-injuries",
   },
   {

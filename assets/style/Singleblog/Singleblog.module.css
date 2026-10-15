@@ -14,7 +14,7 @@
    ================================================================ */
 .hero {
   position: relative;
-  height: clamp(380px, 55vw, 620px);
+  height: clamp(380px, 55vw, 740px);
   overflow: hidden;
 }
 
