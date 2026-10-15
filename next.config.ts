@@ -1,3 +1,4 @@
+
 import type { NextConfig } from "next";
 
 const isDev = process.env.NODE_ENV === "development";
@@ -6,23 +7,16 @@ const nextConfig: NextConfig = {
   experimental: {
     inlineCss: true,
   },
+
   images: {
     qualities: [50, 60, 75],
     formats: ["image/webp"],
-    minimumCacheTTL: 2678400, // 31 din
+    minimumCacheTTL: 2678400,
     dangerouslyAllowLocalIP: isDev,
     dangerouslyAllowSVG: true,
+
     remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "indianyoga.aymyogaschool.com",
-        pathname: "/uploads/**",
-      },
-      {
-        protocol: "https",
-        hostname: "www.indianyoga.aymyogaschool.com",
-        pathname: "/uploads/**",
-      },
+     
       {
         protocol: "http",
         hostname: "localhost",
@@ -59,6 +53,7 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+
   reactStrictMode: false,
 
   async redirects() {
@@ -70,6 +65,7 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+
   async rewrites() {
     return [
       {
