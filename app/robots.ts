@@ -119,6 +119,6 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ["/api/", "/_next/data/", "/*?*utm_", "/*?*fbclid"],
       },
     ],
-    sitemap: "https://indianyoga.aymyogaschool.com/sitemap.xml",
+    sitemap: "https://indianyogaassociation.com/sitemap.xml",
   };
 }
