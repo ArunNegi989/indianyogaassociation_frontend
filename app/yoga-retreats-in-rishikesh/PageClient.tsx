@@ -46,12 +46,7 @@ function SmartLink({
 
   if (isExternalHref(clean)) {
     return (
-      <a
-        href={clean}
-        className={className}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
+      <a href={clean} className={className}>
         {children}
       </a>
     );
@@ -69,6 +64,9 @@ function processHtml(html: string): string {
   return html.replace(/<a\s([^>]*?)>/gi, (_match, attrs: string) => {
     let a = attrs;
 
+    // target="_blank" hatao -> link usi tab mein khulega
+    a = a.replace(/\s*target\s*=\s*(["']).*?\1/gi, "");
+
     const hrefMatch = a.match(/href\s*=\s*(["'])(.*?)\1/i);
     const href = hrefMatch ? hrefMatch[2].trim() : "";
 
@@ -80,10 +78,6 @@ function processHtml(html: string): string {
       );
     }
 
-    if (href && isExternalHref(href)) {
-      if (!/target\s*=/i.test(a)) a += ' target="_blank"';
-      if (!/rel\s*=/i.test(a)) a += ' rel="noopener noreferrer"';
-    }
     return `<a ${a}>`;
   });
 }

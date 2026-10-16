@@ -195,7 +195,7 @@ const section1 = [
   },
   {
     label: "Meditation in Rishikesh",
-    href: "/blog/meditation-a-simple-explanation",
+    href: "/blog/yoga-meditation-in-rishikesh",
   },
   {
     label: "Ashtanga Yoga Teacher Training in Rishikesh India - AYM",
@@ -472,7 +472,7 @@ const section1 = [
   },
   {
     label: "Yoga to Improve Sleep Disorder - Yoga Poses to Help Sleep Better",
-    href: "/yblog/yoga-to-improve-sleep-disorder-yoga-for-better-sleep",
+    href: "/blog/yoga-to-improve-sleep-disorder-yoga-for-better-sleep",
   },
   {
     label: "Trained you in performing various yoga postures perfectly",
