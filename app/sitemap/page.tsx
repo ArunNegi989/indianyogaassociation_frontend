@@ -351,7 +351,7 @@ const section1 = [
   {
     label:
       "Six Helpful tips to becoming the best Yoga teacher in Rishikesh, India",
-    href: "/blog/yoga-teacher-training-rishikesh-india-blogs",
+    href: "/blog/six-helpful-tips-to-becoming-the-best-yoga-teacher",
   },
   {
     label: "Top 10 300 Hour yoga Teacher Training School in India",
