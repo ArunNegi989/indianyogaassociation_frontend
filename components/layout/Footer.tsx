@@ -101,7 +101,7 @@ const socialLinks = [
   },
   {
     label: "YouTube",
-    href: "https://www.youtube.com/user/aymindia1/",
+    href: "https://www.youtube.com/@aymindia1",
     color: "#FF0000",
     icon: (
       <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">

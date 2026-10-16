@@ -126,7 +126,7 @@ const transportCards = [
           If you decide to take a bus to Rishikesh from the Delhi airport, you
           will first need to get to the ISBT (bus stand) by taxi. You can use{" "}
           <a
-            href="http://www.upsrtc.com"
+            href="https://www.upsrtc.com"
             target="_blank"
             rel="noopener noreferrer"
           >

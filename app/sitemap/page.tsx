@@ -150,7 +150,7 @@ const section0 = [
   { label: "Yoga Center in Rishikesh - Yoga in India", href: "/contact" },
   {
     label: "Yoga Teacher Training Rishikesh India Blogs - AYM Studnets Blogs",
-    href: "/blog/yoga-teacher-training-rishikesh-india-blogs",
+    href: "/blog/top-5-advantages-of-yoga-teacher-training-course-in-india",
   },
   { label: "AYM Yoga School - Site Map", href: "/sitemap" },
   {
