@@ -1,4 +1,4 @@
-import React from "react";
+import React, { cache } from "react";
 import type { Metadata } from "next";
 import styles from "@/assets/style/Yoga-retreat/Yogaretreatpage.module.css";
 import HowToReach from "@/components/home/Howtoreach";
@@ -15,7 +15,87 @@ const getImageUrl = (path?: string) => {
   return `${ASSET_BASE}${path}`;
 };
 
+/* ───────── No caching anywhere on this page ───────── */
 export const dynamic = "force-dynamic";
+export const revalidate = 0;
+export const fetchCache = "force-no-store";
+
+/* ─────────────────────── Link helpers ─────────────────────── */
+const isExternalHref = (href: string) =>
+  /^(https?:)?\/\//i.test(href) || /^(mailto:|tel:|whatsapp:)/i.test(href);
+
+/** Internal links: remove ".html" and make sure the path starts with "/" */
+const normalizeInternalHref = (href: string) => {
+  let h = href.trim().replace(/\.html?(?=($|[?#]))/i, "");
+  if (!h.startsWith("/") && !h.startsWith("#")) h = `/${h}`;
+  return h;
+};
+
+/** Works for both internal (Next Link) and external (<a>) links */
+function SmartLink({
+  href,
+  className,
+  children,
+}: {
+  href: string;
+  className?: string;
+  children: React.ReactNode;
+}) {
+  const clean = (href || "").trim();
+  if (!clean) return null;
+
+  if (isExternalHref(clean)) {
+    return (
+      <a
+        href={clean}
+        className={className}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {children}
+      </a>
+    );
+  }
+  return (
+    <Link href={normalizeInternalHref(clean)} className={className}>
+      {children}
+    </Link>
+  );
+}
+
+/** Fix links that live inside the rich-text (Jodit) HTML coming from DB */
+function processHtml(html: string): string {
+  if (!html) return "";
+  return html.replace(/<a\s([^>]*?)>/gi, (_match, attrs: string) => {
+    let a = attrs;
+
+    const hrefMatch = a.match(/href\s*=\s*(["'])(.*?)\1/i);
+    const href = hrefMatch ? hrefMatch[2].trim() : "";
+
+    if (href && !isExternalHref(href) && !href.startsWith("#")) {
+      // internal link -> remove .html
+      a = a.replace(
+        /href\s*=\s*(["'])(.*?)\1/i,
+        `href="${normalizeInternalHref(href)}"`
+      );
+    }
+
+    if (href && isExternalHref(href)) {
+      if (!/target\s*=/i.test(a)) a += ' target="_blank"';
+      if (!/rel\s*=/i.test(a)) a += ' rel="noopener noreferrer"';
+    }
+    return `<a ${a}>`;
+  });
+}
+
+function RichParagraph({ html }: { html: string }) {
+  return (
+    <p
+      className={styles.bodyPara}
+      dangerouslySetInnerHTML={{ __html: processHtml(html) }}
+    />
+  );
+}
 
 /* ─────────────────────── Types (mirror the backend model) ─────────────────────── */
 interface StatItem {
@@ -103,13 +183,31 @@ const ROUTE_BADGE_CLASSES = [
   "routeBadgeMid",
 ] as const;
 
-/* ─────────────────────── Data fetching ─────────────────────── */
-async function getRetreatData(): Promise<RetreatData | null> {
+/* ─────────────────────── Data fetching (always fresh) ─────────────────────── */
+/* cache() = same request ke andar generateMetadata + page dono ek hi fetch use karenge */
+const getRetreatData = cache(async (): Promise<RetreatData | null> => {
   try {
-    const res = await api.get("/yoga-retreat-section");
-    const doc = Array.isArray(res.data?.data)
-      ? res.data.data[0]
-      : res.data?.data;
+    const res = await api.get("/yoga-retreat-section", {
+      // cache-buster + no-cache headers: CDN / proxy / browser kisi ka bhi cache na chale
+      params: { _t: Date.now() },
+      headers: {
+        "Cache-Control": "no-cache, no-store, must-revalidate",
+        Pragma: "no-cache",
+      },
+    });
+    const list = res.data?.data;
+    let doc: RetreatData | undefined;
+
+    if (Array.isArray(list)) {
+      // Agar multiple docs hain to sabse latest updated wala lo
+      doc = [...list].sort(
+        (a: any, b: any) =>
+          new Date(b?.updatedAt || 0).getTime() -
+          new Date(a?.updatedAt || 0).getTime()
+      )[0];
+    } else {
+      doc = list;
+    }
     return doc || null;
   } catch (err) {
     if (process.env.NODE_ENV !== "production") {
@@ -117,7 +215,7 @@ async function getRetreatData(): Promise<RetreatData | null> {
     }
     return null;
   }
-}
+});
 
 function withSafeDefaults(d: RetreatData | null): Required<RetreatData> {
   return {
@@ -178,6 +276,26 @@ const OmDivider = () => (
   </div>
 );
 
+/* Reusable price/content block (s3 + s4 same markup) */
+const ContentBlock = ({ block }: { block: BlockItem }) => (
+  <div className={styles.contentBox}>
+    <div className={styles.contentBoxInner}>
+      {block.title && <h2 className={styles.secTitle}>{block.title}</h2>}
+      <OmDivider />
+      {(block.paragraphs || []).map((para, pi) => (
+        <RichParagraph key={pi} html={para} />
+      ))}
+      {block.priceFrom && (
+        <div className={styles.pricePill}>
+          <span className={styles.priceLabel}>From</span>
+          <span className={styles.priceVal}>{block.priceFrom}</span>
+        </div>
+      )}
+      {block.priceNote && <p className={styles.priceNote}>{block.priceNote}</p>}
+    </div>
+  </div>
+);
+
 export default async function YogaRetreatPage() {
   const raw = await getRetreatData();
   const data = withSafeDefaults(raw);
@@ -214,11 +332,7 @@ export default async function YogaRetreatPage() {
             {/* LEFT — text */}
             <div className={styles.s1TextCol}>
               {data.s1Paragraphs.map((para, i) => (
-                <p
-                  key={i}
-                  className={styles.bodyPara}
-                  dangerouslySetInnerHTML={{ __html: para }}
-                />
+                <RichParagraph key={i} html={para} />
               ))}
 
               {data.s1Stats.length > 0 && (
@@ -317,7 +431,7 @@ export default async function YogaRetreatPage() {
                     <p className={styles.cardHeadTitle}>
                       Yoga Retreats Overview
                     </p>
-                    <p className={styles.cardHeadSub}>What's Included</p>
+                    <p className={styles.cardHeadSub}>What&apos;s Included</p>
                   </div>
                 </div>
                 <div className={styles.cardBody}>
@@ -336,9 +450,12 @@ export default async function YogaRetreatPage() {
 
           {data.applyButtonText && data.applyButtonLink && (
             <div className={styles.applyWrap}>
-              <Link href={data.applyButtonLink} className={styles.applyBtn}>
+              <SmartLink
+                href={data.applyButtonLink}
+                className={styles.applyBtn}
+              >
                 {data.applyButtonText}
-              </Link>
+              </SmartLink>
             </div>
           )}
         </div>
@@ -372,32 +489,7 @@ export default async function YogaRetreatPage() {
           <div className={styles.s3Inner}>
             <div className={styles.s3Grid}>
               {data.s3Blocks.map((block, i) => (
-                <div key={i} className={styles.contentBox}>
-                  <div className={styles.contentBoxInner}>
-                    {block.title && (
-                      <h2 className={styles.secTitle}>{block.title}</h2>
-                    )}
-                    <OmDivider />
-                    {block.paragraphs.map((para, pi) => (
-                      <p
-                        key={pi}
-                        className={styles.bodyPara}
-                        dangerouslySetInnerHTML={{ __html: para }}
-                      />
-                    ))}
-                    {block.priceFrom && (
-                      <div className={styles.pricePill}>
-                        <span className={styles.priceLabel}>From</span>
-                        <span className={styles.priceVal}>
-                          {block.priceFrom}
-                        </span>
-                      </div>
-                    )}
-                    {block.priceNote && (
-                      <p className={styles.priceNote}>{block.priceNote}</p>
-                    )}
-                  </div>
-                </div>
+                <ContentBlock key={i} block={block} />
               ))}
             </div>
           </div>
@@ -410,32 +502,7 @@ export default async function YogaRetreatPage() {
           {data.s4Blocks.length > 0 && (
             <div className={styles.s4TopGrid}>
               {data.s4Blocks.map((block, i) => (
-                <div key={i} className={styles.contentBox}>
-                  <div className={styles.contentBoxInner}>
-                    {block.title && (
-                      <h2 className={styles.secTitle}>{block.title}</h2>
-                    )}
-                    <OmDivider />
-                    {block.paragraphs.map((para, pi) => (
-                      <p
-                        key={pi}
-                        className={styles.bodyPara}
-                        dangerouslySetInnerHTML={{ __html: para }}
-                      />
-                    ))}
-                    {block.priceFrom && (
-                      <div className={styles.pricePill}>
-                        <span className={styles.priceLabel}>From</span>
-                        <span className={styles.priceVal}>
-                          {block.priceFrom}
-                        </span>
-                      </div>
-                    )}
-                    {block.priceNote && (
-                      <p className={styles.priceNote}>{block.priceNote}</p>
-                    )}
-                  </div>
-                </div>
+                <ContentBlock key={i} block={block} />
               ))}
             </div>
           )}
@@ -450,12 +517,8 @@ export default async function YogaRetreatPage() {
                       <h2 className={styles.secTitle}>{block.title}</h2>
                     )}
                     <OmDivider />
-                    {block.paragraphs.map((para, pi) => (
-                      <p
-                        key={pi}
-                        className={styles.bodyPara}
-                        dangerouslySetInnerHTML={{ __html: para }}
-                      />
+                    {(block.paragraphs || []).map((para, pi) => (
+                      <RichParagraph key={pi} html={para} />
                     ))}
                   </div>
                 ))}
@@ -484,11 +547,7 @@ export default async function YogaRetreatPage() {
                 )}
                 <OmDivider />
                 {data.affordableParagraphs.map((para, i) => (
-                  <p
-                    key={i}
-                    className={styles.bodyPara}
-                    dangerouslySetInnerHTML={{ __html: para }}
-                  />
+                  <RichParagraph key={i} html={para} />
                 ))}
               </div>
 
@@ -536,26 +595,28 @@ export default async function YogaRetreatPage() {
             {/* LEFT — text + CTAs */}
             <div className={styles.reachTextCol}>
               {data.reachParagraphs.map((para, i) => (
-                <p
-                  key={i}
-                  className={styles.bodyPara}
-                  dangerouslySetInnerHTML={{ __html: para }}
-                />
+                <RichParagraph key={i} html={para} />
               ))}
 
               {(data.bookNowText || data.paypalText) && (
                 <div className={styles.bookBtnGroup}>
                   {data.bookNowText && data.bookNowLink && (
-                    <Link href={data.bookNowLink} className={styles.bookNowBtn}>
+                    <SmartLink
+                      href={data.bookNowLink}
+                      className={styles.bookNowBtn}
+                    >
                       {data.bookNowText}
-                    </Link>
+                    </SmartLink>
                   )}
                   {data.paypalText && data.paypalLink && (
-                    <Link href={data.paypalLink} className={styles.paypalBtn}>
+                    <SmartLink
+                      href={data.paypalLink}
+                      className={styles.paypalBtn}
+                    >
                       <span className={styles.paypalText}>
                         {data.paypalText}
                       </span>
-                    </Link>
+                    </SmartLink>
                   )}
                 </div>
               )}

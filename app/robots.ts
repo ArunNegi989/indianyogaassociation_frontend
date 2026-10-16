@@ -66,7 +66,7 @@ export default function robots(): MetadataRoute.Robots {
       },
       {
         userAgent: "cohere-ai",
-        disallow: "/",
+        allow: "/",
       },
       {
         userAgent: "Omgilibot",
