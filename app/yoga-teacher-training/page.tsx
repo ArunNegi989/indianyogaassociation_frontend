@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
   alternates: {
     canonical:
-      "https://www.indianyogaassociation.com/yoga-teacher-training-course-bali.html",
+      "https://www.indianyogaassociation.com/yoga-teacher-training.html",
   },
 };
 
